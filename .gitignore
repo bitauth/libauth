@@ -6,5 +6,12 @@ src/**.js
 coverage
 .nyc_output
 *.log
+scratch
+
+src/lib/bin/**/*.html
+src/lib/bin/**/*.js
+src/lib/bin/**/*.wast
+src/lib/bin/**/*.wat
+src/lib/bin/**/*.map
 
 package-lock.json

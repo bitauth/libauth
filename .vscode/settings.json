@@ -1,5 +1,20 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.associations": {
+    "locale": "c",
+    "streambuf": "c",
+    "secp256k1.h": "c",
+    "ios": "c",
+    "__bit_reference": "c",
+    "__split_buffer": "c",
+    "deque": "c",
+    "iterator": "c",
+    "memory": "c",
+    "string": "c",
+    "string_view": "c",
+    "vector": "c",
+    "cstddef": "c"
+  }
   // "typescript.implementationsCodeLens.enabled": true
   // "typescript.referencesCodeLens.enabled": true
 }

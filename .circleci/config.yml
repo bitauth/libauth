@@ -4,41 +4,44 @@ jobs:
   "node-8":
     docker:
       - image: circleci/node:8
-    working_directory: ~/typescript-starter
+    working_directory: ~/bitcoin-ts
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run: npm install
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+      - run: yarn install
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm test
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: yarn test
       - run: npx nyc report --reporter=lcov | npx codecov
-      - run: npm run cov:check
+      - run: yarn run cov:check
   "node-latest":
     docker:
       - image: circleci/node:latest
-    working_directory: ~/typescript-starter
+    working_directory: ~/bitcoin-ts
     steps:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: npm install
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+      - run: yarn install
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm test
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: yarn test
       - run: npx nyc report --reporter=lcov | npx codecov
-      - run: npm run cov:check
+      - run: yarn run cov:check
 
 workflows:
   version: 2

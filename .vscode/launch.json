@@ -5,10 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Project",
-      // we test in `build` to make cleanup fast and easy
-      "cwd": "${workspaceFolder}/build",
-      // Replace this with your project root. If there are multiple, you can
-      // automatically run the currently visible file with: "program": ${file}"
+      "cwd": "${workspaceFolder}",
       "program": "${workspaceFolder}/src/cli/cli.ts",
       // "args": ["--no-install"],
       "outFiles": ["${workspaceFolder}/build/main/**/*.js"],
@@ -20,9 +17,6 @@
       "stopOnEntry": true,
       "smartStep": true,
       "runtimeArgs": ["--nolazy"],
-      "env": {
-        "TYPESCRIPT_STARTER_REPO_URL": "${workspaceFolder}"
-      },
       "console": "externalTerminal"
     },
     {
@@ -47,5 +41,6 @@
       // "preLaunchTask": "npm: build",
       // "smartStep": true,
       "runtimeArgs": ["--nolazy"]
-    }]
+    }
+  ]
 }

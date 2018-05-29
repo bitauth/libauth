@@ -1,0 +1,1468 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Secp256k1Wasm | bitcoin-ts</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">bitcoin-ts</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="secp256k1wasm.html">Secp256k1Wasm</a>
+				</li>
+			</ul>
+			<h1>Interface Secp256k1Wasm</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An object which wraps the WebAssembly implementation of <code>libsecp256k1</code>.</p>
+					</div>
+					<p>Because WebAssembly modules are dynamically-instantiated at runtime, this
+						object must be created and awaited from <code>instantiateSecp256k1Wasm</code> or
+					<code>instantiateSecp256k1WasmBytes</code>.</p>
+					<p><strong>It&#39;s very unlikely that consumers will need to use this interface directly.
+					See <a href="secp256k1.html">Secp256k1</a> for a more purely-functional API.</strong></p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Secp256k1Wasm</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#contextcreate" class="tsd-kind-icon">context<wbr>Create</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#contextrandomize" class="tsd-kind-icon">context<wbr>Randomize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#free" class="tsd-kind-icon">free</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#heapu32" class="tsd-kind-icon">heap<wbr>U32</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#heapu8" class="tsd-kind-icon">heap<wbr>U8</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#instance" class="tsd-kind-icon">instance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#malloc" class="tsd-kind-icon">malloc</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#mallocsizet" class="tsd-kind-icon">malloc<wbr>SizeT</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#mallocuint8array" class="tsd-kind-icon">malloc<wbr>Uint8<wbr>Array</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#pubkeycreate" class="tsd-kind-icon">pubkey<wbr>Create</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#pubkeyparse" class="tsd-kind-icon">pubkey<wbr>Parse</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#pubkeyserialize" class="tsd-kind-icon">pubkey<wbr>Serialize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#readheapu8" class="tsd-kind-icon">read<wbr>Heap<wbr>U8</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#readsizet" class="tsd-kind-icon">read<wbr>SizeT</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#seckeyverify" class="tsd-kind-icon">seckey<wbr>Verify</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#sign" class="tsd-kind-icon">sign</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#signaturemalleate" class="tsd-kind-icon">signature<wbr>Malleate</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#signaturenormalize" class="tsd-kind-icon">signature<wbr>Normalize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#signatureparsecompact" class="tsd-kind-icon">signature<wbr>Parse<wbr>Compact</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#signatureparseder" class="tsd-kind-icon">signature<wbr>ParseDER</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#signatureserializecompact" class="tsd-kind-icon">signature<wbr>Serialize<wbr>Compact</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#signatureserializeder" class="tsd-kind-icon">signature<wbr>SerializeDER</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="secp256k1wasm.html#verify" class="tsd-kind-icon">verify</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contextcreate" class="tsd-anchor"></a>
+					<h3>context<wbr>Create</h3>
+					<div class="tsd-signature tsd-kind-icon">context<wbr>Create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L130">lib/bin/secp256k1/secp256k1.ts:130</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Create a Secp256k1 context object.</p>
+						</div>
+						<p>The purpose of context structures is to cache large precomputed data tables
+							that are expensive to construct, and also to maintain the randomization
+						data for blinding.</p>
+						<p>Do not create a new context object for each operation, as construction is
+							far slower than all other API calls (~100 times slower than an ECDSA
+						verification).</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>a <code>Context</code> flag representing the capabilities needed</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../enums/contextflag.html" class="tsd-signature-type">ContextFlag</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>context: <a href="../enums/contextflag.html" class="tsd-signature-type">ContextFlag</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contextrandomize" class="tsd-anchor"></a>
+					<h3>context<wbr>Randomize</h3>
+					<div class="tsd-signature tsd-kind-icon">context<wbr>Randomize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L153">lib/bin/secp256k1/secp256k1.ts:153</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Updates the context randomization to protect against side-channel leakage.</p>
+						</div>
+						<p>Returns 1 if the randomization was successfully updated, or 0 if not.</p>
+						<p>While secp256k1 code is written to be constant-time no matter what secret
+							values are, it&#39;s possible that a future compiler may output code which isn&#39;t,
+							and also that the CPU may not emit the same radio frequencies or draw the same
+						amount power for all values.</p>
+						<p>This function provides a seed which is combined into the blinding value: that
+							blinding value is added before each multiplication (and removed afterwards) so
+							that it does not affect function results, but shields against attacks which
+						rely on any input-dependent behavior.</p>
+						<p>You should call this after <code>contextCreate</code> or
+						secp256k1_context_clone, and may call this repeatedly afterwards.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 32-byte random seed</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, seedPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>seedPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="free" class="tsd-anchor"></a>
+					<h3>free</h3>
+					<div class="tsd-signature tsd-kind-icon">free<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L79">lib/bin/secp256k1/secp256k1.ts:79</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Frees a pointer allocated by the <code>malloc</code> method.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>the pointer to be freed</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>pointer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>pointer: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="heapu32" class="tsd-anchor"></a>
+					<h3>heap<wbr>U32</h3>
+					<div class="tsd-signature tsd-kind-icon">heap<wbr>U32<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint32Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L157">lib/bin/secp256k1/secp256k1.ts:157</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="heapu8" class="tsd-anchor"></a>
+					<h3>heap<wbr>U8</h3>
+					<div class="tsd-signature tsd-kind-icon">heap<wbr>U8<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L158">lib/bin/secp256k1/secp256k1.ts:158</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="instance" class="tsd-anchor"></a>
+					<h3>instance</h3>
+					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Instance</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L159">lib/bin/secp256k1/secp256k1.ts:159</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="malloc" class="tsd-anchor"></a>
+					<h3>malloc</h3>
+					<div class="tsd-signature tsd-kind-icon">malloc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L84">lib/bin/secp256k1/secp256k1.ts:84</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Allocates the given number of bytes in WebAssembly memory.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<div class="tsd-comment tsd-typography">
+											<p>the number of bytes to allocate</p>
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>bytes: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="mallocsizet" class="tsd-anchor"></a>
+					<h3>malloc<wbr>SizeT</h3>
+					<div class="tsd-signature tsd-kind-icon">malloc<wbr>SizeT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L93">lib/bin/secp256k1/secp256k1.ts:93</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The Secp256k1 library accepts a pointer to a <code>size_t outputlen</code> for both
+							<code>ec_pubkey_serialize</code> &amp; <code>ecdsa_signature_serialize_der</code>.</p>
+						</div>
+						<p>This is a convenience method to create and set the value of those pointers.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>the value of the <code>size_t</code> (e.g. the buffer length)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>value: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="mallocuint8array" class="tsd-anchor"></a>
+					<h3>malloc<wbr>Uint8<wbr>Array</h3>
+					<div class="tsd-signature tsd-kind-icon">malloc<wbr>Uint8<wbr>Array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L107">lib/bin/secp256k1/secp256k1.ts:107</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Allocates space for the provided array, and assigns the array to the space.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>a Uint8Array to allocate in WebAssembly memory</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>array: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pubkeycreate" class="tsd-anchor"></a>
+					<h3>pubkey<wbr>Create</h3>
+					<div class="tsd-signature tsd-kind-icon">pubkey<wbr>Create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L171">lib/bin/secp256k1/secp256k1.ts:171</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Compute the public key for a secret key.</p>
+						</div>
+						<p> Returns 1 if the secret was valid and public key stored, otherwise 0.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object, initialized for signing</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to the created public key (note, this is an
+								internal representation, and must be serialized for outside use)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 32-byte private key</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, publicKeyPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, secretKeyPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>publicKeyPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>secretKeyPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pubkeyparse" class="tsd-anchor"></a>
+					<h3>pubkey<wbr>Parse</h3>
+					<div class="tsd-signature tsd-kind-icon">pubkey<wbr>Parse<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L197">lib/bin/secp256k1/secp256k1.ts:197</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Parse a variable-length public key into the pubkey object.</p>
+						</div>
+						<p>Returns 1 if the public key was fully valid, or 0 if the public key could
+						not be parsed or is invalid.</p>
+						<p> This function supports parsing compressed (33 bytes, header byte 0x02 or
+							0x03), uncompressed (65 bytes, header byte 0x04), or hybrid (65 bytes, header
+						byte 0x06 or 0x07) format public keys.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>a pointer to a 64 byte space where the parsed public
+								key will be written. (internal format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a serialized public key</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the number of bytes to read from <code>publicKeyInPtr</code>
+									(Note, this should be a simple integer, rather than a <code>size_t</code> pointer as
+								is required by the serialization methods.)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, publicKeyOutPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, publicKeyInPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, publicKeyInLength<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">33</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">65</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>publicKeyOutPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>publicKeyInPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>publicKeyInLength: <span class="tsd-signature-type">33</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">65</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pubkeyserialize" class="tsd-anchor"></a>
+					<h3>pubkey<wbr>Serialize</h3>
+					<div class="tsd-signature tsd-kind-icon">pubkey<wbr>Serialize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L217">lib/bin/secp256k1/secp256k1.ts:217</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Serialize a pubkey object into a serialized byte sequence.</p>
+						</div>
+						<p> Always returns 1.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 65-byte (if uncompressed) or 33-byte (if
+								compressed) byte array in which to place the serialized key</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to an integer which is initially set to the
+								size of output, and is overwritten with the written size</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a public key (parsed, internal format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>a CompressionFlag indicating compressed or uncompressed</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputLengthPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, publicKeyPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, compression<span class="tsd-signature-symbol">: </span><a href="../enums/compressionflag.html" class="tsd-signature-type">CompressionFlag</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputLengthPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>publicKeyPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>compression: <a href="../enums/compressionflag.html" class="tsd-signature-type">CompressionFlag</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="readheapu8" class="tsd-anchor"></a>
+					<h3>read<wbr>Heap<wbr>U8</h3>
+					<div class="tsd-signature tsd-kind-icon">read<wbr>Heap<wbr>U8<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L116">lib/bin/secp256k1/secp256k1.ts:116</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Read from WebAssembly memory by creating a new Uint8Array beginning at
+							<code>pointer</code> and continuing through the number of <code>bytes</code> provided.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>a pointer to the beginning of the Uint8Array element</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the number of bytes to copy</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>pointer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>pointer: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>bytes: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="readsizet" class="tsd-anchor"></a>
+					<h3>read<wbr>SizeT</h3>
+					<div class="tsd-signature tsd-kind-icon">read<wbr>SizeT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L100">lib/bin/secp256k1/secp256k1.ts:100</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Read a <code>size_t</code> from WebAssembly memory.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>a pointer to the <code>size_t</code> variable to read</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>pointer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>pointer: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="seckeyverify" class="tsd-anchor"></a>
+					<h3>seckey<wbr>Verify</h3>
+					<div class="tsd-signature tsd-kind-icon">seckey<wbr>Verify<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L233">lib/bin/secp256k1/secp256k1.ts:233</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Verify an ECDSA secret key.</p>
+						</div>
+						<p>Returns 1 if the secret key is valid, or 0 if the secret key is invalid.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 32-byte secret key</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, secretKeyPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>secretKeyPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="sign" class="tsd-anchor"></a>
+					<h3>sign</h3>
+					<div class="tsd-signature tsd-kind-icon">sign<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L252">lib/bin/secp256k1/secp256k1.ts:252</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Create an ECDSA signature. The created signature is always in lower-S form.</p>
+						</div>
+						<p>Returns 1 if the signature was created, 0 if the nonce generation function
+						failed, or the private key was invalid.</p>
+						<p>Note, this WebAssembly Secp256k1 implementation does not currently support
+							the final two arguments from the C library, <code>noncefp</code> and <code>ndata</code>. The
+							default nonce generation function, <code>secp256k1_nonce_function_default</code>, is
+						always used.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object, initialized for signing</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 64 byte space where the signature will be
+								written (internal format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to the 32-byte message hash being signed</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 32-byte secret key</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, msg32Ptr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, secretKeyPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>msg32Ptr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>secretKeyPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signaturemalleate" class="tsd-anchor"></a>
+					<h3>signature<wbr>Malleate</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<wbr>Malleate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L274">lib/bin/secp256k1/secp256k1.ts:274</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Malleate an ECDSA signature.</p>
+						</div>
+						<p>This is done by negating the S value modulo the order of the curve,
+							&quot;flipping&quot; the sign of the random point R which is not included in the
+						signature.</p>
+						<p>This method is added by bitcoin-ts to make testing of <code>signatureNormalize</code>
+						easier.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 64 byte space where the malleated
+								signature will be written (internal format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a signature to malleate</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, inputSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>inputSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signaturenormalize" class="tsd-anchor"></a>
+					<h3>signature<wbr>Normalize</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<wbr>Normalize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L323">lib/bin/secp256k1/secp256k1.ts:323</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Convert a signature to a normalized lower-S form.</p>
+						</div>
+						<p>Returns 1 if inputSigPtr was not normalized, 0 if inputSigPtr was already
+						normalized.</p>
+						<p>With ECDSA a third-party can forge a second distinct signature of the same
+							message, given a single initial signature, but without knowing the key. This
+							is done by negating the S value modulo the order of the curve, &quot;flipping&quot;
+						the sign of the random point R which is not included in the signature.</p>
+						<p>Forgery of the same message isn&#39;t universally problematic, but in systems
+							where message malleability or uniqueness of signatures is important this can
+							cause issues. This forgery can be blocked by all verifiers forcing signers
+						to use a normalized form.</p>
+						<p>The lower-S form reduces the size of signatures slightly on average when
+							variable length encodings (such as DER) are used and is cheap to verify,
+							making it a good choice. Security of always using lower-S is assured because
+							anyone can trivially modify a signature after the fact to enforce this
+						property anyway.</p>
+						<p>The lower S value is always between <code>0x1</code> and
+							<code>0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0</code>,
+						inclusive.</p>
+						<p>No other forms of ECDSA malleability are known and none seem likely, but
+							there is no formal proof that ECDSA, even with this additional restriction,
+							is free of other malleability. Commonly used serialization schemes will also
+							accept various non-unique encodings, so care should be taken when this
+						property is required for an application.</p>
+						<p>The <code>sign</code> function will by default create signatures in the lower-S form,
+							and <code>verify</code> will not accept others. In case signatures come from a system
+							that cannot enforce this property, <code>signatureNormalize</code> must be called
+						before verification.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 64 byte space where the normalized
+								signature will be written (internal format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a signature to check/normalize (internal
+								format)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, inputSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>inputSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signatureparsecompact" class="tsd-anchor"></a>
+					<h3>signature<wbr>Parse<wbr>Compact</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<wbr>Parse<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L346">lib/bin/secp256k1/secp256k1.ts:346</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Parse an ECDSA signature in compact (64 bytes) format. Returns 1 when the
+							signature could be parsed, 0 otherwise.</p>
+						</div>
+						<p>The signature must consist of a 32-byte big endian R value, followed by a
+							32-byte big endian S value. If R or S fall outside of [0..order-1], the
+						encoding is invalid. R and S with value 0 are allowed in the encoding.</p>
+						<p>After the call, sig will always be initialized. If parsing failed or R or
+							S are zero, the resulting sig value is guaranteed to fail validation for
+						any message and public key.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>a pointer to a 64 byte space where the parsed signature
+								will be written. (internal format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a serialized signature in compact format</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, sigOutPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, compactSigInPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>sigOutPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>compactSigInPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signatureparseder" class="tsd-anchor"></a>
+					<h3>signature<wbr>ParseDER</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<wbr>ParseDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L372">lib/bin/secp256k1/secp256k1.ts:372</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Parse a DER ECDSA signature.</p>
+						</div>
+						<p>Returns 1 when the signature could be parsed, 0 otherwise.</p>
+						<p>This function will accept any valid DER encoded signature, even if the
+						encoded numbers are out of range.</p>
+						<p>After the call, sig will always be initialized. If parsing failed or the
+							encoded numbers are out of range, signature validation with it is
+						guaranteed to fail for every message and public key.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>a pointer to a 64 byte space where the parsed signature
+								will be written. (internal format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a DER serialized signature</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the number of bytes to read from <code>DERSigInPtr</code> (Note,
+									this should be a simple integer, rather than a <code>size_t</code> pointer as is
+								required by the serialization methods.)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, sigOutPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, DERSigInPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, DERSigInLength<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>sigOutPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>DERSigInPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>DERSigInLength: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signatureserializecompact" class="tsd-anchor"></a>
+					<h3>signature<wbr>Serialize<wbr>Compact</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<wbr>Serialize<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L390">lib/bin/secp256k1/secp256k1.ts:390</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Serialize an ECDSA signature in compact (64 byte) format. Always returns 1.</p>
+						</div>
+						<p>See <code>signatureParseCompact</code> for details about the encoding.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 64-byte space to store the compact
+								serialization</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to the 64-byte signature to be serialized
+								(Secp256k1 internal format)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputCompactSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, inputSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputCompactSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>inputSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="signatureserializeder" class="tsd-anchor"></a>
+					<h3>signature<wbr>SerializeDER</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<wbr>SerializeDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L410">lib/bin/secp256k1/secp256k1.ts:410</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Serialize an ECDSA signature in DER format.</p>
+						</div>
+						<p>Returns 1 if enough space was available to serialize, 0 otherwise.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a 72 byte space to store the DER
+								serialization</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to a <code>size_t</code> integer. Initially, this
+									should be set to the length of <code>outputDERSigPtr</code> (72). After the call it
+								will be set to the length of the serialization (even if 0 was returned).</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to the 64-byte signature to be serialized
+								(Secp256k1 internal format)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputDERSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outputDERSigLengthPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, inputSigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputDERSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>outputDERSigLengthPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>inputSigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="verify" class="tsd-anchor"></a>
+					<h3>verify</h3>
+					<div class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/31f768e/src/lib/bin/secp256k1/secp256k1.ts#L438">lib/bin/secp256k1/secp256k1.ts:438</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Verify an ECDSA signature.</p>
+						</div>
+						<p>Returns 1 if the signature is valid, 0 if the signature is incorrect or
+						failed parsing.</p>
+						<p>To avoid accepting malleable signatures, only ECDSA signatures in lower-S
+						form are accepted.</p>
+						<p>If you need to accept ECDSA signatures from sources that do not obey this
+							rule, apply secp256k1_ecdsa_signature_normalize to the signature prior to
+						validation, but be aware that doing so results in malleable signatures.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>pointer to a context object, initialized for
+								verification.</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to the parsed signature being verified (internal
+								format)</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to the 32-byte message hash being verified</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>pointer to the parsed pubkey with which to verify
+								(internal format)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>contextPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, sigPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, msg32Ptr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pubkeyPtr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">0</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>contextPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>sigPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>msg32Ptr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>pubkeyPtr: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">1</span>
+											<span class="tsd-signature-symbol"> | </span>
+											<span class="tsd-signature-type">0</span>
+										</h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="secp256k1wasm.html" class="tsd-kind-icon">Secp256k1<wbr>Wasm</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#contextcreate" class="tsd-kind-icon">context<wbr>Create</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#contextrandomize" class="tsd-kind-icon">context<wbr>Randomize</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#free" class="tsd-kind-icon">free</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#heapu32" class="tsd-kind-icon">heap<wbr>U32</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#heapu8" class="tsd-kind-icon">heap<wbr>U8</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#instance" class="tsd-kind-icon">instance</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#malloc" class="tsd-kind-icon">malloc</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#mallocsizet" class="tsd-kind-icon">malloc<wbr>SizeT</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#mallocuint8array" class="tsd-kind-icon">malloc<wbr>Uint8<wbr>Array</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#pubkeycreate" class="tsd-kind-icon">pubkey<wbr>Create</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#pubkeyparse" class="tsd-kind-icon">pubkey<wbr>Parse</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#pubkeyserialize" class="tsd-kind-icon">pubkey<wbr>Serialize</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#readheapu8" class="tsd-kind-icon">read<wbr>Heap<wbr>U8</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#readsizet" class="tsd-kind-icon">read<wbr>SizeT</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#seckeyverify" class="tsd-kind-icon">seckey<wbr>Verify</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#sign" class="tsd-kind-icon">sign</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#signaturemalleate" class="tsd-kind-icon">signature<wbr>Malleate</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#signaturenormalize" class="tsd-kind-icon">signature<wbr>Normalize</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#signatureparsecompact" class="tsd-kind-icon">signature<wbr>Parse<wbr>Compact</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#signatureparseder" class="tsd-kind-icon">signature<wbr>ParseDER</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#signatureserializecompact" class="tsd-kind-icon">signature<wbr>Serialize<wbr>Compact</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#signatureserializeder" class="tsd-kind-icon">signature<wbr>SerializeDER</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="secp256k1wasm.html#verify" class="tsd-kind-icon">verify</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

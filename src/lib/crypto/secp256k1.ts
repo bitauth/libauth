@@ -401,7 +401,7 @@ function wrapSecp256k1Wasm(
       sigScratch,
       internalSigPtr
     );
-    return secp256k1Wasm.readHeapU8(sigScratch, 64);
+    return secp256k1Wasm.readHeapU8(sigScratch, 64).slice();
   }
 
   function getDERSig(): Uint8Array {
@@ -412,7 +412,7 @@ function wrapSecp256k1Wasm(
       lengthPtr,
       internalSigPtr
     );
-    return secp256k1Wasm.readHeapU8(sigScratch, getLengthPtr());
+    return secp256k1Wasm.readHeapU8(sigScratch, getLengthPtr()).slice();
   }
 
   function getLengthPtr(): number {
@@ -423,7 +423,7 @@ function wrapSecp256k1Wasm(
     compressed
       ? serializePublicKey(33, CompressionFlag.COMPRESSED)
       : serializePublicKey(65, CompressionFlag.UNCOMPRESSED);
-    return secp256k1Wasm.readHeapU8(publicKeyScratch, getLengthPtr());
+    return secp256k1Wasm.readHeapU8(publicKeyScratch, getLengthPtr()).slice();
   }
 
   function modifySignature(
@@ -542,14 +542,14 @@ function wrapSecp256k1Wasm(
             lengthPtr,
             internalSigPtr
           );
-          return secp256k1Wasm.readHeapU8(sigScratch, getLengthPtr());
+          return secp256k1Wasm.readHeapU8(sigScratch, getLengthPtr()).slice();
         } else {
           secp256k1Wasm.signatureSerializeCompact(
             contextPtr,
             sigScratch,
             internalSigPtr
           );
-          return secp256k1Wasm.readHeapU8(sigScratch, 64);
+          return secp256k1Wasm.readHeapU8(sigScratch, 64).slice();
         }
       });
     };

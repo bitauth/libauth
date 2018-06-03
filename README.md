@@ -53,5 +53,39 @@ import { msgHash, pubkey, sig } from './somewhere';
 
 You can explore the internals of the library by browsing the generated documentation, or you can use the `Only exported` checkbox (at the top right) to only view functionality available to consumers. Below are some notable areas:
 
-* [instantiateSecp256k1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
-* [Secp256k1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/secp256k1.html)
+- [instantiateSecp256k1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
+- [Secp256k1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/secp256k1.html)
+
+## Contributing
+
+Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) for details.
+
+This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed (which ships with `npm`), then run `npm install -g yarn`. Once Yarn is installed:
+
+```
+git clone https://github.com/bitjson/bitcoin-ts.git && cd bitcoin-ts
+```
+
+Install the development dependencies:
+
+```
+yarn
+```
+
+Then try running the test suite:
+
+```
+yarn test
+```
+
+You can also run the benchmarks (this may take a while):
+
+```sh
+yarn bench
+```
+
+For more information about the available package scripts, run:
+
+```sh
+yarn run info
+```

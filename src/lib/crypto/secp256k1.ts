@@ -176,8 +176,8 @@ export interface Secp256k1 {
    *
    * Throws if the provided private key is not valid (see `validatePrivateKey`).
    *
-   * @param privateKey
-   * @param messageHash
+   * @param privateKey a valid secp256k1 private key
+   * @param messageHash the 32-byte message hash to be signed
    */
   readonly signMessageHashCompact: (
     privateKey: Uint8Array,
@@ -190,8 +190,8 @@ export interface Secp256k1 {
    *
    * Throws if the provided private key is not valid (see `validatePrivateKey`).
    *
-   * @param privateKey
-   * @param messageHash
+   * @param privateKey a valid secp256k1 private key
+   * @param messageHash the 32-byte message hash to be signed
    */
   readonly signMessageHashDER: (
     privateKey: Uint8Array,

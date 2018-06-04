@@ -1,59 +1,189 @@
-// tslint:disable:no-expression-statement
+// tslint:disable:no-expression-statement no-let
 import { test } from 'ava';
 import suite from 'chuhai';
+import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';
 import * as secp256k1Node from 'secp256k1';
-import { instantiateSecp256k1 } from './secp256k1';
-
-// prettier-ignore
-const messageHash = new Uint8Array([0xda, 0xde, 0x12, 0xe0, 0x6a, 0x5b, 0xbf, 0x5e, 0x11, 0x16, 0xf9, 0xbc, 0x44, 0x99, 0x8b, 0x87, 0x68, 0x13, 0xe9, 0x48, 0xe1, 0x07, 0x07, 0xdc, 0xb4, 0x80, 0x08, 0xa1, 0xda, 0xf3, 0x51, 0x2d]);
-
-// prettier-ignore
-const pubkeyUncompressed = new Uint8Array([0x04, 0x76, 0xea, 0x9e, 0x36, 0xa7, 0x5d, 0x2e, 0xcf, 0x9c, 0x93, 0xa0, 0xbe, 0x76, 0x88, 0x5e, 0x36, 0xf8, 0x22, 0x52, 0x9d, 0xb2, 0x2a, 0xcf, 0xdc, 0x76, 0x1c, 0x9b, 0x5b, 0x45, 0x44, 0xf5, 0xc5, 0x6d, 0xd5, 0x3b, 0x07, 0xc7, 0xa9, 0x83, 0xbb, 0x2d, 0xdd, 0x71, 0x55, 0x1f, 0x06, 0x33, 0x19, 0x4a, 0x2f, 0xe3, 0x30, 0xf9, 0x0a, 0xaf, 0x67, 0x5d, 0xde, 0x25, 0xb1, 0x37, 0xef, 0xd2, 0x85]);
-
-// prettier-ignore
-const sigDER = new Uint8Array([0x30, 0x45, 0x02, 0x21, 0x00, 0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8, 0x30, 0x72, 0x61, 0x5c, 0x33, 0xa9, 0x88, 0x7b, 0x75, 0x64, 0x78, 0xe6, 0xf9, 0xde, 0x38, 0x10, 0x85, 0xf5, 0x18, 0x3c, 0x97, 0x60, 0x3f, 0xc6, 0xff, 0x02, 0x20, 0x29, 0x72, 0x21, 0x88, 0xbd, 0x93, 0x7f, 0x54, 0xc8, 0x61, 0x58, 0x2c, 0xa6, 0xfc, 0x68, 0x5b, 0x8d, 0xa2, 0xb4, 0x0d, 0x05, 0xf0, 0x6b, 0x36, 0x83, 0x74, 0xd3, 0x5e, 0x4a, 0xf2, 0xb7, 0x64]);
+import { instantiateSecp256k1, Secp256k1 } from './secp256k1';
 
 const secp256k1Promise = instantiateSecp256k1();
 
-test('bench: secp256k1 verify DER signature Low-S, uncompressed pubkey', async t => {
-  // bitcoin-ts setup
-  const secp256k1 = await secp256k1Promise;
+function getValidPrivateKey(secp256k1: Secp256k1): Uint8Array {
+  let privKey: Uint8Array;
+  do {
+    privKey = randomBytes(32);
+  } while (!secp256k1.validatePrivateKey(privKey));
+  return privKey;
+}
 
-  // elliptic setup
-  const ec = new elliptic.ec('secp256k1');
-  const ellipticKey = ec.keyFromPublic(
-    new Buffer(pubkeyUncompressed).toString('hex'),
-    'hex'
-  );
+async function setup(): Promise<{
+  readonly ellipticEc: any;
+  readonly secp256k1: Secp256k1;
+}> {
+  return {
+    ellipticEc: new elliptic.ec('secp256k1'),
+    secp256k1: await secp256k1Promise
+  };
+}
 
-  await suite(
-    'bench: secp256k1 verify DER signature Low-S, uncompressed pubkey',
-    s => {
-      // tslint:disable-next-line: no-let
-      let result: boolean = false;
-
-      s.cycle(() => {
-        t.true(result);
-        result = false;
-      });
-
-      s.bench('bitcoin-ts', () => {
-        result = secp256k1.verifySignatureDERLowS(
-          sigDER,
-          pubkeyUncompressed,
-          messageHash
-        );
-      });
-
-      s.bench('elliptic', () => {
-        result = ellipticKey.verify(messageHash, sigDER);
-      });
-
-      s.bench('secp256k1-node', () => {
-        const sig = secp256k1Node.signatureImport(sigDER);
-        result = secp256k1Node.verify(messageHash, sig, pubkeyUncompressed);
-      });
+/**
+ * Note: elliptic doesn't document an equivalent to verifySignatureDERLowS, so
+ * these benchmarks slightly overestimates elliptic's performance in
+ * applications where Low-S verification is required (i.e. Bitcoin).
+ */
+test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t => {
+  const { ellipticEc, secp256k1 } = await setup();
+  await suite(t.title, s => {
+    let messageHash: Uint8Array;
+    let pubkeyUncompressed: Uint8Array;
+    let sigDER: Uint8Array;
+    let result: boolean;
+    function nextCycle(): void {
+      const privKey = getValidPrivateKey(secp256k1);
+      messageHash = randomBytes(32);
+      pubkeyUncompressed = secp256k1.derivePublicKeyUncompressed(privKey);
+      sigDER = secp256k1.signMessageHashDER(privKey, messageHash);
+      result = false;
     }
-  );
+    nextCycle();
+    s.bench('bitcoin-ts', () => {
+      result = secp256k1.verifySignatureDERLowS(
+        sigDER,
+        pubkeyUncompressed,
+        messageHash
+      );
+    });
+    s.bench('elliptic', () => {
+      result = ellipticEc
+        .keyFromPublic(new Buffer(pubkeyUncompressed).toString('hex'), 'hex')
+        .verify(messageHash, sigDER);
+    });
+    s.bench('secp256k1-node', () => {
+      result = secp256k1Node.verify(
+        messageHash,
+        secp256k1Node.signatureImport(sigDER),
+        pubkeyUncompressed
+      );
+    });
+    s.cycle(() => {
+      t.true(result);
+      nextCycle();
+    });
+  });
+});
+
+test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
+  const { ellipticEc, secp256k1 } = await setup();
+  await suite(t.title, s => {
+    let messageHash: Uint8Array;
+    let pubkeyCompressed: Uint8Array;
+    let sigDER: Uint8Array;
+    let result: boolean;
+    function nextCycle(): void {
+      const privKey = getValidPrivateKey(secp256k1);
+      messageHash = randomBytes(32);
+      pubkeyCompressed = secp256k1.derivePublicKeyCompressed(privKey);
+      sigDER = secp256k1.signMessageHashDER(privKey, messageHash);
+      result = false;
+    }
+    nextCycle();
+    s.bench('bitcoin-ts', () => {
+      result = secp256k1.verifySignatureDERLowS(
+        sigDER,
+        pubkeyCompressed,
+        messageHash
+      );
+    });
+    s.bench('elliptic', () => {
+      result = ellipticEc
+        .keyFromPublic(new Buffer(pubkeyCompressed).toString('hex'), 'hex')
+        .verify(messageHash, sigDER);
+    });
+    s.bench('secp256k1-node', () => {
+      result = secp256k1Node.verify(
+        messageHash,
+        secp256k1Node.signatureImport(sigDER),
+        pubkeyCompressed
+      );
+    });
+    s.cycle(() => {
+      t.true(result);
+      nextCycle();
+    });
+  });
+});
+
+test('bench: secp256k1: derive compressed pubkey', async t => {
+  const { ellipticEc, secp256k1 } = await setup();
+  await suite(t.title, s => {
+    let privKey: Uint8Array;
+    let pubkeyCompressedExpected: Uint8Array;
+    let pubkeyCompressedBenchmark: Uint8Array;
+    function nextCycle(): void {
+      privKey = getValidPrivateKey(secp256k1);
+      pubkeyCompressedExpected = secp256k1.derivePublicKeyCompressed(privKey);
+    }
+    nextCycle();
+    s.bench('bitcoin-ts', () => {
+      pubkeyCompressedBenchmark = secp256k1.derivePublicKeyCompressed(privKey);
+    });
+    s.bench('elliptic', () => {
+      pubkeyCompressedBenchmark = ellipticEc
+        .keyFromPrivate(privKey)
+        .getPublic()
+        .encodeCompressed();
+    });
+    s.bench('secp256k1-node', () => {
+      pubkeyCompressedBenchmark = secp256k1Node.publicKeyCreate(privKey, true);
+    });
+    s.cycle(() => {
+      t.deepEqual(
+        pubkeyCompressedExpected,
+        new Uint8Array(pubkeyCompressedBenchmark)
+      );
+      nextCycle();
+    });
+  });
+});
+
+test('bench: secp256k1: create DER Low-S signature', async t => {
+  const { ellipticEc, secp256k1 } = await setup();
+  await suite(t.title, s => {
+    let privKey: Uint8Array;
+    let messageHash: Uint8Array;
+    let sigDERExpected: Uint8Array;
+    let sigDERBenchmark: Uint8Array;
+    function nextCycle(): void {
+      privKey = getValidPrivateKey(secp256k1);
+      messageHash = randomBytes(32);
+      sigDERExpected = secp256k1.signMessageHashDER(privKey, messageHash);
+    }
+    nextCycle();
+    s.bench('bitcoin-ts', () => {
+      sigDERBenchmark = secp256k1.signMessageHashDER(privKey, messageHash);
+    });
+    s.bench('elliptic', () => {
+      sigDERBenchmark = ellipticEc
+        .keyFromPrivate(privKey)
+        .sign(messageHash)
+        .toDER();
+    });
+    s.bench('secp256k1-node', () => {
+      sigDERBenchmark = secp256k1Node.signatureExport(
+        secp256k1Node.sign(messageHash, privKey).signature
+      );
+    });
+    s.cycle(() => {
+      /**
+       * Since Elliptic doesn't document a way to create Low-S signatures, we
+       * normalize the results to validate them. This may overestimate
+       * Elliptic's performance slightly.
+       */
+      t.deepEqual(
+        sigDERExpected,
+        secp256k1.normalizeSignatureDER(new Uint8Array(sigDERBenchmark))
+      );
+      nextCycle();
+    });
+  });
 });

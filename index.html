@@ -105,6 +105,20 @@ yarn add bitcoin-ts
 					<li><a href="https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesecp256k1">instantiateSecp256k1</a></li>
 					<li><a href="https://bitjson.github.io/bitcoin-ts/interfaces/secp256k1.html">Secp256k1 Interface</a></li>
 				</ul>
+				<h2 id="contributing">Contributing</h2>
+				<p>Pull Requests welcome! Please see <a href=".github/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> for details.</p>
+				<p>This library requires <a href="https://yarnpkg.com/">Yarn</a> for development. If you don&#39;t have Yarn, make sure you have <code>Node.js</code> installed (which ships with <code>npm</code>), then run <code>npm install -g yarn</code>. Once Yarn is installed:</p>
+				<pre><code>git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/bitjson/bitcoin-<span class="hljs-keyword">ts</span>.git &amp;&amp; <span class="hljs-keyword">cd</span> bitcoin-<span class="hljs-keyword">ts</span>
+</code></pre><p>Install the development dependencies:</p>
+				<pre><code><span class="hljs-attribute">yarn</span>
+</code></pre><p>Then try running the test suite:</p>
+				<pre><code>yarn <span class="hljs-built_in">test</span>
+</code></pre><p>You can also run the benchmarks (this may take a while):</p>
+				<pre><code class="lang-sh">yarn bench
+</code></pre>
+				<p>For more information about the available package scripts, run:</p>
+				<pre><code class="lang-sh">yarn run info
+</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -216,8 +230,14 @@ yarn add bitcoin-ts
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#fcuint8array32" class="tsd-kind-icon">fc<wbr>Uint8<wbr>Array32</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#fcvalidprivatekey" class="tsd-kind-icon">fc<wbr>Valid<wbr>Private<wbr>Key</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getembeddedsecp256k1binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Secp256k1<wbr>Binary</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#getvalidprivatekey" class="tsd-kind-icon">get<wbr>Valid<wbr>Private<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#instantiatesecp256k1" class="tsd-kind-icon">instantiate<wbr>Secp256k1</a>
@@ -236,6 +256,9 @@ yarn add bitcoin-ts
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#noop" class="tsd-kind-icon">noop</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#setup" class="tsd-kind-icon">setup</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#setupelliptic" class="tsd-kind-icon">setup<wbr>Elliptic</a>

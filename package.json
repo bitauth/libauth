@@ -40,7 +40,8 @@
     "reset": "git clean -dfx && git reset --hard && yarn",
     "clean": "trash build test",
     "all": "run-s reset test cov:check doc:html",
-    "prepare-release": "run-s all version doc:publish"
+    "prepare-release": "run-s all version doc:publish",
+    "commitlint": "commitlint -e $GIT_PARAMS"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
@@ -65,6 +66,8 @@
   "dependencies": {},
   "devDependencies": {
     "@bitjson/npm-scripts-info": "^1.0.0",
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
     "@types/webassembly-js-api": "^0.0.1",
     "ava": "^1.0.0-beta.4",
     "chuhai": "^1.2.0",
@@ -74,6 +77,7 @@
     "elliptic": "^6.4.0",
     "fast-check": "^1.1.0",
     "gh-pages": "^1.0.0",
+    "husky": "^1.0.0-rc.9",
     "npm-run-all": "^4.1.2",
     "nsp": "^3.2.1",
     "nyc": "^11.5.0",
@@ -106,6 +110,11 @@
     "ignore": [
       "@types/node"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "yarn commitlint"
+    }
   },
   "prettier": {
     "singleQuote": true

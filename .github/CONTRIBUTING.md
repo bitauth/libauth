@@ -14,6 +14,11 @@ Below you'll find the conventions we're trying to follow. Of course, please feel
 * **ignore historical names** - Many Bitcoin implementations make imprecise (and even misleading) naming choices for historical reasons. We make little effort to match the type/function names of other Bitcoin implementations; names should be chosen to improve clarity.
 * **don't add package dependencies** - This library should be as simple and stable as possible. Generally, if something is hard enough to warrant bringing in a dependency, it's something this library should provide. (Can you compile and expose a WASM version?)
 
+## Tips for developers
+
+* commit message must follow the [conventional-changelog](https://github.com/conventional-changelog/conventional-changelog) we force this by [husky](https://github.com/typicode/husky)
+ * You can simply run `git commit` and write conventional-changelog-compatible commit message by your hand. But we recommend you to run `yarn commit` instead, which is more developer friendly
+
 ## Areas for Improvement
 
 ### Thinner WASM Implementations/Imports

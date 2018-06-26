@@ -9,7 +9,7 @@ export interface Ripemd160 {
    * Returns the ripemd160 hash of the provided input.
    *
    * To incrementally construct a ripemd160 hash (e.g. for streaming), use
-   * `ripemd160Init`, `ripemd160Update`, and `ripemd160Final`.
+   * `init`, `update`, and `final`.
    *
    * @param input a Uint8Array to be hashed using ripemd160
    */
@@ -18,15 +18,15 @@ export interface Ripemd160 {
   /**
    * Begin an incremental ripemd160 hashing computation.
    *
-   * The returned raw state can be provided to `ripemd160Update` with additional
-   * input to advance the computation.
+   * The returned raw state can be provided to `update` with additional input to
+   * advance the computation.
    *
    * ## Example
    * ```ts
-   * const state1 = ripemd160Init();
-   * const state2 = ripemd160Update(state1, new Uint8Array([1, 2, 3]));
-   * const state3 = ripemd160Update(state2, new Uint8Array([4, 5, 6]));
-   * const hash = ripemd160Final(state3);
+   * const state1 = ripemd160.init();
+   * const state2 = ripemd160.update(state1, new Uint8Array([1, 2, 3]));
+   * const state3 = ripemd160.update(state2, new Uint8Array([4, 5, 6]));
+   * const hash = ripemd160.final(state3);
    * ```
    */
   readonly init: () => Uint8Array;
@@ -34,14 +34,13 @@ export interface Ripemd160 {
   /**
    * Add input to an incremental ripemd160 hashing computation.
    *
-   * Returns a raw state which can again be passed to `ripemd160Update` with
-   * additional input to continue the computation.
+   * Returns a raw state which can again be passed to `update` with additional
+   * input to continue the computation.
    *
    * When the computation has been updated with all input, pass the raw state to
-   * `ripemd160Final` to finish and return a hash.
+   * `final` to finish and return a hash.
    *
-   * @param rawState a raw state returned by either `ripemd160Init` or
-   * `ripemd160Update`.
+   * @param rawState a raw state returned by either `init` or `update`
    * @param input a Uint8Array to be added to the ripemd160 computation
    */
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
@@ -51,7 +50,7 @@ export interface Ripemd160 {
    *
    * Returns the final hash.
    *
-   * @param rawState a raw state returned by `ripemd160Update`.
+   * @param rawState a raw state returned by `update`
    */
   readonly final: (rawState: Uint8Array) => Uint8Array;
 }

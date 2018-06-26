@@ -9,9 +9,6 @@ RUN apt-get update \
 
 COPY wasm /bitcoin-ts/wasm
 
-# build outputs
-RUN mkdir /bitcoin-ts/outputs
-
 WORKDIR /bitcoin-ts/wasm/secp256k1
 
 RUN ./autogen.sh
@@ -52,7 +49,7 @@ RUN emcc src/libsecp256k1_la-secp256k1.o \
   ]' \
   -o out/secp256k1/secp256k1.js
 
-RUN printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const secp256k1Base64Bytes: string =\n  '" > out/secp256k1/secp256k1.base64.ts && base64 -w 0 out/secp256k1/secp256k1.wasm >> out/secp256k1/secp256k1.base64.ts && printf "';\n" >> out/secp256k1/secp256k1.base64.ts
+RUN OUTPUT_TS_FILE=out/secp256k1/secp256k1.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const secp256k1Base64Bytes: string =\n  '" > $OUTPUT_TS_FILE && base64 -w 0 out/secp256k1/secp256k1.wasm >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
 
 RUN cp -r /bitcoin-ts/wasm/secp256k1/out /bitcoin-ts/bin
 

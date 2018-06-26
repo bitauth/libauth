@@ -62,8 +62,9 @@ Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) f
 
 This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed (which ships with `npm`), then run `npm install -g yarn`. Once Yarn is installed:
 
-```
-git clone https://github.com/bitjson/bitcoin-ts.git && cd bitcoin-ts
+```sh
+# --recursive is required since source file for secp256k1 is hosted as submodule
+git clone --recursive https://github.com/bitjson/bitcoin-ts.git && cd bitcoin-ts
 ```
 
 Install the development dependencies:

@@ -31,3 +31,40 @@ fn ripemd160_hash() {
     ];
     assert_eq!(ripemd160(b"bitcoin-ts"), hash_bitcoin_ts);
 }
+
+const RIPEMD160_SIZE: usize = std::mem::size_of::<Ripemd160>();
+
+#[wasm_bindgen]
+pub fn ripemd160_init() -> Vec<u8> {
+    let hasher = Ripemd160::new();
+    let raw_state: [u8; RIPEMD160_SIZE] = unsafe { std::mem::transmute(hasher) };
+    raw_state.to_vec()
+}
+
+#[wasm_bindgen]
+pub fn ripemd160_update(raw_state: &mut [u8], input: &[u8]) -> Vec<u8> {
+    let raw_state2 = array_mut_ref!(raw_state, 0, RIPEMD160_SIZE);
+    let mut hasher: Ripemd160 = unsafe { std::mem::transmute(*raw_state2) };
+    hasher.input(input);
+    let raw_state3: [u8; RIPEMD160_SIZE] = unsafe { std::mem::transmute(hasher) };
+    raw_state3.to_vec()
+}
+
+#[wasm_bindgen]
+pub fn ripemd160_final(raw_state: &mut [u8]) -> Vec<u8> {
+    let raw_state2 = array_mut_ref!(raw_state, 0, RIPEMD160_SIZE);
+    let hasher: Ripemd160 = unsafe { std::mem::transmute(*raw_state2) };
+    hasher.result().to_vec()
+}
+
+#[test]
+fn ripemd160_() {
+    // 'bitcoin-ts' -> '7217be7f5d75391d4d1be94bda6679d52d65d2c7'
+    let hash_bitcoin_ts = vec![
+        114, 23, 190, 127, 93, 117, 57, 29, 77, 27, 233, 75, 218, 102, 121, 213, 45, 101, 210, 199,
+    ];
+    let mut state = ripemd160_init();
+    let mut state = ripemd160_update(state.as_mut_slice(), b"bitcoin");
+    let mut state = ripemd160_update(state.as_mut_slice(), b"-ts");
+    assert_eq!(ripemd160_final(state.as_mut_slice()), hash_bitcoin_ts);
+}

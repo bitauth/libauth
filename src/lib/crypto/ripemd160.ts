@@ -1,10 +1,11 @@
 import {
   decodeBase64String,
+  HashFunction,
   instantiateRustWasm,
   ripemd160Base64Bytes
 } from '../bin';
 
-export interface Ripemd160 {
+export interface Ripemd160 extends HashFunction {
   /**
    * Returns the ripemd160 hash of the provided input.
    *
@@ -72,7 +73,14 @@ export async function instantiateRipemd160(): Promise<Ripemd160> {
 export async function instantiateRipemd160Bytes(
   webassemblyBytes: ArrayBuffer
 ): Promise<Ripemd160> {
-  const wasm = await instantiateRustWasm(webassemblyBytes, './ripemd160');
+  const wasm = await instantiateRustWasm(
+    webassemblyBytes,
+    './ripemd160',
+    'ripemd160',
+    'ripemd160_init',
+    'ripemd160_update',
+    'ripemd160_final'
+  );
   return {
     final: wasm.final,
     hash: wasm.hash,

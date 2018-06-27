@@ -22,7 +22,7 @@ RUN cp pkg/ripemd160.wasm out/ripemd160
 RUN cp pkg/ripemd160.d.ts out/ripemd160
 RUN cp pkg/ripemd160.js out/ripemd160
 RUN OUTPUT_TS_FILE=out/ripemd160/ripemd160.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const ripemd160Base64Bytes: string =\n  '" > $OUTPUT_TS_FILE && base64 -w 0 pkg/ripemd160.wasm >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
-RUN cp -r /bitcoin-ts/wasm/hashes/ripemd160/out /bitcoin-ts/bin
+RUN cp -r /bitcoin-ts/wasm/hashes/ripemd160/out/ripemd160 /bitcoin-ts/bin
 
 # sha256
 COPY wasm/hashes/sha256 /bitcoin-ts/wasm/hashes/sha256
@@ -34,7 +34,31 @@ RUN cp pkg/sha256.wasm out/sha256
 RUN cp pkg/sha256.d.ts out/sha256
 RUN cp pkg/sha256.js out/sha256
 RUN OUTPUT_TS_FILE=out/sha256/sha256.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const sha256Base64Bytes: string =\n  '" > $OUTPUT_TS_FILE && base64 -w 0 pkg/sha256.wasm >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
-RUN cp -r /bitcoin-ts/wasm/hashes/sha256/out /bitcoin-ts/bin
+RUN cp -r /bitcoin-ts/wasm/hashes/sha256/out/sha256 /bitcoin-ts/bin
+
+# sha512
+COPY wasm/hashes/sha512 /bitcoin-ts/wasm/hashes/sha512
+WORKDIR /bitcoin-ts/wasm/hashes/sha512
+RUN mkdir -p out/sha512
+RUN wasm-pack init
+RUN /binaryen/bin/wasm-opt -O3 pkg/sha512_bg.wasm -o pkg/sha512.wasm
+RUN cp pkg/sha512.wasm out/sha512
+RUN cp pkg/sha512.d.ts out/sha512
+RUN cp pkg/sha512.js out/sha512
+RUN OUTPUT_TS_FILE=out/sha512/sha512.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const sha512Base64Bytes: string =\n  '" > $OUTPUT_TS_FILE && base64 -w 0 pkg/sha512.wasm >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
+RUN cp -r /bitcoin-ts/wasm/hashes/sha512/out/sha512 /bitcoin-ts/bin
+
+# sha1
+COPY wasm/hashes/sha1 /bitcoin-ts/wasm/hashes/sha1
+WORKDIR /bitcoin-ts/wasm/hashes/sha1
+RUN mkdir -p out/sha1
+RUN wasm-pack init
+RUN /binaryen/bin/wasm-opt -O3 pkg/sha1_bg.wasm -o pkg/sha1.wasm
+RUN cp pkg/sha1.wasm out/sha1
+RUN cp pkg/sha1.d.ts out/sha1
+RUN cp pkg/sha1.js out/sha1
+RUN OUTPUT_TS_FILE=out/sha1/sha1.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const sha1Base64Bytes: string =\n  '" > $OUTPUT_TS_FILE && base64 -w 0 pkg/sha1.wasm >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
+RUN cp -r /bitcoin-ts/wasm/hashes/sha1/out/sha1 /bitcoin-ts/bin
 
 WORKDIR /bitcoin-ts/wasm/hashes/
 

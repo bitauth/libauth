@@ -1,3 +1,10 @@
+export interface HashFunction {
+  readonly hash: (input: Uint8Array) => Uint8Array;
+  readonly init: () => Uint8Array;
+  readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
+  readonly final: (rawState: Uint8Array) => Uint8Array;
+}
+
 /**
  * Note, most of this method is translated and boiled-down from the wasm-pack
  * workflow. Significant changes to wasm-bindgen or wasm-pack build will likely
@@ -5,21 +12,23 @@
  */
 export async function instantiateRustWasm(
   webassemblyBytes: ArrayBuffer,
-  expectedImportModuleName: string
-): Promise<{
-  readonly final: (rawState: Uint8Array) => Uint8Array;
-  readonly hash: (input: Uint8Array) => Uint8Array;
-  readonly init: () => Uint8Array;
-  readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-}> {
+  expectedImportModuleName: string,
+  hashExportName: string,
+  initExportName: string,
+  updateExportName: string,
+  finalExportName: string
+): Promise<HashFunction> {
   const wasm = (await WebAssembly.instantiate(webassemblyBytes, {
     [expectedImportModuleName]: {
       /**
-       * This will only be called in cases where a serialized raw_state is
-       * modified before being used again in an `update` or `final` method
-       * (which should never happen during correct usage).
+       * This would only be called in cases where a `__wbindgen_malloc` failed.
+       * Since `__wbindgen_malloc` isn't exposed to consumers, this error
+       * can only be encountered if the code below is broken.
        */
-      __wbindgen_throw: (ptr: number, len: number) => {
+      __wbindgen_throw: /* istanbul ignore next */ (
+        ptr: number,
+        len: number
+      ) => {
         throw new Error(
           Array.from(getUint8Memory().subarray(ptr, ptr + len))
             .map(num => String.fromCharCode(num))
@@ -74,7 +83,7 @@ export async function instantiateRustWasm(
     const [ptr0, len0] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
     try {
-      wasm.ripemd160(retPtr, ptr0, len0);
+      wasm[hashExportName](retPtr, ptr0, len0);
       const mem = getUint32Memory();
       const ptr = mem[retPtr / 4];
       const len = mem[retPtr / 4 + 1];
@@ -88,7 +97,7 @@ export async function instantiateRustWasm(
 
   function init(): Uint8Array {
     const retPtr = globalArgumentPtr();
-    wasm.ripemd160_init(retPtr);
+    wasm[initExportName](retPtr);
     const mem = getUint32Memory();
     const ptr = mem[retPtr / 4];
     const len = mem[retPtr / 4 + 1];
@@ -102,7 +111,7 @@ export async function instantiateRustWasm(
     const [ptr1, len1] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
     try {
-      wasm.ripemd160_update(retPtr, ptr0, len0, ptr1, len1);
+      wasm[updateExportName](retPtr, ptr0, len0, ptr1, len1);
       const mem = getUint32Memory();
       const ptr = mem[retPtr / 4];
       const len = mem[retPtr / 4 + 1];
@@ -120,7 +129,7 @@ export async function instantiateRustWasm(
     const [ptr0, len0] = passArray8ToWasm(rawState);
     const retPtr = globalArgumentPtr();
     try {
-      wasm.ripemd160_final(retPtr, ptr0, len0);
+      wasm[finalExportName](retPtr, ptr0, len0);
       const mem = getUint32Memory();
       const ptr = mem[retPtr / 4];
       const len = mem[retPtr / 4 + 1];

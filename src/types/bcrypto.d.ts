@@ -1,9 +1,10 @@
 // used in tests and benchmarks
-declare module 'bcoin' {
+declare module 'bcrypto' {
   var thingsBitcoinTsTestsUse: {
-    crypto: {
-      ripemd160: any;
-    };
+    ripemd160: any;
+    sha1: any;
+    sha256: any;
+    sha512: any;
   };
   export = thingsBitcoinTsTestsUse;
 }

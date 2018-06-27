@@ -1,10 +1,11 @@
 import {
   decodeBase64String,
+  HashFunction,
   instantiateRustWasm,
   sha256Base64Bytes
 } from '../bin';
 
-export interface Sha256 {
+export interface Sha256 extends HashFunction {
   /**
    * Returns the sha256 hash of the provided input.
    *
@@ -72,7 +73,14 @@ export async function instantiateSha256(): Promise<Sha256> {
 export async function instantiateSha256Bytes(
   webassemblyBytes: ArrayBuffer
 ): Promise<Sha256> {
-  const wasm = await instantiateRustWasm(webassemblyBytes, './sha256');
+  const wasm = await instantiateRustWasm(
+    webassemblyBytes,
+    './sha256',
+    'sha256',
+    'sha256_init',
+    'sha256_update',
+    'sha256_final'
+  );
   return {
     final: wasm.final,
     hash: wasm.hash,

@@ -3,7 +3,7 @@ import { secp256k1Base64Bytes } from './secp256k1.base64';
 
 // bitflags used in secp256k1's public API (translated from secp256k1.h)
 
-// tslint:disable:no-bitwise
+// tslint:disable:no-bitwise no-magic-numbers
 /** All flags' lower 8 bits indicate what they're for. Do not use directly. */
 // const SECP256K1_FLAGS_TYPE_MASK = (1 << 8) - 1;
 const SECP256K1_FLAGS_TYPE_CONTEXT = 1 << 0;
@@ -59,7 +59,9 @@ export enum CompressionFlag {
   COMPRESSED = SECP256K1_EC_COMPRESSED as 258,
   UNCOMPRESSED = SECP256K1_EC_UNCOMPRESSED as 2
 }
-// tslint:enable:no-bitwise
+
+// tslint:enable:no-bitwise no-magic-numbers
+// tslint:disable:no-mixed-interface
 
 /**
  * An object which wraps the WebAssembly implementation of `libsecp256k1`.
@@ -72,49 +74,6 @@ export enum CompressionFlag {
  * See [[Secp256k1]] for a more purely-functional API.**
  */
 export interface Secp256k1Wasm {
-  /**
-   * Frees a pointer allocated by the `malloc` method.
-   * @param pointer the pointer to be freed
-   */
-  readonly free: (pointer: number) => number;
-  /**
-   * Allocates the given number of bytes in WebAssembly memory.
-   * @param malloc the number of bytes to allocate
-   */
-  readonly malloc: (bytes: number) => number;
-
-  /**
-   * The Secp256k1 library accepts a pointer to a `size_t outputlen` for both
-   * `ec_pubkey_serialize` & `ecdsa_signature_serialize_der`.
-   *
-   * This is a convenience method to create and set the value of those pointers.
-   * @param value the value of the `size_t` (e.g. the buffer length)
-   */
-  readonly mallocSizeT: (value: number) => number;
-
-  /**
-   * Read a `size_t` from WebAssembly memory.
-   *
-   * @param pointer a pointer to the `size_t` variable to read
-   */
-  readonly readSizeT: (pointer: number) => number;
-
-  /**
-   * Allocates space for the provided array, and assigns the array to the space.
-   *
-   * @param array a Uint8Array to allocate in WebAssembly memory
-   */
-  readonly mallocUint8Array: (array: Uint8Array) => number;
-
-  /**
-   * Read from WebAssembly memory by creating a new Uint8Array beginning at
-   * `pointer` and continuing through the number of `bytes` provided.
-   *
-   * @param pointer a pointer to the beginning of the Uint8Array element
-   * @param bytes the number of bytes to copy
-   */
-  readonly readHeapU8: (pointer: number, bytes: number) => Uint8Array;
-
   /**
    * Create a Secp256k1 context object.
    *
@@ -152,11 +111,37 @@ export interface Secp256k1Wasm {
    */
   readonly contextRandomize: (contextPtr: number, seedPtr: number) => 1 | 0;
 
-  // tslint:disable:no-mixed-interface
+  /**
+   * Frees a pointer allocated by the `malloc` method.
+   * @param pointer the pointer to be freed
+   */
+  readonly free: (pointer: number) => number;
 
   readonly heapU32: Uint32Array;
   readonly heapU8: Uint8Array;
   readonly instance: WebAssembly.Instance;
+
+  /**
+   * Allocates the given number of bytes in WebAssembly memory.
+   * @param malloc the number of bytes to allocate
+   */
+  readonly malloc: (bytes: number) => number;
+
+  /**
+   * The Secp256k1 library accepts a pointer to a `size_t outputlen` for both
+   * `ec_pubkey_serialize` & `ecdsa_signature_serialize_der`.
+   *
+   * This is a convenience method to create and set the value of those pointers.
+   * @param value the value of the `size_t` (e.g. the buffer length)
+   */
+  readonly mallocSizeT: (value: number) => number;
+
+  /**
+   * Allocates space for the provided array, and assigns the array to the space.
+   *
+   * @param array a Uint8Array to allocate in WebAssembly memory
+   */
+  readonly mallocUint8Array: (array: Uint8Array) => number;
 
   /**
    * Compute the public key for a secret key.
@@ -173,8 +158,6 @@ export interface Secp256k1Wasm {
     publicKeyPtr: number,
     secretKeyPtr: number
   ) => 1 | 0;
-
-  // tslint:enable:no-mixed-interface
 
   /**
    * Parse a variable-length public key into the pubkey object.
@@ -198,6 +181,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyOutPtr: number,
     publicKeyInPtr: number,
+    // tslint:disable-next-line:no-magic-numbers
     publicKeyInLength: 33 | 65
   ) => 1 | 0;
 
@@ -221,6 +205,22 @@ export interface Secp256k1Wasm {
     publicKeyPtr: number,
     compression: CompressionFlag
   ) => 1;
+
+  /**
+   * Read from WebAssembly memory by creating a new Uint8Array beginning at
+   * `pointer` and continuing through the number of `bytes` provided.
+   *
+   * @param pointer a pointer to the beginning of the Uint8Array element
+   * @param bytes the number of bytes to copy
+   */
+  readonly readHeapU8: (pointer: number, bytes: number) => Uint8Array;
+
+  /**
+   * Read a `size_t` from WebAssembly memory.
+   *
+   * @param pointer a pointer to the `size_t` variable to read
+   */
+  readonly readSizeT: (pointer: number) => number;
 
   /**
    * Verify an ECDSA secret key.
@@ -364,16 +364,18 @@ export interface Secp256k1Wasm {
    * @param contextPtr pointer to a context object
    * @param sigOutPtr a pointer to a 64 byte space where the parsed signature
    * will be written. (internal format)
-   * @param DERSigInPtr pointer to a DER serialized signature
-   * @param DERSigInLength the number of bytes to read from `DERSigInPtr` (Note,
+   * @param sigDERInPtr pointer to a DER serialized signature
+   * @param sigDERInLength the number of bytes to read from `sigDERInPtr` (Note,
    * this should be a simple integer, rather than a `size_t` pointer as is
    * required by the serialization methods.)
    */
   readonly signatureParseDER: (
     contextPtr: number,
     sigOutPtr: number,
-    DERSigInPtr: number,
-    DERSigInLength: number
+    // tslint:disable-next-line:variable-name
+    sigDERInPtr: number,
+    // tslint:disable-next-line:variable-name
+    sigDERInLength: number
   ) => 1 | 0;
 
   /**
@@ -442,145 +444,162 @@ export interface Secp256k1Wasm {
     pubkeyPtr: number
   ) => 1 | 0;
 }
+// tslint:enable:no-mixed-interface
 
-function wrapSecp256k1Wasm(
+// tslint:disable:no-unsafe-any
+const wrapSecp256k1Wasm = (
   instance: WebAssembly.Instance,
   heapU8: Uint8Array,
   heapU32: Uint32Array
-): Secp256k1Wasm {
-  return {
-    contextCreate: context =>
-      instance.exports._secp256k1_context_create(context),
-    contextRandomize: (contextPtr, seedPtr) =>
-      instance.exports._secp256k1_context_randomize(contextPtr, seedPtr),
+): Secp256k1Wasm => ({
+  contextCreate: context => instance.exports._secp256k1_context_create(context),
+  contextRandomize: (contextPtr, seedPtr) =>
+    instance.exports._secp256k1_context_randomize(contextPtr, seedPtr),
 
-    free: pointer => instance.exports._free(pointer),
-    heapU32,
-    heapU8,
-    instance,
-    malloc: bytes => instance.exports._malloc(bytes),
-    mallocSizeT: num => {
-      const pointer = instance.exports._malloc(4);
-      // tslint:disable-next-line:no-bitwise
-      const pointerView32 = pointer >> 2;
-      // tslint:disable-next-line:no-expression-statement
-      heapU32.set([num], pointerView32);
-      return pointer;
-    },
-    mallocUint8Array: array => {
-      const pointer = instance.exports._malloc(array.length);
-      // tslint:disable-next-line:no-expression-statement
-      heapU8.set(array, pointer);
-      return pointer;
-    },
-    pubkeyCreate: (contextPtr, publicKeyPtr, secretKeyPtr) =>
-      instance.exports._secp256k1_ec_pubkey_create(
-        contextPtr,
-        publicKeyPtr,
-        secretKeyPtr
-      ),
-    pubkeyParse: (
+  free: pointer => instance.exports._free(pointer),
+  heapU32,
+  heapU8,
+  instance,
+  malloc: bytes => instance.exports._malloc(bytes),
+  mallocSizeT: num => {
+    // tslint:disable-next-line:no-magic-numbers
+    const pointer = instance.exports._malloc(4);
+    // tslint:disable-next-line:no-bitwise no-magic-numbers
+    const pointerView32 = pointer >> 2;
+    // tslint:disable-next-line:no-expression-statement
+    heapU32.set([num], pointerView32);
+    return pointer;
+  },
+  mallocUint8Array: array => {
+    const pointer = instance.exports._malloc(array.length);
+    // tslint:disable-next-line:no-expression-statement
+    heapU8.set(array, pointer);
+    return pointer;
+  },
+  pubkeyCreate: (contextPtr, publicKeyPtr, secretKeyPtr) =>
+    instance.exports._secp256k1_ec_pubkey_create(
+      contextPtr,
+      publicKeyPtr,
+      secretKeyPtr
+    ),
+  pubkeyParse: (
+    contextPtr,
+    publicKeyOutPtr,
+    publicKeyInPtr,
+    publicKeyInLength
+  ) =>
+    instance.exports._secp256k1_ec_pubkey_parse(
       contextPtr,
       publicKeyOutPtr,
       publicKeyInPtr,
       publicKeyInLength
-    ) =>
-      instance.exports._secp256k1_ec_pubkey_parse(
-        contextPtr,
-        publicKeyOutPtr,
-        publicKeyInPtr,
-        publicKeyInLength
-      ),
-    pubkeySerialize: (
+    ),
+  pubkeySerialize: (
+    contextPtr,
+    outputPtr,
+    outputLengthPtr,
+    publicKeyPtr,
+    compression
+  ) =>
+    instance.exports._secp256k1_ec_pubkey_serialize(
       contextPtr,
       outputPtr,
       outputLengthPtr,
       publicKeyPtr,
       compression
-    ) =>
-      instance.exports._secp256k1_ec_pubkey_serialize(
-        contextPtr,
-        outputPtr,
-        outputLengthPtr,
-        publicKeyPtr,
-        compression
-      ),
-    readHeapU8: (pointer, bytes) =>
-      new Uint8Array(heapU8.buffer, pointer, bytes),
-    readSizeT: pointer => {
-      // tslint:disable-next-line:no-bitwise
-      const pointerView32 = pointer >> 2;
-      return heapU32[pointerView32];
-    },
-    seckeyVerify: (contextPtr, secretKeyPtr) =>
-      instance.exports._secp256k1_ec_seckey_verify(contextPtr, secretKeyPtr),
-    sign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
-      instance.exports._secp256k1_ecdsa_sign(
-        contextPtr,
-        outputSigPtr,
-        msg32Ptr,
-        secretKeyPtr
-      ),
-    signatureMalleate: (contextPtr, outputSigPtr, inputSigPtr) =>
-      instance.exports._secp256k1_ecdsa_signature_malleate(
-        contextPtr,
-        outputSigPtr,
-        inputSigPtr
-      ),
-    signatureNormalize: (contextPtr, outputSigPtr, inputSigPtr) =>
-      instance.exports._secp256k1_ecdsa_signature_normalize(
-        contextPtr,
-        outputSigPtr,
-        inputSigPtr
-      ),
-    signatureParseCompact: (contextPtr, sigOutPtr, compactSigInPtr) =>
-      instance.exports._secp256k1_ecdsa_signature_parse_compact(
-        contextPtr,
-        sigOutPtr,
-        compactSigInPtr
-      ),
-    signatureParseDER: (contextPtr, sigOutPtr, DERSigInPtr, DERSigInLength) =>
-      instance.exports._secp256k1_ecdsa_signature_parse_der(
-        contextPtr,
-        sigOutPtr,
-        DERSigInPtr,
-        DERSigInLength
-      ),
-    signatureSerializeCompact: (contextPtr, outputCompactSigPtr, inputSigPtr) =>
-      instance.exports._secp256k1_ecdsa_signature_serialize_compact(
-        contextPtr,
-        outputCompactSigPtr,
-        inputSigPtr
-      ),
-    signatureSerializeDER: (
+    ),
+  readHeapU8: (pointer, bytes) => new Uint8Array(heapU8.buffer, pointer, bytes),
+  readSizeT: pointer => {
+    // tslint:disable-next-line:no-bitwise no-magic-numbers
+    const pointerView32 = pointer >> 2;
+    return heapU32[pointerView32];
+  },
+  seckeyVerify: (contextPtr, secretKeyPtr) =>
+    instance.exports._secp256k1_ec_seckey_verify(contextPtr, secretKeyPtr),
+  sign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
+    instance.exports._secp256k1_ecdsa_sign(
+      contextPtr,
+      outputSigPtr,
+      msg32Ptr,
+      secretKeyPtr
+    ),
+  signatureMalleate: (contextPtr, outputSigPtr, inputSigPtr) =>
+    instance.exports._secp256k1_ecdsa_signature_malleate(
+      contextPtr,
+      outputSigPtr,
+      inputSigPtr
+    ),
+  signatureNormalize: (contextPtr, outputSigPtr, inputSigPtr) =>
+    instance.exports._secp256k1_ecdsa_signature_normalize(
+      contextPtr,
+      outputSigPtr,
+      inputSigPtr
+    ),
+  signatureParseCompact: (contextPtr, sigOutPtr, compactSigInPtr) =>
+    instance.exports._secp256k1_ecdsa_signature_parse_compact(
+      contextPtr,
+      sigOutPtr,
+      compactSigInPtr
+    ),
+  signatureParseDER: (contextPtr, sigOutPtr, sigDERInPtr, sigDERInLength) =>
+    instance.exports._secp256k1_ecdsa_signature_parse_der(
+      contextPtr,
+      sigOutPtr,
+      sigDERInPtr,
+      sigDERInLength
+    ),
+  signatureSerializeCompact: (contextPtr, outputCompactSigPtr, inputSigPtr) =>
+    instance.exports._secp256k1_ecdsa_signature_serialize_compact(
+      contextPtr,
+      outputCompactSigPtr,
+      inputSigPtr
+    ),
+  signatureSerializeDER: (
+    contextPtr,
+    outputDERSigPtr,
+    outputDERSigLengthPtr,
+    inputSigPtr
+  ) =>
+    instance.exports._secp256k1_ecdsa_signature_serialize_der(
       contextPtr,
       outputDERSigPtr,
       outputDERSigLengthPtr,
       inputSigPtr
-    ) =>
-      instance.exports._secp256k1_ecdsa_signature_serialize_der(
-        contextPtr,
-        outputDERSigPtr,
-        outputDERSigLengthPtr,
-        inputSigPtr
-      ),
-    verify: (contextPtr, sigPtr, msg32Ptr, pubkeyPtr) =>
-      instance.exports._secp256k1_ecdsa_verify(
-        contextPtr,
-        sigPtr,
-        msg32Ptr,
-        pubkeyPtr
-      )
-  };
-}
+    ),
+  verify: (contextPtr, sigPtr, msg32Ptr, pubkeyPtr) =>
+    instance.exports._secp256k1_ecdsa_verify(
+      contextPtr,
+      sigPtr,
+      msg32Ptr,
+      pubkeyPtr
+    )
+});
+// tslint:enable:no-unsafe-any
 
 /**
- * An ultimately-portable (but slower) version of `instantiateSecp256k1Bytes`
- * which does not require the consumer to provide the secp256k1 binary buffer.
+ * Method extracted from Emscripten's preamble.js
  */
-export async function instantiateSecp256k1Wasm(): Promise<Secp256k1Wasm> {
-  return instantiateSecp256k1WasmBytes(getEmbeddedSecp256k1Binary());
-}
+const isLittleEndian = (buffer: ArrayBuffer): boolean => {
+  const littleEndian = true;
+  const notLittleEndian = false;
+  const heap16 = new Int16Array(buffer);
+  const heap32 = new Int32Array(buffer);
+  const heapU8 = new Uint8Array(buffer);
+  // tslint:disable:no-expression-statement no-object-mutation no-magic-numbers
+  heap32[0] = 1668509029;
+  heap16[1] = 25459;
+  // tslint:enable:no-expression-statement no-object-mutation
+  // tslint:disable-next-line:no-magic-numbers
+  return heapU8[2] !== 115 || heapU8[3] !== 99
+    ? /* istanbul ignore next */ notLittleEndian
+    : littleEndian;
+};
+
+/**
+ * Method derived from Emscripten's preamble.js
+ */
+const alignMemory = (factor: number, size: number) =>
+  Math.ceil(size / factor) * factor;
 
 /**
  * The most performant way to instantiate secp256k1 functionality. To avoid
@@ -592,9 +611,9 @@ export async function instantiateSecp256k1Wasm(): Promise<Secp256k1Wasm> {
  *
  * @param webassemblyBytes A buffer containing the secp256k1 binary.
  */
-export async function instantiateSecp256k1WasmBytes(
+export const instantiateSecp256k1WasmBytes = async (
   webassemblyBytes: ArrayBuffer
-): Promise<Secp256k1Wasm> {
+): Promise<Secp256k1Wasm> => {
   const STACK_ALIGN = 16;
   const GLOBAL_BASE = 1024;
   const WASM_PAGE_SIZE = 65536;
@@ -609,13 +628,14 @@ export async function instantiateSecp256k1WasmBytes(
   /* istanbul ignore if  */
   // tslint:disable-next-line:no-if-statement
   if (!isLittleEndian(wasmMemory.buffer)) {
-    // Note: this block is excluded from test coverage. It's A) hard to test
+    // note: this block is excluded from test coverage. It's A) hard to test
     // (must be either tested on big-endian hardware or a big-endian buffer
     // mock) and B) extracted from Emscripten's preamble.js, where it should
     // be tested properly.
     throw new Error('Runtime error: expected the system to be little-endian.');
   }
 
+  // tslint:disable:no-magic-numbers
   const STATIC_BASE = GLOBAL_BASE;
   const STATICTOP_INITIAL = STATIC_BASE + 67696 + 16;
   const DYNAMICTOP_PTR = STATICTOP_INITIAL;
@@ -636,11 +656,13 @@ export async function instantiateSecp256k1WasmBytes(
   const TABLE_SIZE = 6;
   const MAX_TABLE_SIZE = 6;
 
-  // tslint:disable-next-line:no-let
-  let getErrNoLocation: () => number;
+  // tslint:enable:no-magic-numbers
 
-  // Note: A number of methods below are excluded from test coverage. They are
-  // A) not part of the regular usage of this library (should only be evaluated
+  // tslint:disable-next-line:no-let
+  let getErrNoLocation: (() => number) | undefined;
+
+  // note: A number of methods below are excluded from test coverage. They are
+  // a) not part of the regular usage of this library (should only be evaluated
   // if the consumer mis-implements the library and exist only to make
   // debugging easier) and B) already tested adequately in Emscripten, from
   // which this section is extracted.
@@ -649,8 +671,8 @@ export async function instantiateSecp256k1WasmBytes(
     STACKTOP,
     ___setErrNo: /* istanbul ignore next */ (value: number) => {
       // tslint:disable-next-line:no-if-statement
-      if (getErrNoLocation) {
-        // tslint:disable-next-line:no-bitwise no-expression-statement no-object-mutation
+      if (getErrNoLocation !== undefined) {
+        // tslint:disable-next-line:no-bitwise no-expression-statement no-object-mutation no-magic-numbers
         heap32[getErrNoLocation() >> 2] = value;
       }
       return value;
@@ -676,9 +698,7 @@ export async function instantiateSecp256k1WasmBytes(
     enlargeMemory: /* istanbul ignore next */ () => {
       throw new Error('Secp256k1 Error: enlargeMemory was called.');
     },
-    getTotalMemory: () => {
-      return TOTAL_MEMORY;
-    }
+    getTotalMemory: () => TOTAL_MEMORY
   };
 
   const info = {
@@ -698,38 +718,19 @@ export async function instantiateSecp256k1WasmBytes(
 
   return WebAssembly.instantiate(webassemblyBytes, info).then(result => {
     //
-    // tslint:disable-next-line:no-expression-statement
+    // tslint:disable-next-line:no-expression-statement no-unsafe-any
     getErrNoLocation = result.instance.exports.___errno_location;
 
     return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);
   });
-}
+};
+
+export const getEmbeddedSecp256k1Binary = () =>
+  decodeBase64String(secp256k1Base64Bytes);
 
 /**
- * Method extracted from Emscripten's preamble.js
+ * An ultimately-portable (but slower) version of `instantiateSecp256k1Bytes`
+ * which does not require the consumer to provide the secp256k1 binary buffer.
  */
-function isLittleEndian(buffer: ArrayBuffer): boolean {
-  const littleEndian = true;
-  const notLittleEndian = false;
-  const heap16 = new Int16Array(buffer);
-  const heap32 = new Int32Array(buffer);
-  const heapU8 = new Uint8Array(buffer);
-  // tslint:disable:no-expression-statement no-object-mutation
-  heap32[0] = 1668509029;
-  heap16[1] = 25459;
-  // tslint:enable:no-expression-statement no-object-mutation
-  return heapU8[2] !== 115 || heapU8[3] !== 99
-    ? /* istanbul ignore next */ notLittleEndian
-    : littleEndian;
-}
-
-/**
- * Method derived from Emscripten's preamble.js
- */
-function alignMemory(factor: number, size: number): number {
-  return Math.ceil(size / factor) * factor;
-}
-
-export function getEmbeddedSecp256k1Binary(): ArrayBuffer {
-  return decodeBase64String(secp256k1Base64Bytes);
-}
+export const instantiateSecp256k1Wasm = async (): Promise<Secp256k1Wasm> =>
+  instantiateSecp256k1WasmBytes(getEmbeddedSecp256k1Binary());

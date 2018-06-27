@@ -7,6 +7,15 @@ import {
 
 export interface Sha1 extends HashFunction {
   /**
+   * Finish an incremental sha1 hashing computation.
+   *
+   * Returns the final hash.
+   *
+   * @param rawState a raw state returned by `update`.
+   */
+  readonly final: (rawState: Uint8Array) => Uint8Array;
+
+  /**
    * Returns the sha1 hash of the provided input.
    *
    * To incrementally construct a sha1 hash (e.g. for streaming), use `init`,
@@ -45,23 +54,6 @@ export interface Sha1 extends HashFunction {
    * @param input a Uint8Array to be added to the sha1 computation
    */
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-
-  /**
-   * Finish an incremental sha1 hashing computation.
-   *
-   * Returns the final hash.
-   *
-   * @param rawState a raw state returned by `update`.
-   */
-  readonly final: (rawState: Uint8Array) => Uint8Array;
-}
-
-/**
- * An ultimately-portable (but slower) version of `instantiateSha1Bytes`
- * which does not require the consumer to provide the sha1 binary buffer.
- */
-export async function instantiateSha1(): Promise<Sha1> {
-  return instantiateSha1Bytes(getEmbeddedSha1Binary());
 }
 
 /**
@@ -70,9 +62,9 @@ export async function instantiateSha1(): Promise<Sha1> {
  *
  * @param webassemblyBytes A buffer containing the sha1 binary.
  */
-export async function instantiateSha1Bytes(
+export const instantiateSha1Bytes = async (
   webassemblyBytes: ArrayBuffer
-): Promise<Sha1> {
+): Promise<Sha1> => {
   const wasm = await instantiateRustWasm(
     webassemblyBytes,
     './sha1',
@@ -87,8 +79,14 @@ export async function instantiateSha1Bytes(
     init: wasm.init,
     update: wasm.update
   };
-}
+};
 
-export function getEmbeddedSha1Binary(): ArrayBuffer {
-  return decodeBase64String(sha1Base64Bytes);
-}
+export const getEmbeddedSha1Binary = (): ArrayBuffer =>
+  decodeBase64String(sha1Base64Bytes);
+
+/**
+ * An ultimately-portable (but slower) version of `instantiateSha1Bytes`
+ * which does not require the consumer to provide the sha1 binary buffer.
+ */
+export const instantiateSha1 = async (): Promise<Sha1> =>
+  instantiateSha1Bytes(getEmbeddedSha1Binary());

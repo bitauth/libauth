@@ -7,6 +7,15 @@ import {
 
 export interface Sha512 extends HashFunction {
   /**
+   * Finish an incremental sha512 hashing computation.
+   *
+   * Returns the final hash.
+   *
+   * @param rawState a raw state returned by `update`.
+   */
+  readonly final: (rawState: Uint8Array) => Uint8Array;
+
+  /**
    * Returns the sha512 hash of the provided input.
    *
    * To incrementally construct a sha512 hash (e.g. for streaming), use `init`,
@@ -45,23 +54,6 @@ export interface Sha512 extends HashFunction {
    * @param input a Uint8Array to be added to the sha512 computation
    */
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-
-  /**
-   * Finish an incremental sha512 hashing computation.
-   *
-   * Returns the final hash.
-   *
-   * @param rawState a raw state returned by `update`.
-   */
-  readonly final: (rawState: Uint8Array) => Uint8Array;
-}
-
-/**
- * An ultimately-portable (but slower) version of `instantiateSha512Bytes`
- * which does not require the consumer to provide the sha512 binary buffer.
- */
-export async function instantiateSha512(): Promise<Sha512> {
-  return instantiateSha512Bytes(getEmbeddedSha512Binary());
 }
 
 /**
@@ -70,9 +62,9 @@ export async function instantiateSha512(): Promise<Sha512> {
  *
  * @param webassemblyBytes A buffer containing the sha512 binary.
  */
-export async function instantiateSha512Bytes(
+export const instantiateSha512Bytes = async (
   webassemblyBytes: ArrayBuffer
-): Promise<Sha512> {
+): Promise<Sha512> => {
   const wasm = await instantiateRustWasm(
     webassemblyBytes,
     './sha512',
@@ -87,8 +79,14 @@ export async function instantiateSha512Bytes(
     init: wasm.init,
     update: wasm.update
   };
-}
+};
 
-export function getEmbeddedSha512Binary(): ArrayBuffer {
-  return decodeBase64String(sha512Base64Bytes);
-}
+export const getEmbeddedSha512Binary = () =>
+  decodeBase64String(sha512Base64Bytes);
+
+/**
+ * An ultimately-portable (but slower) version of `instantiateSha512Bytes`
+ * which does not require the consumer to provide the sha512 binary buffer.
+ */
+export const instantiateSha512 = async (): Promise<Sha512> =>
+  instantiateSha512Bytes(getEmbeddedSha512Binary());

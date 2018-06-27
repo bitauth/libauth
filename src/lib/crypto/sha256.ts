@@ -7,6 +7,15 @@ import {
 
 export interface Sha256 extends HashFunction {
   /**
+   * Finish an incremental sha256 hashing computation.
+   *
+   * Returns the final hash.
+   *
+   * @param rawState a raw state returned by `update`.
+   */
+  readonly final: (rawState: Uint8Array) => Uint8Array;
+
+  /**
    * Returns the sha256 hash of the provided input.
    *
    * To incrementally construct a sha256 hash (e.g. for streaming), use `init`,
@@ -45,23 +54,6 @@ export interface Sha256 extends HashFunction {
    * @param input a Uint8Array to be added to the sha256 computation
    */
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-
-  /**
-   * Finish an incremental sha256 hashing computation.
-   *
-   * Returns the final hash.
-   *
-   * @param rawState a raw state returned by `update`.
-   */
-  readonly final: (rawState: Uint8Array) => Uint8Array;
-}
-
-/**
- * An ultimately-portable (but slower) version of `instantiateSha256Bytes`
- * which does not require the consumer to provide the sha256 binary buffer.
- */
-export async function instantiateSha256(): Promise<Sha256> {
-  return instantiateSha256Bytes(getEmbeddedSha256Binary());
 }
 
 /**
@@ -70,9 +62,9 @@ export async function instantiateSha256(): Promise<Sha256> {
  *
  * @param webassemblyBytes A buffer containing the sha256 binary.
  */
-export async function instantiateSha256Bytes(
+export const instantiateSha256Bytes = async (
   webassemblyBytes: ArrayBuffer
-): Promise<Sha256> {
+): Promise<Sha256> => {
   const wasm = await instantiateRustWasm(
     webassemblyBytes,
     './sha256',
@@ -87,8 +79,14 @@ export async function instantiateSha256Bytes(
     init: wasm.init,
     update: wasm.update
   };
-}
+};
 
-export function getEmbeddedSha256Binary(): ArrayBuffer {
-  return decodeBase64String(sha256Base64Bytes);
-}
+export const getEmbeddedSha256Binary = () =>
+  decodeBase64String(sha256Base64Bytes);
+
+/**
+ * An ultimately-portable (but slower) version of `instantiateSha256Bytes`
+ * which does not require the consumer to provide the sha256 binary buffer.
+ */
+export const instantiateSha256 = async (): Promise<Sha256> =>
+  instantiateSha256Bytes(getEmbeddedSha256Binary());

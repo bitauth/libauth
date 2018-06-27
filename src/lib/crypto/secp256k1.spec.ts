@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement
+// tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
 import { test } from 'ava';
 import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';
@@ -11,7 +11,7 @@ import {
   Secp256k1
 } from './secp256k1';
 
-// Test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
+// test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
 
 // prettier-ignore
 const messageHash = new Uint8Array([0xda, 0xde, 0x12, 0xe0, 0x6a, 0x5b, 0xbf, 0x5e, 0x11, 0x16, 0xf9, 0xbc, 0x44, 0x99, 0x8b, 0x87, 0x68, 0x13, 0xe9, 0x48, 0xe1, 0x07, 0x07, 0xdc, 0xb4, 0x80, 0x08, 0xa1, 0xda, 0xf3, 0x51, 0x2d]);
@@ -43,12 +43,11 @@ const sigCompactHighS = new Uint8Array([0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8
 // bitcoin-ts setup
 const secp256k1Promise = instantiateSecp256k1();
 const binary = getEmbeddedSecp256k1Binary();
-type ellipticKeyPair = any;
 
 // elliptic setup & helpers
 const ec = new elliptic.ec('secp256k1');
 const setupElliptic = (privateKey: Uint8Array) => {
-  const key: ellipticKeyPair = ec.keyFromPrivate(privateKey);
+  const key = ec.keyFromPrivate(privateKey);
   const pubUncompressed = new Uint8Array(key.getPublic().encode());
   const pubCompressed = new Uint8Array(key.getPublic().encodeCompressed());
   return {
@@ -57,11 +56,13 @@ const setupElliptic = (privateKey: Uint8Array) => {
     pubUncompressed
   };
 };
-const ellipticSignMessageDER = (key: ellipticKeyPair, message: Uint8Array) =>
+// tslint:disable-next-line:no-any
+const ellipticSignMessageDER = (key: any, message: Uint8Array) =>
   new Uint8Array(key.sign(message).toDER());
 const ellipticCheckSignature = (
   sig: Uint8Array,
-  key: ellipticKeyPair,
+  // tslint:disable-next-line:no-any
+  key: any,
   message: Uint8Array
 ): boolean => key.verify(message, sig);
 
@@ -424,9 +425,9 @@ test('secp256k1.signatureCompactToDER', async t => {
 test('secp256k1.signatureDERToCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.signatureDERToCompact(sigDER), sigCompact);
-  const DERWithBrokenEncoding = sigDER.slice().fill(0, 0, 1);
+  const sigDERWithBrokenEncoding = sigDER.slice().fill(0, 0, 1);
   t.throws(() => {
-    secp256k1.signatureDERToCompact(DERWithBrokenEncoding);
+    secp256k1.signatureDERToCompact(sigDERWithBrokenEncoding);
   });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
@@ -473,12 +474,9 @@ test('secp256k1.validatePrivateKey', async t => {
     fc
       .array(fc.integer(0, 255), theRest, theRest)
       .map(random => Uint8Array.from([...almostInvalid, ...random])),
-    privateKey => {
-      return (
-        secp256k1.validatePrivateKey(privateKey) ===
-        secp256k1Node.privateKeyVerify(privateKey)
-      );
-    }
+    privateKey =>
+      secp256k1.validatePrivateKey(privateKey) ===
+      secp256k1Node.privateKeyVerify(privateKey)
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
 });
@@ -601,18 +599,18 @@ test('secp256k1.verifySignatureDERLowS', async t => {
       messageHash
     )
   );
-  const DERWithBrokenEncoding = sigDER.slice().fill(0, 0, 1);
+  const sigDERWithBrokenEncoding = sigDER.slice().fill(0, 0, 1);
   t.false(
     secp256k1.verifySignatureDERLowS(
-      DERWithBrokenEncoding,
+      sigDERWithBrokenEncoding,
       pubkeyCompressed,
       messageHash
     )
   );
-  const DERWithBadSignature = sigDER.slice().fill(0, 6, 7);
+  const sigDERWithBadSignature = sigDER.slice().fill(0, 6, 7);
   t.false(
     secp256k1.verifySignatureDERLowS(
-      DERWithBadSignature,
+      sigDERWithBadSignature,
       pubkeyCompressed,
       messageHash
     )

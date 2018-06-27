@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement
+// tslint:disable:no-expression-statement no-magic-numbers
 import { ExecutionContext, test } from 'ava';
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
@@ -12,7 +12,7 @@ import {
   Secp256k1Wasm
 } from './secp256k1Wasm';
 
-// Test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
+// test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
 
 // prettier-ignore
 const messageHash = new Uint8Array([0xda, 0xde, 0x12, 0xe0, 0x6a, 0x5b, 0xbf, 0x5e, 0x11, 0x16, 0xf9, 0xbc, 0x44, 0x99, 0x8b, 0x87, 0x68, 0x13, 0xe9, 0x48, 0xe1, 0x07, 0x07, 0xdc, 0xb4, 0x80, 0x08, 0xa1, 0xda, 0xf3, 0x51, 0x2d]);
@@ -32,10 +32,10 @@ const sigDER = new Uint8Array([0x30, 0x45, 0x02, 0x21, 0x00, 0xab, 0x4c, 0x6d, 0
 // prettier-ignore
 const sigCompact = new Uint8Array([0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8, 0x30, 0x72, 0x61, 0x5c, 0x33, 0xa9, 0x88, 0x7b, 0x75, 0x64, 0x78, 0xe6, 0xf9, 0xde, 0x38, 0x10, 0x85, 0xf5, 0x18, 0x3c, 0x97, 0x60, 0x3f, 0xc6, 0xff, 0x29, 0x72, 0x21, 0x88, 0xbd, 0x93, 0x7f, 0x54, 0xc8, 0x61, 0x58, 0x2c, 0xa6, 0xfc, 0x68, 0x5b, 0x8d, 0xa2, 0xb4, 0x0d, 0x05, 0xf0, 0x6b, 0x36, 0x83, 0x74, 0xd3, 0x5e, 0x4a, 0xf2, 0xb7, 0x64]);
 
-function testSecp256k1Wasm(
+const testSecp256k1Wasm = (
   t: ExecutionContext,
   secp256k1Wasm: Secp256k1Wasm
-): void {
+) => {
   t.truthy(secp256k1Wasm.heapU32);
   t.truthy(secp256k1Wasm.heapU8);
   t.truthy(secp256k1Wasm.instance);
@@ -139,10 +139,10 @@ function testSecp256k1Wasm(
     ),
     1
   );
-  const DERSigLength = secp256k1Wasm.readSizeT(sigDERLengthPtr);
-  t.is(DERSigLength, 71);
-  const DERSig = secp256k1Wasm.readHeapU8(sigDERPtr, DERSigLength);
-  t.deepEqual(DERSig, sigDER);
+  const sigDERLength = secp256k1Wasm.readSizeT(sigDERLengthPtr);
+  t.is(sigDERLength, 71);
+  const signatureDER = secp256k1Wasm.readHeapU8(sigDERPtr, sigDERLength);
+  t.deepEqual(signatureDER, sigDER);
 
   // parse the DER format signature
   const rawSig2Ptr = secp256k1Wasm.malloc(64);
@@ -151,7 +151,7 @@ function testSecp256k1Wasm(
       contextPtr,
       rawSig2Ptr,
       sigDERPtr,
-      DERSigLength
+      sigDERLength
     ),
     1
   );
@@ -215,7 +215,7 @@ function testSecp256k1Wasm(
     ),
     1
   );
-}
+};
 
 const binary = getEmbeddedSecp256k1Binary();
 

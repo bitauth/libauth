@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement
+// tslint:disable:no-expression-statement no-unsafe-any
 import { test } from 'ava';
 import * as bcrypto from 'bcrypto';
 import { createHash } from 'crypto';
@@ -18,12 +18,13 @@ const stringToCharsUint8Array = (str: string) =>
   new Uint8Array([...str].map(c => c.charCodeAt(0)));
 
 // fast-check helper
+const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
   fc
-    .array(fc.integer(0, 255), minLength, maxLength)
+    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
     .map(a => Uint8Array.from(a));
 
-export async function testHashFunction<T extends HashFunction>(
+export const testHashFunction = <T extends HashFunction>(
   hashFunctionName: string,
   getEmbeddedBinary: () => ArrayBuffer,
   instantiate: () => Promise<T>,
@@ -32,7 +33,7 @@ export async function testHashFunction<T extends HashFunction>(
   testHash: Uint8Array,
   bitcoinTsHash: Uint8Array,
   nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
-): Promise<void> {
+) => {
   const binary = getEmbeddedBinary();
 
   test(`${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
@@ -88,6 +89,7 @@ export async function testHashFunction<T extends HashFunction>(
           new Uint8Array(hashJs[nodeJsAlgorithm]()
             .update(message)
             // TODO: remove `as any` when this PR is merged: https://github.com/indutny/hash.js/pull/16
+            // tslint:disable-next-line:no-any
             .digest() as any),
           hashFunction.hash(message)
         );
@@ -140,9 +142,10 @@ export async function testHashFunction<T extends HashFunction>(
       fc.integer(1, testLength),
       (message, chunkSize) => {
         const chunkCount = Math.ceil(message.length / chunkSize);
-        const chunks = Array.from({ length: chunkCount }).map((_, index) =>
-          message.slice(index * chunkSize, index * chunkSize + chunkSize)
-        );
+        const chunks = Array.from({ length: chunkCount })
+          .map((_, index) => index * chunkSize)
+          // tslint:disable-next-line:restrict-plus-operands
+          .map(startIndex => message.slice(startIndex, startIndex + chunkSize));
         const incrementalResult = hashFunction.final(
           chunks.reduce(
             (state, chunk) => hashFunction.update(state, chunk),
@@ -155,4 +158,4 @@ export async function testHashFunction<T extends HashFunction>(
     );
     t.notThrows(() => fc.assert(equivalentToSinglePass));
   });
-}
+};

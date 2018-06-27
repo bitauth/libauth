@@ -1,8 +1,8 @@
 export interface HashFunction {
+  readonly final: (rawState: Uint8Array) => Uint8Array;
   readonly hash: (input: Uint8Array) => Uint8Array;
   readonly init: () => Uint8Array;
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-  readonly final: (rawState: Uint8Array) => Uint8Array;
 }
 
 /**
@@ -10,14 +10,14 @@ export interface HashFunction {
  * workflow. Significant changes to wasm-bindgen or wasm-pack build will likely
  * require modifications to this method.
  */
-export async function instantiateRustWasm(
+export const instantiateRustWasm = async (
   webassemblyBytes: ArrayBuffer,
   expectedImportModuleName: string,
   hashExportName: string,
   initExportName: string,
   updateExportName: string,
   finalExportName: string
-): Promise<HashFunction> {
+): Promise<HashFunction> => {
   const wasm = (await WebAssembly.instantiate(webassemblyBytes, {
     [expectedImportModuleName]: {
       /**
@@ -38,17 +38,21 @@ export async function instantiateRustWasm(
     }
   })).instance.exports;
 
-  // tslint:disable:no-let no-if-statement no-expression-statement
+  // tslint:disable:no-let no-if-statement no-expression-statement no-unsafe-any
   let cachedUint8Memory: Uint8Array | undefined;
   let cachedUint32Memory: Uint32Array | undefined;
   let cachedGlobalArgumentPtr: number | undefined;
 
-  function globalArgumentPtr(): number {
+  const globalArgumentPtr = () => {
     if (cachedGlobalArgumentPtr === undefined) {
       cachedGlobalArgumentPtr = wasm.__wbindgen_global_argument_ptr() as number;
     }
     return cachedGlobalArgumentPtr;
-  }
+  };
+  /**
+   * Must be hoisted for `__wbindgen_throw`.
+   */
+  // tslint:disable-next-line:only-arrow-functions
   function getUint8Memory(): Uint8Array {
     if (
       cachedUint8Memory === undefined ||
@@ -58,7 +62,7 @@ export async function instantiateRustWasm(
     }
     return cachedUint8Memory;
   }
-  function getUint32Memory(): Uint32Array {
+  const getUint32Memory = () => {
     if (
       cachedUint32Memory === undefined ||
       cachedUint32Memory.buffer !== wasm.memory.buffer
@@ -66,20 +70,20 @@ export async function instantiateRustWasm(
       cachedUint32Memory = new Uint32Array(wasm.memory.buffer);
     }
     return cachedUint32Memory;
-  }
+  };
   // tslint:enable:no-let no-if-statement
 
-  function passArray8ToWasm(array: Uint8Array): ReadonlyArray<number> {
+  const passArray8ToWasm = (array: Uint8Array) => {
     const ptr: number = wasm.__wbindgen_malloc(array.length);
     getUint8Memory().set(array, ptr);
     return [ptr, array.length];
-  }
+  };
 
-  function getArrayU8FromWasm(ptr: number, len: number): Uint8Array {
-    return getUint8Memory().subarray(ptr, ptr + len);
-  }
+  const getArrayU8FromWasm = (ptr: number, len: number) =>
+    getUint8Memory().subarray(ptr, ptr + len);
 
-  function hash(input: Uint8Array): Uint8Array {
+  // tslint:disable:no-magic-numbers
+  const hash = (input: Uint8Array) => {
     const [ptr0, len0] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
     try {
@@ -93,9 +97,9 @@ export async function instantiateRustWasm(
     } finally {
       wasm.__wbindgen_free(ptr0, len0);
     }
-  }
+  };
 
-  function init(): Uint8Array {
+  const init = () => {
     const retPtr = globalArgumentPtr();
     wasm[initExportName](retPtr);
     const mem = getUint32Memory();
@@ -104,9 +108,9 @@ export async function instantiateRustWasm(
     const realRet = getArrayU8FromWasm(ptr, len).slice();
     wasm.__wbindgen_free(ptr, len);
     return realRet;
-  }
+  };
 
-  function update(rawState: Uint8Array, input: Uint8Array): Uint8Array {
+  const update = (rawState: Uint8Array, input: Uint8Array) => {
     const [ptr0, len0] = passArray8ToWasm(rawState);
     const [ptr1, len1] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
@@ -123,9 +127,9 @@ export async function instantiateRustWasm(
       wasm.__wbindgen_free(ptr0, len0 * 1);
       wasm.__wbindgen_free(ptr1, len1 * 1);
     }
-  }
+  };
 
-  function final(rawState: Uint8Array): Uint8Array {
+  const final = (rawState: Uint8Array) => {
     const [ptr0, len0] = passArray8ToWasm(rawState);
     const retPtr = globalArgumentPtr();
     try {
@@ -140,7 +144,7 @@ export async function instantiateRustWasm(
       rawState.set(getUint8Memory().subarray(ptr0 / 1, ptr0 / 1 + len0));
       wasm.__wbindgen_free(ptr0, len0 * 1);
     }
-  }
+  };
   // tslint:enable:no-expression-statement
   return {
     final,
@@ -148,4 +152,4 @@ export async function instantiateRustWasm(
     init,
     update
   };
-}
+};

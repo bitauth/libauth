@@ -1,3 +1,1 @@
-export function noop(): number {
-  return 1;
-}
+export const noop = () => 1;

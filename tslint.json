@@ -1,17 +1,22 @@
 {
-  "extends": ["tslint:latest", "tslint-config-prettier", "tslint-immutable"],
+  "extends": ["tslint:all", "tslint-config-prettier", "tslint-immutable"],
   "rules": {
     "interface-name": [true, "never-prefix"],
     "no-implicit-dependencies": [true, "dev"],
     "cyclomatic-complexity": [true, 5],
 
+    // override some tslint:all settings
+    "comment-format": [true, "check-lowercase", { "ignore-words": ["TODO"] }],
+    "newline-before-return": false,
+    "prefer-method-signature": false,
+
     /* tslint-immutable rules */
-    // Recommended built-in rules
+    // recommended built-in rules
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
     "typedef": [true, "call-signature"],
 
-    // Immutability rules
+    // immutability rules
     "readonly-keyword": true,
     "readonly-array": true,
     "no-let": true,
@@ -19,7 +24,7 @@
     "no-delete": true,
     "no-method-signature": true,
 
-    // Functional style rules
+    // functional style rules
     "no-this": true,
     "no-class": true,
     "no-mixed-interface": true,

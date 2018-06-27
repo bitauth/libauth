@@ -1,8 +1,9 @@
-export function decodeBase64String(base64Text: string): ArrayBuffer {
-  // Base64 decode derived from: https://github.com/niklasvh/base64-arraybuffer
+export const decodeBase64String = (base64Text: string) => {
+  // base64 decode derived from: https://github.com/niklasvh/base64-arraybuffer
   // prettier-ignore
   const chars =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  // tslint:disable:no-magic-numbers
   const lookup = new Uint8Array(123);
   // tslint:disable-next-line:no-let
   for (let i = 0; i < chars.length; i++) {
@@ -31,7 +32,7 @@ export function decodeBase64String(base64Text: string): ArrayBuffer {
     bytes[p++] = (encoded1 << 2) | (encoded2 >> 4);
     bytes[p++] = ((encoded2 & 15) << 4) | (encoded3 >> 2);
     bytes[p++] = ((encoded3 & 3) << 6) | (encoded4 & 63);
-    // tslint:enable:no-bitwise no-expression-statement no-object-mutation
+    // tslint:enable:no-bitwise no-expression-statement no-object-mutation no-magic-numbers
   }
   return buffer;
-}
+};

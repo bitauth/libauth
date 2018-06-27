@@ -10,30 +10,24 @@ test('bench: hash', t => {
   t.pass();
 });
 
-export async function benchmarkHashingFunction<T extends HashFunction>(
+export const benchmarkHashingFunction = <T extends HashFunction>(
   hashFunctionName: string,
   hashFunctionPromise: Promise<T>,
   nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
-): Promise<void> {
-  singlePassBench(32);
-  singlePassBench(1000);
-  singlePassBench(100000);
-
-  incrementalBench(32e6, 1e6);
-
-  function singlePassBench(inputLength: number): void {
+) => {
+  const singlePassBench = (inputLength: number) => {
     test(`bench: ${hashFunctionName}: hash a ${inputLength}-byte input`, async t => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
         let hash: Uint8Array;
-        // We let Node.js use the message as a Node.js buffer
+        // we let Node.js use the message as a Node.js buffer
         // (may slightly overestimate Node.js native performance)
         let nodeJsBuffer: Buffer;
-        function nextCycle(): void {
+        const nextCycle = () => {
           message = randomBytes(inputLength);
           nodeJsBuffer = Buffer.from(message);
-        }
+        };
         nextCycle();
         s.bench('bitcoin-ts', () => {
           hash = hashFunction.hash(message);
@@ -42,9 +36,11 @@ export async function benchmarkHashingFunction<T extends HashFunction>(
           // TODO: remove `as any` when this PR is merged: https://github.com/indutny/hash.js/pull/16
           hash = hashJs[nodeJsAlgorithm]()
             .update(message)
+            // tslint:disable-next-line:no-any
             .digest() as any;
         });
         s.bench('bcoin', () => {
+          // tslint:disable-next-line:no-unsafe-any
           hash = bcrypto[nodeJsAlgorithm](message);
         });
         s.bench('Node.js native', () => {
@@ -58,25 +54,27 @@ export async function benchmarkHashingFunction<T extends HashFunction>(
         });
       });
     });
-  }
+  };
 
-  function incrementalBench(totalInput: number, chunkSize: number): void {
+  const MB = 1e6;
+
+  const incrementalBench = (totalInput: number, chunkSize: number) => {
     test(`bench: ${hashFunctionName}: incrementally hash a ${totalInput /
-      1e6}MB input in ${chunkSize / 1e6}MB chunks`, async t => {
+      MB}MB input in ${chunkSize / MB}MB chunks`, async t => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
         let messageChunks: ReadonlyArray<Uint8Array>;
         let nodeJsChunks: ReadonlyArray<Buffer>;
         let hash: Uint8Array;
-        function nextCycle(): void {
+        const nextCycle = () => {
           message = randomBytes(totalInput);
           const chunkCount = Math.ceil(message.length / chunkSize);
           messageChunks = Array.from({ length: chunkCount }).map((_, index) =>
             message.slice(index * chunkSize, index * chunkSize + chunkSize)
           );
           nodeJsChunks = messageChunks.map(chunk => Buffer.from(chunk));
-        }
+        };
         nextCycle();
         s.bench('bitcoin-ts', () => {
           hash = hashFunction.final(
@@ -93,6 +91,7 @@ export async function benchmarkHashingFunction<T extends HashFunction>(
               hashJs[nodeJsAlgorithm]()
             )
             // TODO: remove `as any` when this PR is merged: https://github.com/indutny/hash.js/pull/16
+            // tslint:disable-next-line:no-any
             .digest() as any;
         });
         s.bench('Node.js native', () => {
@@ -109,5 +108,13 @@ export async function benchmarkHashingFunction<T extends HashFunction>(
         });
       });
     });
-  }
-}
+  };
+
+  // tslint:disable:no-magic-numbers
+  singlePassBench(32);
+  singlePassBench(1000);
+  singlePassBench(100000);
+
+  incrementalBench(MB * 32, MB);
+  // tslint:disable:no-magic-numbers
+};

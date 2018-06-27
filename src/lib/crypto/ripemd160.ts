@@ -7,6 +7,15 @@ import {
 
 export interface Ripemd160 extends HashFunction {
   /**
+   * Finish an incremental ripemd160 hashing computation.
+   *
+   * Returns the final hash.
+   *
+   * @param rawState a raw state returned by `update`
+   */
+  readonly final: (rawState: Uint8Array) => Uint8Array;
+
+  /**
    * Returns the ripemd160 hash of the provided input.
    *
    * To incrementally construct a ripemd160 hash (e.g. for streaming), use
@@ -45,23 +54,6 @@ export interface Ripemd160 extends HashFunction {
    * @param input a Uint8Array to be added to the ripemd160 computation
    */
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-
-  /**
-   * Finish an incremental ripemd160 hashing computation.
-   *
-   * Returns the final hash.
-   *
-   * @param rawState a raw state returned by `update`
-   */
-  readonly final: (rawState: Uint8Array) => Uint8Array;
-}
-
-/**
- * An ultimately-portable (but slower) version of `instantiateRipemd160Bytes`
- * which does not require the consumer to provide the ripemd160 binary buffer.
- */
-export async function instantiateRipemd160(): Promise<Ripemd160> {
-  return instantiateRipemd160Bytes(getEmbeddedRipemd160Binary());
 }
 
 /**
@@ -70,9 +62,9 @@ export async function instantiateRipemd160(): Promise<Ripemd160> {
  *
  * @param webassemblyBytes A buffer containing the ripemd160 binary.
  */
-export async function instantiateRipemd160Bytes(
+export const instantiateRipemd160Bytes = async (
   webassemblyBytes: ArrayBuffer
-): Promise<Ripemd160> {
+): Promise<Ripemd160> => {
   const wasm = await instantiateRustWasm(
     webassemblyBytes,
     './ripemd160',
@@ -87,8 +79,14 @@ export async function instantiateRipemd160Bytes(
     init: wasm.init,
     update: wasm.update
   };
-}
+};
 
-export function getEmbeddedRipemd160Binary(): ArrayBuffer {
-  return decodeBase64String(ripemd160Base64Bytes);
-}
+export const getEmbeddedRipemd160Binary = () =>
+  decodeBase64String(ripemd160Base64Bytes);
+
+/**
+ * An ultimately-portable (but slower) version of `instantiateRipemd160Bytes`
+ * which does not require the consumer to provide the ripemd160 binary buffer.
+ */
+export const instantiateRipemd160 = async (): Promise<Ripemd160> =>
+  instantiateRipemd160Bytes(getEmbeddedRipemd160Binary());

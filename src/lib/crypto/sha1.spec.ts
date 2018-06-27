@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement
+// tslint:disable:no-expression-statement no-magic-numbers
 import { testHashFunction } from './hash.spec';
 import {
   getEmbeddedSha1Binary,

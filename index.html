@@ -40,8 +40,6 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -71,7 +69,7 @@
 				<h1 id="bitcoin-ts">bitcoin-ts</h1>
 				<p>A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin library.</p>
 				<h2 id="work-in-progress">Work in Progress</h2>
-				<p>While this library is a work in progress, the currently-exposed functionality is production-ready (WASM secp256k1 implementation).</p>
+				<p>While this library is a work in progress, the currently-exposed functionality is production-ready (WASM implementations of secp256k1, ripemd160, sha256, sha512, and sha1).</p>
 				<p>More functionality will be exposed in future versions.</p>
 				<h2 id="design-goals">Design Goals</h2>
 				<p>This library should provide the primitives needed to <a href="http://www.paulgraham.com/gh.html">hack</a> on Bitcoin and Bitcoin-related ideas.</p>
@@ -100,16 +98,29 @@ yarn add bitcoin-ts
 </code></pre>
 				<h2 id="documentation">Documentation</h2>
 				<p><a href="https://bitjson.github.io/bitcoin-ts/"><strong>API Documentation →</strong></a></p>
-				<p>You can explore the internals of the library by browsing the generated documentation, or you can use the <code>Only exported</code> checkbox (at the top right) to only view functionality available to consumers. Below are some notable areas:</p>
+				<h3 id="ecdsa">ECDSA</h3>
 				<ul>
 					<li><a href="https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesecp256k1">instantiateSecp256k1</a></li>
 					<li><a href="https://bitjson.github.io/bitcoin-ts/interfaces/secp256k1.html">Secp256k1 Interface</a></li>
 				</ul>
+				<h3 id="hashing-functions">Hashing Functions</h3>
+				<ul>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/globals.html#instantiateripemd160">instantiateRipemd160</a></li>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/interfaces/ripemd160.html">Ripemd160 Interface</a></li>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha1">instantiateSha1</a></li>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/interfaces/sha1.html">Sha1 Interface</a></li>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha256">instantiateSha256</a></li>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/interfaces/sha256.html">Sha256 Interface</a></li>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha512">instantiateSha512</a></li>
+					<li><a href="https://bitjson.github.io/bitcoin-ts/interfaces/sha512.html">Sha512 Interface</a></li>
+				</ul>
 				<h2 id="contributing">Contributing</h2>
 				<p>Pull Requests welcome! Please see <a href=".github/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> for details.</p>
 				<p>This library requires <a href="https://yarnpkg.com/">Yarn</a> for development. If you don&#39;t have Yarn, make sure you have <code>Node.js</code> installed (which ships with <code>npm</code>), then run <code>npm install -g yarn</code>. Once Yarn is installed:</p>
-				<pre><code>git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/bitjson/bitcoin-<span class="hljs-keyword">ts</span>.git &amp;&amp; <span class="hljs-keyword">cd</span> bitcoin-<span class="hljs-keyword">ts</span>
-</code></pre><p>Install the development dependencies:</p>
+				<pre><code class="lang-sh"><span class="hljs-comment"># use --recursive to clone the secp256k1 submodule</span>
+git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitjson/bitcoin-ts.git &amp;&amp; <span class="hljs-built_in">cd</span> bitcoin-ts
+</code></pre>
+				<p>Install the development dependencies:</p>
 				<pre><code><span class="hljs-attribute">yarn</span>
 </code></pre><p>Then try running the test suite:</p>
 				<pre><code>yarn <span class="hljs-built_in">test</span>
@@ -131,143 +142,89 @@ yarn add bitcoin-ts
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
+					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/compressionflag.html" class="tsd-kind-icon">Compression<wbr>Flag</a>
 					</li>
-					<li class=" tsd-kind-enum">
+					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/contextflag.html" class="tsd-kind-icon">Context<wbr>Flag</a>
 					</li>
-					<li class=" tsd-kind-interface">
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/hashfunction.html" class="tsd-kind-icon">Hash<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/ripemd160.html" class="tsd-kind-icon">Ripemd160</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/secp256k1.html" class="tsd-kind-icon">Secp256k1</a>
 					</li>
-					<li class=" tsd-kind-interface">
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/secp256k1wasm.html" class="tsd-kind-icon">Secp256k1<wbr>Wasm</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#elliptickeypair" class="tsd-kind-icon">elliptic<wbr>Key<wbr>Pair</a>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/sha1.html" class="tsd-kind-icon">Sha1</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_context_none" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>CONTEXT_<wbr>NONE</a>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/sha256.html" class="tsd-kind-icon">Sha256</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_context_sign" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>CONTEXT_<wbr>SIGN</a>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/sha512.html" class="tsd-kind-icon">Sha512</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_context_verify" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>CONTEXT_<wbr>VERIFY</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_ec_compressed" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>EC_<wbr>COMPRESSED</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_ec_uncompressed" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>EC_<wbr>UNCOMPRESSED</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_flags_bit_compression" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>FLAGS_<wbr>BIT_<wbr>COMPRESSION</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_flags_bit_context_sign" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>FLAGS_<wbr>BIT_<wbr>CONTEXT_<wbr>SIGN</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_flags_bit_context_verify" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>FLAGS_<wbr>BIT_<wbr>CONTEXT_<wbr>VERIFY</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_flags_type_compression" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>FLAGS_<wbr>TYPE_<wbr>COMPRESSION</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1_flags_type_context" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>FLAGS_<wbr>TYPE_<wbr>CONTEXT</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#binary" class="tsd-kind-icon">binary</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#ec" class="tsd-kind-icon">ec</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#messagehash" class="tsd-kind-icon">message<wbr>Hash</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#privkey" class="tsd-kind-icon">privkey</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#pubkeycompressed" class="tsd-kind-icon">pubkey<wbr>Compressed</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#pubkeyuncompressed" class="tsd-kind-icon">pubkey<wbr>Uncompressed</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1ordern" class="tsd-kind-icon">secp256k1<wbr>OrderN</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#secp256k1promise" class="tsd-kind-icon">secp256k1<wbr>Promise</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#sigcompact" class="tsd-kind-icon">sig<wbr>Compact</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#sigcompacthighs" class="tsd-kind-icon">sig<wbr>Compact<wbr>HighS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#sigder" class="tsd-kind-icon">sigDER</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#sigderhighs" class="tsd-kind-icon">sigDERHighS</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#alignmemory" class="tsd-kind-icon">align<wbr>Memory</a>
-					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#decodebase64string" class="tsd-kind-icon">decode<wbr>Base64<wbr>String</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#ellipticchecksignature" class="tsd-kind-icon">elliptic<wbr>Check<wbr>Signature</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#getembeddedripemd160binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Ripemd160<wbr>Binary</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#ellipticsignmessageder" class="tsd-kind-icon">elliptic<wbr>Sign<wbr>MessageDER</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#fcuint8array" class="tsd-kind-icon">fc<wbr>Uint8<wbr>Array</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#fcuint8array32" class="tsd-kind-icon">fc<wbr>Uint8<wbr>Array32</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#fcvalidprivatekey" class="tsd-kind-icon">fc<wbr>Valid<wbr>Private<wbr>Key</a>
-					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#getembeddedsecp256k1binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Secp256k1<wbr>Binary</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#getvalidprivatekey" class="tsd-kind-icon">get<wbr>Valid<wbr>Private<wbr>Key</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#getembeddedsha1binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha1<wbr>Binary</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#getembeddedsha256binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha256<wbr>Binary</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#getembeddedsha512binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha512<wbr>Binary</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiateripemd160" class="tsd-kind-icon">instantiate<wbr>Ripemd160</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiateripemd160bytes" class="tsd-kind-icon">instantiate<wbr>Ripemd160<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiaterustwasm" class="tsd-kind-icon">instantiate<wbr>Rust<wbr>Wasm</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiatesecp256k1" class="tsd-kind-icon">instantiate<wbr>Secp256k1</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiatesecp256k1bytes" class="tsd-kind-icon">instantiate<wbr>Secp256k1<wbr>Bytes</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiatesecp256k1wasm" class="tsd-kind-icon">instantiate<wbr>Secp256k1<wbr>Wasm</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiatesecp256k1wasmbytes" class="tsd-kind-icon">instantiate<wbr>Secp256k1<wbr>Wasm<wbr>Bytes</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#islittleendian" class="tsd-kind-icon">is<wbr>Little<wbr>Endian</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiatesha1" class="tsd-kind-icon">instantiate<wbr>Sha1</a>
 					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#noop" class="tsd-kind-icon">noop</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiatesha1bytes" class="tsd-kind-icon">instantiate<wbr>Sha1<wbr>Bytes</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#setup" class="tsd-kind-icon">setup</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiatesha256" class="tsd-kind-icon">instantiate<wbr>Sha256</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#setupelliptic" class="tsd-kind-icon">setup<wbr>Elliptic</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiatesha256bytes" class="tsd-kind-icon">instantiate<wbr>Sha256<wbr>Bytes</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#testsecp256k1wasm" class="tsd-kind-icon">test<wbr>Secp256k1<wbr>Wasm</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiatesha512" class="tsd-kind-icon">instantiate<wbr>Sha512</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#wrapsecp256k1wasm" class="tsd-kind-icon">wrap<wbr>Secp256k1<wbr>Wasm</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#instantiatesha512bytes" class="tsd-kind-icon">instantiate<wbr>Sha512<wbr>Bytes</a>
 					</li>
 				</ul>
 			</nav>

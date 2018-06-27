@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/bitjson/bitcoin-ts/compare/v1.0.3...v1.1.0) (2018-06-27)
+
+
+### Features
+
+* **hashes:** expose WebAssembly sha256, sha512, and sha1 implementations ([797f738](https://github.com/bitjson/bitcoin-ts/commit/797f738))
+* **ripemd160:** add a purely-functional, incremental, rust ripemd160 implementation ([b7f4e37](https://github.com/bitjson/bitcoin-ts/commit/b7f4e37))
+* **ripemd160:** expose a purely-functional, WebAssembly ripemd160 implementation ([315bf23](https://github.com/bitjson/bitcoin-ts/commit/315bf23))
+* **ripemd160:** include a rust ripemd160 implementation ([792a01c](https://github.com/bitjson/bitcoin-ts/commit/792a01c))
+* **sha256:** include a rust sha256 implementation ([76d8a30](https://github.com/bitjson/bitcoin-ts/commit/76d8a30))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/bitjson/bitcoin-ts/compare/v1.0.2...v1.0.3) (2018-06-04)
 

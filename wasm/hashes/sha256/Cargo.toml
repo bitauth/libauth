@@ -1,0 +1,22 @@
+[package]
+name = "sha256"
+version = "0.1.0"
+authors = ["Jason Dreyzehner <jason@dreyzehner.com>"]
+description = "Sha256 for bitcoin-ts"
+license = "MIT"
+repository = "https://github.com/bitjson/bitcoin-ts/"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+arrayref = '0.3.4'
+sha2 = '0.7.1'
+wasm-bindgen = '0.2.11'
+
+[profile.release]
+panic = 'abort'
+debug = false
+lto = true
+opt-level = 'z'

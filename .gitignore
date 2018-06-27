@@ -10,6 +10,7 @@ scratch
 
 src/lib/bin/**/*.html
 src/lib/bin/**/*.js
+src/lib/bin/**/*.d.ts
 src/lib/bin/**/*.wast
 src/lib/bin/**/*.wat
 src/lib/bin/**/*.map

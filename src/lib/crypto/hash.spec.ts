@@ -1,0 +1,158 @@
+// tslint:disable:no-expression-statement
+import { test } from 'ava';
+import * as bcrypto from 'bcrypto';
+import { createHash } from 'crypto';
+import * as fc from 'fast-check';
+import { readFileSync } from 'fs';
+import * as hashJs from 'hash.js';
+import { join } from 'path';
+import { HashFunction } from '../bin';
+
+test('hash', t => {
+  t.pass();
+});
+
+const testLength = 10000;
+
+const stringToCharsUint8Array = (str: string) =>
+  new Uint8Array([...str].map(c => c.charCodeAt(0)));
+
+// fast-check helper
+const fcUint8Array = (minLength: number, maxLength: number) =>
+  fc
+    .array(fc.integer(0, 255), minLength, maxLength)
+    .map(a => Uint8Array.from(a));
+
+export async function testHashFunction<T extends HashFunction>(
+  hashFunctionName: string,
+  getEmbeddedBinary: () => ArrayBuffer,
+  instantiate: () => Promise<T>,
+  instantiateBytes: (webassemblyBytes: ArrayBuffer) => Promise<T>,
+  abcHash: Uint8Array,
+  testHash: Uint8Array,
+  bitcoinTsHash: Uint8Array,
+  nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
+): Promise<void> {
+  const binary = getEmbeddedBinary();
+
+  test(`${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
+    const path = join(
+      __dirname,
+      '..',
+      'bin',
+      `${hashFunctionName}`,
+      `${hashFunctionName}.wasm`
+    );
+    const binaryFromDisk = readFileSync(path).buffer;
+    t.deepEqual(binary, binaryFromDisk);
+  });
+
+  test(`${hashFunctionName} instantiated with embedded binary`, async t => {
+    const hashFunction = await instantiate();
+    t.deepEqual(hashFunction.hash(stringToCharsUint8Array('abc')), abcHash);
+    t.deepEqual(hashFunction.hash(stringToCharsUint8Array('test')), testHash);
+    t.deepEqual(
+      hashFunction.hash(stringToCharsUint8Array('bitcoin-ts')),
+      bitcoinTsHash
+    );
+  });
+
+  test(`${hashFunctionName} instantiated with bytes`, async t => {
+    const hashFunction = await instantiateBytes(binary);
+
+    const equivalentToNative = fc.property(
+      fcUint8Array(0, testLength),
+      message => {
+        const hash = createHash(nodeJsAlgorithm);
+        t.deepEqual(
+          new Uint8Array(hash.update(Buffer.from(message)).digest()),
+          hashFunction.hash(message)
+        );
+      }
+    );
+    t.notThrows(() => fc.assert(equivalentToNative));
+    const equivalentToBcoin = fc.property(
+      fcUint8Array(0, testLength),
+      message => {
+        t.deepEqual(
+          new Uint8Array(bcrypto[nodeJsAlgorithm](message)),
+          hashFunction.hash(message)
+        );
+      }
+    );
+    t.notThrows(() => fc.assert(equivalentToBcoin));
+    const equivalentToHashJs = fc.property(
+      fcUint8Array(0, testLength),
+      message => {
+        t.deepEqual(
+          new Uint8Array(hashJs[nodeJsAlgorithm]()
+            .update(message)
+            // TODO: remove `as any` when this PR is merged: https://github.com/indutny/hash.js/pull/16
+            .digest() as any),
+          hashFunction.hash(message)
+        );
+      }
+    );
+    t.notThrows(() => fc.assert(equivalentToHashJs));
+  });
+
+  test(`${hashFunctionName} incremental hashing`, async t => {
+    const hashFunction = await instantiate();
+    t.deepEqual(
+      hashFunction.final(
+        hashFunction.update(
+          hashFunction.update(
+            hashFunction.update(
+              hashFunction.init(),
+              stringToCharsUint8Array('a')
+            ),
+            stringToCharsUint8Array('b')
+          ),
+          stringToCharsUint8Array('c')
+        )
+      ),
+      abcHash
+    );
+    t.deepEqual(
+      hashFunction.final(
+        hashFunction.update(
+          hashFunction.init(),
+          stringToCharsUint8Array('test')
+        )
+      ),
+      testHash
+    );
+    t.deepEqual(
+      hashFunction.final(
+        hashFunction.update(
+          hashFunction.update(
+            hashFunction.init(),
+            stringToCharsUint8Array('bitcoin')
+          ),
+          stringToCharsUint8Array('-ts')
+        )
+      ),
+      bitcoinTsHash
+    );
+
+    const equivalentToSinglePass = fc.property(
+      fcUint8Array(1, testLength),
+      fc.integer(1, testLength),
+      (message, chunkSize) => {
+        const chunkCount = Math.ceil(message.length / chunkSize);
+        const chunks = Array.from({ length: chunkCount }).map((_, index) =>
+          message.slice(index * chunkSize, index * chunkSize + chunkSize)
+        );
+        const incrementalResult = hashFunction.final(
+          chunks.reduce(
+            (state, chunk) => hashFunction.update(state, chunk),
+            hashFunction.init()
+          )
+        );
+        const singlePassResult = hashFunction.hash(message);
+        t.deepEqual(incrementalResult, singlePassResult);
+      }
+    );
+    t.notThrows(() => fc.assert(equivalentToSinglePass));
+  });
+}

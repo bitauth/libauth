@@ -11,7 +11,7 @@ src/**.js
 .gitmodules
 .npmignore
 .prettierignore
-Dockerfile
+wasm/docker
 LICENSE
 package.json
 README.md

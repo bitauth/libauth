@@ -9,7 +9,7 @@ A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin lib
 
 ## Work in Progress
 
-While this library is a work in progress, the currently-exposed functionality is production-ready (WASM secp256k1 implementation).
+While this library is a work in progress, the currently-exposed functionality is production-ready (WASM implementations of secp256k1, ripemd160, sha256, sha512, and sha1).
 
 More functionality will be exposed in future versions.
 
@@ -51,10 +51,21 @@ import { msgHash, pubkey, sig } from './somewhere';
 
 [**API Documentation →**](https://bitjson.github.io/bitcoin-ts/)
 
-You can explore the internals of the library by browsing the generated documentation, or you can use the `Only exported` checkbox (at the top right) to only view functionality available to consumers. Below are some notable areas:
+### ECDSA
 
 - [instantiateSecp256k1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
 - [Secp256k1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/secp256k1.html)
+
+### Hashing Functions
+
+- [instantiateRipemd160](https://bitjson.github.io/bitcoin-ts/globals.html#instantiateripemd160)
+- [Ripemd160 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/ripemd160.html)
+- [instantiateSha1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha1)
+- [Sha1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha1.html)
+- [instantiateSha256](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha256)
+- [Sha256 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha256.html)
+- [instantiateSha512](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha512)
+- [Sha512 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha512.html)
 
 ## Contributing
 
@@ -63,7 +74,7 @@ Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) f
 This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed (which ships with `npm`), then run `npm install -g yarn`. Once Yarn is installed:
 
 ```sh
-# --recursive is required since source file for secp256k1 is hosted as submodule
+# use --recursive to clone the secp256k1 submodule
 git clone --recursive https://github.com/bitjson/bitcoin-ts.git && cd bitcoin-ts
 ```
 

@@ -1,6 +1,6 @@
 [![NPM version](https://img.shields.io/npm/v/bitcoin-ts.svg)](https://www.npmjs.com/package/bitcoin-ts)
-[![Codecov](https://img.shields.io/codecov/c/github/bitjson/bitcoin-ts.svg)](https://codecov.io/gh/bitjson/bitcoin-ts)
-[![CircleCI](https://img.shields.io/circleci/project/github/bitjson/bitcoin-ts.svg)](https://circleci.com/gh/bitjson/bitcoin-ts)
+[![Codecov](https://img.shields.io/codecov/c/github/bitjson/bitcoin-ts/master.svg)](https://codecov.io/gh/bitjson/bitcoin-ts)
+[![CircleCI](https://img.shields.io/circleci/project/github/bitjson/bitcoin-ts/master.svg)](https://circleci.com/gh/bitjson/bitcoin-ts)
 [![GitHub stars](https://img.shields.io/github/stars/bitjson/bitcoin-ts.svg?style=social&logo=github&label=Stars)](https://github.com/bitjson/bitcoin-ts)
 
 # bitcoin-ts

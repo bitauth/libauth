@@ -3,7 +3,7 @@ import {
   HashFunction,
   instantiateRustWasm,
   sha512Base64Bytes
-} from '../bin';
+} from '../bin/bin';
 
 export interface Sha512 extends HashFunction {
   /**

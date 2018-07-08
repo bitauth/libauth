@@ -6,18 +6,13 @@ import * as fc from 'fast-check';
 import { readFileSync } from 'fs';
 import * as hashJs from 'hash.js';
 import { join } from 'path';
-import { HashFunction } from '../bin';
-
-test('hash', t => {
-  t.pass();
-});
+import { HashFunction } from '../bin/bin';
 
 const testLength = 10000;
 
 const stringToCharsUint8Array = (str: string) =>
   new Uint8Array([...str].map(c => c.charCodeAt(0)));
 
-// fast-check helper
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
   fc
@@ -76,7 +71,7 @@ export const testHashFunction = <T extends HashFunction>(
       fcUint8Array(0, testLength),
       message => {
         t.deepEqual(
-          new Uint8Array(bcrypto[nodeJsAlgorithm](message)),
+          new Uint8Array(bcrypto[nodeJsAlgorithm](Buffer.from(message))),
           hashFunction.hash(message)
         );
       }

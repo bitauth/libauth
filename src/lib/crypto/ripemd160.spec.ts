@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-magic-numbers
-import { testHashFunction } from './hash.spec';
+import { testHashFunction } from './hash.spec.helper';
 import {
   getEmbeddedRipemd160Binary,
   instantiateRipemd160,

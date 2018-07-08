@@ -1,4 +1,4 @@
-import { decodeBase64String } from '..';
+import { decodeBase64String } from '../bin';
 import { secp256k1Base64Bytes } from './secp256k1.base64';
 
 // bitflags used in secp256k1's public API (translated from secp256k1.h)

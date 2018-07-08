@@ -3,7 +3,7 @@ import {
   HashFunction,
   instantiateRustWasm,
   ripemd160Base64Bytes
-} from '../bin';
+} from '../bin/bin';
 
 export interface Ripemd160 extends HashFunction {
   /**

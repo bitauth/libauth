@@ -4,11 +4,7 @@ import * as bcrypto from 'bcrypto';
 import suite from 'chuhai';
 import { createHash, randomBytes } from 'crypto';
 import * as hashJs from 'hash.js';
-import { HashFunction } from '../bin';
-
-test('bench: hash', t => {
-  t.pass();
-});
+import { HashFunction } from '../bin/bin';
 
 export const benchmarkHashingFunction = <T extends HashFunction>(
   hashFunctionName: string,
@@ -112,8 +108,9 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
 
   // tslint:disable:no-magic-numbers
   singlePassBench(32);
+  singlePassBench(100);
   singlePassBench(1000);
-  singlePassBench(100000);
+  singlePassBench(10000);
 
   incrementalBench(MB * 32, MB);
   // tslint:disable:no-magic-numbers

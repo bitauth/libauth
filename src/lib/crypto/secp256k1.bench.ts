@@ -23,8 +23,11 @@ const setup = async () => ({
 
 /**
  * Note: elliptic doesn't document an equivalent to verifySignatureDERLowS, so
- * these benchmarks slightly overestimates elliptic's performance in
- * applications where Low-S verification is required (i.e. Bitcoin).
+ * these benchmarks slightly overestimate elliptic's performance in applications
+ * where Low-S verification is required (i.e. Bitcoin).
+ *
+ * We also help secp256k1-node a bit by converting each of it's inputs into
+ * Node.js `Buffer` objects. So its performance here is a best case.
  */
 test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t => {
   const { ellipticEc, secp256k1 } = await setup();
@@ -33,11 +36,23 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t =>
     let pubkeyUncompressed: Uint8Array;
     let sigDER: Uint8Array;
     let result: boolean;
+    // tslint:disable-next-line:no-any
+    let ellipticPublicKey: any;
+    let nodeMessageHash: Buffer;
+    let nodePubkeyUncompressed: Buffer;
+    let nodeSigDER: Buffer;
     const nextCycle = () => {
       const privKey = getValidPrivateKey(secp256k1);
       messageHash = randomBytes(privKeyLength);
+      nodeMessageHash = Buffer.from(messageHash);
       pubkeyUncompressed = secp256k1.derivePublicKeyUncompressed(privKey);
+      nodePubkeyUncompressed = Buffer.from(pubkeyUncompressed);
+      ellipticPublicKey = ellipticEc.keyFromPublic(
+        nodePubkeyUncompressed.toString('hex'),
+        'hex'
+      );
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash);
+      nodeSigDER = Buffer.from(sigDER);
       result = false;
     };
     nextCycle();
@@ -50,14 +65,14 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t =>
     });
     s.bench('elliptic', () => {
       result = ellipticEc
-        .keyFromPublic(Buffer.from(pubkeyUncompressed).toString('hex'), 'hex')
+        .keyFromPublic(ellipticPublicKey)
         .verify(messageHash, sigDER);
     });
     s.bench('secp256k1-node', () => {
       result = secp256k1Node.verify(
-        messageHash,
-        secp256k1Node.signatureImport(sigDER),
-        pubkeyUncompressed
+        nodeMessageHash,
+        secp256k1Node.signatureImport(nodeSigDER),
+        nodePubkeyUncompressed
       );
     });
     s.cycle(() => {
@@ -74,11 +89,23 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
     let pubkeyCompressed: Uint8Array;
     let sigDER: Uint8Array;
     let result: boolean;
+    // tslint:disable-next-line:no-any
+    let ellipticPublicKey: any;
+    let nodeMessageHash: Buffer;
+    let nodePubkeyCompressed: Buffer;
+    let nodeSigDER: Buffer;
     const nextCycle = () => {
       const privKey = getValidPrivateKey(secp256k1);
       messageHash = randomBytes(privKeyLength);
+      nodeMessageHash = Buffer.from(messageHash);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(privKey);
+      nodePubkeyCompressed = Buffer.from(pubkeyCompressed);
+      ellipticPublicKey = ellipticEc.keyFromPublic(
+        nodePubkeyCompressed.toString('hex'),
+        'hex'
+      );
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash);
+      nodeSigDER = Buffer.from(sigDER);
       result = false;
     };
     nextCycle();
@@ -91,14 +118,14 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
     });
     s.bench('elliptic', () => {
       result = ellipticEc
-        .keyFromPublic(Buffer.from(pubkeyCompressed).toString('hex'), 'hex')
+        .keyFromPublic(ellipticPublicKey)
         .verify(messageHash, sigDER);
     });
     s.bench('secp256k1-node', () => {
       result = secp256k1Node.verify(
-        messageHash,
-        secp256k1Node.signatureImport(sigDER),
-        pubkeyCompressed
+        nodeMessageHash,
+        secp256k1Node.signatureImport(nodeSigDER),
+        Buffer.from(nodePubkeyCompressed)
       );
     });
     s.cycle(() => {
@@ -112,10 +139,12 @@ test('bench: secp256k1: derive compressed pubkey', async t => {
   const { ellipticEc, secp256k1 } = await setup();
   await suite(t.title, s => {
     let privKey: Uint8Array;
+    let nodePrivKey: Buffer;
     let pubkeyCompressedExpected: Uint8Array;
     let pubkeyCompressedBenchmark: Uint8Array;
     const nextCycle = () => {
       privKey = getValidPrivateKey(secp256k1);
+      nodePrivKey = Buffer.from(privKey);
       pubkeyCompressedExpected = secp256k1.derivePublicKeyCompressed(privKey);
     };
     nextCycle();
@@ -129,7 +158,10 @@ test('bench: secp256k1: derive compressed pubkey', async t => {
         .encodeCompressed();
     });
     s.bench('secp256k1-node', () => {
-      pubkeyCompressedBenchmark = secp256k1Node.publicKeyCreate(privKey, true);
+      pubkeyCompressedBenchmark = secp256k1Node.publicKeyCreate(
+        nodePrivKey,
+        true
+      );
     });
     s.cycle(() => {
       t.deepEqual(
@@ -145,12 +177,16 @@ test('bench: secp256k1: create DER Low-S signature', async t => {
   const { ellipticEc, secp256k1 } = await setup();
   await suite(t.title, s => {
     let privKey: Uint8Array;
+    let nodePrivKey: Buffer;
     let messageHash: Uint8Array;
+    let nodeMessageHash: Buffer;
     let sigDERExpected: Uint8Array;
     let sigDERBenchmark: Uint8Array;
     const nextCycle = () => {
       privKey = getValidPrivateKey(secp256k1);
+      nodePrivKey = Buffer.from(privKey);
       messageHash = randomBytes(privKeyLength);
+      nodeMessageHash = Buffer.from(messageHash);
       sigDERExpected = secp256k1.signMessageHashDER(privKey, messageHash);
     };
     nextCycle();
@@ -165,7 +201,7 @@ test('bench: secp256k1: create DER Low-S signature', async t => {
     });
     s.bench('secp256k1-node', () => {
       sigDERBenchmark = secp256k1Node.signatureExport(
-        secp256k1Node.sign(messageHash, privKey).signature
+        secp256k1Node.sign(nodeMessageHash, nodePrivKey).signature
       );
     });
     s.cycle(() => {

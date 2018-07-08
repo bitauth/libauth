@@ -119,7 +119,10 @@
   },
   "nyc": {
     "exclude": [
-      "**/*.spec.js"
+      "**/*.bench.js",
+      "**/*.spec.js",
+      "**/*.spec.helper.js",
+      "**/*.spec.debug.js"
     ]
   }
 }

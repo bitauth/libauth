@@ -1,4 +1,4 @@
-import { benchmarkHashingFunction } from './hash.bench';
+import { benchmarkHashingFunction } from './hash.bench.helper';
 import { instantiateRipemd160, Ripemd160 } from './ripemd160';
 
 // tslint:disable:no-expression-statement

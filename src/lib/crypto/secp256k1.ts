@@ -4,7 +4,7 @@ import {
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
   Secp256k1Wasm
-} from '../bin';
+} from '../bin/bin';
 
 /**
  * An object which exposes a set of purely-functional Secp256k1 methods.

@@ -63,8 +63,8 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<p><a href="https://www.npmjs.com/package/bitcoin-ts"><img src="https://img.shields.io/npm/v/bitcoin-ts.svg" alt="NPM version"></a>
-					<a href="https://codecov.io/gh/bitjson/bitcoin-ts"><img src="https://img.shields.io/codecov/c/github/bitjson/bitcoin-ts.svg" alt="Codecov"></a>
-					<a href="https://circleci.com/gh/bitjson/bitcoin-ts"><img src="https://img.shields.io/circleci/project/github/bitjson/bitcoin-ts.svg" alt="CircleCI"></a>
+					<a href="https://codecov.io/gh/bitjson/bitcoin-ts"><img src="https://img.shields.io/codecov/c/github/bitjson/bitcoin-ts/master.svg" alt="Codecov"></a>
+					<a href="https://circleci.com/gh/bitjson/bitcoin-ts"><img src="https://img.shields.io/circleci/project/github/bitjson/bitcoin-ts/master.svg" alt="CircleCI"></a>
 				<a href="https://github.com/bitjson/bitcoin-ts"><img src="https://img.shields.io/github/stars/bitjson/bitcoin-ts.svg?style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars"></a></p>
 				<h1 id="bitcoin-ts">bitcoin-ts</h1>
 				<p>A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin library.</p>
@@ -127,6 +127,11 @@ git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitj
 </code></pre><p>You can also run the benchmarks (this may take a while):</p>
 				<pre><code class="lang-sh">yarn bench
 </code></pre>
+				<p>During development, you may find it helpful to use one of the testing <code>watch</code> tasks:</p>
+				<pre><code class="lang-sh">yarn watch
+<span class="hljs-comment"># OR</span>
+yarn watch:no-crypto <span class="hljs-comment"># much faster</span>
+</code></pre>
 				<p>For more information about the available package scripts, run:</p>
 				<pre><code class="lang-sh">yarn run info
 </code></pre>
@@ -170,6 +175,9 @@ git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitj
 						<a href="interfaces/sha512.html" class="tsd-kind-icon">Sha512</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#bintohex" class="tsd-kind-icon">bin<wbr>ToHex</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#decodebase64string" class="tsd-kind-icon">decode<wbr>Base64<wbr>String</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
@@ -186,6 +194,9 @@ git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitj
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#getembeddedsha512binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha512<wbr>Binary</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#hextobin" class="tsd-kind-icon">hex<wbr>ToBin</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiateripemd160" class="tsd-kind-icon">instantiate<wbr>Ripemd160</a>
@@ -225,6 +236,12 @@ git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitj
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiatesha512bytes" class="tsd-kind-icon">instantiate<wbr>Sha512<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#range" class="tsd-kind-icon">range</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#splitevery" class="tsd-kind-icon">split<wbr>Every</a>
 					</li>
 				</ul>
 			</nav>

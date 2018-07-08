@@ -87,12 +87,14 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#bintohex" class="tsd-kind-icon">bin<wbr>ToHex</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#decodebase64string" class="tsd-kind-icon">decode<wbr>Base64<wbr>String</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#getembeddedripemd160binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Ripemd160<wbr>Binary</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#getembeddedsecp256k1binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Secp256k1<wbr>Binary</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#getembeddedsha1binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha1<wbr>Binary</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#getembeddedsha256binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha256<wbr>Binary</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#getembeddedsha512binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha512<wbr>Binary</a></li>
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#hextobin" class="tsd-kind-icon">hex<wbr>ToBin</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#instantiateripemd160" class="tsd-kind-icon">instantiate<wbr>Ripemd160</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#instantiateripemd160bytes" class="tsd-kind-icon">instantiate<wbr>Ripemd160<wbr>Bytes</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#instantiaterustwasm" class="tsd-kind-icon">instantiate<wbr>Rust<wbr>Wasm</a></li>
@@ -106,6 +108,8 @@
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#instantiatesha256bytes" class="tsd-kind-icon">instantiate<wbr>Sha256<wbr>Bytes</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#instantiatesha512" class="tsd-kind-icon">instantiate<wbr>Sha512</a></li>
 								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#instantiatesha512bytes" class="tsd-kind-icon">instantiate<wbr>Sha512<wbr>Bytes</a></li>
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#range" class="tsd-kind-icon">range</a></li>
+								<li class="tsd-kind-function tsd-is-external"><a href="globals.html#splitevery" class="tsd-kind-icon">split<wbr>Every</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,6 +117,40 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="bintohex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> bin<wbr>ToHex</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">bin<wbr>ToHex<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/utils.ts#L44">lib/utils.ts:44</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Encode a Uint8Array into a hexadecimal-encoded string.</p>
+								</div>
+								<p>E.g.: <code>binToHex(new Uint8Array([42, 100, 255]))</code> =&gt; <code>&#39;2a64ff&#39;</code></p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bytes: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>a Uint8Array to encode</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
 					<a name="decodebase64string" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> decode<wbr>Base64<wbr>String</h3>
@@ -123,7 +161,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/bin/base64.ts#L1">lib/bin/base64.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/bin/base64.ts#L1">lib/bin/base64.ts:1</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -146,7 +184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/ripemd160.ts#L84">lib/crypto/ripemd160.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/ripemd160.ts#L84">lib/crypto/ripemd160.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ArrayBuffer</span></h4>
@@ -163,7 +201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/bin/secp256k1/secp256k1Wasm.ts#L728">lib/bin/secp256k1/secp256k1Wasm.ts:728</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/bin/secp256k1/secp256k1Wasm.ts#L728">lib/bin/secp256k1/secp256k1Wasm.ts:728</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ArrayBuffer</span></h4>
@@ -180,7 +218,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha1.ts#L84">lib/crypto/sha1.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha1.ts#L84">lib/crypto/sha1.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ArrayBuffer</span></h4>
@@ -197,7 +235,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha256.ts#L84">lib/crypto/sha256.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha256.ts#L84">lib/crypto/sha256.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ArrayBuffer</span></h4>
@@ -214,10 +252,44 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha512.ts#L84">lib/crypto/sha512.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha512.ts#L84">lib/crypto/sha512.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ArrayBuffer</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="hextobin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> hex<wbr>ToBin</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">hex<wbr>ToBin<span class="tsd-signature-symbol">(</span>hex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/utils.ts#L32">lib/utils.ts:32</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decode a hexadecimal-encoded string into a Uint8Array.</p>
+								</div>
+								<p>E.g.: <code>hexToBin(&#39;2a64ff&#39;)</code> =&gt; <code>new Uint8Array([42, 100, 255])</code></p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hex: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>a string of hexadecimal-encoded data</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -231,7 +303,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/ripemd160.ts#L91">lib/crypto/ripemd160.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/ripemd160.ts#L91">lib/crypto/ripemd160.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -254,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/ripemd160.ts#L65">lib/crypto/ripemd160.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/ripemd160.ts#L65">lib/crypto/ripemd160.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/bin/hashes.ts#L13">lib/bin/hashes.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/bin/hashes.ts#L13">lib/bin/hashes.ts:13</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -333,7 +405,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/secp256k1.ts#L654">lib/crypto/secp256k1.ts:654</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L654">lib/crypto/secp256k1.ts:654</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -370,7 +442,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/secp256k1.ts#L636">lib/crypto/secp256k1.ts:636</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L636">lib/crypto/secp256k1.ts:636</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -433,7 +505,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/bin/secp256k1/secp256k1Wasm.ts#L735">lib/bin/secp256k1/secp256k1Wasm.ts:735</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/bin/secp256k1/secp256k1Wasm.ts#L735">lib/bin/secp256k1/secp256k1Wasm.ts:735</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -456,7 +528,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/bin/secp256k1/secp256k1Wasm.ts#L614">lib/bin/secp256k1/secp256k1Wasm.ts:614</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/bin/secp256k1/secp256k1Wasm.ts#L614">lib/bin/secp256k1/secp256k1Wasm.ts:614</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -493,7 +565,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha1.ts#L91">lib/crypto/sha1.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha1.ts#L91">lib/crypto/sha1.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -516,7 +588,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha1.ts#L65">lib/crypto/sha1.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha1.ts#L65">lib/crypto/sha1.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -550,7 +622,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha256.ts#L91">lib/crypto/sha256.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha256.ts#L91">lib/crypto/sha256.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -573,7 +645,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha256.ts#L65">lib/crypto/sha256.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha256.ts#L65">lib/crypto/sha256.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -607,7 +679,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha512.ts#L91">lib/crypto/sha512.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha512.ts#L91">lib/crypto/sha512.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -630,7 +702,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8a65224/src/lib/crypto/sha512.ts#L65">lib/crypto/sha512.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha512.ts#L65">lib/crypto/sha512.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -651,6 +723,80 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/sha512.html" class="tsd-signature-type">Sha512</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="range" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> range</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">(</span>length<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, begin<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/utils.ts#L9">lib/utils.ts:9</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns an array of incrementing values starting at <code>begin</code> and incrementing by one for <code>length</code>.</p>
+								</div>
+								<p>E.g.: <code>range(3)</code> =&gt; <code>[0, 1, 2]</code> and <code>range(3, 1)</code> =&gt; <code>[1, 2, 3]</code></p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>length: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>the number of elements in the array</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> begin: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>the index at which the range starts (default: <code>0</code>)</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+					<a name="splitevery" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> split<wbr>Every</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">split<wbr>Every<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, chunkLength<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/utils.ts#L17">lib/utils.ts:17</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Split a string into an array of <code>chunkLength</code> strings. The final string may have a length between 1 and <code>chunkLength</code>.</p>
+								</div>
+								<p>E.g.: <code>splitEvery(&#39;abcde&#39;, 2)</code> =&gt; <code>[&#39;ab&#39;, &#39;cd&#39;, &#39;e&#39;]</code></p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>input: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>chunkLength: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -694,6 +840,9 @@
 						<a href="interfaces/sha512.html" class="tsd-kind-icon">Sha512</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#bintohex" class="tsd-kind-icon">bin<wbr>ToHex</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#decodebase64string" class="tsd-kind-icon">decode<wbr>Base64<wbr>String</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
@@ -710,6 +859,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#getembeddedsha512binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha512<wbr>Binary</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#hextobin" class="tsd-kind-icon">hex<wbr>ToBin</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiateripemd160" class="tsd-kind-icon">instantiate<wbr>Ripemd160</a>
@@ -749,6 +901,12 @@
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#instantiatesha512bytes" class="tsd-kind-icon">instantiate<wbr>Sha512<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#range" class="tsd-kind-icon">range</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#splitevery" class="tsd-kind-icon">split<wbr>Every</a>
 					</li>
 				</ul>
 			</nav>

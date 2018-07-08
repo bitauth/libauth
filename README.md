@@ -96,6 +96,14 @@ You can also run the benchmarks (this may take a while):
 yarn bench
 ```
 
+During development, you may find it helpful to use one of the testing `watch` tasks:
+
+```sh
+yarn watch
+# OR
+yarn watch:no-crypto # much faster
+```
+
 For more information about the available package scripts, run:
 
 ```sh

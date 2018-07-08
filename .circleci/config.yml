@@ -22,6 +22,7 @@ jobs:
       - run: yarn test
       - run: npx nyc report --reporter=lcov | npx codecov
       - run: yarn run cov:check
+      - run: yarn run bench
   "node-latest":
     docker:
       - image: circleci/node:latest
@@ -42,6 +43,7 @@ jobs:
       - run: yarn test
       - run: npx nyc report --reporter=lcov | npx codecov
       - run: yarn run cov:check
+      - run: yarn run bench
 
 workflows:
   version: 2

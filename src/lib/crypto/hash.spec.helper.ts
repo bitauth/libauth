@@ -81,11 +81,11 @@ export const testHashFunction = <T extends HashFunction>(
       fcUint8Array(0, testLength),
       message => {
         t.deepEqual(
-          new Uint8Array(hashJs[nodeJsAlgorithm]()
-            .update(message)
-            // TODO: remove `as any` when this PR is merged: https://github.com/indutny/hash.js/pull/16
-            // tslint:disable-next-line:no-any
-            .digest() as any),
+          new Uint8Array(
+            hashJs[nodeJsAlgorithm]()
+              .update(message)
+              .digest()
+          ),
           hashFunction.hash(message)
         );
       }

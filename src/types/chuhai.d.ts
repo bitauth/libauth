@@ -1,5 +1,5 @@
-// used in benchmarks (TODO: finish typing, send PR to project)
 declare module 'chuhai' {
+  function suite(implementation: (s: Helper) => void): Promise<void>;
   function suite(
     name: string,
     implementation: (s: Helper) => void
@@ -9,6 +9,22 @@ declare module 'chuhai' {
 
 interface Helper {
   cycle: (implementation: () => void) => void;
-  bench: (name: string, implementation: () => void) => void;
+  bench: (
+    name: string,
+    implementation: Benchmark,
+    opts?: BenchmarkOptions
+  ) => void;
+  burn: (
+    name: string,
+    implementation: Benchmark,
+    opts?: BenchmarkOptions
+  ) => void;
   set: (key: string, value: any) => void;
+}
+
+type Benchmark = (deferred: { resolve: () => void }) => void;
+
+interface BenchmarkOptions {
+  async?: boolean;
+  defer?: boolean;
 }

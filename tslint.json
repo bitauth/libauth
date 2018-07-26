@@ -9,6 +9,7 @@
     "comment-format": [true, "check-lowercase", { "ignore-words": ["TODO"] }],
     "newline-before-return": false,
     "prefer-method-signature": false,
+    "strict-boolean-expressions": [true, "allow-undefined-union"],
 
     /* tslint-immutable rules */
     // recommended built-in rules

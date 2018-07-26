@@ -11,12 +11,12 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
   hashFunctionPromise: Promise<T>,
   nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
 ) => {
-  const singlePassBench = (inputLength: number) => {
-    test(`bench: ${hashFunctionName}: hash a ${inputLength}-byte input`, async t => {
+  const singlePassNodeBenchmark = (inputLength: number) => {
+    test(`node: ${hashFunctionName}: hash a ${inputLength}-byte input`, async t => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
-        let hash: Uint8Array;
+        let hash: Uint8Array | ReadonlyArray<number>;
         // we let Node.js use the message as a Node.js buffer
         // (may slightly overestimate Node.js native performance)
         let nodeJsBuffer: Buffer;
@@ -29,17 +29,15 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           hash = hashFunction.hash(message);
         });
         s.bench('hash.js', () => {
-          // TODO: remove `as any` when this PR is merged: https://github.com/indutny/hash.js/pull/16
           hash = hashJs[nodeJsAlgorithm]()
             .update(message)
-            // tslint:disable-next-line:no-any
-            .digest() as any;
+            .digest();
         });
         s.bench('bcoin', () => {
           // tslint:disable-next-line:no-unsafe-any
           hash = bcrypto[nodeJsAlgorithm](message);
         });
-        s.bench('Node.js native', () => {
+        s.bench('node.js native', () => {
           hash = createHash(nodeJsAlgorithm)
             .update(nodeJsBuffer)
             .digest();
@@ -52,17 +50,17 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
     });
   };
 
-  const MB = 1e6;
+  const MB = 1_000_000;
 
-  const incrementalBench = (totalInput: number, chunkSize: number) => {
-    test(`bench: ${hashFunctionName}: incrementally hash a ${totalInput /
+  const incrementalNodeBenchmark = (totalInput: number, chunkSize: number) => {
+    test(`node: ${hashFunctionName}: incrementally hash a ${totalInput /
       MB}MB input in ${chunkSize / MB}MB chunks`, async t => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
         let messageChunks: ReadonlyArray<Uint8Array>;
         let nodeJsChunks: ReadonlyArray<Buffer>;
-        let hash: Uint8Array;
+        let hash: Uint8Array | ReadonlyArray<number>;
         const nextCycle = () => {
           message = randomBytes(totalInput);
           const chunkCount = Math.ceil(message.length / chunkSize);
@@ -86,11 +84,9 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
               (state, chunk) => state.update(chunk),
               hashJs[nodeJsAlgorithm]()
             )
-            // TODO: remove `as any` when this PR is merged: https://github.com/indutny/hash.js/pull/16
-            // tslint:disable-next-line:no-any
-            .digest() as any;
+            .digest();
         });
-        s.bench('Node.js native', () => {
+        s.bench('node.js native', () => {
           hash = nodeJsChunks
             .reduce(
               (state, chunk) => state.update(chunk),
@@ -107,11 +103,11 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
   };
 
   // tslint:disable:no-magic-numbers
-  singlePassBench(32);
-  singlePassBench(100);
-  singlePassBench(1000);
-  singlePassBench(10000);
+  singlePassNodeBenchmark(32);
+  singlePassNodeBenchmark(100);
+  singlePassNodeBenchmark(1_000);
+  singlePassNodeBenchmark(10_000);
 
-  incrementalBench(MB * 32, MB);
+  incrementalNodeBenchmark(MB * 32, MB);
   // tslint:disable:no-magic-numbers
 };

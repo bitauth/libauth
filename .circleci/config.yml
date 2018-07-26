@@ -3,7 +3,7 @@ version: 2
 jobs:
   "node-8":
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:8-browsers
     working_directory: ~/bitcoin-ts
     steps:
       - checkout
@@ -25,7 +25,7 @@ jobs:
       - run: yarn run bench
   "node-latest":
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:latest-browsers
     working_directory: ~/bitcoin-ts
     steps:
       - checkout

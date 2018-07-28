@@ -3,7 +3,7 @@ version: 2
 jobs:
   "node-8":
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:8
     working_directory: ~/bitcoin-ts
     steps:
       - checkout
@@ -22,10 +22,9 @@ jobs:
       - run: yarn test
       - run: npx nyc report --reporter=lcov | npx codecov
       - run: yarn run cov:check
-      - run: yarn run bench
   "node-latest":
     docker:
-      - image: circleci/node:latest-browsers
+      - image: circleci/node:latest
     working_directory: ~/bitcoin-ts
     steps:
       - checkout
@@ -43,6 +42,23 @@ jobs:
       - run: yarn test
       - run: npx nyc report --reporter=lcov | npx codecov
       - run: yarn run cov:check
+  "benchmarks":
+    docker:
+      - image: circleci/node:latest-browsers
+    working_directory: ~/bitcoin-ts
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run: yarn run bench
 
 workflows:
@@ -51,3 +67,4 @@ workflows:
     jobs:
       - "node-8"
       - "node-latest"
+      - "benchmarks"

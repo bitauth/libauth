@@ -113,7 +113,7 @@ const incrementalBrowserBenchmark = async (
         nextCycle();
       });
 
-      s.bench('node: bitcoin-ts', () => {
+      s.bench('bitcoin-ts', () => {
         hash = hashFunction.final(
           messageChunks.reduce(
             (state, chunk) => hashFunction.update(state, chunk),
@@ -122,7 +122,7 @@ const incrementalBrowserBenchmark = async (
         );
       });
 
-      s.bench('node: hash.js', () => {
+      s.bench('hash.js', () => {
         hash = messageChunks
           .reduce(
             (state, chunk) => state.update(chunk),

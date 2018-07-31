@@ -1,4 +1,5 @@
-// tslint:disable:no-expression-statement no-let
+// tslint:disable:no-expression-statement no-let no-unsafe-any
+import * as asmCrypto from 'asmcrypto.js';
 import { test } from 'ava';
 import * as bcrypto from 'bcrypto';
 import suite from 'chuhai';
@@ -16,7 +17,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
-        let hash: Uint8Array | ReadonlyArray<number>;
+        let hash: Uint8Array | ReadonlyArray<number> | null;
         // we let Node.js use the message as a Node.js buffer
         // (may slightly overestimate Node.js native performance)
         let nodeJsBuffer: Buffer;
@@ -34,7 +35,6 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             .digest();
         });
         s.bench('bcoin', () => {
-          // tslint:disable-next-line:no-unsafe-any
           hash = bcrypto[nodeJsAlgorithm](message);
         });
         s.bench('node.js native', () => {
@@ -42,9 +42,29 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             .update(nodeJsBuffer)
             .digest();
         });
+        // tslint:disable-next-line:no-if-statement
+        if (nodeJsAlgorithm !== 'ripemd160') {
+          const algorithm =
+            nodeJsAlgorithm === 'sha1'
+              ? asmCrypto.Sha1
+              : nodeJsAlgorithm === 'sha256'
+                ? asmCrypto.Sha256
+                : asmCrypto.Sha512;
+          s.bench('asmcrypto.js', () => {
+            const instance = new algorithm();
+            hash = instance.process(message).finish().result;
+          });
+        }
         s.cycle(() => {
-          t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
-          nextCycle();
+          // tslint:disable-next-line:no-if-statement
+          if (hash === null) {
+            t.fail(
+              `asmcrypto.js failed to produce a hash for message: ${message}`
+            );
+          } else {
+            t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
+            nextCycle();
+          }
         });
       });
     });
@@ -60,7 +80,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
         let message: Uint8Array;
         let messageChunks: ReadonlyArray<Uint8Array>;
         let nodeJsChunks: ReadonlyArray<Buffer>;
-        let hash: Uint8Array | ReadonlyArray<number>;
+        let hash: Uint8Array | ReadonlyArray<number> | null;
         const nextCycle = () => {
           message = randomBytes(totalInput);
           const chunkCount = Math.ceil(message.length / chunkSize);
@@ -94,9 +114,29 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             )
             .digest();
         });
+        // tslint:disable-next-line:no-if-statement
+        if (nodeJsAlgorithm !== 'ripemd160') {
+          const algorithm =
+            nodeJsAlgorithm === 'sha1'
+              ? asmCrypto.Sha1
+              : nodeJsAlgorithm === 'sha256'
+                ? asmCrypto.Sha256
+                : asmCrypto.Sha512;
+          s.bench('asmcrypto.js', () => {
+            const instance = new algorithm();
+            hash = instance.process(message).finish().result;
+          });
+        }
         s.cycle(() => {
-          t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
-          nextCycle();
+          // tslint:disable-next-line:no-if-statement
+          if (hash === null) {
+            t.fail(
+              `asmcrypto.js failed to produce a hash for message: ${message}`
+            );
+          } else {
+            t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
+            nextCycle();
+          }
         });
       });
     });

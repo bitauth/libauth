@@ -5,6 +5,7 @@ import { launch } from 'puppeteer';
 import { rollup } from 'rollup';
 import alias from 'rollup-plugin-alias';
 import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
 
 const prepareCode = async () => {
   // tslint:disable-next-line:no-unbound-method
@@ -25,7 +26,8 @@ const prepareCode = async () => {
         chuhai: './../../../bench/chuhai.js',
         'hash.js': './../../../bench/hash.js'
       }),
-      commonjs()
+      commonjs(),
+      nodeResolve()
     ]
   });
   // tslint:disable-next-line:no-object-mutation
@@ -59,14 +61,17 @@ const preparePage = async () => {
       console.log(msg.text());
     });
     page.on('error', err => {
-      t.log(`error: ${err}`);
+      // tslint:disable-next-line:no-console
+      console.error(`error: ${err}`);
     });
     page.on('pageerror', err => {
-      t.log(`pageerror: ${err}`);
+      // tslint:disable-next-line:no-console
+      console.error(`pageerror: ${err}`);
     });
     await new Promise<void>(async resolve => {
       await page.exposeFunction('benchError', (error: string) => {
-        t.log(error);
+        // tslint:disable-next-line:no-console
+        console.error(error);
       });
       await page.exposeFunction('benchComplete', async () => {
         // tslint:disable-next-line:no-console

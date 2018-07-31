@@ -1,4 +1,5 @@
-// tslint:disable:no-expression-statement
+// tslint:disable:no-expression-statement no-unsafe-any
+import * as asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
 import * as hashJs from 'hash.js';
 import { HashFunction } from '../bin/bin';
@@ -14,7 +15,6 @@ declare const benchComplete: () => void;
 
 // tslint:disable-next-line:no-any
 const isUint8Array = (array: any) =>
-  // tslint:disable-next-line:no-unsafe-any
   array && array.constructor.name === 'Uint8Array';
 
 const compare = (a?: Uint8Array, b?: Uint8Array) => {
@@ -42,10 +42,17 @@ const singlePassBrowserBenchmark = async (
   suite(`browser: ${hashFunctionName}: hash a ${inputLength}-byte input`, s => {
     // tslint:disable:no-let prefer-const
     let message = randomBytes(inputLength);
-    let hash: Uint8Array;
+    let hash: Uint8Array | null;
 
     s.cycle(() => {
-      compare(hash, hashFunction.hash(message));
+      // tslint:disable-next-line:no-if-statement strict-boolean-expressions
+      if (hash) {
+        compare(hash, hashFunction.hash(message));
+      } else {
+        benchError(
+          `asmcrypto.js produced a null result given message: ${message}`
+        );
+      }
       message = randomBytes(inputLength);
     });
 
@@ -77,6 +84,16 @@ const singlePassBrowserBenchmark = async (
           defer: true
         }
       );
+      const algorithm =
+        subtleCryptoAlgorithmName === 'SHA-1'
+          ? asmCrypto.Sha1
+          : subtleCryptoAlgorithmName === 'SHA-256'
+            ? asmCrypto.Sha256
+            : asmCrypto.Sha512;
+      s.bench('asmcrypto.js', () => {
+        const instance = new algorithm();
+        hash = instance.process(message).finish().result;
+      });
     }
   });
 
@@ -94,7 +111,7 @@ const incrementalBrowserBenchmark = async (
     s => {
       let message: Uint8Array;
       let messageChunks: ReadonlyArray<Uint8Array>;
-      let hash: Uint8Array | ArrayBuffer | ReadonlyArray<number>;
+      let hash: Uint8Array | ArrayBuffer | ReadonlyArray<number> | null;
 
       const nextCycle = () => {
         /**
@@ -109,7 +126,14 @@ const incrementalBrowserBenchmark = async (
       nextCycle();
 
       s.cycle(() => {
-        compare(new Uint8Array(hash), hashFunction.hash(message));
+        // tslint:disable-next-line:no-if-statement strict-boolean-expressions
+        if (hash) {
+          compare(new Uint8Array(hash), hashFunction.hash(message));
+        } else {
+          benchError(
+            `asmcrypto.js produced a null result given message: ${message}`
+          );
+        }
         nextCycle();
       });
 
@@ -130,6 +154,20 @@ const incrementalBrowserBenchmark = async (
           )
           .digest();
       });
+
+      // tslint:disable-next-line:no-if-statement
+      if (hashFunctionName !== 'ripemd160') {
+        const algorithm =
+          hashFunctionName === 'sha1'
+            ? asmCrypto.Sha1
+            : hashFunctionName === 'sha256'
+              ? asmCrypto.Sha256
+              : asmCrypto.Sha512;
+        s.bench('asmcrypto.js', () => {
+          const instance = new algorithm();
+          hash = instance.process(message).finish().result;
+        });
+      }
     }
   );
 

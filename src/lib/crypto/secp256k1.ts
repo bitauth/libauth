@@ -6,9 +6,9 @@ import {
   Secp256k1Wasm
 } from '../bin/bin';
 
-interface RecoverableSignature {
-  readonly signature: Uint8Array;
+export interface RecoverableSignature {
   readonly recovery: number;
+  readonly signature: Uint8Array;
 }
 
 /**
@@ -106,7 +106,7 @@ export interface Secp256k1 {
    * form, max 72 bytes
    */
   readonly normalizeSignatureCompact: (signature: Uint8Array) => Uint8Array;
-
+  
   /**
    * Normalize a DER-encoded ECDSA signature to lower-S form.
    *
@@ -117,6 +117,40 @@ export interface Secp256k1 {
    */
   readonly normalizeSignatureDER: (signature: Uint8Array) => Uint8Array;
 
+  /**
+   * Compute a compressed public key from a valid signature, recovery number,
+   * and the `messageHash` used to generate them.
+   *
+   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   *
+   * @param signature an ECDSA signature in compact format.
+   * @param recovery the recovery number.
+   * @param messageHash the hash used to generate the signature and recovery
+   * number
+   */
+  readonly recoverPublicKeyCompressed:(
+    signature: Uint8Array,
+	recovery: number,
+	messageHash: Uint8Array
+  ) => Uint8Array;
+  
+  /**
+   * Compute an uncompressed public key from a valid signature, recovery
+   * number, and the `messageHash` used to generate them.
+   *
+   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   *
+   * @param signature an ECDSA signature in compact format.
+   * @param recovery the recovery number.
+   * @param messageHash the hash used to generate the signature and recovery
+   * number
+   */
+  readonly recoverPublicKeyUncompressed:(
+    signature: Uint8Array,
+	recovery: number,
+	messageHash: Uint8Array
+  ) => Uint8Array;
+  
   /**
    * Convert a compact-encoded ECDSA signature to DER encoding.
    *
@@ -162,7 +196,24 @@ export interface Secp256k1 {
     privateKey: Uint8Array,
     messageHash: Uint8Array
   ) => Uint8Array;
-
+  
+  /**
+   * Create an ECDSA signature in compact format. The created signature is
+   * always in lower-S form and follows RFC 6979.
+   * 
+   * Also returns a recovery number for use in the `recoverPublicKey*`
+   * functions
+   *
+   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   *
+   * @param privateKey a valid secp256k1 private key
+   * @param messageHash the 32-byte message hash to be signed
+   */
+  readonly signMessageHashRecoverableCompact: (
+    privateKey: Uint8Array,
+    messageHash: Uint8Array
+  ) => RecoverableSignature;
+  
   /**
    * Uncompress a valid ECDSA public key. Returns a public key in uncompressed
    * format (65 bytes, header byte 0x04).
@@ -250,58 +301,6 @@ export interface Secp256k1 {
     publicKey: Uint8Array,
     messageHash: Uint8Array
   ) => boolean;
-  
-  
-  /**
-   * Create an ECDSA signature in compact format. The created signature is
-   * always in lower-S form and follows RFC 6979.
-   * 
-   * Also returns a recovery number for use in the `recoverPublicKey*`
-   * functions
-   *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
-   *
-   * @param privateKey a valid secp256k1 private key
-   * @param messageHash the 32-byte message hash to be signed
-   */
-  readonly signMessageHashRecoverableCompact: (
-    privateKey: Uint8Array,
-    messageHash: Uint8Array
-  ) => RecoverableSignature;
-  
-  /**
-   * Compute a compressed public key from a valid signature, recovery number,
-   * and the `messageHash` used to generate them.
-   *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
-   *
-   * @param signature an ECDSA signature in compact format.
-   * @param recovery the recovery number.
-   * @param messageHash the hash used to generate the signature and recovery
-   * number
-   */
-  readonly recoverPublicKeyCompressed:(
-    signature: Uint8Array,
-	recovery: number,
-	messageHash: Uint8Array
-  ) => Uint8Array;
-  
-  /**
-   * Compute an uncompressed public key from a valid signature, recovery
-   * number, and the `messageHash` used to generate them.
-   *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
-   *
-   * @param signature an ECDSA signature in compact format.
-   * @param recovery the recovery number.
-   * @param messageHash the hash used to generate the signature and recovery
-   * number
-   */
-  readonly recoverPublicKeyUncompressed:(
-    signature: Uint8Array,
-	recovery: number,
-	messageHash: Uint8Array
-  ) => Uint8Array;
 }
 
 /**
@@ -355,9 +354,11 @@ const wrapSecp256k1Wasm = (
   // tslint:disable-next-line:no-bitwise no-magic-numbers
   const recoveryNumPtrView32 = recoveryNumPtr >> 2;
   
+  /*
   const setRecoveryNumPtr = (value) => {
     secp256k1Wasm.heapU32.set([value], recoveryNumPtrView32);
   };
+  */
   const getRecoveryNumPtr = () => secp256k1Wasm.heapU32[recoveryNumPtrView32];
   
   // tslint:disable-next-line:no-magic-numbers
@@ -625,13 +626,20 @@ const wrapSecp256k1Wasm = (
         throw new Error('Failed to sign message hash. The private key is not valid.');
       }
       secp256k1Wasm.recoverableSignatureSerialize(contextPtr,sigScratch,recoveryNumPtr,internalRSigPtr);
+	  // tslint:disable-next-line:no-object-literal-type-assertion no-angle-bracket-type-assertion
       return <RecoverableSignature>{
-        signature: secp256k1Wasm.readHeapU8(sigScratch, compactSigLength).slice(),
-        recovery: getRecoveryNumPtr()
+	    recovery: getRecoveryNumPtr(),
+        signature: secp256k1Wasm.readHeapU8(sigScratch, compactSigLength).slice()
       }
     });
   }
-  const recoverPublicKey = (compressed:boolean): => (signature: Uint8Array, recovery: number, messageHash: Uint8Array) => {
+  const recoverPublicKey = (
+    compressed: boolean
+  ): ((signature: Uint8Array, recovery: number, messageHash: Uint8Array) => Uint8Array) => (
+    signature,
+	recovery,
+    messageHash
+  ) => {
     fillMessageHashScratch(messageHash);
     secp256k1Wasm.heapU8.set(signature, sigScratch);
     if (secp256k1Wasm.recoverableSignatureParse(contextPtr, internalRSigPtr, sigScratch, recovery) !== 1) {
@@ -678,8 +686,11 @@ const wrapSecp256k1Wasm = (
     malleateSignatureDER: modifySignature(true, false),
     normalizeSignatureCompact: modifySignature(false, true),
     normalizeSignatureDER: modifySignature(true, true),
+    recoverPublicKeyCompressed: recoverPublicKey(true),
+    recoverPublicKeyUncompressed: recoverPublicKey(false),
     signMessageHashCompact: signMessageHash(false),
     signMessageHashDER: signMessageHash(true),
+    signMessageHashRecoverableCompact: signMessageHashRecoverable,
     signatureCompactToDER: convertSignature(false),
     signatureDERToCompact: convertSignature(true),
     uncompressPublicKey: convertPublicKey(false),
@@ -691,10 +702,7 @@ const wrapSecp256k1Wasm = (
     verifySignatureCompact: verifySignature(false, true),
     verifySignatureCompactLowS: verifySignature(false, false),
     verifySignatureDER: verifySignature(true, true),
-    verifySignatureDERLowS: verifySignature(true, false),
-    signMessageHashRecoverableCompact: signMessageHashRecoverable,
-    recoverPublicKeyCompressed: recoverPublicKey(true),
-    recoverPublicKeyUncompressed: recoverPublicKey(false)
+    verifySignatureDERLowS: verifySignature(true, false)
   };
   // tslint:enable:no-expression-statement no-if-statement
 };

@@ -238,7 +238,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyPtr: number,
     rSigPtr: number,
-	msg32Ptr: number
+    msg32Ptr: number
   ) => 1 | 0;
   
   /**
@@ -263,7 +263,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     outputRSigPtr: number,
     inputSigPtr: number,
-	rid: number
+    rid: number
   ) => 1 | 0;
   
   /**
@@ -282,7 +282,7 @@ export interface Secp256k1Wasm {
   readonly recoverableSignatureSerialize: (
     contextPtr: number,
     sigOutPtr: number,
-	recIDOutPtr: number,
+    recIDOutPtr: number,
     rSigPtr: number
   ) => 1;
   
@@ -606,25 +606,25 @@ const wrapSecp256k1Wasm = (
   },
   recover: (contextPtr, ouputPubkeyPointer, rSigPtr, msg32Ptr) =>
     instance.exports._secp256k1_ecdsa_recover(
-	  contextPtr,
-	  ouputPubkeyPointer,
-	  rSigPtr,
-	  msg32Ptr
-	),
+      contextPtr,
+      ouputPubkeyPointer,
+      rSigPtr,
+      msg32Ptr
+    ),
   recoverableSignatureParse: (contextPtr, outputRSigPtr, inputSigPtr, rid) =>
     instance.exports._secp256k1_ecdsa_recoverable_signature_parse_compact(
-	  contextPtr,
-	  outputRSigPtr,
-	  inputSigPtr,
-	  rid
-	),
+      contextPtr,
+      outputRSigPtr,
+      inputSigPtr,
+      rid
+    ),
   recoverableSignatureSerialize: (contextPtr, sigOutPtr, recIDOutPtr, rSigPtr) =>
     instance.exports._secp256k1_ecdsa_recoverable_signature_serialize_compact(
-	  contextPtr,
-	  sigOutPtr,
-	  recIDOutPtr,
-	  rSigPtr
-	),
+      contextPtr,
+      sigOutPtr,
+      recIDOutPtr,
+      rSigPtr
+    ),
   seckeyVerify: (contextPtr, secretKeyPtr) =>
     instance.exports._secp256k1_ec_seckey_verify(contextPtr, secretKeyPtr),
   sign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
@@ -636,11 +636,11 @@ const wrapSecp256k1Wasm = (
     ),
   signRecoverable: (contextPtr, outputRSigPtr, msg32Ptr, secretKeyPtr) =>
     instance.exports._secp256k1_ecdsa_sign_recoverable(
-	  contextPtr,
-	  outputRSigPtr,
-	  msg32Ptr,
-	  secretKeyPtr
-	),
+      contextPtr,
+      outputRSigPtr,
+      msg32Ptr,
+      secretKeyPtr
+    ),
   signatureMalleate: (contextPtr, outputSigPtr, inputSigPtr) =>
     instance.exports._secp256k1_ecdsa_signature_malleate(
       contextPtr,

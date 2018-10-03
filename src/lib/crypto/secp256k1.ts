@@ -130,8 +130,8 @@ export interface Secp256k1 {
    */
   readonly recoverPublicKeyCompressed:(
     signature: Uint8Array,
-	recovery: number,
-	messageHash: Uint8Array
+    recovery: number,
+    messageHash: Uint8Array
   ) => Uint8Array;
   
   /**
@@ -147,8 +147,8 @@ export interface Secp256k1 {
    */
   readonly recoverPublicKeyUncompressed:(
     signature: Uint8Array,
-	recovery: number,
-	messageHash: Uint8Array
+    recovery: number,
+    messageHash: Uint8Array
   ) => Uint8Array;
   
   /**
@@ -626,9 +626,9 @@ const wrapSecp256k1Wasm = (
         throw new Error('Failed to sign message hash. The private key is not valid.');
       }
       secp256k1Wasm.recoverableSignatureSerialize(contextPtr,sigScratch,recoveryNumPtr,internalRSigPtr);
-	  // tslint:disable-next-line:no-object-literal-type-assertion no-angle-bracket-type-assertion
+      // tslint:disable-next-line:no-object-literal-type-assertion no-angle-bracket-type-assertion
       return <RecoverableSignature>{
-	    recovery: getRecoveryNumPtr(),
+        recovery: getRecoveryNumPtr(),
         signature: secp256k1Wasm.readHeapU8(sigScratch, compactSigLength).slice()
       }
     });
@@ -637,7 +637,7 @@ const wrapSecp256k1Wasm = (
     compressed: boolean
   ): ((signature: Uint8Array, recovery: number, messageHash: Uint8Array) => Uint8Array) => (
     signature,
-	recovery,
+    recovery,
     messageHash
   ) => {
     fillMessageHashScratch(messageHash);

@@ -369,12 +369,12 @@ test('secp256k1.recoverPublicKeyCompressed', async t => {
     fcUint8Array32(),
     (privateKey, hash) => {
       const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(privateKey, hash);
-	  t.deepEqual(
-		secp256k1.recoverPublicKeyCompressed(recoverableStuff.signature,recoverableStuff.recovery,hash),
-		new Uint8Array(
-		  secp256k1Node.recover(Buffer.from(hash), Buffer.from(recoverableStuff.signature), recoverableStuff.recovery, true)
-		)
-	  )
+      t.deepEqual(
+        secp256k1.recoverPublicKeyCompressed(recoverableStuff.signature,recoverableStuff.recovery,hash),
+        new Uint8Array(
+          secp256k1Node.recover(Buffer.from(hash), Buffer.from(recoverableStuff.signature), recoverableStuff.recovery, true)
+        )
+      )
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
@@ -395,12 +395,12 @@ test('secp256k1.recoverPublicKeyUncompressed', async t => {
     fcUint8Array32(),
     (privateKey, hash) => {
       const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(privateKey, hash);
-	  t.deepEqual(
-		secp256k1.recoverPublicKeyUncompressed(recoverableStuff.signature,recoverableStuff.recovery,hash),
-		new Uint8Array(
-		  secp256k1Node.recover(Buffer.from(hash), Buffer.from(recoverableStuff.signature), recoverableStuff.recovery, false)
-		)
-	  )
+      t.deepEqual(
+        secp256k1.recoverPublicKeyUncompressed(recoverableStuff.signature,recoverableStuff.recovery,hash),
+        new Uint8Array(
+          secp256k1Node.recover(Buffer.from(hash), Buffer.from(recoverableStuff.signature), recoverableStuff.recovery, false)
+        )
+      )
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
@@ -501,9 +501,9 @@ test('secp256k1.signMessageHashRecoverableCompact', async t => {
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
     (privateKey, hash) => {
-	  const nodeRecoverableStuff = secp256k1Node.sign(Buffer.from(hash),Buffer.from(privateKey));
-	  //tslint:disable-next-line:no-object-mutation
-	  nodeRecoverableStuff.signature = new Uint8Array(nodeRecoverableStuff.signature);
+      const nodeRecoverableStuff = secp256k1Node.sign(Buffer.from(hash),Buffer.from(privateKey));
+      //tslint:disable-next-line:no-object-mutation
+      nodeRecoverableStuff.signature = new Uint8Array(nodeRecoverableStuff.signature);
       t.deepEqual(secp256k1.signMessageHashRecoverableCompact(privateKey, hash),nodeRecoverableStuff);
     }
   );

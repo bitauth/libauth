@@ -228,8 +228,8 @@ const testSecp256k1Wasm = (
   secp256k1Wasm.recoverableSignatureSerialize(
     contextPtr,
     compactRSigPtr,
-	rIDPtr,
-	rawRSigPtr
+    rIDPtr,
+    rawRSigPtr
   );
   const compactRSig = secp256k1Wasm.readHeapU8(compactRSigPtr, 64);
   const rID = secp256k1Wasm.heapU32[rIDPtr >> 2];

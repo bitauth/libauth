@@ -215,6 +215,43 @@ const testSecp256k1Wasm = (
     ),
     1
   );
+  
+  // Recovery signature
+  const rawRSigPtr = secp256k1Wasm.malloc(65);
+  t.is(secp256k1Wasm.signRecoverable(contextPtr, rawRSigPtr, sigHashPtr, privkeyPtr),1);
+  
+  // The r and s portions of the signature should match that of a non-recoverable signature
+  const rIDPtr = secp256k1Wasm.malloc(4);
+  secp256k1Wasm.recoverableSignatureSerialize(
+    contextPtr,
+    compactSigPtr,
+	rawRSigPtr,
+    rIDPtr
+  );
+  const compactSig = secp256k1Wasm.readHeapU8(compactSigPtr, 64);
+  const rID = secp256k1Wasm.heapU32[rIDPtr >> 2];
+  t.deepEqual(compactSig, sigCompact);
+  t.is(rID,1);
+  
+  // Re-parsing the signature should produce the same internal format.
+  const rawRSig2Ptr = secp256k1Wasm.malloc(65);
+  t.is(secp256k1Wasm.recoverableSignatureParse(contextPtr, rawRSig2Ptr, compactSigPtr, rID),1);
+  t.deepEqual(secp256k1Wasm.readHeapU8(rawRSigPtr, 65), secp256k1Wasm.readHeapU8(rawRSig2Ptr, 65));
+  
+  // The recovered public key should match the derived public key
+  const recoveredPublicKeyPtr = secp256k1Wasm.malloc(65);
+  const recoveredPublicKeyCompressedPtr = secp256k1Wasm.malloc(33);
+  
+  t.is(secp256k1Wasm.recover(contextPtr, recoveredPublicKeyPtr, rawRSigPtr, sigHashPtr),1);
+  
+  secp256k1Wasm.pubkeySerialize(
+    contextPtr,
+    recoveredPublicKeyCompressedPtr,
+    33,
+    recoveredPublicKeyPtr,
+    CompressionFlag.COMPRESSED
+  );
+  t.deepEqual(pubkeyCompressed, secp256k1Wasm.readHeapU8(recoveredPublicKeyCompressedPtr, 33);
 };
 
 const binary = getEmbeddedSecp256k1Binary();

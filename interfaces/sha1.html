@@ -102,7 +102,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#final">final</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha1.ts#L16">lib/crypto/sha1.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha1.ts#L16">lib/crypto/sha1.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -145,7 +145,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#hash">hash</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha1.ts#L26">lib/crypto/sha1.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha1.ts#L26">lib/crypto/sha1.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -189,7 +189,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#init">init</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha1.ts#L42">lib/crypto/sha1.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha1.ts#L42">lib/crypto/sha1.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -199,11 +199,10 @@
 						<p>The returned raw state can be provided to <code>update</code> with additional input to
 						advance the computation.</p>
 						<h2 id="example">Example</h2>
-						<pre><code class="lang-ts"><span class="hljs-keyword">const</span> state1 = sha1.init();
+						<pre><code class="language-ts"><span class="hljs-keyword">const</span> state1 = sha1.init();
 <span class="hljs-keyword">const</span> state2 = sha1.update(state1, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]));
 <span class="hljs-keyword">const</span> state3 = sha1.update(state2, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>([<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]));
-<span class="hljs-keyword">const</span> hash = sha1.final(state3);
-</code></pre>
+<span class="hljs-keyword">const</span> hash = sha1.final(state3);</code></pre>
 					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
@@ -228,7 +227,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#update">update</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/sha1.ts#L56">lib/crypto/sha1.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha1.ts#L56">lib/crypto/sha1.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -295,6 +294,9 @@
 						<a href="hashfunction.html" class="tsd-kind-icon">Hash<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="recoverablesignature.html" class="tsd-kind-icon">Recoverable<wbr>Signature</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="ripemd160.html" class="tsd-kind-icon">Ripemd160</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
@@ -329,6 +331,9 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="sha512.html" class="tsd-kind-icon">Sha512</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="../globals.html#recoveryid" class="tsd-kind-icon">Recovery<wbr>Id</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="../globals.html#bintohex" class="tsd-kind-icon">bin<wbr>ToHex</a>

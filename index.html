@@ -65,7 +65,7 @@
 				<p><a href="https://www.npmjs.com/package/bitcoin-ts"><img src="https://img.shields.io/npm/v/bitcoin-ts.svg" alt="NPM version"></a>
 					<a href="https://codecov.io/gh/bitjson/bitcoin-ts"><img src="https://img.shields.io/codecov/c/github/bitjson/bitcoin-ts/master.svg" alt="Codecov"></a>
 					<a href="https://circleci.com/gh/bitjson/bitcoin-ts"><img src="https://img.shields.io/circleci/project/github/bitjson/bitcoin-ts/master.svg" alt="CircleCI"></a>
-				<a href="https://github.com/bitjson/bitcoin-ts"><img src="https://img.shields.io/github/stars/bitjson/bitcoin-ts.svg?style=social&amp;logo=github&amp;label=Stars" alt="GitHub stars"></a></p>
+				<a href="https://github.com/bitjson/bitcoin-ts"><img src="https://img.shields.io/github/stars/bitjson/bitcoin-ts.svg?style=social&logo=github&label=Stars" alt="GitHub stars"></a></p>
 				<h1 id="bitcoin-ts">bitcoin-ts</h1>
 				<p>A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin library.</p>
 				<h2 id="work-in-progress">Work in Progress</h2>
@@ -81,12 +81,11 @@
 				<p>Please see the <a href=".github/CONTRIBUTING.md">Design Guidelines</a> for more info.</p>
 				<h2 id="usage">Usage</h2>
 				<p>To use, simply install <code>bitcoin-ts</code>:</p>
-				<pre><code class="lang-sh">npm install bitcoin-ts
+				<pre><code class="language-sh">npm install bitcoin-ts
 <span class="hljs-comment"># OR</span>
-yarn add bitcoin-ts
-</code></pre>
+yarn add bitcoin-ts</code></pre>
 				<p>And import the functionality you need:</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">'bitcoin-ts'</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">'bitcoin-ts'</span>;
 <span class="hljs-keyword">import</span> { msgHash, pubkey, sig } <span class="hljs-keyword">from</span> <span class="hljs-string">'./somewhere'</span>;
 
 <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
@@ -94,8 +93,7 @@ yarn add bitcoin-ts
   secp256k1.verifySignatureDERLowS(<span class="hljs-params">sig, pubkey, msgHash</span>)
     ? <span class="hljs-built_in">console</span>.log(<span class="hljs-params">'🚀 Signature valid'</span>)
     : <span class="hljs-built_in">console</span>.log(<span class="hljs-params">'❌ Signature invalid'</span>);
-}</span>)<span class="hljs-params">()</span>;</span>
-</code></pre>
+}</span>)<span class="hljs-params">()</span>;</span></code></pre>
 				<h2 id="documentation">Documentation</h2>
 				<p><a href="https://bitjson.github.io/bitcoin-ts/"><strong>API Documentation →</strong></a></p>
 				<h3 id="ecdsa">ECDSA</h3>
@@ -117,24 +115,18 @@ yarn add bitcoin-ts
 				<h2 id="contributing">Contributing</h2>
 				<p>Pull Requests welcome! Please see <a href=".github/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> for details.</p>
 				<p>This library requires <a href="https://yarnpkg.com/">Yarn</a> for development. If you don&#39;t have Yarn, make sure you have <code>Node.js</code> installed (which ships with <code>npm</code>), then run <code>npm install -g yarn</code>. Once Yarn is installed:</p>
-				<pre><code class="lang-sh"><span class="hljs-comment"># use --recursive to clone the secp256k1 submodule</span>
-git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitjson/bitcoin-ts.git &amp;&amp; <span class="hljs-built_in">cd</span> bitcoin-ts
-</code></pre>
+				<pre><code class="language-sh"><span class="hljs-comment"># use --recursive to clone the secp256k1 submodule</span>
+git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitjson/bitcoin-ts.git &amp;&amp; <span class="hljs-built_in">cd</span> bitcoin-ts</code></pre>
 				<p>Install the development dependencies:</p>
-				<pre><code><span class="hljs-attribute">yarn</span>
-</code></pre><p>Then try running the test suite:</p>
-				<pre><code>yarn <span class="hljs-built_in">test</span>
-</code></pre><p>You can also run the benchmarks (this may take a while):</p>
-				<pre><code class="lang-sh">yarn bench
-</code></pre>
+				<pre><code><span class="hljs-attribute">yarn</span></code></pre><p>Then try running the test suite:</p>
+				<pre><code>yarn <span class="hljs-built_in">test</span></code></pre><p>You can also run the benchmarks (this may take a while):</p>
+				<pre><code class="language-sh">yarn bench</code></pre>
 				<p>During development, you may find it helpful to use one of the testing <code>watch</code> tasks:</p>
-				<pre><code class="lang-sh">yarn watch
+				<pre><code class="language-sh">yarn watch
 <span class="hljs-comment"># OR</span>
-yarn watch:no-crypto <span class="hljs-comment"># much faster</span>
-</code></pre>
+yarn watch:no-crypto <span class="hljs-comment"># much faster</span></code></pre>
 				<p>For more information about the available package scripts, run:</p>
-				<pre><code class="lang-sh">yarn run info
-</code></pre>
+				<pre><code class="language-sh">yarn run info</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -157,6 +149,9 @@ yarn watch:no-crypto <span class="hljs-comment"># much faster</span>
 						<a href="interfaces/hashfunction.html" class="tsd-kind-icon">Hash<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/recoverablesignature.html" class="tsd-kind-icon">Recoverable<wbr>Signature</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/ripemd160.html" class="tsd-kind-icon">Ripemd160</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
@@ -173,6 +168,9 @@ yarn watch:no-crypto <span class="hljs-comment"># much faster</span>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/sha512.html" class="tsd-kind-icon">Sha512</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#recoveryid" class="tsd-kind-icon">Recovery<wbr>Id</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#bintohex" class="tsd-kind-icon">bin<wbr>ToHex</a>

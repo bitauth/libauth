@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Sha256 | bitcoin-ts</title>
+	<title>RecoverableSignature | bitcoin-ts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="sha256.html">Sha256</a>
+					<a href="recoverablesignature.html">RecoverableSignature</a>
 				</li>
 			</ul>
-			<h1>Interface Sha256</h1>
+			<h1>Interface RecoverableSignature</h1>
 		</div>
 	</div>
 </header>
@@ -68,12 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="hashfunction.html" class="tsd-signature-type">HashFunction</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">Sha256</span>
-							</li>
-						</ul>
+						<span class="target">RecoverableSignature</span>
 					</li>
 				</ul>
 			</section>
@@ -84,10 +79,8 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="sha256.html#final" class="tsd-kind-icon">final</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="sha256.html#hash" class="tsd-kind-icon">hash</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="sha256.html#init" class="tsd-kind-icon">init</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="sha256.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="recoverablesignature.html#recoveryid" class="tsd-kind-icon">recovery<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="recoverablesignature.html#signature" class="tsd-kind-icon">signature</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,182 +88,25 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-					<a name="final" class="tsd-anchor"></a>
-					<h3>final</h3>
-					<div class="tsd-signature tsd-kind-icon">final<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="recoveryid" class="tsd-anchor"></a>
+					<h3>recovery<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">recovery<wbr>Id<span class="tsd-signature-symbol">:</span> <a href="../globals.html#recoveryid" class="tsd-signature-type">RecoveryId</a></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#final">final</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha256.ts#L16">lib/crypto/sha256.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L13">lib/crypto/secp256k1.ts:13</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Finish an incremental sha256 hashing computation.</p>
-						</div>
-						<p>Returns the final hash.</p>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>a raw state returned by <code>update</code>.</p>
-							</dd>
-						</dl>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>rawState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>rawState: <span class="tsd-signature-type">Uint8Array</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-					<a name="hash" class="tsd-anchor"></a>
-					<h3>hash</h3>
-					<div class="tsd-signature tsd-kind-icon">hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="signature" class="tsd-anchor"></a>
+					<h3>signature</h3>
+					<div class="tsd-signature tsd-kind-icon">signature<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#hash">hash</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha256.ts#L26">lib/crypto/sha256.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L14">lib/crypto/secp256k1.ts:14</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the sha256 hash of the provided input.</p>
-						</div>
-						<p>To incrementally construct a sha256 hash (e.g. for streaming), use <code>init</code>,
-						<code>update</code>, and <code>final</code>.</p>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>a Uint8Array to be hashed using sha256</p>
-							</dd>
-						</dl>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>input: <span class="tsd-signature-type">Uint8Array</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-					<a name="init" class="tsd-anchor"></a>
-					<h3>init</h3>
-					<div class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#init">init</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha256.ts#L42">lib/crypto/sha256.ts:42</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Begin an incremental sha256 hashing computation.</p>
-						</div>
-						<p>The returned raw state can be provided to <code>update</code> with additional input to
-						advance the computation.</p>
-						<h2 id="example">Example</h2>
-						<pre><code class="language-ts"><span class="hljs-keyword">const</span> state1 = sha256.init();
-<span class="hljs-keyword">const</span> state2 = sha256.update(state1, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]));
-<span class="hljs-keyword">const</span> state3 = sha256.update(state2, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>([<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]));
-<span class="hljs-keyword">const</span> hash = sha256.final(state3);</code></pre>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-					<a name="update" class="tsd-anchor"></a>
-					<h3>update</h3>
-					<div class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#update">update</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/sha256.ts#L56">lib/crypto/sha256.ts:56</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Add input to an incremental sha256 hashing computation.</p>
-						</div>
-						<p>Returns a raw state which can again be passed to <code>update</code> with additional
-						input to continue the computation.</p>
-						<p>When the computation has been updated with all input, pass the raw state to
-						<code>final</code> to finish and return a hash.</p>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>a raw state returned by either <code>init</code> or <code>update</code></p>
-							</dd>
-							<dt>param</dt>
-							<dd><p>a Uint8Array to be added to the sha256 computation</p>
-							</dd>
-						</dl>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>rawState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>rawState: <span class="tsd-signature-type">Uint8Array</span></h5>
-											</li>
-											<li>
-												<h5>input: <span class="tsd-signature-type">Uint8Array</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -293,9 +129,21 @@
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="hashfunction.html" class="tsd-kind-icon">Hash<wbr>Function</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-is-external">
 						<a href="recoverablesignature.html" class="tsd-kind-icon">Recoverable<wbr>Signature</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="recoverablesignature.html#recoveryid" class="tsd-kind-icon">recovery<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="recoverablesignature.html#signature" class="tsd-kind-icon">signature</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="ripemd160.html" class="tsd-kind-icon">Ripemd160</a>
 					</li>
@@ -308,27 +156,9 @@
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="sha1.html" class="tsd-kind-icon">Sha1</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-external">
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="sha256.html" class="tsd-kind-icon">Sha256</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-								<a href="sha256.html#final" class="tsd-kind-icon">final</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-								<a href="sha256.html#hash" class="tsd-kind-icon">hash</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-								<a href="sha256.html#init" class="tsd-kind-icon">init</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-								<a href="sha256.html#update" class="tsd-kind-icon">update</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="sha512.html" class="tsd-kind-icon">Sha512</a>
 					</li>

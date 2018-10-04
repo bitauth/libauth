@@ -77,7 +77,7 @@
 							with improperly-sized parameters will likely cause incorrect behavior or
 					runtime errors.</strong></p>
 					<h2 id="example">Example</h2>
-					<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">'bitcoin-ts'</span>;
+					<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">'bitcoin-ts'</span>;
 <span class="hljs-keyword">import</span> { msgHash, pubkey, sig } <span class="hljs-keyword">from</span> <span class="hljs-string">'./somewhere'</span>;
 
 <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
@@ -85,8 +85,7 @@
   secp256k1.verifySignatureDERLowS(<span class="hljs-params">sig, pubkey, msgHash</span>)
     ? <span class="hljs-built_in">console</span>.log(<span class="hljs-params">'🚀 Signature valid'</span>)
     : <span class="hljs-built_in">console</span>.log(<span class="hljs-params">'❌ Signature invalid'</span>);
-}</span>)<span class="hljs-params">()</span>;</span>
-</code></pre>
+}</span>)<span class="hljs-params">()</span>;</span></code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -111,8 +110,11 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#malleatesignatureder" class="tsd-kind-icon">malleate<wbr>SignatureDER</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#normalizesignaturecompact" class="tsd-kind-icon">normalize<wbr>Signature<wbr>Compact</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#normalizesignatureder" class="tsd-kind-icon">normalize<wbr>SignatureDER</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#recoverpublickeycompressed" class="tsd-kind-icon">recover<wbr>Public<wbr>Key<wbr>Compressed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#recoverpublickeyuncompressed" class="tsd-kind-icon">recover<wbr>Public<wbr>Key<wbr>Uncompressed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#signmessagehashcompact" class="tsd-kind-icon">sign<wbr>Message<wbr>Hash<wbr>Compact</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#signmessagehashder" class="tsd-kind-icon">sign<wbr>Message<wbr>HashDER</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#signmessagehashrecoverablecompact" class="tsd-kind-icon">sign<wbr>Message<wbr>Hash<wbr>Recoverable<wbr>Compact</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#signaturecompacttoder" class="tsd-kind-icon">signature<wbr>Compact<wbr>ToDER</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#signaturedertocompact" class="tsd-kind-icon">signatureDERTo<wbr>Compact</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="secp256k1.html#uncompresspublickey" class="tsd-kind-icon">uncompress<wbr>Public<wbr>Key</a></li>
@@ -134,7 +136,7 @@
 					<div class="tsd-signature tsd-kind-icon">compress<wbr>Public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L48">lib/crypto/secp256k1.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L56">lib/crypto/secp256k1.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -180,7 +182,7 @@
 					<div class="tsd-signature tsd-kind-icon">derive<wbr>Public<wbr>Key<wbr>Compressed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L57">lib/crypto/secp256k1.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L65">lib/crypto/secp256k1.ts:65</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -222,7 +224,7 @@
 					<div class="tsd-signature tsd-kind-icon">derive<wbr>Public<wbr>Key<wbr>Uncompressed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L66">lib/crypto/secp256k1.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L74">lib/crypto/secp256k1.ts:74</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -264,7 +266,7 @@
 					<div class="tsd-signature tsd-kind-icon">malleate<wbr>Signature<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L80">lib/crypto/secp256k1.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L88">lib/crypto/secp256k1.ts:88</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -310,7 +312,7 @@
 					<div class="tsd-signature tsd-kind-icon">malleate<wbr>SignatureDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L93">lib/crypto/secp256k1.ts:93</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L101">lib/crypto/secp256k1.ts:101</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -355,7 +357,7 @@
 					<div class="tsd-signature tsd-kind-icon">normalize<wbr>Signature<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L103">lib/crypto/secp256k1.ts:103</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L111">lib/crypto/secp256k1.ts:111</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -398,7 +400,7 @@
 					<div class="tsd-signature tsd-kind-icon">normalize<wbr>SignatureDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L113">lib/crypto/secp256k1.ts:113</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L121">lib/crypto/secp256k1.ts:121</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -436,12 +438,124 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="recoverpublickeycompressed" class="tsd-anchor"></a>
+					<h3>recover<wbr>Public<wbr>Key<wbr>Compressed</h3>
+					<div class="tsd-signature tsd-kind-icon">recover<wbr>Public<wbr>Key<wbr>Compressed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L134">lib/crypto/secp256k1.ts:134</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Compute a compressed public key from a valid signature, recovery number,
+							and the <code>messageHash</code> used to generate them.</p>
+						</div>
+						<p>Throws if the provided arguments are mismatched.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>an ECDSA signature in compact format.</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the recovery number.</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the hash used to generate the signature and recovery
+								number</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, recoveryId<span class="tsd-signature-symbol">: </span><a href="../globals.html#recoveryid" class="tsd-signature-type">RecoveryId</a>, messageHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>signature: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+											<li>
+												<h5>recoveryId: <a href="../globals.html#recoveryid" class="tsd-signature-type">RecoveryId</a></h5>
+											</li>
+											<li>
+												<h5>messageHash: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="recoverpublickeyuncompressed" class="tsd-anchor"></a>
+					<h3>recover<wbr>Public<wbr>Key<wbr>Uncompressed</h3>
+					<div class="tsd-signature tsd-kind-icon">recover<wbr>Public<wbr>Key<wbr>Uncompressed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L151">lib/crypto/secp256k1.ts:151</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Compute an uncompressed public key from a valid signature, recovery
+							number, and the <code>messageHash</code> used to generate them.</p>
+						</div>
+						<p>Throws if the provided arguments are mismatched.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>an ECDSA signature in compact format.</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the recovery number.</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the hash used to generate the signature and recovery
+								number</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, recoveryId<span class="tsd-signature-symbol">: </span><a href="../globals.html#recoveryid" class="tsd-signature-type">RecoveryId</a>, messageHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>signature: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+											<li>
+												<h5>recoveryId: <a href="../globals.html#recoveryid" class="tsd-signature-type">RecoveryId</a></h5>
+											</li>
+											<li>
+												<h5>messageHash: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="signmessagehashcompact" class="tsd-anchor"></a>
 					<h3>sign<wbr>Message<wbr>Hash<wbr>Compact</h3>
 					<div class="tsd-signature tsd-kind-icon">sign<wbr>Message<wbr>Hash<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L142">lib/crypto/secp256k1.ts:142</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L184">lib/crypto/secp256k1.ts:184</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -490,7 +604,7 @@
 					<div class="tsd-signature tsd-kind-icon">sign<wbr>Message<wbr>HashDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L156">lib/crypto/secp256k1.ts:156</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L198">lib/crypto/secp256k1.ts:198</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -534,12 +648,63 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="signmessagehashrecoverablecompact" class="tsd-anchor"></a>
+					<h3>sign<wbr>Message<wbr>Hash<wbr>Recoverable<wbr>Compact</h3>
+					<div class="tsd-signature tsd-kind-icon">sign<wbr>Message<wbr>Hash<wbr>Recoverable<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L215">lib/crypto/secp256k1.ts:215</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Create an ECDSA signature in compact format. The created signature is
+							always in lower-S form and follows RFC 6979.</p>
+						</div>
+						<p>Also returns a recovery number for use in the <code>recoverPublicKey*</code>
+						functions</p>
+						<p>Throws if the provided private key is not valid (see <code>validatePrivateKey</code>).</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>a valid secp256k1 private key</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the 32-byte message hash to be signed</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>privateKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, messageHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="recoverablesignature.html" class="tsd-signature-type">RecoverableSignature</a></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>privateKey: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+											<li>
+												<h5>messageHash: <span class="tsd-signature-type">Uint8Array</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="recoverablesignature.html" class="tsd-signature-type">RecoverableSignature</a></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="signaturecompacttoder" class="tsd-anchor"></a>
 					<h3>signature<wbr>Compact<wbr>ToDER</h3>
 					<div class="tsd-signature tsd-kind-icon">signature<wbr>Compact<wbr>ToDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L122">lib/crypto/secp256k1.ts:122</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L164">lib/crypto/secp256k1.ts:164</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -581,7 +746,7 @@
 					<div class="tsd-signature tsd-kind-icon">signatureDERTo<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L131">lib/crypto/secp256k1.ts:131</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L173">lib/crypto/secp256k1.ts:173</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -623,7 +788,7 @@
 					<div class="tsd-signature tsd-kind-icon">uncompress<wbr>Public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L173">lib/crypto/secp256k1.ts:173</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L232">lib/crypto/secp256k1.ts:232</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -669,7 +834,7 @@
 					<div class="tsd-signature tsd-kind-icon">validate<wbr>Private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L187">lib/crypto/secp256k1.ts:187</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L246">lib/crypto/secp256k1.ts:246</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -715,7 +880,7 @@ BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140</code> is a valid private key. This
 					<div class="tsd-signature tsd-kind-icon">verify<wbr>Signature<wbr>Compact<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L197">lib/crypto/secp256k1.ts:197</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L256">lib/crypto/secp256k1.ts:256</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -769,7 +934,7 @@ BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140</code> is a valid private key. This
 					<div class="tsd-signature tsd-kind-icon">verify<wbr>Signature<wbr>Compact<wbr>LowS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L213">lib/crypto/secp256k1.ts:213</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L272">lib/crypto/secp256k1.ts:272</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -825,7 +990,7 @@ BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140</code> is a valid private key. This
 					<div class="tsd-signature tsd-kind-icon">verify<wbr>SignatureDER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L227">lib/crypto/secp256k1.ts:227</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L286">lib/crypto/secp256k1.ts:286</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -879,7 +1044,7 @@ BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140</code> is a valid private key. This
 					<div class="tsd-signature tsd-kind-icon">verify<wbr>SignatureDERLowS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/0124a2e/src/lib/crypto/secp256k1.ts#L243">lib/crypto/secp256k1.ts:243</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8f41fc3/src/lib/crypto/secp256k1.ts#L302">lib/crypto/secp256k1.ts:302</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -951,6 +1116,9 @@ BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140</code> is a valid private key. This
 						<a href="hashfunction.html" class="tsd-kind-icon">Hash<wbr>Function</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="recoverablesignature.html" class="tsd-kind-icon">Recoverable<wbr>Signature</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="ripemd160.html" class="tsd-kind-icon">Ripemd160</a>
 					</li>
 				</ul>
@@ -980,10 +1148,19 @@ BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140</code> is a valid private key. This
 								<a href="secp256k1.html#normalizesignatureder" class="tsd-kind-icon">normalize<wbr>SignatureDER</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="secp256k1.html#recoverpublickeycompressed" class="tsd-kind-icon">recover<wbr>Public<wbr>Key<wbr>Compressed</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="secp256k1.html#recoverpublickeyuncompressed" class="tsd-kind-icon">recover<wbr>Public<wbr>Key<wbr>Uncompressed</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="secp256k1.html#signmessagehashcompact" class="tsd-kind-icon">sign<wbr>Message<wbr>Hash<wbr>Compact</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="secp256k1.html#signmessagehashder" class="tsd-kind-icon">sign<wbr>Message<wbr>HashDER</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="secp256k1.html#signmessagehashrecoverablecompact" class="tsd-kind-icon">sign<wbr>Message<wbr>Hash<wbr>Recoverable<wbr>Compact</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="secp256k1.html#signaturecompacttoder" class="tsd-kind-icon">signature<wbr>Compact<wbr>ToDER</a>
@@ -1024,6 +1201,9 @@ BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140</code> is a valid private key. This
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="sha512.html" class="tsd-kind-icon">Sha512</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="../globals.html#recoveryid" class="tsd-kind-icon">Recovery<wbr>Id</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="../globals.html#bintohex" class="tsd-kind-icon">bin<wbr>ToHex</a>

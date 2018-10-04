@@ -7,8 +7,8 @@ import {
 } from '../bin/bin';
 
 export interface RecoverableSignature {
-  readonly recovery: number;
-  readonly signature: Uint8Array;
+  recovery: number; // tslint:disable-line:readonly-keyword
+  signature: Uint8Array; // tslint:disable-line:readonly-keyword
 }
 
 /**
@@ -354,11 +354,6 @@ const wrapSecp256k1Wasm = (
   // tslint:disable-next-line:no-bitwise no-magic-numbers
   const recoveryNumPtrView32 = recoveryNumPtr >> 2;
   
-  /*
-  const setRecoveryNumPtr = (value) => {
-    secp256k1Wasm.heapU32.set([value], recoveryNumPtrView32);
-  };
-  */
   const getRecoveryNumPtr = () => secp256k1Wasm.heapU32[recoveryNumPtrView32];
   
   // tslint:disable-next-line:no-magic-numbers
@@ -626,11 +621,11 @@ const wrapSecp256k1Wasm = (
         throw new Error('Failed to sign message hash. The private key is not valid.');
       }
       secp256k1Wasm.recoverableSignatureSerialize(contextPtr,sigScratch,recoveryNumPtr,internalRSigPtr);
-      // tslint:disable-next-line:no-object-literal-type-assertion no-angle-bracket-type-assertion
-      return <RecoverableSignature>{
+      
+      return {
         recovery: getRecoveryNumPtr(),
         signature: secp256k1Wasm.readHeapU8(sigScratch, compactSigLength).slice()
-      }
+      } as RecoverableSignature; // tslint:disable-line:no-object-literal-type-assertion
     });
   }
   const recoverPublicKey = (

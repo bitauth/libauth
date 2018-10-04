@@ -121,7 +121,7 @@ export interface Secp256k1 {
    * Compute a compressed public key from a valid signature, recovery number,
    * and the `messageHash` used to generate them.
    *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   * Throws if the provided arguments are mismatched.
    *
    * @param signature an ECDSA signature in compact format.
    * @param recovery the recovery number.
@@ -138,7 +138,7 @@ export interface Secp256k1 {
    * Compute an uncompressed public key from a valid signature, recovery
    * number, and the `messageHash` used to generate them.
    *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   * Throws if the provided arguments are mismatched.
    *
    * @param signature an ECDSA signature in compact format.
    * @param recovery the recovery number.

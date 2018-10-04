@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+// tslint:disable:no-expression-statement no-magic-numbers no-bitwise
 import { ExecutionContext, test } from 'ava';
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
@@ -214,6 +214,78 @@ const testSecp256k1Wasm = (
       rawPubkeyPtr
     ),
     1
+  );
+
+  // recovery signature
+  const rawRSigPtr = secp256k1Wasm.malloc(65);
+  t.not(rawRSigPtr, 0);
+  t.is(
+    secp256k1Wasm.signRecoverable(
+      contextPtr,
+      rawRSigPtr,
+      sigHashPtr,
+      privkeyPtr
+    ),
+    1
+  );
+
+  // the r and s portions of the signature should match that of a non-recoverable signature
+  const rIDPtr = secp256k1Wasm.malloc(4);
+  const compactRSigPtr = secp256k1Wasm.malloc(64);
+  t.not(compactRSigPtr, 0);
+  secp256k1Wasm.recoverableSignatureSerialize(
+    contextPtr,
+    compactRSigPtr,
+    rIDPtr,
+    rawRSigPtr
+  );
+  const compactRSig = secp256k1Wasm.readHeapU8(compactRSigPtr, 64);
+  const rID = secp256k1Wasm.heapU32[rIDPtr >> 2];
+
+  t.deepEqual(compactRSig, sigCompact);
+  t.is(rID, 1);
+
+  // re-parsing the signature should produce the same internal format.
+  const rawRSig2Ptr = secp256k1Wasm.malloc(65);
+  t.is(
+    secp256k1Wasm.recoverableSignatureParse(
+      contextPtr,
+      rawRSig2Ptr,
+      compactRSigPtr,
+      rID
+    ),
+    1
+  );
+  t.deepEqual(
+    secp256k1Wasm.readHeapU8(rawRSigPtr, 65),
+    secp256k1Wasm.readHeapU8(rawRSig2Ptr, 65)
+  );
+
+  // the recovered public key should match the derived public key
+  const recoveredPublicKeyPtr = secp256k1Wasm.malloc(65);
+  const recoveredPublicKeyCompressedPtr = secp256k1Wasm.malloc(33);
+  const recoveredPublicKeyCompressedLengthPtr = secp256k1Wasm.mallocSizeT(33);
+
+  t.is(
+    secp256k1Wasm.recover(
+      contextPtr,
+      recoveredPublicKeyPtr,
+      rawRSigPtr,
+      sigHashPtr
+    ),
+    1
+  );
+
+  secp256k1Wasm.pubkeySerialize(
+    contextPtr,
+    recoveredPublicKeyCompressedPtr,
+    recoveredPublicKeyCompressedLengthPtr,
+    recoveredPublicKeyPtr,
+    CompressionFlag.COMPRESSED
+  );
+  t.deepEqual(
+    pubkeyCompressed,
+    secp256k1Wasm.readHeapU8(recoveredPublicKeyCompressedPtr, 33)
   );
 };
 

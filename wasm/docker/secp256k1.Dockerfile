@@ -46,6 +46,10 @@ RUN emcc src/libsecp256k1_la-secp256k1.o \
   "_secp256k1_ecdsa_signature_serialize_der", \
   "_secp256k1_ecdsa_signature_serialize_compact", \
   "_secp256k1_ecdsa_verify", \
+  "_secp256k1_ecdsa_sign_recoverable", \
+  "_secp256k1_ecdsa_recover", \
+  "_secp256k1_ecdsa_recoverable_signature_serialize_compact", \
+  "_secp256k1_ecdsa_recoverable_signature_parse_compact"\
   ]' \
   -o out/secp256k1/secp256k1.js
 

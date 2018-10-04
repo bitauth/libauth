@@ -40,6 +40,8 @@ const sigCompact = new Uint8Array([0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8, 0x3
 // prettier-ignore
 const sigCompactHighS = new Uint8Array([0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8, 0x30, 0x72, 0x61, 0x5c, 0x33, 0xa9, 0x88, 0x7b, 0x75, 0x64, 0x78, 0xe6, 0xf9, 0xde, 0x38, 0x10, 0x85, 0xf5, 0x18, 0x3c, 0x97, 0x60, 0x3f, 0xc6, 0xff, 0xd6, 0x8d, 0xde, 0x77, 0x42, 0x6c, 0x80, 0xab, 0x37, 0x9e, 0xa7, 0xd3, 0x59, 0x03, 0x97, 0xa3, 0x2d, 0x0c, 0x28, 0xd9, 0xa9, 0x58, 0x35, 0x05, 0x3c, 0x5d, 0x8b, 0x2e, 0x85, 0x43, 0x89, 0xdd]);
 
+const sigRecovery = 1;
+
 // bitcoin-ts setup
 const secp256k1Promise = instantiateSecp256k1();
 const binary = getEmbeddedSecp256k1Binary();
@@ -356,6 +358,90 @@ test('secp256k1.normalizeSignatureDER', async t => {
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
 });
 
+test('secp256k1.recoverPublicKeyCompressed', async t => {
+  const secp256k1 = await secp256k1Promise;
+  t.deepEqual(
+    secp256k1.recoverPublicKeyCompressed(sigCompact, sigRecovery, messageHash),
+    pubkeyCompressed
+  );
+
+  const equivalentToSecp256k1Node = fc.property(
+    fcValidPrivateKey(secp256k1),
+    fcUint8Array32(),
+    (privateKey, hash) => {
+      const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(
+        privateKey,
+        hash
+      );
+      t.deepEqual(
+        secp256k1.recoverPublicKeyCompressed(
+          recoverableStuff.signature,
+          recoverableStuff.recovery,
+          hash
+        ),
+        new Uint8Array(
+          secp256k1Node.recover(
+            Buffer.from(hash),
+            Buffer.from(recoverableStuff.signature),
+            recoverableStuff.recovery,
+            true
+          )
+        )
+      );
+    }
+  );
+  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  // TODO: equivalentToElliptic test for recoverable signatures.
+  /*
+  const equivalentToElliptic = fc.property();
+  t.notThrows(() => fc.assert(equivalentToElliptic));
+  */
+});
+
+test('secp256k1.recoverPublicKeyUncompressed', async t => {
+  const secp256k1 = await secp256k1Promise;
+  t.deepEqual(
+    secp256k1.recoverPublicKeyUncompressed(
+      sigCompact,
+      sigRecovery,
+      messageHash
+    ),
+    pubkeyUncompressed
+  );
+
+  const equivalentToSecp256k1Node = fc.property(
+    fcValidPrivateKey(secp256k1),
+    fcUint8Array32(),
+    (privateKey, hash) => {
+      const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(
+        privateKey,
+        hash
+      );
+      t.deepEqual(
+        secp256k1.recoverPublicKeyUncompressed(
+          recoverableStuff.signature,
+          recoverableStuff.recovery,
+          hash
+        ),
+        new Uint8Array(
+          secp256k1Node.recover(
+            Buffer.from(hash),
+            Buffer.from(recoverableStuff.signature),
+            recoverableStuff.recovery,
+            false
+          )
+        )
+      );
+    }
+  );
+  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  // TODO: equivalentToElliptic test for recoverable signatures.
+  /*
+  const equivalentToElliptic = fc.property();
+  t.notThrows(() => fc.assert(equivalentToElliptic));
+  */
+});
+
 test('secp256k1.signMessageHashCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
@@ -429,6 +515,44 @@ test('secp256k1.signMessageHashDER', async t => {
     }
   );
   t.notThrows(() => fc.assert(equivalentToElliptic));
+});
+
+test('secp256k1.signMessageHashRecoverableCompact', async t => {
+  const secp256k1 = await secp256k1Promise;
+  const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(
+    privkey,
+    messageHash
+  );
+  t.is(recoverableStuff.recovery, sigRecovery);
+  t.deepEqual(recoverableStuff.signature, sigCompact);
+  t.throws(() =>
+    secp256k1.signMessageHashRecoverableCompact(secp256k1OrderN, messageHash)
+  );
+  const equivalentToSecp256k1Node = fc.property(
+    fcValidPrivateKey(secp256k1),
+    fcUint8Array32(),
+    (privateKey, hash) => {
+      const nodeRecoverableStuff = secp256k1Node.sign(
+        Buffer.from(hash),
+        Buffer.from(privateKey)
+      );
+      //tslint:disable-next-line:no-object-mutation
+      nodeRecoverableStuff.signature = new Uint8Array(
+        nodeRecoverableStuff.signature
+      );
+      t.deepEqual(
+        secp256k1.signMessageHashRecoverableCompact(privateKey, hash),
+        nodeRecoverableStuff
+      );
+    }
+  );
+  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+
+  // TODO: equivalentToElliptic test for recoverable signatures.
+  /*
+  const equivalentToElliptic = fc.property();
+  t.notThrows(() => fc.assert(equivalentToElliptic));
+  */
 });
 
 test('secp256k1.signatureCompactToDER', async t => {

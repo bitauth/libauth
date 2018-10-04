@@ -223,6 +223,70 @@ export interface Secp256k1Wasm {
   readonly readSizeT: (pointer: number) => number;
 
   /**
+   * Compute the public key given a recoverable signature and message hash.
+   *
+   * Returns 1 if the signature was valid and public key stored, otherwise 0.
+   *
+   * @param contextPtr pointer to a context object, initialized for signing
+   * @param publicKeyPtr pointer to the created public key (note, this is an
+   * internal representation, and must be serialized for outside use)
+   * @param rSigPtr pointer to a recoverable signature (internal format)
+   * @param msg32Ptr pointer to the 32-byte message hash the signed by this
+   * signature
+   */
+  readonly recover: (
+    contextPtr: number,
+    publicKeyPtr: number,
+    rSigPtr: number,
+    msg32Ptr: number
+  ) => 1 | 0;
+
+  /**
+   * Parse an ECDSA signature in compact (64 bytes) format with a recovery
+   * number. Returns 1 when the signature could be parsed, 0 otherwise.
+   *
+   * The signature must consist of a 32-byte big endian R value, followed by a
+   * 32-byte big endian S value. If R or S fall outside of [0..order-1], the
+   * encoding is invalid. R and S with value 0 are allowed in the encoding.
+   *
+   * After the call, sig will always be initialized. If parsing failed or R or
+   * S are zero, the resulting sig value is guaranteed to fail validation for
+   * any message and public key.
+   *
+   * @param contextPtr pointer to a context object
+   * @param outputRSigPtr a pointer to a 65 byte space where the parsed signature
+   * will be written. (internal format)
+   * @param inputSigPtr pointer to a serialized signature in compact format
+   * @param rid the recovery number, as an int. (Not a pointer)
+   */
+  readonly recoverableSignatureParse: (
+    contextPtr: number,
+    outputRSigPtr: number,
+    inputSigPtr: number,
+    rid: number
+  ) => 1 | 0;
+
+  /**
+   * Serialize a recoverable ECDSA signature in compact (64 byte) format along
+   * with the recovery number. Always returns 1.
+   *
+   * See `recoverableSignatureParse` for details about the encoding.
+   *
+   * @param contextPtr pointer to a context object
+   * @param sigOutPtr pointer to a 64-byte space to store the compact
+   * serialization
+   * @param recIDOutPtr pointer to an int which will store the recovery number
+   * @param rSigPtr pointer to the 65-byte signature to be serialized
+   * (Secp256k1 internal format)
+   */
+  readonly recoverableSignatureSerialize: (
+    contextPtr: number,
+    sigOutPtr: number,
+    recIDOutPtr: number,
+    rSigPtr: number
+  ) => 1;
+
+  /**
    * Verify an ECDSA secret key.
    *
    * Returns 1 if the secret key is valid, or 0 if the secret key is invalid.
@@ -417,6 +481,31 @@ export interface Secp256k1Wasm {
   ) => 1 | 0;
 
   /**
+   * Create a recoverable ECDSA signature. The created signature is always in
+   * lower-S form.
+   *
+   * Returns 1 if the signature was created, 0 if the nonce generation function
+   * failed, or the private key was invalid.
+   *
+   * Note, this WebAssembly Secp256k1 implementation does not currently support
+   * the final two arguments from the C library, `noncefp` and `ndata`. The
+   * default nonce generation function, `secp256k1_nonce_function_default`, is
+   * always used.
+   *
+   * @param contextPtr pointer to a context object, initialized for signing
+   * @param outputRSigPtr pointer to a 65 byte space where the signature will be
+   * written (internal format)
+   * @param msg32Ptr pointer to the 32-byte message hash being signed
+   * @param secretKeyPtr pointer to a 32-byte secret key
+   */
+  readonly signRecoverable: (
+    contextPtr: number,
+    outputRSigPtr: number,
+    msg32Ptr: number,
+    secretKeyPtr: number
+  ) => 1 | 0;
+
+  /**
    * Verify an ECDSA signature.
    *
    * Returns 1 if the signature is valid, 0 if the signature is incorrect or
@@ -514,12 +603,45 @@ const wrapSecp256k1Wasm = (
     const pointerView32 = pointer >> 2;
     return heapU32[pointerView32];
   },
+  recover: (contextPtr, outputPubkeyPointer, rSigPtr, msg32Ptr) =>
+    instance.exports._secp256k1_ecdsa_recover(
+      contextPtr,
+      outputPubkeyPointer,
+      rSigPtr,
+      msg32Ptr
+    ),
+  recoverableSignatureParse: (contextPtr, outputRSigPtr, inputSigPtr, rid) =>
+    instance.exports._secp256k1_ecdsa_recoverable_signature_parse_compact(
+      contextPtr,
+      outputRSigPtr,
+      inputSigPtr,
+      rid
+    ),
+  recoverableSignatureSerialize: (
+    contextPtr,
+    sigOutPtr,
+    recIDOutPtr,
+    rSigPtr
+  ) =>
+    instance.exports._secp256k1_ecdsa_recoverable_signature_serialize_compact(
+      contextPtr,
+      sigOutPtr,
+      recIDOutPtr,
+      rSigPtr
+    ),
   seckeyVerify: (contextPtr, secretKeyPtr) =>
     instance.exports._secp256k1_ec_seckey_verify(contextPtr, secretKeyPtr),
   sign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
     instance.exports._secp256k1_ecdsa_sign(
       contextPtr,
       outputSigPtr,
+      msg32Ptr,
+      secretKeyPtr
+    ),
+  signRecoverable: (contextPtr, outputRSigPtr, msg32Ptr, secretKeyPtr) =>
+    instance.exports._secp256k1_ecdsa_sign_recoverable(
+      contextPtr,
+      outputRSigPtr,
       msg32Ptr,
       secretKeyPtr
     ),

@@ -6,6 +6,11 @@ import {
   Secp256k1Wasm
 } from '../bin/bin';
 
+export interface RecoverableSignature {
+  recovery: number; // tslint:disable-line:readonly-keyword
+  signature: Uint8Array; // tslint:disable-line:readonly-keyword
+}
+
 /**
  * An object which exposes a set of purely-functional Secp256k1 methods.
  *
@@ -113,6 +118,40 @@ export interface Secp256k1 {
   readonly normalizeSignatureDER: (signature: Uint8Array) => Uint8Array;
 
   /**
+   * Compute a compressed public key from a valid signature, recovery number,
+   * and the `messageHash` used to generate them.
+   *
+   * Throws if the provided arguments are mismatched.
+   *
+   * @param signature an ECDSA signature in compact format.
+   * @param recovery the recovery number.
+   * @param messageHash the hash used to generate the signature and recovery
+   * number
+   */
+  readonly recoverPublicKeyCompressed: (
+    signature: Uint8Array,
+    recovery: number,
+    messageHash: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Compute an uncompressed public key from a valid signature, recovery
+   * number, and the `messageHash` used to generate them.
+   *
+   * Throws if the provided arguments are mismatched.
+   *
+   * @param signature an ECDSA signature in compact format.
+   * @param recovery the recovery number.
+   * @param messageHash the hash used to generate the signature and recovery
+   * number
+   */
+  readonly recoverPublicKeyUncompressed: (
+    signature: Uint8Array,
+    recovery: number,
+    messageHash: Uint8Array
+  ) => Uint8Array;
+
+  /**
    * Convert a compact-encoded ECDSA signature to DER encoding.
    *
    * Throws if parsing of compact-encoded signature fails.
@@ -157,6 +196,23 @@ export interface Secp256k1 {
     privateKey: Uint8Array,
     messageHash: Uint8Array
   ) => Uint8Array;
+
+  /**
+   * Create an ECDSA signature in compact format. The created signature is
+   * always in lower-S form and follows RFC 6979.
+   *
+   * Also returns a recovery number for use in the `recoverPublicKey*`
+   * functions
+   *
+   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   *
+   * @param privateKey a valid secp256k1 private key
+   * @param messageHash the 32-byte message hash to be signed
+   */
+  readonly signMessageHashRecoverableCompact: (
+    privateKey: Uint8Array,
+    messageHash: Uint8Array
+  ) => RecoverableSignature;
 
   /**
    * Uncompress a valid ECDSA public key. Returns a public key in uncompressed
@@ -273,6 +329,7 @@ const wrapSecp256k1Wasm = (
   const compactSigLength = 64;
   const privateKeyLength = 32;
   const randomSeedLength = 32;
+  const recoverableSigLength = 65;
   /**
    * Since all of these methods are single-threaded and synchronous, we can
    * reuse allocated WebAssembly memory for each method without worrying about
@@ -290,6 +347,14 @@ const wrapSecp256k1Wasm = (
   const internalPublicKeyPtr = secp256k1Wasm.malloc(internalPublicKeyLength);
   const internalSigPtr = secp256k1Wasm.malloc(internalSigLength);
   const privateKeyPtr = secp256k1Wasm.malloc(privateKeyLength);
+
+  const internalRSigPtr = secp256k1Wasm.malloc(recoverableSigLength);
+  // tslint:disable-next-line:no-magic-numbers
+  const recoveryNumPtr = secp256k1Wasm.malloc(4);
+  // tslint:disable-next-line:no-bitwise no-magic-numbers
+  const recoveryNumPtrView32 = recoveryNumPtr >> 2;
+
+  const getRecoveryNumPtr = () => secp256k1Wasm.heapU32[recoveryNumPtrView32];
 
   // tslint:disable-next-line:no-magic-numbers
   const lengthPtr = secp256k1Wasm.malloc(4);
@@ -549,6 +614,75 @@ const wrapSecp256k1Wasm = (
         : false
       : false;
 
+  const signMessageHashRecoverable = (
+    privateKey: Uint8Array,
+    messageHash: Uint8Array
+  ) => {
+    fillMessageHashScratch(messageHash);
+    return withPrivateKey<RecoverableSignature>(privateKey, () => {
+      if (
+        secp256k1Wasm.signRecoverable(
+          contextPtr,
+          internalRSigPtr,
+          messageHashScratch,
+          privateKeyPtr
+        ) !== 1
+      ) {
+        throw new Error(
+          'Failed to sign message hash. The private key is not valid.'
+        );
+      }
+      secp256k1Wasm.recoverableSignatureSerialize(
+        contextPtr,
+        sigScratch,
+        recoveryNumPtr,
+        internalRSigPtr
+      );
+
+      return {
+        recovery: getRecoveryNumPtr(),
+        signature: secp256k1Wasm
+          .readHeapU8(sigScratch, compactSigLength)
+          .slice()
+      } as RecoverableSignature; // tslint:disable-line:no-object-literal-type-assertion
+    });
+  };
+  const recoverPublicKey = (
+    compressed: boolean
+  ): ((
+    signature: Uint8Array,
+    recovery: number,
+    messageHash: Uint8Array
+  ) => Uint8Array) => (signature, recovery, messageHash) => {
+    fillMessageHashScratch(messageHash);
+    secp256k1Wasm.heapU8.set(signature, sigScratch);
+    if (
+      secp256k1Wasm.recoverableSignatureParse(
+        contextPtr,
+        internalRSigPtr,
+        sigScratch,
+        recovery
+      ) !== 1
+    ) {
+      throw new Error(
+        'Failed to recover public key. The compact signature, recovery, or message hash is invalid.'
+      );
+    }
+    if (
+      secp256k1Wasm.recover(
+        contextPtr,
+        internalPublicKeyPtr,
+        internalRSigPtr,
+        messageHashScratch
+      ) !== 1
+    ) {
+      throw new Error(
+        'Failed to recover public key. The compact signature, recovery, or message hash is invalid.'
+      );
+    }
+    return getSerializedPublicKey(compressed);
+  };
+
   /**
    * The value of this precaution is debatable, especially in the context of
    * javascript and WebAssembly.
@@ -582,8 +716,11 @@ const wrapSecp256k1Wasm = (
     malleateSignatureDER: modifySignature(true, false),
     normalizeSignatureCompact: modifySignature(false, true),
     normalizeSignatureDER: modifySignature(true, true),
+    recoverPublicKeyCompressed: recoverPublicKey(true),
+    recoverPublicKeyUncompressed: recoverPublicKey(false),
     signMessageHashCompact: signMessageHash(false),
     signMessageHashDER: signMessageHash(true),
+    signMessageHashRecoverableCompact: signMessageHashRecoverable,
     signatureCompactToDER: convertSignature(false),
     signatureDERToCompact: convertSignature(true),
     uncompressPublicKey: convertPublicKey(false),

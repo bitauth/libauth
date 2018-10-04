@@ -364,6 +364,17 @@ test('secp256k1.recoverPublicKeyCompressed', async t => {
     secp256k1.recoverPublicKeyCompressed(sigCompact, sigRecovery, messageHash),
     pubkeyCompressed
   );
+  t.throws(() =>
+    secp256k1.recoverPublicKeyCompressed(
+      new Uint8Array(64).fill(255),
+      sigRecovery,
+      messageHash
+    )
+  );
+  const failRecover = 2;
+  t.throws(() =>
+    secp256k1.recoverPublicKeyCompressed(sigCompact, failRecover, messageHash)
+  );
 
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
@@ -376,14 +387,14 @@ test('secp256k1.recoverPublicKeyCompressed', async t => {
       t.deepEqual(
         secp256k1.recoverPublicKeyCompressed(
           recoverableStuff.signature,
-          recoverableStuff.recovery,
+          recoverableStuff.recoveryId,
           hash
         ),
         new Uint8Array(
           secp256k1Node.recover(
             Buffer.from(hash),
             Buffer.from(recoverableStuff.signature),
-            recoverableStuff.recovery,
+            recoverableStuff.recoveryId,
             true
           )
         )
@@ -420,14 +431,14 @@ test('secp256k1.recoverPublicKeyUncompressed', async t => {
       t.deepEqual(
         secp256k1.recoverPublicKeyUncompressed(
           recoverableStuff.signature,
-          recoverableStuff.recovery,
+          recoverableStuff.recoveryId,
           hash
         ),
         new Uint8Array(
           secp256k1Node.recover(
             Buffer.from(hash),
             Buffer.from(recoverableStuff.signature),
-            recoverableStuff.recovery,
+            recoverableStuff.recoveryId,
             false
           )
         )
@@ -523,7 +534,7 @@ test('secp256k1.signMessageHashRecoverableCompact', async t => {
     privkey,
     messageHash
   );
-  t.is(recoverableStuff.recovery, sigRecovery);
+  t.is(recoverableStuff.recoveryId, sigRecovery);
   t.deepEqual(recoverableStuff.signature, sigCompact);
   t.throws(() =>
     secp256k1.signMessageHashRecoverableCompact(secp256k1OrderN, messageHash)
@@ -536,13 +547,12 @@ test('secp256k1.signMessageHashRecoverableCompact', async t => {
         Buffer.from(hash),
         Buffer.from(privateKey)
       );
-      //tslint:disable-next-line:no-object-mutation
-      nodeRecoverableStuff.signature = new Uint8Array(
-        nodeRecoverableStuff.signature
-      );
       t.deepEqual(
         secp256k1.signMessageHashRecoverableCompact(privateKey, hash),
-        nodeRecoverableStuff
+        {
+          recoveryId: nodeRecoverableStuff.recovery,
+          signature: new Uint8Array(nodeRecoverableStuff.signature)
+        }
       );
     }
   );

@@ -6,8 +6,11 @@ import {
   Secp256k1Wasm
 } from '../bin/bin';
 
+// tslint:disable-next-line:no-magic-numbers
+export type RecoveryId = 0 | 1 | 2 | 3;
+
 export interface RecoverableSignature {
-  recovery: number; // tslint:disable-line:readonly-keyword
+  recoveryId: RecoveryId; // tslint:disable-line:readonly-keyword
   signature: Uint8Array; // tslint:disable-line:readonly-keyword
 }
 
@@ -130,7 +133,7 @@ export interface Secp256k1 {
    */
   readonly recoverPublicKeyCompressed: (
     signature: Uint8Array,
-    recovery: number,
+    recoveryId: RecoveryId,
     messageHash: Uint8Array
   ) => Uint8Array;
 
@@ -147,7 +150,7 @@ export interface Secp256k1 {
    */
   readonly recoverPublicKeyUncompressed: (
     signature: Uint8Array,
-    recovery: number,
+    recoveryId: RecoveryId,
     messageHash: Uint8Array
   ) => Uint8Array;
 
@@ -617,7 +620,7 @@ const wrapSecp256k1Wasm = (
   const signMessageHashRecoverable = (
     privateKey: Uint8Array,
     messageHash: Uint8Array
-  ) => {
+  ): RecoverableSignature => {
     fillMessageHashScratch(messageHash);
     return withPrivateKey<RecoverableSignature>(privateKey, () => {
       if (
@@ -640,20 +643,20 @@ const wrapSecp256k1Wasm = (
       );
 
       return {
-        recovery: getRecoveryNumPtr(),
+        recoveryId: getRecoveryNumPtr() as RecoveryId,
         signature: secp256k1Wasm
           .readHeapU8(sigScratch, compactSigLength)
           .slice()
-      } as RecoverableSignature; // tslint:disable-line:no-object-literal-type-assertion
+      };
     });
   };
   const recoverPublicKey = (
     compressed: boolean
   ): ((
     signature: Uint8Array,
-    recovery: number,
+    recoveryId: RecoveryId,
     messageHash: Uint8Array
-  ) => Uint8Array) => (signature, recovery, messageHash) => {
+  ) => Uint8Array) => (signature, recoveryId, messageHash) => {
     fillMessageHashScratch(messageHash);
     secp256k1Wasm.heapU8.set(signature, sigScratch);
     if (
@@ -661,11 +664,11 @@ const wrapSecp256k1Wasm = (
         contextPtr,
         internalRSigPtr,
         sigScratch,
-        recovery
+        recoveryId
       ) !== 1
     ) {
       throw new Error(
-        'Failed to recover public key. The compact signature, recovery, or message hash is invalid.'
+        'Failed to recover public key. Could not parse signature.'
       );
     }
     if (

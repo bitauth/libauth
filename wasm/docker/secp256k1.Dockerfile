@@ -35,9 +35,13 @@ RUN emcc src/libsecp256k1_la-secp256k1.o \
   "_secp256k1_context_create", \
   "_secp256k1_context_randomize", \
   "_secp256k1_ec_seckey_verify", \
+  "_secp256k1_ec_privkey_tweak_add", \
+  "_secp256k1_ec_privkey_tweak_mul", \
   "_secp256k1_ec_pubkey_create", \
   "_secp256k1_ec_pubkey_parse", \
   "_secp256k1_ec_pubkey_serialize", \
+  "_secp256k1_ec_pubkey_tweak_add", \
+  "_secp256k1_ec_pubkey_tweak_mul", \
   "_secp256k1_ecdsa_sign", \
   "_secp256k1_ecdsa_signature_malleate", \
   "_secp256k1_ecdsa_signature_normalize", \

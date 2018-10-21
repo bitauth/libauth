@@ -144,6 +144,34 @@ export interface Secp256k1Wasm {
   readonly mallocUint8Array: (array: Uint8Array) => number;
 
   /**
+   * Tweak privkey by adding to it
+   *
+   * @param contextPtr pointer to a context object
+   * @param privateKeyPtr pointer to a 32-byte privateKey
+   * @param tweakPtr pointer to a 32-byte tweak
+   * @return number
+   */
+  readonly privkeyTweakAdd: (
+    contextPtr: number,
+    privateKeyPtr: number,
+    tweakPtr: number
+  ) => number;
+
+  /**
+   * Tweak privkey by multiplying to it
+   *
+   * @param contextPtr pointer to a context object
+   * @param privateKeyPtr pointer to a 32-byte privateKey
+   * @param tweakPtr pointer to a 32-byte tweak
+   * @return number
+   */
+  readonly privkeyTweakMul: (
+    contextPtr: number,
+    privateKeyPtr: number,
+    tweakPtr: number
+  ) => number;
+
+  /**
    * Compute the public key for a secret key.
    *
    *  Returns 1 if the secret was valid and public key stored, otherwise 0.
@@ -205,6 +233,34 @@ export interface Secp256k1Wasm {
     publicKeyPtr: number,
     compression: CompressionFlag
   ) => 1;
+
+  /**
+   * Tweak pubkey by adding to it
+   *
+   * @param contextPtr pointer to a context object
+   * @param publicKeyPtr pointer to a 65-byte (if uncompressed) or 33-byte publicKey
+   * @param tweakPtr pointer to a 32-byte tweak
+   * @return number
+   */
+  readonly pubkeyTweakAdd: (
+    contextPtr: number,
+    publicKeyPtr: number,
+    tweakPtr: number
+  ) => number;
+
+  /**
+   * Tweak pubkey by multiplying to it
+   *
+   * @param contextPtr pointer to a context object
+   * @param publicKeyPtr pointer to a 65-byte (if uncompressed) or 33-byte publicKey
+   * @param tweakPtr pointer to a 32-byte tweak
+   * @return number
+   */
+  readonly pubkeyTweakMul: (
+    contextPtr: number,
+    publicKeyPtr: number,
+    tweakPtr: number
+  ) => number;
 
   /**
    * Read from WebAssembly memory by creating a new Uint8Array beginning at
@@ -565,6 +621,18 @@ const wrapSecp256k1Wasm = (
     heapU8.set(array, pointer);
     return pointer;
   },
+  privkeyTweakAdd: (contextPtr, privateKeyPtr, tweakPtr) =>
+    instance.exports._secp256k1_ec_privkey_tweak_add(
+      contextPtr,
+      privateKeyPtr,
+      tweakPtr
+    ),
+  privkeyTweakMul: (contextPtr, privateKeyPtr, tweakPtr) =>
+    instance.exports._secp256k1_ec_privkey_tweak_mul(
+      contextPtr,
+      privateKeyPtr,
+      tweakPtr
+    ),
   pubkeyCreate: (contextPtr, publicKeyPtr, secretKeyPtr) =>
     instance.exports._secp256k1_ec_pubkey_create(
       contextPtr,
@@ -596,6 +664,18 @@ const wrapSecp256k1Wasm = (
       outputLengthPtr,
       publicKeyPtr,
       compression
+    ),
+  pubkeyTweakAdd: (contextPtr, publicKeyPtr, tweakPtr) =>
+    instance.exports._secp256k1_ec_pubkey_tweak_add(
+      contextPtr,
+      publicKeyPtr,
+      tweakPtr
+    ),
+  pubkeyTweakMul: (contextPtr, publicKeyPtr, tweakPtr) =>
+    instance.exports._secp256k1_ec_pubkey_tweak_mul(
+      contextPtr,
+      publicKeyPtr,
+      tweakPtr
     ),
   readHeapU8: (pointer, bytes) => new Uint8Array(heapU8.buffer, pointer, bytes),
   readSizeT: pointer => {

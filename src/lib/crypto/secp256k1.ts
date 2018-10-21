@@ -121,6 +121,72 @@ export interface Secp256k1 {
   readonly normalizeSignatureDER: (signature: Uint8Array) => Uint8Array;
 
   /**
+   * Tweak private key by adding to it
+   *
+   * @param privateKey 32-byte private key
+   * @param tweak 32-byte tweak
+   */
+  readonly privateKeyTweakAdd: (
+    privateKey: Uint8Array,
+    tweak: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak private key by multiplying to it
+   *
+   * @param privateKey 32-byte private key
+   * @param tweak 32-byte tweak
+   */
+  readonly privateKeyTweakMul: (
+    privateKey: Uint8Array,
+    tweak: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak public key by adding to it and return in compressed form
+   *
+   * @param privateKey 32-byte private key
+   * @param tweak 32-byte tweak
+   */
+  readonly publicKeyTweakAddCompressed: (
+    publicKey: Uint8Array,
+    tweak: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak public key by adding to it and return in uncompressed form
+   *
+   * @param privateKey 32-byte private key
+   * @param tweak 32-byte tweak
+   */
+  readonly publicKeyTweakAddUncompressed: (
+    publicKey: Uint8Array,
+    tweak: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak public key by multiplying to it and return in compressed form
+   *
+   * @param privateKey 32-byte private key
+   * @param tweak 32-byte tweak
+   */
+  readonly publicKeyTweakMulCompressed: (
+    publicKey: Uint8Array,
+    tweak: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak public key by multiplying to it and return in compressed form
+   *
+   * @param privateKey 32-byte private key
+   * @param tweak 32-byte tweak
+   */
+  readonly publicKeyTweakMulUncompressed: (
+    publicKey: Uint8Array,
+    tweak: Uint8Array
+  ) => Uint8Array;
+
+  /**
    * Compute a compressed public key from a valid signature, recovery number,
    * and the `messageHash` used to generate them.
    *
@@ -333,6 +399,7 @@ const wrapSecp256k1Wasm = (
   const privateKeyLength = 32;
   const randomSeedLength = 32;
   const recoverableSigLength = 65;
+  const tweakLen = 32;
   /**
    * Since all of these methods are single-threaded and synchronous, we can
    * reuse allocated WebAssembly memory for each method without worrying about
@@ -350,6 +417,7 @@ const wrapSecp256k1Wasm = (
   const internalPublicKeyPtr = secp256k1Wasm.malloc(internalPublicKeyLength);
   const internalSigPtr = secp256k1Wasm.malloc(internalSigLength);
   const privateKeyPtr = secp256k1Wasm.malloc(privateKeyLength);
+  const tweakScratch = secp256k1Wasm.malloc(tweakLen);
 
   const internalRSigPtr = secp256k1Wasm.malloc(recoverableSigLength);
   // tslint:disable-next-line:no-magic-numbers
@@ -468,6 +536,10 @@ const wrapSecp256k1Wasm = (
 
   const fillPrivateKeyPtr = (privateKey: Uint8Array) => {
     secp256k1Wasm.heapU8.set(privateKey, privateKeyPtr);
+  };
+
+  const fillTweakScratch = (tweak: Uint8Array) => {
+    secp256k1Wasm.heapU8.set(tweak, tweakScratch);
   };
 
   const zeroOutPtr = (pointer: number, bytes: number) => {
@@ -686,6 +758,74 @@ const wrapSecp256k1Wasm = (
     return getSerializedPublicKey(compressed);
   };
 
+  const privateKeyTweakAdd = (privateKey: Uint8Array, tweak: Uint8Array) => {
+    fillPrivateKeyPtr(privateKey);
+    fillTweakScratch(tweak);
+    if (
+      secp256k1Wasm.privkeyTweakAdd(contextPtr, privateKeyPtr, tweakScratch) !==
+      1
+    ) {
+      throw new Error('Private key tweak add failed.');
+    }
+    return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
+  };
+
+  const privateKeyTweakMul = (privateKey: Uint8Array, tweak: Uint8Array) => {
+    fillPrivateKeyPtr(privateKey);
+    fillTweakScratch(tweak);
+    if (
+      secp256k1Wasm.privkeyTweakMul(contextPtr, privateKeyPtr, tweakScratch) !==
+      1
+    ) {
+      throw new Error('Private key tweak mul failed.');
+    }
+    return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
+  };
+
+  const publicKeyTweakAdd = (
+    compressed: boolean
+  ): ((publicKey: Uint8Array, tweak: Uint8Array) => Uint8Array) => (
+    publicKey,
+    tweak
+  ) => {
+    if (!parsePublicKey(publicKey)) {
+      throw new Error('Failed to parse public key.');
+    }
+    fillTweakScratch(tweak);
+    if (
+      secp256k1Wasm.pubkeyTweakAdd(
+        contextPtr,
+        internalPublicKeyPtr,
+        tweakScratch
+      ) !== 1
+    ) {
+      throw new Error('Public key tweak add failed.');
+    }
+    return getSerializedPublicKey(compressed);
+  };
+
+  const publicKeyTweakMul = (
+    compressed: boolean
+  ): ((publicKey: Uint8Array, tweak: Uint8Array) => Uint8Array) => (
+    publicKey,
+    tweak
+  ) => {
+    if (!parsePublicKey(publicKey)) {
+      throw new Error('Failed to parse public key.');
+    }
+    fillTweakScratch(tweak);
+    if (
+      secp256k1Wasm.pubkeyTweakMul(
+        contextPtr,
+        internalPublicKeyPtr,
+        tweakScratch
+      ) !== 1
+    ) {
+      throw new Error('Public key tweak mul failed.');
+    }
+    return getSerializedPublicKey(compressed);
+  };
+
   /**
    * The value of this precaution is debatable, especially in the context of
    * javascript and WebAssembly.
@@ -719,6 +859,12 @@ const wrapSecp256k1Wasm = (
     malleateSignatureDER: modifySignature(true, false),
     normalizeSignatureCompact: modifySignature(false, true),
     normalizeSignatureDER: modifySignature(true, true),
+    privateKeyTweakAdd,
+    privateKeyTweakMul,
+    publicKeyTweakAddCompressed: publicKeyTweakAdd(true),
+    publicKeyTweakAddUncompressed: publicKeyTweakAdd(false),
+    publicKeyTweakMulCompressed: publicKeyTweakMul(true),
+    publicKeyTweakMulUncompressed: publicKeyTweakMul(false),
     recoverPublicKeyCompressed: recoverPublicKey(true),
     recoverPublicKeyUncompressed: recoverPublicKey(false),
     signMessageHashCompact: signMessageHash(false),

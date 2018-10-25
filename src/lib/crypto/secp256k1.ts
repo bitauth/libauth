@@ -48,7 +48,7 @@ export interface Secp256k1 {
    * Throws if the private key is invalid or if the addition failed.
    * 
    * @param privateKey a valid secp256k1 private key
-   * @param tweakValue 256 bit value to tweak by (LE)
+   * @param tweakValue 256 bit value to tweak by (BE)
    */
   readonly addTweakPrivateKey: (
     privateKey: Uint8Array,
@@ -64,7 +64,7 @@ export interface Secp256k1 {
    * The returned public key will be in compressed format.
    *
    * @param publicKey a public key.
-   * @param tweakValue 256 bit value to tweak by (LE)
+   * @param tweakValue 256 bit value to tweak by (BE)
    */
   readonly addTweakPublicKeyCompressed: (
     publicKey: Uint8Array,
@@ -80,7 +80,7 @@ export interface Secp256k1 {
    * The returned public key will be in uncompressed format.
    *
    * @param publicKey a public key.
-   * @param tweakValue 256 bit value to tweak by (LE)
+   * @param tweakValue 256 bit value to tweak by (BE)
    */
   readonly addTweakPublicKeyUncompressed: (
     publicKey: Uint8Array,
@@ -150,7 +150,7 @@ export interface Secp256k1 {
    * Add `tweakValue` to the `privateKey`
    * 
    * @param privateKey a valid secp256k1 private key
-   * @param tweakValue 256 bit value to tweak by (LE)
+   * @param tweakValue 256 bit value to tweak by (BE)
    * 
    */
   readonly mulTweakPrivateKey: (
@@ -166,7 +166,7 @@ export interface Secp256k1 {
    * The returned public key will be in compressed format.
    *
    * @param publicKey a public key.
-   * @param tweakValue 256 bit value to tweak by (LE)
+   * @param tweakValue 256 bit value to tweak by (BE)
    */
   readonly mulTweakPublicKeyCompressed: (
     publicKey: Uint8Array,
@@ -181,7 +181,7 @@ export interface Secp256k1 {
    * The returned public key will be in uncompressed format.
    *
    * @param publicKey a public key.
-   * @param tweakValue 256 bit value to tweak by (LE)
+   * @param tweakValue 256 bit value to tweak by (BE)
    */
 
   readonly mulTweakPublicKeyUncompressed: (
@@ -790,7 +790,7 @@ const wrapSecp256k1Wasm = (
       ){
         throw new Error("Private key is invalid or adding failed.");
       }
-      return secp256k1Wasm.readHeapU8(privateKeyPtr,privateKeyLength);
+      return secp256k1Wasm.readHeapU8(privateKeyPtr,privateKeyLength).slice();
     });
   }
 
@@ -807,9 +807,9 @@ const wrapSecp256k1Wasm = (
           messageHashScratch
         ) !== 1
       ){
-        throw new Error("Private key is invalid or adding failed.");
+        throw new Error("Private key is invalid or multiplying failed.");
       }
-      return secp256k1Wasm.readHeapU8(privateKeyPtr,privateKeyLength);
+      return secp256k1Wasm.readHeapU8(privateKeyPtr,privateKeyLength).slice();
     });
   }
 
@@ -852,7 +852,7 @@ const wrapSecp256k1Wasm = (
         messageHashScratch
       ) !== 1
     ){
-      throw new Error("Adding failed");
+      throw new Error("Multiplying failed");
     }
     return getSerializedPublicKey(compressed);
   }

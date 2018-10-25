@@ -670,13 +670,13 @@ const wrapSecp256k1Wasm = (
       compression
     ),
   pubkeyTweakAdd: (contextPtr,publicKeyPtr,tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_privkey_tweak_add(
+    instance.exports._secp256k1_ec_pubkey_tweak_add(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr
     ),
   pubkeyTweakMul: (contextPtr,publicKeyPtr,tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_privkey_tweak_mul(
+    instance.exports.__secp256k1_ec_pubkey_tweak_mul(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr

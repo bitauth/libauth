@@ -676,7 +676,7 @@ const wrapSecp256k1Wasm = (
       tweakNum256Ptr
     ),
   pubkeyTweakMul: (contextPtr,publicKeyPtr,tweakNum256Ptr) =>
-    instance.exports.__secp256k1_ec_pubkey_tweak_mul(
+    instance.exports._secp256k1_ec_pubkey_tweak_mul(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr

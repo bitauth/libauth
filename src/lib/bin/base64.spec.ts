@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-magic-numbers
-import { test } from 'ava';
+import test from 'ava';
 import { decodeBase64String } from './base64';
 
 test('decodeBase64String works as expected', t => {

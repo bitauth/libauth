@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
-import { test } from 'ava';
+import test from 'ava';
 import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';
 import * as fc from 'fast-check';
@@ -1084,4 +1084,5 @@ test('secp256k1.verifySignatureDERLowS', async t => {
 
 test.todo(
   'Use fast-check to run random sets of library methods and confirm that results are as expected.'
+  // tslint:disable-next-line:max-file-line-count
 );

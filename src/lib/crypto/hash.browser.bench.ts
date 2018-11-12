@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-unsafe-any
-import { test } from 'ava';
+import test from 'ava';
 import { join } from 'path';
 import { launch } from 'puppeteer';
 import { rollup } from 'rollup';
@@ -8,13 +8,13 @@ import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 
 const prepareCode = async () => {
-  // tslint:disable-next-line:no-unbound-method
+  // tslint:disable-next-line:no-unbound-method no-console
   const realConsoleWarn = console.warn;
   /**
    * Suppress Rollup warning: `Use of eval is strongly discouraged, as it poses
    * security risks and may cause issues with minification`
    */
-  // tslint:disable-next-line:no-object-mutation
+  // tslint:disable-next-line:no-object-mutation no-console
   console.warn = (suppress: string) => suppress;
 
   const bundle = await rollup({
@@ -30,7 +30,7 @@ const prepareCode = async () => {
       nodeResolve()
     ]
   });
-  // tslint:disable-next-line:no-object-mutation
+  // tslint:disable-next-line:no-object-mutation no-console
   console.warn = realConsoleWarn;
 
   const { code } = await bundle.generate({

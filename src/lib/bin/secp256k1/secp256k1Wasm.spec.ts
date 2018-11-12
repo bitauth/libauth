@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-magic-numbers no-bitwise
-import { ExecutionContext, test } from 'ava';
+import test, { ExecutionContext } from 'ava';
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -304,7 +304,7 @@ const testSecp256k1Wasm = (
   );
 
   // tweaking keys
-  // skipping uncompressed checks since we already verified that parsing and steralizing works.
+  // skipping uncompressed checks since we already verified that parsing and serializing works.
   // allocate pointers
   const keyTweakPtr = secp256k1Wasm.malloc(32);
 

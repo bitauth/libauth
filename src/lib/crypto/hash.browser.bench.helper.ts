@@ -88,8 +88,8 @@ const singlePassBrowserBenchmark = async (
         subtleCryptoAlgorithmName === 'SHA-1'
           ? asmCrypto.Sha1
           : subtleCryptoAlgorithmName === 'SHA-256'
-            ? asmCrypto.Sha256
-            : asmCrypto.Sha512;
+          ? asmCrypto.Sha256
+          : asmCrypto.Sha512;
       s.bench('asmcrypto.js', () => {
         const instance = new algorithm();
         hash = instance.process(message).finish().result;
@@ -161,8 +161,8 @@ const incrementalBrowserBenchmark = async (
           hashFunctionName === 'sha1'
             ? asmCrypto.Sha1
             : hashFunctionName === 'sha256'
-              ? asmCrypto.Sha256
-              : asmCrypto.Sha512;
+            ? asmCrypto.Sha256
+            : asmCrypto.Sha512;
         s.bench('asmcrypto.js', () => {
           const instance = new algorithm();
           hash = instance.process(message).finish().result;

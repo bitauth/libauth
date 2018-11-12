@@ -41,6 +41,7 @@ const prepareCode = async () => {
 
 const preparePage = async () => {
   const browser = await launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
     // devtools: true
   });
   const page = await browser.newPage();

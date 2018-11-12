@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/bitjson/bitcoin-ts/compare/v1.3.0...v1.4.0) (2018-11-12)
+
+
+### Bug Fixes
+
+* **secp256k1:** Finalize implementation for tweak functions, compile new WASM ([7726bae](https://github.com/bitjson/bitcoin-ts/commit/7726bae))
+* **secp256k1:** prettier ([54e20a5](https://github.com/bitjson/bitcoin-ts/commit/54e20a5))
+
+
+### Features
+
+* **secp256k1:** Add public and private key tweaking functions ([bcc639e](https://github.com/bitjson/bitcoin-ts/commit/bcc639e))
+* **secp256k1:** export tweak methods ([f763916](https://github.com/bitjson/bitcoin-ts/commit/f763916))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/bitjson/bitcoin-ts/compare/v1.2.0...v1.3.0) (2018-10-04)
 

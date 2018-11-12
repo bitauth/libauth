@@ -31,7 +31,7 @@ const compare = (a?: Uint8Array, b?: Uint8Array) => {
 };
 
 const randomBytes = (bytes: number) =>
-  crypto.getRandomValues(new Uint8Array(bytes)) as Uint8Array;
+  crypto.getRandomValues(new Uint8Array(bytes));
 
 const singlePassBrowserBenchmark = async (
   hashFunction: HashFunction,

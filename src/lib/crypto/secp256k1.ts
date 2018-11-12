@@ -41,12 +41,11 @@ export interface RecoverableSignature {
  * ```
  */
 export interface Secp256k1 {
-
   /**
    * Add `tweakValue` to the `privateKey`
-   * 
+   *
    * Throws if the private key is invalid or if the addition failed.
-   * 
+   *
    * @param privateKey a valid secp256k1 private key
    * @param tweakValue 256 bit value to tweak by (BE)
    */
@@ -60,7 +59,7 @@ export interface Secp256k1 {
    *
    * Throws if the provided public key could not be parsed, is not valid or if
    * the addition failed.
-   * 
+   *
    * The returned public key will be in compressed format.
    *
    * @param publicKey a public key.
@@ -76,7 +75,7 @@ export interface Secp256k1 {
    *
    * Throws if the provided public key could not be parsed, is not valid or if
    * the addition failed.
-   * 
+   *
    * The returned public key will be in uncompressed format.
    *
    * @param publicKey a public key.
@@ -145,13 +144,13 @@ export interface Secp256k1 {
    * @param signature a DER-encoded ECDSA signature to malleate, max 72 bytes
    */
   readonly malleateSignatureDER: (signature: Uint8Array) => Uint8Array;
-  
+
   /**
    * Add `tweakValue` to the `privateKey`
-   * 
+   *
    * @param privateKey a valid secp256k1 private key
    * @param tweakValue 256 bit value to tweak by (BE)
-   * 
+   *
    */
   readonly mulTweakPrivateKey: (
     privateKey: Uint8Array,
@@ -160,7 +159,7 @@ export interface Secp256k1 {
 
   /**
    * Tweak a `publicKey` by multiplying `tweakValue` to it.
-   * 
+   *
    * Throws if the provided public key could not be parsed, is not valid or if
    * the multiplication failed.
    * The returned public key will be in compressed format.
@@ -787,12 +786,12 @@ const wrapSecp256k1Wasm = (
           privateKeyPtr,
           messageHashScratch
         ) !== 1
-      ){
-        throw new Error("Private key is invalid or adding failed.");
+      ) {
+        throw new Error('Private key is invalid or adding failed.');
       }
-      return secp256k1Wasm.readHeapU8(privateKeyPtr,privateKeyLength).slice();
+      return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
     });
-  }
+  };
 
   const mulTweakPrivateKey = (
     privateKey: Uint8Array,
@@ -806,19 +805,19 @@ const wrapSecp256k1Wasm = (
           privateKeyPtr,
           messageHashScratch
         ) !== 1
-      ){
-        throw new Error("Private key is invalid or multiplying failed.");
+      ) {
+        throw new Error('Private key is invalid or multiplying failed.');
       }
-      return secp256k1Wasm.readHeapU8(privateKeyPtr,privateKeyLength).slice();
+      return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
     });
-  }
+  };
 
   const addTweakPublicKey = (
     compressed: boolean
-  ): ((
-    publicKey: Uint8Array,
-    tweakValue: Uint8Array
-  ) => Uint8Array) => (publicKey, tweakValue) => {
+  ): ((publicKey: Uint8Array, tweakValue: Uint8Array) => Uint8Array) => (
+    publicKey,
+    tweakValue
+  ) => {
     if (!parsePublicKey(publicKey)) {
       throw new Error('Failed to parse public key.');
     }
@@ -829,18 +828,18 @@ const wrapSecp256k1Wasm = (
         internalPublicKeyPtr,
         messageHashScratch
       ) !== 1
-    ){
-      throw new Error("Adding failed");
+    ) {
+      throw new Error('Adding failed');
     }
     return getSerializedPublicKey(compressed);
-  }
+  };
 
   const mulTweakPublicKey = (
     compressed: boolean
-  ): ((
-    publicKey: Uint8Array,
-    tweakValue: Uint8Array
-  ) => Uint8Array) => (publicKey, tweakValue) => {
+  ): ((publicKey: Uint8Array, tweakValue: Uint8Array) => Uint8Array) => (
+    publicKey,
+    tweakValue
+  ) => {
     if (!parsePublicKey(publicKey)) {
       throw new Error('Failed to parse public key.');
     }
@@ -851,11 +850,11 @@ const wrapSecp256k1Wasm = (
         internalPublicKeyPtr,
         messageHashScratch
       ) !== 1
-    ){
-      throw new Error("Multiplying failed");
+    ) {
+      throw new Error('Multiplying failed');
     }
     return getSerializedPublicKey(compressed);
-  }
+  };
 
   /**
    * The value of this precaution is debatable, especially in the context of

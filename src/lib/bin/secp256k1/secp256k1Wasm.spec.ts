@@ -302,7 +302,7 @@ const testSecp256k1Wasm = (
     pubkeyCompressed,
     secp256k1Wasm.readHeapU8(recoveredPublicKeyCompressedPtr, 33)
   );
-  
+
   // tweaking keys
   // skipping uncompressed checks since we already verified that parsing and steralizing works.
   // allocate pointers
@@ -311,15 +311,19 @@ const testSecp256k1Wasm = (
   const privkeyTweakedAddPtr = secp256k1Wasm.malloc(32);
   const rawPubkeyDerivedTweakedAddPtr = secp256k1Wasm.malloc(64);
   const pubkeyDerivedTweakedAddCompressedPtr = secp256k1Wasm.malloc(33);
-  const pubkeyDerivedTweakedAddCompressedLengthPtr = secp256k1Wasm.mallocSizeT(33);
+  const pubkeyDerivedTweakedAddCompressedLengthPtr = secp256k1Wasm.mallocSizeT(
+    33
+  );
   const rawPubkeyTweakedAddPtr = secp256k1Wasm.malloc(64);
   const pubkeyTweakedAddCompressedPtr = secp256k1Wasm.malloc(33);
   const pubkeyTweakedAddCompressedLengthPtr = secp256k1Wasm.mallocSizeT(33);
-  
+
   const privkeyTweakedMulPtr = secp256k1Wasm.malloc(32);
   const rawPubkeyDerivedTweakedMulPtr = secp256k1Wasm.malloc(64);
   const pubkeyDerivedTweakedMulCompressedPtr = secp256k1Wasm.malloc(33);
-  const pubkeyDerivedTweakedMulCompressedLengthPtr = secp256k1Wasm.mallocSizeT(33);
+  const pubkeyDerivedTweakedMulCompressedLengthPtr = secp256k1Wasm.mallocSizeT(
+    33
+  );
   const rawPubkeyTweakedMulPtr = secp256k1Wasm.malloc(64);
   const pubkeyTweakedMulCompressedPtr = secp256k1Wasm.malloc(33);
   const pubkeyTweakedMulCompressedLengthPtr = secp256k1Wasm.mallocSizeT(33);
@@ -327,41 +331,47 @@ const testSecp256k1Wasm = (
   t.not(rawPubkeyTweakedMulPtr, 0);
   t.not(pubkeyTweakedMulCompressedPtr, 0);
   t.not(pubkeyTweakedMulCompressedLengthPtr, 0);
-  
+
   // set pre determine values
-  secp256k1Wasm.heapU8.set(keyTweakVal,keyTweakPtr);
+  secp256k1Wasm.heapU8.set(keyTweakVal, keyTweakPtr);
 
   secp256k1Wasm.heapU8.set(privkey, privkeyTweakedAddPtr);
   // we already verified that rawPubkeyPtr matches the given pubkeyCompressed, so let's re-use that.
-  secp256k1Wasm.heapU8.copyWithin(rawPubkeyTweakedAddPtr,rawPubkeyPtr,rawPubkeyPtr+64);
+  secp256k1Wasm.heapU8.copyWithin(
+    rawPubkeyTweakedAddPtr,
+    rawPubkeyPtr,
+    rawPubkeyPtr + 64
+  );
 
   secp256k1Wasm.heapU8.set(privkey, privkeyTweakedMulPtr);
-  secp256k1Wasm.heapU8.copyWithin(rawPubkeyTweakedMulPtr,rawPubkeyPtr,rawPubkeyPtr+64);
-  
+  secp256k1Wasm.heapU8.copyWithin(
+    rawPubkeyTweakedMulPtr,
+    rawPubkeyPtr,
+    rawPubkeyPtr + 64
+  );
+
   // actually test the stuff
   // tweak add
   t.is(
-    secp256k1Wasm.privkeyTweakAdd
-    (
+    secp256k1Wasm.privkeyTweakAdd(
       contextPtr,
       privkeyTweakedAddPtr,
       keyTweakPtr
     ),
     1
-  )
+  );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(privkeyTweakedAddPtr, 32),
     privkeyTweakedAdd
-  )
+  );
   t.is(
-    secp256k1Wasm.pubkeyCreate
-    (
+    secp256k1Wasm.pubkeyCreate(
       contextPtr,
       rawPubkeyDerivedTweakedAddPtr,
       privkeyTweakedAddPtr
     ),
     1
-  )
+  );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyDerivedTweakedAddCompressedPtr,
@@ -372,7 +382,7 @@ const testSecp256k1Wasm = (
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyDerivedTweakedAddCompressedPtr, 33),
     pubkeyTweakedAddCompressed
-  )
+  );
   t.is(
     secp256k1Wasm.pubkeyTweakAdd(
       contextPtr,
@@ -380,7 +390,7 @@ const testSecp256k1Wasm = (
       keyTweakPtr
     ),
     1
-  )
+  );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyTweakedAddCompressedPtr,
@@ -391,31 +401,29 @@ const testSecp256k1Wasm = (
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyTweakedAddCompressedPtr, 33),
     pubkeyTweakedAddCompressed
-  )
-  
+  );
+
   // tweak mul
   t.is(
-    secp256k1Wasm.privkeyTweakMul
-    (
+    secp256k1Wasm.privkeyTweakMul(
       contextPtr,
       privkeyTweakedMulPtr,
       keyTweakPtr
     ),
     1
-  )
+  );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(privkeyTweakedMulPtr, 32),
     privkeyTweakedMul
-  )
+  );
   t.is(
-    secp256k1Wasm.pubkeyCreate
-    (
+    secp256k1Wasm.pubkeyCreate(
       contextPtr,
       rawPubkeyDerivedTweakedMulPtr,
       privkeyTweakedMulPtr
     ),
     1
-  )
+  );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyDerivedTweakedMulCompressedPtr,
@@ -426,7 +434,7 @@ const testSecp256k1Wasm = (
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyDerivedTweakedMulCompressedPtr, 33),
     pubkeyTweakedMulCompressed
-  )
+  );
   t.is(
     secp256k1Wasm.pubkeyTweakMul(
       contextPtr,
@@ -434,7 +442,7 @@ const testSecp256k1Wasm = (
       keyTweakPtr
     ),
     1
-  )
+  );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyTweakedMulCompressedPtr,
@@ -445,7 +453,7 @@ const testSecp256k1Wasm = (
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyTweakedMulCompressedPtr, 33),
     pubkeyTweakedMulCompressed
-  )
+  );
 };
 
 const binary = getEmbeddedSecp256k1Binary();

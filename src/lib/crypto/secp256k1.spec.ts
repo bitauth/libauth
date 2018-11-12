@@ -31,7 +31,6 @@ const pubkeyUncompressed = new Uint8Array([0x04, 0x76, 0xea, 0x9e, 0x36, 0xa7, 0
 // prettier-ignore
 const pubkeyCompressed = new Uint8Array([0x03, 0x76, 0xea, 0x9e, 0x36, 0xa7, 0x5d, 0x2e, 0xcf, 0x9c, 0x93, 0xa0, 0xbe, 0x76, 0x88, 0x5e, 0x36, 0xf8, 0x22, 0x52, 0x9d, 0xb2, 0x2a, 0xcf, 0xdc, 0x76, 0x1c, 0x9b, 0x5b, 0x45, 0x44, 0xf5, 0xc5]);
 
-
 // prettier-ignore
 const privkeyTweakedAdd = new Uint8Array([0xf9, 0x5e, 0x4c, 0xd9, 0xa1, 0x3d, 0xa2, 0x07, 0xca, 0xdf, 0xb5, 0x7c, 0x7a, 0x19, 0x04, 0xdb, 0xc8, 0xf1, 0x34, 0x39, 0x0a, 0xe4, 0xf2, 0xde, 0x05, 0xd2, 0x83, 0xe1, 0xac, 0xa7, 0xe6, 0x54]);
 
@@ -49,7 +48,6 @@ const pubkeyTweakedMulUncompressed = new Uint8Array([0x04, 0xb7, 0x98, 0x58, 0x0
 
 // prettier-ignore
 const pubkeyTweakedMulCompressed = new Uint8Array([0x02, 0xb7, 0x98, 0x58, 0x0c, 0x33, 0x8c, 0x02, 0xed, 0xc3, 0x8a, 0xd9, 0xb6, 0x19, 0x7d, 0x4c, 0x56, 0x64, 0xe6, 0xaa, 0x85, 0x49, 0x10, 0xad, 0xa7, 0x5d, 0xc6, 0x10, 0x14, 0x2b, 0x5a, 0x7a, 0x38]);
-
 
 // prettier-ignore
 const sigDER = new Uint8Array([0x30, 0x45, 0x02, 0x21, 0x00, 0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8, 0x30, 0x72, 0x61, 0x5c, 0x33, 0xa9, 0x88, 0x7b, 0x75, 0x64, 0x78, 0xe6, 0xf9, 0xde, 0x38, 0x10, 0x85, 0xf5, 0x18, 0x3c, 0x97, 0x60, 0x3f, 0xc6, 0xff, 0x02, 0x20, 0x29, 0x72, 0x21, 0x88, 0xbd, 0x93, 0x7f, 0x54, 0xc8, 0x61, 0x58, 0x2c, 0xa6, 0xfc, 0x68, 0x5b, 0x8d, 0xa2, 0xb4, 0x0d, 0x05, 0xf0, 0x6b, 0x36, 0x83, 0x74, 0xd3, 0x5e, 0x4a, 0xf2, 0xb7, 0x64]);
@@ -120,7 +118,7 @@ test('secp256k1.addTweakPrivateKey', async t => {
     secp256k1.addTweakPrivateKey(privkey, keyTweakVal),
     privkeyTweakedAdd
   );
-  t.throws(() => secp256k1.addTweakPrivateKey(privkey, Buffer.alloc(32,255)));
+  t.throws(() => secp256k1.addTweakPrivateKey(privkey, Buffer.alloc(32, 255)));
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -147,13 +145,13 @@ test('secp256k1.addTweakPublicKeyCompressed', async t => {
     pubkeyTweakedAddCompressed
   );
   t.throws(() => {
-    secp256k1.addTweakPublicKeyCompressed(new Uint8Array(65),keyTweakVal);
-  })
+    secp256k1.addTweakPublicKeyCompressed(new Uint8Array(65), keyTweakVal);
+  });
   t.throws(() => {
     secp256k1.addTweakPublicKeyCompressed(
       pubkeyCompressed,
-      Buffer.alloc(32,255)
-    )
+      Buffer.alloc(32, 255)
+    );
   });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
@@ -162,7 +160,7 @@ test('secp256k1.addTweakPublicKeyCompressed', async t => {
       t.deepEqual(
         secp256k1.addTweakPublicKeyCompressed(pubkeyC, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakAdd (
+          secp256k1Node.publicKeyTweakAdd(
             Buffer.from(pubkeyC),
             Buffer.from(keyTweakVal),
             true
@@ -183,13 +181,13 @@ test('secp256k1.addTweakPublicKeyUncompressed', async t => {
     pubkeyTweakedAddUncompressed
   );
   t.throws(() => {
-    secp256k1.addTweakPublicKeyUncompressed(new Uint8Array(65),keyTweakVal);
-  })
+    secp256k1.addTweakPublicKeyUncompressed(new Uint8Array(65), keyTweakVal);
+  });
   t.throws(() => {
     secp256k1.addTweakPublicKeyUncompressed(
       pubkeyCompressed,
-      Buffer.alloc(32,255)
-    )
+      Buffer.alloc(32, 255)
+    );
   });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
@@ -198,7 +196,7 @@ test('secp256k1.addTweakPublicKeyUncompressed', async t => {
       t.deepEqual(
         secp256k1.addTweakPublicKeyUncompressed(pubkeyU, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakAdd (
+          secp256k1Node.publicKeyTweakAdd(
             Buffer.from(pubkeyU),
             Buffer.from(keyTweakVal),
             false
@@ -414,7 +412,7 @@ test('secp256k1.mulTweakPrivateKey', async t => {
     secp256k1.mulTweakPrivateKey(privkey, keyTweakVal),
     privkeyTweakedMul
   );
-  t.throws(() => secp256k1.mulTweakPrivateKey(privkey, Buffer.alloc(32,255)));
+  t.throws(() => secp256k1.mulTweakPrivateKey(privkey, Buffer.alloc(32, 255)));
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -441,13 +439,13 @@ test('secp256k1.mulTweakPublicKeyCompressed', async t => {
     pubkeyTweakedMulCompressed
   );
   t.throws(() => {
-    secp256k1.mulTweakPublicKeyCompressed(new Uint8Array(65),keyTweakVal);
-  })
+    secp256k1.mulTweakPublicKeyCompressed(new Uint8Array(65), keyTweakVal);
+  });
   t.throws(() => {
     secp256k1.mulTweakPublicKeyCompressed(
       pubkeyCompressed,
-      Buffer.alloc(32,255)
-    )
+      Buffer.alloc(32, 255)
+    );
   });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
@@ -456,7 +454,7 @@ test('secp256k1.mulTweakPublicKeyCompressed', async t => {
       t.deepEqual(
         secp256k1.mulTweakPublicKeyCompressed(pubkeyC, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakMul (
+          secp256k1Node.publicKeyTweakMul(
             Buffer.from(pubkeyC),
             Buffer.from(keyTweakVal),
             true
@@ -477,13 +475,13 @@ test('secp256k1.mulTweakPublicKeyUncompressed', async t => {
     pubkeyTweakedMulUncompressed
   );
   t.throws(() => {
-    secp256k1.mulTweakPublicKeyUncompressed(new Uint8Array(65),keyTweakVal);
-  })
+    secp256k1.mulTweakPublicKeyUncompressed(new Uint8Array(65), keyTweakVal);
+  });
   t.throws(() => {
     secp256k1.mulTweakPublicKeyUncompressed(
       pubkeyCompressed,
-      Buffer.alloc(32,255)
-    )
+      Buffer.alloc(32, 255)
+    );
   });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
@@ -492,7 +490,7 @@ test('secp256k1.mulTweakPublicKeyUncompressed', async t => {
       t.deepEqual(
         secp256k1.mulTweakPublicKeyUncompressed(pubkeyU, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakMul (
+          secp256k1Node.publicKeyTweakMul(
             Buffer.from(pubkeyU),
             Buffer.from(keyTweakVal),
             false

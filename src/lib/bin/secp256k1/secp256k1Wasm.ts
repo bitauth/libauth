@@ -142,11 +142,11 @@ export interface Secp256k1Wasm {
    * @param array a Uint8Array to allocate in WebAssembly memory
    */
   readonly mallocUint8Array: (array: Uint8Array) => number;
-  
+
   /**
    * Tweak a _privateKey_ by adding _tweak_ to it.
    * Returns 1 if adding succeeded, 0 otherwise.
-   * 
+   *
    * @param contextPtr pointer to a context object
    * @param secretKeyPtr pointer to a 32 byte private key
    * @param tweakNum256Ptr pointer to a 256 bit int representing the tweak value
@@ -160,7 +160,7 @@ export interface Secp256k1Wasm {
   /**
    * Tweak a _privateKey_ by multiplying _tweak_ to it.
    * Returns 1 if multiplying succeeded, 0 otherwise.
-   * 
+   *
    * @param contextPtr pointer to a context object
    * @param secretKeyPtr pointer to a 32 byte private key
    * @param tweakNum256Ptr pointer to a 256 bit int representing the tweak value
@@ -212,7 +212,7 @@ export interface Secp256k1Wasm {
     // tslint:disable-next-line:no-magic-numbers
     publicKeyInLength: 33 | 65
   ) => 1 | 0;
-  
+
   /**
    * Serialize a pubkey object into a serialized byte sequence.
    *
@@ -237,7 +237,7 @@ export interface Secp256k1Wasm {
   /**
    * Tweak a _publicKey_ by adding _tweak_ times the generator to it.
    * Returns 1 if adding succeeded, 0 otherwise.
-   * 
+   *
    * @param contextPtr pointer to a context object
    * @param publicKeyPtr pointer to a 64 byte space representing a public key
    * (internal format)
@@ -248,12 +248,12 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyPtr: number,
     tweakNum256Ptr: number
-  ) => 1 | 0; 
+  ) => 1 | 0;
 
   /**
    * Tweak a _publicKey_ by multiplying it by a _tweak_ value.
    * Returns 1 if multiplying succeeded, 0 otherwise.
-   * 
+   *
    * @param contextPtr pointer to a context object
    * @param publicKeyPtr pointer to a 64 byte space representing a public key
    * (internal format)
@@ -264,7 +264,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyPtr: number,
     tweakNum256Ptr: number
-  ) => 1 | 0; 
+  ) => 1 | 0;
 
   /**
    * Read from WebAssembly memory by creating a new Uint8Array beginning at
@@ -625,13 +625,13 @@ const wrapSecp256k1Wasm = (
     heapU8.set(array, pointer);
     return pointer;
   },
-  privkeyTweakAdd: (contextPtr,secretKeyPtr,tweakNum256Ptr) =>
+  privkeyTweakAdd: (contextPtr, secretKeyPtr, tweakNum256Ptr) =>
     instance.exports._secp256k1_ec_privkey_tweak_add(
       contextPtr,
       secretKeyPtr,
       tweakNum256Ptr
     ),
-  privkeyTweakMul: (contextPtr,secretKeyPtr,tweakNum256Ptr) =>
+  privkeyTweakMul: (contextPtr, secretKeyPtr, tweakNum256Ptr) =>
     instance.exports._secp256k1_ec_privkey_tweak_mul(
       contextPtr,
       secretKeyPtr,
@@ -669,13 +669,13 @@ const wrapSecp256k1Wasm = (
       publicKeyPtr,
       compression
     ),
-  pubkeyTweakAdd: (contextPtr,publicKeyPtr,tweakNum256Ptr) =>
+  pubkeyTweakAdd: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
     instance.exports._secp256k1_ec_pubkey_tweak_add(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr
     ),
-  pubkeyTweakMul: (contextPtr,publicKeyPtr,tweakNum256Ptr) =>
+  pubkeyTweakMul: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
     instance.exports._secp256k1_ec_pubkey_tweak_mul(
       contextPtr,
       publicKeyPtr,

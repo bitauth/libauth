@@ -42,6 +42,51 @@ export interface RecoverableSignature {
  */
 export interface Secp256k1 {
   /**
+   * Add `tweakValue` to the `privateKey`
+   *
+   * Throws if the private key is invalid or if the addition failed.
+   *
+   * @param privateKey a valid secp256k1 private key
+   * @param tweakValue 256 bit value to tweak by (BE)
+   */
+  readonly addTweakPrivateKey: (
+    privateKey: Uint8Array,
+    tweakValue: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak a `publicKey` by adding `tweakValue` times the generator to it.
+   *
+   * Throws if the provided public key could not be parsed, is not valid or if
+   * the addition failed.
+   *
+   * The returned public key will be in compressed format.
+   *
+   * @param publicKey a public key.
+   * @param tweakValue 256 bit value to tweak by (BE)
+   */
+  readonly addTweakPublicKeyCompressed: (
+    publicKey: Uint8Array,
+    tweakValue: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak a `publicKey` by adding `tweakValue` times the generator to it.
+   *
+   * Throws if the provided public key could not be parsed, is not valid or if
+   * the addition failed.
+   *
+   * The returned public key will be in uncompressed format.
+   *
+   * @param publicKey a public key.
+   * @param tweakValue 256 bit value to tweak by (BE)
+   */
+  readonly addTweakPublicKeyUncompressed: (
+    publicKey: Uint8Array,
+    tweakValue: Uint8Array
+  ) => Uint8Array;
+
+  /**
    * Compress a valid ECDSA public key. Returns a public key in compressed
    * format (33 bytes, header byte 0x02 or 0x03).
    *
@@ -99,6 +144,49 @@ export interface Secp256k1 {
    * @param signature a DER-encoded ECDSA signature to malleate, max 72 bytes
    */
   readonly malleateSignatureDER: (signature: Uint8Array) => Uint8Array;
+
+  /**
+   * Add `tweakValue` to the `privateKey`
+   *
+   * @param privateKey a valid secp256k1 private key
+   * @param tweakValue 256 bit value to tweak by (BE)
+   *
+   */
+  readonly mulTweakPrivateKey: (
+    privateKey: Uint8Array,
+    tweakValue: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak a `publicKey` by multiplying `tweakValue` to it.
+   *
+   * Throws if the provided public key could not be parsed, is not valid or if
+   * the multiplication failed.
+   * The returned public key will be in compressed format.
+   *
+   * @param publicKey a public key.
+   * @param tweakValue 256 bit value to tweak by (BE)
+   */
+  readonly mulTweakPublicKeyCompressed: (
+    publicKey: Uint8Array,
+    tweakValue: Uint8Array
+  ) => Uint8Array;
+
+  /**
+   * Tweak a `publicKey` by multiplying `tweakValue` to it.
+   *
+   * Throws if the provided public key could not be parsed, is not valid or if
+   * the multiplication failed.
+   * The returned public key will be in uncompressed format.
+   *
+   * @param publicKey a public key.
+   * @param tweakValue 256 bit value to tweak by (BE)
+   */
+
+  readonly mulTweakPublicKeyUncompressed: (
+    publicKey: Uint8Array,
+    tweakValue: Uint8Array
+  ) => Uint8Array;
 
   /**
    * Normalize a compact-encoded ECDSA signature to lower-S form.
@@ -227,7 +315,7 @@ export interface Secp256k1 {
    *
    * Throws if the provided public key could not be parsed or is not valid.
    *
-   * @param privateKey a public key to uncompress
+   * @param publicKey a public key to uncompress
    */
   readonly uncompressPublicKey: (publicKey: Uint8Array) => Uint8Array;
 
@@ -686,6 +774,88 @@ const wrapSecp256k1Wasm = (
     return getSerializedPublicKey(compressed);
   };
 
+  const addTweakPrivateKey = (
+    privateKey: Uint8Array,
+    tweakValue: Uint8Array
+  ): Uint8Array => {
+    fillMessageHashScratch(tweakValue);
+    return withPrivateKey<Uint8Array>(privateKey, () => {
+      if (
+        secp256k1Wasm.privkeyTweakAdd(
+          contextPtr,
+          privateKeyPtr,
+          messageHashScratch
+        ) !== 1
+      ) {
+        throw new Error('Private key is invalid or adding failed.');
+      }
+      return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
+    });
+  };
+
+  const mulTweakPrivateKey = (
+    privateKey: Uint8Array,
+    tweakValue: Uint8Array
+  ): Uint8Array => {
+    fillMessageHashScratch(tweakValue);
+    return withPrivateKey<Uint8Array>(privateKey, () => {
+      if (
+        secp256k1Wasm.privkeyTweakMul(
+          contextPtr,
+          privateKeyPtr,
+          messageHashScratch
+        ) !== 1
+      ) {
+        throw new Error('Private key is invalid or multiplying failed.');
+      }
+      return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
+    });
+  };
+
+  const addTweakPublicKey = (
+    compressed: boolean
+  ): ((publicKey: Uint8Array, tweakValue: Uint8Array) => Uint8Array) => (
+    publicKey,
+    tweakValue
+  ) => {
+    if (!parsePublicKey(publicKey)) {
+      throw new Error('Failed to parse public key.');
+    }
+    fillMessageHashScratch(tweakValue);
+    if (
+      secp256k1Wasm.pubkeyTweakAdd(
+        contextPtr,
+        internalPublicKeyPtr,
+        messageHashScratch
+      ) !== 1
+    ) {
+      throw new Error('Adding failed');
+    }
+    return getSerializedPublicKey(compressed);
+  };
+
+  const mulTweakPublicKey = (
+    compressed: boolean
+  ): ((publicKey: Uint8Array, tweakValue: Uint8Array) => Uint8Array) => (
+    publicKey,
+    tweakValue
+  ) => {
+    if (!parsePublicKey(publicKey)) {
+      throw new Error('Failed to parse public key.');
+    }
+    fillMessageHashScratch(tweakValue);
+    if (
+      secp256k1Wasm.pubkeyTweakMul(
+        contextPtr,
+        internalPublicKeyPtr,
+        messageHashScratch
+      ) !== 1
+    ) {
+      throw new Error('Multiplying failed');
+    }
+    return getSerializedPublicKey(compressed);
+  };
+
   /**
    * The value of this precaution is debatable, especially in the context of
    * javascript and WebAssembly.
@@ -712,11 +882,17 @@ const wrapSecp256k1Wasm = (
   }
 
   return {
+    addTweakPrivateKey,
+    addTweakPublicKeyCompressed: addTweakPublicKey(true),
+    addTweakPublicKeyUncompressed: addTweakPublicKey(false),
     compressPublicKey: convertPublicKey(true),
     derivePublicKeyCompressed: derivePublicKey(true),
     derivePublicKeyUncompressed: derivePublicKey(false),
     malleateSignatureCompact: modifySignature(false, false),
     malleateSignatureDER: modifySignature(true, false),
+    mulTweakPrivateKey,
+    mulTweakPublicKeyCompressed: mulTweakPublicKey(true),
+    mulTweakPublicKeyUncompressed: mulTweakPublicKey(false),
     normalizeSignatureCompact: modifySignature(false, true),
     normalizeSignatureDER: modifySignature(true, true),
     recoverPublicKeyCompressed: recoverPublicKey(true),

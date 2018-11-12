@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement
-import { test } from 'ava';
+import test from 'ava';
 import { noop } from './script';
 
 test('P2PKH Bitcoin Cash script', t => {

@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-let no-unsafe-any
-import { test } from 'ava';
+import test from 'ava';
 import suite from 'chuhai';
 import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';

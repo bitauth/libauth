@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
-import { test } from 'ava';
+import test from 'ava';
 import * as fc from 'fast-check';
 import { binToHex, hexToBin, range, splitEvery } from './utils';
 

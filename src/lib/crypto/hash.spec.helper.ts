@@ -1,5 +1,5 @@
 // tslint:disable:no-expression-statement no-unsafe-any
-import { test } from 'ava';
+import test from 'ava';
 import * as bcrypto from 'bcrypto';
 import { createHash } from 'crypto';
 import * as fc from 'fast-check';
@@ -30,6 +30,11 @@ export const testHashFunction = <T extends HashFunction>(
   nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
 ) => {
   const binary = getEmbeddedBinary();
+  const bcryptoAlgorithm = nodeJsAlgorithm.toUpperCase() as
+    | 'RIPEMD160'
+    | 'SHA256'
+    | 'SHA512'
+    | 'SHA1';
 
   test(`${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
     const path = join(
@@ -71,7 +76,9 @@ export const testHashFunction = <T extends HashFunction>(
       fcUint8Array(0, testLength),
       message => {
         t.deepEqual(
-          new Uint8Array(bcrypto[nodeJsAlgorithm](Buffer.from(message))),
+          new Uint8Array(
+            bcrypto[bcryptoAlgorithm].digest(Buffer.from(message))
+          ),
           hashFunction.hash(message)
         );
       }

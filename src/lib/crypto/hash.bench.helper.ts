@@ -1,6 +1,6 @@
 // tslint:disable:no-expression-statement no-let no-unsafe-any
 import * as asmCrypto from 'asmcrypto.js';
-import { test } from 'ava';
+import test from 'ava';
 import * as bcrypto from 'bcrypto';
 import suite from 'chuhai';
 import { createHash, randomBytes } from 'crypto';
@@ -13,6 +13,11 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
   nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
 ) => {
   const singlePassNodeBenchmark = (inputLength: number) => {
+    const bcryptoAlgorithm = nodeJsAlgorithm.toUpperCase() as
+      | 'RIPEMD160'
+      | 'SHA256'
+      | 'SHA512'
+      | 'SHA1';
     test(`node: ${hashFunctionName}: hash a ${inputLength}-byte input`, async t => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
@@ -35,7 +40,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             .digest();
         });
         s.bench('bcoin', () => {
-          hash = bcrypto[nodeJsAlgorithm](message);
+          hash = bcrypto[bcryptoAlgorithm].digest(Buffer.from(message));
         });
         s.bench('node.js native', () => {
           hash = createHash(nodeJsAlgorithm)
@@ -48,8 +53,8 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
-                ? asmCrypto.Sha256
-                : asmCrypto.Sha512;
+              ? asmCrypto.Sha256
+              : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
             const instance = new algorithm();
             hash = instance.process(message).finish().result;
@@ -120,8 +125,8 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
-                ? asmCrypto.Sha256
-                : asmCrypto.Sha512;
+              ? asmCrypto.Sha256
+              : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
             const instance = new algorithm();
             hash = instance.process(message).finish().result;

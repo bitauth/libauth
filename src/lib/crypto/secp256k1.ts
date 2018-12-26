@@ -681,14 +681,14 @@ const wrapSecp256k1Wasm = (
 
   const verifyMessage = (messageHash: Uint8Array) => {
     fillMessageHashScratch(messageHash);
-    return secp256k1Wasm.verify(
-      contextPtr,
-      internalSigPtr,
-      messageHashScratch,
-      internalPublicKeyPtr
-    ) === 1
-      ? true
-      : false;
+    return (
+      secp256k1Wasm.verify(
+        contextPtr,
+        internalSigPtr,
+        messageHashScratch,
+        internalPublicKeyPtr
+      ) === 1
+    );
   };
 
   const verifySignature = (
@@ -699,11 +699,9 @@ const wrapSecp256k1Wasm = (
     publicKey: Uint8Array,
     messageHash: Uint8Array
   ) => boolean) => (signature, publicKey, messageHash) =>
-    parsePublicKey(publicKey)
-      ? parseAndNormalizeSignature(signature, DER, normalize)
-        ? verifyMessage(messageHash)
-        : false
-      : false;
+    parsePublicKey(publicKey) &&
+    parseAndNormalizeSignature(signature, DER, normalize) &&
+    verifyMessage(messageHash);
 
   const signMessageHashRecoverable = (
     privateKey: Uint8Array,

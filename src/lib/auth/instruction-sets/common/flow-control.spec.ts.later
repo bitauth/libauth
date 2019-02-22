@@ -1,0 +1,116 @@
+// tslint:disable:no-expression-statement no-magic-numbers readonly-array
+/*
+import { testOperator } from '../instruction-sets.spec.helper';
+import {
+  bigIntToScriptNumber,
+  CommonAuthenticationError,
+  ErrorState,
+  StackMachineState
+} from './common';
+import { clone } from './common.spec.helper';
+import { opVerify } from './flow-control';
+
+const pass = bigIntToScriptNumber(BigInt(1));
+const fail = bigIntToScriptNumber(BigInt(0));
+
+const opEqualDescription = `Pop the top element from the stack and error if it isn't "truthy".`;
+
+const createState = (
+  // tslint:disable-next-line:readonly-array
+  stack: Uint8Array[]
+): StackMachineState & ErrorState<{}> => ({
+  stack
+});
+
+// TODO: can we type the first state better so it can always be inferred?
+testOperator(
+  opVerify(),
+  'OP_VERIFY: works',
+  'OP_VERIFY',
+  opEqualDescription,
+  [
+    createState([pass]),
+    {
+      stack: []
+    }
+  ],
+  clone
+);
+
+testOperator(
+  opVerify(),
+  'OP_VERIFY: passes on positive numbers',
+  'OP_VERIFY',
+  opEqualDescription,
+  [
+    {
+      stack: [new Uint8Array([42])]
+    },
+    {
+      stack: []
+    }
+  ],
+  clone
+);
+
+testOperator(
+  opVerify(),
+  'OP_VERIFY: zero fails',
+  'OP_VERIFY',
+  opEqualDescription,
+  [
+    createState([fail]),
+    {
+      error: CommonAuthenticationError.failedVerify,
+      stack: []
+    }
+  ],
+  clone
+);
+
+testOperator(
+  opVerify(),
+  'OP_VERIFY: padded zeros fail',
+  'OP_VERIFY',
+  opEqualDescription,
+  [
+    createState([new Uint8Array([0, 0, 0, 0])]),
+    {
+      error: CommonAuthenticationError.failedVerify,
+      stack: []
+    }
+  ],
+  clone
+);
+
+testOperator(
+  opVerify(),
+  'OP_VERIFY: negative zero fails',
+  'OP_VERIFY',
+  opEqualDescription,
+  [
+    createState([new Uint8Array([128])]),
+    {
+      error: CommonAuthenticationError.failedVerify,
+      stack: []
+    }
+  ],
+  clone
+);
+
+testOperator(
+  opVerify(),
+  'OP_VERIFY: negative numbers pass (e.g. -127)',
+  'OP_VERIFY',
+  opEqualDescription,
+  [
+    {
+      stack: [new Uint8Array([255])]
+    },
+    {
+      stack: []
+    }
+  ],
+  clone
+);
+*/

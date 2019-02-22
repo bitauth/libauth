@@ -8,6 +8,7 @@
     "declaration": true,
     "inlineSourceMap": true,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
+    "resolveJsonModule": true,
 
     "strict": true /* Enable all strict type-checking options. */,
 
@@ -37,6 +38,7 @@
 
     "lib": [
       "es2017",
+      "esnext.bigint",
       // TODO: remove after https://github.com/DefinitelyTyped/DefinitelyTyped/issues/24419 is resolved
       "dom"
     ],

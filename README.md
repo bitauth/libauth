@@ -47,6 +47,8 @@ import { msgHash, pubkey, sig } from './somewhere';
 })();
 ```
 
+**Note**: `bitcoin-ts` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) for some functionality. While `BigInt` support (Node.js v10 LTS or later) is required to use this functionality, other parts of the library will continue to work in older environments.
+
 ## Documentation
 
 [**API Documentation →**](https://bitjson.github.io/bitcoin-ts/)

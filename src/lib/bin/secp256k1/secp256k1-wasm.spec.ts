@@ -10,7 +10,7 @@ import {
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
   Secp256k1Wasm
-} from './secp256k1Wasm';
+} from './secp256k1-wasm';
 
 // test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
 

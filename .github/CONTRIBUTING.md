@@ -6,13 +6,18 @@ Below you'll find the conventions we're trying to follow. Of course, please feel
 
 ## Design Guidelines
 
-* **start small, compose** - Compose larger functions from their smallest possible components.
-* **export early and often** - Let consumers access functionality at all levels of complexity (for maximum remix-ability). Make it reasonable for consumers to substitute their own implementations where possible.
-* **trust the caller** - runtime type-checking is a code smell. If the function accepts a string, assume it's been given a string. TypeScript definitions should expose improperly called functions to the developer at compile time, don't re-implement it at runtime.
-* **simple > ergonomic** - Clever, javascript-y interfaces are fun until they're limiting. We export simple primitives; other projects can wrap this library to provide friendlier interfaces.
-* **clarity > performance** - Performance is a secondary goal. If our consumers need to squeeze out performance from a single machine, they should switch to something lower-level. The best way to speed up a consumer of this library is to parallelize it across more machines.
-* **ignore historical names** - Many Bitcoin implementations make imprecise (and even misleading) naming choices for historical reasons. We make little effort to match the type/function names of other Bitcoin implementations; names should be chosen to improve clarity.
-* **don't add package dependencies** - This library should be as simple and stable as possible. Generally, if something is hard enough to warrant bringing in a dependency, it's something this library should provide. (Can you compile and expose a WASM version?)
+- **start small, compose** - Compose larger functions from their smallest possible components.
+- **export early and often** - Let consumers access functionality at all levels of complexity (for maximum remix-ability). Make it reasonable for consumers to substitute their own implementations where possible. For consumers where code-size is an issue, this library should be easily tree-shakable to the minimum possible code needed.
+- **trust the caller** - Runtime type-checking is a code smell. If the function accepts a string, assume it's been given a string. TypeScript definitions should expose improperly called functions to the developer at compile time, don't re-implement it at runtime. (Where TypeScript's lack of dependent types prevents us from checking the validity of an input at compile time, resist the urge to check it at runtime. Trust that the caller can test their code themselves.)
+- **simple > ergonomic** - Clever, javascript-y interfaces are fun until they're limiting. We export simple primitives; other projects can wrap this library to provide friendlier interfaces.
+- **clarity > performance** - Performance is a secondary goal. If our consumers need to squeeze out performance from a single machine, they should switch to something lower-level. The best way to speed up a consumer of this library is to parallelize it across more hardware.
+- **don't overvalue historical names** - Many Bitcoin implementations make imprecise (and even misleading) naming choices for historical reasons. We make little effort to match the type/function names of other Bitcoin implementations; names should be chosen to improve clarity.
+- **don't add package dependencies** - This library should be as simple and stable as possible. Generally, if something is hard enough to warrant bringing in a dependency, it's something this library should provide. (Can you compile and expose a WASM version?)
+
+## Some practical details
+
+- **accept `readonly`, return mutable** - We should always return mutable types to allow consumers the option of mutating results without running afoul of type-checking. For the same reason, when we accept a value, we should always accept it as `readonly` for maximum flexibility.
+- **use `tslint:disable-next-line` or `tslint:disable-line`** - It's ok to disable tslint; in some cases, rules should be disabled every time they're hit (e.g. `no-bitwise`). By using single-line disables, we clearly mark intentional deviations from our conventions.
 
 ## Areas for Improvement
 

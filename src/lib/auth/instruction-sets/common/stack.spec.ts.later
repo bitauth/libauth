@@ -1,0 +1,30 @@
+// TODO: 'OP_DUP: creates a copy of Uint8Arrays (rather than duplicating a reference)',
+
+// tslint:disable:no-expression-statement no-magic-numbers readonly-array
+/*
+import { testOperator } from '../instruction-sets.spec.helper';
+import { CommonAuthenticationError } from './common';
+import { clone, emptyStack } from './common.spec.helper';
+import { opDup } from './stack';
+
+testOperator(
+  opDup(),
+  'OP_DUP: errors if the stack is empty',
+  'OP_DUP',
+  'Duplicate the top element on the stack.',
+  [emptyStack(), { error: CommonAuthenticationError.emptyStack }],
+  clone
+);
+
+testOperator(
+  opDup(),
+  'OP_DUP: works',
+  'OP_DUP',
+  'Duplicate the top element on the stack.',
+  [
+    { ...emptyStack(), stack: [new Uint8Array([1])] },
+    { stack: [new Uint8Array([1]), new Uint8Array([1])] }
+  ],
+  clone
+);
+*/

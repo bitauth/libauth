@@ -1,4 +1,4 @@
-import { decodeBase64String } from '../bin';
+import { base64ToBin } from '../../utils/utils';
 import { secp256k1Base64Bytes } from './secp256k1.base64';
 
 // bitflags used in secp256k1's public API (translated from secp256k1.h)
@@ -932,7 +932,7 @@ export const instantiateSecp256k1WasmBytes = async (
 };
 
 export const getEmbeddedSecp256k1Binary = () =>
-  decodeBase64String(secp256k1Base64Bytes);
+  base64ToBin(secp256k1Base64Bytes).buffer;
 
 /**
  * An ultimately-portable (but slower) version of `instantiateSecp256k1Bytes`

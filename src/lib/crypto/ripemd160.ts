@@ -1,9 +1,9 @@
 import {
-  decodeBase64String,
   HashFunction,
   instantiateRustWasm,
   ripemd160Base64Bytes
 } from '../bin/bin';
+import { base64ToBin } from '../utils/utils';
 
 export interface Ripemd160 extends HashFunction {
   /**
@@ -82,7 +82,7 @@ export const instantiateRipemd160Bytes = async (
 };
 
 export const getEmbeddedRipemd160Binary = () =>
-  decodeBase64String(ripemd160Base64Bytes);
+  base64ToBin(ripemd160Base64Bytes).buffer;
 
 /**
  * An ultimately-portable (but slower) version of `instantiateRipemd160Bytes`

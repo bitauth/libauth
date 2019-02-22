@@ -1,9 +1,9 @@
 import {
-  decodeBase64String,
   HashFunction,
   instantiateRustWasm,
   sha256Base64Bytes
 } from '../bin/bin';
+import { base64ToBin } from '../utils/utils';
 
 export interface Sha256 extends HashFunction {
   /**
@@ -82,7 +82,7 @@ export const instantiateSha256Bytes = async (
 };
 
 export const getEmbeddedSha256Binary = () =>
-  decodeBase64String(sha256Base64Bytes);
+  base64ToBin(sha256Base64Bytes).buffer;
 
 /**
  * An ultimately-portable (but slower) version of `instantiateSha256Bytes`

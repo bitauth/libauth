@@ -1,0 +1,398 @@
+// tslint:disable:no-expression-statement no-magic-numbers readonly-array
+// import { binToHex, range } from '../../../utils/utils';
+// import { BitcoinCashOpcodes } from '../bitcoin-cash/bitcoin-cash-opcodes';
+// import { testOperator } from '../instruction-sets.spec.helper';
+// import { bigIntToScriptNumber, CommonAuthenticationError } from './common';
+// import { clone, fullBase, fullClone } from './common.spec.helper';
+// import {
+//   opPushData1,
+//   opPushData2,
+//   opPushData4,
+//   opPushDataConstant,
+//   opPushNumber
+// } from './push';
+
+/*
+const scriptNum = (value: number) => bigIntToScriptNumber(BigInt(value));
+
+testOperator(
+  opPushNumber(1),
+  'pushNumber: works',
+  'OP_1',
+  'Push the Script Number 1 onto the stack.',
+  [{ stack: [] }, { stack: [scriptNum(1)] }],
+  clone
+);
+
+testOperator(
+  opPushNumber(2),
+  'pushNumber: works with other elements on the stack',
+  'OP_2',
+  'Push the Script Number 2 onto the stack.',
+  [{ stack: [scriptNum(42)] }, { stack: [scriptNum(42), scriptNum(2)] }],
+  clone
+);
+
+testOperator(
+  opPushDataConstant(1),
+  'pushDataConstant: OP_PUSHBYTES_1 works',
+  'OP_PUSHBYTES_1 0x2a',
+  'Push the next byte onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([BitcoinCashOpcodes.OP_PUSHBYTES_1, 42])
+    },
+    { ip: 2, stack: [new Uint8Array([42])] }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushDataConstant(5),
+  'pushDataConstant: OP_PUSHBYTES_5 works',
+  'OP_PUSHBYTES_5 0x050a0f1419',
+  'Push the next 5 bytes onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHBYTES_5,
+        5,
+        10,
+        15,
+        20,
+        25
+      ])
+    },
+    { ip: 6, stack: [new Uint8Array([5, 10, 15, 20, 25])] }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushDataConstant(6),
+  'pushDataConstant: OP_PUSHBYTES_6 errors when insufficient bytes to push',
+  'OP_PUSHBYTES_6 0x050a0f1419[missing 1 byte]',
+  'Push the next 6 bytes onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHBYTES_6,
+        5,
+        10,
+        15,
+        20,
+        25
+      ])
+    },
+    {
+      error: CommonAuthenticationError.malformedPush
+    }
+  ],
+  fullClone
+);
+
+const pushData1Push = range(100, 1);
+const pushData1Script = new Uint8Array([
+  BitcoinCashOpcodes.OP_PUSHDATA_1,
+  100,
+  ...pushData1Push
+]);
+
+testOperator(
+  opPushData1(),
+  'pushData1: works',
+  `OP_PUSHDATA1 100 0x${binToHex(new Uint8Array(pushData1Push))}`,
+  'Read the next Uint8 (0x64) and push that number of bytes (100) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: pushData1Script
+    },
+    {
+      ip: pushData1Script.length,
+      stack: [new Uint8Array(pushData1Push)]
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData1(),
+  "pushData1: can't be the last byte in the script",
+  'OP_PUSHDATA1 [missing byte]',
+  'Read the next Uint8 (missing) and push that number of bytes onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([BitcoinCashOpcodes.OP_PUSHDATA_1])
+    },
+    {
+      error: CommonAuthenticationError.malformedPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData1(),
+  'pushData1: fails on non-minimal push',
+  `OP_PUSHDATA1 50 0x${binToHex(new Uint8Array(range(50, 1)))}`,
+  'Read the next Uint8 (0x32) and push that number of bytes (50) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHDATA_1,
+        50,
+        ...range(50, 1)
+      ])
+    },
+    {
+      error: CommonAuthenticationError.nonMinimalPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData1(),
+  'pushData1: requires enough bytes to push the expected number of bytes',
+  'OP_PUSHDATA1 100 0x010203[missing 97 bytes]',
+  'Read the next Uint8 (0x64) and push that number of bytes (100) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([BitcoinCashOpcodes.OP_PUSHDATA_1, 100, 1, 2, 3])
+    },
+    {
+      error: CommonAuthenticationError.malformedPush
+    }
+  ],
+  fullClone
+);
+
+const pushData2Push = range(257, 1);
+const pushData2Script = new Uint8Array([
+  BitcoinCashOpcodes.OP_PUSHDATA_2,
+  1,
+  1,
+  ...pushData2Push
+]);
+
+testOperator(
+  opPushData2(),
+  'pushData2: works',
+  `OP_PUSHDATA2 257 0x${binToHex(new Uint8Array(pushData2Push))}`,
+  'Read the next little-endian Uint16 (0x0101) and push that number of bytes (257) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: pushData2Script
+    },
+    {
+      ip: pushData2Script.length,
+      stack: [new Uint8Array(pushData2Push)]
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData2(),
+  "pushData2: can't be the last byte in the script",
+  'OP_PUSHDATA2 [missing 2 bytes]',
+  'Read the next little-endian Uint16 (missing) and push that number of bytes onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([BitcoinCashOpcodes.OP_PUSHDATA_2])
+    },
+    {
+      error: CommonAuthenticationError.malformedPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData2(),
+  'pushData2: fails on non-minimal push',
+  `OP_PUSHDATA2 50 0x${binToHex(new Uint8Array(range(50, 1)))}`,
+  'Read the next little-endian Uint16 (0x3200) and push that number of bytes (50) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHDATA_2,
+        50,
+        0,
+        ...range(50, 1)
+      ])
+    },
+    {
+      error: CommonAuthenticationError.nonMinimalPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData2(),
+  'pushData2: fails on pushes larger than 520 bytes',
+  `OP_PUSHDATA2 521 0x${binToHex(new Uint8Array(range(521, 1)))}`,
+  'Read the next little-endian Uint16 (0x0902) and push that number of bytes (521) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHDATA_2,
+        9,
+        2,
+        ...range(521, 1)
+      ])
+    },
+    {
+      error: CommonAuthenticationError.exceedsMaximumPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData2(),
+  'pushData2: requires enough bytes to push the expected number of bytes',
+  'OP_PUSHDATA2 257 0x010203[missing 254 bytes]',
+  'Read the next little-endian Uint16 (0x0101) and push that number of bytes (257) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([BitcoinCashOpcodes.OP_PUSHDATA_2, 1, 1, 1, 2, 3])
+    },
+    {
+      error: CommonAuthenticationError.malformedPush
+    }
+  ],
+  fullClone
+);
+
+const pushData4Push = range(256 ** 2 + 1, 1);
+const pushData4Script = new Uint8Array([
+  BitcoinCashOpcodes.OP_PUSHDATA_4,
+  1,
+  0,
+  1,
+  0,
+  ...pushData4Push
+]);
+
+testOperator(
+  opPushData4(),
+  'pushData4: never works (fails because all minimal pushes are larger than 520 bytes)',
+  `OP_PUSHDATA4 65537 0x${binToHex(new Uint8Array(pushData4Push))}`,
+  'Read the next little-endian Uint32 (0x01000100) and push that number of bytes (65537) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: pushData4Script
+    },
+    {
+      error: CommonAuthenticationError.exceedsMaximumPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData4(),
+  "pushData4: can't be the last byte in the script",
+  'OP_PUSHDATA4 [missing 4 bytes]',
+  'Read the next little-endian Uint32 (missing) and push that number of bytes onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([BitcoinCashOpcodes.OP_PUSHDATA_4])
+    },
+    {
+      error: CommonAuthenticationError.malformedPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData4(),
+  'pushData4: fails on non-minimal push',
+  `OP_PUSHDATA4 50 0x${binToHex(new Uint8Array(range(50, 1)))}`,
+  'Read the next little-endian Uint32 (0x32000000) and push that number of bytes (50) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHDATA_4,
+        50,
+        0,
+        0,
+        0,
+        ...range(50, 1)
+      ])
+    },
+    {
+      error: CommonAuthenticationError.nonMinimalPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData4(),
+  'pushData4: requires enough bytes to push the expected number of bytes',
+  'OP_PUSHDATA4 65537 0x010203[missing 65534 bytes]',
+  'Read the next little-endian Uint32 (0x01000100) and push that number of bytes (65537) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHDATA_4,
+        1,
+        0,
+        1,
+        0,
+        1,
+        2,
+        3
+      ])
+    },
+    {
+      error: CommonAuthenticationError.malformedPush
+    }
+  ],
+  fullClone
+);
+
+testOperator(
+  opPushData4(),
+  'OP_PUSHDATA4: fails on non-minimal push',
+  `OP_PUSHDATA4 50 0x${binToHex(new Uint8Array(range(50, 1)))}`,
+  'Read the next little-endian Uint32 (0x32000000) and push that number of bytes (50) onto the stack.',
+  [
+    {
+      ...fullBase(),
+      script: new Uint8Array([
+        BitcoinCashOpcodes.OP_PUSHDATA_4,
+        50,
+        0,
+        0,
+        0,
+        ...range(50, 1)
+      ])
+    },
+    {
+      error: CommonAuthenticationError.nonMinimalPush
+    }
+  ],
+  fullClone
+);
+*/

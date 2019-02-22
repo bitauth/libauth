@@ -14,16 +14,12 @@ declare const benchError: (error: string) => void;
 declare const benchComplete: () => void;
 
 // tslint:disable-next-line:no-any
-const isUint8Array = (array: any) =>
+const isUint8Array = (array: any): array is Uint8Array =>
   array && array.constructor.name === 'Uint8Array';
 
 const compare = (a?: Uint8Array, b?: Uint8Array) => {
   // tslint:disable-next-line:no-if-statement
-  if (
-    !isUint8Array(a) ||
-    !isUint8Array(b) ||
-    (a as Uint8Array).toString() !== (b as Uint8Array).toString()
-  ) {
+  if (!isUint8Array(a) || !isUint8Array(b) || a.toString() !== b.toString()) {
     benchError(`
   Invalid result: ${a} is not equal to ${b}
   `);

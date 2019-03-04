@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 // TODO: unimplemented consensus rules – sig op count, max script length, etc.
 // TODO: error if missing ENDIF
 /*

@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { range } from '../../../utils/hex';
 import { MinimumProgramState, StackState } from '../../state';
 import { Operation } from '../../virtual-machine';

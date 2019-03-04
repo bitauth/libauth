@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { CommonState, StackState } from '../../state';
 import { pushToStack, useTwoScriptNumbers } from './combinators';
 import { applyError, CommonAuthenticationError, ErrorState } from './common';

@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { CommonState, StackState } from '../../state';
 import { Operation } from '../../virtual-machine';
 import { opNot } from './arithmetic';

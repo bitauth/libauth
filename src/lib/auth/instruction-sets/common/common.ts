@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import {
   CommonProgramInternalState,
   CommonState,

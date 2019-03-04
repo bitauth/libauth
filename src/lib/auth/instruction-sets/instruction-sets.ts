@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { binToHex, flattenBinArray } from '../../utils/utils';
 import { BitcoinCashOpcodes } from './bitcoin-cash/bitcoin-cash';
 import { BitcoinOpcodes } from './bitcoin/bitcoin';

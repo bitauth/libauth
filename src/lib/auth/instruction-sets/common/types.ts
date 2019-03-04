@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 export enum ScriptNumberError {
   outOfRange = 'Failed to parse Script Number: overflows Script Number range.',
   requiresMinimal = 'Failed to parse Script Number: the number is not minimally-encoded.'

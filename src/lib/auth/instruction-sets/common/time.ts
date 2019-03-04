@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { CommonState, StackState } from '../../state';
 import { ErrorState } from './common';
 import { CommonOpcodes } from './opcodes';

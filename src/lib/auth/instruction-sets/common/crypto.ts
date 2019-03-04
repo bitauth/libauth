@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { Ripemd160, Secp256k1, Sha256 } from '../../../crypto/crypto';
 import { CommonState, StackState } from '../../state';
 import { Operation } from '../../virtual-machine';

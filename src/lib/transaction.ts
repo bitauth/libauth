@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { Sha256 } from './crypto/sha256';
 import {
   bigIntToBinUint64LE,

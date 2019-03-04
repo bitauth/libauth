@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 const enum PublicKey {
   uncompressedByteLength = 65,
   uncompressedHeaderByte = 0x04,

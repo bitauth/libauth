@@ -32,7 +32,7 @@ const hexadecimal = 16;
  * is interpreted as `aa0a`). If `wellFormedHex` is potentially malformed, check
  * its length and handle the error before calling this method.
  *
- * @param hex a string of hexadecimal-encoded data
+ * @param wellFormedHex a string of valid, hexadecimal-encoded data
  */
 export const hexToBin = (wellFormedHex: string) =>
   new Uint8Array(
@@ -56,9 +56,12 @@ export const binToHex = (bytes: Uint8Array) =>
 
 /**
  * Decode a hexadecimal-encoded string into bytes, reverse it, then re-encode.
+ *
+ * @param wellFormedHex a string of valid, hexadecimal-encoded data. See
+ * `hexToBin` for more information.
  */
-export const swapEndianness = (hex: string) =>
-  binToHex(hexToBin(hex).reverse());
+export const swapEndianness = (wellFormedHex: string) =>
+  binToHex(hexToBin(wellFormedHex).reverse());
 
 /**
  * Reduce an array of `Uint8Array`s into a single `Uint8Array`.

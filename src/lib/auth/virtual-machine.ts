@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { range } from '../utils/utils';
 import { BitcoinCashAuthenticationProgramState } from './instruction-sets/instruction-sets';
 import { MinimumProgramState } from './state';

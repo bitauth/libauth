@@ -1,3 +1,5 @@
+/* istanbul ignore file */ // TODO: stabilize & test
+
 import { binToHex } from './hex';
 
 export const stringify = (object: object, spacing = 2) =>

@@ -9,9 +9,9 @@ A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin lib
 
 ## Work in Progress
 
-While this library is a work in progress, the currently-exposed functionality is production-ready (WASM implementations of secp256k1, ripemd160, sha256, sha512, and sha1).
+While this library is under active development, current functionality is production-ready (WASM implementations of secp256k1, ripemd160, sha256, sha512, and sha1).
 
-More functionality will be exposed in future versions.
+More functionality will be exposed and stabilized in future versions.
 
 ## Design Goals
 
@@ -47,9 +47,11 @@ import { msgHash, pubkey, sig } from './somewhere';
 })();
 ```
 
-## Documentation
+**Note**: `bitcoin-ts` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) for some functionality. While `BigInt` support (Node.js v10 LTS or later) is required to use this functionality, other parts of the library will continue to work in older environments.
 
-[**API Documentation →**](https://bitauth.github.io/bitcoin-ts/)
+## Stable APIs
+
+The following APIs are considered stable, and will only include breaking changes in major version upgrades.
 
 ### ECDSA
 
@@ -66,6 +68,14 @@ import { msgHash, pubkey, sig } from './somewhere';
 - [Sha256 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha256.html)
 - [instantiateSha512](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha512)
 - [Sha512 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha512.html)
+
+### Unstable APIs
+
+The master branch of this repo also contains new, potentially unstable APIs. Note, these APIs require a minimum Node.js version of v10 LTS or later.
+
+As these APIs stabilize, they will be included in the above Stable APIs. Documentation for the latest state of the mater branch can be found below.
+
+[**API Documentation →**](https://bitauth.github.io/bitcoin-ts/)
 
 ## Contributing
 

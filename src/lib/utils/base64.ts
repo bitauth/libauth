@@ -1,8 +1,9 @@
-export const decodeBase64String = (base64Text: string) => {
-  // base64 decode derived from: https://github.com/niklasvh/base64-arraybuffer
-  // prettier-ignore
-  const chars =
+// base64 encode/decode derived from: https://github.com/niklasvh/base64-arraybuffer
+
+const chars =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+export const base64ToBin = (base64Text: string) => {
   // tslint:disable:no-magic-numbers
   const lookup = new Uint8Array(123);
   // tslint:disable-next-line:no-let
@@ -34,5 +35,26 @@ export const decodeBase64String = (base64Text: string) => {
     bytes[p++] = ((encoded3 & 3) << 6) | (encoded4 & 63);
     // tslint:enable:no-bitwise no-expression-statement no-object-mutation no-magic-numbers
   }
-  return buffer;
+  return bytes;
+};
+
+// tslint:disable:no-magic-numbers no-bitwise no-expression-statement
+export const binToBase64 = (bytes: Uint8Array) => {
+  let result = ''; // tslint:disable-line: no-let
+  // tslint:disable-next-line: no-let
+  for (let i = 0; i < bytes.length; i += 3) {
+    result += chars[bytes[i] >> 2];
+    result += chars[((bytes[i] & 3) << 4) | (bytes[i + 1] >> 4)];
+    result += chars[((bytes[i + 1] & 15) << 2) | (bytes[i + 2] >> 6)];
+    result += chars[bytes[i + 2] & 63];
+  }
+  // tslint:enable:no-bitwise no-expression-statement
+  const padded =
+    bytes.length % 3 === 2
+      ? `${result.substring(0, result.length - 1)}=`
+      : bytes.length % 3 === 1
+      ? `${result.substring(0, result.length - 2)}==`
+      : result;
+  // tslint:enable: no-magic-numbers
+  return padded;
 };

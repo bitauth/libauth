@@ -1,7 +1,7 @@
-// tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
+// tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
 import * as fc from 'fast-check';
-import { binToHex, hexToBin, range, splitEvery } from './utils';
+import { binToHex, hexToBin, range, splitEvery, swapEndianness } from './hex';
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
@@ -38,5 +38,11 @@ test('hexToBin <-> binToHex', t => {
     fcUint8Array(0, 100),
     input => binToHex(hexToBin(binToHex(input))) === binToHex(input)
   );
-  t.notThrows(() => fc.assert(inverse));
+  t.notThrows(() => {
+    fc.assert(inverse);
+  });
+});
+
+test('swapEndianness', t => {
+  t.deepEqual(swapEndianness('0001022a646566ff'), 'ff6665642a020100');
 });

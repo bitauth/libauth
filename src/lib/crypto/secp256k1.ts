@@ -103,18 +103,18 @@ export interface Secp256k1 {
   /**
    * Derive a compressed public key from a valid secp256k1 private key.
    *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   * Throws if the provided private key is too large (see `validatePrivateKey`).
    *
-   * @param privateKey a valid secp256k1 private key
+   * @param privateKey a valid secp256k1, 32-byte private key
    */
   readonly derivePublicKeyCompressed: (privateKey: Uint8Array) => Uint8Array;
 
   /**
    * Derive an uncompressed public key from a valid secp256k1 private key.
    *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   * Throws if the provided private key is too large (see `validatePrivateKey`).
    *
-   * @param privateKey a valid secp256k1 private key
+   * @param privateKey a valid secp256k1, 32-byte private key
    */
   readonly derivePublicKeyUncompressed: (privateKey: Uint8Array) => Uint8Array;
 
@@ -264,7 +264,7 @@ export interface Secp256k1 {
    * Create an ECDSA signature in compact format. The created signature is
    * always in lower-S form and follows RFC 6979.
    *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   * Throws if the provided private key is too large (see `validatePrivateKey`).
    *
    * @param privateKey a valid secp256k1 private key
    * @param messageHash the 32-byte message hash to be signed
@@ -278,9 +278,9 @@ export interface Secp256k1 {
    * Create an ECDSA signature in DER format. The created signature is always in
    * lower-S form and follows RFC 6979.
    *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   * Throws if the provided private key is too large (see `validatePrivateKey`).
    *
-   * @param privateKey a valid secp256k1 private key
+   * @param privateKey a valid secp256k1, 32-byte private key
    * @param messageHash the 32-byte message hash to be signed
    */
   readonly signMessageHashDER: (
@@ -295,9 +295,9 @@ export interface Secp256k1 {
    * Also returns a recovery number for use in the `recoverPublicKey*`
    * functions
    *
-   * Throws if the provided private key is not valid (see `validatePrivateKey`).
+   * Throws if the provided private key is too large (see `validatePrivateKey`).
    *
-   * @param privateKey a valid secp256k1 private key
+   * @param privateKey a valid secp256k1, 32-byte private key
    * @param messageHash the 32-byte message hash to be signed
    */
   readonly signMessageHashRecoverableCompact: (
@@ -320,7 +320,9 @@ export interface Secp256k1 {
   readonly uncompressPublicKey: (publicKey: Uint8Array) => Uint8Array;
 
   /**
-   * Verify that a private key is valid for secp256k1.
+   * Verify that a private key is valid for secp256k1. Note, this library
+   * requires all public keys to be provided as 32-byte Uint8Arrays (an array
+   * length of 32).
    *
    * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,
    * any 256-bit number from `0x1` to `0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE
@@ -329,7 +331,7 @@ export interface Secp256k1 {
    *
    * This method returns true if the private key is valid or false if it isn't.
    *
-   * @param privateKey a private key to validate
+   * @param privateKey a 32-byte private key to validate
    */
   readonly validatePrivateKey: (privateKey: Uint8Array) => boolean;
 
@@ -394,6 +396,20 @@ export interface Secp256k1 {
   ) => boolean;
 }
 
+const enum ByteLength {
+  maxSig = 72,
+  maxPublicKey = 65,
+  messageHash = 32,
+  internalPublicKey = 64,
+  compressedPublicKey = 33,
+  uncompressedPublicKey = 65,
+  internalSig = 64,
+  compactSig = 64,
+  recoverableSig = 65,
+  privateKey = 32,
+  randomSeed = 32
+}
+
 /**
  * @param secp256k1Wasm a Secp256k1Wasm object
  * @param randomSeed a 32-byte random seed used to randomize the context after
@@ -410,17 +426,6 @@ const wrapSecp256k1Wasm = (
    */
   const contextPtr = secp256k1Wasm.contextCreate(ContextFlag.BOTH);
 
-  const maxSigLength = 72;
-  const maxPublicKeyLength = 65;
-  const messageHashLength = 32;
-  const internalPublicKeyLength = 64;
-  const compressedPublicKeyLength = 33;
-  const uncompressedPublicKeyLength = 65;
-  const internalSigLength = 64;
-  const compactSigLength = 64;
-  const privateKeyLength = 32;
-  const randomSeedLength = 32;
-  const recoverableSigLength = 65;
   /**
    * Since all of these methods are single-threaded and synchronous, we can
    * reuse allocated WebAssembly memory for each method without worrying about
@@ -432,14 +437,16 @@ const wrapSecp256k1Wasm = (
    * considered a critical vulnerability in the consumer. However, as a best
    * practice, we zero out private keys below when we're finished with them.
    */
-  const sigScratch = secp256k1Wasm.malloc(maxSigLength);
-  const publicKeyScratch = secp256k1Wasm.malloc(maxPublicKeyLength);
-  const messageHashScratch = secp256k1Wasm.malloc(messageHashLength);
-  const internalPublicKeyPtr = secp256k1Wasm.malloc(internalPublicKeyLength);
-  const internalSigPtr = secp256k1Wasm.malloc(internalSigLength);
-  const privateKeyPtr = secp256k1Wasm.malloc(privateKeyLength);
+  const sigScratch = secp256k1Wasm.malloc(ByteLength.maxSig);
+  const publicKeyScratch = secp256k1Wasm.malloc(ByteLength.maxPublicKey);
+  const messageHashScratch = secp256k1Wasm.malloc(ByteLength.messageHash);
+  const internalPublicKeyPtr = secp256k1Wasm.malloc(
+    ByteLength.internalPublicKey
+  );
+  const internalSigPtr = secp256k1Wasm.malloc(ByteLength.internalSig);
+  const privateKeyPtr = secp256k1Wasm.malloc(ByteLength.privateKey);
 
-  const internalRSigPtr = secp256k1Wasm.malloc(recoverableSigLength);
+  const internalRSigPtr = secp256k1Wasm.malloc(ByteLength.recoverableSig);
   // tslint:disable-next-line:no-magic-numbers
   const recoveryNumPtr = secp256k1Wasm.malloc(4);
   // tslint:disable-next-line:no-bitwise no-magic-numbers
@@ -488,11 +495,11 @@ const wrapSecp256k1Wasm = (
   const getSerializedPublicKey = (compressed: boolean) =>
     compressed
       ? serializePublicKey(
-          compressedPublicKeyLength,
+          ByteLength.compressedPublicKey,
           CompressionFlag.COMPRESSED
         )
       : serializePublicKey(
-          uncompressedPublicKeyLength,
+          ByteLength.uncompressedPublicKey,
           CompressionFlag.UNCOMPRESSED
         );
 
@@ -533,11 +540,11 @@ const wrapSecp256k1Wasm = (
       sigScratch,
       internalSigPtr
     );
-    return secp256k1Wasm.readHeapU8(sigScratch, compactSigLength).slice();
+    return secp256k1Wasm.readHeapU8(sigScratch, ByteLength.compactSig).slice();
   };
 
   const getDERSig = () => {
-    setLengthPtr(maxSigLength);
+    setLengthPtr(ByteLength.maxSig);
     secp256k1Wasm.signatureSerializeDER(
       contextPtr,
       sigScratch,
@@ -563,7 +570,7 @@ const wrapSecp256k1Wasm = (
   };
 
   const zeroOutPrivateKeyPtr = () => {
-    zeroOutPtr(privateKeyPtr, privateKeyLength);
+    zeroOutPtr(privateKeyPtr, ByteLength.privateKey);
   };
 
   const withPrivateKey = <T>(
@@ -660,7 +667,7 @@ const wrapSecp256k1Wasm = (
       }
 
       if (DER) {
-        setLengthPtr(maxSigLength);
+        setLengthPtr(ByteLength.maxSig);
         secp256k1Wasm.signatureSerializeDER(
           contextPtr,
           sigScratch,
@@ -674,7 +681,9 @@ const wrapSecp256k1Wasm = (
           sigScratch,
           internalSigPtr
         );
-        return secp256k1Wasm.readHeapU8(sigScratch, compactSigLength).slice();
+        return secp256k1Wasm
+          .readHeapU8(sigScratch, ByteLength.compactSig)
+          .slice();
       }
     });
   };
@@ -733,7 +742,7 @@ const wrapSecp256k1Wasm = (
       return {
         recoveryId: getRecoveryNumPtr() as RecoveryId,
         signature: secp256k1Wasm
-          .readHeapU8(sigScratch, compactSigLength)
+          .readHeapU8(sigScratch, ByteLength.compactSig)
           .slice()
       };
     });
@@ -789,7 +798,9 @@ const wrapSecp256k1Wasm = (
       ) {
         throw new Error('Private key is invalid or adding failed.');
       }
-      return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
+      return secp256k1Wasm
+        .readHeapU8(privateKeyPtr, ByteLength.privateKey)
+        .slice();
     });
   };
 
@@ -808,7 +819,9 @@ const wrapSecp256k1Wasm = (
       ) {
         throw new Error('Private key is invalid or multiplying failed.');
       }
-      return secp256k1Wasm.readHeapU8(privateKeyPtr, privateKeyLength).slice();
+      return secp256k1Wasm
+        .readHeapU8(privateKeyPtr, ByteLength.privateKey)
+        .slice();
     });
   };
 
@@ -878,7 +891,7 @@ const wrapSecp256k1Wasm = (
     const randomSeedPtr = messageHashScratch;
     secp256k1Wasm.heapU8.set(randomSeed, randomSeedPtr);
     secp256k1Wasm.contextRandomize(contextPtr, randomSeedPtr);
-    zeroOutPtr(randomSeedPtr, randomSeedLength);
+    zeroOutPtr(randomSeedPtr, ByteLength.randomSeed);
   }
 
   return {

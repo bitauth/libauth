@@ -1,4 +1,5 @@
-// tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
+// TODO: all tests should include a "stateless" property – instantiate a new Secp256k1 and immediately call the method, verify it produces the same result as the existing instance
+// tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any no-void-expression
 import test from 'ava';
 import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';
@@ -227,7 +228,9 @@ test('secp256k1.compressPublicKey', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(reversesUncompress));
+  t.notThrows(() => {
+    fc.assert(reversesUncompress);
+  });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -240,7 +243,9 @@ test('secp256k1.compressPublicKey', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -256,7 +261,9 @@ test('secp256k1.compressPublicKey', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test('secp256k1.derivePublicKeyCompressed', async t => {
@@ -271,7 +278,9 @@ test('secp256k1.derivePublicKeyCompressed', async t => {
       t.deepEqual(pubkeyC, secp256k1.compressPublicKey(pubkeyU));
     }
   );
-  t.notThrows(() => fc.assert(isEquivalentToDeriveUncompressedThenCompress));
+  t.notThrows(() => {
+    fc.assert(isEquivalentToDeriveUncompressedThenCompress);
+  });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -283,7 +292,9 @@ test('secp256k1.derivePublicKeyCompressed', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -293,7 +304,9 @@ test('secp256k1.derivePublicKeyCompressed', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test('secp256k1.derivePublicKeyUncompressed', async t => {
@@ -311,7 +324,9 @@ test('secp256k1.derivePublicKeyUncompressed', async t => {
       t.deepEqual(pubkeyU, secp256k1.uncompressPublicKey(pubkeyC));
     }
   );
-  t.notThrows(() => fc.assert(isEquivalentToDeriveCompressedThenUncompress));
+  t.notThrows(() => {
+    fc.assert(isEquivalentToDeriveCompressedThenUncompress);
+  });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -323,7 +338,9 @@ test('secp256k1.derivePublicKeyUncompressed', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     privateKey => {
@@ -333,7 +350,9 @@ test('secp256k1.derivePublicKeyUncompressed', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test('secp256k1.malleateSignatureDER', async t => {
@@ -355,7 +374,9 @@ test('secp256k1.malleateSignatureDER', async t => {
       t.deepEqual(sig, secp256k1.malleateSignatureDER(malleated));
     }
   );
-  t.notThrows(() => fc.assert(malleationIsJustNegation));
+  t.notThrows(() => {
+    fc.assert(malleationIsJustNegation);
+  });
 });
 
 test('secp256k1.malleateSignatureCompact', async t => {
@@ -403,7 +424,9 @@ test('secp256k1.malleateSignatureCompact', async t => {
       t.deepEqual(sig, malleatedMalleated);
     }
   );
-  t.notThrows(() => fc.assert(malleationIsJustNegation));
+  t.notThrows(() => {
+    fc.assert(malleationIsJustNegation);
+  });
 });
 
 test('secp256k1.mulTweakPrivateKey', async t => {
@@ -520,7 +543,9 @@ test('secp256k1.normalizeSignatureCompact', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(malleateThenNormalizeEqualsInitial));
+  t.notThrows(() => {
+    fc.assert(malleateThenNormalizeEqualsInitial);
+  });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -536,7 +561,9 @@ test('secp256k1.normalizeSignatureCompact', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
 });
 
 test('secp256k1.normalizeSignatureDER', async t => {
@@ -553,7 +580,9 @@ test('secp256k1.normalizeSignatureDER', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(malleateThenNormalizeEqualsInitial));
+  t.notThrows(() => {
+    fc.assert(malleateThenNormalizeEqualsInitial);
+  });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -572,7 +601,9 @@ test('secp256k1.normalizeSignatureDER', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
 });
 
 test('secp256k1.recoverPublicKeyCompressed', async t => {
@@ -694,7 +725,9 @@ test('secp256k1.signMessageHashCompact', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -708,7 +741,9 @@ test('secp256k1.signMessageHashCompact', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test('secp256k1.signMessageHashDER', async t => {
@@ -730,7 +765,9 @@ test('secp256k1.signMessageHashDER', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -742,7 +779,9 @@ test('secp256k1.signMessageHashDER', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test('secp256k1.signMessageHashRecoverableCompact', async t => {
@@ -795,7 +834,9 @@ test('secp256k1.signatureCompactToDER', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(reversesCompress));
+  t.notThrows(() => {
+    fc.assert(reversesCompress);
+  });
   const equivalentToSecp256k1Node = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -807,7 +848,9 @@ test('secp256k1.signatureCompactToDER', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
 });
 
 test('secp256k1.signatureDERToCompact', async t => {
@@ -828,7 +871,9 @@ test('secp256k1.signatureDERToCompact', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
 });
 
 test('secp256k1.uncompressPublicKey', async t => {
@@ -850,7 +895,9 @@ test('secp256k1.uncompressPublicKey', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
 });
 
 test('secp256k1.validatePrivateKey', async t => {
@@ -868,7 +915,9 @@ test('secp256k1.validatePrivateKey', async t => {
       secp256k1.validatePrivateKey(privateKey) ===
       secp256k1Node.privateKeyVerify(Buffer.from(privateKey))
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
 });
 
 test('secp256k1.verifySignatureCompact', async t => {
@@ -910,7 +959,9 @@ test('secp256k1.verifySignatureCompact', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -928,7 +979,9 @@ test('secp256k1.verifySignatureCompact', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test('secp256k1.verifySignatureCompactLowS', async t => {
@@ -969,7 +1022,9 @@ test('secp256k1.verifySignatureCompactLowS', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -989,7 +1044,9 @@ test('secp256k1.verifySignatureCompactLowS', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test('secp256k1.verifySignatureDER', async t => {
@@ -1058,7 +1115,9 @@ test('secp256k1.verifySignatureDERLowS', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
+  t.notThrows(() => {
+    fc.assert(equivalentToSecp256k1Node);
+  });
   const equivalentToElliptic = fc.property(
     fcValidPrivateKey(secp256k1),
     fcUint8Array32(),
@@ -1079,7 +1138,9 @@ test('secp256k1.verifySignatureDERLowS', async t => {
       );
     }
   );
-  t.notThrows(() => fc.assert(equivalentToElliptic));
+  t.notThrows(() => {
+    fc.assert(equivalentToElliptic);
+  });
 });
 
 test.todo(

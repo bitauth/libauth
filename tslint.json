@@ -6,10 +6,12 @@
     "cyclomatic-complexity": [true, 5],
 
     // override some tslint:all settings
+    "file-name-casing": [true, "kebab-case"],
     "comment-format": [true, "check-lowercase", { "ignore-words": ["TODO"] }],
     "newline-before-return": false,
     "prefer-method-signature": false,
     "strict-boolean-expressions": [true, "allow-undefined-union"],
+    "no-unused-variable": false, // supress deprecation warning
 
     /* tslint-immutable rules */
     // recommended built-in rules

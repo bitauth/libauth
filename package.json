@@ -56,6 +56,7 @@
     "test": "Lint and unit test the project",
     "bench": "Build the project and run the benchmarks",
     "watch": "Watch and rebuild the project on save, then rerun relevant tests",
+    "watch:with-crypto": "Like 'watch', but also including tests for the crypto APIs",
     "cov": "Rebuild, run tests, then create and open the coverage report",
     "doc": "Generate HTML API documentation and open it in a browser",
     "doc:json": "Generate API documentation in typedoc JSON format",

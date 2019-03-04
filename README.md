@@ -49,9 +49,11 @@ import { msgHash, pubkey, sig } from './somewhere';
 
 **Note**: `bitcoin-ts` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) for some functionality. While `BigInt` support (Node.js v10 LTS or later) is required to use this functionality, other parts of the library will continue to work in older environments.
 
-## Stable APIs
+## API
 
 The following APIs are considered stable, and will only include breaking changes in major version upgrades.
+
+[**API Documentation →**](https://bitauth.github.io/bitcoin-ts/)
 
 ### ECDSA
 
@@ -71,11 +73,7 @@ The following APIs are considered stable, and will only include breaking changes
 
 ### Unstable APIs
 
-The master branch of this repo also contains new, potentially unstable APIs. Note, these APIs require a minimum Node.js version of v10 LTS or later.
-
-As these APIs stabilize, they will be included in the above Stable APIs. Documentation for the latest state of the mater branch can be found below.
-
-[**API Documentation →**](https://bitauth.github.io/bitcoin-ts/)
+The master branch of this repo also contains new, potentially unstable APIs. As these APIs stabilize, they will be included in the above Stable APIs.
 
 ## Contributing
 
@@ -111,7 +109,7 @@ During development, you may find it helpful to use one of the testing `watch` ta
 ```sh
 yarn watch
 # OR
-yarn watch:no-crypto # much faster
+yarn watch:with-crypto # when working on the crypto APIs
 ```
 
 For more information about the available package scripts, run:

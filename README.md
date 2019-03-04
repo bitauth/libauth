@@ -1,7 +1,7 @@
 [![NPM version](https://img.shields.io/npm/v/bitcoin-ts.svg)](https://www.npmjs.com/package/bitcoin-ts)
-[![Codecov](https://img.shields.io/codecov/c/github/bitjson/bitcoin-ts/master.svg)](https://codecov.io/gh/bitjson/bitcoin-ts)
-[![CircleCI](https://img.shields.io/circleci/project/github/bitjson/bitcoin-ts/master.svg)](https://circleci.com/gh/bitjson/bitcoin-ts)
-[![GitHub stars](https://img.shields.io/github/stars/bitjson/bitcoin-ts.svg?style=social&logo=github&label=Stars)](https://github.com/bitjson/bitcoin-ts)
+[![Codecov](https://img.shields.io/codecov/c/github/bitauth/bitcoin-ts/master.svg)](https://codecov.io/gh/bitauth/bitcoin-ts)
+[![CircleCI](https://img.shields.io/circleci/project/github/bitauth/bitcoin-ts/master.svg)](https://circleci.com/gh/bitauth/bitcoin-ts)
+[![GitHub stars](https://img.shields.io/github/stars/bitauth/bitcoin-ts.svg?style=social&logo=github&label=Stars)](https://github.com/bitauth/bitcoin-ts)
 
 # bitcoin-ts
 
@@ -55,25 +55,27 @@ The following APIs are considered stable, and will only include breaking changes
 
 ### ECDSA
 
-- [instantiateSecp256k1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
-- [Secp256k1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/secp256k1.html)
+- [instantiateSecp256k1](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
+- [Secp256k1 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/secp256k1.html)
 
 ### Hashing Functions
 
-- [instantiateRipemd160](https://bitjson.github.io/bitcoin-ts/globals.html#instantiateripemd160)
-- [Ripemd160 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/ripemd160.html)
-- [instantiateSha1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha1)
-- [Sha1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha1.html)
-- [instantiateSha256](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha256)
-- [Sha256 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha256.html)
-- [instantiateSha512](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha512)
-- [Sha512 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha512.html)
+- [instantiateRipemd160](https://bitauth.github.io/bitcoin-ts/globals.html#instantiateripemd160)
+- [Ripemd160 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/ripemd160.html)
+- [instantiateSha1](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha1)
+- [Sha1 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha1.html)
+- [instantiateSha256](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha256)
+- [Sha256 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha256.html)
+- [instantiateSha512](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha512)
+- [Sha512 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha512.html)
 
 ### Unstable APIs
 
-The master branch of this repo also contains new, potentially unstable APIs. As these APIs stabilize, they will be included in the above Stable APIs. Documentation for the latest state of the mater branch can be found below.
+The master branch of this repo also contains new, potentially unstable APIs. Note, these APIs require a minimum Node.js version of v10 LTS or later.
 
-[**API Documentation →**](https://bitjson.github.io/bitcoin-ts/)
+As these APIs stabilize, they will be included in the above Stable APIs. Documentation for the latest state of the mater branch can be found below.
+
+[**API Documentation →**](https://bitauth.github.io/bitcoin-ts/)
 
 ## Contributing
 

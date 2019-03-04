@@ -1,7 +1,7 @@
 [![NPM version](https://img.shields.io/npm/v/bitcoin-ts.svg)](https://www.npmjs.com/package/bitcoin-ts)
-[![Codecov](https://img.shields.io/codecov/c/github/bitjson/bitcoin-ts/master.svg)](https://codecov.io/gh/bitjson/bitcoin-ts)
-[![CircleCI](https://img.shields.io/circleci/project/github/bitjson/bitcoin-ts/master.svg)](https://circleci.com/gh/bitjson/bitcoin-ts)
-[![GitHub stars](https://img.shields.io/github/stars/bitjson/bitcoin-ts.svg?style=social&logo=github&label=Stars)](https://github.com/bitjson/bitcoin-ts)
+[![Codecov](https://img.shields.io/codecov/c/github/bitauth/bitcoin-ts/master.svg)](https://codecov.io/gh/bitauth/bitcoin-ts)
+[![CircleCI](https://img.shields.io/circleci/project/github/bitauth/bitcoin-ts/master.svg)](https://circleci.com/gh/bitauth/bitcoin-ts)
+[![GitHub stars](https://img.shields.io/github/stars/bitauth/bitcoin-ts.svg?style=social&logo=github&label=Stars)](https://github.com/bitauth/bitcoin-ts)
 
 # bitcoin-ts
 
@@ -49,23 +49,23 @@ import { msgHash, pubkey, sig } from './somewhere';
 
 ## Documentation
 
-[**API Documentation →**](https://bitjson.github.io/bitcoin-ts/)
+[**API Documentation →**](https://bitauth.github.io/bitcoin-ts/)
 
 ### ECDSA
 
-- [instantiateSecp256k1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
-- [Secp256k1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/secp256k1.html)
+- [instantiateSecp256k1](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
+- [Secp256k1 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/secp256k1.html)
 
 ### Hashing Functions
 
-- [instantiateRipemd160](https://bitjson.github.io/bitcoin-ts/globals.html#instantiateripemd160)
-- [Ripemd160 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/ripemd160.html)
-- [instantiateSha1](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha1)
-- [Sha1 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha1.html)
-- [instantiateSha256](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha256)
-- [Sha256 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha256.html)
-- [instantiateSha512](https://bitjson.github.io/bitcoin-ts/globals.html#instantiatesha512)
-- [Sha512 Interface](https://bitjson.github.io/bitcoin-ts/interfaces/sha512.html)
+- [instantiateRipemd160](https://bitauth.github.io/bitcoin-ts/globals.html#instantiateripemd160)
+- [Ripemd160 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/ripemd160.html)
+- [instantiateSha1](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha1)
+- [Sha1 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha1.html)
+- [instantiateSha256](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha256)
+- [Sha256 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha256.html)
+- [instantiateSha512](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha512)
+- [Sha512 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha512.html)
 
 ## Contributing
 

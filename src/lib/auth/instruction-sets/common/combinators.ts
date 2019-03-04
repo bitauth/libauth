@@ -25,7 +25,7 @@ export const conditionallyEvaluate = <
 >(
   operation: Operation<ProgramState>
 ): Operation<ProgramState> => (state: ProgramState) =>
-  state.executionStack.every(item => item === true) ? operation(state) : state;
+  state.executionStack.every(item => item) ? operation(state) : state;
 
 /**
  * Map a function over each operation in an `InstructionSet.operations` object,
@@ -37,7 +37,9 @@ export const mapOverOperations = <ProgramState>(
   operations: InstructionSet<ProgramState>['operations'],
   combinator: (operation: Operation<ProgramState>) => Operation<ProgramState>
 ) =>
-  Object.keys(operations).reduce(
+  Object.keys(operations).reduce<{
+    readonly [opcode: number]: Operation<ProgramState>;
+  }>(
     (result, operation) => ({
       ...result,
       [operation]: combinator(operations[parseInt(operation, 10)])

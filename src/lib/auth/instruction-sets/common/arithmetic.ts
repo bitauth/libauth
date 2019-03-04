@@ -35,6 +35,7 @@ export const opAdd = <
   Errors
 >() => (state: State) =>
   useTwoScriptNumbers(state, (nextState, firstValue, secondValue) =>
+    // tslint:disable-next-line: restrict-plus-operands
     pushToStack(nextState, bigIntToScriptNumber(firstValue + secondValue))
   );
 

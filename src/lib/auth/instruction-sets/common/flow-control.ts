@@ -80,7 +80,9 @@ export const opElse = <
   State extends ExecutionStackState & ErrorState<Errors>,
   Errors
 >(): Operation<State> => (state: State) => {
-  const top = state.executionStack[state.executionStack.length - 1];
+  const top = state.executionStack[state.executionStack.length - 1] as
+    | boolean
+    | undefined;
   // tslint:disable-next-line:no-if-statement
   if (top === undefined) {
     return applyError<State, Errors>(

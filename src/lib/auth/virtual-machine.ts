@@ -102,6 +102,7 @@ export const createAuthenticationVirtualMachine = <
 ): AuthenticationVirtualMachine<ProgramState> => {
   const availableOpcodes = 256;
   const operators = range(availableOpcodes).map(codepoint =>
+    // tslint:disable-next-line: strict-type-predicates
     instructionSet.operations[codepoint] === undefined
       ? instructionSet.undefined
       : instructionSet.operations[codepoint]

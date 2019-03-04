@@ -225,6 +225,7 @@ export const evaluateBitcoinCashAuthenticationProgram = <
   }
 
   const p2shStack = cloneStack(unlockingResult.stack);
+  // tslint:disable-next-line: strict-boolean-expressions
   const p2shScript = p2shStack.pop() || Uint8Array.of();
   const p2shInstructions = parseScript<Opcodes>(p2shScript);
   return authenticationInstructionsAreMalformed(p2shInstructions)

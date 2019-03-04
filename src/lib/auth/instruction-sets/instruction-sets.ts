@@ -109,11 +109,11 @@ export type ParsedAuthenticationInstructions<Opcodes = number> =
     | ParsedAuthenticationInstruction<Opcodes>
   >;
 
-export const authenticationInstructionsAreNotMalformed = <Opcodes>(
-  instructions: ParsedAuthenticationInstructions<Opcodes>
-  // tslint:disable-next-line:readonly-array
-): instructions is Array<AuthenticationInstruction<Opcodes>> =>
-  !authenticationInstructionsAreMalformed(instructions);
+export const authenticationInstructionIsMalformed = <Opcodes>(
+  instruction: ParsedAuthenticationInstruction<Opcodes>
+): instruction is ParsedAuthenticationInstructionMalformed<Opcodes> =>
+  (instruction as ParsedAuthenticationInstructionMalformed<Opcodes>)
+    .malformed === true;
 
 export const authenticationInstructionsAreMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>
@@ -121,11 +121,11 @@ export const authenticationInstructionsAreMalformed = <Opcodes>(
 ): instructions is Array<ParsedAuthenticationInstructionMalformed<Opcodes>> =>
   authenticationInstructionIsMalformed(instructions[instructions.length - 1]);
 
-export const authenticationInstructionIsMalformed = <Opcodes>(
-  instruction: ParsedAuthenticationInstruction<Opcodes>
-): instruction is ParsedAuthenticationInstructionMalformed<Opcodes> =>
-  (instruction as ParsedAuthenticationInstructionMalformed<Opcodes>)
-    .malformed === true;
+export const authenticationInstructionsAreNotMalformed = <Opcodes>(
+  instructions: ParsedAuthenticationInstructions<Opcodes>
+  // tslint:disable-next-line:readonly-array
+): instructions is Array<AuthenticationInstruction<Opcodes>> =>
+  !authenticationInstructionsAreMalformed(instructions);
 
 const enum CommonPushOpcodes {
   OP_0 = 0x00,
@@ -163,11 +163,6 @@ export const readLittleEndianNumber = (
     : view.getUint32(0, readAsLittleEndian);
 };
 
-export const numberToLittleEndianBin = (value: number, length: Bytes) => {
-  const array = new Uint8Array(length);
-  return writeLittleEndianNumber(array, 0, length, value);
-};
-
 /**
  * Note: this implementation assumes `script` is defined and long enough to
  * write the specified number of bytes. It also assumes the provided `number` is
@@ -190,11 +185,16 @@ export const writeLittleEndianNumber = (
   const writeAsLittleEndian = true;
   // tslint:disable-next-line:no-expression-statement
   length === Bytes.Uint8
-    ? view.setUint8(0, value)
+    ? view.setUint8(0, value) // tslint:disable-line: no-void-expression
     : length === Bytes.Uint16
-    ? view.setUint16(0, value, writeAsLittleEndian)
-    : view.setUint32(0, value, writeAsLittleEndian);
+    ? view.setUint16(0, value, writeAsLittleEndian) // tslint:disable-line: no-void-expression
+    : view.setUint32(0, value, writeAsLittleEndian); // tslint:disable-line: no-void-expression
   return script;
+};
+
+export const numberToLittleEndianBin = (value: number, length: Bytes) => {
+  const array = new Uint8Array(length);
+  return writeLittleEndianNumber(array, 0, length, value);
 };
 
 /**
@@ -269,10 +269,12 @@ export const readAuthenticationInstruction = <Opcodes = number>(
   return {
     instruction: {
       data: script.slice(dataStart, dataEnd),
-      ...(dataEnd > script.length && {
-        expectedDataBytes: dataEnd - dataStart,
-        malformed: true
-      }),
+      ...(dataEnd > script.length
+        ? {
+            expectedDataBytes: dataEnd - dataStart,
+            malformed: true
+          }
+        : undefined),
       opcode: (opcode as unknown) as Opcodes
     },
     nextIndex: dataEnd
@@ -315,7 +317,9 @@ export const parseScript = <Opcodes = number>(script: Uint8Array) => {
 const isPush = <Opcodes>(
   instruction: AuthenticationInstruction<Opcodes>
 ): instruction is AuthenticationInstructionPush<Opcodes> =>
+  // tslint:disable-next-line: strict-type-predicates
   (instruction as AuthenticationInstructionPush<Opcodes>).data !== undefined;
+
 /**
  * OP_0 is the only single-word push. All other push instructions will
  * disassemble to multiple ASM words.
@@ -328,21 +332,11 @@ const formatMissingBytesAsm = (missing: number) =>
 const hasMalformedLength = <Opcodes>(
   instruction: ParsedAuthenticationInstructionMalformed<Opcodes>
 ): instruction is ParsedAuthenticationInstructionPushMalformedLength<Opcodes> =>
+  // tslint:disable-next-line: strict-type-predicates
   (instruction as ParsedAuthenticationInstructionPushMalformedLength<Opcodes>)
     .length !== undefined;
 const isPushData = (pushOpcode: number) =>
   lengthBytesForPushOpcode(pushOpcode) > 0;
-
-export const disassembleParsedAuthenticationInstruction = <Opcodes = number>(
-  opcodes: { readonly [opcode: number]: string },
-  instruction: ParsedAuthenticationInstruction<Opcodes>
-): string =>
-  authenticationInstructionIsMalformed(instruction)
-    ? disassembleParsedAuthenticationInstructionMalformed<Opcodes>(
-        opcodes,
-        instruction
-      )
-    : disassembleAuthenticationInstruction<Opcodes>(opcodes, instruction);
 
 export const disassembleParsedAuthenticationInstructionMalformed = <
   Opcodes = number
@@ -378,6 +372,17 @@ export const disassembleAuthenticationInstruction = <Opcodes = number>(
         }${formatAsmPushHex(instruction.data)}`
       : ''
   }`;
+
+export const disassembleParsedAuthenticationInstruction = <Opcodes = number>(
+  opcodes: { readonly [opcode: number]: string },
+  instruction: ParsedAuthenticationInstruction<Opcodes>
+): string =>
+  authenticationInstructionIsMalformed(instruction)
+    ? disassembleParsedAuthenticationInstructionMalformed<Opcodes>(
+        opcodes,
+        instruction
+      )
+    : disassembleAuthenticationInstruction<Opcodes>(opcodes, instruction);
 
 /**
  * Disassemble an array of `ParsedAuthenticationInstructions` (including

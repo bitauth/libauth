@@ -56,11 +56,11 @@ const defToFixtures = (tests: CommonScriptParseAndAsmTests) =>
     // tslint:disable-next-line:cyclomatic-complexity
     const object = entry[1].parse.map(set => ({
       opcode: set[0],
-      ...(set.length > 2 && { malformed: true }),
-      ...(set[1] !== undefined && { data: hexToBin(set[1]) }),
-      ...(set[2] !== undefined && { expectedDataBytes: set[2] }),
-      ...(set[3] !== undefined && { length: hexToBin(set[3]) }),
-      ...(set[4] !== undefined && { expectedLengthBytes: set[4] })
+      ...(set.length > 2 ? { malformed: true } : undefined),
+      ...(set[1] !== undefined ? { data: hexToBin(set[1]) } : undefined),
+      ...(set[2] !== undefined ? { expectedDataBytes: set[2] } : undefined),
+      ...(set[3] !== undefined ? { length: hexToBin(set[3]) } : undefined),
+      ...(set[4] !== undefined ? { expectedLengthBytes: set[4] } : undefined)
     }));
     return { hex, script, asm, object };
   });
@@ -159,14 +159,14 @@ const malFormedPushes: CommonScriptParseAndAsmTests = {
 };
 
 const parse: Macro<
-  [Uint8Array, ReadonlyArray<ParsedAuthenticationInstruction<number>>]
+  [Uint8Array, ReadonlyArray<ParsedAuthenticationInstruction>]
 > = (t, input, expected) => {
   t.deepEqual(parseScript(input), expected);
 };
 parse.title = title => `parse script: ${title}`.trim();
 
 const disassemble: Macro<
-  [ReadonlyArray<ParsedAuthenticationInstruction<number>>, string]
+  [ReadonlyArray<ParsedAuthenticationInstruction>, string]
 > = (t, input, expected) => {
   t.deepEqual(
     disassembleParsedAuthenticationInstructions(BitcoinCashOpcodes, input),
@@ -176,14 +176,14 @@ const disassemble: Macro<
 disassemble.title = title => `disassemble script: ${title}`.trim();
 
 const serialize: Macro<
-  [ReadonlyArray<AuthenticationInstruction<number>>, Uint8Array]
+  [ReadonlyArray<AuthenticationInstruction>, Uint8Array]
 > = (t, input, expected) => {
   t.deepEqual(serializeAuthenticationInstructions(input), expected);
 };
 serialize.title = title => `serialize script: ${title}`.trim();
 
 const reSerialize: Macro<
-  [ReadonlyArray<ParsedAuthenticationInstruction<number>>, Uint8Array]
+  [ReadonlyArray<ParsedAuthenticationInstruction>, Uint8Array]
 > = (t, input, expected) => {
   t.deepEqual(serializeParsedAuthenticationInstructions(input), expected);
 };

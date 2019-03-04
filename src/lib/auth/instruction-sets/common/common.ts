@@ -53,6 +53,14 @@ export enum CommonConsensus {
   maximumOperationCount = 201
 }
 
+export const applyError = <State extends ErrorState<Errors>, Errors>(
+  error: CommonAuthenticationError | Errors,
+  state: State
+): State => ({
+  ...state,
+  error
+});
+
 export const undefinedOperation = <
   State extends ErrorState<Errors>,
   Errors
@@ -93,16 +101,6 @@ export const commonOperations = <
     conditionallyEvaluate
   ),
   ...unconditionalFlowControlOperations<Opcodes, State, Errors>()
-});
-
-// conditionallyEvaluate
-
-export const applyError = <State extends ErrorState<Errors>, Errors>(
-  error: CommonAuthenticationError | Errors,
-  state: State
-): State => ({
-  ...state,
-  error
 });
 
 export const cloneStack = (stack: ReadonlyArray<Readonly<Uint8Array>>) =>

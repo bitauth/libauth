@@ -85,8 +85,11 @@ export const getEmbeddedSha256Binary = () =>
   base64ToBin(sha256Base64Bytes).buffer;
 
 /**
- * An ultimately-portable (but slower) version of `instantiateSha256Bytes`
- * which does not require the consumer to provide the sha256 binary buffer.
+ * An ultimately-portable (but possibly slower) version of
+ * `instantiateSha256Bytes` which does not require the consumer to provide the
+ * sha256 binary buffer.
+ *
+ * TODO: cache resulting instance to return in all future calls
  */
 export const instantiateSha256 = async (): Promise<Sha256> =>
   instantiateSha256Bytes(getEmbeddedSha256Binary());

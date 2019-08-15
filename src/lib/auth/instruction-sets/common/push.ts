@@ -1,17 +1,24 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
 import { range } from '../../../utils/hex';
-import { MinimumProgramState, StackState } from '../../state';
+import {
+  ErrorState,
+  ExecutionStackState,
+  MinimumProgramState,
+  StackState
+} from '../../state';
 import { Operation } from '../../virtual-machine';
 import {
   AuthenticationInstructionPush,
   Bytes,
   numberToLittleEndianBin
 } from '../instruction-sets';
-import { CommonOpcodes } from './opcodes';
+
+import { pushToStack } from './combinators';
+import { applyError, AuthenticationErrorCommon } from './errors';
+import { OpcodesCommon } from './opcodes';
 import { bigIntToScriptNumber } from './types';
 
 export enum PushOperationConstants {
+  OP_0 = 0,
   /**
    * OP_PUSHBYTES_75
    */
@@ -33,6 +40,8 @@ export enum PushOperationConstants {
   pushNumberOpcodesOffset = 0x50,
   /** OP_1 through OP_16 */
   pushNumberOpcodes = 16,
+  negativeOne = 0x81,
+  OP_1NEGATE = 79,
   /**
    * 256 - 1
    */
@@ -44,7 +53,7 @@ export enum PushOperationConstants {
   /**
    * 256 ** 2 - 1
    */
-  maximumPushData2Size = 65536,
+  maximumPushData2Size = 65535,
   /**
    * 256 ** 4 - 1
    */
@@ -52,21 +61,43 @@ export enum PushOperationConstants {
 }
 
 /**
- * Prefix a `Uint8Array` with the proper opcode and push length bytes (if
- * necessary) to create a push instruction for `data`.
+ * Returns the minimal bytecode required to push the provided `data` to the
+ * stack.
  *
- * Note, the maximum `bytecode` length which can be encoded for a push in the
- * Bitcoin system is `4294967295` (~4GB). This method assumes a smaller input – if
+ * @remarks
+ * This method conservatively encodes a `Uint8Array` as a data push. For Script
+ * Numbers which can be pushed using a single opcode (-1 through 16), the
+ * equivalent bytecode value is returned. Other `data` values will be prefixed
+ * with the proper opcode and push length bytes (if necessary) to create the
+ * minimal push instruction.
+ *
+ * Note, while some single-byte Script Number pushes will be minimally-encoded
+ * by this method, all larger inputs will be encoded as-is (it cannot be assumed
+ * that inputs are intended to be used as Script Numbers). To encode the push of
+ * a Script Number, minimally-encode the number before passing it to this
+ * method, e.g.:
+ * `encodeDataPush(bigIntToScriptNumber(parseBytesAsScriptNumber(nonMinimalNumber)))`.
+ *
+ * The maximum `bytecode` length which can be encoded for a push in the Bitcoin
+ * system is `4294967295` (~4GB). This method assumes a smaller input – if
  * `bytecode` has the potential to be longer, it should be checked (and the
  * error handled) prior to calling this method.
  *
  * @param data the Uint8Array to push to the stack
  */
 // tslint:disable-next-line:cyclomatic-complexity
-export const prefixDataPush = (data: Uint8Array) =>
+export const encodeDataPush = (data: Uint8Array) =>
   data.length <= PushOperationConstants.maximumPushByteOperationSize
-    ? data.length === 1 && data[0] <= PushOperationConstants.pushNumberOpcodes
-      ? Uint8Array.of(data[0] + PushOperationConstants.pushNumberOpcodesOffset)
+    ? data.length === 0
+      ? Uint8Array.of(0)
+      : data.length === 1
+      ? data[0] !== 0 && data[0] <= PushOperationConstants.pushNumberOpcodes
+        ? Uint8Array.of(
+            data[0] + PushOperationConstants.pushNumberOpcodesOffset
+          )
+        : data[0] === PushOperationConstants.negativeOne
+        ? Uint8Array.of(PushOperationConstants.OP_1NEGATE)
+        : Uint8Array.from([1, ...data])
       : Uint8Array.from([data.length, ...data])
     : data.length <= PushOperationConstants.maximumPushData1Size
     ? Uint8Array.from([
@@ -86,124 +117,173 @@ export const prefixDataPush = (data: Uint8Array) =>
         ...data
       ]);
 
-export const pushByteOpcodes: ReadonlyArray<CommonOpcodes> = [
-  CommonOpcodes.OP_PUSHBYTES_1,
-  CommonOpcodes.OP_PUSHBYTES_2,
-  CommonOpcodes.OP_PUSHBYTES_3,
-  CommonOpcodes.OP_PUSHBYTES_4,
-  CommonOpcodes.OP_PUSHBYTES_5,
-  CommonOpcodes.OP_PUSHBYTES_6,
-  CommonOpcodes.OP_PUSHBYTES_7,
-  CommonOpcodes.OP_PUSHBYTES_8,
-  CommonOpcodes.OP_PUSHBYTES_9,
-  CommonOpcodes.OP_PUSHBYTES_10,
-  CommonOpcodes.OP_PUSHBYTES_11,
-  CommonOpcodes.OP_PUSHBYTES_12,
-  CommonOpcodes.OP_PUSHBYTES_13,
-  CommonOpcodes.OP_PUSHBYTES_14,
-  CommonOpcodes.OP_PUSHBYTES_15,
-  CommonOpcodes.OP_PUSHBYTES_16,
-  CommonOpcodes.OP_PUSHBYTES_17,
-  CommonOpcodes.OP_PUSHBYTES_18,
-  CommonOpcodes.OP_PUSHBYTES_19,
-  CommonOpcodes.OP_PUSHBYTES_20,
-  CommonOpcodes.OP_PUSHBYTES_21,
-  CommonOpcodes.OP_PUSHBYTES_22,
-  CommonOpcodes.OP_PUSHBYTES_23,
-  CommonOpcodes.OP_PUSHBYTES_24,
-  CommonOpcodes.OP_PUSHBYTES_25,
-  CommonOpcodes.OP_PUSHBYTES_26,
-  CommonOpcodes.OP_PUSHBYTES_27,
-  CommonOpcodes.OP_PUSHBYTES_28,
-  CommonOpcodes.OP_PUSHBYTES_29,
-  CommonOpcodes.OP_PUSHBYTES_30,
-  CommonOpcodes.OP_PUSHBYTES_31,
-  CommonOpcodes.OP_PUSHBYTES_32,
-  CommonOpcodes.OP_PUSHBYTES_33,
-  CommonOpcodes.OP_PUSHBYTES_34,
-  CommonOpcodes.OP_PUSHBYTES_35,
-  CommonOpcodes.OP_PUSHBYTES_36,
-  CommonOpcodes.OP_PUSHBYTES_37,
-  CommonOpcodes.OP_PUSHBYTES_38,
-  CommonOpcodes.OP_PUSHBYTES_39,
-  CommonOpcodes.OP_PUSHBYTES_40,
-  CommonOpcodes.OP_PUSHBYTES_41,
-  CommonOpcodes.OP_PUSHBYTES_42,
-  CommonOpcodes.OP_PUSHBYTES_43,
-  CommonOpcodes.OP_PUSHBYTES_44,
-  CommonOpcodes.OP_PUSHBYTES_45,
-  CommonOpcodes.OP_PUSHBYTES_46,
-  CommonOpcodes.OP_PUSHBYTES_47,
-  CommonOpcodes.OP_PUSHBYTES_48,
-  CommonOpcodes.OP_PUSHBYTES_49,
-  CommonOpcodes.OP_PUSHBYTES_50,
-  CommonOpcodes.OP_PUSHBYTES_51,
-  CommonOpcodes.OP_PUSHBYTES_52,
-  CommonOpcodes.OP_PUSHBYTES_53,
-  CommonOpcodes.OP_PUSHBYTES_54,
-  CommonOpcodes.OP_PUSHBYTES_55,
-  CommonOpcodes.OP_PUSHBYTES_56,
-  CommonOpcodes.OP_PUSHBYTES_57,
-  CommonOpcodes.OP_PUSHBYTES_58,
-  CommonOpcodes.OP_PUSHBYTES_59,
-  CommonOpcodes.OP_PUSHBYTES_60,
-  CommonOpcodes.OP_PUSHBYTES_61,
-  CommonOpcodes.OP_PUSHBYTES_62,
-  CommonOpcodes.OP_PUSHBYTES_63,
-  CommonOpcodes.OP_PUSHBYTES_64,
-  CommonOpcodes.OP_PUSHBYTES_65,
-  CommonOpcodes.OP_PUSHBYTES_66,
-  CommonOpcodes.OP_PUSHBYTES_67,
-  CommonOpcodes.OP_PUSHBYTES_68,
-  CommonOpcodes.OP_PUSHBYTES_69,
-  CommonOpcodes.OP_PUSHBYTES_70,
-  CommonOpcodes.OP_PUSHBYTES_71,
-  CommonOpcodes.OP_PUSHBYTES_72,
-  CommonOpcodes.OP_PUSHBYTES_73,
-  CommonOpcodes.OP_PUSHBYTES_74,
-  CommonOpcodes.OP_PUSHBYTES_75
+/**
+ * Returns true if the provided `data` is minimally-encoded by the provided
+ * `opcode`.
+ * @param opcode the opcode used to push `data`
+ * @param data the contents of the push
+ */
+// tslint:disable-next-line: cyclomatic-complexity
+export const isMinimalDataPush = (opcode: number, data: Uint8Array) =>
+  data.length === 0
+    ? opcode === PushOperationConstants.OP_0
+    : data.length === 1
+    ? data[0] >= 1 && data[0] <= PushOperationConstants.pushNumberOpcodes
+      ? opcode === data[0] + PushOperationConstants.pushNumberOpcodesOffset
+      : data[0] === PushOperationConstants.negativeOne
+      ? opcode === PushOperationConstants.OP_1NEGATE
+      : true
+    : data.length <= PushOperationConstants.maximumPushByteOperationSize
+    ? opcode === data.length
+    : data.length <= PushOperationConstants.maximumPushData1Size
+    ? opcode === PushOperationConstants.OP_PUSHDATA_1
+    : data.length <= PushOperationConstants.maximumPushData2Size
+    ? opcode === PushOperationConstants.OP_PUSHDATA_2
+    : true;
+
+export const pushByteOpcodes: ReadonlyArray<OpcodesCommon> = [
+  OpcodesCommon.OP_PUSHBYTES_1,
+  OpcodesCommon.OP_PUSHBYTES_2,
+  OpcodesCommon.OP_PUSHBYTES_3,
+  OpcodesCommon.OP_PUSHBYTES_4,
+  OpcodesCommon.OP_PUSHBYTES_5,
+  OpcodesCommon.OP_PUSHBYTES_6,
+  OpcodesCommon.OP_PUSHBYTES_7,
+  OpcodesCommon.OP_PUSHBYTES_8,
+  OpcodesCommon.OP_PUSHBYTES_9,
+  OpcodesCommon.OP_PUSHBYTES_10,
+  OpcodesCommon.OP_PUSHBYTES_11,
+  OpcodesCommon.OP_PUSHBYTES_12,
+  OpcodesCommon.OP_PUSHBYTES_13,
+  OpcodesCommon.OP_PUSHBYTES_14,
+  OpcodesCommon.OP_PUSHBYTES_15,
+  OpcodesCommon.OP_PUSHBYTES_16,
+  OpcodesCommon.OP_PUSHBYTES_17,
+  OpcodesCommon.OP_PUSHBYTES_18,
+  OpcodesCommon.OP_PUSHBYTES_19,
+  OpcodesCommon.OP_PUSHBYTES_20,
+  OpcodesCommon.OP_PUSHBYTES_21,
+  OpcodesCommon.OP_PUSHBYTES_22,
+  OpcodesCommon.OP_PUSHBYTES_23,
+  OpcodesCommon.OP_PUSHBYTES_24,
+  OpcodesCommon.OP_PUSHBYTES_25,
+  OpcodesCommon.OP_PUSHBYTES_26,
+  OpcodesCommon.OP_PUSHBYTES_27,
+  OpcodesCommon.OP_PUSHBYTES_28,
+  OpcodesCommon.OP_PUSHBYTES_29,
+  OpcodesCommon.OP_PUSHBYTES_30,
+  OpcodesCommon.OP_PUSHBYTES_31,
+  OpcodesCommon.OP_PUSHBYTES_32,
+  OpcodesCommon.OP_PUSHBYTES_33,
+  OpcodesCommon.OP_PUSHBYTES_34,
+  OpcodesCommon.OP_PUSHBYTES_35,
+  OpcodesCommon.OP_PUSHBYTES_36,
+  OpcodesCommon.OP_PUSHBYTES_37,
+  OpcodesCommon.OP_PUSHBYTES_38,
+  OpcodesCommon.OP_PUSHBYTES_39,
+  OpcodesCommon.OP_PUSHBYTES_40,
+  OpcodesCommon.OP_PUSHBYTES_41,
+  OpcodesCommon.OP_PUSHBYTES_42,
+  OpcodesCommon.OP_PUSHBYTES_43,
+  OpcodesCommon.OP_PUSHBYTES_44,
+  OpcodesCommon.OP_PUSHBYTES_45,
+  OpcodesCommon.OP_PUSHBYTES_46,
+  OpcodesCommon.OP_PUSHBYTES_47,
+  OpcodesCommon.OP_PUSHBYTES_48,
+  OpcodesCommon.OP_PUSHBYTES_49,
+  OpcodesCommon.OP_PUSHBYTES_50,
+  OpcodesCommon.OP_PUSHBYTES_51,
+  OpcodesCommon.OP_PUSHBYTES_52,
+  OpcodesCommon.OP_PUSHBYTES_53,
+  OpcodesCommon.OP_PUSHBYTES_54,
+  OpcodesCommon.OP_PUSHBYTES_55,
+  OpcodesCommon.OP_PUSHBYTES_56,
+  OpcodesCommon.OP_PUSHBYTES_57,
+  OpcodesCommon.OP_PUSHBYTES_58,
+  OpcodesCommon.OP_PUSHBYTES_59,
+  OpcodesCommon.OP_PUSHBYTES_60,
+  OpcodesCommon.OP_PUSHBYTES_61,
+  OpcodesCommon.OP_PUSHBYTES_62,
+  OpcodesCommon.OP_PUSHBYTES_63,
+  OpcodesCommon.OP_PUSHBYTES_64,
+  OpcodesCommon.OP_PUSHBYTES_65,
+  OpcodesCommon.OP_PUSHBYTES_66,
+  OpcodesCommon.OP_PUSHBYTES_67,
+  OpcodesCommon.OP_PUSHBYTES_68,
+  OpcodesCommon.OP_PUSHBYTES_69,
+  OpcodesCommon.OP_PUSHBYTES_70,
+  OpcodesCommon.OP_PUSHBYTES_71,
+  OpcodesCommon.OP_PUSHBYTES_72,
+  OpcodesCommon.OP_PUSHBYTES_73,
+  OpcodesCommon.OP_PUSHBYTES_74,
+  OpcodesCommon.OP_PUSHBYTES_75
 ];
 
 export const pushOperation = <
   Opcodes,
-  ProgramState extends StackState & MinimumProgramState<Opcodes>
->(): Operation<ProgramState> => (state: ProgramState) => {
+  State extends StackState &
+    MinimumProgramState<Opcodes> &
+    ErrorState<Errors> &
+    ExecutionStackState,
+  Errors
+>(
+  flags: { requireMinimalEncoding: boolean },
+  maximumPushSize = PushOperationConstants.maximumPushSize
+): Operation<State> => (state: State) => {
   const instruction = state.instructions[
     state.ip
   ] as AuthenticationInstructionPush<Opcodes>;
-  // tslint:disable-next-line:no-expression-statement
-  state.stack.push(instruction.data);
-  return state;
+  return instruction.data.length > maximumPushSize
+    ? applyError<State, Errors>(
+        AuthenticationErrorCommon.exceedsMaximumPush,
+        state
+      )
+    : !state.executionStack.every(item => item)
+    ? state
+    : flags.requireMinimalEncoding &&
+      !isMinimalDataPush(
+        (instruction.opcode as unknown) as number,
+        instruction.data
+      )
+    ? applyError<State, Errors>(AuthenticationErrorCommon.nonMinimalPush, state)
+    : pushToStack(state, instruction.data);
 };
 
 export const pushOperations = <
   Opcodes,
-  ProgramState extends StackState & MinimumProgramState<Opcodes>
->() => {
-  const push = pushOperation<Opcodes, ProgramState>();
+  State extends StackState &
+    MinimumProgramState<Opcodes> &
+    ErrorState<Errors> &
+    ExecutionStackState,
+  Errors
+>(
+  flags: { requireMinimalEncoding: boolean },
+  maximumPushSize = PushOperationConstants.maximumPushSize
+) => {
+  const push = pushOperation<Opcodes, State, Errors>(flags, maximumPushSize);
   return range(PushOperationConstants.highestPushDataOpcode + 1).reduce<{
-    readonly [opcode: number]: Operation<ProgramState>;
+    readonly [opcode: number]: Operation<State>;
   }>((group, i) => ({ ...group, [i]: push }), {});
 };
 
-export const pushNumberOpcodes: ReadonlyArray<CommonOpcodes> = [
-  CommonOpcodes.OP_1NEGATE,
-  CommonOpcodes.OP_1,
-  CommonOpcodes.OP_2,
-  CommonOpcodes.OP_3,
-  CommonOpcodes.OP_4,
-  CommonOpcodes.OP_5,
-  CommonOpcodes.OP_6,
-  CommonOpcodes.OP_7,
-  CommonOpcodes.OP_8,
-  CommonOpcodes.OP_9,
-  CommonOpcodes.OP_10,
-  CommonOpcodes.OP_11,
-  CommonOpcodes.OP_12,
-  CommonOpcodes.OP_13,
-  CommonOpcodes.OP_14,
-  CommonOpcodes.OP_15,
-  CommonOpcodes.OP_16
+export const pushNumberOpcodes: ReadonlyArray<OpcodesCommon> = [
+  OpcodesCommon.OP_1NEGATE,
+  OpcodesCommon.OP_1,
+  OpcodesCommon.OP_2,
+  OpcodesCommon.OP_3,
+  OpcodesCommon.OP_4,
+  OpcodesCommon.OP_5,
+  OpcodesCommon.OP_6,
+  OpcodesCommon.OP_7,
+  OpcodesCommon.OP_8,
+  OpcodesCommon.OP_9,
+  OpcodesCommon.OP_10,
+  OpcodesCommon.OP_11,
+  OpcodesCommon.OP_12,
+  OpcodesCommon.OP_13,
+  OpcodesCommon.OP_14,
+  OpcodesCommon.OP_15,
+  OpcodesCommon.OP_16
 ];
 
 export const pushNumberOperations = <
@@ -211,7 +291,7 @@ export const pushNumberOperations = <
   ProgramState extends StackState & MinimumProgramState<Opcodes>
 >() =>
   pushNumberOpcodes
-    .map<[CommonOpcodes, Uint8Array]>((opcode, i) => [
+    .map<[OpcodesCommon, Uint8Array]>((opcode, i) => [
       opcode,
       [-1, ...range(PushOperationConstants.pushNumberOpcodes, 1)]
         .map(BigInt)
@@ -222,11 +302,7 @@ export const pushNumberOperations = <
     }>(
       (group, pair) => ({
         ...group,
-        [pair[0]]: (state: ProgramState) => {
-          // tslint:disable-next-line:no-expression-statement
-          state.stack.push(pair[1].slice());
-          return state;
-        }
+        [pair[0]]: (state: ProgramState) => pushToStack(state, pair[1].slice())
       }),
       {}
     );

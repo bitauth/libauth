@@ -1,4 +1,4 @@
-export enum CommonOpcodes {
+export enum OpcodesCommon {
   /**
    * A.K.A. `OP_FALSE` or `OP_PUSHBYTES_0`
    */
@@ -132,9 +132,9 @@ export enum CommonOpcodes {
   OP_SWAP = 0x7c,
   OP_TUCK = 0x7d,
   OP_CAT = 0x7e,
-  OP_SPLIT = 0x7f,
-  OP_NUM2BIN = 0x80,
-  OP_BIN2NUM = 0x81,
+  OP_SUBSTR = 0x7f,
+  OP_LEFT = 0x80,
+  OP_RIGHT = 0x81,
   OP_SIZE = 0x82,
   OP_INVERT = 0x83,
   OP_AND = 0x84,

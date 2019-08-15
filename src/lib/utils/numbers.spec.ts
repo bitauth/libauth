@@ -1,5 +1,6 @@
 // tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
+
 import {
   bigIntToBinUint64LE,
   binToBigIntUint64LE,

@@ -1,14 +1,7 @@
-import { BitcoinCashAuthenticationProgramState } from '../bitcoin-cash/bitcoin-cash';
-
-export interface SegWitState {
-  readonly witnessScript: Uint8Array;
-}
-
-export interface BitcoinAuthenticationProgramState
-  extends BitcoinCashAuthenticationProgramState,
-    SegWitState {}
-
-export enum BitcoinOpcodes {
+export enum OpcodesBCH {
+  /**
+   * A.K.A. `OP_FALSE` or `OP_PUSHBYTES_0`
+   */
   OP_0 = 0x00,
   OP_PUSHBYTES_1 = 0x01,
   OP_PUSHBYTES_2 = 0x02,
@@ -85,11 +78,14 @@ export enum BitcoinOpcodes {
   OP_PUSHBYTES_73 = 0x49,
   OP_PUSHBYTES_74 = 0x4a,
   OP_PUSHBYTES_75 = 0x4b,
-  OP_PUSHDATA1 = 0x4c,
-  OP_PUSHDATA2 = 0x4d,
-  OP_PUSHDATA4 = 0x4e,
+  OP_PUSHDATA_1 = 0x4c,
+  OP_PUSHDATA_2 = 0x4d,
+  OP_PUSHDATA_4 = 0x4e,
   OP_1NEGATE = 0x4f,
   OP_RESERVED = 0x50,
+  /**
+   * A.K.A. `OP_TRUE`
+   */
   OP_1 = 0x51,
   OP_2 = 0x52,
   OP_3 = 0x53,
@@ -136,9 +132,9 @@ export enum BitcoinOpcodes {
   OP_SWAP = 0x7c,
   OP_TUCK = 0x7d,
   OP_CAT = 0x7e,
-  OP_SUBSTR = 0x7f,
-  OP_LEFT = 0x80,
-  OP_RIGHT = 0x81,
+  OP_SPLIT = 0x7f,
+  OP_NUM2BIN = 0x80,
+  OP_BIN2NUM = 0x81,
   OP_SIZE = 0x82,
   OP_INVERT = 0x83,
   OP_AND = 0x84,
@@ -186,7 +182,13 @@ export enum BitcoinOpcodes {
   OP_CHECKMULTISIG = 0xae,
   OP_CHECKMULTISIGVERIFY = 0xaf,
   OP_NOP1 = 0xb0,
+  /**
+   * Previously `OP_NOP2`
+   */
   OP_CHECKLOCKTIMEVERIFY = 0xb1,
+  /**
+   * Previously `OP_NOP2`
+   */
   OP_CHECKSEQUENCEVERIFY = 0xb2,
   OP_NOP4 = 0xb3,
   OP_NOP5 = 0xb4,
@@ -195,8 +197,17 @@ export enum BitcoinOpcodes {
   OP_NOP8 = 0xb7,
   OP_NOP9 = 0xb8,
   OP_NOP10 = 0xb9,
-  OP_UNKNOWN186 = 0xba,
-  OP_UNKNOWN187 = 0xbb,
+  /**
+   * Previously `OP_UNKNOWN186`
+   */
+  OP_CHECKDATASIG = 0xba,
+  /**
+   * Previously `OP_UNKNOWN187`
+   */
+  OP_CHECKDATASIGVERIFY = 0xbb,
+  /**
+   * A.K.A. `FIRST_UNDEFINED_OP_VALUE`
+   */
   OP_UNKNOWN188 = 0xbc,
   OP_UNKNOWN189 = 0xbd,
   OP_UNKNOWN190 = 0xbe,
@@ -249,6 +260,9 @@ export enum BitcoinOpcodes {
   OP_UNKNOWN237 = 0xed,
   OP_UNKNOWN238 = 0xee,
   OP_UNKNOWN239 = 0xef,
+  /**
+   * A.K.A. `OP_PREFIX_BEGIN`
+   */
   OP_UNKNOWN240 = 0xf0,
   OP_UNKNOWN241 = 0xf1,
   OP_UNKNOWN242 = 0xf2,
@@ -256,28 +270,88 @@ export enum BitcoinOpcodes {
   OP_UNKNOWN244 = 0xf4,
   OP_UNKNOWN245 = 0xf5,
   OP_UNKNOWN246 = 0xf6,
+  /**
+   * A.K.A. `OP_PREFIX_END`
+   */
   OP_UNKNOWN247 = 0xf7,
   OP_UNKNOWN248 = 0xf8,
   OP_UNKNOWN249 = 0xf9,
+  OP_UNKNOWN250 = 0xfa,
+  OP_UNKNOWN251 = 0xfb,
+  OP_UNKNOWN252 = 0xfc,
+  OP_UNKNOWN253 = 0xfd,
+  OP_UNKNOWN254 = 0xfe,
+  OP_UNKNOWN255 = 0xff
+}
+
+export enum OpcodeAlternateNamesBCH {
   /**
-   * Used internally in the C++ implementation.
+   * A.K.A. `OP_0`
+   */
+  OP_FALSE = 0x00,
+  /**
+   * A.K.A. `OP_0`
+   */
+  OP_PUSHBYTES_0 = 0x00,
+  /**
+   * A.K.A. `OP_1`
+   */
+  OP_TRUE = 0x51,
+  /**
+   * A.K.A. `OP_CHECKLOCKTIMEVERIFY`
+   */
+  OP_NOP2 = 0xb1,
+  /**
+   * A.K.A. `OP_CHECKSEQUENCEVERIFY`
+   */
+  OP_NOP3 = 0xb2,
+  /**
+   * A.K.A. `OP_CHECKDATASIG`
+   */
+  OP_UNKNOWN186 = 0xba,
+  /**
+   * A.K.A. `OP_CHECKDATASIGVERIFY`
+   */
+  OP_UNKNOWN187 = 0xbb,
+  /**
+   * A.K.A. `OP_UNKNOWN188`
+   */
+  FIRST_UNDEFINED_OP_VALUE = 0xbc,
+  /**
+   * A.K.A. `OP_UNKNOWN240`. Some implementations have reserved opcodes
+   * `0xf0` through `0xf7` for a future range of multi-byte opcodes, though none
+   * are yet available on the network.
+   */
+  OP_PREFIX_BEGIN = 0xf0,
+  /**
+   * A.K.A. `OP_UNKNOWN247`. Some implementations have reserved opcodes
+   * `0xf0` through `0xf7` for a future range of multi-byte opcodes, though none
+   * are yet available on the network.
+   */
+  OP_PREFIX_END = 0xf7,
+  /**
+   * `OP_SMALLINTEGER` is used internally for template matching in the C++
+   * implementation. When found on the network, it is `OP_UNKNOWN250`.
    */
   OP_SMALLINTEGER = 0xfa,
   /**
-   * Used internally in the C++ implementation.
+   * `OP_PUBKEYS` is used internally for template matching in the C++
+   * implementation. When found on the network, it is `OP_UNKNOWN251`.
    */
   OP_PUBKEYS = 0xfb,
-  OP_UNKNOWN252 = 0xfc,
   /**
-   * Used internally in the C++ implementation.
+   * `OP_PUBKEYHASH` is used internally for template matching in the C++
+   * implementation. When found on the network, it is `OP_UNKNOWN253`.
    */
   OP_PUBKEYHASH = 0xfd,
   /**
-   * Used internally in the C++ implementation.
+   * `OP_PUBKEY` is used internally for template matching in the C++
+   * implementation. When found on the network, it is `OP_UNKNOWN254`.
    */
   OP_PUBKEY = 0xfe,
   /**
-   * Used internally in the C++ implementation.
+   * `OP_INVALIDOPCODE` is described as such for testing in the C++
+   * implementation. When found on the network, it is `OP_UNKNOWN255`.
    */
   OP_INVALIDOPCODE = 0xff
 }

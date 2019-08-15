@@ -6,6 +6,7 @@ import * as fc from 'fast-check';
 import { readFileSync } from 'fs';
 import * as hashJs from 'hash.js';
 import { join } from 'path';
+
 import { HashFunction } from '../bin/bin';
 
 const testLength = 10000;
@@ -36,7 +37,7 @@ export const testHashFunction = <T extends HashFunction>(
     | 'SHA512'
     | 'SHA1';
 
-  test(`${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
+  test(`crypto: ${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
     const path = join(
       __dirname,
       '..',
@@ -48,7 +49,7 @@ export const testHashFunction = <T extends HashFunction>(
     t.deepEqual(binary, binaryFromDisk);
   });
 
-  test(`${hashFunctionName} instantiated with embedded binary`, async t => {
+  test(`crypto: ${hashFunctionName} instantiated with embedded binary`, async t => {
     const hashFunction = await instantiate();
     t.deepEqual(hashFunction.hash(stringToCharsUint8Array('abc')), abcHash);
     t.deepEqual(hashFunction.hash(stringToCharsUint8Array('test')), testHash);
@@ -58,7 +59,7 @@ export const testHashFunction = <T extends HashFunction>(
     );
   });
 
-  test(`${hashFunctionName} instantiated with bytes`, async t => {
+  test(`crypto: ${hashFunctionName} instantiated with bytes`, async t => {
     const hashFunction = await instantiateBytes(binary);
 
     const equivalentToNative = fc.property(
@@ -106,7 +107,7 @@ export const testHashFunction = <T extends HashFunction>(
     });
   });
 
-  test(`${hashFunctionName} incremental hashing`, async t => {
+  test(`crypto: ${hashFunctionName} incremental hashing`, async t => {
     const hashFunction = await instantiate();
     t.deepEqual(
       hashFunction.final(

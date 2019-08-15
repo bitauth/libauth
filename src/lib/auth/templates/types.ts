@@ -11,10 +11,12 @@ export interface AuthenticationTemplate {
    */
   readonly description?: string;
   /**
-   * An array of entities defined in this authentication template. See
-   * `AuthenticationTemplateEntity` for more information.
+   * A mapping of entities defined in this authentication template. Object keys
+   * are used as entity identifiers, and by convention, should use `snake_case`.
+   *
+   * See `AuthenticationTemplateEntity` for more information.
    */
-  readonly entities: ReadonlyArray<AuthenticationTemplateEntity>;
+  readonly entities: { [entityId: string]: AuthenticationTemplateEntity };
 
   /**
    * A single-line, Title Case, human-readable name for this authentication template (for
@@ -23,9 +25,10 @@ export interface AuthenticationTemplate {
   readonly name?: string;
 
   /**
-   * An array of scripts used in this template.
+   * A mapping of scripts used in this authentication template. Object keys
+   * are used as script identifiers, and by convention, should use `snake_case`.
    */
-  readonly scripts: ReadonlyArray<AuthenticationTemplateScript>;
+  readonly scripts: { [scriptId: string]: AuthenticationTemplateScript };
 
   /**
    * A list of supported AuthenticationVirtualMachines for this template.
@@ -51,12 +54,6 @@ export interface AuthenticationTemplateEntity {
    */
   readonly description?: string;
   /**
-   * The identifier used externally refer to this entity. By convention,
-   * identifiers should use `snake_case`.
-   *
-   */
-  readonly id: string;
-  /**
    * A single-line, Title Case, human-readable identifier for this entity, e.g.:
    * `Trusted Third-Party`
    */
@@ -80,16 +77,10 @@ export interface AuthenticationTemplateEntity {
    * generation, while some variables can or must be resolved only before
    * unlocking script generation.
    */
-  readonly variables?: ReadonlyArray<AuthenticationTemplateVariable>;
+  readonly variables?: { [variableId: string]: AuthenticationTemplateVariable };
 }
 
 export interface AuthenticationTemplateScript {
-  /**
-   * The identifier used to refer to this script in other scripts. By
-   * convention, identifiers should use `snake_case`.
-   *
-   */
-  readonly id: string;
   /**
    * A single-line, human-readable name for this unlocking script (for use in
    * user interfaces).
@@ -113,19 +104,20 @@ export interface AuthenticationTemplateScript {
   readonly unlocks?: string;
 }
 
-export interface AuthenticationTemplateChecksumScript
-  extends AuthenticationTemplateScript {
-  /**
-   * If provided, the `checksum` script should digest all variable data provided
-   * at wallet creation time.
-   *
-   * When using a template with a checksum script, each entity must first
-   * compute the checksum and compare its result with the results of each other
-   * entity. This allows clients to avoid creating wallets using malicious or
-   * corrupted data.
-   */
-  readonly id: 'checksum';
-}
+// TODO: keep?
+// export interface AuthenticationTemplateChecksumScript
+//   extends AuthenticationTemplateScript {
+//   /**
+//    * If provided, the `checksum` script should digest all variable data provided
+//    * at wallet creation time.
+//    *
+//    * When using a template with a checksum script, each entity must first
+//    * compute the checksum and compare its result with the results of each other
+//    * entity. This allows clients to avoid creating wallets using malicious or
+//    * corrupted data.
+//    */
+//   // readonly id: 'checksum'; // TODO: finalized removal of 'id' property
+// }
 
 export interface AuthenticationTemplateScriptTest {
   /**
@@ -155,7 +147,7 @@ export interface AuthenticationTemplateVariableBase {
    * The identifier used to refer to this variable in the scripts. By
    * convention, identifiers should use `snake_case`.
    */
-  readonly id: string;
+  // readonly id: string; // TODO: finalized removal of 'id' property
   /**
    * The hexadecimal string-encoded test value for this variable. This test
    * value is used during development and can provide validation when
@@ -167,7 +159,7 @@ export interface AuthenticationTemplateVariableBase {
    * initialized to their `mock`s when evaluating inline script tests.
    *
    * TODO: should `mock` actually be a script? (To allow for hex or BigInt
-   * literals.)
+   * literals.) Answer: yes – mock should always be a string
    */
   readonly mock?: string;
   /**
@@ -189,28 +181,34 @@ export interface AuthenticationTemplateVariableBase {
  * Separated from `AuthenticationTemplateVariableBase` to provide better
  * contextual TypeDocs.
  */
-export interface AuthenticationTemplateVariableKey
-  extends AuthenticationTemplateVariableBase {
-  /**
-   * The identifier used as a prefix when referring to this key in the scripts.
-   *
-   * Each Key exports its own `public`, `private`, and `signature`
-   * properties. The `signature` property contains a property for each possible
-   * signature serialization flag: `all`, `single`, `none`
-   *
-   * For example, with an id of `keyA`, the following are all valid data pushes:
-   * `<keyA.private>`, `<keyA.public>`, `<keyA.signature.all>`,
-   * `<keyA.signature.single>`, `<keyA.signature.none>`
-   *
-   * TODO: for data signatures, accept any identifier after signature, e.g.
-   * `<keyA.signature.myTXData>`
-   *
-   * TODO: new syntax: signature:all_outputs signature:corresponding_output:anyone_can_pay, signature:no_outputs:anyone_can_pay, data_signature:IDENTIFIER
-   */
-  readonly id: string;
-}
+// TODO: keep?
+// export interface AuthenticationTemplateVariableKey
+//   extends AuthenticationTemplateVariableBase {
+//   /**
+//    * The identifier used as a prefix when referring to this key in the scripts.
+//    *
+//    * Each Key exports its own `public`, `private`, and `signature`
+//    * properties. The `signature` property contains a property for each possible
+//    * signature serialization flag: `all`, `single`, `none`
+//    *
+//    * For example, with an id of `keyA`, the following are all valid data pushes:
+//    * `<keyA.private>`, `<keyA.public>`, `<keyA.signature.all>`,
+//    * `<keyA.signature.single>`, `<keyA.signature.none>`
+//    *
+//    * TODO: for data signatures, accept any identifier after signature, e.g.
+//    * `<keyA.signature.myTXData>`
+//    *
+//    * TODO: new syntax: signature:all_outputs signature:corresponding_output:anyone_can_pay, signature:no_outputs:anyone_can_pay, data_signature:IDENTIFIER
+//    */
+//   // readonly id: string; // TODO: finalized removal of 'id' property
+// }
 
-export interface HDKey extends AuthenticationTemplateVariableKey {
+export interface HDKey extends AuthenticationTemplateVariableBase {
+  /**
+   * TODO: describe – this turns on/off hardening of the script derivation index:
+   * `m / template derivation index' / script derivation index[']`
+   */
+  readonly scriptDerivationHardened?: boolean;
   /**
    * A "hardened" child key is derived using an extended *private key*, while a
    * non-hardened child key is derived using only an extended *public key*.
@@ -226,19 +224,19 @@ export interface HDKey extends AuthenticationTemplateVariableKey {
    * Because this security consideration should be evaluated for any template
    * using `HDKey`s, `derivationHardened` defaults to `true`.
    */
-  readonly derivationHardened?: boolean;
+  readonly templateDerivationHardened?: boolean;
   /**
    * All `HDKey`s are hardened-derivations of the entity's root `HDKey`. The
    * resulting branches are then used to generate child keys scripts:
    *
-   * `m / HDKey derivation index' / script index`
+   * `m / template derivation index' / script derivation index`
    *
    * By default, `derivationIndex` is `0`. For a single entity to use multiple
    * `HDKey`s, a different `derivationIndex` must be used for each.
    *
    * For greater control over key generation and mapping, use `Key`.
    */
-  readonly derivationIndex?: number;
+  readonly templateDerivationIndex?: number;
   /**
    * The `HDKey` (Hierarchical-Deterministic Key) type automatically manages key
    * generation and mapping in a standard way. For greater control, use `Key`.
@@ -246,7 +244,7 @@ export interface HDKey extends AuthenticationTemplateVariableKey {
   readonly type: 'HDKey';
 }
 
-export interface Key extends AuthenticationTemplateVariableKey {
+export interface Key extends AuthenticationTemplateVariableBase {
   /**
    * The `Key` type provides fine-grained control over key generation and mapping.
    * Most templates should instead use `HDKey`.
@@ -317,36 +315,10 @@ export interface CurrentBlockHeight extends AuthenticationTemplateVariableBase {
   readonly type: 'CurrentBlockHeight';
 }
 
-export interface ExternalOperation extends AuthenticationTemplateVariableBase {
-  /**
-   * **NOTE: `ExternalOperation` is not yet implemented.**
-   *
-   * `ExternalOperation` allows for any operation to be injected into a
-   * template. This can enable new types of script generation which would not
-   * otherwise be possible or practical in the targeted VM. (Note,
-   * `ExternalOperation`s are typically only useful inside `Evaluation`s, as
-   * outside an evaluation, they'll be serialized into an opcode which is
-   * unknown to the protocol VM.)
-   *
-   * For example, `ExternalOperation` allows a template to encode unusual
-   * signature generation schemes, Proof of Work generation, and other unique
-   * computations.
-   *
-   * Because the operation isn't standardized, using an `ExternalOperation`
-   * makes a template much more difficult to integrate into clients. (Client
-   * implementation changes are required for each unique `ExternalOperation`,
-   * so it is only possible to automatically support templates without
-   * `ExternalOperation`s.) `ExternalOperation` should therefore be avoided
-   * whenever possible.
-   */
-  readonly type: 'ExternalOperation';
-}
-
 export type AuthenticationTemplateVariable =
   | HDKey
   | Key
   | WalletData
   | TransactionData
   | CurrentBlockTime
-  | CurrentBlockHeight
-  | ExternalOperation;
+  | CurrentBlockHeight;

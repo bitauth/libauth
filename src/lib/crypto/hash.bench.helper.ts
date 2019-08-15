@@ -5,6 +5,7 @@ import * as bcrypto from 'bcrypto';
 import suite from 'chuhai';
 import { createHash, randomBytes } from 'crypto';
 import * as hashJs from 'hash.js';
+
 import { HashFunction } from '../bin/bin';
 
 export const benchmarkHashingFunction = <T extends HashFunction>(

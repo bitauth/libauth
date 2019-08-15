@@ -44,7 +44,6 @@ console.log(JSON.stringify(twoOfThree, undefined, 1));
 // - run all available tests; if `testValues` can fill any unlocking scripts, test those too
 // - return resolved graphs:
 
-// tslint:disable:readonly-array
 // const parseResult = {
 //   error: false,
 //   result: {
@@ -111,5 +110,5 @@ console.log(JSON.stringify(twoOfThree, undefined, 1));
 
 // client does something like: promptUserForEntity(entityChoices)
 
-// const initialLockingScripts = 10;
-// createWallet(template, 'Cosigner 1', initialLockingScripts)
+// const initiallockingBytecodes = 10;
+// createWallet(template, 'Cosigner 1', initiallockingBytecodes)

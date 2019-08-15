@@ -18,6 +18,7 @@ Below you'll find the conventions we're trying to follow. Of course, please feel
 
 - **accept `readonly`, return mutable** - We should always return mutable types to allow consumers the option of mutating results without running afoul of type-checking. For the same reason, when we accept a value, we should always accept it as `readonly` for maximum flexibility.
 - **use `tslint:disable-next-line` or `tslint:disable-line`** - It's ok to disable tslint; in some cases, rules should be disabled every time they're hit (e.g. `no-bitwise`). By using single-line disables, we clearly mark intentional deviations from our conventions.
+- **avoid Hungarian notation & name prefixing** – Including the type of a variable in its name is a code smell: a name should clearly describe only one concept, and types are the business of the type system. Likewise, using prefixes to distinguish between an interface and an instance typically indicates the concepts should be simplified. E.g. `IChecker` and `Checker` – this is likely made unnecessarily complex to accommodate an object-oriented style. Consider replacing with a single function (or if instantiation is required, a stateless object containing only functions).
 
 ## Areas for Improvement
 

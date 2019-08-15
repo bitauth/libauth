@@ -1,11 +1,10 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
 import { binToHex, flattenBinArray } from '../../utils/utils';
-import { BitcoinCashOpcodes } from './bitcoin-cash/bitcoin-cash';
-import { BitcoinOpcodes } from './bitcoin/bitcoin';
 
-export * from './bitcoin/bitcoin';
-export * from './bitcoin-cash/bitcoin-cash';
+import { OpcodesBCH } from './bch/bch';
+import { OpcodesBTC } from './btc/btc';
+
+export * from './btc/btc';
+export * from './bch/bch';
 export * from './common/common';
 
 export interface AuthenticationInstructionPush<Opcodes = number> {
@@ -33,10 +32,9 @@ export type AuthenticationInstruction<Opcodes = number> =
   | AuthenticationInstructionPush<Opcodes>
   | AuthenticationInstructionOperation<Opcodes>;
 
-export type AuthenticationInstructions<
-  Opcodes = number
-  // tslint:disable-next-line:readonly-array
-> = Array<AuthenticationInstruction<Opcodes>>;
+export type AuthenticationInstructions<Opcodes = number> = Array<
+  AuthenticationInstruction<Opcodes>
+>;
 
 export interface ParsedAuthenticationInstructionPushMalformedLength<
   Opcodes = number
@@ -104,12 +102,9 @@ export type ParsedAuthenticationInstruction<Opcodes = number> =
  * ];
  * ```
  */
-export type ParsedAuthenticationInstructions<Opcodes = number> =
-  // tslint:disable-next-line:readonly-array
-  Array<
-    | AuthenticationInstruction<Opcodes>
-    | ParsedAuthenticationInstruction<Opcodes>
-  >;
+export type ParsedAuthenticationInstructions<Opcodes = number> = Array<
+  AuthenticationInstruction<Opcodes> | ParsedAuthenticationInstruction<Opcodes>
+>;
 
 export const authenticationInstructionIsMalformed = <Opcodes>(
   instruction: ParsedAuthenticationInstruction<Opcodes>
@@ -119,17 +114,16 @@ export const authenticationInstructionIsMalformed = <Opcodes>(
 
 export const authenticationInstructionsAreMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>
-  // tslint:disable-next-line:readonly-array
 ): instructions is Array<ParsedAuthenticationInstructionMalformed<Opcodes>> =>
+  instructions.length > 0 &&
   authenticationInstructionIsMalformed(instructions[instructions.length - 1]);
 
 export const authenticationInstructionsAreNotMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>
-  // tslint:disable-next-line:readonly-array
 ): instructions is Array<AuthenticationInstruction<Opcodes>> =>
   !authenticationInstructionsAreMalformed(instructions);
 
-const enum CommonPushOpcodes {
+enum CommonPushOpcodes {
   OP_0 = 0x00,
   OP_PUSHDATA_1 = 0x4c,
   OP_PUSHDATA_2 = 0x4d,
@@ -293,13 +287,12 @@ export const readAuthenticationInstruction = <Opcodes = number>(
  * can be used to strongly type the resulting instructions. For example:
  *
  * ```js
- *  const instructions = parseScript<BitcoinCashOpcodes>(script);
+ *  const instructions = parseScript<OpcodesBCH>(script);
  * ```
  *
  * @param script the serialized script to parse
  */
 export const parseScript = <Opcodes = number>(script: Uint8Array) => {
-  // tslint:disable-next-line:readonly-array
   const instructions: ParsedAuthenticationInstructions<Opcodes> = [];
   // tslint:disable-next-line:no-let
   let i = 0;
@@ -407,7 +400,7 @@ export const disassembleParsedAuthenticationInstructions = <Opcodes = number>(
  *
  * TODO: a similar method which re-formats ASM strings, converting HexLiterals to Script Numbers or UTF8Literals.
  *
- * @param opcodes the set to use when determining the name of opcodes, e.g. `BitcoinCashOpcodes`
+ * @param opcodes the set to use when determining the name of opcodes, e.g. `OpcodesBCH`
  * @param script the serialized script to disassemble
  */
 export const disassembleScript = <Opcode = number>(
@@ -425,8 +418,8 @@ export const disassembleScript = <Opcode = number>(
  */
 export const disassembleScriptBCH = (script: Uint8Array) =>
   disassembleParsedAuthenticationInstructions(
-    BitcoinCashOpcodes,
-    parseScript<BitcoinCashOpcodes>(script)
+    OpcodesBCH,
+    parseScript<OpcodesBCH>(script)
   );
 
 /**
@@ -435,8 +428,8 @@ export const disassembleScriptBCH = (script: Uint8Array) =>
  */
 export const disassembleScriptBTC = (script: Uint8Array) =>
   disassembleParsedAuthenticationInstructions(
-    BitcoinOpcodes,
-    parseScript<BitcoinOpcodes>(script)
+    OpcodesBTC,
+    parseScript<OpcodesBTC>(script)
   );
 
 const getLengthBytes = <Opcodes>(
@@ -495,3 +488,23 @@ export const serializeParsedAuthenticationInstructions = <Opcodes = number>(
   instructions: ReadonlyArray<ParsedAuthenticationInstruction<Opcodes>>
 ) =>
   flattenBinArray(instructions.map(serializeParsedAuthenticationInstruction));
+
+/**
+ * Create an object where each key is an opcode identifier and each value is
+ * the bytecode value (`Uint8Array`) it represents.
+ * @param opcodes An opcode enum, e.g. `OpcodesBCH`
+ */
+export const generateBytecodeMap = (opcodes: object) =>
+  Object.entries(opcodes) // tslint:disable-line: no-inferred-empty-object-type
+    .filter<[string, number]>(
+      (entry): entry is [string, number] => typeof entry[1] === 'number'
+    )
+    .reduce<{
+      [opcode: string]: Uint8Array;
+    }>(
+      (identifiers, pair) => ({
+        ...identifiers,
+        [pair[0]]: Uint8Array.of(pair[1])
+      }),
+      {}
+    );

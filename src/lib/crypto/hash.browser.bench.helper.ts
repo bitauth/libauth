@@ -2,7 +2,9 @@
 import * as asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
 import * as hashJs from 'hash.js';
+
 import { HashFunction } from '../bin/bin';
+
 import {
   instantiateRipemd160,
   instantiateSha1,

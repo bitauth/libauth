@@ -21,7 +21,6 @@ const prepareCode = async () => {
     // TODO: remove after https://github.com/rollup/rollup/pull/2348 lands
     inlineDynamicImports: false,
     input: join(__dirname, 'hash.browser.bench.helper.js'),
-    // tslint:disable-next-line:readonly-array
     plugins: [
       alias({
         chuhai: './../../../bench/chuhai.js',
@@ -42,7 +41,6 @@ const prepareCode = async () => {
 
 const preparePage = async () => {
   const browser = await launch({
-    // tslint:disable-next-line:readonly-array
     args: ['--no-sandbox', '--disable-setuid-sandbox']
     // devtools: true
   });

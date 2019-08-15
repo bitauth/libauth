@@ -5,7 +5,9 @@ import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';
 import * as fc from 'fast-check';
 import * as secp256k1Node from 'secp256k1';
+
 import { getEmbeddedSecp256k1Binary } from '../bin/bin';
+
 import {
   instantiateSecp256k1,
   instantiateSecp256k1Bytes,
@@ -62,6 +64,12 @@ const sigCompact = new Uint8Array([0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8, 0x3
 // prettier-ignore
 const sigCompactHighS = new Uint8Array([0xab, 0x4c, 0x6d, 0x9b, 0xa5, 0x1d, 0xa8, 0x30, 0x72, 0x61, 0x5c, 0x33, 0xa9, 0x88, 0x7b, 0x75, 0x64, 0x78, 0xe6, 0xf9, 0xde, 0x38, 0x10, 0x85, 0xf5, 0x18, 0x3c, 0x97, 0x60, 0x3f, 0xc6, 0xff, 0xd6, 0x8d, 0xde, 0x77, 0x42, 0x6c, 0x80, 0xab, 0x37, 0x9e, 0xa7, 0xd3, 0x59, 0x03, 0x97, 0xa3, 0x2d, 0x0c, 0x28, 0xd9, 0xa9, 0x58, 0x35, 0x05, 0x3c, 0x5d, 0x8b, 0x2e, 0x85, 0x43, 0x89, 0xdd]);
 
+// prettier-ignore
+const schnorrMsgHash = new Uint8Array([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+
+// prettier-ignore
+const sigSchnorr = new Uint8Array([0xb5, 0x10, 0x41, 0x58, 0x7d, 0xa9, 0x46, 0xeb, 0x67, 0x9c, 0xb3, 0x93, 0x6e, 0x1d, 0xbe, 0x5b, 0xf1, 0xd0, 0xd8, 0xac, 0xff, 0x37, 0x8d, 0xc9, 0xc6, 0xc2, 0x0a, 0x32, 0x9f, 0xb0, 0x1b, 0x79, 0xad, 0x65, 0x54, 0x65, 0xf2, 0x26, 0xa0, 0x28, 0x7b, 0x2d, 0xcf, 0x0e, 0x74, 0x6b, 0xc4, 0x55, 0xa9, 0x40, 0xfe, 0x01, 0xbc, 0xd8, 0x0f, 0xa9, 0xb6, 0x63, 0x3e, 0xcb, 0xe0, 0xc7, 0x04, 0x33]);
+
 const sigRecovery = 1;
 
 // bitcoin-ts setup
@@ -99,21 +107,21 @@ const fcUint8Array32 = () => fcUint8Array(32, 32);
 const fcValidPrivateKey = (secp256k1: Secp256k1) =>
   fcUint8Array32().filter(generated => secp256k1.validatePrivateKey(generated));
 
-test('instantiateSecp256k1 with binary', async t => {
+test('crypto: instantiateSecp256k1 with binary', async t => {
   const secp256k1 = await instantiateSecp256k1Bytes(binary);
   t.true(
     secp256k1.verifySignatureDERLowS(sigDER, pubkeyCompressed, messageHash)
   );
 });
 
-test('instantiateSecp256k1 with randomization', async t => {
+test('crypto: instantiateSecp256k1 with randomization', async t => {
   const secp256k1 = await instantiateSecp256k1(randomBytes(32));
   t.true(
     secp256k1.verifySignatureDERLowS(sigDER, pubkeyUncompressed, messageHash)
   );
 });
 
-test('secp256k1.addTweakPrivateKey', async t => {
+test('crypto: secp256k1.addTweakPrivateKey', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.addTweakPrivateKey(privkey, keyTweakVal),
@@ -139,7 +147,7 @@ test('secp256k1.addTweakPrivateKey', async t => {
   // perhaps future tests can do the math in JavaScript and compare with that.
 });
 
-test('secp256k1.addTweakPublicKeyCompressed', async t => {
+test('crypto: secp256k1.addTweakPublicKeyCompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.addTweakPublicKeyCompressed(pubkeyCompressed, keyTweakVal),
@@ -175,7 +183,7 @@ test('secp256k1.addTweakPublicKeyCompressed', async t => {
   // perhaps future tests can do the math in JavaScript and compare with that.
 });
 
-test('secp256k1.addTweakPublicKeyUncompressed', async t => {
+test('crypto: secp256k1.addTweakPublicKeyUncompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.addTweakPublicKeyUncompressed(pubkeyUncompressed, keyTweakVal),
@@ -211,7 +219,7 @@ test('secp256k1.addTweakPublicKeyUncompressed', async t => {
   // perhaps future tests can do the math in JavaScript and compare with that.
 });
 
-test('secp256k1.compressPublicKey', async t => {
+test('crypto: secp256k1.compressPublicKey', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.compressPublicKey(pubkeyUncompressed),
@@ -266,7 +274,7 @@ test('secp256k1.compressPublicKey', async t => {
   });
 });
 
-test('secp256k1.derivePublicKeyCompressed', async t => {
+test('crypto: secp256k1.derivePublicKeyCompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.derivePublicKeyCompressed(privkey), pubkeyCompressed);
   t.throws(() => secp256k1.derivePublicKeyCompressed(secp256k1OrderN));
@@ -309,7 +317,7 @@ test('secp256k1.derivePublicKeyCompressed', async t => {
   });
 });
 
-test('secp256k1.derivePublicKeyUncompressed', async t => {
+test('crypto: secp256k1.derivePublicKeyUncompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.derivePublicKeyUncompressed(privkey),
@@ -355,7 +363,7 @@ test('secp256k1.derivePublicKeyUncompressed', async t => {
   });
 });
 
-test('secp256k1.malleateSignatureDER', async t => {
+test('crypto: secp256k1.malleateSignatureDER', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.malleateSignatureDER(sigDER), sigDERHighS);
   const malleationIsJustNegation = fc.property(
@@ -379,7 +387,7 @@ test('secp256k1.malleateSignatureDER', async t => {
   });
 });
 
-test('secp256k1.malleateSignatureCompact', async t => {
+test('crypto: secp256k1.malleateSignatureCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.malleateSignatureCompact(sigCompact), sigCompactHighS);
   const malleationIsJustNegation = fc.property(
@@ -429,7 +437,7 @@ test('secp256k1.malleateSignatureCompact', async t => {
   });
 });
 
-test('secp256k1.mulTweakPrivateKey', async t => {
+test('crypto: secp256k1.mulTweakPrivateKey', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.mulTweakPrivateKey(privkey, keyTweakVal),
@@ -455,7 +463,7 @@ test('secp256k1.mulTweakPrivateKey', async t => {
   // perhaps future tests can do the math in JavaScript and compare with that.
 });
 
-test('secp256k1.mulTweakPublicKeyCompressed', async t => {
+test('crypto: secp256k1.mulTweakPublicKeyCompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.mulTweakPublicKeyCompressed(pubkeyCompressed, keyTweakVal),
@@ -491,7 +499,7 @@ test('secp256k1.mulTweakPublicKeyCompressed', async t => {
   // perhaps future tests can do the math in JavaScript and compare with that.
 });
 
-test('secp256k1.mulTweakPublicKeyUncompressed', async t => {
+test('crypto: secp256k1.mulTweakPublicKeyUncompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.mulTweakPublicKeyUncompressed(pubkeyUncompressed, keyTweakVal),
@@ -527,7 +535,7 @@ test('secp256k1.mulTweakPublicKeyUncompressed', async t => {
   // perhaps future tests can do the math in JavaScript and compare with that.
 });
 
-test('secp256k1.normalizeSignatureCompact', async t => {
+test('crypto: secp256k1.normalizeSignatureCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.normalizeSignatureCompact(sigCompactHighS), sigCompact);
   const malleateThenNormalizeEqualsInitial = fc.property(
@@ -566,7 +574,7 @@ test('secp256k1.normalizeSignatureCompact', async t => {
   });
 });
 
-test('secp256k1.normalizeSignatureDER', async t => {
+test('crypto: secp256k1.normalizeSignatureDER', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.normalizeSignatureDER(sigDERHighS), sigDER);
   const malleateThenNormalizeEqualsInitial = fc.property(
@@ -606,7 +614,7 @@ test('secp256k1.normalizeSignatureDER', async t => {
   });
 });
 
-test('secp256k1.recoverPublicKeyCompressed', async t => {
+test('crypto: secp256k1.recoverPublicKeyCompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.recoverPublicKeyCompressed(sigCompact, sigRecovery, messageHash),
@@ -657,7 +665,7 @@ test('secp256k1.recoverPublicKeyCompressed', async t => {
   */
 });
 
-test('secp256k1.recoverPublicKeyUncompressed', async t => {
+test('crypto: secp256k1.recoverPublicKeyUncompressed', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.recoverPublicKeyUncompressed(
@@ -701,7 +709,7 @@ test('secp256k1.recoverPublicKeyUncompressed', async t => {
   */
 });
 
-test('secp256k1.signMessageHashCompact', async t => {
+test('crypto: secp256k1.signMessageHashCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.signMessageHashCompact(privkey, messageHash),
@@ -746,7 +754,7 @@ test('secp256k1.signMessageHashCompact', async t => {
   });
 });
 
-test('secp256k1.signMessageHashDER', async t => {
+test('crypto: secp256k1.signMessageHashDER', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.signMessageHashDER(privkey, messageHash), sigDER);
   t.throws(() => secp256k1.signMessageHashDER(secp256k1OrderN, messageHash));
@@ -784,7 +792,7 @@ test('secp256k1.signMessageHashDER', async t => {
   });
 });
 
-test('secp256k1.signMessageHashRecoverableCompact', async t => {
+test('crypto: secp256k1.signMessageHashRecoverableCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(
     privkey,
@@ -821,7 +829,7 @@ test('secp256k1.signMessageHashRecoverableCompact', async t => {
   */
 });
 
-test('secp256k1.signatureCompactToDER', async t => {
+test('crypto: secp256k1.signatureCompactToDER', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.signatureCompactToDER(sigCompact), sigDER);
   const reversesCompress = fc.property(
@@ -853,7 +861,7 @@ test('secp256k1.signatureCompactToDER', async t => {
   });
 });
 
-test('secp256k1.signatureDERToCompact', async t => {
+test('crypto: secp256k1.signatureDERToCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(secp256k1.signatureDERToCompact(sigDER), sigCompact);
   const sigDERWithBrokenEncoding = sigDER.slice().fill(0, 0, 1);
@@ -876,7 +884,7 @@ test('secp256k1.signatureDERToCompact', async t => {
   });
 });
 
-test('secp256k1.uncompressPublicKey', async t => {
+test('crypto: secp256k1.uncompressPublicKey', async t => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.uncompressPublicKey(pubkeyCompressed),
@@ -900,7 +908,7 @@ test('secp256k1.uncompressPublicKey', async t => {
   });
 });
 
-test('secp256k1.validatePrivateKey', async t => {
+test('crypto: secp256k1.validatePrivateKey', async t => {
   const secp256k1 = await secp256k1Promise;
   t.true(secp256k1.validatePrivateKey(privkey));
   t.false(secp256k1.validatePrivateKey(secp256k1OrderN));
@@ -920,7 +928,7 @@ test('secp256k1.validatePrivateKey', async t => {
   });
 });
 
-test('secp256k1.verifySignatureCompact', async t => {
+test('crypto: secp256k1.verifySignatureCompact', async t => {
   const secp256k1 = await secp256k1Promise;
   t.true(
     secp256k1.verifySignatureCompact(
@@ -984,7 +992,7 @@ test('secp256k1.verifySignatureCompact', async t => {
   });
 });
 
-test('secp256k1.verifySignatureCompactLowS', async t => {
+test('crypto: secp256k1.verifySignatureCompactLowS', async t => {
   const secp256k1 = await secp256k1Promise;
   t.true(
     secp256k1.verifySignatureCompactLowS(
@@ -1049,7 +1057,7 @@ test('secp256k1.verifySignatureCompactLowS', async t => {
   });
 });
 
-test('secp256k1.verifySignatureDER', async t => {
+test('crypto: secp256k1.verifySignatureDER', async t => {
   const secp256k1 = await secp256k1Promise;
   t.true(
     secp256k1.verifySignatureDER(sigDERHighS, pubkeyCompressed, messageHash)
@@ -1057,7 +1065,7 @@ test('secp256k1.verifySignatureDER', async t => {
   // TODO: fast-check
 });
 
-test('secp256k1.verifySignatureDERLowS', async t => {
+test('crypto: secp256k1.verifySignatureDERLowS', async t => {
   const secp256k1 = await secp256k1Promise;
   t.true(
     secp256k1.verifySignatureDERLowS(sigDER, pubkeyCompressed, messageHash)
@@ -1143,7 +1151,91 @@ test('secp256k1.verifySignatureDERLowS', async t => {
   });
 });
 
-test.todo(
-  'Use fast-check to run random sets of library methods and confirm that results are as expected.'
-  // tslint:disable-next-line:max-file-line-count
-);
+test('crypto: secp256k1.signMessageHashSchnorr', async t => {
+  const secp256k1 = await secp256k1Promise;
+  t.deepEqual(
+    secp256k1.signMessageHashSchnorr(privkey, schnorrMsgHash),
+    sigSchnorr
+  );
+  t.throws(() =>
+    secp256k1.signMessageHashSchnorr(secp256k1OrderN, schnorrMsgHash)
+  );
+  const createsValidSignatures = fc.property(
+    fcValidPrivateKey(secp256k1),
+    fcUint8Array32(),
+    fc.boolean(),
+    (privateKey, hash, invalidate) => {
+      const publicKey = secp256k1.derivePublicKeyCompressed(privateKey);
+      const signature = secp256k1.signMessageHashSchnorr(privateKey, hash);
+      t.is(
+        secp256k1.verifySignatureSchnorr(
+          invalidate ? signature : signature.fill(0),
+          publicKey,
+          hash
+        ),
+        invalidate
+      );
+    }
+  );
+  t.notThrows(() => {
+    fc.assert(createsValidSignatures);
+  });
+});
+
+test('crypto: secp256k1.verifySchnorr', async t => {
+  const secp256k1 = await secp256k1Promise;
+  t.true(
+    secp256k1.verifySignatureSchnorr(
+      sigSchnorr,
+      pubkeyCompressed,
+      schnorrMsgHash
+    )
+  );
+  const pubkeyWithBrokenEncoding = pubkeyCompressed.slice().fill(0, 0, 1);
+  t.false(
+    secp256k1.verifySignatureSchnorr(
+      sigSchnorr,
+      pubkeyWithBrokenEncoding,
+      schnorrMsgHash
+    )
+  );
+  const sigSchnorrWithBadSignature = sigSchnorr.slice().fill(0, 6, 7);
+  t.false(
+    secp256k1.verifySignatureSchnorr(
+      sigSchnorrWithBadSignature,
+      pubkeyCompressed,
+      schnorrMsgHash
+    )
+  );
+
+  // test vectors from Bitcoin ABC libsecp256k1
+
+  /* Test vector 1 */
+  // prettier-ignore
+  const pk1 = Uint8Array.from([0x02, 0x79, 0xbe, 0x66, 0x7e, 0xf9, 0xdc, 0xbb, 0xac, 0x55, 0xa0, 0x62, 0x95, 0xce, 0x87, 0x0b, 0x07, 0x02, 0x9b, 0xfc, 0xdb, 0x2d, 0xce, 0x28, 0xd9, 0x59, 0xf2, 0x81, 0x5b, 0x16, 0xf8, 0x17, 0x98]);
+  // prettier-ignore
+  const msg1 = Uint8Array.from([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+  // prettier-ignore
+  const sig1 = Uint8Array.from([0x78, 0x7a, 0x84, 0x8e, 0x71, 0x04, 0x3d, 0x28, 0x0c, 0x50, 0x47, 0x0e, 0x8e, 0x15, 0x32, 0xb2, 0xdd, 0x5d, 0x20, 0xee, 0x91, 0x2a, 0x45, 0xdb, 0xdd, 0x2b, 0xd1, 0xdf, 0xbf, 0x18, 0x7e, 0xf6, 0x70, 0x31, 0xa9, 0x88, 0x31, 0x85, 0x9d, 0xc3, 0x4d, 0xff, 0xee, 0xdd, 0xa8, 0x68, 0x31, 0x84, 0x2c, 0xcd, 0x00, 0x79, 0xe1, 0xf9, 0x2a, 0xf1, 0x77, 0xf7, 0xf2, 0x2c, 0xc1, 0xdc, 0xed, 0x05]);
+  t.is(secp256k1.verifySignatureSchnorr(sig1, pk1, msg1), true);
+
+  /* Test vector 2 */
+  // prettier-ignore
+  const pk2 = Uint8Array.from([0x02, 0xdf, 0xf1, 0xd7, 0x7f, 0x2a, 0x67, 0x1c, 0x5f, 0x36, 0x18, 0x37, 0x26, 0xdb, 0x23, 0x41, 0xbe, 0x58, 0xfe, 0xae, 0x1d, 0xa2, 0xde, 0xce, 0xd8, 0x43, 0x24, 0x0f, 0x7b, 0x50, 0x2b, 0xa6, 0x59]);
+  // prettier-ignore
+  const msg2 = Uint8Array.from([0x24, 0x3f, 0x6a, 0x88, 0x85, 0xa3, 0x08, 0xd3, 0x13, 0x19, 0x8a, 0x2e, 0x03, 0x70, 0x73, 0x44, 0xa4, 0x09, 0x38, 0x22, 0x29, 0x9f, 0x31, 0xd0, 0x08, 0x2e, 0xfa, 0x98, 0xec, 0x4e, 0x6c, 0x89]);
+  // prettier-ignore
+  const sig2 = Uint8Array.from([0x2a, 0x29, 0x8d, 0xac, 0xae, 0x57, 0x39, 0x5a, 0x15, 0xd0, 0x79, 0x5d, 0xdb, 0xfd, 0x1d, 0xcb, 0x56, 0x4d, 0xa8, 0x2b, 0x0f, 0x26, 0x9b, 0xc7, 0x0a, 0x74, 0xf8, 0x22, 0x04, 0x29, 0xba, 0x1d, 0x1e, 0x51, 0xa2, 0x2c, 0xce, 0xc3, 0x55, 0x99, 0xb8, 0xf2, 0x66, 0x91, 0x22, 0x81, 0xf8, 0x36, 0x5f, 0xfc, 0x2d, 0x03, 0x5a, 0x23, 0x04, 0x34, 0xa1, 0xa6, 0x4d, 0xc5, 0x9f, 0x70, 0x13, 0xfd]);
+  t.is(secp256k1.verifySignatureSchnorr(sig2, pk2, msg2), true);
+
+  /* Test vector 6: R.y is not a quadratic residue */
+  // prettier-ignore
+  const pk6 = Uint8Array.from([0x02, 0xdf, 0xf1, 0xd7, 0x7f, 0x2a, 0x67, 0x1c, 0x5f, 0x36, 0x18, 0x37, 0x26, 0xdb, 0x23, 0x41, 0xbe, 0x58, 0xfe, 0xae, 0x1d, 0xa2, 0xde, 0xce, 0xd8, 0x43, 0x24, 0x0f, 0x7b, 0x50, 0x2b, 0xa6, 0x59]);
+  // prettier-ignore
+  const msg6 = Uint8Array.from([0x24, 0x3f, 0x6a, 0x88, 0x85, 0xa3, 0x08, 0xd3, 0x13, 0x19, 0x8a, 0x2e, 0x03, 0x70, 0x73, 0x44, 0xa4, 0x09, 0x38, 0x22, 0x29, 0x9f, 0x31, 0xd0, 0x08, 0x2e, 0xfa, 0x98, 0xec, 0x4e, 0x6c, 0x89]);
+  // prettier-ignore
+  const sig6 = Uint8Array.from([0x2a, 0x29, 0x8d, 0xac, 0xae, 0x57, 0x39, 0x5a, 0x15, 0xd0, 0x79, 0x5d, 0xdb, 0xfd, 0x1d, 0xcb, 0x56, 0x4d, 0xa8, 0x2b, 0x0f, 0x26, 0x9b, 0xc7, 0x0a, 0x74, 0xf8, 0x22, 0x04, 0x29, 0xba, 0x1d, 0xfa, 0x16, 0xae, 0xe0, 0x66, 0x09, 0x28, 0x0a, 0x19, 0xb6, 0x7a, 0x24, 0xe1, 0x97, 0x7e, 0x46, 0x97, 0x71, 0x2b, 0x5f, 0xd2, 0x94, 0x39, 0x14, 0xec, 0xd5, 0xf7, 0x30, 0x90, 0x1b, 0x4a, 0xb7]);
+  t.is(secp256k1.verifySignatureSchnorr(sig6, pk6, msg6), false);
+});
+
+// tslint:disable-next-line:max-file-line-count

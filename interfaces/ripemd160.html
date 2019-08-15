@@ -102,7 +102,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#final">final</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/ca4d59f/src/lib/crypto/ripemd160.ts#L16">lib/crypto/ripemd160.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/crypto/ripemd160.ts#L16">lib/crypto/ripemd160.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -145,7 +145,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#hash">hash</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/ca4d59f/src/lib/crypto/ripemd160.ts#L26">lib/crypto/ripemd160.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/crypto/ripemd160.ts#L26">lib/crypto/ripemd160.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -189,7 +189,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#init">init</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/ca4d59f/src/lib/crypto/ripemd160.ts#L42">lib/crypto/ripemd160.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/crypto/ripemd160.ts#L42">lib/crypto/ripemd160.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -198,7 +198,9 @@
 						</div>
 						<p>The returned raw state can be provided to <code>update</code> with additional input to
 						advance the computation.</p>
-						<h2 id="example">Example</h2>
+						<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+							<h2>Example</h2>
+						</a>
 						<pre><code class="language-ts"><span class="hljs-keyword">const</span> state1 = ripemd160.init();
 <span class="hljs-keyword">const</span> state2 = ripemd160.update(state1, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]));
 <span class="hljs-keyword">const</span> state3 = ripemd160.update(state2, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>([<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]));
@@ -227,7 +229,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="hashfunction.html">HashFunction</a>.<a href="hashfunction.html#update">update</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/ca4d59f/src/lib/crypto/ripemd160.ts#L56">lib/crypto/ripemd160.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/crypto/ripemd160.ts#L56">lib/crypto/ripemd160.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -284,18 +286,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/compressionflag.html" class="tsd-kind-icon">Compression<wbr>Flag</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/contextflag.html" class="tsd-kind-icon">Context<wbr>Flag</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="hashfunction.html" class="tsd-kind-icon">Hash<wbr>Function</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="recoverablesignature.html" class="tsd-kind-icon">Recoverable<wbr>Signature</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
@@ -317,93 +307,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="secp256k1.html" class="tsd-kind-icon">Secp256k1</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="secp256k1wasm.html" class="tsd-kind-icon">Secp256k1<wbr>Wasm</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="sha1.html" class="tsd-kind-icon">Sha1</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="sha256.html" class="tsd-kind-icon">Sha256</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="sha512.html" class="tsd-kind-icon">Sha512</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="../globals.html#recoveryid" class="tsd-kind-icon">Recovery<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#bintohex" class="tsd-kind-icon">bin<wbr>ToHex</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#decodebase64string" class="tsd-kind-icon">decode<wbr>Base64<wbr>String</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#getembeddedripemd160binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Ripemd160<wbr>Binary</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#getembeddedsecp256k1binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Secp256k1<wbr>Binary</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#getembeddedsha1binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha1<wbr>Binary</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#getembeddedsha256binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha256<wbr>Binary</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#getembeddedsha512binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Sha512<wbr>Binary</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#hextobin" class="tsd-kind-icon">hex<wbr>ToBin</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiateripemd160" class="tsd-kind-icon">instantiate<wbr>Ripemd160</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiateripemd160bytes" class="tsd-kind-icon">instantiate<wbr>Ripemd160<wbr>Bytes</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiaterustwasm" class="tsd-kind-icon">instantiate<wbr>Rust<wbr>Wasm</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesecp256k1" class="tsd-kind-icon">instantiate<wbr>Secp256k1</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesecp256k1bytes" class="tsd-kind-icon">instantiate<wbr>Secp256k1<wbr>Bytes</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesecp256k1wasm" class="tsd-kind-icon">instantiate<wbr>Secp256k1<wbr>Wasm</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesecp256k1wasmbytes" class="tsd-kind-icon">instantiate<wbr>Secp256k1<wbr>Wasm<wbr>Bytes</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesha1" class="tsd-kind-icon">instantiate<wbr>Sha1</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesha1bytes" class="tsd-kind-icon">instantiate<wbr>Sha1<wbr>Bytes</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesha256" class="tsd-kind-icon">instantiate<wbr>Sha256</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesha256bytes" class="tsd-kind-icon">instantiate<wbr>Sha256<wbr>Bytes</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesha512" class="tsd-kind-icon">instantiate<wbr>Sha512</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#instantiatesha512bytes" class="tsd-kind-icon">instantiate<wbr>Sha512<wbr>Bytes</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#range" class="tsd-kind-icon">range</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="../globals.html#splitevery" class="tsd-kind-icon">split<wbr>Every</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -421,6 +324,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -469,7 +373,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

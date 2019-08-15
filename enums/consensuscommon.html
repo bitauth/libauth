@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ContextFlag | bitcoin-ts</title>
+	<title>ConsensusCommon | bitcoin-ts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,28 +54,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="contextflag.html">ContextFlag</a>
+					<a href="consensuscommon.html">ConsensusCommon</a>
 				</li>
 			</ul>
-			<h1>Enumeration ContextFlag</h1>
+			<h1>Enumeration ConsensusCommon</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Flag to pass to a Secp256k1.contextCreate method.</p>
-					</div>
-					<p>The purpose of context structures is to cache large precomputed data tables
-						that are expensive to construct, and also to maintain the randomization data
-					for blinding.</p>
-					<p>You can create a context with only VERIFY or only SIGN capabilities, or you
-					can use BOTH. (NONE can be used for conversion/serialization.)</p>
-				</div>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -83,10 +71,11 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#both" class="tsd-kind-icon">BOTH</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#none" class="tsd-kind-icon">NONE</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#sign" class="tsd-kind-icon">SIGN</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#verify" class="tsd-kind-icon">VERIFY</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="consensuscommon.html#maximumbytecodelength" class="tsd-kind-icon">maximum<wbr>Bytecode<wbr>Length</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="consensuscommon.html#maximumoperationcount" class="tsd-kind-icon">maximum<wbr>Operation<wbr>Count</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="consensuscommon.html#maximumscriptnumberlength" class="tsd-kind-icon">maximum<wbr>Script<wbr>Number<wbr>Length</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="consensuscommon.html#maximumstackdepth" class="tsd-kind-icon">maximum<wbr>Stack<wbr>Depth</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="consensuscommon.html#maximumstackitemlength" class="tsd-kind-icon">maximum<wbr>Stack<wbr>Item<wbr>Length</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,44 +84,74 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="both" class="tsd-anchor"></a>
-					<h3>BOTH</h3>
-					<div class="tsd-signature tsd-kind-icon">BOTH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_SIGN | (SECP256K1_CONTEXT_VERIFY as 769)</span></div>
+					<a name="maximumbytecodelength" class="tsd-anchor"></a>
+					<h3>maximum<wbr>Bytecode<wbr>Length</h3>
+					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Bytecode<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;10000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L46">lib/bin/secp256k1/secp256k1-wasm-types.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/auth/instruction-sets/common/common.ts#L71">lib/auth/instruction-sets/common/common.ts:71</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A. <code>MAX_SCRIPT_SIZE</code></p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="maximumoperationcount" class="tsd-anchor"></a>
+					<h3>maximum<wbr>Operation<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Operation<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;201</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/auth/instruction-sets/common/common.ts#L67">lib/auth/instruction-sets/common/common.ts:67</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A. <code>MAX_OPS_PER_SCRIPT</code></p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="maximumscriptnumberlength" class="tsd-anchor"></a>
+					<h3>maximum<wbr>Script<wbr>Number<wbr>Length</h3>
+					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Script<wbr>Number<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;4</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/auth/instruction-sets/common/common.ts#L63">lib/auth/instruction-sets/common/common.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="none" class="tsd-anchor"></a>
-					<h3>NONE</h3>
-					<div class="tsd-signature tsd-kind-icon">NONE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_NONE as 1</span></div>
+					<a name="maximumstackdepth" class="tsd-anchor"></a>
+					<h3>maximum<wbr>Stack<wbr>Depth</h3>
+					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Stack<wbr>Depth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;1000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L43">lib/bin/secp256k1/secp256k1-wasm-types.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/auth/instruction-sets/common/common.ts#L75">lib/auth/instruction-sets/common/common.ts:75</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A. <code>MAX_STACK_SIZE</code></p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="sign" class="tsd-anchor"></a>
-					<h3>SIGN</h3>
-					<div class="tsd-signature tsd-kind-icon">SIGN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_SIGN as 513</span></div>
+					<a name="maximumstackitemlength" class="tsd-anchor"></a>
+					<h3>maximum<wbr>Stack<wbr>Item<wbr>Length</h3>
+					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Stack<wbr>Item<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;520</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L45">lib/bin/secp256k1/secp256k1-wasm-types.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/auth/instruction-sets/common/common.ts#L62">lib/auth/instruction-sets/common/common.ts:62</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="verify" class="tsd-anchor"></a>
-					<h3>VERIFY</h3>
-					<div class="tsd-signature tsd-kind-icon">VERIFY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_VERIFY as 257</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L44">lib/bin/secp256k1/secp256k1-wasm-types.ts:44</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A. <code>MAX_SCRIPT_ELEMENT_SIZE</code></p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -149,19 +168,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-enum tsd-is-external">
-						<a href="contextflag.html" class="tsd-kind-icon">Context<wbr>Flag</a>
+						<a href="consensuscommon.html" class="tsd-kind-icon">Consensus<wbr>Common</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#both" class="tsd-kind-icon">BOTH</a>
+								<a href="consensuscommon.html#maximumbytecodelength" class="tsd-kind-icon">maximum<wbr>Bytecode<wbr>Length</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#none" class="tsd-kind-icon">NONE</a>
+								<a href="consensuscommon.html#maximumoperationcount" class="tsd-kind-icon">maximum<wbr>Operation<wbr>Count</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#sign" class="tsd-kind-icon">SIGN</a>
+								<a href="consensuscommon.html#maximumscriptnumberlength" class="tsd-kind-icon">maximum<wbr>Script<wbr>Number<wbr>Length</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#verify" class="tsd-kind-icon">VERIFY</a>
+								<a href="consensuscommon.html#maximumstackdepth" class="tsd-kind-icon">maximum<wbr>Stack<wbr>Depth</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="consensuscommon.html#maximumstackitemlength" class="tsd-kind-icon">maximum<wbr>Stack<wbr>Item<wbr>Length</a>
 							</li>
 						</ul>
 					</li>

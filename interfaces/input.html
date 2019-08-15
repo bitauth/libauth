@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ContextFlag | bitcoin-ts</title>
+	<title>Input | bitcoin-ts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,85 +54,122 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="contextflag.html">ContextFlag</a>
+					<a href="input.html">Input</a>
 				</li>
 			</ul>
-			<h1>Enumeration ContextFlag</h1>
+			<h1>Interface Input</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Flag to pass to a Secp256k1.contextCreate method.</p>
-					</div>
-					<p>The purpose of context structures is to cache large precomputed data tables
-						that are expensive to construct, and also to maintain the randomization data
-					for blinding.</p>
-					<p>You can create a context with only VERIFY or only SIGN capabilities, or you
-					can use BOTH. (NONE can be used for conversion/serialization.)</p>
-				</div>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Input</span>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
-							<h3>Enumeration members</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#both" class="tsd-kind-icon">BOTH</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#none" class="tsd-kind-icon">NONE</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#sign" class="tsd-kind-icon">SIGN</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#verify" class="tsd-kind-icon">VERIFY</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="input.html#outpointindex" class="tsd-kind-icon">outpoint<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="input.html#outpointtransactionhash" class="tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="input.html#sequencenumber" class="tsd-kind-icon">sequence<wbr>Number</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="input.html#unlockingbytecode" class="tsd-kind-icon">unlocking<wbr>Bytecode</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="both" class="tsd-anchor"></a>
-					<h3>BOTH</h3>
-					<div class="tsd-signature tsd-kind-icon">BOTH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_SIGN | (SECP256K1_CONTEXT_VERIFY as 769)</span></div>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="outpointindex" class="tsd-anchor"></a>
+					<h3>outpoint<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L46">lib/bin/secp256k1/secp256k1-wasm-types.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/transaction.ts#L20">lib/transaction.ts:20</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The index of the output in the transaction from which this input is spent.</p>
+						</div>
+						<p>An &quot;outpoint&quot; is a reference (&quot;pointer&quot;) to an output in a previous
+						transaction.</p>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="none" class="tsd-anchor"></a>
-					<h3>NONE</h3>
-					<div class="tsd-signature tsd-kind-icon">NONE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_NONE as 1</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="outpointtransactionhash" class="tsd-anchor"></a>
+					<h3>outpoint<wbr>Transaction<wbr>Hash</h3>
+					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L43">lib/bin/secp256k1/secp256k1-wasm-types.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/transaction.ts#L40">lib/transaction.ts:40</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A. <code>Transaction ID</code></p>
+						</div>
+						<p>The hash of the raw transaction from which this input is spent in
+						big-endian byte order.</p>
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>An &quot;outpoint&quot; is a reference (A.K.A. &quot;pointer&quot;) to an output in a previous
+								transaction.</p>
+								<p>TODO: clarify: in what order to block explorers display hashes? In what
+								order are hashes serialized?</p>
+								<p>Serialized raw bitcoin transactions encode this value in little-endian byte
+									order. However, it is more common to use big-endian byte order when
+									displaying transaction hashes. (In part because the SHA-256 specification
+									defines its output as big-endian, so this byte order is output by most
+								cryptographic libraries.)</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="sign" class="tsd-anchor"></a>
-					<h3>SIGN</h3>
-					<div class="tsd-signature tsd-kind-icon">SIGN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_SIGN as 513</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="sequencenumber" class="tsd-anchor"></a>
+					<h3>sequence<wbr>Number</h3>
+					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L45">lib/bin/secp256k1/secp256k1-wasm-types.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/transaction.ts#L44">lib/transaction.ts:44</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>TODO: summarize BIP 68</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="verify" class="tsd-anchor"></a>
-					<h3>VERIFY</h3>
-					<div class="tsd-signature tsd-kind-icon">VERIFY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_VERIFY as 257</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="unlockingbytecode" class="tsd-anchor"></a>
+					<h3>unlocking<wbr>Bytecode</h3>
+					<div class="tsd-signature tsd-kind-icon">unlocking<wbr>Bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L44">lib/bin/secp256k1/secp256k1-wasm-types.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/transaction.ts#L53">lib/transaction.ts:53</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The bytecode used to unlock a transaction output. To spend an output,
+								unlocking bytecode must be included in a transaction input which – when
+								evaluated in the authentication virtual machine with the locking bytecode –
+							completes in valid state.</p>
+						</div>
+						<p>A.K.A. <code>scriptSig</code> or &quot;unlocking script&quot;</p>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -148,20 +185,20 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-enum tsd-is-external">
-						<a href="contextflag.html" class="tsd-kind-icon">Context<wbr>Flag</a>
+					<li class="current tsd-kind-interface tsd-is-external">
+						<a href="input.html" class="tsd-kind-icon">Input</a>
 						<ul>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#both" class="tsd-kind-icon">BOTH</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="input.html#outpointindex" class="tsd-kind-icon">outpoint<wbr>Index</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#none" class="tsd-kind-icon">NONE</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="input.html#outpointtransactionhash" class="tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#sign" class="tsd-kind-icon">SIGN</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="input.html#sequencenumber" class="tsd-kind-icon">sequence<wbr>Number</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#verify" class="tsd-kind-icon">VERIFY</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="input.html#unlockingbytecode" class="tsd-kind-icon">unlocking<wbr>Bytecode</a>
 							</li>
 						</ul>
 					</li>

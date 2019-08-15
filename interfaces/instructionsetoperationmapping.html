@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ContextFlag | bitcoin-ts</title>
+	<title>InstructionSetOperationMapping | bitcoin-ts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,86 +54,35 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="contextflag.html">ContextFlag</a>
+					<a href="instructionsetoperationmapping.html">InstructionSetOperationMapping</a>
 				</li>
 			</ul>
-			<h1>Enumeration ContextFlag</h1>
+			<h1>Interface InstructionSetOperationMapping&lt;ProgramState&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Flag to pass to a Secp256k1.contextCreate method.</p>
-					</div>
-					<p>The purpose of context structures is to cache large precomputed data tables
-						that are expensive to construct, and also to maintain the randomization data
-					for blinding.</p>
-					<p>You can create a context with only VERIFY or only SIGN capabilities, or you
-					can use BOTH. (NONE can be used for conversion/serialization.)</p>
-				</div>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>ProgramState</h4>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-external">
-							<h3>Enumeration members</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#both" class="tsd-kind-icon">BOTH</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#none" class="tsd-kind-icon">NONE</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#sign" class="tsd-kind-icon">SIGN</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="contextflag.html#verify" class="tsd-kind-icon">VERIFY</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">InstructionSetOperationMapping</span>
+					</li>
+				</ul>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="both" class="tsd-anchor"></a>
-					<h3>BOTH</h3>
-					<div class="tsd-signature tsd-kind-icon">BOTH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_SIGN | (SECP256K1_CONTEXT_VERIFY as 769)</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L46">lib/bin/secp256k1/secp256k1-wasm-types.ts:46</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="none" class="tsd-anchor"></a>
-					<h3>NONE</h3>
-					<div class="tsd-signature tsd-kind-icon">NONE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_NONE as 1</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L43">lib/bin/secp256k1/secp256k1-wasm-types.ts:43</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="sign" class="tsd-anchor"></a>
-					<h3>SIGN</h3>
-					<div class="tsd-signature tsd-kind-icon">SIGN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_SIGN as 513</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L45">lib/bin/secp256k1/secp256k1-wasm-types.ts:45</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="verify" class="tsd-anchor"></a>
-					<h3>VERIFY</h3>
-					<div class="tsd-signature tsd-kind-icon">VERIFY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;SECP256K1_CONTEXT_VERIFY as 257</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/c1cd16b/src/lib/bin/secp256k1/secp256k1-wasm-types.ts#L44">lib/bin/secp256k1/secp256k1-wasm-types.ts:44</a></li>
-						</ul>
-					</aside>
-				</section>
+			<section class="tsd-panel tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+				<h3 class="tsd-before-signature">Indexable</h3>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>opcode: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]: </span><a href="../globals.html#operation" class="tsd-signature-type">Operation</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></div>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -148,22 +97,8 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-enum tsd-is-external">
-						<a href="contextflag.html" class="tsd-kind-icon">Context<wbr>Flag</a>
-						<ul>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#both" class="tsd-kind-icon">BOTH</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#none" class="tsd-kind-icon">NONE</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#sign" class="tsd-kind-icon">SIGN</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="contextflag.html#verify" class="tsd-kind-icon">VERIFY</a>
-							</li>
-						</ul>
+					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="instructionsetoperationmapping.html" class="tsd-kind-icon">Instruction<wbr>Set<wbr>Operation<wbr>Mapping</a>
 					</li>
 				</ul>
 				<ul class="after-current">

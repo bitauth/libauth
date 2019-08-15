@@ -34,7 +34,7 @@ export interface RecoverableSignature {
  */
 export interface Secp256k1 {
   /**
-   * Add `tweakValue` to the `privateKey`
+   * Tweak a privateKey by adding `tweakValue` to it.
    *
    * Throws if the private key is invalid or if the addition failed.
    *
@@ -138,7 +138,7 @@ export interface Secp256k1 {
   readonly malleateSignatureDER: (signature: Uint8Array) => Uint8Array;
 
   /**
-   * Add `tweakValue` to the `privateKey`
+   * Tweak a privateKey by multiplying it by a `tweakValue`.
    *
    * @param privateKey a valid secp256k1 private key
    * @param tweakValue 256 bit value to tweak by (BE)

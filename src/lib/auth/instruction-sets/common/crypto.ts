@@ -313,7 +313,7 @@ export const opCheckMultiSig = <
                       signature.length === ConsensusBCH.schnorrSignatureLength
                     ) {
                       return applyError<State, Errors>(
-                        AuthenticationErrorCommon.shnorrSizedSignatureInCheckMultiSig,
+                        AuthenticationErrorCommon.schnorrSizedSignatureInCheckMultiSig,
                         finalState
                       );
                     }

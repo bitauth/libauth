@@ -31,7 +31,7 @@ export enum AuthenticationErrorCommon {
   negativeLocktime = 'Program called an OP_CHECKLOCKTIMEVERIFY or OP_CHECKSEQUENCEVERIFY operation with a negative locktime.',
   nonMinimalPush = 'Push operations must use the smallest possible encoding.',
   nonNullSignatureFailure = 'Program failed a signature verification with a non-null signature (violating the "NULLFAIL" rule).',
-  shnorrSizedSignatureInCheckMultiSig = 'Program used a shnorr-sized signature (65 bytes) in an OP_CHECKMULTISIG operation.',
+  schnorrSizedSignatureInCheckMultiSig = 'Program used a schnorr-sized signature (65 bytes) in an OP_CHECKMULTISIG operation.',
   unexpectedElse = 'Encountered an OP_ELSE outside of an OP_IF ... OP_ENDIF block.',
   unexpectedEndIf = 'Encountered an OP_ENDIF which is not following a matching OP_IF.',
   unknownOpcode = 'Called an unknown opcode.',

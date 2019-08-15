@@ -315,8 +315,8 @@ export const getCompilerOperationsBCH = <
       'schnorr_data_signature',
       secp256k1 => secp256k1.signMessageHashSchnorr
     ),
-    shnorr_signature: compilerOperationBCHGenerateSignature(
-      'shnorr_signature',
+    schnorr_signature: compilerOperationBCHGenerateSignature(
+      'schnorr_signature',
       secp256k1 => secp256k1.signMessageHashSchnorr
     ),
     signature: compilerOperationBCHGenerateSignature(

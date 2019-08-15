@@ -266,14 +266,14 @@ test('bench: secp256k1: verify: Schnorr vs. ECDSA', async t => {
     let messageHash: Uint8Array;
     let pubkeyCompressed: Uint8Array;
     let sigDER: Uint8Array;
-    let sigShnorr: Uint8Array;
+    let sigSchnorr: Uint8Array;
     let result: boolean;
     const nextCycle = () => {
       const privKey = getValidPrivateKey(secp256k1);
       messageHash = randomBytes(privKeyLength);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(privKey);
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash);
-      sigShnorr = secp256k1.signMessageHashSchnorr(privKey, messageHash);
+      sigSchnorr = secp256k1.signMessageHashSchnorr(privKey, messageHash);
       result = false;
     };
     nextCycle();
@@ -288,10 +288,10 @@ test('bench: secp256k1: verify: Schnorr vs. ECDSA', async t => {
       }
     );
     s.bench(
-      'secp256k1.verifySignatureSchnorr (Shnorr, pubkey compressed)',
+      'secp256k1.verifySignatureSchnorr (Schnorr, pubkey compressed)',
       () => {
         result = secp256k1.verifySignatureSchnorr(
-          sigShnorr,
+          sigSchnorr,
           pubkeyCompressed,
           messageHash
         );

@@ -124,7 +124,7 @@ export enum AuthenticationErrorCommon {
     // (undocumented)
     nonNullSignatureFailure = "Program failed a signature verification with a non-null signature (violating the \"NULLFAIL\" rule).",
     // (undocumented)
-    shnorrSizedSignatureInCheckMultiSig = "Program used a shnorr-sized signature (65 bytes) in an OP_CHECKMULTISIG operation.",
+    schnorrSizedSignatureInCheckMultiSig = "Program used a schnorr-sized signature (65 bytes) in an OP_CHECKMULTISIG operation.",
     // (undocumented)
     unexpectedElse = "Encountered an OP_ELSE outside of an OP_IF ... OP_ENDIF block.",
     // (undocumented)

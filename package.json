@@ -45,6 +45,7 @@
     "doc": "run-s doc:html && open-cli build/docs/index.html",
     "doc:html": "typedoc src/index.ts --target ES6 --mode file --excludeNotExported --out build/docs",
     "doc:json": "typedoc src/index.ts --target ES6 --mode file --excludeNotExported --json build/docs/typedoc.json",
+    "doc:next": "run-s build doc:extract doc:generate",
     "doc:extract": "api-extractor run --local --typescript-compiler-folder node_modules/typescript",
     "doc:generate": "api-documenter markdown -i temp -o docs/markdown",
     "doc:check-api": "api-extractor run --typescript-compiler-folder node_modules/typescript",

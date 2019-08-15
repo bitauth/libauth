@@ -1,18 +1,20 @@
 // tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
+
 import { binToHex, hexToBin } from '../../../utils/utils';
+
 import {
   bigIntToScriptNumber,
   booleanToScriptNumber,
   parseBytesAsScriptNumber,
   ScriptNumberError,
-  stackElementIsTruthy
+  stackItemIsTruthy
 } from './common';
 
 /**
  * Derived from https://github.com/bitcoinjs/bitcoinjs-lib
  */
-const validScriptNumbers: ReadonlyArray<[string, bigint]> = [
+const minimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
   ['', BigInt(0)],
   ['01', BigInt(1)],
   ['02', BigInt(2)],
@@ -62,28 +64,65 @@ const validScriptNumbers: ReadonlyArray<[string, bigint]> = [
   ['81', BigInt(-1)]
 ];
 
-const invalidScriptNumbers: ReadonlyArray<[string, string]> = [
-  ['00', ScriptNumberError.requiresMinimal],
-  ['0000', ScriptNumberError.requiresMinimal],
-  ['80', ScriptNumberError.requiresMinimal]
+const nonMinimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
+  ['00', BigInt(0)],
+  ['0000', BigInt(0)],
+  ['80', BigInt(0)],
+  ['0080', BigInt(0)],
+  ['0180', BigInt(-1)],
+  ['010080', BigInt(-1)],
+  ['01000080', BigInt(-1)],
+  ['0100000080', BigInt(-1)],
+  ['abcdef4280', BigInt(-1123012011)]
+];
+
+const equivalentScriptNumbers: ReadonlyArray<[string, string]> = [
+  ['01020380', '010283'],
+  ['0102030480', '01020384'],
+  ['abcdef4280', 'abcdefc2']
 ];
 
 test('parseBytesAsScriptNumber', t => {
-  [...validScriptNumbers, ...invalidScriptNumbers].map(pair => {
-    t.deepEqual(parseBytesAsScriptNumber(hexToBin(pair[0])), pair[1]);
+  [...minimallyEncodedScriptNumbers, ...nonMinimallyEncodedScriptNumbers].map(
+    pair => {
+      t.deepEqual(
+        parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
+        pair[1]
+      );
+    }
+  );
+  nonMinimallyEncodedScriptNumbers.map(pair => {
+    t.deepEqual(
+      parseBytesAsScriptNumber(hexToBin(pair[0]), true, 5),
+      ScriptNumberError.requiresMinimal
+    );
   });
+  equivalentScriptNumbers.map(pair => {
+    t.deepEqual(
+      parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
+      parseBytesAsScriptNumber(hexToBin(pair[1]), true, 5)
+    );
+  });
+  t.deepEqual(
+    parseBytesAsScriptNumber(hexToBin('abcdef1234'), true, 4),
+    ScriptNumberError.outOfRange
+  );
+  t.deepEqual(
+    parseBytesAsScriptNumber(hexToBin('abcdef1234'), true, 5),
+    BigInt(223656005035)
+  );
 });
 
 test('bigIntToScriptNumber', t => {
-  validScriptNumbers.map(pair => {
+  minimallyEncodedScriptNumbers.map(pair => {
     t.deepEqual(binToHex(bigIntToScriptNumber(pair[1])), pair[0]);
   });
 });
 
 // TODO: more test vectors
 test('stackElementIsTruthy', t => {
-  t.is(stackElementIsTruthy(bigIntToScriptNumber(BigInt(0))), false);
-  t.is(stackElementIsTruthy(bigIntToScriptNumber(BigInt(1))), true);
+  t.is(stackItemIsTruthy(bigIntToScriptNumber(BigInt(0))), false);
+  t.is(stackItemIsTruthy(bigIntToScriptNumber(BigInt(1))), true);
 });
 
 test('booleanToScriptNumber', t => {

@@ -1,5 +1,3 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
 import {
   bigIntToBinUint64LE,
   bigIntToBitcoinVarInt,
@@ -10,17 +8,40 @@ import {
  * A.K.A. `sighash` flags
  */
 export enum SigningSerializationFlag {
-  ALL = 0x01,
-  NONE = 0x02,
-  SINGLE = 0x03,
-  FORKID = 0x40,
-  ANYONECANPAY = 0x80
+  /**
+   * A.K.A. `SIGHASH_ALL`
+   */
+  all_outputs = 0x01,
+  /**
+   * A.K.A `SIGHASH_NONE`
+   */
+  no_outputs = 0x02,
+  /**
+   * A.K.A. `SIGHASH_SINGLE`
+   */
+  corresponding_output = 0x03,
+  fork_id = 0x40,
+  /**
+   * A.K.A `ANYONE_CAN_PAY`
+   */
+  single_input = 0x80
 }
 
 const enum Internal {
-  mask5Bits = 0x1f,
+  mask5Bits = 0b11111,
   sha256HashByteLength = 32
 }
+
+export const isDefinedSigningSerializationType = (byte: number) => {
+  const baseType =
+    byte &
+    // tslint:disable-next-line: no-bitwise
+    ~(SigningSerializationFlag.fork_id | SigningSerializationFlag.single_input);
+  return (
+    baseType >= SigningSerializationFlag.all_outputs &&
+    baseType <= SigningSerializationFlag.corresponding_output
+  );
+};
 
 const match = (type: Uint8Array, flag: SigningSerializationFlag) =>
   // tslint:disable-next-line:no-bitwise
@@ -32,14 +53,14 @@ const equals = (
   // tslint:disable-next-line:no-bitwise
 ) => (type[0] & Internal.mask5Bits) === flag;
 
-const anyoneCanPay = (type: Uint8Array) =>
-  match(type, SigningSerializationFlag.ANYONECANPAY);
+const shouldSerializeSingleInput = (type: Uint8Array) =>
+  match(type, SigningSerializationFlag.single_input);
 
-const sigSerializeSingle = (type: Uint8Array) =>
-  equals(type, SigningSerializationFlag.SINGLE);
+const shouldSerializeCorrespondingOutput = (type: Uint8Array) =>
+  equals(type, SigningSerializationFlag.corresponding_output);
 
-const sigSerializeNone = (type: Uint8Array) =>
-  equals(type, SigningSerializationFlag.NONE);
+const shouldSerializeNoOutputs = (type: Uint8Array) =>
+  equals(type, SigningSerializationFlag.no_outputs);
 
 const emptyHash = () => new Uint8Array(Internal.sha256HashByteLength).fill(0);
 
@@ -47,50 +68,50 @@ const emptyHash = () => new Uint8Array(Internal.sha256HashByteLength).fill(0);
  * Return the proper `hashPrevouts` value for a given a signing serialization
  * type.
  * @param signingSerializationType the signing serialization type to test
- * @param transactionOutpointsHash see `generateBitcoinCashSigningSerialization`
+ * @param hashTransactionOutpoints see `generateSigningSerializationBCH`
  */
 const hashPrevouts = (
   signingSerializationType: Uint8Array,
-  transactionOutpointsHash: Uint8Array
+  hashTransactionOutpoints: () => Uint8Array
 ) =>
-  anyoneCanPay(signingSerializationType)
+  shouldSerializeSingleInput(signingSerializationType)
     ? emptyHash()
-    : transactionOutpointsHash;
+    : hashTransactionOutpoints();
 
 /**
  * Return the proper `hashSequence` value for a given a signing serialization
  * type.
  * @param signingSerializationType the signing serialization type to test
- * @param transactionSequenceNumbersHash see
- * `generateBitcoinCashSigningSerialization`
+ * @param hashTransactionSequenceNumbers see
+ * `generateSigningSerializationBCH`
  */
 const hashSequence = (
   signingSerializationType: Uint8Array,
-  transactionSequenceNumbersHash: Uint8Array
+  hashTransactionSequenceNumbers: () => Uint8Array
 ) =>
-  anyoneCanPay(signingSerializationType) ||
-  !sigSerializeSingle(signingSerializationType) ||
-  !sigSerializeNone(signingSerializationType)
-    ? transactionSequenceNumbersHash
+  !shouldSerializeSingleInput(signingSerializationType) &&
+  !shouldSerializeCorrespondingOutput(signingSerializationType) &&
+  !shouldSerializeNoOutputs(signingSerializationType)
+    ? hashTransactionSequenceNumbers()
     : emptyHash();
 
 /**
  * Return the proper `hashOutputs` value for a given a signing serialization
  * type.
  * @param signingSerializationType the signing serialization type to test
- * @param transactionOutputsHash see `generateBitcoinCashSigningSerialization`
- * @param correspondingOutputHash see `generateBitcoinCashSigningSerialization`
+ * @param hashTransactionOutputs see `generateSigningSerializationBCH`
+ * @param hashCorrespondingOutput see `generateSigningSerializationBCH`
  */
 const hashOutputs = (
   signingSerializationType: Uint8Array,
-  transactionOutputsHash: Uint8Array,
-  correspondingOutputHash: Uint8Array
+  hashTransactionOutputs: () => Uint8Array,
+  hashCorrespondingOutput: () => Uint8Array
 ) =>
-  !sigSerializeSingle(signingSerializationType) &&
-  !sigSerializeNone(signingSerializationType)
-    ? transactionOutputsHash
-    : sigSerializeSingle(signingSerializationType)
-    ? correspondingOutputHash
+  !shouldSerializeCorrespondingOutput(signingSerializationType) &&
+  !shouldSerializeNoOutputs(signingSerializationType)
+    ? hashTransactionOutputs()
+    : shouldSerializeCorrespondingOutput(signingSerializationType)
+    ? hashCorrespondingOutput()
     : emptyHash();
 
 /**
@@ -98,12 +119,13 @@ const hashOutputs = (
  * algorithm required by the `signingSerializationType` of a signature.
  *
  * @param version the version number of the transaction
- * @param transactionOutpointsHash the 32-byte double SHA256 hash of the
- * serialization of all input outpoints (A.K.A. `hashPrevouts`) – used if
- * `ANYONECANPAY` is not set
- * @param transactionSequenceNumbersHash the double SHA256 hash of the
- * serialization of all input sequence numbers. (A.K.A. `hashSequence`) – used
- * if none of `ANYONECANPAY`, `SINGLE`, or `NONE` are set.
+ * @param hashTransactionOutpoints a function returning the 32-byte double
+ * SHA256 hash of the serialization of all input outpoints (A.K.A.
+ * `hashPrevouts`) – used if `ANYONECANPAY` is not set
+ * @param hashTransactionSequenceNumbers a function returning the double SHA256
+ * hash of the serialization of all input sequence numbers. (A.K.A.
+ * `hashSequence`) – used if none of `ANYONECANPAY`, `SINGLE`, or `NONE` are
+ * set.
  * @param outpointTransactionHash the big-endian (standard) transaction hash of
  * the outpoint being spent.
  * @param outpointIndex the index of the outpoint being spent in
@@ -112,11 +134,12 @@ const hashOutputs = (
  * `lastCodeSeparator`.
  * @param outputValue the value of the outpoint in satoshis
  * @param sequenceNumber the sequence number of the input (A.K.A. `nSequence`)
- * @param correspondingOutputHash The double SHA256 of the serialization of the
+ * @param hashCorrespondingOutput The double SHA256 of the serialization of the
  * output at the same index as this input (A.K.A. `hashOutputs` with
  * `SIGHASH_SINGLE`) – only used if `SINGLE` is set
- * @param transactionOutputsHash the double SHA256 of the serialization of
- * output amounts and locking scripts (A.K.A. `hashOutputs` with `SIGHASH_ALL`)
+ * @param hashTransactionOutputs the double SHA256 of the serialization of
+ * output amounts and locking bytecode values (A.K.A. `hashOutputs` with
+ * `SIGHASH_ALL`)
  * – only used if `ALL` is set
  * @param locktime the locktime of the transaction
  * @param signingSerializationType the signing serialization type of the
@@ -126,26 +149,25 @@ const hashOutputs = (
  * provide replay-protection between different forks. (See Bitcoin Cash's Replay
  * Protected Sighash spec for details.)
  */
-export const generateBitcoinCashSigningSerialization = (
+export const generateSigningSerializationBCH = (
   version: number,
-  // TODO: consider making all hashes functions to allow for lazy evaluation
-  transactionOutpointsHash: Uint8Array,
-  transactionSequenceNumbersHash: Uint8Array,
+  hashTransactionOutpoints: () => Uint8Array,
+  hashTransactionSequenceNumbers: () => Uint8Array,
   outpointTransactionHash: Uint8Array,
   outpointIndex: number,
   coveredScript: Uint8Array,
   outputValue: bigint,
   sequenceNumber: number,
-  correspondingOutputHash: Uint8Array,
-  transactionOutputsHash: Uint8Array,
+  hashCorrespondingOutput: () => Uint8Array,
+  hashTransactionOutputs: () => Uint8Array,
   locktime: number,
   signingSerializationType: Uint8Array,
   forkId = new Uint8Array([0, 0, 0])
 ) =>
   new Uint8Array([
     ...numberToBinUint32LE(version),
-    ...hashPrevouts(signingSerializationType, transactionOutpointsHash),
-    ...hashSequence(signingSerializationType, transactionSequenceNumbersHash),
+    ...hashPrevouts(signingSerializationType, hashTransactionOutpoints),
+    ...hashSequence(signingSerializationType, hashTransactionSequenceNumbers),
     ...outpointTransactionHash.slice().reverse(),
     ...numberToBinUint32LE(outpointIndex),
     ...Uint8Array.from([
@@ -156,10 +178,27 @@ export const generateBitcoinCashSigningSerialization = (
     ...numberToBinUint32LE(sequenceNumber),
     ...hashOutputs(
       signingSerializationType,
-      transactionOutputsHash,
-      correspondingOutputHash
+      hashTransactionOutputs,
+      hashCorrespondingOutput
     ),
     ...numberToBinUint32LE(locktime),
     ...signingSerializationType,
     ...forkId
   ]);
+
+/**
+ * @param signingSerializationType the 32-bit number indicating the signing
+ * serialization algorithm to use
+ */
+export const isLegacySigningSerialization = (
+  signingSerializationType: number
+) => {
+  // tslint:disable-next-line: no-bitwise no-magic-numbers
+  const forkValue = signingSerializationType >> 8;
+  // tslint:disable-next-line: no-bitwise no-magic-numbers
+  const newForkValue = (forkValue ^ 0xdead) | 0xff0000;
+  // tslint:disable-next-line: no-bitwise no-magic-numbers
+  const sighashType = (newForkValue << 8) | (signingSerializationType & 0xff);
+  // tslint:disable-next-line: no-bitwise
+  return (sighashType & SigningSerializationFlag.fork_id) === 0;
+};

@@ -30,7 +30,7 @@ const hexadecimal = 16;
  * Note, this method always completes. If `wellFormedHex` is not divisible by 2,
  * the final byte will be parsed as if it were prepended with a `0` (e.g. `aaa`
  * is interpreted as `aa0a`). If `wellFormedHex` is potentially malformed, check
- * its length and handle the error before calling this method.
+ * it with `isHex` before calling this method.
  *
  * @param wellFormedHex a string of valid, hexadecimal-encoded data
  */
@@ -40,6 +40,18 @@ export const hexToBin = (wellFormedHex: string) =>
       parseInt(byte, hexadecimal)
     )
   );
+
+enum Hex {
+  byte = 2
+}
+
+/**
+ * For use before `hexToBin`. Returns true if the provided string is divisible
+ * by 2 and only uses hex characters.
+ * @param maybeHex a string to test
+ */
+export const isHex = (maybeHex: string) =>
+  maybeHex.length % Hex.byte === 0 && !/[^a-fA-F0-9]/.test(maybeHex);
 
 /**
  * Encode a Uint8Array into a hexadecimal-encoded string.

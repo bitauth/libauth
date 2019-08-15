@@ -1,38 +1,19 @@
-/* istanbul ignore file */ // TODO: stabilize & test
+import { Output, Transaction } from '../transaction';
 
-import { Sha256 } from '../crypto/sha256';
-import {
-  getOutpointsHash,
-  getOutputHash,
-  getOutputsHash,
-  getSequenceNumbersHash,
-  Output,
-  Transaction
-} from '../transaction';
-import { CommonAuthenticationError } from './instruction-sets/common/common';
-import {
-  AuthenticationInstruction,
-  authenticationInstructionsAreNotMalformed,
-  parseScript
-} from './instruction-sets/instruction-sets';
+import { AuthenticationErrorCommon } from './instruction-sets/common/errors';
+import { AuthenticationInstruction } from './instruction-sets/instruction-sets';
 
 /**
  * State which applies to every input in a given transaction.
  */
 export interface TransactionState {
   /**
-   * A time or block height at which the transaction is considered valid (and
-   * can be added to the block chain). This allows signers to create time-locked
-   * transactions which may only become valid in the future.
-   */
-  readonly locktime: number;
-  /**
    * A.K.A. `hashPrevouts`
    *
    * The double SHA256 of the serialization of all input outpoints. (See
    * BIP143 or Bitcoin Cash's Replay Protected Sighash spec for details.)
    */
-  readonly transactionOutpointsHash: Uint8Array;
+  readonly hashTransactionOutpoints: () => Uint8Array;
   /*
    * A.K.A. `hashOutputs` with `SIGHASH_ALL`
    *
@@ -40,26 +21,26 @@ export interface TransactionState {
    * scripts. (See BIP143 or Bitcoin Cash's Replay Protected Sighash spec for
    * details.)
    */
-  readonly transactionOutputsHash: Uint8Array;
+  readonly hashTransactionOutputs: () => Uint8Array;
   /*
    * A.K.A. `hashSequence`
    *
    * The double SHA256 of the serialization of all input sequence numbers. (See
    * BIP143 or Bitcoin Cash's Replay Protected Sighash spec for details.)
    */
-  readonly transactionSequenceNumbersHash: Uint8Array;
+  readonly hashTransactionSequenceNumbers: () => Uint8Array;
+  /**
+   * A time or block height at which the transaction is considered valid (and
+   * can be added to the block chain). This allows signers to create time-locked
+   * transactions which may only become valid in the future.
+   */
+  // tslint:disable-next-line: no-mixed-interface
+  readonly locktime: number;
   readonly version: number;
 }
 
 /**
  * The state of a single transaction input.
- *
- * Note: this implementation does not attempt to allow for lazy evaluation of
- * hashes. More performance-critical applications may choose to reimplement this
- * interface (and subsequent VM operations) by declaring the
- * `transactionOutpointsHash`, `transactionOutputHash`,
- * `transactionOutputsHash`, and `transactionSequenceNumbersHash` properties to
- * be of type `() => Uint8Array` to avoid pre-calculating unused hashes.
  */
 export interface TransactionInputState extends TransactionState {
   /*
@@ -71,11 +52,12 @@ export interface TransactionInputState extends TransactionState {
    * padding should be used instead. (See BIP143 or Bitcoin Cash's Replay
    * Protected Sighash spec for details.)
    */
-  readonly correspondingOutputHash: Uint8Array;
+  readonly hashCorrespondingOutput: () => Uint8Array;
   /**
    * The index (within the previous transaction) of the outpoint being spent by
    * this input.
    */
+  // tslint:disable-next-line: no-mixed-interface
   readonly outpointIndex: number;
   /**
    * The hash/ID of the transaction from which the outpoint being spent by this
@@ -105,8 +87,11 @@ export interface MinimumProgramState<Opcodes = number> {
 }
 
 export interface StackState<StackType = Uint8Array> {
-  // tslint:disable-next-line:readonly-array readonly-keyword
   stack: StackType[];
+}
+
+export interface AlternateStackState<StackType = Uint8Array> {
+  alternateStack: StackType[];
 }
 
 export interface ExecutionStackState {
@@ -123,48 +108,37 @@ export interface ExecutionStackState {
    *
    * A.K.A. `vfExec` in the C++ implementation.
    */
-  // tslint:disable-next-line:readonly-array readonly-keyword
   executionStack: boolean[];
 }
 
 export interface ErrorState<
   InstructionSetError,
-  CommonError = CommonAuthenticationError
+  CommonError = AuthenticationErrorCommon
 > {
   // tslint:disable-next-line:readonly-keyword
   error?: CommonError | InstructionSetError;
 }
 
-export interface AuthenticationProgram<
-  Opcodes = number,
-  ExternalState = TransactionInputState
-> {
-  /**
-   * A.K.A. "parsed unlocking script" or `scriptSig`
-   */
-  readonly initializationInstructions: ReadonlyArray<
-    AuthenticationInstruction<Opcodes>
-  >;
-  readonly state: ExternalState;
-  /**
-   * A.K.A. "parsed locking script" or `scriptPubKey`
-   */
-  readonly verificationInstructions: ReadonlyArray<
-    AuthenticationInstruction<Opcodes>
-  >;
+export interface AuthenticationProgramCommon {
+  inputIndex: number;
+  sourceOutput: Output;
+  spendingTransaction: Transaction;
 }
 
-export interface CommonProgramInternalState<
+// tslint:disable-next-line:no-empty-interface
+export interface AuthenticationProgramExternalStateCommon
+  extends TransactionInputState {}
+
+export interface AuthenticationProgramInternalStateCommon<
   Opcodes,
   InstructionSetError,
   StackType = Uint8Array
 >
   extends MinimumProgramState<Opcodes>,
-    StackState,
+    StackState<StackType>,
+    AlternateStackState<StackType>,
     ExecutionStackState,
     ErrorState<InstructionSetError> {
-  // tslint:disable-next-line:readonly-array readonly-keyword
-  alternateStack: StackType[];
   /**
    * The `lastCodeSeparator` indicates the index of the most recently executed
    * `OP_CODESEPARATOR` instruction. In each of the signing serialization
@@ -184,69 +158,6 @@ export interface CommonProgramInternalState<
   signatureOperationsCount: number;
 }
 
-export interface CommonState<Opcodes, InstructionSetError>
-  extends CommonProgramInternalState<Opcodes, InstructionSetError>,
-    TransactionInputState {}
-
-export enum AuthenticationProgramCreationError {
-  initializationInstructions = 'The lockingScript in the provided output is malformed.',
-  verificationInstructions = 'The unlockingScript in the selected input of the provided transaction is malformed.'
-}
-
-/**
- * TODO: document
- * TODO: fix types
- */
-export const createAuthenticationProgram = <
-  Opcodes = number,
-  ExternalState extends TransactionInputState = TransactionInputState
->(
-  spendingTransaction: Transaction,
-  inputIndex: number,
-  sourceOutput: Output,
-  sha256: Sha256
-):
-  | AuthenticationProgram<Opcodes, ExternalState>
-  | AuthenticationProgramCreationError => {
-  const initializationInstructions = parseScript<Opcodes>(
-    spendingTransaction.inputs[inputIndex].unlockingScript
-  );
-  const verificationInstructions = parseScript<Opcodes>(
-    sourceOutput.lockingScript
-  );
-  return authenticationInstructionsAreNotMalformed(initializationInstructions)
-    ? authenticationInstructionsAreNotMalformed(verificationInstructions)
-      ? {
-          initializationInstructions,
-          // tslint:disable-next-line:no-object-literal-type-assertion
-          state: ({
-            correspondingOutputHash: getOutputHash(
-              spendingTransaction.outputs[inputIndex],
-              sha256
-            ),
-            locktime: spendingTransaction.locktime,
-            outpointIndex: spendingTransaction.inputs[inputIndex].outpointIndex,
-            outpointTransactionHash:
-              spendingTransaction.inputs[inputIndex].outpointTransactionHash,
-            outputValue: sourceOutput.satoshis,
-            sequenceNumber:
-              spendingTransaction.inputs[inputIndex].sequenceNumber,
-            transactionOutpointsHash: getOutpointsHash(
-              spendingTransaction.inputs,
-              sha256
-            ),
-            transactionOutputsHash: getOutputsHash(
-              spendingTransaction.outputs,
-              sha256
-            ),
-            transactionSequenceNumbersHash: getSequenceNumbersHash(
-              spendingTransaction.inputs,
-              sha256
-            ),
-            version: spendingTransaction.version
-          } as unknown) as ExternalState,
-          verificationInstructions
-        }
-      : AuthenticationProgramCreationError.verificationInstructions
-    : AuthenticationProgramCreationError.initializationInstructions;
-};
+export interface AuthenticationProgramStateCommon<Opcodes, Errors>
+  extends AuthenticationProgramInternalStateCommon<Opcodes, Errors>,
+    AuthenticationProgramExternalStateCommon {}

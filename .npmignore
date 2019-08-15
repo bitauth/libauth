@@ -11,3 +11,9 @@ build/docs
 coverage
 .nyc_output
 *.log
+.dockerignore
+.gitmodules
+.circleci/
+.vscode/
+wasm/
+yarn.lock

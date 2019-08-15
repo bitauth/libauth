@@ -7,6 +7,8 @@ const jsFile = TS2JS(tsFile);
 
 replaceCLIArg(tsFile, jsFile);
 
+process.argv.push('--serial');
+
 // Ava debugger
 require('ava/profile');
 

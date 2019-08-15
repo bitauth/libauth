@@ -1,12 +1,15 @@
 // tslint:disable:no-expression-statement no-magic-numbers no-object-mutation
 import test, { Macro } from 'ava';
+
 import { range } from '../../lib';
 import { hexToBin } from '../../utils/hex';
-import { BitcoinCashOpcodes } from './bitcoin-cash/bitcoin-cash-opcodes';
+
+import { OpcodesBCH } from './bch/bch-opcodes';
 import {
   AuthenticationInstruction,
-  BitcoinOpcodes,
   disassembleParsedAuthenticationInstructions,
+  generateBytecodeMap,
+  OpcodesBTC,
   ParsedAuthenticationInstruction,
   parseScript,
   serializeAuthenticationInstructions,
@@ -20,11 +23,11 @@ test('Each Opcodes enum contains a single instruction for 0-255', t => {
   const numbers = (keys: ReadonlyArray<string>) =>
     keys.map(k => parseInt(k, 10)).filter(k => !isNaN(k));
 
-  const bch = Object.keys(BitcoinCashOpcodes);
+  const bch = Object.keys(OpcodesBCH);
   t.deepEqual(numbers(bch), expected);
   t.deepEqual(names(bch).length, expected.length);
 
-  const btc = Object.keys(BitcoinOpcodes);
+  const btc = Object.keys(OpcodesBTC);
   t.deepEqual(numbers(btc), expected);
   t.deepEqual(names(btc).length, expected.length);
 });
@@ -41,7 +44,6 @@ test('Each Opcodes enum contains a single instruction for 0-255', t => {
  *  - element 4 – `expectedLengthBytes`, hex-encoded (if present)
  */
 interface CommonScriptParseAndAsmTests {
-  // tslint:disable:readonly-array
   readonly [scriptHex: string]: {
     readonly asm: string;
     readonly parse: Array<[number, string?, number?, string?, number?]>;
@@ -169,7 +171,7 @@ const disassemble: Macro<
   [ReadonlyArray<ParsedAuthenticationInstruction>, string]
 > = (t, input, expected) => {
   t.deepEqual(
-    disassembleParsedAuthenticationInstructions(BitcoinCashOpcodes, input),
+    disassembleParsedAuthenticationInstructions(OpcodesBCH, input),
     expected
   );
 };
@@ -202,4 +204,17 @@ defToFixtures(malFormedPushes).map(({ asm, hex, script, object }) => {
   test(`0x${hex}`, parse, script, object);
   test(`0x${hex}`, disassemble, object, asm);
   test(`0x${hex}`, reSerialize, object, script);
+});
+
+test('generateBytecodeMap', t => {
+  enum TestOpcodes {
+    OP_A = 1,
+    OP_B = 2,
+    OP_C = 3
+  }
+  t.deepEqual(generateBytecodeMap(TestOpcodes), {
+    OP_A: Uint8Array.of(1),
+    OP_B: Uint8Array.of(2),
+    OP_C: Uint8Array.of(3)
+  });
 });

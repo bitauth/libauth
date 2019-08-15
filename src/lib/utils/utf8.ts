@@ -1,11 +1,9 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
 // TODO: clean up - this implementation comes from:
 // https://github.com/google/closure-library/blob/8598d87242af59aac233270742c8984e2b2bdbe0/closure/goog/crypt/crypt.js
 // consider switching to:
 // https://github.com/mathiasbynens/utf8.js/blob/master/utf8.js
 
-// tslint:disable:cyclomatic-complexity readonly-array no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
+// tslint:disable:cyclomatic-complexity no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
 export const utf8ToBin = (utf8: string) => {
   const out = [];
   let p = 0;
@@ -21,7 +19,7 @@ export const utf8ToBin = (utf8: string) => {
       i + 1 < utf8.length &&
       (utf8.charCodeAt(i + 1) & 0xfc00) === 0xdc00
     ) {
-      c = ((c & 0x03ff) << 10) + 0x10000 + (utf8.charCodeAt(++i) & 0x03ff);
+      c = ((c & 0x03ff) << 10) + 0x10000 + (utf8.charCodeAt((i += 1)) & 0x03ff);
       out[p++] = (c >> 18) | 240;
       out[p++] = ((c >> 12) & 63) | 128;
       out[p++] = ((c >> 6) & 63) | 128;
@@ -34,7 +32,7 @@ export const utf8ToBin = (utf8: string) => {
   }
   return new Uint8Array(out);
 };
-// tslint:enable:cyclomatic-complexity readonly-array no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
+// tslint:enable:cyclomatic-complexity no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
 
 // also compare to:
 // https://gist.github.com/joni/3760795
@@ -73,7 +71,7 @@ export const utf8ToBin = (utf8: string) => {
 //   return str;
 // }
 
-// tslint:disable:cyclomatic-complexity readonly-array no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
+// tslint:disable:cyclomatic-complexity no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
 export const binToUtf8 = (bytes: Uint8Array) => {
   const out = [];
   let pos = 0;
@@ -104,4 +102,4 @@ export const binToUtf8 = (bytes: Uint8Array) => {
   }
   return out.join('');
 };
-// tslint:enable:cyclomatic-complexity readonly-array no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
+// tslint:enable:cyclomatic-complexity no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise

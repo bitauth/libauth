@@ -1,6 +1,7 @@
 // tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
 import * as fc from 'fast-check';
+
 import { binToHex, hexToBin, range, splitEvery, swapEndianness } from './hex';
 
 const maxUint8Number = 255;

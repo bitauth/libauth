@@ -1,118 +1,165 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
-import { Ripemd160, Secp256k1, Sha256 } from '../../../crypto/crypto';
-import { CommonState, StackState } from '../../state';
-import { Operation } from '../../virtual-machine';
-import { serializeAuthenticationInstructions } from '../instruction-sets';
-import { combineOperations, pushToStack, useOneStackItem } from './combinators';
+import { Ripemd160, Secp256k1, Sha1, Sha256 } from '../../../crypto/crypto';
 import {
-  applyError,
-  booleanToScriptNumber,
-  CommonAuthenticationError,
-  CommonConsensus,
+  AuthenticationProgramStateCommon,
   ErrorState,
-  isScriptNumberError,
   MinimumProgramState,
-  parseBytesAsScriptNumber
-} from './common';
+  StackState
+} from '../../state';
+import { Operation } from '../../virtual-machine';
+import {
+  ConsensusBCH,
+  serializeAuthenticationInstructions
+} from '../instruction-sets';
+
+import {
+  combineOperations,
+  pushToStack,
+  useOneScriptNumber,
+  useOneStackItem,
+  useTwoStackItems
+} from './combinators';
+import { booleanToScriptNumber, ConsensusCommon } from './common';
 import {
   decodeBitcoinSignature,
   isValidPublicKeyEncoding,
-  isValidSignatureEncoding
+  isValidSignatureEncodingBCHTransaction
 } from './encoding';
+import { applyError, AuthenticationErrorCommon } from './errors';
 import { opVerify } from './flow-control';
-import { CommonOpcodes } from './opcodes';
-import { generateBitcoinCashSigningSerialization } from './signing-serialization';
+import { OpcodesCommon } from './opcodes';
+import { generateSigningSerializationBCH } from './signing-serialization';
 
-export { Ripemd160, Sha256, Secp256k1 };
+export { Ripemd160, Sha1, Sha256, Secp256k1 };
 
-// export const codeSeparator = <
-// todo  ProgramState extends MinimumProgramState & CommonProgramState
-// >(): Operator<ProgramState> => ({
-//   asm: 'OP_CODESEPARATOR',
-//   description: 'Mark this byte as the beginning of this scripts signed data.',
-//   operation: (state: ProgramState) => {
-//     // tslint:disable-next-line:no-expression-statement no-object-mutation
-//     state.lastCodeSeparator = state.ip;
-//     return state;
-//   }
-// });
+export const opRipemd160 = <
+  Opcodes,
+  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  Errors
+>(
+  ripemd160: Ripemd160
+): Operation<State> => (state: State) =>
+  useOneStackItem(state, (nextState, value) =>
+    pushToStack(nextState, ripemd160.hash(value))
+  );
+
+export const opSha1 = <
+  Opcodes,
+  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  Errors
+>(
+  sha1: Sha1
+): Operation<State> => (state: State) =>
+  useOneStackItem(state, (nextState, value) =>
+    pushToStack(nextState, sha1.hash(value))
+  );
+
+export const opSha256 = <
+  Opcodes,
+  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  Errors
+>(
+  sha256: Sha256
+): Operation<State> => (state: State) =>
+  useOneStackItem(state, (nextState, value) =>
+    pushToStack(nextState, sha256.hash(value))
+  );
 
 export const opHash160 = <
   Opcodes,
-  ProgramState extends MinimumProgramState<Opcodes> &
-    StackState &
-    ErrorState<InstructionSetError>,
-  InstructionSetError
+  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  Errors
 >(
   sha256: Sha256,
   ripemd160: Ripemd160
-): Operation<ProgramState> => (state: ProgramState) =>
+): Operation<State> => (state: State) =>
   useOneStackItem(state, (nextState, value) =>
     pushToStack(nextState, ripemd160.hash(sha256.hash(value)))
   );
 
-export const opCheckSig = <
+export const opHash256 = <
   Opcodes,
-  ProgramState extends CommonState<Opcodes, InstructionSetError>,
-  InstructionSetError
+  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  Errors
 >(
-  sha256: Sha256,
-  secp256k1: Secp256k1
-): Operation<ProgramState> => (state: ProgramState) => {
-  const publicKey = state.stack.pop();
-  const bitcoinEncodedSignature = state.stack.pop();
-  // tslint:disable-next-line:no-if-statement
-  if (publicKey === undefined || bitcoinEncodedSignature === undefined) {
-    return applyError<ProgramState, InstructionSetError>(
-      CommonAuthenticationError.emptyStack,
-      state
-    );
-  }
-  // tslint:disable-next-line:no-if-statement
-  if (!isValidPublicKeyEncoding(publicKey)) {
-    return applyError<ProgramState, InstructionSetError>(
-      CommonAuthenticationError.invalidPublicKeyEncoding,
-      state
-    );
-  }
-  // tslint:disable-next-line:no-if-statement
-  if (!isValidSignatureEncoding(bitcoinEncodedSignature)) {
-    return applyError<ProgramState, InstructionSetError>(
-      CommonAuthenticationError.invalidSignatureEncoding,
-      state
-    );
-  }
-  const coveredScript = serializeAuthenticationInstructions(
-    state.instructions
-  ).subarray(state.lastCodeSeparator + 1);
-  const { signingSerializationType, signature } = decodeBitcoinSignature(
-    bitcoinEncodedSignature
+  sha256: Sha256
+): Operation<State> => (state: State) =>
+  useOneStackItem(state, (nextState, value) =>
+    pushToStack(nextState, sha256.hash(sha256.hash(value)))
   );
 
-  const serialization = generateBitcoinCashSigningSerialization(
-    state.version,
-    state.transactionOutpointsHash,
-    state.transactionSequenceNumbersHash,
-    state.outpointTransactionHash,
-    state.outpointIndex,
-    coveredScript,
-    state.outputValue,
-    state.sequenceNumber,
-    state.correspondingOutputHash,
-    state.transactionOutputsHash,
-    state.locktime,
-    signingSerializationType
-  );
-  const digest = sha256.hash(sha256.hash(serialization));
-  // tslint:disable-next-line:no-expression-statement
-  state.stack.push(
-    booleanToScriptNumber(
-      secp256k1.verifySignatureDERLowS(signature, publicKey, digest)
-    )
-  );
+export const opCodeSeparator = <
+  Opcodes,
+  State extends MinimumProgramState<Opcodes> & {
+    lastCodeSeparator: number;
+  }
+>(): Operation<State> => (state: State) => {
+  // tslint:disable-next-line: no-expression-statement no-object-mutation
+  state.lastCodeSeparator = state.ip;
   return state;
 };
+
+export const opCheckSig = <
+  Opcodes,
+  State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
+  Errors
+>(
+  sha256: Sha256,
+  secp256k1: Secp256k1,
+  flags: { requireNullSignatureFailures: boolean }
+): Operation<State> => (s: State) =>
+  // tslint:disable-next-line: cyclomatic-complexity
+  useTwoStackItems(s, (state, bitcoinEncodedSignature, publicKey) => {
+    // tslint:disable-next-line:no-if-statement
+    if (!isValidPublicKeyEncoding(publicKey)) {
+      return applyError<State, Errors>(
+        AuthenticationErrorCommon.invalidPublicKeyEncoding,
+        state
+      );
+    }
+    // tslint:disable-next-line:no-if-statement
+    if (!isValidSignatureEncodingBCHTransaction(bitcoinEncodedSignature)) {
+      return applyError<State, Errors>(
+        AuthenticationErrorCommon.invalidSignatureEncoding,
+        state
+      );
+    }
+    const coveredScript = serializeAuthenticationInstructions(
+      state.instructions
+    ).subarray(state.lastCodeSeparator + 1);
+    const { signingSerializationType, signature } = decodeBitcoinSignature(
+      bitcoinEncodedSignature
+    );
+
+    const serialization = generateSigningSerializationBCH(
+      state.version,
+      state.hashTransactionOutpoints,
+      state.hashTransactionSequenceNumbers,
+      state.outpointTransactionHash,
+      state.outpointIndex,
+      coveredScript,
+      state.outputValue,
+      state.sequenceNumber,
+      state.hashCorrespondingOutput,
+      state.hashTransactionOutputs,
+      state.locktime,
+      signingSerializationType
+    );
+    const digest = sha256.hash(sha256.hash(serialization));
+
+    const useSchnorr = signature.length === ConsensusBCH.schnorrSignatureLength;
+    const success = useSchnorr
+      ? secp256k1.verifySignatureSchnorr(signature, publicKey, digest)
+      : secp256k1.verifySignatureDERLowS(signature, publicKey, digest);
+
+    return !success &&
+      flags.requireNullSignatureFailures &&
+      signature.length !== 0
+      ? applyError<State, Errors>(
+          AuthenticationErrorCommon.nonNullSignatureFailure,
+          state
+        )
+      : pushToStack(state, booleanToScriptNumber(success));
+  });
 
 const enum Multisig {
   maximumPublicKeys = 20
@@ -120,244 +167,275 @@ const enum Multisig {
 
 export const opCheckMultiSig = <
   Opcodes,
-  ProgramState extends CommonState<Opcodes, InstructionSetError>,
-  InstructionSetError
+  State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
+  Errors
 >(
   sha256: Sha256,
-  secp256k1: Secp256k1
-) =>
-  // tslint:disable-next-line:cyclomatic-complexity
-  (state: ProgramState) => {
-    const potentialPublicKeysBytes = state.stack.pop();
-
-    // tslint:disable-next-line:no-if-statement
-    if (potentialPublicKeysBytes === undefined) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.emptyStack,
-        state
-      );
-    }
-    const potentialPublicKeysParsed = parseBytesAsScriptNumber(
-      potentialPublicKeysBytes
-    );
-    const potentialPublicKeys = Number(potentialPublicKeysParsed);
-
-    // tslint:disable-next-line:no-if-statement
-    if (
-      isScriptNumberError(potentialPublicKeysParsed) ||
-      potentialPublicKeys < 0
-    ) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.invalidNaturalNumber,
-        state
-      );
-    }
-    // tslint:disable-next-line:no-if-statement
-    if (potentialPublicKeys > Multisig.maximumPublicKeys) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.exceedsMaximumMultisigPublicKeyCount,
-        state
-      );
-    }
-    const publicKeys = state.stack.splice(-potentialPublicKeys);
-
-    // tslint:disable-next-line:no-expression-statement no-object-mutation
-    state.operationCount += potentialPublicKeys;
-    // tslint:disable-next-line:no-if-statement
-    if (state.operationCount > CommonConsensus.maximumOperationCount) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.exceededMaximumOperationCount,
-        state
-      );
-    }
-
-    const requiredApprovingPublicKeysBytes = state.stack.pop();
-    if (requiredApprovingPublicKeysBytes === undefined) {
-      // tslint:disable-line:no-if-statement
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.emptyStack,
-        state
-      );
-    }
-    const requiredApprovingPublicKeysParsed = parseBytesAsScriptNumber(
-      requiredApprovingPublicKeysBytes
-    );
-    const requiredApprovingPublicKeys = Number(
-      requiredApprovingPublicKeysParsed
-    );
-
-    // tslint:disable-next-line:no-if-statement
-    if (
-      isScriptNumberError(requiredApprovingPublicKeysParsed) ||
-      requiredApprovingPublicKeys < 0
-    ) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.invalidNaturalNumber,
-        state
-      );
-    }
-
-    // tslint:disable-next-line:no-if-statement
-    if (requiredApprovingPublicKeys > potentialPublicKeys) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.insufficientPublicKeys,
-        state
-      );
-    }
-
-    const signatures = state.stack.splice(-requiredApprovingPublicKeys);
-
-    const protocolBugValue = state.stack.pop();
-
-    // tslint:disable-next-line:no-if-statement
-    if (protocolBugValue === undefined) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.emptyStack,
-        state
-      );
-    }
-
-    // TODO: this is enforced for BTC, but will only be enforced on BCH in 2019May
-    // tslint:disable-next-line:no-if-statement
-    if (protocolBugValue.length !== 0) {
-      return applyError<ProgramState, InstructionSetError>(
-        CommonAuthenticationError.invalidProtocolBugValue,
-        state
-      );
-    }
-
-    const coveredScript = serializeAuthenticationInstructions(
-      state.instructions
-    ).subarray(state.lastCodeSeparator + 1);
-
-    let approvingPublicKeys = 0; // tslint:disable-line:no-let
-    let remainingSignatures = signatures.length; // tslint:disable-line:no-let
-    let remainingPublicKeys = publicKeys.length; // tslint:disable-line:no-let
-    while (
-      remainingSignatures > 0 &&
-      approvingPublicKeys + remainingPublicKeys >= remainingSignatures &&
-      approvingPublicKeys !== requiredApprovingPublicKeys
-    ) {
-      const publicKey = publicKeys[remainingPublicKeys - 1];
-      const bitcoinEncodedSignature = signatures[remainingSignatures - 1];
+  secp256k1: Secp256k1,
+  flags: {
+    requireBugValueZero: boolean;
+    requireMinimalEncoding: boolean;
+    requireNullSignatureFailures: boolean;
+  }
+) => (s: State) =>
+  useOneScriptNumber(
+    s,
+    (state, publicKeysValue) => {
+      const potentialPublicKeys = Number(publicKeysValue);
 
       // tslint:disable-next-line:no-if-statement
-      if (!isValidPublicKeyEncoding(publicKey)) {
-        return applyError<ProgramState, InstructionSetError>(
-          CommonAuthenticationError.invalidPublicKeyEncoding,
+      if (potentialPublicKeys < 0) {
+        return applyError<State, Errors>(
+          AuthenticationErrorCommon.invalidNaturalNumber,
           state
         );
       }
-
       // tslint:disable-next-line:no-if-statement
-      if (!isValidSignatureEncoding(bitcoinEncodedSignature)) {
-        return applyError<ProgramState, InstructionSetError>(
-          CommonAuthenticationError.invalidSignatureEncoding,
+      if (potentialPublicKeys > Multisig.maximumPublicKeys) {
+        return applyError<State, Errors>(
+          AuthenticationErrorCommon.exceedsMaximumMultisigPublicKeyCount,
           state
         );
       }
+      const publicKeys =
+        potentialPublicKeys > 0 ? state.stack.splice(-potentialPublicKeys) : [];
 
-      const { signingSerializationType, signature } = decodeBitcoinSignature(
-        bitcoinEncodedSignature
-      );
+      // tslint:disable-next-line:no-expression-statement no-object-mutation
+      state.operationCount += potentialPublicKeys;
 
-      const serialization = generateBitcoinCashSigningSerialization(
-        state.version,
-        state.transactionOutpointsHash,
-        state.transactionSequenceNumbersHash,
-        state.outpointTransactionHash,
-        state.outpointIndex,
-        coveredScript,
-        state.outputValue,
-        state.sequenceNumber,
-        state.correspondingOutputHash,
-        state.transactionOutputsHash,
-        state.locktime,
-        signingSerializationType
-      );
-      const digest = sha256.hash(sha256.hash(serialization));
+      return state.operationCount > ConsensusCommon.maximumOperationCount
+        ? applyError<State, Errors>(
+            AuthenticationErrorCommon.exceededMaximumOperationCount,
+            state
+          )
+        : useOneScriptNumber(
+            state,
 
-      const signed = secp256k1.verifySignatureDERLowS(
-        signature,
-        publicKey,
-        digest
-      );
+            (nextState, approvingKeys) => {
+              const requiredApprovingPublicKeys = Number(approvingKeys);
 
-      // tslint:disable-next-line:no-if-statement
-      if (signed) {
-        approvingPublicKeys++; // tslint:disable-line:no-expression-statement
-        remainingSignatures--; // tslint:disable-line:no-expression-statement
-      }
-      remainingPublicKeys--; // tslint:disable-line:no-expression-statement
-    }
+              // tslint:disable-next-line:no-if-statement
+              if (requiredApprovingPublicKeys < 0) {
+                return applyError<State, Errors>(
+                  AuthenticationErrorCommon.invalidNaturalNumber,
+                  nextState
+                );
+              }
 
-    return pushToStack(
-      state,
-      booleanToScriptNumber(approvingPublicKeys === requiredApprovingPublicKeys)
-    );
-  };
+              // tslint:disable-next-line:no-if-statement
+              if (requiredApprovingPublicKeys > potentialPublicKeys) {
+                return applyError<State, Errors>(
+                  AuthenticationErrorCommon.insufficientPublicKeys,
+                  nextState
+                );
+              }
+
+              const signatures =
+                requiredApprovingPublicKeys > 0
+                  ? nextState.stack.splice(-requiredApprovingPublicKeys)
+                  : [];
+
+              return useOneStackItem(
+                nextState,
+                // tslint:disable-next-line: cyclomatic-complexity
+                (finalState, protocolBugValue) => {
+                  // tslint:disable-next-line:no-if-statement
+                  if (
+                    flags.requireBugValueZero &&
+                    protocolBugValue.length !== 0
+                  ) {
+                    return applyError<State, Errors>(
+                      AuthenticationErrorCommon.invalidProtocolBugValue,
+                      finalState
+                    );
+                  }
+
+                  const coveredScript = serializeAuthenticationInstructions(
+                    finalState.instructions
+                  ).subarray(finalState.lastCodeSeparator + 1);
+
+                  let approvingPublicKeys = 0; // tslint:disable-line:no-let
+                  let remainingSignatures = signatures.length; // tslint:disable-line:no-let
+                  let remainingPublicKeys = publicKeys.length; // tslint:disable-line:no-let
+                  while (
+                    remainingSignatures > 0 &&
+                    approvingPublicKeys + remainingPublicKeys >=
+                      remainingSignatures &&
+                    approvingPublicKeys !== requiredApprovingPublicKeys
+                  ) {
+                    const publicKey = publicKeys[remainingPublicKeys - 1];
+                    const bitcoinEncodedSignature =
+                      signatures[remainingSignatures - 1];
+
+                    // tslint:disable-next-line:no-if-statement
+                    if (!isValidPublicKeyEncoding(publicKey)) {
+                      return applyError<State, Errors>(
+                        AuthenticationErrorCommon.invalidPublicKeyEncoding,
+                        finalState
+                      );
+                    }
+
+                    // tslint:disable-next-line:no-if-statement
+                    if (
+                      !isValidSignatureEncodingBCHTransaction(
+                        bitcoinEncodedSignature
+                      )
+                    ) {
+                      return applyError<State, Errors>(
+                        AuthenticationErrorCommon.invalidSignatureEncoding,
+                        finalState
+                      );
+                    }
+
+                    const {
+                      signingSerializationType,
+                      signature
+                    } = decodeBitcoinSignature(bitcoinEncodedSignature);
+
+                    const serialization = generateSigningSerializationBCH(
+                      finalState.version,
+                      finalState.hashTransactionOutpoints,
+                      finalState.hashTransactionSequenceNumbers,
+                      finalState.outpointTransactionHash,
+                      finalState.outpointIndex,
+                      coveredScript,
+                      finalState.outputValue,
+                      finalState.sequenceNumber,
+                      finalState.hashCorrespondingOutput,
+                      finalState.hashTransactionOutputs,
+                      finalState.locktime,
+                      signingSerializationType
+                    );
+                    const digest = sha256.hash(sha256.hash(serialization));
+
+                    // tslint:disable-next-line: no-if-statement
+                    if (
+                      signature.length === ConsensusBCH.schnorrSignatureLength
+                    ) {
+                      return applyError<State, Errors>(
+                        AuthenticationErrorCommon.shnorrSizedSignatureInCheckMultiSig,
+                        finalState
+                      );
+                    }
+
+                    const signed = secp256k1.verifySignatureDERLowS(
+                      signature,
+                      publicKey,
+                      digest
+                    );
+
+                    // tslint:disable-next-line:no-if-statement
+                    if (signed) {
+                      approvingPublicKeys += 1; // tslint:disable-line:no-expression-statement
+                      remainingSignatures -= 1; // tslint:disable-line:no-expression-statement
+                    }
+                    remainingPublicKeys -= 1; // tslint:disable-line:no-expression-statement
+                  }
+
+                  const success =
+                    approvingPublicKeys === requiredApprovingPublicKeys;
+
+                  // tslint:disable-next-line: no-if-statement
+                  if (
+                    !success &&
+                    flags.requireNullSignatureFailures &&
+                    !signatures.every(signature => signature.length === 0)
+                  ) {
+                    return applyError<State, Errors>(
+                      AuthenticationErrorCommon.nonNullSignatureFailure,
+                      finalState
+                    );
+                  }
+
+                  return pushToStack(
+                    finalState,
+                    booleanToScriptNumber(success)
+                  );
+                }
+              );
+            },
+            flags.requireMinimalEncoding
+          );
+    },
+    flags.requireMinimalEncoding
+  );
 
 export const opCheckSigVerify = <
   Opcodes,
-  ProgramState extends CommonState<Opcodes, InstructionSetError>,
-  InstructionSetError
+  State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
+  Errors
 >(
   sha256: Sha256,
-  secp256k1: Secp256k1
-): Operation<ProgramState> =>
+  secp256k1: Secp256k1,
+  flags: {
+    requireNullSignatureFailures: boolean;
+  }
+): Operation<State> =>
   combineOperations(
-    opCheckSig<Opcodes, ProgramState, InstructionSetError>(sha256, secp256k1),
-    opVerify<ProgramState, InstructionSetError>()
+    opCheckSig<Opcodes, State, Errors>(sha256, secp256k1, flags),
+    opVerify<State, Errors>()
   );
 
 export const opCheckMultiSigVerify = <
   Opcodes,
-  ProgramState extends CommonState<Opcodes, InstructionSetError>,
-  InstructionSetError
+  State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
+  Errors
 >(
   sha256: Sha256,
-  secp256k1: Secp256k1
-): Operation<ProgramState> =>
+  secp256k1: Secp256k1,
+  flags: {
+    requireBugValueZero: boolean;
+    requireMinimalEncoding: boolean;
+    requireNullSignatureFailures: boolean;
+  }
+): Operation<State> =>
   combineOperations(
-    opCheckMultiSig<Opcodes, ProgramState, InstructionSetError>(
-      sha256,
-      secp256k1
-    ),
-    opVerify<ProgramState, InstructionSetError>()
+    opCheckMultiSig<Opcodes, State, Errors>(sha256, secp256k1, flags),
+    opVerify<State, Errors>()
   );
 
 export const cryptoOperations = <
   Opcodes,
-  ProgramState extends CommonState<Opcodes, InstructionSetError>,
-  InstructionSetError
+  State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
+  Errors
 >(
+  sha1: Sha1,
   sha256: Sha256,
   ripemd160: Ripemd160,
-  secp256k1: Secp256k1
+  secp256k1: Secp256k1,
+  flags: {
+    requireBugValueZero: boolean;
+    requireMinimalEncoding: boolean;
+    requireNullSignatureFailures: boolean;
+  }
 ) => ({
-  [CommonOpcodes.OP_HASH160]: opHash160<
+  [OpcodesCommon.OP_RIPEMD160]: opRipemd160<Opcodes, State, Errors>(ripemd160),
+  [OpcodesCommon.OP_SHA1]: opSha1<Opcodes, State, Errors>(sha1),
+  [OpcodesCommon.OP_SHA256]: opSha256<Opcodes, State, Errors>(sha256),
+  [OpcodesCommon.OP_HASH160]: opHash160<Opcodes, State, Errors>(
+    sha256,
+    ripemd160
+  ),
+  [OpcodesCommon.OP_HASH256]: opHash256<Opcodes, State, Errors>(sha256),
+  [OpcodesCommon.OP_CODESEPARATOR]: opCodeSeparator<Opcodes, State>(),
+  [OpcodesCommon.OP_CHECKSIG]: opCheckSig<Opcodes, State, Errors>(
+    sha256,
+    secp256k1,
+    flags
+  ),
+  [OpcodesCommon.OP_CHECKSIGVERIFY]: opCheckSigVerify<Opcodes, State, Errors>(
+    sha256,
+    secp256k1,
+    flags
+  ),
+  [OpcodesCommon.OP_CHECKMULTISIG]: opCheckMultiSig<Opcodes, State, Errors>(
+    sha256,
+    secp256k1,
+    flags
+  ),
+  [OpcodesCommon.OP_CHECKMULTISIGVERIFY]: opCheckMultiSigVerify<
     Opcodes,
-    ProgramState,
-    InstructionSetError
-  >(sha256, ripemd160),
-  [CommonOpcodes.OP_CHECKSIG]: opCheckSig<
-    Opcodes,
-    ProgramState,
-    InstructionSetError
-  >(sha256, secp256k1),
-  [CommonOpcodes.OP_CHECKSIGVERIFY]: opCheckSigVerify<
-    Opcodes,
-    ProgramState,
-    InstructionSetError
-  >(sha256, secp256k1),
-  [CommonOpcodes.OP_CHECKMULTISIG]: opCheckMultiSig<
-    Opcodes,
-    ProgramState,
-    InstructionSetError
-  >(sha256, secp256k1),
-  [CommonOpcodes.OP_CHECKMULTISIGVERIFY]: opCheckMultiSigVerify<
-    Opcodes,
-    ProgramState,
-    InstructionSetError
-  >(sha256, secp256k1)
+    State,
+    Errors
+  >(sha256, secp256k1, flags)
 });

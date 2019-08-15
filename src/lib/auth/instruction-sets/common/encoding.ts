@@ -1,4 +1,6 @@
-/* istanbul ignore file */ // TODO: stabilize & test
+import { ConsensusBCH } from '../bch/bch';
+
+import { isDefinedSigningSerializationType } from './signing-serialization';
 
 const enum PublicKey {
   uncompressedByteLength = 65,
@@ -30,18 +32,30 @@ const enum ASN1 {
   integerTagType = 0x02
 }
 
-const enum Sig {
-  minimumPossibleLength = 9,
-  maximumPossibleLength = 73,
+const enum DER {
+  minimumLength = 8,
+  maximumLength = 72,
 
   sequenceTagIndex = 0,
   sequenceLengthIndex = 1,
   rTagIndex = 2,
   rLengthIndex = 3,
-  rIndex = 4,
+  rValueIndex = 4,
 
-  nonSequenceBytes = 3,
-  bytesExcludingIntegers = 7
+  sequenceTagByte = 1,
+  sequenceLengthByte = 1,
+  integerTagByte = 1,
+  integerLengthByte = 1,
+  // tslint:disable-next-line: restrict-plus-operands
+  sequenceMetadataBytes = sequenceTagByte + sequenceLengthByte,
+  // tslint:disable-next-line: restrict-plus-operands
+  integerMetadataBytes = integerTagByte + integerLengthByte,
+  minimumSValueBytes = 1,
+  // tslint:disable-next-line: restrict-plus-operands
+  minimumNonRValueBytes = sequenceMetadataBytes +
+    integerMetadataBytes +
+    integerMetadataBytes +
+    minimumSValueBytes
 }
 
 const enum Mask {
@@ -62,48 +76,103 @@ const isValidInteger = (
   signature: Uint8Array,
   tagIndex: number,
   length: number,
-  index: number
+  valueIndex: number
 ) =>
   signature[tagIndex] === ASN1.integerTagType &&
   length !== 0 &&
-  !isNegative(signature[index]) &&
-  !hasUnnecessaryPadding(length, signature[index], signature[index + 1]);
+  !isNegative(signature[valueIndex]) &&
+  !hasUnnecessaryPadding(
+    length,
+    signature[valueIndex],
+    signature[valueIndex + 1]
+  );
 
 /**
- * Validate a bitcoin-encoded signature.
+ * Validate a DER-encoded signature.
  *
- * From the C++ implementation:
+ * @remarks
+ * This function is consensus-critical since BIP66, but differs from the BIP66
+ * specification in that it does not validate the existence of a signing
+ * serialization type byte at the end of the signature (to support
+ * OP_CHECKDATASIG). To validate a bitcoin-encoded signature (including null
+ * signatures), use `isValidSignatureEncodingBCH`.
  *
- * A canonical signature exists of: <30> <total len> <02> <len R> <R> <02> <len
- * S> <S> <hashtype>, where R and S are not negative (their first byte has its
- * highest bit not set), and not excessively padded (do not start with a 0 byte,
- * unless an otherwise negative number follows, in which case a single 0 byte is
- * necessary and even required).
+ * @internalRemarks
+ * From the Bitcoin ABC C++ implementation:
  *
- * See https://bitcointalk.org/index.php?topic=8392.msg127623#msg127623
- *
- * This function is consensus-critical since BIP66.
+ * Format: 0x30 [total-length] 0x02 [R-length] [R] 0x02 [S-length] [S]
+ * total-length: 1-byte length descriptor of everything that follows,
+ * excluding the sighash byte.
+ * R-length: 1-byte length descriptor of the R value that follows.
+ * R: arbitrary-length big-endian encoded R value. It must use the
+ * shortest possible encoding for a positive integers (which means no null
+ * bytes at the start, except a single one when the next byte has its highest
+ * bit set).
+ * S-length: 1-byte length descriptor of the S value that follows.
+ * S: arbitrary-length big-endian encoded S value. The same rules apply.
  */
-// TODO: unit test cases for each clause
+// TODO: unit test cases
 // tslint:disable-next-line:cyclomatic-complexity
-export const isValidSignatureEncoding = (signature: Uint8Array) => {
-  const rLength = signature[Sig.rLengthIndex];
-  const sTagIndex = Sig.rIndex + rLength;
+export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
+  const correctLengthRange =
+    signature.length > DER.minimumLength &&
+    signature.length < DER.maximumLength;
+  const correctSequenceTagType =
+    signature[DER.sequenceTagIndex] === ASN1.sequenceTagType;
+  const correctSequenceLength =
+    signature[DER.sequenceLengthIndex] ===
+    signature.length - DER.sequenceMetadataBytes;
+  const rLength = signature[DER.rLengthIndex] as number | undefined;
+  // tslint:disable-next-line: no-if-statement
+  if (rLength === undefined) {
+    return false;
+  }
+  const consistentRLength =
+    rLength <= signature.length - DER.minimumNonRValueBytes;
+  const rIsValid = isValidInteger(
+    signature,
+    DER.rTagIndex,
+    rLength,
+    DER.rValueIndex
+  );
+  const sTagIndex = DER.rValueIndex + rLength; // tslint:disable-line: restrict-plus-operands
   const sLengthIndex = sTagIndex + 1;
-  const sLength = signature[sLengthIndex];
-  const sIndex = sLengthIndex + 1;
-
+  const sLength = signature[sLengthIndex] as number | undefined;
+  // tslint:disable-next-line: no-if-statement
+  if (sLength === undefined) {
+    return false;
+  }
+  const sValueIndex = sLengthIndex + 1;
+  const consistentSLength = sValueIndex + sLength === signature.length;
+  const sIsValid = isValidInteger(signature, sTagIndex, sLength, sValueIndex);
   return (
-    signature.length > Sig.minimumPossibleLength &&
-    signature.length < Sig.maximumPossibleLength &&
-    signature[Sig.sequenceTagIndex] === ASN1.sequenceTagType &&
-    signature[Sig.sequenceLengthIndex] ===
-      signature.length - Sig.nonSequenceBytes &&
-    signature.length === rLength + sLength + Sig.bytesExcludingIntegers &&
-    isValidInteger(signature, Sig.rTagIndex, rLength, Sig.rIndex) &&
-    isValidInteger(signature, sTagIndex, sLength, sIndex)
+    correctLengthRange &&
+    correctSequenceTagType &&
+    correctSequenceLength &&
+    consistentRLength &&
+    rIsValid &&
+    consistentSLength &&
+    sIsValid
   );
 };
+
+/**
+ * Validate the encoding of a transaction signature, including a signing
+ * serialization type byte (A.K.A. "sighash" byte).
+ *
+ * @param transactionSignature the full transaction signature
+ */
+export const isValidSignatureEncodingBCHTransaction = (
+  transactionSignature: Uint8Array
+) =>
+  transactionSignature.length === 0 ||
+  transactionSignature.length === ConsensusBCH.schnorrSignatureLength + 1 ||
+  (isDefinedSigningSerializationType(
+    transactionSignature[transactionSignature.length - 1]
+  ) &&
+    isValidSignatureEncodingDER(
+      transactionSignature.slice(0, transactionSignature.length - 1)
+    ));
 
 /**
  * Split a bitcoin-encoded signature into a signature and signing serialization
@@ -116,7 +185,6 @@ export const isValidSignatureEncoding = (signature: Uint8Array) => {
  *
  * @param signature a signature which passes `isValidSignatureEncoding`
  */
-// TODO: unit test with and without forkId
 export const decodeBitcoinSignature = (encodedSignature: Uint8Array) => ({
   signature: encodedSignature.slice(0, encodedSignature.length - 1),
   signingSerializationType: new Uint8Array([

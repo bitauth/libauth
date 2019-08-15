@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,
+    "declarationMap": true,
     "inlineSourceMap": true,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "resolveJsonModule": true,
@@ -44,7 +45,7 @@
     ],
     "typeRoots": ["node_modules/@types", "src/types"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/lib/auth/templates/language/parsimmon.ts"],
   "exclude": ["node_modules/**"],
   "compileOnSave": false
 }

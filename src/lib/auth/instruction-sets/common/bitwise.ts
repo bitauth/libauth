@@ -1,11 +1,17 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
-import { CommonState, StackState } from '../../state';
+import {
+  AuthenticationProgramStateCommon,
+  ErrorState,
+  StackState
+} from '../../state';
 import { Operation } from '../../virtual-machine';
-import { combineOperations } from './combinators';
-import { applyError, CommonAuthenticationError, ErrorState } from './common';
+
+import {
+  combineOperations,
+  pushToStack,
+  useTwoStackItems
+} from './combinators';
 import { opVerify } from './flow-control';
-import { CommonOpcodes } from './opcodes';
+import { OpcodesCommon } from './opcodes';
 import { booleanToScriptNumber } from './types';
 
 const areEqual = (a: Uint8Array, b: Uint8Array) => {
@@ -26,21 +32,10 @@ const areEqual = (a: Uint8Array, b: Uint8Array) => {
 export const opEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(): Operation<State> => (state: State) => {
-  const element1 = state.stack.pop();
-  const element2 = state.stack.pop();
-  // tslint:disable-next-line:no-if-statement
-  if (!element1 || !element2) {
-    return applyError<State, Errors>(
-      CommonAuthenticationError.emptyStack,
-      state
-    );
-  }
-  const result = booleanToScriptNumber(areEqual(element1, element2));
-  // tslint:disable-next-line:no-expression-statement
-  state.stack.push(result);
-  return state;
-};
+>(): Operation<State> => (state: State) =>
+  useTwoStackItems(state, (nextState, element1, element2) =>
+    pushToStack(nextState, booleanToScriptNumber(areEqual(element1, element2)))
+  );
 
 export const opEqualVerify = <
   State extends StackState & ErrorState<Errors>,
@@ -50,9 +45,9 @@ export const opEqualVerify = <
 
 export const bitwiseOperations = <
   Opcodes,
-  State extends CommonState<Opcodes, Errors>,
+  State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
   Errors
 >() => ({
-  [CommonOpcodes.OP_EQUAL]: opEqual<State, Errors>(),
-  [CommonOpcodes.OP_EQUALVERIFY]: opEqualVerify<State, Errors>()
+  [OpcodesCommon.OP_EQUAL]: opEqual<State, Errors>(),
+  [OpcodesCommon.OP_EQUALVERIFY]: opEqualVerify<State, Errors>()
 });

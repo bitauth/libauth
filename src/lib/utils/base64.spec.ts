@@ -1,5 +1,6 @@
 // tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
+
 import { base64ToBin, binToBase64 } from './base64';
 
 test('base64ToBin works as expected', t => {

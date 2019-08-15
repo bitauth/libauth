@@ -1,5 +1,3 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
 const enum ByteLength {
   uint8 = 1,
   uint16 = 2,

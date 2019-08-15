@@ -1,5 +1,3 @@
-/* istanbul ignore file */ // TODO: stabilize & test
-
 import { Sha256 } from './crypto/sha256';
 import {
   bigIntToBinUint64LE,
@@ -7,6 +5,7 @@ import {
   binToBigIntUint64LE,
   binToHex,
   binToNumberUint32LE,
+  flattenBinArray,
   numberToBinUint32LE,
   readBitcoinVarInt
 } from './utils/utils';
@@ -18,15 +17,19 @@ export interface Input {
    * An "outpoint" is a reference ("pointer") to an output in a previous
    * transaction.
    */
-  readonly outpointIndex: number;
+  outpointIndex: number;
   /**
    * A.K.A. `Transaction ID`
    *
-   * The hash of the raw transaction from which this input is spent (in
-   * big-endian byte order).
+   * The hash of the raw transaction from which this input is spent in
+   * big-endian byte order.
    *
-   * An "outpoint" is a reference ("pointer") to an output in a previous
+   * @remarks
+   * An "outpoint" is a reference (A.K.A. "pointer") to an output in a previous
    * transaction.
+   *
+   * TODO: clarify: in what order to block explorers display hashes? In what
+   * order are hashes serialized?
    *
    * Serialized raw bitcoin transactions encode this value in little-endian byte
    * order. However, it is more common to use big-endian byte order when
@@ -34,27 +37,31 @@ export interface Input {
    * defines its output as big-endian, so this byte order is output by most
    * cryptographic libraries.)
    */
-  readonly outpointTransactionHash: Uint8Array;
+  outpointTransactionHash: Uint8Array;
   /**
    * TODO: summarize BIP 68
    */
-  readonly sequenceNumber: number;
+  sequenceNumber: number;
   /**
-   * The script used to unlock a transaction output. To spend an output, an
-   * unlocking script must be included in a transaction input which – when
-   * evaluated in the authentication virtual machine with a locking script –
+   * The bytecode used to unlock a transaction output. To spend an output,
+   * unlocking bytecode must be included in a transaction input which – when
+   * evaluated in the authentication virtual machine with the locking bytecode –
    * completes in valid state.
+   *
+   * A.K.A. `scriptSig` or "unlocking script"
    */
-  readonly unlockingScript: Uint8Array;
+  unlockingBytecode: Uint8Array;
 }
 
 export interface Output {
   /**
-   * The script used to encumber a transaction output. To spend the output, an
-   * unlocking script must be included in a transaction input which – when
-   * evaluated with the locking script – completes in valid state.
+   * The bytecode used to encumber a transaction output. To spend the output,
+   * unlocking bytecode must be included in a transaction input which – when
+   * evaluated with the locking bytecode – completes in valid state.
+   *
+   * A.K.A. `scriptPubKey` or "locking script"
    */
-  readonly lockingScript: Uint8Array;
+  readonly lockingBytecode: Uint8Array;
   /**
    * The value of the output in satoshis, the smallest unit of bitcoin. There
    * are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.
@@ -64,13 +71,13 @@ export interface Output {
 
 export interface Transaction {
   /** TODO: */
-  readonly inputs: ReadonlyArray<Input>;
+  inputs: Input[];
   /** TODO: */
-  readonly locktime: number;
+  locktime: number;
   /** TODO: */
-  readonly outputs: ReadonlyArray<Output>;
+  outputs: Output[];
   /** TODO: */
-  readonly version: number;
+  version: number;
 }
 
 const enum ByteLength {
@@ -97,7 +104,10 @@ export const readTransactionInput = (bin: Uint8Array, offset: number) => {
     value: scriptLength
   } = readBitcoinVarInt(bin, offsetAfterOutpointIndex);
   const offsetAfterScript = offsetAfterScriptLength + Number(scriptLength);
-  const unlockingScript = bin.slice(offsetAfterScriptLength, offsetAfterScript);
+  const unlockingBytecode = bin.slice(
+    offsetAfterScriptLength,
+    offsetAfterScript
+  );
   const nextOffset = offsetAfterScript + ByteLength.uint32;
   const sequenceNumber = binToNumberUint32LE(
     bin.subarray(offsetAfterScript, nextOffset)
@@ -107,11 +117,37 @@ export const readTransactionInput = (bin: Uint8Array, offset: number) => {
       outpointIndex,
       outpointTransactionHash,
       sequenceNumber,
-      unlockingScript
+      unlockingBytecode
     },
     nextOffset
   };
 };
+
+/**
+ * Serialize a single input.
+ * @param output the input to serialize
+ */
+export const serializeInput = (input: Input) =>
+  flattenBinArray([
+    input.outpointTransactionHash.slice().reverse(),
+    numberToBinUint32LE(input.outpointIndex),
+    bigIntToBitcoinVarInt(BigInt(input.unlockingBytecode.length)),
+    input.unlockingBytecode,
+    numberToBinUint32LE(input.sequenceNumber)
+  ]);
+
+/**
+ * Serialize a set of inputs for inclusion in a serialized transaction.
+ *
+ * Format: <BitcoinVarInt: input count> <serialized inputs>
+ *
+ * @param inputs the set of inputs to serialize
+ */
+export const serializeInputs = (inputs: ReadonlyArray<Input>) =>
+  flattenBinArray([
+    bigIntToBitcoinVarInt(BigInt(inputs.length)),
+    ...inputs.map(serializeInput)
+  ]);
 
 /**
  * @param bin the raw transaction from which to read the output
@@ -128,7 +164,7 @@ export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
   );
   const scriptLength = Number(value);
   const nextOffset = offsetAfterScriptLength + scriptLength;
-  const lockingScript =
+  const lockingBytecode =
     scriptLength === 0
       ? new Uint8Array()
       : bin.slice(offsetAfterScriptLength, nextOffset);
@@ -136,21 +172,45 @@ export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
   return {
     nextOffset,
     output: {
-      lockingScript,
+      lockingBytecode,
       satoshis
     }
   };
 };
 
 /**
+ * Serialize a single output.
+ * @param output the output to serialize
+ */
+export const serializeOutput = (output: Output) =>
+  flattenBinArray([
+    bigIntToBinUint64LE(BigInt(output.satoshis)),
+    bigIntToBitcoinVarInt(BigInt(output.lockingBytecode.length)),
+    output.lockingBytecode
+  ]);
+
+/**
+ * Serialize a set of outputs for inclusion in a serialized transaction.
+ *
+ * Format: <BitcoinVarInt: output count> <serialized outputs>
+ *
+ * @param outputs the set of outputs to serialize
+ */
+export const serializeOutputs = (outputs: ReadonlyArray<Output>) =>
+  flattenBinArray([
+    bigIntToBitcoinVarInt(BigInt(outputs.length)),
+    ...outputs.map(serializeOutput)
+  ]);
+
+/**
  * TODO: document return type (note outpointTransactionHash is little-endian – most UIs display big-endian transaction hashes)
  *
- * This method may throw runtime errors when attempting to decode improperly
+ * Note: this method throws runtime errors when attempting to decode improperly
  * encoded transactions.
  *
  * @param bin the raw transaction to decode
  */
-export const decodeRawTransaction = (bin: Uint8Array): Transaction => {
+export const deserializeTransaction = (bin: Uint8Array): Transaction => {
   const version = binToNumberUint32LE(bin.subarray(0, ByteLength.uint32));
   const offsetAfterVersion = ByteLength.uint32;
   const {
@@ -159,7 +219,7 @@ export const decodeRawTransaction = (bin: Uint8Array): Transaction => {
   } = readBitcoinVarInt(bin, offsetAfterVersion);
   // tslint:disable-next-line:no-let prefer-const
   let cursor = offsetAfterInputCount;
-  // tslint:disable-next-line:readonly-array no-let prefer-const
+  // tslint:disable-next-line:no-let prefer-const
   let inputs = [];
   // tslint:disable-next-line:no-let
   for (let i = 0; i < Number(inputCount); i++) {
@@ -175,7 +235,7 @@ export const decodeRawTransaction = (bin: Uint8Array): Transaction => {
   } = readBitcoinVarInt(bin, cursor);
   // tslint:disable-next-line:no-expression-statement
   cursor = offsetAfterOutputCount;
-  // tslint:disable-next-line:readonly-array no-let prefer-const
+  // tslint:disable-next-line:no-let prefer-const
   let outputs = [];
   // tslint:disable-next-line:no-let
   for (let i = 0; i < Number(outputCount); i++) {
@@ -196,49 +256,58 @@ export const decodeRawTransaction = (bin: Uint8Array): Transaction => {
   };
 };
 
-// TODO:
-// export const encodeRawTransaction = () => {};
+/**
+ * TODO: doc
+ */
+export const serializeTransaction = (tx: Transaction) =>
+  flattenBinArray([
+    numberToBinUint32LE(tx.version),
+    serializeInputs(tx.inputs),
+    serializeOutputs(tx.outputs),
+    numberToBinUint32LE(tx.locktime)
+  ]);
 
 /**
  * Derive a standard identifier from a serialized data structure.
  *
+ * @remarks
  * By convention, Bitcoin transaction and block identifiers are derived by
  * double-sha256 hashing their serialized form, and reversing the byte order.
  * (The result of sha256 is defined by its specification as big-endian, and
  * bitcoin displays hashes in little-endian format.)
  *
+ * @returns an identifier in little-endian byte order
+ *
  * @param data the serialized raw data being identified
  * @param sha256 an implementation of sha256
  */
 export const getBitcoinIdentifier = (data: Uint8Array, sha256: Sha256) =>
-  binToHex(sha256.hash(sha256.hash(data)).reverse());
+  sha256.hash(sha256.hash(data)).reverse();
 
 /**
- * Derive a standard transaction identifier from a serialized raw transaction.
+ * Derive a standard transaction identifier from a serialized transaction.
  *
- * @param rawTransaction the serialized raw transaction
+ * @returns a Transaction ID in little-endian byte order
+ *
+ * @param transaction the serialized transaction
  * @param sha256 an implementation of sha256
  */
-export const getBitcoinTransactionId = getBitcoinIdentifier;
+export const getBitcoinTransactionId = (
+  transaction: Uint8Array,
+  sha256: Sha256
+) => binToHex(getBitcoinIdentifier(transaction, sha256));
 
 /**
- * Get the hash of a output. (For use in `correspondingOutputHash`.)
+ * Get the hash of a output. (For use in `hashCorrespondingOutput`.)
  * @param output the output to hash
  * @param sha256 an implementation of sha256
  */
 export const getOutputHash = (output: Output, sha256: Sha256) =>
-  sha256.hash(
-    sha256.hash(
-      Uint8Array.from([
-        ...bigIntToBinUint64LE(output.satoshis),
-        ...output.lockingScript
-      ])
-    )
-  );
+  sha256.hash(sha256.hash(serializeOutput(output)));
 
 /**
  * Get the hash of all outpoints in a series of inputs. (For use in
- * `transactionOutpointsHash`.)
+ * `hashTransactionOutpoints`.)
  *
  * @param inputs the series of inputs from which to extract the outpoints
  * @param sha256 an implementation of sha256
@@ -249,70 +318,31 @@ export const getOutpointsHash = (
 ) =>
   sha256.hash(
     sha256.hash(
-      Uint8Array.from(
-        inputs.reduce<ReadonlyArray<number>>(
-          (accumulated, input) => [
-            ...accumulated,
-            ...input.outpointTransactionHash.slice().reverse(),
-            ...numberToBinUint32LE(input.outpointIndex)
-          ],
-          []
+      flattenBinArray(
+        inputs.map(i =>
+          flattenBinArray([
+            i.outpointTransactionHash.slice().reverse(),
+            numberToBinUint32LE(i.outpointIndex)
+          ])
         )
       )
     )
   );
 
 /**
- * Serialize a single output.
- * @param output the output to serialize
- */
-export const serializeOutput = (output: Output) =>
-  Uint8Array.from([
-    ...bigIntToBinUint64LE(BigInt(output.satoshis)),
-    ...bigIntToBitcoinVarInt(BigInt(output.lockingScript.length)),
-    ...output.lockingScript
-  ]);
-
-/**
- * Serialize a set of outputs for inclusion in a serialized transaction.
- *
- * Format: <BitcoinVarInt: output count> <serialized outputs>
- *
- * @param outputs the set of outputs to serialize
- */
-export const serializeOutputs = (outputs: ReadonlyArray<Output>) =>
-  Uint8Array.from([
-    ...bigIntToBitcoinVarInt(BigInt(outputs.length)),
-    ...outputs.reduce<ReadonlyArray<number>>(
-      (accumulated, output) => [...accumulated, ...serializeOutput(output)],
-      []
-    )
-  ]);
-
-/**
  * Get the hash of a series of outputs. (Primarily for use in
- * `transactionOutputsHash`)
+ * `hashTransactionOutputs`)
  * @param outputs the series of outputs to serialize and hash
  * @param sha256 an implementation of sha256
  */
 export const getOutputsHash = (
   outputs: ReadonlyArray<Output>,
   sha256: Sha256
-) =>
-  sha256.hash(
-    sha256.hash(
-      Uint8Array.from([
-        ...outputs.reduce<ReadonlyArray<number>>(
-          (accumulated, output) => [...accumulated, ...serializeOutput(output)],
-          []
-        )
-      ])
-    )
-  );
+) => sha256.hash(sha256.hash(flattenBinArray(outputs.map(serializeOutput))));
 
 /**
  * Get the hash of a series of input sequence numbers. (Primarily for use in
- * `transactionSequenceNumbersHash`)
+ * `hashTransactionSequenceNumbers`)
  *
  * @param inputs the series of inputs from which to extract the sequence numbers
  * @param sha256 an implementation of sha256
@@ -323,14 +353,6 @@ export const getSequenceNumbersHash = (
 ) =>
   sha256.hash(
     sha256.hash(
-      Uint8Array.from([
-        ...inputs.reduce<ReadonlyArray<number>>(
-          (accumulated, input) => [
-            ...accumulated,
-            ...numberToBinUint32LE(input.sequenceNumber)
-          ],
-          []
-        )
-      ])
+      flattenBinArray(inputs.map(i => numberToBinUint32LE(i.sequenceNumber)))
     )
   );

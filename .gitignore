@@ -2,7 +2,8 @@ node_modules
 build
 test
 src/**.js
-
+temp
+docs/markdown
 coverage
 .nyc_output
 *.log

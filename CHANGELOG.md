@@ -1,6 +1,16 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.5.0](https://github.com/bitjson/bitcoin-ts/compare/v1.4.0...v1.5.0) (2019-08-15)
+
+
+### Features
+
+* **auth:** complete BCH auth vm, schnorr, and BTL compiler ([7d917e4](https://github.com/bitjson/bitcoin-ts/commit/7d917e4))
+* **auth:** draft authentication-related APIs ([c9fdf8e](https://github.com/bitjson/bitcoin-ts/commit/c9fdf8e))
+
+
 
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/bitjson/bitcoin-ts/compare/v1.3.0...v1.4.0) (2018-11-12)

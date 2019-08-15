@@ -40,7 +40,7 @@
     "watch": "run-s clean build:main build:wasm build:parsimmon && run-p \"build:main -- -w\" \"test:unit:fast -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
     "cov:html": "nyc report --reporter=html",
-    "cov:send": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "cov:send": "nyc report --reporter=lcov && codecov",
     "cov:check": "nyc report && nyc check-coverage --lines 85 --functions 80 --branches 65",
     "doc": "run-s doc:html && open-cli build/docs/index.html",
     "doc:html": "typedoc src/index.ts --target ES6 --mode file --excludeNotExported --out build/docs",

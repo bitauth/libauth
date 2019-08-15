@@ -1,6 +1,26 @@
 # https://circleci.com/docs/2.0/language-javascript/
 version: 2
 jobs:
+  'node-12':
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/bitcoin-ts
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: yarn test
+      - run: yarn run cov:send
+      - run: yarn run cov:check
   'node-10':
     docker:
       - image: circleci/node:10
@@ -19,7 +39,7 @@ jobs:
             - node_modules
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run: yarn test
-      - run: npx nyc report --reporter=lcov | npx codecov
+      - run: yarn run cov:send
       - run: yarn run cov:check
   'benchmarks':
     docker:
@@ -45,4 +65,5 @@ workflows:
   build:
     jobs:
       - 'node-10'
+      - 'node-12'
       - 'benchmarks'

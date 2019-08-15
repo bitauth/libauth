@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/bitjson/bitcoin-ts/compare/v1.5.0...v1.5.1) (2019-08-15)
+
+
+### Bug Fixes
+
+* **schnorr:** spelling ([6a08fb4](https://github.com/bitjson/bitcoin-ts/commit/6a08fb4))
+
+
+
 ## [1.5.0](https://github.com/bitjson/bitcoin-ts/compare/v1.4.0...v1.5.0) (2019-08-15)
 
 

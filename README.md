@@ -47,7 +47,9 @@ import { msgHash, pubkey, sig } from './somewhere';
 })();
 ```
 
-**Note**: `bitcoin-ts` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) for some functionality. While `BigInt` support (Node.js v10 LTS or later) is required to use this functionality, other parts of the library will continue to work in older environments.
+**Note**: `bitcoin-ts` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and es2017 features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments.
+
+To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
 
 ## API
 

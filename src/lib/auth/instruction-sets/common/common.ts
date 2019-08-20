@@ -192,11 +192,11 @@ export const createAuthenticationProgramInternalStateCommon = <Opcodes, Errors>(
 
 const enum Fill {
   length = 32,
-  correspondingOutputHash = 1,
-  outpointTransactionHash = 2,
-  transactionOutpointsHash = 3,
-  transactionOutputsHash = 4,
-  transactionSequenceNumbersHash = 5
+  hashCorrespondingOutput = 1,
+  hashTransactionOutpoints = 2,
+  hashTransactionOutputs = 3,
+  hashTransactionSequenceNumbers = 4,
+  outpointTransactionHash = 5
 }
 
 export const createAuthenticationProgramExternalStateCommon = (
@@ -274,13 +274,13 @@ export const cloneAuthenticationProgramStateCommon = <
  */
 export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
   hashCorrespondingOutput: () =>
-    new Uint8Array(Fill.length).fill(Fill.correspondingOutputHash),
+    new Uint8Array(Fill.length).fill(Fill.hashCorrespondingOutput),
   hashTransactionOutpoints: () =>
-    new Uint8Array(Fill.length).fill(Fill.transactionOutpointsHash),
+    new Uint8Array(Fill.length).fill(Fill.hashTransactionOutpoints),
   hashTransactionOutputs: () =>
-    new Uint8Array(Fill.length).fill(Fill.transactionOutputsHash),
+    new Uint8Array(Fill.length).fill(Fill.hashTransactionOutputs),
   hashTransactionSequenceNumbers: () =>
-    new Uint8Array(Fill.length).fill(Fill.transactionSequenceNumbersHash),
+    new Uint8Array(Fill.length).fill(Fill.hashTransactionSequenceNumbers),
   locktime: 0,
   outpointIndex: 0,
   outpointTransactionHash: new Uint8Array(Fill.length).fill(
@@ -292,9 +292,7 @@ export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
 });
 
 /**
- * Create an "empty" CommonProgramState, suitable for testing a VM against short scripts
- *
- * TODO: describe
+ * Create an "empty" CommonProgramState, suitable for testing a VM/compiler.
  */
 export const createAuthenticationProgramStateCommonEmpty = <Opcodes, Errors>(
   instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>,

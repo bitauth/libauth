@@ -39,8 +39,8 @@ export const singleSig: AuthenticationTemplate = {
       unlocks: 'lock'
     }
   },
-  supported: ['BCH_2018_11', 'BCH_2019_05'],
-  version: 1
+  supported: ['BCH_2019_05'],
+  version: 0
 };
 
 const createCosigner = (
@@ -107,8 +107,8 @@ export const twoOfThree: AuthenticationTemplate = {
         'OP_2 <key2.public> <key2.public> <key3.public> OP_3 OP_CHECKMULTISIG'
     }
   },
-  supported: ['BCH_2018_11', 'BCH_2019_05'],
-  version: 1
+  supported: ['BCH_2019_05'],
+  version: 0
 };
 
 /**
@@ -213,8 +213,8 @@ export const treeSig: AuthenticationTemplate = {
       {}
     )
   },
-  supported: ['BCH_2018_11', 'BCH_2019_05'],
-  version: 1
+  supported: ['BCH_2019_05'],
+  version: 0
 };
 
 export const sigOfSig: AuthenticationTemplate = {
@@ -259,8 +259,8 @@ export const sigOfSig: AuthenticationTemplate = {
         '<first.signature.all> <first.public> <second.signature.data.first.signature.all> <redeem_script>'
     }
   },
-  supported: ['BCH_2018_11', 'BCH_2019_05'],
-  version: 1
+  supported: ['BCH_2019_05'],
+  version: 0
 };
 
 export const trustedRecovery: AuthenticationTemplate = {
@@ -356,8 +356,8 @@ OP_CHECKMULTISIG
       unlocks: 'lock'
     }
   },
-  supported: ['BCH_2018_11', 'BCH_2019_05'],
-  version: 1
+  supported: ['BCH_2019_05'],
+  version: 0
 };
 
 export const zeroConfirmationForfeits: AuthenticationTemplate = {
@@ -369,8 +369,8 @@ export const zeroConfirmationForfeits: AuthenticationTemplate = {
       script: 'TODO'
     }
   },
-  supported: ['BCH_2018_11', 'BCH_2019_05'],
-  version: 1
+  supported: ['BCH_2019_05'],
+  version: 0
 };
 
 // tslint:disable-next-line:no-console

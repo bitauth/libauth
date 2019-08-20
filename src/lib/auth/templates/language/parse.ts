@@ -145,5 +145,5 @@ export type ParseResult =
   | { expected: string[]; index: SourcePosition; status: false }
   | { status: true; value: BitAuthScriptSegment };
 
-export const parseBitAuthScript = (script: string): ParseResult =>
+export const parseScript = (script: string): ParseResult =>
   authenticationScriptParser.script.parse(script);

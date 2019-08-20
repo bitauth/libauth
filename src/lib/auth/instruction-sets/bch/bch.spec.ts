@@ -2,7 +2,7 @@
 import test from 'ava';
 
 import { instantiateSha256 } from '../../../crypto/sha256';
-import { disassembleScriptBCH, stackItemIsTruthy } from '../instruction-sets';
+import { disassembleBytecodeBCH, stackItemIsTruthy } from '../instruction-sets';
 
 import {
   AuthenticationProgramStateBCH,
@@ -144,9 +144,9 @@ pendingTests.map(expectation => {
       // tslint:disable-next-line: no-if-statement
       if (!pass) {
         t.log(`unlockingBytecodeText: "${expectation.unlockingBytecodeText}"`);
-        t.log(`disassembled: "${disassembleScriptBCH(unlockingBytecode)}"`);
+        t.log(`disassembled: "${disassembleBytecodeBCH(unlockingBytecode)}"`);
         t.log(`lockingBytecodeText: "${expectation.lockingBytecodeText}"`);
-        t.log(`disassembled: "${disassembleScriptBCH(lockingBytecode)}"`);
+        t.log(`disassembled: "${disassembleBytecodeBCH(lockingBytecode)}"`);
         t.log('result:', result);
         expectation.expectedError === false
           ? t.fail('Expected a valid state, but this result is invalid.')

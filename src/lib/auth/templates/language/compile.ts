@@ -1,7 +1,7 @@
 import { MinimumProgramState, StackState } from '../../state';
 
 import { getResolutionErrors } from './errors';
-import { BitAuthScriptSegment, parseBitAuthScript } from './parse';
+import { BitAuthScriptSegment, parseScript } from './parse';
 import { reduceScript, ScriptReductionTraceContainerNode } from './reduce';
 import {
   CompilationData,
@@ -71,37 +71,18 @@ export type CompilationResult<
   | CompilationResultError<ProgramState>;
 
 /**
- * Parse, resolve, and reduce the provided BitAuth script using the provided
- * `data` and `environment`.
+ * Note, `compileScript` is the recommended API for using this method.
  */
 // tslint:disable-next-line: cyclomatic-complexity
-export const compileScript = <
+export const compileScriptText = <
   ProgramState = StackState & MinimumProgramState,
   CompilerOperationData = {}
 >(
-  scriptId: string,
+  script: string,
   data: CompilationData<CompilerOperationData>,
-  environment: CompilationEnvironment<CompilerOperationData>
+  environment: CompilationEnvironment<CompilerOperationData>,
+  scriptId?: string
 ): CompilationResult<ProgramState> => {
-  const script = environment.scripts[scriptId] as string | undefined;
-  // tslint:disable-next-line: no-if-statement
-  if (script === undefined) {
-    return {
-      errorType: 'parse',
-      errors: [
-        {
-          error: `No script with an ID of '${scriptId}' was provided in the compilation environment.`,
-          range: {
-            endColumn: 0,
-            endLineNumber: 0,
-            startColumn: 0,
-            startLineNumber: 0
-          }
-        }
-      ],
-      success: false
-    };
-  }
   // tslint:disable-next-line: no-if-statement
   if (script.length === 0) {
     return {
@@ -120,7 +101,7 @@ export const compileScript = <
       success: false
     };
   }
-  const parseResult = parseBitAuthScript(script);
+  const parseResult = parseScript(script);
   // tslint:disable-next-line: no-if-statement
   if (!parseResult.status) {
     return {
@@ -168,4 +149,43 @@ export const compileScript = <
     reduce: reduction,
     resolve: resolvedScript
   };
+};
+
+/**
+ * Parse, resolve, and reduce the provided Bitauth script using the provided
+ * `data` and `environment`.
+ */
+export const compileScript = <
+  ProgramState = StackState & MinimumProgramState,
+  CompilerOperationData = {}
+>(
+  scriptId: string,
+  data: CompilationData<CompilerOperationData>,
+  environment: CompilationEnvironment<CompilerOperationData>
+): CompilationResult<ProgramState> => {
+  const script = environment.scripts[scriptId] as string | undefined;
+  // tslint:disable-next-line: no-if-statement
+  if (script === undefined) {
+    return {
+      errorType: 'parse',
+      errors: [
+        {
+          error: `No script with an ID of '${scriptId}' was provided in the compilation environment.`,
+          range: {
+            endColumn: 0,
+            endLineNumber: 0,
+            startColumn: 0,
+            startLineNumber: 0
+          }
+        }
+      ],
+      success: false
+    };
+  }
+  return compileScriptText<ProgramState, CompilerOperationData>(
+    script,
+    data,
+    environment,
+    scriptId
+  );
 };

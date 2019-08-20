@@ -130,7 +130,7 @@ const hashOutputs = (
  * the outpoint being spent.
  * @param outpointIndex the index of the outpoint being spent in
  * `outpointTransactionHash`
- * @param coveredScript the script currently being executed, beginning at the
+ * @param coveredBytecode the script currently being executed, beginning at the
  * `lastCodeSeparator`.
  * @param outputValue the value of the outpoint in satoshis
  * @param sequenceNumber the sequence number of the input (A.K.A. `nSequence`)
@@ -155,7 +155,7 @@ export const generateSigningSerializationBCH = (
   hashTransactionSequenceNumbers: () => Uint8Array,
   outpointTransactionHash: Uint8Array,
   outpointIndex: number,
-  coveredScript: Uint8Array,
+  coveredBytecode: Uint8Array,
   outputValue: bigint,
   sequenceNumber: number,
   hashCorrespondingOutput: () => Uint8Array,
@@ -171,8 +171,8 @@ export const generateSigningSerializationBCH = (
     ...outpointTransactionHash.slice().reverse(),
     ...numberToBinUint32LE(outpointIndex),
     ...Uint8Array.from([
-      ...bigIntToBitcoinVarInt(BigInt(coveredScript.length)),
-      ...coveredScript
+      ...bigIntToBitcoinVarInt(BigInt(coveredBytecode.length)),
+      ...coveredBytecode
     ]),
     ...bigIntToBinUint64LE(outputValue),
     ...numberToBinUint32LE(sequenceNumber),

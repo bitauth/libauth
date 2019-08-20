@@ -27,8 +27,8 @@ import {
   resolveScriptIdentifier
 } from './resolve';
 
-export interface OperationDataBCH {
-  coveredScript: Uint8Array;
+export interface CompilerOperationDataBCH {
+  coveredBytecode: Uint8Array;
   // tslint:disable-next-line: no-mixed-interface
   hashCorrespondingOutput: () => Uint8Array;
   hashTransactionOutpoints: () => Uint8Array;
@@ -130,7 +130,7 @@ enum SignatureIdentifier {
 }
 
 export const compilerOperationBCHGenerateSignature = <
-  OperationData extends OperationDataBCH
+  OperationData extends CompilerOperationDataBCH
 >(
   name: string,
   signingAlgorithm: (
@@ -195,7 +195,7 @@ export const compilerOperationBCHGenerateSignature = <
       operationData.hashTransactionSequenceNumbers,
       operationData.outpointTransactionHash,
       operationData.outpointIndex,
-      operationData.coveredScript,
+      operationData.coveredBytecode,
       operationData.outputValue,
       operationData.sequenceNumber,
       operationData.hashCorrespondingOutput,
@@ -214,7 +214,7 @@ export const compilerOperationBCHGenerateSignature = <
 };
 
 export const compilerOperationBCHGenerateDataSignature = <
-  OperationData extends OperationDataBCH
+  OperationData extends CompilerOperationDataBCH
 >(
   name: string,
   signingAlgorithm: (
@@ -279,7 +279,7 @@ export const compilerOperationBCHGenerateDataSignature = <
 };
 
 export const getCompilerOperationsBCH = <
-  OperationData extends OperationDataBCH
+  OperationData extends CompilerOperationDataBCH
 >(): CompilationEnvironment<OperationData>['operations'] => ({
   Key: {
     data_signature: compilerOperationBCHGenerateDataSignature(
@@ -386,7 +386,7 @@ export const createCompiler = <
  * to override properties of the default BCH environment
  */
 export const createCompilerBCH = async <
-  CompilerOperationData extends OperationDataBCH,
+  CompilerOperationData extends CompilerOperationDataBCH,
   ProgramState extends AuthenticationProgramStateBCH
 >(
   overrides: CompilationEnvironment<CompilerOperationData>

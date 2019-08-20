@@ -278,7 +278,8 @@ export const readAuthenticationInstruction = <Opcodes = number>(
 };
 
 /**
- * Parse a serialized script into `ParsedAuthenticationInstructions`. The method
+ * Parse authentication bytecode (`lockingBytecode` or `unlockingBytecode`)
+ * into `ParsedAuthenticationInstructions`. The method
  * `authenticationInstructionsAreMalformed` can be used to check if these
  * instructions include a malformed instruction. If not, they are valid
  * `AuthenticationInstructions`.
@@ -287,12 +288,12 @@ export const readAuthenticationInstruction = <Opcodes = number>(
  * can be used to strongly type the resulting instructions. For example:
  *
  * ```js
- *  const instructions = parseScript<OpcodesBCH>(script);
+ *  const instructions = parseAuthenticationBytecode<OpcodesBCH>(script);
  * ```
  *
  * @param script the serialized script to parse
  */
-export const parseScript = <Opcodes = number>(script: Uint8Array) => {
+export const parseBytecode = <Opcodes = number>(script: Uint8Array) => {
   const instructions: ParsedAuthenticationInstructions<Opcodes> = [];
   // tslint:disable-next-line:no-let
   let i = 0;
@@ -317,7 +318,8 @@ const isPush = <Opcodes>(
 
 /**
  * OP_0 is the only single-word push. All other push instructions will
- * disassemble to multiple ASM words.
+ * disassemble to multiple ASM words. (OP_1-OP_16 are handled like normal
+ * operations.)
  */
 const isMultiWordPush = (opcode: number) => opcode !== CommonPushOpcodes.OP_0;
 const formatAsmPushHex = (data: Uint8Array) =>
@@ -396,40 +398,43 @@ export const disassembleParsedAuthenticationInstructions = <Opcodes = number>(
     .join(' ');
 
 /**
- * Disassemble a serialized script into a lossless ASM representation.
+ * Disassemble authentication bytecode into a lossless ASM representation.
  *
  * TODO: a similar method which re-formats ASM strings, converting HexLiterals to Script Numbers or UTF8Literals.
  *
  * @param opcodes the set to use when determining the name of opcodes, e.g. `OpcodesBCH`
- * @param script the serialized script to disassemble
+ * @param bytecode the authentication bytecode to disassemble
  */
-export const disassembleScript = <Opcode = number>(
+export const disassembleBytecode = <Opcode = number>(
   opcodes: { readonly [opcode: number]: string },
-  script: Uint8Array
+  bytecode: Uint8Array
 ) =>
   disassembleParsedAuthenticationInstructions(
     opcodes,
-    parseScript<Opcode>(script)
+    parseBytecode<Opcode>(bytecode)
   );
 
 /**
- * Disassemble a serialized BCH script into its ASM representation.
- * @param script the serialized script to disassemble
+ * Disassemble BCH authentication bytecode into its ASM representation.
+ * @param bytecode the authentication bytecode to disassemble
  */
-export const disassembleScriptBCH = (script: Uint8Array) =>
+export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
   disassembleParsedAuthenticationInstructions(
     OpcodesBCH,
-    parseScript<OpcodesBCH>(script)
+    parseBytecode<OpcodesBCH>(bytecode)
   );
 
+// TODO: assembleBytecodeBCH – instantiate synchronous compiler, throw any errors
+// TODO: assembleBytecodeBTC
+
 /**
- * Disassemble a serialized BTC script into its ASM representation.
- * @param script the serialized script to disassemble
+ * Disassemble BTC authentication bytecode into its ASM representation.
+ * @param bytecode the authentication bytecode to disassemble
  */
-export const disassembleScriptBTC = (script: Uint8Array) =>
+export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
   disassembleParsedAuthenticationInstructions(
     OpcodesBTC,
-    parseScript<OpcodesBTC>(script)
+    parseBytecode<OpcodesBTC>(bytecode)
   );
 
 const getLengthBytes = <Opcodes>(

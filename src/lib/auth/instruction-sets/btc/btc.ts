@@ -1,7 +1,7 @@
 import { AuthenticationProgramStateBCH } from '../bch/bch';
 
 export interface SegWitState {
-  readonly witnessScript: Uint8Array;
+  readonly witnessBytecode: Uint8Array;
 }
 
 export interface AuthenticationProgramStateBTC

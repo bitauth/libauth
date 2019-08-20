@@ -21,7 +21,7 @@ import {
 import {
   AuthenticationInstruction,
   authenticationInstructionsAreMalformed,
-  parseScript
+  parseBytecode
 } from '../instruction-sets';
 
 import { AuthenticationErrorBCH } from './bch-errors';
@@ -171,8 +171,8 @@ export const createInstructionSetBCH = (
     const unlockingBytecode =
       program.spendingTransaction.inputs[program.inputIndex].unlockingBytecode;
     const lockingBytecode = program.sourceOutput.lockingBytecode;
-    const unlockingInstructions = parseScript<OpcodesBCH>(unlockingBytecode);
-    const lockingInstructions = parseScript<OpcodesBCH>(lockingBytecode);
+    const unlockingInstructions = parseBytecode<OpcodesBCH>(unlockingBytecode);
+    const lockingInstructions = parseBytecode<OpcodesBCH>(lockingBytecode);
     const externalState = createAuthenticationProgramExternalStateCommon(
       program,
       sha256
@@ -236,7 +236,7 @@ export const createInstructionSetBCH = (
       return lockingResult;
     }
 
-    const p2shInstructions = parseScript<OpcodesBCH>(p2shScript);
+    const p2shInstructions = parseBytecode<OpcodesBCH>(p2shScript);
     return authenticationInstructionsAreMalformed(p2shInstructions)
       ? {
           ...lockingResult,

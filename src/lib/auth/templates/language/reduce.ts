@@ -3,14 +3,12 @@ import {
   AuthenticationInstruction,
   authenticationInstructionsAreNotMalformed,
   AuthenticationVirtualMachine,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  disassembleScript,
+  disassembleBytecode,
   encodeDataPush,
   MinimumProgramState,
-  parseScript,
+  parseBytecode,
   StackState
 } from '../../auth';
-import { createAuthenticationProgramStateCommon } from '../../instruction-sets/common/common';
 import { OpcodesCommon } from '../../instruction-sets/common/opcodes';
 
 import { ErrorInformation } from './errors';
@@ -135,7 +133,7 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
         : node.range;
     // tslint:disable-next-line: no-expression-statement
     incomplete = undefined;
-    const parsed = parseScript<Opcodes>(bytecode);
+    const parsed = parseBytecode<Opcodes>(bytecode);
     // tslint:disable-next-line: no-if-statement
     if (parsed.length === 0) {
       // tslint:disable-next-line: no-expression-statement
@@ -293,7 +291,7 @@ export const sampledEvaluateReductionTraceNodes = <
         ? []
         : [
             {
-              error: `A sample is malformed and cannot be evaluated: ${disassembleScript(
+              error: `A sample is malformed and cannot be evaluated: ${disassembleBytecode(
                 OpcodesCommon,
                 parsed.remainingBytecode
               )}`,
@@ -475,15 +473,6 @@ export interface InstructionAggregationEvaluationSuccess<ProgramState> {
 type InstructionAggregationEvaluationResult<ProgramState> =
   | InstructionAggregationEvaluationError<ProgramState>
   | InstructionAggregationEvaluationSuccess<ProgramState>;
-
-export const createProgramStateGenerator = <Opcodes>(
-  stack: Uint8Array[] = []
-) => (instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>) =>
-  createAuthenticationProgramStateCommon(
-    instructions,
-    stack,
-    createAuthenticationProgramExternalStateCommonEmpty()
-  );
 
 export interface SampledEvaluationSuccess<ProgramState> {
   bytecode: Uint8Array;

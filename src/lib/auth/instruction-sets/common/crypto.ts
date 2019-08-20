@@ -123,7 +123,7 @@ export const opCheckSig = <
         state
       );
     }
-    const coveredScript = serializeAuthenticationInstructions(
+    const coveredBytecode = serializeAuthenticationInstructions(
       state.instructions
     ).subarray(state.lastCodeSeparator + 1);
     const { signingSerializationType, signature } = decodeBitcoinSignature(
@@ -136,7 +136,7 @@ export const opCheckSig = <
       state.hashTransactionSequenceNumbers,
       state.outpointTransactionHash,
       state.outpointIndex,
-      coveredScript,
+      coveredBytecode,
       state.outputValue,
       state.sequenceNumber,
       state.hashCorrespondingOutput,
@@ -250,7 +250,7 @@ export const opCheckMultiSig = <
                     );
                   }
 
-                  const coveredScript = serializeAuthenticationInstructions(
+                  const coveredBytecode = serializeAuthenticationInstructions(
                     finalState.instructions
                   ).subarray(finalState.lastCodeSeparator + 1);
 
@@ -298,7 +298,7 @@ export const opCheckMultiSig = <
                       finalState.hashTransactionSequenceNumbers,
                       finalState.outpointTransactionHash,
                       finalState.outpointIndex,
-                      coveredScript,
+                      coveredBytecode,
                       finalState.outputValue,
                       finalState.sequenceNumber,
                       finalState.hashCorrespondingOutput,

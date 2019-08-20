@@ -10,8 +10,8 @@ import {
   disassembleParsedAuthenticationInstructions,
   generateBytecodeMap,
   OpcodesBTC,
+  parseBytecode,
   ParsedAuthenticationInstruction,
-  parseScript,
   serializeAuthenticationInstructions,
   serializeParsedAuthenticationInstructions
 } from './instruction-sets';
@@ -163,7 +163,7 @@ const malFormedPushes: CommonScriptParseAndAsmTests = {
 const parse: Macro<
   [Uint8Array, ReadonlyArray<ParsedAuthenticationInstruction>]
 > = (t, input, expected) => {
-  t.deepEqual(parseScript(input), expected);
+  t.deepEqual(parseBytecode(input), expected);
 };
 parse.title = title => `parse script: ${title}`.trim();
 

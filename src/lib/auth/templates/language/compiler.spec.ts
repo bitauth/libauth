@@ -39,12 +39,12 @@ test('createCompilerBCH: generate', async t => {
       keys: { privateKeys: { a: privkey } },
       operationData: {
         ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredScript: resultLock.bytecode
+        coveredBytecode: resultLock.bytecode
       }
     });
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(
-        '483045022100cc08dccca2e206331ba6539aa32b1cf3eecc681bb4ad26d8e2c0fe109f0b305a02201f85e7b202b6b24fc5825804af0f50e6ee46f87f593a46e5af66b7a14fa95bf841210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
       ),
       success: true
     });
@@ -348,7 +348,7 @@ test('createCompilerBCH: debug', async t => {
                         operationCount: 0,
                         outpointIndex: 0,
                         outpointTransactionHash: hexToBin(
-                          '0202020202020202020202020202020202020202020202020202020202020202'
+                          '0505050505050505050505050505050505050505050505050505050505050505'
                         ),
                         outputValue: BigInt(0),
                         sequenceNumber: 0,
@@ -394,7 +394,7 @@ test('createCompilerBCH: debug', async t => {
                         operationCount: 1,
                         outpointIndex: 0,
                         outpointTransactionHash: hexToBin(
-                          '0202020202020202020202020202020202020202020202020202020202020202'
+                          '0505050505050505050505050505050505050505050505050505050505050505'
                         ),
                         outputValue: BigInt(0),
                         sequenceNumber: 0,
@@ -599,12 +599,12 @@ test('createCompilerBCH: debug', async t => {
       keys: { privateKeys: { a: privkey } },
       operationData: {
         ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredScript: resultLock.bytecode
+        coveredBytecode: resultLock.bytecode
       }
     });
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(
-        '483045022100cc08dccca2e206331ba6539aa32b1cf3eecc681bb4ad26d8e2c0fe109f0b305a02201f85e7b202b6b24fc5825804af0f50e6ee46f87f593a46e5af66b7a14fa95bf841210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
       ),
       parse: {
         end: {
@@ -707,7 +707,7 @@ test('createCompilerBCH: debug', async t => {
       },
       reduce: {
         bytecode: hexToBin(
-          '483045022100cc08dccca2e206331ba6539aa32b1cf3eecc681bb4ad26d8e2c0fe109f0b305a02201f85e7b202b6b24fc5825804af0f50e6ee46f87f593a46e5af66b7a14fa95bf841210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+          '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
         ),
         range: {
           endColumn: 41,
@@ -718,7 +718,7 @@ test('createCompilerBCH: debug', async t => {
         source: [
           {
             bytecode: hexToBin(
-              '483045022100cc08dccca2e206331ba6539aa32b1cf3eecc681bb4ad26d8e2c0fe109f0b305a02201f85e7b202b6b24fc5825804af0f50e6ee46f87f593a46e5af66b7a14fa95bf841'
+              '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
             ),
             range: {
               endColumn: 26,
@@ -729,7 +729,7 @@ test('createCompilerBCH: debug', async t => {
             source: [
               {
                 bytecode: hexToBin(
-                  '3045022100cc08dccca2e206331ba6539aa32b1cf3eecc681bb4ad26d8e2c0fe109f0b305a02201f85e7b202b6b24fc5825804af0f50e6ee46f87f593a46e5af66b7a14fa95bf841'
+                  '304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
                 ),
                 range: {
                   endColumn: 25,
@@ -740,7 +740,7 @@ test('createCompilerBCH: debug', async t => {
                 source: [
                   {
                     bytecode: hexToBin(
-                      '3045022100cc08dccca2e206331ba6539aa32b1cf3eecc681bb4ad26d8e2c0fe109f0b305a02201f85e7b202b6b24fc5825804af0f50e6ee46f87f593a46e5af66b7a14fa95bf841'
+                      '304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
                     ),
                     range: {
                       endColumn: 25,
@@ -811,7 +811,7 @@ test('createCompilerBCH: debug', async t => {
               },
               type: 'bytecode',
               value: hexToBin(
-                '3045022100cc08dccca2e206331ba6539aa32b1cf3eecc681bb4ad26d8e2c0fe109f0b305a02201f85e7b202b6b24fc5825804af0f50e6ee46f87f593a46e5af66b7a14fa95bf841'
+                '304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
               ),
               variable: 'a.signature.all_outputs'
             }

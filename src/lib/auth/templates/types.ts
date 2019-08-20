@@ -9,42 +9,42 @@ export interface AuthenticationTemplate {
    * An optionally multi-line, free-form, human-readable description of this
    * authentication template (for use in user interfaces).
    */
-  readonly description?: string;
+  description?: string;
   /**
    * A mapping of entities defined in this authentication template. Object keys
    * are used as entity identifiers, and by convention, should use `snake_case`.
    *
    * See `AuthenticationTemplateEntity` for more information.
    */
-  readonly entities: { [entityId: string]: AuthenticationTemplateEntity };
+  entities: { [entityId: string]: AuthenticationTemplateEntity };
 
   /**
-   * A single-line, Title Case, human-readable name for this authentication template (for
-   * use in user interfaces).
+   * A single-line, Title Case, human-readable name for this authentication
+   * template (for use in user interfaces).
    */
-  readonly name?: string;
+  name?: string;
 
   /**
    * A mapping of scripts used in this authentication template. Object keys
    * are used as script identifiers, and by convention, should use `snake_case`.
    */
-  readonly scripts: { [scriptId: string]: AuthenticationTemplateScript };
+  scripts: { [scriptId: string]: AuthenticationTemplateScript };
 
   /**
    * A list of supported AuthenticationVirtualMachines for this template.
    */
-  readonly supported: ReadonlyArray<AuthenticationVirtualMachineIdentifier>;
+  supported: AuthenticationVirtualMachineIdentifier[];
 
   /**
    * A number identifying the format of this AuthenticationTemplate.
-   * Currently, this implementation requires `version` be set to `1`.
+   * Currently, this implementation requires `version` be set to `0`.
    */
-  readonly version: 1;
+  version: 0;
 }
 
 export type AuthenticationVirtualMachineIdentifier =
-  | 'BCH_2018_11'
   | 'BCH_2019_05'
+  | 'BCH_2019_11'
   | 'BSV_2018_11'
   | 'BTC_2017_08';
 
@@ -52,12 +52,12 @@ export interface AuthenticationTemplateEntity {
   /**
    * A single-line, human readable description for this entity.
    */
-  readonly description?: string;
+  description?: string;
   /**
    * A single-line, Title Case, human-readable identifier for this entity, e.g.:
    * `Trusted Third-Party`
    */
-  readonly name: string;
+  name: string;
   /**
    * An array of the `id`s of each script the entity must be capable of
    * generating, e.g. each of the unlocking scripts this entity might use.
@@ -70,14 +70,14 @@ export interface AuthenticationTemplateEntity {
    * If not provided, this property is assumed to include all scripts in the
    * template.
    */
-  readonly scripts?: ReadonlyArray<string>;
+  scripts?: string[];
   /**
    * An array of variables which must be provided by this entity for use in the
    * this template's scripts. Some variables are required before locking script
    * generation, while some variables can or must be resolved only before
    * unlocking script generation.
    */
-  readonly variables?: { [variableId: string]: AuthenticationTemplateVariable };
+  variables?: { [variableId: string]: AuthenticationTemplateVariable };
 }
 
 export interface AuthenticationTemplateScript {
@@ -85,23 +85,23 @@ export interface AuthenticationTemplateScript {
    * A single-line, human-readable name for this unlocking script (for use in
    * user interfaces).
    */
-  readonly name?: string;
+  name?: string;
   /**
    * The script definition in BitAuth Script.
    */
-  readonly script: string;
+  script: string;
   /**
    * One or more tests which can be used during development and during template
    * validation to confirm the correctness of this inline script.
    */
-  readonly tests?: ReadonlyArray<AuthenticationTemplateScriptTest>;
+  tests?: AuthenticationTemplateScriptTest[];
   /**
    * The `id` of the script which can be unlocked by this script.
    *
    * (The presence of the `unlocks` property indicates that this script is an
    * unlocking script, and the script it unlocks is a locking script.)
    */
-  readonly unlocks?: string;
+  unlocks?: string;
 }
 
 // TODO: keep?
@@ -116,7 +116,7 @@ export interface AuthenticationTemplateScript {
 //    * entity. This allows clients to avoid creating wallets using malicious or
 //    * corrupted data.
 //    */
-//   // readonly id: 'checksum'; // TODO: finalized removal of 'id' property
+//   // id: 'checksum'; // TODO: finalized removal of 'id' property
 // }
 
 export interface AuthenticationTemplateScriptTest {
@@ -124,17 +124,17 @@ export interface AuthenticationTemplateScriptTest {
    * The script to evaluate after the script being tested. The test passes if
    * this script leaves only a 1 (ScriptNumber) on the stack.
    */
-  readonly check: string;
+  check: string;
   /**
    * A single-line, Title Case, human-readable name for this test (for use in
    * user interfaces).
    */
-  readonly name?: string;
+  name?: string;
   /**
    * A script to evaluate before the script being tested. This can be used to
    * push values to the stack which are operated on by the inline script.
    */
-  readonly setup?: string;
+  setup?: string;
 }
 
 export interface AuthenticationTemplateVariableBase {
@@ -142,12 +142,7 @@ export interface AuthenticationTemplateVariableBase {
    * A single-line, human readable description for this variable (for use in
    * user interfaces).
    */
-  readonly description?: string;
-  /**
-   * The identifier used to refer to this variable in the scripts. By
-   * convention, identifiers should use `snake_case`.
-   */
-  // readonly id: string; // TODO: finalized removal of 'id' property
+  description?: string;
   /**
    * The hexadecimal string-encoded test value for this variable. This test
    * value is used during development and can provide validation when
@@ -158,23 +153,24 @@ export interface AuthenticationTemplateVariableBase {
    * ensuring it is able to unlock it. For inline scripts, variables are also
    * initialized to their `mock`s when evaluating inline script tests.
    *
-   * TODO: should `mock` actually be a script? (To allow for hex or BigInt
-   * literals.) Answer: yes – mock should always be a string
+   * Note, `mock` is itself defined in BTL syntax, but mock scripts do not have
+   * access to evaluations, other variables, or scripts. (Hex, BigInt, and UTF8
+   * literals are permissible, as well as push notation and comments.)
    */
-  readonly mock?: string;
+  mock?: string;
   /**
    * A single-line, Title Case, human-readable name for this variable (for use
    * in user interfaces).
    */
-  readonly name?: string;
-  readonly type: string;
+  name?: string;
+  type: string;
   /**
    * TODO: revisit in future versions
    *
    * a script which must leave a 1 on the stack if the variable input is valid
    * (e.g. to check unusual signatures from each signer as they are received)
    */
-  // readonly validate?: string;
+  // validate?: string;
 }
 
 /**
@@ -200,7 +196,7 @@ export interface AuthenticationTemplateVariableBase {
 //    *
 //    * TODO: new syntax: signature:all_outputs signature:corresponding_output:anyone_can_pay, signature:no_outputs:anyone_can_pay, data_signature:IDENTIFIER
 //    */
-//   // readonly id: string; // TODO: finalized removal of 'id' property
+//   // id: string; // TODO: finalized removal of 'id' property
 // }
 
 export interface HDKey extends AuthenticationTemplateVariableBase {
@@ -208,7 +204,7 @@ export interface HDKey extends AuthenticationTemplateVariableBase {
    * TODO: describe – this turns on/off hardening of the script derivation index:
    * `m / template derivation index' / script derivation index[']`
    */
-  readonly scriptDerivationHardened?: boolean;
+  scriptDerivationHardened?: boolean;
   /**
    * A "hardened" child key is derived using an extended *private key*, while a
    * non-hardened child key is derived using only an extended *public key*.
@@ -224,7 +220,7 @@ export interface HDKey extends AuthenticationTemplateVariableBase {
    * Because this security consideration should be evaluated for any template
    * using `HDKey`s, `derivationHardened` defaults to `true`.
    */
-  readonly templateDerivationHardened?: boolean;
+  templateDerivationHardened?: boolean;
   /**
    * All `HDKey`s are hardened-derivations of the entity's root `HDKey`. The
    * resulting branches are then used to generate child keys scripts:
@@ -236,12 +232,12 @@ export interface HDKey extends AuthenticationTemplateVariableBase {
    *
    * For greater control over key generation and mapping, use `Key`.
    */
-  readonly templateDerivationIndex?: number;
+  templateDerivationIndex?: number;
   /**
    * The `HDKey` (Hierarchical-Deterministic Key) type automatically manages key
    * generation and mapping in a standard way. For greater control, use `Key`.
    */
-  readonly type: 'HDKey';
+  type: 'HDKey';
 }
 
 export interface Key extends AuthenticationTemplateVariableBase {
@@ -252,47 +248,47 @@ export interface Key extends AuthenticationTemplateVariableBase {
    * Any HD (Hierarchical-Deterministic) derivation must be completed outside of
    * the templating system and provided at the time of use.
    */
-  readonly type: 'Key';
+  type: 'Key';
 }
 
 export interface WalletData extends AuthenticationTemplateVariableBase {
   /**
    * A single-line, human readable description for this wallet data.
    */
-  readonly description: string;
+  description: string;
   /**
    * A single-line, Title Case, human-readable name for this wallet data.
    */
-  readonly name: string;
+  name: string;
   /**
    * The `WalletData` type provides a static piece of data which should be
    * collected once and stored at the time of wallet creation. `WalletData`
    * should be persistent for the life of the wallet, rather than changing from
    * locking script to locking script.
    *
-   * For transaction-specific data, use `TransactionData`.
+   * For address-specific data, use `AddressData`.
    */
-  readonly type: 'WalletData';
+  type: 'WalletData';
 }
 
-export interface TransactionData extends AuthenticationTemplateVariableBase {
+export interface AddressData extends AuthenticationTemplateVariableBase {
   /**
-   * A single-line, human readable description for this transaction data.
+   * A single-line, human readable description for this address data.
    */
-  readonly description: string;
+  description: string;
   /**
-   * A single-line, Title Case, human-readable name for this transaction data.
+   * A single-line, Title Case, human-readable name for this address data.
    */
-  readonly name: string;
+  name: string;
 
   /**
-   * `TransactionData` is the most low-level variable type. It must be collected
+   * `AddressData` is the most low-level variable type. It must be collected
    * and stored each time a script is generated (usually, a locking script).
-   * `TransactionData` can include any type of data, and can be used in any way.
+   * `AddressData` can include any type of data, and can be used in any way.
    *
    * For more persistent data, use `WalletData`.
    */
-  readonly type: 'TransactionData';
+  type: 'AddressData';
 }
 
 export interface CurrentBlockTime extends AuthenticationTemplateVariableBase {
@@ -301,8 +297,10 @@ export interface CurrentBlockTime extends AuthenticationTemplateVariableBase {
    * Number. This is useful when computing a time for OP_CHECKLOCKTIMEVERIFY
    * which is relative to the current time at the moment a script is created
    * (usually, a locking script).
+   *
+   * TODO: not available, see: https://github.com/bitauth/bitauth-ide/issues/17
    */
-  readonly type: 'CurrentBlockTime';
+  type: 'CurrentBlockTime';
 }
 
 export interface CurrentBlockHeight extends AuthenticationTemplateVariableBase {
@@ -312,13 +310,13 @@ export interface CurrentBlockHeight extends AuthenticationTemplateVariableBase {
    * which is relative to the height at the moment a script is created (usually,
    * a locking script).
    */
-  readonly type: 'CurrentBlockHeight';
+  type: 'CurrentBlockHeight';
 }
 
 export type AuthenticationTemplateVariable =
   | HDKey
   | Key
   | WalletData
-  | TransactionData
+  | AddressData
   | CurrentBlockTime
   | CurrentBlockHeight;

@@ -160,8 +160,6 @@ export const resolveScriptSegment = (
   });
 
 /**
- * TODO: describe
- *
  * Returns the bytecode result on success or an error message on failure.
  */
 export type CompilerOperation<
@@ -178,10 +176,8 @@ export type CompilerOperation<
     : Checked extends 'WalletData'
     ? Required<Pick<CompilationData<CompilerOperationData>, 'walletData'>> &
         CompilationData<CompilerOperationData>
-    : Checked extends 'TransactionData'
-    ? Required<
-        Pick<CompilationData<CompilerOperationData>, 'transactionData'>
-      > &
+    : Checked extends 'AddressData'
+    ? Required<Pick<CompilationData<CompilerOperationData>, 'addressData'>> &
         CompilationData<CompilerOperationData>
     : Checked extends 'CurrentBlockTime'
     ? Required<
@@ -293,8 +289,10 @@ export interface CompilationEnvironment<CompilerOperationData = {}> {
   vm?: AuthenticationVirtualMachine<any, any>;
 }
 
-// TODO:
 export interface CompilationData<CompilerOperationData> {
+  addressData?: {
+    [id: string]: Uint8Array;
+  };
   currentBlockHeight?: number;
   currentBlockTime?: Date;
   /**
@@ -334,11 +332,8 @@ export interface CompilationData<CompilerOperationData> {
     };
   };
   operationData?: CompilerOperationData;
-  transactionData?: {
-    [id: string]: string;
-  };
   walletData?: {
-    [id: string]: string;
+    [id: string]: Uint8Array;
   };
 }
 
@@ -398,11 +393,11 @@ const attemptCompilerOperation = <CompilerOperationData>(
 const variableTypeToDataProperty: {
   [type in AuthenticationTemplateVariable['type']]: keyof CompilationData<{}>;
 } = {
+  AddressData: 'addressData',
   CurrentBlockHeight: 'currentBlockHeight',
   CurrentBlockTime: 'currentBlockTime',
   HDKey: 'hdKeys',
   Key: 'keys',
-  TransactionData: 'transactionData',
   WalletData: 'walletData'
 };
 
@@ -413,6 +408,11 @@ const defaultActionByVariableType: {
     variableId: string
   ) => string | Uint8Array;
 } = {
+  AddressData: (identifier, data, variableId) =>
+    data.addressData !== undefined &&
+    (data.addressData[variableId] as Uint8Array | undefined) !== undefined
+      ? data.addressData[variableId]
+      : `Identifier "${identifier}" refers to a AddressData, but no AddressData for "${variableId}" were provided in the compilation data.`,
   CurrentBlockHeight: (_, data) =>
     bigIntToScriptNumber(BigInt(data.currentBlockHeight as number)),
   CurrentBlockTime: (_, data) => dateToLockTime(data.currentBlockTime as Date),
@@ -420,44 +420,12 @@ const defaultActionByVariableType: {
     `Identifier "${identifier}" refers to an HDKey, but does not specify an operation, e.g. "${identifier}.public_key".`,
   Key: identifier =>
     `Identifier "${identifier}" refers to a Key, but does not specify an operation, e.g. "${identifier}.public_key".`,
-  TransactionData: (identifier, data, variableId) =>
-    ((data.transactionData as {
-      [id: string]: string;
-    })[variableId] as string | undefined) !== undefined
-      ? 'TODO: compile TransactionData'
-      : `Identifier "${identifier}" refers to a TransactionData, but no TransactionData for "${variableId}" were provided in the compilation data.`,
   WalletData: (identifier, data, variableId) =>
-    ((data.walletData as {
-      [id: string]: string;
-    })[variableId] as string | undefined) !== undefined
-      ? 'TODO: compile WalletData'
+    data.walletData !== undefined &&
+    (data.walletData[variableId] as Uint8Array | undefined) !== undefined
+      ? data.walletData[variableId]
       : `Identifier "${identifier}" refers to a WalletData, but no WalletData for "${variableId}" were provided in the compilation data.`
 };
-
-const attemptVariableResolution = <CompilerOperationData>(
-  identifier: string,
-  variableType: AuthenticationTemplateVariable['type'],
-  data: CompilationData<CompilerOperationData>,
-  environment: CompilationEnvironment<CompilerOperationData>,
-  variableId: string,
-  isOperation: boolean,
-  operationId: string
-) =>
-  data[variableTypeToDataProperty[variableType]] === undefined
-    ? `Identifier "${identifier}" is a ${variableType}, but the compilation data does not include a "${variableTypeToDataProperty[variableType]}" property.`
-    : isOperation
-    ? attemptCompilerOperation(
-        identifier,
-        operationId,
-        variableType,
-        environment,
-        data
-      )
-    : defaultActionByVariableType[variableType](
-        identifier,
-        data as Required<CompilationData<CompilerOperationData>>,
-        variableId
-      );
 
 /**
  * If the identifer can be successfully resolved as a variable, the result is
@@ -486,15 +454,21 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
   if (selected === undefined) {
     return false;
   }
-  return attemptVariableResolution(
-    identifier,
-    selected.type,
-    data,
-    environment,
-    variableId,
-    isOperation,
-    operationId
-  );
+  return data[variableTypeToDataProperty[selected.type]] === undefined
+    ? `Identifier "${identifier}" is a ${
+        selected.type
+      }, but the compilation data does not include a "${
+        variableTypeToDataProperty[selected.type]
+      }" property.`
+    : isOperation
+    ? attemptCompilerOperation(
+        identifier,
+        operationId,
+        selected.type,
+        environment,
+        data
+      )
+    : defaultActionByVariableType[selected.type](identifier, data, variableId);
 };
 
 /**

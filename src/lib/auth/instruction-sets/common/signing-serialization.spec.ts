@@ -45,7 +45,7 @@ pendingTests.map((expectation, currentTest) => {
   test(`signing-serialization tests: sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async t => {
     const sha256 = await sha256Promise;
     const tx = deserializeTransaction(hexToBin(expectation.transactionHex));
-    const script = hexToBin(expectation.scriptHex);
+    const lockingBytecode = hexToBin(expectation.scriptHex);
     const signingSerializationType = numberToBinUint32LE(
       expectation.signingSerializationType
     );
@@ -53,7 +53,7 @@ pendingTests.map((expectation, currentTest) => {
       {
         inputIndex: expectation.inputIndex,
         sourceOutput: {
-          lockingBytecode: script,
+          lockingBytecode,
           satoshis: BigInt(0)
         },
         spendingTransaction: tx
@@ -66,7 +66,7 @@ pendingTests.map((expectation, currentTest) => {
       state.hashTransactionSequenceNumbers,
       state.outpointTransactionHash,
       state.outpointIndex,
-      script,
+      lockingBytecode,
       state.outputValue,
       state.sequenceNumber,
       state.hashCorrespondingOutput,

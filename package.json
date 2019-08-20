@@ -15,7 +15,7 @@
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p config/tsconfig.module.json",
-    "build:parsimmon": "cpy src/lib/auth/templates/language/parsimmon.js build/main/lib/auth/templates/language",
+    "build:parsimmon": "cpy src/lib/auth/templates/language/parsimmon.js build/main/lib/auth/templates/language && cpy src/lib/auth/templates/language/parsimmon.js build/module/lib/auth/templates/language",
     "build:wasm": "run-p copy:wasm:secp256k1 copy:wasm:sha1 copy:wasm:sha256 copy:wasm:sha512 copy:wasm:ripemd160",
     "copy:wasm:secp256k1": "cpy src/lib/bin/secp256k1/secp256k1.wasm build/main/lib/bin/secp256k1 && cpy src/lib/bin/secp256k1/secp256k1.wasm build/module/lib/bin/secp256k1",
     "copy:wasm:sha1": "cpy src/lib/bin/sha1/sha1.wasm build/main/lib/bin/sha1 && cpy src/lib/bin/sha1/sha1.wasm build/module/lib/bin/sha1",

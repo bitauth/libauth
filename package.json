@@ -30,7 +30,7 @@
     "test": "run-s build test:*",
     "test:lint": "tslint --project . && prettier \"src/**/*.ts\" --list-different",
     "test:unit": "nyc --silent ava",
-    "test:unit:fast": "nyc --silent ava --match='!crypto:*' --match='!script_tests:*'",
+    "test:unit:fast": "nyc --silent ava --match='!crypto:*' --match='!script_tests:*' --match='!signing-serialization tests:*'",
     "test:unit:crypto": "nyc --silent ava --match='crypto:*'",
     "test:unit:script_tests": "nyc --silent ava --match='script_tests:*' --verbose --serial",
     "bench": "run-s build bench:browser-deps bench:test",

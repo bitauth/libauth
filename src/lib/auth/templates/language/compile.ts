@@ -83,24 +83,6 @@ export const compileScriptText = <
   environment: CompilationEnvironment<CompilerOperationData>,
   scriptId?: string
 ): CompilationResult<ProgramState> => {
-  // tslint:disable-next-line: no-if-statement
-  if (script.length === 0) {
-    return {
-      errorType: 'parse',
-      errors: [
-        {
-          error: 'Tried to compile an empty string as a script.',
-          range: {
-            endColumn: 0,
-            endLineNumber: 0,
-            startColumn: 0,
-            startLineNumber: 0
-          }
-        }
-      ],
-      success: false
-    };
-  }
   const parseResult = parseScript(script);
   // tslint:disable-next-line: no-if-statement
   if (!parseResult.status) {

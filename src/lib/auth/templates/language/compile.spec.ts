@@ -3,7 +3,7 @@ import test from 'ava';
 
 import { hexToBin } from '../../../utils/hex';
 
-import { compileScript } from './compile';
+import { compileScript, compileScriptText } from './compile';
 
 test('compileScript: unprovided ID', t => {
   t.deepEqual(compileScript('test', {}, { scripts: { typo: '1' } }), {
@@ -26,19 +26,160 @@ test('compileScript: unprovided ID', t => {
 
 test('compileScript: empty string', t => {
   t.deepEqual(compileScript('t', {}, { scripts: { t: '' } }), {
-    errorType: 'parse',
-    errors: [
-      {
-        error: 'Tried to compile an empty string as a script.',
-        range: {
-          endColumn: 0,
-          endLineNumber: 0,
-          startColumn: 0,
-          startLineNumber: 0
+    bytecode: Uint8Array.of(),
+    parse: {
+      end: {
+        column: 1,
+        line: 1,
+        offset: 0
+      },
+      name: 'Script',
+      start: {
+        column: 1,
+        line: 1,
+        offset: 0
+      },
+      value: []
+    },
+    reduce: {
+      bytecode: Uint8Array.of(),
+      range: {
+        endColumn: 1,
+        endLineNumber: 1,
+        startColumn: 1,
+        startLineNumber: 1
+      },
+      source: [
+        {
+          bytecode: Uint8Array.of(),
+          range: {
+            endColumn: 1,
+            endLineNumber: 1,
+            startColumn: 1,
+            startLineNumber: 1
+          }
         }
+      ]
+    },
+    resolve: [
+      {
+        range: {
+          endColumn: 1,
+          endLineNumber: 1,
+          startColumn: 1,
+          startLineNumber: 1
+        },
+        type: 'comment',
+        value: ''
       }
     ],
-    success: false
+    success: true
+  });
+});
+
+test('compileScriptText: empty string', t => {
+  t.deepEqual(compileScriptText('', {}, { scripts: {} }), {
+    bytecode: Uint8Array.of(),
+    parse: {
+      end: {
+        column: 1,
+        line: 1,
+        offset: 0
+      },
+      name: 'Script',
+      start: {
+        column: 1,
+        line: 1,
+        offset: 0
+      },
+      value: []
+    },
+    reduce: {
+      bytecode: Uint8Array.of(),
+      range: {
+        endColumn: 1,
+        endLineNumber: 1,
+        startColumn: 1,
+        startLineNumber: 1
+      },
+      source: [
+        {
+          bytecode: Uint8Array.of(),
+          range: {
+            endColumn: 1,
+            endLineNumber: 1,
+            startColumn: 1,
+            startLineNumber: 1
+          }
+        }
+      ]
+    },
+    resolve: [
+      {
+        range: {
+          endColumn: 1,
+          endLineNumber: 1,
+          startColumn: 1,
+          startLineNumber: 1
+        },
+        type: 'comment',
+        value: ''
+      }
+    ],
+    success: true
+  });
+});
+
+test('compileScriptText: empty script (script with space)', t => {
+  t.deepEqual(compileScript('t', {}, { scripts: { t: '    ' } }), {
+    bytecode: Uint8Array.of(),
+    parse: {
+      end: {
+        column: 5,
+        line: 1,
+        offset: 4
+      },
+      name: 'Script',
+      start: {
+        column: 5,
+        line: 1,
+        offset: 4
+      },
+      value: []
+    },
+    reduce: {
+      bytecode: Uint8Array.of(),
+      range: {
+        endColumn: 5,
+        endLineNumber: 1,
+        startColumn: 5,
+        startLineNumber: 1
+      },
+      source: [
+        {
+          bytecode: Uint8Array.of(),
+          range: {
+            endColumn: 5,
+            endLineNumber: 1,
+            startColumn: 5,
+            startLineNumber: 1
+          }
+        }
+      ]
+    },
+    resolve: [
+      {
+        range: {
+          endColumn: 5,
+          endLineNumber: 1,
+          startColumn: 5,
+          startLineNumber: 1
+        },
+        type: 'comment',
+        value: ''
+      }
+    ],
+    success: true
   });
 });
 

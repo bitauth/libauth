@@ -84,9 +84,9 @@ enum Constants {
 export const resolveScriptSegment = (
   segment: BitAuthScriptSegment,
   resolveIdentifiers: IdentifierResolutionFunction
-): ResolvedScript =>
+): ResolvedScript => {
   // tslint:disable-next-line: cyclomatic-complexity
-  segment.value.map(child => {
+  const resolved = segment.value.map(child => {
     const range = pluckRange(child);
     switch (child.name) {
       case 'Identifier':
@@ -158,6 +158,11 @@ export const resolveScriptSegment = (
         };
     }
   });
+
+  return resolved.length === 0
+    ? [{ range: pluckRange(segment), type: 'comment' as 'comment', value: '' }]
+    : resolved;
+};
 
 /**
  * Returns the bytecode result on success or an error message on failure.

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.4](https://github.com/bitjson/bitcoin-ts/compare/v1.5.3...v1.5.4) (2019-08-21)
+
+
+### Bug Fixes
+
+* **compiler:** allow empty programs to be compiled ([41275c0](https://github.com/bitjson/bitcoin-ts/commit/41275c0))
+
+
+
 ### [1.5.3](https://github.com/bitjson/bitcoin-ts/compare/v1.5.2...v1.5.3) (2019-08-20)
 
 

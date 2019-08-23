@@ -271,8 +271,12 @@ export const sampledEvaluateReductionTraceNodes = <
     getState
   );
   // tslint:disable-next-line: no-if-statement
-  if (parsed.success && evaluated.success && evaluated.samples.length > 0) {
-    const lastSample = evaluated.samples[evaluated.samples.length - 1];
+  if (parsed.success && evaluated.success) {
+    const samples =
+      evaluated.samples.length > 0
+        ? evaluated.samples
+        : [{ range: parsed.aggregations[0].range, state: getState([]) }];
+    const lastSample = samples[samples.length - 1];
     const lastStackItem = lastSample.state.stack[
       lastSample.state.stack.length - 1
     ] as Uint8Array | undefined;
@@ -280,7 +284,7 @@ export const sampledEvaluateReductionTraceNodes = <
       lastStackItem !== undefined ? lastStackItem.slice() : Uint8Array.of();
     return {
       bytecode: evaluationResult,
-      samples: evaluated.samples,
+      samples,
       success: true
     };
   }

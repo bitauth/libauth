@@ -259,6 +259,7 @@ export const opCheckMultiSig = <
                   let remainingPublicKeys = publicKeys.length; // tslint:disable-line:no-let
                   while (
                     remainingSignatures > 0 &&
+                    remainingPublicKeys > 0 &&
                     approvingPublicKeys + remainingPublicKeys >=
                       remainingSignatures &&
                     approvingPublicKeys !== requiredApprovingPublicKeys

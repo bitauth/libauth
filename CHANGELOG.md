@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.5](https://github.com/bitjson/bitcoin-ts/compare/v1.5.4...v1.5.5) (2019-08-23)
+
+
+### Bug Fixes
+
+* **opCheckMultiSig:** fix potential undefined public key ([dda926a](https://github.com/bitjson/bitcoin-ts/commit/dda926a))
+* **sampledEvaluateReductionTraceNodes:** allow empty scripts to be debugged properly ([f6f8347](https://github.com/bitjson/bitcoin-ts/commit/f6f8347))
+
+
+
 ### [1.5.4](https://github.com/bitjson/bitcoin-ts/compare/v1.5.3...v1.5.4) (2019-08-21)
 
 

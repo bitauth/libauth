@@ -1,4 +1,5 @@
-FROM liuchong/rustup:nightly
+# FROM liuchong/rustup:nightly
+FROM liuchong/rustup@sha256:57795147db06a7ebad574469fb1198cf36fc26dc74d504d128ae2160271b2b61
 RUN rustup target add wasm32-unknown-unknown --toolchain nightly
 RUN cargo +nightly install wasm-bindgen-cli
 RUN cargo install wasm-pack

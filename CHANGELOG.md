@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/bitjson/bitcoin-ts/compare/v1.5.5...v1.6.0) (2019-10-30)
+
+
+### Bug Fixes
+
+* **compiler:** correct use of "a" vs. "an" in error messages ([4892685](https://github.com/bitjson/bitcoin-ts/commit/4892685))
+
+
+### Build System
+
+* **hashes:** pin sha256 of rustup docker image ([98b2a13](https://github.com/bitjson/bitcoin-ts/commit/98b2a13))
+
+
+### Features
+
+* add JSON schema for authentication templates ([f054757](https://github.com/bitjson/bitcoin-ts/commit/f054757))
+
+
+
 ### [1.5.5](https://github.com/bitjson/bitcoin-ts/compare/v1.5.4...v1.5.5) (2019-08-23)
 
 

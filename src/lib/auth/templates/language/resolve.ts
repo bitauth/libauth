@@ -417,7 +417,7 @@ const defaultActionByVariableType: {
     data.addressData !== undefined &&
     (data.addressData[variableId] as Uint8Array | undefined) !== undefined
       ? data.addressData[variableId]
-      : `Identifier "${identifier}" refers to a AddressData, but no AddressData for "${variableId}" were provided in the compilation data.`,
+      : `Identifier "${identifier}" refers to an AddressData, but no AddressData for "${variableId}" were provided in the compilation data.`,
   CurrentBlockHeight: (_, data) =>
     bigIntToScriptNumber(BigInt(data.currentBlockHeight as number)),
   CurrentBlockTime: (_, data) => dateToLockTime(data.currentBlockTime as Date),
@@ -431,6 +431,11 @@ const defaultActionByVariableType: {
       ? data.walletData[variableId]
       : `Identifier "${identifier}" refers to a WalletData, but no WalletData for "${variableId}" were provided in the compilation data.`
 };
+
+const aOrAnQuotedString = (word: string) =>
+  `${
+    ['a', 'e', 'i', 'o', 'u'].indexOf(word[0].toLowerCase()) === -1 ? 'a' : 'an'
+  } "${word}"`;
 
 /**
  * If the identifer can be successfully resolved as a variable, the result is
@@ -462,9 +467,9 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
   return data[variableTypeToDataProperty[selected.type]] === undefined
     ? `Identifier "${identifier}" is a ${
         selected.type
-      }, but the compilation data does not include a "${
+      }, but the compilation data does not include ${aOrAnQuotedString(
         variableTypeToDataProperty[selected.type]
-      }" property.`
+      )} property.`
     : isOperation
     ? attemptCompilerOperation(
         identifier,
@@ -538,7 +543,7 @@ export const resolveScriptIdentifier = <CompilerOperationData>(
  * @param environment a snapshot of the context around `scriptId`. See
  * `CompilationEnvironment` for details.
  * @param data the actual variable values (private keys, shared wallet data,
- * shared transaction data, etc.) to use in resolving variables.
+ * shared address data, etc.) to use in resolving variables.
  */
 export const createIdentifierResolver = <CompilerOperationData>(
   scriptId: string | undefined,

@@ -11,7 +11,7 @@
       // Consider using `yarn watch` for faster debugging
       // "preLaunchTask": "npm: build",
       // "smartStep": true,
-      "runtimeArgs": ["--nolazy"]
+      "runtimeArgs": ["--nolazy", "--preserve-symlinks"]
     },
     {
       "name": "Debug Bitcoin Cash Instruction Set (requires yarn watch)",
@@ -22,7 +22,7 @@
       // "skipFiles": ["<node_internals>/**/*.js"],
       // Consider commenting out the line below and using `yarn watch` instead for faster debugging
       // "preLaunchTask": "npm: build",
-      "runtimeArgs": ["--nolazy"]
+      "runtimeArgs": ["--nolazy", "--preserve-symlinks"]
     }
   ]
 }

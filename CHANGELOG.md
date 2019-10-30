@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/bitjson/bitcoin-ts/compare/v1.6.1...v1.6.2) (2019-10-30)
+
+
+### Bug Fixes
+
+* **parser:** fix several parser bugs, add parseScript tests ([bf56ea9](https://github.com/bitjson/bitcoin-ts/commit/bf56ea9))
+
+
+
 ### [1.6.1](https://github.com/bitjson/bitcoin-ts/compare/v1.6.0...v1.6.1) (2019-10-30)
 
 

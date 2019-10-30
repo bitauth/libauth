@@ -6,10 +6,18 @@
  */
 export interface AuthenticationTemplate {
   /**
+   * The URI which identifies the JSON Schema used by this template. Try:
+   * `https://bitauth.com/schemas/authentication-template-v0.schema.json`
+   * to enable documentation, autocompletion, and validation in JSON documents.
+   */
+  $schema?: string;
+
+  /**
    * An optionally multi-line, free-form, human-readable description of this
    * authentication template (for use in user interfaces).
    */
   description?: string;
+
   /**
    * A mapping of entities defined in this authentication template. Object keys
    * are used as entity identifiers, and by convention, should use `snake_case`.

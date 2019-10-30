@@ -36,6 +36,10 @@
       "additionalProperties": false,
       "description": "An `AuthenticationTemplate` (a.k.a. `BitAuth Template`) specifies a set of\nlocking scripts, unlocking scripts, and other information required to use a\ncertain authentication scheme. Templates fully describe wallets and protocols\nin a way that can be shared between software clients.",
       "properties": {
+        "$schema": {
+          "description": "The URI which identifies the JSON Schema used by this template. Try:\n`https://bitauth.com/schemas/authentication-template-v0.schema.json`\nto enable documentation, autocompletion, and validation in JSON documents.",
+          "type": "string"
+        },
         "description": {
           "description": "An optionally multi-line, free-form, human-readable description of this\nauthentication template (for use in user interfaces).",
           "type": "string"

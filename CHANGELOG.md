@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/bitjson/bitcoin-ts/compare/v1.6.0...v1.6.1) (2019-10-30)
+
+
+### Bug Fixes
+
+* **AuthenticationTemplate:** add $schema as optional field on AuthenticationTemplate ([875cc11](https://github.com/bitjson/bitcoin-ts/commit/875cc11))
+
+
+### Build System
+
+* **package:** switch typings from main to module build ([bccab5f](https://github.com/bitjson/bitcoin-ts/commit/bccab5f))
+
+
+
 ## [1.6.0](https://github.com/bitjson/bitcoin-ts/compare/v1.5.5...v1.6.0) (2019-10-30)
 
 

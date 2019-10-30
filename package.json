@@ -38,6 +38,7 @@
     "bench:browser-deps": "browserify node_modules/chuhai/index.js --standalone chuhai -o build/bench/chuhai.js && browserify node_modules/hash.js/lib/hash.js --standalone hash -o build/bench/hash.js",
     "watch:slow": "run-s clean build:main build:wasm && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "watch": "run-s clean build:main build:wasm build:parsimmon && run-p \"build:main -- -w\" \"test:unit:fast -- --watch\"",
+    "watch:module-only": "run-s clean build && build:main -- -w",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
     "cov:html": "nyc report --reporter=html",
     "cov:send": "nyc report --reporter=lcov && codecov",

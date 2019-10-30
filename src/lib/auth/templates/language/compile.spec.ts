@@ -24,6 +24,60 @@ test('compileScript: unprovided ID', t => {
   });
 });
 
+test('compileScript: clean errors on unexpected input', t => {
+  t.deepEqual(compileScript('t', {}, { scripts: { t: 'te$t' } }), {
+    errorType: 'parse',
+    errors: [
+      {
+        error:
+          'Encountered unexpected input while parsing script. Expected whitespace or the end of the script.',
+        range: {
+          endColumn: 3,
+          endLineNumber: 1,
+          startColumn: 3,
+          startLineNumber: 1
+        }
+      }
+    ],
+    success: false
+  });
+  t.deepEqual(
+    compileScript('t', {}, { scripts: { t: '<$(<1> <2> OP_ADD >' } }),
+    {
+      errorType: 'parse',
+      errors: [
+        {
+          error:
+            "Encountered unexpected input while parsing script. Expected a double quote (\"), a hex literal ('0x...'), a single quote ('), a valid identifier, an integer literal, the closing parenthesis of this evaluation (')'), the start of a multi-line comment ('/*'), the start of a push statement ('<'), the start of a single-line comment ('//'), or the start of an evaluation ('$').",
+          range: {
+            endColumn: 19,
+            endLineNumber: 1,
+            startColumn: 19,
+            startLineNumber: 1
+          }
+        }
+      ],
+      success: false
+    }
+  );
+  t.deepEqual(compileScript('t', {}, { scripts: { t: '"incomplete' } }), {
+    errorType: 'parse',
+    errors: [
+      {
+        error:
+          'Encountered unexpected input while parsing script. Expected a closing double quote (").',
+        range: {
+          endColumn: 12,
+          endLineNumber: 1,
+          startColumn: 12,
+          startLineNumber: 1
+        }
+      }
+    ],
+    success: false
+  });
+});
+
 test('compileScript: empty string', t => {
   t.deepEqual(compileScript('t', {}, { scripts: { t: '' } }), {
     bytecode: Uint8Array.of(),
@@ -189,11 +243,11 @@ test('compileScript parse error', t => {
     errors: [
       {
         error:
-          'Encountered unexpected input while parsing script. Expected EOF, a UTF8 literal, a comment, a hexadecimal literal, a push expression, a valid identifier, an evaluation expression, an integer literal',
+          "Encountered unexpected input while parsing script. Expected the opening parenthesis of this evaluation ('(').",
         range: {
-          endColumn: 1,
+          endColumn: 2,
           endLineNumber: 1,
-          startColumn: 1,
+          startColumn: 2,
           startLineNumber: 1
         }
       }

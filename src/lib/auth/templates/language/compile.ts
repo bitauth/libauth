@@ -70,6 +70,40 @@ export type CompilationResult<
   | CompilationResultSuccess<ProgramState>
   | CompilationResultError<ProgramState>;
 
+enum Formatting {
+  requiresCommas = 3,
+  requiresOr = 2
+}
+
+/**
+ * The constant used by the parser to denote the end of the input
+ */
+const EOF = 'EOF';
+/**
+ * A text-formatting method to pretty-print the list of expected inputs
+ * (`Encountered unexpected input while parsing script. Expected ...`). If
+ * present, the `EOF` expectation is always moved to the end of the list.
+ * @param expectedArray the alphabetized list of expected inputs produced by
+ * `parseScript`
+ */
+const describeExpectedInput = (expectedArray: string[]) => {
+  const newArray = expectedArray.filter(value => value !== EOF);
+  // tslint:disable-next-line: no-if-statement
+  if (newArray.length !== expectedArray.length) {
+    // tslint:disable-next-line: no-expression-statement
+    newArray.push('the end of the script');
+  }
+  const withoutLastElement = newArray.slice(0, newArray.length - 1);
+  const lastElement = newArray[newArray.length - 1];
+  return `Encountered unexpected input while parsing script. Expected ${
+    newArray.length >= Formatting.requiresCommas
+      ? withoutLastElement.join(', ').concat(`, or ${lastElement}`)
+      : newArray.length === Formatting.requiresOr
+      ? newArray.join(' or ')
+      : lastElement
+  }.`;
+};
+
 /**
  * Note, `compileScript` is the recommended API for using this method.
  */
@@ -90,13 +124,11 @@ export const compileScriptText = <
       errorType: 'parse',
       errors: [
         {
-          error: `Encountered unexpected input while parsing script. Expected ${parseResult.expected.join(
-            ', '
-          )}`,
+          error: describeExpectedInput(parseResult.expected),
           range: {
-            endColumn: parseResult.index.line,
+            endColumn: parseResult.index.column,
             endLineNumber: parseResult.index.line,
-            startColumn: parseResult.index.line,
+            startColumn: parseResult.index.column,
             startLineNumber: parseResult.index.line
           }
         }

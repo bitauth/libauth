@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.3](https://github.com/bitjson/bitcoin-ts/compare/v1.6.2...v1.6.3) (2019-10-31)
+
+
+### Bug Fixes
+
+* **compiler:** only attempt to return bytecode on successful compilations ([a987d54](https://github.com/bitjson/bitcoin-ts/commit/a987d54))
+
+
+### Build System
+
+* **deps:** bump lodash.merge from 4.6.1 to 4.6.2 ([#35](https://github.com/bitjson/bitcoin-ts/issues/35)) ([fbd038d](https://github.com/bitjson/bitcoin-ts/commit/fbd038d))
+* **deps:** bump lodash.template from 4.4.0 to 4.5.0 ([#36](https://github.com/bitjson/bitcoin-ts/issues/36)) ([0cffd2f](https://github.com/bitjson/bitcoin-ts/commit/0cffd2f))
+* **deps:** bump mixin-deep from 1.3.1 to 1.3.2 ([#34](https://github.com/bitjson/bitcoin-ts/issues/34)) ([c5c835f](https://github.com/bitjson/bitcoin-ts/commit/c5c835f))
+* **scripts:** add watch:module-only task ([8ae64fe](https://github.com/bitjson/bitcoin-ts/commit/8ae64fe))
+
+
+
 ### [1.6.2](https://github.com/bitjson/bitcoin-ts/compare/v1.6.1...v1.6.2) (2019-10-30)
 
 

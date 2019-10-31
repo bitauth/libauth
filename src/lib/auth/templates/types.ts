@@ -152,9 +152,9 @@ export interface AuthenticationTemplateVariableBase {
    */
   description?: string;
   /**
-   * The hexadecimal string-encoded test value for this variable. This test
-   * value is used during development and can provide validation when
-   * importing this template into a new system.
+   * The BTL-encoded test value for this variable. This test value is used
+   * during development and can provide validation when importing this template
+   * into a new system.
    *
    * When testing, all variables for all entities are initialized to their
    * `mock` and each unlocking script is tested against the locking script,

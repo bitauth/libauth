@@ -156,9 +156,8 @@ export const compileScriptText = <
   );
   return {
     ...(reduction.errors === undefined
-      ? { success: true }
+      ? { success: true, bytecode: reduction.bytecode }
       : { success: false, errorType: 'reduce', errors: reduction.errors }),
-    bytecode: reduction.bytecode,
     parse: parseResult.value,
     reduce: reduction,
     resolve: resolvedScript

@@ -108,35 +108,33 @@ type StringSegmentType =
 
 type RecursiveSegmentType = 'Push' | 'Evaluation';
 
-interface BitAuthProgramSegment extends MarkedNode {
+interface BitauthTemplatingLanguageSegment extends MarkedNode {
   name: string;
 }
 
-interface BitAuthStringSegment extends BitAuthProgramSegment {
+interface BtlStringSegment extends BitauthTemplatingLanguageSegment {
   name: StringSegmentType;
   value: string;
 }
 
-interface BitAuthBigIntSegment extends BitAuthProgramSegment {
+interface BtlBigIntSegment extends BitauthTemplatingLanguageSegment {
   name: 'BigIntLiteral';
   value: bigint;
 }
 
-interface BitAuthRecursiveSegment extends BitAuthProgramSegment {
+interface BtlRecursiveSegment extends BitauthTemplatingLanguageSegment {
   name: RecursiveSegmentType;
-  value: BitAuthScriptSegment;
+  value: BtlScriptSegment;
 }
 
-export interface BitAuthScriptSegment extends BitAuthProgramSegment {
+export interface BtlScriptSegment extends BitauthTemplatingLanguageSegment {
   name: 'Script';
-  value: Array<
-    BitAuthRecursiveSegment | BitAuthBigIntSegment | BitAuthStringSegment
-  >;
+  value: Array<BtlRecursiveSegment | BtlBigIntSegment | BtlStringSegment>;
 }
 
 export type ParseResult =
   | { expected: string[]; index: SourcePosition; status: false }
-  | { status: true; value: BitAuthScriptSegment };
+  | { status: true; value: BtlScriptSegment };
 
 export const parseScript = (script: string): ParseResult =>
   authenticationScriptParser.script.parse(script);

@@ -29,7 +29,7 @@ console.log(stringifyBinAndBigInt(ast));
 
 // walk through: 2 of 3
 
-// each client has a copy of the BitAuth template
+// each client has a copy of the Bitauth template
 // tslint:disable-next-line:no-console
 console.log(JSON.stringify(twoOfThree, undefined, 1));
 

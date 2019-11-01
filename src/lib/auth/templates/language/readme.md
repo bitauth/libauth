@@ -1,2 +1,2 @@
-# BitAuth Templating Language (BTL)
+# Bitauth Templating Language (BTL)
 

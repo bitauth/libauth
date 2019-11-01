@@ -8,7 +8,7 @@ import {
 import { AuthenticationTemplateVariable } from '../types';
 
 import { compileScript } from './compile';
-import { BitAuthScriptSegment, MarkedNode } from './parse';
+import { BtlScriptSegment, MarkedNode } from './parse';
 
 export interface Range {
   endColumn: number;
@@ -82,7 +82,7 @@ enum Constants {
 }
 
 export const resolveScriptSegment = (
-  segment: BitAuthScriptSegment,
+  segment: BtlScriptSegment,
   resolveIdentifiers: IdentifierResolutionFunction
 ): ResolvedScript => {
   // tslint:disable-next-line: cyclomatic-complexity
@@ -199,7 +199,7 @@ export type CompilerOperation<
 ) => Uint8Array | string;
 
 /**
- * The full context required to compile a given BitAuth Template – everything
+ * The full context required to compile a given Bitauth Template – everything
  * required for the compiler to generate the final script code (targeting a
  * specific `AuthenticationVirtualMachine`).
  *
@@ -243,7 +243,7 @@ export interface CompilationEnvironment<CompilerOperationData = {}> {
     };
   };
   /**
-   * An object mapping script identifiers to the text of script in BitAuth
+   * An object mapping script identifiers to the text of script in Bitauth
    * Templating Language.
    *
    * To avoid compilation errors, this object must contain all scripts
@@ -264,9 +264,7 @@ export interface CompilationEnvironment<CompilerOperationData = {}> {
   sha256?: Sha256;
   /**
    * The "breadcrumb" path of script IDs currently being resolved. (E.g.
-   * ["grandparentId", "parentId"])
-   *
-   * BitAuth Script identifier resolution must be acyclic.
+   * `["grandparentId", "parentId"]`) BTL identifier resolution must be acyclic.
    *
    * To prevent an infinite loop, `IdentifierResolutionFunction`s must abort
    * resolution if they encounter their own `id` while resolving another
@@ -276,7 +274,7 @@ export interface CompilationEnvironment<CompilerOperationData = {}> {
    */
   sourceScriptIds?: string[];
   /**
-   * An object mapping BitAuth variable identifiers to the
+   * An object mapping Bitauth variable identifiers to the
    * `AuthenticationTemplateVariable` describing them.
    *
    * To avoid compilation errors, this object must contain all variables
@@ -286,8 +284,8 @@ export interface CompilationEnvironment<CompilerOperationData = {}> {
     [variableId: string]: AuthenticationTemplateVariable;
   };
   /**
-   * The AuthenticationVirtualMachine on which BitAuth script `evaluation`
-   * results will be computed.
+   * The AuthenticationVirtualMachine on which BTL `evaluation` results will be
+   * computed.
    */
   // TODO: more specific signature?
   // tslint:disable-next-line: no-any

@@ -1,5 +1,5 @@
 /**
- * An `AuthenticationTemplate` (a.k.a. `BitAuth Template`) specifies a set of
+ * An `AuthenticationTemplate` (a.k.a. `Bitauth Template`) specifies a set of
  * locking scripts, unlocking scripts, and other information required to use a
  * certain authentication scheme. Templates fully describe wallets and protocols
  * in a way that can be shared between software clients.
@@ -95,7 +95,7 @@ export interface AuthenticationTemplateScript {
    */
   name?: string;
   /**
-   * The script definition in BitAuth Script.
+   * The script definition in BTL (Bitauth Templating Language).
    */
   script: string;
   /**

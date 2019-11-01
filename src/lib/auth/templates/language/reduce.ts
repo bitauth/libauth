@@ -107,11 +107,11 @@ const emptyReductionTraceNode = (range: Range) => ({
  *
  * Interestingly, we already use "Containers" in both pushes and evaluations, so
  * this might be quite easy. E.g. wrapping with `()` or `{}`. However, we also
- * want disassembled instructions to be valid input in BitAuth Script, so some
- * form of this line-based logic will still be required unless we also change
- * script disassembly form. E.g. instead of `OP_PUSHBYTES_2 0x0102`, something
- * like `(OP_PUSHBYTES_2 0x0102)` or `<0x0102>`. This is something to consider
- * in future versions.
+ * want disassembled instructions to be valid input in BTL, so some form of this
+ * line-based logic will still be required unless we also change script
+ * disassembly form. E.g. instead of `OP_PUSHBYTES_2 0x0102`, something like
+ * `(OP_PUSHBYTES_2 0x0102)` or `<0x0102>`. This is something to consider in
+ * future versions.
  */
 // tslint:disable-next-line: cyclomatic-complexity
 const aggregatedParseReductionTraceNodes = <Opcodes>(
@@ -244,8 +244,7 @@ export const evaluateInstructionAggregations = <
  * trace of the evaluation and the resulting top stack item (`evaluationResult`)
  * if successful.
  *
- * @param nodes an array of reduced nodes (from a returned `source` of
- * `reduceBitAuthScript`)
+ * @param nodes an array of reduced nodes
  * @param vm the `AuthenticationVirtualMachine` to use in the evaluation
  * @param getState a method which should generate a new ProgramState given an
  * array of `instructions`
@@ -396,7 +395,7 @@ export const reduceScript = <
         return {
           errors: [
             {
-              error: `Tried to reduce a BitAuth script with resolution errors: ${segment.value}`,
+              error: `Tried to reduce a BTL script with resolution errors: ${segment.value}`,
               range: segment.range
             }
           ],

@@ -1,7 +1,7 @@
 import { MinimumProgramState, StackState } from '../../state';
 
 import { getResolutionErrors } from './errors';
-import { BitAuthScriptSegment, parseScript } from './parse';
+import { BtlScriptSegment, parseScript } from './parse';
 import { reduceScript, ScriptReductionTraceContainerNode } from './reduce';
 import {
   CompilationData,
@@ -13,7 +13,7 @@ import {
 } from './resolve';
 
 export interface CompilationResultResolve {
-  parse: BitAuthScriptSegment;
+  parse: BtlScriptSegment;
   resolve: ResolvedScript;
 }
 
@@ -165,8 +165,8 @@ export const compileScriptText = <
 };
 
 /**
- * Parse, resolve, and reduce the provided Bitauth script using the provided
- * `data` and `environment`.
+ * Parse, resolve, and reduce the provided BTL script using the provided`data`
+ * and `environment`.
  */
 export const compileScript = <
   ProgramState = StackState & MinimumProgramState,

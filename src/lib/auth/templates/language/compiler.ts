@@ -43,6 +43,13 @@ export interface CompilerOperationDataBCH {
   version: number;
 }
 
+export type CompilerKeyOperationsBCH =
+  | 'data_signature'
+  | 'public_key'
+  | 'schnorr_data_signature'
+  | 'schnorr_signature'
+  | 'signature';
+
 export enum SigningSerializationIdentifier {
   /**
    * A.K.A. `SIGHASH_ALL`
@@ -132,7 +139,7 @@ enum SignatureIdentifier {
 export const compilerOperationBCHGenerateSignature = <
   OperationData extends CompilerOperationDataBCH
 >(
-  name: string,
+  name: 'signature' | 'schnorr_signature',
   signingAlgorithm: (
     secp256k1: Secp256k1
   ) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
@@ -156,7 +163,7 @@ export const compilerOperationBCHGenerateSignature = <
   const identifierSegments = identifier.split('.');
   // tslint:disable-next-line: no-if-statement
   if (identifierSegments.length !== SignatureIdentifier.expectedSegments) {
-    return `Invalid signature identifier. Signatures must be of the form: "[name].${name}.[signing serialization type]".`;
+    return `Invalid signature identifier. Signatures must be of the form: "[variable_id].${name}.[signing_serialization_type]".`;
   }
   const variableId = identifierSegments[SignatureIdentifier.variableIdIndex];
   const signingSerializationIdentifier =
@@ -216,7 +223,7 @@ export const compilerOperationBCHGenerateSignature = <
 export const compilerOperationBCHGenerateDataSignature = <
   OperationData extends CompilerOperationDataBCH
 >(
-  name: string,
+  name: 'data_signature' | 'schnorr_data_signature',
   signingAlgorithm: (
     secp256k1: Secp256k1
   ) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
@@ -240,7 +247,7 @@ export const compilerOperationBCHGenerateDataSignature = <
   const identifierSegments = identifier.split('.');
   // tslint:disable-next-line: no-if-statement
   if (identifierSegments.length !== SignatureIdentifier.expectedSegments) {
-    return `Invalid data signature identifier. Data signatures must be of the form: "[name].${name}.[target script ID]".`;
+    return `Invalid data signature identifier. Data signatures must be of the form: "[variable_id].${name}.[target_script_id]".`;
   }
   const variableId = identifierSegments[SignatureIdentifier.variableIdIndex];
   const scriptId = identifierSegments[SignatureIdentifier.signingTargetIndex];
@@ -278,9 +285,9 @@ export const compilerOperationBCHGenerateDataSignature = <
   return `Identifier "${identifier}" refers to a data signature, but no signatures or private keys for "${variableId}" were provided in the compilation data.`;
 };
 
-export const getCompilerOperationsBCH = <
-  OperationData extends CompilerOperationDataBCH
->(): CompilationEnvironment<OperationData>['operations'] => ({
+export const getCompilerOperationsBCH = (): CompilationEnvironment<
+  CompilerOperationDataBCH
+>['operations'] => ({
   Key: {
     data_signature: compilerOperationBCHGenerateDataSignature(
       'data_signature',
@@ -408,7 +415,7 @@ export const createCompilerBCH = async <
           createAuthenticationProgramExternalStateCommonEmpty()
         ),
       opcodes: generateBytecodeMap(OpcodesBCH),
-      operations: getCompilerOperationsBCH<CompilerOperationData>(),
+      operations: getCompilerOperationsBCH(),
       secp256k1,
       sha256,
       vm

@@ -8,6 +8,7 @@ import {
 import { AuthenticationTemplateVariable } from '../types';
 
 import { compileScript } from './compile';
+import { CompilerKeyOperationsBCH } from './compiler';
 import { BtlScriptSegment, MarkedNode } from './parse';
 
 export interface Range {
@@ -198,6 +199,8 @@ export type CompilerOperation<
   compilationEnvironment: CompilationEnvironment<CompilerOperationData>
 ) => Uint8Array | string;
 
+export type CompilerKeyOperationsMinimal = 'public_key' | 'signature';
+
 /**
  * The full context required to compile a given Bitauth Template – everything
  * required for the compiler to generate the final script code (targeting a
@@ -214,7 +217,10 @@ export type CompilerOperation<
  * required. If the script requires evaluations during compilation, the
  * evaluating `AuthenticationVirtualMachine` must also be included.
  */
-export interface CompilationEnvironment<CompilerOperationData = {}> {
+export interface CompilationEnvironment<
+  CompilerOperationData = {},
+  CompilerKeyOperations extends string = CompilerKeyOperationsBCH
+> {
   /**
    * A method which accepts an array of `AuthenticationInstruction`s, and
    * returns a ProgramState. This method will be used to generate the initial
@@ -239,7 +245,10 @@ export interface CompilationEnvironment<CompilerOperationData = {}> {
    */
   operations?: {
     [key in AuthenticationTemplateVariable['type']]?: {
-      [operationId: string]: CompilerOperation<CompilerOperationData, key>;
+      [operationId in CompilerKeyOperations]?: CompilerOperation<
+        CompilerOperationData,
+        key
+      >;
     };
   };
   /**
@@ -377,9 +386,12 @@ const attemptCompilerOperation = <CompilerOperationData>(
   ) {
     const operationsForType = environment.operations[variableType];
     if (operationsForType !== undefined) {
-      const operation = operationsForType[operationId];
+      // tslint:disable-next-line: no-any
+      const operation = (operationsForType as any)[operationId] as
+        | CompilerOperation<CompilerOperationData, typeof variableType>
+        | undefined;
       // tslint:disable-next-line: no-if-statement
-      if ((operation as typeof operation | undefined) !== undefined) {
+      if (operation !== undefined) {
         return operation(
           identifier,
           data as Required<typeof data>,

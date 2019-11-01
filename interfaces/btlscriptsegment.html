@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BitAuthScriptSegment | bitcoin-ts</title>
+	<title>BtlScriptSegment | bitcoin-ts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="bitauthscriptsegment.html">BitAuthScriptSegment</a>
+					<a href="btlscriptsegment.html">BtlScriptSegment</a>
 				</li>
 			</ul>
-			<h1>Interface BitAuthScriptSegment</h1>
+			<h1>Interface BtlScriptSegment</h1>
 		</div>
 	</div>
 </header>
@@ -68,10 +68,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">BitAuthProgramSegment</span>
+						<span class="tsd-signature-type">BitauthTemplatingLanguageSegment</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">BitAuthScriptSegment</span>
+								<span class="target">BtlScriptSegment</span>
 							</li>
 						</ul>
 					</li>
@@ -84,10 +84,10 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="bitauthscriptsegment.html#end" class="tsd-kind-icon">end</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="bitauthscriptsegment.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="bitauthscriptsegment.html#start" class="tsd-kind-icon">start</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="bitauthscriptsegment.html#value" class="tsd-kind-icon">value</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="btlscriptsegment.html#end" class="tsd-kind-icon">end</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="btlscriptsegment.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="btlscriptsegment.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="btlscriptsegment.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,7 +102,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="markednode.html">MarkedNode</a>.<a href="markednode.html#end">end</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a987d54/src/lib/auth/templates/language/parse.ts#L99">lib/auth/templates/language/parse.ts:99</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a16d892/src/lib/auth/templates/language/parse.ts#L99">lib/auth/templates/language/parse.ts:99</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -111,9 +111,9 @@
 					<h3>name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"Script"</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides BitAuthProgramSegment.name</p>
+						<p>Overrides BitauthTemplatingLanguageSegment.name</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a987d54/src/lib/auth/templates/language/parse.ts#L131">lib/auth/templates/language/parse.ts:131</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a16d892/src/lib/auth/templates/language/parse.ts#L131">lib/auth/templates/language/parse.ts:131</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,17 +124,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="markednode.html">MarkedNode</a>.<a href="markednode.html#start">start</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a987d54/src/lib/auth/templates/language/parse.ts#L100">lib/auth/templates/language/parse.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a16d892/src/lib/auth/templates/language/parse.ts#L100">lib/auth/templates/language/parse.ts:100</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="value" class="tsd-anchor"></a>
 					<h3>value</h3>
-					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">BitAuthRecursiveSegment</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BitAuthBigIntSegment</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BitAuthStringSegment</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">BtlRecursiveSegment</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BtlBigIntSegment</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BtlStringSegment</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a987d54/src/lib/auth/templates/language/parse.ts#L132">lib/auth/templates/language/parse.ts:132</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/a16d892/src/lib/auth/templates/language/parse.ts#L132">lib/auth/templates/language/parse.ts:132</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -153,19 +153,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="bitauthscriptsegment.html" class="tsd-kind-icon">Bit<wbr>Auth<wbr>Script<wbr>Segment</a>
+						<a href="btlscriptsegment.html" class="tsd-kind-icon">Btl<wbr>Script<wbr>Segment</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="bitauthscriptsegment.html#end" class="tsd-kind-icon">end</a>
+								<a href="btlscriptsegment.html#end" class="tsd-kind-icon">end</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-								<a href="bitauthscriptsegment.html#name" class="tsd-kind-icon">name</a>
+								<a href="btlscriptsegment.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="bitauthscriptsegment.html#start" class="tsd-kind-icon">start</a>
+								<a href="btlscriptsegment.html#start" class="tsd-kind-icon">start</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="bitauthscriptsegment.html#value" class="tsd-kind-icon">value</a>
+								<a href="btlscriptsegment.html#value" class="tsd-kind-icon">value</a>
 							</li>
 						</ul>
 					</li>

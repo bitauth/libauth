@@ -8,7 +8,6 @@ import {
 import { AuthenticationTemplateVariable } from '../types';
 
 import { compileScript } from './compile';
-import { CompilerKeyOperationsBCH } from './compiler';
 import { BtlScriptSegment, MarkedNode } from './parse';
 
 export interface Range {
@@ -219,7 +218,7 @@ export type CompilerKeyOperationsMinimal = 'public_key' | 'signature';
  */
 export interface CompilationEnvironment<
   CompilerOperationData = {},
-  CompilerKeyOperations extends string = CompilerKeyOperationsBCH
+  CompilerKeyOperations extends string = CompilerKeyOperationsMinimal
 > {
   /**
    * A method which accepts an array of `AuthenticationInstruction`s, and

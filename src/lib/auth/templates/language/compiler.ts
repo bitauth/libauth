@@ -286,7 +286,8 @@ export const compilerOperationBCHGenerateDataSignature = <
 };
 
 export const getCompilerOperationsBCH = (): CompilationEnvironment<
-  CompilerOperationDataBCH
+  CompilerOperationDataBCH,
+  CompilerKeyOperationsBCH
 >['operations'] => ({
   Key: {
     data_signature: compilerOperationBCHGenerateDataSignature(

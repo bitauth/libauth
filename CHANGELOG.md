@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.6](https://github.com/bitjson/bitcoin-ts/compare/v1.6.5...v1.6.6) (2019-11-02)
+
+
+### Bug Fixes
+
+* **compiler:** use CompilerKeyOperationsMinimal by default ([0d27b48](https://github.com/bitjson/bitcoin-ts/commit/0d27b48))
+
+
+
 ### [1.6.5](https://github.com/bitjson/bitcoin-ts/compare/v1.6.4...v1.6.5) (2019-11-01)
 
 

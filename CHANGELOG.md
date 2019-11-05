@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.7](https://github.com/bitjson/bitcoin-ts/compare/v1.6.6...v1.6.7) (2019-11-05)
+
+
+### Bug Fixes
+
+* **parser:** make whitespace optional between recognized parsers ([1f28d29](https://github.com/bitjson/bitcoin-ts/commit/1f28d29))
+
+
+
 ### [1.6.6](https://github.com/bitjson/bitcoin-ts/compare/v1.6.5...v1.6.6) (2019-11-02)
 
 

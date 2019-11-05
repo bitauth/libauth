@@ -29,57 +29,57 @@ interface ResolvedSegmentBase {
   type: string;
 }
 
-interface ResolvedSegmentPush<T> extends ResolvedSegmentBase {
+export interface ResolvedSegmentPush<T> extends ResolvedSegmentBase {
   type: 'push';
   value: T;
 }
 
-interface ResolvedSegmentEvaluation<T> extends ResolvedSegmentBase {
+export interface ResolvedSegmentEvaluation<T> extends ResolvedSegmentBase {
   type: 'evaluation';
   value: T;
 }
 
-interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
+export interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
   type: 'bytecode';
   value: Uint8Array;
   variable: string;
 }
 
-interface ResolvedSegmentScriptBytecode extends ResolvedSegmentBase {
+export interface ResolvedSegmentScriptBytecode extends ResolvedSegmentBase {
   script: string;
   type: 'bytecode';
   value: Uint8Array;
 }
 
-interface ResolvedSegmentOpcodeBytecode extends ResolvedSegmentBase {
+export interface ResolvedSegmentOpcodeBytecode extends ResolvedSegmentBase {
   opcode: string;
   type: 'bytecode';
   value: Uint8Array;
 }
 
-interface ResolvedSegmentLiteralBytecode extends ResolvedSegmentBase {
+export interface ResolvedSegmentLiteralBytecode extends ResolvedSegmentBase {
   literalType: 'BigIntLiteral' | 'HexLiteral' | 'UTF8Literal';
   type: 'bytecode';
   value: Uint8Array;
 }
 
-type ResolvedSegmentBytecode =
+export type ResolvedSegmentBytecode =
   | ResolvedSegmentLiteralBytecode
   | ResolvedSegmentOpcodeBytecode
   | ResolvedSegmentScriptBytecode
   | ResolvedSegmentVariableBytecode;
 
-interface ResolvedSegmentComment extends ResolvedSegmentBase {
+export interface ResolvedSegmentComment extends ResolvedSegmentBase {
   type: 'comment';
   value: string;
 }
 
-interface ResolvedSegmentError extends ResolvedSegmentBase {
+export interface ResolvedSegmentError extends ResolvedSegmentBase {
   type: 'error';
   value: string;
 }
 
-type ResolvedSegment =
+export type ResolvedSegment =
   | ResolvedSegmentPush<ResolvedScript>
   | ResolvedSegmentEvaluation<ResolvedScript>
   | ResolvedSegmentBytecode

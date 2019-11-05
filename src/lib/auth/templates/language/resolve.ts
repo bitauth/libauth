@@ -39,11 +39,35 @@ interface ResolvedSegmentEvaluation<T> extends ResolvedSegmentBase {
   value: T;
 }
 
-interface ResolvedSegmentBytecode extends ResolvedSegmentBase {
+interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
   type: 'bytecode';
   value: Uint8Array;
-  variable?: string;
+  variable: string;
 }
+
+interface ResolvedSegmentScriptBytecode extends ResolvedSegmentBase {
+  script: string;
+  type: 'bytecode';
+  value: Uint8Array;
+}
+
+interface ResolvedSegmentOpcodeBytecode extends ResolvedSegmentBase {
+  opcode: string;
+  type: 'bytecode';
+  value: Uint8Array;
+}
+
+interface ResolvedSegmentLiteralBytecode extends ResolvedSegmentBase {
+  literalType: 'BigIntLiteral' | 'HexLiteral' | 'UTF8Literal';
+  type: 'bytecode';
+  value: Uint8Array;
+}
+
+type ResolvedSegmentBytecode =
+  | ResolvedSegmentLiteralBytecode
+  | ResolvedSegmentOpcodeBytecode
+  | ResolvedSegmentScriptBytecode
+  | ResolvedSegmentVariableBytecode;
 
 interface ResolvedSegmentComment extends ResolvedSegmentBase {
   type: 'comment';
@@ -67,8 +91,7 @@ export interface ResolvedScript extends Array<ResolvedSegment> {}
 export enum IdentifierResolutionType {
   opcode = 'opcode',
   variable = 'variable',
-  script = 'script',
-  unknown = 'unknown'
+  script = 'script'
 }
 
 export type IdentifierResolutionFunction = (
@@ -86,28 +109,33 @@ export const resolveScriptSegment = (
   resolveIdentifiers: IdentifierResolutionFunction
 ): ResolvedScript => {
   // tslint:disable-next-line: cyclomatic-complexity
-  const resolved = segment.value.map(child => {
+  const resolved = segment.value.map<ResolvedSegment>(child => {
     const range = pluckRange(child);
     switch (child.name) {
       case 'Identifier':
         const identifier = child.value;
         const result = resolveIdentifiers(identifier);
-        return result.status
+        const ret = result.status
           ? {
               range,
               type: 'bytecode' as 'bytecode',
               value: result.bytecode,
-              ...(result.type === IdentifierResolutionType.variable
+              ...(result.type === IdentifierResolutionType.opcode
+                ? {
+                    opcode: identifier
+                  }
+                : result.type === IdentifierResolutionType.variable
                 ? {
                     variable: identifier
                   }
-                : undefined)
+                : { script: identifier })
             }
           : {
               range,
               type: 'error' as 'error',
               value: result.error
             };
+        return ret;
       case 'Push':
         return {
           range,
@@ -122,6 +150,7 @@ export const resolveScriptSegment = (
         };
       case 'BigIntLiteral':
         return {
+          literalType: 'BigIntLiteral' as 'BigIntLiteral',
           range,
           type: 'bytecode' as 'bytecode',
           value: bigIntToScriptNumber(child.value)
@@ -129,6 +158,7 @@ export const resolveScriptSegment = (
       case 'HexLiteral':
         return child.value.length % Constants.hexByte === 0
           ? {
+              literalType: 'HexLiteral' as 'HexLiteral',
               range,
               type: 'bytecode' as 'bytecode',
               value: hexToBin(child.value)
@@ -140,6 +170,7 @@ export const resolveScriptSegment = (
             };
       case 'UTF8Literal':
         return {
+          literalType: 'UTF8Literal' as 'UTF8Literal',
           range,
           type: 'bytecode' as 'bytecode',
           value: utf8ToBin(child.value)

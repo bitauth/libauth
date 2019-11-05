@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+// tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
 import test from 'ava';
 
 import { hexToBin } from '../../../utils/utils';
@@ -495,6 +495,7 @@ test('createCompilerBCH: debug', async t => {
     },
     resolve: [
       {
+        opcode: 'OP_DUP',
         range: {
           endColumn: 7,
           endLineNumber: 1,
@@ -505,6 +506,7 @@ test('createCompilerBCH: debug', async t => {
         value: Uint8Array.of(0x76)
       },
       {
+        opcode: 'OP_HASH160',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -557,6 +559,7 @@ test('createCompilerBCH: debug', async t => {
                 ]
               },
               {
+                opcode: 'OP_HASH160',
                 range: {
                   endColumn: 47,
                   endLineNumber: 1,
@@ -571,6 +574,7 @@ test('createCompilerBCH: debug', async t => {
         ]
       },
       {
+        opcode: 'OP_EQUALVERIFY',
         range: {
           endColumn: 64,
           endLineNumber: 1,
@@ -581,6 +585,7 @@ test('createCompilerBCH: debug', async t => {
         value: Uint8Array.of(0x88)
       },
       {
+        opcode: 'OP_CHECKSIG',
         range: {
           endColumn: 76,
           endLineNumber: 1,

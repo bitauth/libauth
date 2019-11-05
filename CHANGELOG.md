@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/bitjson/bitcoin-ts/compare/v1.6.7...v1.7.0) (2019-11-05)
+
+
+### Features
+
+* **compiler:** include source type in all bytecode resolve segments ([754ae88](https://github.com/bitjson/bitcoin-ts/commit/754ae88))
+
+
+
 ### [1.6.7](https://github.com/bitjson/bitcoin-ts/compare/v1.6.6...v1.6.7) (2019-11-05)
 
 

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ErrorState | bitcoin-ts</title>
+	<title>ResolvedSegmentScriptBytecode | bitcoin-ts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,35 +54,24 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="errorstate.html">ErrorState</a>
+					<a href="resolvedsegmentscriptbytecode.html">ResolvedSegmentScriptBytecode</a>
 				</li>
 			</ul>
-			<h1>Interface ErrorState&lt;InstructionSetError, CommonError&gt;</h1>
+			<h1>Interface ResolvedSegmentScriptBytecode</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>InstructionSetError</h4>
-					</li>
-					<li>
-						<h4>CommonError</h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ErrorState</span>
+						<span class="tsd-signature-type">ResolvedSegmentBase</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="authenticationprograminternalstatecommon.html" class="tsd-signature-type">AuthenticationProgramInternalStateCommon</a>
+								<span class="target">ResolvedSegmentScriptBytecode</span>
 							</li>
 						</ul>
 					</li>
@@ -95,7 +84,10 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="errorstate.html#error" class="tsd-kind-icon">error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="resolvedsegmentscriptbytecode.html#range" class="tsd-kind-icon">range</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="resolvedsegmentscriptbytecode.html#script" class="tsd-kind-icon">script</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="resolvedsegmentscriptbytecode.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="resolvedsegmentscriptbytecode.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,13 +95,45 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a name="range" class="tsd-anchor"></a>
+					<h3>range</h3>
+					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <a href="range.html" class="tsd-signature-type">Range</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from ResolvedSegmentBase.range</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/830d63e/src/lib/auth/templates/language/resolve.ts#L28">lib/auth/templates/language/resolve.ts:28</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="error" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> error</h3>
-					<div class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CommonError</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">InstructionSetError</span></div>
+					<a name="script" class="tsd-anchor"></a>
+					<h3>script</h3>
+					<div class="tsd-signature tsd-kind-icon">script<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/830d63e/src/lib/auth/state.ts#L119">lib/auth/state.ts:119</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/830d63e/src/lib/auth/templates/language/resolve.ts#L49">lib/auth/templates/language/resolve.ts:49</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
+					<a name="type" class="tsd-anchor"></a>
+					<h3>type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"bytecode"</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides ResolvedSegmentBase.type</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/830d63e/src/lib/auth/templates/language/resolve.ts#L50">lib/auth/templates/language/resolve.ts:50</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="value" class="tsd-anchor"></a>
+					<h3>value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/830d63e/src/lib/auth/templates/language/resolve.ts#L51">lib/auth/templates/language/resolve.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -127,11 +151,20 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="errorstate.html" class="tsd-kind-icon">Error<wbr>State</a>
+					<li class="current tsd-kind-interface tsd-is-external">
+						<a href="resolvedsegmentscriptbytecode.html" class="tsd-kind-icon">Resolved<wbr>Segment<wbr>Script<wbr>Bytecode</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+								<a href="resolvedsegmentscriptbytecode.html#range" class="tsd-kind-icon">range</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="errorstate.html#error" class="tsd-kind-icon">error</a>
+								<a href="resolvedsegmentscriptbytecode.html#script" class="tsd-kind-icon">script</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
+								<a href="resolvedsegmentscriptbytecode.html#type" class="tsd-kind-icon">type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="resolvedsegmentscriptbytecode.html#value" class="tsd-kind-icon">value</a>
 							</li>
 						</ul>
 					</li>

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/bitjson/bitcoin-ts/compare/v1.7.0...v1.7.1) (2019-11-05)
+
+
+### Bug Fixes
+
+* **types:** export ResolvedSegment types ([830d63e](https://github.com/bitjson/bitcoin-ts/commit/830d63e))
+
+
+
 ## [1.7.0](https://github.com/bitjson/bitcoin-ts/compare/v1.6.7...v1.7.0) (2019-11-05)
 
 

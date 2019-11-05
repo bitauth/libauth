@@ -9,7 +9,7 @@ const authenticationScriptParser = P.createLanguage({
   script: r =>
     P.seqMap(
       P.optWhitespace,
-      r.expression.sepBy(P.whitespace).node('Script'),
+      r.expression.sepBy(P.optWhitespace).node('Script'),
       P.optWhitespace,
       (_, expressions) => expressions
     ),

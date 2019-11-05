@@ -482,13 +482,13 @@ test('parseScript: push of a push statement', t => {
 });
 
 test('parseScript: push of an evaluation', t => {
-  t.deepEqual(parseScript('<$(<1> <2> OP_ADD)> OP_EQUAL'), {
+  t.deepEqual(parseScript('<$(<1><2> OP_ADD)> OP_EQUAL'), {
     status: true,
     value: {
       end: {
-        column: 29,
+        column: 28,
         line: 1,
-        offset: 28
+        offset: 27
       },
       name: 'Script',
       start: {
@@ -499,9 +499,9 @@ test('parseScript: push of an evaluation', t => {
       value: [
         {
           end: {
-            column: 20,
+            column: 19,
             line: 1,
-            offset: 19
+            offset: 18
           },
           name: 'Push',
           start: {
@@ -511,9 +511,9 @@ test('parseScript: push of an evaluation', t => {
           },
           value: {
             end: {
-              column: 19,
+              column: 18,
               line: 1,
-              offset: 18
+              offset: 17
             },
             name: 'Script',
             start: {
@@ -524,9 +524,9 @@ test('parseScript: push of an evaluation', t => {
             value: [
               {
                 end: {
-                  column: 19,
+                  column: 18,
                   line: 1,
-                  offset: 18
+                  offset: 17
                 },
                 name: 'Evaluation',
                 start: {
@@ -536,9 +536,9 @@ test('parseScript: push of an evaluation', t => {
                 },
                 value: {
                   end: {
-                    column: 18,
+                    column: 17,
                     line: 1,
-                    offset: 17
+                    offset: 16
                   },
                   name: 'Script',
                   start: {
@@ -591,40 +591,40 @@ test('parseScript: push of an evaluation', t => {
                     },
                     {
                       end: {
-                        column: 11,
+                        column: 10,
                         line: 1,
-                        offset: 10
+                        offset: 9
                       },
                       name: 'Push',
                       start: {
-                        column: 8,
+                        column: 7,
                         line: 1,
-                        offset: 7
+                        offset: 6
                       },
                       value: {
                         end: {
-                          column: 10,
-                          line: 1,
-                          offset: 9
-                        },
-                        name: 'Script',
-                        start: {
                           column: 9,
                           line: 1,
                           offset: 8
                         },
+                        name: 'Script',
+                        start: {
+                          column: 8,
+                          line: 1,
+                          offset: 7
+                        },
                         value: [
                           {
                             end: {
-                              column: 10,
-                              line: 1,
-                              offset: 9
-                            },
-                            name: 'BigIntLiteral',
-                            start: {
                               column: 9,
                               line: 1,
                               offset: 8
+                            },
+                            name: 'BigIntLiteral',
+                            start: {
+                              column: 8,
+                              line: 1,
+                              offset: 7
                             },
                             value: BigInt(2)
                           }
@@ -633,15 +633,15 @@ test('parseScript: push of an evaluation', t => {
                     },
                     {
                       end: {
-                        column: 18,
+                        column: 17,
                         line: 1,
-                        offset: 17
+                        offset: 16
                       },
                       name: 'Identifier',
                       start: {
-                        column: 12,
+                        column: 11,
                         line: 1,
-                        offset: 11
+                        offset: 10
                       },
                       value: 'OP_ADD'
                     }
@@ -653,15 +653,15 @@ test('parseScript: push of an evaluation', t => {
         },
         {
           end: {
-            column: 29,
+            column: 28,
             line: 1,
-            offset: 28
+            offset: 27
           },
           name: 'Identifier',
           start: {
-            column: 21,
+            column: 20,
             line: 1,
-            offset: 20
+            offset: 19
           },
           value: 'OP_EQUAL'
         }
@@ -672,11 +672,11 @@ test('parseScript: push of an evaluation', t => {
 
 test('parseScript: invalid identifier characters', t => {
   t.deepEqual(parseScript('test_$variable'), {
-    expected: ['EOF', 'whitespace'],
+    expected: ["the opening parenthesis of this evaluation ('(')"],
     index: {
-      column: 6,
+      column: 7,
       line: 1,
-      offset: 5
+      offset: 6
     },
     status: false
   });
@@ -703,33 +703,118 @@ test('parseScript: incomplete UTF8Literal', t => {
   });
 });
 
-test('parseScript: incomplete BigIntLiteral', t => {
-  t.deepEqual(parseScript('1234a 42 "abc"'), {
-    expected: ['EOF', 'whitespace'],
-    index: {
-      column: 5,
-      line: 1,
-      offset: 4
-    },
-    status: false
+test('parseScript: BigIntLiteral without trailing whitespace', t => {
+  t.deepEqual(parseScript('1234a'), {
+    status: true,
+    value: {
+      end: {
+        column: 6,
+        line: 1,
+        offset: 5
+      },
+      name: 'Script',
+      start: {
+        column: 1,
+        line: 1,
+        offset: 0
+      },
+      value: [
+        {
+          end: {
+            column: 5,
+            line: 1,
+            offset: 4
+          },
+          name: 'BigIntLiteral',
+          start: {
+            column: 1,
+            line: 1,
+            offset: 0
+          },
+          value: BigInt(1234)
+        },
+        {
+          end: {
+            column: 6,
+            line: 1,
+            offset: 5
+          },
+          name: 'Identifier',
+          start: {
+            column: 5,
+            line: 1,
+            offset: 4
+          },
+          value: 'a'
+        }
+      ]
+    }
   });
 });
 
-test('parseScript: incomplete HexLiteral', t => {
+test('parseScript: HexLiteral without trailing whitespace', t => {
   t.deepEqual(parseScript('0x010203f'), {
-    expected: ['EOF', 'whitespace'],
-    index: {
-      column: 9,
-      line: 1,
-      offset: 8
-    },
-    status: false
+    status: true,
+    value: {
+      end: {
+        column: 10,
+        line: 1,
+        offset: 9
+      },
+      name: 'Script',
+      start: {
+        column: 1,
+        line: 1,
+        offset: 0
+      },
+      value: [
+        {
+          end: {
+            column: 9,
+            line: 1,
+            offset: 8
+          },
+          name: 'HexLiteral',
+          start: {
+            column: 1,
+            line: 1,
+            offset: 0
+          },
+          value: '010203'
+        },
+        {
+          end: {
+            column: 10,
+            line: 1,
+            offset: 9
+          },
+          name: 'Identifier',
+          start: {
+            column: 9,
+            line: 1,
+            offset: 8
+          },
+          value: 'f'
+        }
+      ]
+    }
   });
 });
 
 test('parseScript: incomplete push', t => {
   t.deepEqual(parseScript('<my_var'), {
-    expected: ["the end of this push statement ('>')", 'whitespace'],
+    expected: [
+      'a double quote (")',
+      "a hex literal ('0x...')",
+      "a single quote (')",
+      'a valid identifier',
+      'an integer literal',
+      "the end of this push statement ('>')",
+      "the start of a multi-line comment ('/*')",
+      "the start of a push statement ('<')",
+      "the start of a single-line comment ('//')",
+      "the start of an evaluation ('$')"
+    ],
     index: {
       column: 8,
       line: 1,

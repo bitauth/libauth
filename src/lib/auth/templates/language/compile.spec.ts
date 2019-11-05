@@ -30,11 +30,11 @@ test('compileScript: clean errors on unexpected input', t => {
     errors: [
       {
         error:
-          'Encountered unexpected input while parsing script. Expected whitespace or the end of the script.',
+          "Encountered unexpected input while parsing script. Expected the opening parenthesis of this evaluation ('(').",
         range: {
-          endColumn: 3,
+          endColumn: 4,
           endLineNumber: 1,
-          startColumn: 3,
+          startColumn: 4,
           startLineNumber: 1
         }
       }

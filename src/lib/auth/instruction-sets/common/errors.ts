@@ -3,7 +3,7 @@ import { ErrorState } from '../../state';
 export enum AuthenticationErrorCommon {
   calledReserved = 'Program called an unassigned, reserved operation.',
   calledReturn = 'Program called an OP_RETURN operation.',
-  calledUpgradableNop = 'Program called an disallowed upgradable non-operation (OP_NOP1-OP_NOP10).',
+  calledUpgradableNop = 'Program called a disallowed upgradable non-operation (OP_NOP1-OP_NOP10).',
   checkSequenceUnavailable = 'Program called an OP_CHECKSEQUENCEVERIFY operation, but OP_CHECKSEQUENCEVERIFY requires transaction version 2 or higher.',
   disabledOpcode = 'Program contains a disabled opcode.',
   emptyAlternateStack = 'Tried to read from an empty alternate stack.',

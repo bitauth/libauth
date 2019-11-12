@@ -216,9 +216,11 @@ export const evaluateInstructionAggregations = <
   const firstInvalidSample = samples.findIndex(
     sample => sample.state === undefined
   );
-  const errorSample = samples[firstInvalidSample - 1] as
-    | EvaluationSample<ProgramState>
-    | undefined;
+  const errorSample =
+    (samples[firstInvalidSample - 1] as
+      | EvaluationSample<ProgramState>
+      | undefined) ||
+    (samples[firstInvalidSample] as EvaluationSample<ProgramState> | undefined);
   return errorSample === undefined
     ? {
         samples: samples as Array<EvaluationSampleValid<ProgramState>>,

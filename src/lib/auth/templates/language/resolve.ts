@@ -7,7 +7,7 @@ import {
 } from '../../auth';
 import { AuthenticationTemplateVariable } from '../types';
 
-import { compileScript } from './compile';
+import { CompilationResultSuccess, compileScript } from './compile';
 import { BtlScriptSegment, MarkedNode } from './parse';
 
 export interface Range {
@@ -47,6 +47,7 @@ export interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
 
 export interface ResolvedSegmentScriptBytecode extends ResolvedSegmentBase {
   script: string;
+  source: ResolvedScript;
   type: 'bytecode';
   value: Uint8Array;
 }
@@ -97,7 +98,17 @@ export enum IdentifierResolutionType {
 export type IdentifierResolutionFunction = (
   identifier: string
 ) =>
-  | { bytecode: Uint8Array; status: true; type: IdentifierResolutionType }
+  | {
+      bytecode: Uint8Array;
+      status: true;
+      type: IdentifierResolutionType.opcode | IdentifierResolutionType.variable;
+    }
+  | {
+      bytecode: Uint8Array;
+      source: ResolvedScript;
+      status: true;
+      type: IdentifierResolutionType.script;
+    }
   | { error: string; status: false };
 
 enum Constants {
@@ -128,7 +139,9 @@ export const resolveScriptSegment = (
                 ? {
                     variable: identifier
                   }
-                : { script: identifier })
+                : result.type === IdentifierResolutionType.script
+                ? { script: identifier, source: result.source }
+                : { opcode: identifier })
             }
           : {
               range,
@@ -526,8 +539,8 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
  *
  * @remarks
  * If the identifer can be successfully resolved as a script, the script is
- * compiled and returned as a `Uint8Array`. If an error occurs in compiling it,
- * the error is returned as a string.
+ * compiled and returned as a CompilationResultSuccess. If an error occurs in
+ * compiling it, the error is returned as a string.
  *
  * Otherwise, the identifier is not recognized as a script, and this method
  * simply returns `false`.
@@ -539,12 +552,12 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
  * script being resolved (for detecting circular dependencies)
  */
 // tslint:disable-next-line: cyclomatic-complexity
-export const resolveScriptIdentifier = <CompilerOperationData>(
+export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
   identifier: string,
   data: CompilationData<CompilerOperationData>,
   environment: CompilationEnvironment<CompilerOperationData>,
   parentIdentifier?: string
-): Uint8Array | string | false => {
+): CompilationResultSuccess<ProgramState> | string | false => {
   // tslint:disable-next-line: no-if-statement
   if ((environment.scripts[identifier] as string | undefined) === undefined) {
     return false;
@@ -569,7 +582,7 @@ export const resolveScriptIdentifier = <CompilerOperationData>(
     ]
   });
   return result.success
-    ? result.bytecode
+    ? result
     : `Compilation error in resolved script, ${identifier}: ${result.errors.join(
         ', '
       )}`;
@@ -629,7 +642,8 @@ export const createIdentifierResolver = <CompilerOperationData>(
       return typeof scriptResult === 'string'
         ? { status: false, error: scriptResult }
         : {
-            bytecode: scriptResult,
+            bytecode: scriptResult.bytecode,
+            source: scriptResult.resolve,
             status: true,
             type: IdentifierResolutionType.script
           };

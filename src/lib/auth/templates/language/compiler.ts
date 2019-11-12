@@ -279,7 +279,7 @@ export const compilerOperationBCHGenerateDataSignature = <
     if (sha256 === undefined) {
       return ScriptGenerationError.missingSha256;
     }
-    const digest = sha256.hash(compiledTarget);
+    const digest = sha256.hash(compiledTarget.bytecode);
     return signingAlgorithm(secp256k1)(privateKey, digest);
   }
   return `Identifier "${identifier}" refers to a data signature, but no signatures or private keys for "${variableId}" were provided in the compilation data.`;

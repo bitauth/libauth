@@ -939,7 +939,7 @@ test('compileScript: variable and script inclusion', t => {
         OP_1: Uint8Array.of(0x51),
         OP_ADD: Uint8Array.of(0x93)
       },
-      scripts: { script_OP_1: 'OP_1', t: 'script_OP_1 var_OP_2 OP_ADD' },
+      scripts: { push_numbers: 'OP_1 var_OP_2', t: 'push_numbers OP_ADD' },
       variables: {
         var_OP_2: {
           description: 'Gets added to OP_1',
@@ -953,9 +953,9 @@ test('compileScript: variable and script inclusion', t => {
     bytecode: Uint8Array.of(0x51, 0x52, 0x93),
     parse: {
       end: {
-        column: 28,
+        column: 20,
         line: 1,
-        offset: 27
+        offset: 19
       },
       name: 'Script',
       start: {
@@ -966,9 +966,9 @@ test('compileScript: variable and script inclusion', t => {
       value: [
         {
           end: {
-            column: 12,
+            column: 13,
             line: 1,
-            offset: 11
+            offset: 12
           },
           name: 'Identifier',
           start: {
@@ -976,33 +976,19 @@ test('compileScript: variable and script inclusion', t => {
             line: 1,
             offset: 0
           },
-          value: 'script_OP_1'
+          value: 'push_numbers'
         },
         {
           end: {
-            column: 21,
+            column: 20,
             line: 1,
-            offset: 20
+            offset: 19
           },
           name: 'Identifier',
           start: {
-            column: 13,
+            column: 14,
             line: 1,
-            offset: 12
-          },
-          value: 'var_OP_2'
-        },
-        {
-          end: {
-            column: 28,
-            line: 1,
-            offset: 27
-          },
-          name: 'Identifier',
-          start: {
-            column: 22,
-            line: 1,
-            offset: 21
+            offset: 13
           },
           value: 'OP_ADD'
         }
@@ -1011,36 +997,27 @@ test('compileScript: variable and script inclusion', t => {
     reduce: {
       bytecode: Uint8Array.of(0x51, 0x52, 0x93),
       range: {
-        endColumn: 28,
+        endColumn: 20,
         endLineNumber: 1,
         startColumn: 1,
         startLineNumber: 1
       },
       source: [
         {
-          bytecode: Uint8Array.of(0x51),
+          bytecode: Uint8Array.of(0x51, 0x52),
           range: {
-            endColumn: 12,
+            endColumn: 13,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1
           }
         },
         {
-          bytecode: Uint8Array.of(0x52),
-          range: {
-            endColumn: 21,
-            endLineNumber: 1,
-            startColumn: 13,
-            startLineNumber: 1
-          }
-        },
-        {
           bytecode: Uint8Array.of(0x93),
           range: {
-            endColumn: 28,
+            endColumn: 20,
             endLineNumber: 1,
-            startColumn: 22,
+            startColumn: 14,
             startLineNumber: 1
           }
         }
@@ -1049,32 +1026,45 @@ test('compileScript: variable and script inclusion', t => {
     resolve: [
       {
         range: {
-          endColumn: 12,
+          endColumn: 13,
           endLineNumber: 1,
           startColumn: 1,
           startLineNumber: 1
         },
-        script: 'script_OP_1',
+        script: 'push_numbers',
+        source: [
+          {
+            opcode: 'OP_1',
+            range: {
+              endColumn: 5,
+              endLineNumber: 1,
+              startColumn: 1,
+              startLineNumber: 1
+            },
+            type: 'bytecode',
+            value: Uint8Array.of(0x51)
+          },
+          {
+            range: {
+              endColumn: 14,
+              endLineNumber: 1,
+              startColumn: 6,
+              startLineNumber: 1
+            },
+            type: 'bytecode',
+            value: Uint8Array.of(0x52),
+            variable: 'var_OP_2'
+          }
+        ],
         type: 'bytecode',
-        value: Uint8Array.of(0x51)
-      },
-      {
-        range: {
-          endColumn: 21,
-          endLineNumber: 1,
-          startColumn: 13,
-          startLineNumber: 1
-        },
-        type: 'bytecode',
-        value: Uint8Array.of(0x52),
-        variable: 'var_OP_2'
+        value: Uint8Array.of(0x51, 0x52)
       },
       {
         opcode: 'OP_ADD',
         range: {
-          endColumn: 28,
+          endColumn: 20,
           endLineNumber: 1,
-          startColumn: 22,
+          startColumn: 14,
           startLineNumber: 1
         },
         type: 'bytecode',

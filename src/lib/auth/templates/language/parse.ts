@@ -83,7 +83,7 @@ const authenticationScriptParser = P.createLanguage({
       (__, literal) => literal
     ).node('HexLiteral'),
   bigint: _ =>
-    P.regexp(/[\-0-9]+/)
+    P.regexp(/-?[0-9]+/)
       .desc('an integer literal')
       .map(BigInt)
       .node('BigIntLiteral')

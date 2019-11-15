@@ -10,6 +10,9 @@ import {
   readBitcoinVarInt
 } from './utils/utils';
 
+/**
+ * Data type representing a Transaction Input.
+ */
 export interface Input {
   /**
    * The index of the output in the transaction from which this input is spent.
@@ -53,6 +56,9 @@ export interface Input {
   unlockingBytecode: Uint8Array;
 }
 
+/**
+ * Data type representing a Transaction Output.
+ */
 export interface Output {
   /**
    * The bytecode used to encumber a transaction output. To spend the output,
@@ -69,6 +75,9 @@ export interface Output {
   readonly satoshis: bigint;
 }
 
+/**
+ * Data type representing a Transaction.
+ */
 export interface Transaction {
   /** TODO: */
   inputs: Input[];
@@ -298,7 +307,7 @@ export const getBitcoinTransactionId = (
 ) => binToHex(getBitcoinIdentifier(transaction, sha256));
 
 /**
- * Get the hash of a output. (For use in `hashCorrespondingOutput`.)
+ * Get the hash of an output. (For use in `hashCorrespondingOutput`.)
  * @param output the output to hash
  * @param sha256 an implementation of sha256
  */

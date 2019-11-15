@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.2](https://github.com/bitjson/bitcoin-ts/compare/v1.8.1...v1.8.2) (2019-11-15)
+
+
+### Bug Fixes
+
+* **compiler:** stringify error messages inside resolved scripts ([d147c75](https://github.com/bitjson/bitcoin-ts/commit/d147c75))
+* **parser:** fix crash on improper negative BigIntLiterals, e.g. "42-" ([5547ee7](https://github.com/bitjson/bitcoin-ts/commit/5547ee7))
+
+
+
 ### [1.8.1](https://github.com/bitjson/bitcoin-ts/compare/v1.8.0...v1.8.1) (2019-11-12)
 
 

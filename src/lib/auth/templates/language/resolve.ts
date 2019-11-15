@@ -583,9 +583,12 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
   });
   return result.success
     ? result
-    : `Compilation error in resolved script, ${identifier}: ${result.errors.join(
-        ', '
-      )}`;
+    : `Compilation error in resolved script, ${identifier}: ${result.errors
+        .map(
+          ({ error, range }) =>
+            `${error} [${range.startLineNumber}, ${range.startColumn}]`
+        )
+        .join(', ')}`;
 };
 
 /**

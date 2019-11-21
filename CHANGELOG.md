@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/bitjson/bitcoin-ts/compare/v1.9.0...v1.10.0) (2019-11-21)
+
+
+### Features
+
+* **compiler:** add signing_serialization.covered_bytecode_prefix to operations ([8989592](https://github.com/bitjson/bitcoin-ts/commit/8989592))
+
+
+
 ## [1.9.0](https://github.com/bitjson/bitcoin-ts/compare/v1.8.2...v1.9.0) (2019-11-21)
 
 

@@ -219,6 +219,17 @@ test(
 );
 
 test(
+  'BCH compiler: built-in variables – signing_serialization.covered_bytecode_prefix',
+  expectCompilationResult,
+  '<signing_serialization.covered_bytecode_prefix>',
+  {},
+  {
+    bytecode: hexToBin('0100'),
+    success: true
+  }
+);
+
+test(
   'BCH compiler: built-in variables – signing_serialization.covered_bytecode',
   expectCompilationResult,
   '<signing_serialization.covered_bytecode>',

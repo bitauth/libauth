@@ -3,7 +3,11 @@ import {
   instantiateSha256,
   Secp256k1
 } from '../../../crypto/crypto';
-import { bigIntToBinUint64LE, numberToBinUint32LE } from '../../../utils/utils';
+import {
+  bigIntToBinUint64LE,
+  bigIntToBitcoinVarInt,
+  numberToBinUint32LE
+} from '../../../utils/utils';
 import {
   AuthenticationInstruction,
   createAuthenticationProgramExternalStateCommonEmpty,
@@ -84,6 +88,7 @@ export type CompilerOperationsSigningSerializationComponentBCH =
   | 'transaction_sequence_numbers_hash'
   | 'outpoint_transaction_hash'
   | 'outpoint_index'
+  | 'covered_bytecode_prefix'
   | 'covered_bytecode'
   | 'output_value'
   | 'sequence_number'
@@ -348,6 +353,10 @@ export const compilerOperationBCHGenerateSigningSerialization = <
     ) {
       case 'corresponding_output_hash':
         return operationData.hashCorrespondingOutput();
+      case 'covered_bytecode_prefix':
+        return bigIntToBitcoinVarInt(
+          BigInt(operationData.coveredBytecode.length)
+        );
       case 'covered_bytecode':
         return operationData.coveredBytecode;
       case 'locktime':
@@ -442,6 +451,7 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
     corresponding_output_hash: compilerOperationBCHGenerateSigningSerialization,
     corresponding_output_single_input: compilerOperationBCHGenerateSigningSerialization,
     covered_bytecode: compilerOperationBCHGenerateSigningSerialization,
+    covered_bytecode_prefix: compilerOperationBCHGenerateSigningSerialization,
     locktime: compilerOperationBCHGenerateSigningSerialization,
     no_outputs: compilerOperationBCHGenerateSigningSerialization,
     no_outputs_single_input: compilerOperationBCHGenerateSigningSerialization,

@@ -79,13 +79,40 @@ export interface Output {
  * Data type representing a Transaction.
  */
 export interface Transaction {
-  /** TODO: */
+  /**
+   * An array of inputs included in this transaction.
+   *
+   * Input order is critical to signing serializations, and reordering inputs
+   * may invalidate transactions.
+   */
   inputs: Input[];
-  /** TODO: */
+  /**
+   * The locktime at which this transaction is considered valid.
+   *
+   * Locktime can be provided as either a timestamp or a block height. Values
+   * less than `500000000` are understood to be a block height (the current
+   * block number in the chain, beginning from block 0). Values greater than or
+   * equal to `500000000` are understood to be a UNIX timestamp.
+   *
+   * For validating timestamp values, the median timestamp of the last 11 blocks
+   * is used. The precise behavior is defined in BIP113.
+   *
+   * If the `sequenceNumber` of every transaction input is set to `0xffffffff`
+   * (4294967295), locktime is ignored, and the transaction may be added to a
+   * block (even if the specified locktime has not yet been reached).
+   */
   locktime: number;
-  /** TODO: */
+  /**
+   * An array of outputs included in this transaction.
+   *
+   * Output order is critical to signing serializations, and reordering outputs
+   * may invalidate transactions.
+   */
   outputs: Output[];
-  /** TODO: */
+  /**
+   * The version of this transaction. Since BIP68, most transactions use a
+   * version of `2`.
+   */
   version: number;
 }
 

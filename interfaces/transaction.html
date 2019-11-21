@@ -103,13 +103,15 @@
 					<div class="tsd-signature tsd-kind-icon">inputs<span class="tsd-signature-symbol">:</span> <a href="input.html" class="tsd-signature-type">Input</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/transaction.ts#L83">lib/transaction.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/transaction.ts#L88">lib/transaction.ts:88</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO:</p>
+							<p>An array of inputs included in this transaction.</p>
 						</div>
+						<p>Input order is critical to signing serializations, and reordering inputs
+						may invalidate transactions.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -118,13 +120,22 @@
 					<div class="tsd-signature tsd-kind-icon">locktime<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/transaction.ts#L85">lib/transaction.ts:85</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/transaction.ts#L104">lib/transaction.ts:104</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO:</p>
+							<p>The locktime at which this transaction is considered valid.</p>
 						</div>
+						<p>Locktime can be provided as either a timestamp or a block height. Values
+							less than <code>500000000</code> are understood to be a block height (the current
+							block number in the chain, beginning from block 0). Values greater than or
+						equal to <code>500000000</code> are understood to be a UNIX timestamp.</p>
+						<p>For validating timestamp values, the median timestamp of the last 11 blocks
+						is used. The precise behavior is defined in BIP113.</p>
+						<p>If the <code>sequenceNumber</code> of every transaction input is set to <code>0xffffffff</code>
+							(4294967295), locktime is ignored, and the transaction may be added to a
+						block (even if the specified locktime has not yet been reached).</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -133,13 +144,15 @@
 					<div class="tsd-signature tsd-kind-icon">outputs<span class="tsd-signature-symbol">:</span> <a href="output.html" class="tsd-signature-type">Output</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/transaction.ts#L87">lib/transaction.ts:87</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/transaction.ts#L111">lib/transaction.ts:111</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO:</p>
+							<p>An array of outputs included in this transaction.</p>
 						</div>
+						<p>Output order is critical to signing serializations, and reordering outputs
+						may invalidate transactions.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -148,12 +161,13 @@
 					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/transaction.ts#L89">lib/transaction.ts:89</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/transaction.ts#L116">lib/transaction.ts:116</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO:</p>
+							<p>The version of this transaction. Since BIP68, most transactions use a
+							version of <code>2</code>.</p>
 						</div>
 					</div>
 				</section>

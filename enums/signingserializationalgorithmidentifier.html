@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CurrentBlockHeight | bitcoin-ts</title>
+	<title>SigningSerializationAlgorithmIdentifier | bitcoin-ts</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,122 +54,123 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="currentblockheight.html">CurrentBlockHeight</a>
+					<a href="signingserializationalgorithmidentifier.html">SigningSerializationAlgorithmIdentifier</a>
 				</li>
 			</ul>
-			<h1>Interface CurrentBlockHeight</h1>
+			<h1>Enumeration SigningSerializationAlgorithmIdentifier</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<a href="authenticationtemplatevariablebase.html" class="tsd-signature-type">AuthenticationTemplateVariableBase</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">CurrentBlockHeight</span>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
-							<h3>Properties</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="currentblockheight.html#description" class="tsd-kind-icon">description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="currentblockheight.html#mock" class="tsd-kind-icon">mock</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="currentblockheight.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="currentblockheight.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="signingserializationalgorithmidentifier.html#all_outputs" class="tsd-kind-icon">all_<wbr>outputs</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="signingserializationalgorithmidentifier.html#all_outputs_single_input" class="tsd-kind-icon">all_<wbr>outputs_<wbr>single_<wbr>input</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="signingserializationalgorithmidentifier.html#corresponding_output" class="tsd-kind-icon">corresponding_<wbr>output</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="signingserializationalgorithmidentifier.html#corresponding_output_single_input" class="tsd-kind-icon">corresponding_<wbr>output_<wbr>single_<wbr>input</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="signingserializationalgorithmidentifier.html#no_outputs" class="tsd-kind-icon">no_<wbr>outputs</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="signingserializationalgorithmidentifier.html#no_outputs_single_input" class="tsd-kind-icon">no_<wbr>outputs_<wbr>single_<wbr>input</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="description" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> description</h3>
-					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="all_outputs" class="tsd-anchor"></a>
+					<h3>all_<wbr>outputs</h3>
+					<div class="tsd-signature tsd-kind-icon">all_<wbr>outputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;all_outputs&quot;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#description">description</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/auth/templates/types.ts#L153">lib/auth/templates/types.ts:153</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/auth/templates/language/compiler.ts#L58">lib/auth/templates/language/compiler.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A single-line, human readable description for this variable (for use in
-							user interfaces).</p>
+							<p>A.K.A. <code>SIGHASH_ALL</code></p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="mock" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mock</h3>
-					<div class="tsd-signature tsd-kind-icon">mock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="all_outputs_single_input" class="tsd-anchor"></a>
+					<h3>all_<wbr>outputs_<wbr>single_<wbr>input</h3>
+					<div class="tsd-signature tsd-kind-icon">all_<wbr>outputs_<wbr>single_<wbr>input<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;all_outputs_single_input&quot;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#mock">mock</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/auth/templates/types.ts#L168">lib/auth/templates/types.ts:168</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/auth/templates/language/compiler.ts#L62">lib/auth/templates/language/compiler.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The BTL-encoded test value for this variable. This test value is used
-								during development and can provide validation when importing this template
-							into a new system.</p>
-						</div>
-						<p>When testing, all variables for all entities are initialized to their
-							<code>mock</code> and each unlocking script is tested against the locking script,
-							ensuring it is able to unlock it. For inline scripts, variables are also
-						initialized to their <code>mock</code>s when evaluating inline script tests.</p>
-						<p>Note, <code>mock</code> is itself defined in BTL syntax, but mock scripts do not have
-							access to evaluations, other variables, or scripts. (Hex, BigInt, and UTF8
-						literals are permissible, as well as push notation and comments.)</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="name" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#name">name</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/auth/templates/types.ts#L173">lib/auth/templates/types.ts:173</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A single-line, Title Case, human-readable name for this variable (for use
-							in user interfaces).</p>
+							<p>A.K.A. <code>SIGHASH_ALL|ANYONE_CAN_PAY</code></p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"CurrentBlockHeight"</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="corresponding_output" class="tsd-anchor"></a>
+					<h3>corresponding_<wbr>output</h3>
+					<div class="tsd-signature tsd-kind-icon">corresponding_<wbr>output<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;corresponding_output&quot;</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/be710fe/src/lib/auth/templates/types.ts#L321">lib/auth/templates/types.ts:321</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/auth/templates/language/compiler.ts#L66">lib/auth/templates/language/compiler.ts:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The <code>CurrentBlockHeight</code> type provides the current block height as a Script
-								Number. This is useful when computing a height for OP_CHECKLOCKTIMEVERIFY
-								which is relative to the height at the moment a script is created (usually,
-							a locking script).</p>
+							<p>A.K.A. <code>SIGHASH_SINGLE</code></p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="corresponding_output_single_input" class="tsd-anchor"></a>
+					<h3>corresponding_<wbr>output_<wbr>single_<wbr>input</h3>
+					<div class="tsd-signature tsd-kind-icon">corresponding_<wbr>output_<wbr>single_<wbr>input<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;corresponding_output_single_input&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/auth/templates/language/compiler.ts#L70">lib/auth/templates/language/compiler.ts:70</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A. <code>SIGHASH_SINGLE|ANYONE_CAN_PAY</code></p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="no_outputs" class="tsd-anchor"></a>
+					<h3>no_<wbr>outputs</h3>
+					<div class="tsd-signature tsd-kind-icon">no_<wbr>outputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;no_outputs&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/auth/templates/language/compiler.ts#L74">lib/auth/templates/language/compiler.ts:74</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A <code>SIGHASH_NONE</code></p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="no_outputs_single_input" class="tsd-anchor"></a>
+					<h3>no_<wbr>outputs_<wbr>single_<wbr>input</h3>
+					<div class="tsd-signature tsd-kind-icon">no_<wbr>outputs_<wbr>single_<wbr>input<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;no_outputs_single_input&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/6e8f1c3/src/lib/auth/templates/language/compiler.ts#L78">lib/auth/templates/language/compiler.ts:78</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A <code>SIGHASH_NONE|ANYONE_CAN_PAY</code></p>
 						</div>
 					</div>
 				</section>
@@ -187,20 +188,26 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="currentblockheight.html" class="tsd-kind-icon">Current<wbr>Block<wbr>Height</a>
+					<li class="current tsd-kind-enum tsd-is-external">
+						<a href="signingserializationalgorithmidentifier.html" class="tsd-kind-icon">Signing<wbr>Serialization<wbr>Algorithm<wbr>Identifier</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="currentblockheight.html#description" class="tsd-kind-icon">description</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="signingserializationalgorithmidentifier.html#all_outputs" class="tsd-kind-icon">all_<wbr>outputs</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="currentblockheight.html#mock" class="tsd-kind-icon">mock</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="signingserializationalgorithmidentifier.html#all_outputs_single_input" class="tsd-kind-icon">all_<wbr>outputs_<wbr>single_<wbr>input</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="currentblockheight.html#name" class="tsd-kind-icon">name</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="signingserializationalgorithmidentifier.html#corresponding_output" class="tsd-kind-icon">corresponding_<wbr>output</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
-								<a href="currentblockheight.html#type" class="tsd-kind-icon">type</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="signingserializationalgorithmidentifier.html#corresponding_output_single_input" class="tsd-kind-icon">corresponding_<wbr>output_<wbr>single_<wbr>input</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="signingserializationalgorithmidentifier.html#no_outputs" class="tsd-kind-icon">no_<wbr>outputs</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="signingserializationalgorithmidentifier.html#no_outputs_single_input" class="tsd-kind-icon">no_<wbr>outputs_<wbr>single_<wbr>input</a>
 							</li>
 						</ul>
 					</li>

@@ -1074,3 +1074,111 @@ test('compileScript: variable and script inclusion', t => {
     success: true
   });
 });
+
+test('compileScript: comments', t => {
+  t.deepEqual(
+    compileScript(
+      't',
+      {},
+      { scripts: { t: '// single-line\n  /* multi-\nline */' } }
+    ),
+    {
+      bytecode: Uint8Array.of(),
+      parse: {
+        end: {
+          column: 8,
+          line: 3,
+          offset: 34
+        },
+        name: 'Script',
+        start: {
+          column: 1,
+          line: 1,
+          offset: 0
+        },
+        value: [
+          {
+            end: {
+              column: 15,
+              line: 1,
+              offset: 14
+            },
+            name: 'Comment',
+            start: {
+              column: 1,
+              line: 1,
+              offset: 0
+            },
+            value: 'single-line'
+          },
+          {
+            end: {
+              column: 8,
+              line: 3,
+              offset: 34
+            },
+            name: 'Comment',
+            start: {
+              column: 3,
+              line: 2,
+              offset: 17
+            },
+            value: 'multi-\nline'
+          }
+        ]
+      },
+      reduce: {
+        bytecode: Uint8Array.of(),
+        range: {
+          endColumn: 8,
+          endLineNumber: 3,
+          startColumn: 1,
+          startLineNumber: 1
+        },
+        source: [
+          {
+            bytecode: Uint8Array.of(),
+            range: {
+              endColumn: 15,
+              endLineNumber: 1,
+              startColumn: 1,
+              startLineNumber: 1
+            }
+          },
+          {
+            bytecode: Uint8Array.of(),
+            range: {
+              endColumn: 8,
+              endLineNumber: 3,
+              startColumn: 3,
+              startLineNumber: 2
+            }
+          }
+        ]
+      },
+      resolve: [
+        {
+          range: {
+            endColumn: 15,
+            endLineNumber: 1,
+            startColumn: 1,
+            startLineNumber: 1
+          },
+          type: 'comment',
+          value: 'single-line'
+        },
+        {
+          range: {
+            endColumn: 8,
+            endLineNumber: 3,
+            startColumn: 3,
+            startLineNumber: 2
+          },
+          type: 'comment',
+          value: 'multi-\nline'
+        }
+      ],
+      success: true
+    }
+  );
+});

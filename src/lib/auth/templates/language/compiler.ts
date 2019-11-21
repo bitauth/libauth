@@ -3,6 +3,7 @@ import {
   instantiateSha256,
   Secp256k1
 } from '../../../crypto/crypto';
+import { bigIntToBinUint64LE, numberToBinUint32LE } from '../../../utils/utils';
 import {
   AuthenticationInstruction,
   createAuthenticationProgramExternalStateCommonEmpty,
@@ -43,14 +44,14 @@ export interface CompilerOperationDataBCH {
   version: number;
 }
 
-export type CompilerKeyOperationsBCH =
+export type CompilerOperationsKeyBCH =
   | 'data_signature'
   | 'public_key'
   | 'schnorr_data_signature'
   | 'schnorr_signature'
   | 'signature';
 
-export enum SigningSerializationIdentifier {
+export enum SigningSerializationAlgorithmIdentifier {
   /**
    * A.K.A. `SIGHASH_ALL`
    */
@@ -77,6 +78,27 @@ export enum SigningSerializationIdentifier {
   no_outputs_single_input = 'no_outputs_single_input'
 }
 
+export type CompilerOperationsSigningSerializationComponentBCH =
+  | 'version'
+  | 'transaction_outpoints_hash'
+  | 'transaction_sequence_numbers_hash'
+  | 'outpoint_transaction_hash'
+  | 'outpoint_index'
+  | 'covered_bytecode'
+  | 'output_value'
+  | 'sequence_number'
+  | 'corresponding_output_hash'
+  | 'transaction_outputs_hash'
+  | 'locktime';
+
+export type CompilerOperationsSigningSerializationBCH =
+  | CompilerOperationsSigningSerializationComponentBCH
+  | SigningSerializationAlgorithmIdentifier;
+
+export type CompilerOperationsBCH =
+  | CompilerOperationsKeyBCH
+  | CompilerOperationsSigningSerializationBCH;
+
 enum ScriptGenerationError {
   missingVm = 'An evaluation is required, but no VM was provided.',
   missingSha256 = 'Sha256 is required, but no implementation was provided.',
@@ -84,41 +106,39 @@ enum ScriptGenerationError {
 }
 
 // tslint:disable-next-line: cyclomatic-complexity
-const getSigningSerializationType = (
-  signingSerializationIdentifier: string
-) => {
-  switch (signingSerializationIdentifier) {
-    case SigningSerializationIdentifier.all_outputs:
+const getSigningSerializationType = (algorithmIdentifier: string) => {
+  switch (algorithmIdentifier) {
+    case SigningSerializationAlgorithmIdentifier.all_outputs:
       return Uint8Array.of(
         // tslint:disable-next-line: no-bitwise
         SigningSerializationFlag.all_outputs | SigningSerializationFlag.fork_id
       );
-    case SigningSerializationIdentifier.all_outputs_single_input:
+    case SigningSerializationAlgorithmIdentifier.all_outputs_single_input:
       return Uint8Array.of(
         // tslint:disable-next-line: no-bitwise
         SigningSerializationFlag.all_outputs |
           SigningSerializationFlag.single_input |
           SigningSerializationFlag.fork_id
       );
-    case SigningSerializationIdentifier.corresponding_output:
+    case SigningSerializationAlgorithmIdentifier.corresponding_output:
       return Uint8Array.of(
         // tslint:disable-next-line: no-bitwise
         SigningSerializationFlag.corresponding_output |
           SigningSerializationFlag.fork_id
       );
-    case SigningSerializationIdentifier.corresponding_output_single_input:
+    case SigningSerializationAlgorithmIdentifier.corresponding_output_single_input:
       return Uint8Array.of(
         // tslint:disable-next-line: no-bitwise
         SigningSerializationFlag.corresponding_output |
           SigningSerializationFlag.single_input |
           SigningSerializationFlag.fork_id
       );
-    case SigningSerializationIdentifier.no_outputs:
+    case SigningSerializationAlgorithmIdentifier.no_outputs:
       return Uint8Array.of(
         // tslint:disable-next-line: no-bitwise
         SigningSerializationFlag.no_outputs | SigningSerializationFlag.fork_id
       );
-    case SigningSerializationIdentifier.no_outputs_single_input:
+    case SigningSerializationAlgorithmIdentifier.no_outputs_single_input:
       return Uint8Array.of(
         // tslint:disable-next-line: no-bitwise
         SigningSerializationFlag.no_outputs |
@@ -130,7 +150,7 @@ const getSigningSerializationType = (
   }
 };
 
-enum SignatureIdentifier {
+enum SignatureIdentifierConstants {
   variableIdIndex = 0,
   signingTargetIndex = 2,
   expectedSegments = 3
@@ -162,18 +182,19 @@ export const compilerOperationBCHGenerateSignature = <
   }
   const identifierSegments = identifier.split('.');
   // tslint:disable-next-line: no-if-statement
-  if (identifierSegments.length !== SignatureIdentifier.expectedSegments) {
+  if (
+    identifierSegments.length !== SignatureIdentifierConstants.expectedSegments
+  ) {
     return `Invalid signature identifier. Signatures must be of the form: "[variable_id].${name}.[signing_serialization_type]".`;
   }
-  const variableId = identifierSegments[SignatureIdentifier.variableIdIndex];
-  const signingSerializationIdentifier =
-    identifierSegments[SignatureIdentifier.signingTargetIndex];
-  const signingSerializationType = getSigningSerializationType(
-    signingSerializationIdentifier
-  );
+  const variableId =
+    identifierSegments[SignatureIdentifierConstants.variableIdIndex];
+  const algorithm =
+    identifierSegments[SignatureIdentifierConstants.signingTargetIndex];
+  const signingSerializationType = getSigningSerializationType(algorithm);
   // tslint:disable-next-line: no-if-statement
   if (signingSerializationType === undefined) {
-    return `Unknown signing serialization identifier, "${signingSerializationIdentifier}".`;
+    return `Unknown signing serialization algorithm, "${algorithm}".`;
   }
   // tslint:disable-next-line: no-if-statement
   if (
@@ -246,11 +267,15 @@ export const compilerOperationBCHGenerateDataSignature = <
   }
   const identifierSegments = identifier.split('.');
   // tslint:disable-next-line: no-if-statement
-  if (identifierSegments.length !== SignatureIdentifier.expectedSegments) {
+  if (
+    identifierSegments.length !== SignatureIdentifierConstants.expectedSegments
+  ) {
     return `Invalid data signature identifier. Data signatures must be of the form: "[variable_id].${name}.[target_script_id]".`;
   }
-  const variableId = identifierSegments[SignatureIdentifier.variableIdIndex];
-  const scriptId = identifierSegments[SignatureIdentifier.signingTargetIndex];
+  const variableId =
+    identifierSegments[SignatureIdentifierConstants.variableIdIndex];
+  const scriptId =
+    identifierSegments[SignatureIdentifierConstants.signingTargetIndex];
   const signingTarget = environment.scripts[scriptId] as string | undefined;
 
   const compiledTarget = resolveScriptIdentifier(scriptId, data, environment);
@@ -285,9 +310,87 @@ export const compilerOperationBCHGenerateDataSignature = <
   return `Identifier "${identifier}" refers to a data signature, but no signatures or private keys for "${variableId}" were provided in the compilation data.`;
 };
 
+enum SigningSerializationIdentifierConstants {
+  operationIndex = 1,
+  expectedSegments = 2
+}
+
+export const compilerOperationBCHGenerateSigningSerialization = <
+  OperationData extends CompilerOperationDataBCH
+>(
+  // tslint:disable-next-line: cyclomatic-complexity
+  identifier: string,
+  data: CompilationData<OperationData>,
+  _: CompilationEnvironment<OperationData>
+) => {
+  const identifierSegments = identifier.split('.');
+  // tslint:disable-next-line: no-if-statement
+  if (
+    identifierSegments.length !==
+    SigningSerializationIdentifierConstants.expectedSegments
+  ) {
+    return `Invalid signing serialization operation. Include the desired component or algorithm, e.g. "signing_serialization.version" or "signing_serialization.all_outputs".`;
+  }
+  const algorithmOrComponent =
+    identifierSegments[SigningSerializationIdentifierConstants.operationIndex];
+  const signingSerializationType = getSigningSerializationType(
+    algorithmOrComponent
+  );
+  const operationData = data.operationData;
+  // tslint:disable-next-line: no-if-statement
+  if (operationData === undefined) {
+    return `Could not construct the signing serialization "${identifier}", signing serialization data was not provided in the compilation data.`;
+  }
+  // tslint:disable-next-line: no-if-statement
+  if (signingSerializationType === undefined) {
+    switch (
+      algorithmOrComponent as CompilerOperationsSigningSerializationComponentBCH
+    ) {
+      case 'corresponding_output_hash':
+        return operationData.hashCorrespondingOutput();
+      case 'covered_bytecode':
+        return operationData.coveredBytecode;
+      case 'locktime':
+        return numberToBinUint32LE(operationData.locktime);
+      case 'outpoint_index':
+        return numberToBinUint32LE(operationData.outpointIndex);
+      case 'outpoint_transaction_hash':
+        return operationData.outpointTransactionHash;
+      case 'output_value':
+        return bigIntToBinUint64LE(operationData.outputValue);
+      case 'sequence_number':
+        return numberToBinUint32LE(operationData.sequenceNumber);
+      case 'transaction_outpoints_hash':
+        return operationData.hashTransactionOutpoints();
+      case 'transaction_outputs_hash':
+        return operationData.hashTransactionOutputs();
+      case 'transaction_sequence_numbers_hash':
+        return operationData.hashTransactionSequenceNumbers();
+      case 'version':
+        return numberToBinUint32LE(operationData.version);
+      default:
+        return `Unknown signing serialization algorithm or component, "${algorithmOrComponent}".`;
+    }
+  }
+  return generateSigningSerializationBCH(
+    operationData.version,
+    operationData.hashTransactionOutpoints,
+    operationData.hashTransactionSequenceNumbers,
+    operationData.outpointTransactionHash,
+    operationData.outpointIndex,
+    operationData.coveredBytecode,
+    operationData.outputValue,
+    operationData.sequenceNumber,
+    operationData.hashCorrespondingOutput,
+    operationData.hashTransactionOutputs,
+    operationData.locktime,
+    signingSerializationType
+  );
+};
+
 export const getCompilerOperationsBCH = (): CompilationEnvironment<
   CompilerOperationDataBCH,
-  CompilerKeyOperationsBCH
+  CompilerOperationsBCH
 >['operations'] => ({
   Key: {
     data_signature: compilerOperationBCHGenerateDataSignature(
@@ -331,6 +434,25 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
       'signature',
       secp256k1 => secp256k1.signMessageHashDER
     )
+  },
+  SigningSerialization: {
+    all_outputs: compilerOperationBCHGenerateSigningSerialization,
+    all_outputs_single_input: compilerOperationBCHGenerateSigningSerialization,
+    corresponding_output: compilerOperationBCHGenerateSigningSerialization,
+    corresponding_output_hash: compilerOperationBCHGenerateSigningSerialization,
+    corresponding_output_single_input: compilerOperationBCHGenerateSigningSerialization,
+    covered_bytecode: compilerOperationBCHGenerateSigningSerialization,
+    locktime: compilerOperationBCHGenerateSigningSerialization,
+    no_outputs: compilerOperationBCHGenerateSigningSerialization,
+    no_outputs_single_input: compilerOperationBCHGenerateSigningSerialization,
+    outpoint_index: compilerOperationBCHGenerateSigningSerialization,
+    outpoint_transaction_hash: compilerOperationBCHGenerateSigningSerialization,
+    output_value: compilerOperationBCHGenerateSigningSerialization,
+    sequence_number: compilerOperationBCHGenerateSigningSerialization,
+    transaction_outpoints_hash: compilerOperationBCHGenerateSigningSerialization,
+    transaction_outputs_hash: compilerOperationBCHGenerateSigningSerialization,
+    transaction_sequence_numbers_hash: compilerOperationBCHGenerateSigningSerialization,
+    version: compilerOperationBCHGenerateSigningSerialization
   }
 });
 

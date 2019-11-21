@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
+// tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
 
 import { hexToBin } from '../../../utils/utils';
@@ -851,5 +851,3 @@ test('createCompilerBCH: debug', async t => {
     });
   }
 });
-
-// TODO: test single and multi-line comments

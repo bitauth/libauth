@@ -39,7 +39,7 @@ export const singleSig: AuthenticationTemplate = {
       unlocks: 'lock'
     }
   },
-  supported: ['BCH_2019_05'],
+  supported: ['BCH_2019_11'],
   version: 0
 };
 
@@ -107,7 +107,7 @@ export const twoOfThree: AuthenticationTemplate = {
         'OP_2 <key2.public> <key2.public> <key3.public> OP_3 OP_CHECKMULTISIG'
     }
   },
-  supported: ['BCH_2019_05'],
+  supported: ['BCH_2019_11'],
   version: 0
 };
 
@@ -213,7 +213,7 @@ export const treeSig: AuthenticationTemplate = {
       {}
     )
   },
-  supported: ['BCH_2019_05'],
+  supported: ['BCH_2019_11'],
   version: 0
 };
 
@@ -259,7 +259,7 @@ export const sigOfSig: AuthenticationTemplate = {
         '<first.signature.all> <first.public> <second.signature.data.first.signature.all> <redeem_script>'
     }
   },
-  supported: ['BCH_2019_05'],
+  supported: ['BCH_2019_11'],
   version: 0
 };
 
@@ -274,9 +274,6 @@ export const trustedRecovery: AuthenticationTemplate = {
       name: 'Signer 1',
       scripts: ['checksum', 'spend', 'recover_1'],
       variables: {
-        block_time: {
-          type: 'CurrentBlockTime'
-        },
         delay_seconds: {
           description:
             'The waiting period (from the time the wallet is created) after which the Trusted Party can assist with delayed recoveries. The delay is measured in seconds, e.g. 1 day is `86400`.',
@@ -322,7 +319,7 @@ export const trustedRecovery: AuthenticationTemplate = {
       script: `OP_HASH160 <$(<
 OP_IF
   <$(
-    <block_time>
+    <current_block_time>
     <delay_seconds>
     OP_ADD
   )>
@@ -356,7 +353,7 @@ OP_CHECKMULTISIG
       unlocks: 'lock'
     }
   },
-  supported: ['BCH_2019_05'],
+  supported: ['BCH_2019_11'],
   version: 0
 };
 
@@ -369,7 +366,7 @@ export const zeroConfirmationForfeits: AuthenticationTemplate = {
       script: 'TODO'
     }
   },
-  supported: ['BCH_2019_05'],
+  supported: ['BCH_2019_11'],
   version: 0
 };
 

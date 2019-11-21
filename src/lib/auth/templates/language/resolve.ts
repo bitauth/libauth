@@ -208,12 +208,16 @@ export const resolveScriptSegment = (
     : resolved;
 };
 
+export type CompilerOperationTypes =
+  | AuthenticationTemplateVariable['type']
+  | 'SigningSerialization';
+
 /**
  * Returns the bytecode result on success or an error message on failure.
  */
 export type CompilerOperation<
   CompilerOperationData = {},
-  Checked extends AuthenticationTemplateVariable['type'] | undefined = undefined
+  Checked extends CompilerOperationTypes | undefined = undefined
 > = (
   identifier: string,
   compilationData: Checked extends 'Key'
@@ -228,21 +232,11 @@ export type CompilerOperation<
     : Checked extends 'AddressData'
     ? Required<Pick<CompilationData<CompilerOperationData>, 'addressData'>> &
         CompilationData<CompilerOperationData>
-    : Checked extends 'CurrentBlockTime'
-    ? Required<
-        Pick<CompilationData<CompilerOperationData>, 'currentBlockTime'>
-      > &
-        CompilationData<CompilerOperationData>
-    : Checked extends 'CurrentBlockHeight'
-    ? Required<
-        Pick<CompilationData<CompilerOperationData>, 'currentBlockHeight'>
-      > &
-        CompilationData<CompilerOperationData>
     : CompilationData<CompilerOperationData>,
   compilationEnvironment: CompilationEnvironment<CompilerOperationData>
 ) => Uint8Array | string;
 
-export type CompilerKeyOperationsMinimal = 'public_key' | 'signature';
+export type CompilerOperationsMinimal = 'public_key' | 'signature';
 
 /**
  * The full context required to compile a given Bitauth Template – everything
@@ -262,7 +256,7 @@ export type CompilerKeyOperationsMinimal = 'public_key' | 'signature';
  */
 export interface CompilationEnvironment<
   CompilerOperationData = {},
-  CompilerKeyOperations extends string = CompilerKeyOperationsMinimal
+  CompilerOperations extends string = CompilerOperationsMinimal
 > {
   /**
    * A method which accepts an array of `AuthenticationInstruction`s, and
@@ -287,8 +281,8 @@ export interface CompilationEnvironment<
    * key derivation and multiple signature types.
    */
   operations?: {
-    [key in AuthenticationTemplateVariable['type']]?: {
-      [operationId in CompilerKeyOperations]?: CompilerOperation<
+    [key in CompilerOperationTypes]?: {
+      [operationId in CompilerOperations]?: CompilerOperation<
         CompilerOperationData,
         key
       >;
@@ -411,22 +405,18 @@ export const dateToLockTime = (date: Date) =>
     BigInt(Math.round(date.getTime() / Constants.msPerLocktimeSecond))
   );
 
-const articleAndVariableType = (
-  variableType: AuthenticationTemplateVariable['type']
-) => `${variableType === 'HDKey' ? 'an' : 'a'} ${variableType}`;
+const articleAndVariableType = (variableType: CompilerOperationTypes) =>
+  `${variableType === 'HDKey' ? 'an' : 'a'} ${variableType}`;
 
 const attemptCompilerOperation = <CompilerOperationData>(
   identifier: string,
   operationId: string,
-  variableType: AuthenticationTemplateVariable['type'],
+  variableType: CompilerOperationTypes,
   environment: CompilationEnvironment<CompilerOperationData>,
   data: CompilationData<CompilerOperationData>
 ) => {
   // tslint:disable-next-line: no-if-statement
-  if (
-    environment.operations !== undefined &&
-    environment.operations[variableType] !== undefined
-  ) {
+  if (environment.operations !== undefined) {
     const operationsForType = environment.operations[variableType];
     if (operationsForType !== undefined) {
       // tslint:disable-next-line: no-any
@@ -452,8 +442,6 @@ const variableTypeToDataProperty: {
   [type in AuthenticationTemplateVariable['type']]: keyof CompilationData<{}>;
 } = {
   AddressData: 'addressData',
-  CurrentBlockHeight: 'currentBlockHeight',
-  CurrentBlockTime: 'currentBlockTime',
   HDKey: 'hdKeys',
   Key: 'keys',
   WalletData: 'walletData'
@@ -471,9 +459,6 @@ const defaultActionByVariableType: {
     (data.addressData[variableId] as Uint8Array | undefined) !== undefined
       ? data.addressData[variableId]
       : `Identifier "${identifier}" refers to an AddressData, but no AddressData for "${variableId}" were provided in the compilation data.`,
-  CurrentBlockHeight: (_, data) =>
-    bigIntToScriptNumber(BigInt(data.currentBlockHeight as number)),
-  CurrentBlockTime: (_, data) => dateToLockTime(data.currentBlockTime as Date),
   HDKey: identifier =>
     `Identifier "${identifier}" refers to an HDKey, but does not specify an operation, e.g. "${identifier}.public_key".`,
   Key: identifier =>
@@ -490,6 +475,12 @@ const aOrAnQuotedString = (word: string) =>
     ['a', 'e', 'i', 'o', 'u'].indexOf(word[0].toLowerCase()) === -1 ? 'a' : 'an'
   } "${word}"`;
 
+export enum BuiltInVariables {
+  currentBlockTime = 'current_block_time',
+  currentBlockHeight = 'current_block_height',
+  signingSerialization = 'signing_serialization'
+}
+
 /**
  * If the identifer can be successfully resolved as a variable, the result is
  * returned as a Uint8Array. If the identifier references a known variable, but
@@ -497,22 +488,43 @@ const aOrAnQuotedString = (word: string) =>
  * Otherwise, the identifier is not recognized as a variable, and this method
  * simply returns `false`.
  */
+// tslint:disable-next-line: cyclomatic-complexity
 export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
   identifier: string,
   environment: CompilationEnvironment<CompilerOperationData>,
   data: CompilationData<CompilerOperationData>
 ): Uint8Array | string | false => {
   const splitId = identifier.split('.');
-  const isOperation = splitId.length > 1;
   const variableId = splitId[0];
-  const operationId = splitId[1];
-  // tslint:disable-next-line: no-if-statement
-  if (environment.variables === undefined) {
-    return false;
+  const operationId = splitId[1] as string | undefined;
+
+  // tslint:disable-next-line: switch-default
+  switch (variableId as BuiltInVariables) {
+    case BuiltInVariables.currentBlockHeight:
+      return data.currentBlockHeight === undefined
+        ? 'Tried to resolve the built-in variable "current_block_height", but the "currentBlockHeight" property was not provided in the compilation data.'
+        : bigIntToScriptNumber(BigInt(data.currentBlockHeight));
+    case BuiltInVariables.currentBlockTime:
+      return data.currentBlockTime === undefined
+        ? 'Tried to resolve the built-in variable "current_block_time", but the "currentBlockTime" property was not provided in the compilation data.'
+        : dateToLockTime(data.currentBlockTime);
+    case BuiltInVariables.signingSerialization:
+      return operationId === undefined
+        ? 'Tried to resolve an operation for the built-in variable "signing_serialization", but no operation was provided. Provide an operation like "signing_serialization.[operation]".'
+        : attemptCompilerOperation(
+            identifier,
+            operationId,
+            'SigningSerialization',
+            environment,
+            data
+          );
   }
-  const selected = environment.variables[variableId] as
-    | AuthenticationTemplateVariable
-    | undefined;
+
+  const selected =
+    environment.variables &&
+    (environment.variables[variableId] as
+      | AuthenticationTemplateVariable
+      | undefined);
   // tslint:disable-next-line: no-if-statement
   if (selected === undefined) {
     return false;
@@ -523,7 +535,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
       }, but the compilation data does not include ${aOrAnQuotedString(
         variableTypeToDataProperty[selected.type]
       )} property.`
-    : isOperation
+    : operationId !== undefined
     ? attemptCompilerOperation(
         identifier,
         operationId,

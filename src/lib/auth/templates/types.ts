@@ -50,9 +50,14 @@ export interface AuthenticationTemplate {
   version: 0;
 }
 
+/**
+ * Allowable identifiers for Bitcoin virtual machine versions. Identifiers are
+ * based upon the month the VM version became active on the specified chain.
+ */
 export type AuthenticationVirtualMachineIdentifier =
-  | 'BCH_2019_05'
+  | 'BCH_2020_05'
   | 'BCH_2019_11'
+  | 'BCH_2019_05'
   | 'BSV_2018_11'
   | 'BTC_2017_08';
 
@@ -104,6 +109,28 @@ export interface AuthenticationTemplateScript {
    */
   tests?: AuthenticationTemplateScriptTest[];
   /**
+   * The expected type of time locks in this script.
+   *
+   * Because `OP_CHECKLOCKTIMEVERIFY` reads from a transaction's `locktime`
+   * property, every input to a given transaction must share the same time lock
+   * type. This differs from `OP_CHECKSEQUENCEVERIFY` in that each input has its
+   * own `sequenceNumber`, so compatibility is not required.
+   *
+   * If a transaction includes multiple inputs using scripts with `timeLockType`
+   * defined, and the types are not compatible, generation should fail.
+   *
+   * The `timestamp` type indicates that the transaction's locktime is provided
+   * as a UNIX timestamp (the `locktime` value is greater than or equal to
+   * `500000000`).
+   *
+   * The `height` type indicates that the transaction's locktime is provided as
+   * a block height (the `locktime` value is less than `500000000`).
+   *
+   * If `timeLockType` is undefined, the script is assumed to have no reliance
+   * on absolute time locks.
+   */
+  timeLockType?: 'timestamp' | 'height';
+  /**
    * The `id` of the script which can be unlocked by this script.
    *
    * (The presence of the `unlocks` property indicates that this script is an
@@ -111,21 +138,6 @@ export interface AuthenticationTemplateScript {
    */
   unlocks?: string;
 }
-
-// TODO: keep?
-// export interface AuthenticationTemplateChecksumScript
-//   extends AuthenticationTemplateScript {
-//   /**
-//    * If provided, the `checksum` script should digest all variable data provided
-//    * at wallet creation time.
-//    *
-//    * When using a template with a checksum script, each entity must first
-//    * compute the checksum and compare its result with the results of each other
-//    * entity. This allows clients to avoid creating wallets using malicious or
-//    * corrupted data.
-//    */
-//   // id: 'checksum'; // TODO: finalized removal of 'id' property
-// }
 
 export interface AuthenticationTemplateScriptTest {
   /**
@@ -180,32 +192,6 @@ export interface AuthenticationTemplateVariableBase {
    */
   // validate?: string;
 }
-
-/**
- * Separated from `AuthenticationTemplateVariableBase` to provide better
- * contextual TypeDocs.
- */
-// TODO: keep?
-// export interface AuthenticationTemplateVariableKey
-//   extends AuthenticationTemplateVariableBase {
-//   /**
-//    * The identifier used as a prefix when referring to this key in the scripts.
-//    *
-//    * Each Key exports its own `public`, `private`, and `signature`
-//    * properties. The `signature` property contains a property for each possible
-//    * signature serialization flag: `all`, `single`, `none`
-//    *
-//    * For example, with an id of `keyA`, the following are all valid data pushes:
-//    * `<keyA.private>`, `<keyA.public>`, `<keyA.signature.all>`,
-//    * `<keyA.signature.single>`, `<keyA.signature.none>`
-//    *
-//    * TODO: for data signatures, accept any identifier after signature, e.g.
-//    * `<keyA.signature.myTXData>`
-//    *
-//    * TODO: new syntax: signature:all_outputs signature:corresponding_output:anyone_can_pay, signature:no_outputs:anyone_can_pay, data_signature:IDENTIFIER
-//    */
-//   // id: string; // TODO: finalized removal of 'id' property
-// }
 
 export interface HDKey extends AuthenticationTemplateVariableBase {
   /**
@@ -299,32 +285,8 @@ export interface AddressData extends AuthenticationTemplateVariableBase {
   type: 'AddressData';
 }
 
-export interface CurrentBlockTime extends AuthenticationTemplateVariableBase {
-  /**
-   * The `CurrentBlockTime` type provides the current block time as a Script
-   * Number. This is useful when computing a time for OP_CHECKLOCKTIMEVERIFY
-   * which is relative to the current time at the moment a script is created
-   * (usually, a locking script).
-   *
-   * TODO: not available, see: https://github.com/bitauth/bitauth-ide/issues/17
-   */
-  type: 'CurrentBlockTime';
-}
-
-export interface CurrentBlockHeight extends AuthenticationTemplateVariableBase {
-  /**
-   * The `CurrentBlockHeight` type provides the current block height as a Script
-   * Number. This is useful when computing a height for OP_CHECKLOCKTIMEVERIFY
-   * which is relative to the height at the moment a script is created (usually,
-   * a locking script).
-   */
-  type: 'CurrentBlockHeight';
-}
-
 export type AuthenticationTemplateVariable =
   | HDKey
   | Key
   | WalletData
-  | AddressData
-  | CurrentBlockTime
-  | CurrentBlockHeight;
+  | AddressData;

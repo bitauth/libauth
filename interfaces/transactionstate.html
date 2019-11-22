@@ -91,10 +91,10 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#hashtransactionoutpoints" class="tsd-kind-icon">hash<wbr>Transaction<wbr>Outpoints</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#hashtransactionoutputs" class="tsd-kind-icon">hash<wbr>Transaction<wbr>Outputs</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#hashtransactionsequencenumbers" class="tsd-kind-icon">hash<wbr>Transaction<wbr>Sequence<wbr>Numbers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#locktime" class="tsd-kind-icon">locktime</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#transactionoutpoints" class="tsd-kind-icon">transaction<wbr>Outpoints</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#transactionoutputs" class="tsd-kind-icon">transaction<wbr>Outputs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#transactionsequencenumbers" class="tsd-kind-icon">transaction<wbr>Sequence<wbr>Numbers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="transactionstate.html#version" class="tsd-kind-icon">version</a></li>
 							</ul>
 						</section>
@@ -104,94 +104,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="hashtransactionoutpoints" class="tsd-anchor"></a>
-					<h3>hash<wbr>Transaction<wbr>Outpoints</h3>
-					<div class="tsd-signature tsd-kind-icon">hash<wbr>Transaction<wbr>Outpoints<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8989592/src/lib/auth/state.ts#L16">lib/auth/state.ts:16</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A.K.A. <code>hashPrevouts</code></p>
-						</div>
-						<p>The double SHA256 of the serialization of all input outpoints. (See
-						BIP143 or Bitcoin Cash&#39;s Replay Protected Sighash spec for details.)</p>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="hashtransactionoutputs" class="tsd-anchor"></a>
-					<h3>hash<wbr>Transaction<wbr>Outputs</h3>
-					<div class="tsd-signature tsd-kind-icon">hash<wbr>Transaction<wbr>Outputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8989592/src/lib/auth/state.ts#L24">lib/auth/state.ts:24</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="hashtransactionsequencenumbers" class="tsd-anchor"></a>
-					<h3>hash<wbr>Transaction<wbr>Sequence<wbr>Numbers</h3>
-					<div class="tsd-signature tsd-kind-icon">hash<wbr>Transaction<wbr>Sequence<wbr>Numbers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8989592/src/lib/auth/state.ts#L31">lib/auth/state.ts:31</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="locktime" class="tsd-anchor"></a>
 					<h3>locktime</h3>
 					<div class="tsd-signature tsd-kind-icon">locktime<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8989592/src/lib/auth/state.ts#L38">lib/auth/state.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8949d5b/src/lib/auth/state.ts#L15">lib/auth/state.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,12 +121,49 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="transactionoutpoints" class="tsd-anchor"></a>
+					<h3>transaction<wbr>Outpoints</h3>
+					<div class="tsd-signature tsd-kind-icon">transaction<wbr>Outpoints<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8949d5b/src/lib/auth/state.ts#L22">lib/auth/state.ts:22</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A.K.A. the serialization for <code>hashPrevouts</code></p>
+						</div>
+						<p>The signing serialization of all input outpoints. (See BIP143 or Bitcoin
+						Cash&#39;s Replay Protected Sighash spec for details.)</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="transactionoutputs" class="tsd-anchor"></a>
+					<h3>transaction<wbr>Outputs</h3>
+					<div class="tsd-signature tsd-kind-icon">transaction<wbr>Outputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8949d5b/src/lib/auth/state.ts#L29">lib/auth/state.ts:29</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="transactionsequencenumbers" class="tsd-anchor"></a>
+					<h3>transaction<wbr>Sequence<wbr>Numbers</h3>
+					<div class="tsd-signature tsd-kind-icon">transaction<wbr>Sequence<wbr>Numbers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8949d5b/src/lib/auth/state.ts#L36">lib/auth/state.ts:36</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="version" class="tsd-anchor"></a>
 					<h3>version</h3>
 					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8989592/src/lib/auth/state.ts#L39">lib/auth/state.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/8949d5b/src/lib/auth/state.ts#L37">lib/auth/state.ts:37</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -230,16 +185,16 @@
 						<a href="transactionstate.html" class="tsd-kind-icon">Transaction<wbr>State</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="transactionstate.html#hashtransactionoutpoints" class="tsd-kind-icon">hash<wbr>Transaction<wbr>Outpoints</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="transactionstate.html#hashtransactionoutputs" class="tsd-kind-icon">hash<wbr>Transaction<wbr>Outputs</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="transactionstate.html#hashtransactionsequencenumbers" class="tsd-kind-icon">hash<wbr>Transaction<wbr>Sequence<wbr>Numbers</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="transactionstate.html#locktime" class="tsd-kind-icon">locktime</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="transactionstate.html#transactionoutpoints" class="tsd-kind-icon">transaction<wbr>Outpoints</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="transactionstate.html#transactionoutputs" class="tsd-kind-icon">transaction<wbr>Outputs</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="transactionstate.html#transactionsequencenumbers" class="tsd-kind-icon">transaction<wbr>Sequence<wbr>Numbers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="transactionstate.html#version" class="tsd-kind-icon">version</a>

@@ -1,31 +1,63 @@
 // tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
 import test, { Macro } from 'ava';
 
+import {
+  instantiateSecp256k1,
+  instantiateSha256
+} from '../../../crypto/crypto';
 import { hexToBin, stringify } from '../../../utils/utils';
-import { createAuthenticationProgramExternalStateCommonEmpty } from '../../auth';
+import {
+  AuthenticationProgramStateBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
+  generateBytecodeMap,
+  instantiateVirtualMachineBCH,
+  instructionSetBCHCurrentStrict,
+  OpcodesBCH
+} from '../../auth';
 
-import { createCompilerBCH } from './compiler';
+import {
+  CompilerOperationDataBCH,
+  createCompiler,
+  createStateCompilerBCH,
+  getCompilerOperationsBCH
+} from './compiler';
 
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
 
+const sha256Promise = instantiateSha256();
+const secp256k1Promise = instantiateSecp256k1();
+const vmPromise = instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict);
 const signingSerializationType: Macro<[string, string]> = async (
   t,
   unlockScript,
   bytecodeHex
 ) => {
-  const compiler = await createCompilerBCH({
+  const sha256 = await sha256Promise;
+  const secp256k1 = await secp256k1Promise;
+  const vm = await vmPromise;
+  const compiler = createCompiler<
+    CompilerOperationDataBCH,
+    AuthenticationProgramStateBCH
+  >({
+    createState: createStateCompilerBCH,
+    opcodes: generateBytecodeMap(OpcodesBCH),
+    operations: getCompilerOperationsBCH(),
     scripts: {
       lock:
         'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
       unlock: unlockScript
     },
+    secp256k1,
+    sha256,
     variables: {
       a: {
         type: 'Key'
       }
-    }
+    },
+    vm
   });
+
   const resultLock = compiler.generate('lock', {
     keys: { privateKeys: { a: privkey } }
   });

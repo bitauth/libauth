@@ -558,6 +558,16 @@ export const createCompiler = <
   }
 });
 
+export const createStateCompilerBCH = (
+  // tslint:disable-next-line: no-any
+  instructions: Array<AuthenticationInstruction<any>>
+) =>
+  createAuthenticationProgramStateCommon(
+    instructions,
+    [],
+    createAuthenticationProgramExternalStateCommonEmpty()
+  );
+
 /**
  * TODO: describe
  *
@@ -577,15 +587,7 @@ export const createCompilerBCH = async <
   ]);
   return createCompiler<CompilerOperationData, ProgramState>({
     ...{
-      createState: (
-        // tslint:disable-next-line: no-any
-        instructions: Array<AuthenticationInstruction<any>>
-      ) =>
-        createAuthenticationProgramStateCommon(
-          instructions,
-          [],
-          createAuthenticationProgramExternalStateCommonEmpty()
-        ),
+      createState: createStateCompilerBCH,
       opcodes: generateBytecodeMap(OpcodesBCH),
       operations: getCompilerOperationsBCH(),
       secp256k1,

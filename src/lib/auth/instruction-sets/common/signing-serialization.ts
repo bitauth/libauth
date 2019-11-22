@@ -2,7 +2,7 @@ import {
   bigIntToBinUint64LE,
   bigIntToBitcoinVarInt,
   numberToBinUint32LE
-} from '../../../..';
+} from '../../../utils/utils';
 
 /**
  * A.K.A. `sighash` flags

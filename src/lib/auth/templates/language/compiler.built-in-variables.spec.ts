@@ -1,18 +1,49 @@
 // tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
 import test, { Macro } from 'ava';
 
+import { instantiateSecp256k1, instantiateSha256 } from '../../../lib';
 import { hexToBin, stringify } from '../../../utils/utils';
 import {
+  AuthenticationProgramStateBCH,
   CompilationData,
-  createAuthenticationProgramExternalStateCommonEmpty
+  createAuthenticationProgramExternalStateCommonEmpty,
+  generateBytecodeMap,
+  instantiateVirtualMachineBCH,
+  instructionSetBCHCurrentStrict,
+  OpcodesBCH
 } from '../../auth';
 
-import { CompilerOperationDataBCH, createCompilerBCH } from './compiler';
+import {
+  CompilerOperationDataBCH,
+  createCompiler,
+  createStateCompilerBCH,
+  getCompilerOperationsBCH
+} from './compiler';
+
+const sha256Promise = instantiateSha256();
+const secp256k1Promise = instantiateSecp256k1();
+const vmPromise = instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict);
 
 const expectCompilationResult: Macro<
   [string, CompilationData<CompilerOperationDataBCH>, object]
 > = async (t, testScript, otherData = {}, expectedResult) => {
-  const compiler = await createCompilerBCH({ scripts: { test: testScript } });
+  const sha256 = await sha256Promise;
+  const secp256k1 = await secp256k1Promise;
+  const vm = await vmPromise;
+
+  const compiler = createCompiler<
+    CompilerOperationDataBCH,
+    AuthenticationProgramStateBCH
+  >({
+    createState: createStateCompilerBCH,
+    opcodes: generateBytecodeMap(OpcodesBCH),
+    operations: getCompilerOperationsBCH(),
+    scripts: { test: testScript },
+    secp256k1,
+    sha256,
+    vm
+  });
+
   const resultUnlock = compiler.generate('test', {
     operationData: {
       ...createAuthenticationProgramExternalStateCommonEmpty(),

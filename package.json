@@ -1,6 +1,6 @@
 {
   "name": "bitcoin-ts",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "a typescript bitcoin library",
   "main": "build/main/index.js",
   "typings": "build/module/index.d.ts",

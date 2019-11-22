@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/bitjson/bitcoin-ts/compare/v1.10.0...v1.11.0) (2019-11-22)
+
+
+### Features
+
+* use preimages instead of hashes in VM, add preimage components to compiler ([8949d5b](https://github.com/bitjson/bitcoin-ts/commit/8949d5b))
+
+
+
 ## [1.10.0](https://github.com/bitjson/bitcoin-ts/compare/v1.9.0...v1.10.0) (2019-11-21)
 
 

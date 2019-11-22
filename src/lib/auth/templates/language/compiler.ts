@@ -33,7 +33,7 @@ import {
 } from './resolve';
 
 export interface CompilerOperationDataBCH {
-  correspondingOutput: Uint8Array;
+  correspondingOutput?: Uint8Array;
   coveredBytecode: Uint8Array;
   locktime: number;
   outpointIndex: number;
@@ -372,9 +372,13 @@ export const compilerOperationBCHGenerateSigningSerialization = <
       algorithmOrComponent as CompilerOperationsSigningSerializationComponentBCH
     ) {
       case 'corresponding_output':
-        return operationData.correspondingOutput;
+        return operationData.correspondingOutput === undefined
+          ? Uint8Array.of()
+          : operationData.correspondingOutput;
       case 'corresponding_output_hash':
-        return sha256.hash(sha256.hash(operationData.correspondingOutput));
+        return operationData.correspondingOutput === undefined
+          ? Uint8Array.of()
+          : sha256.hash(sha256.hash(operationData.correspondingOutput));
       case 'covered_bytecode_prefix':
         return bigIntToBitcoinVarInt(
           BigInt(operationData.coveredBytecode.length)

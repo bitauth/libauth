@@ -8,34 +8,32 @@ import { AuthenticationInstruction } from './instruction-sets/instruction-sets';
  */
 export interface TransactionState {
   /**
-   * A.K.A. `hashPrevouts`
-   *
-   * The double SHA256 of the serialization of all input outpoints. (See
-   * BIP143 or Bitcoin Cash's Replay Protected Sighash spec for details.)
-   */
-  readonly hashTransactionOutpoints: () => Uint8Array;
-  /*
-   * A.K.A. `hashOutputs` with `SIGHASH_ALL`
-   *
-   * The double SHA256 of the serialization of output amounts and locking
-   * scripts. (See BIP143 or Bitcoin Cash's Replay Protected Sighash spec for
-   * details.)
-   */
-  readonly hashTransactionOutputs: () => Uint8Array;
-  /*
-   * A.K.A. `hashSequence`
-   *
-   * The double SHA256 of the serialization of all input sequence numbers. (See
-   * BIP143 or Bitcoin Cash's Replay Protected Sighash spec for details.)
-   */
-  readonly hashTransactionSequenceNumbers: () => Uint8Array;
-  /**
    * A time or block height at which the transaction is considered valid (and
    * can be added to the block chain). This allows signers to create time-locked
    * transactions which may only become valid in the future.
    */
-  // tslint:disable-next-line: no-mixed-interface
   readonly locktime: number;
+  /**
+   * A.K.A. the serialization for `hashPrevouts`
+   *
+   * The signing serialization of all input outpoints. (See BIP143 or Bitcoin
+   * Cash's Replay Protected Sighash spec for details.)
+   */
+  readonly transactionOutpoints: Uint8Array;
+  /*
+   * A.K.A. the serialization for `hashOutputs` with `SIGHASH_ALL`
+   *
+   * The signing serialization of output amounts and locking scripts. (See
+   * BIP143 or Bitcoin Cash's Replay Protected Sighash spec for details.)
+   */
+  readonly transactionOutputs: Uint8Array;
+  /*
+   * A.K.A. the serialization for `hashSequence`
+   *
+   * The signing serialization of all input sequence numbers. (See BIP143 or
+   * Bitcoin Cash's Replay Protected Sighash spec for details.)
+   */
+  readonly transactionSequenceNumbers: Uint8Array;
   readonly version: number;
 }
 
@@ -44,20 +42,18 @@ export interface TransactionState {
  */
 export interface TransactionInputState extends TransactionState {
   /*
-   * A.K.A. `hashOutputs` with `SIGHASH_SINGLE`
+   * A.K.A. the serialization for `hashOutputs` with `SIGHASH_SINGLE`
    *
-   * The double SHA256 of the serialization of the output at the same index as
-   * this input. If this input's index is larger than the total number of
-   * outputs (such that there is no corresponding output), 32 bytes of zero
-   * padding should be used instead. (See BIP143 or Bitcoin Cash's Replay
-   * Protected Sighash spec for details.)
+   * The signing serialization of the output at the same index as this input. If
+   * this input's index is larger than the total number of outputs (such that
+   * there is no corresponding output), this should be `undefined`. (See BIP143
+   * or Bitcoin Cash's Replay Protected Sighash spec for details.)
    */
-  readonly hashCorrespondingOutput: () => Uint8Array;
+  readonly correspondingOutput?: Uint8Array;
   /**
    * The index (within the previous transaction) of the outpoint being spent by
    * this input.
    */
-  // tslint:disable-next-line: no-mixed-interface
   readonly outpointIndex: number;
   /**
    * The hash/ID of the transaction from which the outpoint being spent by this

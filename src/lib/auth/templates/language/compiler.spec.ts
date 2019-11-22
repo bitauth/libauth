@@ -1,7 +1,7 @@
 // tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
 
-import { hexToBin } from '../../../utils/utils';
+import { hexToBin, stringify } from '../../../utils/utils';
 import {
   AuthenticationInstruction,
   createAuthenticationProgramExternalStateCommonEmpty,
@@ -42,9 +42,10 @@ test('createCompilerBCH: generate', async t => {
         coveredBytecode: resultLock.bytecode
       }
     });
+    t.log(stringify(resultUnlock));
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(
-        '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
       ),
       success: true
     });
@@ -324,13 +325,8 @@ test('createCompilerBCH: debug', async t => {
                       },
                       state: {
                         alternateStack: [],
+                        correspondingOutput: Uint8Array.of(0x01),
                         executionStack: [],
-                        hashCorrespondingOutput: state.hashCorrespondingOutput,
-                        hashTransactionOutpoints:
-                          state.hashTransactionOutpoints,
-                        hashTransactionOutputs: state.hashTransactionOutputs,
-                        hashTransactionSequenceNumbers:
-                          state.hashTransactionSequenceNumbers,
                         instructions: [
                           {
                             data: hexToBin(
@@ -358,6 +354,9 @@ test('createCompilerBCH: debug', async t => {
                             '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
                           )
                         ],
+                        transactionOutpoints: Uint8Array.of(0x02),
+                        transactionOutputs: Uint8Array.of(0x03),
+                        transactionSequenceNumbers: Uint8Array.of(0x04),
                         version: 0
                       }
                     },
@@ -370,13 +369,8 @@ test('createCompilerBCH: debug', async t => {
                       },
                       state: {
                         alternateStack: [],
+                        correspondingOutput: Uint8Array.of(0x01),
                         executionStack: [],
-                        hashCorrespondingOutput: state.hashCorrespondingOutput,
-                        hashTransactionOutpoints:
-                          state.hashTransactionOutpoints,
-                        hashTransactionOutputs: state.hashTransactionOutputs,
-                        hashTransactionSequenceNumbers:
-                          state.hashTransactionSequenceNumbers,
                         instructions: [
                           {
                             data: hexToBin(
@@ -402,7 +396,9 @@ test('createCompilerBCH: debug', async t => {
                         stack: [
                           hexToBin('15d16c84669ab46059313bf0747e781f1d13936d')
                         ],
-
+                        transactionOutpoints: Uint8Array.of(0x02),
+                        transactionOutputs: Uint8Array.of(0x03),
+                        transactionSequenceNumbers: Uint8Array.of(0x04),
                         version: 0
                       }
                     }
@@ -607,9 +603,10 @@ test('createCompilerBCH: debug', async t => {
         coveredBytecode: resultLock.bytecode
       }
     });
+    t.log(stringify(resultUnlock));
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(
-        '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
       ),
       parse: {
         end: {
@@ -712,7 +709,7 @@ test('createCompilerBCH: debug', async t => {
       },
       reduce: {
         bytecode: hexToBin(
-          '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+          '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
         ),
         range: {
           endColumn: 41,
@@ -723,7 +720,7 @@ test('createCompilerBCH: debug', async t => {
         source: [
           {
             bytecode: hexToBin(
-              '47304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
+              '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
             ),
             range: {
               endColumn: 26,
@@ -734,7 +731,7 @@ test('createCompilerBCH: debug', async t => {
             source: [
               {
                 bytecode: hexToBin(
-                  '304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
+                  '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
                 ),
                 range: {
                   endColumn: 25,
@@ -745,7 +742,7 @@ test('createCompilerBCH: debug', async t => {
                 source: [
                   {
                     bytecode: hexToBin(
-                      '304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
+                      '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
                     ),
                     range: {
                       endColumn: 25,
@@ -816,7 +813,7 @@ test('createCompilerBCH: debug', async t => {
               },
               type: 'bytecode',
               value: hexToBin(
-                '304402206aa4183e0d831a01d2d22174cd4434c5dcb4d58d1c079e2f36ed0f09c6265eba022075024ac787395a32f1886d92a033319a15813c4eb93c2e38a60884760c5dad4741'
+                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
               ),
               variable: 'a.signature.all_outputs'
             }

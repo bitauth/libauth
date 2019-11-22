@@ -1,8 +1,8 @@
 import {
-  getOutpointsHash,
-  getOutputHash,
-  getOutputsHash,
-  getSequenceNumbersHash
+  serializeOutpoints,
+  serializeOutput,
+  serializeOutputsForSigning,
+  serializeSequenceNumbers
 } from '../../../transaction';
 import {
   AlternateStackState,
@@ -192,30 +192,20 @@ export const createAuthenticationProgramInternalStateCommon = <Opcodes, Errors>(
 
 const enum Fill {
   length = 32,
-  hashCorrespondingOutput = 1,
-  hashTransactionOutpoints = 2,
-  hashTransactionOutputs = 3,
-  hashTransactionSequenceNumbers = 4,
+  correspondingOutput = 1,
+  transactionOutpoints = 2,
+  transactionOutputs = 3,
+  transactionSequenceNumbers = 4,
   outpointTransactionHash = 5
 }
 
 export const createAuthenticationProgramExternalStateCommon = (
-  program: AuthenticationProgramCommon,
-  sha256: Sha256
+  program: AuthenticationProgramCommon
 ): AuthenticationProgramExternalStateCommon => ({
-  hashCorrespondingOutput: () =>
+  correspondingOutput:
     program.inputIndex < program.spendingTransaction.outputs.length
-      ? getOutputHash(
-          program.spendingTransaction.outputs[program.inputIndex],
-          sha256
-        )
-      : new Uint8Array(Fill.length).fill(0),
-  hashTransactionOutpoints: () =>
-    getOutpointsHash(program.spendingTransaction.inputs, sha256),
-  hashTransactionOutputs: () =>
-    getOutputsHash(program.spendingTransaction.outputs, sha256),
-  hashTransactionSequenceNumbers: () =>
-    getSequenceNumbersHash(program.spendingTransaction.inputs, sha256),
+      ? serializeOutput(program.spendingTransaction.outputs[program.inputIndex])
+      : undefined,
   locktime: program.spendingTransaction.locktime,
   outpointIndex:
     program.spendingTransaction.inputs[program.inputIndex].outpointIndex,
@@ -225,6 +215,13 @@ export const createAuthenticationProgramExternalStateCommon = (
   outputValue: program.sourceOutput.satoshis,
   sequenceNumber:
     program.spendingTransaction.inputs[program.inputIndex].sequenceNumber,
+  transactionOutpoints: serializeOutpoints(program.spendingTransaction.inputs),
+  transactionOutputs: serializeOutputsForSigning(
+    program.spendingTransaction.outputs
+  ),
+  transactionSequenceNumbers: serializeSequenceNumbers(
+    program.spendingTransaction.inputs
+  ),
   version: program.spendingTransaction.version
 });
 
@@ -249,11 +246,8 @@ export const cloneAuthenticationProgramStateCommon = <
 ) => ({
   ...(state.error !== undefined ? { error: state.error } : {}),
   alternateStack: state.alternateStack.slice(),
+  correspondingOutput: state.correspondingOutput,
   executionStack: state.executionStack.slice(),
-  hashCorrespondingOutput: state.hashCorrespondingOutput,
-  hashTransactionOutpoints: state.hashTransactionOutpoints,
-  hashTransactionOutputs: state.hashTransactionOutputs,
-  hashTransactionSequenceNumbers: state.hashTransactionSequenceNumbers,
   instructions: state.instructions.slice(),
   ip: state.ip,
   lastCodeSeparator: state.lastCodeSeparator,
@@ -265,6 +259,9 @@ export const cloneAuthenticationProgramStateCommon = <
   sequenceNumber: state.sequenceNumber,
   signatureOperationsCount: state.signatureOperationsCount,
   stack: state.stack.slice(),
+  transactionOutpoints: state.transactionOutpoints,
+  transactionOutputs: state.transactionOutputs,
+  transactionSequenceNumbers: state.transactionSequenceNumbers,
   version: state.version
 });
 
@@ -273,14 +270,7 @@ export const cloneAuthenticationProgramStateCommon = <
  * testing and debugging.
  */
 export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
-  hashCorrespondingOutput: () =>
-    new Uint8Array(Fill.length).fill(Fill.hashCorrespondingOutput),
-  hashTransactionOutpoints: () =>
-    new Uint8Array(Fill.length).fill(Fill.hashTransactionOutpoints),
-  hashTransactionOutputs: () =>
-    new Uint8Array(Fill.length).fill(Fill.hashTransactionOutputs),
-  hashTransactionSequenceNumbers: () =>
-    new Uint8Array(Fill.length).fill(Fill.hashTransactionSequenceNumbers),
+  correspondingOutput: Uint8Array.of(Fill.correspondingOutput),
   locktime: 0,
   outpointIndex: 0,
   outpointTransactionHash: new Uint8Array(Fill.length).fill(
@@ -288,6 +278,9 @@ export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
   ),
   outputValue: BigInt(0),
   sequenceNumber: 0,
+  transactionOutpoints: Uint8Array.of(Fill.transactionOutpoints),
+  transactionOutputs: Uint8Array.of(Fill.transactionOutputs),
+  transactionSequenceNumbers: Uint8Array.of(Fill.transactionSequenceNumbers),
   version: 0
 });
 

@@ -232,7 +232,9 @@ export const serializeOutput = (output: Output) =>
  *
  * @param outputs the set of outputs to serialize
  */
-export const serializeOutputs = (outputs: ReadonlyArray<Output>) =>
+export const serializeOutputsForTransaction = (
+  outputs: ReadonlyArray<Output>
+) =>
   flattenBinArray([
     bigIntToBitcoinVarInt(BigInt(outputs.length)),
     ...outputs.map(serializeOutput)
@@ -299,7 +301,7 @@ export const serializeTransaction = (tx: Transaction) =>
   flattenBinArray([
     numberToBinUint32LE(tx.version),
     serializeInputs(tx.inputs),
-    serializeOutputs(tx.outputs),
+    serializeOutputsForTransaction(tx.outputs),
     numberToBinUint32LE(tx.locktime)
   ]);
 
@@ -334,61 +336,33 @@ export const getBitcoinTransactionId = (
 ) => binToHex(getBitcoinIdentifier(transaction, sha256));
 
 /**
- * Get the hash of an output. (For use in `hashCorrespondingOutput`.)
- * @param output the output to hash
- * @param sha256 an implementation of sha256
- */
-export const getOutputHash = (output: Output, sha256: Sha256) =>
-  sha256.hash(sha256.hash(serializeOutput(output)));
-
-/**
  * Get the hash of all outpoints in a series of inputs. (For use in
  * `hashTransactionOutpoints`.)
  *
  * @param inputs the series of inputs from which to extract the outpoints
  * @param sha256 an implementation of sha256
  */
-export const getOutpointsHash = (
-  inputs: ReadonlyArray<Input>,
-  sha256: Sha256
-) =>
-  sha256.hash(
-    sha256.hash(
-      flattenBinArray(
-        inputs.map(i =>
-          flattenBinArray([
-            i.outpointTransactionHash.slice().reverse(),
-            numberToBinUint32LE(i.outpointIndex)
-          ])
-        )
-      )
+export const serializeOutpoints = (inputs: ReadonlyArray<Input>) =>
+  flattenBinArray(
+    inputs.map(i =>
+      flattenBinArray([
+        i.outpointTransactionHash.slice().reverse(),
+        numberToBinUint32LE(i.outpointIndex)
+      ])
     )
   );
 
 /**
- * Get the hash of a series of outputs. (Primarily for use in
- * `hashTransactionOutputs`)
- * @param outputs the series of outputs to serialize and hash
- * @param sha256 an implementation of sha256
+ * Get the signing serialization for a series of outputs.
+ * @param outputs the series of outputs to serialize
  */
-export const getOutputsHash = (
-  outputs: ReadonlyArray<Output>,
-  sha256: Sha256
-) => sha256.hash(sha256.hash(flattenBinArray(outputs.map(serializeOutput))));
+export const serializeOutputsForSigning = (outputs: ReadonlyArray<Output>) =>
+  flattenBinArray(outputs.map(serializeOutput));
 
 /**
- * Get the hash of a series of input sequence numbers. (Primarily for use in
- * `hashTransactionSequenceNumbers`)
+ * Serialize a series of input sequence numbers.
  *
  * @param inputs the series of inputs from which to extract the sequence numbers
- * @param sha256 an implementation of sha256
  */
-export const getSequenceNumbersHash = (
-  inputs: ReadonlyArray<Input>,
-  sha256: Sha256
-) =>
-  sha256.hash(
-    sha256.hash(
-      flattenBinArray(inputs.map(i => numberToBinUint32LE(i.sequenceNumber)))
-    )
-  );
+export const serializeSequenceNumbers = (inputs: ReadonlyArray<Input>) =>
+  flattenBinArray(inputs.map(i => numberToBinUint32LE(i.sequenceNumber)));

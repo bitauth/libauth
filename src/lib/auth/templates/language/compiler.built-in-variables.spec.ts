@@ -82,18 +82,18 @@ test(
 );
 
 test(
-  'BCH compiler: built-in variables – signing_serialization.all_outputs - error',
+  'BCH compiler: built-in variables – signing_serialization.full_all_outputs - error',
   expectCompilationResult,
-  '<signing_serialization.corresponding_output_hash>',
+  '<signing_serialization.full_all_outputs>',
   { operationData: undefined },
   {
     errorType: 'resolve',
     errors: [
       {
         error:
-          'Could not construct the signing serialization "signing_serialization.corresponding_output_hash", signing serialization data was not provided in the compilation data.',
+          'Could not construct the signing serialization "signing_serialization.full_all_outputs", signing serialization data was not provided in the compilation data.',
         range: {
-          endColumn: 49,
+          endColumn: 40,
           endLineNumber: 1,
           startColumn: 2,
           startLineNumber: 1
@@ -128,26 +128,78 @@ test(
 );
 
 test(
-  'BCH compiler: built-in variables – signing_serialization.all_outputs',
+  'BCH compiler: built-in variables – signing_serialization.full_all_outputs',
   expectCompilationResult,
-  '<signing_serialization.all_outputs>',
+  '<signing_serialization.full_all_outputs>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d00000000020202020202020202020202020202020202020202020202020202020202020204040404040404040404040404040404040404040404040404040404040404040505050505050505050505050505050505050505050505050505050505050505000000000000000000000000000000000003030303030303030303030303030303030303030303030303030303030303030000000041000000'
+      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a705050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000'
     ),
     success: true
   }
 );
 
 test(
-  'BCH compiler: built-in variables – signing_serialization.all_outputs_single_input',
+  'BCH compiler: built-in variables – signing_serialization.full_all_outputs_single_input',
   expectCompilationResult,
-  '<signing_serialization.all_outputs_single_input>',
+  '<signing_serialization.full_all_outputs_single_input>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000030303030303030303030303030303030303030303030303030303030303030300000000c1000000'
+      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa4500000000c1000000'
+    ),
+    success: true
+  }
+);
+
+test(
+  'BCH compiler: built-in variables – signing_serialization.full_corresponding_output',
+  expectCompilationResult,
+  '<signing_serialization.full_corresponding_output>',
+  {},
+  {
+    bytecode: hexToBin(
+      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba0000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f700000000043000000'
+    ),
+    success: true
+  }
+);
+
+test(
+  'BCH compiler: built-in variables – signing_serialization.full_corresponding_output_single_input',
+  expectCompilationResult,
+  '<signing_serialization.full_corresponding_output_single_input>',
+  {},
+  {
+    bytecode: hexToBin(
+      '4c9d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f7000000000c3000000'
+    ),
+    success: true
+  }
+);
+
+test(
+  'BCH compiler: built-in variables – signing_serialization.full_no_outputs',
+  expectCompilationResult,
+  '<signing_serialization.full_no_outputs>',
+  {},
+  {
+    bytecode: hexToBin(
+      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba00000000000000000000000000000000000000000000000000000000000000000505050505050505050505050505050505050505050505050505050505050505000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000042000000'
+    ),
+    success: true
+  }
+);
+
+test(
+  'BCH compiler: built-in variables – signing_serialization.full_no_outputs_single_input',
+  expectCompilationResult,
+  '<signing_serialization.full_no_outputs_single_input>',
+  {},
+  {
+    bytecode: hexToBin(
+      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c2000000'
     ),
     success: true
   }
@@ -159,48 +211,7 @@ test(
   '<signing_serialization.corresponding_output>',
   {},
   {
-    bytecode: hexToBin(
-      '4c9d00000000020202020202020202020202020202020202020202020202020202020202020200000000000000000000000000000000000000000000000000000000000000000505050505050505050505050505050505050505050505050505050505050505000000000000000000000000000000000001010101010101010101010101010101010101010101010101010101010101010000000043000000'
-    ),
-    success: true
-  }
-);
-
-test(
-  'BCH compiler: built-in variables – signing_serialization.corresponding_output_single_input',
-  expectCompilationResult,
-  '<signing_serialization.corresponding_output_single_input>',
-  {},
-  {
-    bytecode: hexToBin(
-      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000010101010101010101010101010101010101010101010101010101010101010100000000c3000000'
-    ),
-    success: true
-  }
-);
-
-test(
-  'BCH compiler: built-in variables – signing_serialization.no_outputs',
-  expectCompilationResult,
-  '<signing_serialization.no_outputs>',
-  {},
-  {
-    bytecode: hexToBin(
-      '4c9d00000000020202020202020202020202020202020202020202020202020202020202020200000000000000000000000000000000000000000000000000000000000000000505050505050505050505050505050505050505050505050505050505050505000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000042000000'
-    ),
-    success: true
-  }
-);
-
-test(
-  'BCH compiler: built-in variables – signing_serialization.no_outputs_single_input',
-  expectCompilationResult,
-  '<signing_serialization.no_outputs_single_input>',
-  {},
-  {
-    bytecode: hexToBin(
-      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c2000000'
-    ),
+    bytecode: hexToBin('51'),
     success: true
   }
 );
@@ -212,7 +223,7 @@ test(
   {},
   {
     bytecode: hexToBin(
-      '200101010101010101010101010101010101010101010101010101010101010101'
+      '209c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f70'
     ),
     success: true
   }
@@ -298,14 +309,36 @@ test(
 );
 
 test(
+  'BCH compiler: built-in variables – signing_serialization.transaction_outpoints',
+  expectCompilationResult,
+  '<signing_serialization.transaction_outpoints>',
+  {},
+  {
+    bytecode: hexToBin('52'),
+    success: true
+  }
+);
+
+test(
   'BCH compiler: built-in variables – signing_serialization.transaction_outpoints_hash',
   expectCompilationResult,
   '<signing_serialization.transaction_outpoints_hash>',
   {},
   {
     bytecode: hexToBin(
-      '200202020202020202020202020202020202020202020202020202020202020202'
+      '201cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba'
     ),
+    success: true
+  }
+);
+
+test(
+  'BCH compiler: built-in variables – signing_serialization.transaction_outputs',
+  expectCompilationResult,
+  '<signing_serialization.transaction_outputs>',
+  {},
+  {
+    bytecode: hexToBin('53'),
     success: true
   }
 );
@@ -317,8 +350,19 @@ test(
   {},
   {
     bytecode: hexToBin(
-      '200303030303030303030303030303030303030303030303030303030303030303'
+      '20c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa45'
     ),
+    success: true
+  }
+);
+
+test(
+  'BCH compiler: built-in variables – signing_serialization.transaction_sequence_numbers',
+  expectCompilationResult,
+  '<signing_serialization.transaction_sequence_numbers>',
+  {},
+  {
+    bytecode: hexToBin('54'),
     success: true
   }
 );
@@ -330,7 +374,7 @@ test(
   {},
   {
     bytecode: hexToBin(
-      '200404040404040404040404040404040404040404040404040404040404040404'
+      '20214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a7'
     ),
     success: true
   }

@@ -174,8 +174,7 @@ export const createInstructionSetBCH = (
     const unlockingInstructions = parseBytecode<OpcodesBCH>(unlockingBytecode);
     const lockingInstructions = parseBytecode<OpcodesBCH>(lockingBytecode);
     const externalState = createAuthenticationProgramExternalStateCommon(
-      program,
-      sha256
+      program
     );
     const initialState = createAuthenticationProgramStateCommon<
       OpcodesBCH,

@@ -49,28 +49,26 @@ pendingTests.map((expectation, currentTest) => {
     const signingSerializationType = numberToBinUint32LE(
       expectation.signingSerializationType
     );
-    const state = createAuthenticationProgramExternalStateCommon(
-      {
-        inputIndex: expectation.inputIndex,
-        sourceOutput: {
-          lockingBytecode,
-          satoshis: BigInt(0)
-        },
-        spendingTransaction: tx
+    const state = createAuthenticationProgramExternalStateCommon({
+      inputIndex: expectation.inputIndex,
+      sourceOutput: {
+        lockingBytecode,
+        satoshis: BigInt(0)
       },
-      sha256
-    );
+      spendingTransaction: tx
+    });
     const serialization = generateSigningSerializationBCH(
+      sha256,
       state.version,
-      state.hashTransactionOutpoints,
-      state.hashTransactionSequenceNumbers,
+      state.transactionOutpoints,
+      state.transactionSequenceNumbers,
       state.outpointTransactionHash,
       state.outpointIndex,
       lockingBytecode,
       state.outputValue,
       state.sequenceNumber,
-      state.hashCorrespondingOutput,
-      state.hashTransactionOutputs,
+      state.correspondingOutput,
+      state.transactionOutputs,
       state.locktime,
       signingSerializationType.slice(0, 1),
       signingSerializationType.slice(1, 4)

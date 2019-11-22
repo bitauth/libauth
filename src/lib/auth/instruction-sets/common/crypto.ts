@@ -131,16 +131,17 @@ export const opCheckSig = <
     );
 
     const serialization = generateSigningSerializationBCH(
+      sha256,
       state.version,
-      state.hashTransactionOutpoints,
-      state.hashTransactionSequenceNumbers,
+      state.transactionOutpoints,
+      state.transactionSequenceNumbers,
       state.outpointTransactionHash,
       state.outpointIndex,
       coveredBytecode,
       state.outputValue,
       state.sequenceNumber,
-      state.hashCorrespondingOutput,
-      state.hashTransactionOutputs,
+      state.correspondingOutput,
+      state.transactionOutputs,
       state.locktime,
       signingSerializationType
     );
@@ -294,16 +295,17 @@ export const opCheckMultiSig = <
                     } = decodeBitcoinSignature(bitcoinEncodedSignature);
 
                     const serialization = generateSigningSerializationBCH(
+                      sha256,
                       finalState.version,
-                      finalState.hashTransactionOutpoints,
-                      finalState.hashTransactionSequenceNumbers,
+                      finalState.transactionOutpoints,
+                      finalState.transactionSequenceNumbers,
                       finalState.outpointTransactionHash,
                       finalState.outpointIndex,
                       coveredBytecode,
                       finalState.outputValue,
                       finalState.sequenceNumber,
-                      finalState.hashCorrespondingOutput,
-                      finalState.hashTransactionOutputs,
+                      finalState.correspondingOutput,
+                      finalState.transactionOutputs,
                       finalState.locktime,
                       signingSerializationType
                     );

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.1](https://github.com/bitjson/bitcoin-ts/compare/v1.11.0...v1.11.1) (2019-11-22)
+
+
+### Bug Fixes
+
+* **compiler:** make correspondingOutput optional (in case it doesn't exist) ([1803848](https://github.com/bitjson/bitcoin-ts/commit/1803848))
+
+
+### Tests
+
+* reduce wasm memory needed for tests ([43c833c](https://github.com/bitjson/bitcoin-ts/commit/43c833c))
+
+
+
 ## [1.11.0](https://github.com/bitjson/bitcoin-ts/compare/v1.10.0...v1.11.0) (2019-11-22)
 
 

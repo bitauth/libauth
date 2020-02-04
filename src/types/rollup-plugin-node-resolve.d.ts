@@ -5,6 +5,7 @@ declare module 'rollup-plugin-node-resolve' {
 }
 
 interface RollupPluginNodeResolveOptions {
+  // cspell: disable-next-line
   jsnext?: boolean;
   main?: boolean;
   browser?: boolean;

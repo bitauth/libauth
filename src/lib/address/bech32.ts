@@ -16,6 +16,7 @@ export enum BitRegroupingError {
   requiresDisallowedPadding = 'Encoding requires padding while padding is disallowed.'
 }
 
+// cSpell:ignore Pieter, Wuille
 /**
  * Given an array of integers, regroup bits from `sourceWordLength` to
  * `resultWordLength`, returning a new array of integers between 0 and

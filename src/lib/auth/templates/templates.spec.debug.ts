@@ -1,3 +1,4 @@
+// cSpell:disable
 // tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
 import { AuthenticationTemplate, AuthenticationTemplateEntity } from './types';
 

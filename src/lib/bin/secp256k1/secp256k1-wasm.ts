@@ -1,3 +1,4 @@
+// cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../utils/utils';
 
 import {

@@ -1,3 +1,4 @@
+// cSpell:disable
 // Type definitions for Parsimmon 1.10
 // Project: https://github.com/jneen/parsimmon
 // Definitions by: Bart van der Schoor <https://github.com/Bartvds>

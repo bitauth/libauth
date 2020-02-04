@@ -65,9 +65,10 @@ const preparePage = async () => {
       // tslint:disable-next-line:no-console
       console.error(`error: ${err}`);
     });
+    // cspell: disable-next-line
     page.on('pageerror', err => {
       // tslint:disable-next-line:no-console
-      console.error(`pageerror: ${err}`);
+      console.error(`pageerror: ${err}`); // cspell: disable-line
     });
     await new Promise<void>(async resolve => {
       await page.exposeFunction('benchError', (error: string) => {

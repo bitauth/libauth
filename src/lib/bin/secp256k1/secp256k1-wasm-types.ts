@@ -1,3 +1,4 @@
+// cSpell:ignore noncefp, ndata, outputlen,
 // bitflags used in secp256k1's public API (translated from secp256k1.h)
 
 // tslint:disable:no-bitwise no-magic-numbers
@@ -21,13 +22,6 @@ const SECP256K1_CONTEXT_NONE = SECP256K1_FLAGS_TYPE_CONTEXT;
 const SECP256K1_EC_COMPRESSED =
   SECP256K1_FLAGS_TYPE_COMPRESSION | SECP256K1_FLAGS_BIT_COMPRESSION;
 const SECP256K1_EC_UNCOMPRESSED = SECP256K1_FLAGS_TYPE_COMPRESSION;
-
-// /** Prefix byte used to tag various encoded curvepoints for specific purposes */
-// const SECP256K1_TAG_PUBKEY_EVEN = 0x02;
-// const SECP256K1_TAG_PUBKEY_ODD = 0x03;
-// const SECP256K1_TAG_PUBKEY_UNCOMPRESSED = 0x04;
-// const SECP256K1_TAG_PUBKEY_HYBRID_EVEN = 0x06;
-// const SECP256K1_TAG_PUBKEY_HYBRID_ODD = 0x07;
 
 /**
  * Flag to pass to a Secp256k1.contextCreate method.

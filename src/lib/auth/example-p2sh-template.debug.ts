@@ -110,5 +110,5 @@ console.log(JSON.stringify(twoOfThree, undefined, 1));
 
 // client does something like: promptUserForEntity(entityChoices)
 
-// const initiallockingBytecodes = 10;
-// createWallet(template, 'Cosigner 1', initiallockingBytecodes)
+// const initialAddresses = 10;
+// createWallet(template, 'Cosigner 1', initialAddresses)

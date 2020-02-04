@@ -1,7 +1,16 @@
 // tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
 
-import { base64ToBin, binToBase64 } from './base64';
+import { base64ToBin, binToBase64, isBase64 } from './base64';
+
+test('isBase64', t => {
+  t.deepEqual(isBase64('YWJj'), true);
+  t.deepEqual(isBase64('YWJjZA=='), true);
+  t.deepEqual(isBase64('YWJ&'), false);
+  t.deepEqual(isBase64('YWJ'), false);
+  t.deepEqual(isBase64('YW'), false);
+  t.deepEqual(isBase64('Y'), false);
+});
 
 test('base64ToBin works as expected', t => {
   const abc = new Uint8Array([97, 98, 99]);

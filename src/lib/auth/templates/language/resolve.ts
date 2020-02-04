@@ -390,17 +390,7 @@ enum Constants {
   msPerLocktimeSecond = 1000
 }
 
-/**
- * Convert a Javascript `Date` object to its equivalent LockTime
- * representation in an `AuthenticationVirtualMachine`.
- *
- * TODO: this method should error past the overflow Date and for dates which
- * would become BlockHeights when encoded. Validate correctness after
- * `OP_CHECKLOCKTIMEVERIFY` is implemented.
- *
- * @param date the Date to convert to a BlockTime Uint8Array
- */
-export const dateToLockTime = (date: Date) =>
+const dateToLockTime = (date: Date) =>
   bigIntToScriptNumber(
     BigInt(Math.round(date.getTime() / Constants.msPerLocktimeSecond))
   );

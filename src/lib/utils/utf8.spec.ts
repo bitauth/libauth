@@ -11,7 +11,7 @@ const fcUint8Array = (minLength: number, maxLength: number) =>
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
     .map(a => Uint8Array.from(a));
 
-test('utf8ToBin & ', t => {
+test('utf8ToBin', t => {
   t.deepEqual(utf8ToBin('👍'), hexToBin('f09f918d'));
 });
 

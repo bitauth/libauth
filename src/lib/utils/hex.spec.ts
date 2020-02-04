@@ -2,7 +2,14 @@
 import test from 'ava';
 import * as fc from 'fast-check';
 
-import { binToHex, hexToBin, range, splitEvery, swapEndianness } from './hex';
+import {
+  binToHex,
+  hexToBin,
+  isHex,
+  range,
+  splitEvery,
+  swapEndianness
+} from './hex';
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
@@ -20,9 +27,21 @@ test('splitEvery', t => {
   t.deepEqual(splitEvery('abcde', 2), ['ab', 'cd', 'e']);
 });
 
+test('isHex', t => {
+  t.deepEqual(isHex('0001022a646566ff'), true);
+  t.deepEqual(isHex('0001022A646566Ff'), true);
+  t.deepEqual(isHex('0001022A646566FF'), true);
+  t.deepEqual(isHex('0001022A646566F'), false);
+  t.deepEqual(isHex('0001022A646566FG'), false);
+});
+
 test('hexToBin', t => {
   t.deepEqual(
     hexToBin('0001022a646566ff'),
+    new Uint8Array([0, 1, 2, 42, 100, 101, 102, 255])
+  );
+  t.deepEqual(
+    hexToBin('0001022A646566FF'),
     new Uint8Array([0, 1, 2, 42, 100, 101, 102, 255])
   );
 });

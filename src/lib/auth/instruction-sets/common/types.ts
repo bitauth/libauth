@@ -94,11 +94,15 @@ export const parseBytesAsScriptNumber = (
   // tslint:disable-next-line:no-bitwise
   const isNegative = (bytes[bytes.length - 1] & signFlippingByte) !== 0;
   return isNegative
-    ? -// tslint:disable-next-line:no-bitwise
-      (
-        result &
+    ? -(
         // tslint:disable-next-line:no-bitwise
-        ~(BigInt(signFlippingByte) << BigInt(bitsPerByte * (bytes.length - 1)))
+        (
+          result &
+          // tslint:disable-next-line:no-bitwise
+          ~(
+            BigInt(signFlippingByte) << BigInt(bitsPerByte * (bytes.length - 1))
+          )
+        )
       )
     : result;
 };

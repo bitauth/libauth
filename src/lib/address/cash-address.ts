@@ -325,7 +325,7 @@ const isValidBitLength = (
  * @param prefix a valid prefix indicating the network for which to encode the
  * address (usually a `CashAddressNetworkPrefix`) – must be only lowercase
  * letters
- * @param type the `CashAddressType` to encode in the version byte – usually a
+ * @param type the `CashAddressType` to encode in the version byte – usually a
  * `CashAddressType`
  * @param hash the hash to encode (for P2PKH, the public key hash; for P2SH, the
  * redeeming bytecode hash)

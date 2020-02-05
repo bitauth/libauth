@@ -1,6 +1,7 @@
 // used in tests and benchmarks
 declare module 'bcrypto' {
-  var thingsBitcoinTsTestsUse: {
+  // eslint-disable-next-line init-declarations
+  const thingsBitcoinTsTestsUse: {
     RIPEMD160: BcryptoHashMethod;
     SHA1: BcryptoHashMethod;
     SHA256: BcryptoHashMethod;

@@ -24,9 +24,11 @@ const sha256Promise = instantiateSha256();
 const secp256k1Promise = instantiateSecp256k1();
 const vmPromise = instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict);
 
-const expectCompilationResult: Macro<
-  [string, CompilationData<CompilerOperationDataBCH>, object]
-> = async (t, testScript, otherData = {}, expectedResult) => {
+const expectCompilationResult: Macro<[
+  string,
+  CompilationData<CompilerOperationDataBCH>,
+  object
+]> = async (t, testScript, otherData = {}, expectedResult) => {
   const sha256 = await sha256Promise;
   const secp256k1 = await secp256k1Promise;
   const vm = await vmPromise;

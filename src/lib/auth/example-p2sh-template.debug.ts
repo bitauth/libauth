@@ -25,8 +25,6 @@ console.log(stringifyBinAndBigInt(ast));
 
 */
 
-////////////////////////////
-
 // walk through: 2 of 3
 
 // each client has a copy of the Bitauth template

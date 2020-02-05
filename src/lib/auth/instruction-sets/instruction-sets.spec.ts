@@ -160,16 +160,18 @@ const malFormedPushes: CommonScriptParseAndAsmTests = {
   }
 };
 
-const parse: Macro<
-  [Uint8Array, ReadonlyArray<ParsedAuthenticationInstruction>]
-> = (t, input, expected) => {
+const parse: Macro<[
+  Uint8Array,
+  ReadonlyArray<ParsedAuthenticationInstruction>
+]> = (t, input, expected) => {
   t.deepEqual(parseBytecode(input), expected);
 };
 parse.title = title => `parse script: ${title}`.trim();
 
-const disassemble: Macro<
-  [ReadonlyArray<ParsedAuthenticationInstruction>, string]
-> = (t, input, expected) => {
+const disassemble: Macro<[
+  ReadonlyArray<ParsedAuthenticationInstruction>,
+  string
+]> = (t, input, expected) => {
   t.deepEqual(
     disassembleParsedAuthenticationInstructions(OpcodesBCH, input),
     expected
@@ -177,16 +179,18 @@ const disassemble: Macro<
 };
 disassemble.title = title => `disassemble script: ${title}`.trim();
 
-const serialize: Macro<
-  [ReadonlyArray<AuthenticationInstruction>, Uint8Array]
-> = (t, input, expected) => {
+const serialize: Macro<[
+  ReadonlyArray<AuthenticationInstruction>,
+  Uint8Array
+]> = (t, input, expected) => {
   t.deepEqual(serializeAuthenticationInstructions(input), expected);
 };
 serialize.title = title => `serialize script: ${title}`.trim();
 
-const reSerialize: Macro<
-  [ReadonlyArray<ParsedAuthenticationInstruction>, Uint8Array]
-> = (t, input, expected) => {
+const reSerialize: Macro<[
+  ReadonlyArray<ParsedAuthenticationInstruction>,
+  Uint8Array
+]> = (t, input, expected) => {
   t.deepEqual(serializeParsedAuthenticationInstructions(input), expected);
 };
 reSerialize.title = title => `re-serialize parsed script: ${title}`.trim();

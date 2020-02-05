@@ -6,7 +6,7 @@
  * @param length the number of elements in the array
  * @param begin the index at which the range starts (default: `0`)
  */
-export const range = (length: number, begin: number = 0) =>
+export const range = (length: number, begin = 0) =>
   Array.from({ length }, (_, index) => begin + index);
 
 /**

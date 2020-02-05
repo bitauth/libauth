@@ -1,7 +1,7 @@
 import * as P from './parsimmon.js';
 
 /**
- * TODO: @types/parsimmon is not in use because of some early hacks. Ideally,
+ * TODO: `@types/parsimmon` is not in use because of some early hacks. Ideally,
  * this can be cleaned up by converting parsimmon.js to TypeScript, and trimming
  * out the parts we don't need.
  */

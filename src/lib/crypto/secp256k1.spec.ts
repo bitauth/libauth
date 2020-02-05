@@ -656,9 +656,9 @@ test('crypto: secp256k1.recoverPublicKeyUncompressed', async t => {
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
   // TODO: equivalentToElliptic test for recoverable signatures.
   /*
-  const equivalentToElliptic = fc.property();
-  t.notThrows(() => fc.assert(equivalentToElliptic));
-  */
+   * const equivalentToElliptic = fc.property();
+   * t.notThrows(() => fc.assert(equivalentToElliptic));
+   */
 });
 
 test('crypto: secp256k1.signMessageHashCompact', async t => {

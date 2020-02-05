@@ -109,9 +109,7 @@ export const encodeBech32 = (base32IntegerArray: number[]) => {
  * @param validBech32 the bech32-encoded string to decode
  */
 export const decodeBech32 = (validBech32: string) => {
-  const result: Array<
-    typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex]
-  > = [];
+  const result: Array<typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex]> = [];
   // tslint:disable-next-line: prefer-for-of no-let
   for (let i = 0; i < validBech32.length; i++) {
     // tslint:disable-next-line: no-expression-statement
@@ -189,8 +187,6 @@ export const bech32PaddedToBin = (bech32Padded: string) => {
  * @param bytes the Uint8Array to bech32 encode
  */
 export const binToBech32Padded = (bytes: Uint8Array) =>
-  encodeBech32(regroupBits(
-    bytes,
-    base256WordLength,
-    base32WordLength
-  ) as number[]);
+  encodeBech32(
+    regroupBits(bytes, base256WordLength, base32WordLength) as number[]
+  );

@@ -4,6 +4,7 @@ declare module 'chuhai' {
     name: string,
     implementation: (s: Helper) => void
   ): Promise<void>;
+  // eslint-disable-next-line import/no-default-export
   export default suite;
 }
 
@@ -19,6 +20,7 @@ interface Helper {
     implementation: Benchmark,
     opts?: BenchmarkOptions
   ) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   set: (key: string, value: any) => void;
 }
 

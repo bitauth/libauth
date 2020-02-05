@@ -109,8 +109,7 @@ export type ParsedAuthenticationInstructions<Opcodes = number> = Array<
 export const authenticationInstructionIsMalformed = <Opcodes>(
   instruction: ParsedAuthenticationInstruction<Opcodes>
 ): instruction is ParsedAuthenticationInstructionMalformed<Opcodes> =>
-  (instruction as ParsedAuthenticationInstructionMalformed<Opcodes>)
-    .malformed === true;
+  (instruction as ParsedAuthenticationInstructionMalformed<Opcodes>).malformed;
 
 export const authenticationInstructionsAreMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>

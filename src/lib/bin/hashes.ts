@@ -18,25 +18,27 @@ export const instantiateRustWasm = async (
   updateExportName: string,
   finalExportName: string
 ): Promise<HashFunction> => {
-  const wasm = (await WebAssembly.instantiate(webassemblyBytes, {
-    [expectedImportModuleName]: {
-      /**
-       * This would only be called in cases where a `__wbindgen_malloc` failed.
-       * Since `__wbindgen_malloc` isn't exposed to consumers, this error
-       * can only be encountered if the code below is broken.
-       */
-      __wbindgen_throw: /* istanbul ignore next */ (
-        ptr: number,
-        len: number
-      ) => {
-        throw new Error(
-          Array.from(getUint8Memory().subarray(ptr, ptr + len))
-            .map(num => String.fromCharCode(num))
-            .join('')
-        );
+  const wasm = (
+    await WebAssembly.instantiate(webassemblyBytes, {
+      [expectedImportModuleName]: {
+        /**
+         * This would only be called in cases where a `__wbindgen_malloc` failed.
+         * Since `__wbindgen_malloc` isn't exposed to consumers, this error
+         * can only be encountered if the code below is broken.
+         */
+        __wbindgen_throw: /* istanbul ignore next */ (
+          ptr: number,
+          len: number
+        ) => {
+          throw new Error(
+            Array.from(getUint8Memory().subarray(ptr, ptr + len))
+              .map(num => String.fromCharCode(num))
+              .join('')
+          );
+        }
       }
-    }
-  })).instance.exports as any; // tslint:disable-line: no-any
+    })
+  ).instance.exports as any; // tslint:disable-line: no-any
 
   // tslint:disable:no-let no-if-statement no-expression-statement no-unsafe-any
   let cachedUint8Memory: Uint8Array | undefined;

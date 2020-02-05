@@ -19,5 +19,5 @@ test('parseLockTime', t => {
   );
 });
 
-//TODO: upgrade fast-check
+// TODO: upgrade fast-check
 test.todo('dateToLockTime <-> parseLockTime');

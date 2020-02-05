@@ -71,6 +71,7 @@ const singlePassBrowserBenchmark = async (
       s.bench(
         'crypto.subtle',
         deferred => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           window.crypto.subtle
             .digest(subtleCryptoAlgorithmName, message)
             .then(buffer => {

@@ -87,6 +87,7 @@ export type ResolvedSegment =
   | ResolvedSegmentComment
   | ResolvedSegmentError;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ResolvedScript extends Array<ResolvedSegment> {}
 
 export enum IdentifierResolutionType {
@@ -386,13 +387,13 @@ export interface CompilationData<CompilerOperationData> {
   };
 }
 
-enum Constants {
+enum Time {
   msPerLocktimeSecond = 1000
 }
 
 const dateToLockTime = (date: Date) =>
   bigIntToScriptNumber(
-    BigInt(Math.round(date.getTime() / Constants.msPerLocktimeSecond))
+    BigInt(Math.round(date.getTime() / Time.msPerLocktimeSecond))
   );
 
 const articleAndVariableType = (variableType: CompilerOperationTypes) =>

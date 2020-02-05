@@ -121,7 +121,7 @@ export interface AuthenticationProgramCommon {
   spendingTransaction: Transaction;
 }
 
-// tslint:disable-next-line:no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthenticationProgramExternalStateCommon
   extends TransactionInputState {}
 

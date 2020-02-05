@@ -46,12 +46,12 @@ const enum DER {
   sequenceLengthByte = 1,
   integerTagByte = 1,
   integerLengthByte = 1,
-  // tslint:disable-next-line: restrict-plus-operands
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   sequenceMetadataBytes = sequenceTagByte + sequenceLengthByte,
-  // tslint:disable-next-line: restrict-plus-operands
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   integerMetadataBytes = integerTagByte + integerLengthByte,
   minimumSValueBytes = 1,
-  // tslint:disable-next-line: restrict-plus-operands
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   minimumNonRValueBytes = sequenceMetadataBytes +
     integerMetadataBytes +
     integerMetadataBytes +
@@ -135,7 +135,7 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
     rLength,
     DER.rValueIndex
   );
-  const sTagIndex = DER.rValueIndex + rLength; // tslint:disable-line: restrict-plus-operands
+  const sTagIndex = DER.rValueIndex + rLength; // eslint-disable-line @typescript-eslint/restrict-plus-operands
   const sLengthIndex = sTagIndex + 1;
   const sLength = signature[sLengthIndex] as number | undefined;
   // tslint:disable-next-line: no-if-statement

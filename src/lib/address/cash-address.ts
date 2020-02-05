@@ -218,7 +218,7 @@ export const cashAddressPolynomialModulo = (v: number[]) => {
   let lowerBytes = 1;
   // tslint:disable-next-line: no-let
   let c = 0;
-  // tslint:disable-next-line: prefer-for-of no-let
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let j = 0; j < v.length; j++) {
     // tslint:disable-next-line:
     c = mostSignificantByte >>> 3;

@@ -54,7 +54,7 @@ export const instantiateRustWasm = async (
   /**
    * Must be hoisted for `__wbindgen_throw`.
    */
-  // tslint:disable-next-line:only-arrow-functions
+  // eslint-disable-next-line func-style
   function getUint8Memory(): Uint8Array {
     if (
       cachedUint8Memory === undefined ||

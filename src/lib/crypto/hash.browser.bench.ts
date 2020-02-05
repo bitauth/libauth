@@ -70,6 +70,7 @@ const preparePage = async () => {
       // tslint:disable-next-line:no-console
       console.error(`pageerror: ${err}`); // cspell: disable-line
     });
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     await new Promise<void>(async resolve => {
       await page.exposeFunction('benchError', (error: string) => {
         // tslint:disable-next-line:no-console

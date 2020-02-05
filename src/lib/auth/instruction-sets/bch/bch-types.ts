@@ -17,9 +17,10 @@ export enum ConsensusBCH {
   schnorrSignatureLength = 64
 }
 
-// tslint:disable-next-line:no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthenticationProgramBCH extends AuthenticationProgramCommon {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthenticationProgramStateBCH
   extends AuthenticationProgramStateCommon<
     OpcodesBCH,

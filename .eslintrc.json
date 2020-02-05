@@ -134,15 +134,7 @@
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-unnecessary-qualifier": "off",
-    "@typescript-eslint/unified-signatures": "off",
-    "no-redeclare": "off",
-    "@typescript-eslint/no-misused-promises": "off",
-    "@typescript-eslint/no-floating-promises": "off",
-    "func-style": "off",
-    "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/default-param-last": "off",
-    "@typescript-eslint/restrict-plus-operands": "off",
-    "@typescript-eslint/prefer-for-of": "off"
+    "@typescript-eslint/unified-signatures": "off"
 
     // -- end temporary disables
   }

@@ -4,15 +4,6 @@ import * as fc from 'fast-check';
 
 import { hexToBin, splitEvery } from '../utils/hex';
 
-const maxUint8Number = 255;
-const fcUint8Array = (length: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), length, length)
-    .map(a => Uint8Array.from(a));
-
-const lowercaseLetter = () =>
-  fc.integer(97, 122).map(i => String.fromCharCode(i));
-
 import { BitRegroupingError } from './bech32';
 import {
   attemptCashAddressFormatErrorCorrection,
@@ -35,6 +26,15 @@ import {
   maskCashAddressPrefix
 } from './cash-address';
 import * as cashAddrJson from './fixtures/cashaddr.json';
+
+const maxUint8Number = 255;
+const fcUint8Array = (length: number) =>
+  fc
+    .array(fc.integer(0, maxUint8Number), length, length)
+    .map(a => Uint8Array.from(a));
+
+const lowercaseLetter = () =>
+  fc.integer(97, 122).map(i => String.fromCharCode(i));
 
 const cashAddressTestVectors = Object.values(cashAddrJson).filter(
   item => !Array.isArray(item)
@@ -392,7 +392,9 @@ test('attemptCashAddressErrorCorrection', t => {
         );
         const addressChars = splitEvery(address, 1);
         const errors = [
-          ...new Set(randomErrors.filter(i => i !== prefix.length).sort())
+          ...new Set(
+            randomErrors.filter(i => i !== prefix.length).sort((a, b) => a - b)
+          )
         ];
         const broken = addressChars
           .map((char, i) =>

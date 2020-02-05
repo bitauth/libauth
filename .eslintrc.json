@@ -142,9 +142,7 @@
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/default-param-last": "off",
     "@typescript-eslint/restrict-plus-operands": "off",
-    "@typescript-eslint/prefer-for-of": "off",
-    "import/first": "off",
-    "@typescript-eslint/require-array-sort-compare": "off"
+    "@typescript-eslint/prefer-for-of": "off"
 
     // -- end temporary disables
   }

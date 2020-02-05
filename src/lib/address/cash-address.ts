@@ -601,7 +601,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       polynomial[correctionIndex2] ^= s1 % finiteFieldOrder;
       return {
         address: cashAddressPolynomialToCashAddress(polynomial),
-        corrections: [correctionIndex1, correctionIndex2].sort()
+        corrections: [correctionIndex1, correctionIndex2].sort((a, b) => a - b)
       };
     }
   }

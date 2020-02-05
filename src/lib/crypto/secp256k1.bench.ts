@@ -67,8 +67,8 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t =>
     });
     s.bench('secp256k1-node', () => {
       result = secp256k1Node.ecdsaVerify(
-        messageHash,
         secp256k1Node.signatureImport(sigDER),
+        messageHash,
         pubkeyUncompressed
       );
     });
@@ -114,8 +114,8 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
     });
     s.bench('secp256k1-node', () => {
       result = secp256k1Node.ecdsaVerify(
-        messageHash,
         secp256k1Node.signatureImport(sigDER),
+        messageHash,
         pubkeyCompressed
       );
     });

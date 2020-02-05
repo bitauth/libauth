@@ -33,10 +33,10 @@ const prepareCode = async () => {
   // tslint:disable-next-line:no-object-mutation no-console
   console.warn = realConsoleWarn;
 
-  const { code } = await bundle.generate({
+  const result = await bundle.generate({
     format: 'esm'
   });
-  return code;
+  return result.output[0].code;
 };
 
 const preparePage = async () => {

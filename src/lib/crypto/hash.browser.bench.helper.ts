@@ -1,4 +1,6 @@
 // tslint:disable:no-expression-statement no-unsafe-any
+/* global window, crypto */
+/* eslint-disable functional/no-let, init-declarations */
 import * as asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
 import * as hashJs from 'hash.js';
@@ -83,14 +85,14 @@ const singlePassBrowserBenchmark = async (
           defer: true
         }
       );
-      const algorithm =
+      const Algorithm =
         subtleCryptoAlgorithmName === 'SHA-1'
           ? asmCrypto.Sha1
           : subtleCryptoAlgorithmName === 'SHA-256'
           ? asmCrypto.Sha256
           : asmCrypto.Sha512;
       s.bench('asmcrypto.js', () => {
-        const instance = new algorithm();
+        const instance = new Algorithm();
         hash = instance.process(message).finish().result;
       });
     }
@@ -156,14 +158,14 @@ const incrementalBrowserBenchmark = async (
 
       // tslint:disable-next-line:no-if-statement
       if (hashFunctionName !== 'ripemd160') {
-        const algorithm =
+        const Algorithm =
           hashFunctionName === 'sha1'
             ? asmCrypto.Sha1
             : hashFunctionName === 'sha256'
             ? asmCrypto.Sha256
             : asmCrypto.Sha512;
         s.bench('asmcrypto.js', () => {
-          const instance = new algorithm();
+          const instance = new Algorithm();
           hash = instance.process(message).finish().result;
         });
       }
@@ -197,6 +199,6 @@ const browserBenchmarks = async (
 
   benchComplete();
 })().catch(err => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(err);
 });

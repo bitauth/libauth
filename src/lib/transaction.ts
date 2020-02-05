@@ -255,11 +255,10 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
     nextOffset: offsetAfterInputCount,
     value: inputCount
   } = readBitcoinVarInt(bin, offsetAfterVersion);
-  // tslint:disable-next-line:no-let prefer-const
+  // eslint-disable-next-line functional/no-let
   let cursor = offsetAfterInputCount;
-  // tslint:disable-next-line:no-let prefer-const
-  let inputs = [];
-  // tslint:disable-next-line:no-let
+  const inputs = [];
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < Number(inputCount); i++) {
     const { input, nextOffset } = readTransactionInput(bin, cursor);
     // tslint:disable-next-line:no-expression-statement
@@ -271,11 +270,9 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
     nextOffset: offsetAfterOutputCount,
     value: outputCount
   } = readBitcoinVarInt(bin, cursor);
-  // tslint:disable-next-line:no-expression-statement
   cursor = offsetAfterOutputCount;
-  // tslint:disable-next-line:no-let prefer-const
-  let outputs = [];
-  // tslint:disable-next-line:no-let
+  const outputs = [];
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < Number(outputCount); i++) {
     const { output, nextOffset } = readTransactionOutput(bin, cursor);
     // tslint:disable-next-line:no-expression-statement

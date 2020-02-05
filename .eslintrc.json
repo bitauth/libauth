@@ -19,11 +19,13 @@
     "prettier",
     "prettier/@typescript-eslint"
   ],
-  "globals": { "BigInt": true },
+  "globals": { "BigInt": true, "console": true, "WebAssembly": true },
   "rules": {
-    // "max-lines": ["error", 1000],
+    "max-lines": ["error", 1000],
     // "complexity": ["error", 5],
     "@typescript-eslint/no-type-alias": "off",
+    "line-comment-position": ["error", { "ignorePattern": "cspell" }],
+    "no-inline-comments": "off",
     "id-length": "off",
     // "tsdoc/syntax": "warn",
     "eslint-comments/disable-enable-pair": [
@@ -44,7 +46,8 @@
           "eslint-disable",
           "eslint-disable-line",
           "eslint-disable-next-line",
-          "eslint-enable"
+          "eslint-enable",
+          "global"
         ]
       }
     ],
@@ -74,7 +77,6 @@
     "no-bitwise": "off",
     "functional/immutable-data": "off",
     "functional/no-conditional-statement": "off",
-    "functional/no-let": "off",
     "functional/no-loop-statement": "off",
     "one-var": "off",
     "no-plusplus": "off",
@@ -93,23 +95,12 @@
     "functional/functional-parameters": "off",
     "require-unicode-regexp": "off",
     "@typescript-eslint/array-type": "off",
-    "prefer-const": "off",
     "max-lines-per-function": "off",
     "functional/no-throw-statement": "off",
     "no-undefined": "off",
     "no-unneeded-ternary": "off",
     "max-params": "off",
-    "multiline-comment-style": "off",
-    "new-cap": "off",
-    "init-declarations": "off",
-    "eslint-comments/no-unused-disable": "off",
-    "no-inline-comments": "off",
-    "line-comment-position": "off",
-    "no-undef": "off",
-    "max-lines": "off",
-    "no-console": "off",
-    "require-atomic-updates": "off",
-    "no-underscore-dangle": "off"
+    "multiline-comment-style": "off"
 
     // -- end temporary disables
   }

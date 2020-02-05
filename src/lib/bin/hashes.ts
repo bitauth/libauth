@@ -5,6 +5,7 @@ export interface HashFunction {
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
 }
 
+/* eslint-disable no-underscore-dangle */
 /**
  * Note, most of this method is translated and boiled-down from the wasm-pack
  * workflow. Significant changes to wasm-bindgen or wasm-pack build will likely
@@ -40,12 +41,12 @@ export const instantiateRustWasm = async (
         }
       }
     })
-  ).instance.exports as any; // tslint:disable-line: no-any
+  ).instance.exports as any;
 
   // tslint:disable:no-let no-if-statement no-expression-statement no-unsafe-any
-  let cachedUint8Memory: Uint8Array | undefined;
-  let cachedUint32Memory: Uint32Array | undefined;
-  let cachedGlobalArgumentPtr: number | undefined;
+  let cachedUint8Memory: Uint8Array | undefined; // eslint-disable-line functional/no-let, init-declarations
+  let cachedUint32Memory: Uint32Array | undefined; // eslint-disable-line functional/no-let, init-declarations
+  let cachedGlobalArgumentPtr: number | undefined; // eslint-disable-line functional/no-let, init-declarations
 
   const globalArgumentPtr = () => {
     if (cachedGlobalArgumentPtr === undefined) {
@@ -160,3 +161,4 @@ export const instantiateRustWasm = async (
     update
   };
 };
+/* eslint-enable no-underscore-dangle */

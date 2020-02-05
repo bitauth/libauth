@@ -27,7 +27,7 @@ export const isBase64 = (maybeBase64: string) =>
 export const base64ToBin = (validBase64: string) => {
   // tslint:disable:no-magic-numbers
   const lookup = new Uint8Array(123);
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < chars.length; i++) {
     // tslint:disable-next-line:no-object-mutation no-expression-statement
     lookup[chars.charCodeAt(i)] = i;
@@ -42,9 +42,9 @@ export const base64ToBin = (validBase64: string) => {
       : bufferLengthEstimate;
   const buffer = new ArrayBuffer(bufferLength);
   const bytes = new Uint8Array(buffer);
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   let p = 0;
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < stringLength; i += 4) {
     const encoded1 = lookup[validBase64.charCodeAt(i)];
     const encoded2 = lookup[validBase64.charCodeAt(i + 1)];
@@ -65,8 +65,9 @@ export const base64ToBin = (validBase64: string) => {
  */
 // tslint:disable:no-magic-numbers no-bitwise no-expression-statement
 export const binToBase64 = (bytes: Uint8Array) => {
-  let result = ''; // tslint:disable-line: no-let
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
+  let result = '';
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < bytes.length; i += 3) {
     result += chars[bytes[i] >> 2];
     result += chars[((bytes[i] & 3) << 4) | (bytes[i + 1] >> 4)];

@@ -266,11 +266,7 @@ export interface CompilationEnvironment<
    * returns a ProgramState. This method will be used to generate the initial
    * ProgramState for `evaluation`s.
    */
-  createState?: (
-    // tslint:disable-next-line: no-any
-    instructions: Array<AuthenticationInstruction<any>>
-  ) => // tslint:disable-next-line: no-any
-  any;
+  createState?: (instructions: Array<AuthenticationInstruction<any>>) => any;
   /**
    * An object mapping opcode identifiers to the bytecode they generate.
    */

@@ -83,9 +83,9 @@ export const parseBytesAsScriptNumber = (
 
   const bitsPerByte = 8;
   const signFlippingByte = 0x80;
-  // tslint:disable-next-line:prefer-const no-let
+  // eslint-disable-next-line functional/no-let
   let result = BigInt(0);
-  // tslint:disable-next-line:prefer-for-of no-let
+  // eslint-disable-next-line functional/no-let
   for (let byte = 0; byte < bytes.length; byte++) {
     // tslint:disable-next-line:no-expression-statement no-bitwise
     result |= BigInt(bytes[byte]) << BigInt(byte * bitsPerByte);
@@ -124,7 +124,7 @@ export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
   const isNegative = integer < 0;
   const byteStates = 0xff;
   const bitsPerByte = 8;
-  // tslint:disable-next-line:prefer-const no-let
+  // eslint-disable-next-line functional/no-let
   let remaining = isNegative ? -integer : integer;
   while (remaining > 0) {
     // tslint:disable-next-line:no-expression-statement no-bitwise
@@ -156,7 +156,7 @@ export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
  */
 export const stackItemIsTruthy = (item: Uint8Array) => {
   const signFlippingByte = 0x80;
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < item.length; i++) {
     // tslint:disable-next-line:no-if-statement
     if (item[i] !== 0) {

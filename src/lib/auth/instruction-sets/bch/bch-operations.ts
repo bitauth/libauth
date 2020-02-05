@@ -69,7 +69,7 @@ export const padMinimallyEncodedScriptNumber = (
   scriptNumber: Uint8Array,
   length: number
 ) => {
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   let signBit = Constants.positiveSign;
   // tslint:disable-next-line: no-if-statement
   if (scriptNumber.length > 0) {

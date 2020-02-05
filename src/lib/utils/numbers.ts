@@ -22,7 +22,7 @@ const enum BinaryInfo {
  */
 export const numberToBinUintLE = (value: number, bytes: number) => {
   const bin = new Uint8Array(bytes);
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   for (let offset = 0; offset < bytes; offset++) {
     // tslint:disable-next-line:no-object-mutation no-expression-statement
     bin[offset] = value;
@@ -59,9 +59,9 @@ export const numberToBinUint32LE = (value: number) =>
  * @param bytes the number of bytes to read
  */
 export const binToNumberUintLE = (bin: Uint8Array, bytes: number) => {
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   let value = 0;
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   for (let offset = 0; offset < bytes; offset++) {
     // tslint:disable-next-line:no-bitwise no-expression-statement
     value += bin[offset] * BinaryInfo.base ** (BinaryInfo.bitsInAByte * offset);
@@ -94,7 +94,7 @@ export const binToNumberUint32LE = (bin: Uint8Array) =>
  */
 export const bigIntToBinUintLE = (value: bigint, bytes: number) => {
   const bin = new Uint8Array(bytes);
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   for (let offset = 0; offset < bytes; offset++) {
     // tslint:disable-next-line:no-object-mutation no-expression-statement
     bin[offset] = Number(value);
@@ -123,9 +123,9 @@ export const bigIntToBinUint64LE = (value: bigint) =>
 export const binToBigIntUintLE = (bin: Uint8Array, bytes: number) => {
   const base = 2;
   const bitsInAByte = 8;
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   let value = BigInt(0);
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   for (let offset = 0; offset < bytes; offset++) {
     // tslint:disable-next-line:no-bitwise no-expression-statement
     value += BigInt(bin[offset] * base ** (bitsInAByte * offset));

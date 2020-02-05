@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../utils/utils';
 
@@ -324,7 +325,7 @@ export const instantiateSecp256k1WasmBytes = async (
 
   // tslint:enable:no-magic-numbers
 
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let, init-declarations
   let getErrNoLocation: (() => number) | undefined;
 
   // note: A number of methods below are excluded from test coverage. They are

@@ -180,10 +180,10 @@ export const writeLittleEndianNumber = (
   const writeAsLittleEndian = true;
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   length === Bytes.Uint8
-    ? view.setUint8(0, value) // tslint:disable-line: no-void-expression
+    ? view.setUint8(0, value)
     : length === Bytes.Uint16
-    ? view.setUint16(0, value, writeAsLittleEndian) // tslint:disable-line: no-void-expression
-    : view.setUint32(0, value, writeAsLittleEndian); // tslint:disable-line: no-void-expression
+    ? view.setUint16(0, value, writeAsLittleEndian)
+    : view.setUint32(0, value, writeAsLittleEndian);
   return script;
 };
 
@@ -294,7 +294,7 @@ export const readAuthenticationInstruction = <Opcodes = number>(
  */
 export const parseBytecode = <Opcodes = number>(script: Uint8Array) => {
   const instructions: ParsedAuthenticationInstructions<Opcodes> = [];
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let
   let i = 0;
   while (i < script.length) {
     const { instruction, nextIndex } = readAuthenticationInstruction<Opcodes>(
@@ -499,7 +499,7 @@ export const serializeParsedAuthenticationInstructions = <Opcodes = number>(
  * @param opcodes An opcode enum, e.g. `OpcodesBCH`
  */
 export const generateBytecodeMap = (opcodes: object) =>
-  Object.entries(opcodes) // tslint:disable-line: no-inferred-empty-object-type
+  Object.entries(opcodes)
     .filter<[string, number]>(
       (entry): entry is [string, number] => typeof entry[1] === 'number'
     )

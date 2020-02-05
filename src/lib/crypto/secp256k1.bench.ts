@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-let, init-declarations */
 // tslint:disable:no-expression-statement no-let no-unsafe-any
 import test from 'ava';
 import suite from 'chuhai';
@@ -20,7 +21,7 @@ const getValidPrivateKey = (secp256k1: Secp256k1): Uint8Array => {
 };
 
 const setup = async () => ({
-  ellipticEc: new elliptic.ec('secp256k1'),
+  ellipticEc: new elliptic.ec('secp256k1'), // eslint-disable-line new-cap
   secp256k1: await secp256k1Promise
 });
 

@@ -1,4 +1,7 @@
+/* eslint-disable max-lines */
 // cspell:ignore recid
+/* global Buffer */
+
 // TODO: all tests should include a "stateless" property – instantiate a new Secp256k1 and immediately call the method, verify it produces the same result as the existing instance
 // tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any no-void-expression
 import test from 'ava';
@@ -78,7 +81,7 @@ const secp256k1Promise = instantiateSecp256k1();
 const binary = getEmbeddedSecp256k1Binary();
 
 // elliptic setup & helpers
-const ec = new elliptic.ec('secp256k1');
+const ec = new elliptic.ec('secp256k1'); // eslint-disable-line new-cap
 const setupElliptic = (privateKey: Uint8Array) => {
   const key = ec.keyFromPrivate(privateKey);
   const pubUncompressed = new Uint8Array(key.getPublic().encode());
@@ -1145,5 +1148,3 @@ test('crypto: secp256k1.verifySchnorr', async t => {
   const sig6 = Uint8Array.from([0x2a, 0x29, 0x8d, 0xac, 0xae, 0x57, 0x39, 0x5a, 0x15, 0xd0, 0x79, 0x5d, 0xdb, 0xfd, 0x1d, 0xcb, 0x56, 0x4d, 0xa8, 0x2b, 0x0f, 0x26, 0x9b, 0xc7, 0x0a, 0x74, 0xf8, 0x22, 0x04, 0x29, 0xba, 0x1d, 0xfa, 0x16, 0xae, 0xe0, 0x66, 0x09, 0x28, 0x0a, 0x19, 0xb6, 0x7a, 0x24, 0xe1, 0x97, 0x7e, 0x46, 0x97, 0x71, 0x2b, 0x5f, 0xd2, 0x94, 0x39, 0x14, 0xec, 0xd5, 0xf7, 0x30, 0x90, 0x1b, 0x4a, 0xb7]);
   t.is(secp256k1.verifySignatureSchnorr(sig6, pk6, msg6), false);
 });
-
-// tslint:disable-next-line:max-file-line-count

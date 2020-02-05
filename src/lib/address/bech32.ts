@@ -38,14 +38,14 @@ export const regroupBits = (
   resultWordLength: number,
   padding = true
 ) => {
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   let accumulator = 0;
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   let bits = 0;
   const result = [];
   // tslint:disable-next-line: no-bitwise
   const maxResultInt = (1 << resultWordLength) - 1;
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
   for (let p = 0; p < bin.length; ++p) {
     const value = bin[p];
     // tslint:disable-next-line: no-if-statement no-bitwise
@@ -89,9 +89,9 @@ export const regroupBits = (
  * @param base32IntegerArray the array of 5-bit integers to encode
  */
 export const encodeBech32 = (base32IntegerArray: number[]) => {
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   let result = '';
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
   for (let i = 0; i < base32IntegerArray.length; i++) {
     // tslint:disable-next-line: no-expression-statement
     result += bech32CharacterSet[base32IntegerArray[i]];
@@ -110,7 +110,7 @@ export const encodeBech32 = (base32IntegerArray: number[]) => {
  */
 export const decodeBech32 = (validBech32: string) => {
   const result: Array<typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex]> = [];
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
   for (let i = 0; i < validBech32.length; i++) {
     // tslint:disable-next-line: no-expression-statement
     result.push(

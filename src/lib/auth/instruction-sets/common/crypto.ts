@@ -255,9 +255,9 @@ export const opCheckMultiSig = <
                     finalState.instructions
                   ).subarray(finalState.lastCodeSeparator + 1);
 
-                  let approvingPublicKeys = 0; // tslint:disable-line:no-let
-                  let remainingSignatures = signatures.length; // tslint:disable-line:no-let
-                  let remainingPublicKeys = publicKeys.length; // tslint:disable-line:no-let
+                  let approvingPublicKeys = 0; // eslint-disable-line functional/no-let
+                  let remainingSignatures = signatures.length; // eslint-disable-line functional/no-let
+                  let remainingPublicKeys = publicKeys.length; // eslint-disable-line functional/no-let
                   while (
                     remainingSignatures > 0 &&
                     remainingPublicKeys > 0 &&
@@ -329,10 +329,10 @@ export const opCheckMultiSig = <
 
                     // tslint:disable-next-line:no-if-statement
                     if (signed) {
-                      approvingPublicKeys += 1; // tslint:disable-line:no-expression-statement
-                      remainingSignatures -= 1; // tslint:disable-line:no-expression-statement
+                      approvingPublicKeys += 1;
+                      remainingSignatures -= 1;
                     }
-                    remainingPublicKeys -= 1; // tslint:disable-line:no-expression-statement
+                    remainingPublicKeys -= 1;
                   }
 
                   const success =

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
 import test from 'ava';
 
@@ -953,9 +954,9 @@ test('compileScript: variable and script inclusion', t => {
     bytecode: Uint8Array.of(0x51, 0x52, 0x93),
     parse: {
       end: {
-        column: 20,
+        column: 19,
         line: 1,
-        offset: 19
+        offset: 18
       },
       name: 'Script',
       start: {
@@ -966,9 +967,9 @@ test('compileScript: variable and script inclusion', t => {
       value: [
         {
           end: {
-            column: 13,
+            column: 12,
             line: 1,
-            offset: 12
+            offset: 11
           },
           name: 'Identifier',
           start: {
@@ -976,19 +977,19 @@ test('compileScript: variable and script inclusion', t => {
             line: 1,
             offset: 0
           },
-          value: 'push_numbers'
+          value: 'pushNumbers'
         },
         {
           end: {
-            column: 20,
+            column: 19,
             line: 1,
-            offset: 19
+            offset: 18
           },
           name: 'Identifier',
           start: {
-            column: 14,
+            column: 13,
             line: 1,
-            offset: 13
+            offset: 12
           },
           value: 'OP_ADD'
         }
@@ -997,7 +998,7 @@ test('compileScript: variable and script inclusion', t => {
     reduce: {
       bytecode: Uint8Array.of(0x51, 0x52, 0x93),
       range: {
-        endColumn: 20,
+        endColumn: 19,
         endLineNumber: 1,
         startColumn: 1,
         startLineNumber: 1
@@ -1006,7 +1007,7 @@ test('compileScript: variable and script inclusion', t => {
         {
           bytecode: Uint8Array.of(0x51, 0x52),
           range: {
-            endColumn: 13,
+            endColumn: 12,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1
@@ -1015,9 +1016,9 @@ test('compileScript: variable and script inclusion', t => {
         {
           bytecode: Uint8Array.of(0x93),
           range: {
-            endColumn: 20,
+            endColumn: 19,
             endLineNumber: 1,
-            startColumn: 14,
+            startColumn: 13,
             startLineNumber: 1
           }
         }
@@ -1026,12 +1027,12 @@ test('compileScript: variable and script inclusion', t => {
     resolve: [
       {
         range: {
-          endColumn: 13,
+          endColumn: 12,
           endLineNumber: 1,
           startColumn: 1,
           startLineNumber: 1
         },
-        script: 'push_numbers',
+        script: 'pushNumbers',
         source: [
           {
             opcode: 'OP_1',
@@ -1046,14 +1047,14 @@ test('compileScript: variable and script inclusion', t => {
           },
           {
             range: {
-              endColumn: 14,
+              endColumn: 12,
               endLineNumber: 1,
               startColumn: 6,
               startLineNumber: 1
             },
             type: 'bytecode',
             value: Uint8Array.of(0x52),
-            variable: 'var_OP_2'
+            variable: 'varOp2'
           }
         ],
         type: 'bytecode',
@@ -1062,9 +1063,9 @@ test('compileScript: variable and script inclusion', t => {
       {
         opcode: 'OP_ADD',
         range: {
-          endColumn: 20,
+          endColumn: 19,
           endLineNumber: 1,
-          startColumn: 14,
+          startColumn: 13,
           startLineNumber: 1
         },
         type: 'bytecode',

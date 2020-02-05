@@ -82,7 +82,7 @@ const cashAddressTypeBitShift = 3;
 
 export type CashAddressAvailableTypes =
   // prettier-ignore
-  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15; // tslint:disable-line: no-magic-numbers
+  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
 
 export type CashAddressAvailableSizesInBits = keyof typeof cashAddressSizeToBit;
 export type CashAddressAvailableSizes = keyof typeof cashAddressBitToSize;
@@ -148,7 +148,7 @@ const asciiCaseInsensitiveBits = 0b11111;
  */
 export const maskCashAddressPrefix = (prefix: string) => {
   const result = [];
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < prefix.length; i++) {
     // tslint:disable-next-line: no-expression-statement no-bitwise
     result.push(prefix.charCodeAt(i) & asciiCaseInsensitiveBits);
@@ -157,9 +157,9 @@ export const maskCashAddressPrefix = (prefix: string) => {
 };
 
 // prettier-ignore
-const bech32GeneratorMostSignificantByte = [0x98, 0x79, 0xf3, 0xae, 0x1e]; // tslint:disable-line: no-magic-numbers
+const bech32GeneratorMostSignificantByte = [0x98, 0x79, 0xf3, 0xae, 0x1e];
 // prettier-ignore
-const bech32GeneratorRemainingBytes = [0xf2bc8e61, 0xb76d99e2, 0x3e5fb3c4, 0x2eabe2a8, 0x4f43e470]; // tslint:disable-line: no-magic-numbers
+const bech32GeneratorRemainingBytes = [0xf2bc8e61, 0xb76d99e2, 0x3e5fb3c4, 0x2eabe2a8, 0x4f43e470];
 
 /**
  * Perform the CashAddress polynomial modulo operation, which is based on the
@@ -214,14 +214,14 @@ const bech32GeneratorRemainingBytes = [0xf2bc8e61, 0xb76d99e2, 0x3e5fb3c4, 0x2ea
  */
 export const cashAddressPolynomialModulo = (v: number[]) => {
   // tslint:disable: no-let no-magic-numbers no-bitwise no-expression-statement
+  // eslint-disable-next-line functional/no-let
   let mostSignificantByte = 0;
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   let lowerBytes = 1;
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   let c = 0;
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
   for (let j = 0; j < v.length; j++) {
-    // tslint:disable-next-line:
     c = mostSignificantByte >>> 3;
     mostSignificantByte &= 0x07;
     mostSignificantByte <<= 5;
@@ -229,6 +229,7 @@ export const cashAddressPolynomialModulo = (v: number[]) => {
     lowerBytes &= 0x07ffffff;
     lowerBytes <<= 5;
     lowerBytes ^= v[j];
+    // eslint-disable-next-line functional/no-let
     for (let i = 0; i < bech32GeneratorMostSignificantByte.length; ++i) {
       // tslint:disable-next-line: no-if-statement strict-boolean-expressions
       if (c & (1 << i)) {
@@ -254,7 +255,7 @@ export const cashAddressPolynomialModulo = (v: number[]) => {
  */
 export const cashAddressChecksumToUint5Array = (checksum: number) => {
   const result = [];
-  // tslint:disable-next-line: no-let no-magic-numbers
+  // eslint-disable-next-line functional/no-let
   for (let i = 0; i < 8; ++i) {
     // tslint:disable-next-line: no-expression-statement no-bitwise no-magic-numbers
     result.push(checksum & 31);
@@ -561,9 +562,9 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   }
 
   const syndromes: { [index: string]: number } = {};
-  // tslint:disable-next-line: no-let prefer-for-of
+  // eslint-disable-next-line functional/no-let
   for (let term = 0; term < polynomial.length; term++) {
-    // tslint:disable-next-line: no-let
+    // eslint-disable-next-line functional/no-let
     for (let errorVector = 1; errorVector < finiteFieldOrder; errorVector++) {
       // tslint:disable-next-line: no-expression-statement no-object-mutation no-bitwise
       polynomial[term] ^= errorVector;

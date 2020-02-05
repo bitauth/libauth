@@ -28,7 +28,7 @@ console.log(stringifyBinAndBigInt(ast));
 // walk through: 2 of 3
 
 // each client has a copy of the Bitauth template
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 console.log(JSON.stringify(twoOfThree, undefined, 1));
 
 // parseAuthenticationTemplate(twoOfThree)

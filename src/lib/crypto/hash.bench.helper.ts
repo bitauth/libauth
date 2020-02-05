@@ -1,3 +1,5 @@
+/* global Buffer */
+/* eslint-disable functional/no-let, init-declarations */
 // tslint:disable:no-expression-statement no-let no-unsafe-any
 import * as asmCrypto from 'asmcrypto.js';
 import test from 'ava';
@@ -50,14 +52,14 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
         });
         // tslint:disable-next-line:no-if-statement
         if (nodeJsAlgorithm !== 'ripemd160') {
-          const algorithm =
+          const Algorithm =
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
               ? asmCrypto.Sha256
               : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
-            const instance = new algorithm();
+            const instance = new Algorithm();
             hash = instance.process(message).finish().result;
           });
         }
@@ -122,14 +124,14 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
         });
         // tslint:disable-next-line:no-if-statement
         if (nodeJsAlgorithm !== 'ripemd160') {
-          const algorithm =
+          const Algorithm =
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
               ? asmCrypto.Sha256
               : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
-            const instance = new algorithm();
+            const instance = new Algorithm();
             hash = instance.process(message).finish().result;
           });
         }

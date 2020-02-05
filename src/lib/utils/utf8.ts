@@ -18,6 +18,8 @@
  */
 
 // tslint:disable:cyclomatic-complexity no-let no-if-statement no-magic-numbers no-object-mutation no-expression-statement no-bitwise
+/* eslint-disable functional/no-let */
+
 /**
  * Interpret a string as UTF-8 and encode it as a Uint8Array.
  * @param utf8 the string to encode

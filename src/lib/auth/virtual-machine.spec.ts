@@ -54,8 +54,7 @@ const simpleInstructionSet: InstructionSet<
       const top = state.stack.pop();
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       top === undefined
-        ? // tslint:disable-next-line:no-object-mutation
-          (state.error = SimpleError.EMPTY_STACK)
+        ? (state.error = SimpleError.EMPTY_STACK)
         : state.stack.push(top + 1);
       return state;
     },
@@ -63,8 +62,7 @@ const simpleInstructionSet: InstructionSet<
       const top = state.stack.pop();
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       top === undefined
-        ? // tslint:disable-next-line:no-object-mutation
-          (state.error = SimpleError.EMPTY_STACK)
+        ? (state.error = SimpleError.EMPTY_STACK)
         : state.stack.push(top - 1);
       return state;
     },
@@ -73,8 +71,7 @@ const simpleInstructionSet: InstructionSet<
       const b = state.stack.pop();
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       a === undefined || b === undefined
-        ? // tslint:disable-next-line:no-object-mutation
-          (state.error = SimpleError.EMPTY_STACK)
+        ? (state.error = SimpleError.EMPTY_STACK)
         : state.stack.push(a + b);
       return state;
     }

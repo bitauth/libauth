@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
 import test from 'ava';
 

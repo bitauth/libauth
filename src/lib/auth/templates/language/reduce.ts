@@ -118,9 +118,9 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
   nodes: ReadonlyArray<ScriptReductionTraceNode>
 ): InstructionAggregationResult<Opcodes> => {
   const aggregations: Array<InstructionAggregation<Opcodes>> = [];
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let
   let ip = 0;
-  // tslint:disable-next-line: no-let
+  // eslint-disable-next-line functional/no-let, init-declarations
   let incomplete: { bytecode: Uint8Array; range: Range } | undefined;
   for (const node of nodes) {
     const bytecode =

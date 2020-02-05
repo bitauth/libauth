@@ -241,8 +241,7 @@ export const createAuthenticationVirtualMachine = <
   };
 
   const stateDebug = (state: ProgramState) => {
-    // tslint:disable-next-line:prefer-const no-let
-    let trace: ProgramState[] = [];
+    const trace: ProgramState[] = [];
     untilComplete(state, (currentState: ProgramState) => {
       const nextState = stateDebugStep(currentState);
       // tslint:disable-next-line:no-expression-statement

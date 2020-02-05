@@ -11,10 +11,10 @@ test('stringify', t => {
     stringify({ b: Uint8Array.of(32, 32) }),
     '{\n  "b": "<Uint8Array: 0x2020>"\n}'
   );
-  t.deepEqual(stringify((x: number) => x * 2), '"<function: x => x * 2>"');
+  t.deepEqual(stringify((x: number) => x * 2), '"<function: (x) => x * 2>"');
   t.deepEqual(
     stringify({ c: (x: number) => x * 2 }),
-    '{\n  "c": "<function: x => x * 2>"\n}'
+    '{\n  "c": "<function: (x) => x * 2>"\n}'
   );
   t.deepEqual(stringify(Symbol('A')), '"<symbol: Symbol(A)>"');
   t.deepEqual(

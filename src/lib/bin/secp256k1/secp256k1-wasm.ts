@@ -16,18 +16,23 @@ const wrapSecp256k1Wasm = (
   heapU8: Uint8Array,
   heapU32: Uint32Array
 ): Secp256k1Wasm => ({
-  contextCreate: context => instance.exports._secp256k1_context_create(context),
+  contextCreate: context =>
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_context_create(context),
   contextRandomize: (contextPtr, seedPtr) =>
-    instance.exports._secp256k1_context_randomize(contextPtr, seedPtr),
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_context_randomize(contextPtr, seedPtr),
 
-  free: pointer => instance.exports._free(pointer),
+  // tslint:disable-next-line: no-any
+  free: pointer => (instance.exports as any)._free(pointer),
   heapU32,
   heapU8,
   instance,
-  malloc: bytes => instance.exports._malloc(bytes),
+  // tslint:disable-next-line: no-any
+  malloc: bytes => (instance.exports as any)._malloc(bytes),
   mallocSizeT: num => {
-    // tslint:disable-next-line:no-magic-numbers
-    const pointer = instance.exports._malloc(4);
+    // tslint:disable-next-line:no-magic-numbers no-any
+    const pointer = (instance.exports as any)._malloc(4);
     // tslint:disable-next-line:no-bitwise no-magic-numbers
     const pointerView32 = pointer >> 2;
     // tslint:disable-next-line:no-expression-statement
@@ -35,25 +40,29 @@ const wrapSecp256k1Wasm = (
     return pointer;
   },
   mallocUint8Array: array => {
-    const pointer = instance.exports._malloc(array.length);
+    // tslint:disable-next-line: no-any
+    const pointer = (instance.exports as any)._malloc(array.length);
     // tslint:disable-next-line:no-expression-statement
     heapU8.set(array, pointer);
     return pointer;
   },
   privkeyTweakAdd: (contextPtr, secretKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_privkey_tweak_add(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_privkey_tweak_add(
       contextPtr,
       secretKeyPtr,
       tweakNum256Ptr
     ),
   privkeyTweakMul: (contextPtr, secretKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_privkey_tweak_mul(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_privkey_tweak_mul(
       contextPtr,
       secretKeyPtr,
       tweakNum256Ptr
     ),
   pubkeyCreate: (contextPtr, publicKeyPtr, secretKeyPtr) =>
-    instance.exports._secp256k1_ec_pubkey_create(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_pubkey_create(
       contextPtr,
       publicKeyPtr,
       secretKeyPtr
@@ -64,7 +73,8 @@ const wrapSecp256k1Wasm = (
     publicKeyInPtr,
     publicKeyInLength
   ) =>
-    instance.exports._secp256k1_ec_pubkey_parse(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_pubkey_parse(
       contextPtr,
       publicKeyOutPtr,
       publicKeyInPtr,
@@ -77,7 +87,8 @@ const wrapSecp256k1Wasm = (
     publicKeyPtr,
     compression
   ) =>
-    instance.exports._secp256k1_ec_pubkey_serialize(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_pubkey_serialize(
       contextPtr,
       outputPtr,
       outputLengthPtr,
@@ -85,13 +96,15 @@ const wrapSecp256k1Wasm = (
       compression
     ),
   pubkeyTweakAdd: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_pubkey_tweak_add(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_pubkey_tweak_add(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr
     ),
   pubkeyTweakMul: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_pubkey_tweak_mul(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_pubkey_tweak_mul(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr
@@ -103,14 +116,16 @@ const wrapSecp256k1Wasm = (
     return heapU32[pointerView32];
   },
   recover: (contextPtr, outputPubkeyPointer, rSigPtr, msg32Ptr) =>
-    instance.exports._secp256k1_ecdsa_recover(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_recover(
       contextPtr,
       outputPubkeyPointer,
       rSigPtr,
       msg32Ptr
     ),
   recoverableSignatureParse: (contextPtr, outputRSigPtr, inputSigPtr, rid) =>
-    instance.exports._secp256k1_ecdsa_recoverable_signature_parse_compact(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_recoverable_signature_parse_compact(
       contextPtr,
       outputRSigPtr,
       inputSigPtr,
@@ -122,69 +137,83 @@ const wrapSecp256k1Wasm = (
     recIDOutPtr,
     rSigPtr
   ) =>
-    instance.exports._secp256k1_ecdsa_recoverable_signature_serialize_compact(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_recoverable_signature_serialize_compact(
       contextPtr,
       sigOutPtr,
       recIDOutPtr,
       rSigPtr
     ),
   schnorrSign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
-    instance.exports._secp256k1_schnorr_sign(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_schnorr_sign(
       contextPtr,
       outputSigPtr,
       msg32Ptr,
       secretKeyPtr
     ),
   schnorrVerify: (contextPtr, sigPtr, msg32Ptr, publicKeyPtr) =>
-    instance.exports._secp256k1_schnorr_verify(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_schnorr_verify(
       contextPtr,
       sigPtr,
       msg32Ptr,
       publicKeyPtr
     ),
   seckeyVerify: (contextPtr, secretKeyPtr) =>
-    instance.exports._secp256k1_ec_seckey_verify(contextPtr, secretKeyPtr),
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ec_seckey_verify(
+      contextPtr,
+      secretKeyPtr
+    ),
   sign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
-    instance.exports._secp256k1_ecdsa_sign(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_sign(
       contextPtr,
       outputSigPtr,
       msg32Ptr,
       secretKeyPtr
     ),
   signRecoverable: (contextPtr, outputRSigPtr, msg32Ptr, secretKeyPtr) =>
-    instance.exports._secp256k1_ecdsa_sign_recoverable(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_sign_recoverable(
       contextPtr,
       outputRSigPtr,
       msg32Ptr,
       secretKeyPtr
     ),
   signatureMalleate: (contextPtr, outputSigPtr, inputSigPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_malleate(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_signature_malleate(
       contextPtr,
       outputSigPtr,
       inputSigPtr
     ),
   signatureNormalize: (contextPtr, outputSigPtr, inputSigPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_normalize(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_signature_normalize(
       contextPtr,
       outputSigPtr,
       inputSigPtr
     ),
   signatureParseCompact: (contextPtr, sigOutPtr, compactSigInPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_parse_compact(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_signature_parse_compact(
       contextPtr,
       sigOutPtr,
       compactSigInPtr
     ),
   signatureParseDER: (contextPtr, sigOutPtr, sigDERInPtr, sigDERInLength) =>
-    instance.exports._secp256k1_ecdsa_signature_parse_der(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_signature_parse_der(
       contextPtr,
       sigOutPtr,
       sigDERInPtr,
       sigDERInLength
     ),
   signatureSerializeCompact: (contextPtr, outputCompactSigPtr, inputSigPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_serialize_compact(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_signature_serialize_compact(
       contextPtr,
       outputCompactSigPtr,
       inputSigPtr
@@ -195,14 +224,16 @@ const wrapSecp256k1Wasm = (
     outputDERSigLengthPtr,
     inputSigPtr
   ) =>
-    instance.exports._secp256k1_ecdsa_signature_serialize_der(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_signature_serialize_der(
       contextPtr,
       outputDERSigPtr,
       outputDERSigLengthPtr,
       inputSigPtr
     ),
   verify: (contextPtr, sigPtr, msg32Ptr, pubkeyPtr) =>
-    instance.exports._secp256k1_ecdsa_verify(
+    // tslint:disable-next-line: no-any
+    (instance.exports as any)._secp256k1_ecdsa_verify(
       contextPtr,
       sigPtr,
       msg32Ptr,
@@ -353,8 +384,8 @@ export const instantiateSecp256k1WasmBytes = async (
 
   return WebAssembly.instantiate(webassemblyBytes, info).then(result => {
     //
-    // tslint:disable-next-line:no-expression-statement no-unsafe-any
-    getErrNoLocation = result.instance.exports.___errno_location;
+    // tslint:disable-next-line:no-expression-statement no-unsafe-any no-any
+    getErrNoLocation = result.instance.exports.___errno_location as any;
 
     return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);
   });

@@ -36,7 +36,7 @@ export const instantiateRustWasm = async (
         );
       }
     }
-  })).instance.exports;
+  })).instance.exports as any; // tslint:disable-line: no-any
 
   // tslint:disable:no-let no-if-statement no-expression-statement no-unsafe-any
   let cachedUint8Memory: Uint8Array | undefined;

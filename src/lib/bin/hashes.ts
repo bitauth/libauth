@@ -32,6 +32,7 @@ export const instantiateRustWasm = async (
           ptr: number,
           len: number
         ) => {
+          // eslint-disable-next-line functional/no-throw-statement
           throw new Error(
             // eslint-disable-next-line @typescript-eslint/no-use-before-define
             Array.from(getUint8Memory().subarray(ptr, ptr + len))
@@ -41,7 +42,7 @@ export const instantiateRustWasm = async (
         }
       }
     })
-  ).instance.exports as any;
+  ).instance.exports as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   // tslint:disable:no-let no-if-statement no-expression-statement no-unsafe-any
   let cachedUint8Memory: Uint8Array | undefined; // eslint-disable-line functional/no-let, init-declarations

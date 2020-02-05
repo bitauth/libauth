@@ -130,7 +130,7 @@ interface BtlRecursiveSegment extends BitauthTemplatingLanguageSegment {
 
 export interface BtlScriptSegment extends BitauthTemplatingLanguageSegment {
   name: 'Script';
-  value: Array<BtlRecursiveSegment | BtlBigIntSegment | BtlStringSegment>;
+  value: (BtlRecursiveSegment | BtlBigIntSegment | BtlStringSegment)[];
 }
 
 export type ParseResult =

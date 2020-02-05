@@ -560,8 +560,8 @@ export const createCompiler = <
 });
 
 export const createStateCompilerBCH = (
-  // tslint:disable-next-line: no-any
-  instructions: Array<AuthenticationInstruction<any>>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  instructions: AuthenticationInstruction<any>[]
 ) =>
   createAuthenticationProgramStateCommon(
     instructions,

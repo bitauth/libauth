@@ -16,7 +16,7 @@ import { sampledEvaluateReductionTraceNodes } from './reduce';
 
 const vmPromise = instantiateVirtualMachineBCH();
 const createCreateStateWithStack = <Opcodes, Errors>(stack: Uint8Array[]) => (
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>
+  instructions: readonly AuthenticationInstruction<Opcodes>[]
 ) =>
   createAuthenticationProgramStateCommon<Opcodes, Errors>(
     instructions,

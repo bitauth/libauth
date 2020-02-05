@@ -72,7 +72,7 @@ export interface TransactionInputState extends TransactionState {
 }
 
 export interface MinimumProgramState<Opcodes = number> {
-  readonly instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>;
+  readonly instructions: readonly AuthenticationInstruction<Opcodes>[];
   /**
    * Instruction Pointer – the array index of `instructions` which will be read
    * to identify the next instruction. Once `ip` exceeds the last index of

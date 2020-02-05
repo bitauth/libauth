@@ -1,3 +1,4 @@
+/* eslint-disable multiline-comment-style */
 // tslint:disable-next-line:no-implicit-dependencies
 // import AuthenticationScriptParser from 'parse-atl';
 // import { binToHex } from '../..';

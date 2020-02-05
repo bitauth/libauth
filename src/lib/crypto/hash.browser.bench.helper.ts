@@ -17,7 +17,7 @@ import {
 declare const benchError: (error: string) => void;
 declare const benchComplete: () => void;
 
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isUint8Array = (array: any): array is Uint8Array =>
   array && array.constructor.name === 'Uint8Array';
 
@@ -111,8 +111,8 @@ const incrementalBrowserBenchmark = async (
       MB}MB input in ${chunkSize / MB}MB chunks`,
     s => {
       let message: Uint8Array;
-      let messageChunks: ReadonlyArray<Uint8Array>;
-      let hash: Uint8Array | ArrayBuffer | ReadonlyArray<number> | null;
+      let messageChunks: readonly Uint8Array[];
+      let hash: Uint8Array | ArrayBuffer | readonly number[] | null;
 
       const nextCycle = () => {
         /**

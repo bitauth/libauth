@@ -1,5 +1,8 @@
-// cSpell:ignore noncefp, ndata, outputlen,
-// bitflags used in secp256k1's public API (translated from secp256k1.h)
+// cSpell:ignore noncefp, ndata, outputlen
+
+/**
+ * bitflags used in secp256k1's public API (translated from secp256k1.h)
+ */
 
 // tslint:disable:no-bitwise no-magic-numbers
 /** All flags' lower 8 bits indicate what they're for. Do not use directly. */

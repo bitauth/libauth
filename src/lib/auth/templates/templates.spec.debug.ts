@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape, camelcase */
 // cSpell:disable
-// tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
 import { AuthenticationTemplate, AuthenticationTemplateEntity } from './types';
 
 export const singleSig: AuthenticationTemplate = {
@@ -372,12 +371,16 @@ export const zeroConfirmationForfeits: AuthenticationTemplate = {
   version: 0
 };
 
-// tslint:disable-next-line:no-console
-// console.log(JSON.stringify(singleSig, undefined, 2));
+/*
+ * tslint:disable-next-line:no-console
+ * console.log(JSON.stringify(singleSig, undefined, 2));
+ */
 
-// (async () => {
-//   //
-// })().catch(error => {
-//   // tslint:disable-next-line:no-console
-//   console.error(error);
-// });
+/*
+ * (async () => {
+ *   //
+ * })().catch(error => {
+ *   // tslint:disable-next-line:no-console
+ *   console.error(error);
+ * });
+ */

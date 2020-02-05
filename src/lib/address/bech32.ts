@@ -109,7 +109,7 @@ export const encodeBech32 = (base32IntegerArray: number[]) => {
  * @param validBech32 the bech32-encoded string to decode
  */
 export const decodeBech32 = (validBech32: string) => {
-  const result: Array<typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex]> = [];
+  const result: typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex][] = [];
   // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
   for (let i = 0; i < validBech32.length; i++) {
     // tslint:disable-next-line: no-expression-statement

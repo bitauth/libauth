@@ -3,7 +3,7 @@
 /* global Buffer */
 
 // TODO: all tests should include a "stateless" property – instantiate a new Secp256k1 and immediately call the method, verify it produces the same result as the existing instance
-// tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any no-void-expression
+
 import test from 'ava';
 import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';
@@ -84,7 +84,9 @@ const binary = getEmbeddedSecp256k1Binary();
 const ec = new elliptic.ec('secp256k1'); // eslint-disable-line new-cap
 const setupElliptic = (privateKey: Uint8Array) => {
   const key = ec.keyFromPrivate(privateKey);
-  const pubUncompressed = new Uint8Array(key.getPublic().encode());
+  const pubUncompressed = new Uint8Array(
+    key.getPublic().encode('array', false)
+  );
   const pubCompressed = new Uint8Array(key.getPublic().encodeCompressed());
   return {
     key,
@@ -92,12 +94,12 @@ const setupElliptic = (privateKey: Uint8Array) => {
     pubUncompressed
   };
 };
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ellipticSignMessageDER = (key: any, message: Uint8Array) =>
   new Uint8Array(key.sign(message).toDER());
 const ellipticCheckSignature = (
   sig: Uint8Array,
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   key: any,
   message: Uint8Array
 ): boolean => key.verify(message, sig);
@@ -144,8 +146,10 @@ test('crypto: secp256k1.addTweakPrivateKey', async t => {
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
-  // the elliptic library doesn't implement public or private key tweaking.
-  // perhaps future tests can do the math in JavaScript and compare with that.
+  /*
+   * the elliptic library doesn't implement public or private key tweaking.
+   * perhaps future tests can do the math in JavaScript and compare with that.
+   */
 });
 
 test('crypto: secp256k1.addTweakPublicKeyCompressed', async t => {
@@ -176,8 +180,10 @@ test('crypto: secp256k1.addTweakPublicKeyCompressed', async t => {
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
-  // the elliptic library doesn't implement public or private key tweaking.
-  // perhaps future tests can do the math in JavaScript and compare with that.
+  /*
+   * the elliptic library doesn't implement public or private key tweaking.
+   * perhaps future tests can do the math in JavaScript and compare with that.
+   */
 });
 
 test('crypto: secp256k1.addTweakPublicKeyUncompressed', async t => {
@@ -208,8 +214,10 @@ test('crypto: secp256k1.addTweakPublicKeyUncompressed', async t => {
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
-  // the elliptic library doesn't implement public or private key tweaking.
-  // perhaps future tests can do the math in JavaScript and compare with that.
+  /*
+   * the elliptic library doesn't implement public or private key tweaking.
+   * perhaps future tests can do the math in JavaScript and compare with that.
+   */
 });
 
 test('crypto: secp256k1.compressPublicKey', async t => {
@@ -425,8 +433,10 @@ test('crypto: secp256k1.mulTweakPrivateKey', async t => {
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
-  // the elliptic library doesn't implement public or private key tweaking.
-  // perhaps future tests can do the math in JavaScript and compare with that.
+  /*
+   * the elliptic library doesn't implement public or private key tweaking.
+   * perhaps future tests can do the math in JavaScript and compare with that.
+   */
 });
 
 test('crypto: secp256k1.mulTweakPublicKeyCompressed', async t => {
@@ -457,8 +467,10 @@ test('crypto: secp256k1.mulTweakPublicKeyCompressed', async t => {
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
-  // the elliptic library doesn't implement public or private key tweaking.
-  // perhaps future tests can do the math in JavaScript and compare with that.
+  /*
+   * the elliptic library doesn't implement public or private key tweaking.
+   * perhaps future tests can do the math in JavaScript and compare with that.
+   */
 });
 
 test('crypto: secp256k1.mulTweakPublicKeyUncompressed', async t => {
@@ -489,8 +501,10 @@ test('crypto: secp256k1.mulTweakPublicKeyUncompressed', async t => {
     }
   );
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
-  // the elliptic library doesn't implement public or private key tweaking.
-  // perhaps future tests can do the math in JavaScript and compare with that.
+  /*
+   * the elliptic library doesn't implement public or private key tweaking.
+   * perhaps future tests can do the math in JavaScript and compare with that.
+   */
 });
 
 test('crypto: secp256k1.normalizeSignatureCompact', async t => {
@@ -615,9 +629,9 @@ test('crypto: secp256k1.recoverPublicKeyCompressed', async t => {
   t.notThrows(() => fc.assert(equivalentToSecp256k1Node));
   // TODO: equivalentToElliptic test for recoverable signatures.
   /*
-  const equivalentToElliptic = fc.property();
-  t.notThrows(() => fc.assert(equivalentToElliptic));
-  */
+   *const equivalentToElliptic = fc.property();
+   *t.notThrows(() => fc.assert(equivalentToElliptic));
+   */
 });
 
 test('crypto: secp256k1.recoverPublicKeyUncompressed', async t => {
@@ -771,9 +785,9 @@ test('crypto: secp256k1.signMessageHashRecoverableCompact', async t => {
 
   // TODO: equivalentToElliptic test for recoverable signatures.
   /*
-  const equivalentToElliptic = fc.property();
-  t.notThrows(() => fc.assert(equivalentToElliptic));
-  */
+   *const equivalentToElliptic = fc.property();
+   *t.notThrows(() => fc.assert(equivalentToElliptic));
+   */
 });
 
 test('crypto: secp256k1.signatureCompactToDER', async t => {

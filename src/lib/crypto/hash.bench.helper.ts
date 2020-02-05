@@ -25,9 +25,11 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
-        let hash: Uint8Array | ReadonlyArray<number> | null;
-        // we let Node.js use the message as a Node.js buffer
-        // (may slightly overestimate Node.js native performance)
+        let hash: Uint8Array | readonly number[] | null;
+        /*
+         * we let Node.js use the message as a Node.js buffer
+         * (may slightly overestimate Node.js native performance)
+         */
         let nodeJsBuffer: Buffer;
         const nextCycle = () => {
           message = randomBytes(inputLength);
@@ -86,9 +88,9 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
-        let messageChunks: ReadonlyArray<Uint8Array>;
-        let nodeJsChunks: ReadonlyArray<Buffer>;
-        let hash: Uint8Array | ReadonlyArray<number> | null;
+        let messageChunks: readonly Uint8Array[];
+        let nodeJsChunks: readonly Buffer[];
+        let hash: Uint8Array | readonly number[] | null;
         const nextCycle = () => {
           message = randomBytes(totalInput);
           const chunkCount = Math.ceil(message.length / chunkSize);

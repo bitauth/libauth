@@ -40,8 +40,7 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t =>
     let pubkeyUncompressed: Uint8Array;
     let sigDER: Uint8Array;
     let result: boolean;
-    // tslint:disable-next-line:no-any
-    let ellipticPublicKey: any;
+    let ellipticPublicKey: elliptic.ec.KeyPair;
     const nextCycle = () => {
       const privKey = getValidPrivateKey(secp256k1);
       messageHash = randomBytes(privKeyLength);
@@ -87,8 +86,7 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
     let pubkeyCompressed: Uint8Array;
     let sigDER: Uint8Array;
     let result: boolean;
-    // tslint:disable-next-line:no-any
-    let ellipticPublicKey: any;
+    let ellipticPublicKey: elliptic.ec.KeyPair;
     const nextCycle = () => {
       const privKey = getValidPrivateKey(secp256k1);
       messageHash = randomBytes(privKeyLength);
@@ -142,19 +140,18 @@ test('bench: secp256k1: derive compressed pubkey', async t => {
       pubkeyCompressedBenchmark = secp256k1.derivePublicKeyCompressed(privKey);
     });
     s.bench('elliptic', () => {
-      pubkeyCompressedBenchmark = ellipticEc
-        .keyFromPrivate(privKey)
-        .getPublic()
-        .encodeCompressed();
+      pubkeyCompressedBenchmark = Uint8Array.from(
+        ellipticEc
+          .keyFromPrivate(privKey)
+          .getPublic()
+          .encodeCompressed()
+      );
     });
     s.bench('secp256k1-node', () => {
       pubkeyCompressedBenchmark = secp256k1Node.publicKeyCreate(privKey, true);
     });
     s.cycle(() => {
-      t.deepEqual(
-        pubkeyCompressedExpected,
-        new Uint8Array(pubkeyCompressedBenchmark)
-      );
+      t.deepEqual(pubkeyCompressedExpected, pubkeyCompressedBenchmark);
       nextCycle();
     });
   });

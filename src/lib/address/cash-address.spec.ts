@@ -149,7 +149,6 @@ test('decodeCashAddress: works', t => {
   if (typeof result === 'string') {
     t.log(result);
     t.fail();
-    return undefined;
   }
   t.deepEqual(result, { hash, prefix: 'bchtest', type: 0 });
   t.deepEqual(
@@ -238,11 +237,10 @@ test('decodeCashAddress: works', t => {
     decodeCashAddress('bitcoincash:qu2azmyyv6dtgczexyalqar70q036yund53an46hf6'),
     CashAddressDecodingError.mismatchedHashLength
   );
-  return undefined;
 });
 
 test('CashAddress test vectors', t => {
-  cashAddressTestVectors.map(vector => {
+  cashAddressTestVectors.forEach(vector => {
     const { cashaddr } = vector;
     const [prefix] = cashaddr.split(':');
     const payload = hexToBin(vector.payload);
@@ -265,7 +263,6 @@ test('CashAddress test vectors', t => {
       t.fail();
     }
     t.deepEqual(decodeResult, { hash: payload, prefix, type });
-    return undefined;
   });
 });
 

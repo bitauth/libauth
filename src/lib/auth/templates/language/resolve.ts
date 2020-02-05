@@ -266,7 +266,8 @@ export interface CompilationEnvironment<
    * returns a ProgramState. This method will be used to generate the initial
    * ProgramState for `evaluation`s.
    */
-  createState?: (instructions: Array<AuthenticationInstruction<any>>) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createState?: (instructions: AuthenticationInstruction<any>[]) => any;
   /**
    * An object mapping opcode identifiers to the bytecode they generate.
    */
@@ -332,8 +333,7 @@ export interface CompilationEnvironment<
    * The AuthenticationVirtualMachine on which BTL `evaluation` results will be
    * computed.
    */
-  // TODO: more specific signature?
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   vm?: AuthenticationVirtualMachine<any, any>;
 }
 
@@ -408,7 +408,7 @@ const attemptCompilerOperation = <CompilerOperationData>(
   if (environment.operations !== undefined) {
     const operationsForType = environment.operations[variableType];
     if (operationsForType !== undefined) {
-      // tslint:disable-next-line: no-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const operation = (operationsForType as any)[operationId] as
         | CompilerOperation<CompilerOperationData, typeof variableType>
         | undefined;

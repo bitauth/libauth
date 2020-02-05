@@ -21,7 +21,7 @@ import { binToHex } from './hex';
  * @param value the data to serialize
  * @param spacing the number of spaces to use in
  */
-// tslint:disable-next-line: no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const stringify = (value: any, spacing = 2) =>
   JSON.stringify(
     value,

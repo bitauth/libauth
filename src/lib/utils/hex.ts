@@ -75,7 +75,7 @@ export const swapEndianness = (validHex: string) =>
  * Reduce an array of `Uint8Array`s into a single `Uint8Array`.
  * @param array the array of `Uint8Array`s to flatten
  */
-export const flattenBinArray = (array: ReadonlyArray<Uint8Array>) => {
+export const flattenBinArray = (array: readonly Uint8Array[]) => {
   const totalLength = array.reduce((total, bin) => total + bin.length, 0);
   const flattened = new Uint8Array(totalLength);
   // tslint:disable-next-line:no-expression-statement

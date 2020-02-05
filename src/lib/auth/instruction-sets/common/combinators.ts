@@ -31,7 +31,7 @@ export const conditionallyEvaluate = <State extends ExecutionStackState>(
  */
 export const mapOverOperations = <State>(
   operations: InstructionSetOperationMapping<State>,
-  ...combinators: Array<(operation: Operation<State>) => Operation<State>>
+  ...combinators: ((operation: Operation<State>) => Operation<State>)[]
 ) =>
   Object.keys(operations).reduce<{
     [opcode: number]: Operation<State>;

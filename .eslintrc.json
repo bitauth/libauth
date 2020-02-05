@@ -27,6 +27,7 @@
     "line-comment-position": ["error", { "ignorePattern": "cspell" }],
     "no-inline-comments": "off",
     "id-length": "off",
+    "no-undefined": "off",
     // "tsdoc/syntax": "warn",
     "eslint-comments/disable-enable-pair": [
       "error",
@@ -66,6 +67,8 @@
     "import/prefer-default-export": "off",
 
     // TODO: temporarily disabled to get started:
+    "max-lines-per-function": "off",
+    "max-params": "off",
     "functional/prefer-type-literal": "off",
     "functional/prefer-readonly-type": "off",
     "functional/no-return-void": "off",
@@ -91,16 +94,8 @@
     "operator-assignment": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
-    "@typescript-eslint/no-explicit-any": "off",
     "functional/functional-parameters": "off",
-    "require-unicode-regexp": "off",
-    "@typescript-eslint/array-type": "off",
-    "max-lines-per-function": "off",
-    "functional/no-throw-statement": "off",
-    "no-undefined": "off",
-    "no-unneeded-ternary": "off",
-    "max-params": "off",
-    "multiline-comment-style": "off"
+    "require-unicode-regexp": "off"
 
     // -- end temporary disables
   }

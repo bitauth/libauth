@@ -60,7 +60,7 @@ interface ScriptReductionTraceErrorNode extends ScriptReductionTraceNode {
 
 export interface ScriptReductionTraceContainerNode<ProgramState>
   extends ScriptReductionTraceNode {
-  source: Array<ScriptReductionTraceChildNode<ProgramState>>;
+  source: ScriptReductionTraceChildNode<ProgramState>[];
 }
 
 export type ScriptReductionTraceChildNode<ProgramState> =
@@ -76,7 +76,7 @@ export interface TraceSample<ProgramState> {
 
 export interface ScriptReductionTraceEvaluationNode<ProgramState>
   extends ScriptReductionTraceContainerNode<ProgramState> {
-  samples: Array<TraceSample<ProgramState>>;
+  samples: TraceSample<ProgramState>[];
 }
 
 const emptyReductionTraceNode = (range: Range) => ({
@@ -115,9 +115,9 @@ const emptyReductionTraceNode = (range: Range) => ({
  */
 // tslint:disable-next-line: cyclomatic-complexity
 const aggregatedParseReductionTraceNodes = <Opcodes>(
-  nodes: ReadonlyArray<ScriptReductionTraceNode>
+  nodes: readonly ScriptReductionTraceNode[]
 ): InstructionAggregationResult<Opcodes> => {
-  const aggregations: Array<InstructionAggregation<Opcodes>> = [];
+  const aggregations: InstructionAggregation<Opcodes>[] = [];
   // eslint-disable-next-line functional/no-let
   let ip = 0;
   // eslint-disable-next-line functional/no-let, init-declarations
@@ -179,20 +179,17 @@ export const evaluateInstructionAggregations = <
   Opcodes,
   ProgramState extends MinimumProgramState<Opcodes> & { error?: string }
 >(
-  aggregations: Array<InstructionAggregation<Opcodes>>,
-  // TODO: more specific signature?
-  // tslint:disable-next-line: no-any
+  aggregations: InstructionAggregation<Opcodes>[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   vm: AuthenticationVirtualMachine<any, ProgramState>,
-  getState: (
-    instructions: Array<AuthenticationInstruction<Opcodes>>
-  ) => ProgramState
+  getState: (instructions: AuthenticationInstruction<Opcodes>[]) => ProgramState
 ): InstructionAggregationEvaluationResult<ProgramState> => {
   const nonEmptyAggregations = aggregations.filter(
     aggregation => aggregation.instructions.length > 0
   );
   const evaluationPlan = nonEmptyAggregations.reduce<{
-    breakpoints: Array<{ ip: number; range: Range }>;
-    instructions: Array<AuthenticationInstruction<Opcodes>>;
+    breakpoints: { ip: number; range: Range }[];
+    instructions: AuthenticationInstruction<Opcodes>[];
   }>(
     (plan, aggregation) => {
       const instructions = [...plan.instructions, ...aggregation.instructions];
@@ -223,7 +220,7 @@ export const evaluateInstructionAggregations = <
     (samples[firstInvalidSample] as EvaluationSample<ProgramState> | undefined);
   return errorSample === undefined
     ? {
-        samples: samples as Array<EvaluationSampleValid<ProgramState>>,
+        samples: samples as EvaluationSampleValid<ProgramState>[],
         success: true
       }
     : {
@@ -258,12 +255,9 @@ export const sampledEvaluateReductionTraceNodes = <
     StackState & { error?: string }
 >(
   nodes: ScriptReductionTraceNode[],
-  // TODO: more specific signature?
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   vm: AuthenticationVirtualMachine<any, ProgramState>,
-  getState: (
-    instructions: Array<AuthenticationInstruction<Opcodes>>
-  ) => ProgramState
+  getState: (instructions: AuthenticationInstruction<Opcodes>[]) => ProgramState
 ): SampledEvaluationResult<ProgramState> => {
   const parsed = aggregatedParseReductionTraceNodes<Opcodes>(nodes);
   const evaluated = evaluateInstructionAggregations(
@@ -322,11 +316,10 @@ export const reduceScript = <
   Opcodes
 >(
   compiledScript: ResolvedScript,
-  // TODO: more specific signature?
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   vm?: AuthenticationVirtualMachine<any, ProgramState>,
   createState?: (
-    instructions: Array<AuthenticationInstruction<Opcodes>>
+    instructions: AuthenticationInstruction<Opcodes>[]
   ) => ProgramState
 ): ScriptReductionTraceContainerNode<ProgramState> => {
   const source = compiledScript.map<
@@ -407,6 +400,7 @@ export const reduceScript = <
         };
       default:
         return new Error(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           `"${(segment as any).type}" is not a known segment type.`
         ) as never;
     }
@@ -439,18 +433,18 @@ export const reduceScript = <
 };
 
 export interface InstructionAggregation<Opcodes> {
-  instructions: Array<AuthenticationInstruction<Opcodes>>;
+  instructions: AuthenticationInstruction<Opcodes>[];
   lastIp: number;
   range: Range;
 }
 
 export interface InstructionAggregationSuccess<Opcodes> {
-  aggregations: Array<InstructionAggregation<Opcodes>>;
+  aggregations: InstructionAggregation<Opcodes>[];
   success: true;
 }
 
 export interface InstructionAggregationError<Opcodes> {
-  aggregations: Array<InstructionAggregation<Opcodes>>;
+  aggregations: InstructionAggregation<Opcodes>[];
   remainingBytecode: Uint8Array;
   remainingRange: Range;
   success: false;
@@ -472,12 +466,12 @@ export interface EvaluationSampleValid<ProgramState> {
 
 export interface InstructionAggregationEvaluationError<ProgramState> {
   errors: ErrorInformation[];
-  samples: Array<EvaluationSample<ProgramState>>;
+  samples: EvaluationSample<ProgramState>[];
   success: false;
 }
 
 export interface InstructionAggregationEvaluationSuccess<ProgramState> {
-  samples: Array<EvaluationSampleValid<ProgramState>>;
+  samples: EvaluationSampleValid<ProgramState>[];
   success: true;
 }
 
@@ -487,13 +481,13 @@ type InstructionAggregationEvaluationResult<ProgramState> =
 
 export interface SampledEvaluationSuccess<ProgramState> {
   bytecode: Uint8Array;
-  samples: Array<EvaluationSampleValid<ProgramState>>;
+  samples: EvaluationSampleValid<ProgramState>[];
   success: true;
 }
 export interface SampledEvaluationError<ProgramState> {
   bytecode: Uint8Array;
   errors: ErrorInformation[];
-  samples: Array<EvaluationSample<ProgramState>>;
+  samples: EvaluationSample<ProgramState>[];
   success: false;
 }
 

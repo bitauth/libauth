@@ -40,7 +40,7 @@ const enum PayToScriptHash {
 }
 
 export const isPayToScriptHash = <Opcodes>(
-  verificationInstructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>
+  verificationInstructions: readonly AuthenticationInstruction<Opcodes>[]
 ) =>
   verificationInstructions.length === PayToScriptHash.length &&
   ((verificationInstructions[0].opcode as unknown) as number) ===

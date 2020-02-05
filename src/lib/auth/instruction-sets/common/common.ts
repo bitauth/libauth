@@ -169,7 +169,7 @@ export const commonOperations = <
   );
 };
 
-export const cloneStack = (stack: ReadonlyArray<Readonly<Uint8Array>>) =>
+export const cloneStack = (stack: readonly Readonly<Uint8Array>[]) =>
   stack.reduce<Uint8Array[]>((newStack, element) => {
     // tslint:disable-next-line:no-expression-statement
     newStack.push(element.slice());
@@ -177,7 +177,7 @@ export const cloneStack = (stack: ReadonlyArray<Readonly<Uint8Array>>) =>
   }, []);
 
 export const createAuthenticationProgramInternalStateCommon = <Opcodes, Errors>(
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>,
+  instructions: readonly AuthenticationInstruction<Opcodes>[],
   stack: Uint8Array[] = []
 ): AuthenticationProgramInternalStateCommon<Opcodes, Errors> => ({
   alternateStack: [],
@@ -226,7 +226,7 @@ export const createAuthenticationProgramExternalStateCommon = (
 });
 
 export const createAuthenticationProgramStateCommon = <Opcodes, Errors>(
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>,
+  instructions: readonly AuthenticationInstruction<Opcodes>[],
   stack: Uint8Array[],
   externalState: AuthenticationProgramExternalStateCommon
 ): AuthenticationProgramStateCommon<Opcodes, Errors> => ({
@@ -288,7 +288,7 @@ export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
  * Create an "empty" CommonProgramState, suitable for testing a VM/compiler.
  */
 export const createAuthenticationProgramStateCommonEmpty = <Opcodes, Errors>(
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>,
+  instructions: readonly AuthenticationInstruction<Opcodes>[],
   stack: Uint8Array[] = []
 ): AuthenticationProgramStateCommon<Opcodes, Errors> => ({
   ...createAuthenticationProgramInternalStateCommon(instructions, stack),

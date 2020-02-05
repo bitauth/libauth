@@ -12,16 +12,12 @@ const enum PublicKey {
 
 export const isValidUncompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
   publicKey.length === PublicKey.uncompressedByteLength &&
-  publicKey[0] === PublicKey.uncompressedHeaderByte
-    ? true
-    : false;
+  publicKey[0] === PublicKey.uncompressedHeaderByte;
 
 export const isValidCompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
   publicKey.length === PublicKey.compressedByteLength &&
   (publicKey[0] === PublicKey.compressedHeaderByteEven ||
-    publicKey[0] === PublicKey.compressedHeaderByteOdd)
-    ? true
-    : false;
+    publicKey[0] === PublicKey.compressedHeaderByteOdd);
 
 export const isValidPublicKeyEncoding = (publicKey: Uint8Array) =>
   isValidCompressedPublicKeyEncoding(publicKey) ||
@@ -111,7 +107,6 @@ const isValidInteger = (
  * S-length: 1-byte length descriptor of the S value that follows.
  * S: arbitrary-length big-endian encoded S value. The same rules apply.
  */
-// TODO: unit test cases
 // tslint:disable-next-line:cyclomatic-complexity
 export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
   const correctLengthRange =

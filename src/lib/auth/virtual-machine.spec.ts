@@ -21,7 +21,7 @@ enum SimpleError {
 }
 
 interface SimpleProgram {
-  instructions: ReadonlyArray<AuthenticationInstruction<simpleOps>>;
+  instructions: readonly AuthenticationInstruction<simpleOps>[];
 }
 
 interface SimpleProgramState extends MinimumProgramState, StackState<number> {
@@ -87,7 +87,7 @@ const simpleInstructionSet: InstructionSet<
 
 const vm = createAuthenticationVirtualMachine(simpleInstructionSet);
 
-const instructions: ReadonlyArray<AuthenticationInstruction<simpleOps>> = [
+const instructions: readonly AuthenticationInstruction<simpleOps>[] = [
   { opcode: simpleOps.OP_0 },
   { opcode: simpleOps.OP_INCREMENT },
   { opcode: simpleOps.OP_INCREMENT },

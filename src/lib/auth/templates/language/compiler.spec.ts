@@ -55,8 +55,8 @@ test('createCompilerBCH: generate', async t => {
 test('createCompilerBCH: debug', async t => {
   const state = createAuthenticationProgramExternalStateCommonEmpty();
   const createState = (
-    // tslint:disable-next-line: no-any
-    instructions: Array<AuthenticationInstruction<any>>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    instructions: AuthenticationInstruction<any>[]
   ) => createAuthenticationProgramStateCommon(instructions, [], state);
   const compiler = await createCompilerBCH({
     createState,

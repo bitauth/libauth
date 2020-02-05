@@ -310,9 +310,8 @@ const testSecp256k1Wasm = (
     secp256k1Wasm.readHeapU8(recoveredPublicKeyCompressedPtr, 33)
   );
 
-  // tweaking keys
   // skipping uncompressed checks since we already verified that parsing and serializing works.
-  // allocate pointers
+
   const keyTweakPtr = secp256k1Wasm.malloc(32);
 
   const privkeyTweakedAddPtr = secp256k1Wasm.malloc(32);
@@ -357,8 +356,10 @@ const testSecp256k1Wasm = (
     rawPubkeyPtr + 64
   );
 
-  // actually test the stuff
-  // tweak add
+  /*
+   * actually test the stuff
+   * tweak add
+   */
   t.is(
     secp256k1Wasm.privkeyTweakAdd(
       contextPtr,

@@ -14,7 +14,7 @@ import {
 /**
  * Derived from https://github.com/bitcoinjs/bitcoinjs-lib
  */
-const minimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
+const minimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['', BigInt(0)],
   ['01', BigInt(1)],
   ['02', BigInt(2)],
@@ -64,7 +64,7 @@ const minimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
   ['81', BigInt(-1)]
 ];
 
-const nonMinimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
+const nonMinimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['00', BigInt(0)],
   ['0000', BigInt(0)],
   ['80', BigInt(0)],
@@ -76,7 +76,7 @@ const nonMinimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
   ['abcdef4280', BigInt(-1123012011)]
 ];
 
-const equivalentScriptNumbers: ReadonlyArray<[string, string]> = [
+const equivalentScriptNumbers: readonly [string, string][] = [
   ['01020380', '010283'],
   ['0102030480', '01020384'],
   ['abcdef4280', 'abcdefc2']

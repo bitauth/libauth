@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-throw-statement */
 import {
   CompressionFlag,
   ContextFlag,
@@ -79,15 +80,15 @@ const wrapSecp256k1Wasm = (
 
   const parsePublicKey = (publicKey: Uint8Array) => {
     secp256k1Wasm.heapU8.set(publicKey, publicKeyScratch);
-    return secp256k1Wasm.pubkeyParse(
-      contextPtr,
-      internalPublicKeyPtr,
-      publicKeyScratch,
-      // tslint:disable-next-line:no-magic-numbers
-      publicKey.length as 33 | 65
-    ) === 1
-      ? true
-      : false;
+    return (
+      secp256k1Wasm.pubkeyParse(
+        contextPtr,
+        internalPublicKeyPtr,
+        publicKeyScratch,
+        // tslint:disable-next-line:no-magic-numbers
+        publicKey.length as 33 | 65
+      ) === 1
+    );
   };
 
   const setLengthPtr = (value: number) => {
@@ -354,14 +355,14 @@ const wrapSecp256k1Wasm = (
   ) => {
     fillMessageHashScratch(messageHash);
     secp256k1Wasm.heapU8.set(signature, schnorrSigPtr);
-    return secp256k1Wasm.schnorrVerify(
-      contextPtr,
-      schnorrSigPtr,
-      messageHashScratch,
-      internalPublicKeyPtr
-    ) === 1
-      ? true
-      : false;
+    return (
+      secp256k1Wasm.schnorrVerify(
+        contextPtr,
+        schnorrSigPtr,
+        messageHashScratch,
+        internalPublicKeyPtr
+      ) === 1
+    );
   };
 
   const verifySignatureSchnorr = () => (

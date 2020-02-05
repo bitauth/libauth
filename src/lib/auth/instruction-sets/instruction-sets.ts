@@ -32,9 +32,9 @@ export type AuthenticationInstruction<Opcodes = number> =
   | AuthenticationInstructionPush<Opcodes>
   | AuthenticationInstructionOperation<Opcodes>;
 
-export type AuthenticationInstructions<Opcodes = number> = Array<
-  AuthenticationInstruction<Opcodes>
->;
+export type AuthenticationInstructions<
+  Opcodes = number
+> = AuthenticationInstruction<Opcodes>[];
 
 export interface ParsedAuthenticationInstructionPushMalformedLength<
   Opcodes = number
@@ -102,9 +102,10 @@ export type ParsedAuthenticationInstruction<Opcodes = number> =
  * ];
  * ```
  */
-export type ParsedAuthenticationInstructions<Opcodes = number> = Array<
-  AuthenticationInstruction<Opcodes> | ParsedAuthenticationInstruction<Opcodes>
->;
+export type ParsedAuthenticationInstructions<Opcodes = number> = (
+  | AuthenticationInstruction<Opcodes>
+  | ParsedAuthenticationInstruction<Opcodes>
+)[];
 
 export const authenticationInstructionIsMalformed = <Opcodes>(
   instruction: ParsedAuthenticationInstruction<Opcodes>
@@ -113,13 +114,13 @@ export const authenticationInstructionIsMalformed = <Opcodes>(
 
 export const authenticationInstructionsAreMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>
-): instructions is Array<ParsedAuthenticationInstructionMalformed<Opcodes>> =>
+): instructions is ParsedAuthenticationInstructionMalformed<Opcodes>[] =>
   instructions.length > 0 &&
   authenticationInstructionIsMalformed(instructions[instructions.length - 1]);
 
 export const authenticationInstructionsAreNotMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>
-): instructions is Array<AuthenticationInstruction<Opcodes>> =>
+): instructions is AuthenticationInstruction<Opcodes>[] =>
   !authenticationInstructionsAreMalformed(instructions);
 
 enum CommonPushOpcodes {
@@ -388,7 +389,7 @@ export const disassembleParsedAuthenticationInstruction = <Opcodes = number>(
  */
 export const disassembleParsedAuthenticationInstructions = <Opcodes = number>(
   opcodes: { readonly [opcode: number]: string },
-  instructions: ReadonlyArray<ParsedAuthenticationInstruction<Opcodes>>
+  instructions: readonly ParsedAuthenticationInstruction<Opcodes>[]
 ): string =>
   instructions
     .map(instruction =>
@@ -424,7 +425,6 @@ export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
   );
 
 // TODO: assembleBytecodeBCH – instantiate synchronous compiler, throw any errors
-// TODO: assembleBytecodeBTC
 
 /**
  * Disassemble BTC authentication bytecode into its ASM representation.
@@ -435,6 +435,8 @@ export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
     OpcodesBTC,
     parseBytecode<OpcodesBTC>(bytecode)
   );
+
+// TODO: assembleBytecodeBTC
 
 const getLengthBytes = <Opcodes>(
   instruction: AuthenticationInstructionPush<Opcodes>
@@ -485,11 +487,11 @@ export const serializeParsedAuthenticationInstruction = <Opcodes = number>(
     : serializeAuthenticationInstruction(instruction);
 
 export const serializeAuthenticationInstructions = <Opcodes = number>(
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>
+  instructions: readonly AuthenticationInstruction<Opcodes>[]
 ) => flattenBinArray(instructions.map(serializeAuthenticationInstruction));
 
 export const serializeParsedAuthenticationInstructions = <Opcodes = number>(
-  instructions: ReadonlyArray<ParsedAuthenticationInstruction<Opcodes>>
+  instructions: readonly ParsedAuthenticationInstruction<Opcodes>[]
 ) =>
   flattenBinArray(instructions.map(serializeParsedAuthenticationInstruction));
 

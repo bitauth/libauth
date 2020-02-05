@@ -179,7 +179,7 @@ export const serializeInput = (input: Input) =>
  *
  * @param inputs the set of inputs to serialize
  */
-export const serializeInputs = (inputs: ReadonlyArray<Input>) =>
+export const serializeInputs = (inputs: readonly Input[]) =>
   flattenBinArray([
     bigIntToBitcoinVarInt(BigInt(inputs.length)),
     ...inputs.map(serializeInput)
@@ -232,9 +232,7 @@ export const serializeOutput = (output: Output) =>
  *
  * @param outputs the set of outputs to serialize
  */
-export const serializeOutputsForTransaction = (
-  outputs: ReadonlyArray<Output>
-) =>
+export const serializeOutputsForTransaction = (outputs: readonly Output[]) =>
   flattenBinArray([
     bigIntToBitcoinVarInt(BigInt(outputs.length)),
     ...outputs.map(serializeOutput)
@@ -339,7 +337,7 @@ export const getBitcoinTransactionId = (
  * @param inputs the series of inputs from which to extract the outpoints
  * @param sha256 an implementation of sha256
  */
-export const serializeOutpoints = (inputs: ReadonlyArray<Input>) =>
+export const serializeOutpoints = (inputs: readonly Input[]) =>
   flattenBinArray(
     inputs.map(i =>
       flattenBinArray([
@@ -353,7 +351,7 @@ export const serializeOutpoints = (inputs: ReadonlyArray<Input>) =>
  * Get the signing serialization for a series of outputs.
  * @param outputs the series of outputs to serialize
  */
-export const serializeOutputsForSigning = (outputs: ReadonlyArray<Output>) =>
+export const serializeOutputsForSigning = (outputs: readonly Output[]) =>
   flattenBinArray(outputs.map(serializeOutput));
 
 /**
@@ -361,5 +359,5 @@ export const serializeOutputsForSigning = (outputs: ReadonlyArray<Output>) =>
  *
  * @param inputs the series of inputs from which to extract the sequence numbers
  */
-export const serializeSequenceNumbers = (inputs: ReadonlyArray<Input>) =>
+export const serializeSequenceNumbers = (inputs: readonly Input[]) =>
   flattenBinArray(inputs.map(i => numberToBinUint32LE(i.sequenceNumber)));

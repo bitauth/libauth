@@ -141,7 +141,7 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) =>
     ? opcode === PushOperationConstants.OP_PUSHDATA_2
     : true;
 
-export const pushByteOpcodes: ReadonlyArray<OpcodesCommon> = [
+export const pushByteOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_PUSHBYTES_1,
   OpcodesCommon.OP_PUSHBYTES_2,
   OpcodesCommon.OP_PUSHBYTES_3,
@@ -272,7 +272,7 @@ export const pushOperations = <
   }>((group, i) => ({ ...group, [i]: push }), {});
 };
 
-export const pushNumberOpcodes: ReadonlyArray<OpcodesCommon> = [
+export const pushNumberOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_1NEGATE,
   OpcodesCommon.OP_1,
   OpcodesCommon.OP_2,

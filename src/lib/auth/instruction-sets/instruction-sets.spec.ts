@@ -18,9 +18,9 @@ import {
 
 test('Each Opcodes enum contains a single instruction for 0-255', t => {
   const expected = range(256);
-  const names = (keys: ReadonlyArray<string>) =>
+  const names = (keys: readonly string[]) =>
     keys.filter(k => isNaN(parseInt(k, 10)));
-  const numbers = (keys: ReadonlyArray<string>) =>
+  const numbers = (keys: readonly string[]) =>
     keys.map(k => parseInt(k, 10)).filter(k => !isNaN(k));
 
   const bch = Object.keys(OpcodesBCH);
@@ -46,7 +46,7 @@ test('Each Opcodes enum contains a single instruction for 0-255', t => {
 interface CommonScriptParseAndAsmTests {
   readonly [scriptHex: string]: {
     readonly asm: string;
-    readonly parse: Array<[number, string?, number?, string?, number?]>;
+    readonly parse: [number, string?, number?, string?, number?][];
   };
 }
 
@@ -160,16 +160,17 @@ const malFormedPushes: CommonScriptParseAndAsmTests = {
   }
 };
 
-const parse: Macro<[
-  Uint8Array,
-  ReadonlyArray<ParsedAuthenticationInstruction>
-]> = (t, input, expected) => {
+const parse: Macro<[Uint8Array, readonly ParsedAuthenticationInstruction[]]> = (
+  t,
+  input,
+  expected
+) => {
   t.deepEqual(parseBytecode(input), expected);
 };
 parse.title = title => `parse script: ${title}`.trim();
 
 const disassemble: Macro<[
-  ReadonlyArray<ParsedAuthenticationInstruction>,
+  readonly ParsedAuthenticationInstruction[],
   string
 ]> = (t, input, expected) => {
   t.deepEqual(
@@ -179,16 +180,17 @@ const disassemble: Macro<[
 };
 disassemble.title = title => `disassemble script: ${title}`.trim();
 
-const serialize: Macro<[
-  ReadonlyArray<AuthenticationInstruction>,
-  Uint8Array
-]> = (t, input, expected) => {
+const serialize: Macro<[readonly AuthenticationInstruction[], Uint8Array]> = (
+  t,
+  input,
+  expected
+) => {
   t.deepEqual(serializeAuthenticationInstructions(input), expected);
 };
 serialize.title = title => `serialize script: ${title}`.trim();
 
 const reSerialize: Macro<[
-  ReadonlyArray<ParsedAuthenticationInstruction>,
+  readonly ParsedAuthenticationInstruction[],
   Uint8Array
 ]> = (t, input, expected) => {
   t.deepEqual(serializeParsedAuthenticationInstructions(input), expected);

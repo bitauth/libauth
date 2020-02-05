@@ -474,7 +474,7 @@ export const serializeParsedAuthenticationInstructionMalformed = <
           lengthBytesForPushOpcode((instruction.opcode as unknown) as number)
         )
       : []),
-    ...(!hasMalformedLength(instruction) ? instruction.data : [])
+    ...(hasMalformedLength(instruction) ? [] : instruction.data)
   ]);
 
 export const serializeParsedAuthenticationInstruction = <Opcodes = number>(

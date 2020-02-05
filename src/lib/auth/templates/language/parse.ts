@@ -5,6 +5,7 @@ import * as P from './parsimmon.js';
  * this can be cleaned up by converting parsimmon.js to TypeScript, and trimming
  * out the parts we don't need.
  */
+/* eslint-disable sort-keys */
 const authenticationScriptParser = P.createLanguage({
   script: r =>
     P.seqMap(
@@ -13,7 +14,6 @@ const authenticationScriptParser = P.createLanguage({
       P.optWhitespace,
       (_, expressions) => expressions
     ),
-  // tslint:disable-next-line: object-literal-sort-keys
   expression: r =>
     P.alt(
       r.comment,
@@ -88,6 +88,7 @@ const authenticationScriptParser = P.createLanguage({
       .map(BigInt)
       .node('BigIntLiteral')
 });
+/* eslint-enable sort-keys */
 
 export interface SourcePosition {
   column: number;

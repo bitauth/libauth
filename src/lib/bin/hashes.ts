@@ -26,6 +26,7 @@ export const instantiateRustWasm = async (
          * Since `__wbindgen_malloc` isn't exposed to consumers, this error
          * can only be encountered if the code below is broken.
          */
+        // eslint-disable-next-line camelcase
         __wbindgen_throw: /* istanbul ignore next */ (
           ptr: number,
           len: number

@@ -59,12 +59,12 @@ const defToFixtures = (tests: CommonScriptParseAndAsmTests) =>
     const object = entry[1].parse.map(set => ({
       opcode: set[0],
       ...(set.length > 2 ? { malformed: true } : undefined),
-      ...(set[1] !== undefined ? { data: hexToBin(set[1]) } : undefined),
-      ...(set[2] !== undefined ? { expectedDataBytes: set[2] } : undefined),
-      ...(set[3] !== undefined ? { length: hexToBin(set[3]) } : undefined),
-      ...(set[4] !== undefined ? { expectedLengthBytes: set[4] } : undefined)
+      ...(set[1] === undefined ? undefined : { data: hexToBin(set[1]) }),
+      ...(set[2] === undefined ? undefined : { expectedDataBytes: set[2] }),
+      ...(set[3] === undefined ? undefined : { length: hexToBin(set[3]) }),
+      ...(set[4] === undefined ? undefined : { expectedLengthBytes: set[4] })
     }));
-    return { hex, script, asm, object };
+    return { asm, hex, object, script };
   });
 
 const wellFormedScripts: CommonScriptParseAndAsmTests = {

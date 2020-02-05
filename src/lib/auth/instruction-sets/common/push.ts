@@ -219,6 +219,9 @@ export const pushByteOpcodes: ReadonlyArray<OpcodesCommon> = [
   OpcodesCommon.OP_PUSHBYTES_75
 ];
 
+const executionIsActive = <State extends ExecutionStackState>(state: State) =>
+  state.executionStack.every(item => item);
+
 export const pushOperation = <
   Opcodes,
   State extends StackState &
@@ -238,15 +241,18 @@ export const pushOperation = <
         AuthenticationErrorCommon.exceedsMaximumPush,
         state
       )
-    : !state.executionStack.every(item => item)
-    ? state
-    : flags.requireMinimalEncoding &&
+    : executionIsActive(state)
+    ? flags.requireMinimalEncoding &&
       !isMinimalDataPush(
         (instruction.opcode as unknown) as number,
         instruction.data
       )
-    ? applyError<State, Errors>(AuthenticationErrorCommon.nonMinimalPush, state)
-    : pushToStack(state, instruction.data);
+      ? applyError<State, Errors>(
+          AuthenticationErrorCommon.nonMinimalPush,
+          state
+        )
+      : pushToStack(state, instruction.data)
+    : state;
 };
 
 export const pushOperations = <

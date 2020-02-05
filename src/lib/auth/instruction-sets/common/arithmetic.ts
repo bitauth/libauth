@@ -96,9 +96,9 @@ export const op0NotEqual = <
     (nextState, value) =>
       pushToStack(
         nextState,
-        value !== BigInt(0)
-          ? bigIntToScriptNumber(BigInt(1))
-          : bigIntToScriptNumber(BigInt(0))
+        value === BigInt(0)
+          ? bigIntToScriptNumber(BigInt(0))
+          : bigIntToScriptNumber(BigInt(1))
       ),
     flags.requireMinimalEncoding
   );

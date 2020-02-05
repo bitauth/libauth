@@ -244,7 +244,7 @@ export const cloneAuthenticationProgramStateCommon = <
 >(
   state: State
 ) => ({
-  ...(state.error !== undefined ? { error: state.error } : {}),
+  ...(state.error === undefined ? {} : { error: state.error }),
   alternateStack: state.alternateStack.slice(),
   correspondingOutput: state.correspondingOutput,
   executionStack: state.executionStack.slice(),

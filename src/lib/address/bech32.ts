@@ -8,7 +8,7 @@ export const bech32CharacterSet = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l';
  * An object mapping each of the 32 symbols used in Bech32 encoding to their respective index in the character set.
  */
 // prettier-ignore
-export const bech32CharacterSetIndex = { q: 0, p: 1, z: 2, r: 3, y: 4, '9': 5, x: 6, '8': 7, g: 8, f: 9, '2': 10, t: 11, v: 12, d: 13, w: 14, '0': 15, s: 16, '3': 17, j: 18, n: 19, '5': 20, '4': 21, k: 22, h: 23, c: 24, e: 25, '6': 26, m: 27, u: 28, a: 29, '7': 30, l: 31 } as const; // tslint:disable-line: object-literal-sort-keys
+export const bech32CharacterSetIndex = { q: 0, p: 1, z: 2, r: 3, y: 4, '9': 5, x: 6, '8': 7, g: 8, f: 9, '2': 10, t: 11, v: 12, d: 13, w: 14, '0': 15, s: 16, '3': 17, j: 18, n: 19, '5': 20, '4': 21, k: 22, h: 23, c: 24, e: 25, '6': 26, m: 27, u: 28, a: 29, '7': 30, l: 31 } as const; // eslint-disable-line sort-keys
 
 export enum BitRegroupingError {
   integerOutOfRange = 'An integer provided in the source array is out of the range of the specified source word length.',
@@ -167,14 +167,14 @@ export enum Bech32DecodingError {
  * @param bech32Padded the padded bech32-encoded string to decode
  */
 export const bech32PaddedToBin = (bech32Padded: string) => {
-  const result = !isBech32(bech32Padded)
-    ? Bech32DecodingError.notBech32Padded
-    : regroupBits(
+  const result = isBech32(bech32Padded)
+    ? regroupBits(
         decodeBech32(bech32Padded),
         base32WordLength,
         base256WordLength,
         false
-      );
+      )
+    : Bech32DecodingError.notBech32Padded;
   return typeof result === 'string' ? result : Uint8Array.from(result);
 };
 

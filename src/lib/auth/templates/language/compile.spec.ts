@@ -931,7 +931,7 @@ test('compileScript: variable and script inclusion', t => {
     't',
     {
       addressData: {
-        var_OP_2: Uint8Array.of(0x52)
+        varOp2: Uint8Array.of(0x52)
       }
     },
     {
@@ -939,9 +939,9 @@ test('compileScript: variable and script inclusion', t => {
         OP_1: Uint8Array.of(0x51),
         OP_ADD: Uint8Array.of(0x93)
       },
-      scripts: { push_numbers: 'OP_1 var_OP_2', t: 'push_numbers OP_ADD' },
+      scripts: { pushNumbers: 'OP_1 varOp2', t: 'pushNumbers OP_ADD' },
       variables: {
-        var_OP_2: {
+        varOp2: {
           description: 'Gets added to OP_1',
           name: 'OP_2 as a variable',
           type: 'AddressData'

@@ -122,6 +122,7 @@ export enum CashAddressVersionByteDecodingError {
  */
 export const decodeCashAddressVersionByte = (version: number) =>
   // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-negated-condition
   (version & cashAddressReservedBitMask) !== 0
     ? CashAddressVersionByteDecodingError.reservedBitSet
     : {
@@ -405,7 +406,7 @@ export const decodeCashAddressFormat = (address: string) => {
   const [version, ...hashContents] = payloadContents;
   const hash = Uint8Array.from(hashContents);
 
-  return { prefix, hash, version };
+  return { hash, prefix, version };
 };
 
 /**

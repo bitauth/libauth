@@ -124,13 +124,13 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
   let incomplete: { bytecode: Uint8Array; range: Range } | undefined;
   for (const node of nodes) {
     const bytecode =
-      incomplete !== undefined
-        ? flattenBinArray([incomplete.bytecode, node.bytecode])
-        : node.bytecode;
+      incomplete === undefined
+        ? node.bytecode
+        : flattenBinArray([incomplete.bytecode, node.bytecode]);
     const range =
-      incomplete !== undefined
-        ? mergeRanges([incomplete.range, node.range])
-        : node.range;
+      incomplete === undefined
+        ? node.range
+        : mergeRanges([incomplete.range, node.range]);
     // tslint:disable-next-line: no-expression-statement
     incomplete = undefined;
     const parsed = parseBytecode<Opcodes>(bytecode);
@@ -160,13 +160,13 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
   return {
     aggregations,
     success: true,
-    ...(incomplete !== undefined
-      ? {
+    ...(incomplete === undefined
+      ? undefined
+      : {
           remainingBytecode: incomplete.bytecode,
           remainingRange: incomplete.range,
           success: false
-        }
-      : undefined)
+        })
   };
 };
 
@@ -204,7 +204,7 @@ export const evaluateInstructionAggregations = <
         instructions
       };
     },
-    { instructions: [], breakpoints: [] }
+    { breakpoints: [], instructions: [] }
   );
   const trace = vm.stateDebug(getState(evaluationPlan.instructions));
   const samples = evaluationPlan.breakpoints.map<
@@ -282,7 +282,7 @@ export const sampledEvaluateReductionTraceNodes = <
       lastSample.state.stack.length - 1
     ] as Uint8Array | undefined;
     const evaluationResult =
-      lastStackItem !== undefined ? lastStackItem.slice() : Uint8Array.of();
+      lastStackItem === undefined ? Uint8Array.of() : lastStackItem.slice();
     return {
       bytecode: evaluationResult,
       samples,
@@ -376,8 +376,8 @@ export const reduceScript = <
           createState
         );
         const errors = [
-          ...(reductionTrace.errors !== undefined ? reductionTrace.errors : []),
-          ...(!evaluated.success ? evaluated.errors : [])
+          ...(reductionTrace.errors === undefined ? [] : reductionTrace.errors),
+          ...(evaluated.success ? [] : evaluated.errors)
         ];
         return {
           ...(errors.length > 0

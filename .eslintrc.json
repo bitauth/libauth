@@ -109,13 +109,7 @@
     "max-lines": "off",
     "no-console": "off",
     "require-atomic-updates": "off",
-    "no-underscore-dangle": "off",
-    "camelcase": "off",
-    "sort-keys": "off",
-    "no-async-promise-executor": "off",
-    "@typescript-eslint/prefer-as-const": "off",
-    "@typescript-eslint/no-unnecessary-condition": "off",
-    "no-negated-condition": "off"
+    "no-underscore-dangle": "off"
 
     // -- end temporary disables
   }

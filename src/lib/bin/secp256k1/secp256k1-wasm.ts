@@ -346,6 +346,7 @@ export const instantiateSecp256k1WasmBytes = async (
     _abort: /* istanbul ignore next */ (err = 'Secp256k1 Error') => {
       throw new Error(err);
     },
+    // eslint-disable-next-line camelcase
     _emscripten_memcpy_big: /* istanbul ignore next */ (
       dest: number,
       src: number,
@@ -379,7 +380,7 @@ export const instantiateSecp256k1WasmBytes = async (
       }),
       tableBase: 0
     },
-    global: { NaN, Infinity }
+    global: { Infinity, NaN }
   };
 
   return WebAssembly.instantiate(webassemblyBytes, info).then(result => {

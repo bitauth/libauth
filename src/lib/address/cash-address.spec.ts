@@ -327,7 +327,7 @@ test('encodeCashAddress <-> decodeCashAddress', t => {
           decodeCashAddress(
             encodeCashAddress(prefix, type as CashAddressAvailableTypes, hash)
           ),
-          { prefix, hash, type }
+          { hash, prefix, type }
         );
       }
     );

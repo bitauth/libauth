@@ -25,7 +25,7 @@ const tests = Object.values(scriptTests)
     return {
       expectedError:
         expectation[3] === 'OK' ? false : (expectation[3] as string),
-      flags: { dirtyStack: false, useStrict: false, failRequiresReview: false },
+      flags: { dirtyStack: false, failRequiresReview: false, useStrict: false },
       lockingBytecodeText: expectation[1] as string,
       message: expectation[4] as string | undefined,
       satoshis,
@@ -109,7 +109,7 @@ pendingTests.map(expectation => {
   } – "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
     expectation.lockingBytecodeText,
     100
-  )}"${expectation.message !== undefined ? ` # ${expectation.message}` : ''}`;
+  )}"${expectation.message === undefined ? '' : ` # ${expectation.message}`}`;
   // tslint:disable-next-line: no-if-statement
   if (expectation.flags.failRequiresReview) {
     test.todo(`Review failure: ${description}`);

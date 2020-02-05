@@ -53,6 +53,7 @@ export type CompilerOperationsKeyBCH =
   | 'schnorr_signature'
   | 'signature';
 
+/* eslint-disable camelcase */
 export enum SigningSerializationAlgorithmIdentifier {
   /**
    * A.K.A. `SIGHASH_ALL`
@@ -79,6 +80,7 @@ export enum SigningSerializationAlgorithmIdentifier {
    */
   no_outputs_single_input = 'no_outputs_single_input'
 }
+/* eslint-enable camelcase */
 
 export type CompilerOperationsSigningSerializationFullBCH =
   | 'full_all_outputs'
@@ -430,6 +432,7 @@ export const compilerOperationBCHGenerateSigningSerialization = <
   );
 };
 
+/* eslint-disable camelcase */
 export const getCompilerOperationsBCH = (): CompilationEnvironment<
   CompilerOperationDataBCH,
   CompilerOperationsBCH
@@ -501,6 +504,7 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
     version: compilerOperationBCHGenerateSigningSerialization
   }
 });
+/* eslint-enable camelcase */
 
 export interface Compiler<CompilerOperationData, ProgramState> {
   debug: (
@@ -550,8 +554,8 @@ export const createCompiler = <
       compilationEnvironment
     );
     return result.success
-      ? { success: true, bytecode: result.bytecode }
-      : { success: false, errorType: result.errorType, errors: result.errors };
+      ? { bytecode: result.bytecode, success: true }
+      : { errorType: result.errorType, errors: result.errors, success: false };
   }
 });
 

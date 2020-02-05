@@ -150,13 +150,12 @@ export const bitwiseOperation = <
   combine: (a: Uint8Array, b: Uint8Array) => Uint8Array
 ) => (state: State) =>
   useTwoStackItems(state, (nextState, a, b) =>
-    a.length !== b.length
-      ? applyError<State, AuthenticationErrorBCH>(
+    a.length === b.length
+      ? pushToStack(nextState, combine(a, b))
+      : applyError<State, AuthenticationErrorBCH>(
           AuthenticationErrorBCH.mismatchedBitwiseOperandLength,
           nextState
         )
-      : // tslint:disable-next-line: no-bitwise
-        pushToStack(nextState, combine(a, b))
   );
 
 export const opAnd = <

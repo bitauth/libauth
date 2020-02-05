@@ -130,7 +130,7 @@ export const resolveScriptSegment = (
         const ret = result.status
           ? {
               range,
-              type: 'bytecode' as 'bytecode',
+              type: 'bytecode' as const,
               value: result.bytecode,
               ...(result.type === IdentifierResolutionType.opcode
                 ? {
@@ -140,13 +140,14 @@ export const resolveScriptSegment = (
                 ? {
                     variable: identifier
                   }
-                : result.type === IdentifierResolutionType.script
+                : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                result.type === IdentifierResolutionType.script
                 ? { script: identifier, source: result.source }
-                : { opcode: identifier })
+                : ({ unknown: identifier } as never))
             }
           : {
               range,
-              type: 'error' as 'error',
+              type: 'error' as const,
               value: result.error
             };
         return ret;
@@ -154,59 +155,59 @@ export const resolveScriptSegment = (
       case 'Push':
         return {
           range,
-          type: 'push' as 'push',
+          type: 'push' as const,
           value: resolveScriptSegment(child.value, resolveIdentifiers)
         };
       case 'Evaluation':
         return {
           range,
-          type: 'evaluation' as 'evaluation',
+          type: 'evaluation' as const,
           value: resolveScriptSegment(child.value, resolveIdentifiers)
         };
       case 'BigIntLiteral':
         return {
-          literalType: 'BigIntLiteral' as 'BigIntLiteral',
+          literalType: 'BigIntLiteral' as const,
           range,
-          type: 'bytecode' as 'bytecode',
+          type: 'bytecode' as const,
           value: bigIntToScriptNumber(child.value)
         };
       case 'HexLiteral':
         return child.value.length % Constants.hexByte === 0
           ? {
-              literalType: 'HexLiteral' as 'HexLiteral',
+              literalType: 'HexLiteral' as const,
               range,
-              type: 'bytecode' as 'bytecode',
+              type: 'bytecode' as const,
               value: hexToBin(child.value)
             }
           : {
               range,
-              type: 'error' as 'error',
+              type: 'error' as const,
               value: `Improperly formed HexLiteral. HexLiteral must have a length divisible by 2, but this HexLiteral has a length of ${child.value.length}.`
             };
       case 'UTF8Literal':
         return {
-          literalType: 'UTF8Literal' as 'UTF8Literal',
+          literalType: 'UTF8Literal' as const,
           range,
-          type: 'bytecode' as 'bytecode',
+          type: 'bytecode' as const,
           value: utf8ToBin(child.value)
         };
       case 'Comment':
         return {
           range,
-          type: 'comment' as 'comment',
+          type: 'comment' as const,
           value: child.value
         };
       default:
         return {
           range,
-          type: 'error' as 'error',
+          type: 'error' as const,
           value: `Unrecognized segment: ${child}`
         };
     }
   });
 
   return resolved.length === 0
-    ? [{ range: pluckRange(segment), type: 'comment' as 'comment', value: '' }]
+    ? [{ range: pluckRange(segment), type: 'comment' as const, value: '' }]
     : resolved;
 };
 
@@ -464,7 +465,7 @@ const defaultActionByVariableType: {
 
 const aOrAnQuotedString = (word: string) =>
   `${
-    !['a', 'e', 'i', 'o', 'u'].includes(word[0].toLowerCase()) ? 'a' : 'an'
+    ['a', 'e', 'i', 'o', 'u'].includes(word[0].toLowerCase()) ? 'an' : 'a'
   } "${word}"`;
 
 export enum BuiltInVariables {
@@ -525,18 +526,18 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
           }, but the compilation data does not include ${aOrAnQuotedString(
             variableTypeToDataProperty[selected.type]
           )} property.`
-        : operationId !== undefined
-        ? attemptCompilerOperation(
+        : operationId === undefined
+        ? defaultActionByVariableType[selected.type](
+            identifier,
+            data,
+            variableId
+          )
+        : attemptCompilerOperation(
             identifier,
             operationId,
             selected.type,
             environment,
             data
-          )
-        : defaultActionByVariableType[selected.type](
-            identifier,
-            data,
-            variableId
           );
     }
   }
@@ -583,10 +584,10 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
   const result = compileScript(identifier, data, {
     ...environment,
     sourceScriptIds: [
-      ...(environment.sourceScriptIds !== undefined
-        ? environment.sourceScriptIds
-        : []),
-      ...(parentIdentifier !== undefined ? [parentIdentifier] : [])
+      ...(environment.sourceScriptIds === undefined
+        ? []
+        : environment.sourceScriptIds),
+      ...(parentIdentifier === undefined ? [] : [parentIdentifier])
     ]
   });
   return result.success
@@ -635,7 +636,7 @@ export const createIdentifierResolver = <CompilerOperationData>(
     // tslint:disable-next-line: no-if-statement
     if (variableResult !== false) {
       return typeof variableResult === 'string'
-        ? { status: false, error: variableResult }
+        ? { error: variableResult, status: false }
         : {
             bytecode: variableResult,
             status: true,
@@ -651,7 +652,7 @@ export const createIdentifierResolver = <CompilerOperationData>(
     // tslint:disable-next-line: no-if-statement
     if (scriptResult !== false) {
       return typeof scriptResult === 'string'
-        ? { status: false, error: scriptResult }
+        ? { error: scriptResult, status: false }
         : {
             bytecode: scriptResult.bytecode,
             source: scriptResult.resolve,
@@ -659,5 +660,5 @@ export const createIdentifierResolver = <CompilerOperationData>(
             type: IdentifierResolutionType.script
           };
     }
-    return { status: false, error: `Unknown identifier '${identifier}'.` };
+    return { error: `Unknown identifier '${identifier}'.`, status: false };
   };

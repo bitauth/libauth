@@ -4,6 +4,7 @@ import {
   numberToBinUint32LE
 } from '../../../utils/utils';
 
+/* eslint-disable camelcase */
 /**
  * A.K.A. `sighash` flags
  */
@@ -26,6 +27,7 @@ export enum SigningSerializationFlag {
    */
   single_input = 0x80
 }
+/* eslint-enable camelcase */
 
 const enum Internal {
   mask5Bits = 0b11111,

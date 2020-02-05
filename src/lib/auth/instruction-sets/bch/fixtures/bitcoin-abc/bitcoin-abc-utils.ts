@@ -45,8 +45,8 @@ export const assembleBitcoinABCScript = (abcScript: string) =>
           ? hexToBin(token.slice('0x'.length))
           : token.startsWith("'")
           ? encodeDataPush(utf8ToBin(token.slice(1, token.length - 1)))
-          : (bitcoinABCOpcodes[token] as Uint8Array | undefined) !== undefined
-          ? bitcoinABCOpcodes[token]
-          : encodeDataPush(bigIntToScriptNumber(BigInt(token)))
+          : (bitcoinABCOpcodes[token] as Uint8Array | undefined) === undefined
+          ? encodeDataPush(bigIntToScriptNumber(BigInt(token)))
+          : bitcoinABCOpcodes[token]
       )
   );

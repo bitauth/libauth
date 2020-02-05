@@ -13,6 +13,7 @@
     "BOOLAND",
     "BOOLOR",
     "bytecode",
+    "camelcase",
     "cashaddr",
     "CHECKDATASIG",
     "CHECKDATASIGVERIFY",

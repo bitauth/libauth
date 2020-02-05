@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-escape */
+/* eslint-disable no-useless-escape, camelcase */
 // cSpell:disable
 // tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
 import { AuthenticationTemplate, AuthenticationTemplateEntity } from './types';
@@ -149,7 +149,7 @@ export const treeSig: AuthenticationTemplate = {
           [`key${i}`]: {
             derivationHardened: false,
             derivationIndex: 0,
-            type: 'HDKey' as 'HDKey'
+            type: 'HDKey' as const
           }
         }
       }

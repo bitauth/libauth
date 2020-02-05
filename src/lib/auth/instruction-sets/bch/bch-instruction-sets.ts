@@ -169,9 +169,10 @@ export const createInstructionSetBCH = (
     state.error === undefined && state.ip < state.instructions.length,
   // tslint:disable-next-line: cyclomatic-complexity
   evaluate: (program, stateEvaluate) => {
-    const unlockingBytecode =
-      program.spendingTransaction.inputs[program.inputIndex].unlockingBytecode;
-    const lockingBytecode = program.sourceOutput.lockingBytecode;
+    const { unlockingBytecode } = program.spendingTransaction.inputs[
+      program.inputIndex
+    ];
+    const { lockingBytecode } = program.sourceOutput;
     const unlockingInstructions = parseBytecode<OpcodesBCH>(unlockingBytecode);
     const lockingInstructions = parseBytecode<OpcodesBCH>(lockingBytecode);
     const externalState = createAuthenticationProgramExternalStateCommon(

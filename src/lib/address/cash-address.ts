@@ -376,8 +376,7 @@ export const decodeCashAddressFormat = (address: string) => {
   if (parts.length !== 2 || parts[0] === '' || parts[1] === '') {
     return CashAddressDecodingError.invalidFormat;
   }
-  const prefix = parts[0];
-  const payload = parts[1];
+  const [prefix, payload] = parts;
   // tslint:disable-next-line: no-if-statement
   if (!isBech32(payload)) {
     return CashAddressDecodingError.malformedPayload;
@@ -403,8 +402,8 @@ export const decodeCashAddressFormat = (address: string) => {
     return payloadContents;
   }
 
-  const version = payloadContents[0];
-  const hash = Uint8Array.from(payloadContents.slice(1));
+  const [version, ...hashContents] = payloadContents;
+  const hash = Uint8Array.from(hashContents);
 
   return { prefix, hash, version };
 };
@@ -542,8 +541,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   if (parts.length !== 2 || parts[0] === '' || parts[1] === '') {
     return CashAddressDecodingError.invalidFormat;
   }
-  const prefix = parts[0];
-  const payload = parts[1];
+  const [prefix, payload] = parts;
   // tslint:disable-next-line: no-if-statement
   if (!isBech32(payload)) {
     return CashAddressDecodingError.malformedPayload;

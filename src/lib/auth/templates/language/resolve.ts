@@ -124,7 +124,7 @@ export const resolveScriptSegment = (
   const resolved = segment.value.map<ResolvedSegment>(child => {
     const range = pluckRange(child);
     switch (child.name) {
-      case 'Identifier':
+      case 'Identifier': {
         const identifier = child.value;
         const result = resolveIdentifiers(identifier);
         const ret = result.status
@@ -150,6 +150,7 @@ export const resolveScriptSegment = (
               value: result.error
             };
         return ret;
+      }
       case 'Push':
         return {
           range,
@@ -272,7 +273,7 @@ export interface CompilationEnvironment<
   /**
    * An object mapping opcode identifiers to the bytecode they generate.
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   opcodes?: {
     [opcodeIdentifier: string]: Uint8Array;
   };
@@ -486,7 +487,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
   data: CompilationData<CompilerOperationData>
 ): Uint8Array | string | false => {
   const splitId = identifier.split('.');
-  const variableId = splitId[0];
+  const variableId = splitId[0]; // eslint-disable-line prefer-destructuring
   const operationId = splitId[1] as string | undefined;
 
   switch (variableId) {
@@ -508,7 +509,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             environment,
             data
           );
-    default:
+    default: {
       const selected =
         environment.variables &&
         (environment.variables[variableId] as
@@ -537,6 +538,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             data,
             variableId
           );
+    }
   }
 };
 

@@ -52,9 +52,9 @@ interface CommonScriptParseAndAsmTests {
 
 const defToFixtures = (tests: CommonScriptParseAndAsmTests) =>
   Object.entries(tests).map(entry => {
-    const hex = entry[0].split('0x')[1];
+    const [fullHex, { asm }] = entry;
+    const [, hex] = fullHex.split('0x');
     const script = hexToBin(hex);
-    const asm = entry[1].asm;
     // tslint:disable-next-line:cyclomatic-complexity
     const object = entry[1].parse.map(set => ({
       opcode: set[0],

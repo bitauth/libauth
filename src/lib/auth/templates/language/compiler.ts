@@ -188,9 +188,8 @@ export const compilerOperationBCHGenerateSignature = <
     CompilationData<OperationData>,
   environment: CompilationEnvironment<OperationData>
 ) => {
-  const keys = data.keys;
-  const signatures = keys.signatures;
-  const privateKeys = keys.privateKeys;
+  const { keys } = data;
+  const { signatures, privateKeys } = keys;
   // tslint:disable-next-line: no-if-statement
   if (
     signatures !== undefined &&
@@ -220,17 +219,17 @@ export const compilerOperationBCHGenerateSignature = <
     (privateKeys[variableId] as Uint8Array | undefined) !== undefined
   ) {
     const privateKey = privateKeys[variableId];
-    const operationData = data.operationData;
+    const { operationData } = data;
     // tslint:disable-next-line: no-if-statement
     if (operationData === undefined) {
       return `Could not construct the signature "${identifier}", signing serialization data was not provided in the compilation data.`;
     }
-    const secp256k1 = environment.secp256k1;
+    const { secp256k1 } = environment;
     // tslint:disable-next-line: no-if-statement
     if (secp256k1 === undefined) {
       return ScriptGenerationError.missingSecp256k1;
     }
-    const sha256 = environment.sha256;
+    const { sha256 } = environment;
     // tslint:disable-next-line: no-if-statement
     if (sha256 === undefined) {
       return ScriptGenerationError.missingSha256;
@@ -274,9 +273,8 @@ export const compilerOperationBCHGenerateDataSignature = <
     CompilationData<OperationData>,
   environment: CompilationEnvironment<OperationData>
 ) => {
-  const keys = data.keys;
-  const signatures = keys.signatures;
-  const privateKeys = keys.privateKeys;
+  const { keys } = data;
+  const { signatures, privateKeys } = keys;
   // tslint:disable-next-line: no-if-statement
   if (
     signatures !== undefined &&
@@ -313,12 +311,12 @@ export const compilerOperationBCHGenerateDataSignature = <
     (privateKeys[variableId] as Uint8Array | undefined) !== undefined
   ) {
     const privateKey = privateKeys[variableId];
-    const secp256k1 = environment.secp256k1;
+    const { secp256k1 } = environment;
     // tslint:disable-next-line: no-if-statement
     if (secp256k1 === undefined) {
       return ScriptGenerationError.missingSecp256k1;
     }
-    const sha256 = environment.sha256;
+    const { sha256 } = environment;
     // tslint:disable-next-line: no-if-statement
     if (sha256 === undefined) {
       return ScriptGenerationError.missingSha256;
@@ -356,12 +354,12 @@ export const compilerOperationBCHGenerateSigningSerialization = <
     algorithmOrComponent,
     'full_'
   );
-  const operationData = data.operationData;
+  const { operationData } = data;
   // tslint:disable-next-line: no-if-statement
   if (operationData === undefined) {
     return `Could not construct the signing serialization "${identifier}", signing serialization data was not provided in the compilation data.`;
   }
-  const sha256 = environment.sha256;
+  const { sha256 } = environment;
   // tslint:disable-next-line: no-if-statement
   if (sha256 === undefined) {
     return ScriptGenerationError.missingSha256;
@@ -443,10 +441,9 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
     ),
     // tslint:disable-next-line: cyclomatic-complexity
     public_key: (identifier, data, environment) => {
-      const keys = data.keys;
-      const publicKeys = keys.publicKeys;
-      const privateKeys = keys.privateKeys;
-      const variableId = identifier.split('.')[0];
+      const { keys } = data;
+      const { publicKeys, privateKeys } = keys;
+      const [variableId] = identifier.split('.');
       // tslint:disable-next-line: no-if-statement
       if (
         publicKeys !== undefined &&
@@ -459,7 +456,7 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
         privateKeys !== undefined &&
         (privateKeys[variableId] as Uint8Array | undefined) !== undefined
       ) {
-        const secp256k1 = environment.secp256k1;
+        const { secp256k1 } = environment;
         return secp256k1 === undefined
           ? ScriptGenerationError.missingSecp256k1
           : secp256k1.derivePublicKeyCompressed(privateKeys[variableId]);

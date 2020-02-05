@@ -80,7 +80,7 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
    * If `stateEvaluate` is called multiple times, the intermediate results from
    * the first call will be appear before the results of the second call, etc.
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   evaluate: (
     program: AuthenticationProgram,
     stateEvaluate: (state: Readonly<ProgramState>) => ProgramState
@@ -91,7 +91,7 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
    * `AuthenticationVirtualMachine` encounters an instruction for the specified
    * `opcode`, the program state will be passed to the specified operation.
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   operations: InstructionSetOperationMapping<ProgramState>;
 
   /**
@@ -230,7 +230,7 @@ export const createAuthenticationVirtualMachine = <
   };
 
   const clone = (state: ProgramState) => instructionSet.clone(state);
-  const verify = instructionSet.verify;
+  const { verify } = instructionSet;
 
   const stateEvaluate = (state: ProgramState) =>
     untilComplete(clone(state), stateStepMutate);

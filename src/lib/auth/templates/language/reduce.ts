@@ -337,7 +337,7 @@ export const reduceScript = <
     switch (segment.type) {
       case 'bytecode':
         return { bytecode: segment.value, range: segment.range };
-      case 'push':
+      case 'push': {
         // tslint:disable-next-line: no-if-statement
         if (segment.value.length === 0) {
           return emptyReductionTraceNode(segment.range);
@@ -350,7 +350,8 @@ export const reduceScript = <
           range: segment.range,
           source: [push]
         };
-      case 'evaluation':
+      }
+      case 'evaluation': {
         // tslint:disable-next-line: no-if-statement
         if (segment.value.length === 0) {
           return emptyReductionTraceNode(segment.range);
@@ -391,6 +392,7 @@ export const reduceScript = <
           samples: evaluated.samples,
           source: [reductionTrace]
         };
+      }
       case 'comment':
         return emptyReductionTraceNode(segment.range);
       case 'error':

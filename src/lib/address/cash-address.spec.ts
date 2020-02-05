@@ -243,8 +243,8 @@ test('decodeCashAddress: works', t => {
 
 test('CashAddress test vectors', t => {
   cashAddressTestVectors.map(vector => {
-    const cashaddr = vector.cashaddr;
-    const prefix = cashaddr.split(':')[0];
+    const { cashaddr } = vector;
+    const [prefix] = cashaddr.split(':');
     const payload = hexToBin(vector.payload);
     const type = vector.type as CashAddressAvailableTypes;
     const encodeResult = encodeCashAddress(prefix, type, payload);

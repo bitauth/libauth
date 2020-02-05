@@ -178,7 +178,7 @@ export const writeLittleEndianNumber = (
 ) => {
   const view = new DataView(script.buffer, index, length);
   const writeAsLittleEndian = true;
-  // tslint:disable-next-line:no-expression-statement
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   length === Bytes.Uint8
     ? view.setUint8(0, value) // tslint:disable-line: no-void-expression
     : length === Bytes.Uint16

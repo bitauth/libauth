@@ -106,7 +106,7 @@ export interface Secp256k1Wasm {
    */
   readonly free: (pointer: number) => number;
 
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   readonly heapU32: Uint32Array;
   readonly heapU8: Uint8Array;
   readonly instance: WebAssembly.Instance;
@@ -115,7 +115,7 @@ export interface Secp256k1Wasm {
    * Allocates the given number of bytes in WebAssembly memory.
    * @param malloc the number of bytes to allocate
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   readonly malloc: (bytes: number) => number;
 
   /**

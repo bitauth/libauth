@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 // tslint:disable:no-expression-statement no-magic-numbers
 import test from 'ava';
 
@@ -47,47 +48,38 @@ const expectedFailureTests = scriptTestsAddendum.fail.concat(
 const minimalIfTests = scriptTestsAddendum.minimalIf;
 const expectedPassTests = scriptTestsAddendum.pass.concat(minimalIfTests);
 invalidUnlockTests.map(index => {
-  // tslint:disable-next-line: no-object-mutation
   tests[
     index
   ].lockingBytecodeText = `${tests[index].unlockingBytecodeText} ${tests[index].lockingBytecodeText}`;
-  // tslint:disable-next-line: no-object-mutation
   tests[index].unlockingBytecodeText = '';
   return undefined;
 });
 failRequiresReviewTests.map(index => {
-  // tslint:disable-next-line: no-object-mutation
   tests[index].flags.failRequiresReview = true;
   return undefined;
 });
 dirtyStackTests.map(index => {
-  // tslint:disable-next-line: no-object-mutation
   tests[index].flags.dirtyStack = true;
   return undefined;
 });
 strictTests.map(index => {
-  // tslint:disable-next-line: no-object-mutation
   tests[index].flags.useStrict = true;
   return undefined;
 });
 expectedFailureTests.map(index => {
-  // tslint:disable-next-line: no-object-mutation
   tests[index].expectedError = 'OVERRIDDEN_FAIL';
   return undefined;
 });
 expectedPassTests.map(index => {
-  // tslint:disable-next-line: no-object-mutation
   tests[index].expectedError = false;
   return undefined;
 });
-const overrides = scriptTestsAddendum.overrides;
+const { overrides } = scriptTestsAddendum;
 Object.entries(overrides.unlocking).map(([index, script]) => {
-  // tslint:disable-next-line: no-object-mutation
   tests[Number(index)].unlockingBytecodeText = script;
   return undefined;
 });
 Object.entries(overrides.locking).map(([index, script]) => {
-  // tslint:disable-next-line: no-object-mutation
   tests[Number(index)].lockingBytecodeText = script;
   return undefined;
 });

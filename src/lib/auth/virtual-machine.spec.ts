@@ -52,6 +52,7 @@ const simpleInstructionSet: InstructionSet<
     },
     [simpleOps.OP_INCREMENT]: state => {
       const top = state.stack.pop();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       top === undefined
         ? // tslint:disable-next-line:no-object-mutation
           (state.error = SimpleError.EMPTY_STACK)
@@ -60,6 +61,7 @@ const simpleInstructionSet: InstructionSet<
     },
     [simpleOps.OP_DECREMENT]: state => {
       const top = state.stack.pop();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       top === undefined
         ? // tslint:disable-next-line:no-object-mutation
           (state.error = SimpleError.EMPTY_STACK)
@@ -69,6 +71,7 @@ const simpleInstructionSet: InstructionSet<
     [simpleOps.OP_ADD]: state => {
       const a = state.stack.pop();
       const b = state.stack.pop();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       a === undefined || b === undefined
         ? // tslint:disable-next-line:no-object-mutation
           (state.error = SimpleError.EMPTY_STACK)

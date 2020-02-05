@@ -31,6 +31,7 @@ export const instantiateRustWasm = async (
           len: number
         ) => {
           throw new Error(
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             Array.from(getUint8Memory().subarray(ptr, ptr + len))
               .map(num => String.fromCharCode(num))
               .join('')
@@ -88,6 +89,7 @@ export const instantiateRustWasm = async (
   const hash = (input: Uint8Array) => {
     const [ptr0, len0] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
+    // eslint-disable-next-line functional/no-try-statement
     try {
       wasm[hashExportName](retPtr, ptr0, len0);
       const mem = getUint32Memory();
@@ -116,35 +118,37 @@ export const instantiateRustWasm = async (
     const [ptr0, len0] = passArray8ToWasm(rawState);
     const [ptr1, len1] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
+    // eslint-disable-next-line functional/no-try-statement
     try {
       wasm[updateExportName](retPtr, ptr0, len0, ptr1, len1);
       const mem = getUint32Memory();
       const ptr = mem[retPtr / 4];
       const len = mem[retPtr / 4 + 1];
       const realRet = getArrayU8FromWasm(ptr, len).slice();
-      wasm.__wbindgen_free(ptr, len * 1);
+      wasm.__wbindgen_free(ptr, len);
       return realRet;
     } finally {
       rawState.set(getUint8Memory().subarray(ptr0 / 1, ptr0 / 1 + len0));
-      wasm.__wbindgen_free(ptr0, len0 * 1);
-      wasm.__wbindgen_free(ptr1, len1 * 1);
+      wasm.__wbindgen_free(ptr0, len0);
+      wasm.__wbindgen_free(ptr1, len1);
     }
   };
 
   const final = (rawState: Uint8Array) => {
     const [ptr0, len0] = passArray8ToWasm(rawState);
     const retPtr = globalArgumentPtr();
+    // eslint-disable-next-line functional/no-try-statement
     try {
       wasm[finalExportName](retPtr, ptr0, len0);
       const mem = getUint32Memory();
       const ptr = mem[retPtr / 4];
       const len = mem[retPtr / 4 + 1];
       const realRet = getArrayU8FromWasm(ptr, len).slice();
-      wasm.__wbindgen_free(ptr, len * 1);
+      wasm.__wbindgen_free(ptr, len);
       return realRet;
     } finally {
       rawState.set(getUint8Memory().subarray(ptr0 / 1, ptr0 / 1 + len0));
-      wasm.__wbindgen_free(ptr0, len0 * 1);
+      wasm.__wbindgen_free(ptr0, len0);
     }
   };
   // tslint:enable:no-expression-statement

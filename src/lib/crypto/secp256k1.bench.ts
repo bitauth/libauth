@@ -233,6 +233,7 @@ test('bench: secp256k1: sign: Schnorr vs. ECDSA', async t => {
       );
     });
     s.cycle(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       isSchnorr
         ? t.deepEqual(sigSchnorrExpected, sigSchnorrBenchmark)
         : t.deepEqual(sigDERExpected, sigDERBenchmark);

@@ -58,7 +58,7 @@ const authenticationScriptParser = P.createLanguage({
       (_, __, evaluation) => evaluation
     ).node('Evaluation'),
   identifier: () =>
-    P.regexp(/[a-zA-Z_][\.a-zA-Z0-9_-]*/)
+    P.regexp(/[a-zA-Z_][.a-zA-Z0-9_-]*/)
       .desc('a valid identifier')
       .node('Identifier'),
   utf8: () =>

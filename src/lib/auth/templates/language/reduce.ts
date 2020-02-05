@@ -219,7 +219,7 @@ export const evaluateInstructionAggregations = <
   const errorSample =
     (samples[firstInvalidSample - 1] as
       | EvaluationSample<ProgramState>
-      | undefined) ||
+      | undefined) ??
     (samples[firstInvalidSample] as EvaluationSample<ProgramState> | undefined);
   return errorSample === undefined
     ? {
@@ -403,6 +403,10 @@ export const reduceScript = <
           ],
           ...emptyReductionTraceNode(segment.range)
         };
+      default:
+        return new Error(
+          `"${(segment as any).type}" is not a known segment type.`
+        ) as never;
     }
   });
   const reduction = source.reduce<{

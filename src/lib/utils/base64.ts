@@ -35,7 +35,7 @@ export const base64ToBin = (validBase64: string) => {
   const bufferLengthEstimate = validBase64.length * 0.75;
   const stringLength = validBase64.length;
   const bufferLength =
-    validBase64[validBase64.length - 1] === '='
+    validBase64[validBase64.length - 1] === '=' // eslint-disable-line @typescript-eslint/prefer-string-starts-ends-with
       ? validBase64[validBase64.length - 2] === '='
         ? bufferLengthEstimate - 2
         : bufferLengthEstimate - 1

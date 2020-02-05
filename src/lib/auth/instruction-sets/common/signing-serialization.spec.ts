@@ -80,4 +80,5 @@ pendingTests.map((expectation, currentTest) => {
       `failed serialization: ${binToHex(serialization)}`
     );
   });
+  return undefined;
 });

@@ -201,6 +201,7 @@ defToFixtures(wellFormedScripts).map(({ asm, hex, script, object }) => {
   test(`0x${hex}`, disassemble, object, asm);
   test(`0x${hex}`, serialize, object, script);
   test(`0x${hex}`, reSerialize, object, script);
+  return undefined;
 });
 
 // tslint:disable-next-line:no-unused-expression
@@ -208,6 +209,7 @@ defToFixtures(malFormedPushes).map(({ asm, hex, script, object }) => {
   test(`0x${hex}`, parse, script, object);
   test(`0x${hex}`, disassemble, object, asm);
   test(`0x${hex}`, reSerialize, object, script);
+  return undefined;
 });
 
 test('generateBytecodeMap', t => {

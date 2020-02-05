@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unified-signatures, no-redeclare, @typescript-eslint/no-unnecessary-qualifier, @typescript-eslint/no-unused-vars, functional/no-method-signature, no-shadow */
 // cSpell:disable
 // Type definitions for Parsimmon 1.10
 // Project: https://github.com/jneen/parsimmon

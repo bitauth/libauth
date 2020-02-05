@@ -35,6 +35,7 @@ const prefixDataPushVectors = [
 test('prefixDataPush', t => {
   prefixDataPushVectors.map(([inputHex, outputHex]) => {
     t.deepEqual(encodeDataPush(hexToBin(inputHex)), hexToBin(outputHex));
+    return undefined;
   });
   t.deepEqual(
     encodeDataPush(

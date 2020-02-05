@@ -89,6 +89,7 @@ test('parseBytesAsScriptNumber', t => {
         parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
         pair[1]
       );
+      return undefined;
     }
   );
   nonMinimallyEncodedScriptNumbers.map(pair => {
@@ -96,12 +97,14 @@ test('parseBytesAsScriptNumber', t => {
       parseBytesAsScriptNumber(hexToBin(pair[0]), true, 5),
       ScriptNumberError.requiresMinimal
     );
+    return undefined;
   });
   equivalentScriptNumbers.map(pair => {
     t.deepEqual(
       parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
       parseBytesAsScriptNumber(hexToBin(pair[1]), true, 5)
     );
+    return undefined;
   });
   t.deepEqual(
     parseBytesAsScriptNumber(hexToBin('abcdef1234'), true, 4),
@@ -116,6 +119,7 @@ test('parseBytesAsScriptNumber', t => {
 test('bigIntToScriptNumber', t => {
   minimallyEncodedScriptNumbers.map(pair => {
     t.deepEqual(binToHex(bigIntToScriptNumber(pair[1])), pair[0]);
+    return undefined;
   });
 });
 

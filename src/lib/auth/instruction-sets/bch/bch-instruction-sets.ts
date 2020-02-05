@@ -107,7 +107,6 @@ export const instructionSetBCHCurrentStrict =
 export const getFlagsForInstructionSetBCH = (
   instructionSet: InstructionSetBCH
 ) => {
-  // tslint:disable-next-line: switch-default
   switch (instructionSet) {
     case InstructionSetBCH.BCH_2019_05:
       return {
@@ -137,6 +136,8 @@ export const getFlagsForInstructionSetBCH = (
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true
       };
+    default:
+      return new Error(`${instructionSet} is not an instruction set.`) as never;
   }
 };
 
@@ -228,7 +229,7 @@ export const createInstructionSetBCH = (
 
     const p2shStack = cloneStack(unlockingResult.stack);
     // tslint:disable-next-line: strict-boolean-expressions
-    const p2shScript = p2shStack.pop() || Uint8Array.of();
+    const p2shScript = p2shStack.pop() ?? Uint8Array.of();
 
     // tslint:disable-next-line: no-if-statement
     if (p2shStack.length === 0 && isWitnessProgram(p2shScript)) {

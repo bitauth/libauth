@@ -41,9 +41,9 @@ export const assembleBitcoinABCScript = (abcScript: string) =>
       .split(' ')
       .filter(token => token !== '')
       .map(token =>
-        token[0] === '0' && token[1] === 'x'
+        token.startsWith('0x')
           ? hexToBin(token.slice('0x'.length))
-          : token[0] === "'"
+          : token.startsWith("'")
           ? encodeDataPush(utf8ToBin(token.slice(1, token.length - 1)))
           : (bitcoinABCOpcodes[token] as Uint8Array | undefined) !== undefined
           ? bitcoinABCOpcodes[token]

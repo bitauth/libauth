@@ -263,9 +263,9 @@ test('CashAddress test vectors', t => {
     if (typeof decodeResult === 'string') {
       t.log(decodeResult);
       t.fail();
-      return;
     }
     t.deepEqual(decodeResult, { hash: payload, prefix, type });
+    return undefined;
   });
 });
 
@@ -398,7 +398,7 @@ test('attemptCashAddressErrorCorrection', t => {
         ];
         const broken = addressChars
           .map((char, i) =>
-            errors.indexOf(i) !== -1 ? (char === 'q' ? 'p' : 'q') : char
+            errors.includes(i) ? (char === 'q' ? 'p' : 'q') : char
           )
           .join('');
 

@@ -123,18 +123,7 @@
     "functional/no-mixed-type": "off",
     "prefer-destructuring": "off",
     "no-useless-escape": "off",
-    "no-case-declarations": "off",
-    "default-case": "off",
-    "no-shadow": "off",
-    "functional/no-method-signature": "off",
-    "@typescript-eslint/prefer-string-starts-ends-with": "off",
-    "@typescript-eslint/prefer-includes": "off",
-    "array-callback-return": "off",
-    "consistent-return": "off",
-    "@typescript-eslint/prefer-nullish-coalescing": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/no-unnecessary-qualifier": "off",
-    "@typescript-eslint/unified-signatures": "off"
+    "no-case-declarations": "off"
 
     // -- end temporary disables
   }

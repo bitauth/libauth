@@ -463,7 +463,7 @@ const defaultActionByVariableType: {
 
 const aOrAnQuotedString = (word: string) =>
   `${
-    ['a', 'e', 'i', 'o', 'u'].indexOf(word[0].toLowerCase()) === -1 ? 'a' : 'an'
+    !['a', 'e', 'i', 'o', 'u'].includes(word[0].toLowerCase()) ? 'a' : 'an'
   } "${word}"`;
 
 export enum BuiltInVariables {
@@ -489,8 +489,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
   const variableId = splitId[0];
   const operationId = splitId[1] as string | undefined;
 
-  // tslint:disable-next-line: switch-default
-  switch (variableId as BuiltInVariables) {
+  switch (variableId) {
     case BuiltInVariables.currentBlockHeight:
       return data.currentBlockHeight === undefined
         ? 'Tried to resolve the built-in variable "current_block_height", but the "currentBlockHeight" property was not provided in the compilation data.'
@@ -509,32 +508,36 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             environment,
             data
           );
+    default:
+      const selected =
+        environment.variables &&
+        (environment.variables[variableId] as
+          | AuthenticationTemplateVariable
+          | undefined);
+      // tslint:disable-next-line: no-if-statement
+      if (selected === undefined) {
+        return false;
+      }
+      return data[variableTypeToDataProperty[selected.type]] === undefined
+        ? `Identifier "${identifier}" is a ${
+            selected.type
+          }, but the compilation data does not include ${aOrAnQuotedString(
+            variableTypeToDataProperty[selected.type]
+          )} property.`
+        : operationId !== undefined
+        ? attemptCompilerOperation(
+            identifier,
+            operationId,
+            selected.type,
+            environment,
+            data
+          )
+        : defaultActionByVariableType[selected.type](
+            identifier,
+            data,
+            variableId
+          );
   }
-
-  const selected =
-    environment.variables &&
-    (environment.variables[variableId] as
-      | AuthenticationTemplateVariable
-      | undefined);
-  // tslint:disable-next-line: no-if-statement
-  if (selected === undefined) {
-    return false;
-  }
-  return data[variableTypeToDataProperty[selected.type]] === undefined
-    ? `Identifier "${identifier}" is a ${
-        selected.type
-      }, but the compilation data does not include ${aOrAnQuotedString(
-        variableTypeToDataProperty[selected.type]
-      )} property.`
-    : operationId !== undefined
-    ? attemptCompilerOperation(
-        identifier,
-        operationId,
-        selected.type,
-        environment,
-        data
-      )
-    : defaultActionByVariableType[selected.type](identifier, data, variableId);
 };
 
 /**
@@ -569,7 +572,7 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
   if (
     parentIdentifier !== undefined &&
     environment.sourceScriptIds !== undefined &&
-    environment.sourceScriptIds.indexOf(parentIdentifier) !== -1
+    environment.sourceScriptIds.includes(parentIdentifier)
   ) {
     return `A circular dependency was encountered. Script "${identifier}" relies on itself to be generated. (Parent scripts: ${environment.sourceScriptIds.join(
       ', '

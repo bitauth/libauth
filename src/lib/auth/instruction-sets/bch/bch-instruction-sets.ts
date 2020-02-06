@@ -153,13 +153,12 @@ export const getFlagsForInstructionSetBCH = (
  * @param ripemd160 a Ripemd160 implementation
  * @param secp256k1 a Secp256k1 implementation
  */
-// tslint:disable-next-line: variable-name
 export const createInstructionSetBCH = (
   flags: {
-    disallowUpgradableNops: boolean;
-    requireBugValueZero: boolean;
-    requireMinimalEncoding: boolean;
-    requireNullSignatureFailures: boolean;
+    readonly disallowUpgradableNops: boolean;
+    readonly requireBugValueZero: boolean;
+    readonly requireMinimalEncoding: boolean;
+    readonly requireNullSignatureFailures: boolean;
   },
   sha1: Sha1,
   sha256: Sha256,
@@ -215,7 +214,6 @@ export const createInstructionSetBCH = (
             initialState
           );
 
-    // tslint:disable-next-line:no-if-statement
     if (unlockingResult.error !== undefined) {
       return unlockingResult;
     }
@@ -225,7 +223,6 @@ export const createInstructionSetBCH = (
         AuthenticationErrorBCH
       >(lockingInstructions, unlockingResult.stack, externalState)
     );
-    // tslint:disable-next-line:no-if-statement
     if (!isPayToScriptHash(lockingInstructions)) {
       return lockingResult;
     }

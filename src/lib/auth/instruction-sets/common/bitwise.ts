@@ -18,7 +18,7 @@ const areEqual = (a: Uint8Array, b: Uint8Array) => {
   if (a.length !== b.length) {
     return false;
   }
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < a.length; i++) {
     if (a[i] !== b[i]) {
       return false;

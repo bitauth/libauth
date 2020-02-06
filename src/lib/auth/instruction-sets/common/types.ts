@@ -3,7 +3,6 @@ export enum ScriptNumberError {
   requiresMinimal = 'Failed to parse Script Number: the number is not minimally-encoded.'
 }
 
-// tslint:disable-next-line:no-any
 export const isScriptNumberError = (
   value: BigInt | ScriptNumberError
 ): value is ScriptNumberError =>
@@ -62,7 +61,6 @@ export const parseBytesAsScriptNumber = (
   if (bytes.length === 0) {
     return BigInt(0);
   }
-  // tslint:disable-next-line:no-if-statement
   if (bytes.length > maximumScriptNumberByteLength) {
     return ScriptNumberError.outOfRange;
   }
@@ -85,7 +83,7 @@ export const parseBytesAsScriptNumber = (
   const signFlippingByte = 0x80;
   // eslint-disable-next-line functional/no-let
   let result = BigInt(0);
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let byte = 0; byte < bytes.length; byte++) {
     // eslint-disable-next-line functional/no-expression-statement,  no-bitwise
     result |= BigInt(bytes[byte]) << BigInt(byte * bitsPerByte);
@@ -110,7 +108,6 @@ export const parseBytesAsScriptNumber = (
  */
 // eslint-disable-next-line complexity
 export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
-  // tslint:disable-next-line:no-if-statement
   if (integer === BigInt(0)) {
     return new Uint8Array();
   }
@@ -152,7 +149,7 @@ export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
  */
 export const stackItemIsTruthy = (item: Uint8Array) => {
   const signFlippingByte = 0x80;
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < item.length; i++) {
     if (item[i] !== 0) {
       if (i === item.length - 1 && item[i] === signFlippingByte) {

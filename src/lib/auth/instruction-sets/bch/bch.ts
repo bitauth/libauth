@@ -25,7 +25,6 @@ export * from './bch-types';
  * @param instructionSet the VM version to instantiate – by default, the current
  * "strict" VM is used (`instructionSetBCHCurrentStrict`)
  */
-// tslint:disable-next-line: variable-name
 export const instantiateVirtualMachineBCH = async (
   instructionSet = instructionSetBCHCurrentStrict
 ) => {

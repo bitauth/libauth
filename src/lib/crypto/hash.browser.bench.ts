@@ -1,5 +1,4 @@
 /* eslint-disable functional/no-expression-statement */
-// tslint:disable:no-expression-statement no-unsafe-any
 import alias from '@rollup/plugin-alias';
 import test from 'ava';
 import { join } from 'path';

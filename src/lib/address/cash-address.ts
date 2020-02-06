@@ -148,7 +148,7 @@ const asciiCaseInsensitiveBits = 0b11111;
  */
 export const maskCashAddressPrefix = (prefix: string) => {
   const result = [];
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < prefix.length; i++) {
     // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
     result.push(prefix.charCodeAt(i) & asciiCaseInsensitiveBits);
@@ -217,7 +217,7 @@ export const cashAddressPolynomialModulo = (v: number[]) => {
   let mostSignificantByte = 0;
   let lowerBytes = 1;
   let c = 0;
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, no-plusplus
   for (let j = 0; j < v.length; j++) {
     c = mostSignificantByte >>> 3;
     mostSignificantByte &= 0x07;
@@ -226,6 +226,7 @@ export const cashAddressPolynomialModulo = (v: number[]) => {
     lowerBytes &= 0x07ffffff;
     lowerBytes <<= 5;
     lowerBytes ^= v[j];
+    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < bech32GeneratorMostSignificantByte.length; ++i) {
       // eslint-disable-next-line functional/no-conditional-statement, @typescript-eslint/strict-boolean-expressions
       if (c & (1 << i)) {
@@ -254,11 +255,11 @@ const base256WordLength = 8;
  */
 export const cashAddressChecksumToUint5Array = (checksum: number) => {
   const result = [];
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < base256WordLength; ++i) {
     // eslint-disable-next-line functional/no-expression-statement, no-bitwise, @typescript-eslint/no-magic-numbers, functional/immutable-data
     result.push(checksum & 31);
-    // eslint-disable-next-line functional/no-expression-statement, @typescript-eslint/no-magic-numbers
+    // eslint-disable-next-line functional/no-expression-statement, @typescript-eslint/no-magic-numbers, no-param-reassign
     checksum /= 32;
   }
   // eslint-disable-next-line functional/immutable-data
@@ -555,9 +556,9 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   }
 
   const syndromes: { [index: string]: number } = {};
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let term = 0; term < polynomial.length; term++) {
-    // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+    // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
     for (let errorVector = 1; errorVector < finiteFieldOrder; errorVector++) {
       // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
       polynomial[term] ^= errorVector;

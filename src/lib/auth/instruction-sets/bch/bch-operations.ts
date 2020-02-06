@@ -228,14 +228,12 @@ export const opCheckDataSig = <
 ) => (state: State) =>
   // eslint-disable-next-line complexity
   useThreeStackItems(state, (nextState, signature, message, publicKey) => {
-    // tslint:disable-next-line:no-if-statement
     if (!isValidSignatureEncodingBCHRaw(signature)) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.invalidSignatureEncoding,
         nextState
       );
     }
-    // tslint:disable-next-line:no-if-statement
     if (!isValidPublicKeyEncoding(publicKey)) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.invalidPublicKeyEncoding,

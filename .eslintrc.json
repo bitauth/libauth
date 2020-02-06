@@ -22,11 +22,15 @@
   "globals": { "BigInt": true, "console": true, "WebAssembly": true },
   "rules": {
     "max-lines": ["error", 1000],
-    // "max-params": ["error", 4],
+    // "max-params": ["error", 4], // TODO: enable, fix API
+    "max-params": "off",
     "complexity": ["error", 5],
+    "max-statements": "off",
+    "max-lines-per-function": "off",
     "@typescript-eslint/no-type-alias": "off",
     "line-comment-position": ["error", { "ignorePattern": "cspell" }],
     "no-inline-comments": "off",
+    "capitalized-comments": "off",
     "id-length": "off",
     "no-undefined": "off",
     "@typescript-eslint/no-magic-numbers": [
@@ -84,27 +88,14 @@
       "error",
       { "allowReturningBranches": true }
     ],
-
-    // TODO: temporarily disabled to get started:
-    "max-lines-per-function": "off",
-    "max-params": "off",
-    "functional/prefer-type-literal": "off",
-    "functional/prefer-readonly-type": "off",
-    "functional/no-return-void": "off",
-    "capitalized-comments": "off",
-    "max-statements": "off",
-    "one-var": "off",
-    "no-plusplus": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "functional/prefer-readonly-type": "off", // TODO: waiting on https://github.com/typescript-eslint/typescript-eslint/pull/1513
+    "functional/prefer-type-literal": "off",
+    "one-var": "off",
     "@typescript-eslint/typedef": "off",
-    "tsdoc/syntax": "off",
     "no-ternary": "off",
     "no-nested-ternary": "off",
-    "no-warning-comments": "off",
-    "no-param-reassign": "off",
-    "operator-assignment": "off"
-
-    // -- end temporary disables
+    "no-warning-comments": "off"
   }
 }

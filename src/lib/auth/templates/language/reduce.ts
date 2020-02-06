@@ -146,7 +146,7 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
       // eslint-disable-next-line functional/no-conditional-statement
     } else if (authenticationInstructionsAreNotMalformed(parsed)) {
       // eslint-disable-next-line functional/no-expression-statement
-      ip = ip + parsed.length;
+      ip += parsed.length;
       // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       aggregations.push({
         instructions: parsed,
@@ -328,7 +328,6 @@ export const reduceScript = <
     ScriptReductionTraceChildNode<ProgramState>
     // eslint-disable-next-line complexity
   >(segment => {
-    // tslint:disable-next-line: switch-default
     switch (segment.type) {
       case 'bytecode':
         return { bytecode: segment.value, range: segment.range };

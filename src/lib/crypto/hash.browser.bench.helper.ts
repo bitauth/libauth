@@ -13,7 +13,9 @@ import {
   instantiateSha512
 } from './crypto';
 
+// eslint-disable-next-line functional/no-return-void
 declare const benchError: (error: string) => void;
+// eslint-disable-next-line functional/no-return-void
 declare const benchComplete: () => void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,7 +39,6 @@ const singlePassBrowserBenchmark = async (
   subtleCryptoAlgorithmName?: 'SHA-1' | 'SHA-256' | 'SHA-512'
 ) =>
   suite(`browser: ${hashFunctionName}: hash a ${inputLength}-byte input`, s => {
-    // tslint:disable:no-let prefer-const
     let message = randomBytes(inputLength);
     let hash: Uint8Array | null;
 
@@ -150,7 +151,6 @@ const incrementalBrowserBenchmark = async (
           .digest();
       });
 
-      // tslint:disable-next-line:no-if-statement
       if (hashFunctionName !== 'ripemd160') {
         const Algorithm =
           hashFunctionName === 'sha1'

@@ -15,7 +15,7 @@ export const isBase64 = (maybeBase64: string) =>
   maybeBase64.length % base64GroupLength === 0 &&
   !nonBase64Chars.test(maybeBase64);
 
-/* eslint-disable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise */
+/* eslint-disable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise, no-plusplus */
 
 /**
  * Convert a base64-encoded string to a Uint8Array.
@@ -61,7 +61,6 @@ export const base64ToBin = (validBase64: string) => {
  * Convert a Uint8Array to a base64-encoded string.
  * @param bytes the Uint8Array to base64 encode
  */
-// tslint:disable:no-magic-numbers no-bitwise no-expression-statement
 export const binToBase64 = (bytes: Uint8Array) => {
   // eslint-disable-next-line functional/no-let
   let result = '';
@@ -80,4 +79,4 @@ export const binToBase64 = (bytes: Uint8Array) => {
       : result;
   return padded;
 };
-/* eslint-enable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise */
+/* eslint-enable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise, no-plusplus */

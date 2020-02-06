@@ -155,7 +155,6 @@ export const testHashFunction = <T extends HashFunction>(
         const chunkCount = Math.ceil(message.length / chunkSize);
         const chunks = Array.from({ length: chunkCount })
           .map((_, index) => index * chunkSize)
-          // tslint:disable-next-line:restrict-plus-operands
           .map(startIndex => message.slice(startIndex, startIndex + chunkSize));
         const incrementalResult = hashFunction.final(
           chunks.reduce(

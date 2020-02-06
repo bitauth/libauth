@@ -774,7 +774,6 @@ test('crypto: secp256k1.signMessageHashRecoverableCompact', async t => {
       t.deepEqual(
         secp256k1.signMessageHashRecoverableCompact(privateKey, hash),
         {
-          // tslint:disable-next-line: no-any
           recoveryId: nodeRecoverableStuff.recid,
           signature: new Uint8Array(nodeRecoverableStuff.signature)
         }

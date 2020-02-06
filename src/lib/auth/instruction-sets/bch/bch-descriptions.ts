@@ -17,7 +17,6 @@ export enum OpcodeDescriptionsUniqueBCH {
 /**
  * A map of descriptions for each Bitcoin Cash opcode.
  */
-// tslint:disable-next-line:variable-name
 export const OpcodeDescriptionsBCH = {
   ...OpcodeDescriptionsCommon,
   ...OpcodeDescriptionsUniqueBCH

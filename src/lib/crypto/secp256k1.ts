@@ -76,8 +76,6 @@ const wrapSecp256k1Wasm = (
   // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const lengthPtrView32 = lengthPtr >> 2;
 
-  // tslint:disable:no-expression-statement no-if-statement
-
   const parsePublicKey = (publicKey: Uint8Array) => {
     secp256k1Wasm.heapU8.set(publicKey, publicKeyScratch);
     return (
@@ -583,7 +581,6 @@ const wrapSecp256k1Wasm = (
     verifySignatureDERLowS: verifySignature(true, false),
     verifySignatureSchnorr: verifySignatureSchnorr()
   };
-  // tslint:enable:no-expression-statement no-if-statement
 };
 
 /**

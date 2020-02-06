@@ -231,7 +231,6 @@ export const readAuthenticationInstruction = <Opcodes = number>(
   readonly nextIndex: number;
 } => {
   const opcode = script[index];
-  // tslint:disable-next-line:no-if-statement
   if (opcode > CommonPushOpcodes.OP_PUSHDATA_4) {
     return {
       instruction: {
@@ -242,7 +241,7 @@ export const readAuthenticationInstruction = <Opcodes = number>(
   }
   const lengthBytes = lengthBytesForPushOpcode(opcode);
   const pushBytes = lengthBytes === 0;
-  // tslint:disable-next-line:no-if-statement
+
   if (!pushBytes && index + lengthBytes >= script.length) {
     const sliceStart = index + 1;
     const sliceEnd = sliceStart + lengthBytes;
@@ -314,7 +313,6 @@ export const parseBytecode = <Opcodes = number>(script: Uint8Array) => {
 const isPush = <Opcodes>(
   instruction: AuthenticationInstruction<Opcodes>
 ): instruction is AuthenticationInstructionPush<Opcodes> =>
-  // tslint:disable-next-line: strict-type-predicates
   (instruction as AuthenticationInstructionPush<Opcodes>).data !== undefined;
 
 /**
@@ -330,7 +328,6 @@ const formatMissingBytesAsm = (missing: number) =>
 const hasMalformedLength = <Opcodes>(
   instruction: ParsedAuthenticationInstructionMalformed<Opcodes>
 ): instruction is ParsedAuthenticationInstructionPushMalformedLength<Opcodes> =>
-  // tslint:disable-next-line: strict-type-predicates
   (instruction as ParsedAuthenticationInstructionPushMalformedLength<Opcodes>)
     .length !== undefined;
 const isPushData = (pushOpcode: number) =>

@@ -134,7 +134,6 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           });
         }
         s.cycle(() => {
-          // tslint:disable-next-line:no-if-statement
           if (hash === null) {
             t.fail(
               `asmcrypto.js failed to produce a hash for message: ${message.toString()}`

@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-return-void */
 declare module 'chuhai' {
   function suite(implementation: (s: Helper) => void): Promise<void>;
   function suite(

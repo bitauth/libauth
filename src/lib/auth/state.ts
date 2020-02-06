@@ -78,7 +78,6 @@ export interface MinimumProgramState<Opcodes = number> {
    * to identify the next instruction. Once `ip` exceeds the last index of
    * `instructions` (`ip === instructions.length`), evaluation is complete.
    */
-  // tslint:disable-next-line:readonly-keyword
   ip: number;
 }
 
@@ -111,7 +110,6 @@ export interface ErrorState<
   InstructionSetError,
   CommonError = AuthenticationErrorCommon
 > {
-  // tslint:disable-next-line:readonly-keyword
   error?: CommonError | InstructionSetError;
 }
 
@@ -146,11 +144,8 @@ export interface AuthenticationProgramInternalStateCommon<
    * By default, this is `-1`, which indicates that the whole `instructions`
    * array is included in the signing serialization.
    */
-  // tslint:disable-next-line:readonly-keyword
   lastCodeSeparator: number;
-  // tslint:disable-next-line:readonly-keyword
   operationCount: number;
-  // tslint:disable-next-line:readonly-keyword
   signatureOperationsCount: number;
 }
 

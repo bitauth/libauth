@@ -13,7 +13,7 @@ import {
 export const bitcoinABCOpcodes = Object.entries(
   generateBytecodeMap(OpcodesBCH)
 ).reduce<{
-  [opcode: string]: Uint8Array;
+  readonly [opcode: string]: Uint8Array;
 }>((acc, cur) => ({ ...acc, [cur[0].slice('OP_'.length)]: cur[1] }), {
   PUSHDATA1: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_1),
   PUSHDATA2: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_2),

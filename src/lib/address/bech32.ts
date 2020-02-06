@@ -42,7 +42,7 @@ export const regroupBits = (
   let bits = 0;
   const result = [];
   const maxResultInt = (1 << resultWordLength) - 1;
-  // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of
+  // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of, no-plusplus
   for (let p = 0; p < bin.length; ++p) {
     const value = bin[p];
     if (value < 0 || value >> sourceWordLength !== 0) {
@@ -83,7 +83,7 @@ export const regroupBits = (
 export const encodeBech32 = (base32IntegerArray: number[]) => {
   // eslint-disable-next-line functional/no-let
   let result = '';
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < base32IntegerArray.length; i++) {
     // eslint-disable-next-line functional/no-expression-statement
     result += bech32CharacterSet[base32IntegerArray[i]];
@@ -102,7 +102,7 @@ export const encodeBech32 = (base32IntegerArray: number[]) => {
  */
 export const decodeBech32 = (validBech32: string) => {
   const result: typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex][] = [];
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < validBech32.length; i++) {
     // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     result.push(

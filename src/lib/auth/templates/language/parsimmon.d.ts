@@ -131,7 +131,6 @@ declare namespace Parsimmon {
      * expects anotherParser to follow parser, and yields the result of anotherParser.
      * NB: the result of parser here is ignored.
      */
-    // tslint:disable-next-line:unified-signatures
     then<U>(anotherParser: Parser<U>): Parser<U>;
     /**
      * Transforms the input of parser with the given function.
@@ -207,7 +206,6 @@ declare namespace Parsimmon {
     /**
      * expects parser between min and max times, and yields an array of the results.
      */
-    // tslint:disable-next-line:unified-signatures
     times(min: number, max: number): Parser<T[]>;
     /**
      * expects parser at most n times. Yields an array of the results.

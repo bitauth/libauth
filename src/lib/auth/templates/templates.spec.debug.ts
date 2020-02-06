@@ -372,7 +372,6 @@ export const zeroConfirmationForfeits: AuthenticationTemplate = {
 };
 
 /*
- * tslint:disable-next-line:no-console
  * console.log(JSON.stringify(singleSig, undefined, 2));
  */
 
@@ -380,7 +379,6 @@ export const zeroConfirmationForfeits: AuthenticationTemplate = {
  * (async () => {
  *   //
  * })().catch(error => {
- *   // tslint:disable-next-line:no-console
  *   console.error(error);
  * });
  */

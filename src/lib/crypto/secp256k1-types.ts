@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-magic-numbers
 export type RecoveryId = 0 | 1 | 2 | 3;
 
 export interface RecoverableSignature {

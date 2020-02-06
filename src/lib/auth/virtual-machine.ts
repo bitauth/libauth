@@ -192,7 +192,6 @@ export const createAuthenticationVirtualMachine = <
 ): AuthenticationVirtualMachine<AuthenticationProgram, ProgramState> => {
   const availableOpcodes = 256;
   const operators = range(availableOpcodes).map(codepoint =>
-    // tslint:disable-next-line: strict-type-predicates
     instructionSet.operations[codepoint] === undefined
       ? instructionSet.undefined
       : instructionSet.operations[codepoint]
@@ -224,7 +223,7 @@ export const createAuthenticationVirtualMachine = <
   ) => {
     // eslint-disable-next-line functional/no-loop-statement
     while (stateContinue(state)) {
-      // eslint-disable-next-line functional/no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, no-param-reassign
       state = stepFunction(state);
     }
     return state;

@@ -109,14 +109,12 @@ export const opCheckSig = <
 ): Operation<State> => (s: State) =>
   // eslint-disable-next-line complexity
   useTwoStackItems(s, (state, bitcoinEncodedSignature, publicKey) => {
-    // tslint:disable-next-line:no-if-statement
     if (!isValidPublicKeyEncoding(publicKey)) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.invalidPublicKeyEncoding,
         state
       );
     }
-    // tslint:disable-next-line:no-if-statement
     if (!isValidSignatureEncodingBCHTransaction(bitcoinEncodedSignature)) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.invalidSignatureEncoding,
@@ -184,14 +182,12 @@ export const opCheckMultiSig = <
     (state, publicKeysValue) => {
       const potentialPublicKeys = Number(publicKeysValue);
 
-      // tslint:disable-next-line:no-if-statement
       if (potentialPublicKeys < 0) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.invalidNaturalNumber,
           state
         );
       }
-      // tslint:disable-next-line:no-if-statement
       if (potentialPublicKeys > Multisig.maximumPublicKeys) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.exceedsMaximumMultisigPublicKeyCount,
@@ -216,7 +212,6 @@ export const opCheckMultiSig = <
             (nextState, approvingKeys) => {
               const requiredApprovingPublicKeys = Number(approvingKeys);
 
-              // tslint:disable-next-line:no-if-statement
               if (requiredApprovingPublicKeys < 0) {
                 return applyError<State, Errors>(
                   AuthenticationErrorCommon.invalidNaturalNumber,
@@ -224,7 +219,6 @@ export const opCheckMultiSig = <
                 );
               }
 
-              // tslint:disable-next-line:no-if-statement
               if (requiredApprovingPublicKeys > potentialPublicKeys) {
                 return applyError<State, Errors>(
                   AuthenticationErrorCommon.insufficientPublicKeys,
@@ -242,7 +236,6 @@ export const opCheckMultiSig = <
                 nextState,
                 // eslint-disable-next-line complexity
                 (finalState, protocolBugValue) => {
-                  // tslint:disable-next-line:no-if-statement
                   if (
                     flags.requireBugValueZero &&
                     protocolBugValue.length !== 0
@@ -272,7 +265,6 @@ export const opCheckMultiSig = <
                     const bitcoinEncodedSignature =
                       signatures[remainingSignatures - 1];
 
-                    // tslint:disable-next-line:no-if-statement
                     if (!isValidPublicKeyEncoding(publicKey)) {
                       return applyError<State, Errors>(
                         AuthenticationErrorCommon.invalidPublicKeyEncoding,
@@ -280,7 +272,6 @@ export const opCheckMultiSig = <
                       );
                     }
 
-                    // tslint:disable-next-line:no-if-statement
                     if (
                       !isValidSignatureEncodingBCHTransaction(
                         bitcoinEncodedSignature

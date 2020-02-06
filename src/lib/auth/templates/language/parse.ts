@@ -45,7 +45,6 @@ const authenticationScriptParser = P.createLanguage({
       P.string('<').desc("the start of a push statement ('<')"),
       r.script,
       P.string('>').desc("the end of this push statement ('>')"),
-      // tslint:disable-next-line: no-unsafe-any
       (_, push) => push
     ).node('Push'),
   evaluation: r =>
@@ -54,7 +53,6 @@ const authenticationScriptParser = P.createLanguage({
       P.string('(').desc("the opening parenthesis of this evaluation ('(')"),
       r.script,
       P.string(')').desc("the closing parenthesis of this evaluation (')')"),
-      // tslint:disable-next-line: no-unsafe-any
       (_, __, evaluation) => evaluation
     ).node('Evaluation'),
   identifier: () =>

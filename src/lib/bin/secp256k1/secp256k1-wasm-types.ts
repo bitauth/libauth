@@ -539,9 +539,7 @@ export interface Secp256k1Wasm {
   readonly signatureParseDER: (
     contextPtr: number,
     sigOutPtr: number,
-    // tslint:disable-next-line:variable-name
     sigDERInPtr: number,
-    // tslint:disable-next-line:variable-name
     sigDERInLength: number
   ) => 1 | 0;
 

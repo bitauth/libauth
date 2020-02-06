@@ -1,161 +1,505 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
+
 import test from 'ava';
-
-import { instantiateSha256 } from '../../../crypto/sha256';
-import { disassembleBytecodeBCH, stackItemIsTruthy } from '../instruction-sets';
-
 import {
+  instantiateVirtualMachineBCH,
+  OpcodesBCH,
   AuthenticationProgramStateBCH,
-  instantiateVirtualMachineBCH
+  createTestAuthenticationProgramBCH
 } from './bch';
-import { InstructionSetBCH } from './bch-instruction-sets';
-import { createTestAuthenticationProgramBCH } from './bch-types';
-import { assembleBitcoinABCScript } from './fixtures/bitcoin-abc/bitcoin-abc-utils';
-import * as scriptTestsAddendum from './fixtures/bitcoin-abc/script-tests-addendum.json';
-import * as scriptTests from './fixtures/bitcoin-abc/script_tests.json';
+import { createAuthenticationProgramStateCommonEmpty } from '../common/common';
+import { parseBytecode } from '../instruction-sets';
+import { stringify, hexToBin } from '../../../utils/utils';
+import { instantiateSha256 } from '../../../crypto/crypto';
 
-const tests = Object.values(scriptTests)
-  .filter(e => e.length !== 1 && e.length < 7)
-  .map((expectation, testIndex) => {
-    const satoshis =
-      typeof expectation[0] === 'string'
-        ? BigInt(0)
-        : BigInt((expectation.shift() as number[])[0] * 1e8);
-    return {
-      expectedError:
-        expectation[3] === 'OK' ? false : (expectation[3] as string),
-      flags: { dirtyStack: false, failRequiresReview: false, useStrict: false },
-      lockingBytecodeText: expectation[1] as string,
-      message: expectation[4] as string | undefined,
-      satoshis,
-      testIndex,
-      unlockingBytecodeText: expectation[0] as string
-    };
-  });
-
-const failRequiresReviewTests = scriptTestsAddendum.failRequiresReview;
-const invalidUnlockTests = scriptTestsAddendum.invalidUnlock;
-const dirtyStackTests = scriptTestsAddendum.dirtyStack;
-const strictTests = scriptTestsAddendum.useStrict;
-const expectedFailureTests = scriptTestsAddendum.fail.concat(
-  failRequiresReviewTests
-);
-/**
- * BCH doesn't currently use the `SCRIPT_VERIFY_MINIMALIF` flag (even in "strict
- * mode"), so there's no reason to implement or test it here.
- */
-const minimalIfTests = scriptTestsAddendum.minimalIf;
-const expectedPassTests = scriptTestsAddendum.pass.concat(minimalIfTests);
-invalidUnlockTests.map(index => {
-  tests[
-    index
-  ].lockingBytecodeText = `${tests[index].unlockingBytecodeText} ${tests[index].lockingBytecodeText}`;
-  tests[index].unlockingBytecodeText = '';
-  return undefined;
-});
-failRequiresReviewTests.map(index => {
-  tests[index].flags.failRequiresReview = true;
-  return undefined;
-});
-dirtyStackTests.map(index => {
-  tests[index].flags.dirtyStack = true;
-  return undefined;
-});
-strictTests.map(index => {
-  tests[index].flags.useStrict = true;
-  return undefined;
-});
-expectedFailureTests.map(index => {
-  tests[index].expectedError = 'OVERRIDDEN_FAIL';
-  return undefined;
-});
-expectedPassTests.map(index => {
-  tests[index].expectedError = false;
-  return undefined;
-});
-const { overrides } = scriptTestsAddendum;
-Object.entries(overrides.unlocking).map(([index, script]) => {
-  tests[Number(index)].unlockingBytecodeText = script;
-  return undefined;
-});
-Object.entries(overrides.locking).map(([index, script]) => {
-  tests[Number(index)].lockingBytecodeText = script;
-  return undefined;
-});
-
-const validateDirtyStackState = (state: AuthenticationProgramStateBCH) =>
-  state.error === undefined &&
-  stackItemIsTruthy(state.stack[state.stack.length - 1]);
-
-/**
- * Isolate a single test for debugging
- */
-// const pendingTests = tests.filter(e => e.testIndex === 1399);
-const pendingTests = tests;
-
-const elide = (text: string, length: number) =>
-  text.length > length ? `${text.slice(0, length)}...` : text;
-
-const vmPromise = instantiateVirtualMachineBCH(InstructionSetBCH.BCH_2019_05);
-const vmStrictPromise = instantiateVirtualMachineBCH(
-  InstructionSetBCH.BCH_2019_05_STRICT
-);
-const sha256Promise = instantiateSha256();
-
-pendingTests.map(expectation => {
-  const description = `script_tests: ${expectation.testIndex}/${
-    pendingTests.length
-  } – "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
-    expectation.lockingBytecodeText,
-    100
-  )}"${expectation.message === undefined ? '' : ` # ${expectation.message}`}`;
-  // eslint-disable-next-line functional/no-conditional-statement
-  if (expectation.flags.failRequiresReview) {
-    test.todo(`Review failure: ${description}`);
-  }
-  test(
-    description,
-    // eslint-disable-next-line complexity
-    async t => {
-      const unlockingBytecode = assembleBitcoinABCScript(
-        expectation.unlockingBytecodeText
-      );
-      const lockingBytecode = assembleBitcoinABCScript(
-        expectation.lockingBytecodeText
-      );
-      const vm = expectation.flags.useStrict
-        ? await vmStrictPromise
-        : await vmPromise;
-      const sha256 = await sha256Promise;
-      const program = createTestAuthenticationProgramBCH(
-        unlockingBytecode,
-        lockingBytecode,
-        sha256,
-        expectation.satoshis
-      );
-      const result = vm.evaluate(program);
-      const valid = expectation.flags.dirtyStack
-        ? validateDirtyStackState(result)
-        : vm.verify(result);
-      const pass =
-        (valid && expectation.expectedError === false) ||
-        (!valid && expectation.expectedError !== false);
-      // eslint-disable-next-line functional/no-conditional-statement
-      if (!pass) {
-        t.log(`unlockingBytecodeText: "${expectation.unlockingBytecodeText}"`);
-        t.log(`disassembled: "${disassembleBytecodeBCH(unlockingBytecode)}"`);
-        t.log(`lockingBytecodeText: "${expectation.lockingBytecodeText}"`);
-        t.log(`disassembled: "${disassembleBytecodeBCH(lockingBytecode)}"`);
-        t.log('result:', result);
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        expectation.expectedError === false
-          ? t.fail('Expected a valid state, but this result is invalid.')
-          : t.fail(
-              `Expected error reason: ${expectation.expectedError.toString()}`
-            );
+test('vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
+  const vm = await instantiateVirtualMachineBCH();
+  const state = createAuthenticationProgramStateCommonEmpty(
+    parseBytecode(
+      Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD])
+    )
+  ) as AuthenticationProgramStateBCH;
+  const result = vm.stateEvaluate(state);
+  t.deepEqual(result, {
+    alternateStack: [],
+    correspondingOutput: Uint8Array.of(0x01),
+    executionStack: [],
+    instructions: [
+      {
+        opcode: 82
+      },
+      {
+        opcode: 82
+      },
+      {
+        opcode: 147
       }
-      t.pass();
+    ],
+    ip: 3,
+    lastCodeSeparator: -1,
+    locktime: 0,
+    operationCount: 1,
+    outpointIndex: 0,
+    outpointTransactionHash: hexToBin(
+      '0505050505050505050505050505050505050505050505050505050505050505'
+    ),
+    outputValue: BigInt(0),
+    sequenceNumber: 0,
+    signatureOperationsCount: 0,
+    stack: [Uint8Array.of(0x04)],
+    transactionOutpoints: Uint8Array.of(0x02),
+    transactionOutputs: Uint8Array.of(0x03),
+    transactionSequenceNumbers: Uint8Array.of(0x04),
+    version: 0
+  });
+});
+
+test('vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
+  const vm = await instantiateVirtualMachineBCH();
+  const state = createAuthenticationProgramStateCommonEmpty(
+    parseBytecode(
+      Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD])
+    )
+  ) as AuthenticationProgramStateBCH;
+  const result = vm.stateDebug(state);
+  t.log(stringify(result));
+  t.deepEqual(result, [
+    {
+      alternateStack: [],
+      correspondingOutput: Uint8Array.of(0x01),
+      executionStack: [],
+      instructions: [
+        {
+          opcode: 82
+        },
+        {
+          opcode: 82
+        },
+        {
+          opcode: 147
+        }
+      ],
+      ip: 1,
+      lastCodeSeparator: -1,
+      locktime: 0,
+      operationCount: 0,
+      outpointIndex: 0,
+      outpointTransactionHash: hexToBin(
+        '0505050505050505050505050505050505050505050505050505050505050505'
+      ),
+      outputValue: BigInt(0),
+      sequenceNumber: 0,
+      signatureOperationsCount: 0,
+      stack: [Uint8Array.of(0x02)],
+      transactionOutpoints: Uint8Array.of(0x02),
+      transactionOutputs: Uint8Array.of(0x03),
+      transactionSequenceNumbers: Uint8Array.of(0x04),
+      version: 0
+    },
+    {
+      alternateStack: [],
+      correspondingOutput: Uint8Array.of(0x01),
+      executionStack: [],
+      instructions: [
+        {
+          opcode: 82
+        },
+        {
+          opcode: 82
+        },
+        {
+          opcode: 147
+        }
+      ],
+      ip: 2,
+      lastCodeSeparator: -1,
+      locktime: 0,
+      operationCount: 0,
+      outpointIndex: 0,
+      outpointTransactionHash: hexToBin(
+        '0505050505050505050505050505050505050505050505050505050505050505'
+      ),
+      outputValue: BigInt(0),
+      sequenceNumber: 0,
+      signatureOperationsCount: 0,
+      stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
+      transactionOutpoints: Uint8Array.of(0x02),
+      transactionOutputs: Uint8Array.of(0x03),
+      transactionSequenceNumbers: Uint8Array.of(0x04),
+      version: 0
+    },
+    {
+      alternateStack: [],
+      correspondingOutput: Uint8Array.of(0x01),
+      executionStack: [],
+      instructions: [
+        {
+          opcode: 82
+        },
+        {
+          opcode: 82
+        },
+        {
+          opcode: 147
+        }
+      ],
+      ip: 3,
+      lastCodeSeparator: -1,
+      locktime: 0,
+      operationCount: 1,
+      outpointIndex: 0,
+      outpointTransactionHash: hexToBin(
+        '0505050505050505050505050505050505050505050505050505050505050505'
+      ),
+      outputValue: BigInt(0),
+      sequenceNumber: 0,
+      signatureOperationsCount: 0,
+      stack: [Uint8Array.of(0x04)],
+      transactionOutpoints: Uint8Array.of(0x02),
+      transactionOutputs: Uint8Array.of(0x03),
+      transactionSequenceNumbers: Uint8Array.of(0x04),
+      version: 0
     }
+  ]);
+});
+
+test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
+  const vm = await instantiateVirtualMachineBCH();
+  const state0 = createAuthenticationProgramStateCommonEmpty(
+    parseBytecode(
+      Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD])
+    )
+  ) as AuthenticationProgramStateBCH;
+  const state1 = vm.stateStep(state0);
+  const state2 = vm.stateStep(state1);
+  t.deepEqual(vm.stateContinue(state2), true);
+  const state3 = vm.stateStep(state2);
+  t.deepEqual(vm.stateContinue(state3), false);
+
+  t.deepEqual(state0, {
+    alternateStack: [],
+    correspondingOutput: Uint8Array.of(0x01),
+    executionStack: [],
+    instructions: [
+      {
+        opcode: 82
+      },
+      {
+        opcode: 82
+      },
+      {
+        opcode: 147
+      }
+    ],
+    ip: 0,
+    lastCodeSeparator: -1,
+    locktime: 0,
+    operationCount: 0,
+    outpointIndex: 0,
+    outpointTransactionHash: hexToBin(
+      '0505050505050505050505050505050505050505050505050505050505050505'
+    ),
+    outputValue: BigInt(0),
+    sequenceNumber: 0,
+    signatureOperationsCount: 0,
+    stack: [],
+    transactionOutpoints: Uint8Array.of(0x02),
+    transactionOutputs: Uint8Array.of(0x03),
+    transactionSequenceNumbers: Uint8Array.of(0x04),
+    version: 0
+  });
+  t.deepEqual(state1, {
+    alternateStack: [],
+    correspondingOutput: Uint8Array.of(0x01),
+    executionStack: [],
+    instructions: [
+      {
+        opcode: 82
+      },
+      {
+        opcode: 82
+      },
+      {
+        opcode: 147
+      }
+    ],
+    ip: 1,
+    lastCodeSeparator: -1,
+    locktime: 0,
+    operationCount: 0,
+    outpointIndex: 0,
+    outpointTransactionHash: hexToBin(
+      '0505050505050505050505050505050505050505050505050505050505050505'
+    ),
+    outputValue: BigInt(0),
+    sequenceNumber: 0,
+    signatureOperationsCount: 0,
+    stack: [Uint8Array.of(0x02)],
+    transactionOutpoints: Uint8Array.of(0x02),
+    transactionOutputs: Uint8Array.of(0x03),
+    transactionSequenceNumbers: Uint8Array.of(0x04),
+    version: 0
+  });
+  t.deepEqual(state2, {
+    alternateStack: [],
+    correspondingOutput: Uint8Array.of(0x01),
+    executionStack: [],
+    instructions: [
+      {
+        opcode: 82
+      },
+      {
+        opcode: 82
+      },
+      {
+        opcode: 147
+      }
+    ],
+    ip: 2,
+    lastCodeSeparator: -1,
+    locktime: 0,
+    operationCount: 0,
+    outpointIndex: 0,
+    outpointTransactionHash: hexToBin(
+      '0505050505050505050505050505050505050505050505050505050505050505'
+    ),
+    outputValue: BigInt(0),
+    sequenceNumber: 0,
+    signatureOperationsCount: 0,
+    stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
+    transactionOutpoints: Uint8Array.of(0x02),
+    transactionOutputs: Uint8Array.of(0x03),
+    transactionSequenceNumbers: Uint8Array.of(0x04),
+    version: 0
+  });
+  t.deepEqual(state3, {
+    alternateStack: [],
+    correspondingOutput: Uint8Array.of(0x01),
+    executionStack: [],
+    instructions: [
+      {
+        opcode: 82
+      },
+      {
+        opcode: 82
+      },
+      {
+        opcode: 147
+      }
+    ],
+    ip: 3,
+    lastCodeSeparator: -1,
+    locktime: 0,
+    operationCount: 1,
+    outpointIndex: 0,
+    outpointTransactionHash: hexToBin(
+      '0505050505050505050505050505050505050505050505050505050505050505'
+    ),
+    outputValue: BigInt(0),
+    sequenceNumber: 0,
+    signatureOperationsCount: 0,
+    stack: [Uint8Array.of(0x04)],
+    transactionOutpoints: Uint8Array.of(0x02),
+    transactionOutputs: Uint8Array.of(0x03),
+    transactionSequenceNumbers: Uint8Array.of(0x04),
+    version: 0
+  });
+});
+
+test('vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
+  const sha256 = await instantiateSha256();
+  const vm = await instantiateVirtualMachineBCH();
+  const program = createTestAuthenticationProgramBCH(
+    Uint8Array.of(),
+    Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD]),
+    sha256,
+    BigInt(0)
   );
-  return undefined;
+  const result = vm.evaluate(program);
+  t.log(stringify(result));
+  t.deepEqual(result, {
+    alternateStack: [],
+    correspondingOutput: hexToBin('000000000000000000'),
+    executionStack: [],
+    instructions: [
+      {
+        opcode: 82
+      },
+      {
+        opcode: 82
+      },
+      {
+        opcode: 147
+      }
+    ],
+    ip: 3,
+    lastCodeSeparator: -1,
+    locktime: 0,
+    operationCount: 1,
+    outpointIndex: 0,
+    outpointTransactionHash: hexToBin(
+      'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
+    ),
+    outputValue: BigInt(0),
+    sequenceNumber: 4294967295,
+    signatureOperationsCount: 0,
+    stack: [Uint8Array.of(0x04)],
+    transactionOutpoints: hexToBin(
+      'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
+    ),
+    transactionOutputs: hexToBin('000000000000000000'),
+    transactionSequenceNumbers: hexToBin('ffffffff'),
+    version: 1
+  });
+});
+
+test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
+  const sha256 = await instantiateSha256();
+  const vm = await instantiateVirtualMachineBCH();
+  const program = createTestAuthenticationProgramBCH(
+    Uint8Array.of(),
+    Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD]),
+    sha256,
+    BigInt(0)
+  );
+  const result = vm.debug(program);
+  t.log(stringify(result));
+  t.deepEqual(result, [
+    {
+      alternateStack: [],
+      correspondingOutput: hexToBin('000000000000000000'),
+      executionStack: [],
+      instructions: [
+        {
+          opcode: 82
+        },
+        {
+          opcode: 82
+        },
+        {
+          opcode: 147
+        }
+      ],
+      ip: 1,
+      lastCodeSeparator: -1,
+      locktime: 0,
+      operationCount: 0,
+      outpointIndex: 0,
+      outpointTransactionHash: hexToBin(
+        'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
+      ),
+      outputValue: BigInt(0),
+      sequenceNumber: 4294967295,
+      signatureOperationsCount: 0,
+      stack: [Uint8Array.of(0x02)],
+      transactionOutpoints: hexToBin(
+        'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
+      ),
+      transactionOutputs: hexToBin('000000000000000000'),
+      transactionSequenceNumbers: hexToBin('ffffffff'),
+      version: 1
+    },
+    {
+      alternateStack: [],
+      correspondingOutput: hexToBin('000000000000000000'),
+      executionStack: [],
+      instructions: [
+        {
+          opcode: 82
+        },
+        {
+          opcode: 82
+        },
+        {
+          opcode: 147
+        }
+      ],
+      ip: 2,
+      lastCodeSeparator: -1,
+      locktime: 0,
+      operationCount: 0,
+      outpointIndex: 0,
+      outpointTransactionHash: hexToBin(
+        'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
+      ),
+      outputValue: BigInt(0),
+      sequenceNumber: 4294967295,
+      signatureOperationsCount: 0,
+      stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
+      transactionOutpoints: hexToBin(
+        'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
+      ),
+      transactionOutputs: hexToBin('000000000000000000'),
+      transactionSequenceNumbers: hexToBin('ffffffff'),
+      version: 1
+    },
+    {
+      alternateStack: [],
+      correspondingOutput: hexToBin('000000000000000000'),
+      executionStack: [],
+      instructions: [
+        {
+          opcode: 82
+        },
+        {
+          opcode: 82
+        },
+        {
+          opcode: 147
+        }
+      ],
+      ip: 3,
+      lastCodeSeparator: -1,
+      locktime: 0,
+      operationCount: 1,
+      outpointIndex: 0,
+      outpointTransactionHash: hexToBin(
+        'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
+      ),
+      outputValue: BigInt(0),
+      sequenceNumber: 4294967295,
+      signatureOperationsCount: 0,
+      stack: [Uint8Array.of(0x04)],
+      transactionOutpoints: hexToBin(
+        'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
+      ),
+      transactionOutputs: hexToBin('000000000000000000'),
+      transactionSequenceNumbers: hexToBin('ffffffff'),
+      version: 1
+    },
+    {
+      alternateStack: [],
+      correspondingOutput: hexToBin('000000000000000000'),
+      executionStack: [],
+      instructions: [
+        {
+          opcode: 82
+        },
+        {
+          opcode: 82
+        },
+        {
+          opcode: 147
+        }
+      ],
+      ip: 3,
+      lastCodeSeparator: -1,
+      locktime: 0,
+      operationCount: 1,
+      outpointIndex: 0,
+      outpointTransactionHash: hexToBin(
+        'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
+      ),
+      outputValue: BigInt(0),
+      sequenceNumber: 4294967295,
+      signatureOperationsCount: 0,
+      stack: [Uint8Array.of(0x04)],
+      transactionOutpoints: hexToBin(
+        'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
+      ),
+      transactionOutputs: hexToBin('000000000000000000'),
+      transactionSequenceNumbers: hexToBin('ffffffff'),
+      version: 1
+    }
+  ]);
 });

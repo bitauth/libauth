@@ -263,7 +263,10 @@ export const createAuthenticationVirtualMachine = <
       const debugResult = stateDebug(state);
       // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       results.push(...debugResult);
-      return debugResult[debugResult.length - 1];
+      return (
+        (debugResult[debugResult.length - 1] as ProgramState | undefined) ??
+        state
+      );
     };
     const finalResult = instructionSet.evaluate(program, proxyDebug);
     return [...results, finalResult];

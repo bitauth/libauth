@@ -26,7 +26,7 @@ const pluckEndPosition = (range: Range) => ({
 
 const mergeRanges = (ranges: Range[]) => {
   const unsortedMerged = ranges.reduce<Range>(
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
     (merged, range) => ({
       ...(range.startLineNumber < merged.startLineNumber
         ? pluckStartPosition(range)
@@ -113,7 +113,7 @@ const emptyReductionTraceNode = (range: Range) => ({
  * `(OP_PUSHBYTES_2 0x0102)` or `<0x0102>`. This is something to consider in
  * future versions.
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 const aggregatedParseReductionTraceNodes = <Opcodes>(
   nodes: readonly ScriptReductionTraceNode[]
 ): InstructionAggregationResult<Opcodes> => {
@@ -122,6 +122,7 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
   let ip = 0;
   // eslint-disable-next-line functional/no-let, init-declarations
   let incomplete: { bytecode: Uint8Array; range: Range } | undefined;
+  // eslint-disable-next-line functional/no-loop-statement
   for (const node of nodes) {
     const bytecode =
       incomplete === undefined
@@ -131,29 +132,30 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
       incomplete === undefined
         ? node.range
         : mergeRanges([incomplete.range, node.range]);
-    // tslint:disable-next-line: no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement
     incomplete = undefined;
     const parsed = parseBytecode<Opcodes>(bytecode);
-    // tslint:disable-next-line: no-if-statement
+    // eslint-disable-next-line functional/no-conditional-statement
     if (parsed.length === 0) {
-      // tslint:disable-next-line: no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       aggregations.push({
         instructions: [],
         lastIp: ip,
         range
       });
-      // tslint:disable-next-line: no-if-statement
+      // eslint-disable-next-line functional/no-conditional-statement
     } else if (authenticationInstructionsAreNotMalformed(parsed)) {
-      // tslint:disable-next-line: no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement
       ip = ip + parsed.length;
-      // tslint:disable-next-line: no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       aggregations.push({
         instructions: parsed,
         lastIp: ip,
         range
       });
+      // eslint-disable-next-line functional/no-conditional-statement
     } else {
-      // tslint:disable-next-line: no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement
       incomplete = { bytecode, range };
     }
   }
@@ -229,7 +231,8 @@ export const evaluateInstructionAggregations = <
             error:
               errorSample.state === undefined
                 ? `Failed to reduce evaluation: vm.debug produced no valid program states.`
-                : `Failed to reduce evaluation: ${errorSample.state.error}`,
+                : `Failed to reduce evaluation: ${errorSample.state.error ??
+                    'unknown error'}`,
             range: errorSample.range
           }
         ],
@@ -248,7 +251,7 @@ export const evaluateInstructionAggregations = <
  * @param getState a method which should generate a new ProgramState given an
  * array of `instructions`
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const sampledEvaluateReductionTraceNodes = <
   Opcodes,
   ProgramState extends MinimumProgramState<Opcodes> &
@@ -265,7 +268,6 @@ export const sampledEvaluateReductionTraceNodes = <
     vm,
     getState
   );
-  // tslint:disable-next-line: no-if-statement
   if (parsed.success && evaluated.success) {
     const samples =
       evaluated.samples.length > 0
@@ -324,14 +326,13 @@ export const reduceScript = <
 ): ScriptReductionTraceContainerNode<ProgramState> => {
   const source = compiledScript.map<
     ScriptReductionTraceChildNode<ProgramState>
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
   >(segment => {
     // tslint:disable-next-line: switch-default
     switch (segment.type) {
       case 'bytecode':
         return { bytecode: segment.value, range: segment.range };
       case 'push': {
-        // tslint:disable-next-line: no-if-statement
         if (segment.value.length === 0) {
           return emptyReductionTraceNode(segment.range);
         }
@@ -339,17 +340,15 @@ export const reduceScript = <
         const bytecode = encodeDataPush(push.bytecode);
         return {
           bytecode,
-          ...(push.errors ? { errors: push.errors } : undefined),
+          ...(push.errors === undefined ? undefined : { errors: push.errors }),
           range: segment.range,
           source: [push]
         };
       }
       case 'evaluation': {
-        // tslint:disable-next-line: no-if-statement
         if (segment.value.length === 0) {
           return emptyReductionTraceNode(segment.range);
         }
-        // tslint:disable-next-line: no-if-statement
         if (typeof vm === 'undefined' || typeof createState === 'undefined') {
           return {
             errors: [
@@ -401,7 +400,7 @@ export const reduceScript = <
       default:
         return new Error(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          `"${(segment as any).type}" is not a known segment type.`
+          `"${(segment as any).type as string}" is not a known segment type.`
         ) as never;
     }
   });
@@ -425,7 +424,9 @@ export const reduceScript = <
     { bytecode: [], ranges: [] }
   );
   return {
-    ...(reduction.errors ? { errors: reduction.errors } : undefined),
+    ...(reduction.errors === undefined
+      ? undefined
+      : { errors: reduction.errors }),
     bytecode: flattenBinArray(reduction.bytecode),
     range: mergeRanges(reduction.ranges),
     source

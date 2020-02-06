@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers no-bitwise
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test, { ExecutionContext } from 'ava';
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
@@ -262,6 +262,7 @@ const testSecp256k1Wasm = (
     rawRSigPtr
   );
   const compactRSig = secp256k1Wasm.readHeapU8(compactRSigPtr, 64);
+  // eslint-disable-next-line no-bitwise
   const rID = secp256k1Wasm.heapU32[rIDPtr >> 2];
 
   t.deepEqual(compactRSig, sigCompact);

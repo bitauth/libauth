@@ -28,13 +28,13 @@ const authenticationScriptParser = P.createLanguage({
   singleLineComment: () =>
     P.seqMap(
       P.string('//').desc("the start of a single-line comment ('//')"),
-      P.regexp(/[^\n]*/),
+      P.regexp(/[^\n]*/u),
       (__, comment) => comment.trim()
     ),
   multiLineComment: () =>
     P.seqMap(
       P.string('/*').desc("the start of a multi-line comment ('/*')"),
-      P.regexp(/[\s\S]*(?=\*\/)/).desc(
+      P.regexp(/[\s\S]*(?=\*\/)/u).desc(
         "the end of this multi-line comment ('*/')"
       ),
       P.string('*/'),
@@ -58,20 +58,20 @@ const authenticationScriptParser = P.createLanguage({
       (_, __, evaluation) => evaluation
     ).node('Evaluation'),
   identifier: () =>
-    P.regexp(/[a-zA-Z_][.a-zA-Z0-9_-]*/)
+    P.regexp(/[a-zA-Z_][.a-zA-Z0-9_-]*/u)
       .desc('a valid identifier')
       .node('Identifier'),
   utf8: () =>
     P.alt(
       P.seqMap(
         P.string('"').desc('a double quote (")'),
-        P.regexp(/[^"]*/),
+        P.regexp(/[^"]*/u),
         P.string('"').desc('a closing double quote (")'),
         (__, literal) => literal
       ),
       P.seqMap(
         P.string("'").desc("a single quote (')"),
-        P.regexp(/[^']*/),
+        P.regexp(/[^']*/u),
         P.string("'").desc("a closing single quote (')"),
         (__, literal) => literal
       )
@@ -79,11 +79,11 @@ const authenticationScriptParser = P.createLanguage({
   hex: () =>
     P.seqMap(
       P.string('0x').desc("a hex literal ('0x...')"),
-      P.regexp(/(?:[0-9a-f]{2})+/i).desc('a valid hexadecimal string'),
+      P.regexp(/(?:[0-9a-f]{2})+/iu).desc('a valid hexadecimal string'),
       (__, literal) => literal
     ).node('HexLiteral'),
   bigint: () =>
-    P.regexp(/-?[0-9]+/)
+    P.regexp(/-?[0-9]+/u)
       .desc('an integer literal')
       .map(BigInt)
       .node('BigIntLiteral')

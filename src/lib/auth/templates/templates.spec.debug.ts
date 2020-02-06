@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-escape, camelcase */
+/* eslint-disable no-useless-escape, camelcase, @typescript-eslint/no-magic-numbers */
 // cSpell:disable
 import { AuthenticationTemplate, AuthenticationTemplateEntity } from './types';
 

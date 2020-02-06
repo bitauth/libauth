@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test, { Macro } from 'ava';
 
 import {
@@ -65,7 +65,7 @@ const signingSerializationType: Macro<[string, string]> = async (
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
     success: true
   });
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
     const resultUnlock = compiler.generate('unlock', {
       keys: { privateKeys: { a: privkey } },

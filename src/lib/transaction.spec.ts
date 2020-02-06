@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers no-unsafe-any
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
 import { deserializeTransaction, serializeTransaction } from './transaction';

@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test from 'ava';
 
 import { AuthenticationInstruction } from './instruction-sets/instruction-sets';
@@ -25,7 +25,6 @@ interface SimpleProgram {
 }
 
 interface SimpleProgramState extends MinimumProgramState, StackState<number> {
-  // tslint:disable-next-line:readonly-keyword
   error?: SimpleError;
 }
 
@@ -77,13 +76,11 @@ const simpleInstructionSet: InstructionSet<
     }
   },
   undefined: state => {
-    // tslint:disable-next-line:no-object-mutation
     state.error = SimpleError.UNDEFINED;
     return state;
   },
   verify: state => state.stack[state.stack.length - 1] === 1
 };
-// tslint:enable: no-object-mutation
 
 const vm = createAuthenticationVirtualMachine(simpleInstructionSet);
 

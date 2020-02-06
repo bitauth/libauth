@@ -1,5 +1,4 @@
-/* eslint-disable functional/no-let, init-declarations */
-// tslint:disable:no-expression-statement no-let no-unsafe-any
+/* eslint-disable functional/no-expression-statement, functional/no-let, init-declarations */
 import test from 'ava';
 import suite from 'chuhai';
 import { randomBytes } from 'crypto';
@@ -14,6 +13,7 @@ const secp256k1Promise = instantiateSecp256k1();
 const privKeyLength = 32;
 const getValidPrivateKey = (secp256k1: Secp256k1): Uint8Array => {
   let privKey: Uint8Array;
+  // eslint-disable-next-line functional/no-loop-statement
   do {
     privKey = randomBytes(privKeyLength);
   } while (!secp256k1.validatePrivateKey(privKey));

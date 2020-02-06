@@ -5,7 +5,7 @@ export interface HashFunction {
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
 }
 
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers */
 /**
  * Note, most of this method is translated and boiled-down from the wasm-pack
  * workflow. Significant changes to wasm-bindgen or wasm-pack build will likely
@@ -44,10 +44,9 @@ export const instantiateRustWasm = async (
     })
   ).instance.exports as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-  // tslint:disable:no-let no-if-statement no-expression-statement no-unsafe-any
-  let cachedUint8Memory: Uint8Array | undefined; // eslint-disable-line functional/no-let, init-declarations
-  let cachedUint32Memory: Uint32Array | undefined; // eslint-disable-line functional/no-let, init-declarations
-  let cachedGlobalArgumentPtr: number | undefined; // eslint-disable-line functional/no-let, init-declarations
+  let cachedUint8Memory: Uint8Array | undefined; // eslint-disable-line init-declarations
+  let cachedUint32Memory: Uint32Array | undefined; // eslint-disable-line init-declarations
+  let cachedGlobalArgumentPtr: number | undefined; // eslint-disable-line init-declarations
 
   const globalArgumentPtr = () => {
     if (cachedGlobalArgumentPtr === undefined) {
@@ -77,7 +76,6 @@ export const instantiateRustWasm = async (
     }
     return cachedUint32Memory;
   };
-  // tslint:enable:no-let no-if-statement
 
   const passArray8ToWasm = (array: Uint8Array) => {
     const ptr: number = wasm.__wbindgen_malloc(array.length);
@@ -88,11 +86,9 @@ export const instantiateRustWasm = async (
   const getArrayU8FromWasm = (ptr: number, len: number) =>
     getUint8Memory().subarray(ptr, ptr + len);
 
-  // tslint:disable:no-magic-numbers
   const hash = (input: Uint8Array) => {
     const [ptr0, len0] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
-    // eslint-disable-next-line functional/no-try-statement
     try {
       wasm[hashExportName](retPtr, ptr0, len0);
       const mem = getUint32Memory();
@@ -121,7 +117,6 @@ export const instantiateRustWasm = async (
     const [ptr0, len0] = passArray8ToWasm(rawState);
     const [ptr1, len1] = passArray8ToWasm(input);
     const retPtr = globalArgumentPtr();
-    // eslint-disable-next-line functional/no-try-statement
     try {
       wasm[updateExportName](retPtr, ptr0, len0, ptr1, len1);
       const mem = getUint32Memory();
@@ -140,7 +135,6 @@ export const instantiateRustWasm = async (
   const final = (rawState: Uint8Array) => {
     const [ptr0, len0] = passArray8ToWasm(rawState);
     const retPtr = globalArgumentPtr();
-    // eslint-disable-next-line functional/no-try-statement
     try {
       wasm[finalExportName](retPtr, ptr0, len0);
       const mem = getUint32Memory();
@@ -154,7 +148,6 @@ export const instantiateRustWasm = async (
       wasm.__wbindgen_free(ptr0, len0);
     }
   };
-  // tslint:enable:no-expression-statement
   return {
     final,
     hash,
@@ -162,4 +155,4 @@ export const instantiateRustWasm = async (
     update
   };
 };
-/* eslint-enable no-underscore-dangle */
+/* eslint-enable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers */

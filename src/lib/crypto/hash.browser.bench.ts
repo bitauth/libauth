@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-expression-statement */
 // tslint:disable:no-expression-statement no-unsafe-any
 import alias from '@rollup/plugin-alias';
 import test from 'ava';
@@ -14,7 +15,7 @@ const prepareCode = async () => {
    * Suppress Rollup warning: `Use of eval is strongly discouraged, as it poses
    * security risks and may cause issues with minification`
    */
-  // eslint-disable-next-line no-console
+  // eslint-disable-next-line no-console, functional/immutable-data
   console.warn = (suppress: string) => suppress;
 
   const bundle = await rollup({
@@ -31,7 +32,7 @@ const prepareCode = async () => {
       nodeResolve()
     ]
   });
-  // eslint-disable-next-line no-console, require-atomic-updates
+  // eslint-disable-next-line no-console, require-atomic-updates, functional/immutable-data
   console.warn = realConsoleWarn;
 
   const result = await bundle.generate({
@@ -64,12 +65,12 @@ const preparePage = async () => {
     });
     page.on('error', err => {
       // eslint-disable-next-line no-console
-      console.error(`error: ${err}`);
+      console.error(`error: ${String(err)}`);
     });
     // cspell: disable-next-line
     page.on('pageerror', err => {
       // eslint-disable-next-line no-console
-      console.error(`pageerror: ${err}`); // cspell: disable-line
+      console.error(`pageerror: ${String(err)}`); // cspell: disable-line
     });
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor

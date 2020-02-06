@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers no-object-mutation
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test, { Macro } from 'ava';
 
 import { range } from '../../lib';
@@ -55,7 +55,7 @@ const defToFixtures = (tests: CommonScriptParseAndAsmTests) =>
     const [fullHex, { asm }] = entry;
     const [, hex] = fullHex.split('0x');
     const script = hexToBin(hex);
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     const object = entry[1].parse.map(set => ({
       opcode: set[0],
       ...(set.length > 2 ? { malformed: true } : undefined),
@@ -167,7 +167,7 @@ const parse: Macro<[Uint8Array, readonly ParsedAuthenticationInstruction[]]> = (
 ) => {
   t.deepEqual(parseBytecode(input), expected);
 };
-parse.title = title => `parse script: ${title}`.trim();
+parse.title = title => `parse script: ${title ?? ''}`.trim();
 
 const disassemble: Macro<[
   readonly ParsedAuthenticationInstruction[],
@@ -178,7 +178,7 @@ const disassemble: Macro<[
     expected
   );
 };
-disassemble.title = title => `disassemble script: ${title}`.trim();
+disassemble.title = title => `disassemble script: ${title ?? ''}`.trim();
 
 const serialize: Macro<[readonly AuthenticationInstruction[], Uint8Array]> = (
   t,
@@ -187,7 +187,7 @@ const serialize: Macro<[readonly AuthenticationInstruction[], Uint8Array]> = (
 ) => {
   t.deepEqual(serializeAuthenticationInstructions(input), expected);
 };
-serialize.title = title => `serialize script: ${title}`.trim();
+serialize.title = title => `serialize script: ${title ?? ''}`.trim();
 
 const reSerialize: Macro<[
   readonly ParsedAuthenticationInstruction[],
@@ -195,9 +195,9 @@ const reSerialize: Macro<[
 ]> = (t, input, expected) => {
   t.deepEqual(serializeParsedAuthenticationInstructions(input), expected);
 };
-reSerialize.title = title => `re-serialize parsed script: ${title}`.trim();
+reSerialize.title = title =>
+  `re-serialize parsed script: ${title ?? ''}`.trim();
 
-// tslint:disable-next-line:no-unused-expression
 defToFixtures(wellFormedScripts).map(({ asm, hex, script, object }) => {
   test(`0x${hex}`, parse, script, object);
   test(`0x${hex}`, disassemble, object, asm);
@@ -206,7 +206,6 @@ defToFixtures(wellFormedScripts).map(({ asm, hex, script, object }) => {
   return undefined;
 });
 
-// tslint:disable-next-line:no-unused-expression
 defToFixtures(malFormedPushes).map(({ asm, hex, script, object }) => {
   test(`0x${hex}`, parse, script, object);
   test(`0x${hex}`, disassemble, object, asm);

@@ -122,7 +122,7 @@ enum ScriptGenerationError {
   missingSecp256k1 = 'Secp256k1 is required, but no implementation was provided.'
 }
 
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 const getSigningSerializationType = (
   algorithmIdentifier: string,
   prefix = ''
@@ -130,37 +130,37 @@ const getSigningSerializationType = (
   switch (algorithmIdentifier) {
     case `${prefix}${SigningSerializationAlgorithmIdentifier.all_outputs}`:
       return Uint8Array.of(
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.all_outputs | SigningSerializationFlag.fork_id
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.all_outputs_single_input}`:
       return Uint8Array.of(
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.all_outputs |
           SigningSerializationFlag.single_input |
           SigningSerializationFlag.fork_id
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.corresponding_output}`:
       return Uint8Array.of(
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.corresponding_output |
           SigningSerializationFlag.fork_id
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.corresponding_output_single_input}`:
       return Uint8Array.of(
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.corresponding_output |
           SigningSerializationFlag.single_input |
           SigningSerializationFlag.fork_id
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.no_outputs}`:
       return Uint8Array.of(
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.no_outputs | SigningSerializationFlag.fork_id
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.no_outputs_single_input}`:
       return Uint8Array.of(
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.no_outputs |
           SigningSerializationFlag.single_input |
           SigningSerializationFlag.fork_id
@@ -183,8 +183,8 @@ export const compilerOperationBCHGenerateSignature = <
   signingAlgorithm: (
     secp256k1: Secp256k1
   ) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
+  // eslint-disable-next-line complexity
 ) => (
-  // tslint:disable-next-line: cyclomatic-complexity
   identifier: string,
   data: Required<Pick<CompilationData<OperationData>, 'keys'>> &
     CompilationData<OperationData>,
@@ -192,7 +192,6 @@ export const compilerOperationBCHGenerateSignature = <
 ) => {
   const { keys } = data;
   const { signatures, privateKeys } = keys;
-  // tslint:disable-next-line: no-if-statement
   if (
     signatures !== undefined &&
     (signatures[identifier] as Uint8Array | undefined) !== undefined
@@ -200,7 +199,6 @@ export const compilerOperationBCHGenerateSignature = <
     return signatures[identifier];
   }
   const identifierSegments = identifier.split('.');
-  // tslint:disable-next-line: no-if-statement
   if (
     identifierSegments.length !== SignatureIdentifierConstants.expectedSegments
   ) {
@@ -211,28 +209,23 @@ export const compilerOperationBCHGenerateSignature = <
   const algorithm =
     identifierSegments[SignatureIdentifierConstants.signingTargetIndex];
   const signingSerializationType = getSigningSerializationType(algorithm);
-  // tslint:disable-next-line: no-if-statement
   if (signingSerializationType === undefined) {
     return `Unknown signing serialization algorithm, "${algorithm}".`;
   }
-  // tslint:disable-next-line: no-if-statement
   if (
     privateKeys !== undefined &&
     (privateKeys[variableId] as Uint8Array | undefined) !== undefined
   ) {
     const privateKey = privateKeys[variableId];
     const { operationData } = data;
-    // tslint:disable-next-line: no-if-statement
     if (operationData === undefined) {
       return `Could not construct the signature "${identifier}", signing serialization data was not provided in the compilation data.`;
     }
     const { secp256k1 } = environment;
-    // tslint:disable-next-line: no-if-statement
     if (secp256k1 === undefined) {
       return ScriptGenerationError.missingSecp256k1;
     }
     const { sha256 } = environment;
-    // tslint:disable-next-line: no-if-statement
     if (sha256 === undefined) {
       return ScriptGenerationError.missingSha256;
     }
@@ -268,8 +261,8 @@ export const compilerOperationBCHGenerateDataSignature = <
   signingAlgorithm: (
     secp256k1: Secp256k1
   ) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
+  // eslint-disable-next-line complexity
 ) => (
-  // tslint:disable-next-line: cyclomatic-complexity
   identifier: string,
   data: Required<Pick<CompilationData<OperationData>, 'keys'>> &
     CompilationData<OperationData>,
@@ -277,7 +270,6 @@ export const compilerOperationBCHGenerateDataSignature = <
 ) => {
   const { keys } = data;
   const { signatures, privateKeys } = keys;
-  // tslint:disable-next-line: no-if-statement
   if (
     signatures !== undefined &&
     (signatures[identifier] as Uint8Array | undefined) !== undefined
@@ -285,7 +277,6 @@ export const compilerOperationBCHGenerateDataSignature = <
     return signatures[identifier];
   }
   const identifierSegments = identifier.split('.');
-  // tslint:disable-next-line: no-if-statement
   if (
     identifierSegments.length !== SignatureIdentifierConstants.expectedSegments
   ) {
@@ -298,28 +289,23 @@ export const compilerOperationBCHGenerateDataSignature = <
   const signingTarget = environment.scripts[scriptId] as string | undefined;
 
   const compiledTarget = resolveScriptIdentifier(scriptId, data, environment);
-  // tslint:disable-next-line: no-if-statement
   if (signingTarget === undefined || compiledTarget === false) {
     return `Data signature tried to sign an unknown target script, "${scriptId}".`;
   }
-  // tslint:disable-next-line: no-if-statement
   if (typeof compiledTarget === 'string') {
     return compiledTarget;
   }
 
-  // tslint:disable-next-line: no-if-statement
   if (
     privateKeys !== undefined &&
     (privateKeys[variableId] as Uint8Array | undefined) !== undefined
   ) {
     const privateKey = privateKeys[variableId];
     const { secp256k1 } = environment;
-    // tslint:disable-next-line: no-if-statement
     if (secp256k1 === undefined) {
       return ScriptGenerationError.missingSecp256k1;
     }
     const { sha256 } = environment;
-    // tslint:disable-next-line: no-if-statement
     if (sha256 === undefined) {
       return ScriptGenerationError.missingSha256;
     }
@@ -334,16 +320,15 @@ enum SigningSerializationIdentifierConstants {
   expectedSegments = 2
 }
 
+// eslint-disable-next-line complexity
 export const compilerOperationBCHGenerateSigningSerialization = <
   OperationData extends CompilerOperationDataBCH
 >(
-  // tslint:disable-next-line: cyclomatic-complexity
   identifier: string,
   data: CompilationData<OperationData>,
   environment: CompilationEnvironment<OperationData>
 ) => {
   const identifierSegments = identifier.split('.');
-  // tslint:disable-next-line: no-if-statement
   if (
     identifierSegments.length !==
     SigningSerializationIdentifierConstants.expectedSegments
@@ -357,16 +342,14 @@ export const compilerOperationBCHGenerateSigningSerialization = <
     'full_'
   );
   const { operationData } = data;
-  // tslint:disable-next-line: no-if-statement
   if (operationData === undefined) {
     return `Could not construct the signing serialization "${identifier}", signing serialization data was not provided in the compilation data.`;
   }
   const { sha256 } = environment;
-  // tslint:disable-next-line: no-if-statement
   if (sha256 === undefined) {
     return ScriptGenerationError.missingSha256;
   }
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (signingSerializationType === undefined) {
     switch (
       algorithmOrComponent as CompilerOperationsSigningSerializationComponentBCH
@@ -442,19 +425,17 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
       'data_signature',
       secp256k1 => secp256k1.signMessageHashDER
     ),
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
     public_key: (identifier, data, environment) => {
       const { keys } = data;
       const { publicKeys, privateKeys } = keys;
       const [variableId] = identifier.split('.');
-      // tslint:disable-next-line: no-if-statement
       if (
         publicKeys !== undefined &&
         (publicKeys[variableId] as Uint8Array | undefined) !== undefined
       ) {
         return publicKeys[variableId];
       }
-      // tslint:disable-next-line: no-if-statement
       if (
         privateKeys !== undefined &&
         (privateKeys[variableId] as Uint8Array | undefined) !== undefined

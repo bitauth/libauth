@@ -17,7 +17,7 @@ export const opToAltStack = <
   State extends StackState & AlternateStackState
 >() => (state: State) =>
   useOneStackItem(state, (nextState, item) => {
-    // tslint:disable-next-line: no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     nextState.alternateStack.push(item);
     return nextState;
   });
@@ -26,9 +26,9 @@ export const opFromAltStack = <
   State extends StackState & AlternateStackState & ErrorState<Errors>,
   Errors
 >() => (state: State) => {
+  // eslint-disable-next-line functional/immutable-data
   const item = state.alternateStack.pop();
-  // tslint:disable-next-line:no-if-statement
-  if (!item) {
+  if (item === undefined) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.emptyAlternateStack,
       state
@@ -104,7 +104,6 @@ export const opPick = <
       const item = nextState.stack[
         nextState.stack.length - 1 - Number(depth)
       ] as Uint8Array | undefined;
-      // tslint:disable-next-line: no-if-statement
       if (item === undefined) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.invalidStackIndex,
@@ -126,13 +125,13 @@ export const opRoll = <
     state,
     (nextState, depth) => {
       const index = nextState.stack.length - 1 - Number(depth);
-      // tslint:disable-next-line: no-if-statement
       if (index < 0 || index > nextState.stack.length - 1) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.invalidStackIndex,
           state
         );
       }
+      // eslint-disable-next-line functional/immutable-data
       return pushToStack(nextState, nextState.stack.splice(index, 1)[0]);
     },
     flags.requireMinimalEncoding

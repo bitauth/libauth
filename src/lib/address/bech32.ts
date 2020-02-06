@@ -16,6 +16,7 @@ export enum BitRegroupingError {
   requiresDisallowedPadding = 'Encoding requires padding while padding is disallowed.'
 }
 
+/* eslint-disable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
 // cSpell:ignore Pieter, Wuille
 /**
  * Given an array of integers, regroup bits from `sourceWordLength` to
@@ -31,54 +32,45 @@ export enum BitRegroupingError {
  * Derived from: https://github.com/sipa/bech32
  * Copyright (c) 2017 Pieter Wuille, MIT License
  */
-// tslint:disable-next-line: cyclomatic-complexity
 export const regroupBits = (
   bin: Uint8Array | number[],
   sourceWordLength: number,
   resultWordLength: number,
   padding = true
 ) => {
-  // eslint-disable-next-line functional/no-let
   let accumulator = 0;
-  // eslint-disable-next-line functional/no-let
   let bits = 0;
   const result = [];
-  // tslint:disable-next-line: no-bitwise
   const maxResultInt = (1 << resultWordLength) - 1;
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
+  // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of
   for (let p = 0; p < bin.length; ++p) {
     const value = bin[p];
-    // tslint:disable-next-line: no-if-statement no-bitwise
     if (value < 0 || value >> sourceWordLength !== 0) {
       return BitRegroupingError.integerOutOfRange;
     }
-    // tslint:disable-next-line: no-expression-statement no-bitwise
     accumulator = (accumulator << sourceWordLength) | value;
-    // tslint:disable-next-line: no-expression-statement
     bits += sourceWordLength;
+    // eslint-disable-next-line functional/no-loop-statement
     while (bits >= resultWordLength) {
-      // tslint:disable-next-line: no-expression-statement
       bits -= resultWordLength;
-      // tslint:disable-next-line: no-expression-statement no-bitwise
+      // eslint-disable-next-line functional/immutable-data
       result.push((accumulator >> bits) & maxResultInt);
     }
   }
-  // tslint:disable-next-line: no-if-statement
+
   if (padding) {
-    // tslint:disable-next-line: no-if-statement
     if (bits > 0) {
-      // tslint:disable-next-line: no-expression-statement no-bitwise
+      // eslint-disable-next-line functional/immutable-data
       result.push((accumulator << (resultWordLength - bits)) & maxResultInt);
     }
-    // tslint:disable-next-line: no-if-statement
   } else if (bits >= sourceWordLength) {
     return BitRegroupingError.hasDisallowedPadding;
-    // tslint:disable-next-line: no-if-statement no-bitwise
   } else if (((accumulator << (resultWordLength - bits)) & maxResultInt) > 0) {
     return BitRegroupingError.requiresDisallowedPadding;
   }
   return result;
 };
+/* eslint-enable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
 
 /**
  * Encode an array of numbers as a base32 string using the Bech32 character set.
@@ -91,9 +83,9 @@ export const regroupBits = (
 export const encodeBech32 = (base32IntegerArray: number[]) => {
   // eslint-disable-next-line functional/no-let
   let result = '';
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement
   for (let i = 0; i < base32IntegerArray.length; i++) {
-    // tslint:disable-next-line: no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement
     result += bech32CharacterSet[base32IntegerArray[i]];
   }
   return result;
@@ -110,9 +102,9 @@ export const encodeBech32 = (base32IntegerArray: number[]) => {
  */
 export const decodeBech32 = (validBech32: string) => {
   const result: typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex][] = [];
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement
   for (let i = 0; i < validBech32.length; i++) {
-    // tslint:disable-next-line: no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     result.push(
       bech32CharacterSetIndex[
         validBech32[i] as keyof typeof bech32CharacterSetIndex
@@ -122,9 +114,10 @@ export const decodeBech32 = (validBech32: string) => {
   return result;
 };
 
-const nonBech32Characters = new RegExp(`[^${bech32CharacterSet}]`);
+const nonBech32Characters = new RegExp(`[^${bech32CharacterSet}]`, 'u');
 const base32WordLength = 5;
 const base256WordLength = 8;
+const zero = 0;
 
 /**
  * Validate that a string is bech32 encoded (without a checksum). The string
@@ -143,10 +136,10 @@ export const isBech32 = (maybeBech32: string) => {
     | undefined;
   const onlyBech32Characters = !nonBech32Characters.test(maybeBech32);
   const noExcessivePadding = expectedPadding < base32WordLength;
-  // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-bitwise
   const mask = (1 << expectedPadding) - 1;
-  // tslint:disable-next-line: no-bitwise
-  const expectedPaddingIsZeroFilled = (Number(last5Bits) & mask) === 0;
+  // eslint-disable-next-line no-bitwise
+  const expectedPaddingIsZeroFilled = (Number(last5Bits) & mask) === zero;
   return (
     onlyBech32Characters && noExcessivePadding && expectedPaddingIsZeroFilled
   );

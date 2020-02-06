@@ -120,7 +120,7 @@ export const resolveScriptSegment = (
   segment: BtlScriptSegment,
   resolveIdentifiers: IdentifierResolutionFunction
 ): ResolvedScript => {
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   const resolved = segment.value.map<ResolvedSegment>(child => {
     const range = pluckRange(child);
     switch (child.name) {
@@ -201,7 +201,8 @@ export const resolveScriptSegment = (
         return {
           range,
           type: 'error' as const,
-          value: `Unrecognized segment: ${child}`
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          value: `Unrecognized segment: ${(child as any).name as string}`
         };
     }
   });
@@ -404,7 +405,6 @@ const attemptCompilerOperation = <CompilerOperationData>(
   environment: CompilationEnvironment<CompilerOperationData>,
   data: CompilationData<CompilerOperationData>
 ) => {
-  // tslint:disable-next-line: no-if-statement
   if (environment.operations !== undefined) {
     const operationsForType = environment.operations[variableType];
     if (operationsForType !== undefined) {
@@ -412,7 +412,6 @@ const attemptCompilerOperation = <CompilerOperationData>(
       const operation = (operationsForType as any)[operationId] as
         | CompilerOperation<CompilerOperationData, typeof variableType>
         | undefined;
-      // tslint:disable-next-line: no-if-statement
       if (operation !== undefined) {
         return operation(
           identifier,
@@ -477,7 +476,7 @@ export enum BuiltInVariables {
  * Otherwise, the identifier is not recognized as a variable, and this method
  * simply returns `false`.
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
   identifier: string,
   environment: CompilationEnvironment<CompilerOperationData>,
@@ -507,12 +506,9 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             data
           );
     default: {
-      const selected =
-        environment.variables &&
-        (environment.variables[variableId] as
-          | AuthenticationTemplateVariable
-          | undefined);
-      // tslint:disable-next-line: no-if-statement
+      const selected: AuthenticationTemplateVariable | undefined =
+        environment.variables?.[variableId];
+
       if (selected === undefined) {
         return false;
       }
@@ -556,18 +552,16 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
  * @param parentIdentifier the identifier of the script which references the
  * script being resolved (for detecting circular dependencies)
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
   identifier: string,
   data: CompilationData<CompilerOperationData>,
   environment: CompilationEnvironment<CompilerOperationData>,
   parentIdentifier?: string
 ): CompilationResultSuccess<ProgramState> | string | false => {
-  // tslint:disable-next-line: no-if-statement
   if ((environment.scripts[identifier] as string | undefined) === undefined) {
     return false;
   }
-  // tslint:disable-next-line: no-if-statement
   if (
     parentIdentifier !== undefined &&
     environment.sourceScriptIds !== undefined &&
@@ -611,12 +605,10 @@ export const createIdentifierResolver = <CompilerOperationData>(
   data: CompilationData<CompilerOperationData>,
   environment: CompilationEnvironment<CompilerOperationData>
 ): IdentifierResolutionFunction =>
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   (identifier: string) => {
     const opcodeResult: Uint8Array | undefined =
-      environment.opcodes &&
-      (environment.opcodes[identifier] as Uint8Array | undefined);
-    // tslint:disable-next-line: no-if-statement
+      environment.opcodes?.[identifier];
     if (opcodeResult !== undefined) {
       return {
         bytecode: opcodeResult,
@@ -629,7 +621,6 @@ export const createIdentifierResolver = <CompilerOperationData>(
       environment,
       data
     );
-    // tslint:disable-next-line: no-if-statement
     if (variableResult !== false) {
       return typeof variableResult === 'string'
         ? { error: variableResult, status: false }
@@ -645,7 +636,6 @@ export const createIdentifierResolver = <CompilerOperationData>(
       environment,
       scriptId
     );
-    // tslint:disable-next-line: no-if-statement
     if (scriptResult !== false) {
       return typeof scriptResult === 'string'
         ? { error: scriptResult, status: false }

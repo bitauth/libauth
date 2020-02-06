@@ -47,7 +47,7 @@ const hexByteLength = 2;
  * @param maybeHex a string to test
  */
 export const isHex = (maybeHex: string) =>
-  maybeHex.length % hexByteLength === 0 && !/[^a-fA-F0-9]/.test(maybeHex);
+  maybeHex.length % hexByteLength === 0 && !/[^a-fA-F0-9]/u.test(maybeHex);
 
 /**
  * Encode a Uint8Array into a hexadecimal-encoded string.
@@ -78,9 +78,9 @@ export const swapEndianness = (validHex: string) =>
 export const flattenBinArray = (array: readonly Uint8Array[]) => {
   const totalLength = array.reduce((total, bin) => total + bin.length, 0);
   const flattened = new Uint8Array(totalLength);
-  // tslint:disable-next-line:no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statement
   array.reduce((index, bin) => {
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement
     flattened.set(bin, index);
     return index + bin.length;
   }, 0);

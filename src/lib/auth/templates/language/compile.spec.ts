@@ -1,5 +1,4 @@
-/* eslint-disable max-lines */
-// tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, max-lines */
 import test from 'ava';
 
 import { hexToBin } from '../../../utils/hex';

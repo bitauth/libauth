@@ -1,6 +1,5 @@
 /* global Buffer */
-/* eslint-disable functional/no-let, init-declarations */
-// tslint:disable:no-expression-statement no-let no-unsafe-any
+/* eslint-disable functional/no-let, init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
 import * as asmCrypto from 'asmcrypto.js';
 import test from 'ava';
 import * as bcrypto from 'bcrypto';
@@ -52,7 +51,6 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             .update(nodeJsBuffer)
             .digest();
         });
-        // tslint:disable-next-line:no-if-statement
         if (nodeJsAlgorithm !== 'ripemd160') {
           const Algorithm =
             nodeJsAlgorithm === 'sha1'
@@ -66,10 +64,9 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           });
         }
         s.cycle(() => {
-          // tslint:disable-next-line:no-if-statement
           if (hash === null) {
             t.fail(
-              `asmcrypto.js failed to produce a hash for message: ${message}`
+              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`
             );
           } else {
             t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
@@ -124,7 +121,6 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             )
             .digest();
         });
-        // tslint:disable-next-line:no-if-statement
         if (nodeJsAlgorithm !== 'ripemd160') {
           const Algorithm =
             nodeJsAlgorithm === 'sha1'
@@ -141,7 +137,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           // tslint:disable-next-line:no-if-statement
           if (hash === null) {
             t.fail(
-              `asmcrypto.js failed to produce a hash for message: ${message}`
+              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`
             );
           } else {
             t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
@@ -152,12 +148,12 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
     });
   };
 
-  // tslint:disable:no-magic-numbers
+  /* eslint-disable @typescript-eslint/no-magic-numbers */
   singlePassNodeBenchmark(32);
   singlePassNodeBenchmark(100);
   singlePassNodeBenchmark(1_000);
   singlePassNodeBenchmark(10_000);
 
   incrementalNodeBenchmark(MB * 32, MB);
-  // tslint:disable:no-magic-numbers
+  /* eslint-enable @typescript-eslint/no-magic-numbers */
 };

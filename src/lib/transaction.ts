@@ -256,26 +256,27 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
   // eslint-disable-next-line functional/no-let
   let cursor = offsetAfterInputCount;
   const inputs = [];
-  // eslint-disable-next-line functional/no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
   for (let i = 0; i < Number(inputCount); i++) {
     const { input, nextOffset } = readTransactionInput(bin, cursor);
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement
     cursor = nextOffset;
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     inputs.push(input);
   }
   const {
     nextOffset: offsetAfterOutputCount,
     value: outputCount
   } = readBitcoinVarInt(bin, cursor);
+  // eslint-disable-next-line functional/no-expression-statement
   cursor = offsetAfterOutputCount;
   const outputs = [];
-  // eslint-disable-next-line functional/no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
   for (let i = 0; i < Number(outputCount); i++) {
     const { output, nextOffset } = readTransactionOutput(bin, cursor);
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement
     cursor = nextOffset;
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     outputs.push(output);
   }
   const locktime = binToNumberUint32LE(

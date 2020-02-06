@@ -71,19 +71,20 @@ export const padMinimallyEncodedScriptNumber = (
 ) => {
   // eslint-disable-next-line functional/no-let
   let signBit = Constants.positiveSign;
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (scriptNumber.length > 0) {
-    // tslint:disable-next-line: no-expression-statement no-bitwise
+    // eslint-disable-next-line functional/no-expression-statement, no-bitwise
     signBit = scriptNumber[scriptNumber.length - 1] & Constants.negativeSign;
-    // tslint:disable-next-line: no-expression-statement no-bitwise no-object-mutation
+    // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
     scriptNumber[scriptNumber.length - 1] &= Constants.negativeSign - 1;
   }
   const result = Array.from(scriptNumber);
+  // eslint-disable-next-line functional/no-loop-statement
   while (result.length < length - 1) {
-    // tslint:disable-next-line: no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     result.push(0);
   }
-  // tslint:disable-next-line: no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
   result.push(signBit);
   return Uint8Array.from(result);
 };
@@ -160,17 +161,17 @@ export const bitwiseOperation = <
 
 export const opAnd = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
-  // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-bitwise
 >() => bitwiseOperation<State>((a, b) => a.map((v, i) => v & b[i]));
 
 export const opOr = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
-  // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-bitwise
 >() => bitwiseOperation<State>((a, b) => a.map((v, i) => v | b[i]));
 
 export const opXor = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
-  // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-bitwise
 >() => bitwiseOperation<State>((a, b) => a.map((v, i) => v ^ b[i]));
 
 export const opDiv = <
@@ -225,7 +226,7 @@ export const opCheckDataSig = <
   sha256: Sha256,
   secp256k1: Secp256k1
 ) => (state: State) =>
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   useThreeStackItems(state, (nextState, signature, message, publicKey) => {
     // tslint:disable-next-line:no-if-statement
     if (!isValidSignatureEncodingBCHRaw(signature)) {

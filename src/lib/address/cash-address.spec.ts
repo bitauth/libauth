@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable @typescript-eslint/no-magic-numbers, functional/no-expression-statement */
 import test from 'ava';
 import * as fc from 'fast-check';
 
@@ -145,7 +145,7 @@ test('decodeCashAddress: works', t => {
   const result = decodeCashAddress(
     'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'
   );
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (typeof result === 'string') {
     t.log(result);
     t.fail();
@@ -246,7 +246,7 @@ test('CashAddress test vectors', t => {
     const payload = hexToBin(vector.payload);
     const type = vector.type as CashAddressAvailableTypes;
     const encodeResult = encodeCashAddress(prefix, type, payload);
-    // tslint:disable-next-line: no-if-statement
+    // eslint-disable-next-line functional/no-conditional-statement
     if (cashaddr !== encodeResult) {
       t.log('expected vector', vector.cashaddr);
       t.log('type', type);
@@ -257,7 +257,7 @@ test('CashAddress test vectors', t => {
     t.deepEqual(vector.cashaddr, encodeResult);
 
     const decodeResult = decodeCashAddress(cashaddr);
-    // tslint:disable-next-line: no-if-statement
+    // eslint-disable-next-line functional/no-conditional-statement
     if (typeof decodeResult === 'string') {
       t.log(decodeResult);
       t.fail();

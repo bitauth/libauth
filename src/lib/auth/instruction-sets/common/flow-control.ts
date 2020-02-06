@@ -53,19 +53,19 @@ export const opIf = <
   Errors
 >(): Operation<State> => (state: State) => {
   if (state.executionStack.every(item => item)) {
+    // eslint-disable-next-line functional/immutable-data
     const element = state.stack.pop();
-    // tslint:disable-next-line:no-if-statement
-    if (!element) {
+    if (element === undefined) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.emptyStack,
         state
       );
     }
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     state.executionStack.push(stackItemIsTruthy(element));
     return state;
   }
-  // tslint:disable-next-line: no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
   state.executionStack.push(false);
   return state;
 };
@@ -85,8 +85,8 @@ export const opEndIf = <
   State extends ExecutionStackState & ErrorState<Errors>,
   Errors
 >(): Operation<State> => (state: State) => {
+  // eslint-disable-next-line functional/immutable-data
   const element = state.executionStack.pop();
-  // tslint:disable-next-line:no-if-statement
   if (element === undefined) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.unexpectedEndIf,
@@ -103,14 +103,13 @@ export const opElse = <
   const top = state.executionStack[state.executionStack.length - 1] as
     | boolean
     | undefined;
-  // tslint:disable-next-line:no-if-statement
   if (top === undefined) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.unexpectedElse,
       state
     );
   }
-  // tslint:disable-next-line:no-object-mutation no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
   state.executionStack[state.executionStack.length - 1] = !top;
   return state;
 };

@@ -64,7 +64,7 @@ const enum SegWit {
  *
  * @param bytecode the stack item to test
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const isWitnessProgram = (bytecode: Uint8Array) => {
   const correctLength =
     bytecode.length >= SegWit.minimumLength &&
@@ -137,7 +137,9 @@ export const getFlagsForInstructionSetBCH = (
         requireNullSignatureFailures: true
       };
     default:
-      return new Error(`${instructionSet} is not an instruction set.`) as never;
+      return new Error(
+        `${instructionSet as string} is not an instruction set.`
+      ) as never;
   }
 };
 
@@ -167,7 +169,7 @@ export const createInstructionSetBCH = (
   clone: cloneAuthenticationProgramStateCommon,
   continue: (state: AuthenticationProgramStateBCH) =>
     state.error === undefined && state.ip < state.instructions.length,
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   evaluate: (program, stateEvaluate) => {
     const { unlockingBytecode } = program.spendingTransaction.inputs[
       program.inputIndex
@@ -229,10 +231,9 @@ export const createInstructionSetBCH = (
     }
 
     const p2shStack = cloneStack(unlockingResult.stack);
-    // tslint:disable-next-line: strict-boolean-expressions
+    // eslint-disable-next-line functional/immutable-data
     const p2shScript = p2shStack.pop() ?? Uint8Array.of();
 
-    // tslint:disable-next-line: no-if-statement
     if (p2shStack.length === 0 && isWitnessProgram(p2shScript)) {
       return lockingResult;
     }

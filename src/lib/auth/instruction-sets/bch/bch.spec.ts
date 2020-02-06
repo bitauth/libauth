@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test from 'ava';
 
 import { instantiateSha256 } from '../../../crypto/sha256';
@@ -110,13 +109,13 @@ pendingTests.map(expectation => {
     expectation.lockingBytecodeText,
     100
   )}"${expectation.message === undefined ? '' : ` # ${expectation.message}`}`;
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (expectation.flags.failRequiresReview) {
     test.todo(`Review failure: ${description}`);
   }
   test(
     description,
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
     async t => {
       const unlockingBytecode = assembleBitcoinABCScript(
         expectation.unlockingBytecodeText
@@ -141,16 +140,19 @@ pendingTests.map(expectation => {
       const pass =
         (valid && expectation.expectedError === false) ||
         (!valid && expectation.expectedError !== false);
-      // tslint:disable-next-line: no-if-statement
+      // eslint-disable-next-line functional/no-conditional-statement
       if (!pass) {
         t.log(`unlockingBytecodeText: "${expectation.unlockingBytecodeText}"`);
         t.log(`disassembled: "${disassembleBytecodeBCH(unlockingBytecode)}"`);
         t.log(`lockingBytecodeText: "${expectation.lockingBytecodeText}"`);
         t.log(`disassembled: "${disassembleBytecodeBCH(lockingBytecode)}"`);
         t.log('result:', result);
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expectation.expectedError === false
           ? t.fail('Expected a valid state, but this result is invalid.')
-          : t.fail(`Expected error reason: ${expectation.expectedError}`);
+          : t.fail(
+              `Expected error reason: ${expectation.expectedError.toString()}`
+            );
       }
       t.pass();
     }

@@ -4,7 +4,7 @@ const chars =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 const base64GroupLength = 4;
-const nonBase64Chars = new RegExp(`[^${chars}=]`);
+const nonBase64Chars = new RegExp(`[^${chars}=]`, 'u');
 
 /**
  * For use before `base64ToBin`. Returns true if the provided string is valid
@@ -14,6 +14,8 @@ const nonBase64Chars = new RegExp(`[^${chars}=]`);
 export const isBase64 = (maybeBase64: string) =>
   maybeBase64.length % base64GroupLength === 0 &&
   !nonBase64Chars.test(maybeBase64);
+
+/* eslint-disable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise */
 
 /**
  * Convert a base64-encoded string to a Uint8Array.
@@ -25,11 +27,9 @@ export const isBase64 = (maybeBase64: string) =>
  * @param validBase64 a valid base64-encoded string to decode
  */
 export const base64ToBin = (validBase64: string) => {
-  // tslint:disable:no-magic-numbers
   const lookup = new Uint8Array(123);
-  // eslint-disable-next-line functional/no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
   for (let i = 0; i < chars.length; i++) {
-    // tslint:disable-next-line:no-object-mutation no-expression-statement
     lookup[chars.charCodeAt(i)] = i;
   }
   const bufferLengthEstimate = validBase64.length * 0.75;
@@ -44,17 +44,15 @@ export const base64ToBin = (validBase64: string) => {
   const bytes = new Uint8Array(buffer);
   // eslint-disable-next-line functional/no-let
   let p = 0;
-  // eslint-disable-next-line functional/no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
   for (let i = 0; i < stringLength; i += 4) {
     const encoded1 = lookup[validBase64.charCodeAt(i)];
     const encoded2 = lookup[validBase64.charCodeAt(i + 1)];
     const encoded3 = lookup[validBase64.charCodeAt(i + 2)];
     const encoded4 = lookup[validBase64.charCodeAt(i + 3)];
-    // tslint:disable:no-bitwise no-expression-statement no-object-mutation
     bytes[p++] = (encoded1 << 2) | (encoded2 >> 4);
     bytes[p++] = ((encoded2 & 15) << 4) | (encoded3 >> 2);
     bytes[p++] = ((encoded3 & 3) << 6) | (encoded4 & 63);
-    // tslint:enable:no-bitwise no-expression-statement no-object-mutation no-magic-numbers
   }
   return bytes;
 };
@@ -67,20 +65,19 @@ export const base64ToBin = (validBase64: string) => {
 export const binToBase64 = (bytes: Uint8Array) => {
   // eslint-disable-next-line functional/no-let
   let result = '';
-  // eslint-disable-next-line functional/no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
   for (let i = 0; i < bytes.length; i += 3) {
     result += chars[bytes[i] >> 2];
     result += chars[((bytes[i] & 3) << 4) | (bytes[i + 1] >> 4)];
     result += chars[((bytes[i + 1] & 15) << 2) | (bytes[i + 2] >> 6)];
     result += chars[bytes[i + 2] & 63];
   }
-  // tslint:enable:no-bitwise no-expression-statement
   const padded =
     bytes.length % 3 === 2
       ? `${result.substring(0, result.length - 1)}=`
       : bytes.length % 3 === 1
       ? `${result.substring(0, result.length - 2)}==`
       : result;
-  // tslint:enable: no-magic-numbers
   return padded;
 };
+/* eslint-enable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise */

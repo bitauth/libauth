@@ -36,8 +36,9 @@ const enum Internal {
 
 export const isDefinedSigningSerializationType = (byte: number) => {
   const baseType =
+    // eslint-disable-next-line no-bitwise
     byte &
-    // tslint:disable-next-line: no-bitwise
+    // eslint-disable-next-line no-bitwise
     ~(SigningSerializationFlag.fork_id | SigningSerializationFlag.single_input);
   return (
     baseType >= SigningSerializationFlag.all_outputs &&
@@ -46,13 +47,13 @@ export const isDefinedSigningSerializationType = (byte: number) => {
 };
 
 const match = (type: Uint8Array, flag: SigningSerializationFlag) =>
-  // tslint:disable-next-line:no-bitwise
+  // eslint-disable-next-line no-bitwise
   (type[0] & flag) !== 0;
 
 const equals = (
   type: Uint8Array,
   flag: SigningSerializationFlag
-  // tslint:disable-next-line:no-bitwise
+  // eslint-disable-next-line no-bitwise
 ) => (type[0] & Internal.mask5Bits) === flag;
 
 const shouldSerializeSingleInput = (type: Uint8Array) =>
@@ -203,12 +204,12 @@ export const generateSigningSerializationBCH = (
 export const isLegacySigningSerialization = (
   signingSerializationType: number
 ) => {
-  // tslint:disable-next-line: no-bitwise no-magic-numbers
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const forkValue = signingSerializationType >> 8;
-  // tslint:disable-next-line: no-bitwise no-magic-numbers
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const newForkValue = (forkValue ^ 0xdead) | 0xff0000;
-  // tslint:disable-next-line: no-bitwise no-magic-numbers
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const sighashType = (newForkValue << 8) | (signingSerializationType & 0xff);
-  // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-bitwise
   return (sighashType & SigningSerializationFlag.fork_id) === 0;
 };

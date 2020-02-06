@@ -171,7 +171,7 @@ export const commonOperations = <
 
 export const cloneStack = (stack: readonly Readonly<Uint8Array>[]) =>
   stack.reduce<Uint8Array[]>((newStack, element) => {
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     newStack.push(element.slice());
     return newStack;
   }, []);

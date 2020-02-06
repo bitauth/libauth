@@ -85,7 +85,7 @@ export enum PushOperationConstants {
  *
  * @param data the Uint8Array to push to the stack
  */
-// tslint:disable-next-line:cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const encodeDataPush = (data: Uint8Array) =>
   data.length <= PushOperationConstants.maximumPushByteOperationSize
     ? data.length === 0
@@ -123,7 +123,7 @@ export const encodeDataPush = (data: Uint8Array) =>
  * @param opcode the opcode used to push `data`
  * @param data the contents of the push
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const isMinimalDataPush = (opcode: number, data: Uint8Array) =>
   data.length === 0
     ? opcode === PushOperationConstants.OP_0
@@ -292,6 +292,8 @@ export const pushNumberOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_16
 ];
 
+const op1NegateValue = -1;
+
 export const pushNumberOperations = <
   Opcodes,
   ProgramState extends StackState & MinimumProgramState<Opcodes>
@@ -299,7 +301,7 @@ export const pushNumberOperations = <
   pushNumberOpcodes
     .map<[OpcodesCommon, Uint8Array]>((opcode, i) => [
       opcode,
-      [-1, ...range(PushOperationConstants.pushNumberOpcodes, 1)]
+      [op1NegateValue, ...range(PushOperationConstants.pushNumberOpcodes, 1)]
         .map(BigInt)
         .map(bigIntToScriptNumber)[i]
     ])

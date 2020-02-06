@@ -18,9 +18,9 @@ enum Constants {
   LocktimeThreshold = 500_000_000,
   maximumSequenceNumber = 0xffffffff,
   sequenceLocktimeTransactionVersionMinimum = 2,
-  // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-bitwise
   sequenceLocktimeDisableFlag = (1 << Bits.sequenceLocktimeDisableFlag) >>> 0,
-  // tslint:disable-next-line: no-bitwise
+  // eslint-disable-next-line no-bitwise
   sequenceLocktimeTypeFlag = 1 << Bits.sequenceLocktimeTypeFlag,
   sequenceGranularity = 9,
   sequenceLocktimeMask = 0x0000ffff
@@ -37,8 +37,7 @@ export const readLocktime = <
   }
 ) => {
   const item = state.stack[state.stack.length - 1] as Uint8Array | undefined;
-  // tslint:disable-next-line:no-if-statement
-  if (!item) {
+  if (item === undefined) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.emptyStack,
       state
@@ -49,7 +48,6 @@ export const readLocktime = <
     flags.requireMinimalEncoding,
     Constants.LocktimeScriptNumberByteLength
   );
-  // tslint:disable-next-line: no-if-statement
   if (isScriptNumberError(parsedLocktime)) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.invalidScriptNumber,
@@ -57,7 +55,6 @@ export const readLocktime = <
     );
   }
   const locktime = Number(parsedLocktime);
-  // tslint:disable-next-line: no-if-statement
   if (locktime < 0) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.negativeLocktime,
@@ -89,21 +86,18 @@ export const opCheckLockTimeVerify = <
   readLocktime(
     state,
     (nextState, requiredLocktime) => {
-      // tslint:disable-next-line: no-if-statement
       if (!locktimeTypesAreCompatible(nextState.locktime, requiredLocktime)) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.incompatibleLocktimeType,
           nextState
         );
       }
-      // tslint:disable-next-line: no-if-statement
       if (requiredLocktime > nextState.locktime) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.unsatisfiedLocktime,
           nextState
         );
       }
-      // tslint:disable-next-line: no-if-statement
       if (nextState.sequenceNumber === Constants.maximumSequenceNumber) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.locktimeDisabled,
@@ -115,7 +109,7 @@ export const opCheckLockTimeVerify = <
     flags
   );
 
-// tslint:disable-next-line: no-bitwise
+// eslint-disable-next-line no-bitwise
 const includesFlag = (value: number, flag: number) => (value & flag) !== 0;
 
 export const opCheckSequenceVerify = <
@@ -130,18 +124,16 @@ export const opCheckSequenceVerify = <
 }) => (state: State) =>
   readLocktime(
     state,
-    // tslint:disable-next-line: cyclomatic-complexity
+    // eslint-disable-next-line complexity
     (nextState, requiredSequence) => {
       const sequenceLocktimeDisabled = includesFlag(
         requiredSequence,
         Constants.sequenceLocktimeDisableFlag
       );
-      // tslint:disable-next-line: no-if-statement
       if (sequenceLocktimeDisabled) {
         return nextState;
       }
 
-      // tslint:disable-next-line: no-if-statement
       if (
         nextState.version < Constants.sequenceLocktimeTransactionVersionMinimum
       ) {
@@ -151,7 +143,6 @@ export const opCheckSequenceVerify = <
         );
       }
 
-      // tslint:disable-next-line: no-if-statement
       if (
         includesFlag(
           nextState.sequenceNumber,
@@ -164,7 +155,6 @@ export const opCheckSequenceVerify = <
         );
       }
 
-      // tslint:disable-next-line: no-if-statement
       if (
         includesFlag(requiredSequence, Constants.sequenceLocktimeTypeFlag) !==
         includesFlag(
@@ -178,11 +168,10 @@ export const opCheckSequenceVerify = <
         );
       }
 
-      // tslint:disable-next-line: no-if-statement
       if (
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         (requiredSequence & Constants.sequenceLocktimeMask) >
-        // tslint:disable-next-line: no-bitwise
+        // eslint-disable-next-line no-bitwise
         (nextState.sequenceNumber & Constants.sequenceLocktimeMask)
       ) {
         return applyError<State, Errors>(

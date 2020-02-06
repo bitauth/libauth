@@ -4,7 +4,7 @@
  * bitflags used in secp256k1's public API (translated from secp256k1.h)
  */
 
-// tslint:disable:no-bitwise no-magic-numbers
+/* eslint-disable no-bitwise, @typescript-eslint/no-magic-numbers */
 /** All flags' lower 8 bits indicate what they're for. Do not use directly. */
 // const SECP256K1_FLAGS_TYPE_MASK = (1 << 8) - 1;
 const SECP256K1_FLAGS_TYPE_CONTEXT = 1 << 0;
@@ -53,7 +53,7 @@ export enum CompressionFlag {
   COMPRESSED = SECP256K1_EC_COMPRESSED as 258,
   UNCOMPRESSED = SECP256K1_EC_UNCOMPRESSED as 2
 }
-// tslint:enable:no-bitwise no-magic-numbers
+/* eslint-enable no-bitwise, @typescript-eslint/no-magic-numbers */
 
 /**
  * An object which wraps the WebAssembly implementation of `libsecp256k1`.
@@ -203,7 +203,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyOutPtr: number,
     publicKeyInPtr: number,
-    // tslint:disable-next-line:no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     publicKeyInLength: 33 | 65
   ) => 1 | 0;
 

@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 
 import {

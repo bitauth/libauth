@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
+/* eslint-disable functional/no-expression-statement */
 import test, { Macro } from 'ava';
 
 import { instantiateSecp256k1, instantiateSha256 } from '../../../lib';

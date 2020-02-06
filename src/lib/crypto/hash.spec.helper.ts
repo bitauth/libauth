@@ -1,5 +1,5 @@
 /* global Buffer */
-// tslint:disable:no-expression-statement no-unsafe-any
+/* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 import * as bcrypto from 'bcrypto';
 import { createHash } from 'crypto';

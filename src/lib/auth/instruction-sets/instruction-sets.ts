@@ -179,7 +179,7 @@ export const writeLittleEndianNumber = (
 ) => {
   const view = new DataView(script.buffer, index, length);
   const writeAsLittleEndian = true;
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions, functional/no-expression-statement
   length === Bytes.Uint8
     ? view.setUint8(0, value)
     : length === Bytes.Uint16
@@ -222,7 +222,7 @@ export const lengthBytesForPushOpcode = (opcode: number): number =>
  * @param script the script from which to read the next instruction
  * @param index the offset from which to begin reading
  */
-// tslint:disable-next-line:cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const readAuthenticationInstruction = <Opcodes = number>(
   script: Uint8Array,
   index: number
@@ -297,14 +297,15 @@ export const parseBytecode = <Opcodes = number>(script: Uint8Array) => {
   const instructions: ParsedAuthenticationInstructions<Opcodes> = [];
   // eslint-disable-next-line functional/no-let
   let i = 0;
+  // eslint-disable-next-line functional/no-loop-statement
   while (i < script.length) {
     const { instruction, nextIndex } = readAuthenticationInstruction<Opcodes>(
       script,
       i
     );
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement
     i = nextIndex;
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     instructions.push(instruction);
   }
   return instructions;

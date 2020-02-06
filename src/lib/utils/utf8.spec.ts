@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement
+/* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 import * as fc from 'fast-check';
 

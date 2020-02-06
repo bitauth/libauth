@@ -59,7 +59,7 @@ const enum Mask {
 }
 
 const isNegative = (value: number) =>
-  // tslint:disable-next-line:no-bitwise
+  // eslint-disable-next-line no-bitwise
   (value & Mask.negative) !== 0;
 
 const hasUnnecessaryPadding = (
@@ -107,7 +107,7 @@ const isValidInteger = (
  * S-length: 1-byte length descriptor of the S value that follows.
  * S: arbitrary-length big-endian encoded S value. The same rules apply.
  */
-// tslint:disable-next-line:cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
   const correctLengthRange =
     signature.length > DER.minimumLength &&
@@ -118,7 +118,6 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
     signature[DER.sequenceLengthIndex] ===
     signature.length - DER.sequenceMetadataBytes;
   const rLength = signature[DER.rLengthIndex] as number | undefined;
-  // tslint:disable-next-line: no-if-statement
   if (rLength === undefined) {
     return false;
   }
@@ -133,7 +132,6 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
   const sTagIndex = DER.rValueIndex + rLength; // eslint-disable-line @typescript-eslint/restrict-plus-operands
   const sLengthIndex = sTagIndex + 1;
   const sLength = signature[sLengthIndex] as number | undefined;
-  // tslint:disable-next-line: no-if-statement
   if (sLength === undefined) {
     return false;
   }

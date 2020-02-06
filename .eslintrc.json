@@ -22,12 +22,26 @@
   "globals": { "BigInt": true, "console": true, "WebAssembly": true },
   "rules": {
     "max-lines": ["error", 1000],
-    // "complexity": ["error", 5],
+    // "max-params": ["error", 4],
+    "complexity": ["error", 5],
     "@typescript-eslint/no-type-alias": "off",
     "line-comment-position": ["error", { "ignorePattern": "cspell" }],
     "no-inline-comments": "off",
     "id-length": "off",
     "no-undefined": "off",
+    "@typescript-eslint/no-magic-numbers": [
+      "error",
+      {
+        "ignoreNumericLiteralTypes": true,
+        "ignoreEnums": true,
+        "ignoreArrayIndexes": true,
+        "ignore": [0, 1]
+      }
+    ],
+    "@typescript-eslint/restrict-template-expressions": [
+      "error",
+      { "allowNumber": true }
+    ],
     // "tsdoc/syntax": "warn",
     "eslint-comments/disable-enable-pair": [
       "error",
@@ -38,7 +52,7 @@
     "eslint-comments/no-aggregating-enable": "error",
     "eslint-comments/no-duplicate-disable": "error",
     "eslint-comments/no-unlimited-disable": "error",
-    // "eslint-comments/no-unused-disable": "error",
+    "eslint-comments/no-unused-disable": "error",
     "eslint-comments/no-unused-enable": "error",
     "eslint-comments/no-use": [
       "error",
@@ -65,6 +79,11 @@
     "sort-imports": "off",
     "import/order": "off",
     "import/prefer-default-export": "off",
+    "functional/functional-parameters": "off",
+    "functional/no-conditional-statement": [
+      "error",
+      { "allowReturningBranches": true }
+    ],
 
     // TODO: temporarily disabled to get started:
     "max-lines-per-function": "off",
@@ -73,14 +92,7 @@
     "functional/prefer-readonly-type": "off",
     "functional/no-return-void": "off",
     "capitalized-comments": "off",
-    "complexity": "off",
     "max-statements": "off",
-    "@typescript-eslint/no-magic-numbers": "off",
-    "functional/no-expression-statement": "off",
-    "no-bitwise": "off",
-    "functional/immutable-data": "off",
-    "functional/no-conditional-statement": "off",
-    "functional/no-loop-statement": "off",
     "one-var": "off",
     "no-plusplus": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -91,11 +103,7 @@
     "no-nested-ternary": "off",
     "no-warning-comments": "off",
     "no-param-reassign": "off",
-    "operator-assignment": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off",
-    "@typescript-eslint/restrict-template-expressions": "off",
-    "functional/functional-parameters": "off",
-    "require-unicode-regexp": "off"
+    "operator-assignment": "off"
 
     // -- end temporary disables
   }

@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, max-lines */
 // cspell:ignore recid
 /* global Buffer */
 
@@ -871,8 +871,9 @@ test('crypto: secp256k1.validatePrivateKey', async t => {
   const secp256k1 = await secp256k1Promise;
   t.true(secp256k1.validatePrivateKey(privkey));
   t.false(secp256k1.validatePrivateKey(secp256k1OrderN));
-  // invalid >= 0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140
+  // eslint-disable-next-line functional/immutable-data
   const almostInvalid = Array(15).fill(255);
+  // invalid >= 0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140
   const theRest = 32 - almostInvalid.length;
   const equivalentToSecp256k1Node = fc.property(
     fc

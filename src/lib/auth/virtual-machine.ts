@@ -201,7 +201,7 @@ export const createAuthenticationVirtualMachine = <
   const getCodepoint = (state: ProgramState) => state.instructions[state.ip];
 
   const after = (state: ProgramState) => {
-    // tslint:disable-next-line:no-object-mutation no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     state.ip += 1;
     return state;
   };
@@ -222,8 +222,9 @@ export const createAuthenticationVirtualMachine = <
     state: ProgramState,
     stepFunction: (state: ProgramState) => ProgramState
   ) => {
+    // eslint-disable-next-line functional/no-loop-statement
     while (stateContinue(state)) {
-      // tslint:disable-next-line:no-parameter-reassignment no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement
       state = stepFunction(state);
     }
     return state;
@@ -242,9 +243,10 @@ export const createAuthenticationVirtualMachine = <
 
   const stateDebug = (state: ProgramState) => {
     const trace: ProgramState[] = [];
+    // eslint-disable-next-line functional/no-expression-statement
     untilComplete(state, (currentState: ProgramState) => {
       const nextState = stateDebugStep(currentState);
-      // tslint:disable-next-line:no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       trace.push(nextState);
       return nextState;
     });
@@ -260,7 +262,7 @@ export const createAuthenticationVirtualMachine = <
     const results: ProgramState[] = [];
     const proxyDebug = (state: ProgramState) => {
       const debugResult = stateDebug(state);
-      // tslint:disable-next-line: no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       results.push(...debugResult);
       return debugResult[debugResult.length - 1];
     };

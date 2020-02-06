@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import { testHashFunction } from './hash.spec.helper';
 import {
   getEmbeddedSha512Binary,

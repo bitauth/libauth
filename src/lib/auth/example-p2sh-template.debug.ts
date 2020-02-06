@@ -1,5 +1,5 @@
+/* eslint-disable functional/no-expression-statement */
 /* eslint-disable multiline-comment-style */
-// tslint:disable-next-line:no-implicit-dependencies
 // import AuthenticationScriptParser from 'parse-atl';
 // import { binToHex } from '../..';
 import { twoOfThree } from './templates/templates.spec.debug';

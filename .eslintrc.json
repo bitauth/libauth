@@ -80,8 +80,22 @@
     "import/no-named-export": "off",
     "import/no-self-import": "error",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
-    "sort-imports": "off",
-    "import/order": "off",
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreDeclarationSort": true,
+        "ignoreCase": true
+      }
+    ],
     "import/prefer-default-export": "off",
     "functional/functional-parameters": "off",
     "functional/no-conditional-statement": [

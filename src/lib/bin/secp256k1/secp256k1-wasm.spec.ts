@@ -1,8 +1,9 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
-import test, { ExecutionContext } from 'ava';
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+
+import test, { ExecutionContext } from 'ava';
 
 import {
   CompressionFlag,

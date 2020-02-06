@@ -1,12 +1,13 @@
 /* global Buffer */
 /* eslint-disable functional/no-expression-statement */
+import { createHash } from 'crypto';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
 import test from 'ava';
 import * as bcrypto from 'bcrypto';
-import { createHash } from 'crypto';
 import * as fc from 'fast-check';
-import { readFileSync } from 'fs';
 import * as hashJs from 'hash.js';
-import { join } from 'path';
 
 import { HashFunction } from '../bin/bin';
 

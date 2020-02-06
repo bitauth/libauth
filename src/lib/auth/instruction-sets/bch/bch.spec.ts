@@ -1,16 +1,18 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 
 import test from 'ava';
-import {
-  instantiateVirtualMachineBCH,
-  OpcodesBCH,
-  AuthenticationProgramStateBCH,
-  createTestAuthenticationProgramBCH
-} from './bch';
+
+import { instantiateSha256 } from '../../../crypto/crypto';
+import { hexToBin, stringify } from '../../../utils/utils';
 import { createAuthenticationProgramStateCommonEmpty } from '../common/common';
 import { parseBytecode } from '../instruction-sets';
-import { stringify, hexToBin } from '../../../utils/utils';
-import { instantiateSha256 } from '../../../crypto/crypto';
+
+import {
+  AuthenticationProgramStateBCH,
+  createTestAuthenticationProgramBCH,
+  instantiateVirtualMachineBCH,
+  OpcodesBCH
+} from './bch';
 
 test('vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
   const vm = await instantiateVirtualMachineBCH();

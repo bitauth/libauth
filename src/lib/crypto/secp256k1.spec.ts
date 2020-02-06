@@ -4,8 +4,9 @@
 
 // TODO: all tests should include a "stateless" property – instantiate a new Secp256k1 and immediately call the method, verify it produces the same result as the existing instance
 
-import test from 'ava';
 import { randomBytes } from 'crypto';
+
+import test from 'ava';
 import * as elliptic from 'elliptic';
 import * as fc from 'fast-check';
 import * as secp256k1Node from 'secp256k1';

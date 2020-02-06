@@ -1,10 +1,11 @@
 /* global Buffer */
 /* eslint-disable functional/no-let, init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
+import { createHash, randomBytes } from 'crypto';
+
 import * as asmCrypto from 'asmcrypto.js';
 import test from 'ava';
 import * as bcrypto from 'bcrypto';
 import suite from 'chuhai';
-import { createHash, randomBytes } from 'crypto';
 import * as hashJs from 'hash.js';
 
 import { HashFunction } from '../bin/bin';

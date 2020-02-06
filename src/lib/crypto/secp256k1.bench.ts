@@ -1,7 +1,8 @@
 /* eslint-disable functional/no-expression-statement, functional/no-let, init-declarations */
+import { randomBytes } from 'crypto';
+
 import test from 'ava';
 import suite from 'chuhai';
-import { randomBytes } from 'crypto';
 import * as elliptic from 'elliptic';
 import * as secp256k1Node from 'secp256k1';
 

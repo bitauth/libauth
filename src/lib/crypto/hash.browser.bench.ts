@@ -1,7 +1,8 @@
 /* eslint-disable functional/no-expression-statement */
+import { join } from 'path';
+
 import alias from '@rollup/plugin-alias';
 import test from 'ava';
-import { join } from 'path';
 import { launch } from 'puppeteer';
 import { rollup } from 'rollup';
 import commonjs from 'rollup-plugin-commonjs';

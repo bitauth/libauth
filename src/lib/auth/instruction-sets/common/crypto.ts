@@ -6,10 +6,8 @@ import {
   StackState
 } from '../../state';
 import { Operation } from '../../virtual-machine';
-import {
-  ConsensusBCH,
-  serializeAuthenticationInstructions
-} from '../instruction-sets';
+import { ConsensusBCH } from '../bch/bch-types';
+import { serializeAuthenticationInstructions } from '../instruction-sets-utils';
 
 import {
   combineOperations,

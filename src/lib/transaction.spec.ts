@@ -1,8 +1,7 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { deserializeTransaction, serializeTransaction } from './transaction';
-import { hexToBin } from './utils/utils';
+import { deserializeTransaction, hexToBin, serializeTransaction } from './lib';
 
 test('deserializeTransaction', t => {
   const tx = hexToBin(

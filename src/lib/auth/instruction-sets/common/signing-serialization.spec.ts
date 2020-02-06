@@ -1,17 +1,17 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { instantiateSha256 } from '../../../crypto/sha256';
-import { deserializeTransaction } from '../../../transaction';
-import { binToHex, hexToBin } from '../../../utils/hex';
-import { numberToBinUint32LE } from '../../../utils/utils';
-import * as sighashTests from '../bch/fixtures/bitcoin-abc/sighash.json';
-
-import { createAuthenticationProgramExternalStateCommon } from './common';
 import {
+  binToHex,
+  createAuthenticationProgramExternalStateCommon,
+  deserializeTransaction,
   generateSigningSerializationBCH,
-  isLegacySigningSerialization
-} from './signing-serialization';
+  hexToBin,
+  instantiateSha256,
+  isLegacySigningSerialization,
+  numberToBinUint32LE
+} from '../../../lib';
+import * as sighashTests from '../bch/fixtures/bitcoin-abc/sighash.json';
 
 const tests = Object.values(sighashTests)
   .filter(e => e.length !== 1 && e.length < 8)

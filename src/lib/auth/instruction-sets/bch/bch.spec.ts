@@ -2,17 +2,17 @@
 
 import test from 'ava';
 
-import { instantiateSha256 } from '../../../crypto/crypto';
-import { hexToBin, stringify } from '../../../utils/utils';
-import { createAuthenticationProgramStateCommonEmpty } from '../common/common';
-import { parseBytecode } from '../instruction-sets';
-
 import {
   AuthenticationProgramStateBCH,
+  createAuthenticationProgramStateCommonEmpty,
   createTestAuthenticationProgramBCH,
+  hexToBin,
+  instantiateSha256,
   instantiateVirtualMachineBCH,
-  OpcodesBCH
-} from './bch';
+  OpcodesBCH,
+  parseBytecode,
+  stringify
+} from '../../../lib';
 
 test('vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
   const vm = await instantiateVirtualMachineBCH();

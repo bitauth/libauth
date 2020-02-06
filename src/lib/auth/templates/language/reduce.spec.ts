@@ -3,16 +3,13 @@ import test from 'ava';
 
 import {
   AuthenticationInstruction,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  createAuthenticationProgramStateCommon
-} from '../../auth';
-import {
   AuthenticationProgramStateBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
+  createAuthenticationProgramStateCommon,
   instantiateVirtualMachineBCH,
-  OpcodesBCH
-} from '../../instruction-sets/bch/bch';
-
-import { sampledEvaluateReductionTraceNodes } from './reduce';
+  OpcodesBCH,
+  sampledEvaluateReductionTraceNodes
+} from '../../../lib';
 
 const vmPromise = instantiateVirtualMachineBCH();
 const createCreateStateWithStack = <Opcodes, Errors>(stack: Uint8Array[]) => (

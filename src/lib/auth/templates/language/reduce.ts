@@ -1,15 +1,14 @@
 import { flattenBinArray } from '../../../utils/utils';
-import {
-  AuthenticationInstruction,
-  authenticationInstructionsAreNotMalformed,
-  AuthenticationVirtualMachine,
-  disassembleBytecode,
-  encodeDataPush,
-  MinimumProgramState,
-  parseBytecode,
-  StackState
-} from '../../auth';
 import { OpcodesCommon } from '../../instruction-sets/common/opcodes';
+import { encodeDataPush } from '../../instruction-sets/instruction-sets';
+import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
+import {
+  authenticationInstructionsAreNotMalformed,
+  disassembleBytecode,
+  parseBytecode
+} from '../../instruction-sets/instruction-sets-utils';
+import { MinimumProgramState, StackState } from '../../state';
+import { AuthenticationVirtualMachine } from '../../virtual-machine';
 
 import { ErrorInformation } from './errors';
 import { Range, ResolvedScript } from './resolve';

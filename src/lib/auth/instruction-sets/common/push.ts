@@ -6,11 +6,8 @@ import {
   StackState
 } from '../../state';
 import { Operation } from '../../virtual-machine';
-import {
-  AuthenticationInstructionPush,
-  Bytes,
-  numberToLittleEndianBin
-} from '../instruction-sets';
+import { AuthenticationInstructionPush } from '../instruction-sets-types';
+import { numberToLittleEndianBin } from '../instruction-sets-utils';
 
 import { pushToStack } from './combinators';
 import { applyError, AuthenticationErrorCommon } from './errors';
@@ -58,6 +55,12 @@ export enum PushOperationConstants {
    * 256 ** 4 - 1
    */
   maximumPushData4Size = 4294967295
+}
+
+enum Bytes {
+  Uint8 = 1,
+  Uint16 = 2,
+  Uint32 = 4
 }
 
 /**

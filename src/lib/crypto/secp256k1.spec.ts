@@ -11,13 +11,12 @@ import * as elliptic from 'elliptic';
 import * as fc from 'fast-check';
 import * as secp256k1Node from 'secp256k1';
 
-import { getEmbeddedSecp256k1Binary } from '../bin/bin';
-
 import {
+  getEmbeddedSecp256k1Binary,
   instantiateSecp256k1,
   instantiateSecp256k1Bytes,
   Secp256k1
-} from './secp256k1';
+} from './../lib';
 
 // test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
 

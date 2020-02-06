@@ -18,6 +18,7 @@ export * from './bch-instruction-sets';
 export * from './bch-opcodes';
 export * from './bch-operations';
 export * from './bch-types';
+export * from './fixtures/bitcoin-abc/bitcoin-abc-utils';
 
 /**
  * Initialize a virtual machine using the provided BCH instruction set.

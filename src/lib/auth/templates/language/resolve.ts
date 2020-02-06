@@ -1,10 +1,8 @@
-import { Secp256k1, Sha256 } from '../../../lib';
+import { Secp256k1, Sha256 } from '../../../crypto/crypto';
 import { hexToBin, utf8ToBin } from '../../../utils/utils';
-import {
-  AuthenticationInstruction,
-  AuthenticationVirtualMachine,
-  bigIntToScriptNumber
-} from '../../auth';
+import { bigIntToScriptNumber } from '../../instruction-sets/instruction-sets';
+import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
+import { AuthenticationVirtualMachine } from '../../virtual-machine';
 import { AuthenticationTemplateVariable } from '../types';
 
 import { CompilationResultSuccess, compileScript } from './compile';

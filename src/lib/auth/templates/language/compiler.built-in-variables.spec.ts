@@ -1,24 +1,23 @@
 /* eslint-disable functional/no-expression-statement */
 import test, { Macro } from 'ava';
 
-import { instantiateSecp256k1, instantiateSha256 } from '../../../lib';
-import { hexToBin, stringify } from '../../../utils/utils';
 import {
   AuthenticationProgramStateBCH,
   CompilationData,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  generateBytecodeMap,
-  instantiateVirtualMachineBCH,
-  instructionSetBCHCurrentStrict,
-  OpcodesBCH
-} from '../../auth';
-
-import {
   CompilerOperationDataBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
   createStateCompilerBCH,
-  getCompilerOperationsBCH
-} from './compiler';
+  generateBytecodeMap,
+  getCompilerOperationsBCH,
+  hexToBin,
+  instantiateSecp256k1,
+  instantiateSha256,
+  instantiateVirtualMachineBCH,
+  instructionSetBCHCurrentStrict,
+  OpcodesBCH,
+  stringify
+} from '../../../lib';
 
 const sha256Promise = instantiateSha256();
 const secp256k1Promise = instantiateSecp256k1();

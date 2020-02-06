@@ -9,7 +9,7 @@ import {
   range,
   splitEvery,
   swapEndianness
-} from './hex';
+} from '../lib';
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>

@@ -1,16 +1,17 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test from 'ava';
 
-import { instantiateSha256 } from '../../../crypto/sha256';
-import { disassembleBytecodeBCH, stackItemIsTruthy } from '../instruction-sets';
-
 import {
+  assembleBitcoinABCScript,
   AuthenticationProgramStateBCH,
-  instantiateVirtualMachineBCH
-} from './bch';
-import { InstructionSetBCH } from './bch-instruction-sets';
-import { createTestAuthenticationProgramBCH } from './bch-types';
-import { assembleBitcoinABCScript } from './fixtures/bitcoin-abc/bitcoin-abc-utils';
+  createTestAuthenticationProgramBCH,
+  disassembleBytecodeBCH,
+  instantiateSha256,
+  instantiateVirtualMachineBCH,
+  InstructionSetBCH,
+  stackItemIsTruthy
+} from '../../../lib';
+
 import * as scriptTestsAddendum from './fixtures/bitcoin-abc/script-tests-addendum.json';
 import * as scriptTests from './fixtures/bitcoin-abc/script_tests.json';
 

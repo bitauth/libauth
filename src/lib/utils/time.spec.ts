@@ -1,10 +1,12 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { ScriptNumberError } from '../auth/auth';
-
-import { hexToBin } from './hex';
-import { dateToLockTime, parseLockTime } from './time';
+import {
+  dateToLockTime,
+  hexToBin,
+  parseLockTime,
+  ScriptNumberError
+} from '../lib';
 
 test('dateToLockTime', t => {
   t.deepEqual(dateToLockTime(new Date('2019-10-13')), hexToBin('0069a25d'));

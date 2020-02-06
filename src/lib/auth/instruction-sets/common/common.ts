@@ -15,7 +15,7 @@ import {
   StackState
 } from '../../state';
 import { Operation } from '../../virtual-machine';
-import { AuthenticationInstruction } from '../instruction-sets';
+import { AuthenticationInstruction } from '../instruction-sets-types';
 
 import { arithmeticOperations } from './arithmetic';
 import { bitwiseOperations } from './bitwise';

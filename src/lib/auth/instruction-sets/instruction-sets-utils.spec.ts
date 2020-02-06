@@ -1,20 +1,19 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test, { Macro } from 'ava';
 
-import { range } from '../../lib';
-import { hexToBin } from '../../utils/hex';
-
-import { OpcodesBCH } from './bch/bch-opcodes';
 import {
   AuthenticationInstruction,
   disassembleParsedAuthenticationInstructions,
   generateBytecodeMap,
+  hexToBin,
+  OpcodesBCH,
   OpcodesBTC,
   parseBytecode,
   ParsedAuthenticationInstruction,
+  range,
   serializeAuthenticationInstructions,
   serializeParsedAuthenticationInstructions
-} from './instruction-sets';
+} from '../../lib';
 
 test('Each Opcodes enum contains a single instruction for 0-255', t => {
   const expected = range(256);

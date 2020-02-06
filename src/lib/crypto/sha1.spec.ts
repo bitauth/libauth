@@ -1,11 +1,11 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
-import { testHashFunction } from './hash.spec.helper';
 import {
   getEmbeddedSha1Binary,
   instantiateSha1,
   instantiateSha1Bytes,
   Sha1
-} from './sha1';
+} from './../lib';
+import { testHashFunction } from './hash.spec.helper';
 
 // prettier-ignore
 const abcHash = new Uint8Array([169, 153, 62, 54, 71, 6, 129, 106, 186, 62, 37, 113, 120, 80, 194, 108, 156, 208, 216, 157]);

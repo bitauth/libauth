@@ -9,21 +9,20 @@ import {
   numberToBinUint32LE
 } from '../../../utils/utils';
 import {
-  AuthenticationInstruction,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  generateBytecodeMap,
   generateSigningSerializationBCH,
-  MinimumProgramState,
-  OpcodesBCH,
-  SigningSerializationFlag,
-  StackState
-} from '../../auth';
+  SigningSerializationFlag
+} from '../../instruction-sets/common/signing-serialization';
 import {
   AuthenticationProgramStateBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
   createAuthenticationProgramStateCommon,
+  generateBytecodeMap,
   instantiateVirtualMachineBCH,
-  instructionSetBCHCurrentStrict
+  instructionSetBCHCurrentStrict,
+  OpcodesBCH
 } from '../../instruction-sets/instruction-sets';
+import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
+import { MinimumProgramState, StackState } from '../../state';
 
 import { CompilationError, CompilationResult, compileScript } from './compile';
 import {

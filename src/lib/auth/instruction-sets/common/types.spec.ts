@@ -1,15 +1,15 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { binToHex, hexToBin } from '../../../utils/utils';
-
 import {
   bigIntToScriptNumber,
+  binToHex,
   booleanToScriptNumber,
+  hexToBin,
   parseBytesAsScriptNumber,
   ScriptNumberError,
   stackItemIsTruthy
-} from './common';
+} from '../../../lib';
 
 /**
  * Derived from https://github.com/bitcoinjs/bitcoinjs-lib

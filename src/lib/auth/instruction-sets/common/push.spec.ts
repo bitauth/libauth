@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers, functional/no-expression-statement */
 import test from 'ava';
 
-import { hexToBin, range } from '../../../utils/utils';
-
-import { encodeDataPush, PushOperationConstants } from './push';
+import {
+  encodeDataPush,
+  hexToBin,
+  PushOperationConstants,
+  range
+} from '../../../lib';
 
 const prefixDataPushVectors = [
   ['', '00'],

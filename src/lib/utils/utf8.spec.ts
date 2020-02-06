@@ -2,8 +2,7 @@
 import test from 'ava';
 import * as fc from 'fast-check';
 
-import { hexToBin } from './hex';
-import { binToUtf8, utf8ToBin } from './utf8';
+import { binToUtf8, hexToBin, utf8ToBin } from '../lib';
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>

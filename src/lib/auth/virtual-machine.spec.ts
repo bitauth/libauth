@@ -1,12 +1,13 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test from 'ava';
 
-import { AuthenticationInstruction } from './instruction-sets/instruction-sets';
-import { MinimumProgramState, StackState } from './state';
 import {
+  AuthenticationInstruction,
   createAuthenticationVirtualMachine,
-  InstructionSet
-} from './virtual-machine';
+  InstructionSet,
+  MinimumProgramState,
+  StackState
+} from '../lib';
 
 enum simpleOps {
   OP_0 = 0,

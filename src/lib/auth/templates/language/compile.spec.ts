@@ -1,9 +1,7 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, max-lines */
 import test from 'ava';
 
-import { hexToBin } from '../../../utils/hex';
-
-import { compileScript, compileScriptText } from './compile';
+import { compileScript, compileScriptText, hexToBin } from '../../../lib';
 
 test('compileScript: unprovided ID', t => {
   t.deepEqual(compileScript('test', {}, { scripts: { typo: '1' } }), {

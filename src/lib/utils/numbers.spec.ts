@@ -8,7 +8,7 @@ import {
   binToNumberUint32LE,
   numberToBinUint16LE,
   numberToBinUint32LE
-} from './numbers';
+} from './../lib';
 
 test('numberToBinUint16LE', t => {
   t.deepEqual(numberToBinUint16LE(0x1234), new Uint8Array([0x34, 0x12]));

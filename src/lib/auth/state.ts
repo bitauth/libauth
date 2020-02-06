@@ -1,7 +1,7 @@
 import { Output, Transaction } from '../transaction';
 
 import { AuthenticationErrorCommon } from './instruction-sets/common/errors';
-import { AuthenticationInstruction } from './instruction-sets/instruction-sets';
+import { AuthenticationInstruction } from './instruction-sets/instruction-sets-types';
 
 /**
  * State which applies to every input in a given transaction.

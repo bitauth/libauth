@@ -3,12 +3,9 @@ import {
   hexToBin,
   utf8ToBin
 } from '../../../../../utils/utils';
-import {
-  bigIntToScriptNumber,
-  encodeDataPush,
-  generateBytecodeMap,
-  OpcodesBCH
-} from '../../../instruction-sets';
+import { bigIntToScriptNumber, encodeDataPush } from '../../../common/common';
+import { generateBytecodeMap } from '../../../instruction-sets-utils';
+import { OpcodesBCH } from '../../bch-opcodes';
 
 export const bitcoinABCOpcodes = Object.entries(
   generateBytecodeMap(OpcodesBCH)

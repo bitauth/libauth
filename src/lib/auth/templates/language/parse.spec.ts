@@ -1,7 +1,7 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, max-lines */
 import test from 'ava';
 
-import { parseScript } from './parse';
+import { parseScript } from '../../../lib';
 
 test('parseScript: empty string', t => {
   t.deepEqual(parseScript(''), {

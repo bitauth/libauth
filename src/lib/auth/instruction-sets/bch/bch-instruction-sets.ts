@@ -18,11 +18,11 @@ import {
   stackItemIsTruthy,
   undefinedOperation
 } from '../common/common';
+import { AuthenticationInstruction } from '../instruction-sets-types';
 import {
-  AuthenticationInstruction,
   authenticationInstructionsAreMalformed,
   parseBytecode
-} from '../instruction-sets';
+} from '../instruction-sets-utils';
 
 import { AuthenticationErrorBCH } from './bch-errors';
 import { OpcodesBCH } from './bch-opcodes';

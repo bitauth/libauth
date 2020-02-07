@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/bitjson/bitcoin-ts/compare/v1.11.1...v1.12.0) (2020-02-07)
+
+
+### Features
+
+* **base64:** improve base64 utils, tests, and docs ([ac9d3e0](https://github.com/bitjson/bitcoin-ts/commit/ac9d3e0138551178ef05eb331f4a3fe7de43c5bd))
+* **CashAddress:** add support for CashAddress encoding, decoding, and error-correction ([85f640f](https://github.com/bitjson/bitcoin-ts/commit/85f640ff4fc9258ccd10f8b4036f99790c0193e4))
+* **utils:** add time-related utils ([e2c95d1](https://github.com/bitjson/bitcoin-ts/commit/e2c95d1d234e41e38839e827e7ab28cd57217a1f))
+
+
+### Bug Fixes
+
+* **address:** export address in lib ([93e6d99](https://github.com/bitjson/bitcoin-ts/commit/93e6d99556311e894c003c8f3ca0983a5604c87d))
+* **imports:** clean up imports, expose bitcoin-abc-utils ([312c667](https://github.com/bitjson/bitcoin-ts/commit/312c667fe3ff3085f0658f0ee1cce5041be0ec59))
+* **vm:** avoid throwing on undefined unlocking bytecode, add tests ([339f1e5](https://github.com/bitjson/bitcoin-ts/commit/339f1e59c56cbd32b0ae2df1b17b02dcd3262b42)), closes [#41](https://github.com/bitjson/bitcoin-ts/issues/41)
+
 ### [1.11.1](https://github.com/bitjson/bitcoin-ts/compare/v1.11.0...v1.11.1) (2019-11-22)
 
 

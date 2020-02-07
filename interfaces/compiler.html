@@ -102,17 +102,17 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="debug" class="tsd-anchor"></a>
 					<h3>debug</h3>
-					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>script<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../globals.html#compilationresult" class="tsd-signature-type">CompilationResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/43c833c/src/lib/auth/templates/language/compiler.ts#L509">lib/auth/templates/language/compiler.ts:509</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/compiler.ts#L490">src/lib/auth/templates/language/compiler.ts:490</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
 									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>script<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#compilationresult" class="tsd-signature-type">CompilationResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
@@ -136,18 +136,18 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="generate" class="tsd-anchor"></a>
 					<h3>generate</h3>
-					<div class="tsd-signature tsd-kind-icon">generate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<div class="tsd-signature tsd-kind-icon">generate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>script<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">{ </span>bytecode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">; </span>success<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>errorType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>errors<span class="tsd-signature-symbol">: </span><a href="compilationerror.html" class="tsd-signature-type">CompilationError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>success<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/43c833c/src/lib/auth/templates/language/compiler.ts#L513">lib/auth/templates/language/compiler.ts:513</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/compiler.ts#L494">src/lib/auth/templates/language/compiler.ts:494</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>script<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></li>
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>script<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>bytecode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">; </span>success<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>errorType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>errors<span class="tsd-signature-symbol">: </span><a href="compilationerror.html" class="tsd-signature-type">CompilationError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>success<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> }</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -160,10 +160,7 @@
 												<h5>data: <a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span>
-											<span class="tsd-signature-symbol"> | </span>
-											<span class="tsd-signature-type">object</span>
-										</h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>bytecode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">; </span>success<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>errorType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>errors<span class="tsd-signature-symbol">: </span><a href="compilationerror.html" class="tsd-signature-type">CompilationError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>success<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> }</span></h4>
 									</li>
 								</ul>
 							</li>

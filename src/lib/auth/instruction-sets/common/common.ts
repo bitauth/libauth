@@ -15,7 +15,7 @@ import {
   StackState
 } from '../../state';
 import { Operation } from '../../virtual-machine';
-import { AuthenticationInstruction } from '../instruction-sets';
+import { AuthenticationInstruction } from '../instruction-sets-types';
 
 import { arithmeticOperations } from './arithmetic';
 import { bitwiseOperations } from './bitwise';
@@ -169,15 +169,15 @@ export const commonOperations = <
   );
 };
 
-export const cloneStack = (stack: ReadonlyArray<Readonly<Uint8Array>>) =>
+export const cloneStack = (stack: readonly Readonly<Uint8Array>[]) =>
   stack.reduce<Uint8Array[]>((newStack, element) => {
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     newStack.push(element.slice());
     return newStack;
   }, []);
 
 export const createAuthenticationProgramInternalStateCommon = <Opcodes, Errors>(
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>,
+  instructions: readonly AuthenticationInstruction<Opcodes>[],
   stack: Uint8Array[] = []
 ): AuthenticationProgramInternalStateCommon<Opcodes, Errors> => ({
   alternateStack: [],
@@ -226,7 +226,7 @@ export const createAuthenticationProgramExternalStateCommon = (
 });
 
 export const createAuthenticationProgramStateCommon = <Opcodes, Errors>(
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>,
+  instructions: readonly AuthenticationInstruction<Opcodes>[],
   stack: Uint8Array[],
   externalState: AuthenticationProgramExternalStateCommon
 ): AuthenticationProgramStateCommon<Opcodes, Errors> => ({
@@ -244,7 +244,7 @@ export const cloneAuthenticationProgramStateCommon = <
 >(
   state: State
 ) => ({
-  ...(state.error !== undefined ? { error: state.error } : {}),
+  ...(state.error === undefined ? {} : { error: state.error }),
   alternateStack: state.alternateStack.slice(),
   correspondingOutput: state.correspondingOutput,
   executionStack: state.executionStack.slice(),
@@ -288,7 +288,7 @@ export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
  * Create an "empty" CommonProgramState, suitable for testing a VM/compiler.
  */
 export const createAuthenticationProgramStateCommonEmpty = <Opcodes, Errors>(
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>,
+  instructions: readonly AuthenticationInstruction<Opcodes>[],
   stack: Uint8Array[] = []
 ): AuthenticationProgramStateCommon<Opcodes, Errors> => ({
   ...createAuthenticationProgramInternalStateCommon(instructions, stack),

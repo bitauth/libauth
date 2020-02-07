@@ -1,3 +1,4 @@
+// cspell: ignore accum, contramap, promap
 'use strict';
 
 function Parsimmon(action) {

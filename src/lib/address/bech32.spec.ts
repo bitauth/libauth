@@ -1,4 +1,4 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 import * as fc from 'fast-check';
 
@@ -72,9 +72,9 @@ test('bech32PaddedToBin <-> binToBech32Padded', t => {
   const inverse = fc.property(
     fcUint8Array(0, maxBinLength),
     input =>
-      binToBech32Padded(bech32PaddedToBin(
-        binToBech32Padded(input)
-      ) as Uint8Array) === binToBech32Padded(input)
+      binToBech32Padded(
+        bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array
+      ) === binToBech32Padded(input)
   );
   t.notThrows(() => {
     fc.assert(inverse);

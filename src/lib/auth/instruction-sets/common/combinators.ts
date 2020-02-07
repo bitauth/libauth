@@ -13,7 +13,7 @@ export const incrementOperationCount = <
   operation: Operation<State>
 ): Operation<State> => (state: State) => {
   const nextState = operation(state);
-  // tslint:disable-next-line:no-object-mutation no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
   nextState.operationCount += 1;
   return nextState;
 };
@@ -31,7 +31,7 @@ export const conditionallyEvaluate = <State extends ExecutionStackState>(
  */
 export const mapOverOperations = <State>(
   operations: InstructionSetOperationMapping<State>,
-  ...combinators: Array<(operation: Operation<State>) => Operation<State>>
+  ...combinators: ((operation: Operation<State>) => Operation<State>)[]
 ) =>
   Object.keys(operations).reduce<{
     [opcode: number]: Operation<State>;
@@ -56,9 +56,9 @@ export const useOneStackItem = <
   state: State,
   operation: (nextState: State, value: Uint8Array) => State
 ) => {
+  // eslint-disable-next-line functional/immutable-data
   const item = state.stack.pop();
-  // tslint:disable-next-line:no-if-statement
-  if (!item) {
+  if (item === undefined) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.emptyStack,
       state
@@ -152,6 +152,8 @@ export const useSixStackItems = <
       )
   );
 
+const normalMaximumScriptNumberByteLength = 4;
+
 export const useOneScriptNumber = <
   State extends StackState & ErrorState<Errors>,
   Errors
@@ -159,7 +161,7 @@ export const useOneScriptNumber = <
   state: State,
   operation: (nextState: State, value: bigint) => State,
   requireMinimalEncoding: boolean,
-  maximumScriptNumberByteLength = 4
+  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
 ) =>
   useOneStackItem(state, (nextState, item) => {
     const value = parseBytesAsScriptNumber(
@@ -167,7 +169,6 @@ export const useOneScriptNumber = <
       requireMinimalEncoding,
       maximumScriptNumberByteLength
     );
-    // tslint:disable-next-line: no-if-statement
     if (isScriptNumberError(value)) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.invalidScriptNumber,
@@ -188,7 +189,7 @@ export const useTwoScriptNumbers = <
     secondValue: bigint
   ) => State,
   requireMinimalEncoding: boolean,
-  maximumScriptNumberByteLength = 4
+  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
 ) =>
   useOneScriptNumber(
     state,
@@ -216,7 +217,7 @@ export const useThreeScriptNumbers = <
     thirdValue: bigint
   ) => State,
   requireMinimalEncoding: boolean,
-  maximumScriptNumberByteLength = 4
+  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
 ) =>
   useTwoScriptNumbers(
     state,
@@ -241,7 +242,7 @@ export const pushToStack = <State extends StackState>(
   state: State,
   ...data: Uint8Array[]
 ) => {
-  // tslint:disable-next-line:no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
   state.stack.push(...data);
   return state;
 };

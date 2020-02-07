@@ -6,11 +6,8 @@ import {
   StackState
 } from '../../state';
 import { Operation } from '../../virtual-machine';
-import {
-  AuthenticationInstructionPush,
-  Bytes,
-  numberToLittleEndianBin
-} from '../instruction-sets';
+import { AuthenticationInstructionPush } from '../instruction-sets-types';
+import { numberToLittleEndianBin } from '../instruction-sets-utils';
 
 import { pushToStack } from './combinators';
 import { applyError, AuthenticationErrorCommon } from './errors';
@@ -60,6 +57,12 @@ export enum PushOperationConstants {
   maximumPushData4Size = 4294967295
 }
 
+enum Bytes {
+  Uint8 = 1,
+  Uint16 = 2,
+  Uint32 = 4
+}
+
 /**
  * Returns the minimal bytecode required to push the provided `data` to the
  * stack.
@@ -85,7 +88,7 @@ export enum PushOperationConstants {
  *
  * @param data the Uint8Array to push to the stack
  */
-// tslint:disable-next-line:cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const encodeDataPush = (data: Uint8Array) =>
   data.length <= PushOperationConstants.maximumPushByteOperationSize
     ? data.length === 0
@@ -123,7 +126,7 @@ export const encodeDataPush = (data: Uint8Array) =>
  * @param opcode the opcode used to push `data`
  * @param data the contents of the push
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const isMinimalDataPush = (opcode: number, data: Uint8Array) =>
   data.length === 0
     ? opcode === PushOperationConstants.OP_0
@@ -141,7 +144,7 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) =>
     ? opcode === PushOperationConstants.OP_PUSHDATA_2
     : true;
 
-export const pushByteOpcodes: ReadonlyArray<OpcodesCommon> = [
+export const pushByteOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_PUSHBYTES_1,
   OpcodesCommon.OP_PUSHBYTES_2,
   OpcodesCommon.OP_PUSHBYTES_3,
@@ -219,6 +222,9 @@ export const pushByteOpcodes: ReadonlyArray<OpcodesCommon> = [
   OpcodesCommon.OP_PUSHBYTES_75
 ];
 
+const executionIsActive = <State extends ExecutionStackState>(state: State) =>
+  state.executionStack.every(item => item);
+
 export const pushOperation = <
   Opcodes,
   State extends StackState &
@@ -238,15 +244,18 @@ export const pushOperation = <
         AuthenticationErrorCommon.exceedsMaximumPush,
         state
       )
-    : !state.executionStack.every(item => item)
-    ? state
-    : flags.requireMinimalEncoding &&
+    : executionIsActive(state)
+    ? flags.requireMinimalEncoding &&
       !isMinimalDataPush(
         (instruction.opcode as unknown) as number,
         instruction.data
       )
-    ? applyError<State, Errors>(AuthenticationErrorCommon.nonMinimalPush, state)
-    : pushToStack(state, instruction.data);
+      ? applyError<State, Errors>(
+          AuthenticationErrorCommon.nonMinimalPush,
+          state
+        )
+      : pushToStack(state, instruction.data)
+    : state;
 };
 
 export const pushOperations = <
@@ -266,7 +275,7 @@ export const pushOperations = <
   }>((group, i) => ({ ...group, [i]: push }), {});
 };
 
-export const pushNumberOpcodes: ReadonlyArray<OpcodesCommon> = [
+export const pushNumberOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_1NEGATE,
   OpcodesCommon.OP_1,
   OpcodesCommon.OP_2,
@@ -286,6 +295,8 @@ export const pushNumberOpcodes: ReadonlyArray<OpcodesCommon> = [
   OpcodesCommon.OP_16
 ];
 
+const op1NegateValue = -1;
+
 export const pushNumberOperations = <
   Opcodes,
   ProgramState extends StackState & MinimumProgramState<Opcodes>
@@ -293,7 +304,7 @@ export const pushNumberOperations = <
   pushNumberOpcodes
     .map<[OpcodesCommon, Uint8Array]>((opcode, i) => [
       opcode,
-      [-1, ...range(PushOperationConstants.pushNumberOpcodes, 1)]
+      [op1NegateValue, ...range(PushOperationConstants.pushNumberOpcodes, 1)]
         .map(BigInt)
         .map(bigIntToScriptNumber)[i]
     ])

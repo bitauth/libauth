@@ -15,13 +15,11 @@ import { OpcodesCommon } from './opcodes';
 import { booleanToScriptNumber } from './types';
 
 const areEqual = (a: Uint8Array, b: Uint8Array) => {
-  // tslint:disable-next-line:no-if-statement
   if (a.length !== b.length) {
     return false;
   }
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < a.length; i++) {
-    // tslint:disable-next-line:no-if-statement
     if (a[i] !== b[i]) {
       return false;
     }

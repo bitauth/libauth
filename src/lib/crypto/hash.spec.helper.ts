@@ -1,11 +1,13 @@
-// tslint:disable:no-expression-statement no-unsafe-any
+/* global Buffer */
+/* eslint-disable functional/no-expression-statement */
+import { createHash } from 'crypto';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
 import test from 'ava';
 import * as bcrypto from 'bcrypto';
-import { createHash } from 'crypto';
 import * as fc from 'fast-check';
-import { readFileSync } from 'fs';
 import * as hashJs from 'hash.js';
-import { join } from 'path';
 
 import { HashFunction } from '../bin/bin';
 
@@ -39,6 +41,7 @@ export const testHashFunction = <T extends HashFunction>(
 
   test(`crypto: ${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
     const path = join(
+      // eslint-disable-next-line no-undef
       __dirname,
       '..',
       'bin',
@@ -153,7 +156,6 @@ export const testHashFunction = <T extends HashFunction>(
         const chunkCount = Math.ceil(message.length / chunkSize);
         const chunks = Array.from({ length: chunkCount })
           .map((_, index) => index * chunkSize)
-          // tslint:disable-next-line:restrict-plus-operands
           .map(startIndex => message.slice(startIndex, startIndex + chunkSize));
         const incrementalResult = hashFunction.final(
           chunks.reduce(

@@ -53,5 +53,5 @@ export const applyError = <State extends ErrorState<Errors>, Errors>(
   state: State
 ): State => ({
   ...state,
-  error: state.error !== undefined ? state.error : error
+  error: state.error === undefined ? error : state.error
 });

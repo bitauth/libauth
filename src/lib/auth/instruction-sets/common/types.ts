@@ -3,12 +3,13 @@ export enum ScriptNumberError {
   requiresMinimal = 'Failed to parse Script Number: the number is not minimally-encoded.'
 }
 
-// tslint:disable-next-line:no-any
 export const isScriptNumberError = (
   value: BigInt | ScriptNumberError
 ): value is ScriptNumberError =>
   value === ScriptNumberError.outOfRange ||
   value === ScriptNumberError.requiresMinimal;
+
+const normalMaximumScriptNumberByteLength = 4;
 
 /**
  * This method attempts to parse a "Script Number", a format with which numeric
@@ -51,17 +52,15 @@ export const isScriptNumberError = (
  * parsing non-minimally encoded Script Numbers
  * @param maximumScriptNumberByteLength the maximum valid number of bytes
  */
-// tslint:disable-next-line:cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const parseBytesAsScriptNumber = (
   bytes: Uint8Array,
   requireMinimalEncoding = true,
-  maximumScriptNumberByteLength = 4
+  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
 ): bigint | ScriptNumberError => {
-  // tslint:disable-next-line:no-if-statement
   if (bytes.length === 0) {
     return BigInt(0);
   }
-  // tslint:disable-next-line:no-if-statement
   if (bytes.length > maximumScriptNumberByteLength) {
     return ScriptNumberError.outOfRange;
   }
@@ -70,12 +69,11 @@ export const parseBytesAsScriptNumber = (
   const allButTheSignBit = 0b1111_111;
   const justTheSignBit = 0b1000_0000;
 
-  // tslint:disable-next-line:no-if-statement
   if (
     requireMinimalEncoding &&
-    // tslint:disable-next-line:no-bitwise
+    // eslint-disable-next-line no-bitwise
     (mostSignificantByte & allButTheSignBit) === 0 &&
-    // tslint:disable-next-line:no-bitwise
+    // eslint-disable-next-line no-bitwise
     (bytes.length <= 1 || (secondMostSignificantByte & justTheSignBit) === 0)
   ) {
     return ScriptNumberError.requiresMinimal;
@@ -83,24 +81,23 @@ export const parseBytesAsScriptNumber = (
 
   const bitsPerByte = 8;
   const signFlippingByte = 0x80;
-  // tslint:disable-next-line:prefer-const no-let
+  // eslint-disable-next-line functional/no-let
   let result = BigInt(0);
-  // tslint:disable-next-line:prefer-for-of no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let byte = 0; byte < bytes.length; byte++) {
-    // tslint:disable-next-line:no-expression-statement no-bitwise
+    // eslint-disable-next-line functional/no-expression-statement,  no-bitwise
     result |= BigInt(bytes[byte]) << BigInt(byte * bitsPerByte);
   }
 
-  // tslint:disable-next-line:no-bitwise
+  /* eslint-disable no-bitwise */
   const isNegative = (bytes[bytes.length - 1] & signFlippingByte) !== 0;
   return isNegative
-    ? -// tslint:disable-next-line:no-bitwise
-      (
+    ? -(
         result &
-        // tslint:disable-next-line:no-bitwise
         ~(BigInt(signFlippingByte) << BigInt(bitsPerByte * (bytes.length - 1)))
       )
     : result;
+  /* eslint-enable no-bitwise */
 };
 
 /**
@@ -109,9 +106,8 @@ export const parseBytesAsScriptNumber = (
  *
  * @param integer the BigInt to encode as a Script Number
  */
-// tslint:disable-next-line:cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
-  // tslint:disable-next-line:no-if-statement
   if (integer === BigInt(0)) {
     return new Uint8Array();
   }
@@ -120,23 +116,24 @@ export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
   const isNegative = integer < 0;
   const byteStates = 0xff;
   const bitsPerByte = 8;
-  // tslint:disable-next-line:prefer-const no-let
+  // eslint-disable-next-line functional/no-let
   let remaining = isNegative ? -integer : integer;
+  // eslint-disable-next-line functional/no-loop-statement
   while (remaining > 0) {
-    // tslint:disable-next-line:no-expression-statement no-bitwise
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data, no-bitwise
     bytes.push(Number(remaining & BigInt(byteStates)));
-    // tslint:disable-next-line:no-expression-statement no-bitwise
+    // eslint-disable-next-line functional/no-expression-statement, no-bitwise
     remaining >>= BigInt(bitsPerByte);
   }
 
   const signFlippingByte = 0x80;
-  // tslint:disable-next-line:no-if-statement no-bitwise
+  // eslint-disable-next-line no-bitwise, functional/no-conditional-statement
   if ((bytes[bytes.length - 1] & signFlippingByte) > 0) {
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     bytes.push(isNegative ? signFlippingByte : 0x00);
-    // tslint:disable-next-line:no-if-statement
+    // eslint-disable-next-line functional/no-conditional-statement
   } else if (isNegative) {
-    // tslint:disable-next-line:no-expression-statement no-object-mutation no-bitwise
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data, no-bitwise
     bytes[bytes.length - 1] |= signFlippingByte;
   }
   return new Uint8Array(bytes);
@@ -152,11 +149,9 @@ export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
  */
 export const stackItemIsTruthy = (item: Uint8Array) => {
   const signFlippingByte = 0x80;
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < item.length; i++) {
-    // tslint:disable-next-line:no-if-statement
     if (item[i] !== 0) {
-      // tslint:disable-next-line:no-if-statement
       if (i === item.length - 1 && item[i] === signFlippingByte) {
         return false;
       }

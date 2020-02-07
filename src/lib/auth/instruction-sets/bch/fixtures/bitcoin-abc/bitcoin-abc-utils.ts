@@ -3,17 +3,14 @@ import {
   hexToBin,
   utf8ToBin
 } from '../../../../../utils/utils';
-import {
-  bigIntToScriptNumber,
-  encodeDataPush,
-  generateBytecodeMap,
-  OpcodesBCH
-} from '../../../instruction-sets';
+import { bigIntToScriptNumber, encodeDataPush } from '../../../common/common';
+import { generateBytecodeMap } from '../../../instruction-sets-utils';
+import { OpcodesBCH } from '../../bch-opcodes';
 
 export const bitcoinABCOpcodes = Object.entries(
   generateBytecodeMap(OpcodesBCH)
 ).reduce<{
-  [opcode: string]: Uint8Array;
+  readonly [opcode: string]: Uint8Array;
 }>((acc, cur) => ({ ...acc, [cur[0].slice('OP_'.length)]: cur[1] }), {
   PUSHDATA1: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_1),
   PUSHDATA2: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_2),
@@ -41,12 +38,12 @@ export const assembleBitcoinABCScript = (abcScript: string) =>
       .split(' ')
       .filter(token => token !== '')
       .map(token =>
-        token[0] === '0' && token[1] === 'x'
+        token.startsWith('0x')
           ? hexToBin(token.slice('0x'.length))
-          : token[0] === "'"
+          : token.startsWith("'")
           ? encodeDataPush(utf8ToBin(token.slice(1, token.length - 1)))
-          : (bitcoinABCOpcodes[token] as Uint8Array | undefined) !== undefined
-          ? bitcoinABCOpcodes[token]
-          : encodeDataPush(bigIntToScriptNumber(BigInt(token)))
+          : (bitcoinABCOpcodes[token] as Uint8Array | undefined) === undefined
+          ? encodeDataPush(bigIntToScriptNumber(BigInt(token)))
+          : bitcoinABCOpcodes[token]
       )
   );

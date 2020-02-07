@@ -1,26 +1,25 @@
-// tslint:disable:no-expression-statement no-magic-numbers no-object-mutation
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test, { Macro } from 'ava';
 
-import { range } from '../../lib';
-import { hexToBin } from '../../utils/hex';
-
-import { OpcodesBCH } from './bch/bch-opcodes';
 import {
   AuthenticationInstruction,
   disassembleParsedAuthenticationInstructions,
   generateBytecodeMap,
+  hexToBin,
+  OpcodesBCH,
   OpcodesBTC,
   parseBytecode,
   ParsedAuthenticationInstruction,
+  range,
   serializeAuthenticationInstructions,
   serializeParsedAuthenticationInstructions
-} from './instruction-sets';
+} from '../../lib';
 
 test('Each Opcodes enum contains a single instruction for 0-255', t => {
   const expected = range(256);
-  const names = (keys: ReadonlyArray<string>) =>
+  const names = (keys: readonly string[]) =>
     keys.filter(k => isNaN(parseInt(k, 10)));
-  const numbers = (keys: ReadonlyArray<string>) =>
+  const numbers = (keys: readonly string[]) =>
     keys.map(k => parseInt(k, 10)).filter(k => !isNaN(k));
 
   const bch = Object.keys(OpcodesBCH);
@@ -46,25 +45,25 @@ test('Each Opcodes enum contains a single instruction for 0-255', t => {
 interface CommonScriptParseAndAsmTests {
   readonly [scriptHex: string]: {
     readonly asm: string;
-    readonly parse: Array<[number, string?, number?, string?, number?]>;
+    readonly parse: [number, string?, number?, string?, number?][];
   };
 }
 
 const defToFixtures = (tests: CommonScriptParseAndAsmTests) =>
   Object.entries(tests).map(entry => {
-    const hex = entry[0].split('0x')[1];
+    const [fullHex, { asm }] = entry;
+    const [, hex] = fullHex.split('0x');
     const script = hexToBin(hex);
-    const asm = entry[1].asm;
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     const object = entry[1].parse.map(set => ({
       opcode: set[0],
       ...(set.length > 2 ? { malformed: true } : undefined),
-      ...(set[1] !== undefined ? { data: hexToBin(set[1]) } : undefined),
-      ...(set[2] !== undefined ? { expectedDataBytes: set[2] } : undefined),
-      ...(set[3] !== undefined ? { length: hexToBin(set[3]) } : undefined),
-      ...(set[4] !== undefined ? { expectedLengthBytes: set[4] } : undefined)
+      ...(set[1] === undefined ? undefined : { data: hexToBin(set[1]) }),
+      ...(set[2] === undefined ? undefined : { expectedDataBytes: set[2] }),
+      ...(set[3] === undefined ? undefined : { length: hexToBin(set[3]) }),
+      ...(set[4] === undefined ? undefined : { expectedLengthBytes: set[4] })
     }));
-    return { hex, script, asm, object };
+    return { asm, hex, object, script };
   });
 
 const wellFormedScripts: CommonScriptParseAndAsmTests = {
@@ -160,50 +159,57 @@ const malFormedPushes: CommonScriptParseAndAsmTests = {
   }
 };
 
-const parse: Macro<
-  [Uint8Array, ReadonlyArray<ParsedAuthenticationInstruction>]
-> = (t, input, expected) => {
+const parse: Macro<[Uint8Array, readonly ParsedAuthenticationInstruction[]]> = (
+  t,
+  input,
+  expected
+) => {
   t.deepEqual(parseBytecode(input), expected);
 };
-parse.title = title => `parse script: ${title}`.trim();
+parse.title = title => `parse script: ${title ?? ''}`.trim();
 
-const disassemble: Macro<
-  [ReadonlyArray<ParsedAuthenticationInstruction>, string]
-> = (t, input, expected) => {
+const disassemble: Macro<[
+  readonly ParsedAuthenticationInstruction[],
+  string
+]> = (t, input, expected) => {
   t.deepEqual(
     disassembleParsedAuthenticationInstructions(OpcodesBCH, input),
     expected
   );
 };
-disassemble.title = title => `disassemble script: ${title}`.trim();
+disassemble.title = title => `disassemble script: ${title ?? ''}`.trim();
 
-const serialize: Macro<
-  [ReadonlyArray<AuthenticationInstruction>, Uint8Array]
-> = (t, input, expected) => {
+const serialize: Macro<[readonly AuthenticationInstruction[], Uint8Array]> = (
+  t,
+  input,
+  expected
+) => {
   t.deepEqual(serializeAuthenticationInstructions(input), expected);
 };
-serialize.title = title => `serialize script: ${title}`.trim();
+serialize.title = title => `serialize script: ${title ?? ''}`.trim();
 
-const reSerialize: Macro<
-  [ReadonlyArray<ParsedAuthenticationInstruction>, Uint8Array]
-> = (t, input, expected) => {
+const reSerialize: Macro<[
+  readonly ParsedAuthenticationInstruction[],
+  Uint8Array
+]> = (t, input, expected) => {
   t.deepEqual(serializeParsedAuthenticationInstructions(input), expected);
 };
-reSerialize.title = title => `re-serialize parsed script: ${title}`.trim();
+reSerialize.title = title =>
+  `re-serialize parsed script: ${title ?? ''}`.trim();
 
-// tslint:disable-next-line:no-unused-expression
 defToFixtures(wellFormedScripts).map(({ asm, hex, script, object }) => {
   test(`0x${hex}`, parse, script, object);
   test(`0x${hex}`, disassemble, object, asm);
   test(`0x${hex}`, serialize, object, script);
   test(`0x${hex}`, reSerialize, object, script);
+  return undefined;
 });
 
-// tslint:disable-next-line:no-unused-expression
 defToFixtures(malFormedPushes).map(({ asm, hex, script, object }) => {
   test(`0x${hex}`, parse, script, object);
   test(`0x${hex}`, disassemble, object, asm);
   test(`0x${hex}`, reSerialize, object, script);
+  return undefined;
 });
 
 test('generateBytecodeMap', t => {

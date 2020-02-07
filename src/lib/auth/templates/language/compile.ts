@@ -88,9 +88,9 @@ const EOF = 'EOF';
  */
 const describeExpectedInput = (expectedArray: string[]) => {
   const newArray = expectedArray.filter(value => value !== EOF);
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (newArray.length !== expectedArray.length) {
-    // tslint:disable-next-line: no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     newArray.push('the end of the script');
   }
   const withoutLastElement = newArray.slice(0, newArray.length - 1);
@@ -107,7 +107,6 @@ const describeExpectedInput = (expectedArray: string[]) => {
 /**
  * Note, `compileScript` is the recommended API for using this method.
  */
-// tslint:disable-next-line: cyclomatic-complexity
 export const compileScriptText = <
   ProgramState = StackState & MinimumProgramState,
   CompilerOperationData = {}
@@ -118,7 +117,6 @@ export const compileScriptText = <
   scriptId?: string
 ): CompilationResult<ProgramState> => {
   const parseResult = parseScript(script);
-  // tslint:disable-next-line: no-if-statement
   if (!parseResult.status) {
     return {
       errorType: 'parse',
@@ -139,7 +137,6 @@ export const compileScriptText = <
   const resolver = createIdentifierResolver(scriptId, data, environment);
   const resolvedScript = resolveScriptSegment(parseResult.value, resolver);
   const resolutionErrors = getResolutionErrors(resolvedScript);
-  // tslint:disable-next-line: no-if-statement
   if (resolutionErrors.length !== 0) {
     return {
       errorType: 'resolve',
@@ -156,8 +153,8 @@ export const compileScriptText = <
   );
   return {
     ...(reduction.errors === undefined
-      ? { success: true, bytecode: reduction.bytecode }
-      : { success: false, errorType: 'reduce', errors: reduction.errors }),
+      ? { bytecode: reduction.bytecode, success: true }
+      : { errorType: 'reduce', errors: reduction.errors, success: false }),
     parse: parseResult.value,
     reduce: reduction,
     resolve: resolvedScript
@@ -177,7 +174,6 @@ export const compileScript = <
   environment: CompilationEnvironment<CompilerOperationData>
 ): CompilationResult<ProgramState> => {
   const script = environment.scripts[scriptId] as string | undefined;
-  // tslint:disable-next-line: no-if-statement
   if (script === undefined) {
     return {
       errorType: 'parse',

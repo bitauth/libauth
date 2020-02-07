@@ -1,6 +1,6 @@
-// secp256k1-node
 // used in tests and benchmarks
 declare module 'secp256k1' {
-  var whatever: any;
+  // eslint-disable-next-line init-declarations, @typescript-eslint/no-explicit-any
+  const whatever: any;
   export = whatever;
 }

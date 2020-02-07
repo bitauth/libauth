@@ -18,6 +18,7 @@ export * from './bch-instruction-sets';
 export * from './bch-opcodes';
 export * from './bch-operations';
 export * from './bch-types';
+export * from './fixtures/bitcoin-abc/bitcoin-abc-utils';
 
 /**
  * Initialize a virtual machine using the provided BCH instruction set.
@@ -25,7 +26,6 @@ export * from './bch-types';
  * @param instructionSet the VM version to instantiate – by default, the current
  * "strict" VM is used (`instructionSetBCHCurrentStrict`)
  */
-// tslint:disable-next-line: variable-name
 export const instantiateVirtualMachineBCH = async (
   instructionSet = instructionSetBCHCurrentStrict
 ) => {

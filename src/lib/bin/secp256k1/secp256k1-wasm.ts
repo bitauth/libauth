@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+// cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../utils/utils';
 
 import {
@@ -9,50 +11,51 @@ import { secp256k1Base64Bytes } from './secp256k1.base64';
 
 export { ContextFlag, CompressionFlag, Secp256k1Wasm };
 
-// tslint:disable:no-unsafe-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const wrapSecp256k1Wasm = (
   instance: WebAssembly.Instance,
   heapU8: Uint8Array,
   heapU32: Uint32Array
 ): Secp256k1Wasm => ({
-  contextCreate: context => instance.exports._secp256k1_context_create(context),
+  contextCreate: context =>
+    (instance.exports as any)._secp256k1_context_create(context),
   contextRandomize: (contextPtr, seedPtr) =>
-    instance.exports._secp256k1_context_randomize(contextPtr, seedPtr),
+    (instance.exports as any)._secp256k1_context_randomize(contextPtr, seedPtr),
 
-  free: pointer => instance.exports._free(pointer),
+  free: pointer => (instance.exports as any)._free(pointer),
   heapU32,
   heapU8,
   instance,
-  malloc: bytes => instance.exports._malloc(bytes),
+  malloc: bytes => (instance.exports as any)._malloc(bytes),
   mallocSizeT: num => {
-    // tslint:disable-next-line:no-magic-numbers
-    const pointer = instance.exports._malloc(4);
-    // tslint:disable-next-line:no-bitwise no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    const pointer = (instance.exports as any)._malloc(4);
+    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
     const pointerView32 = pointer >> 2;
-    // tslint:disable-next-line:no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement
     heapU32.set([num], pointerView32);
     return pointer;
   },
   mallocUint8Array: array => {
-    const pointer = instance.exports._malloc(array.length);
-    // tslint:disable-next-line:no-expression-statement
+    const pointer = (instance.exports as any)._malloc(array.length);
+    // eslint-disable-next-line functional/no-expression-statement
     heapU8.set(array, pointer);
     return pointer;
   },
   privkeyTweakAdd: (contextPtr, secretKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_privkey_tweak_add(
+    (instance.exports as any)._secp256k1_ec_privkey_tweak_add(
       contextPtr,
       secretKeyPtr,
       tweakNum256Ptr
     ),
   privkeyTweakMul: (contextPtr, secretKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_privkey_tweak_mul(
+    (instance.exports as any)._secp256k1_ec_privkey_tweak_mul(
       contextPtr,
       secretKeyPtr,
       tweakNum256Ptr
     ),
   pubkeyCreate: (contextPtr, publicKeyPtr, secretKeyPtr) =>
-    instance.exports._secp256k1_ec_pubkey_create(
+    (instance.exports as any)._secp256k1_ec_pubkey_create(
       contextPtr,
       publicKeyPtr,
       secretKeyPtr
@@ -63,7 +66,7 @@ const wrapSecp256k1Wasm = (
     publicKeyInPtr,
     publicKeyInLength
   ) =>
-    instance.exports._secp256k1_ec_pubkey_parse(
+    (instance.exports as any)._secp256k1_ec_pubkey_parse(
       contextPtr,
       publicKeyOutPtr,
       publicKeyInPtr,
@@ -76,7 +79,7 @@ const wrapSecp256k1Wasm = (
     publicKeyPtr,
     compression
   ) =>
-    instance.exports._secp256k1_ec_pubkey_serialize(
+    (instance.exports as any)._secp256k1_ec_pubkey_serialize(
       contextPtr,
       outputPtr,
       outputLengthPtr,
@@ -84,32 +87,32 @@ const wrapSecp256k1Wasm = (
       compression
     ),
   pubkeyTweakAdd: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_pubkey_tweak_add(
+    (instance.exports as any)._secp256k1_ec_pubkey_tweak_add(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr
     ),
   pubkeyTweakMul: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
-    instance.exports._secp256k1_ec_pubkey_tweak_mul(
+    (instance.exports as any)._secp256k1_ec_pubkey_tweak_mul(
       contextPtr,
       publicKeyPtr,
       tweakNum256Ptr
     ),
   readHeapU8: (pointer, bytes) => new Uint8Array(heapU8.buffer, pointer, bytes),
   readSizeT: pointer => {
-    // tslint:disable-next-line:no-bitwise no-magic-numbers
+    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
     const pointerView32 = pointer >> 2;
     return heapU32[pointerView32];
   },
   recover: (contextPtr, outputPubkeyPointer, rSigPtr, msg32Ptr) =>
-    instance.exports._secp256k1_ecdsa_recover(
+    (instance.exports as any)._secp256k1_ecdsa_recover(
       contextPtr,
       outputPubkeyPointer,
       rSigPtr,
       msg32Ptr
     ),
   recoverableSignatureParse: (contextPtr, outputRSigPtr, inputSigPtr, rid) =>
-    instance.exports._secp256k1_ecdsa_recoverable_signature_parse_compact(
+    (instance.exports as any)._secp256k1_ecdsa_recoverable_signature_parse_compact(
       contextPtr,
       outputRSigPtr,
       inputSigPtr,
@@ -121,69 +124,72 @@ const wrapSecp256k1Wasm = (
     recIDOutPtr,
     rSigPtr
   ) =>
-    instance.exports._secp256k1_ecdsa_recoverable_signature_serialize_compact(
+    (instance.exports as any)._secp256k1_ecdsa_recoverable_signature_serialize_compact(
       contextPtr,
       sigOutPtr,
       recIDOutPtr,
       rSigPtr
     ),
   schnorrSign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
-    instance.exports._secp256k1_schnorr_sign(
+    (instance.exports as any)._secp256k1_schnorr_sign(
       contextPtr,
       outputSigPtr,
       msg32Ptr,
       secretKeyPtr
     ),
   schnorrVerify: (contextPtr, sigPtr, msg32Ptr, publicKeyPtr) =>
-    instance.exports._secp256k1_schnorr_verify(
+    (instance.exports as any)._secp256k1_schnorr_verify(
       contextPtr,
       sigPtr,
       msg32Ptr,
       publicKeyPtr
     ),
   seckeyVerify: (contextPtr, secretKeyPtr) =>
-    instance.exports._secp256k1_ec_seckey_verify(contextPtr, secretKeyPtr),
+    (instance.exports as any)._secp256k1_ec_seckey_verify(
+      contextPtr,
+      secretKeyPtr
+    ),
   sign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
-    instance.exports._secp256k1_ecdsa_sign(
+    (instance.exports as any)._secp256k1_ecdsa_sign(
       contextPtr,
       outputSigPtr,
       msg32Ptr,
       secretKeyPtr
     ),
   signRecoverable: (contextPtr, outputRSigPtr, msg32Ptr, secretKeyPtr) =>
-    instance.exports._secp256k1_ecdsa_sign_recoverable(
+    (instance.exports as any)._secp256k1_ecdsa_sign_recoverable(
       contextPtr,
       outputRSigPtr,
       msg32Ptr,
       secretKeyPtr
     ),
   signatureMalleate: (contextPtr, outputSigPtr, inputSigPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_malleate(
+    (instance.exports as any)._secp256k1_ecdsa_signature_malleate(
       contextPtr,
       outputSigPtr,
       inputSigPtr
     ),
   signatureNormalize: (contextPtr, outputSigPtr, inputSigPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_normalize(
+    (instance.exports as any)._secp256k1_ecdsa_signature_normalize(
       contextPtr,
       outputSigPtr,
       inputSigPtr
     ),
   signatureParseCompact: (contextPtr, sigOutPtr, compactSigInPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_parse_compact(
+    (instance.exports as any)._secp256k1_ecdsa_signature_parse_compact(
       contextPtr,
       sigOutPtr,
       compactSigInPtr
     ),
   signatureParseDER: (contextPtr, sigOutPtr, sigDERInPtr, sigDERInLength) =>
-    instance.exports._secp256k1_ecdsa_signature_parse_der(
+    (instance.exports as any)._secp256k1_ecdsa_signature_parse_der(
       contextPtr,
       sigOutPtr,
       sigDERInPtr,
       sigDERInLength
     ),
   signatureSerializeCompact: (contextPtr, outputCompactSigPtr, inputSigPtr) =>
-    instance.exports._secp256k1_ecdsa_signature_serialize_compact(
+    (instance.exports as any)._secp256k1_ecdsa_signature_serialize_compact(
       contextPtr,
       outputCompactSigPtr,
       inputSigPtr
@@ -194,22 +200,23 @@ const wrapSecp256k1Wasm = (
     outputDERSigLengthPtr,
     inputSigPtr
   ) =>
-    instance.exports._secp256k1_ecdsa_signature_serialize_der(
+    (instance.exports as any)._secp256k1_ecdsa_signature_serialize_der(
       contextPtr,
       outputDERSigPtr,
       outputDERSigLengthPtr,
       inputSigPtr
     ),
   verify: (contextPtr, sigPtr, msg32Ptr, pubkeyPtr) =>
-    instance.exports._secp256k1_ecdsa_verify(
+    (instance.exports as any)._secp256k1_ecdsa_verify(
       contextPtr,
       sigPtr,
       msg32Ptr,
       pubkeyPtr
     )
 });
-// tslint:enable:no-unsafe-any
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
+/* eslint-disable functional/immutable-data, functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/no-conditional-statement, no-bitwise, functional/no-throw-statement */
 /**
  * Method extracted from Emscripten's preamble.js
  */
@@ -219,11 +226,8 @@ const isLittleEndian = (buffer: ArrayBuffer): boolean => {
   const heap16 = new Int16Array(buffer);
   const heap32 = new Int32Array(buffer);
   const heapU8 = new Uint8Array(buffer);
-  // tslint:disable:no-expression-statement no-object-mutation no-magic-numbers
   heap32[0] = 1668509029;
   heap16[1] = 25459;
-  // tslint:enable:no-expression-statement no-object-mutation
-  // tslint:disable-next-line:no-magic-numbers
   return heapU8[2] !== 115 || heapU8[3] !== 99
     ? /* istanbul ignore next */ notLittleEndian
     : littleEndian;
@@ -260,21 +264,20 @@ export const instantiateSecp256k1WasmBytes = async (
   });
 
   /* istanbul ignore if  */
-  // tslint:disable-next-line:no-if-statement
   if (!isLittleEndian(wasmMemory.buffer)) {
-    // note: this block is excluded from test coverage. It's A) hard to test
-    // (must be either tested on big-endian hardware or a big-endian buffer
-    // mock) and B) extracted from Emscripten's preamble.js, where it should
-    // be tested properly.
+    /*
+     * note: this block is excluded from test coverage. It's A) hard to test
+     * (must be either tested on big-endian hardware or a big-endian buffer
+     * mock) and B) extracted from Emscripten's preamble.js, where it should
+     * be tested properly.
+     */
     throw new Error('Runtime error: expected the system to be little-endian.');
   }
 
-  // tslint:disable:no-magic-numbers
   const STATIC_BASE = GLOBAL_BASE;
   const STATICTOP_INITIAL = STATIC_BASE + 67696 + 16;
   const DYNAMICTOP_PTR = STATICTOP_INITIAL;
   const DYNAMICTOP_PTR_SIZE = 4;
-  // tslint:disable-next-line:no-bitwise
   const STATICTOP = (STATICTOP_INITIAL + DYNAMICTOP_PTR_SIZE + 15) & -16;
   const STACKTOP = alignMemory(STACK_ALIGN, STATICTOP);
   const STACK_BASE = STACKTOP;
@@ -284,29 +287,26 @@ export const instantiateSecp256k1WasmBytes = async (
   const heapU8 = new Uint8Array(wasmMemory.buffer);
   const heap32 = new Int32Array(wasmMemory.buffer);
   const heapU32 = new Uint32Array(wasmMemory.buffer);
-  // tslint:disable-next-line:no-expression-statement no-bitwise no-object-mutation
   heap32[DYNAMICTOP_PTR >> 2] = DYNAMIC_BASE;
 
   const TABLE_SIZE = 6;
   const MAX_TABLE_SIZE = 6;
 
-  // tslint:enable:no-magic-numbers
-
-  // tslint:disable-next-line:no-let
+  // eslint-disable-next-line functional/no-let, init-declarations
   let getErrNoLocation: (() => number) | undefined;
 
-  // note: A number of methods below are excluded from test coverage. They are
-  // a) not part of the regular usage of this library (should only be evaluated
-  // if the consumer mis-implements the library and exist only to make
-  // debugging easier) and B) already tested adequately in Emscripten, from
-  // which this section is extracted.
+  /*
+   * note: A number of methods below are excluded from test coverage. They are
+   * a) not part of the regular usage of this library (should only be evaluated
+   * if the consumer mis-implements the library and exist only to make
+   * debugging easier) and B) already tested adequately in Emscripten, from
+   * which this section is extracted.
+   */
   const env = {
     DYNAMICTOP_PTR,
     STACKTOP,
     ___setErrNo: /* istanbul ignore next */ (value: number) => {
-      // tslint:disable-next-line:no-if-statement
       if (getErrNoLocation !== undefined) {
-        // tslint:disable-next-line:no-bitwise no-expression-statement no-object-mutation no-magic-numbers
         heap32[getErrNoLocation() >> 2] = value;
       }
       return value;
@@ -314,12 +314,12 @@ export const instantiateSecp256k1WasmBytes = async (
     _abort: /* istanbul ignore next */ (err = 'Secp256k1 Error') => {
       throw new Error(err);
     },
+    // eslint-disable-next-line camelcase
     _emscripten_memcpy_big: /* istanbul ignore next */ (
       dest: number,
       src: number,
       num: number
     ) => {
-      // tslint:disable-next-line:no-expression-statement
       heapU8.set(heapU8.subarray(src, src + num), dest);
       return dest;
     },
@@ -347,17 +347,17 @@ export const instantiateSecp256k1WasmBytes = async (
       }),
       tableBase: 0
     },
-    global: { NaN, Infinity }
+    global: { Infinity, NaN }
   };
 
   return WebAssembly.instantiate(webassemblyBytes, info).then(result => {
-    //
-    // tslint:disable-next-line:no-expression-statement no-unsafe-any
-    getErrNoLocation = result.instance.exports.___errno_location;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getErrNoLocation = result.instance.exports.___errno_location as any;
 
     return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);
   });
 };
+/* eslint-enable functional/immutable-data, functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/no-conditional-statement, no-bitwise, functional/no-throw-statement */
 
 export const getEmbeddedSecp256k1Binary = () =>
   base64ToBin(secp256k1Base64Bytes).buffer;

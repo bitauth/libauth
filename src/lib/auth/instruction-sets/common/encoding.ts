@@ -12,16 +12,12 @@ const enum PublicKey {
 
 export const isValidUncompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
   publicKey.length === PublicKey.uncompressedByteLength &&
-  publicKey[0] === PublicKey.uncompressedHeaderByte
-    ? true
-    : false;
+  publicKey[0] === PublicKey.uncompressedHeaderByte;
 
 export const isValidCompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
   publicKey.length === PublicKey.compressedByteLength &&
   (publicKey[0] === PublicKey.compressedHeaderByteEven ||
-    publicKey[0] === PublicKey.compressedHeaderByteOdd)
-    ? true
-    : false;
+    publicKey[0] === PublicKey.compressedHeaderByteOdd);
 
 export const isValidPublicKeyEncoding = (publicKey: Uint8Array) =>
   isValidCompressedPublicKeyEncoding(publicKey) ||
@@ -46,12 +42,12 @@ const enum DER {
   sequenceLengthByte = 1,
   integerTagByte = 1,
   integerLengthByte = 1,
-  // tslint:disable-next-line: restrict-plus-operands
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   sequenceMetadataBytes = sequenceTagByte + sequenceLengthByte,
-  // tslint:disable-next-line: restrict-plus-operands
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   integerMetadataBytes = integerTagByte + integerLengthByte,
   minimumSValueBytes = 1,
-  // tslint:disable-next-line: restrict-plus-operands
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   minimumNonRValueBytes = sequenceMetadataBytes +
     integerMetadataBytes +
     integerMetadataBytes +
@@ -63,7 +59,7 @@ const enum Mask {
 }
 
 const isNegative = (value: number) =>
-  // tslint:disable-next-line:no-bitwise
+  // eslint-disable-next-line no-bitwise
   (value & Mask.negative) !== 0;
 
 const hasUnnecessaryPadding = (
@@ -111,8 +107,7 @@ const isValidInteger = (
  * S-length: 1-byte length descriptor of the S value that follows.
  * S: arbitrary-length big-endian encoded S value. The same rules apply.
  */
-// TODO: unit test cases
-// tslint:disable-next-line:cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
   const correctLengthRange =
     signature.length > DER.minimumLength &&
@@ -123,7 +118,6 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
     signature[DER.sequenceLengthIndex] ===
     signature.length - DER.sequenceMetadataBytes;
   const rLength = signature[DER.rLengthIndex] as number | undefined;
-  // tslint:disable-next-line: no-if-statement
   if (rLength === undefined) {
     return false;
   }
@@ -135,10 +129,9 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
     rLength,
     DER.rValueIndex
   );
-  const sTagIndex = DER.rValueIndex + rLength; // tslint:disable-line: restrict-plus-operands
+  const sTagIndex = DER.rValueIndex + rLength; // eslint-disable-line @typescript-eslint/restrict-plus-operands
   const sLengthIndex = sTagIndex + 1;
   const sLength = signature[sLengthIndex] as number | undefined;
-  // tslint:disable-next-line: no-if-statement
   if (sLength === undefined) {
     return false;
   }

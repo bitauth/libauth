@@ -1,17 +1,8 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable @typescript-eslint/no-magic-numbers, functional/no-expression-statement */
 import test from 'ava';
 import * as fc from 'fast-check';
 
 import { hexToBin, splitEvery } from '../utils/hex';
-
-const maxUint8Number = 255;
-const fcUint8Array = (length: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), length, length)
-    .map(a => Uint8Array.from(a));
-
-const lowercaseLetter = () =>
-  fc.integer(97, 122).map(i => String.fromCharCode(i));
 
 import { BitRegroupingError } from './bech32';
 import {
@@ -35,6 +26,15 @@ import {
   maskCashAddressPrefix
 } from './cash-address';
 import * as cashAddrJson from './fixtures/cashaddr.json';
+
+const maxUint8Number = 255;
+const fcUint8Array = (length: number) =>
+  fc
+    .array(fc.integer(0, maxUint8Number), length, length)
+    .map(a => Uint8Array.from(a));
+
+const lowercaseLetter = () =>
+  fc.integer(97, 122).map(i => String.fromCharCode(i));
 
 const cashAddressTestVectors = Object.values(cashAddrJson).filter(
   item => !Array.isArray(item)
@@ -145,11 +145,10 @@ test('decodeCashAddress: works', t => {
   const result = decodeCashAddress(
     'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'
   );
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (typeof result === 'string') {
     t.log(result);
     t.fail();
-    return undefined;
   }
   t.deepEqual(result, { hash, prefix: 'bchtest', type: 0 });
   t.deepEqual(
@@ -238,17 +237,16 @@ test('decodeCashAddress: works', t => {
     decodeCashAddress('bitcoincash:qu2azmyyv6dtgczexyalqar70q036yund53an46hf6'),
     CashAddressDecodingError.mismatchedHashLength
   );
-  return undefined;
 });
 
 test('CashAddress test vectors', t => {
-  cashAddressTestVectors.map(vector => {
-    const cashaddr = vector.cashaddr;
-    const prefix = cashaddr.split(':')[0];
+  cashAddressTestVectors.forEach(vector => {
+    const { cashaddr } = vector;
+    const [prefix] = cashaddr.split(':');
     const payload = hexToBin(vector.payload);
     const type = vector.type as CashAddressAvailableTypes;
     const encodeResult = encodeCashAddress(prefix, type, payload);
-    // tslint:disable-next-line: no-if-statement
+    // eslint-disable-next-line functional/no-conditional-statement
     if (cashaddr !== encodeResult) {
       t.log('expected vector', vector.cashaddr);
       t.log('type', type);
@@ -259,11 +257,10 @@ test('CashAddress test vectors', t => {
     t.deepEqual(vector.cashaddr, encodeResult);
 
     const decodeResult = decodeCashAddress(cashaddr);
-    // tslint:disable-next-line: no-if-statement
+    // eslint-disable-next-line functional/no-conditional-statement
     if (typeof decodeResult === 'string') {
       t.log(decodeResult);
       t.fail();
-      return;
     }
     t.deepEqual(decodeResult, { hash: payload, prefix, type });
   });
@@ -327,7 +324,7 @@ test('encodeCashAddress <-> decodeCashAddress', t => {
           decodeCashAddress(
             encodeCashAddress(prefix, type as CashAddressAvailableTypes, hash)
           ),
-          { prefix, hash, type }
+          { hash, prefix, type }
         );
       }
     );
@@ -392,11 +389,13 @@ test('attemptCashAddressErrorCorrection', t => {
         );
         const addressChars = splitEvery(address, 1);
         const errors = [
-          ...new Set(randomErrors.filter(i => i !== prefix.length).sort())
+          ...new Set(
+            randomErrors.filter(i => i !== prefix.length).sort((a, b) => a - b)
+          )
         ];
         const broken = addressChars
           .map((char, i) =>
-            errors.indexOf(i) !== -1 ? (char === 'q' ? 'p' : 'q') : char
+            errors.includes(i) ? (char === 'q' ? 'p' : 'q') : char
           )
           .join('');
 

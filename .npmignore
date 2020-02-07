@@ -13,8 +13,9 @@ src/
 test/
 wasm/
 .ava.bench.config.js
+.cspell.json
 .dockerignore
 .prettierignore
 tsconfig.json
-tslint.json
+.eslintrc.json
 yarn.lock

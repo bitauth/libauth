@@ -1,12 +1,13 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test from 'ava';
 
-import { AuthenticationInstruction } from './instruction-sets/instruction-sets';
-import { MinimumProgramState, StackState } from './state';
 import {
+  AuthenticationInstruction,
   createAuthenticationVirtualMachine,
-  InstructionSet
-} from './virtual-machine';
+  InstructionSet,
+  MinimumProgramState,
+  StackState
+} from '../lib';
 
 enum simpleOps {
   OP_0 = 0,
@@ -21,11 +22,10 @@ enum SimpleError {
 }
 
 interface SimpleProgram {
-  instructions: ReadonlyArray<AuthenticationInstruction<simpleOps>>;
+  instructions: readonly AuthenticationInstruction<simpleOps>[];
 }
 
 interface SimpleProgramState extends MinimumProgramState, StackState<number> {
-  // tslint:disable-next-line:readonly-keyword
   error?: SimpleError;
 }
 
@@ -34,7 +34,7 @@ const simpleInstructionSet: InstructionSet<
   SimpleProgramState
 > = {
   clone: state => ({
-    ...(state.error !== undefined ? { error: state.error } : {}),
+    ...(state.error === undefined ? {} : { error: state.error }),
     instructions: state.instructions.slice(),
     ip: state.ip,
     stack: state.stack.slice()
@@ -52,42 +52,40 @@ const simpleInstructionSet: InstructionSet<
     },
     [simpleOps.OP_INCREMENT]: state => {
       const top = state.stack.pop();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       top === undefined
-        ? // tslint:disable-next-line:no-object-mutation
-          (state.error = SimpleError.EMPTY_STACK)
+        ? (state.error = SimpleError.EMPTY_STACK)
         : state.stack.push(top + 1);
       return state;
     },
     [simpleOps.OP_DECREMENT]: state => {
       const top = state.stack.pop();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       top === undefined
-        ? // tslint:disable-next-line:no-object-mutation
-          (state.error = SimpleError.EMPTY_STACK)
+        ? (state.error = SimpleError.EMPTY_STACK)
         : state.stack.push(top - 1);
       return state;
     },
     [simpleOps.OP_ADD]: state => {
       const a = state.stack.pop();
       const b = state.stack.pop();
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       a === undefined || b === undefined
-        ? // tslint:disable-next-line:no-object-mutation
-          (state.error = SimpleError.EMPTY_STACK)
+        ? (state.error = SimpleError.EMPTY_STACK)
         : state.stack.push(a + b);
       return state;
     }
   },
   undefined: state => {
-    // tslint:disable-next-line:no-object-mutation
     state.error = SimpleError.UNDEFINED;
     return state;
   },
   verify: state => state.stack[state.stack.length - 1] === 1
 };
-// tslint:enable: no-object-mutation
 
 const vm = createAuthenticationVirtualMachine(simpleInstructionSet);
 
-const instructions: ReadonlyArray<AuthenticationInstruction<simpleOps>> = [
+const instructions: readonly AuthenticationInstruction<simpleOps>[] = [
   { opcode: simpleOps.OP_0 },
   { opcode: simpleOps.OP_INCREMENT },
   { opcode: simpleOps.OP_INCREMENT },

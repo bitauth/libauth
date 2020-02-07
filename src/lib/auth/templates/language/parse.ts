@@ -1,10 +1,11 @@
 import * as P from './parsimmon.js';
 
 /**
- * TODO: @types/parsimmon is not in use because of some early hacks. Ideally,
+ * TODO: `@types/parsimmon` is not in use because of some early hacks. Ideally,
  * this can be cleaned up by converting parsimmon.js to TypeScript, and trimming
  * out the parts we don't need.
  */
+/* eslint-disable sort-keys */
 const authenticationScriptParser = P.createLanguage({
   script: r =>
     P.seqMap(
@@ -13,7 +14,6 @@ const authenticationScriptParser = P.createLanguage({
       P.optWhitespace,
       (_, expressions) => expressions
     ),
-  // tslint:disable-next-line: object-literal-sort-keys
   expression: r =>
     P.alt(
       r.comment,
@@ -25,16 +25,16 @@ const authenticationScriptParser = P.createLanguage({
       r.identifier
     ),
   comment: r => P.alt(r.singleLineComment, r.multiLineComment).node('Comment'),
-  singleLineComment: _ =>
+  singleLineComment: () =>
     P.seqMap(
       P.string('//').desc("the start of a single-line comment ('//')"),
-      P.regexp(/[^\n]*/),
+      P.regexp(/[^\n]*/u),
       (__, comment) => comment.trim()
     ),
-  multiLineComment: _ =>
+  multiLineComment: () =>
     P.seqMap(
       P.string('/*').desc("the start of a multi-line comment ('/*')"),
-      P.regexp(/[\s\S]*(?=\*\/)/).desc(
+      P.regexp(/[\s\S]*(?=\*\/)/u).desc(
         "the end of this multi-line comment ('*/')"
       ),
       P.string('*/'),
@@ -45,7 +45,6 @@ const authenticationScriptParser = P.createLanguage({
       P.string('<').desc("the start of a push statement ('<')"),
       r.script,
       P.string('>').desc("the end of this push statement ('>')"),
-      // tslint:disable-next-line: no-unsafe-any
       (_, push) => push
     ).node('Push'),
   evaluation: r =>
@@ -54,40 +53,40 @@ const authenticationScriptParser = P.createLanguage({
       P.string('(').desc("the opening parenthesis of this evaluation ('(')"),
       r.script,
       P.string(')').desc("the closing parenthesis of this evaluation (')')"),
-      // tslint:disable-next-line: no-unsafe-any
       (_, __, evaluation) => evaluation
     ).node('Evaluation'),
-  identifier: _ =>
-    P.regexp(/[a-zA-Z_][\.a-zA-Z0-9_-]*/)
+  identifier: () =>
+    P.regexp(/[a-zA-Z_][.a-zA-Z0-9_-]*/u)
       .desc('a valid identifier')
       .node('Identifier'),
-  utf8: _ =>
+  utf8: () =>
     P.alt(
       P.seqMap(
         P.string('"').desc('a double quote (")'),
-        P.regexp(/[^"]*/),
+        P.regexp(/[^"]*/u),
         P.string('"').desc('a closing double quote (")'),
         (__, literal) => literal
       ),
       P.seqMap(
         P.string("'").desc("a single quote (')"),
-        P.regexp(/[^']*/),
+        P.regexp(/[^']*/u),
         P.string("'").desc("a closing single quote (')"),
         (__, literal) => literal
       )
     ).node('UTF8Literal'),
-  hex: _ =>
+  hex: () =>
     P.seqMap(
       P.string('0x').desc("a hex literal ('0x...')"),
-      P.regexp(/(?:[0-9a-f]{2})+/i).desc('a valid hexadecimal string'),
+      P.regexp(/(?:[0-9a-f]{2})+/iu).desc('a valid hexadecimal string'),
       (__, literal) => literal
     ).node('HexLiteral'),
-  bigint: _ =>
-    P.regexp(/-?[0-9]+/)
+  bigint: () =>
+    P.regexp(/-?[0-9]+/u)
       .desc('an integer literal')
       .map(BigInt)
       .node('BigIntLiteral')
 });
+/* eslint-enable sort-keys */
 
 export interface SourcePosition {
   column: number;
@@ -129,7 +128,7 @@ interface BtlRecursiveSegment extends BitauthTemplatingLanguageSegment {
 
 export interface BtlScriptSegment extends BitauthTemplatingLanguageSegment {
   name: 'Script';
-  value: Array<BtlRecursiveSegment | BtlBigIntSegment | BtlStringSegment>;
+  value: (BtlRecursiveSegment | BtlBigIntSegment | BtlStringSegment)[];
 }
 
 export type ParseResult =

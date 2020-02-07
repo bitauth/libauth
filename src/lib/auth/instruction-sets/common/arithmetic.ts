@@ -24,7 +24,6 @@ export const op1Add = <
   useOneScriptNumber(
     state,
     (nextState, value) =>
-      // tslint:disable-next-line: restrict-plus-operands
       pushToStack(nextState, bigIntToScriptNumber(value + BigInt(1))),
     flags.requireMinimalEncoding
   );
@@ -96,9 +95,9 @@ export const op0NotEqual = <
     (nextState, value) =>
       pushToStack(
         nextState,
-        value !== BigInt(0)
-          ? bigIntToScriptNumber(BigInt(1))
-          : bigIntToScriptNumber(BigInt(0))
+        value === BigInt(0)
+          ? bigIntToScriptNumber(BigInt(0))
+          : bigIntToScriptNumber(BigInt(1))
       ),
     flags.requireMinimalEncoding
   );
@@ -112,7 +111,6 @@ export const opAdd = <
   useTwoScriptNumbers(
     state,
     (nextState, firstValue, secondValue) =>
-      // tslint:disable-next-line: restrict-plus-operands
       pushToStack(nextState, bigIntToScriptNumber(firstValue + secondValue)),
     flags.requireMinimalEncoding
   );

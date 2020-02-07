@@ -1,32 +1,33 @@
-// tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
+/* eslint-disable functional/no-expression-statement */
 import test, { Macro } from 'ava';
 
-import { instantiateSecp256k1, instantiateSha256 } from '../../../lib';
-import { hexToBin, stringify } from '../../../utils/utils';
 import {
   AuthenticationProgramStateBCH,
   CompilationData,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  generateBytecodeMap,
-  instantiateVirtualMachineBCH,
-  instructionSetBCHCurrentStrict,
-  OpcodesBCH
-} from '../../auth';
-
-import {
   CompilerOperationDataBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
   createStateCompilerBCH,
-  getCompilerOperationsBCH
-} from './compiler';
+  generateBytecodeMap,
+  getCompilerOperationsBCH,
+  hexToBin,
+  instantiateSecp256k1,
+  instantiateSha256,
+  instantiateVirtualMachineBCH,
+  instructionSetBCHCurrentStrict,
+  OpcodesBCH,
+  stringify
+} from '../../../lib';
 
 const sha256Promise = instantiateSha256();
 const secp256k1Promise = instantiateSecp256k1();
 const vmPromise = instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict);
 
-const expectCompilationResult: Macro<
-  [string, CompilationData<CompilerOperationDataBCH>, object]
-> = async (t, testScript, otherData = {}, expectedResult) => {
+const expectCompilationResult: Macro<[
+  string,
+  CompilationData<CompilerOperationDataBCH>,
+  object
+]> = async (t, testScript, otherData, expectedResult) => {
   const sha256 = await sha256Promise;
   const secp256k1 = await secp256k1Promise;
   const vm = await vmPromise;

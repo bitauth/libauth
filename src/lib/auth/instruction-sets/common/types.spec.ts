@@ -1,20 +1,20 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
-
-import { binToHex, hexToBin } from '../../../utils/utils';
 
 import {
   bigIntToScriptNumber,
+  binToHex,
   booleanToScriptNumber,
+  hexToBin,
   parseBytesAsScriptNumber,
   ScriptNumberError,
   stackItemIsTruthy
-} from './common';
+} from '../../../lib';
 
 /**
  * Derived from https://github.com/bitcoinjs/bitcoinjs-lib
  */
-const minimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
+const minimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['', BigInt(0)],
   ['01', BigInt(1)],
   ['02', BigInt(2)],
@@ -64,7 +64,7 @@ const minimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
   ['81', BigInt(-1)]
 ];
 
-const nonMinimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
+const nonMinimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['00', BigInt(0)],
   ['0000', BigInt(0)],
   ['80', BigInt(0)],
@@ -76,7 +76,7 @@ const nonMinimallyEncodedScriptNumbers: ReadonlyArray<[string, bigint]> = [
   ['abcdef4280', BigInt(-1123012011)]
 ];
 
-const equivalentScriptNumbers: ReadonlyArray<[string, string]> = [
+const equivalentScriptNumbers: readonly [string, string][] = [
   ['01020380', '010283'],
   ['0102030480', '01020384'],
   ['abcdef4280', 'abcdefc2']
@@ -89,6 +89,7 @@ test('parseBytesAsScriptNumber', t => {
         parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
         pair[1]
       );
+      return undefined;
     }
   );
   nonMinimallyEncodedScriptNumbers.map(pair => {
@@ -96,12 +97,14 @@ test('parseBytesAsScriptNumber', t => {
       parseBytesAsScriptNumber(hexToBin(pair[0]), true, 5),
       ScriptNumberError.requiresMinimal
     );
+    return undefined;
   });
   equivalentScriptNumbers.map(pair => {
     t.deepEqual(
       parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
       parseBytesAsScriptNumber(hexToBin(pair[1]), true, 5)
     );
+    return undefined;
   });
   t.deepEqual(
     parseBytesAsScriptNumber(hexToBin('abcdef1234'), true, 4),
@@ -116,6 +119,7 @@ test('parseBytesAsScriptNumber', t => {
 test('bigIntToScriptNumber', t => {
   minimallyEncodedScriptNumbers.map(pair => {
     t.deepEqual(binToHex(bigIntToScriptNumber(pair[1])), pair[0]);
+    return undefined;
   });
 });
 

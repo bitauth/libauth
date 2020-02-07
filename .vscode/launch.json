@@ -1,28 +1,30 @@
 {
   "version": "0.2.0",
   "configurations": [
+    // To debug, make sure a *.spec.ts file is active in the editor, then run a configuration
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Visible Spec",
-      "program": "${workspaceRoot}/.vscode/debug-ava-spec.js",
-      "args": ["${file}"],
+      "name": "Debug Active Spec",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
+      "runtimeArgs": ["debug", "--break", "--serial", "${file}"],
+      "port": 9229,
+      "outputCapture": "std",
       "skipFiles": ["<node_internals>/**/*.js"],
-      // Consider using `yarn watch` for faster debugging
-      // "preLaunchTask": "npm: build",
-      // "smartStep": true,
-      "runtimeArgs": ["--nolazy", "--preserve-symlinks"]
+      "preLaunchTask": "npm: build"
+      // "smartStep": true
     },
     {
-      "name": "Debug Bitcoin Cash Instruction Set (requires yarn watch)",
+      // Use this one if you're already running `yarn watch`
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/src/lib/auth/instruction-sets/bitcoin-cash/bitcoin-cash.spec.debug.ts",
-      "outFiles": ["${workspaceFolder}/build/main/**/*.js"],
-      // "skipFiles": ["<node_internals>/**/*.js"],
-      // Consider commenting out the line below and using `yarn watch` instead for faster debugging
-      // "preLaunchTask": "npm: build",
-      "runtimeArgs": ["--nolazy", "--preserve-symlinks"]
+      "name": "Debug Active Spec (no build)",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
+      "runtimeArgs": ["debug", "--break", "--serial", "${file}"],
+      "port": 9229,
+      "outputCapture": "std",
+      "skipFiles": ["<node_internals>/**/*.js"]
+      // "smartStep": true
     }
   ]
 }

@@ -1,26 +1,22 @@
-// tslint:disable:no-expression-statement no-magic-numbers max-file-line-count
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test, { Macro } from 'ava';
 
 import {
-  instantiateSecp256k1,
-  instantiateSha256
-} from '../../../crypto/crypto';
-import { hexToBin, stringify } from '../../../utils/utils';
-import {
   AuthenticationProgramStateBCH,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  generateBytecodeMap,
-  instantiateVirtualMachineBCH,
-  instructionSetBCHCurrentStrict,
-  OpcodesBCH
-} from '../../auth';
-
-import {
   CompilerOperationDataBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
   createStateCompilerBCH,
-  getCompilerOperationsBCH
-} from './compiler';
+  generateBytecodeMap,
+  getCompilerOperationsBCH,
+  hexToBin,
+  instantiateSecp256k1,
+  instantiateSha256,
+  instantiateVirtualMachineBCH,
+  instructionSetBCHCurrentStrict,
+  OpcodesBCH,
+  stringify
+} from '../../../lib';
 
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
@@ -65,7 +61,7 @@ const signingSerializationType: Macro<[string, string]> = async (
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
     success: true
   });
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
     const resultUnlock = compiler.generate('unlock', {
       keys: { privateKeys: { a: privkey } },

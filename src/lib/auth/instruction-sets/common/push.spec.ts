@@ -1,9 +1,12 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable @typescript-eslint/no-magic-numbers, functional/no-expression-statement */
 import test from 'ava';
 
-import { hexToBin, range } from '../../../utils/utils';
-
-import { encodeDataPush, PushOperationConstants } from './push';
+import {
+  encodeDataPush,
+  hexToBin,
+  PushOperationConstants,
+  range
+} from '../../../lib';
 
 const prefixDataPushVectors = [
   ['', '00'],
@@ -35,6 +38,7 @@ const prefixDataPushVectors = [
 test('prefixDataPush', t => {
   prefixDataPushVectors.map(([inputHex, outputHex]) => {
     t.deepEqual(encodeDataPush(hexToBin(inputHex)), hexToBin(outputHex));
+    return undefined;
   });
   t.deepEqual(
     encodeDataPush(

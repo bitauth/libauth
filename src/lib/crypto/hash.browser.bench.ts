@@ -1,42 +1,44 @@
-// tslint:disable:no-expression-statement no-unsafe-any
-import test from 'ava';
+/* eslint-disable functional/no-expression-statement */
 import { join } from 'path';
+
+import alias from '@rollup/plugin-alias';
+import test from 'ava';
 import { launch } from 'puppeteer';
 import { rollup } from 'rollup';
-import alias from 'rollup-plugin-alias';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 
 const prepareCode = async () => {
-  // tslint:disable-next-line:no-unbound-method no-console
+  // eslint-disable-next-line no-console
   const realConsoleWarn = console.warn;
   /**
    * Suppress Rollup warning: `Use of eval is strongly discouraged, as it poses
    * security risks and may cause issues with minification`
    */
-  // tslint:disable-next-line:no-object-mutation no-console
+  // eslint-disable-next-line no-console, functional/immutable-data
   console.warn = (suppress: string) => suppress;
 
   const bundle = await rollup({
-    // TODO: remove after https://github.com/rollup/rollup/pull/2348 lands
-    inlineDynamicImports: false,
+    // eslint-disable-next-line no-undef
     input: join(__dirname, 'hash.browser.bench.helper.js'),
     plugins: [
       alias({
-        chuhai: './../../../bench/chuhai.js',
-        'hash.js': './../../../bench/hash.js'
+        entries: {
+          chuhai: './../../../bench/chuhai.js',
+          'hash.js': './../../../bench/hash.js'
+        }
       }),
       commonjs(),
       nodeResolve()
     ]
   });
-  // tslint:disable-next-line:no-object-mutation no-console
+  // eslint-disable-next-line no-console, require-atomic-updates, functional/immutable-data
   console.warn = realConsoleWarn;
 
-  const { code } = await bundle.generate({
+  const result = await bundle.generate({
     format: 'esm'
   });
-  return code;
+  return result.output[0].code;
 };
 
 const preparePage = async () => {
@@ -58,24 +60,27 @@ const preparePage = async () => {
 
   test(`# browser: ${await browser.version()}`, async t => {
     page.on('console', msg => {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.log(msg.text());
     });
     page.on('error', err => {
-      // tslint:disable-next-line:no-console
-      console.error(`error: ${err}`);
+      // eslint-disable-next-line no-console
+      console.error(`error: ${String(err)}`);
     });
+    // cspell: disable-next-line
     page.on('pageerror', err => {
-      // tslint:disable-next-line:no-console
-      console.error(`pageerror: ${err}`);
+      // eslint-disable-next-line no-console
+      console.error(`pageerror: ${String(err)}`); // cspell: disable-line
     });
+
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     await new Promise<void>(async resolve => {
       await page.exposeFunction('benchError', (error: string) => {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(error);
       });
       await page.exposeFunction('benchComplete', async () => {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.log('Browser benchmark complete, closing browser.');
         await browser.close();
         t.pass();
@@ -85,6 +90,6 @@ const preparePage = async () => {
     });
   });
 })().catch(err => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(err);
 });

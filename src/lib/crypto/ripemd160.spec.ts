@@ -1,11 +1,11 @@
-// tslint:disable:no-expression-statement no-magic-numbers
-import { testHashFunction } from './hash.spec.helper';
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import {
   getEmbeddedRipemd160Binary,
   instantiateRipemd160,
   instantiateRipemd160Bytes,
   Ripemd160
-} from './ripemd160';
+} from './../lib';
+import { testHashFunction } from './hash.spec.helper';
 
 // prettier-ignore
 const abcHash = new Uint8Array([142, 178, 8, 247, 224, 93, 152, 122, 155, 4, 74, 142, 152, 198, 176, 135, 241, 90, 11, 252]);

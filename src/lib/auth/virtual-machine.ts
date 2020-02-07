@@ -80,7 +80,7 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
    * If `stateEvaluate` is called multiple times, the intermediate results from
    * the first call will be appear before the results of the second call, etc.
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   evaluate: (
     program: AuthenticationProgram,
     stateEvaluate: (state: Readonly<ProgramState>) => ProgramState
@@ -91,7 +91,7 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
    * `AuthenticationVirtualMachine` encounters an instruction for the specified
    * `opcode`, the program state will be passed to the specified operation.
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   operations: InstructionSetOperationMapping<ProgramState>;
 
   /**
@@ -192,7 +192,6 @@ export const createAuthenticationVirtualMachine = <
 ): AuthenticationVirtualMachine<AuthenticationProgram, ProgramState> => {
   const availableOpcodes = 256;
   const operators = range(availableOpcodes).map(codepoint =>
-    // tslint:disable-next-line: strict-type-predicates
     instructionSet.operations[codepoint] === undefined
       ? instructionSet.undefined
       : instructionSet.operations[codepoint]
@@ -201,7 +200,7 @@ export const createAuthenticationVirtualMachine = <
   const getCodepoint = (state: ProgramState) => state.instructions[state.ip];
 
   const after = (state: ProgramState) => {
-    // tslint:disable-next-line:no-object-mutation no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     state.ip += 1;
     return state;
   };
@@ -222,15 +221,16 @@ export const createAuthenticationVirtualMachine = <
     state: ProgramState,
     stepFunction: (state: ProgramState) => ProgramState
   ) => {
+    // eslint-disable-next-line functional/no-loop-statement
     while (stateContinue(state)) {
-      // tslint:disable-next-line:no-parameter-reassignment no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, no-param-reassign
       state = stepFunction(state);
     }
     return state;
   };
 
   const clone = (state: ProgramState) => instructionSet.clone(state);
-  const verify = instructionSet.verify;
+  const { verify } = instructionSet;
 
   const stateEvaluate = (state: ProgramState) =>
     untilComplete(clone(state), stateStepMutate);
@@ -241,11 +241,11 @@ export const createAuthenticationVirtualMachine = <
   };
 
   const stateDebug = (state: ProgramState) => {
-    // tslint:disable-next-line:prefer-const no-let
-    let trace: ProgramState[] = [];
+    const trace: ProgramState[] = [];
+    // eslint-disable-next-line functional/no-expression-statement
     untilComplete(state, (currentState: ProgramState) => {
       const nextState = stateDebugStep(currentState);
-      // tslint:disable-next-line:no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       trace.push(nextState);
       return nextState;
     });
@@ -261,9 +261,12 @@ export const createAuthenticationVirtualMachine = <
     const results: ProgramState[] = [];
     const proxyDebug = (state: ProgramState) => {
       const debugResult = stateDebug(state);
-      // tslint:disable-next-line: no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       results.push(...debugResult);
-      return debugResult[debugResult.length - 1];
+      return (
+        (debugResult[debugResult.length - 1] as ProgramState | undefined) ??
+        state
+      );
     };
     const finalResult = instructionSet.evaluate(program, proxyDebug);
     return [...results, finalResult];

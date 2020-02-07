@@ -1,7 +1,7 @@
 import { Output, Transaction } from '../transaction';
 
 import { AuthenticationErrorCommon } from './instruction-sets/common/errors';
-import { AuthenticationInstruction } from './instruction-sets/instruction-sets';
+import { AuthenticationInstruction } from './instruction-sets/instruction-sets-types';
 
 /**
  * State which applies to every input in a given transaction.
@@ -72,13 +72,12 @@ export interface TransactionInputState extends TransactionState {
 }
 
 export interface MinimumProgramState<Opcodes = number> {
-  readonly instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>;
+  readonly instructions: readonly AuthenticationInstruction<Opcodes>[];
   /**
    * Instruction Pointer – the array index of `instructions` which will be read
    * to identify the next instruction. Once `ip` exceeds the last index of
    * `instructions` (`ip === instructions.length`), evaluation is complete.
    */
-  // tslint:disable-next-line:readonly-keyword
   ip: number;
 }
 
@@ -111,7 +110,6 @@ export interface ErrorState<
   InstructionSetError,
   CommonError = AuthenticationErrorCommon
 > {
-  // tslint:disable-next-line:readonly-keyword
   error?: CommonError | InstructionSetError;
 }
 
@@ -121,7 +119,7 @@ export interface AuthenticationProgramCommon {
   spendingTransaction: Transaction;
 }
 
-// tslint:disable-next-line:no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthenticationProgramExternalStateCommon
   extends TransactionInputState {}
 
@@ -146,11 +144,8 @@ export interface AuthenticationProgramInternalStateCommon<
    * By default, this is `-1`, which indicates that the whole `instructions`
    * array is included in the signing serialization.
    */
-  // tslint:disable-next-line:readonly-keyword
   lastCodeSeparator: number;
-  // tslint:disable-next-line:readonly-keyword
   operationCount: number;
-  // tslint:disable-next-line:readonly-keyword
   signatureOperationsCount: number;
 }
 

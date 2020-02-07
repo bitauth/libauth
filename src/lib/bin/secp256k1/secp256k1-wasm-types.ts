@@ -1,6 +1,10 @@
-// bitflags used in secp256k1's public API (translated from secp256k1.h)
+// cSpell:ignore noncefp, ndata, outputlen
 
-// tslint:disable:no-bitwise no-magic-numbers
+/**
+ * bitflags used in secp256k1's public API (translated from secp256k1.h)
+ */
+
+/* eslint-disable no-bitwise, @typescript-eslint/no-magic-numbers */
 /** All flags' lower 8 bits indicate what they're for. Do not use directly. */
 // const SECP256K1_FLAGS_TYPE_MASK = (1 << 8) - 1;
 const SECP256K1_FLAGS_TYPE_CONTEXT = 1 << 0;
@@ -21,13 +25,6 @@ const SECP256K1_CONTEXT_NONE = SECP256K1_FLAGS_TYPE_CONTEXT;
 const SECP256K1_EC_COMPRESSED =
   SECP256K1_FLAGS_TYPE_COMPRESSION | SECP256K1_FLAGS_BIT_COMPRESSION;
 const SECP256K1_EC_UNCOMPRESSED = SECP256K1_FLAGS_TYPE_COMPRESSION;
-
-// /** Prefix byte used to tag various encoded curvepoints for specific purposes */
-// const SECP256K1_TAG_PUBKEY_EVEN = 0x02;
-// const SECP256K1_TAG_PUBKEY_ODD = 0x03;
-// const SECP256K1_TAG_PUBKEY_UNCOMPRESSED = 0x04;
-// const SECP256K1_TAG_PUBKEY_HYBRID_EVEN = 0x06;
-// const SECP256K1_TAG_PUBKEY_HYBRID_ODD = 0x07;
 
 /**
  * Flag to pass to a Secp256k1.contextCreate method.
@@ -56,7 +53,7 @@ export enum CompressionFlag {
   COMPRESSED = SECP256K1_EC_COMPRESSED as 258,
   UNCOMPRESSED = SECP256K1_EC_UNCOMPRESSED as 2
 }
-// tslint:enable:no-bitwise no-magic-numbers
+/* eslint-enable no-bitwise, @typescript-eslint/no-magic-numbers */
 
 /**
  * An object which wraps the WebAssembly implementation of `libsecp256k1`.
@@ -112,7 +109,7 @@ export interface Secp256k1Wasm {
    */
   readonly free: (pointer: number) => number;
 
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   readonly heapU32: Uint32Array;
   readonly heapU8: Uint8Array;
   readonly instance: WebAssembly.Instance;
@@ -121,7 +118,7 @@ export interface Secp256k1Wasm {
    * Allocates the given number of bytes in WebAssembly memory.
    * @param malloc the number of bytes to allocate
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   readonly malloc: (bytes: number) => number;
 
   /**
@@ -206,7 +203,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyOutPtr: number,
     publicKeyInPtr: number,
-    // tslint:disable-next-line:no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     publicKeyInLength: 33 | 65
   ) => 1 | 0;
 
@@ -542,9 +539,7 @@ export interface Secp256k1Wasm {
   readonly signatureParseDER: (
     contextPtr: number,
     sigOutPtr: number,
-    // tslint:disable-next-line:variable-name
     sigDERInPtr: number,
-    // tslint:disable-next-line:variable-name
     sigDERInLength: number
   ) => 1 | 0;
 

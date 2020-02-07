@@ -1,5 +1,7 @@
 import { binToHex } from './hex';
 
+const defaultStringifySpacing = 2;
+
 /**
  * A safe method to `JSON.stringify` a value, useful for debugging and logging
  * purposes.
@@ -21,16 +23,15 @@ import { binToHex } from './hex';
  * @param value the data to serialize
  * @param spacing the number of spaces to use in
  */
-// tslint:disable-next-line: no-any
-export const stringify = (value: any, spacing = 2) =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const stringify = (value: any, spacing = defaultStringifySpacing) =>
   JSON.stringify(
     value,
-    // tslint:disable-next-line:cyclomatic-complexity
+    // eslint-disable-next-line complexity
     (_, item) => {
       const type = typeof item;
       const name =
-        // tslint:disable-next-line: no-unsafe-any
-        type === 'object' ? item.constructor && item.constructor.name : type;
+        type === 'object' ? (item.constructor?.name as string) : type;
       switch (name) {
         case 'Uint8Array':
           return `<Uint8Array: 0x${binToHex(item as Uint8Array)}>`;
@@ -38,7 +39,6 @@ export const stringify = (value: any, spacing = 2) =>
           return `<bigint: ${(item as bigint).toString()}n>`;
         case 'function':
         case 'symbol':
-          // tslint:disable-next-line: ban-types
           return `<${name}: ${(item as symbol | Function).toString()}>`;
 
         default:

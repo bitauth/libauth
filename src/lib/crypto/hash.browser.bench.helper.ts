@@ -1,4 +1,5 @@
-// tslint:disable:no-expression-statement no-unsafe-any
+/* global window, crypto */
+/* eslint-disable functional/no-let, init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
 import * as asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
 import * as hashJs from 'hash.js';
@@ -12,19 +13,19 @@ import {
   instantiateSha512
 } from './crypto';
 
+// eslint-disable-next-line functional/no-return-void
 declare const benchError: (error: string) => void;
+// eslint-disable-next-line functional/no-return-void
 declare const benchComplete: () => void;
 
-// tslint:disable-next-line:no-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isUint8Array = (array: any): array is Uint8Array =>
-  array && array.constructor.name === 'Uint8Array';
+  array?.constructor?.name === 'Uint8Array';
 
 const compare = (a?: Uint8Array, b?: Uint8Array) => {
-  // tslint:disable-next-line:no-if-statement
   if (!isUint8Array(a) || !isUint8Array(b) || a.toString() !== b.toString()) {
-    benchError(`
-  Invalid result: ${a} is not equal to ${b}
-  `);
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    benchError(`\nInvalid result: ${a} is not equal to ${b}\n`);
   }
 };
 
@@ -38,18 +39,16 @@ const singlePassBrowserBenchmark = async (
   subtleCryptoAlgorithmName?: 'SHA-1' | 'SHA-256' | 'SHA-512'
 ) =>
   suite(`browser: ${hashFunctionName}: hash a ${inputLength}-byte input`, s => {
-    // tslint:disable:no-let prefer-const
     let message = randomBytes(inputLength);
     let hash: Uint8Array | null;
 
     s.cycle(() => {
-      // tslint:disable-next-line:no-if-statement strict-boolean-expressions
-      if (hash) {
-        compare(hash, hashFunction.hash(message));
-      } else {
+      if (hash === null) {
         benchError(
-          `asmcrypto.js produced a null result given message: ${message}`
+          `asmcrypto.js produced a null result given message: ${message.toString()}`
         );
+      } else {
+        compare(hash, hashFunction.hash(message));
       }
       message = randomBytes(inputLength);
     });
@@ -66,11 +65,11 @@ const singlePassBrowserBenchmark = async (
       );
     });
 
-    // tslint:disable-next-line:no-if-statement
-    if (subtleCryptoAlgorithmName) {
+    if (typeof subtleCryptoAlgorithmName === 'string') {
       s.bench(
         'crypto.subtle',
         deferred => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           window.crypto.subtle
             .digest(subtleCryptoAlgorithmName, message)
             .then(buffer => {
@@ -82,14 +81,14 @@ const singlePassBrowserBenchmark = async (
           defer: true
         }
       );
-      const algorithm =
+      const Algorithm =
         subtleCryptoAlgorithmName === 'SHA-1'
           ? asmCrypto.Sha1
           : subtleCryptoAlgorithmName === 'SHA-256'
           ? asmCrypto.Sha256
           : asmCrypto.Sha512;
       s.bench('asmcrypto.js', () => {
-        const instance = new algorithm();
+        const instance = new Algorithm();
         hash = instance.process(message).finish().result;
       });
     }
@@ -108,8 +107,8 @@ const incrementalBrowserBenchmark = async (
       MB}MB input in ${chunkSize / MB}MB chunks`,
     s => {
       let message: Uint8Array;
-      let messageChunks: ReadonlyArray<Uint8Array>;
-      let hash: Uint8Array | ArrayBuffer | ReadonlyArray<number> | null;
+      let messageChunks: readonly Uint8Array[];
+      let hash: Uint8Array | ArrayBuffer | readonly number[] | null;
 
       const nextCycle = () => {
         /**
@@ -124,13 +123,12 @@ const incrementalBrowserBenchmark = async (
       nextCycle();
 
       s.cycle(() => {
-        // tslint:disable-next-line:no-if-statement strict-boolean-expressions
-        if (hash) {
-          compare(new Uint8Array(hash), hashFunction.hash(message));
-        } else {
+        if (hash === null) {
           benchError(
-            `asmcrypto.js produced a null result given message: ${message}`
+            `asmcrypto.js produced a null result given message: ${message.toString()}`
           );
+        } else {
+          compare(new Uint8Array(hash), hashFunction.hash(message));
         }
         nextCycle();
       });
@@ -153,16 +151,15 @@ const incrementalBrowserBenchmark = async (
           .digest();
       });
 
-      // tslint:disable-next-line:no-if-statement
       if (hashFunctionName !== 'ripemd160') {
-        const algorithm =
+        const Algorithm =
           hashFunctionName === 'sha1'
             ? asmCrypto.Sha1
             : hashFunctionName === 'sha256'
             ? asmCrypto.Sha256
             : asmCrypto.Sha512;
         s.bench('asmcrypto.js', () => {
-          const instance = new algorithm();
+          const instance = new Algorithm();
           hash = instance.process(message).finish().result;
         });
       }
@@ -174,13 +171,14 @@ const browserBenchmarks = async (
   name: 'ripemd160' | 'sha1' | 'sha256' | 'sha512',
   subtle?: 'SHA-1' | 'SHA-256' | 'SHA-512'
 ) => {
-  // tslint:disable:no-magic-numbers
+  /* eslint-disable @typescript-eslint/no-magic-numbers */
   await singlePassBrowserBenchmark(func, name, 32, subtle);
   await singlePassBrowserBenchmark(func, name, 100, subtle);
   await singlePassBrowserBenchmark(func, name, 1_000, subtle);
   await singlePassBrowserBenchmark(func, name, 10_000, subtle);
 
   await incrementalBrowserBenchmark(func, name, MB * 32, MB);
+  /* eslint-enable @typescript-eslint/no-magic-numbers */
 };
 
 (async () => {
@@ -196,6 +194,6 @@ const browserBenchmarks = async (
 
   benchComplete();
 })().catch(err => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(err);
 });

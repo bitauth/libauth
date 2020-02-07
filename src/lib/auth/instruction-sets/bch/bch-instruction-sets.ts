@@ -18,11 +18,11 @@ import {
   stackItemIsTruthy,
   undefinedOperation
 } from '../common/common';
+import { AuthenticationInstruction } from '../instruction-sets-types';
 import {
-  AuthenticationInstruction,
   authenticationInstructionsAreMalformed,
   parseBytecode
-} from '../instruction-sets';
+} from '../instruction-sets-utils';
 
 import { AuthenticationErrorBCH } from './bch-errors';
 import { OpcodesBCH } from './bch-opcodes';
@@ -40,7 +40,7 @@ const enum PayToScriptHash {
 }
 
 export const isPayToScriptHash = <Opcodes>(
-  verificationInstructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>
+  verificationInstructions: readonly AuthenticationInstruction<Opcodes>[]
 ) =>
   verificationInstructions.length === PayToScriptHash.length &&
   ((verificationInstructions[0].opcode as unknown) as number) ===
@@ -64,7 +64,7 @@ const enum SegWit {
  *
  * @param bytecode the stack item to test
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const isWitnessProgram = (bytecode: Uint8Array) => {
   const correctLength =
     bytecode.length >= SegWit.minimumLength &&
@@ -107,7 +107,6 @@ export const instructionSetBCHCurrentStrict =
 export const getFlagsForInstructionSetBCH = (
   instructionSet: InstructionSetBCH
 ) => {
-  // tslint:disable-next-line: switch-default
   switch (instructionSet) {
     case InstructionSetBCH.BCH_2019_05:
       return {
@@ -137,6 +136,10 @@ export const getFlagsForInstructionSetBCH = (
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true
       };
+    default:
+      return new Error(
+        `${instructionSet as string} is not an instruction set.`
+      ) as never;
   }
 };
 
@@ -150,13 +153,12 @@ export const getFlagsForInstructionSetBCH = (
  * @param ripemd160 a Ripemd160 implementation
  * @param secp256k1 a Secp256k1 implementation
  */
-// tslint:disable-next-line: variable-name
 export const createInstructionSetBCH = (
   flags: {
-    disallowUpgradableNops: boolean;
-    requireBugValueZero: boolean;
-    requireMinimalEncoding: boolean;
-    requireNullSignatureFailures: boolean;
+    readonly disallowUpgradableNops: boolean;
+    readonly requireBugValueZero: boolean;
+    readonly requireMinimalEncoding: boolean;
+    readonly requireNullSignatureFailures: boolean;
   },
   sha1: Sha1,
   sha256: Sha256,
@@ -166,11 +168,12 @@ export const createInstructionSetBCH = (
   clone: cloneAuthenticationProgramStateCommon,
   continue: (state: AuthenticationProgramStateBCH) =>
     state.error === undefined && state.ip < state.instructions.length,
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   evaluate: (program, stateEvaluate) => {
-    const unlockingBytecode =
-      program.spendingTransaction.inputs[program.inputIndex].unlockingBytecode;
-    const lockingBytecode = program.sourceOutput.lockingBytecode;
+    const { unlockingBytecode } = program.spendingTransaction.inputs[
+      program.inputIndex
+    ];
+    const { lockingBytecode } = program.sourceOutput;
     const unlockingInstructions = parseBytecode<OpcodesBCH>(unlockingBytecode);
     const lockingInstructions = parseBytecode<OpcodesBCH>(lockingBytecode);
     const externalState = createAuthenticationProgramExternalStateCommon(
@@ -211,7 +214,6 @@ export const createInstructionSetBCH = (
             initialState
           );
 
-    // tslint:disable-next-line:no-if-statement
     if (unlockingResult.error !== undefined) {
       return unlockingResult;
     }
@@ -221,16 +223,14 @@ export const createInstructionSetBCH = (
         AuthenticationErrorBCH
       >(lockingInstructions, unlockingResult.stack, externalState)
     );
-    // tslint:disable-next-line:no-if-statement
     if (!isPayToScriptHash(lockingInstructions)) {
       return lockingResult;
     }
 
     const p2shStack = cloneStack(unlockingResult.stack);
-    // tslint:disable-next-line: strict-boolean-expressions
-    const p2shScript = p2shStack.pop() || Uint8Array.of();
+    // eslint-disable-next-line functional/immutable-data
+    const p2shScript = p2shStack.pop() ?? Uint8Array.of();
 
-    // tslint:disable-next-line: no-if-statement
     if (p2shStack.length === 0 && isWitnessProgram(p2shScript)) {
       return lockingResult;
     }

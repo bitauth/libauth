@@ -1,9 +1,11 @@
-// tslint:disable:no-expression-statement no-let no-unsafe-any
+/* global Buffer */
+/* eslint-disable functional/no-let, init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
+import { createHash, randomBytes } from 'crypto';
+
 import * as asmCrypto from 'asmcrypto.js';
 import test from 'ava';
 import * as bcrypto from 'bcrypto';
 import suite from 'chuhai';
-import { createHash, randomBytes } from 'crypto';
 import * as hashJs from 'hash.js';
 
 import { HashFunction } from '../bin/bin';
@@ -23,9 +25,11 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
-        let hash: Uint8Array | ReadonlyArray<number> | null;
-        // we let Node.js use the message as a Node.js buffer
-        // (may slightly overestimate Node.js native performance)
+        let hash: Uint8Array | readonly number[] | null;
+        /*
+         * we let Node.js use the message as a Node.js buffer
+         * (may slightly overestimate Node.js native performance)
+         */
         let nodeJsBuffer: Buffer;
         const nextCycle = () => {
           message = randomBytes(inputLength);
@@ -48,24 +52,22 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             .update(nodeJsBuffer)
             .digest();
         });
-        // tslint:disable-next-line:no-if-statement
         if (nodeJsAlgorithm !== 'ripemd160') {
-          const algorithm =
+          const Algorithm =
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
               ? asmCrypto.Sha256
               : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
-            const instance = new algorithm();
+            const instance = new Algorithm();
             hash = instance.process(message).finish().result;
           });
         }
         s.cycle(() => {
-          // tslint:disable-next-line:no-if-statement
           if (hash === null) {
             t.fail(
-              `asmcrypto.js failed to produce a hash for message: ${message}`
+              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`
             );
           } else {
             t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
@@ -84,9 +86,9 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, s => {
         let message: Uint8Array;
-        let messageChunks: ReadonlyArray<Uint8Array>;
-        let nodeJsChunks: ReadonlyArray<Buffer>;
-        let hash: Uint8Array | ReadonlyArray<number> | null;
+        let messageChunks: readonly Uint8Array[];
+        let nodeJsChunks: readonly Buffer[];
+        let hash: Uint8Array | readonly number[] | null;
         const nextCycle = () => {
           message = randomBytes(totalInput);
           const chunkCount = Math.ceil(message.length / chunkSize);
@@ -120,24 +122,22 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             )
             .digest();
         });
-        // tslint:disable-next-line:no-if-statement
         if (nodeJsAlgorithm !== 'ripemd160') {
-          const algorithm =
+          const Algorithm =
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
               ? asmCrypto.Sha256
               : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
-            const instance = new algorithm();
+            const instance = new Algorithm();
             hash = instance.process(message).finish().result;
           });
         }
         s.cycle(() => {
-          // tslint:disable-next-line:no-if-statement
           if (hash === null) {
             t.fail(
-              `asmcrypto.js failed to produce a hash for message: ${message}`
+              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`
             );
           } else {
             t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
@@ -148,12 +148,12 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
     });
   };
 
-  // tslint:disable:no-magic-numbers
+  /* eslint-disable @typescript-eslint/no-magic-numbers */
   singlePassNodeBenchmark(32);
   singlePassNodeBenchmark(100);
   singlePassNodeBenchmark(1_000);
   singlePassNodeBenchmark(10_000);
 
   incrementalNodeBenchmark(MB * 32, MB);
-  // tslint:disable:no-magic-numbers
+  /* eslint-enable @typescript-eslint/no-magic-numbers */
 };

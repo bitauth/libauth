@@ -1,22 +1,19 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 
 import {
   AuthenticationInstruction,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  createAuthenticationProgramStateCommon
-} from '../../auth';
-import {
   AuthenticationProgramStateBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
+  createAuthenticationProgramStateCommon,
   instantiateVirtualMachineBCH,
-  OpcodesBCH
-} from '../../instruction-sets/bch/bch';
-
-import { sampledEvaluateReductionTraceNodes } from './reduce';
+  OpcodesBCH,
+  sampledEvaluateReductionTraceNodes
+} from '../../../lib';
 
 const vmPromise = instantiateVirtualMachineBCH();
 const createCreateStateWithStack = <Opcodes, Errors>(stack: Uint8Array[]) => (
-  instructions: ReadonlyArray<AuthenticationInstruction<Opcodes>>
+  instructions: readonly AuthenticationInstruction<Opcodes>[]
 ) =>
   createAuthenticationProgramStateCommon<Opcodes, Errors>(
     instructions,

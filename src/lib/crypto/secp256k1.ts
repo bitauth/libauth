@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-conditional-statement, functional/no-expression-statement, functional/no-throw-statement */
 import {
   CompressionFlag,
   ContextFlag,
@@ -63,31 +64,29 @@ const wrapSecp256k1Wasm = (
   const privateKeyPtr = secp256k1Wasm.malloc(ByteLength.privateKey);
 
   const internalRSigPtr = secp256k1Wasm.malloc(ByteLength.recoverableSig);
-  // tslint:disable-next-line:no-magic-numbers
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   const recoveryNumPtr = secp256k1Wasm.malloc(4);
-  // tslint:disable-next-line:no-bitwise no-magic-numbers
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const recoveryNumPtrView32 = recoveryNumPtr >> 2;
 
   const getRecoveryNumPtr = () => secp256k1Wasm.heapU32[recoveryNumPtrView32];
 
-  // tslint:disable-next-line:no-magic-numbers
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   const lengthPtr = secp256k1Wasm.malloc(4);
-  // tslint:disable-next-line:no-bitwise no-magic-numbers
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const lengthPtrView32 = lengthPtr >> 2;
-
-  // tslint:disable:no-expression-statement no-if-statement
 
   const parsePublicKey = (publicKey: Uint8Array) => {
     secp256k1Wasm.heapU8.set(publicKey, publicKeyScratch);
-    return secp256k1Wasm.pubkeyParse(
-      contextPtr,
-      internalPublicKeyPtr,
-      publicKeyScratch,
-      // tslint:disable-next-line:no-magic-numbers
-      publicKey.length as 33 | 65
-    ) === 1
-      ? true
-      : false;
+    return (
+      secp256k1Wasm.pubkeyParse(
+        contextPtr,
+        internalPublicKeyPtr,
+        publicKeyScratch,
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+        publicKey.length as 33 | 65
+      ) === 1
+    );
   };
 
   const setLengthPtr = (value: number) => {
@@ -354,14 +353,14 @@ const wrapSecp256k1Wasm = (
   ) => {
     fillMessageHashScratch(messageHash);
     secp256k1Wasm.heapU8.set(signature, schnorrSigPtr);
-    return secp256k1Wasm.schnorrVerify(
-      contextPtr,
-      schnorrSigPtr,
-      messageHashScratch,
-      internalPublicKeyPtr
-    ) === 1
-      ? true
-      : false;
+    return (
+      secp256k1Wasm.schnorrVerify(
+        contextPtr,
+        schnorrSigPtr,
+        messageHashScratch,
+        internalPublicKeyPtr
+      ) === 1
+    );
   };
 
   const verifySignatureSchnorr = () => (
@@ -582,7 +581,6 @@ const wrapSecp256k1Wasm = (
     verifySignatureDERLowS: verifySignature(true, false),
     verifySignatureSchnorr: verifySignatureSchnorr()
   };
-  // tslint:enable:no-expression-statement no-if-statement
 };
 
 /**

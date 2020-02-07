@@ -1,8 +1,9 @@
-// tslint:disable:no-expression-statement no-magic-numbers no-bitwise
-import test, { ExecutionContext } from 'ava';
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+
+import test, { ExecutionContext } from 'ava';
 
 import {
   CompressionFlag,
@@ -11,7 +12,7 @@ import {
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
   Secp256k1Wasm
-} from './secp256k1-wasm';
+} from './../../lib';
 
 // test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
 
@@ -262,6 +263,7 @@ const testSecp256k1Wasm = (
     rawRSigPtr
   );
   const compactRSig = secp256k1Wasm.readHeapU8(compactRSigPtr, 64);
+  // eslint-disable-next-line no-bitwise
   const rID = secp256k1Wasm.heapU32[rIDPtr >> 2];
 
   t.deepEqual(compactRSig, sigCompact);
@@ -310,9 +312,8 @@ const testSecp256k1Wasm = (
     secp256k1Wasm.readHeapU8(recoveredPublicKeyCompressedPtr, 33)
   );
 
-  // tweaking keys
   // skipping uncompressed checks since we already verified that parsing and serializing works.
-  // allocate pointers
+
   const keyTweakPtr = secp256k1Wasm.malloc(32);
 
   const privkeyTweakedAddPtr = secp256k1Wasm.malloc(32);
@@ -357,8 +358,10 @@ const testSecp256k1Wasm = (
     rawPubkeyPtr + 64
   );
 
-  // actually test the stuff
-  // tweak add
+  /*
+   * actually test the stuff
+   * tweak add
+   */
   t.is(
     secp256k1Wasm.privkeyTweakAdd(
       contextPtr,
@@ -491,6 +494,7 @@ const testSecp256k1Wasm = (
 const binary = getEmbeddedSecp256k1Binary();
 
 test('crypto: getEmbeddedSecp256k1Binary returns the proper binary', t => {
+  // eslint-disable-next-line no-undef
   const path = join(__dirname, 'secp256k1.wasm');
   const binaryFromDisk = readFileSync(path).buffer;
   t.deepEqual(binary, binaryFromDisk);

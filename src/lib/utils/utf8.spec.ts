@@ -1,9 +1,8 @@
-// tslint:disable:no-expression-statement
+/* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 import * as fc from 'fast-check';
 
-import { hexToBin } from './hex';
-import { binToUtf8, utf8ToBin } from './utf8';
+import { binToUtf8, hexToBin, utf8ToBin } from '../lib';
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
@@ -11,7 +10,7 @@ const fcUint8Array = (minLength: number, maxLength: number) =>
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
     .map(a => Uint8Array.from(a));
 
-test('utf8ToBin & ', t => {
+test('utf8ToBin', t => {
   t.deepEqual(utf8ToBin('👍'), hexToBin('f09f918d'));
 });
 

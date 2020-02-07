@@ -1,14 +1,14 @@
-// tslint:disable:no-expression-statement no-magic-numbers
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { hexToBin, stringify } from '../../../utils/utils';
 import {
   AuthenticationInstruction,
   createAuthenticationProgramExternalStateCommonEmpty,
-  createAuthenticationProgramStateCommon
-} from '../../auth';
-
-import { createCompilerBCH } from './compiler';
+  createAuthenticationProgramStateCommon,
+  createCompilerBCH,
+  hexToBin,
+  stringify
+} from '../../../lib';
 
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
@@ -33,7 +33,7 @@ test('createCompilerBCH: generate', async t => {
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
     success: true
   });
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
     const resultUnlock = compiler.generate('unlock', {
       keys: { privateKeys: { a: privkey } },
@@ -55,8 +55,8 @@ test('createCompilerBCH: generate', async t => {
 test('createCompilerBCH: debug', async t => {
   const state = createAuthenticationProgramExternalStateCommonEmpty();
   const createState = (
-    // tslint:disable-next-line: no-any
-    instructions: Array<AuthenticationInstruction<any>>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    instructions: AuthenticationInstruction<any>[]
   ) => createAuthenticationProgramStateCommon(instructions, [], state);
   const compiler = await createCompilerBCH({
     createState,
@@ -594,7 +594,7 @@ test('createCompilerBCH: debug', async t => {
     ],
     success: true
   });
-  // tslint:disable-next-line: no-if-statement
+  // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
     const resultUnlock = compiler.debug('unlock', {
       keys: { privateKeys: { a: privkey } },

@@ -1,10 +1,8 @@
-import { Secp256k1, Sha256 } from '../../../lib';
+import { Secp256k1, Sha256 } from '../../../crypto/crypto';
 import { hexToBin, utf8ToBin } from '../../../utils/utils';
-import {
-  AuthenticationInstruction,
-  AuthenticationVirtualMachine,
-  bigIntToScriptNumber
-} from '../../auth';
+import { bigIntToScriptNumber } from '../../instruction-sets/instruction-sets';
+import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
+import { AuthenticationVirtualMachine } from '../../virtual-machine';
 import { AuthenticationTemplateVariable } from '../types';
 
 import { CompilationResultSuccess, compileScript } from './compile';
@@ -87,6 +85,7 @@ export type ResolvedSegment =
   | ResolvedSegmentComment
   | ResolvedSegmentError;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ResolvedScript extends Array<ResolvedSegment> {}
 
 export enum IdentifierResolutionType {
@@ -119,17 +118,17 @@ export const resolveScriptSegment = (
   segment: BtlScriptSegment,
   resolveIdentifiers: IdentifierResolutionFunction
 ): ResolvedScript => {
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   const resolved = segment.value.map<ResolvedSegment>(child => {
     const range = pluckRange(child);
     switch (child.name) {
-      case 'Identifier':
+      case 'Identifier': {
         const identifier = child.value;
         const result = resolveIdentifiers(identifier);
         const ret = result.status
           ? {
               range,
-              type: 'bytecode' as 'bytecode',
+              type: 'bytecode' as const,
               value: result.bytecode,
               ...(result.type === IdentifierResolutionType.opcode
                 ? {
@@ -139,72 +138,75 @@ export const resolveScriptSegment = (
                 ? {
                     variable: identifier
                   }
-                : result.type === IdentifierResolutionType.script
+                : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                result.type === IdentifierResolutionType.script
                 ? { script: identifier, source: result.source }
-                : { opcode: identifier })
+                : ({ unknown: identifier } as never))
             }
           : {
               range,
-              type: 'error' as 'error',
+              type: 'error' as const,
               value: result.error
             };
         return ret;
+      }
       case 'Push':
         return {
           range,
-          type: 'push' as 'push',
+          type: 'push' as const,
           value: resolveScriptSegment(child.value, resolveIdentifiers)
         };
       case 'Evaluation':
         return {
           range,
-          type: 'evaluation' as 'evaluation',
+          type: 'evaluation' as const,
           value: resolveScriptSegment(child.value, resolveIdentifiers)
         };
       case 'BigIntLiteral':
         return {
-          literalType: 'BigIntLiteral' as 'BigIntLiteral',
+          literalType: 'BigIntLiteral' as const,
           range,
-          type: 'bytecode' as 'bytecode',
+          type: 'bytecode' as const,
           value: bigIntToScriptNumber(child.value)
         };
       case 'HexLiteral':
         return child.value.length % Constants.hexByte === 0
           ? {
-              literalType: 'HexLiteral' as 'HexLiteral',
+              literalType: 'HexLiteral' as const,
               range,
-              type: 'bytecode' as 'bytecode',
+              type: 'bytecode' as const,
               value: hexToBin(child.value)
             }
           : {
               range,
-              type: 'error' as 'error',
+              type: 'error' as const,
               value: `Improperly formed HexLiteral. HexLiteral must have a length divisible by 2, but this HexLiteral has a length of ${child.value.length}.`
             };
       case 'UTF8Literal':
         return {
-          literalType: 'UTF8Literal' as 'UTF8Literal',
+          literalType: 'UTF8Literal' as const,
           range,
-          type: 'bytecode' as 'bytecode',
+          type: 'bytecode' as const,
           value: utf8ToBin(child.value)
         };
       case 'Comment':
         return {
           range,
-          type: 'comment' as 'comment',
+          type: 'comment' as const,
           value: child.value
         };
       default:
         return {
           range,
-          type: 'error' as 'error',
-          value: `Unrecognized segment: ${child}`
+          type: 'error' as const,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          value: `Unrecognized segment: ${(child as any).name as string}`
         };
     }
   });
 
   return resolved.length === 0
-    ? [{ range: pluckRange(segment), type: 'comment' as 'comment', value: '' }]
+    ? [{ range: pluckRange(segment), type: 'comment' as const, value: '' }]
     : resolved;
 };
 
@@ -263,15 +265,12 @@ export interface CompilationEnvironment<
    * returns a ProgramState. This method will be used to generate the initial
    * ProgramState for `evaluation`s.
    */
-  createState?: (
-    // tslint:disable-next-line: no-any
-    instructions: Array<AuthenticationInstruction<any>>
-  ) => // tslint:disable-next-line: no-any
-  any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createState?: (instructions: AuthenticationInstruction<any>[]) => any;
   /**
    * An object mapping opcode identifiers to the bytecode they generate.
    */
-  // tslint:disable-next-line: no-mixed-interface
+  // eslint-disable-next-line functional/no-mixed-type
   opcodes?: {
     [opcodeIdentifier: string]: Uint8Array;
   };
@@ -333,8 +332,7 @@ export interface CompilationEnvironment<
    * The AuthenticationVirtualMachine on which BTL `evaluation` results will be
    * computed.
    */
-  // TODO: more specific signature?
-  // tslint:disable-next-line: no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   vm?: AuthenticationVirtualMachine<any, any>;
 }
 
@@ -386,23 +384,13 @@ export interface CompilationData<CompilerOperationData> {
   };
 }
 
-enum Constants {
+enum Time {
   msPerLocktimeSecond = 1000
 }
 
-/**
- * Convert a Javascript `Date` object to its equivalent LockTime
- * representation in an `AuthenticationVirtualMachine`.
- *
- * TODO: this method should error past the overflow Date and for dates which
- * would become BlockHeights when encoded. Validate correctness after
- * `OP_CHECKLOCKTIMEVERIFY` is implemented.
- *
- * @param date the Date to convert to a BlockTime Uint8Array
- */
-export const dateToLockTime = (date: Date) =>
+const dateToLockTime = (date: Date) =>
   bigIntToScriptNumber(
-    BigInt(Math.round(date.getTime() / Constants.msPerLocktimeSecond))
+    BigInt(Math.round(date.getTime() / Time.msPerLocktimeSecond))
   );
 
 const articleAndVariableType = (variableType: CompilerOperationTypes) =>
@@ -415,15 +403,13 @@ const attemptCompilerOperation = <CompilerOperationData>(
   environment: CompilationEnvironment<CompilerOperationData>,
   data: CompilationData<CompilerOperationData>
 ) => {
-  // tslint:disable-next-line: no-if-statement
   if (environment.operations !== undefined) {
     const operationsForType = environment.operations[variableType];
     if (operationsForType !== undefined) {
-      // tslint:disable-next-line: no-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const operation = (operationsForType as any)[operationId] as
         | CompilerOperation<CompilerOperationData, typeof variableType>
         | undefined;
-      // tslint:disable-next-line: no-if-statement
       if (operation !== undefined) {
         return operation(
           identifier,
@@ -472,7 +458,7 @@ const defaultActionByVariableType: {
 
 const aOrAnQuotedString = (word: string) =>
   `${
-    ['a', 'e', 'i', 'o', 'u'].indexOf(word[0].toLowerCase()) === -1 ? 'a' : 'an'
+    ['a', 'e', 'i', 'o', 'u'].includes(word[0].toLowerCase()) ? 'an' : 'a'
   } "${word}"`;
 
 export enum BuiltInVariables {
@@ -488,18 +474,17 @@ export enum BuiltInVariables {
  * Otherwise, the identifier is not recognized as a variable, and this method
  * simply returns `false`.
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
   identifier: string,
   environment: CompilationEnvironment<CompilerOperationData>,
   data: CompilationData<CompilerOperationData>
 ): Uint8Array | string | false => {
   const splitId = identifier.split('.');
-  const variableId = splitId[0];
+  const variableId = splitId[0]; // eslint-disable-line prefer-destructuring
   const operationId = splitId[1] as string | undefined;
 
-  // tslint:disable-next-line: switch-default
-  switch (variableId as BuiltInVariables) {
+  switch (variableId) {
     case BuiltInVariables.currentBlockHeight:
       return data.currentBlockHeight === undefined
         ? 'Tried to resolve the built-in variable "current_block_height", but the "currentBlockHeight" property was not provided in the compilation data.'
@@ -518,32 +503,34 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             environment,
             data
           );
-  }
+    default: {
+      const selected: AuthenticationTemplateVariable | undefined =
+        environment.variables?.[variableId];
 
-  const selected =
-    environment.variables &&
-    (environment.variables[variableId] as
-      | AuthenticationTemplateVariable
-      | undefined);
-  // tslint:disable-next-line: no-if-statement
-  if (selected === undefined) {
-    return false;
+      if (selected === undefined) {
+        return false;
+      }
+      return data[variableTypeToDataProperty[selected.type]] === undefined
+        ? `Identifier "${identifier}" is a ${
+            selected.type
+          }, but the compilation data does not include ${aOrAnQuotedString(
+            variableTypeToDataProperty[selected.type]
+          )} property.`
+        : operationId === undefined
+        ? defaultActionByVariableType[selected.type](
+            identifier,
+            data,
+            variableId
+          )
+        : attemptCompilerOperation(
+            identifier,
+            operationId,
+            selected.type,
+            environment,
+            data
+          );
+    }
   }
-  return data[variableTypeToDataProperty[selected.type]] === undefined
-    ? `Identifier "${identifier}" is a ${
-        selected.type
-      }, but the compilation data does not include ${aOrAnQuotedString(
-        variableTypeToDataProperty[selected.type]
-      )} property.`
-    : operationId !== undefined
-    ? attemptCompilerOperation(
-        identifier,
-        operationId,
-        selected.type,
-        environment,
-        data
-      )
-    : defaultActionByVariableType[selected.type](identifier, data, variableId);
 };
 
 /**
@@ -563,22 +550,20 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
  * @param parentIdentifier the identifier of the script which references the
  * script being resolved (for detecting circular dependencies)
  */
-// tslint:disable-next-line: cyclomatic-complexity
+// eslint-disable-next-line complexity
 export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
   identifier: string,
   data: CompilationData<CompilerOperationData>,
   environment: CompilationEnvironment<CompilerOperationData>,
   parentIdentifier?: string
 ): CompilationResultSuccess<ProgramState> | string | false => {
-  // tslint:disable-next-line: no-if-statement
   if ((environment.scripts[identifier] as string | undefined) === undefined) {
     return false;
   }
-  // tslint:disable-next-line: no-if-statement
   if (
     parentIdentifier !== undefined &&
     environment.sourceScriptIds !== undefined &&
-    environment.sourceScriptIds.indexOf(parentIdentifier) !== -1
+    environment.sourceScriptIds.includes(parentIdentifier)
   ) {
     return `A circular dependency was encountered. Script "${identifier}" relies on itself to be generated. (Parent scripts: ${environment.sourceScriptIds.join(
       ', '
@@ -587,10 +572,10 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
   const result = compileScript(identifier, data, {
     ...environment,
     sourceScriptIds: [
-      ...(environment.sourceScriptIds !== undefined
-        ? environment.sourceScriptIds
-        : []),
-      ...(parentIdentifier !== undefined ? [parentIdentifier] : [])
+      ...(environment.sourceScriptIds === undefined
+        ? []
+        : environment.sourceScriptIds),
+      ...(parentIdentifier === undefined ? [] : [parentIdentifier])
     ]
   });
   return result.success
@@ -618,12 +603,10 @@ export const createIdentifierResolver = <CompilerOperationData>(
   data: CompilationData<CompilerOperationData>,
   environment: CompilationEnvironment<CompilerOperationData>
 ): IdentifierResolutionFunction =>
-  // tslint:disable-next-line: cyclomatic-complexity
+  // eslint-disable-next-line complexity
   (identifier: string) => {
     const opcodeResult: Uint8Array | undefined =
-      environment.opcodes &&
-      (environment.opcodes[identifier] as Uint8Array | undefined);
-    // tslint:disable-next-line: no-if-statement
+      environment.opcodes?.[identifier];
     if (opcodeResult !== undefined) {
       return {
         bytecode: opcodeResult,
@@ -636,10 +619,9 @@ export const createIdentifierResolver = <CompilerOperationData>(
       environment,
       data
     );
-    // tslint:disable-next-line: no-if-statement
     if (variableResult !== false) {
       return typeof variableResult === 'string'
-        ? { status: false, error: variableResult }
+        ? { error: variableResult, status: false }
         : {
             bytecode: variableResult,
             status: true,
@@ -652,10 +634,9 @@ export const createIdentifierResolver = <CompilerOperationData>(
       environment,
       scriptId
     );
-    // tslint:disable-next-line: no-if-statement
     if (scriptResult !== false) {
       return typeof scriptResult === 'string'
-        ? { status: false, error: scriptResult }
+        ? { error: scriptResult, status: false }
         : {
             bytecode: scriptResult.bytecode,
             source: scriptResult.resolve,
@@ -663,5 +644,5 @@ export const createIdentifierResolver = <CompilerOperationData>(
             type: IdentifierResolutionType.script
           };
     }
-    return { status: false, error: `Unknown identifier '${identifier}'.` };
+    return { error: `Unknown identifier '${identifier}'.`, status: false };
   };

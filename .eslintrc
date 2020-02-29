@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": "./tsconfig.json" },
+  "env": { "es6": true },
+  "ignorePatterns": ["node_modules", "build", "coverage"],
+  "extends": ["bitauth"],
+  "globals": { "BigInt": true, "console": true, "WebAssembly": true },
+  "rules": {
+    "max-params": "off" // TODO: fix API
+  }
+}

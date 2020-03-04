@@ -36,7 +36,7 @@ const tests = Object.values(sighashTests)
 /**
  * Isolate a single test for debugging
  */
-// const pendingTests = tests.filter(e => e.testIndex === 123);
+// const pendingTests = tests.filter(e => e.testIndex === 999);
 const pendingTests = tests;
 
 const sha256Promise = instantiateSha256();
@@ -53,7 +53,7 @@ pendingTests.map((expectation, currentTest) => {
       inputIndex: expectation.inputIndex,
       sourceOutput: {
         lockingBytecode,
-        satoshis: BigInt(0)
+        satoshis: 0
       },
       spendingTransaction: tx
     });

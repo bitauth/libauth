@@ -2,16 +2,16 @@ import {
   instantiateSecp256k1,
   instantiateSha256,
   Secp256k1
-} from '../../../crypto/crypto';
+} from '../../crypto/crypto';
 import {
   bigIntToBinUint64LE,
   bigIntToBitcoinVarInt,
   numberToBinUint32LE
-} from '../../../utils/utils';
+} from '../../utils/utils';
 import {
   generateSigningSerializationBCH,
   SigningSerializationFlag
-} from '../../instruction-sets/common/signing-serialization';
+} from '../instruction-sets/common/signing-serialization';
 import {
   AuthenticationProgramStateBCH,
   createAuthenticationProgramExternalStateCommonEmpty,
@@ -20,16 +20,20 @@ import {
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
   OpcodesBCH
-} from '../../instruction-sets/instruction-sets';
-import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
-import { MinimumProgramState, StackState } from '../../state';
+} from '../instruction-sets/instruction-sets';
+import { AuthenticationInstruction } from '../instruction-sets/instruction-sets-types';
+import { MinimumProgramState, StackState } from '../state';
 
-import { CompilationError, CompilationResult, compileScript } from './compile';
+import {
+  CompilationError,
+  CompilationResult,
+  compileScript
+} from './language/compile';
 import {
   CompilationData,
   CompilationEnvironment,
   resolveScriptIdentifier
-} from './resolve';
+} from './language/resolve';
 
 export interface CompilerOperationDataBCH {
   correspondingOutput?: Uint8Array;
@@ -37,7 +41,7 @@ export interface CompilerOperationDataBCH {
   locktime: number;
   outpointIndex: number;
   outpointTransactionHash: Uint8Array;
-  outputValue: bigint;
+  outputValue: number;
   sequenceNumber: number;
   transactionOutpoints: Uint8Array;
   transactionOutputs: Uint8Array;
@@ -97,7 +101,7 @@ export type CompilerOperationsSigningSerializationComponentBCH =
   | 'transaction_sequence_numbers_hash'
   | 'outpoint_transaction_hash'
   | 'outpoint_index'
-  | 'covered_bytecode_prefix'
+  | 'covered_bytecode_length'
   | 'covered_bytecode'
   | 'output_value'
   | 'sequence_number'
@@ -361,7 +365,7 @@ export const compilerOperationBCHGenerateSigningSerialization = <
         return operationData.correspondingOutput === undefined
           ? Uint8Array.of()
           : sha256.hash(sha256.hash(operationData.correspondingOutput));
-      case 'covered_bytecode_prefix':
+      case 'covered_bytecode_length':
         return bigIntToBitcoinVarInt(
           BigInt(operationData.coveredBytecode.length)
         );
@@ -374,7 +378,7 @@ export const compilerOperationBCHGenerateSigningSerialization = <
       case 'outpoint_transaction_hash':
         return operationData.outpointTransactionHash;
       case 'output_value':
-        return bigIntToBinUint64LE(operationData.outputValue);
+        return bigIntToBinUint64LE(BigInt(operationData.outputValue));
       case 'sequence_number':
         return numberToBinUint32LE(operationData.sequenceNumber);
       case 'transaction_outpoints':
@@ -463,7 +467,7 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
     corresponding_output: compilerOperationBCHGenerateSigningSerialization,
     corresponding_output_hash: compilerOperationBCHGenerateSigningSerialization,
     covered_bytecode: compilerOperationBCHGenerateSigningSerialization,
-    covered_bytecode_prefix: compilerOperationBCHGenerateSigningSerialization,
+    covered_bytecode_length: compilerOperationBCHGenerateSigningSerialization,
     full_all_outputs: compilerOperationBCHGenerateSigningSerialization,
     full_all_outputs_single_input: compilerOperationBCHGenerateSigningSerialization,
     full_corresponding_output: compilerOperationBCHGenerateSigningSerialization,
@@ -486,29 +490,43 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
 });
 /* eslint-enable camelcase */
 
+export type BytecodeGenerationResult =
+  | {
+      bytecode: Uint8Array;
+      success: true;
+    }
+  | {
+      errors: CompilationError[];
+      errorType: string;
+      success: false;
+    };
+
+/**
+ * A `Compiler` is a wrapper around a specific `CompilationEnvironment` which
+ * exposes a purely-functional interface and allows for stronger type checking.
+ */
 export interface Compiler<CompilerOperationData, ProgramState> {
-  debug: (
+  // eslint-disable-next-line functional/no-method-signature
+  generateBytecode(
     script: string,
-    data: CompilationData<CompilerOperationData>
-  ) => CompilationResult<ProgramState>;
-  generate: (
+    data: CompilationData<CompilerOperationData>,
+    debug: true
+  ): CompilationResult<ProgramState>;
+  // eslint-disable-next-line functional/no-method-signature
+  generateBytecode(
     script: string,
-    data: CompilationData<CompilerOperationData>
-  ) =>
-    | {
-        bytecode: Uint8Array;
-        success: true;
-      }
-    | {
-        errors: CompilationError[];
-        errorType: string;
-        success: false;
-      };
+    data: CompilationData<CompilerOperationData>,
+    debug?: false
+  ): BytecodeGenerationResult;
 }
 
 /**
- * TODO: describe
- * @param compilationEnvironment the environment from which to create the compiler
+ * Create a `Compiler` from the provided compilation environment. This method
+ * requires a full `CompilationEnvironment` and does not instantiate any new
+ * crypto or VM implementations.
+ *
+ * @param compilationEnvironment - the environment from which to create the
+ * compiler
  */
 export const createCompiler = <
   CompilerOperationData,
@@ -516,30 +534,35 @@ export const createCompiler = <
 >(
   compilationEnvironment: CompilationEnvironment<CompilerOperationData>
 ): Compiler<CompilerOperationData, ProgramState> => ({
-  debug: (script: string, data: CompilationData<CompilerOperationData>) =>
-    compileScript<ProgramState, CompilerOperationData>(
-      script,
-      data,
-      compilationEnvironment
-    ),
-  generate: (
+  generateBytecode: (
     script: string,
-    data: CompilationData<CompilerOperationData>
-  ):
-    | { bytecode: Uint8Array; success: true }
-    | { errors: CompilationError[]; errorType: string; success: false } => {
+    data: CompilationData<CompilerOperationData>,
+    // TODO: TS bug?
+    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+    debug: boolean = false
+    // TODO: is there a way to avoid this `any`?
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): any => {
     const result = compileScript<ProgramState, CompilerOperationData>(
       script,
       data,
       compilationEnvironment
     );
-    return result.success
+    return debug
+      ? result
+      : result.success
       ? { bytecode: result.bytecode, success: true }
       : { errorType: result.errorType, errors: result.errors, success: false };
   }
 });
 
-export const createStateCompilerBCH = (
+/**
+ * A common `createState` implementation for most compilers.
+ *
+ * @param instructions - the list of instructions to incorporate in the created
+ * state.
+ */
+export const compilerCreateStateCommon = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   instructions: AuthenticationInstruction<any>[]
 ) =>
@@ -550,9 +573,12 @@ export const createStateCompilerBCH = (
   );
 
 /**
- * TODO: describe
+ * Create a compiler using the default BCH environment.
  *
- * @param overrides a compilation environment from which properties will be used
+ * Internally instantiates the necessary crypto and VM implementations – use
+ * `createCompiler` for more control.
+ *
+ * @param overrides - a compilation environment from which properties will be used
  * to override properties of the default BCH environment
  */
 export const createCompilerBCH = async <
@@ -568,7 +594,7 @@ export const createCompilerBCH = async <
   ]);
   return createCompiler<CompilerOperationData, ProgramState>({
     ...{
-      createState: createStateCompilerBCH,
+      createState: compilerCreateStateCommon,
       opcodes: generateBytecodeMap(OpcodesBCH),
       operations: getCompilerOperationsBCH(),
       secp256k1,

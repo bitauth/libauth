@@ -276,7 +276,7 @@ export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
   outpointTransactionHash: new Uint8Array(Fill.length).fill(
     Fill.outpointTransactionHash
   ),
-  outputValue: BigInt(0),
+  outputValue: 0,
   sequenceNumber: 0,
   transactionOutpoints: Uint8Array.of(Fill.transactionOutpoints),
   transactionOutputs: Uint8Array.of(Fill.transactionOutputs),

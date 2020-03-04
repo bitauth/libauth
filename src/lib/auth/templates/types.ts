@@ -1,5 +1,7 @@
+import { Input, Output, Transaction } from '../../transaction';
+
 /**
- * An `AuthenticationTemplate` (a.k.a. `Bitauth Template`) specifies a set of
+ * An `AuthenticationTemplate` (A.K.A. `Bitauth Template`) specifies a set of
  * locking scripts, unlocking scripts, and other information required to use a
  * certain authentication scheme. Templates fully describe wallets and protocols
  * in a way that can be shared between software clients.
@@ -13,14 +15,15 @@ export interface AuthenticationTemplate {
   $schema?: string;
 
   /**
-   * An optionally multi-line, free-form, human-readable description of this
-   * authentication template (for use in user interfaces).
+   * An optionally multi-line, free-form, human-readable description for this
+   * authentication template (for use in user interfaces). When displayed, this
+   * description should use a monospace font to properly render ASCII diagrams.
    */
   description?: string;
 
   /**
-   * A mapping of entities defined in this authentication template. Object keys
-   * are used as entity identifiers, and by convention, should use `snake_case`.
+   * A map of entities defined in this authentication template. Object keys are
+   * used as entity identifiers, and by convention, should use `snake_case`.
    *
    * See `AuthenticationTemplateEntity` for more information.
    */
@@ -33,8 +36,18 @@ export interface AuthenticationTemplate {
   name?: string;
 
   /**
-   * A mapping of scripts used in this authentication template. Object keys
-   * are used as script identifiers, and by convention, should use `snake_case`.
+   * A map of scripts used in this authentication template. Object keys are used
+   * as scenario identifiers, and by convention, should use `snake_case`.
+   *
+   * Scenarios describe a complete environment for testing the authentication
+   * template under certain conditions. They are most useful for development,
+   * but they can also be used to validate the template in generalized wallets.
+   */
+  scenarios?: { [scenarioId: string]: AuthenticationTemplateScenario };
+
+  /**
+   * A map of scripts used in this authentication template. Object keys are used
+   * as script identifiers, and by convention, should use `snake_case`.
    */
   scripts: { [scriptId: string]: AuthenticationTemplateScript };
 
@@ -61,14 +74,18 @@ export type AuthenticationVirtualMachineIdentifier =
   | 'BSV_2018_11'
   | 'BTC_2017_08';
 
+/**
+ * An object describing the configuration for a particular entity within an
+ * authentication template.
+ */
 export interface AuthenticationTemplateEntity {
   /**
    * A single-line, human readable description for this entity.
    */
   description?: string;
   /**
-   * A single-line, Title Case, human-readable identifier for this entity, e.g.:
-   * `Trusted Third-Party`
+   * A single-line, Title Case, human-readable name for this entity, e.g.:
+   * `Trusted Third-Party` (for use in user interfaces and error messages).
    */
   name: string;
   /**
@@ -85,14 +102,76 @@ export interface AuthenticationTemplateEntity {
    */
   scripts?: string[];
   /**
-   * An array of variables which must be provided by this entity for use in the
-   * this template's scripts. Some variables are required before locking script
+   * A map of variables which must be provided by this entity for use in the
+   * template's scripts. Some variables are required before locking script
    * generation, while some variables can or must be resolved only before
    * unlocking script generation.
    */
   variables?: { [variableId: string]: AuthenticationTemplateVariable };
 }
 
+/**
+ * A directive providing instructions for compiling a bytecode segment for use
+ * in a scenario.
+ */
+export interface ScenarioDirective {
+  script: string;
+}
+
+/**
+ * An object describing the configuration for a particular scenario within an
+ * authentication template.
+ */
+export interface AuthenticationTemplateScenario {
+  /**
+   * A single-line, human readable description for this scenario.
+   */
+  description?: string;
+  /**
+   * The identifier of the scenario which this scenario extends. Any properties
+   * not defined in this scenario inherit from this parent scenario. By default,
+   * all scenarios extend the built-in default scenario.
+   */
+  extends?: string;
+  /**
+   * A single-line, Title Case, human-readable name for this scenario, e.g.:
+   * `Trusted Third-Party`
+   */
+  name: string;
+  /**
+   * A transaction template to use when testing this scenario. Any properties
+   * not defined in this transaction template inherit from the parent scenario.
+   *
+   * Scenario transaction templates are a variation of the `Transaction` type
+   * modified for better compatibility with JSON and to add support for
+   * `ScenarioDirectives`:
+   * - In each input, the `outpointTransactionHash` is provided as a hex-encoded
+   * string, and `unlockingBytecode` may be either a `Uint8Array` or a
+   * `ScenarioDirective`.
+   * - In each output, the `satoshis` value is provided as a number, and the
+   * `lockingBytecode` may be either a `Uint8Array` or a `ScenarioDirective`.
+   */
+  transaction?: Partial<
+    Transaction<
+      Input<Uint8Array | ScenarioDirective, string>,
+      Output<Uint8Array | ScenarioDirective>
+    >
+  >;
+  /**
+   * A map of variable IDs to scripts defining their values in this scenario.
+   * Scripts are encoded in BTL, and have access to all other template scripts
+   * and variables. (However, cyclical references will produce an error at
+   * compile time.)
+   */
+  variables?: {
+    [id: string]: string;
+  };
+}
+
+/**
+ * An object describing the configuration for a particular script within an
+ * authentication template.
+ */
 export interface AuthenticationTemplateScript {
   /**
    * A single-line, human-readable name for this unlocking script (for use in
@@ -177,7 +256,7 @@ export interface AuthenticationTemplateVariableBase {
    * access to evaluations, other variables, or scripts. (Hex, BigInt, and UTF8
    * literals are permissible, as well as push notation and comments.)
    */
-  mock?: string;
+  // mock?: string; // TODO: delete – replaced by scenarios
   /**
    * A single-line, Title Case, human-readable name for this variable (for use
    * in user interfaces).
@@ -195,8 +274,12 @@ export interface AuthenticationTemplateVariableBase {
 
 export interface HDKey extends AuthenticationTemplateVariableBase {
   /**
-   * TODO: describe – this turns on/off hardening of the script derivation index:
-   * `m / template derivation index' / script derivation index[']`
+   * If `false`, the script-level derivation will use the non-hardened
+   * derivation algorithm. This has critical security implications, see
+   * `templateDerivationHardened` for details.
+   *
+   * Because this security consideration should be evaluated for any template
+   * using `HDKey`s, `derivationHardened` defaults to `true`.
    */
   scriptDerivationHardened?: boolean;
   /**
@@ -209,20 +292,29 @@ export interface HDKey extends AuthenticationTemplateVariableBase {
    * security implications.** If an attacker gains possession of both a parent
    * extended *public key* and any child private key, the attacker can easily
    * derive the parent extended *private key*, and with it, all hardened and
-   * non-hardened child keys.
+   * non-hardened child keys. See BIP32 for details.
    *
    * Because this security consideration should be evaluated for any template
    * using `HDKey`s, `derivationHardened` defaults to `true`.
    */
   templateDerivationHardened?: boolean;
   /**
-   * All `HDKey`s are hardened-derivations of the entity's root `HDKey`. The
-   * resulting branches are then used to generate child keys scripts:
+   * All `HDKey`s use a derivation of a hierarchical-deterministic key. The
+   * resulting branch is then incremented to generate child keys for scripts:
    *
-   * `m / template derivation index' / script derivation index`
+   * `m/templateDerivationIndex/scriptDerivationIndex`
    *
-   * By default, `derivationIndex` is `0`. For a single entity to use multiple
-   * `HDKey`s, a different `derivationIndex` must be used for each.
+   * The template-level derivation algorithm is controlled by
+   * `templateDerivationHardened`, while the script-level derivation algorithm
+   * is controlled by `scriptDerivationHardened`.
+   *
+   * The `scriptDerivationIndex` is provided at compile time to derive the
+   * precise key used for that particular compilation.
+   *
+   * By default, `templateDerivationIndex` is `0`. If a single entity owns
+   * multiple `HDKey`s, each variable must specify a different
+   * `templateDerivationIndex`. (Otherwise, each key would derive the same child
+   * keys.)
    *
    * For greater control over key generation and mapping, use `Key`.
    */

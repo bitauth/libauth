@@ -21,7 +21,6 @@ export const singleSig: AuthenticationTemplate = {
       variables: {
         key: {
           description: 'The private key which controls this wallet.',
-          mock: '0x0000',
           name: 'Key',
           templateDerivationHardened: false,
           templateDerivationIndex: 0,

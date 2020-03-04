@@ -45,7 +45,7 @@ test('vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
     outpointTransactionHash: hexToBin(
       '0505050505050505050505050505050505050505050505050505050505050505'
     ),
-    outputValue: BigInt(0),
+    outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
     stack: [Uint8Array.of(0x04)],
@@ -89,7 +89,7 @@ test('vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       outpointTransactionHash: hexToBin(
         '0505050505050505050505050505050505050505050505050505050505050505'
       ),
-      outputValue: BigInt(0),
+      outputValue: 0,
       sequenceNumber: 0,
       signatureOperationsCount: 0,
       stack: [Uint8Array.of(0x02)],
@@ -121,7 +121,7 @@ test('vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       outpointTransactionHash: hexToBin(
         '0505050505050505050505050505050505050505050505050505050505050505'
       ),
-      outputValue: BigInt(0),
+      outputValue: 0,
       sequenceNumber: 0,
       signatureOperationsCount: 0,
       stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
@@ -153,7 +153,7 @@ test('vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       outpointTransactionHash: hexToBin(
         '0505050505050505050505050505050505050505050505050505050505050505'
       ),
-      outputValue: BigInt(0),
+      outputValue: 0,
       sequenceNumber: 0,
       signatureOperationsCount: 0,
       stack: [Uint8Array.of(0x04)],
@@ -201,7 +201,7 @@ test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     outpointTransactionHash: hexToBin(
       '0505050505050505050505050505050505050505050505050505050505050505'
     ),
-    outputValue: BigInt(0),
+    outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
     stack: [],
@@ -233,7 +233,7 @@ test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     outpointTransactionHash: hexToBin(
       '0505050505050505050505050505050505050505050505050505050505050505'
     ),
-    outputValue: BigInt(0),
+    outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
     stack: [Uint8Array.of(0x02)],
@@ -265,7 +265,7 @@ test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     outpointTransactionHash: hexToBin(
       '0505050505050505050505050505050505050505050505050505050505050505'
     ),
-    outputValue: BigInt(0),
+    outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
     stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
@@ -297,7 +297,7 @@ test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     outpointTransactionHash: hexToBin(
       '0505050505050505050505050505050505050505050505050505050505050505'
     ),
-    outputValue: BigInt(0),
+    outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
     stack: [Uint8Array.of(0x04)],
@@ -315,7 +315,7 @@ test('vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
     Uint8Array.of(),
     Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD]),
     sha256,
-    BigInt(0)
+    0
   );
   const result = vm.evaluate(program);
   t.log(stringify(result));
@@ -342,7 +342,7 @@ test('vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
     outpointTransactionHash: hexToBin(
       'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
     ),
-    outputValue: BigInt(0),
+    outputValue: 0,
     sequenceNumber: 4294967295,
     signatureOperationsCount: 0,
     stack: [Uint8Array.of(0x04)],
@@ -362,7 +362,7 @@ test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
     Uint8Array.of(),
     Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD]),
     sha256,
-    BigInt(0)
+    0
   );
   const result = vm.debug(program);
   t.log(stringify(result));
@@ -390,7 +390,7 @@ test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       outpointTransactionHash: hexToBin(
         'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
       ),
-      outputValue: BigInt(0),
+      outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
       stack: [Uint8Array.of(0x02)],
@@ -424,7 +424,7 @@ test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       outpointTransactionHash: hexToBin(
         'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
       ),
-      outputValue: BigInt(0),
+      outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
       stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
@@ -458,7 +458,7 @@ test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       outpointTransactionHash: hexToBin(
         'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
       ),
-      outputValue: BigInt(0),
+      outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
       stack: [Uint8Array.of(0x04)],
@@ -492,7 +492,7 @@ test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       outpointTransactionHash: hexToBin(
         'e3d27808b1d16719d2690e9a30de9d69c52c33916a0c491d0aa0a98c56d6c2af'
       ),
-      outputValue: BigInt(0),
+      outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
       stack: [Uint8Array.of(0x04)],

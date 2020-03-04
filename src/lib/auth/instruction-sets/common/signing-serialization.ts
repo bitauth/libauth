@@ -162,7 +162,7 @@ export const generateSigningSerializationBCH = (
   outpointTransactionHash: Uint8Array,
   outpointIndex: number,
   coveredBytecode: Uint8Array,
-  outputValue: bigint,
+  outputValue: number,
   sequenceNumber: number,
   correspondingOutput: Uint8Array | undefined,
   transactionOutputs: Uint8Array,
@@ -184,7 +184,7 @@ export const generateSigningSerializationBCH = (
       ...bigIntToBitcoinVarInt(BigInt(coveredBytecode.length)),
       ...coveredBytecode
     ]),
-    ...bigIntToBinUint64LE(outputValue),
+    ...bigIntToBinUint64LE(BigInt(outputValue)),
     ...numberToBinUint32LE(sequenceNumber),
     ...hashOutputs(
       sha256,

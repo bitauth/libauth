@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
+/* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 
 import { deserializeTransaction, hexToBin, serializeTransaction } from './lib';
@@ -46,19 +46,19 @@ test('deserializeTransaction', t => {
     outputs: [
       {
         lockingBytecode: hexToBin('6552'),
-        satoshis: BigInt(73134625)
+        satoshis: 73134625
       },
       {
         lockingBytecode: hexToBin('5253516a656a53'),
-        satoshis: BigInt(95890937)
+        satoshis: 95890937
       },
       {
         lockingBytecode: hexToBin(''),
-        satoshis: BigInt(17344964)
+        satoshis: 17344964
       },
       {
         lockingBytecode: hexToBin('52525251516a'),
-        satoshis: BigInt(19470773)
+        satoshis: 19470773
       }
     ],
     version: 1886435390
@@ -105,19 +105,19 @@ test('serializeTransaction', t => {
     outputs: [
       {
         lockingBytecode: hexToBin('6552'),
-        satoshis: BigInt(73134625)
+        satoshis: 73134625
       },
       {
         lockingBytecode: hexToBin('5253516a656a53'),
-        satoshis: BigInt(95890937)
+        satoshis: 95890937
       },
       {
         lockingBytecode: hexToBin(''),
-        satoshis: BigInt(17344964)
+        satoshis: 17344964
       },
       {
         lockingBytecode: hexToBin('52525251516a'),
-        satoshis: BigInt(19470773)
+        satoshis: 19470773
       }
     ],
     version: 1886435390

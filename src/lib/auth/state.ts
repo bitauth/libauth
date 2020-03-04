@@ -63,7 +63,7 @@ export interface TransactionInputState extends TransactionState {
   /**
    * The value of the outpoint being spent by this input.
    */
-  readonly outputValue: bigint;
+  readonly outputValue: number;
   /**
    * The `sequenceNumber` associated with the input being validated. See
    * `Input.sequenceNumber` for details.

@@ -31,7 +31,7 @@ export const createTestAuthenticationProgramBCH = (
   unlockingBytecode: Uint8Array,
   lockingBytecode: Uint8Array,
   sha256: Sha256,
-  satoshis = BigInt(0)
+  satoshis = 0
 ) => {
   const testFundingTransaction: Transaction = {
     inputs: [

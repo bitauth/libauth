@@ -47,10 +47,10 @@ const normalMaximumScriptNumberByteLength = 4;
  * given 32-bit integer inputs, but future operators may require additional
  * refactoring in those implementations.
  *
- * @param bytes a Uint8Array from the stack
- * @param requireMinimalEncoding if true, this method returns an error when
+ * @param bytes - a Uint8Array from the stack
+ * @param requireMinimalEncoding - if true, this method returns an error when
  * parsing non-minimally encoded Script Numbers
- * @param maximumScriptNumberByteLength the maximum valid number of bytes
+ * @param maximumScriptNumberByteLength - the maximum valid number of bytes
  */
 // eslint-disable-next-line complexity
 export const parseBytesAsScriptNumber = (
@@ -104,7 +104,7 @@ export const parseBytesAsScriptNumber = (
  * Convert a BigInt into the "Script Number" format. See
  * `parseBytesAsScriptNumber` for more information.
  *
- * @param integer the BigInt to encode as a Script Number
+ * @param integer - the BigInt to encode as a Script Number
  */
 // eslint-disable-next-line complexity
 export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
@@ -145,7 +145,7 @@ export const bigIntToScriptNumber = (integer: bigint): Uint8Array => {
  *
  * The Satoshi implementation calls this method `CastToBool`.
  *
- * @param item the stack item to check for truthiness
+ * @param item - the stack item to check for truthiness
  */
 export const stackItemIsTruthy = (item: Uint8Array) => {
   const signFlippingByte = 0x80;
@@ -165,7 +165,7 @@ export const stackItemIsTruthy = (item: Uint8Array) => {
  * Convert a boolean into Script Number format (the type used to express
  * boolean values emitted by several operations).
  *
- * @param value the boolean value to convert
+ * @param value - the boolean value to convert
  */
 export const booleanToScriptNumber = (value: boolean) =>
   value ? bigIntToScriptNumber(BigInt(1)) : bigIntToScriptNumber(BigInt(0));

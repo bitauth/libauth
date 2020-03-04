@@ -1,3 +1,5 @@
+import { Immutable } from '../utils/utils';
+
 /**
  * The list of 32 symbols used in Bech32 encoding.
  */
@@ -28,48 +30,63 @@ export enum BitRegroupingError {
  *
  * A.K.A. `convertbits`
  *
- * @internalRemarks
+ * @privateRemarks
  * Derived from: https://github.com/sipa/bech32
  * Copyright (c) 2017 Pieter Wuille, MIT License
  */
-export const regroupBits = (
-  bin: Uint8Array | number[],
-  sourceWordLength: number,
-  resultWordLength: number,
+export const regroupBits = ({
+  bin,
+  sourceWordLength,
+  resultWordLength,
   padding = true
-) => {
-  let accumulator = 0;
-  let bits = 0;
-  const result = [];
-  const maxResultInt = (1 << resultWordLength) - 1;
-  // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of, no-plusplus
-  for (let p = 0; p < bin.length; ++p) {
-    const value = bin[p];
-    if (value < 0 || value >> sourceWordLength !== 0) {
-      return BitRegroupingError.integerOutOfRange;
+}: {
+  bin: Immutable<Uint8Array> | readonly number[];
+  sourceWordLength: number;
+  resultWordLength: number;
+  padding?: boolean;
+}) =>
+  /*
+   * bin: Immutable<Uint8Array> | readonly number[],
+   * sourceWordLength: number,
+   * resultWordLength: number,
+   * padding = true
+   */
+  {
+    let accumulator = 0;
+    let bits = 0;
+    const result = [];
+    const maxResultInt = (1 << resultWordLength) - 1;
+    // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of, no-plusplus
+    for (let p = 0; p < bin.length; ++p) {
+      const value = bin[p];
+      if (value < 0 || value >> sourceWordLength !== 0) {
+        return BitRegroupingError.integerOutOfRange;
+      }
+      accumulator = (accumulator << sourceWordLength) | value;
+      bits += sourceWordLength;
+      // eslint-disable-next-line functional/no-loop-statement
+      while (bits >= resultWordLength) {
+        bits -= resultWordLength;
+        // eslint-disable-next-line functional/immutable-data
+        result.push((accumulator >> bits) & maxResultInt);
+      }
     }
-    accumulator = (accumulator << sourceWordLength) | value;
-    bits += sourceWordLength;
-    // eslint-disable-next-line functional/no-loop-statement
-    while (bits >= resultWordLength) {
-      bits -= resultWordLength;
-      // eslint-disable-next-line functional/immutable-data
-      result.push((accumulator >> bits) & maxResultInt);
-    }
-  }
 
-  if (padding) {
-    if (bits > 0) {
-      // eslint-disable-next-line functional/immutable-data
-      result.push((accumulator << (resultWordLength - bits)) & maxResultInt);
+    if (padding) {
+      if (bits > 0) {
+        // eslint-disable-next-line functional/immutable-data
+        result.push((accumulator << (resultWordLength - bits)) & maxResultInt);
+      }
+    } else if (bits >= sourceWordLength) {
+      return BitRegroupingError.hasDisallowedPadding;
+    } else if (
+      ((accumulator << (resultWordLength - bits)) & maxResultInt) >
+      0
+    ) {
+      return BitRegroupingError.requiresDisallowedPadding;
     }
-  } else if (bits >= sourceWordLength) {
-    return BitRegroupingError.hasDisallowedPadding;
-  } else if (((accumulator << (resultWordLength - bits)) & maxResultInt) > 0) {
-    return BitRegroupingError.requiresDisallowedPadding;
-  }
-  return result;
-};
+    return result;
+  };
 /* eslint-enable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
 
 /**
@@ -78,9 +95,9 @@ export const regroupBits = (
  * Note, this method always completes. For a valid result, all items in
  * `base32IntegerArray` must be between `0` and `32`.
  *
- * @param base32IntegerArray the array of 5-bit integers to encode
+ * @param base32IntegerArray - the array of 5-bit integers to encode
  */
-export const encodeBech32 = (base32IntegerArray: number[]) => {
+export const encodeBech32 = (base32IntegerArray: readonly number[]) => {
   // eslint-disable-next-line functional/no-let
   let result = '';
   // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement, no-plusplus
@@ -98,7 +115,7 @@ export const encodeBech32 = (base32IntegerArray: number[]) => {
  * an incorrect result will be returned. If `validBech32` is potentially
  * malformed, check it with `isBech32` before calling this method.
  *
- * @param validBech32 the bech32-encoded string to decode
+ * @param validBech32 - the bech32-encoded string to decode
  */
 export const decodeBech32 = (validBech32: string) => {
   const result: typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex][] = [];
@@ -124,7 +141,7 @@ const zero = 0;
  * must use only the bech32 character set, and it must be padded correctly, i.e.
  * it must encode a multiple of 8 bits.
  *
- * @param maybeBech32 a string to test for valid Bech32 encoding
+ * @param maybeBech32 - a string to test for valid Bech32 encoding
  */
 export const isBech32 = (maybeBech32: string) => {
   const expectedPadding =
@@ -157,16 +174,16 @@ export enum Bech32DecodingError {
  *
  * This method is the reverse of `binToBech32Padded`.
  *
- * @param bech32Padded the padded bech32-encoded string to decode
+ * @param bech32Padded - the padded bech32-encoded string to decode
  */
 export const bech32PaddedToBin = (bech32Padded: string) => {
   const result = isBech32(bech32Padded)
-    ? regroupBits(
-        decodeBech32(bech32Padded),
-        base32WordLength,
-        base256WordLength,
-        false
-      )
+    ? regroupBits({
+        bin: decodeBech32(bech32Padded),
+        padding: false,
+        resultWordLength: base256WordLength,
+        sourceWordLength: base32WordLength
+      })
     : Bech32DecodingError.notBech32Padded;
   return typeof result === 'string' ? result : Uint8Array.from(result);
 };
@@ -177,9 +194,13 @@ export const bech32PaddedToBin = (bech32Padded: string) => {
  *
  * This method is the reverse of `bech32PaddedToBin`.
  *
- * @param bytes the Uint8Array to bech32 encode
+ * @param bytes - the Uint8Array to bech32 encode
  */
-export const binToBech32Padded = (bytes: Uint8Array) =>
+export const binToBech32Padded = (bytes: Immutable<Uint8Array>) =>
   encodeBech32(
-    regroupBits(bytes, base256WordLength, base32WordLength) as number[]
+    regroupBits({
+      bin: bytes,
+      resultWordLength: base32WordLength,
+      sourceWordLength: base256WordLength
+    }) as number[]
   );

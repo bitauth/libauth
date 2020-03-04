@@ -13,26 +13,25 @@ import {
 /**
  * Data type representing a Transaction Input.
  */
-export interface Input {
+export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
   /**
    * The index of the output in the transaction from which this input is spent.
    *
-   * An "outpoint" is a reference ("pointer") to an output in a previous
-   * transaction.
+   * @remarks
+   * An "outpoint" is a reference (A.K.A. "pointer") to a specific output in a
+   * previous transaction.
    */
   outpointIndex: number;
   /**
    * A.K.A. `Transaction ID`
    *
    * The hash of the raw transaction from which this input is spent in
-   * big-endian byte order.
+   * big-endian byte order. This is the order typically seen in block explorers
+   * and user interfaces.
    *
    * @remarks
-   * An "outpoint" is a reference (A.K.A. "pointer") to an output in a previous
-   * transaction.
-   *
-   * TODO: clarify: in what order to block explorers display hashes? In what
-   * order are hashes serialized?
+   * An "outpoint" is a reference (A.K.A. "pointer") to a specific output in a
+   * previous transaction.
    *
    * Serialized raw bitcoin transactions encode this value in little-endian byte
    * order. However, it is more common to use big-endian byte order when
@@ -40,7 +39,7 @@ export interface Input {
    * defines its output as big-endian, so this byte order is output by most
    * cryptographic libraries.)
    */
-  outpointTransactionHash: Uint8Array;
+  outpointTransactionHash: HashRepresentation;
   /**
    * TODO: summarize BIP 68
    */
@@ -53,13 +52,13 @@ export interface Input {
    *
    * A.K.A. `scriptSig` or "unlocking script"
    */
-  unlockingBytecode: Uint8Array;
+  unlockingBytecode: Bytecode;
 }
 
 /**
  * Data type representing a Transaction Output.
  */
-export interface Output {
+export interface Output<Bytecode = Uint8Array, Amount = number> {
   /**
    * The bytecode used to encumber a transaction output. To spend the output,
    * unlocking bytecode must be included in a transaction input which – when
@@ -67,25 +66,25 @@ export interface Output {
    *
    * A.K.A. `scriptPubKey` or "locking script"
    */
-  readonly lockingBytecode: Uint8Array;
+  readonly lockingBytecode: Bytecode;
   /**
    * The value of the output in satoshis, the smallest unit of bitcoin. There
    * are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.
    */
-  readonly satoshis: bigint;
+  readonly satoshis: Amount;
 }
 
 /**
  * Data type representing a Transaction.
  */
-export interface Transaction {
+export interface Transaction<InputType = Input, OutputType = Output> {
   /**
    * An array of inputs included in this transaction.
    *
    * Input order is critical to signing serializations, and reordering inputs
    * may invalidate transactions.
    */
-  inputs: Input[];
+  inputs: InputType[];
   /**
    * The locktime at which this transaction is considered valid.
    *
@@ -102,13 +101,14 @@ export interface Transaction {
    * block (even if the specified locktime has not yet been reached).
    */
   locktime: number;
+
   /**
    * An array of outputs included in this transaction.
    *
    * Output order is critical to signing serializations, and reordering outputs
    * may invalidate transactions.
    */
-  outputs: Output[];
+  outputs: OutputType[];
   /**
    * The version of this transaction. Since BIP68, most transactions use a
    * version of `2`.
@@ -123,8 +123,8 @@ const enum ByteLength {
 }
 
 /**
- * @param bin the raw transaction from which to read the input
- * @param offset the offset at which the input begins
+ * @param bin - the raw transaction from which to read the input
+ * @param offset - the offset at which the input begins
  */
 export const readTransactionInput = (bin: Uint8Array, offset: number) => {
   const offsetAfterTxHash = offset + ByteLength.sha256Hash;
@@ -161,7 +161,7 @@ export const readTransactionInput = (bin: Uint8Array, offset: number) => {
 
 /**
  * Serialize a single input.
- * @param output the input to serialize
+ * @param output - the input to serialize
  */
 export const serializeInput = (input: Input) =>
   flattenBinArray([
@@ -175,9 +175,9 @@ export const serializeInput = (input: Input) =>
 /**
  * Serialize a set of inputs for inclusion in a serialized transaction.
  *
- * Format: <BitcoinVarInt: input count> <serialized inputs>
+ * Format: [BitcoinVarInt: input count] [serialized inputs]
  *
- * @param inputs the set of inputs to serialize
+ * @param inputs - the set of inputs to serialize
  */
 export const serializeInputs = (inputs: readonly Input[]) =>
   flattenBinArray([
@@ -186,13 +186,13 @@ export const serializeInputs = (inputs: readonly Input[]) =>
   ]);
 
 /**
- * @param bin the raw transaction from which to read the output
- * @param offset the offset at which the output begins
+ * @param bin - the raw transaction from which to read the output
+ * @param offset - the offset at which the output begins
  */
 export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
   const offsetAfterSatoshis = offset + ByteLength.uint64;
-  const satoshis = binToBigIntUint64LE(
-    bin.subarray(offset, offsetAfterSatoshis)
+  const satoshis = Number(
+    binToBigIntUint64LE(bin.subarray(offset, offsetAfterSatoshis))
   );
   const { nextOffset: offsetAfterScriptLength, value } = readBitcoinVarInt(
     bin,
@@ -216,7 +216,7 @@ export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
 
 /**
  * Serialize a single output.
- * @param output the output to serialize
+ * @param output - the output to serialize
  */
 export const serializeOutput = (output: Output) =>
   flattenBinArray([
@@ -228,9 +228,9 @@ export const serializeOutput = (output: Output) =>
 /**
  * Serialize a set of outputs for inclusion in a serialized transaction.
  *
- * Format: <BitcoinVarInt: output count> <serialized outputs>
+ * Format: [BitcoinVarInt: output count] [serialized outputs]
  *
- * @param outputs the set of outputs to serialize
+ * @param outputs - the set of outputs to serialize
  */
 export const serializeOutputsForTransaction = (outputs: readonly Output[]) =>
   flattenBinArray([
@@ -244,7 +244,7 @@ export const serializeOutputsForTransaction = (outputs: readonly Output[]) =>
  * Note: this method throws runtime errors when attempting to decode improperly
  * encoded transactions.
  *
- * @param bin the raw transaction to decode
+ * @param bin - the raw transaction to decode
  */
 export const deserializeTransaction = (bin: Uint8Array): Transaction => {
   const version = binToNumberUint32LE(bin.subarray(0, ByteLength.uint32));
@@ -312,8 +312,8 @@ export const serializeTransaction = (tx: Transaction) =>
  *
  * @returns an identifier in little-endian byte order
  *
- * @param data the serialized raw data being identified
- * @param sha256 an implementation of sha256
+ * @param data - the serialized raw data being identified
+ * @param sha256 - an implementation of sha256
  */
 export const getBitcoinIdentifier = (data: Uint8Array, sha256: Sha256) =>
   sha256.hash(sha256.hash(data)).reverse();
@@ -323,8 +323,8 @@ export const getBitcoinIdentifier = (data: Uint8Array, sha256: Sha256) =>
  *
  * @returns a Transaction ID in little-endian byte order
  *
- * @param transaction the serialized transaction
- * @param sha256 an implementation of sha256
+ * @param transaction - the serialized transaction
+ * @param sha256 - an implementation of sha256
  */
 export const getBitcoinTransactionId = (
   transaction: Uint8Array,
@@ -335,10 +335,15 @@ export const getBitcoinTransactionId = (
  * Get the hash of all outpoints in a series of inputs. (For use in
  * `hashTransactionOutpoints`.)
  *
- * @param inputs the series of inputs from which to extract the outpoints
- * @param sha256 an implementation of sha256
+ * @param inputs - the series of inputs from which to extract the outpoints
+ * @param sha256 - an implementation of sha256
  */
-export const serializeOutpoints = (inputs: readonly Input[]) =>
+export const serializeOutpoints = (
+  inputs: readonly {
+    outpointIndex: number;
+    outpointTransactionHash: Uint8Array;
+  }[]
+) =>
   flattenBinArray(
     inputs.map(i =>
       flattenBinArray([
@@ -350,7 +355,7 @@ export const serializeOutpoints = (inputs: readonly Input[]) =>
 
 /**
  * Get the signing serialization for a series of outputs.
- * @param outputs the series of outputs to serialize
+ * @param outputs - the series of outputs to serialize
  */
 export const serializeOutputsForSigning = (outputs: readonly Output[]) =>
   flattenBinArray(outputs.map(serializeOutput));
@@ -358,7 +363,8 @@ export const serializeOutputsForSigning = (outputs: readonly Output[]) =>
 /**
  * Serialize a series of input sequence numbers.
  *
- * @param inputs the series of inputs from which to extract the sequence numbers
+ * @param inputs - the series of inputs from which to extract the sequence numbers
  */
-export const serializeSequenceNumbers = (inputs: readonly Input[]) =>
-  flattenBinArray(inputs.map(i => numberToBinUint32LE(i.sequenceNumber)));
+export const serializeSequenceNumbers = (
+  inputs: readonly { sequenceNumber: number }[]
+) => flattenBinArray(inputs.map(i => numberToBinUint32LE(i.sequenceNumber)));

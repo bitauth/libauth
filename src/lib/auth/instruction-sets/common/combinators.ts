@@ -26,8 +26,8 @@ export const conditionallyEvaluate = <State extends ExecutionStackState>(
 /**
  * Map a function over each operation in an `InstructionSet.operations` object,
  * assigning the result to the same `opcode` in the resulting object.
- * @param operations an operations map from an `InstructionSet`
- * @param combinator a function to apply to each operation
+ * @param operations - an operations map from an `InstructionSet`
+ * @param combinator - a function to apply to each operation
  */
 export const mapOverOperations = <State>(
   operations: InstructionSetOperationMapping<State>,
@@ -235,8 +235,8 @@ export const useThreeScriptNumbers = <
 
 /**
  * Return the provided state with the provided value pushed to its stack.
- * @param state the state to update and return
- * @param data the value to push to the stack
+ * @param state - the state to update and return
+ * @param data - the value to push to the stack
  */
 export const pushToStack = <State extends StackState>(
   state: State,

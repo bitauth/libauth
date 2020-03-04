@@ -21,7 +21,7 @@
 
 /**
  * Interpret a string as UTF-8 and encode it as a Uint8Array.
- * @param utf8 the string to encode
+ * @param utf8 - the string to encode
  */
 export const utf8ToBin = (utf8: string) => {
   const out = [];
@@ -54,7 +54,7 @@ export const utf8ToBin = (utf8: string) => {
 
 /**
  * Decode a Uint8Array as a UTF-8 string.
- * @param bytes the Uint8Array to decode
+ * @param bytes - the Uint8Array to decode
  */
 export const binToUtf8 = (bytes: Uint8Array) => {
   const out = [];

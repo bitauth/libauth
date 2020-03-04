@@ -7,7 +7,7 @@ export interface Sha1 extends HashFunction {
    *
    * Returns the final hash.
    *
-   * @param rawState a raw state returned by `update`.
+   * @param rawState - a raw state returned by `update`.
    */
   readonly final: (rawState: Uint8Array) => Uint8Array;
 
@@ -17,7 +17,7 @@ export interface Sha1 extends HashFunction {
    * To incrementally construct a sha1 hash (e.g. for streaming), use `init`,
    * `update`, and `final`.
    *
-   * @param input a Uint8Array to be hashed using sha1
+   * @param input - a Uint8Array to be hashed using sha1
    */
   readonly hash: (input: Uint8Array) => Uint8Array;
 
@@ -46,8 +46,8 @@ export interface Sha1 extends HashFunction {
    * When the computation has been updated with all input, pass the raw state to
    * `final` to finish and return a hash.
    *
-   * @param rawState a raw state returned by either `init` or `update`
-   * @param input a Uint8Array to be added to the sha1 computation
+   * @param rawState - a raw state returned by either `init` or `update`
+   * @param input - a Uint8Array to be added to the sha1 computation
    */
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
 }
@@ -56,7 +56,7 @@ export interface Sha1 extends HashFunction {
  * The most performant way to instantiate sha1 functionality. To avoid
  * using Node.js or DOM-specific APIs, you can use `instantiateSha1`.
  *
- * @param webassemblyBytes A buffer containing the sha1 binary.
+ * @param webassemblyBytes - A buffer containing the sha1 binary.
  */
 export const instantiateSha1Bytes = async (
   webassemblyBytes: ArrayBuffer

@@ -22,7 +22,7 @@ export const bitcoinABCOpcodes = Object.entries(
  * bytecode. The string must be valid – this method attempts to convert all
  * unmatched tokens to `BigInt`s.
  *
- * @internalRemarks
+ * @privateRemarks
  * This method doesn't use {@link compileScript} because of a slight
  * incompatibility in the languages. In BTL, BigIntLiterals are a primitive
  * type, and must be surrounded by a push statement (e.g. `<100>`) to push a
@@ -30,7 +30,8 @@ export const bitcoinABCOpcodes = Object.entries(
  * assumed to be pushed. We could implement a transformation after the
  * compiler's parse step, but because this format doesn't require any other
  * features of the compiler, we opt to implement this as a simple method.
- * @param abcScript the script in Bitcoin ABC's `script_tests.json` text-format
+ * @param abcScript - the script in Bitcoin ABC's `script_tests.json` text
+ * format
  */
 export const assembleBitcoinABCScript = (abcScript: string) =>
   flattenBinArray(

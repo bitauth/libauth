@@ -12,8 +12,8 @@ const prepareCode = async () => {
   // eslint-disable-next-line no-console
   const realConsoleWarn = console.warn;
   /**
-   * Suppress Rollup warning: `Use of eval is strongly discouraged, as it poses
-   * security risks and may cause issues with minification`
+   * Suppress Rollup warning:
+   * `Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification`
    */
   // eslint-disable-next-line no-console, functional/immutable-data
   console.warn = (suppress: string) => suppress;

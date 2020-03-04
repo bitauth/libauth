@@ -83,7 +83,7 @@ const EOF = 'EOF';
  * A text-formatting method to pretty-print the list of expected inputs
  * (`Encountered unexpected input while parsing script. Expected ...`). If
  * present, the `EOF` expectation is always moved to the end of the list.
- * @param expectedArray the alphabetized list of expected inputs produced by
+ * @param expectedArray - the alphabetized list of expected inputs produced by
  * `parseScript`
  */
 const describeExpectedInput = (expectedArray: string[]) => {
@@ -162,7 +162,7 @@ export const compileScriptText = <
 };
 
 /**
- * Parse, resolve, and reduce the provided BTL script using the provided`data`
+ * Parse, resolve, and reduce the provided BTL script using the provided `data`
  * and `environment`.
  */
 export const compileScript = <

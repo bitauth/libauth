@@ -212,7 +212,7 @@ export const opMod = <
  * Validate the encoding of a raw signature – a signature without a signing
  * serialization type byte (A.K.A. "sighash" byte).
  *
- * @param signature the raw signature
+ * @param signature - the raw signature
  */
 export const isValidSignatureEncodingBCHRaw = (signature: Uint8Array) =>
   signature.length === 0 ||

@@ -80,7 +80,9 @@
   "engines": {
     "node": ">=8.9"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@typescript-eslint/parser": "^2.22.0"
+  },
   "devDependencies": {
     "@ava/typescript": "^1.1.0",
     "@bitjson/npm-scripts-info": "^1.0.0",
@@ -94,8 +96,6 @@
     "@types/puppeteer": "^2.0.0",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
-    "@typescript-eslint/parser": "^2.19.0",
     "asmcrypto.js": "^2.3.2",
     "ava": "^3.2.0",
     "bcrypto": "^5.0.2",
@@ -132,7 +132,7 @@
     "ts-json-schema-generator": "^0.58.1",
     "ts-node": "^8.6.2",
     "typedoc": "^0.16.9",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3"
   },
   "ava": {
     "failFast": true,

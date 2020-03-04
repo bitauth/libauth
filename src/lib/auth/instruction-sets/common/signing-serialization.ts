@@ -70,8 +70,8 @@ const emptyHash = () => new Uint8Array(Internal.sha256HashByteLength).fill(0);
 /**
  * Return the proper `hashPrevouts` value for a given a signing serialization
  * type.
- * @param signingSerializationType the signing serialization type to test
- * @param transactionOutpoints see `generateSigningSerializationBCH`
+ * @param signingSerializationType - the signing serialization type to test
+ * @param transactionOutpoints - see `generateSigningSerializationBCH`
  */
 export const hashPrevouts = (
   sha256: { hash: (input: Uint8Array) => Uint8Array },
@@ -85,8 +85,8 @@ export const hashPrevouts = (
 /**
  * Return the proper `hashSequence` value for a given a signing serialization
  * type.
- * @param signingSerializationType the signing serialization type to test
- * @param transactionSequenceNumbers see
+ * @param signingSerializationType - the signing serialization type to test
+ * @param transactionSequenceNumbers - see
  * `generateSigningSerializationBCH`
  */
 export const hashSequence = (
@@ -103,9 +103,9 @@ export const hashSequence = (
 /**
  * Return the proper `hashOutputs` value for a given a signing serialization
  * type.
- * @param signingSerializationType the signing serialization type to test
- * @param transactionOutputs see `generateSigningSerializationBCH`
- * @param correspondingOutput see `generateSigningSerializationBCH`
+ * @param signingSerializationType - the signing serialization type to test
+ * @param transactionOutputs - see `generateSigningSerializationBCH`
+ * @param correspondingOutput - see `generateSigningSerializationBCH`
  */
 export const hashOutputs = (
   sha256: { hash: (input: Uint8Array) => Uint8Array },
@@ -126,30 +126,30 @@ export const hashOutputs = (
  * Serialize the signature-protected properties of a transaction following the
  * algorithm required by the `signingSerializationType` of a signature.
  *
- * @param version the version number of the transaction
- * @param transactionOutpoints the serialization of all input outpoints (A.K.A.
+ * @param version - the version number of the transaction
+ * @param transactionOutpoints - the serialization of all input outpoints (A.K.A.
  * `hashPrevouts`) – used if `ANYONECANPAY` is not set
- * @param transactionSequenceNumbers the serialization of all input sequence
+ * @param transactionSequenceNumbers - the serialization of all input sequence
  * numbers. (A.K.A. `hashSequence`) – used if none of `ANYONECANPAY`, `SINGLE`,
  * or `NONE` are set.
- * @param outpointTransactionHash the big-endian (standard) transaction hash of
+ * @param outpointTransactionHash - the big-endian (standard) transaction hash of
  * the outpoint being spent.
- * @param outpointIndex the index of the outpoint being spent in
+ * @param outpointIndex - the index of the outpoint being spent in
  * `outpointTransactionHash`
- * @param coveredBytecode the script currently being executed, beginning at the
+ * @param coveredBytecode - the script currently being executed, beginning at the
  * `lastCodeSeparator`.
- * @param outputValue the value of the outpoint in satoshis
- * @param sequenceNumber the sequence number of the input (A.K.A. `nSequence`)
- * @param correspondingOutput the serialization of the output at the same index
+ * @param outputValue - the value of the outpoint in satoshis
+ * @param sequenceNumber - the sequence number of the input (A.K.A. `nSequence`)
+ * @param correspondingOutput - the serialization of the output at the same index
  * as this input (A.K.A. `hashOutputs` with `SIGHASH_SINGLE`) – only used if
  * `SINGLE` is set
- * @param transactionOutputs the serialization of output amounts and locking
+ * @param transactionOutputs - the serialization of output amounts and locking
  * bytecode values (A.K.A. `hashOutputs` with `SIGHASH_ALL`) – only used if
  * `ALL` is set
- * @param locktime the locktime of the transaction
- * @param signingSerializationType the signing serialization type of the
+ * @param locktime - the locktime of the transaction
+ * @param signingSerializationType - the signing serialization type of the
  * signature (A.K.A. `sighash` type)
- * @param forkId while a bitcoin-encoded signature only includes a single byte
+ * @param forkId - while a bitcoin-encoded signature only includes a single byte
  * to encode the signing serialization type, a 3-byte forkId can be appended to
  * provide replay-protection between different forks. (See Bitcoin Cash's Replay
  * Protected Sighash spec for details.)
@@ -198,7 +198,7 @@ export const generateSigningSerializationBCH = (
   ]);
 
 /**
- * @param signingSerializationType the 32-bit number indicating the signing
+ * @param signingSerializationType - the 32-bit number indicating the signing
  * serialization algorithm to use
  */
 export const isLegacySigningSerialization = (

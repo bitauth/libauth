@@ -27,8 +27,8 @@ const enum ByteLength {
 }
 
 /**
- * @param secp256k1Wasm a Secp256k1Wasm object
- * @param randomSeed a 32-byte random seed used to randomize the context after
+ * @param secp256k1Wasm - a Secp256k1Wasm object
+ * @param randomSeed - a 32-byte random seed used to randomize the context after
  * creation
  */
 const wrapSecp256k1Wasm = (
@@ -610,10 +610,10 @@ const wrapSecp256k1Wasm = (
  * the ability to randomize the context like the C library. Depending on the
  * intended application, consumers can decide whether or not to randomize.
  *
- * @param webassemblyBytes an ArrayBuffer containing the bytes from bitcoin-ts'
+ * @param webassemblyBytes - an ArrayBuffer containing the bytes from bitcoin-ts'
  * `secp256k1.wasm` binary. Providing this buffer manually may be faster than
  * the internal base64 decode which happens in `instantiateSecp256k1`.
- * @param randomSeed a 32-byte random seed used to randomize the secp256k1
+ * @param randomSeed - a 32-byte random seed used to randomize the secp256k1
  * context after creation. See above for details.
  */
 export const instantiateSecp256k1Bytes = async (
@@ -632,7 +632,7 @@ export const instantiateSecp256k1Bytes = async (
  *
  * TODO: cache resulting instance to return in all future calls
  *
- * @param randomSeed a 32-byte random seed used to randomize the secp256k1
+ * @param randomSeed - a 32-byte random seed used to randomize the secp256k1
  * context after creation. See the description in `instantiateSecp256k1Bytes`
  * for details.
  */

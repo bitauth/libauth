@@ -23,8 +23,8 @@ export * from './fixtures/bitcoin-abc/bitcoin-abc-utils';
 /**
  * Initialize a virtual machine using the provided BCH instruction set.
  *
- * @param instructionSet the VM version to instantiate – by default, the current
- * "strict" VM is used (`instructionSetBCHCurrentStrict`)
+ * @param instructionSet - the VM version to instantiate – by default, the
+ * current "strict" VM is used (`instructionSetBCHCurrentStrict`)
  */
 export const instantiateVirtualMachineBCH = async (
   instructionSet = instructionSetBCHCurrentStrict

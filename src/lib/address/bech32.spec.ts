@@ -14,14 +14,30 @@ import {
 } from './bech32';
 
 test('regroupBits', t => {
-  t.deepEqual(regroupBits([255, 255], 8, 5), [31, 31, 31, 16]);
-  t.deepEqual(regroupBits([256], 8, 5), BitRegroupingError.integerOutOfRange);
   t.deepEqual(
-    regroupBits([31, 31, 31, 17], 5, 8, false),
+    regroupBits({ bin: [255, 255], resultWordLength: 5, sourceWordLength: 8 }),
+    [31, 31, 31, 16]
+  );
+  t.deepEqual(
+    regroupBits({ bin: [256], resultWordLength: 5, sourceWordLength: 8 }),
+    BitRegroupingError.integerOutOfRange
+  );
+  t.deepEqual(
+    regroupBits({
+      bin: [31, 31, 31, 17],
+      padding: false,
+      resultWordLength: 8,
+      sourceWordLength: 5
+    }),
     BitRegroupingError.requiresDisallowedPadding
   );
   t.deepEqual(
-    regroupBits([0], 5, 8, false),
+    regroupBits({
+      bin: [0],
+      padding: false,
+      resultWordLength: 8,
+      sourceWordLength: 5
+    }),
     BitRegroupingError.hasDisallowedPadding
   );
 });

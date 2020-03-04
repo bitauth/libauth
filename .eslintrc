@@ -7,6 +7,7 @@
   "extends": ["bitauth"],
   "globals": { "BigInt": true, "console": true, "WebAssembly": true },
   "rules": {
-    "max-params": "off" // TODO: fix API
+    "max-params": "warn", // TODO: fix API
+    "@typescript-eslint/prefer-readonly-parameter-types": "off" // TODO: enable
   }
 }

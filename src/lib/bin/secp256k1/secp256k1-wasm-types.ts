@@ -76,7 +76,7 @@ export interface Secp256k1Wasm {
    * Do not create a new context object for each operation, as construction is
    * far slower than all other API calls (~100 times slower than an ECDSA
    * verification).
-   * @param context a `Context` flag representing the capabilities needed
+   * @param context - a `Context` flag representing the capabilities needed
    */
   readonly contextCreate: (context: ContextFlag) => number;
 
@@ -98,14 +98,14 @@ export interface Secp256k1Wasm {
    * You should call this after `contextCreate` or
    * secp256k1_context_clone, and may call this repeatedly afterwards.
    *
-   * @param contextPtr pointer to a context object
-   * @param seedPtr pointer to a 32-byte random seed
+   * @param contextPtr - pointer to a context object
+   * @param seedPtr - pointer to a 32-byte random seed
    */
   readonly contextRandomize: (contextPtr: number, seedPtr: number) => 1 | 0;
 
   /**
    * Frees a pointer allocated by the `malloc` method.
-   * @param pointer the pointer to be freed
+   * @param pointer - the pointer to be freed
    */
   readonly free: (pointer: number) => number;
 
@@ -116,7 +116,7 @@ export interface Secp256k1Wasm {
 
   /**
    * Allocates the given number of bytes in WebAssembly memory.
-   * @param malloc the number of bytes to allocate
+   * @param malloc - the number of bytes to allocate
    */
   // eslint-disable-next-line functional/no-mixed-type
   readonly malloc: (bytes: number) => number;
@@ -126,14 +126,14 @@ export interface Secp256k1Wasm {
    * `ec_pubkey_serialize` & `ecdsa_signature_serialize_der`.
    *
    * This is a convenience method to create and set the value of those pointers.
-   * @param value the value of the `size_t` (e.g. the buffer length)
+   * @param value - the value of the `size_t` (e.g. the buffer length)
    */
   readonly mallocSizeT: (value: number) => number;
 
   /**
    * Allocates space for the provided array, and assigns the array to the space.
    *
-   * @param array a Uint8Array to allocate in WebAssembly memory
+   * @param array - a Uint8Array to allocate in WebAssembly memory
    */
   readonly mallocUint8Array: (array: Uint8Array) => number;
 
@@ -141,9 +141,9 @@ export interface Secp256k1Wasm {
    * Tweak a _privateKey_ by adding _tweak_ to it.
    * Returns 1 if adding succeeded, 0 otherwise.
    *
-   * @param contextPtr pointer to a context object
-   * @param secretKeyPtr pointer to a 32 byte private key
-   * @param tweakNum256Ptr pointer to a 256 bit int representing the tweak value
+   * @param contextPtr - pointer to a context object
+   * @param secretKeyPtr - pointer to a 32 byte private key
+   * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
   readonly privkeyTweakAdd: (
     contextPtr: number,
@@ -155,9 +155,9 @@ export interface Secp256k1Wasm {
    * Tweak a _privateKey_ by multiplying _tweak_ to it.
    * Returns 1 if multiplying succeeded, 0 otherwise.
    *
-   * @param contextPtr pointer to a context object
-   * @param secretKeyPtr pointer to a 32 byte private key
-   * @param tweakNum256Ptr pointer to a 256 bit int representing the tweak value
+   * @param contextPtr - pointer to a context object
+   * @param secretKeyPtr - pointer to a 32 byte private key
+   * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
   readonly privkeyTweakMul: (
     contextPtr: number,
@@ -170,10 +170,10 @@ export interface Secp256k1Wasm {
    *
    *  Returns 1 if the secret was valid and public key stored, otherwise 0.
    *
-   * @param contextPtr pointer to a context object, initialized for signing
-   * @param publicKeyPtr pointer to the created public key (note, this is an
+   * @param contextPtr - pointer to a context object, initialized for signing
+   * @param publicKeyPtr - pointer to the created public key (note, this is an
    * internal representation, and must be serialized for outside use)
-   * @param secretKeyPtr pointer to a 32-byte private key
+   * @param secretKeyPtr - pointer to a 32-byte private key
    */
   readonly pubkeyCreate: (
     contextPtr: number,
@@ -191,11 +191,11 @@ export interface Secp256k1Wasm {
    *  0x03), uncompressed (65 bytes, header byte 0x04), or hybrid (65 bytes, header
    *  byte 0x06 or 0x07) format public keys.
    *
-   * @param contextPtr pointer to a context object
-   * @param publicKeyOutPtr a pointer to a 64 byte space where the parsed public
+   * @param contextPtr - pointer to a context object
+   * @param publicKeyOutPtr - a pointer to a 64 byte space where the parsed public
    * key will be written. (internal format)
-   * @param publicKeyInPtr pointer to a serialized public key
-   * @param publicKeyInLength the number of bytes to read from `publicKeyInPtr`
+   * @param publicKeyInPtr - pointer to a serialized public key
+   * @param publicKeyInLength - the number of bytes to read from `publicKeyInPtr`
    * (Note, this should be a simple integer, rather than a `size_t` pointer as
    * is required by the serialization methods.)
    */
@@ -212,13 +212,13 @@ export interface Secp256k1Wasm {
    *
    *  Always returns 1.
    *
-   * @param contextPtr pointer to a context object
-   * @param outputPtr pointer to a 65-byte (if uncompressed) or 33-byte (if
+   * @param contextPtr - pointer to a context object
+   * @param outputPtr - pointer to a 65-byte (if uncompressed) or 33-byte (if
    * compressed) byte array in which to place the serialized key
-   * @param outputLengthPtr pointer to an integer which is initially set to the
+   * @param outputLengthPtr - pointer to an integer which is initially set to the
    * size of output, and is overwritten with the written size
-   * @param publicKeyPtr pointer to a public key (parsed, internal format)
-   * @param compression a CompressionFlag indicating compressed or uncompressed
+   * @param publicKeyPtr - pointer to a public key (parsed, internal format)
+   * @param compression - a CompressionFlag indicating compressed or uncompressed
    */
   readonly pubkeySerialize: (
     contextPtr: number,
@@ -232,10 +232,10 @@ export interface Secp256k1Wasm {
    * Tweak a _publicKey_ by adding _tweak_ times the generator to it.
    * Returns 1 if adding succeeded, 0 otherwise.
    *
-   * @param contextPtr pointer to a context object
-   * @param publicKeyPtr pointer to a 64 byte space representing a public key
+   * @param contextPtr - pointer to a context object
+   * @param publicKeyPtr - pointer to a 64 byte space representing a public key
    * (internal format)
-   * @param tweakNum256Ptr pointer to a 256 bit int representing the tweak value
+   * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
 
   readonly pubkeyTweakAdd: (
@@ -248,10 +248,10 @@ export interface Secp256k1Wasm {
    * Tweak a _publicKey_ by multiplying it by a _tweak_ value.
    * Returns 1 if multiplying succeeded, 0 otherwise.
    *
-   * @param contextPtr pointer to a context object
-   * @param publicKeyPtr pointer to a 64 byte space representing a public key
+   * @param contextPtr - pointer to a context object
+   * @param publicKeyPtr - pointer to a 64 byte space representing a public key
    * (internal format)
-   * @param tweakNum256Ptr pointer to a 256 bit int representing the tweak value
+   * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
 
   readonly pubkeyTweakMul: (
@@ -264,15 +264,15 @@ export interface Secp256k1Wasm {
    * Read from WebAssembly memory by creating a new Uint8Array beginning at
    * `pointer` and continuing through the number of `bytes` provided.
    *
-   * @param pointer a pointer to the beginning of the Uint8Array element
-   * @param bytes the number of bytes to copy
+   * @param pointer - a pointer to the beginning of the Uint8Array element
+   * @param bytes - the number of bytes to copy
    */
   readonly readHeapU8: (pointer: number, bytes: number) => Uint8Array;
 
   /**
    * Read a `size_t` from WebAssembly memory.
    *
-   * @param pointer a pointer to the `size_t` variable to read
+   * @param pointer - a pointer to the `size_t` variable to read
    */
   readonly readSizeT: (pointer: number) => number;
 
@@ -281,11 +281,11 @@ export interface Secp256k1Wasm {
    *
    * Returns 1 if the signature was valid and public key stored, otherwise 0.
    *
-   * @param contextPtr pointer to a context object, initialized for signing
-   * @param publicKeyPtr pointer to the created public key (note, this is an
+   * @param contextPtr - pointer to a context object, initialized for signing
+   * @param publicKeyPtr - pointer to the created public key (note, this is an
    * internal representation, and must be serialized for outside use)
-   * @param rSigPtr pointer to a recoverable signature (internal format)
-   * @param msg32Ptr pointer to the 32-byte message hash the signed by this
+   * @param rSigPtr - pointer to a recoverable signature (internal format)
+   * @param msg32Ptr - pointer to the 32-byte message hash the signed by this
    * signature
    */
   readonly recover: (
@@ -307,11 +307,11 @@ export interface Secp256k1Wasm {
    * S are zero, the resulting sig value is guaranteed to fail validation for
    * any message and public key.
    *
-   * @param contextPtr pointer to a context object
-   * @param outputRSigPtr a pointer to a 65 byte space where the parsed signature
+   * @param contextPtr - pointer to a context object
+   * @param outputRSigPtr - a pointer to a 65 byte space where the parsed signature
    * will be written. (internal format)
-   * @param inputSigPtr pointer to a serialized signature in compact format
-   * @param rid the recovery number, as an int. (Not a pointer)
+   * @param inputSigPtr - pointer to a serialized signature in compact format
+   * @param rid - the recovery number, as an int. (Not a pointer)
    */
   readonly recoverableSignatureParse: (
     contextPtr: number,
@@ -326,11 +326,11 @@ export interface Secp256k1Wasm {
    *
    * See `recoverableSignatureParse` for details about the encoding.
    *
-   * @param contextPtr pointer to a context object
-   * @param sigOutPtr pointer to a 64-byte space to store the compact
+   * @param contextPtr - pointer to a context object
+   * @param sigOutPtr - pointer to a 64-byte space to store the compact
    * serialization
-   * @param recIDOutPtr pointer to an int which will store the recovery number
-   * @param rSigPtr pointer to the 65-byte signature to be serialized
+   * @param recIDOutPtr - pointer to an int which will store the recovery number
+   * @param rSigPtr - pointer to the 65-byte signature to be serialized
    * (internal format)
    */
   readonly recoverableSignatureSerialize: (
@@ -357,11 +357,11 @@ export interface Secp256k1Wasm {
    * default nonce generation function, `secp256k1_nonce_function_default`, is
    * always used.
    *
-   * @param contextPtr pointer to a context object, initialized for signing
-   * @param outputSigPtr pointer to a 64 byte space where the signature will be
-   * written
-   * @param msg32Ptr pointer to the 32-byte message hash being signed
-   * @param secretKeyPtr pointer to a 32-byte secret key
+   * @param contextPtr - pointer to a context object, initialized for signing
+   * @param outputSigPtr - pointer to a 64 byte space where the signature will
+   * be written
+   * @param msg32Ptr - pointer to the 32-byte message hash being signed
+   * @param secretKeyPtr - pointer to a 32-byte secret key
    */
   readonly schnorrSign: (
     contextPtr: number,
@@ -375,11 +375,11 @@ export interface Secp256k1Wasm {
    *
    * Returns 1 if the signature is valid or 0 on failure.
    *
-   * @param contextPtr pointer to a context object, initialized for
+   * @param contextPtr - pointer to a context object, initialized for
    * verification.
-   * @param sigPtr pointer to the 64-byte schnorr signature being verified
-   * @param msg32Ptr pointer to the 32-byte message hash being verified
-   * @param pubkeyPtr pointer to the parsed pubkey with which to verify
+   * @param sigPtr - pointer to the 64-byte schnorr signature being verified
+   * @param msg32Ptr - pointer to the 32-byte message hash being verified
+   * @param pubkeyPtr - pointer to the parsed pubkey with which to verify
    * (internal format)
    */
   readonly schnorrVerify: (
@@ -394,8 +394,8 @@ export interface Secp256k1Wasm {
    *
    * Returns 1 if the secret key is valid, or 0 if the secret key is invalid.
    *
-   * @param contextPtr pointer to a context object
-   * @param secretKeyPtr pointer to a 32-byte secret key
+   * @param contextPtr - pointer to a context object
+   * @param secretKeyPtr - pointer to a 32-byte secret key
    */
   readonly seckeyVerify: (contextPtr: number, secretKeyPtr: number) => 1 | 0;
 
@@ -410,11 +410,11 @@ export interface Secp256k1Wasm {
    * default nonce generation function, `secp256k1_nonce_function_default`, is
    * always used.
    *
-   * @param contextPtr pointer to a context object, initialized for signing
-   * @param outputSigPtr pointer to a 64 byte space where the signature will be
+   * @param contextPtr - pointer to a context object, initialized for signing
+   * @param outputSigPtr - pointer to a 64 byte space where the signature will be
    * written (internal format)
-   * @param msg32Ptr pointer to the 32-byte message hash being signed
-   * @param secretKeyPtr pointer to a 32-byte secret key
+   * @param msg32Ptr - pointer to the 32-byte message hash being signed
+   * @param secretKeyPtr - pointer to a 32-byte secret key
    */
   readonly sign: (
     contextPtr: number,
@@ -433,10 +433,10 @@ export interface Secp256k1Wasm {
    * This method is added by bitcoin-ts to make testing of `signatureNormalize`
    * easier.
    *
-   * @param contextPtr pointer to a context object
-   * @param outputSigPtr pointer to a 64 byte space where the malleated
+   * @param contextPtr - pointer to a context object
+   * @param outputSigPtr - pointer to a 64 byte space where the malleated
    * signature will be written (internal format)
-   * @param inputSigPtr pointer to a signature to malleate
+   * @param inputSigPtr - pointer to a signature to malleate
    */
   readonly signatureMalleate: (
     contextPtr: number,
@@ -481,10 +481,10 @@ export interface Secp256k1Wasm {
    * that cannot enforce this property, `signatureNormalize` must be called
    * before verification.
    *
-   * @param contextPtr pointer to a context object
-   * @param outputSigPtr pointer to a 64 byte space where the normalized
+   * @param contextPtr - pointer to a context object
+   * @param outputSigPtr - pointer to a 64 byte space where the normalized
    * signature will be written (internal format)
-   * @param inputSigPtr pointer to a signature to check/normalize (internal
+   * @param inputSigPtr - pointer to a signature to check/normalize (internal
    * format)
    */
   readonly signatureNormalize: (
@@ -505,10 +505,10 @@ export interface Secp256k1Wasm {
    * S are zero, the resulting sig value is guaranteed to fail validation for
    * any message and public key.
    *
-   * @param contextPtr pointer to a context object
-   * @param sigOutPtr a pointer to a 64 byte space where the parsed signature
+   * @param contextPtr - pointer to a context object
+   * @param sigOutPtr - a pointer to a 64 byte space where the parsed signature
    * will be written. (internal format)
-   * @param compactSigInPtr pointer to a serialized signature in compact format
+   * @param compactSigInPtr - pointer to a serialized signature in compact format
    */
   readonly signatureParseCompact: (
     contextPtr: number,
@@ -528,11 +528,11 @@ export interface Secp256k1Wasm {
    * encoded numbers are out of range, signature validation with it is
    * guaranteed to fail for every message and public key.
    *
-   * @param contextPtr pointer to a context object
-   * @param sigOutPtr a pointer to a 64 byte space where the parsed signature
+   * @param contextPtr - pointer to a context object
+   * @param sigOutPtr - a pointer to a 64 byte space where the parsed signature
    * will be written. (internal format)
-   * @param sigDERInPtr pointer to a DER serialized signature
-   * @param sigDERInLength the number of bytes to read from `sigDERInPtr` (Note,
+   * @param sigDERInPtr - pointer to a DER serialized signature
+   * @param sigDERInLength - the number of bytes to read from `sigDERInPtr` (Note,
    * this should be a simple integer, rather than a `size_t` pointer as is
    * required by the serialization methods.)
    */
@@ -548,10 +548,10 @@ export interface Secp256k1Wasm {
    *
    * See `signatureParseCompact` for details about the encoding.
    *
-   * @param contextPtr pointer to a context object
-   * @param outputCompactSigPtr pointer to a 64-byte space to store the compact
+   * @param contextPtr - pointer to a context object
+   * @param outputCompactSigPtr - pointer to a 64-byte space to store the compact
    * serialization
-   * @param inputSigPtr pointer to the 64-byte signature to be serialized
+   * @param inputSigPtr - pointer to the 64-byte signature to be serialized
    * (internal format)
    */
   readonly signatureSerializeCompact: (
@@ -565,13 +565,13 @@ export interface Secp256k1Wasm {
    *
    * Returns 1 if enough space was available to serialize, 0 otherwise.
    *
-   * @param contextPtr pointer to a context object
-   * @param outputDERSigPtr pointer to a 72 byte space to store the DER
+   * @param contextPtr - pointer to a context object
+   * @param outputDERSigPtr - pointer to a 72 byte space to store the DER
    * serialization
-   * @param outputDERSigLengthPtr pointer to a `size_t` integer. Initially, this
-   * should be set to the length of `outputDERSigPtr` (72). After the call it
-   * will be set to the length of the serialization (even if 0 was returned).
-   * @param inputSigPtr pointer to the 64-byte signature to be serialized
+   * @param outputDERSigLengthPtr - pointer to a `size_t` integer. Initially,
+   * this should be set to the length of `outputDERSigPtr` (72). After the call
+   * it will be set to the length of the serialization (even if 0 was returned).
+   * @param inputSigPtr - pointer to the 64-byte signature to be serialized
    * (internal format)
    */
   readonly signatureSerializeDER: (
@@ -593,11 +593,11 @@ export interface Secp256k1Wasm {
    * default nonce generation function, `secp256k1_nonce_function_default`, is
    * always used.
    *
-   * @param contextPtr pointer to a context object, initialized for signing
-   * @param outputRSigPtr pointer to a 65 byte space where the signature will be
-   * written (internal format)
-   * @param msg32Ptr pointer to the 32-byte message hash being signed
-   * @param secretKeyPtr pointer to a 32-byte secret key
+   * @param contextPtr - pointer to a context object, initialized for signing
+   * @param outputRSigPtr - pointer to a 65 byte space where the signature will
+   * be written (internal format)
+   * @param msg32Ptr - pointer to the 32-byte message hash being signed
+   * @param secretKeyPtr - pointer to a 32-byte secret key
    */
   readonly signRecoverable: (
     contextPtr: number,
@@ -619,12 +619,12 @@ export interface Secp256k1Wasm {
    * rule, apply secp256k1_ecdsa_signature_normalize to the signature prior to
    * validation, but be aware that doing so results in malleable signatures.
    *
-   * @param contextPtr pointer to a context object, initialized for
+   * @param contextPtr - pointer to a context object, initialized for
    * verification.
-   * @param sigPtr pointer to the parsed signature being verified (internal
+   * @param sigPtr - pointer to the parsed signature being verified (internal
    * format)
-   * @param msg32Ptr pointer to the 32-byte message hash being verified
-   * @param pubkeyPtr pointer to the parsed pubkey with which to verify
+   * @param msg32Ptr - pointer to the 32-byte message hash being verified
+   * @param pubkeyPtr - pointer to the parsed pubkey with which to verify
    * (internal format)
    */
   readonly verify: (

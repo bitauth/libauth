@@ -85,32 +85,6 @@ const emptyReductionTraceNode = (range: Range) => ({
 
 /**
  * Aggregate instructions to build groups of non-malformed instructions.
- *
- * --- TODO: delete old stuff below? ––-
- *
- * So users can write constructions like `OP_PUSHBYTES_2 0x0102` which will
- * evaluate successfully, but instructions which must read over a new-line to
- * make sense (e.g. `OP_PUSHBYTES_2\n0x0102`) should error. This allows for a
- * nice omniscient-debugging experience.
- *
- * **This makes new lines important in evaluations.** However, things
- * can only "break" when new lines are inserted, not when they are removed (e.g.
- * if a script is "minified" to a single line for deployment.)
- *
- * **Implementation note**
- * This method aggregates arrays of instructions by line... a little like
- * Automatic Semicolon Insertion in ECMAScript. 👀 In fact, that's a good
- * sign that we're missing a useful language construct here. Maybe instead
- * of this algorithm, we need a new type of wrapper in the language to indicate
- * that bytecode segments are intended to go together.
- *
- * Interestingly, we already use "Containers" in both pushes and evaluations, so
- * this might be quite easy. E.g. wrapping with `()` or `{}`. However, we also
- * want disassembled instructions to be valid input in BTL, so some form of this
- * line-based logic will still be required unless we also change script
- * disassembly form. E.g. instead of `OP_PUSHBYTES_2 0x0102`, something like
- * `(OP_PUSHBYTES_2 0x0102)` or `<0x0102>`. This is something to consider in
- * future versions.
  */
 // eslint-disable-next-line complexity
 const aggregatedParseReductionTraceNodes = <Opcodes>(
@@ -245,9 +219,9 @@ export const evaluateInstructionAggregations = <
  * trace of the evaluation and the resulting top stack item (`evaluationResult`)
  * if successful.
  *
- * @param nodes an array of reduced nodes
- * @param vm the `AuthenticationVirtualMachine` to use in the evaluation
- * @param getState a method which should generate a new ProgramState given an
+ * @param nodes - an array of reduced nodes
+ * @param vm - the `AuthenticationVirtualMachine` to use in the evaluation
+ * @param getState - a method which should generate a new ProgramState given an
  * array of `instructions`
  */
 // eslint-disable-next-line complexity
@@ -308,9 +282,9 @@ export const sampledEvaluateReductionTraceNodes = <
 /**
  * This method will throw an error if provided a `compiledScript` with
  * compilation errors. To check for compilation errors, use `getCompileErrors`.
- * @param compiledScript the `CompiledScript` to reduce
- * @param vm the `AuthenticationVirtualMachine` to use for evaluations
- * @param createState a method which returns the base `ProgramState` used when initializing evaluations
+ * @param compiledScript - the `CompiledScript` to reduce
+ * @param vm - the `AuthenticationVirtualMachine` to use for evaluations
+ * @param createState - a method which returns the base `ProgramState` used when initializing evaluations
  */
 export const reduceScript = <
   ProgramState extends StackState & MinimumProgramState<Opcodes>,

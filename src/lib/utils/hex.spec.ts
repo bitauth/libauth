@@ -1,5 +1,6 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
+import { testProp } from 'ava-fast-check';
 import * as fc from 'fast-check';
 
 import {
@@ -53,15 +54,11 @@ test('binToHex', t => {
   );
 });
 
-test('hexToBin <-> binToHex', t => {
-  const inverse = fc.property(
-    fcUint8Array(0, 100),
-    input => binToHex(hexToBin(binToHex(input))) === binToHex(input)
-  );
-  t.notThrows(() => {
-    fc.assert(inverse);
-  });
-});
+testProp(
+  'hexToBin <-> binToHex',
+  [fcUint8Array(0, 100)],
+  input => binToHex(hexToBin(binToHex(input))) === binToHex(input)
+);
 
 test('swapEndianness', t => {
   t.deepEqual(swapEndianness('0001022a646566ff'), 'ff6665642a020100');

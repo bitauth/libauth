@@ -98,6 +98,7 @@
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "asmcrypto.js": "^2.3.2",
     "ava": "^3.2.0",
+    "ava-fast-check": "^1.1.2",
     "bcrypto": "^5.0.2",
     "browserify": "^16.5.0",
     "chuhai": "^1.2.0",

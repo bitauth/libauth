@@ -6,20 +6,15 @@ import suite from 'chuhai';
 import * as elliptic from 'elliptic';
 import * as secp256k1Node from 'secp256k1';
 
+import { generatePrivateKey } from '../key/key';
 import { binToHex } from '../utils/hex';
 
-import { instantiateSecp256k1, Secp256k1 } from './secp256k1';
+import { instantiateSecp256k1 } from './secp256k1';
 
 const secp256k1Promise = instantiateSecp256k1();
-const privKeyLength = 32;
-const getValidPrivateKey = (secp256k1: Secp256k1): Uint8Array => {
-  let privKey: Uint8Array;
-  // eslint-disable-next-line functional/no-loop-statement
-  do {
-    privKey = randomBytes(privKeyLength);
-  } while (!secp256k1.validatePrivateKey(privKey));
-  return privKey;
-};
+
+const privateKeyLength = 32;
+const secureRandom = () => randomBytes(privateKeyLength);
 
 const setup = async () => ({
   ellipticEc: new elliptic.ec('secp256k1'), // eslint-disable-line new-cap
@@ -43,8 +38,8 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t =>
     let result: boolean;
     let ellipticPublicKey: elliptic.ec.KeyPair;
     const nextCycle = () => {
-      const privKey = getValidPrivateKey(secp256k1);
-      messageHash = randomBytes(privKeyLength);
+      const privKey = generatePrivateKey(secp256k1, secureRandom);
+      messageHash = randomBytes(privateKeyLength);
       pubkeyUncompressed = secp256k1.derivePublicKeyUncompressed(privKey);
       ellipticPublicKey = ellipticEc.keyFromPublic(
         binToHex(pubkeyUncompressed),
@@ -89,8 +84,8 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
     let result: boolean;
     let ellipticPublicKey: elliptic.ec.KeyPair;
     const nextCycle = () => {
-      const privKey = getValidPrivateKey(secp256k1);
-      messageHash = randomBytes(privKeyLength);
+      const privKey = generatePrivateKey(secp256k1, secureRandom);
+      messageHash = randomBytes(privateKeyLength);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(privKey);
       ellipticPublicKey = ellipticEc.keyFromPublic(
         binToHex(pubkeyCompressed),
@@ -133,7 +128,7 @@ test('bench: secp256k1: derive compressed pubkey', async t => {
     let pubkeyCompressedExpected: Uint8Array;
     let pubkeyCompressedBenchmark: Uint8Array;
     const nextCycle = () => {
-      privKey = getValidPrivateKey(secp256k1);
+      privKey = generatePrivateKey(secp256k1, secureRandom);
       pubkeyCompressedExpected = secp256k1.derivePublicKeyCompressed(privKey);
     };
     nextCycle();
@@ -166,8 +161,8 @@ test('bench: secp256k1: create DER Low-S signature', async t => {
     let sigDERExpected: Uint8Array;
     let sigDERBenchmark: Uint8Array;
     const nextCycle = () => {
-      privKey = getValidPrivateKey(secp256k1);
-      messageHash = randomBytes(privKeyLength);
+      privKey = generatePrivateKey(secp256k1, secureRandom);
+      messageHash = randomBytes(privateKeyLength);
       sigDERExpected = secp256k1.signMessageHashDER(privKey, messageHash);
     };
     nextCycle();
@@ -211,8 +206,8 @@ test('bench: secp256k1: sign: Schnorr vs. ECDSA', async t => {
     let sigSchnorrBenchmark: Uint8Array;
     let isSchnorr: boolean;
     const nextCycle = () => {
-      privKey = getValidPrivateKey(secp256k1);
-      messageHash = randomBytes(privKeyLength);
+      privKey = generatePrivateKey(secp256k1, secureRandom);
+      messageHash = randomBytes(privateKeyLength);
       sigDERExpected = secp256k1.signMessageHashDER(privKey, messageHash);
       sigSchnorrExpected = secp256k1.signMessageHashSchnorr(
         privKey,
@@ -250,8 +245,8 @@ test('bench: secp256k1: verify: Schnorr vs. ECDSA', async t => {
     let sigSchnorr: Uint8Array;
     let result: boolean;
     const nextCycle = () => {
-      const privKey = getValidPrivateKey(secp256k1);
-      messageHash = randomBytes(privKeyLength);
+      const privKey = generatePrivateKey(secp256k1, secureRandom);
+      messageHash = randomBytes(privateKeyLength);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(privKey);
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash);
       sigSchnorr = secp256k1.signMessageHashSchnorr(privKey, messageHash);

@@ -73,6 +73,7 @@ const isValidInteger = (
   tagIndex: number,
   length: number,
   valueIndex: number
+  // eslint-disable-next-line max-params
 ) =>
   signature[tagIndex] === ASN1.integerTagType &&
   length !== 0 &&

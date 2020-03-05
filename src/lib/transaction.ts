@@ -315,8 +315,10 @@ export const serializeTransaction = (tx: Transaction) =>
  * @param data - the serialized raw data being identified
  * @param sha256 - an implementation of sha256
  */
-export const getBitcoinIdentifier = (data: Uint8Array, sha256: Sha256) =>
-  sha256.hash(sha256.hash(data)).reverse();
+export const getBitcoinIdentifier = (
+  data: Uint8Array,
+  sha256: { hash: Sha256['hash'] }
+) => sha256.hash(sha256.hash(data)).reverse();
 
 /**
  * Derive a standard transaction identifier from a serialized transaction.
@@ -328,7 +330,7 @@ export const getBitcoinIdentifier = (data: Uint8Array, sha256: Sha256) =>
  */
 export const getBitcoinTransactionId = (
   transaction: Uint8Array,
-  sha256: Sha256
+  sha256: { hash: Sha256['hash'] }
 ) => binToHex(getBitcoinIdentifier(transaction, sha256));
 
 /**

@@ -381,6 +381,7 @@ test('attemptCashAddressErrorCorrection', t => {
       fc.nat(15),
       fcUint8Array(hashLength / 8),
       fc.array(fc.nat(hashLength / 8), 0, 2),
+      // eslint-disable-next-line max-params
       (prefix, type, hash, randomErrors) => {
         const address = encodeCashAddress(
           prefix,

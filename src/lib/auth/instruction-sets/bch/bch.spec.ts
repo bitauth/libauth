@@ -311,12 +311,16 @@ test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
 test('vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
   const sha256 = await instantiateSha256();
   const vm = await instantiateVirtualMachineBCH();
-  const program = createTestAuthenticationProgramBCH(
-    Uint8Array.of(),
-    Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD]),
+  const program = createTestAuthenticationProgramBCH({
+    lockingBytecode: Uint8Array.from([
+      OpcodesBCH.OP_2,
+      OpcodesBCH.OP_2,
+      OpcodesBCH.OP_ADD
+    ]),
+    satoshis: 0,
     sha256,
-    0
-  );
+    unlockingBytecode: Uint8Array.of()
+  });
   const result = vm.evaluate(program);
   t.log(stringify(result));
   t.deepEqual(result, {
@@ -358,12 +362,16 @@ test('vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
 test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
   const sha256 = await instantiateSha256();
   const vm = await instantiateVirtualMachineBCH();
-  const program = createTestAuthenticationProgramBCH(
-    Uint8Array.of(),
-    Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD]),
+  const program = createTestAuthenticationProgramBCH({
+    lockingBytecode: Uint8Array.from([
+      OpcodesBCH.OP_2,
+      OpcodesBCH.OP_2,
+      OpcodesBCH.OP_ADD
+    ]),
+    satoshis: 0,
     sha256,
-    0
-  );
+    unlockingBytecode: Uint8Array.of()
+  });
   const result = vm.debug(program);
   t.log(stringify(result));
   t.deepEqual(result, [

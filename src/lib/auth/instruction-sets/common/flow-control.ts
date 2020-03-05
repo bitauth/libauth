@@ -16,7 +16,7 @@ export const opVerify = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >(): Operation<State> => (state: State) =>
-  useOneStackItem(state, (nextState, item) =>
+  useOneStackItem(state, (nextState, [item]) =>
     stackItemIsTruthy(item)
       ? nextState
       : applyError<State, Errors>(

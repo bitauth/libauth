@@ -16,13 +16,13 @@ const testHash = new Uint8Array([94, 82, 254, 228, 126, 107, 7, 5, 101, 247, 67,
 // prettier-ignore
 const bitcoinTsHash = new Uint8Array([114, 23, 190, 127, 93, 117, 57, 29, 77, 27, 233, 75, 218, 102, 121, 213, 45, 101, 210, 199]);
 
-testHashFunction<Ripemd160>(
-  'ripemd160',
-  getEmbeddedRipemd160Binary,
-  instantiateRipemd160,
-  instantiateRipemd160Bytes,
+testHashFunction<Ripemd160>({
   abcHash,
-  testHash,
   bitcoinTsHash,
-  'ripemd160'
-);
+  getEmbeddedBinary: getEmbeddedRipemd160Binary,
+  hashFunctionName: 'ripemd160',
+  instantiate: instantiateRipemd160,
+  instantiateBytes: instantiateRipemd160Bytes,
+  nodeJsAlgorithm: 'ripemd160',
+  testHash
+});

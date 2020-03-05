@@ -57,22 +57,22 @@ pendingTests.map((expectation, currentTest) => {
       },
       spendingTransaction: tx
     });
-    const serialization = generateSigningSerializationBCH(
+    const serialization = generateSigningSerializationBCH({
+      correspondingOutput: state.correspondingOutput,
+      coveredBytecode: lockingBytecode,
+      forkId: signingSerializationType.slice(1, 4),
+      locktime: state.locktime,
+      outpointIndex: state.outpointIndex,
+      outpointTransactionHash: state.outpointTransactionHash,
+      outputValue: state.outputValue,
+      sequenceNumber: state.sequenceNumber,
       sha256,
-      state.version,
-      state.transactionOutpoints,
-      state.transactionSequenceNumbers,
-      state.outpointTransactionHash,
-      state.outpointIndex,
-      lockingBytecode,
-      state.outputValue,
-      state.sequenceNumber,
-      state.correspondingOutput,
-      state.transactionOutputs,
-      state.locktime,
-      signingSerializationType.slice(0, 1),
-      signingSerializationType.slice(1, 4)
-    );
+      signingSerializationType: signingSerializationType.slice(0, 1),
+      transactionOutpoints: state.transactionOutpoints,
+      transactionOutputs: state.transactionOutputs,
+      transactionSequenceNumbers: state.transactionSequenceNumbers,
+      version: state.version
+    });
     const digest = sha256.hash(sha256.hash(serialization));
     t.deepEqual(
       digest,

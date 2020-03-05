@@ -128,12 +128,12 @@ pendingTests.map(expectation => {
         ? await vmStrictPromise
         : await vmPromise;
       const sha256 = await sha256Promise;
-      const program = createTestAuthenticationProgramBCH(
-        unlockingBytecode,
+      const program = createTestAuthenticationProgramBCH({
         lockingBytecode,
+        satoshis: expectation.satoshis,
         sha256,
-        expectation.satoshis
-      );
+        unlockingBytecode
+      });
       const result = vm.evaluate(program);
       const valid = expectation.flags.dirtyStack
         ? validateDirtyStackState(result)

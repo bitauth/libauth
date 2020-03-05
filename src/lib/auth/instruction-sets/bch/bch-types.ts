@@ -27,12 +27,17 @@ export interface AuthenticationProgramStateBCH
     AuthenticationErrorBCH
   > {}
 
-export const createTestAuthenticationProgramBCH = (
-  unlockingBytecode: Uint8Array,
-  lockingBytecode: Uint8Array,
-  sha256: Sha256,
-  satoshis = 0
-) => {
+export const createTestAuthenticationProgramBCH = ({
+  lockingBytecode,
+  satoshis = 0,
+  sha256,
+  unlockingBytecode
+}: {
+  unlockingBytecode: Uint8Array;
+  lockingBytecode: Uint8Array;
+  sha256: { hash: Sha256['hash'] };
+  satoshis: number;
+}) => {
   const testFundingTransaction: Transaction = {
     inputs: [
       {

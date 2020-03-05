@@ -71,7 +71,7 @@ export const readLittleEndianNumber = (
  * If necessary, validation should be done before calling this method.
  *
  * @param script - the Uint8Array to which the number should be written
- * @param index - the index at which to begin reading
+ * @param index - the index at which to begin writing
  * @param length - the number of bytes to use
  * @param value - the number to write at `script[index]`
  */
@@ -80,6 +80,7 @@ export const writeLittleEndianNumber = (
   index: number,
   length: Bytes,
   value: number
+  // eslint-disable-next-line max-params
 ) => {
   const view = new DataView(script.buffer, index, length);
   const writeAsLittleEndian = true;

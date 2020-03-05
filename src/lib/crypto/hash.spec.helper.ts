@@ -22,16 +22,25 @@ const fcUint8Array = (minLength: number, maxLength: number) =>
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
     .map(a => Uint8Array.from(a));
 
-export const testHashFunction = <T extends HashFunction>(
-  hashFunctionName: string,
-  getEmbeddedBinary: () => ArrayBuffer,
-  instantiate: () => Promise<T>,
-  instantiateBytes: (webassemblyBytes: ArrayBuffer) => Promise<T>,
-  abcHash: Uint8Array,
-  testHash: Uint8Array,
-  bitcoinTsHash: Uint8Array,
-  nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
-) => {
+export const testHashFunction = <T extends HashFunction>({
+  abcHash,
+  bitcoinTsHash,
+  getEmbeddedBinary,
+  hashFunctionName,
+  instantiate,
+  instantiateBytes,
+  nodeJsAlgorithm,
+  testHash
+}: {
+  hashFunctionName: string;
+  getEmbeddedBinary: () => ArrayBuffer;
+  instantiate: () => Promise<T>;
+  instantiateBytes: (webassemblyBytes: ArrayBuffer) => Promise<T>;
+  abcHash: Uint8Array;
+  testHash: Uint8Array;
+  bitcoinTsHash: Uint8Array;
+  nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1';
+}) => {
   const binary = getEmbeddedBinary();
   const bcryptoAlgorithm = nodeJsAlgorithm.toUpperCase() as
     | 'RIPEMD160'

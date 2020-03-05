@@ -110,12 +110,17 @@ const describeExpectedInput = (expectedArray: string[]) => {
 export const compileScriptText = <
   ProgramState = StackState & MinimumProgramState,
   CompilerOperationData = {}
->(
-  script: string,
-  data: CompilationData<CompilerOperationData>,
-  environment: CompilationEnvironment<CompilerOperationData>,
-  scriptId?: string
-): CompilationResult<ProgramState> => {
+>({
+  data,
+  environment,
+  script,
+  scriptId
+}: {
+  script: string;
+  data: CompilationData<CompilerOperationData>;
+  environment: CompilationEnvironment<CompilerOperationData>;
+  scriptId?: string;
+}): CompilationResult<ProgramState> => {
   const parseResult = parseScript(script);
   if (!parseResult.status) {
     return {
@@ -191,10 +196,10 @@ export const compileScript = <
       success: false
     };
   }
-  return compileScriptText<ProgramState, CompilerOperationData>(
-    script,
+  return compileScriptText<ProgramState, CompilerOperationData>({
     data,
     environment,
+    script,
     scriptId
-  );
+  });
 };

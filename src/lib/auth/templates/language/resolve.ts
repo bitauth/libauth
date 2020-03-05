@@ -301,14 +301,18 @@ export interface CompilationEnvironment<
   };
   /**
    * An implementation of secp256k1 is required for any scripts which include
-   * signatures.
+   * signatures. This can be instantiated with `instantiateSecp256k1`.
    */
-  secp256k1?: Secp256k1;
+  secp256k1?: {
+    derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+    signMessageHashSchnorr: Secp256k1['signMessageHashSchnorr'];
+    signMessageHashDER: Secp256k1['signMessageHashDER'];
+  };
   /**
    * An implementation of sha256 is required for any scripts which include
-   * signatures.
+   * signatures. This can be instantiated with `instantiateSha256`.
    */
-  sha256?: Sha256;
+  sha256?: { hash: Sha256['hash'] };
   /**
    * The "breadcrumb" path of script IDs currently being resolved. (E.g.
    * `["grandparentId", "parentId"]`) BTL identifier resolution must be acyclic.
@@ -459,13 +463,19 @@ export interface CompilationData<CompilerOperationData> {
 const articleAndVariableType = (variableType: CompilerOperationTypes) =>
   `${variableType === 'HDKey' ? 'an' : 'a'} ${variableType}`;
 
-const attemptCompilerOperation = <CompilerOperationData>(
-  identifier: string,
-  operationId: string,
-  variableType: CompilerOperationTypes,
-  environment: CompilationEnvironment<CompilerOperationData>,
-  data: CompilationData<CompilerOperationData>
-) => {
+const attemptCompilerOperation = <CompilerOperationData>({
+  data,
+  environment,
+  identifier,
+  operationId,
+  variableType
+}: {
+  identifier: string;
+  operationId: string;
+  variableType: CompilerOperationTypes;
+  environment: CompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<CompilerOperationData>;
+}) => {
   if (environment.operations !== undefined) {
     const operationsForType = environment.operations[variableType];
     if (operationsForType !== undefined) {
@@ -559,13 +569,13 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
     case BuiltInVariables.signingSerialization:
       return operationId === undefined
         ? 'Tried to resolve an operation for the built-in variable "signing_serialization", but no operation was provided. Provide an operation like "signing_serialization.[operation]".'
-        : attemptCompilerOperation(
+        : attemptCompilerOperation({
+            data,
+            environment,
             identifier,
             operationId,
-            'SigningSerialization',
-            environment,
-            data
-          );
+            variableType: 'SigningSerialization'
+          });
     default: {
       const selected: AuthenticationTemplateVariable | undefined =
         environment.variables?.[variableId];
@@ -585,13 +595,13 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             data,
             variableId
           )
-        : attemptCompilerOperation(
+        : attemptCompilerOperation({
+            data,
+            environment,
             identifier,
             operationId,
-            selected.type,
-            environment,
-            data
-          );
+            variableType: selected.type
+          });
     }
   }
 };
@@ -614,12 +624,17 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
  * script being resolved (for detecting circular dependencies)
  */
 // eslint-disable-next-line complexity
-export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
-  identifier: string,
-  data: CompilationData<CompilerOperationData>,
-  environment: CompilationEnvironment<CompilerOperationData>,
-  parentIdentifier?: string
-): CompilationResultSuccess<ProgramState> | string | false => {
+export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
+  data,
+  environment,
+  identifier,
+  parentIdentifier
+}: {
+  identifier: string;
+  data: CompilationData<CompilerOperationData>;
+  environment: CompilationEnvironment<CompilerOperationData>;
+  parentIdentifier?: string;
+}): CompilationResultSuccess<ProgramState> | string | false => {
   if ((environment.scripts[identifier] as string | undefined) === undefined) {
     return false;
   }
@@ -692,12 +707,12 @@ export const createIdentifierResolver = <CompilerOperationData>(
             type: IdentifierResolutionType.variable
           };
     }
-    const scriptResult = resolveScriptIdentifier(
-      identifier,
+    const scriptResult = resolveScriptIdentifier({
       data,
       environment,
-      scriptId
-    );
+      identifier,
+      parentIdentifier: scriptId
+    });
     if (scriptResult !== false) {
       return typeof scriptResult === 'string'
         ? { error: scriptResult, status: false }

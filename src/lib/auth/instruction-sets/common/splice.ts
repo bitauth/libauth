@@ -5,7 +5,7 @@ import { OpcodesCommon } from './opcodes';
 import { bigIntToScriptNumber } from './types';
 
 export const opSize = <State extends StackState>() => (state: State) =>
-  useOneStackItem(state, (nextState, item) =>
+  useOneStackItem(state, (nextState, [item]) =>
     pushToStack(nextState, item, bigIntToScriptNumber(BigInt(item.length)))
   );
 

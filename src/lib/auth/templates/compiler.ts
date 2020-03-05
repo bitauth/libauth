@@ -183,9 +183,10 @@ export const compilerOperationBCHGenerateSignature = <
   OperationData extends CompilerOperationDataBCH
 >(
   name: 'signature' | 'schnorr_signature',
-  signingAlgorithm: (
-    secp256k1: Secp256k1
-  ) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
+  signingAlgorithm: (secp256k1: {
+    signMessageHashSchnorr: Secp256k1['signMessageHashSchnorr'];
+    signMessageHashDER: Secp256k1['signMessageHashDER'];
+  }) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
   // eslint-disable-next-line complexity
 ) => (
   identifier: string,
@@ -232,21 +233,21 @@ export const compilerOperationBCHGenerateSignature = <
     if (sha256 === undefined) {
       return ScriptGenerationError.missingSha256;
     }
-    const serialization = generateSigningSerializationBCH(
+    const serialization = generateSigningSerializationBCH({
+      correspondingOutput: operationData.correspondingOutput,
+      coveredBytecode: operationData.coveredBytecode,
+      locktime: operationData.locktime,
+      outpointIndex: operationData.outpointIndex,
+      outpointTransactionHash: operationData.outpointTransactionHash,
+      outputValue: operationData.outputValue,
+      sequenceNumber: operationData.sequenceNumber,
       sha256,
-      operationData.version,
-      operationData.transactionOutpoints,
-      operationData.transactionSequenceNumbers,
-      operationData.outpointTransactionHash,
-      operationData.outpointIndex,
-      operationData.coveredBytecode,
-      operationData.outputValue,
-      operationData.sequenceNumber,
-      operationData.correspondingOutput,
-      operationData.transactionOutputs,
-      operationData.locktime,
-      signingSerializationType
-    );
+      signingSerializationType,
+      transactionOutpoints: operationData.transactionOutpoints,
+      transactionOutputs: operationData.transactionOutputs,
+      transactionSequenceNumbers: operationData.transactionSequenceNumbers,
+      version: operationData.version
+    });
     const digest = sha256.hash(sha256.hash(serialization));
     const bitcoinEncodedSignature = Uint8Array.from([
       ...signingAlgorithm(secp256k1)(privateKey, digest),
@@ -261,9 +262,10 @@ export const compilerOperationBCHGenerateDataSignature = <
   OperationData extends CompilerOperationDataBCH
 >(
   name: 'data_signature' | 'schnorr_data_signature',
-  signingAlgorithm: (
-    secp256k1: Secp256k1
-  ) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
+  signingAlgorithm: (secp256k1: {
+    signMessageHashSchnorr: Secp256k1['signMessageHashSchnorr'];
+    signMessageHashDER: Secp256k1['signMessageHashDER'];
+  }) => (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array
   // eslint-disable-next-line complexity
 ) => (
   identifier: string,
@@ -291,7 +293,11 @@ export const compilerOperationBCHGenerateDataSignature = <
     identifierSegments[SignatureIdentifierConstants.signingTargetIndex];
   const signingTarget = environment.scripts[scriptId] as string | undefined;
 
-  const compiledTarget = resolveScriptIdentifier(scriptId, data, environment);
+  const compiledTarget = resolveScriptIdentifier({
+    data,
+    environment,
+    identifier: scriptId
+  });
   if (signingTarget === undefined || compiledTarget === false) {
     return `Data signature tried to sign an unknown target script, "${scriptId}".`;
   }
@@ -401,21 +407,21 @@ export const compilerOperationBCHGenerateSigningSerialization = <
         return `Unknown signing serialization algorithm or component, "${algorithmOrComponent}".`;
     }
   }
-  return generateSigningSerializationBCH(
+  return generateSigningSerializationBCH({
+    correspondingOutput: operationData.correspondingOutput,
+    coveredBytecode: operationData.coveredBytecode,
+    locktime: operationData.locktime,
+    outpointIndex: operationData.outpointIndex,
+    outpointTransactionHash: operationData.outpointTransactionHash,
+    outputValue: operationData.outputValue,
+    sequenceNumber: operationData.sequenceNumber,
     sha256,
-    operationData.version,
-    operationData.transactionOutpoints,
-    operationData.transactionSequenceNumbers,
-    operationData.outpointTransactionHash,
-    operationData.outpointIndex,
-    operationData.coveredBytecode,
-    operationData.outputValue,
-    operationData.sequenceNumber,
-    operationData.correspondingOutput,
-    operationData.transactionOutputs,
-    operationData.locktime,
-    signingSerializationType
-  );
+    signingSerializationType,
+    transactionOutpoints: operationData.transactionOutpoints,
+    transactionOutputs: operationData.transactionOutputs,
+    transactionSequenceNumbers: operationData.transactionSequenceNumbers,
+    version: operationData.version
+  });
 };
 
 /* eslint-disable camelcase */

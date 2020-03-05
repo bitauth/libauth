@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle, max-params */
 // cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../utils/utils';
 

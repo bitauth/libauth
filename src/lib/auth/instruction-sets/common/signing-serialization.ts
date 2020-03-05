@@ -73,11 +73,15 @@ const emptyHash = () => new Uint8Array(Internal.sha256HashByteLength).fill(0);
  * @param signingSerializationType - the signing serialization type to test
  * @param transactionOutpoints - see `generateSigningSerializationBCH`
  */
-export const hashPrevouts = (
-  sha256: { hash: (input: Uint8Array) => Uint8Array },
-  signingSerializationType: Uint8Array,
-  transactionOutpoints: Uint8Array
-) =>
+export const hashPrevouts = ({
+  sha256,
+  signingSerializationType,
+  transactionOutpoints
+}: {
+  sha256: { hash: (input: Uint8Array) => Uint8Array };
+  signingSerializationType: Uint8Array;
+  transactionOutpoints: Uint8Array;
+}) =>
   shouldSerializeSingleInput(signingSerializationType)
     ? emptyHash()
     : sha256.hash(sha256.hash(transactionOutpoints));
@@ -89,11 +93,15 @@ export const hashPrevouts = (
  * @param transactionSequenceNumbers - see
  * `generateSigningSerializationBCH`
  */
-export const hashSequence = (
-  sha256: { hash: (input: Uint8Array) => Uint8Array },
-  signingSerializationType: Uint8Array,
-  transactionSequenceNumbers: Uint8Array
-) =>
+export const hashSequence = ({
+  sha256,
+  signingSerializationType,
+  transactionSequenceNumbers
+}: {
+  sha256: { hash: (input: Uint8Array) => Uint8Array };
+  signingSerializationType: Uint8Array;
+  transactionSequenceNumbers: Uint8Array;
+}) =>
   !shouldSerializeSingleInput(signingSerializationType) &&
   !shouldSerializeCorrespondingOutput(signingSerializationType) &&
   !shouldSerializeNoOutputs(signingSerializationType)
@@ -107,12 +115,17 @@ export const hashSequence = (
  * @param transactionOutputs - see `generateSigningSerializationBCH`
  * @param correspondingOutput - see `generateSigningSerializationBCH`
  */
-export const hashOutputs = (
-  sha256: { hash: (input: Uint8Array) => Uint8Array },
-  signingSerializationType: Uint8Array,
-  transactionOutputs: Uint8Array,
-  correspondingOutput: Uint8Array | undefined
-) =>
+export const hashOutputs = ({
+  correspondingOutput,
+  sha256,
+  signingSerializationType,
+  transactionOutputs
+}: {
+  sha256: { hash: (input: Uint8Array) => Uint8Array };
+  signingSerializationType: Uint8Array;
+  transactionOutputs: Uint8Array;
+  correspondingOutput: Uint8Array | undefined;
+}) =>
   !shouldSerializeCorrespondingOutput(signingSerializationType) &&
   !shouldSerializeNoOutputs(signingSerializationType)
     ? sha256.hash(sha256.hash(transactionOutputs))
@@ -125,59 +138,93 @@ export const hashOutputs = (
 /**
  * Serialize the signature-protected properties of a transaction following the
  * algorithm required by the `signingSerializationType` of a signature.
- *
- * @param version - the version number of the transaction
- * @param transactionOutpoints - the serialization of all input outpoints (A.K.A.
- * `hashPrevouts`) – used if `ANYONECANPAY` is not set
- * @param transactionSequenceNumbers - the serialization of all input sequence
- * numbers. (A.K.A. `hashSequence`) – used if none of `ANYONECANPAY`, `SINGLE`,
- * or `NONE` are set.
- * @param outpointTransactionHash - the big-endian (standard) transaction hash of
- * the outpoint being spent.
- * @param outpointIndex - the index of the outpoint being spent in
- * `outpointTransactionHash`
- * @param coveredBytecode - the script currently being executed, beginning at the
- * `lastCodeSeparator`.
- * @param outputValue - the value of the outpoint in satoshis
- * @param sequenceNumber - the sequence number of the input (A.K.A. `nSequence`)
- * @param correspondingOutput - the serialization of the output at the same index
- * as this input (A.K.A. `hashOutputs` with `SIGHASH_SINGLE`) – only used if
- * `SINGLE` is set
- * @param transactionOutputs - the serialization of output amounts and locking
- * bytecode values (A.K.A. `hashOutputs` with `SIGHASH_ALL`) – only used if
- * `ALL` is set
- * @param locktime - the locktime of the transaction
- * @param signingSerializationType - the signing serialization type of the
- * signature (A.K.A. `sighash` type)
- * @param forkId - while a bitcoin-encoded signature only includes a single byte
- * to encode the signing serialization type, a 3-byte forkId can be appended to
- * provide replay-protection between different forks. (See Bitcoin Cash's Replay
- * Protected Sighash spec for details.)
  */
-export const generateSigningSerializationBCH = (
-  sha256: { hash: (input: Uint8Array) => Uint8Array },
-  version: number,
-  transactionOutpoints: Uint8Array,
-  transactionSequenceNumbers: Uint8Array,
-  outpointTransactionHash: Uint8Array,
-  outpointIndex: number,
-  coveredBytecode: Uint8Array,
-  outputValue: number,
-  sequenceNumber: number,
-  correspondingOutput: Uint8Array | undefined,
-  transactionOutputs: Uint8Array,
-  locktime: number,
-  signingSerializationType: Uint8Array,
-  forkId = new Uint8Array([0, 0, 0])
-) =>
+export const generateSigningSerializationBCH = ({
+  correspondingOutput,
+  coveredBytecode,
+  forkId = new Uint8Array([0, 0, 0]),
+  locktime,
+  outpointIndex,
+  outpointTransactionHash,
+  outputValue,
+  sequenceNumber,
+  sha256,
+  signingSerializationType,
+  transactionOutpoints,
+  transactionOutputs,
+  transactionSequenceNumbers,
+  version
+}: {
+  sha256: { hash: (input: Uint8Array) => Uint8Array };
+  /**
+   * The version number of the transaction.
+   */
+  version: number;
+  /**
+   * The serialization of output amounts and locking bytecode values (A.K.A.
+   * `hashOutputs` with `SIGHASH_ALL`) – only used if `ALL` is set.
+   */
+  transactionOutpoints: Uint8Array;
+  /**
+   * The serialization of all input sequence numbers. (A.K.A. `hashSequence`) –
+   * used if none of `ANYONECANPAY`, `SINGLE`, or `NONE` are set.
+   */
+  transactionSequenceNumbers: Uint8Array;
+  /**
+   * The big-endian (standard) transaction hash of the outpoint being spent.
+   */
+  outpointTransactionHash: Uint8Array;
+  /**
+   * The index of the outpoint being spent in `outpointTransactionHash`.
+   */
+  outpointIndex: number;
+  /**
+   * The serialized script currently being executed, beginning at the
+   * `lastCodeSeparator`.
+   */
+  coveredBytecode: Uint8Array;
+  /**
+   * The value of the outpoint in satoshis.
+   */
+  outputValue: number;
+  /**
+   * The sequence number of the input (A.K.A. `nSequence`).
+   */
+  sequenceNumber: number;
+  /**
+   * The serialization of the output at the same index as this input (A.K.A.
+   * `hashOutputs` with `SIGHASH_SINGLE`) – only used if `SINGLE` is set.
+   */
+  correspondingOutput: Uint8Array | undefined;
+  /**
+   * The serialization of all input outpoints (A.K.A. `hashPrevouts`) – used if
+   * `ANYONECANPAY` is not set.
+   */
+  transactionOutputs: Uint8Array;
+  /**
+   * The locktime of the transaction.
+   */
+  locktime: number;
+  /**
+   * The signing serialization type of the signature (A.K.A. `sighash` type).
+   */
+  signingSerializationType: Uint8Array;
+  /**
+   * While a bitcoin-encoded signature only includes a single byte to encode the
+   * signing serialization type, a 3-byte forkId can be appended to provide
+   * replay-protection between different forks. (See Bitcoin Cash's Replay
+   * Protected Sighash spec for details.)
+   */
+  forkId?: Uint8Array;
+}) =>
   new Uint8Array([
     ...numberToBinUint32LE(version),
-    ...hashPrevouts(sha256, signingSerializationType, transactionOutpoints),
-    ...hashSequence(
+    ...hashPrevouts({ sha256, signingSerializationType, transactionOutpoints }),
+    ...hashSequence({
       sha256,
       signingSerializationType,
       transactionSequenceNumbers
-    ),
+    }),
     ...outpointTransactionHash.slice().reverse(),
     ...numberToBinUint32LE(outpointIndex),
     ...Uint8Array.from([
@@ -186,12 +233,12 @@ export const generateSigningSerializationBCH = (
     ]),
     ...bigIntToBinUint64LE(BigInt(outputValue)),
     ...numberToBinUint32LE(sequenceNumber),
-    ...hashOutputs(
+    ...hashOutputs({
+      correspondingOutput,
       sha256,
       signingSerializationType,
-      transactionOutputs,
-      correspondingOutput
-    ),
+      transactionOutputs
+    }),
     ...numberToBinUint32LE(locktime),
     ...signingSerializationType,
     ...forkId

@@ -30,7 +30,7 @@ import { ConsensusBCH } from './bch-types';
 export const opCat = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
 >() => (state: State) =>
-  useTwoStackItems(state, (nextState, a, b) =>
+  useTwoStackItems(state, (nextState, [a, b]) =>
     a.length + b.length > ConsensusCommon.maximumStackItemLength
       ? applyError<State, AuthenticationErrorBCH>(
           AuthenticationErrorBCH.exceededMaximumStackItemLength,
@@ -41,14 +41,16 @@ export const opCat = <
 
 export const opSplit = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
     state,
     (nextState, value) => {
       const index = Number(value);
-      return useOneStackItem(nextState, (finalState, item) =>
+      return useOneStackItem(nextState, (finalState, [item]) =>
         index < 0 || index > item.length
           ? applyError<State, AuthenticationErrorBCH>(
               AuthenticationErrorBCH.invalidSplitIndex,
@@ -57,7 +59,7 @@ export const opSplit = <
           : pushToStack(finalState, item.slice(0, index), item.slice(index))
       );
     },
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 enum Constants {
@@ -103,7 +105,7 @@ export const opNum2Bin = <
           )
         : useOneScriptNumber(
             nextState,
-            (finalState, target) => {
+            (finalState, [target]) => {
               const minimallyEncoded = bigIntToScriptNumber(target);
               return minimallyEncoded.length > targetLength
                 ? applyError<State, AuthenticationErrorBCH>(
@@ -120,11 +122,15 @@ export const opNum2Bin = <
                     )
                   );
             },
-            false,
-            ConsensusCommon.maximumStackItemLength
+            {
+              maximumScriptNumberByteLength:
+                // TODO: is this right?
+                ConsensusCommon.maximumStackItemLength,
+              requireMinimalEncoding: false
+            }
           );
     },
-    true
+    { requireMinimalEncoding: true }
   );
 
 export const opBin2Num = <
@@ -132,7 +138,7 @@ export const opBin2Num = <
 >() => (state: State) =>
   useOneScriptNumber(
     state,
-    (nextState, target) => {
+    (nextState, [target]) => {
       const minimallyEncoded = bigIntToScriptNumber(target);
       return minimallyEncoded.length > ConsensusCommon.maximumScriptNumberLength
         ? applyError<State, AuthenticationErrorBCH>(
@@ -141,8 +147,11 @@ export const opBin2Num = <
           )
         : pushToStack(nextState, minimallyEncoded);
     },
-    false,
-    ConsensusCommon.maximumStackItemLength
+    {
+      // TODO: is this right?
+      maximumScriptNumberByteLength: ConsensusCommon.maximumStackItemLength,
+      requireMinimalEncoding: false
+    }
   );
 
 export const bitwiseOperation = <
@@ -150,7 +159,7 @@ export const bitwiseOperation = <
 >(
   combine: (a: Uint8Array, b: Uint8Array) => Uint8Array
 ) => (state: State) =>
-  useTwoStackItems(state, (nextState, a, b) =>
+  useTwoStackItems(state, (nextState, [a, b]) =>
     a.length === b.length
       ? pushToStack(nextState, combine(a, b))
       : applyError<State, AuthenticationErrorBCH>(
@@ -176,36 +185,40 @@ export const opXor = <
 
 export const opDiv = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, a, b) =>
+    (nextState, [a, b]) =>
       b === BigInt(0)
         ? applyError<State, AuthenticationErrorBCH>(
             AuthenticationErrorBCH.divisionByZero,
             nextState
           )
         : pushToStack(nextState, bigIntToScriptNumber(a / b)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opMod = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, a, b) =>
+    (nextState, [a, b]) =>
       b === BigInt(0)
         ? applyError<State, AuthenticationErrorBCH>(
             AuthenticationErrorBCH.divisionByZero,
             nextState
           )
         : pushToStack(nextState, bigIntToScriptNumber(a % b)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 /**
@@ -222,12 +235,18 @@ export const isValidSignatureEncodingBCHRaw = (signature: Uint8Array) =>
 export const opCheckDataSig = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(
-  sha256: Sha256,
-  secp256k1: Secp256k1
-) => (state: State) =>
+>({
+  secp256k1,
+  sha256
+}: {
+  sha256: { hash: Sha256['hash'] };
+  secp256k1: {
+    verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
+    verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
+  };
+}) => (state: State) =>
   // eslint-disable-next-line complexity
-  useThreeStackItems(state, (nextState, signature, message, publicKey) => {
+  useThreeStackItems(state, (nextState, [signature, message, publicKey]) => {
     if (!isValidSignatureEncodingBCHRaw(signature)) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.invalidSignatureEncoding,
@@ -258,12 +277,18 @@ export const opCheckDataSig = <
 export const opCheckDataSigVerify = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(
-  sha256: Sha256,
-  secp256k1: Secp256k1
-) =>
+>({
+  secp256k1,
+  sha256
+}: {
+  sha256: { hash: Sha256['hash'] };
+  secp256k1: {
+    verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
+    verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
+  };
+}) =>
   combineOperations(
-    opCheckDataSig<State, Errors>(sha256, secp256k1),
+    opCheckDataSig<State, Errors>({ secp256k1, sha256 }),
     opVerify<State, Errors>()
   );
 
@@ -273,15 +298,22 @@ export const bitcoinCashOperations = <
     Opcodes,
     AuthenticationErrorBCH
   >
->(
-  sha256: Sha256,
-  secp256k1: Secp256k1,
+>({
+  flags,
+  secp256k1,
+  sha256
+}: {
+  sha256: { hash: Sha256['hash'] };
+  secp256k1: {
+    verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
+    verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
+  };
   flags: {
     requireBugValueZero: boolean;
     requireMinimalEncoding: boolean;
     requireNullSignatureFailures: boolean;
-  }
-) => ({
+  };
+}) => ({
   [OpcodesBCH.OP_CAT]: opCat<State>(),
   [OpcodesBCH.OP_SPLIT]: opSplit<State>(flags),
   [OpcodesBCH.OP_NUM2BIN]: opNum2Bin<State>(),
@@ -291,12 +323,12 @@ export const bitcoinCashOperations = <
   [OpcodesBCH.OP_XOR]: opXor<State>(),
   [OpcodesBCH.OP_DIV]: opDiv<State>(flags),
   [OpcodesBCH.OP_MOD]: opMod<State>(flags),
-  [OpcodesBCH.OP_CHECKDATASIG]: opCheckDataSig<State, AuthenticationErrorBCH>(
-    sha256,
-    secp256k1
-  ),
+  [OpcodesBCH.OP_CHECKDATASIG]: opCheckDataSig<State, AuthenticationErrorBCH>({
+    secp256k1,
+    sha256
+  }),
   [OpcodesBCH.OP_CHECKDATASIGVERIFY]: opCheckDataSigVerify<
     State,
     AuthenticationErrorBCH
-  >(sha256, secp256k1)
+  >({ secp256k1, sha256 })
 });

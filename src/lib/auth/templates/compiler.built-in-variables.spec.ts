@@ -27,6 +27,7 @@ const expectCompilationResult: Macro<[
   string,
   CompilationData<CompilerOperationDataBCH>,
   object
+  // eslint-disable-next-line max-params
 ]> = async (t, testScript, otherData, expectedResult) => {
   const sha256 = await sha256Promise;
   const secp256k1 = await secp256k1Promise;

@@ -15,166 +15,171 @@ import { opVerify } from './flow-control';
 import { OpcodesCommon } from './opcodes';
 import { bigIntToScriptNumber, booleanToScriptNumber } from './types';
 
-export const op1Add = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const op1Add = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
     state,
-    (nextState, value) =>
+    (nextState, [value]) =>
       pushToStack(nextState, bigIntToScriptNumber(value + BigInt(1))),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
-export const op1Sub = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const op1Sub = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
     state,
-    (nextState, value) =>
+    (nextState, [value]) =>
       pushToStack(nextState, bigIntToScriptNumber(value - BigInt(1))),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opNegate = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
     state,
-    (nextState, value) => pushToStack(nextState, bigIntToScriptNumber(-value)),
-    flags.requireMinimalEncoding
+    (nextState, [value]) =>
+      pushToStack(nextState, bigIntToScriptNumber(-value)),
+    { requireMinimalEncoding }
   );
 
-export const opAbs = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opAbs = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
     state,
-    (nextState, value) =>
+    (nextState, [value]) =>
       pushToStack(nextState, bigIntToScriptNumber(value < 0 ? -value : value)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
-export const opNot = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opNot = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
     state,
-    (nextState, value) =>
+    (nextState, [value]) =>
       pushToStack(
         nextState,
         value === BigInt(0)
           ? bigIntToScriptNumber(BigInt(1))
           : bigIntToScriptNumber(BigInt(0))
       ),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const op0NotEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
     state,
-    (nextState, value) =>
+    (nextState, [value]) =>
       pushToStack(
         nextState,
         value === BigInt(0)
           ? bigIntToScriptNumber(BigInt(0))
           : bigIntToScriptNumber(BigInt(1))
       ),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
-export const opAdd = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opAdd = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, bigIntToScriptNumber(firstValue + secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
-export const opSub = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opSub = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, bigIntToScriptNumber(firstValue - secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opBoolAnd = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
         booleanToScriptNumber(
           firstValue !== BigInt(0) && secondValue !== BigInt(0)
         )
       ),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opBoolOr = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
         booleanToScriptNumber(
           firstValue !== BigInt(0) || secondValue !== BigInt(0)
         )
       ),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opNumEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToScriptNumber(firstValue === secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opNumEqualVerify = <
@@ -191,120 +196,130 @@ export const opNumEqualVerify = <
 export const opNumNotEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToScriptNumber(firstValue !== secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opLessThan = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToScriptNumber(firstValue < secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opLessThanOrEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToScriptNumber(firstValue <= secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opGreaterThan = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToScriptNumber(firstValue > secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opGreaterThanOrEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToScriptNumber(firstValue >= secondValue)),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
-export const opMin = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opMin = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
         bigIntToScriptNumber(
           firstValue < secondValue ? firstValue : secondValue
         )
       ),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
-export const opMax = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opMax = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useTwoScriptNumbers(
     state,
-    (nextState, firstValue, secondValue) =>
+    (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
         bigIntToScriptNumber(
           firstValue > secondValue ? firstValue : secondValue
         )
       ),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opWithin = <
   State extends StackState & ErrorState<Errors>,
   Errors
->(flags: {
+>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useThreeScriptNumbers(
     state,
-    (nextState, firstValue, secondValue, thirdValue) =>
+    (nextState, [firstValue, secondValue, thirdValue]) =>
       pushToStack(
         nextState,
         booleanToScriptNumber(
           secondValue <= firstValue && firstValue < thirdValue
         )
       ),
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const arithmeticOperations = <

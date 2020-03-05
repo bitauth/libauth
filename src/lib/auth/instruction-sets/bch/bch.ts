@@ -36,12 +36,12 @@ export const instantiateVirtualMachineBCH = async (
     instantiateSecp256k1()
   ]);
   return createAuthenticationVirtualMachine(
-    createInstructionSetBCH(
-      getFlagsForInstructionSetBCH(instructionSet),
-      sha1,
-      sha256,
+    createInstructionSetBCH({
+      flags: getFlagsForInstructionSetBCH(instructionSet),
       ripemd160,
-      secp256k1
-    )
+      secp256k1,
+      sha1,
+      sha256
+    })
   );
 };

@@ -64,6 +64,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An object describing the configuration for a particular entity within an
+						authentication template.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -96,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L68">src/lib/auth/templates/types.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L85">src/lib/auth/templates/types.ts:85</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -111,13 +119,13 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L73">src/lib/auth/templates/types.ts:73</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L90">src/lib/auth/templates/types.ts:90</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A single-line, Title Case, human-readable identifier for this entity, e.g.:
-							<code>Trusted Third-Party</code></p>
+							<p>A single-line, Title Case, human-readable name for this entity, e.g.:
+							<code>Trusted Third-Party</code> (for use in user interfaces and error messages).</p>
 						</div>
 					</div>
 				</section>
@@ -127,7 +135,7 @@
 					<div class="tsd-signature tsd-kind-icon">scripts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L86">src/lib/auth/templates/types.ts:86</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L103">src/lib/auth/templates/types.ts:103</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -149,13 +157,13 @@
 					<div class="tsd-signature tsd-kind-icon">variables<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L93">src/lib/auth/templates/types.ts:93</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L110">src/lib/auth/templates/types.ts:110</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An array of variables which must be provided by this entity for use in the
-								this template&#39;s scripts. Some variables are required before locking script
+							<p>A map of variables which must be provided by this entity for use in the
+								template&#39;s scripts. Some variables are required before locking script
 								generation, while some variables can or must be resolved only before
 							unlocking script generation.</p>
 						</div>

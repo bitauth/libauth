@@ -64,6 +64,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Data required at compilation time to generate the bytecode for a particular
+						Bitauth Template script.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
@@ -107,9 +115,14 @@
 					<div class="tsd-signature tsd-kind-icon">address<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/resolve.ts#L340">src/lib/auth/templates/language/resolve.ts:340</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/language/resolve.ts#L353">src/lib/auth/templates/language/resolve.ts:353</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A map of <code>AddressData</code> variable IDs and their values for this compilation.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="currentblockheight" class="tsd-anchor"></a>
@@ -117,9 +130,14 @@
 					<div class="tsd-signature tsd-kind-icon">current<wbr>Block<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/resolve.ts#L343">src/lib/auth/templates/language/resolve.ts:343</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/language/resolve.ts#L359">src/lib/auth/templates/language/resolve.ts:359</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current block height at compile time.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="currentblocktime" class="tsd-anchor"></a>
@@ -127,23 +145,32 @@
 					<div class="tsd-signature tsd-kind-icon">current<wbr>Block<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/resolve.ts#L344">src/lib/auth/templates/language/resolve.ts:344</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="hdkeys" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> hd<wbr>Keys</h3>
-					<div class="tsd-signature tsd-kind-icon">hd<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>derivationHardened<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>privateHdKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>publicHdKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>signatures<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/resolve.ts#L348">src/lib/auth/templates/language/resolve.ts:348</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/language/resolve.ts#L366">src/lib/auth/templates/language/resolve.ts:366</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO: implement <code>HDKeys</code> support (similar to <code>keys</code>, <code>HDKeys</code> simply takes <code>index</code> and <code>derivationHardened</code> into account. Note: no current plans to support more complex paths, users needing that kind of control should use <code>keys</code> manually.)</p>
+							<p>The current block time at compile time. Note: this is not a current
+							timestamp, but the median timestamp of the last 11 blocks.</p>
 						</div>
+						<p>This value only changes when a new block is found. See BIP113 for details.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="hdkeys" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> hd<wbr>Keys</h3>
+					<div class="tsd-signature tsd-kind-icon">hd<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>extendedPublicKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>publicKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>rootPrivateKeys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>scriptDerivationIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>signatures<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/language/resolve.ts#L373">src/lib/auth/templates/language/resolve.ts:373</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>TODO: implement <code>HDKey</code> support</p>
+						</div>
+						<p>An object describing the settings used for <code>HDKey</code> variables in this
+						compilation.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -152,9 +179,15 @@
 					<div class="tsd-signature tsd-kind-icon">keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>privateKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>publicKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>signatures<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/resolve.ts#L364">src/lib/auth/templates/language/resolve.ts:364</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/language/resolve.ts#L427">src/lib/auth/templates/language/resolve.ts:427</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object describing the settings used for <code>Key</code> variables in this
+							compilation.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="operationdata" class="tsd-anchor"></a>
@@ -162,9 +195,15 @@
 					<div class="tsd-signature tsd-kind-icon">operation<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">CompilerOperationData</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/resolve.ts#L381">src/lib/auth/templates/language/resolve.ts:381</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/language/resolve.ts#L454">src/lib/auth/templates/language/resolve.ts:454</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <code>CompilerOperationData</code> expected by this particular compiler for any
+							operations used in the compilation.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="walletdata" class="tsd-anchor"></a>
@@ -172,9 +211,14 @@
 					<div class="tsd-signature tsd-kind-icon">wallet<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/language/resolve.ts#L382">src/lib/auth/templates/language/resolve.ts:382</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/language/resolve.ts#L458">src/lib/auth/templates/language/resolve.ts:458</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A map of <code>WalletData</code> variable IDs and their values for this compilation.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>

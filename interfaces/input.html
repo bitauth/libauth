@@ -57,7 +57,7 @@
 					<a href="input.html">Input</a>
 				</li>
 			</ul>
-			<h1>Interface Input</h1>
+			<h1>Interface Input&lt;Bytecode, HashRepresentation&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -70,6 +70,17 @@
 						<p>Data type representing a Transaction Input.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>Bytecode</h4>
+					</li>
+					<li>
+						<h4>HashRepresentation</h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
@@ -103,24 +114,28 @@
 					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/transaction.ts#L23">src/lib/transaction.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/transaction.ts#L24">src/lib/transaction.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The index of the output in the transaction from which this input is spent.</p>
 						</div>
-						<p>An &quot;outpoint&quot; is a reference (&quot;pointer&quot;) to an output in a previous
-						transaction.</p>
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>An &quot;outpoint&quot; is a reference (A.K.A. &quot;pointer&quot;) to a specific output in a
+								previous transaction.</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="outpointtransactionhash" class="tsd-anchor"></a>
 					<h3>outpoint<wbr>Transaction<wbr>Hash</h3>
-					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HashRepresentation</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/transaction.ts#L43">src/lib/transaction.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/transaction.ts#L42">src/lib/transaction.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -128,13 +143,12 @@
 							<p>A.K.A. <code>Transaction ID</code></p>
 						</div>
 						<p>The hash of the raw transaction from which this input is spent in
-						big-endian byte order.</p>
+							big-endian byte order. This is the order typically seen in block explorers
+						and user interfaces.</p>
 						<dl class="tsd-comment-tags">
 							<dt>remarks</dt>
-							<dd><p>An &quot;outpoint&quot; is a reference (A.K.A. &quot;pointer&quot;) to an output in a previous
-								transaction.</p>
-								<p>TODO: clarify: in what order to block explorers display hashes? In what
-								order are hashes serialized?</p>
+							<dd><p>An &quot;outpoint&quot; is a reference (A.K.A. &quot;pointer&quot;) to a specific output in a
+								previous transaction.</p>
 								<p>Serialized raw bitcoin transactions encode this value in little-endian byte
 									order. However, it is more common to use big-endian byte order when
 									displaying transaction hashes. (In part because the SHA-256 specification
@@ -150,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/transaction.ts#L47">src/lib/transaction.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/transaction.ts#L46">src/lib/transaction.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,10 +176,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="unlockingbytecode" class="tsd-anchor"></a>
 					<h3>unlocking<wbr>Bytecode</h3>
-					<div class="tsd-signature tsd-kind-icon">unlocking<wbr>Bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<div class="tsd-signature tsd-kind-icon">unlocking<wbr>Bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Bytecode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/transaction.ts#L56">src/lib/transaction.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/transaction.ts#L55">src/lib/transaction.ts:55</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -192,7 +206,7 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-external">
+					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="input.html" class="tsd-kind-icon">Input</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">

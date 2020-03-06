@@ -85,7 +85,6 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="hdkey.html#description" class="tsd-kind-icon">description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="hdkey.html#mock" class="tsd-kind-icon">mock</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="hdkey.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="hdkey.html#scriptderivationhardened" class="tsd-kind-icon">script<wbr>Derivation<wbr>Hardened</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="hdkey.html#templatederivationhardened" class="tsd-kind-icon">template<wbr>Derivation<wbr>Hardened</a></li>
@@ -105,7 +104,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#description">description</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L165">src/lib/auth/templates/types.ts:165</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L244">src/lib/auth/templates/types.ts:244</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -116,38 +115,13 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="mock" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mock</h3>
-					<div class="tsd-signature tsd-kind-icon">mock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#mock">mock</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L180">src/lib/auth/templates/types.ts:180</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The BTL-encoded test value for this variable. This test value is used
-								during development and can provide validation when importing this template
-							into a new system.</p>
-						</div>
-						<p>When testing, all variables for all entities are initialized to their
-							<code>mock</code> and each unlocking script is tested against the locking script,
-							ensuring it is able to unlock it. For inline scripts, variables are also
-						initialized to their <code>mock</code>s when evaluating inline script tests.</p>
-						<p>Note, <code>mock</code> is itself defined in BTL syntax, but mock scripts do not have
-							access to evaluations, other variables, or scripts. (Hex, BigInt, and UTF8
-						literals are permissible, as well as push notation and comments.)</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="name" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L185">src/lib/auth/templates/types.ts:185</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L264">src/lib/auth/templates/types.ts:264</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -163,14 +137,17 @@
 					<div class="tsd-signature tsd-kind-icon">script<wbr>Derivation<wbr>Hardened<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L201">src/lib/auth/templates/types.ts:201</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L284">src/lib/auth/templates/types.ts:284</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO: describe – this turns on/off hardening of the script derivation index:
-							<code>m / template derivation index&#39; / script derivation index[&#39;]</code></p>
+							<p>If <code>false</code>, the script-level derivation will use the non-hardened
+								derivation algorithm. This has critical security implications, see
+							<code>templateDerivationHardened</code> for details.</p>
 						</div>
+						<p>Because this security consideration should be evaluated for any template
+						using <code>HDKey</code>s, <code>derivationHardened</code> defaults to <code>true</code>.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -179,7 +156,7 @@
 					<div class="tsd-signature tsd-kind-icon">template<wbr>Derivation<wbr>Hardened<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L217">src/lib/auth/templates/types.ts:217</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L300">src/lib/auth/templates/types.ts:300</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -193,7 +170,7 @@
 							security implications.</strong> If an attacker gains possession of both a parent
 							extended <em>public key</em> and any child private key, the attacker can easily
 							derive the parent extended <em>private key</em>, and with it, all hardened and
-						non-hardened child keys.</p>
+						non-hardened child keys. See BIP32 for details.</p>
 						<p>Because this security consideration should be evaluated for any template
 						using <code>HDKey</code>s, <code>derivationHardened</code> defaults to <code>true</code>.</p>
 					</div>
@@ -204,17 +181,24 @@
 					<div class="tsd-signature tsd-kind-icon">template<wbr>Derivation<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L229">src/lib/auth/templates/types.ts:229</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L321">src/lib/auth/templates/types.ts:321</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>All <code>HDKey</code>s are hardened-derivations of the entity&#39;s root <code>HDKey</code>. The
-							resulting branches are then used to generate child keys scripts:</p>
+							<p>All <code>HDKey</code>s use a derivation of a hierarchical-deterministic key. The
+							resulting branch is then incremented to generate child keys for scripts:</p>
 						</div>
-						<p><code>m / template derivation index&#39; / script derivation index</code></p>
-						<p>By default, <code>derivationIndex</code> is <code>0</code>. For a single entity to use multiple
-						<code>HDKey</code>s, a different <code>derivationIndex</code> must be used for each.</p>
+						<p><code>m/templateDerivationIndex/scriptDerivationIndex</code></p>
+						<p>The template-level derivation algorithm is controlled by
+							<code>templateDerivationHardened</code>, while the script-level derivation algorithm
+						is controlled by <code>scriptDerivationHardened</code>.</p>
+						<p>The <code>scriptDerivationIndex</code> is provided at compile time to derive the
+						precise key used for that particular compilation.</p>
+						<p>By default, <code>templateDerivationIndex</code> is <code>0</code>. If a single entity owns
+							multiple <code>HDKey</code>s, each variable must specify a different
+							<code>templateDerivationIndex</code>. (Otherwise, each key would derive the same child
+						keys.)</p>
 						<p>For greater control over key generation and mapping, use <code>Key</code>.</p>
 					</div>
 				</section>
@@ -225,7 +209,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="authenticationtemplatevariablebase.html">AuthenticationTemplateVariableBase</a>.<a href="authenticationtemplatevariablebase.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L234">src/lib/auth/templates/types.ts:234</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L326">src/lib/auth/templates/types.ts:326</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -254,9 +238,6 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="hdkey.html#description" class="tsd-kind-icon">description</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="hdkey.html#mock" class="tsd-kind-icon">mock</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="hdkey.html#name" class="tsd-kind-icon">name</a>

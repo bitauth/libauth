@@ -67,7 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>An <code>AuthenticationTemplate</code> (a.k.a. <code>Bitauth Template</code>) specifies a set of
+						<p>An <code>AuthenticationTemplate</code> (A.K.A. <code>Bitauth Template</code>) specifies a set of
 							locking scripts, unlocking scripts, and other information required to use a
 							certain authentication scheme. Templates fully describe wallets and protocols
 						in a way that can be shared between software clients.</p>
@@ -93,6 +93,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplate.html#description" class="tsd-kind-icon">description</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplate.html#entities" class="tsd-kind-icon">entities</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplate.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplate.html#scenarios" class="tsd-kind-icon">scenarios</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplate.html#scripts" class="tsd-kind-icon">scripts</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplate.html#supported" class="tsd-kind-icon">supported</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplate.html#version" class="tsd-kind-icon">version</a></li>
@@ -109,7 +110,7 @@
 					<div class="tsd-signature tsd-kind-icon">$schema<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L13">src/lib/auth/templates/types.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L15">src/lib/auth/templates/types.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -126,13 +127,14 @@
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L19">src/lib/auth/templates/types.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L22">src/lib/auth/templates/types.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An optionally multi-line, free-form, human-readable description of this
-							authentication template (for use in user interfaces).</p>
+							<p>An optionally multi-line, free-form, human-readable description for this
+								authentication template (for use in user interfaces). When displayed, this
+							description should use a monospace font to properly render ASCII diagrams.</p>
 						</div>
 					</div>
 				</section>
@@ -142,13 +144,13 @@
 					<div class="tsd-signature tsd-kind-icon">entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L27">src/lib/auth/templates/types.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L30">src/lib/auth/templates/types.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A mapping of entities defined in this authentication template. Object keys
-							are used as entity identifiers, and by convention, should use <code>snake_case</code>.</p>
+							<p>A map of entities defined in this authentication template. Object keys are
+							used as entity identifiers, and by convention, should use <code>snake_case</code>.</p>
 						</div>
 						<p>See <code>AuthenticationTemplateEntity</code> for more information.</p>
 					</div>
@@ -167,7 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L33">src/lib/auth/templates/types.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L36">src/lib/auth/templates/types.ts:36</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -178,18 +180,37 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="scenarios" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scenarios</h3>
+					<div class="tsd-signature tsd-kind-icon">scenarios<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L46">src/lib/auth/templates/types.ts:46</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A map of scripts used in this authentication template. Object keys are used
+							as scenario identifiers, and by convention, should use <code>snake_case</code>.</p>
+						</div>
+						<p>Scenarios describe a complete environment for testing the authentication
+							template under certain conditions. They are most useful for development,
+						but they can also be used to validate the template in generalized wallets.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="scripts" class="tsd-anchor"></a>
 					<h3>scripts</h3>
 					<div class="tsd-signature tsd-kind-icon">scripts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L39">src/lib/auth/templates/types.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L52">src/lib/auth/templates/types.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A mapping of scripts used in this authentication template. Object keys
-							are used as script identifiers, and by convention, should use <code>snake_case</code>.</p>
+							<p>A map of scripts used in this authentication template. Object keys are used
+							as script identifiers, and by convention, should use <code>snake_case</code>.</p>
 						</div>
 					</div>
 					<div class="tsd-type-declaration">
@@ -207,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">supported<span class="tsd-signature-symbol">:</span> <a href="../globals.html#authenticationvirtualmachineidentifier" class="tsd-signature-type">AuthenticationVirtualMachineIdentifier</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L44">src/lib/auth/templates/types.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L57">src/lib/auth/templates/types.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -222,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/02eba57/src/lib/auth/templates/types.ts#L50">src/lib/auth/templates/types.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/1f32011/src/lib/auth/templates/types.ts#L63">src/lib/auth/templates/types.ts:63</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -260,6 +281,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplate.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplate.html#scenarios" class="tsd-kind-icon">scenarios</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplate.html#scripts" class="tsd-kind-icon">scripts</a>

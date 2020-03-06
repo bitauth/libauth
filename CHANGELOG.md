@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/bitjson/bitcoin-ts/compare/v1.12.0...v1.13.0) (2020-03-06)
+
+
+### Features
+
+* **hmac:** add HMAC support (HMAC-SHA256 and HMAC-SHA512) ([27d08b0](https://github.com/bitjson/bitcoin-ts/commit/27d08b093457d5ca9117a6b30e79da320671fd99))
+* **key:** add generatePrivateKey method ([ccd26dc](https://github.com/bitjson/bitcoin-ts/commit/ccd26dcbdc0649bfb4d9b76be285b369f4cb1f2b))
+
 ## [1.12.0](https://github.com/bitjson/bitcoin-ts/compare/v1.11.1...v1.12.0) (2020-02-07)
 
 

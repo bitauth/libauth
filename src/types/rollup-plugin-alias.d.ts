@@ -7,7 +7,7 @@ declare module '@rollup/plugin-alias' {
 }
 
 interface RollupPluginAliasOptions {
-  entries: {
-    [key: string]: string;
+  readonly entries: {
+    readonly [key: string]: string;
   };
 }

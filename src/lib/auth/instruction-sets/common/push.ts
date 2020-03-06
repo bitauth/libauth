@@ -86,7 +86,7 @@ enum Bytes {
  * `bytecode` has the potential to be longer, it should be checked (and the
  * error handled) prior to calling this method.
  *
- * @param data the Uint8Array to push to the stack
+ * @param data - the Uint8Array to push to the stack
  */
 // eslint-disable-next-line complexity
 export const encodeDataPush = (data: Uint8Array) =>
@@ -123,8 +123,8 @@ export const encodeDataPush = (data: Uint8Array) =>
 /**
  * Returns true if the provided `data` is minimally-encoded by the provided
  * `opcode`.
- * @param opcode the opcode used to push `data`
- * @param data the contents of the push
+ * @param opcode - the opcode used to push `data`
+ * @param data - the contents of the push
  */
 // eslint-disable-next-line complexity
 export const isMinimalDataPush = (opcode: number, data: Uint8Array) =>

@@ -111,18 +111,27 @@ export const commonOperations = <
   Opcodes,
   State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
   Errors
->(
-  sha1: Sha1,
-  sha256: Sha256,
-  ripemd160: Ripemd160,
-  secp256k1: Secp256k1,
+>({
+  flags,
+  ripemd160,
+  secp256k1,
+  sha1,
+  sha256
+}: {
+  sha1: { hash: Sha1['hash'] };
+  sha256: { hash: Sha256['hash'] };
+  ripemd160: { hash: Ripemd160['hash'] };
+  secp256k1: {
+    verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
+    verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
+  };
   flags: {
     disallowUpgradableNops: boolean;
     requireBugValueZero: boolean;
     requireMinimalEncoding: boolean;
     requireNullSignatureFailures: boolean;
-  }
-): { readonly [opcodes: number]: Operation<State> } => {
+  };
+}): { readonly [opcodes: number]: Operation<State> } => {
   const unconditionalOperations = {
     ...disabledOperations<State, Errors>(),
     ...pushOperations<Opcodes, State, Errors>(flags),
@@ -142,13 +151,13 @@ export const commonOperations = <
     {
       ...arithmeticOperations<Opcodes, State, Errors>(flags),
       ...bitwiseOperations<Opcodes, State, Errors>(),
-      ...cryptoOperations<Opcodes, State, Errors>(
-        sha1,
-        sha256,
+      ...cryptoOperations<Opcodes, State, Errors>({
+        flags,
         ripemd160,
         secp256k1,
-        flags
-      ),
+        sha1,
+        sha256
+      }),
       ...conditionalFlowControlOperations<Opcodes, State, Errors>(),
       ...stackOperations<State, Errors>(flags),
       ...spliceOperations<State, Errors>(),
@@ -276,7 +285,7 @@ export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
   outpointTransactionHash: new Uint8Array(Fill.length).fill(
     Fill.outpointTransactionHash
   ),
-  outputValue: BigInt(0),
+  outputValue: 0,
   sequenceNumber: 0,
   transactionOutpoints: Uint8Array.of(Fill.transactionOutpoints),
   transactionOutputs: Uint8Array.of(Fill.transactionOutputs),

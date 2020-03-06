@@ -130,56 +130,59 @@ test('compileScript: empty string', t => {
 });
 
 test('compileScriptText: empty string', t => {
-  t.deepEqual(compileScriptText('', {}, { scripts: {} }), {
-    bytecode: Uint8Array.of(),
-    parse: {
-      end: {
-        column: 1,
-        line: 1,
-        offset: 0
-      },
-      name: 'Script',
-      start: {
-        column: 1,
-        line: 1,
-        offset: 0
-      },
-      value: []
-    },
-    reduce: {
+  t.deepEqual(
+    compileScriptText({ data: {}, environment: { scripts: {} }, script: '' }),
+    {
       bytecode: Uint8Array.of(),
-      range: {
-        endColumn: 1,
-        endLineNumber: 1,
-        startColumn: 1,
-        startLineNumber: 1
+      parse: {
+        end: {
+          column: 1,
+          line: 1,
+          offset: 0
+        },
+        name: 'Script',
+        start: {
+          column: 1,
+          line: 1,
+          offset: 0
+        },
+        value: []
       },
-      source: [
-        {
-          bytecode: Uint8Array.of(),
-          range: {
-            endColumn: 1,
-            endLineNumber: 1,
-            startColumn: 1,
-            startLineNumber: 1
-          }
-        }
-      ]
-    },
-    resolve: [
-      {
+      reduce: {
+        bytecode: Uint8Array.of(),
         range: {
           endColumn: 1,
           endLineNumber: 1,
           startColumn: 1,
           startLineNumber: 1
         },
-        type: 'comment',
-        value: ''
-      }
-    ],
-    success: true
-  });
+        source: [
+          {
+            bytecode: Uint8Array.of(),
+            range: {
+              endColumn: 1,
+              endLineNumber: 1,
+              startColumn: 1,
+              startLineNumber: 1
+            }
+          }
+        ]
+      },
+      resolve: [
+        {
+          range: {
+            endColumn: 1,
+            endLineNumber: 1,
+            startColumn: 1,
+            startLineNumber: 1
+          },
+          type: 'comment',
+          value: ''
+        }
+      ],
+      success: true
+    }
+  );
 });
 
 test('compileScriptText: empty script (script with space)', t => {

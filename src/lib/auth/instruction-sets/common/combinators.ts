@@ -26,8 +26,8 @@ export const conditionallyEvaluate = <State extends ExecutionStackState>(
 /**
  * Map a function over each operation in an `InstructionSet.operations` object,
  * assigning the result to the same `opcode` in the resulting object.
- * @param operations an operations map from an `InstructionSet`
- * @param combinator a function to apply to each operation
+ * @param operations - an operations map from an `InstructionSet`
+ * @param combinator - a function to apply to each operation
  */
 export const mapOverOperations = <State>(
   operations: InstructionSetOperationMapping<State>,
@@ -54,7 +54,7 @@ export const useOneStackItem = <
   Errors
 >(
   state: State,
-  operation: (nextState: State, value: Uint8Array) => State
+  operation: (nextState: State, [value]: [Uint8Array]) => State
 ) => {
   // eslint-disable-next-line functional/immutable-data
   const item = state.stack.pop();
@@ -64,7 +64,7 @@ export const useOneStackItem = <
       state
     );
   }
-  return operation(state, item);
+  return operation(state, [item]);
 };
 
 export const useTwoStackItems = <
@@ -74,13 +74,12 @@ export const useTwoStackItems = <
   state: State,
   operation: (
     nextState: State,
-    valueTop: Uint8Array,
-    valueTwo: Uint8Array
+    [valueTop, valueTwo]: [Uint8Array, Uint8Array]
   ) => State
 ) =>
-  useOneStackItem(state, (nextState, valueTwo) =>
-    useOneStackItem(nextState, (lastState, valueTop) =>
-      operation(lastState, valueTop, valueTwo)
+  useOneStackItem(state, (nextState, [valueTwo]) =>
+    useOneStackItem(nextState, (lastState, [valueTop]) =>
+      operation(lastState, [valueTop, valueTwo])
     )
   );
 
@@ -91,14 +90,12 @@ export const useThreeStackItems = <
   state: State,
   operation: (
     nextState: State,
-    valueTop: Uint8Array,
-    valueTwo: Uint8Array,
-    valueThree: Uint8Array
+    [valueTop, valueTwo, valueThree]: [Uint8Array, Uint8Array, Uint8Array]
   ) => State
 ) =>
-  useOneStackItem(state, (nextState, valueThree) =>
-    useTwoStackItems(nextState, (lastState, valueTop, valueTwo) =>
-      operation(lastState, valueTop, valueTwo, valueThree)
+  useOneStackItem(state, (nextState, [valueThree]) =>
+    useTwoStackItems(nextState, (lastState, [valueTop, valueTwo]) =>
+      operation(lastState, [valueTop, valueTwo, valueThree])
     )
   );
 
@@ -109,15 +106,17 @@ export const useFourStackItems = <
   state: State,
   operation: (
     nextState: State,
-    valueTop: Uint8Array,
-    valueTwo: Uint8Array,
-    valueThree: Uint8Array,
-    valueFour: Uint8Array
+    [valueTop, valueTwo, valueThree, valueFour]: [
+      Uint8Array,
+      Uint8Array,
+      Uint8Array,
+      Uint8Array
+    ]
   ) => State
 ) =>
-  useTwoStackItems(state, (nextState, valueThree, valueFour) =>
-    useTwoStackItems(nextState, (lastState, valueTop, valueTwo) =>
-      operation(lastState, valueTop, valueTwo, valueThree, valueFour)
+  useTwoStackItems(state, (nextState, [valueThree, valueFour]) =>
+    useTwoStackItems(nextState, (lastState, [valueTop, valueTwo]) =>
+      operation(lastState, [valueTop, valueTwo, valueThree, valueFour])
     )
   );
 
@@ -128,27 +127,28 @@ export const useSixStackItems = <
   state: State,
   operation: (
     nextState: State,
-    valueTop: Uint8Array,
-    valueTwo: Uint8Array,
-    valueThree: Uint8Array,
-    valueFour: Uint8Array,
-    valueFive: Uint8Array,
-    valueSix: Uint8Array
+    [valueTop, valueTwo, valueThree, valueFour, valueFive, valueSix]: [
+      Uint8Array,
+      Uint8Array,
+      Uint8Array,
+      Uint8Array,
+      Uint8Array,
+      Uint8Array
+    ]
   ) => State
 ) =>
   useFourStackItems(
     state,
-    (nextState, valueThree, valueFour, valueFive, valueSix) =>
-      useTwoStackItems(nextState, (lastState, valueTop, valueTwo) =>
-        operation(
-          lastState,
+    (nextState, [valueThree, valueFour, valueFive, valueSix]) =>
+      useTwoStackItems(nextState, (lastState, [valueTop, valueTwo]) =>
+        operation(lastState, [
           valueTop,
           valueTwo,
           valueThree,
           valueFour,
           valueFive,
           valueSix
-        )
+        ])
       )
   );
 
@@ -159,11 +159,13 @@ export const useOneScriptNumber = <
   Errors
 >(
   state: State,
-  operation: (nextState: State, value: bigint) => State,
-  requireMinimalEncoding: boolean,
-  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+  operation: (nextState: State, [value]: [bigint]) => State,
+  {
+    requireMinimalEncoding,
+    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+  }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
 ) =>
-  useOneStackItem(state, (nextState, item) => {
+  useOneStackItem(state, (nextState, [item]) => {
     const value = parseBytesAsScriptNumber(
       item,
       requireMinimalEncoding,
@@ -175,7 +177,7 @@ export const useOneScriptNumber = <
         state
       );
     }
-    return operation(nextState, value);
+    return operation(nextState, [value]);
   });
 
 export const useTwoScriptNumbers = <
@@ -185,24 +187,23 @@ export const useTwoScriptNumbers = <
   state: State,
   operation: (
     nextState: State,
-    firstValue: bigint,
-    secondValue: bigint
+    [firstValue, secondValue]: [bigint, bigint]
   ) => State,
-  requireMinimalEncoding: boolean,
-  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+  {
+    requireMinimalEncoding,
+    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+  }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
 ) =>
   useOneScriptNumber(
     state,
-    (nextState, secondValue) =>
+    (nextState, [secondValue]) =>
       useOneScriptNumber(
         nextState,
-        (lastState, firstValue) =>
-          operation(lastState, firstValue, secondValue),
-        requireMinimalEncoding,
-        maximumScriptNumberByteLength
+        (lastState, [firstValue]) =>
+          operation(lastState, [firstValue, secondValue]),
+        { maximumScriptNumberByteLength, requireMinimalEncoding }
       ),
-    requireMinimalEncoding,
-    maximumScriptNumberByteLength
+    { maximumScriptNumberByteLength, requireMinimalEncoding }
   );
 
 export const useThreeScriptNumbers = <
@@ -212,31 +213,29 @@ export const useThreeScriptNumbers = <
   state: State,
   operation: (
     nextState: State,
-    firstValue: bigint,
-    secondValue: bigint,
-    thirdValue: bigint
+    [firstValue, secondValue, thirdValue]: [bigint, bigint, bigint]
   ) => State,
-  requireMinimalEncoding: boolean,
-  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+  {
+    requireMinimalEncoding,
+    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+  }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
 ) =>
   useTwoScriptNumbers(
     state,
-    (nextState, secondValue, thirdValue) =>
+    (nextState, [secondValue, thirdValue]) =>
       useOneScriptNumber(
         nextState,
-        (lastState, firstValue) =>
-          operation(lastState, firstValue, secondValue, thirdValue),
-        requireMinimalEncoding,
-        maximumScriptNumberByteLength
+        (lastState, [firstValue]) =>
+          operation(lastState, [firstValue, secondValue, thirdValue]),
+        { maximumScriptNumberByteLength, requireMinimalEncoding }
       ),
-    requireMinimalEncoding,
-    maximumScriptNumberByteLength
+    { maximumScriptNumberByteLength, requireMinimalEncoding }
   );
 
 /**
  * Return the provided state with the provided value pushed to its stack.
- * @param state the state to update and return
- * @param data the value to push to the stack
+ * @param state - the state to update and return
+ * @param data - the value to push to the stack
  */
 export const pushToStack = <State extends StackState>(
   state: State,

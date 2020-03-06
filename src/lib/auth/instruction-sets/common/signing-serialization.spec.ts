@@ -36,13 +36,13 @@ const tests = Object.values(sighashTests)
 /**
  * Isolate a single test for debugging
  */
-// const pendingTests = tests.filter(e => e.testIndex === 123);
+// const pendingTests = tests.filter(e => e.testIndex === 999);
 const pendingTests = tests;
 
 const sha256Promise = instantiateSha256();
 
 pendingTests.map((expectation, currentTest) => {
-  test(`signing-serialization tests: sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async t => {
+  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async t => {
     const sha256 = await sha256Promise;
     const tx = deserializeTransaction(hexToBin(expectation.transactionHex));
     const lockingBytecode = hexToBin(expectation.scriptHex);
@@ -53,26 +53,26 @@ pendingTests.map((expectation, currentTest) => {
       inputIndex: expectation.inputIndex,
       sourceOutput: {
         lockingBytecode,
-        satoshis: BigInt(0)
+        satoshis: 0
       },
       spendingTransaction: tx
     });
-    const serialization = generateSigningSerializationBCH(
+    const serialization = generateSigningSerializationBCH({
+      correspondingOutput: state.correspondingOutput,
+      coveredBytecode: lockingBytecode,
+      forkId: signingSerializationType.slice(1, 4),
+      locktime: state.locktime,
+      outpointIndex: state.outpointIndex,
+      outpointTransactionHash: state.outpointTransactionHash,
+      outputValue: state.outputValue,
+      sequenceNumber: state.sequenceNumber,
       sha256,
-      state.version,
-      state.transactionOutpoints,
-      state.transactionSequenceNumbers,
-      state.outpointTransactionHash,
-      state.outpointIndex,
-      lockingBytecode,
-      state.outputValue,
-      state.sequenceNumber,
-      state.correspondingOutput,
-      state.transactionOutputs,
-      state.locktime,
-      signingSerializationType.slice(0, 1),
-      signingSerializationType.slice(1, 4)
-    );
+      signingSerializationType: signingSerializationType.slice(0, 1),
+      transactionOutpoints: state.transactionOutpoints,
+      transactionOutputs: state.transactionOutputs,
+      transactionSequenceNumbers: state.transactionSequenceNumbers,
+      version: state.version
+    });
     const digest = sha256.hash(sha256.hash(serialization));
     t.deepEqual(
       digest,

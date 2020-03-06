@@ -23,8 +23,8 @@ export * from './fixtures/bitcoin-abc/bitcoin-abc-utils';
 /**
  * Initialize a virtual machine using the provided BCH instruction set.
  *
- * @param instructionSet the VM version to instantiate – by default, the current
- * "strict" VM is used (`instructionSetBCHCurrentStrict`)
+ * @param instructionSet - the VM version to instantiate – by default, the
+ * current "strict" VM is used (`instructionSetBCHCurrentStrict`)
  */
 export const instantiateVirtualMachineBCH = async (
   instructionSet = instructionSetBCHCurrentStrict
@@ -36,12 +36,12 @@ export const instantiateVirtualMachineBCH = async (
     instantiateSecp256k1()
   ]);
   return createAuthenticationVirtualMachine(
-    createInstructionSetBCH(
-      getFlagsForInstructionSetBCH(instructionSet),
-      sha1,
-      sha256,
+    createInstructionSetBCH({
+      flags: getFlagsForInstructionSetBCH(instructionSet),
       ripemd160,
-      secp256k1
-    )
+      secp256k1,
+      sha1,
+      sha256
+    })
   );
 };

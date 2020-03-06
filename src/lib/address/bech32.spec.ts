@@ -1,27 +1,43 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
+import { testProp } from 'ava-fast-check';
 import * as fc from 'fast-check';
-
-import { binToUtf8 } from '../utils/utf8';
 
 import {
   Bech32DecodingError,
   bech32PaddedToBin,
   binToBech32Padded,
+  binToUtf8,
   BitRegroupingError,
   isBech32,
   regroupBits
-} from './bech32';
+} from '../lib';
 
 test('regroupBits', t => {
-  t.deepEqual(regroupBits([255, 255], 8, 5), [31, 31, 31, 16]);
-  t.deepEqual(regroupBits([256], 8, 5), BitRegroupingError.integerOutOfRange);
   t.deepEqual(
-    regroupBits([31, 31, 31, 17], 5, 8, false),
+    regroupBits({ bin: [255, 255], resultWordLength: 5, sourceWordLength: 8 }),
+    [31, 31, 31, 16]
+  );
+  t.deepEqual(
+    regroupBits({ bin: [256], resultWordLength: 5, sourceWordLength: 8 }),
+    BitRegroupingError.integerOutOfRange
+  );
+  t.deepEqual(
+    regroupBits({
+      bin: [31, 31, 31, 17],
+      padding: false,
+      resultWordLength: 8,
+      sourceWordLength: 5
+    }),
     BitRegroupingError.requiresDisallowedPadding
   );
   t.deepEqual(
-    regroupBits([0], 5, 8, false),
+    regroupBits({
+      bin: [0],
+      padding: false,
+      resultWordLength: 8,
+      sourceWordLength: 5
+    }),
     BitRegroupingError.hasDisallowedPadding
   );
 });
@@ -68,42 +84,30 @@ const fcUint8Array = (minLength: number, maxLength: number) =>
     .map(a => Uint8Array.from(a));
 const maxBinLength = 100;
 
-test('bech32PaddedToBin <-> binToBech32Padded', t => {
-  const inverse = fc.property(
-    fcUint8Array(0, maxBinLength),
-    input =>
-      binToBech32Padded(
-        bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array
-      ) === binToBech32Padded(input)
-  );
-  t.notThrows(() => {
-    fc.assert(inverse);
-  });
-});
+testProp(
+  '[fast-check] bech32PaddedToBin <-> binToBech32Padded',
+  [fcUint8Array(0, maxBinLength)],
+  input =>
+    binToBech32Padded(
+      bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array
+    ) === binToBech32Padded(input)
+);
 
-test('binToBech32Padded -> isBech32', t => {
-  const binToBech32ProducesValidBech32 = fc.property(
-    fcUint8Array(0, maxBinLength),
-    input => isBech32(binToBech32Padded(input))
-  );
-  t.notThrows(() => {
-    fc.assert(binToBech32ProducesValidBech32);
-  });
-});
+testProp(
+  '[fast-check] binToBech32Padded -> isBech32',
+  [fcUint8Array(0, maxBinLength)],
+  input => isBech32(binToBech32Padded(input))
+);
 
-test('isBech32: matches round trip results', t => {
-  const isBech32MatchesRoundTripResults = fc.property(
-    fcUint8Array(0, maxBinLength),
-    input => {
-      const maybeBech32 = binToUtf8(input);
-      const tryBin = bech32PaddedToBin(maybeBech32);
-      const skip = true;
-      return typeof tryBin === 'string'
-        ? skip
-        : binToBech32Padded(tryBin) === maybeBech32;
-    }
-  );
-  t.notThrows(() => {
-    fc.assert(isBech32MatchesRoundTripResults);
-  });
-});
+testProp(
+  '[fast-check] isBech32: matches round trip results',
+  [fcUint8Array(0, maxBinLength)],
+  input => {
+    const maybeBech32 = binToUtf8(input);
+    const tryBin = bech32PaddedToBin(maybeBech32);
+    const skip = true;
+    return typeof tryBin === 'string'
+      ? skip
+      : binToBech32Padded(tryBin) === maybeBech32;
+  }
+);

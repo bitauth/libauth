@@ -22,16 +22,25 @@ const fcUint8Array = (minLength: number, maxLength: number) =>
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
     .map(a => Uint8Array.from(a));
 
-export const testHashFunction = <T extends HashFunction>(
-  hashFunctionName: string,
-  getEmbeddedBinary: () => ArrayBuffer,
-  instantiate: () => Promise<T>,
-  instantiateBytes: (webassemblyBytes: ArrayBuffer) => Promise<T>,
-  abcHash: Uint8Array,
-  testHash: Uint8Array,
-  bitcoinTsHash: Uint8Array,
-  nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
-) => {
+export const testHashFunction = <T extends HashFunction>({
+  abcHash,
+  bitcoinTsHash,
+  getEmbeddedBinary,
+  hashFunctionName,
+  instantiate,
+  instantiateBytes,
+  nodeJsAlgorithm,
+  testHash
+}: {
+  hashFunctionName: string;
+  getEmbeddedBinary: () => ArrayBuffer;
+  instantiate: () => Promise<T>;
+  instantiateBytes: (webassemblyBytes: ArrayBuffer) => Promise<T>;
+  abcHash: Uint8Array;
+  testHash: Uint8Array;
+  bitcoinTsHash: Uint8Array;
+  nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1';
+}) => {
   const binary = getEmbeddedBinary();
   const bcryptoAlgorithm = nodeJsAlgorithm.toUpperCase() as
     | 'RIPEMD160'
@@ -62,7 +71,7 @@ export const testHashFunction = <T extends HashFunction>(
     );
   });
 
-  test(`crypto: ${hashFunctionName} instantiated with bytes`, async t => {
+  test(`[fast-check] [crypto] ${hashFunctionName} instantiated with bytes`, async t => {
     const hashFunction = await instantiateBytes(binary);
 
     const equivalentToNative = fc.property(
@@ -75,9 +84,7 @@ export const testHashFunction = <T extends HashFunction>(
         );
       }
     );
-    t.notThrows(() => {
-      fc.assert(equivalentToNative);
-    });
+
     const equivalentToBcoin = fc.property(
       fcUint8Array(0, testLength),
       message => {
@@ -89,9 +96,7 @@ export const testHashFunction = <T extends HashFunction>(
         );
       }
     );
-    t.notThrows(() => {
-      fc.assert(equivalentToBcoin);
-    });
+
     const equivalentToHashJs = fc.property(
       fcUint8Array(0, testLength),
       message => {
@@ -106,11 +111,13 @@ export const testHashFunction = <T extends HashFunction>(
       }
     );
     t.notThrows(() => {
+      fc.assert(equivalentToNative);
+      fc.assert(equivalentToBcoin);
       fc.assert(equivalentToHashJs);
     });
   });
 
-  test(`crypto: ${hashFunctionName} incremental hashing`, async t => {
+  test(`[crypto] ${hashFunctionName} incremental hashing`, async t => {
     const hashFunction = await instantiate();
     t.deepEqual(
       hashFunction.final(

@@ -17,8 +17,8 @@ const enum BinaryInfo {
  * specified number of bytes. For values exceeding Number.MAX_SAFE_INTEGER, use
  * `bigIntToBinUintLE`.
  *
- * @param value the number to convert into a Uint32LE Uint8Array
- * @param bytes the number of bytes to read
+ * @param value - the number to convert into a Uint32LE Uint8Array
+ * @param bytes - the number of bytes to read
  */
 export const numberToBinUintLE = (value: number, bytes: number) => {
   const bin = new Uint8Array(bytes);
@@ -37,7 +37,7 @@ export const numberToBinUintLE = (value: number, bytes: number) => {
  *
  * Note: For valid results, value must be between 0 and 0xffff.
  *
- * @param value the number to convert into a Uint16LE Uint8Array
+ * @param value - the number to convert into a Uint16LE Uint8Array
  */
 export const numberToBinUint16LE = (value: number) =>
   numberToBinUintLE(value, ByteLength.uint16);
@@ -47,7 +47,7 @@ export const numberToBinUint16LE = (value: number) =>
  *
  * Note: For valid results, value must be between 0 and 0xffffffff.
  *
- * @param value the number to convert into a Uint32LE Uint8Array
+ * @param value - the number to convert into a Uint32LE Uint8Array
  */
 export const numberToBinUint32LE = (value: number) =>
   numberToBinUintLE(value, ByteLength.uint32);
@@ -55,8 +55,8 @@ export const numberToBinUint32LE = (value: number) =>
 /**
  * Decode a little-endian Uint8Array into a number.
  *
- * @param bin the Uint8Array to decode
- * @param bytes the number of bytes to read
+ * @param bin - the Uint8Array to decode
+ * @param bytes - the number of bytes to read
  */
 export const binToNumberUintLE = (bin: Uint8Array, bytes: number) => {
   // eslint-disable-next-line functional/no-let
@@ -72,7 +72,7 @@ export const binToNumberUintLE = (bin: Uint8Array, bytes: number) => {
 /**
  * Decode a 2-byte Uint16LE Uint8Array into a number.
  *
- * @param bin the Uint8Array to decode
+ * @param bin - the Uint8Array to decode
  */
 export const binToNumberUint16LE = (bin: Uint8Array) =>
   binToNumberUintLE(bin, ByteLength.uint16);
@@ -80,7 +80,7 @@ export const binToNumberUint16LE = (bin: Uint8Array) =>
 /**
  * Decode a 4-byte Uint32LE Uint8Array into a number.
  *
- * @param bin the Uint8Array to decode
+ * @param bin - the Uint8Array to decode
  */
 export const binToNumberUint32LE = (bin: Uint8Array) =>
   binToNumberUintLE(bin, ByteLength.uint32);
@@ -89,8 +89,8 @@ export const binToNumberUint32LE = (bin: Uint8Array) =>
  * Return a BigInt as little-endian Uint8Array.
  *
  * Note: For valid results, value must be between 0 and 0xffff ffff ffff ffff.
- * @param value the number to convert into a little-endian Uint8Array
- * @param bytes the byte length of the Uint8Array to return
+ * @param value - the number to convert into a little-endian Uint8Array
+ * @param bytes - the byte length of the Uint8Array to return
  */
 export const bigIntToBinUintLE = (value: bigint, bytes: number) => {
   const bin = new Uint8Array(bytes);
@@ -110,7 +110,7 @@ export const bigIntToBinUintLE = (value: bigint, bytes: number) => {
  * Note: For valid results, value must be within the range representable by the
  * specified number of bytes.
  *
- * @param value the number to convert into a little-endian Uint8Array
+ * @param value - the number to convert into a little-endian Uint8Array
  */
 export const bigIntToBinUint64LE = (value: bigint) =>
   bigIntToBinUintLE(value, ByteLength.uint64);
@@ -118,7 +118,7 @@ export const bigIntToBinUint64LE = (value: bigint) =>
 /**
  * Decode a little-endian Uint8Array into a BigInt.
  *
- * @param bin the Uint8Array to decode
+ * @param bin - the Uint8Array to decode
  */
 export const binToBigIntUintLE = (bin: Uint8Array, bytes: number) => {
   const base = 2;
@@ -136,7 +136,7 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes: number) => {
 /**
  * Decode an 8-byte Uint64LE Uint8Array into a BigInt.
  *
- * @param bin the Uint8Array to decode
+ * @param bin - the Uint8Array to decode
  */
 export const binToBigIntUint64LE = (bin: Uint8Array) =>
   binToBigIntUintLE(bin, ByteLength.uint64);
@@ -167,8 +167,8 @@ const varIntPrefixToSize = (firstByte: number) => {
  * Read a Bitcoin VarInt (Variable-length integer) from a Uint8Array, returning
  * the `nextOffset` after the VarInt and the value as a BigInt.
  *
- * @param bin the Uint8Array from which to read the VarInt
- * @param offset the offset at which the input begins
+ * @param bin - the Uint8Array from which to read the VarInt
+ * @param offset - the offset at which the input begins
  */
 export const readBitcoinVarInt = (bin: Uint8Array, offset: number) => {
   const bytes = varIntPrefixToSize(bin[offset]);
@@ -184,7 +184,7 @@ export const readBitcoinVarInt = (bin: Uint8Array, offset: number) => {
  * Note: the maximum value of a Bitcoin VarInt is 0xffff ffff ffff ffff. This
  * method will produce invalid results for larger values.
  *
- * @param value the BigInt to encode (no larger than 0xffff ffff ffff ffff)
+ * @param value - the BigInt to encode (no larger than 0xffff ffff ffff ffff)
  */
 export const bigIntToBitcoinVarInt = (value: bigint) =>
   value <= BigInt(VarInt.Uint8MaxValue)

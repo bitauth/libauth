@@ -31,7 +31,7 @@ export const opEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >(): Operation<State> => (state: State) =>
-  useTwoStackItems(state, (nextState, element1, element2) =>
+  useTwoStackItems(state, (nextState, [element1, element2]) =>
     pushToStack(nextState, booleanToScriptNumber(areEqual(element1, element2)))
   );
 

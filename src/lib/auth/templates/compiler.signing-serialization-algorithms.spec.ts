@@ -3,10 +3,10 @@ import test, { Macro } from 'ava';
 
 import {
   AuthenticationProgramStateBCH,
+  compilerCreateStateCommon,
   CompilerOperationDataBCH,
   createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
-  createStateCompilerBCH,
   generateBytecodeMap,
   getCompilerOperationsBCH,
   hexToBin,
@@ -16,7 +16,7 @@ import {
   instructionSetBCHCurrentStrict,
   OpcodesBCH,
   stringify
-} from '../../../lib';
+} from '../../lib';
 
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
@@ -36,7 +36,7 @@ const signingSerializationType: Macro<[string, string]> = async (
     CompilerOperationDataBCH,
     AuthenticationProgramStateBCH
   >({
-    createState: createStateCompilerBCH,
+    createState: compilerCreateStateCommon,
     opcodes: generateBytecodeMap(OpcodesBCH),
     operations: getCompilerOperationsBCH(),
     scripts: {
@@ -54,7 +54,7 @@ const signingSerializationType: Macro<[string, string]> = async (
     vm
   });
 
-  const resultLock = compiler.generate('lock', {
+  const resultLock = compiler.generateBytecode('lock', {
     keys: { privateKeys: { a: privkey } }
   });
   t.deepEqual(resultLock, {
@@ -63,7 +63,7 @@ const signingSerializationType: Macro<[string, string]> = async (
   });
   // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
-    const resultUnlock = compiler.generate('unlock', {
+    const resultUnlock = compiler.generateBytecode('unlock', {
       keys: { privateKeys: { a: privkey } },
       operationData: {
         ...createAuthenticationProgramExternalStateCommonEmpty(),

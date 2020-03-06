@@ -5,7 +5,7 @@ export interface HashFunction {
   readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
 }
 
-/* eslint-disable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers */
+/* eslint-disable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers, max-params */
 /**
  * Note, most of this method is translated and boiled-down from the wasm-pack
  * workflow. Significant changes to wasm-bindgen or wasm-pack build will likely
@@ -155,4 +155,4 @@ export const instantiateRustWasm = async (
     update
   };
 };
-/* eslint-enable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers */
+/* eslint-enable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers, max-params */

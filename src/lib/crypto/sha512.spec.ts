@@ -4,7 +4,8 @@ import {
   instantiateSha512,
   instantiateSha512Bytes,
   Sha512
-} from './../lib';
+} from '../lib';
+
 import { testHashFunction } from './hash.spec.helper';
 
 // prettier-ignore
@@ -16,13 +17,13 @@ const testHash = new Uint8Array([238, 38, 176, 221, 74, 247, 231, 73, 170, 26, 1
 // prettier-ignore
 const bitcoinTsHash = new Uint8Array([199, 3, 62, 254, 211, 112, 236, 45, 153, 174, 172, 201, 56, 4, 81, 75, 63, 108, 8, 154, 220, 157, 74, 51, 3, 125, 152, 147, 138, 57, 239, 39, 144, 71, 255, 181, 173, 73, 150, 146, 149, 26, 151, 201, 54, 28, 80, 219, 128, 183, 24, 114, 55, 231, 4, 126, 200, 17, 11, 95, 50, 70, 85, 60]);
 
-testHashFunction<Sha512>(
-  'sha512',
-  getEmbeddedSha512Binary,
-  instantiateSha512,
-  instantiateSha512Bytes,
+testHashFunction<Sha512>({
   abcHash,
-  testHash,
   bitcoinTsHash,
-  'sha512'
-);
+  getEmbeddedBinary: getEmbeddedSha512Binary,
+  hashFunctionName: 'sha512',
+  instantiate: instantiateSha512,
+  instantiateBytes: instantiateSha512Bytes,
+  nodeJsAlgorithm: 'sha512',
+  testHash
+});

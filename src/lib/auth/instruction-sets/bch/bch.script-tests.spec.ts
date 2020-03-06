@@ -20,11 +20,11 @@ const tests = Object.values(scriptTests)
   .map((expectation, testIndex) => {
     const satoshis =
       typeof expectation[0] === 'string'
-        ? BigInt(0)
-        : BigInt((expectation.shift() as number[])[0] * 1e8);
+        ? 0
+        : (expectation.shift() as number[])[0] * 1e8;
     return {
       expectedError:
-        expectation[3] === 'OK' ? false : (expectation[3] as string),
+        expectation[3] === 'OK' ? (false as const) : (expectation[3] as string),
       flags: { dirtyStack: false, failRequiresReview: false, useStrict: false },
       lockingBytecodeText: expectation[1] as string,
       message: expectation[4] as string | undefined,
@@ -104,7 +104,7 @@ const vmStrictPromise = instantiateVirtualMachineBCH(
 const sha256Promise = instantiateSha256();
 
 pendingTests.map(expectation => {
-  const description = `script_tests: ${expectation.testIndex}/${
+  const description = `[script_tests] ${expectation.testIndex}/${
     pendingTests.length
   } – "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
     expectation.lockingBytecodeText,
@@ -128,12 +128,12 @@ pendingTests.map(expectation => {
         ? await vmStrictPromise
         : await vmPromise;
       const sha256 = await sha256Promise;
-      const program = createTestAuthenticationProgramBCH(
-        unlockingBytecode,
+      const program = createTestAuthenticationProgramBCH({
         lockingBytecode,
+        satoshis: expectation.satoshis,
         sha256,
-        expectation.satoshis
-      );
+        unlockingBytecode
+      });
       const result = vm.evaluate(program);
       const valid = expectation.flags.dirtyStack
         ? validateDirtyStackState(result)
@@ -151,9 +151,7 @@ pendingTests.map(expectation => {
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expectation.expectedError === false
           ? t.fail('Expected a valid state, but this result is invalid.')
-          : t.fail(
-              `Expected error reason: ${expectation.expectedError.toString()}`
-            );
+          : t.fail(`Expected error reason: ${expectation.expectedError}`);
       }
       t.pass();
     }

@@ -15,13 +15,13 @@ const defaultStringifySpacing = 2;
  * - `functions` and `symbols` are not clearly marked
  *
  * This method is more helpful in these cases:
- * - `bigint`: `0n` => `<bigint: 0n>`
- * - `Uint8Array`: `Uint8Array.of(0,0)` => `<Uint8Array: 0x0000>`
- * - `function`: `(x) => x * 2` => `<function: (x) => x * 2>`
- * - `symbol`: `Symbol(A)` => `<symbol: Symbol(A)>`
+ * - `bigint`: `0n` → `<bigint: 0n>`
+ * - `Uint8Array`: `Uint8Array.of(0,0)` → `<Uint8Array: 0x0000>`
+ * - `function`: `(x) => x * 2` → `<function: (x) => x * 2>`
+ * - `symbol`: `Symbol(A)` → `<symbol: Symbol(A)>`
  *
- * @param value the data to serialize
- * @param spacing the number of spaces to use in
+ * @param value - the data to serialize
+ * @param spacing - the number of spaces to use in
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const stringify = (value: any, spacing = defaultStringifySpacing) =>

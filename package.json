@@ -31,10 +31,10 @@
     "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:lint": "eslint . --ext .ts",
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
-    "test:unit": "nyc --silent ava",
-    "test:unit:fast": "nyc --silent ava --match='!crypto:*' --match='!script_tests:*' --match='!signing-serialization tests:*'",
-    "test:unit:crypto": "nyc --silent ava --match='crypto:*'",
-    "test:unit:script_tests": "nyc --silent ava --match='script_tests:*' --verbose --serial",
+    "test:unit": "nyc --silent ava --timeout=20s",
+    "test:unit:fast": "nyc --silent ava --match='!*[fast-check]*' --match='!*[crypto]*' --match='!*[script_tests]*' --match='!*[signing-serialization tests]*'",
+    "test:unit:fast-check": "nyc --silent ava --match='*[fast-check]*' --timeout=20s",
+    "test:unit:script_tests": "nyc --silent ava --match='*[script_tests]*' --verbose --serial",
     "bench": "run-s build bench:browser-deps bench:test",
     "bench:test": "ava --config .ava.bench.config.js --serial --timeout=2m",
     "bench:browser-deps": "browserify node_modules/chuhai/index.js --standalone chuhai -o build/bench/chuhai.js && browserify node_modules/hash.js/lib/hash.js --standalone hash -o build/bench/hash.js",
@@ -80,7 +80,9 @@
   "engines": {
     "node": ">=8.9"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@typescript-eslint/parser": "^2.22.0"
+  },
   "devDependencies": {
     "@ava/typescript": "^1.1.0",
     "@bitjson/npm-scripts-info": "^1.0.0",
@@ -94,10 +96,9 @@
     "@types/puppeteer": "^2.0.0",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
-    "@typescript-eslint/parser": "^2.19.0",
     "asmcrypto.js": "^2.3.2",
     "ava": "^3.2.0",
+    "ava-fast-check": "^1.1.2",
     "bcrypto": "^5.0.2",
     "browserify": "^16.5.0",
     "chuhai": "^1.2.0",
@@ -107,11 +108,12 @@
     "cz-conventional-changelog": "^3.1.0",
     "elliptic": "^6.5.2",
     "eslint": "^6.8.0",
+    "eslint-config-bitauth": "^1.2.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-eslint-comments": "^3.1.2",
     "eslint-plugin-functional": "^3.0.1",
     "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-tsdoc": "^0.2.1",
+    "eslint-plugin-tsdoc": "^0.2.3",
     "express": "^4.17.1",
     "fast-check": "^1.22.1",
     "gh-pages": "^2.2.0",
@@ -131,7 +133,7 @@
     "ts-json-schema-generator": "^0.58.1",
     "ts-node": "^8.6.2",
     "typedoc": "^0.16.9",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3"
   },
   "ava": {
     "failFast": true,

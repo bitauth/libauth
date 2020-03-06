@@ -45,9 +45,9 @@ enum Bytes {
  * the specified number of bytes. If necessary, validation should be done before
  * calling this method.
  *
- * @param script the Uint8Array from which to read
- * @param index the index from which to begin reading
- * @param length the number of bytes to read
+ * @param script - the Uint8Array from which to read
+ * @param index - the index from which to begin reading
+ * @param length - the number of bytes to read
  */
 export const readLittleEndianNumber = (
   script: Uint8Array,
@@ -70,16 +70,17 @@ export const readLittleEndianNumber = (
  *
  * If necessary, validation should be done before calling this method.
  *
- * @param script the Uint8Array to which the number should be written
- * @param index the index at which to begin reading
- * @param length the number of bytes to use
- * @param value the number to write at `script[index]`
+ * @param script - the Uint8Array to which the number should be written
+ * @param index - the index at which to begin writing
+ * @param length - the number of bytes to use
+ * @param value - the number to write at `script[index]`
  */
 export const writeLittleEndianNumber = (
   script: Uint8Array,
   index: number,
   length: Bytes,
   value: number
+  // eslint-disable-next-line max-params
 ) => {
   const view = new DataView(script.buffer, index, length);
   const writeAsLittleEndian = true;
@@ -100,7 +101,7 @@ export const numberToLittleEndianBin = (value: number, length: Bytes) => {
 /**
  * Returns the number of bytes used to indicate the length of the push in this
  * operation.
- * @param opcode an opcode between 0x00 and 0x4e
+ * @param opcode - an opcode between 0x00 and 0x4e
  */
 export const lengthBytesForPushOpcode = (opcode: number): number =>
   opcode < CommonPushOpcodes.OP_PUSHDATA_1
@@ -123,16 +124,16 @@ export const lengthBytesForPushOpcode = (opcode: number): number =>
  * malformed if 1) the final operation is a push and 2) too few bytes remain for
  * the push operation to complete.
  *
- * @param script the script from which to read the next instruction
- * @param index the offset from which to begin reading
+ * @param script - the script from which to read the next instruction
+ * @param index - the offset from which to begin reading
  */
 // eslint-disable-next-line complexity
 export const readAuthenticationInstruction = <Opcodes = number>(
   script: Uint8Array,
   index: number
 ): {
-  readonly instruction: ParsedAuthenticationInstruction<Opcodes>;
-  readonly nextIndex: number;
+  instruction: ParsedAuthenticationInstruction<Opcodes>;
+  nextIndex: number;
 } => {
   const opcode = script[index];
   if (opcode > CommonPushOpcodes.OP_PUSHDATA_4) {
@@ -194,7 +195,7 @@ export const readAuthenticationInstruction = <Opcodes = number>(
  *  const instructions = parseAuthenticationBytecode<OpcodesBCH>(script);
  * ```
  *
- * @param script the serialized script to parse
+ * @param script - the serialized script to parse
  */
 export const parseBytecode = <Opcodes = number>(script: Uint8Array) => {
   const instructions: ParsedAuthenticationInstructions<Opcodes> = [];
@@ -287,7 +288,7 @@ export const disassembleParsedAuthenticationInstruction = <Opcodes = number>(
  * Disassemble an array of `ParsedAuthenticationInstructions` (including
  * potentially malformed instructions) into its ASM representation.
  *
- * @param script the array of instructions to disassemble
+ * @param script - the array of instructions to disassemble
  */
 export const disassembleParsedAuthenticationInstructions = <Opcodes = number>(
   opcodes: { readonly [opcode: number]: string },
@@ -304,8 +305,8 @@ export const disassembleParsedAuthenticationInstructions = <Opcodes = number>(
  *
  * TODO: a similar method which re-formats ASM strings, converting HexLiterals to Script Numbers or UTF8Literals.
  *
- * @param opcodes the set to use when determining the name of opcodes, e.g. `OpcodesBCH`
- * @param bytecode the authentication bytecode to disassemble
+ * @param opcodes - the set to use when determining the name of opcodes, e.g. `OpcodesBCH`
+ * @param bytecode - the authentication bytecode to disassemble
  */
 export const disassembleBytecode = <Opcode = number>(
   opcodes: { readonly [opcode: number]: string },
@@ -318,7 +319,7 @@ export const disassembleBytecode = <Opcode = number>(
 
 /**
  * Disassemble BCH authentication bytecode into its ASM representation.
- * @param bytecode the authentication bytecode to disassemble
+ * @param bytecode - the authentication bytecode to disassemble
  */
 export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
   disassembleParsedAuthenticationInstructions(
@@ -330,7 +331,7 @@ export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
 
 /**
  * Disassemble BTC authentication bytecode into its ASM representation.
- * @param bytecode the authentication bytecode to disassemble
+ * @param bytecode - the authentication bytecode to disassemble
  */
 export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
   disassembleParsedAuthenticationInstructions(
@@ -400,7 +401,7 @@ export const serializeParsedAuthenticationInstructions = <Opcodes = number>(
 /**
  * Create an object where each key is an opcode identifier and each value is
  * the bytecode value (`Uint8Array`) it represents.
- * @param opcodes An opcode enum, e.g. `OpcodesBCH`
+ * @param opcodes - An opcode enum, e.g. `OpcodesBCH`
  */
 export const generateBytecodeMap = (opcodes: object) =>
   Object.entries(opcodes)

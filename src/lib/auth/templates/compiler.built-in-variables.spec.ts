@@ -4,10 +4,10 @@ import test, { Macro } from 'ava';
 import {
   AuthenticationProgramStateBCH,
   CompilationData,
+  compilerCreateStateCommon,
   CompilerOperationDataBCH,
   createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
-  createStateCompilerBCH,
   generateBytecodeMap,
   getCompilerOperationsBCH,
   hexToBin,
@@ -17,7 +17,7 @@ import {
   instructionSetBCHCurrentStrict,
   OpcodesBCH,
   stringify
-} from '../../../lib';
+} from '../../lib';
 
 const sha256Promise = instantiateSha256();
 const secp256k1Promise = instantiateSecp256k1();
@@ -27,6 +27,7 @@ const expectCompilationResult: Macro<[
   string,
   CompilationData<CompilerOperationDataBCH>,
   object
+  // eslint-disable-next-line max-params
 ]> = async (t, testScript, otherData, expectedResult) => {
   const sha256 = await sha256Promise;
   const secp256k1 = await secp256k1Promise;
@@ -36,7 +37,7 @@ const expectCompilationResult: Macro<[
     CompilerOperationDataBCH,
     AuthenticationProgramStateBCH
   >({
-    createState: createStateCompilerBCH,
+    createState: compilerCreateStateCommon,
     opcodes: generateBytecodeMap(OpcodesBCH),
     operations: getCompilerOperationsBCH(),
     scripts: { test: testScript },
@@ -45,7 +46,7 @@ const expectCompilationResult: Macro<[
     vm
   });
 
-  const resultUnlock = compiler.generate('test', {
+  const resultUnlock = compiler.generateBytecode('test', {
     operationData: {
       ...createAuthenticationProgramExternalStateCommonEmpty(),
       coveredBytecode: Uint8Array.of()
@@ -262,9 +263,9 @@ test(
 );
 
 test(
-  'BCH compiler: built-in variables – signing_serialization.covered_bytecode_prefix',
+  'BCH compiler: built-in variables – signing_serialization.covered_bytecode_length',
   expectCompilationResult,
-  '<signing_serialization.covered_bytecode_prefix>',
+  '<signing_serialization.covered_bytecode_length>',
   {},
   {
     bytecode: hexToBin('0100'),

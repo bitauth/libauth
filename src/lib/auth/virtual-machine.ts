@@ -67,7 +67,7 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
    * `evaluate` and `debug` methods. It should perform any necessary operations
    * and validations before returning a fully-evaluated `ProgramState`.
    *
-   * @internalRemarks
+   * @privateRemarks
    * When using the `debug` method, the `stateEvaluate` parameter is given a
    * a modified `stateDebug` which shares the same method signature as
    * `stateEvaluate` but saves intermediate states for use in the returned
@@ -125,14 +125,14 @@ export interface AuthenticationVirtualMachine<
    * intermediate `ProgramState` to the returned array. The last
    * `ProgramState` in the returned array is the result of the evaluation.
    *
-   * @param state the `AuthenticationProgram` to debug
+   * @param state - the `AuthenticationProgram` to debug
    */
   debug: (program: Readonly<AuthenticationProgram>) => ProgramState[];
 
   /**
    * Fully evaluate a program, returning the resulting `ProgramState`.
    *
-   * @param state the `AuthenticationProgram` to evaluate
+   * @param state - the `AuthenticationProgram` to evaluate
    */
   evaluate: (program: Readonly<AuthenticationProgram>) => ProgramState;
 
@@ -149,20 +149,20 @@ export interface AuthenticationVirtualMachine<
 
   /**
    * Return a new program state by cloning and fully evaluating `state`.
-   * @param state the program state to evaluate
+   * @param state - the program state to evaluate
    */
   stateEvaluate: (state: Readonly<ProgramState>) => ProgramState;
 
   /**
    * Clones and return a new program state advanced by one step.
-   * @param state the program state to advance
+   * @param state - the program state to advance
    */
   stateStep: (state: Readonly<ProgramState>) => ProgramState;
 
   /**
    * A faster, less-safe version of `step` which directly modifies the provided
    * program state.
-   * @param state the program state to mutate
+   * @param state - the program state to mutate
    */
   stateStepMutate: (state: ProgramState) => ProgramState;
 
@@ -174,7 +174,7 @@ export interface AuthenticationVirtualMachine<
    * `debug` methods. When manually using the `stateStep` or `stateStepMutate`
    * methods, ensure the `ProgramState` has finished evaluation using the
    * `stateContinue` method.
-   * @param state the program state to verify
+   * @param state - the program state to verify
    */
   verify: (state: ProgramState) => boolean;
 }
@@ -182,7 +182,7 @@ export interface AuthenticationVirtualMachine<
 /**
  * Create an AuthenticationVirtualMachine to evaluate authentication programs
  * constructed from operations in the `instructionSet`.
- * @param instructionSet an `InstructionSet`
+ * @param instructionSet - an `InstructionSet`
  */
 export const createAuthenticationVirtualMachine = <
   AuthenticationProgram,

@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle, max-params */
 // cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../utils/utils';
 
@@ -247,7 +247,7 @@ const alignMemory = (factor: number, size: number) =>
  * preamble.js. Significant changes to the WASM build or breaking updates to
  * Emscripten will likely require modifications to this method.
  *
- * @param webassemblyBytes A buffer containing the secp256k1 binary.
+ * @param webassemblyBytes - A buffer containing the secp256k1 binary.
  */
 export const instantiateSecp256k1WasmBytes = async (
   webassemblyBytes: ArrayBuffer

@@ -1,0 +1,35 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": "./tsconfig.json" },
+  "env": { "es6": true },
+  "ignorePatterns": ["node_modules", "build", "coverage"],
+  "extends": ["bitauth"],
+  "globals": { "BigInt": true, "console": true, "WebAssembly": true },
+  "rules": {
+    "@typescript-eslint/prefer-readonly-parameter-types": "off" // TODO: enable
+  },
+  "overrides": [
+    /*
+     * Require all test files to import functionality from the entry point
+     * (to test that exports are available to consumers as expected).
+     */
+    {
+      "files": ["**.spec.ts", "**.bench.ts"],
+      "rules": {
+        "import/no-restricted-paths": [
+          "error",
+          {
+            "zones": [
+              {
+                "target": "./src",
+                "from": "./src/lib",
+                "except": ["lib.ts", "(.*).helper.ts", "(.*).json"]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

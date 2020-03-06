@@ -8,12 +8,12 @@ import {
   createCompilerBCH,
   hexToBin,
   stringify
-} from '../../../lib';
+} from '../../lib';
 
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
 
-test('createCompilerBCH: generate', async t => {
+test('createCompilerBCH: generateScript', async t => {
   const compiler = await createCompilerBCH({
     scripts: {
       lock:
@@ -26,7 +26,7 @@ test('createCompilerBCH: generate', async t => {
       }
     }
   });
-  const resultLock = compiler.generate('lock', {
+  const resultLock = compiler.generateBytecode('lock', {
     keys: { privateKeys: { a: privkey } }
   });
   t.deepEqual(resultLock, {
@@ -35,7 +35,7 @@ test('createCompilerBCH: generate', async t => {
   });
   // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
-    const resultUnlock = compiler.generate('unlock', {
+    const resultUnlock = compiler.generateBytecode('unlock', {
       keys: { privateKeys: { a: privkey } },
       operationData: {
         ...createAuthenticationProgramExternalStateCommonEmpty(),
@@ -71,9 +71,13 @@ test('createCompilerBCH: debug', async t => {
       }
     }
   });
-  const resultLock = compiler.debug('lock', {
-    keys: { privateKeys: { a: privkey } }
-  });
+  const resultLock = compiler.generateBytecode(
+    'lock',
+    {
+      keys: { privateKeys: { a: privkey } }
+    },
+    true
+  );
   t.deepEqual(resultLock, {
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
     parse: {
@@ -346,7 +350,7 @@ test('createCompilerBCH: debug', async t => {
                         outpointTransactionHash: hexToBin(
                           '0505050505050505050505050505050505050505050505050505050505050505'
                         ),
-                        outputValue: BigInt(0),
+                        outputValue: 0,
                         sequenceNumber: 0,
                         signatureOperationsCount: 0,
                         stack: [
@@ -390,7 +394,7 @@ test('createCompilerBCH: debug', async t => {
                         outpointTransactionHash: hexToBin(
                           '0505050505050505050505050505050505050505050505050505050505050505'
                         ),
-                        outputValue: BigInt(0),
+                        outputValue: 0,
                         sequenceNumber: 0,
                         signatureOperationsCount: 0,
                         stack: [
@@ -596,13 +600,17 @@ test('createCompilerBCH: debug', async t => {
   });
   // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
-    const resultUnlock = compiler.debug('unlock', {
-      keys: { privateKeys: { a: privkey } },
-      operationData: {
-        ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredBytecode: resultLock.bytecode
-      }
-    });
+    const resultUnlock = compiler.generateBytecode(
+      'unlock',
+      {
+        keys: { privateKeys: { a: privkey } },
+        operationData: {
+          ...createAuthenticationProgramExternalStateCommonEmpty(),
+          coveredBytecode: resultLock.bytecode
+        }
+      },
+      true
+    );
     t.log(stringify(resultUnlock));
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(

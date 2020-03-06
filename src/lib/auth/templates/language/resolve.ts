@@ -1,4 +1,5 @@
 import { Secp256k1, Sha256 } from '../../../crypto/crypto';
+import { dateToLockTime } from '../../../utils/time';
 import { hexToBin, utf8ToBin } from '../../../utils/utils';
 import { bigIntToScriptNumber } from '../../instruction-sets/instruction-sets';
 import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
@@ -241,9 +242,10 @@ export type CompilerOperation<
 export type CompilerOperationsMinimal = 'public_key' | 'signature';
 
 /**
- * The full context required to compile a given Bitauth Template – everything
- * required for the compiler to generate the final script code (targeting a
- * specific `AuthenticationVirtualMachine`).
+ * The full context required to compile a given Bitauth Template script –
+ * everything required for the compiler to understand the CompilationData and
+ * generate the compiled bytecode (targeting a specific
+ * `AuthenticationVirtualMachine`).
  *
  * A `CompilationEnvironment` must include a subset of the script's
  * `AuthenticationTemplate` – all the variables and scripts referenced
@@ -299,14 +301,18 @@ export interface CompilationEnvironment<
   };
   /**
    * An implementation of secp256k1 is required for any scripts which include
-   * signatures.
+   * signatures. This can be instantiated with `instantiateSecp256k1`.
    */
-  secp256k1?: Secp256k1;
+  secp256k1?: {
+    derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+    signMessageHashSchnorr: Secp256k1['signMessageHashSchnorr'];
+    signMessageHashDER: Secp256k1['signMessageHashDER'];
+  };
   /**
    * An implementation of sha256 is required for any scripts which include
-   * signatures.
+   * signatures. This can be instantiated with `instantiateSha256`.
    */
-  sha256?: Sha256;
+  sha256?: { hash: Sha256['hash'] };
   /**
    * The "breadcrumb" path of script IDs currently being resolved. (E.g.
    * `["grandparentId", "parentId"]`) BTL identifier resolution must be acyclic.
@@ -336,73 +342,140 @@ export interface CompilationEnvironment<
   vm?: AuthenticationVirtualMachine<any, any>;
 }
 
+/**
+ * Data required at compilation time to generate the bytecode for a particular
+ * Bitauth Template script.
+ */
 export interface CompilationData<CompilerOperationData> {
+  /**
+   * A map of `AddressData` variable IDs and their values for this compilation.
+   */
   addressData?: {
     [id: string]: Uint8Array;
   };
+  /**
+   * The current block height at compile time.
+   */
   currentBlockHeight?: number;
+  /**
+   * The current block time at compile time. Note: this is not a current
+   * timestamp, but the median timestamp of the last 11 blocks.
+   *
+   * This value only changes when a new block is found. See BIP113 for details.
+   */
   currentBlockTime?: Date;
   /**
-   * TODO: implement `HDKeys` support (similar to `keys`, `HDKeys` simply takes `index` and `derivationHardened` into account. Note: no current plans to support more complex paths, users needing that kind of control should use `keys` manually.)
+   * TODO: implement `HDKey` support
+   *
+   * An object describing the settings used for `HDKey` variables in this
+   * compilation.
    */
   hdKeys?: {
     /**
-     * TODO: describe that `derivationHardened` and `index` refer to the script derivation index and hardening settings. (The parent account is controlled by `templateDerivationIndex` and `templateDerivationHardened` in `CompilerEnvironment.variables`)
+     * A map of `HDKey` variable IDs to the extended public keys provided to us
+     * by other entities for this compilation.
+     *
+     * Specifically, these keys use the derivation path:
+     * `m/templateDerivationIndex`, where `templateDerivationHardened` is
+     * `true`.
+     *
+     * With the `scriptDerivationIndex`, these extended public keys are used to
+     * derive the precise public key used for the variable in this compilation.
      */
-    derivationHardened?: boolean;
-    index: number;
-    privateHdKeys?: {
+    extendedPublicKeys?: {
       [id: string]: Uint8Array;
     };
-    publicHdKeys?: {
-      [id: string]: Uint8Array;
-    };
-    signatures?: {
-      [id: string]: Uint8Array;
-    };
-  };
-  keys?: {
-    privateKeys?: {
-      [id: string]: Uint8Array;
-    };
+    /**
+     * A map of `HDKey` variable IDs to the public keys provided to us by other
+     * entities for this compilation.
+     *
+     * Specifically, these keys use the derivation path:
+     * `m / templateDerivationIndex`, where `templateDerivationHardened` is
+     * `false`.
+     *
+     * Since we're not able to derive these public keys ourselves, they must
+     * send us the derived public keys to include in the proper places.
+     */
     publicKeys?: {
       [id: string]: Uint8Array;
     };
     /**
-     * Signatures provided to us by other entities. Since we don't have their
-     * private key, we'll need them to send us a valid signature to include in
-     * the proper spots. The provided `id` should match the full identifier for
-     * the signature, e.g. `variable.signature.all_outputs`.
+     * A map of entity IDs to their root private keys for this compilation.
+     */
+    rootPrivateKeys: {
+      [entityId: string]: Uint8Array;
+    };
+    /**
+     * The current index to use in this `HDKey`s script-level derivation.
+     * Typically, this value is incremented for each address generated.
+     */
+    scriptDerivationIndex: number;
+    /**
+     * Signatures provided to us by other entities. Since we can't have their
+     * private key, they must send us valid signatures to include in the proper
+     * places. The provided `fullIdentifier` should match the complete
+     * identifier for the signature, e.g. `variable.signature.all_outputs`.
      */
     signatures?: {
-      [id: string]: Uint8Array;
+      [fullIdentifier: string]: Uint8Array;
     };
   };
+  /**
+   * An object describing the settings used for `Key` variables in this
+   * compilation.
+   */
+  keys?: {
+    /**
+     * A map of entity IDs to their private keys for this compilation.
+     */
+    privateKeys?: {
+      [id: string]: Uint8Array;
+    };
+    /**
+     * A map of entity IDs to their public keys for this compilation.
+     */
+    publicKeys?: {
+      [id: string]: Uint8Array;
+    };
+    /**
+     * Signatures provided to us by other entities. Since we can't have their
+     * private key, they must send us valid signatures to include in the proper
+     * places. The provided `fullIdentifier` should match the complete
+     * identifier for the signature, e.g. `variable.signature.all_outputs`.
+     */
+    signatures?: {
+      [fullIdentifier: string]: Uint8Array;
+    };
+  };
+  /**
+   * The `CompilerOperationData` expected by this particular compiler for any
+   * operations used in the compilation.
+   */
   operationData?: CompilerOperationData;
+  /**
+   * A map of `WalletData` variable IDs and their values for this compilation.
+   */
   walletData?: {
     [id: string]: Uint8Array;
   };
 }
 
-enum Time {
-  msPerLocktimeSecond = 1000
-}
-
-const dateToLockTime = (date: Date) =>
-  bigIntToScriptNumber(
-    BigInt(Math.round(date.getTime() / Time.msPerLocktimeSecond))
-  );
-
 const articleAndVariableType = (variableType: CompilerOperationTypes) =>
   `${variableType === 'HDKey' ? 'an' : 'a'} ${variableType}`;
 
-const attemptCompilerOperation = <CompilerOperationData>(
-  identifier: string,
-  operationId: string,
-  variableType: CompilerOperationTypes,
-  environment: CompilationEnvironment<CompilerOperationData>,
-  data: CompilationData<CompilerOperationData>
-) => {
+const attemptCompilerOperation = <CompilerOperationData>({
+  data,
+  environment,
+  identifier,
+  operationId,
+  variableType
+}: {
+  identifier: string;
+  operationId: string;
+  variableType: CompilerOperationTypes;
+  environment: CompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<CompilerOperationData>;
+}) => {
   if (environment.operations !== undefined) {
     const operationsForType = environment.operations[variableType];
     if (operationsForType !== undefined) {
@@ -496,13 +569,13 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
     case BuiltInVariables.signingSerialization:
       return operationId === undefined
         ? 'Tried to resolve an operation for the built-in variable "signing_serialization", but no operation was provided. Provide an operation like "signing_serialization.[operation]".'
-        : attemptCompilerOperation(
+        : attemptCompilerOperation({
+            data,
+            environment,
             identifier,
             operationId,
-            'SigningSerialization',
-            environment,
-            data
-          );
+            variableType: 'SigningSerialization'
+          });
     default: {
       const selected: AuthenticationTemplateVariable | undefined =
         environment.variables?.[variableId];
@@ -522,13 +595,13 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             data,
             variableId
           )
-        : attemptCompilerOperation(
+        : attemptCompilerOperation({
+            data,
+            environment,
             identifier,
             operationId,
-            selected.type,
-            environment,
-            data
-          );
+            variableType: selected.type
+          });
     }
   }
 };
@@ -544,19 +617,24 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
  * Otherwise, the identifier is not recognized as a script, and this method
  * simply returns `false`.
  *
- * @param identifier the identifier of the script to be resolved
- * @param data the provided CompilationData
- * @param environment the provided CompilationEnvironment
- * @param parentIdentifier the identifier of the script which references the
+ * @param identifier - the identifier of the script to be resolved
+ * @param data - the provided CompilationData
+ * @param environment - the provided CompilationEnvironment
+ * @param parentIdentifier - the identifier of the script which references the
  * script being resolved (for detecting circular dependencies)
  */
 // eslint-disable-next-line complexity
-export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
-  identifier: string,
-  data: CompilationData<CompilerOperationData>,
-  environment: CompilationEnvironment<CompilerOperationData>,
-  parentIdentifier?: string
-): CompilationResultSuccess<ProgramState> | string | false => {
+export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
+  data,
+  environment,
+  identifier,
+  parentIdentifier
+}: {
+  identifier: string;
+  data: CompilationData<CompilerOperationData>;
+  environment: CompilationEnvironment<CompilerOperationData>;
+  parentIdentifier?: string;
+}): CompilationResultSuccess<ProgramState> | string | false => {
   if ((environment.scripts[identifier] as string | undefined) === undefined) {
     return false;
   }
@@ -583,6 +661,7 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
     : `Compilation error in resolved script, ${identifier}: ${result.errors
         .map(
           ({ error, range }) =>
+            // tslint:disable-next-line: no-unsafe-any
             `${error} [${range.startLineNumber}, ${range.startColumn}]`
         )
         .join(', ')}`;
@@ -591,11 +670,11 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>(
 /**
  * Return an `IdentifierResolutionFunction` for use in `resolveScriptSegment`.
  *
- * @param scriptId the `id` of the script for which the resulting
+ * @param scriptId - the `id` of the script for which the resulting
  * `IdentifierResolutionFunction` will be used.
- * @param environment a snapshot of the context around `scriptId`. See
+ * @param environment - a snapshot of the context around `scriptId`. See
  * `CompilationEnvironment` for details.
- * @param data the actual variable values (private keys, shared wallet data,
+ * @param data - the actual variable values (private keys, shared wallet data,
  * shared address data, etc.) to use in resolving variables.
  */
 export const createIdentifierResolver = <CompilerOperationData>(
@@ -628,12 +707,12 @@ export const createIdentifierResolver = <CompilerOperationData>(
             type: IdentifierResolutionType.variable
           };
     }
-    const scriptResult = resolveScriptIdentifier(
-      identifier,
+    const scriptResult = resolveScriptIdentifier({
       data,
       environment,
-      scriptId
-    );
+      identifier,
+      parentIdentifier: scriptId
+    });
     if (scriptResult !== false) {
       return typeof scriptResult === 'string'
         ? { error: scriptResult, status: false }

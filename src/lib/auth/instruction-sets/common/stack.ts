@@ -16,7 +16,7 @@ import { bigIntToScriptNumber, stackItemIsTruthy } from './types';
 export const opToAltStack = <
   State extends StackState & AlternateStackState
 >() => (state: State) =>
-  useOneStackItem(state, (nextState, item) => {
+  useOneStackItem(state, (nextState, [item]) => {
     // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     nextState.alternateStack.push(item);
     return nextState;
@@ -41,32 +41,32 @@ export const op2Drop = <State extends StackState>() => (state: State) =>
   useTwoStackItems(state, nextState => nextState);
 
 export const op2Dup = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, (nextState, a, b) =>
+  useTwoStackItems(state, (nextState, [a, b]) =>
     pushToStack(nextState, a, b, a.slice(), b.slice())
   );
 
 export const op3Dup = <State extends StackState>() => (state: State) =>
-  useThreeStackItems(state, (nextState, a, b, c) =>
+  useThreeStackItems(state, (nextState, [a, b, c]) =>
     pushToStack(nextState, a, b, c, a.slice(), b.slice(), c.slice())
   );
 
 export const op2Over = <State extends StackState>() => (state: State) =>
-  useFourStackItems(state, (nextState, a, b, c, d) =>
+  useFourStackItems(state, (nextState, [a, b, c, d]) =>
     pushToStack(nextState, a, b, c, d, a.slice(), b.slice())
   );
 
 export const op2Rot = <State extends StackState>() => (state: State) =>
-  useSixStackItems(state, (nextState, a, b, c, d, e, f) =>
+  useSixStackItems(state, (nextState, [a, b, c, d, e, f]) =>
     pushToStack(nextState, c, d, e, f, a, b)
   );
 
 export const op2Swap = <State extends StackState>() => (state: State) =>
-  useFourStackItems(state, (nextState, a, b, c, d) =>
+  useFourStackItems(state, (nextState, [a, b, c, d]) =>
     pushToStack(nextState, c, d, a, b)
   );
 
 export const opIfDup = <State extends StackState>() => (state: State) =>
-  useOneStackItem(state, (nextState, item) =>
+  useOneStackItem(state, (nextState, [item]) =>
     pushToStack(
       nextState,
       ...(stackItemIsTruthy(item) ? [item, item.slice()] : [item])
@@ -80,22 +80,21 @@ export const opDrop = <State extends StackState>() => (state: State) =>
   useOneStackItem(state, nextState => nextState);
 
 export const opDup = <State extends StackState>() => (state: State) =>
-  useOneStackItem(state, (nextState, item) =>
+  useOneStackItem(state, (nextState, [item]) =>
     pushToStack(nextState, item, item.slice())
   );
 
 export const opNip = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, (nextState, _, b) => pushToStack(nextState, b));
+  useTwoStackItems(state, (nextState, [, b]) => pushToStack(nextState, b));
 
 export const opOver = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, (nextState, a, b) =>
+  useTwoStackItems(state, (nextState, [a, b]) =>
     pushToStack(nextState, a, b, a.slice())
   );
 
-export const opPick = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opPick = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
@@ -112,13 +111,12 @@ export const opPick = <
       }
       return pushToStack(nextState, item.slice());
     },
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
-export const opRoll = <
-  State extends StackState & ErrorState<Errors>,
-  Errors
->(flags: {
+export const opRoll = <State extends StackState & ErrorState<Errors>, Errors>({
+  requireMinimalEncoding
+}: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
   useOneScriptNumber(
@@ -134,19 +132,19 @@ export const opRoll = <
       // eslint-disable-next-line functional/immutable-data
       return pushToStack(nextState, nextState.stack.splice(index, 1)[0]);
     },
-    flags.requireMinimalEncoding
+    { requireMinimalEncoding }
   );
 
 export const opRot = <State extends StackState>() => (state: State) =>
-  useThreeStackItems(state, (nextState, a, b, c) =>
+  useThreeStackItems(state, (nextState, [a, b, c]) =>
     pushToStack(nextState, b, c, a)
   );
 
 export const opSwap = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, (nextState, a, b) => pushToStack(nextState, b, a));
+  useTwoStackItems(state, (nextState, [a, b]) => pushToStack(nextState, b, a));
 
 export const opTuck = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, (nextState, a, b) =>
+  useTwoStackItems(state, (nextState, [a, b]) =>
     pushToStack(nextState, b.slice(), a, b)
   );
 

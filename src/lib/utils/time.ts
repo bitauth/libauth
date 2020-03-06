@@ -15,7 +15,7 @@ enum Constants {
  * TODO: this method should error past the overflow Date and for dates which
  * would become BlockHeights when encoded.
  *
- * @param date the Date to convert to a BlockTime Uint8Array
+ * @param date - the Date to convert to a BlockTime Uint8Array
  */
 export const dateToLockTime = (date: Date) =>
   bigIntToScriptNumber(
@@ -28,7 +28,7 @@ export const dateToLockTime = (date: Date) =>
  *
  * Note: this method does not check the length of locktime
  *
- * @param bin the 4-byte Uint8Array locktime to parse
+ * @param bin - the 4-byte Uint8Array locktime to parse
  */
 export const parseLockTime = (bin: Uint8Array) => {
   const parsed = parseBytesAsScriptNumber(bin);

@@ -62,7 +62,7 @@ const enum SegWit {
 /**
  * Test a stack item for the SegWit Recovery Rules activated in `BCH_2019_05`.
  *
- * @param bytecode the stack item to test
+ * @param bytecode - the stack item to test
  */
 // eslint-disable-next-line complexity
 export const isWitnessProgram = (bytecode: Uint8Array) => {
@@ -146,25 +146,37 @@ export const getFlagsForInstructionSetBCH = (
 /**
  * Initialize a new instruction set for the BCH virtual machine.
  *
- * @param flags an object configuring the flags for this vm (see
+ * @param flags - an object configuring the flags for this vm (see
  * `getFlagsForInstructionSetBCH`)
- * @param sha1 a Sha1 implementation
- * @param sha256 a Sha256 implementation
- * @param ripemd160 a Ripemd160 implementation
- * @param secp256k1 a Secp256k1 implementation
+ * @param sha1 - a Sha1 implementation
+ * @param sha256 - a Sha256 implementation
+ * @param ripemd160 - a Ripemd160 implementation
+ * @param secp256k1 - a Secp256k1 implementation
  */
-export const createInstructionSetBCH = (
+export const createInstructionSetBCH = ({
+  flags,
+  ripemd160,
+  secp256k1,
+  sha1,
+  sha256
+}: {
   flags: {
     readonly disallowUpgradableNops: boolean;
     readonly requireBugValueZero: boolean;
     readonly requireMinimalEncoding: boolean;
     readonly requireNullSignatureFailures: boolean;
-  },
-  sha1: Sha1,
-  sha256: Sha256,
-  ripemd160: Ripemd160,
-  secp256k1: Secp256k1
-): InstructionSet<AuthenticationProgramBCH, AuthenticationProgramStateBCH> => ({
+  };
+  sha1: { hash: Sha1['hash'] };
+  sha256: { hash: Sha256['hash'] };
+  ripemd160: { hash: Ripemd160['hash'] };
+  secp256k1: {
+    verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
+    verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
+  };
+}): InstructionSet<
+  AuthenticationProgramBCH,
+  AuthenticationProgramStateBCH
+> => ({
   clone: cloneAuthenticationProgramStateCommon,
   continue: (state: AuthenticationProgramStateBCH) =>
     state.error === undefined && state.ip < state.instructions.length,
@@ -253,13 +265,13 @@ export const createInstructionSetBCH = (
       OpcodesBCH,
       AuthenticationProgramStateBCH,
       AuthenticationErrorBCH
-    >(sha1, sha256, ripemd160, secp256k1, flags),
+    >({ flags, ripemd160, secp256k1, sha1, sha256 }),
     ...mapOverOperations<AuthenticationProgramStateBCH>(
-      bitcoinCashOperations<OpcodesBCH, AuthenticationProgramStateBCH>(
-        sha256,
+      bitcoinCashOperations<OpcodesBCH, AuthenticationProgramStateBCH>({
+        flags,
         secp256k1,
-        flags
-      ),
+        sha256
+      }),
       conditionallyEvaluate,
       incrementOperationCount,
       checkLimitsCommon

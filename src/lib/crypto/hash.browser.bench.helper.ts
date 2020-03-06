@@ -32,12 +32,17 @@ const compare = (a?: Uint8Array, b?: Uint8Array) => {
 const randomBytes = (bytes: number) =>
   crypto.getRandomValues(new Uint8Array(bytes));
 
-const singlePassBrowserBenchmark = async (
-  hashFunction: HashFunction,
-  hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512',
-  inputLength: number,
-  subtleCryptoAlgorithmName?: 'SHA-1' | 'SHA-256' | 'SHA-512'
-) =>
+const singlePassBrowserBenchmark = async ({
+  hashFunction,
+  hashFunctionName,
+  inputLength,
+  subtleCryptoAlgorithmName
+}: {
+  hashFunction: HashFunction;
+  hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
+  inputLength: number;
+  subtleCryptoAlgorithmName?: 'SHA-1' | 'SHA-256' | 'SHA-512';
+}) =>
   suite(`browser: ${hashFunctionName}: hash a ${inputLength}-byte input`, s => {
     let message = randomBytes(inputLength);
     let hash: Uint8Array | null;
@@ -96,12 +101,17 @@ const singlePassBrowserBenchmark = async (
 
 const MB = 1_000_000;
 
-const incrementalBrowserBenchmark = async (
-  hashFunction: HashFunction,
-  hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512',
-  totalInput: number,
-  chunkSize: number
-) =>
+const incrementalBrowserBenchmark = async ({
+  chunkSize,
+  hashFunction,
+  hashFunctionName,
+  totalInput
+}: {
+  hashFunction: HashFunction;
+  hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
+  totalInput: number;
+  chunkSize: number;
+}) =>
   suite(
     `browser: ${hashFunctionName}: incrementally hash a ${totalInput /
       MB}MB input in ${chunkSize / MB}MB chunks`,
@@ -166,18 +176,46 @@ const incrementalBrowserBenchmark = async (
     }
   );
 
-const browserBenchmarks = async (
-  func: HashFunction,
-  name: 'ripemd160' | 'sha1' | 'sha256' | 'sha512',
-  subtle?: 'SHA-1' | 'SHA-256' | 'SHA-512'
-) => {
+const browserBenchmarks = async ({
+  hashFunction,
+  hashFunctionName,
+  subtleCryptoAlgorithmName
+}: {
+  hashFunction: HashFunction;
+  hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
+  subtleCryptoAlgorithmName?: 'SHA-1' | 'SHA-256' | 'SHA-512';
+}) => {
   /* eslint-disable @typescript-eslint/no-magic-numbers */
-  await singlePassBrowserBenchmark(func, name, 32, subtle);
-  await singlePassBrowserBenchmark(func, name, 100, subtle);
-  await singlePassBrowserBenchmark(func, name, 1_000, subtle);
-  await singlePassBrowserBenchmark(func, name, 10_000, subtle);
-
-  await incrementalBrowserBenchmark(func, name, MB * 32, MB);
+  await singlePassBrowserBenchmark({
+    hashFunction,
+    hashFunctionName,
+    inputLength: 32,
+    subtleCryptoAlgorithmName
+  });
+  await singlePassBrowserBenchmark({
+    hashFunction,
+    hashFunctionName,
+    inputLength: 100,
+    subtleCryptoAlgorithmName
+  });
+  await singlePassBrowserBenchmark({
+    hashFunction,
+    hashFunctionName,
+    inputLength: 1_000,
+    subtleCryptoAlgorithmName
+  });
+  await singlePassBrowserBenchmark({
+    hashFunction,
+    hashFunctionName,
+    inputLength: 10_000,
+    subtleCryptoAlgorithmName
+  });
+  await incrementalBrowserBenchmark({
+    chunkSize: MB,
+    hashFunction,
+    hashFunctionName,
+    totalInput: MB * 32
+  });
   /* eslint-enable @typescript-eslint/no-magic-numbers */
 };
 
@@ -187,10 +225,25 @@ const browserBenchmarks = async (
   const sha512 = await instantiateSha512();
   const ripemd160 = await instantiateRipemd160();
 
-  await browserBenchmarks(sha1, 'sha1', 'SHA-1');
-  await browserBenchmarks(sha256, 'sha256', 'SHA-256');
-  await browserBenchmarks(sha512, 'sha512', 'SHA-512');
-  await browserBenchmarks(ripemd160, 'ripemd160');
+  await browserBenchmarks({
+    hashFunction: sha1,
+    hashFunctionName: 'sha1',
+    subtleCryptoAlgorithmName: 'SHA-1'
+  });
+  await browserBenchmarks({
+    hashFunction: sha256,
+    hashFunctionName: 'sha256',
+    subtleCryptoAlgorithmName: 'SHA-256'
+  });
+  await browserBenchmarks({
+    hashFunction: sha512,
+    hashFunctionName: 'sha512',
+    subtleCryptoAlgorithmName: 'SHA-512'
+  });
+  await browserBenchmarks({
+    hashFunction: ripemd160,
+    hashFunctionName: 'ripemd160'
+  });
 
   benchComplete();
 })().catch(err => {

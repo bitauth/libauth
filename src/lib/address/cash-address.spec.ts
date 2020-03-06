@@ -2,11 +2,9 @@
 import test from 'ava';
 import * as fc from 'fast-check';
 
-import { hexToBin, splitEvery } from '../utils/hex';
-
-import { BitRegroupingError } from './bech32';
 import {
   attemptCashAddressFormatErrorCorrection,
+  BitRegroupingError,
   CashAddressAvailableSizesInBits,
   CashAddressAvailableTypes,
   CashAddressCorrectionError,
@@ -23,8 +21,11 @@ import {
   encodeCashAddress,
   encodeCashAddressFormat,
   encodeCashAddressVersionByte,
-  maskCashAddressPrefix
-} from './cash-address';
+  hexToBin,
+  maskCashAddressPrefix,
+  splitEvery
+} from '../lib';
+
 import * as cashAddrJson from './fixtures/cashaddr.json';
 
 const maxUint8Number = 255;
@@ -310,7 +311,7 @@ test('decodeCashAddressWithoutPrefix', t => {
   );
 });
 
-test('encodeCashAddress <-> decodeCashAddress', t => {
+test('[fast-check] encodeCashAddress <-> decodeCashAddress', t => {
   const roundTripWithHashLength = (
     hashLength: CashAddressAvailableSizesInBits
   ) =>
@@ -374,7 +375,9 @@ test('attemptCashAddressErrorCorrection', t => {
     ),
     CashAddressCorrectionError.tooManyErrors
   );
+});
 
+test('[fast-check] attemptCashAddressErrorCorrection', t => {
   const correctsUpToTwoErrors = (hashLength: CashAddressAvailableSizesInBits) =>
     fc.property(
       fc.array(lowercaseLetter(), 1, 50).map(arr => arr.join('')),

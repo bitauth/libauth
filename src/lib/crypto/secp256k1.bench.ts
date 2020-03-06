@@ -6,10 +6,7 @@ import suite from 'chuhai';
 import * as elliptic from 'elliptic';
 import * as secp256k1Node from 'secp256k1';
 
-import { generatePrivateKey } from '../key/key';
-import { binToHex } from '../utils/hex';
-
-import { instantiateSecp256k1 } from './secp256k1';
+import { binToHex, generatePrivateKey, instantiateSecp256k1 } from '../lib';
 
 const secp256k1Promise = instantiateSecp256k1();
 

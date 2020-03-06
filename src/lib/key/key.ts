@@ -1,4 +1,4 @@
-import { Secp256k1 } from '../crypto/crypto';
+import { Secp256k1 } from '../crypto/secp256k1';
 
 /**
  * Securely generate a valid Secp256k1 private key given a secure source of

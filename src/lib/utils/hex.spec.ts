@@ -55,7 +55,7 @@ test('binToHex', t => {
 });
 
 testProp(
-  'hexToBin <-> binToHex',
+  '[fast-check] hexToBin <-> binToHex',
   [fcUint8Array(0, 100)],
   input => binToHex(hexToBin(binToHex(input))) === binToHex(input)
 );

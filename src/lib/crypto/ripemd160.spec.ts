@@ -4,7 +4,8 @@ import {
   instantiateRipemd160,
   instantiateRipemd160Bytes,
   Ripemd160
-} from './../lib';
+} from '../lib';
+
 import { testHashFunction } from './hash.spec.helper';
 
 // prettier-ignore

@@ -104,7 +104,7 @@ const vmStrictPromise = instantiateVirtualMachineBCH(
 const sha256Promise = instantiateSha256();
 
 pendingTests.map(expectation => {
-  const description = `script_tests: ${expectation.testIndex}/${
+  const description = `[script_tests] ${expectation.testIndex}/${
     pendingTests.length
   } – "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
     expectation.lockingBytecodeText,

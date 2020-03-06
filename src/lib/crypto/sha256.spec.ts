@@ -4,7 +4,8 @@ import {
   instantiateSha256,
   instantiateSha256Bytes,
   Sha256
-} from './../lib';
+} from '../lib';
+
 import { testHashFunction } from './hash.spec.helper';
 
 // prettier-ignore

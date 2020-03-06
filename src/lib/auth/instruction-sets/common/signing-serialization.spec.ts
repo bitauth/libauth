@@ -42,7 +42,7 @@ const pendingTests = tests;
 const sha256Promise = instantiateSha256();
 
 pendingTests.map((expectation, currentTest) => {
-  test(`signing-serialization tests: sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async t => {
+  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async t => {
     const sha256 = await sha256Promise;
     const tx = deserializeTransaction(hexToBin(expectation.transactionHex));
     const lockingBytecode = hexToBin(expectation.scriptHex);

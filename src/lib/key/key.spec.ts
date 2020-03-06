@@ -3,9 +3,7 @@ import { randomBytes } from 'crypto';
 
 import test from 'ava';
 
-import { instantiateSecp256k1 } from '../crypto/crypto';
-
-import { generatePrivateKey } from './key';
+import { generatePrivateKey, instantiateSecp256k1 } from '../lib';
 
 const privateKeyLength = 32;
 const maximumUint8Value = 255;

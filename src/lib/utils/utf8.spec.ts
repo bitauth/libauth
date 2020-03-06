@@ -1,5 +1,6 @@
 /* eslint-disable functional/no-expression-statement */
 import test from 'ava';
+import { testProp } from 'ava-fast-check';
 import * as fc from 'fast-check';
 
 import { binToUtf8, hexToBin, utf8ToBin } from '../lib';
@@ -19,12 +20,8 @@ test('binToUtf8', t => {
 });
 
 const testBinLength = 100;
-test('utf8ToBin <-> binToUtf8', t => {
-  const inverse = fc.property(
-    fcUint8Array(0, testBinLength),
-    input => binToUtf8(utf8ToBin(binToUtf8(input))) === binToUtf8(input)
-  );
-  t.notThrows(() => {
-    fc.assert(inverse);
-  });
-});
+testProp(
+  '[fast-check] utf8ToBin <-> binToUtf8',
+  [fcUint8Array(0, testBinLength)],
+  input => binToUtf8(utf8ToBin(binToUtf8(input))) === binToUtf8(input)
+);

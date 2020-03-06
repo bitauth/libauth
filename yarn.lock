@@ -2814,10 +2814,10 @@ escape-string-regexp@^2.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
   integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
 
-eslint-config-bitauth@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-bitauth/-/eslint-config-bitauth-1.1.0.tgz#01dd2ddd2911d6372a651f7cf03e1a3c17438fa5"
-  integrity sha512-6XhjC5vpCjJEy2BKjdc8cGeLnHmP0F/xQNjQEFgBUcqniIkI3uYpzza2h0Yk2wMKA/r1YuN6eim2jLs2y/D6sQ==
+eslint-config-bitauth@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-bitauth/-/eslint-config-bitauth-1.2.0.tgz#d6d79ba2192816abc09199a8b8c612211ccc89cb"
+  integrity sha512-IpzKCH/I99opoGkc5W0l9hAYv6xBNL+5h8aA3gzflRgX+esiw2aWOM0r06Vs/DV0OiqLMIroctWF4QkHanu9Gw==
   dependencies:
     "@typescript-eslint/eslint-plugin" "2.22"
     eslint-config-prettier "^6.10.0"

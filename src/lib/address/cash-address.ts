@@ -1,4 +1,4 @@
-import { Immutable } from '../utils/utils';
+import { Immutable } from '../format/format';
 
 import { decodeBech32, encodeBech32, isBech32, regroupBits } from './bech32';
 

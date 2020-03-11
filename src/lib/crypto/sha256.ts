@@ -3,7 +3,7 @@ import {
   instantiateRustWasm,
   sha256Base64Bytes
 } from '../bin/bin';
-import { base64ToBin } from '../utils/utils';
+import { base64ToBin } from '../format/format';
 
 export interface Sha256 extends HashFunction {
   /**

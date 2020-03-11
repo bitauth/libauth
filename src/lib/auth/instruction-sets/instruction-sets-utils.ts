@@ -1,4 +1,4 @@
-import { binToHex, flattenBinArray } from '../../utils/utils';
+import { binToHex, flattenBinArray } from '../../format/format';
 
 import { OpcodesBCH } from './bch/bch';
 import { OpcodesBTC } from './btc/btc';

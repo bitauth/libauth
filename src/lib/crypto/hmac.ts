@@ -1,4 +1,4 @@
-import { flattenBinArray } from '../utils/hex';
+import { flattenBinArray } from '../format/hex';
 
 import { Sha256 } from './sha256';
 import { Sha512 } from './sha512';

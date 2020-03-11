@@ -14,7 +14,7 @@ import {
   stringify
 } from '../../../lib';
 
-test('vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
   const vm = await instantiateVirtualMachineBCH();
   const state = createAuthenticationProgramStateCommonEmpty(
     parseBytecode(
@@ -56,7 +56,7 @@ test('vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
   });
 });
 
-test('vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
   const vm = await instantiateVirtualMachineBCH();
   const state = createAuthenticationProgramStateCommonEmpty(
     parseBytecode(
@@ -165,7 +165,7 @@ test('vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
   ]);
 });
 
-test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
   const vm = await instantiateVirtualMachineBCH();
   const state0 = createAuthenticationProgramStateCommonEmpty(
     parseBytecode(
@@ -308,7 +308,7 @@ test('vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
   });
 });
 
-test('vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
   const sha256 = await instantiateSha256();
   const vm = await instantiateVirtualMachineBCH();
   const program = createTestAuthenticationProgramBCH({
@@ -359,7 +359,7 @@ test('vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
   });
 });
 
-test('vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
   const sha256 = await instantiateSha256();
   const vm = await instantiateVirtualMachineBCH();
   const program = createTestAuthenticationProgramBCH({

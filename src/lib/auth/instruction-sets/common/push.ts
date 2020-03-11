@@ -1,4 +1,4 @@
-import { range } from '../../../utils/hex';
+import { range } from '../../../format/hex';
 import {
   ErrorState,
   ExecutionStackState,

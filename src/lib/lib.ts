@@ -4,4 +4,4 @@ export * from './bin/bin';
 export * from './crypto/crypto';
 export * from './key/key';
 export * from './transaction';
-export * from './utils/utils';
+export * from './format/format';

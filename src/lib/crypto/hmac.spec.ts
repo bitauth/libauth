@@ -31,7 +31,8 @@ const vectors: Macro<[
   );
 };
 // eslint-disable-next-line functional/immutable-data
-vectors.title = title => `crypto: HMAC Test Vector #${title ?? '?'} (RFC 4231)`;
+vectors.title = title =>
+  `[crypto] HMAC Test Vector #${title ?? '?'} (RFC 4231)`;
 
 test('1', vectors, {
   message: '4869205468657265',

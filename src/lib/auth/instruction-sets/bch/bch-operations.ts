@@ -1,5 +1,5 @@
 import { Secp256k1, Sha256 } from '../../../crypto/crypto';
-import { flattenBinArray } from '../../../utils/hex';
+import { flattenBinArray } from '../../../format/hex';
 import {
   AuthenticationProgramStateCommon,
   ErrorState,

@@ -8,7 +8,7 @@ import {
   flattenBinArray,
   numberToBinUint32LE,
   readBitcoinVarInt
-} from './utils/utils';
+} from './format/format';
 
 /**
  * Data type representing a Transaction Input.
@@ -136,17 +136,18 @@ export const readTransactionInput = (bin: Uint8Array, offset: number) => {
     bin.subarray(offsetAfterTxHash, offsetAfterOutpointIndex)
   );
   const {
-    nextOffset: offsetAfterScriptLength,
-    value: scriptLength
+    nextOffset: offsetAfterBytecodeLength,
+    value: bytecodeLength
   } = readBitcoinVarInt(bin, offsetAfterOutpointIndex);
-  const offsetAfterScript = offsetAfterScriptLength + Number(scriptLength);
+  const offsetAfterBytecode =
+    offsetAfterBytecodeLength + Number(bytecodeLength);
   const unlockingBytecode = bin.slice(
-    offsetAfterScriptLength,
-    offsetAfterScript
+    offsetAfterBytecodeLength,
+    offsetAfterBytecode
   );
-  const nextOffset = offsetAfterScript + ByteLength.uint32;
+  const nextOffset = offsetAfterBytecode + ByteLength.uint32;
   const sequenceNumber = binToNumberUint32LE(
-    bin.subarray(offsetAfterScript, nextOffset)
+    bin.subarray(offsetAfterBytecode, nextOffset)
   );
   return {
     input: {
@@ -198,10 +199,10 @@ export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
     bin,
     offsetAfterSatoshis
   );
-  const scriptLength = Number(value);
-  const nextOffset = offsetAfterScriptLength + scriptLength;
+  const bytecodeLength = Number(value);
+  const nextOffset = offsetAfterScriptLength + bytecodeLength;
   const lockingBytecode =
-    scriptLength === 0
+    bytecodeLength === 0
       ? new Uint8Array()
       : bin.slice(offsetAfterScriptLength, nextOffset);
 

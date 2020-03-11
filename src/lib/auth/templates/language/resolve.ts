@@ -1,6 +1,6 @@
 import { Secp256k1, Sha256 } from '../../../crypto/crypto';
-import { dateToLockTime } from '../../../utils/time';
-import { hexToBin, utf8ToBin } from '../../../utils/utils';
+import { hexToBin, utf8ToBin } from '../../../format/format';
+import { dateToLockTime } from '../../../format/time';
 import { bigIntToScriptNumber } from '../../instruction-sets/instruction-sets';
 import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
 import { AuthenticationVirtualMachine } from '../../virtual-machine';

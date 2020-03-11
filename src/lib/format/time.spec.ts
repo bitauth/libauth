@@ -13,6 +13,7 @@ import {
 
 test('dateToLockTime', t => {
   t.deepEqual(dateToLocktime(new Date('2019-10-13')), hexToBin('0069a25d'));
+  t.deepEqual(dateToLocktime(new Date('2107-01-01')), LocktimeError.outOfRange);
 });
 
 test('parseLockTime', t => {

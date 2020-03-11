@@ -4,13 +4,17 @@ import { fc, testProp } from 'ava-fast-check';
 
 import {
   bigIntToBinUint64LE,
+  bigIntToBinUintLE,
   bigIntToBitcoinVarInt,
   binToBigIntUint64LE,
+  binToBigIntUintLE,
   binToNumberUint32LE,
+  binToNumberUintLE,
   hexToBin,
   numberToBinInt32TwosCompliment,
   numberToBinUint16LE,
   numberToBinUint32LE,
+  numberToBinUintLE,
   readBitcoinVarInt,
   varIntPrefixToSize
 } from '../lib';
@@ -127,6 +131,26 @@ test('bigIntToBitcoinVarInt: truncates larger values', t => {
   );
 });
 
+test('binToNumberUintLE', t => {
+  t.deepEqual(binToNumberUintLE(new Uint8Array([0x12])), 0x12);
+  t.deepEqual(binToNumberUintLE(new Uint8Array([0x34, 0x12])), 0x1234);
+  t.deepEqual(binToNumberUintLE(new Uint8Array([0x56, 0x34, 0x12])), 0x123456);
+  t.deepEqual(
+    binToNumberUintLE(new Uint8Array([0x78, 0x56, 0x34, 0x12])),
+    0x12345678
+  );
+  t.deepEqual(
+    binToNumberUintLE(new Uint8Array([0x90, 0x78, 0x56, 0x34, 0x12])),
+    0x1234567890
+  );
+});
+
+testProp(
+  '[fast-check] numberToBinUintLE <-> binToNumberUintLE',
+  [fc.integer(0, Number.MAX_SAFE_INTEGER)],
+  maxSafeInt => binToNumberUintLE(numberToBinUintLE(maxSafeInt)) === maxSafeInt
+);
+
 test('binToNumberUint32LE', t => {
   t.deepEqual(
     binToNumberUint32LE(new Uint8Array([0x78, 0x56, 0x34, 0x12])),
@@ -140,6 +164,35 @@ test('binToNumberUint32LE: ignores bytes after the 4th', t => {
     0x12345678
   );
 });
+
+test('binToBigIntUintLE', t => {
+  t.deepEqual(binToBigIntUintLE(new Uint8Array([0x12])), BigInt(0x12));
+  t.deepEqual(binToBigIntUintLE(new Uint8Array([0x34, 0x12])), BigInt(0x1234));
+  t.deepEqual(
+    binToBigIntUintLE(new Uint8Array([0x56, 0x34, 0x12])),
+    BigInt(0x123456)
+  );
+  t.deepEqual(
+    binToBigIntUintLE(new Uint8Array([0x78, 0x56, 0x34, 0x12])),
+    BigInt(0x12345678)
+  );
+  t.deepEqual(
+    binToBigIntUintLE(new Uint8Array([0x90, 0x78, 0x56, 0x34, 0x12])),
+    BigInt(0x1234567890)
+  );
+  t.deepEqual(
+    binToBigIntUintLE(
+      new Uint8Array([0xef, 0xcd, 0xab, 0x90, 0x78, 0x56, 0x34, 0x12])
+    ),
+    BigInt('0x1234567890abcdef')
+  );
+});
+
+testProp(
+  '[fast-check] bigIntToBinUintLE <-> binToBigIntUintLE',
+  [fc.bigUintN(65)],
+  uint65 => binToBigIntUintLE(bigIntToBinUintLE(uint65)) === uint65
+);
 
 test('binToBigIntUint64LE', t => {
   t.deepEqual(

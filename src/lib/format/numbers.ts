@@ -92,7 +92,7 @@ export const bigIntToBinUintLE = (value: bigint) => {
 };
 
 /**
- * Encode a BigInt as an 8-byte Uint64LE Uint8Array.
+ * Encode a positive BigInt as an 8-byte Uint64LE Uint8Array.
  *
  * This method will truncate values larger than the maximum:
  * `0xffff_ffff_ffff_ffff`. Negative values will return the same result as `0`.
@@ -175,7 +175,9 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
   // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let offset = 0; offset < bytes; offset++) {
     // eslint-disable-next-line functional/no-expression-statement
-    value += BigInt(bin[offset] * base ** (bitsInAByte * offset));
+    value +=
+      BigInt(bin[offset]) *
+      BigInt(base) ** (BigInt(bitsInAByte) * BigInt(offset));
   }
   return value;
 };

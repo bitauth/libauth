@@ -34,8 +34,7 @@ const normalMaximumScriptNumberByteLength = 4;
  * further be encoded as minimally as possible (no zero-padding). See code/tests
  * for details.
  *
- * ### Notes
- *
+ * @remarks
  * Operators may push numeric results to the stack which exceed the current
  * 4-byte length limit of Script Numbers. While these stack elements would
  * otherwise be valid Script Numbers, because of the 4-byte length limit, they

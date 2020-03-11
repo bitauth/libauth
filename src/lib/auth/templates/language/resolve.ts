@@ -1,6 +1,6 @@
 import { Secp256k1, Sha256 } from '../../../crypto/crypto';
 import { hexToBin, utf8ToBin } from '../../../format/format';
-import { dateToLockTime } from '../../../format/time';
+import { dateToLocktime } from '../../../format/time';
 import { bigIntToScriptNumber } from '../../instruction-sets/instruction-sets';
 import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';
 import { AuthenticationVirtualMachine } from '../../virtual-machine';
@@ -565,7 +565,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
     case BuiltInVariables.currentBlockTime:
       return data.currentBlockTime === undefined
         ? 'Tried to resolve the built-in variable "current_block_time", but the "currentBlockTime" property was not provided in the compilation data.'
-        : dateToLockTime(data.currentBlockTime);
+        : dateToLocktime(data.currentBlockTime);
     case BuiltInVariables.signingSerialization:
       return operationId === undefined
         ? 'Tried to resolve an operation for the built-in variable "signing_serialization", but no operation was provided. Provide an operation like "signing_serialization.[operation]".'

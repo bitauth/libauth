@@ -28,9 +28,10 @@
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint . --ext .ts --fix",
     "test": "run-s build test:*",
-    "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
+    "test:deps": "node -e \"if(Object.keys(require('./package.json').dependencies).length > 0) { console.error('Dependencies are not allowed.'); process.exit(1); }\"",
     "test:lint": "eslint . --ext .ts",
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
+    "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:unit": "nyc --silent ava",
     "test:unit:fast": "nyc --silent ava --match='!*[fast-check]*' --match='!*[crypto]*' --match='!*[script_tests]*' --match='!*[signing-serialization tests]*' --match='!*[BCH compiler]*' --match='!*[BCH VM]*'",
     "test:unit:fast-check": "nyc --silent ava --match='*[fast-check]*",
@@ -80,9 +81,7 @@
   "engines": {
     "node": ">=8.9"
   },
-  "dependencies": {
-    "@typescript-eslint/parser": "^2.22.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ava/typescript": "^1.1.0",
     "@bitjson/npm-scripts-info": "^1.0.0",
@@ -96,6 +95,7 @@
     "@types/puppeteer": "^2.0.0",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
+    "@typescript-eslint/parser": "^2.23.0",
     "asmcrypto.js": "^2.3.2",
     "ava": "^3.2.0",
     "ava-fast-check": "^1.1.2",

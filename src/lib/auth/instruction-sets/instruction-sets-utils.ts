@@ -1,4 +1,9 @@
-import { binToHex, flattenBinArray } from '../../format/format';
+import {
+  binToHex,
+  flattenBinArray,
+  numberToBinUint16LE,
+  numberToBinUint32LE
+} from '../../format/format';
 
 import { OpcodesBCH } from './bch/bch';
 import { OpcodesBTC } from './btc/btc';
@@ -40,16 +45,7 @@ enum Bytes {
   Uint32 = 4
 }
 
-/**
- * Note: this implementation assumes `script` is defined and long enough to read
- * the specified number of bytes. If necessary, validation should be done before
- * calling this method.
- *
- * @param script - the Uint8Array from which to read
- * @param index - the index from which to begin reading
- * @param length - the number of bytes to read
- */
-export const readLittleEndianNumber = (
+const readLittleEndianNumber = (
   script: Uint8Array,
   index: number,
   length: Bytes
@@ -64,46 +60,11 @@ export const readLittleEndianNumber = (
 };
 
 /**
- * Note: this implementation assumes `script` is defined and long enough to
- * write the specified number of bytes. It also assumes the provided `number` is
- * representable in `length` bytes.
- *
- * If necessary, validation should be done before calling this method.
- *
- * @param script - the Uint8Array to which the number should be written
- * @param index - the index at which to begin writing
- * @param length - the number of bytes to use
- * @param value - the number to write at `script[index]`
- */
-export const writeLittleEndianNumber = (
-  script: Uint8Array,
-  index: number,
-  length: Bytes,
-  value: number
-  // eslint-disable-next-line max-params
-) => {
-  const view = new DataView(script.buffer, index, length);
-  const writeAsLittleEndian = true;
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions, functional/no-expression-statement
-  length === Bytes.Uint8
-    ? view.setUint8(0, value)
-    : length === Bytes.Uint16
-    ? view.setUint16(0, value, writeAsLittleEndian)
-    : view.setUint32(0, value, writeAsLittleEndian);
-  return script;
-};
-
-export const numberToLittleEndianBin = (value: number, length: Bytes) => {
-  const array = new Uint8Array(length);
-  return writeLittleEndianNumber(array, 0, length, value);
-};
-
-/**
  * Returns the number of bytes used to indicate the length of the push in this
  * operation.
  * @param opcode - an opcode between 0x00 and 0x4e
  */
-export const lengthBytesForPushOpcode = (opcode: number): number =>
+export const lengthBytesForPushOpcode = (opcode: number): Bytes =>
   opcode < CommonPushOpcodes.OP_PUSHDATA_1
     ? 0
     : opcode === CommonPushOpcodes.OP_PUSHDATA_1
@@ -236,7 +197,7 @@ const hasMalformedLength = <Opcodes>(
   (instruction as ParsedAuthenticationInstructionPushMalformedLength<Opcodes>)
     .length !== undefined;
 const isPushData = (pushOpcode: number) =>
-  lengthBytesForPushOpcode(pushOpcode) > 0;
+  pushOpcode >= CommonPushOpcodes.OP_PUSHDATA_1;
 
 export const disassembleParsedAuthenticationInstructionMalformed = <
   Opcodes = number
@@ -341,13 +302,17 @@ export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
 
 // TODO: assembleBytecodeBTC
 
-const getLengthBytes = <Opcodes>(
+const getInstructionLengthBytes = <Opcodes>(
   instruction: AuthenticationInstructionPush<Opcodes>
-) =>
-  numberToLittleEndianBin(
-    instruction.data.length,
-    lengthBytesForPushOpcode((instruction.opcode as unknown) as number)
-  );
+) => {
+  const opcode = (instruction.opcode as unknown) as number;
+  const expectedLength = lengthBytesForPushOpcode(opcode);
+  return expectedLength === Bytes.Uint8
+    ? Uint8Array.of(instruction.data.length)
+    : expectedLength === Bytes.Uint16
+    ? numberToBinUint16LE(instruction.data.length)
+    : numberToBinUint32LE(instruction.data.length);
+};
 
 export const serializeAuthenticationInstruction = <Opcodes = number>(
   instruction: AuthenticationInstruction<Opcodes>
@@ -357,7 +322,7 @@ export const serializeAuthenticationInstruction = <Opcodes = number>(
     ...(isPush(instruction)
       ? [
           ...(isPushData((instruction.opcode as unknown) as number)
-            ? getLengthBytes(instruction)
+            ? getInstructionLengthBytes(instruction)
             : []),
           ...instruction.data
         ]
@@ -368,19 +333,27 @@ export const serializeParsedAuthenticationInstructionMalformed = <
   Opcodes = number
 >(
   instruction: ParsedAuthenticationInstructionMalformed<Opcodes>
-) =>
-  Uint8Array.from([
-    (instruction.opcode as unknown) as number,
-    ...(hasMalformedLength(instruction)
-      ? instruction.length
-      : isPushData((instruction.opcode as unknown) as number)
-      ? numberToLittleEndianBin(
-          instruction.expectedDataBytes,
-          lengthBytesForPushOpcode((instruction.opcode as unknown) as number)
-        )
-      : []),
-    ...(hasMalformedLength(instruction) ? [] : instruction.data)
-  ]);
+) => {
+  const opcode = (instruction.opcode as unknown) as number;
+
+  if (hasMalformedLength(instruction)) {
+    return Uint8Array.from([opcode, ...instruction.length]);
+  }
+
+  if (isPushData(opcode)) {
+    return Uint8Array.from([
+      opcode,
+      ...(opcode === CommonPushOpcodes.OP_PUSHDATA_1
+        ? Uint8Array.of(instruction.expectedDataBytes)
+        : opcode === CommonPushOpcodes.OP_PUSHDATA_2
+        ? numberToBinUint16LE(instruction.expectedDataBytes)
+        : numberToBinUint32LE(instruction.expectedDataBytes)),
+      ...instruction.data
+    ]);
+  }
+
+  return Uint8Array.from([opcode, ...instruction.data]);
+};
 
 export const serializeParsedAuthenticationInstruction = <Opcodes = number>(
   instruction: ParsedAuthenticationInstruction<Opcodes>

@@ -45,30 +45,64 @@ export const binToFixedLength = (bin: Uint8Array, bytes: number) => {
 };
 
 /**
- * Encode a number as a 2-byte Uint16LE Uint8Array.
- *
- * This method will truncate values larger than the maximum: `0xffff`. Negative
- * values will return the same result as `0`.
+ * Encode a positive integer as a 2-byte Uint16LE Uint8Array, clamping the
+ * results. (Values exceeding `0xffff` return the same result as `0xffff`,
+ * negative values will return the same result as `0`.)
  *
  * @param value - the number to encode
  */
-export const numberToBinUint16LE = (value: number) =>
+export const numberToBinUint16LEClamped = (value: number) =>
   binToFixedLength(numberToBinUintLE(value), ByteLength.uint16);
 
 /**
- * Encode a number as a 4-byte Uint32LE Uint8Array.
- *
- * This method will truncate values larger than the maximum: `0xffffffff`.
- * Negative values will return the same result as `0`.
+ * Encode a positive integer as a 4-byte Uint32LE Uint8Array, clamping the
+ * results. (Values exceeding `0xffffffff` return the same result as
+ * `0xffffffff`, negative values will return the same result as `0`.)
  *
  * @param value - the number to encode
  */
-export const numberToBinUint32LE = (value: number) =>
+export const numberToBinUint32LEClamped = (value: number) =>
   binToFixedLength(numberToBinUintLE(value), ByteLength.uint32);
 
 /**
- * Encode a BigInt as little-endian Uint8Array. Negative values will return the
- * same result as `0`.
+ * Encode a positive integer as a 2-byte Uint16LE Uint8Array.
+ *
+ * This method will return an incorrect result for values outside of the range
+ * `0` to `0xffff`.
+ *
+ * @param value - the number to encode
+ */
+export const numberToBinUint16LE = (value: number) => {
+  const uint16Length = 2;
+  const bin = new Uint8Array(uint16Length);
+  const writeAsLittleEndian = true;
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  // eslint-disable-next-line functional/no-expression-statement
+  view.setUint16(0, value, writeAsLittleEndian);
+  return bin;
+};
+
+/**
+ * Encode a positive number as a 4-byte Uint32LE Uint8Array.
+ *
+ * This method will return an incorrect result for values outside of the range
+ * `0` to `0xffffffff`.
+ *
+ * @param value - the number to encode
+ */
+export const numberToBinUint32LE = (value: number) => {
+  const uint32Length = 4;
+  const bin = new Uint8Array(uint32Length);
+  const writeAsLittleEndian = true;
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  // eslint-disable-next-line functional/no-expression-statement
+  view.setUint32(0, value, writeAsLittleEndian);
+  return bin;
+};
+
+/**
+ * Encode a positive BigInt as little-endian Uint8Array. Negative values will
+ * return the same result as `0`.
  *
  * @param value - the number to encode
  */
@@ -92,15 +126,32 @@ export const bigIntToBinUintLE = (value: bigint) => {
 };
 
 /**
- * Encode a positive BigInt as an 8-byte Uint64LE Uint8Array.
- *
- * This method will truncate values larger than the maximum:
- * `0xffff_ffff_ffff_ffff`. Negative values will return the same result as `0`.
+ * Encode a positive BigInt as an 8-byte Uint64LE Uint8Array, clamping the
+ * results. (Values exceeding `0xffff_ffff_ffff_ffff` return the same result as
+ * `0xffff_ffff_ffff_ffff`, negative values return the same result as `0`.)
  *
  * @param value - the number to encode
  */
-export const bigIntToBinUint64LE = (value: bigint) =>
+export const bigIntToBinUint64LEClamped = (value: bigint) =>
   binToFixedLength(bigIntToBinUintLE(value), ByteLength.uint64);
+
+/**
+ * Encode a positive BigInt as an 8-byte Uint64LE Uint8Array.
+ *
+ * This method will return an incorrect result for values outside of the range
+ * `0` to `0xffff_ffff_ffff_ffff`.
+ *
+ * @param value - the number to encode
+ */
+export const bigIntToBinUint64LE = (value: bigint) => {
+  const uint64Length = 8;
+  const bin = new Uint8Array(uint64Length);
+  const writeAsLittleEndian = true;
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  // eslint-disable-next-line functional/no-expression-statement
+  view.setBigUint64(0, value, writeAsLittleEndian);
+  return bin;
+};
 
 /**
  * Encode an integer as a 4-byte, little-endian Uint8Array using the number's
@@ -129,9 +180,11 @@ export const numberToBinInt32TwosCompliment = (value: number) => {
 };
 
 /**
- * Decode a little-endian Uint8Array into a number.
+ * Decode a little-endian Uint8Array of any length into a number. For numbers
+ * larger than `Number.MAX_SAFE_INTEGER`, use `binToBigIntUintLE`.
  *
- * Throws if `bin` is shorter than `bytes`.
+ * The `bytes` parameter can be set to constrain the expected length (default:
+ * `bin.length`). This method throws if `bin` is shorter than `bytes`.
  *
  * @param bin - the Uint8Array to decode
  * @param bytes - the number of bytes to read (default: `bin.length`)
@@ -150,19 +203,36 @@ export const binToNumberUintLE = (bin: Uint8Array, bytes = bin.length) => {
 };
 
 /**
+ * Decode a 2-byte Uint16LE Uint8Array into a number.
+ *
+ * Throws if `bin` is shorter than 2 bytes.
+ *
+ * @param bin - the Uint8Array to decode
+ */
+export const binToNumberUint16LE = (bin: Uint8Array) => {
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  const readAsLittleEndian = true;
+  return view.getUint16(0, readAsLittleEndian);
+};
+
+/**
  * Decode a 4-byte Uint32LE Uint8Array into a number.
  *
  * Throws if `bin` is shorter than 4 bytes.
  *
  * @param bin - the Uint8Array to decode
  */
-export const binToNumberUint32LE = (bin: Uint8Array) =>
-  binToNumberUintLE(bin, ByteLength.uint32);
+export const binToNumberUint32LE = (bin: Uint8Array) => {
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  const readAsLittleEndian = true;
+  return view.getUint32(0, readAsLittleEndian);
+};
 
 /**
- * Decode a little-endian Uint8Array into a BigInt.
+ * Decode a little-endian Uint8Array of any length into a BigInt.
  *
- * Throws if `bin` is shorter than `bytes`.
+ * The `bytes` parameter can be set to constrain the expected length (default:
+ * `bin.length`). This method throws if `bin` is shorter than `bytes`.
  *
  * @param bin - the Uint8Array to decode
  * @param bytes - the number of bytes to read (default: `bin.length`)
@@ -189,8 +259,11 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
  *
  * @param bin - the Uint8Array to decode
  */
-export const binToBigIntUint64LE = (bin: Uint8Array) =>
-  binToBigIntUintLE(bin, ByteLength.uint64);
+export const binToBigIntUint64LE = (bin: Uint8Array) => {
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  const readAsLittleEndian = true;
+  return view.getBigUint64(0, readAsLittleEndian);
+};
 
 const enum VarInt {
   Uint8MaxValue = 0xfc,
@@ -238,16 +311,17 @@ export const readBitcoinVarInt = (bin: Uint8Array, offset = 0) => {
 };
 
 /**
- * Encode a BigInt as a Bitcoin VarInt (Variable-length integer).
+ * Encode a positive BigInt as a Bitcoin VarInt (Variable-length integer).
  *
  * Note: the maximum value of a Bitcoin VarInt is `0xffff_ffff_ffff_ffff`. This
- * method will truncate results for larger values.
+ * method will return an incorrect result for values outside of the range `0` to
+ * `0xffff_ffff_ffff_ffff`.
  *
  * @param value - the BigInt to encode (no larger than `0xffff_ffff_ffff_ffff`)
  */
 export const bigIntToBitcoinVarInt = (value: bigint) =>
   value <= BigInt(VarInt.Uint8MaxValue)
-    ? bigIntToBinUintLE(value)
+    ? Uint8Array.of(Number(value))
     : value <= BigInt(VarInt.Uint16MaxValue)
     ? Uint8Array.from([
         VarInt.Uint16Prefix,

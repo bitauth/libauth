@@ -4,6 +4,7 @@ import { fc, testProp } from 'ava-fast-check';
 
 import {
   bigIntToBinUint64LE,
+  bigIntToBinUint64LEClamped,
   bigIntToBinUintLE,
   bigIntToBitcoinVarInt,
   binToBigIntUint64LE,
@@ -13,7 +14,9 @@ import {
   hexToBin,
   numberToBinInt32TwosCompliment,
   numberToBinUint16LE,
+  numberToBinUint16LEClamped,
   numberToBinUint32LE,
+  numberToBinUint32LEClamped,
   numberToBinUintLE,
   readBitcoinVarInt,
   varIntPrefixToSize
@@ -25,12 +28,20 @@ test('numberToBinUint16LE', t => {
   t.deepEqual(numberToBinUint16LE(0x1234), new Uint8Array([0x34, 0x12]));
 });
 
-test('numberToBinUint16LE: returns maximum on overflow', t => {
-  t.deepEqual(numberToBinUint16LE(0x01_0000), new Uint8Array([0xff, 0xff]));
+test('numberToBinUint16LE vs. numberToBinUint16LEClamped: behavior on overflow', t => {
+  t.deepEqual(
+    numberToBinUint16LE(0x01_0000),
+    numberToBinUint16LE(0x01_0000 % (0xffff + 1))
+  );
+  t.deepEqual(
+    numberToBinUint16LEClamped(0x01_0000),
+    new Uint8Array([0xff, 0xff])
+  );
 });
 
-test('numberToBinUint16LE: returns minimum on negative numbers', t => {
-  t.deepEqual(numberToBinUint16LE(-1), new Uint8Array([0, 0]));
+test('numberToBinUint16LE vs. numberToBinUint16LEClamped: behavior on negative numbers', t => {
+  t.deepEqual(numberToBinUint16LE(-2), numberToBinUint16LE(0xffff - 1));
+  t.deepEqual(numberToBinUint16LEClamped(-2), new Uint8Array([0, 0]));
 });
 
 test('numberToBinUint32LE', t => {
@@ -43,15 +54,20 @@ test('numberToBinUint32LE', t => {
   );
 });
 
-test('numberToBinUint32LE: returns maximum on overflow', t => {
+test('numberToBinUint32LE vs. numberToBinUint32LEClamped: behavior on overflow', t => {
   t.deepEqual(
     numberToBinUint32LE(0x01_0000_0000),
+    numberToBinUint32LE(0x01_0000_0000 % (0xffffffff + 1))
+  );
+  t.deepEqual(
+    numberToBinUint32LEClamped(0x01_0000_0000),
     new Uint8Array([0xff, 0xff, 0xff, 0xff])
   );
 });
 
-test('numberToBinUint32LE: returns minimum on negative numbers', t => {
-  t.deepEqual(numberToBinUint32LE(-1), new Uint8Array([0, 0, 0, 0]));
+test('numberToBinUint32LE: behavior on negative numbers', t => {
+  t.deepEqual(numberToBinUint32LE(-2), numberToBinUint32LE(0xffffffff - 1));
+  t.deepEqual(numberToBinUint32LEClamped(-2), new Uint8Array([0, 0, 0, 0]));
 });
 
 test('numberToBinInt32TwosCompliment', t => {
@@ -110,24 +126,35 @@ test('bigIntToBinUint64LE', t => {
   );
 });
 
-test('bigIntToBinUint64LE: returns maximum on overflow', t => {
+test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on overflow', t => {
   t.deepEqual(
     bigIntToBinUint64LE(BigInt('0x010000000000000000')),
+    bigIntToBinUint64LE(
+      BigInt('0x010000000000000000') %
+        (BigInt('0xffffffffffffffff') + BigInt(1))
+    )
+  );
+  t.deepEqual(
+    bigIntToBinUint64LEClamped(BigInt('0x010000000000000000')),
     new Uint8Array([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])
   );
 });
 
-test('bigIntToBinUint64LE: returns minimum on negative numbers', t => {
+test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on negative numbers', t => {
   t.deepEqual(
     bigIntToBinUint64LE(BigInt(-1)),
+    new Uint8Array([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])
+  );
+  t.deepEqual(
+    bigIntToBinUint64LEClamped(BigInt(-1)),
     new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0])
   );
 });
 
-test('bigIntToBitcoinVarInt: truncates larger values', t => {
+test('bigIntToBitcoinVarInt: larger values return modulo result after opcode', t => {
   t.deepEqual(
-    bigIntToBitcoinVarInt(BigInt('0x010000000000000000')),
-    new Uint8Array([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])
+    bigIntToBitcoinVarInt(BigInt('0x010000000000000001')),
+    new Uint8Array([0xff, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
   );
 });
 
@@ -143,6 +170,9 @@ test('binToNumberUintLE', t => {
     binToNumberUintLE(new Uint8Array([0x90, 0x78, 0x56, 0x34, 0x12])),
     0x1234567890
   );
+  const data = new Uint8Array([0x90, 0x78, 0x56, 0x34, 0x12]);
+  const view = data.subarray(2);
+  t.deepEqual(binToNumberUintLE(view), 0x123456);
 });
 
 testProp(
@@ -156,6 +186,9 @@ test('binToNumberUint32LE', t => {
     binToNumberUint32LE(new Uint8Array([0x78, 0x56, 0x34, 0x12])),
     0x12345678
   );
+  const data = new Uint8Array([0x90, 0x78, 0x56, 0x34, 0x12, 0x00]);
+  const view = data.subarray(2);
+  t.deepEqual(binToNumberUint32LE(view), 0x123456);
 });
 
 test('binToNumberUint32LE: ignores bytes after the 4th', t => {
@@ -199,6 +232,9 @@ test('binToBigIntUint64LE', t => {
     binToBigIntUint64LE(new Uint8Array([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0])),
     BigInt(0x12345678)
   );
+  const data = new Uint8Array([0x90, 0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0, 0]);
+  const view = data.subarray(2);
+  t.deepEqual(binToBigIntUint64LE(view), BigInt(0x123456));
 });
 
 test('readBitcoinVarInt: offset is optional', t => {

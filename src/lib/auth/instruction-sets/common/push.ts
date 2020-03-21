@@ -1,3 +1,7 @@
+import {
+  numberToBinUint16LE,
+  numberToBinUint32LE
+} from '../../../format/format';
 import { range } from '../../../format/hex';
 import {
   ErrorState,
@@ -7,7 +11,6 @@ import {
 } from '../../state';
 import { Operation } from '../../virtual-machine';
 import { AuthenticationInstructionPush } from '../instruction-sets-types';
-import { numberToLittleEndianBin } from '../instruction-sets-utils';
 
 import { pushToStack } from './combinators';
 import { applyError, AuthenticationErrorCommon } from './errors';
@@ -57,12 +60,6 @@ export enum PushOperationConstants {
   maximumPushData4Size = 4294967295
 }
 
-enum Bytes {
-  Uint8 = 1,
-  Uint16 = 2,
-  Uint32 = 4
-}
-
 /**
  * Returns the minimal bytecode required to push the provided `data` to the
  * stack.
@@ -105,18 +102,18 @@ export const encodeDataPush = (data: Uint8Array) =>
     : data.length <= PushOperationConstants.maximumPushData1Size
     ? Uint8Array.from([
         PushOperationConstants.OP_PUSHDATA_1,
-        ...numberToLittleEndianBin(data.length, Bytes.Uint8),
+        data.length,
         ...data
       ])
     : data.length <= PushOperationConstants.maximumPushData2Size
     ? Uint8Array.from([
         PushOperationConstants.OP_PUSHDATA_2,
-        ...numberToLittleEndianBin(data.length, Bytes.Uint16),
+        ...numberToBinUint16LE(data.length),
         ...data
       ])
     : Uint8Array.from([
         PushOperationConstants.OP_PUSHDATA_4,
-        ...numberToLittleEndianBin(data.length, Bytes.Uint32),
+        ...numberToBinUint32LE(data.length),
         ...data
       ]);
 

@@ -9,6 +9,7 @@ import {
   bigIntToBitcoinVarInt,
   binToBigIntUint64LE,
   binToBigIntUintLE,
+  binToNumberUint16LE,
   binToNumberUint32LE,
   binToNumberUintLE,
   hexToBin,
@@ -180,6 +181,20 @@ testProp(
   [fc.integer(0, Number.MAX_SAFE_INTEGER)],
   maxSafeInt => binToNumberUintLE(numberToBinUintLE(maxSafeInt)) === maxSafeInt
 );
+
+test('binToNumberUint16LE', t => {
+  t.deepEqual(binToNumberUint16LE(new Uint8Array([0x34, 0x12])), 0x1234);
+  const data = new Uint8Array([0x90, 0x78, 0x56, 0x34, 0x12, 0x00]);
+  const view = data.subarray(2, 4);
+  t.deepEqual(binToNumberUint16LE(view), 0x3456);
+});
+
+test('binToNumberUint16LE: ignores bytes after the 2nd', t => {
+  t.deepEqual(
+    binToNumberUint16LE(new Uint8Array([0x78, 0x56, 0x34, 0x12, 0xff])),
+    0x5678
+  );
+});
 
 test('binToNumberUint32LE', t => {
   t.deepEqual(

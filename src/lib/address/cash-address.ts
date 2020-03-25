@@ -321,6 +321,11 @@ const isValidBitLength = (
 /**
  * Encode a hash as a CashAddress.
  *
+ * Note, this method does not enforce error handling via the type system. The
+ * returned string may be a `CashAddressEncodingError.unsupportedHashLength`
+ * if `hash` is not a valid length. Check the result if the input is potentially
+ * malformed.
+ *
  * For other address standards which closely follow the CashAddress
  * specification (but have alternative version byte requirements), use
  * `encodeCashAddressFormat`.

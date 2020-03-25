@@ -13,6 +13,12 @@ import {
   utf8ToBin
 } from '../lib';
 
+import * as base58Json from './fixtures/base58_encode_decode.json';
+
+const base58Vectors = Object.values(base58Json).filter(
+  item => Array.isArray(item) && item.every(x => typeof x === 'string')
+);
+
 const base2 = createBaseConverter('01') as BaseConverter;
 
 const base2Vector: Macro<[string, Uint8Array]> = (t, string, bin) => {
@@ -149,3 +155,12 @@ testProp(
     binToBase58(base58ToBin(binToBase58(input)) as Uint8Array) ===
     binToBase58(input)
 );
+
+test('base58 Test Vectors', t => {
+  t.truthy(base58Vectors);
+  // eslint-disable-next-line functional/no-loop-statement
+  for (const [binHex, base58] of base58Vectors) {
+    t.deepEqual(base58ToBin(base58) as Uint8Array, hexToBin(binHex));
+    t.deepEqual(binToBase58(hexToBin(binHex)), base58);
+  }
+});

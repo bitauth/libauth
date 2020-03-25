@@ -27,6 +27,7 @@
     "codecov",
     "codepoint",
     "CODESEPARATOR",
+    "coinbase",
     "convertbits",
     "combinator",
     "combinators",
@@ -100,6 +101,8 @@
     "templating",
     "testnet",
     "TOALTSTACK",
+    "tprv",
+    "tpub",
     "tsdoc",
     "typeof",
     "Uint",
@@ -108,7 +111,9 @@
     "VERNOTIF",
     "wasm",
     "wbindgen",
-    "webassembly"
+    "webassembly",
+    "xprv",
+    "xpub"
   ],
   "flagWords": [],
   "ignorePaths": [

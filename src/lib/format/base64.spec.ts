@@ -3,7 +3,7 @@ import test from 'ava';
 
 import { base64ToBin, binToBase64, isBase64 } from '../lib';
 
-test('isBase64', t => {
+test('isBase64', (t) => {
   t.deepEqual(isBase64('YWJj'), true);
   t.deepEqual(isBase64('YWJjZA=='), true);
   t.deepEqual(isBase64('YWJ&'), false);
@@ -12,7 +12,7 @@ test('isBase64', t => {
   t.deepEqual(isBase64('Y'), false);
 });
 
-test('base64ToBin works as expected', t => {
+test('base64ToBin works as expected', (t) => {
   const abc = new Uint8Array([97, 98, 99]);
   const abcd = new Uint8Array([97, 98, 99, 100]);
   const abcde = new Uint8Array([97, 98, 99, 100, 101]);
@@ -21,7 +21,7 @@ test('base64ToBin works as expected', t => {
   t.deepEqual(base64ToBin('YWJjZGU='), abcde);
 });
 
-test('binToBase64 works as expected', t => {
+test('binToBase64 works as expected', (t) => {
   const abc = 'YWJj';
   const abcd = 'YWJjZA==';
   const abcde = 'YWJjZGU=';

@@ -3,7 +3,7 @@ import {
   getEmbeddedRipemd160Binary,
   instantiateRipemd160,
   instantiateRipemd160Bytes,
-  Ripemd160
+  Ripemd160,
 } from '../lib';
 
 import { testHashFunction } from './hash.spec.helper';
@@ -25,5 +25,5 @@ testHashFunction<Ripemd160>({
   instantiate: instantiateRipemd160,
   instantiateBytes: instantiateRipemd160Bytes,
   nodeJsAlgorithm: 'ripemd160',
-  testHash
+  testHash,
 });

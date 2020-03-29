@@ -7,5 +7,5 @@ export enum AuthenticationErrorBCH {
   invalidSplitIndex = 'Program called an OP_SPLIT operation with an invalid index.',
   malformedP2shBytecode = 'Redeem bytecode was malformed prior to P2SH evaluation.',
   mismatchedBitwiseOperandLength = 'Program attempted a bitwise operation on operands of different lengths.',
-  requiresPushOnly = 'Unlocking bytecode may contain only push operations.'
+  requiresPushOnly = 'Unlocking bytecode may contain only push operations.',
 }

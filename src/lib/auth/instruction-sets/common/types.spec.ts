@@ -8,7 +8,7 @@ import {
   hexToBin,
   parseBytesAsScriptNumber,
   ScriptNumberError,
-  stackItemIsTruthy
+  stackItemIsTruthy,
 } from '../../../lib';
 
 /**
@@ -61,7 +61,7 @@ const minimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['fe', BigInt(-126)],
   ['fd', BigInt(-125)],
   ['82', BigInt(-2)],
-  ['81', BigInt(-1)]
+  ['81', BigInt(-1)],
 ];
 
 const nonMinimallyEncodedScriptNumbers: readonly [string, bigint][] = [
@@ -73,18 +73,18 @@ const nonMinimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['010080', BigInt(-1)],
   ['01000080', BigInt(-1)],
   ['0100000080', BigInt(-1)],
-  ['abcdef4280', BigInt(-1123012011)]
+  ['abcdef4280', BigInt(-1123012011)],
 ];
 
 const equivalentScriptNumbers: readonly [string, string][] = [
   ['01020380', '010283'],
   ['0102030480', '01020384'],
-  ['abcdef4280', 'abcdefc2']
+  ['abcdef4280', 'abcdefc2'],
 ];
 
-test('parseBytesAsScriptNumber', t => {
+test('parseBytesAsScriptNumber', (t) => {
   [...minimallyEncodedScriptNumbers, ...nonMinimallyEncodedScriptNumbers].map(
-    pair => {
+    (pair) => {
       t.deepEqual(
         parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
         pair[1]
@@ -92,14 +92,14 @@ test('parseBytesAsScriptNumber', t => {
       return undefined;
     }
   );
-  nonMinimallyEncodedScriptNumbers.map(pair => {
+  nonMinimallyEncodedScriptNumbers.map((pair) => {
     t.deepEqual(
       parseBytesAsScriptNumber(hexToBin(pair[0]), true, 5),
       ScriptNumberError.requiresMinimal
     );
     return undefined;
   });
-  equivalentScriptNumbers.map(pair => {
+  equivalentScriptNumbers.map((pair) => {
     t.deepEqual(
       parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
       parseBytesAsScriptNumber(hexToBin(pair[1]), true, 5)
@@ -116,20 +116,20 @@ test('parseBytesAsScriptNumber', t => {
   );
 });
 
-test('bigIntToScriptNumber', t => {
-  minimallyEncodedScriptNumbers.map(pair => {
+test('bigIntToScriptNumber', (t) => {
+  minimallyEncodedScriptNumbers.map((pair) => {
     t.deepEqual(binToHex(bigIntToScriptNumber(pair[1])), pair[0]);
     return undefined;
   });
 });
 
 // TODO: more test vectors
-test('stackElementIsTruthy', t => {
+test('stackElementIsTruthy', (t) => {
   t.is(stackItemIsTruthy(bigIntToScriptNumber(BigInt(0))), false);
   t.is(stackItemIsTruthy(bigIntToScriptNumber(BigInt(1))), true);
 });
 
-test('booleanToScriptNumber', t => {
+test('booleanToScriptNumber', (t) => {
   t.deepEqual(booleanToScriptNumber(false), bigIntToScriptNumber(BigInt(0)));
   t.deepEqual(booleanToScriptNumber(true), bigIntToScriptNumber(BigInt(1)));
 });

@@ -1,7 +1,7 @@
 import {
   bigIntToBinUint64LE,
   bigIntToBitcoinVarInt,
-  numberToBinUint32LE
+  numberToBinUint32LE,
 } from '../../../format/format';
 
 /* eslint-disable camelcase */
@@ -25,13 +25,13 @@ export enum SigningSerializationFlag {
   /**
    * A.K.A `ANYONE_CAN_PAY`
    */
-  single_input = 0x80
+  single_input = 0x80,
 }
 /* eslint-enable camelcase */
 
 const enum Internal {
   mask5Bits = 0b11111,
-  sha256HashByteLength = 32
+  sha256HashByteLength = 32,
 }
 
 export const isDefinedSigningSerializationType = (byte: number) => {
@@ -76,7 +76,7 @@ const emptyHash = () => new Uint8Array(Internal.sha256HashByteLength).fill(0);
 export const hashPrevouts = ({
   sha256,
   signingSerializationType,
-  transactionOutpoints
+  transactionOutpoints,
 }: {
   sha256: { hash: (input: Uint8Array) => Uint8Array };
   signingSerializationType: Uint8Array;
@@ -96,7 +96,7 @@ export const hashPrevouts = ({
 export const hashSequence = ({
   sha256,
   signingSerializationType,
-  transactionSequenceNumbers
+  transactionSequenceNumbers,
 }: {
   sha256: { hash: (input: Uint8Array) => Uint8Array };
   signingSerializationType: Uint8Array;
@@ -119,7 +119,7 @@ export const hashOutputs = ({
   correspondingOutput,
   sha256,
   signingSerializationType,
-  transactionOutputs
+  transactionOutputs,
 }: {
   sha256: { hash: (input: Uint8Array) => Uint8Array };
   signingSerializationType: Uint8Array;
@@ -153,7 +153,7 @@ export const generateSigningSerializationBCH = ({
   transactionOutpoints,
   transactionOutputs,
   transactionSequenceNumbers,
-  version
+  version,
 }: {
   sha256: { hash: (input: Uint8Array) => Uint8Array };
   /**
@@ -223,13 +223,13 @@ export const generateSigningSerializationBCH = ({
     ...hashSequence({
       sha256,
       signingSerializationType,
-      transactionSequenceNumbers
+      transactionSequenceNumbers,
     }),
     ...outpointTransactionHash.slice().reverse(),
     ...numberToBinUint32LE(outpointIndex),
     ...Uint8Array.from([
       ...bigIntToBitcoinVarInt(BigInt(coveredBytecode.length)),
-      ...coveredBytecode
+      ...coveredBytecode,
     ]),
     ...bigIntToBinUint64LE(BigInt(outputValue)),
     ...numberToBinUint32LE(sequenceNumber),
@@ -237,11 +237,11 @@ export const generateSigningSerializationBCH = ({
       correspondingOutput,
       sha256,
       signingSerializationType,
-      transactionOutputs
+      transactionOutputs,
     }),
     ...numberToBinUint32LE(locktime),
     ...signingSerializationType,
-    ...forkId
+    ...forkId,
   ]);
 
 /**

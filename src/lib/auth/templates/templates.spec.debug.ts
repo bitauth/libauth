@@ -4,7 +4,7 @@ import { AuthenticationTemplate, AuthenticationTemplateEntity } from './types';
 
 export const singleSig: AuthenticationTemplate = {
   ...{
-    name: 'Single-Factor'
+    name: 'Single-Factor',
   },
   description:
     'A standard single-factor authentication template which uses Pay-to-Public-Key-Hash (P2PKH).\nThis is currently the most common template in use on the network.',
@@ -13,7 +13,7 @@ export const singleSig: AuthenticationTemplate = {
       description:
         'An entity which can generate addresses but cannot spend funds from this wallet.',
       name: 'Observer (Watch-Only)',
-      scripts: ['lock']
+      scripts: ['lock'],
     },
     owner: {
       description: 'The individual who can spend from this wallet.',
@@ -24,23 +24,23 @@ export const singleSig: AuthenticationTemplate = {
           name: 'Key',
           templateDerivationHardened: false,
           templateDerivationIndex: 0,
-          type: 'HDKey'
-        }
-      }
-    }
+          type: 'HDKey',
+        },
+      },
+    },
   },
   scripts: {
     lock: {
       script:
-        'OP_DUP OP_HASH160 <$(<key.public> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG'
+        'OP_DUP OP_HASH160 <$(<key.public> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
     },
     unlock: {
       script: '<key.signature.all> <key.public>',
-      unlocks: 'lock'
-    }
+      unlocks: 'lock',
+    },
   },
   supported: ['BCH_2019_11'],
-  version: 0
+  version: 0,
 };
 
 const createCosigner = (
@@ -54,9 +54,9 @@ const createCosigner = (
     [`key${suffix}`]: {
       templateDerivationHardened: false,
       templateDerivationIndex: 0,
-      type: 'HDKey'
-    }
-  }
+      type: 'HDKey',
+    },
+  },
 });
 
 /**
@@ -65,50 +65,50 @@ const createCosigner = (
  */
 export const twoOfThree: AuthenticationTemplate = {
   ...{
-    name: 'Multi-Factor (2-of-3)'
+    name: 'Multi-Factor (2-of-3)',
   },
   description:
     'A multi-factor template using standard 2-of-3 P2SH authentication template',
   entities: {
     cosigner_1: createCosigner('Cosigner 1', '1', ['1_and_2', '1_and_3']),
     cosigner_2: createCosigner('Cosigner 2', '2', ['1_and_2', '2_and_3']),
-    cosigner_3: createCosigner('Cosigner 3', '3', ['1_and_3', '2_and_3'])
+    cosigner_3: createCosigner('Cosigner 3', '3', ['1_and_3', '2_and_3']),
   },
   scripts: {
     '1_and_2': {
       name: 'Cosigner 1 & 2',
       script: 'OP_0 <key1.signature.all> <key2.signature.all> <redeem_script>',
-      unlocks: 'lock'
+      unlocks: 'lock',
     },
     '1_and_3': {
       name: 'Cosigner 1 & 3',
       script: 'OP_0 <key1.signature.all> <key3.signature.all> <redeem_script>',
-      unlocks: 'lock'
+      unlocks: 'lock',
     },
     '2_and_3': {
       name: 'Cosigner 2 & 3',
       script: 'OP_0 <key2.signature.all> <key3.signature.all> <redeem_script>',
-      unlocks: 'lock'
+      unlocks: 'lock',
     },
     checksum: {
       script:
         '$(<key1.public> OP_SHA256 <key2.public> OP_SHA256 OP_CAT OP_SHA256 <key3.public> OP_SHA256 OP_CAT OP_SHA256 OP_HASH160)',
       tests: [
         {
-          check: '<TODO:checksum> OP_EQUAL'
-        }
-      ]
+          check: '<TODO:checksum> OP_EQUAL',
+        },
+      ],
     },
     lock: {
-      script: 'OP_HASH160 <$(<redeem_script> OP_HASH160)> OP_EQUAL'
+      script: 'OP_HASH160 <$(<redeem_script> OP_HASH160)> OP_EQUAL',
     },
     redeem_script: {
       script:
-        'OP_2 <key2.public> <key2.public> <key3.public> OP_3 OP_CHECKMULTISIG'
-    }
+        'OP_2 <key2.public> <key2.public> <key3.public> OP_3 OP_CHECKMULTISIG',
+    },
   },
   supported: ['BCH_2019_11'],
-  version: 0
+  version: 0,
 };
 
 /**
@@ -118,7 +118,7 @@ export const twoOfThree: AuthenticationTemplate = {
 
 export const treeSig: AuthenticationTemplate = {
   ...{
-    name: '1-of-8 Tree Signature'
+    name: '1-of-8 Tree Signature',
   },
   description: `A 1-of-8 P2SH tree signature authentication template, based on: https://www.yours.org/content/tree-signature-variations-using-commutative-hash-trees-8a898830203a
 
@@ -147,17 +147,17 @@ export const treeSig: AuthenticationTemplate = {
           [`key${i}`]: {
             derivationHardened: false,
             derivationIndex: 0,
-            type: 'HDKey' as const
-          }
-        }
-      }
+            type: 'HDKey' as const,
+          },
+        },
+      },
     }),
     {}
   ),
   scripts: {
     checksum: {
       script:
-        '$(<key1.public> OP_SHA256 <key2.public> OP_SHA256 OP_CAT OP_SHA256 <key3.public> OP_SHA256 OP_CAT OP_SHA256 <key4.public> OP_SHA256 OP_CAT OP_SHA256 <key5.public> OP_SHA256 OP_CAT OP_SHA256 <key6.public> OP_SHA256 OP_CAT OP_SHA256 <key7.public> OP_SHA256 OP_CAT OP_SHA256 <key8.public> OP_SHA256 OP_CAT OP_SHA256 OP_HASH160)'
+        '$(<key1.public> OP_SHA256 <key2.public> OP_SHA256 OP_CAT OP_SHA256 <key3.public> OP_SHA256 OP_CAT OP_SHA256 <key4.public> OP_SHA256 OP_CAT OP_SHA256 <key5.public> OP_SHA256 OP_CAT OP_SHA256 <key6.public> OP_SHA256 OP_CAT OP_SHA256 <key7.public> OP_SHA256 OP_CAT OP_SHA256 <key8.public> OP_SHA256 OP_CAT OP_SHA256 OP_HASH160)',
     },
     ...[
       ['root', 'a1', 'a2'],
@@ -166,32 +166,32 @@ export const treeSig: AuthenticationTemplate = {
       ['b1', 'c1', 'c2'],
       ['b2', 'c3', 'c4'],
       ['b3', 'c5', 'c6'],
-      ['b4', 'c7', 'c8']
+      ['b4', 'c7', 'c8'],
     ].reduce<{}>(
       (acc, [id, left, right]) => ({
         ...acc,
         [id]: {
-          script: `${left} ${right} hash_node`
-        }
+          script: `${left} ${right} hash_node`,
+        },
       }),
       {}
     ),
     ...[1, 2, 3, 4, 5, 6, 7, 8].reduce<{}>(
       (acc, i) => ({
         ...acc,
-        [`c${i}`]: { script: `<key${i}.public> OP_HASH160` }
+        [`c${i}`]: { script: `<key${i}.public> OP_HASH160` },
       }),
       {}
     ),
     hash_node: {
-      script: 'sort_cat OP_HASH160'
+      script: 'sort_cat OP_HASH160',
     },
     lock: {
       script:
-        'OP_HASH160 <$(<OP_4 OP_PICK OP_HASH160 sort_cat OP_HASH160 sort_cat OP_HASH160 sort_cat OP_HASH160 <$(root)> OP_EQUALVERIFY OP_CHECKSIG> OP_HASH160)> OP_EQUAL'
+        'OP_HASH160 <$(<OP_4 OP_PICK OP_HASH160 sort_cat OP_HASH160 sort_cat OP_HASH160 sort_cat OP_HASH160 <$(root)> OP_EQUALVERIFY OP_CHECKSIG> OP_HASH160)> OP_EQUAL',
     },
     sort_cat: {
-      script: 'OP_LESSTHAN OP_IF OP_SWAP OP_ENDIF OP_CAT'
+      script: 'OP_LESSTHAN OP_IF OP_SWAP OP_ENDIF OP_CAT',
     },
     ...[
       [1, 2, 2, 2],
@@ -201,25 +201,25 @@ export const treeSig: AuthenticationTemplate = {
       [5, 6, 4, 1],
       [6, 5, 4, 1],
       [7, 8, 3, 1],
-      [8, 7, 3, 1]
+      [8, 7, 3, 1],
     ].reduce<{}>(
       (acc, [key, sibling, bSibling, aSibling]) => ({
         ...acc,
         [`unlock_${key}`]: {
           script: `<key${key}.signature.all> <key${key}.public> <$(a${aSibling})> <$(b${bSibling})> <$(c${sibling})> <redeem_script>`,
-          unlocks: 'lock'
-        }
+          unlocks: 'lock',
+        },
       }),
       {}
-    )
+    ),
   },
   supported: ['BCH_2019_11'],
-  version: 0
+  version: 0,
 };
 
 export const sigOfSig: AuthenticationTemplate = {
   ...{
-    name: 'Sig-of-Sig Example (2-of-2)'
+    name: 'Sig-of-Sig Example (2-of-2)',
   },
   description:
     'A contrived example of a template which must be signed in a specific order. Credit: Antony Zegers',
@@ -230,9 +230,9 @@ export const sigOfSig: AuthenticationTemplate = {
         first: {
           templateDerivationHardened: false,
           templateDerivationIndex: 0,
-          type: 'HDKey'
-        }
-      }
+          type: 'HDKey',
+        },
+      },
     },
     signer_2: {
       name: 'Second Signer',
@@ -240,32 +240,32 @@ export const sigOfSig: AuthenticationTemplate = {
         second: {
           templateDerivationHardened: false,
           templateDerivationIndex: 0,
-          type: 'HDKey'
-        }
-      }
-    }
+          type: 'HDKey',
+        },
+      },
+    },
   },
   scripts: {
     checksum: {
       script:
-        '$(<key1.public> OP_SHA256 <key2.public> OP_SHA256 OP_CAT OP_SHA256 OP_HASH160)'
+        '$(<key1.public> OP_SHA256 <key2.public> OP_SHA256 OP_CAT OP_SHA256 OP_HASH160)',
     },
     lock: {
       script:
-        'OP_HASH160 <$(<OP_2 OP_PICK <second.public> OP_CHECKDATASIGVERIFY OP_DUP OP_HASH160 <$(<key.public> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG> OP_HASH160)> OP_EQUAL'
+        'OP_HASH160 <$(<OP_2 OP_PICK <second.public> OP_CHECKDATASIGVERIFY OP_DUP OP_HASH160 <$(<key.public> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG> OP_HASH160)> OP_EQUAL',
     },
     spend: {
       script:
-        '<first.signature.all> <first.public> <second.signature.data.first.signature.all> <redeem_script>'
-    }
+        '<first.signature.all> <first.public> <second.signature.data.first.signature.all> <redeem_script>',
+    },
   },
   supported: ['BCH_2019_11'],
-  version: 0
+  version: 0,
 };
 
 export const trustedRecovery: AuthenticationTemplate = {
   ...{
-    name: '2-of-2 with Business Continuity'
+    name: '2-of-2 with Business Continuity',
   },
   description:
     'A 2-of-2 wallet, which after a specified delay, can be recovered by either of the original two keys and a signature from a trusted user (e.g. an attorney).\nThis scheme is described in more detail in BIP-65.',
@@ -278,14 +278,14 @@ export const trustedRecovery: AuthenticationTemplate = {
           description:
             'The waiting period (from the time the wallet is created) after which the Trusted Party can assist with delayed recoveries. The delay is measured in seconds, e.g. 1 day is `86400`.',
           name: 'Recovery Delay (Seconds)',
-          type: 'WalletData'
+          type: 'WalletData',
         },
         first: {
           templateDerivationHardened: false,
           templateDerivationIndex: 0,
-          type: 'HDKey'
-        }
-      }
+          type: 'HDKey',
+        },
+      },
     },
     signer_2: {
       name: 'Signer 2',
@@ -294,9 +294,9 @@ export const trustedRecovery: AuthenticationTemplate = {
         second: {
           templateDerivationHardened: false,
           templateDerivationIndex: 0,
-          type: 'HDKey'
-        }
-      }
+          type: 'HDKey',
+        },
+      },
     },
     trusted_party: {
       name: 'Trusted Party',
@@ -305,15 +305,15 @@ export const trustedRecovery: AuthenticationTemplate = {
         trusted: {
           templateDerivationHardened: false,
           templateDerivationIndex: 0,
-          type: 'HDKey'
-        }
-      }
-    }
+          type: 'HDKey',
+        },
+      },
+    },
   },
   scripts: {
     checksum: {
       script:
-        '$(<hot.public> OP_SHA256 <delayed.public> OP_SHA256 OP_CAT OP_SHA256 OP_HASH160)'
+        '$(<hot.public> OP_SHA256 <delayed.public> OP_SHA256 OP_CAT OP_SHA256 OP_HASH160)',
     },
     lock: {
       script: `OP_HASH160 <$(<
@@ -332,29 +332,29 @@ OP_ELSE
 OP_ENDIF
 <first.public_key> <second.public_key> <2>
 OP_CHECKMULTISIG
-> OP_HASH160)> OP_EQUAL`
+> OP_HASH160)> OP_EQUAL`,
     },
     recover_1: {
       name: 'Recovery – Signer 1',
       script:
         '<0>\n<first.signature.all>\n<trusted.signature.all>\n<1> <lock.redeem_script>',
-      unlocks: 'lock'
+      unlocks: 'lock',
     },
     recover_2: {
       name: 'Recovery – Signer 2',
       script:
         '<0> <second.signature.all> <trusted.signature.all> <1> <lock.redeem_script>',
-      unlocks: 'lock'
+      unlocks: 'lock',
     },
     spend: {
       name: 'Standard Spend',
       script:
         '<0> <first.signature.all> <second.signature.all> <0> <lock.redeem_script>',
-      unlocks: 'lock'
-    }
+      unlocks: 'lock',
+    },
   },
   supported: ['BCH_2019_11'],
-  version: 0
+  version: 0,
 };
 
 export const zeroConfirmationForfeits: AuthenticationTemplate = {
@@ -363,11 +363,11 @@ export const zeroConfirmationForfeits: AuthenticationTemplate = {
   entities: {},
   scripts: {
     lock: {
-      script: 'TODO'
-    }
+      script: 'TODO',
+    },
   },
   supported: ['BCH_2019_11'],
-  version: 0
+  version: 0,
 };
 
 /*

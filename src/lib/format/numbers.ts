@@ -371,7 +371,7 @@ const enum VarInt {
   Uint16MaxValue = 0xffff,
   Uint32Prefix = 0xfe,
   Uint32MaxValue = 0xffffffff,
-  Uint64Prefix = 0xff
+  Uint64Prefix = 0xff,
 }
 
 /**
@@ -410,7 +410,7 @@ export const readBitcoinVarInt = (bin: Uint8Array, offset = 0) => {
     nextOffset: offset + bytes,
     value: hasPrefix
       ? binToBigIntUintLE(bin.subarray(offset + 1, offset + bytes), bytes - 1)
-      : binToBigIntUintLE(bin.subarray(offset, offset + bytes), 1)
+      : binToBigIntUintLE(bin.subarray(offset, offset + bytes), 1),
   };
 };
 
@@ -429,11 +429,11 @@ export const bigIntToBitcoinVarInt = (value: bigint) =>
     : value <= BigInt(VarInt.Uint16MaxValue)
     ? Uint8Array.from([
         VarInt.Uint16Prefix,
-        ...numberToBinUint16LE(Number(value))
+        ...numberToBinUint16LE(Number(value)),
       ])
     : value <= BigInt(VarInt.Uint32MaxValue)
     ? Uint8Array.from([
         VarInt.Uint32Prefix,
-        ...numberToBinUint32LE(Number(value))
+        ...numberToBinUint32LE(Number(value)),
       ])
     : Uint8Array.from([VarInt.Uint64Prefix, ...bigIntToBinUint64LE(value)]);

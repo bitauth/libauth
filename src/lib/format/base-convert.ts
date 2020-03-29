@@ -1,7 +1,7 @@
 export enum BaseConversionError {
   tooLong = 'An alphabet may be no longer than 254 characters.',
   ambiguousCharacter = 'A character code may only appear once in a single alphabet.',
-  unknownCharacter = 'Encountered an unknown character for this alphabet.'
+  unknownCharacter = 'Encountered an unknown character for this alphabet.',
 }
 
 export interface BaseConverter {
@@ -63,7 +63,7 @@ export const createBaseConverter = (
 
       const firstNonZeroIndex = input
         .split('')
-        .findIndex(character => character !== paddingCharacter);
+        .findIndex((character) => character !== paddingCharacter);
       if (firstNonZeroIndex === -1) {
         return new Uint8Array(input.length);
       }
@@ -103,7 +103,7 @@ export const createBaseConverter = (
       }
       /* eslint-enable functional/no-let, functional/no-expression-statement */
 
-      const firstNonZeroResultDigit = decoded.findIndex(value => value !== 0);
+      const firstNonZeroResultDigit = decoded.findIndex((value) => value !== 0);
 
       const bin = new Uint8Array(
         firstNonZeroIndex + (requiredLength - firstNonZeroResultDigit)
@@ -116,7 +116,7 @@ export const createBaseConverter = (
     encode: (input: Uint8Array) => {
       if (input.length === 0) return '';
 
-      const firstNonZeroIndex = input.findIndex(byte => byte !== 0);
+      const firstNonZeroIndex = input.findIndex((byte) => byte !== 0);
       if (firstNonZeroIndex === -1) {
         return paddingCharacter.repeat(input.length);
       }
@@ -151,13 +151,13 @@ export const createBaseConverter = (
       }
       /* eslint-enable functional/no-let, functional/no-expression-statement */
 
-      const firstNonZeroResultDigit = encoded.findIndex(value => value !== 0);
+      const firstNonZeroResultDigit = encoded.findIndex((value) => value !== 0);
 
       const padding = paddingCharacter.repeat(firstNonZeroIndex);
       return encoded
         .slice(firstNonZeroResultDigit)
         .reduce((all, digit) => all + alphabet.charAt(digit), padding);
-    }
+    },
   };
 };
 

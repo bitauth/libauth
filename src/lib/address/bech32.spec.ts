@@ -10,10 +10,10 @@ import {
   binToUtf8,
   BitRegroupingError,
   isBech32,
-  regroupBits
+  regroupBits,
 } from '../lib';
 
-test('regroupBits', t => {
+test('regroupBits', (t) => {
   t.deepEqual(
     regroupBits({ bin: [255, 255], resultWordLength: 5, sourceWordLength: 8 }),
     [31, 31, 31, 16]
@@ -27,7 +27,7 @@ test('regroupBits', t => {
       bin: [31, 31, 31, 17],
       padding: false,
       resultWordLength: 8,
-      sourceWordLength: 5
+      sourceWordLength: 5,
     }),
     BitRegroupingError.requiresDisallowedPadding
   );
@@ -36,13 +36,13 @@ test('regroupBits', t => {
       bin: [0],
       padding: false,
       resultWordLength: 8,
-      sourceWordLength: 5
+      sourceWordLength: 5,
     }),
     BitRegroupingError.hasDisallowedPadding
   );
 });
 
-test('isBech32', t => {
+test('isBech32', (t) => {
   t.deepEqual(isBech32(''), true);
   t.deepEqual(isBech32('qq'), true);
   t.deepEqual(isBech32('qqq'), false);
@@ -58,14 +58,14 @@ test('isBech32', t => {
   t.deepEqual(isBech32(':qqqsyqc'), false);
 });
 
-test('binToBech32Padded', t => {
+test('binToBech32Padded', (t) => {
   t.deepEqual(binToBech32Padded(Uint8Array.of(0)), 'qq');
   t.deepEqual(binToBech32Padded(Uint8Array.of(255)), 'lu');
   // cspell: disable-next-line
   t.deepEqual(binToBech32Padded(Uint8Array.of(0, 1, 2, 3)), 'qqqsyqc');
 });
 
-test('bech32PaddedToBin', t => {
+test('bech32PaddedToBin', (t) => {
   t.deepEqual(bech32PaddedToBin('qqq'), Bech32DecodingError.notBech32Padded);
   t.deepEqual(bech32PaddedToBin('qq'), Uint8Array.of(0));
   t.deepEqual(
@@ -81,13 +81,13 @@ const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
   fc
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map(a => Uint8Array.from(a));
+    .map((a) => Uint8Array.from(a));
 const maxBinLength = 100;
 
 testProp(
   '[fast-check] bech32PaddedToBin <-> binToBech32Padded',
   [fcUint8Array(0, maxBinLength)],
-  input =>
+  (input) =>
     binToBech32Padded(
       bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array
     ) === binToBech32Padded(input)
@@ -96,13 +96,13 @@ testProp(
 testProp(
   '[fast-check] binToBech32Padded -> isBech32',
   [fcUint8Array(0, maxBinLength)],
-  input => isBech32(binToBech32Padded(input))
+  (input) => isBech32(binToBech32Padded(input))
 );
 
 testProp(
   '[fast-check] isBech32: matches round trip results',
   [fcUint8Array(0, maxBinLength)],
-  input => {
+  (input) => {
     const maybeBech32 = binToUtf8(input);
     const tryBin = bech32PaddedToBin(maybeBech32);
     const skip = true;

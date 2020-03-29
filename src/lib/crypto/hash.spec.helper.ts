@@ -14,13 +14,13 @@ import { HashFunction } from '../bin/bin';
 const testLength = 10000;
 
 const stringToCharsUint8Array = (str: string) =>
-  new Uint8Array([...str].map(c => c.charCodeAt(0)));
+  new Uint8Array([...str].map((c) => c.charCodeAt(0)));
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
   fc
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map(a => Uint8Array.from(a));
+    .map((a) => Uint8Array.from(a));
 
 export const testHashFunction = <T extends HashFunction>({
   abcHash,
@@ -30,7 +30,7 @@ export const testHashFunction = <T extends HashFunction>({
   instantiate,
   instantiateBytes,
   nodeJsAlgorithm,
-  testHash
+  testHash,
 }: {
   hashFunctionName: string;
   getEmbeddedBinary: () => ArrayBuffer;
@@ -48,7 +48,7 @@ export const testHashFunction = <T extends HashFunction>({
     | 'SHA512'
     | 'SHA1';
 
-  test(`[crypto] ${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
+  test(`[crypto] ${hashFunctionName} getEmbeddedBinary returns the proper binary`, (t) => {
     const path = join(
       // eslint-disable-next-line no-undef
       __dirname,
@@ -61,7 +61,7 @@ export const testHashFunction = <T extends HashFunction>({
     t.deepEqual(binary, binaryFromDisk);
   });
 
-  test(`[crypto] ${hashFunctionName} instantiated with embedded binary`, async t => {
+  test(`[crypto] ${hashFunctionName} instantiated with embedded binary`, async (t) => {
     const hashFunction = await instantiate();
     t.deepEqual(hashFunction.hash(stringToCharsUint8Array('abc')), abcHash);
     t.deepEqual(hashFunction.hash(stringToCharsUint8Array('test')), testHash);
@@ -71,12 +71,12 @@ export const testHashFunction = <T extends HashFunction>({
     );
   });
 
-  test(`[fast-check] [crypto] ${hashFunctionName} instantiated with bytes`, async t => {
+  test(`[fast-check] [crypto] ${hashFunctionName} instantiated with bytes`, async (t) => {
     const hashFunction = await instantiateBytes(binary);
 
     const equivalentToNative = fc.property(
       fcUint8Array(0, testLength),
-      message => {
+      (message) => {
         const hash = createHash(nodeJsAlgorithm);
         t.deepEqual(
           new Uint8Array(hash.update(Buffer.from(message)).digest()),
@@ -87,7 +87,7 @@ export const testHashFunction = <T extends HashFunction>({
 
     const equivalentToBcoin = fc.property(
       fcUint8Array(0, testLength),
-      message => {
+      (message) => {
         t.deepEqual(
           new Uint8Array(
             bcrypto[bcryptoAlgorithm].digest(Buffer.from(message))
@@ -99,13 +99,9 @@ export const testHashFunction = <T extends HashFunction>({
 
     const equivalentToHashJs = fc.property(
       fcUint8Array(0, testLength),
-      message => {
+      (message) => {
         t.deepEqual(
-          new Uint8Array(
-            hashJs[nodeJsAlgorithm]()
-              .update(message)
-              .digest()
-          ),
+          new Uint8Array(hashJs[nodeJsAlgorithm]().update(message).digest()),
           hashFunction.hash(message)
         );
       }
@@ -117,7 +113,7 @@ export const testHashFunction = <T extends HashFunction>({
     });
   });
 
-  test(`[crypto] ${hashFunctionName} incremental hashing`, async t => {
+  test(`[crypto] ${hashFunctionName} incremental hashing`, async (t) => {
     const hashFunction = await instantiate();
     t.deepEqual(
       hashFunction.final(
@@ -163,7 +159,9 @@ export const testHashFunction = <T extends HashFunction>({
         const chunkCount = Math.ceil(message.length / chunkSize);
         const chunks = Array.from({ length: chunkCount })
           .map((_, index) => index * chunkSize)
-          .map(startIndex => message.slice(startIndex, startIndex + chunkSize));
+          .map((startIndex) =>
+            message.slice(startIndex, startIndex + chunkSize)
+          );
         const incrementalResult = hashFunction.final(
           chunks.reduce(
             (state, chunk) => hashFunction.update(state, chunk),

@@ -3,7 +3,7 @@ import {
   AuthenticationProgramStateCommon,
   ErrorState,
   MinimumProgramState,
-  StackState
+  StackState,
 } from '../../state';
 import { Operation } from '../../virtual-machine';
 import { ConsensusBCH } from '../bch/bch-types';
@@ -14,13 +14,13 @@ import {
   pushToStack,
   useOneScriptNumber,
   useOneStackItem,
-  useTwoStackItems
+  useTwoStackItems,
 } from './combinators';
 import { booleanToScriptNumber, ConsensusCommon } from './common';
 import {
   decodeBitcoinSignature,
   isValidPublicKeyEncoding,
-  isValidSignatureEncodingBCHTransaction
+  isValidSignatureEncodingBCHTransaction,
 } from './encoding';
 import { applyError, AuthenticationErrorCommon } from './errors';
 import { opVerify } from './flow-control';
@@ -34,7 +34,7 @@ export const opRipemd160 = <
   State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
   Errors
 >({
-  ripemd160
+  ripemd160,
 }: {
   ripemd160: { hash: Ripemd160['hash'] };
 }): Operation<State> => (state: State) =>
@@ -47,7 +47,7 @@ export const opSha1 = <
   State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
   Errors
 >({
-  sha1
+  sha1,
 }: {
   sha1: { hash: Sha1['hash'] };
 }): Operation<State> => (state: State) =>
@@ -60,7 +60,7 @@ export const opSha256 = <
   State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
   Errors
 >({
-  sha256
+  sha256,
 }: {
   sha256: {
     hash: Sha256['hash'];
@@ -76,7 +76,7 @@ export const opHash160 = <
   Errors
 >({
   ripemd160,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   ripemd160: { hash: Ripemd160['hash'] };
@@ -90,7 +90,7 @@ export const opHash256 = <
   State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
   Errors
 >({
-  sha256
+  sha256,
 }: {
   sha256: {
     hash: Sha256['hash'];
@@ -118,7 +118,7 @@ export const opCheckSig = <
 >({
   flags,
   secp256k1,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   secp256k1: {
@@ -161,7 +161,7 @@ export const opCheckSig = <
       transactionOutpoints: state.transactionOutpoints,
       transactionOutputs: state.transactionOutputs,
       transactionSequenceNumbers: state.transactionSequenceNumbers,
-      version: state.version
+      version: state.version,
     });
     const digest = sha256.hash(sha256.hash(serialization));
 
@@ -181,7 +181,7 @@ export const opCheckSig = <
   });
 
 const enum Multisig {
-  maximumPublicKeys = 20
+  maximumPublicKeys = 20,
 }
 
 export const opCheckMultiSig = <
@@ -192,10 +192,10 @@ export const opCheckMultiSig = <
   flags: {
     requireMinimalEncoding,
     requireBugValueZero,
-    requireNullSignatureFailures
+    requireNullSignatureFailures,
   },
   secp256k1,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   secp256k1: {
@@ -312,7 +312,7 @@ export const opCheckMultiSig = <
 
                     const {
                       signingSerializationType,
-                      signature
+                      signature,
                     } = decodeBitcoinSignature(bitcoinEncodedSignature);
 
                     const serialization = generateSigningSerializationBCH({
@@ -329,7 +329,7 @@ export const opCheckMultiSig = <
                       transactionOutputs: state.transactionOutputs,
                       transactionSequenceNumbers:
                         state.transactionSequenceNumbers,
-                      version: state.version
+                      version: state.version,
                     });
                     const digest = sha256.hash(sha256.hash(serialization));
 
@@ -362,7 +362,7 @@ export const opCheckMultiSig = <
                   if (
                     !success &&
                     requireNullSignatureFailures &&
-                    !signatures.every(signature => signature.length === 0)
+                    !signatures.every((signature) => signature.length === 0)
                   ) {
                     return applyError<State, Errors>(
                       AuthenticationErrorCommon.nonNullSignatureFailure,
@@ -390,7 +390,7 @@ export const opCheckSigVerify = <
 >({
   flags,
   secp256k1,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   secp256k1: {
@@ -413,7 +413,7 @@ export const opCheckMultiSigVerify = <
 >({
   flags,
   secp256k1,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   secp256k1: {
@@ -439,7 +439,7 @@ export const cryptoOperations = <
   ripemd160,
   secp256k1,
   sha1,
-  sha256
+  sha256,
 }: {
   sha1: { hash: Sha1['hash'] };
   sha256: { hash: Sha256['hash'] };
@@ -455,34 +455,34 @@ export const cryptoOperations = <
   };
 }) => ({
   [OpcodesCommon.OP_RIPEMD160]: opRipemd160<Opcodes, State, Errors>({
-    ripemd160
+    ripemd160,
   }),
   [OpcodesCommon.OP_SHA1]: opSha1<Opcodes, State, Errors>({ sha1 }),
   [OpcodesCommon.OP_SHA256]: opSha256<Opcodes, State, Errors>({ sha256 }),
   [OpcodesCommon.OP_HASH160]: opHash160<Opcodes, State, Errors>({
     ripemd160,
-    sha256
+    sha256,
   }),
   [OpcodesCommon.OP_HASH256]: opHash256<Opcodes, State, Errors>({ sha256 }),
   [OpcodesCommon.OP_CODESEPARATOR]: opCodeSeparator<Opcodes, State>(),
   [OpcodesCommon.OP_CHECKSIG]: opCheckSig<Opcodes, State, Errors>({
     flags,
     secp256k1,
-    sha256
+    sha256,
   }),
   [OpcodesCommon.OP_CHECKSIGVERIFY]: opCheckSigVerify<Opcodes, State, Errors>({
     flags,
     secp256k1,
-    sha256
+    sha256,
   }),
   [OpcodesCommon.OP_CHECKMULTISIG]: opCheckMultiSig<Opcodes, State, Errors>({
     flags,
     secp256k1,
-    sha256
+    sha256,
   }),
   [OpcodesCommon.OP_CHECKMULTISIGVERIFY]: opCheckMultiSigVerify<
     Opcodes,
     State,
     Errors
-  >({ flags, secp256k1, sha256 })
+  >({ flags, secp256k1, sha256 }),
 });

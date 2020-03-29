@@ -1,7 +1,7 @@
 import { ErrorState, ExecutionStackState, StackState } from '../../state';
 import {
   InstructionSetOperationMapping,
-  Operation
+  Operation,
 } from '../../virtual-machine';
 
 import { isScriptNumberError, parseBytesAsScriptNumber } from './common';
@@ -21,7 +21,7 @@ export const incrementOperationCount = <
 export const conditionallyEvaluate = <State extends ExecutionStackState>(
   operation: Operation<State>
 ): Operation<State> => (state: State) =>
-  state.executionStack.every(item => item) ? operation(state) : state;
+  state.executionStack.every((item) => item) ? operation(state) : state;
 
 /**
  * Map a function over each operation in an `InstructionSet.operations` object,
@@ -41,7 +41,7 @@ export const mapOverOperations = <State>(
       [operation]: combinators.reduce(
         (op, combinator) => combinator(op),
         operations[parseInt(operation, 10)]
-      )
+      ),
     }),
     {}
   );
@@ -147,7 +147,7 @@ export const useSixStackItems = <
           valueThree,
           valueFour,
           valueFive,
-          valueSix
+          valueSix,
         ])
       )
   );
@@ -162,7 +162,7 @@ export const useOneScriptNumber = <
   operation: (nextState: State, [value]: [bigint]) => State,
   {
     requireMinimalEncoding,
-    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength,
   }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
 ) =>
   useOneStackItem(state, (nextState, [item]) => {
@@ -191,7 +191,7 @@ export const useTwoScriptNumbers = <
   ) => State,
   {
     requireMinimalEncoding,
-    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength,
   }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
 ) =>
   useOneScriptNumber(
@@ -217,7 +217,7 @@ export const useThreeScriptNumbers = <
   ) => State,
   {
     requireMinimalEncoding,
-    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength,
   }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
 ) =>
   useTwoScriptNumbers(

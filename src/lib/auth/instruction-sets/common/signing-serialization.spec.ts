@@ -9,22 +9,22 @@ import {
   hexToBin,
   instantiateSha256,
   isLegacySigningSerialization,
-  numberToBinInt32TwosCompliment
+  numberToBinInt32TwosCompliment,
 } from '../../../lib';
 import * as sighashTests from '../bch/fixtures/bitcoin-abc/sighash.json';
 
 const tests = Object.values(sighashTests)
-  .filter(e => e.length !== 1 && e.length < 8)
+  .filter((e) => e.length !== 1 && e.length < 8)
   .map((expectation, testIndex) => ({
     inputIndex: expectation[2] as number,
     scriptHex: expectation[1] as string,
     signingSerializationBCHDigestHex: expectation[4] as string,
     signingSerializationType: expectation[3] as number,
     testIndex,
-    transactionHex: expectation[0] as string
+    transactionHex: expectation[0] as string,
   }))
   .filter(
-    expectation =>
+    (expectation) =>
       /**
        * Currently, this library only supports the new BCH signing serialization
        * algorithm. If the legacy algorithm is implemented, we can re-enable the
@@ -42,7 +42,7 @@ const pendingTests = tests;
 const sha256Promise = instantiateSha256();
 
 pendingTests.map((expectation, currentTest) => {
-  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async t => {
+  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async (t) => {
     const sha256 = await sha256Promise;
     const tx = deserializeTransaction(hexToBin(expectation.transactionHex));
     const lockingBytecode = hexToBin(expectation.scriptHex);
@@ -54,9 +54,9 @@ pendingTests.map((expectation, currentTest) => {
       inputIndex: expectation.inputIndex,
       sourceOutput: {
         lockingBytecode,
-        satoshis: 0
+        satoshis: 0,
       },
-      spendingTransaction: tx
+      spendingTransaction: tx,
     });
     const serialization = generateSigningSerializationBCH({
       correspondingOutput: state.correspondingOutput,
@@ -72,7 +72,7 @@ pendingTests.map((expectation, currentTest) => {
       transactionOutpoints: state.transactionOutpoints,
       transactionOutputs: state.transactionOutputs,
       transactionSequenceNumbers: state.transactionSequenceNumbers,
-      version: state.version
+      version: state.version,
     });
     const digest = sha256.hash(sha256.hash(serialization));
     t.deepEqual(

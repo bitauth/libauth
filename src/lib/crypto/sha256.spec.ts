@@ -3,7 +3,7 @@ import {
   getEmbeddedSha256Binary,
   instantiateSha256,
   instantiateSha256Bytes,
-  Sha256
+  Sha256,
 } from '../lib';
 
 import { testHashFunction } from './hash.spec.helper';
@@ -25,5 +25,5 @@ testHashFunction<Sha256>({
   instantiate: instantiateSha256,
   instantiateBytes: instantiateSha256Bytes,
   nodeJsAlgorithm: 'sha256',
-  testHash
+  testHash,
 });

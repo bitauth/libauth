@@ -5,7 +5,7 @@ import { AuthenticationInstruction } from '../../instruction-sets/instruction-se
 import {
   authenticationInstructionsAreNotMalformed,
   disassembleBytecode,
-  parseBytecode
+  parseBytecode,
 } from '../../instruction-sets/instruction-sets-utils';
 import { MinimumProgramState, StackState } from '../../state';
 import { AuthenticationVirtualMachine } from '../../virtual-machine';
@@ -15,12 +15,12 @@ import { Range, ResolvedScript } from './resolve';
 
 const pluckStartPosition = (range: Range) => ({
   startColumn: range.startColumn,
-  startLineNumber: range.startLineNumber
+  startLineNumber: range.startLineNumber,
 });
 
 const pluckEndPosition = (range: Range) => ({
   endColumn: range.endColumn,
-  endLineNumber: range.endLineNumber
+  endLineNumber: range.endLineNumber,
 });
 
 const mergeRanges = (ranges: Range[]) => {
@@ -38,13 +38,13 @@ const mergeRanges = (ranges: Range[]) => {
         : range.endLineNumber === merged.endLineNumber &&
           range.endColumn > merged.endColumn
         ? pluckEndPosition(range)
-        : pluckEndPosition(merged))
+        : pluckEndPosition(merged)),
     }),
     ranges[0]
   );
   return {
     ...pluckStartPosition(unsortedMerged),
-    ...pluckEndPosition(unsortedMerged)
+    ...pluckEndPosition(unsortedMerged),
   };
 };
 
@@ -80,7 +80,7 @@ export interface ScriptReductionTraceEvaluationNode<ProgramState>
 
 const emptyReductionTraceNode = (range: Range) => ({
   bytecode: Uint8Array.of(),
-  range
+  range,
 });
 
 /**
@@ -114,7 +114,7 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
       aggregations.push({
         instructions: [],
         lastIp: ip,
-        range
+        range,
       });
       // eslint-disable-next-line functional/no-conditional-statement
     } else if (authenticationInstructionsAreNotMalformed(parsed)) {
@@ -124,7 +124,7 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
       aggregations.push({
         instructions: parsed,
         lastIp: ip,
-        range
+        range,
       });
       // eslint-disable-next-line functional/no-conditional-statement
     } else {
@@ -140,8 +140,8 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
       : {
           remainingBytecode: incomplete.bytecode,
           remainingRange: incomplete.range,
-          success: false
-        })
+          success: false,
+        }),
   };
 };
 
@@ -160,7 +160,7 @@ export const evaluateInstructionAggregations = <
   getState: (instructions: AuthenticationInstruction<Opcodes>[]) => ProgramState
 ): InstructionAggregationEvaluationResult<ProgramState> => {
   const nonEmptyAggregations = aggregations.filter(
-    aggregation => aggregation.instructions.length > 0
+    (aggregation) => aggregation.instructions.length > 0
   );
   const evaluationPlan = nonEmptyAggregations.reduce<{
     breakpoints: { ip: number; range: Range }[];
@@ -171,9 +171,9 @@ export const evaluateInstructionAggregations = <
       return {
         breakpoints: [
           ...plan.breakpoints,
-          { ip: aggregation.lastIp, range: aggregation.range }
+          { ip: aggregation.lastIp, range: aggregation.range },
         ],
-        instructions
+        instructions,
       };
     },
     { breakpoints: [], instructions: [] }
@@ -181,12 +181,12 @@ export const evaluateInstructionAggregations = <
   const trace = vm.stateDebug(getState(evaluationPlan.instructions));
   const samples = evaluationPlan.breakpoints.map<
     EvaluationSample<ProgramState>
-  >(breakpoint => ({
+  >((breakpoint) => ({
     range: breakpoint.range,
-    state: trace[breakpoint.ip - 1]
+    state: trace[breakpoint.ip - 1],
   }));
   const firstInvalidSample = samples.findIndex(
-    sample => sample.state === undefined
+    (sample) => sample.state === undefined
   );
   const errorSample =
     (samples[firstInvalidSample - 1] as
@@ -196,7 +196,7 @@ export const evaluateInstructionAggregations = <
   return errorSample === undefined
     ? {
         samples: samples as EvaluationSampleValid<ProgramState>[],
-        success: true
+        success: true,
       }
     : {
         errors: [
@@ -204,13 +204,14 @@ export const evaluateInstructionAggregations = <
             error:
               errorSample.state === undefined
                 ? `Failed to reduce evaluation: vm.debug produced no valid program states.`
-                : `Failed to reduce evaluation: ${errorSample.state.error ??
-                    'unknown error'}`,
-            range: errorSample.range
-          }
+                : `Failed to reduce evaluation: ${
+                    errorSample.state.error ?? 'unknown error'
+                  }`,
+            range: errorSample.range,
+          },
         ],
         samples,
-        success: false
+        success: false,
       };
 };
 
@@ -255,7 +256,7 @@ export const sampledEvaluateReductionTraceNodes = <
     return {
       bytecode: evaluationResult,
       samples,
-      success: true
+      success: true,
     };
   }
   return {
@@ -269,13 +270,13 @@ export const sampledEvaluateReductionTraceNodes = <
                 OpcodesCommon,
                 parsed.remainingBytecode
               )}`,
-              range: parsed.remainingRange
-            }
+              range: parsed.remainingRange,
+            },
           ]),
-      ...(evaluated.success ? [] : evaluated.errors)
+      ...(evaluated.success ? [] : evaluated.errors),
     ],
     samples: evaluated.samples,
-    success: false
+    success: false,
   };
 };
 
@@ -300,7 +301,7 @@ export const reduceScript = <
   const source = compiledScript.map<
     ScriptReductionTraceChildNode<ProgramState>
     // eslint-disable-next-line complexity
-  >(segment => {
+  >((segment) => {
     switch (segment.type) {
       case 'bytecode':
         return { bytecode: segment.value, range: segment.range };
@@ -314,7 +315,7 @@ export const reduceScript = <
           bytecode,
           ...(push.errors === undefined ? undefined : { errors: push.errors }),
           range: segment.range,
-          source: [push]
+          source: [push],
         };
       }
       case 'evaluation': {
@@ -327,10 +328,10 @@ export const reduceScript = <
               {
                 error:
                   'Both a VM and a createState method are required to reduce evaluations.',
-                range: segment.range
-              }
+                range: segment.range,
+              },
             ],
-            ...emptyReductionTraceNode(segment.range)
+            ...emptyReductionTraceNode(segment.range),
           };
         }
         const reductionTrace = reduceScript(segment.value, vm, createState);
@@ -341,20 +342,20 @@ export const reduceScript = <
         );
         const errors = [
           ...(reductionTrace.errors === undefined ? [] : reductionTrace.errors),
-          ...(evaluated.success ? [] : evaluated.errors)
+          ...(evaluated.success ? [] : evaluated.errors),
         ];
         return {
           ...(errors.length > 0
             ? {
                 errors,
-                ...emptyReductionTraceNode(segment.range)
+                ...emptyReductionTraceNode(segment.range),
               }
             : {
                 bytecode: evaluated.bytecode,
-                range: segment.range
+                range: segment.range,
               }),
           samples: evaluated.samples,
-          source: [reductionTrace]
+          source: [reductionTrace],
         };
       }
       case 'comment':
@@ -364,10 +365,10 @@ export const reduceScript = <
           errors: [
             {
               error: `Tried to reduce a BTL script with resolution errors: ${segment.value}`,
-              range: segment.range
-            }
+              range: segment.range,
+            },
           ],
-          ...emptyReductionTraceNode(segment.range)
+          ...emptyReductionTraceNode(segment.range),
         };
       default:
         return new Error(
@@ -388,10 +389,10 @@ export const reduceScript = <
         ? {
             errors: [
               ...(all.errors === undefined ? [] : all.errors),
-              ...(segment.errors === undefined ? [] : segment.errors)
-            ]
+              ...(segment.errors === undefined ? [] : segment.errors),
+            ],
           }
-        : undefined)
+        : undefined),
     }),
     { bytecode: [], ranges: [] }
   );
@@ -401,7 +402,7 @@ export const reduceScript = <
       : { errors: reduction.errors }),
     bytecode: flattenBinArray(reduction.bytecode),
     range: mergeRanges(reduction.ranges),
-    source
+    source,
   };
 };
 

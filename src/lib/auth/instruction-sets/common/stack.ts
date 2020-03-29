@@ -7,7 +7,7 @@ import {
   useOneStackItem,
   useSixStackItems,
   useThreeStackItems,
-  useTwoStackItems
+  useTwoStackItems,
 } from './combinators';
 import { applyError, AuthenticationErrorCommon } from './errors';
 import { OpcodesCommon } from './opcodes';
@@ -38,7 +38,7 @@ export const opFromAltStack = <
 };
 
 export const op2Drop = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, nextState => nextState);
+  useTwoStackItems(state, (nextState) => nextState);
 
 export const op2Dup = <State extends StackState>() => (state: State) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
@@ -77,7 +77,7 @@ export const opDepth = <State extends StackState>() => (state: State) =>
   pushToStack(state, bigIntToScriptNumber(BigInt(state.stack.length)));
 
 export const opDrop = <State extends StackState>() => (state: State) =>
-  useOneStackItem(state, nextState => nextState);
+  useOneStackItem(state, (nextState) => nextState);
 
 export const opDup = <State extends StackState>() => (state: State) =>
   useOneStackItem(state, (nextState, [item]) =>
@@ -93,7 +93,7 @@ export const opOver = <State extends StackState>() => (state: State) =>
   );
 
 export const opPick = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -115,7 +115,7 @@ export const opPick = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const opRoll = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -172,5 +172,5 @@ export const stackOperations = <
   [OpcodesCommon.OP_ROLL]: opRoll<State, Errors>(flags),
   [OpcodesCommon.OP_ROT]: opRot<State>(),
   [OpcodesCommon.OP_SWAP]: opSwap<State>(),
-  [OpcodesCommon.OP_TUCK]: opTuck<State>()
+  [OpcodesCommon.OP_TUCK]: opTuck<State>(),
 });

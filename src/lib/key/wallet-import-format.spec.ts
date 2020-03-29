@@ -7,12 +7,12 @@ import {
   encodePrivateKeyWif,
   hexToBin,
   instantiateSha256,
-  WalletImportFormatType
+  WalletImportFormatType,
 } from '../lib';
 
 const sha256Promise = instantiateSha256();
 
-test('decodePrivateKeyWif: pass through errors', async t => {
+test('decodePrivateKeyWif: pass through errors', async (t) => {
   const sha256 = await sha256Promise;
   t.deepEqual(
     decodePrivateKeyWif(sha256, 'not a key'),
@@ -32,7 +32,7 @@ const wifVectors: Macro<[WalletImportFormatType, string, string]> = async (
   t.deepEqual(encodePrivateKeyWif(sha256, hexToBin(key), type), wif);
   t.deepEqual(decodePrivateKeyWif(sha256, wif), {
     privateKey: hexToBin(key),
-    type
+    type,
   });
 };
 

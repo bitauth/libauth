@@ -16,7 +16,7 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
   const privateKeyLength = 32;
   if (
     privateKey.length !== privateKeyLength ||
-    privateKey.every(value => value === 0)
+    privateKey.every((value) => value === 0)
   ) {
     return false;
   }

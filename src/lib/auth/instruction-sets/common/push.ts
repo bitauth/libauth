@@ -1,13 +1,13 @@
 import {
   numberToBinUint16LE,
-  numberToBinUint32LE
+  numberToBinUint32LE,
 } from '../../../format/format';
 import { range } from '../../../format/hex';
 import {
   ErrorState,
   ExecutionStackState,
   MinimumProgramState,
-  StackState
+  StackState,
 } from '../../state';
 import { Operation } from '../../virtual-machine';
 import { AuthenticationInstructionPush } from '../instruction-sets-types';
@@ -57,7 +57,7 @@ export enum PushOperationConstants {
   /**
    * 256 ** 4 - 1
    */
-  maximumPushData4Size = 4294967295
+  maximumPushData4Size = 4294967295,
 }
 
 /**
@@ -103,18 +103,18 @@ export const encodeDataPush = (data: Uint8Array) =>
     ? Uint8Array.from([
         PushOperationConstants.OP_PUSHDATA_1,
         data.length,
-        ...data
+        ...data,
       ])
     : data.length <= PushOperationConstants.maximumPushData2Size
     ? Uint8Array.from([
         PushOperationConstants.OP_PUSHDATA_2,
         ...numberToBinUint16LE(data.length),
-        ...data
+        ...data,
       ])
     : Uint8Array.from([
         PushOperationConstants.OP_PUSHDATA_4,
         ...numberToBinUint32LE(data.length),
-        ...data
+        ...data,
       ]);
 
 /**
@@ -216,11 +216,11 @@ export const pushByteOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_PUSHBYTES_72,
   OpcodesCommon.OP_PUSHBYTES_73,
   OpcodesCommon.OP_PUSHBYTES_74,
-  OpcodesCommon.OP_PUSHBYTES_75
+  OpcodesCommon.OP_PUSHBYTES_75,
 ];
 
 const executionIsActive = <State extends ExecutionStackState>(state: State) =>
-  state.executionStack.every(item => item);
+  state.executionStack.every((item) => item);
 
 export const pushOperation = <
   Opcodes,
@@ -289,7 +289,7 @@ export const pushNumberOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_13,
   OpcodesCommon.OP_14,
   OpcodesCommon.OP_15,
-  OpcodesCommon.OP_16
+  OpcodesCommon.OP_16,
 ];
 
 const op1NegateValue = -1;
@@ -303,14 +303,14 @@ export const pushNumberOperations = <
       opcode,
       [op1NegateValue, ...range(PushOperationConstants.pushNumberOpcodes, 1)]
         .map(BigInt)
-        .map(bigIntToScriptNumber)[i]
+        .map(bigIntToScriptNumber)[i],
     ])
     .reduce<{
       readonly [opcode: number]: Operation<ProgramState>;
     }>(
       (group, pair) => ({
         ...group,
-        [pair[0]]: (state: ProgramState) => pushToStack(state, pair[1].slice())
+        [pair[0]]: (state: ProgramState) => pushToStack(state, pair[1].slice()),
       }),
       {}
     );

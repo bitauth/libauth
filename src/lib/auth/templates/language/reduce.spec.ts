@@ -8,7 +8,7 @@ import {
   createAuthenticationProgramStateCommon,
   instantiateVirtualMachineBCH,
   OpcodesBCH,
-  sampledEvaluateReductionTraceNodes
+  sampledEvaluateReductionTraceNodes,
 } from '../../../lib';
 
 const vmPromise = instantiateVirtualMachineBCH();
@@ -26,7 +26,7 @@ const state = createCreateStateWithStack<
 >([])([]) as AuthenticationProgramStateBCH;
 const getState = () => state;
 
-test('sampledEvaluateReductionTraceNodes: empty evaluation', async t => {
+test('sampledEvaluateReductionTraceNodes: empty evaluation', async (t) => {
   const vm = await vmPromise;
   t.deepEqual(
     sampledEvaluateReductionTraceNodes<
@@ -40,9 +40,9 @@ test('sampledEvaluateReductionTraceNodes: empty evaluation', async t => {
             endColumn: 1,
             endLineNumber: 1,
             startColumn: 1,
-            startLineNumber: 1
-          }
-        }
+            startLineNumber: 1,
+          },
+        },
       ],
       vm,
       getState
@@ -55,12 +55,12 @@ test('sampledEvaluateReductionTraceNodes: empty evaluation', async t => {
             endColumn: 1,
             endLineNumber: 1,
             startColumn: 1,
-            startLineNumber: 1
+            startLineNumber: 1,
           },
-          state
-        }
+          state,
+        },
       ],
-      success: true
+      success: true,
     }
   );
 });

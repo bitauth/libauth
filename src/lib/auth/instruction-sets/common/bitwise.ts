@@ -1,14 +1,14 @@
 import {
   AuthenticationProgramStateCommon,
   ErrorState,
-  StackState
+  StackState,
 } from '../../state';
 import { Operation } from '../../virtual-machine';
 
 import {
   combineOperations,
   pushToStack,
-  useTwoStackItems
+  useTwoStackItems,
 } from './combinators';
 import { opVerify } from './flow-control';
 import { OpcodesCommon } from './opcodes';
@@ -47,5 +47,5 @@ export const bitwiseOperations = <
   Errors
 >() => ({
   [OpcodesCommon.OP_EQUAL]: opEqual<State, Errors>(),
-  [OpcodesCommon.OP_EQUALVERIFY]: opEqualVerify<State, Errors>()
+  [OpcodesCommon.OP_EQUALVERIFY]: opEqualVerify<State, Errors>(),
 });

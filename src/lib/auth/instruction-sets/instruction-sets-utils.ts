@@ -2,7 +2,7 @@ import {
   binToHex,
   flattenBinArray,
   numberToBinUint16LE,
-  numberToBinUint32LE
+  numberToBinUint32LE,
 } from '../../format/format';
 
 import { OpcodesBCH } from './bch/bch';
@@ -13,7 +13,7 @@ import {
   ParsedAuthenticationInstruction,
   ParsedAuthenticationInstructionMalformed,
   ParsedAuthenticationInstructionPushMalformedLength,
-  ParsedAuthenticationInstructions
+  ParsedAuthenticationInstructions,
 } from './instruction-sets-types';
 
 export const authenticationInstructionIsMalformed = <Opcodes>(
@@ -36,13 +36,13 @@ enum CommonPushOpcodes {
   OP_0 = 0x00,
   OP_PUSHDATA_1 = 0x4c,
   OP_PUSHDATA_2 = 0x4d,
-  OP_PUSHDATA_4 = 0x4e
+  OP_PUSHDATA_4 = 0x4e,
 }
 
 enum Bytes {
   Uint8 = 1,
   Uint16 = 2,
-  Uint32 = 4
+  Uint32 = 4,
 }
 
 const readLittleEndianNumber = (
@@ -100,9 +100,9 @@ export const readAuthenticationInstruction = <Opcodes = number>(
   if (opcode > CommonPushOpcodes.OP_PUSHDATA_4) {
     return {
       instruction: {
-        opcode: (opcode as unknown) as Opcodes
+        opcode: (opcode as unknown) as Opcodes,
       },
-      nextIndex: index + 1
+      nextIndex: index + 1,
     };
   }
   const lengthBytes = lengthBytesForPushOpcode(opcode);
@@ -116,9 +116,9 @@ export const readAuthenticationInstruction = <Opcodes = number>(
         expectedLengthBytes: lengthBytes,
         length: script.slice(sliceStart, sliceEnd),
         malformed: true,
-        opcode: (opcode as unknown) as Opcodes
+        opcode: (opcode as unknown) as Opcodes,
       },
-      nextIndex: sliceEnd
+      nextIndex: sliceEnd,
     };
   }
 
@@ -133,12 +133,12 @@ export const readAuthenticationInstruction = <Opcodes = number>(
       ...(dataEnd > script.length
         ? {
             expectedDataBytes: dataEnd - dataStart,
-            malformed: true
+            malformed: true,
           }
         : undefined),
-      opcode: (opcode as unknown) as Opcodes
+      opcode: (opcode as unknown) as Opcodes,
     },
-    nextIndex: dataEnd
+    nextIndex: dataEnd,
   };
 };
 
@@ -256,7 +256,7 @@ export const disassembleParsedAuthenticationInstructions = <Opcodes = number>(
   instructions: readonly ParsedAuthenticationInstruction<Opcodes>[]
 ): string =>
   instructions
-    .map(instruction =>
+    .map((instruction) =>
       disassembleParsedAuthenticationInstruction<Opcodes>(opcodes, instruction)
     )
     .join(' ');
@@ -324,9 +324,9 @@ export const serializeAuthenticationInstruction = <Opcodes = number>(
           ...(isPushData((instruction.opcode as unknown) as number)
             ? getInstructionLengthBytes(instruction)
             : []),
-          ...instruction.data
+          ...instruction.data,
         ]
-      : [])
+      : []),
   ]);
 
 export const serializeParsedAuthenticationInstructionMalformed = <
@@ -348,7 +348,7 @@ export const serializeParsedAuthenticationInstructionMalformed = <
         : opcode === CommonPushOpcodes.OP_PUSHDATA_2
         ? numberToBinUint16LE(instruction.expectedDataBytes)
         : numberToBinUint32LE(instruction.expectedDataBytes)),
-      ...instruction.data
+      ...instruction.data,
     ]);
   }
 
@@ -386,7 +386,7 @@ export const generateBytecodeMap = (opcodes: object) =>
     }>(
       (identifiers, pair) => ({
         ...identifiers,
-        [pair[0]]: Uint8Array.of(pair[1])
+        [pair[0]]: Uint8Array.of(pair[1]),
       }),
       {}
     );

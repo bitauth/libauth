@@ -19,7 +19,7 @@ export interface AuthenticationInstructionOperation<Opcodes = number> {
 enum Bytes {
   Uint8 = 1,
   Uint16 = 2,
-  Uint32 = 4
+  Uint32 = 4,
 }
 
 /**

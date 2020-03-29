@@ -7,7 +7,7 @@ const enum PublicKey {
   uncompressedHeaderByte = 0x04,
   compressedByteLength = 33,
   compressedHeaderByteEven = 0x02,
-  compressedHeaderByteOdd = 0x03
+  compressedHeaderByteOdd = 0x03,
 }
 
 export const isValidUncompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
@@ -25,7 +25,7 @@ export const isValidPublicKeyEncoding = (publicKey: Uint8Array) =>
 
 const enum ASN1 {
   sequenceTagType = 0x30,
-  integerTagType = 0x02
+  integerTagType = 0x02,
 }
 
 const enum DER {
@@ -51,11 +51,11 @@ const enum DER {
   minimumNonRValueBytes = sequenceMetadataBytes +
     integerMetadataBytes +
     integerMetadataBytes +
-    minimumSValueBytes
+    minimumSValueBytes,
 }
 
 const enum Mask {
-  negative = 0x80
+  negative = 0x80,
 }
 
 const isNegative = (value: number) =>
@@ -182,6 +182,6 @@ export const isValidSignatureEncodingBCHTransaction = (
 export const decodeBitcoinSignature = (encodedSignature: Uint8Array) => ({
   signature: encodedSignature.slice(0, encodedSignature.length - 1),
   signingSerializationType: new Uint8Array([
-    encodedSignature[encodedSignature.length - 1]
-  ])
+    encodedSignature[encodedSignature.length - 1],
+  ]),
 });

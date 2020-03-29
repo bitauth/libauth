@@ -15,7 +15,7 @@ const secureRandom = () => randomBytes(privateKeyLength);
 
 const setup = async () => ({
   ellipticEc: new elliptic.ec('secp256k1'), // eslint-disable-line new-cap
-  secp256k1: await secp256k1Promise
+  secp256k1: await secp256k1Promise,
 });
 
 /**
@@ -26,9 +26,9 @@ const setup = async () => ({
  * We also help secp256k1-node a bit by converting each of it's inputs into
  * Node.js `Buffer` objects. So its performance here is a best case.
  */
-test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t => {
+test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async (t) => {
   const { ellipticEc, secp256k1 } = await setup();
-  await suite(t.title, s => {
+  await suite(t.title, (s) => {
     let messageHash: Uint8Array;
     let pubkeyUncompressed: Uint8Array;
     let sigDER: Uint8Array;
@@ -72,9 +72,9 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t =>
   });
 });
 
-test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
+test('bench: secp256k1: verify signature Low-S, compressed pubkey', async (t) => {
   const { ellipticEc, secp256k1 } = await setup();
-  await suite(t.title, s => {
+  await suite(t.title, (s) => {
     let messageHash: Uint8Array;
     let pubkeyCompressed: Uint8Array;
     let sigDER: Uint8Array;
@@ -118,9 +118,9 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
   });
 });
 
-test('bench: secp256k1: derive compressed pubkey', async t => {
+test('bench: secp256k1: derive compressed pubkey', async (t) => {
   const { ellipticEc, secp256k1 } = await setup();
-  await suite(t.title, s => {
+  await suite(t.title, (s) => {
     let privKey: Uint8Array;
     let pubkeyCompressedExpected: Uint8Array;
     let pubkeyCompressedBenchmark: Uint8Array;
@@ -134,10 +134,7 @@ test('bench: secp256k1: derive compressed pubkey', async t => {
     });
     s.bench('elliptic', () => {
       pubkeyCompressedBenchmark = Uint8Array.from(
-        ellipticEc
-          .keyFromPrivate(privKey)
-          .getPublic()
-          .encodeCompressed()
+        ellipticEc.keyFromPrivate(privKey).getPublic().encodeCompressed()
       );
     });
     s.bench('secp256k1-node', () => {
@@ -150,9 +147,9 @@ test('bench: secp256k1: derive compressed pubkey', async t => {
   });
 });
 
-test('bench: secp256k1: create DER Low-S signature', async t => {
+test('bench: secp256k1: create DER Low-S signature', async (t) => {
   const { ellipticEc, secp256k1 } = await setup();
-  await suite(t.title, s => {
+  await suite(t.title, (s) => {
     let privKey: Uint8Array;
     let messageHash: Uint8Array;
     let sigDERExpected: Uint8Array;
@@ -192,9 +189,9 @@ test('bench: secp256k1: create DER Low-S signature', async t => {
   });
 });
 
-test('bench: secp256k1: sign: Schnorr vs. ECDSA', async t => {
+test('bench: secp256k1: sign: Schnorr vs. ECDSA', async (t) => {
   const { secp256k1 } = await setup();
-  await suite(t.title, s => {
+  await suite(t.title, (s) => {
     let privKey: Uint8Array;
     let messageHash: Uint8Array;
     let sigDERExpected: Uint8Array;
@@ -233,9 +230,9 @@ test('bench: secp256k1: sign: Schnorr vs. ECDSA', async t => {
   });
 });
 
-test('bench: secp256k1: verify: Schnorr vs. ECDSA', async t => {
+test('bench: secp256k1: verify: Schnorr vs. ECDSA', async (t) => {
   const { secp256k1 } = await setup();
-  await suite(t.title, s => {
+  await suite(t.title, (s) => {
     let messageHash: Uint8Array;
     let pubkeyCompressed: Uint8Array;
     let sigDER: Uint8Array;

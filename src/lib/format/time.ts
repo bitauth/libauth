@@ -4,7 +4,7 @@ enum Constants {
   msPerLocktimeSecond = 1000,
   minimumTimestamp = 500000000,
   maximumLocktime = 0xffffffff,
-  byteLength = 4
+  byteLength = 4,
 }
 
 /**
@@ -25,7 +25,7 @@ export const maximumLocktimeDate = new Date(
 
 export enum LocktimeError {
   outOfRange = 'The provided Date is outside of the range which can be encoded in locktime.',
-  incorrectLength = 'The provided locktime is not the correct length (4 bytes).'
+  incorrectLength = 'The provided locktime is not the correct length (4 bytes).',
 }
 
 /**

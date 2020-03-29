@@ -6,31 +6,31 @@ import {
   createAuthenticationProgramExternalStateCommonEmpty,
   createAuthenticationProgramStateCommon,
   createCompilerBCH,
-  hexToBin
+  hexToBin,
 } from '../../lib';
 
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
 
-test('[BCH compiler] createCompilerBCH: generateScript', async t => {
+test('[BCH compiler] createCompilerBCH: generateScript', async (t) => {
   const compiler = await createCompilerBCH({
     scripts: {
       lock:
         'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
-      unlock: '<a.signature.all_outputs> <a.public_key>'
+      unlock: '<a.signature.all_outputs> <a.public_key>',
     },
     variables: {
       a: {
-        type: 'Key'
-      }
-    }
+        type: 'Key',
+      },
+    },
   });
   const resultLock = compiler.generateBytecode('lock', {
-    keys: { privateKeys: { a: privkey } }
+    keys: { privateKeys: { a: privkey } },
   });
   t.deepEqual(resultLock, {
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
-    success: true
+    success: true,
   });
   // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
@@ -38,19 +38,19 @@ test('[BCH compiler] createCompilerBCH: generateScript', async t => {
       keys: { privateKeys: { a: privkey } },
       operationData: {
         ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredBytecode: resultLock.bytecode
-      }
+        coveredBytecode: resultLock.bytecode,
+      },
     });
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(
         '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
       ),
-      success: true
+      success: true,
     });
   }
 });
 
-test('[BCH compiler] createCompilerBCH: debug', async t => {
+test('[BCH compiler] createCompilerBCH: debug', async (t) => {
   const state = createAuthenticationProgramExternalStateCommonEmpty();
   const createState = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,18 +61,18 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
     scripts: {
       lock:
         'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
-      unlock: '<a.signature.all_outputs> <a.public_key>'
+      unlock: '<a.signature.all_outputs> <a.public_key>',
     },
     variables: {
       a: {
-        type: 'Key'
-      }
-    }
+        type: 'Key',
+      },
+    },
   });
   const resultLock = compiler.generateBytecode(
     'lock',
     {
-      keys: { privateKeys: { a: privkey } }
+      keys: { privateKeys: { a: privkey } },
     },
     true
   );
@@ -82,185 +82,185 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
       end: {
         column: 76,
         line: 1,
-        offset: 75
+        offset: 75,
       },
       name: 'Script',
       start: {
         column: 1,
         line: 1,
-        offset: 0
+        offset: 0,
       },
       value: [
         {
           end: {
             column: 7,
             line: 1,
-            offset: 6
+            offset: 6,
           },
           name: 'Identifier',
           start: {
             column: 1,
             line: 1,
-            offset: 0
+            offset: 0,
           },
-          value: 'OP_DUP'
+          value: 'OP_DUP',
         },
         {
           end: {
             column: 18,
             line: 1,
-            offset: 17
+            offset: 17,
           },
           name: 'Identifier',
           start: {
             column: 8,
             line: 1,
-            offset: 7
+            offset: 7,
           },
-          value: 'OP_HASH160'
+          value: 'OP_HASH160',
         },
         {
           end: {
             column: 49,
             line: 1,
-            offset: 48
+            offset: 48,
           },
           name: 'Push',
           start: {
             column: 19,
             line: 1,
-            offset: 18
+            offset: 18,
           },
 
           value: {
             end: {
               column: 48,
               line: 1,
-              offset: 47
+              offset: 47,
             },
             name: 'Script',
             start: {
               column: 20,
               line: 1,
-              offset: 19
+              offset: 19,
             },
             value: [
               {
                 end: {
                   column: 48,
                   line: 1,
-                  offset: 47
+                  offset: 47,
                 },
                 name: 'Evaluation',
                 start: {
                   column: 20,
                   line: 1,
-                  offset: 19
+                  offset: 19,
                 },
                 value: {
                   end: {
                     column: 47,
                     line: 1,
-                    offset: 46
+                    offset: 46,
                   },
                   name: 'Script',
                   start: {
                     column: 22,
                     line: 1,
-                    offset: 21
+                    offset: 21,
                   },
                   value: [
                     {
                       end: {
                         column: 36,
                         line: 1,
-                        offset: 35
+                        offset: 35,
                       },
                       name: 'Push',
                       start: {
                         column: 22,
                         line: 1,
-                        offset: 21
+                        offset: 21,
                       },
                       value: {
                         end: {
                           column: 35,
                           line: 1,
-                          offset: 34
+                          offset: 34,
                         },
                         name: 'Script',
                         start: {
                           column: 23,
                           line: 1,
-                          offset: 22
+                          offset: 22,
                         },
                         value: [
                           {
                             end: {
                               column: 35,
                               line: 1,
-                              offset: 34
+                              offset: 34,
                             },
                             name: 'Identifier',
                             start: {
                               column: 23,
                               line: 1,
-                              offset: 22
+                              offset: 22,
                             },
-                            value: 'a.public_key'
-                          }
-                        ]
-                      }
+                            value: 'a.public_key',
+                          },
+                        ],
+                      },
                     },
                     {
                       end: {
                         column: 47,
                         line: 1,
-                        offset: 46
+                        offset: 46,
                       },
                       name: 'Identifier',
                       start: {
                         column: 37,
                         line: 1,
-                        offset: 36
+                        offset: 36,
                       },
-                      value: 'OP_HASH160'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
+                      value: 'OP_HASH160',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
         },
         {
           end: {
             column: 64,
             line: 1,
-            offset: 63
+            offset: 63,
           },
           name: 'Identifier',
           start: {
             column: 50,
             line: 1,
-            offset: 49
+            offset: 49,
           },
-          value: 'OP_EQUALVERIFY'
+          value: 'OP_EQUALVERIFY',
         },
         {
           end: {
             column: 76,
             line: 1,
-            offset: 75
+            offset: 75,
           },
           name: 'Identifier',
           start: {
             column: 65,
             line: 1,
-            offset: 64
+            offset: 64,
           },
-          value: 'OP_CHECKSIG'
-        }
-      ]
+          value: 'OP_CHECKSIG',
+        },
+      ],
     },
     reduce: {
       bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
@@ -268,7 +268,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
         endColumn: 76,
         endLineNumber: 1,
         startColumn: 1,
-        startLineNumber: 1
+        startLineNumber: 1,
       },
       source: [
         {
@@ -277,8 +277,8 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
             endColumn: 7,
             endLineNumber: 1,
             startColumn: 1,
-            startLineNumber: 1
-          }
+            startLineNumber: 1,
+          },
         },
         {
           bytecode: Uint8Array.of(0xa9),
@@ -286,8 +286,8 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
             endColumn: 18,
             endLineNumber: 1,
             startColumn: 8,
-            startLineNumber: 1
-          }
+            startLineNumber: 1,
+          },
         },
         {
           bytecode: hexToBin('1415d16c84669ab46059313bf0747e781f1d13936d'),
@@ -295,7 +295,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
             endColumn: 49,
             endLineNumber: 1,
             startColumn: 19,
-            startLineNumber: 1
+            startLineNumber: 1,
           },
           source: [
             {
@@ -304,7 +304,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                 endColumn: 48,
                 endLineNumber: 1,
                 startColumn: 20,
-                startLineNumber: 1
+                startLineNumber: 1,
               },
               source: [
                 {
@@ -315,7 +315,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                     endColumn: 48,
                     endLineNumber: 1,
                     startColumn: 20,
-                    startLineNumber: 1
+                    startLineNumber: 1,
                   },
                   samples: [
                     {
@@ -323,7 +323,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                         endColumn: 36,
                         endLineNumber: 1,
                         startColumn: 22,
-                        startLineNumber: 1
+                        startLineNumber: 1,
                       },
                       state: {
                         alternateStack: [],
@@ -334,11 +334,11 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                             data: hexToBin(
                               '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
                             ),
-                            opcode: 33
+                            opcode: 33,
                           },
                           {
-                            opcode: 169
-                          }
+                            opcode: 169,
+                          },
                         ],
                         ip: 1,
                         lastCodeSeparator: -1,
@@ -354,20 +354,20 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                         stack: [
                           hexToBin(
                             '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-                          )
+                          ),
                         ],
                         transactionOutpoints: Uint8Array.of(0x02),
                         transactionOutputs: Uint8Array.of(0x03),
                         transactionSequenceNumbers: Uint8Array.of(0x04),
-                        version: 0
-                      }
+                        version: 0,
+                      },
                     },
                     {
                       range: {
                         endColumn: 47,
                         endLineNumber: 1,
                         startColumn: 37,
-                        startLineNumber: 1
+                        startLineNumber: 1,
                       },
                       state: {
                         alternateStack: [],
@@ -378,11 +378,11 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                             data: hexToBin(
                               '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
                             ),
-                            opcode: 33
+                            opcode: 33,
                           },
                           {
-                            opcode: 169
-                          }
+                            opcode: 169,
+                          },
                         ],
                         ip: 2,
                         lastCodeSeparator: -1,
@@ -396,14 +396,14 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                         sequenceNumber: 0,
                         signatureOperationsCount: 0,
                         stack: [
-                          hexToBin('15d16c84669ab46059313bf0747e781f1d13936d')
+                          hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
                         ],
                         transactionOutpoints: Uint8Array.of(0x02),
                         transactionOutputs: Uint8Array.of(0x03),
                         transactionSequenceNumbers: Uint8Array.of(0x04),
-                        version: 0
-                      }
-                    }
+                        version: 0,
+                      },
+                    },
                   ],
                   source: [
                     {
@@ -414,7 +414,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                         endColumn: 47,
                         endLineNumber: 1,
                         startColumn: 22,
-                        startLineNumber: 1
+                        startLineNumber: 1,
                       },
                       source: [
                         {
@@ -425,7 +425,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                             endColumn: 36,
                             endLineNumber: 1,
                             startColumn: 22,
-                            startLineNumber: 1
+                            startLineNumber: 1,
                           },
                           source: [
                             {
@@ -436,7 +436,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                                 endColumn: 35,
                                 endLineNumber: 1,
                                 startColumn: 23,
-                                startLineNumber: 1
+                                startLineNumber: 1,
                               },
                               source: [
                                 {
@@ -447,12 +447,12 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                                     endColumn: 35,
                                     endLineNumber: 1,
                                     startColumn: 23,
-                                    startLineNumber: 1
-                                  }
-                                }
-                              ]
-                            }
-                          ]
+                                    startLineNumber: 1,
+                                  },
+                                },
+                              ],
+                            },
+                          ],
                         },
                         {
                           bytecode: Uint8Array.of(0xa9),
@@ -460,16 +460,16 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                             endColumn: 47,
                             endLineNumber: 1,
                             startColumn: 37,
-                            startLineNumber: 1
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                            startLineNumber: 1,
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
         {
           bytecode: Uint8Array.of(0x88),
@@ -477,8 +477,8 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
             endColumn: 64,
             endLineNumber: 1,
             startColumn: 50,
-            startLineNumber: 1
-          }
+            startLineNumber: 1,
+          },
         },
         {
           bytecode: Uint8Array.of(0xac),
@@ -486,10 +486,10 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
             endColumn: 76,
             endLineNumber: 1,
             startColumn: 65,
-            startLineNumber: 1
-          }
-        }
-      ]
+            startLineNumber: 1,
+          },
+        },
+      ],
     },
     resolve: [
       {
@@ -498,10 +498,10 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
           endColumn: 7,
           endLineNumber: 1,
           startColumn: 1,
-          startLineNumber: 1
+          startLineNumber: 1,
         },
         type: 'bytecode',
-        value: Uint8Array.of(0x76)
+        value: Uint8Array.of(0x76),
       },
       {
         opcode: 'OP_HASH160',
@@ -509,17 +509,17 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
           endColumn: 18,
           endLineNumber: 1,
           startColumn: 8,
-          startLineNumber: 1
+          startLineNumber: 1,
         },
         type: 'bytecode',
-        value: Uint8Array.of(0xa9)
+        value: Uint8Array.of(0xa9),
       },
       {
         range: {
           endColumn: 49,
           endLineNumber: 1,
           startColumn: 19,
-          startLineNumber: 1
+          startLineNumber: 1,
         },
         type: 'push',
         value: [
@@ -528,7 +528,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
               endColumn: 48,
               endLineNumber: 1,
               startColumn: 20,
-              startLineNumber: 1
+              startLineNumber: 1,
             },
             type: 'evaluation',
             value: [
@@ -537,7 +537,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                   endColumn: 36,
                   endLineNumber: 1,
                   startColumn: 22,
-                  startLineNumber: 1
+                  startLineNumber: 1,
                 },
                 type: 'push',
                 value: [
@@ -546,15 +546,15 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                       endColumn: 35,
                       endLineNumber: 1,
                       startColumn: 23,
-                      startLineNumber: 1
+                      startLineNumber: 1,
                     },
                     type: 'bytecode',
                     value: hexToBin(
                       '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
                     ),
-                    variable: 'a.public_key'
-                  }
-                ]
+                    variable: 'a.public_key',
+                  },
+                ],
               },
               {
                 opcode: 'OP_HASH160',
@@ -562,14 +562,14 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                   endColumn: 47,
                   endLineNumber: 1,
                   startColumn: 37,
-                  startLineNumber: 1
+                  startLineNumber: 1,
                 },
                 type: 'bytecode',
-                value: Uint8Array.of(0xa9)
-              }
-            ]
-          }
-        ]
+                value: Uint8Array.of(0xa9),
+              },
+            ],
+          },
+        ],
       },
       {
         opcode: 'OP_EQUALVERIFY',
@@ -577,10 +577,10 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
           endColumn: 64,
           endLineNumber: 1,
           startColumn: 50,
-          startLineNumber: 1
+          startLineNumber: 1,
         },
         type: 'bytecode',
-        value: Uint8Array.of(0x88)
+        value: Uint8Array.of(0x88),
       },
       {
         opcode: 'OP_CHECKSIG',
@@ -588,13 +588,13 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
           endColumn: 76,
           endLineNumber: 1,
           startColumn: 65,
-          startLineNumber: 1
+          startLineNumber: 1,
         },
         type: 'bytecode',
-        value: Uint8Array.of(0xac)
-      }
+        value: Uint8Array.of(0xac),
+      },
     ],
-    success: true
+    success: true,
   });
   // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
@@ -604,8 +604,8 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
         keys: { privateKeys: { a: privkey } },
         operationData: {
           ...createAuthenticationProgramExternalStateCommonEmpty(),
-          coveredBytecode: resultLock.bytecode
-        }
+          coveredBytecode: resultLock.bytecode,
+        },
       },
       true
     );
@@ -617,100 +617,100 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
         end: {
           column: 41,
           line: 1,
-          offset: 40
+          offset: 40,
         },
         name: 'Script',
         start: {
           column: 1,
           line: 1,
-          offset: 0
+          offset: 0,
         },
         value: [
           {
             end: {
               column: 26,
               line: 1,
-              offset: 25
+              offset: 25,
             },
             name: 'Push',
             start: {
               column: 1,
               line: 1,
-              offset: 0
+              offset: 0,
             },
             value: {
               end: {
                 column: 25,
                 line: 1,
-                offset: 24
+                offset: 24,
               },
               name: 'Script',
               start: {
                 column: 2,
                 line: 1,
-                offset: 1
+                offset: 1,
               },
               value: [
                 {
                   end: {
                     column: 25,
                     line: 1,
-                    offset: 24
+                    offset: 24,
                   },
                   name: 'Identifier',
                   start: {
                     column: 2,
                     line: 1,
-                    offset: 1
+                    offset: 1,
                   },
-                  value: 'a.signature.all_outputs'
-                }
-              ]
-            }
+                  value: 'a.signature.all_outputs',
+                },
+              ],
+            },
           },
           {
             end: {
               column: 41,
               line: 1,
-              offset: 40
+              offset: 40,
             },
             name: 'Push',
             start: {
               column: 27,
               line: 1,
-              offset: 26
+              offset: 26,
             },
             value: {
               end: {
                 column: 40,
                 line: 1,
-                offset: 39
+                offset: 39,
               },
               name: 'Script',
               start: {
                 column: 28,
                 line: 1,
-                offset: 27
+                offset: 27,
               },
               value: [
                 {
                   end: {
                     column: 40,
                     line: 1,
-                    offset: 39
+                    offset: 39,
                   },
                   name: 'Identifier',
                   start: {
                     column: 28,
                     line: 1,
-                    offset: 27
+                    offset: 27,
                   },
-                  value: 'a.public_key'
-                }
-              ]
-            }
-          }
-        ]
+                  value: 'a.public_key',
+                },
+              ],
+            },
+          },
+        ],
       },
       reduce: {
         bytecode: hexToBin(
@@ -720,7 +720,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
           endColumn: 41,
           endLineNumber: 1,
           startColumn: 1,
-          startLineNumber: 1
+          startLineNumber: 1,
         },
         source: [
           {
@@ -731,7 +731,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
               endColumn: 26,
               endLineNumber: 1,
               startColumn: 1,
-              startLineNumber: 1
+              startLineNumber: 1,
             },
             source: [
               {
@@ -742,7 +742,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                   endColumn: 25,
                   endLineNumber: 1,
                   startColumn: 2,
-                  startLineNumber: 1
+                  startLineNumber: 1,
                 },
                 source: [
                   {
@@ -753,12 +753,12 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                       endColumn: 25,
                       endLineNumber: 1,
                       startColumn: 2,
-                      startLineNumber: 1
-                    }
-                  }
-                ]
-              }
-            ]
+                      startLineNumber: 1,
+                    },
+                  },
+                ],
+              },
+            ],
           },
           {
             bytecode: hexToBin(
@@ -768,7 +768,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
               endColumn: 41,
               endLineNumber: 1,
               startColumn: 27,
-              startLineNumber: 1
+              startLineNumber: 1,
             },
             source: [
               {
@@ -779,7 +779,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                   endColumn: 40,
                   endLineNumber: 1,
                   startColumn: 28,
-                  startLineNumber: 1
+                  startLineNumber: 1,
                 },
                 source: [
                   {
@@ -790,14 +790,14 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                       endColumn: 40,
                       endLineNumber: 1,
                       startColumn: 28,
-                      startLineNumber: 1
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                      startLineNumber: 1,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       resolve: [
         {
@@ -805,7 +805,7 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
             endColumn: 26,
             endLineNumber: 1,
             startColumn: 1,
-            startLineNumber: 1
+            startLineNumber: 1,
           },
           type: 'push',
           value: [
@@ -814,22 +814,22 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                 endColumn: 25,
                 endLineNumber: 1,
                 startColumn: 2,
-                startLineNumber: 1
+                startLineNumber: 1,
               },
               type: 'bytecode',
               value: hexToBin(
                 '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
               ),
-              variable: 'a.signature.all_outputs'
-            }
-          ]
+              variable: 'a.signature.all_outputs',
+            },
+          ],
         },
         {
           range: {
             endColumn: 41,
             endLineNumber: 1,
             startColumn: 27,
-            startLineNumber: 1
+            startLineNumber: 1,
           },
           type: 'push',
           value: [
@@ -838,18 +838,18 @@ test('[BCH compiler] createCompilerBCH: debug', async t => {
                 endColumn: 40,
                 endLineNumber: 1,
                 startColumn: 28,
-                startLineNumber: 1
+                startLineNumber: 1,
               },
               type: 'bytecode',
               value: hexToBin(
                 '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
               ),
-              variable: 'a.public_key'
-            }
-          ]
-        }
+              variable: 'a.public_key',
+            },
+          ],
+        },
       ],
-      success: true
+      success: true,
     });
   }
 });

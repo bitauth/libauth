@@ -16,11 +16,11 @@ import {
   numberToBinUint16LE,
   numberToBinUint16LEClamped,
   numberToBinUint32LE,
-  numberToBinUint32LEClamped
+  numberToBinUint32LEClamped,
 } from '../lib';
 
-test(`node: binToBigIntUintBE vs. binToHex -> BigInt()`, async t => {
-  await suite(t.title, s => {
+test(`node: binToBigIntUintBE vs. binToHex -> BigInt()`, async (t) => {
+  await suite(t.title, (s) => {
     let sourceBin: Uint8Array;
     let num: BigInt;
     let result: BigInt;
@@ -46,8 +46,8 @@ test(`node: binToBigIntUintBE vs. binToHex -> BigInt()`, async t => {
   });
 });
 
-test(`node: numberToBinUint16LE vs. numberToBinUint16LEClamped`, async t => {
-  await suite(t.title, s => {
+test(`node: numberToBinUint16LE vs. numberToBinUint16LEClamped`, async (t) => {
+  await suite(t.title, (s) => {
     let expectedBin: Uint8Array;
     let num: number;
     let resultBin: Uint8Array;
@@ -73,8 +73,8 @@ test(`node: numberToBinUint16LE vs. numberToBinUint16LEClamped`, async t => {
   });
 });
 
-test(`node: numberToBinUint32LE vs. numberToBinUint32LEClamped`, async t => {
-  await suite(t.title, s => {
+test(`node: numberToBinUint32LE vs. numberToBinUint32LEClamped`, async (t) => {
+  await suite(t.title, (s) => {
     let expectedBin: Uint8Array;
     let num: number;
     let resultBin: Uint8Array;
@@ -100,8 +100,8 @@ test(`node: numberToBinUint32LE vs. numberToBinUint32LEClamped`, async t => {
   });
 });
 
-test(`node: bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped`, async t => {
-  await suite(t.title, s => {
+test(`node: bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped`, async (t) => {
+  await suite(t.title, (s) => {
     let expectedBin: Uint8Array;
     let num: bigint;
     let resultBin: Uint8Array;

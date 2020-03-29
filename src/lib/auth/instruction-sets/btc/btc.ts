@@ -279,5 +279,5 @@ export enum OpcodesBTC {
   /**
    * Used internally in the C++ implementation.
    */
-  OP_INVALIDOPCODE = 0xff
+  OP_INVALIDOPCODE = 0xff,
 }

@@ -14,7 +14,7 @@ import {
   instantiateSha256,
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
-  OpcodesBCH
+  OpcodesBCH,
 } from '../../lib';
 
 // prettier-ignore
@@ -41,24 +41,24 @@ const signingSerializationType: Macro<[string, string]> = async (
     scripts: {
       lock:
         'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
-      unlock: unlockScript
+      unlock: unlockScript,
     },
     secp256k1,
     sha256,
     variables: {
       a: {
-        type: 'Key'
-      }
+        type: 'Key',
+      },
     },
-    vm
+    vm,
   });
 
   const resultLock = compiler.generateBytecode('lock', {
-    keys: { privateKeys: { a: privkey } }
+    keys: { privateKeys: { a: privkey } },
   });
   t.deepEqual(resultLock, {
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
-    success: true
+    success: true,
   });
   // eslint-disable-next-line functional/no-conditional-statement
   if (resultLock.success) {
@@ -66,12 +66,12 @@ const signingSerializationType: Macro<[string, string]> = async (
       keys: { privateKeys: { a: privkey } },
       operationData: {
         ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredBytecode: resultLock.bytecode
-      }
+        coveredBytecode: resultLock.bytecode,
+      },
     });
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(bytecodeHex),
-      success: true
+      success: true,
     });
   }
 };

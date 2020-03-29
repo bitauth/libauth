@@ -281,7 +281,7 @@ export enum OpcodesBCH {
   OP_UNKNOWN252 = 0xfc,
   OP_UNKNOWN253 = 0xfd,
   OP_UNKNOWN254 = 0xfe,
-  OP_UNKNOWN255 = 0xff
+  OP_UNKNOWN255 = 0xff,
 }
 
 export enum OpcodeAlternateNamesBCH {
@@ -353,5 +353,5 @@ export enum OpcodeAlternateNamesBCH {
    * `OP_INVALIDOPCODE` is described as such for testing in the C++
    * implementation. When found on the network, it is `OP_UNKNOWN255`.
    */
-  OP_INVALIDOPCODE = 0xff
+  OP_INVALIDOPCODE = 0xff,
 }

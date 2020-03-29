@@ -25,25 +25,25 @@ const prepareCode = async () => {
       alias({
         entries: {
           chuhai: './../../../bench/chuhai.js',
-          'hash.js': './../../../bench/hash.js'
-        }
+          'hash.js': './../../../bench/hash.js',
+        },
       }),
       commonjs(),
-      nodeResolve()
-    ]
+      nodeResolve(),
+    ],
   });
   // eslint-disable-next-line no-console, require-atomic-updates, functional/immutable-data
   console.warn = realConsoleWarn;
 
   const result = await bundle.generate({
-    format: 'esm'
+    format: 'esm',
   });
   return result.output[0].code;
 };
 
 const preparePage = async () => {
   const browser = await launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
     // devtools: true
   });
   const page = await browser.newPage();
@@ -55,26 +55,26 @@ const preparePage = async () => {
 (async () => {
   const [code, { browser, page }] = await Promise.all([
     prepareCode(),
-    preparePage()
+    preparePage(),
   ]);
 
-  test(`# browser: ${await browser.version()}`, async t => {
-    page.on('console', msg => {
+  test(`# browser: ${await browser.version()}`, async (t) => {
+    page.on('console', (msg) => {
       // eslint-disable-next-line no-console
       console.log(msg.text());
     });
-    page.on('error', err => {
+    page.on('error', (err) => {
       // eslint-disable-next-line no-console
       console.error(`error: ${String(err)}`);
     });
     // cspell: disable-next-line
-    page.on('pageerror', err => {
+    page.on('pageerror', (err) => {
       // eslint-disable-next-line no-console
       console.error(`pageerror: ${String(err)}`); // cspell: disable-line
     });
 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
-    await new Promise<void>(async resolve => {
+    await new Promise<void>(async (resolve) => {
       await page.exposeFunction('benchError', (error: string) => {
         // eslint-disable-next-line no-console
         console.error(error);
@@ -89,7 +89,7 @@ const preparePage = async () => {
       await page.setContent(`<script type="module">${code}</script>`);
     });
   });
-})().catch(err => {
+})().catch((err) => {
   // eslint-disable-next-line no-console
   console.error(err);
 });

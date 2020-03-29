@@ -21,7 +21,7 @@ export const nonOperations = <State>(flags: {
   [OpcodesCommon.OP_NOP7]: opNop<State>(flags),
   [OpcodesCommon.OP_NOP8]: opNop<State>(flags),
   [OpcodesCommon.OP_NOP9]: opNop<State>(flags),
-  [OpcodesCommon.OP_NOP10]: opNop<State>(flags)
+  [OpcodesCommon.OP_NOP10]: opNop<State>(flags),
 });
 
 /**
@@ -52,5 +52,5 @@ export const disabledOperations = <
   [OpcodesCommon.OP_DIV]: disabledOperation<State, Errors>(),
   [OpcodesCommon.OP_MOD]: disabledOperation<State, Errors>(),
   [OpcodesCommon.OP_LSHIFT]: disabledOperation<State, Errors>(),
-  [OpcodesCommon.OP_RSHIFT]: disabledOperation<State, Errors>()
+  [OpcodesCommon.OP_RSHIFT]: disabledOperation<State, Errors>(),
 });

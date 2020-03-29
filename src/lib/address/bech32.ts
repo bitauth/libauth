@@ -15,7 +15,7 @@ export const bech32CharacterSetIndex = { q: 0, p: 1, z: 2, r: 3, y: 4, '9': 5, x
 export enum BitRegroupingError {
   integerOutOfRange = 'An integer provided in the source array is out of the range of the specified source word length.',
   hasDisallowedPadding = 'Encountered padding when padding was disallowed.',
-  requiresDisallowedPadding = 'Encoding requires padding while padding is disallowed.'
+  requiresDisallowedPadding = 'Encoding requires padding while padding is disallowed.',
 }
 
 /* eslint-disable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
@@ -38,7 +38,7 @@ export const regroupBits = ({
   bin,
   sourceWordLength,
   resultWordLength,
-  padding = true
+  padding = true,
 }: {
   bin: Immutable<Uint8Array> | readonly number[];
   sourceWordLength: number;
@@ -163,7 +163,7 @@ export const isBech32 = (maybeBech32: string) => {
 };
 
 export enum Bech32DecodingError {
-  notBech32Padded = 'Bech32 decoding error: input is not in Bech32 padded format.'
+  notBech32Padded = 'Bech32 decoding error: input is not in Bech32 padded format.',
 }
 
 /**
@@ -182,7 +182,7 @@ export const bech32PaddedToBin = (bech32Padded: string) => {
         bin: decodeBech32(bech32Padded),
         padding: false,
         resultWordLength: base256WordLength,
-        sourceWordLength: base32WordLength
+        sourceWordLength: base32WordLength,
       })
     : Bech32DecodingError.notBech32Padded;
   return typeof result === 'string' ? result : Uint8Array.from(result);
@@ -201,6 +201,6 @@ export const binToBech32Padded = (bytes: Immutable<Uint8Array>) =>
     regroupBits({
       bin: bytes,
       resultWordLength: base32WordLength,
-      sourceWordLength: base256WordLength
+      sourceWordLength: base256WordLength,
     }) as number[]
   );

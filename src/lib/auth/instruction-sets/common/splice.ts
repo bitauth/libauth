@@ -13,5 +13,5 @@ export const spliceOperations = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >() => ({
-  [OpcodesCommon.OP_SIZE]: opSize<State>()
+  [OpcodesCommon.OP_SIZE]: opSize<State>(),
 });

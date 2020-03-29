@@ -20,7 +20,7 @@ const pluckRange = (node: MarkedNode): Range => ({
   endColumn: node.end.column,
   endLineNumber: node.end.line,
   startColumn: node.start.column,
-  startLineNumber: node.start.line
+  startLineNumber: node.start.line,
 });
 
 interface ResolvedSegmentBase {
@@ -92,7 +92,7 @@ export interface ResolvedScript extends Array<ResolvedSegment> {}
 export enum IdentifierResolutionType {
   opcode = 'opcode',
   variable = 'variable',
-  script = 'script'
+  script = 'script',
 }
 
 export type IdentifierResolutionFunction = (
@@ -112,7 +112,7 @@ export type IdentifierResolutionFunction = (
   | { error: string; status: false };
 
 enum Constants {
-  hexByte = 2
+  hexByte = 2,
 }
 
 export const resolveScriptSegment = (
@@ -120,7 +120,7 @@ export const resolveScriptSegment = (
   resolveIdentifiers: IdentifierResolutionFunction
 ): ResolvedScript => {
   // eslint-disable-next-line complexity
-  const resolved = segment.value.map<ResolvedSegment>(child => {
+  const resolved = segment.value.map<ResolvedSegment>((child) => {
     const range = pluckRange(child);
     switch (child.name) {
       case 'Identifier': {
@@ -133,21 +133,21 @@ export const resolveScriptSegment = (
               value: result.bytecode,
               ...(result.type === IdentifierResolutionType.opcode
                 ? {
-                    opcode: identifier
+                    opcode: identifier,
                   }
                 : result.type === IdentifierResolutionType.variable
                 ? {
-                    variable: identifier
+                    variable: identifier,
                   }
                 : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                 result.type === IdentifierResolutionType.script
                 ? { script: identifier, source: result.source }
-                : ({ unknown: identifier } as never))
+                : ({ unknown: identifier } as never)),
             }
           : {
               range,
               type: 'error' as const,
-              value: result.error
+              value: result.error,
             };
         return ret;
       }
@@ -155,20 +155,20 @@ export const resolveScriptSegment = (
         return {
           range,
           type: 'push' as const,
-          value: resolveScriptSegment(child.value, resolveIdentifiers)
+          value: resolveScriptSegment(child.value, resolveIdentifiers),
         };
       case 'Evaluation':
         return {
           range,
           type: 'evaluation' as const,
-          value: resolveScriptSegment(child.value, resolveIdentifiers)
+          value: resolveScriptSegment(child.value, resolveIdentifiers),
         };
       case 'BigIntLiteral':
         return {
           literalType: 'BigIntLiteral' as const,
           range,
           type: 'bytecode' as const,
-          value: bigIntToScriptNumber(child.value)
+          value: bigIntToScriptNumber(child.value),
         };
       case 'HexLiteral':
         return child.value.length % Constants.hexByte === 0
@@ -176,32 +176,32 @@ export const resolveScriptSegment = (
               literalType: 'HexLiteral' as const,
               range,
               type: 'bytecode' as const,
-              value: hexToBin(child.value)
+              value: hexToBin(child.value),
             }
           : {
               range,
               type: 'error' as const,
-              value: `Improperly formed HexLiteral. HexLiteral must have a length divisible by 2, but this HexLiteral has a length of ${child.value.length}.`
+              value: `Improperly formed HexLiteral. HexLiteral must have a length divisible by 2, but this HexLiteral has a length of ${child.value.length}.`,
             };
       case 'UTF8Literal':
         return {
           literalType: 'UTF8Literal' as const,
           range,
           type: 'bytecode' as const,
-          value: utf8ToBin(child.value)
+          value: utf8ToBin(child.value),
         };
       case 'Comment':
         return {
           range,
           type: 'comment' as const,
-          value: child.value
+          value: child.value,
         };
       default:
         return {
           range,
           type: 'error' as const,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          value: `Unrecognized segment: ${(child as any).name as string}`
+          value: `Unrecognized segment: ${(child as any).name as string}`,
         };
     }
   });
@@ -468,7 +468,7 @@ const attemptCompilerOperation = <CompilerOperationData>({
   environment,
   identifier,
   operationId,
-  variableType
+  variableType,
 }: {
   identifier: string;
   operationId: string;
@@ -503,7 +503,7 @@ const variableTypeToDataProperty: {
   AddressData: 'addressData',
   HDKey: 'hdKeys',
   Key: 'keys',
-  WalletData: 'walletData'
+  WalletData: 'walletData',
 };
 
 const defaultActionByVariableType: {
@@ -518,15 +518,15 @@ const defaultActionByVariableType: {
     (data.addressData[variableId] as Uint8Array | undefined) !== undefined
       ? data.addressData[variableId]
       : `Identifier "${identifier}" refers to an AddressData, but no AddressData for "${variableId}" were provided in the compilation data.`,
-  HDKey: identifier =>
+  HDKey: (identifier) =>
     `Identifier "${identifier}" refers to an HDKey, but does not specify an operation, e.g. "${identifier}.public_key".`,
-  Key: identifier =>
+  Key: (identifier) =>
     `Identifier "${identifier}" refers to a Key, but does not specify an operation, e.g. "${identifier}.public_key".`,
   WalletData: (identifier, data, variableId) =>
     data.walletData !== undefined &&
     (data.walletData[variableId] as Uint8Array | undefined) !== undefined
       ? data.walletData[variableId]
-      : `Identifier "${identifier}" refers to a WalletData, but no WalletData for "${variableId}" were provided in the compilation data.`
+      : `Identifier "${identifier}" refers to a WalletData, but no WalletData for "${variableId}" were provided in the compilation data.`,
 };
 
 const aOrAnQuotedString = (word: string) =>
@@ -537,7 +537,7 @@ const aOrAnQuotedString = (word: string) =>
 export enum BuiltInVariables {
   currentBlockTime = 'current_block_time',
   currentBlockHeight = 'current_block_height',
-  signingSerialization = 'signing_serialization'
+  signingSerialization = 'signing_serialization',
 }
 
 /**
@@ -574,7 +574,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             environment,
             identifier,
             operationId,
-            variableType: 'SigningSerialization'
+            variableType: 'SigningSerialization',
           });
     default: {
       const selected: AuthenticationTemplateVariable | undefined =
@@ -600,7 +600,7 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
             environment,
             identifier,
             operationId,
-            variableType: selected.type
+            variableType: selected.type,
           });
     }
   }
@@ -628,7 +628,7 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
   data,
   environment,
   identifier,
-  parentIdentifier
+  parentIdentifier,
 }: {
   identifier: string;
   data: CompilationData<CompilerOperationData>;
@@ -653,8 +653,8 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
       ...(environment.sourceScriptIds === undefined
         ? []
         : environment.sourceScriptIds),
-      ...(parentIdentifier === undefined ? [] : [parentIdentifier])
-    ]
+      ...(parentIdentifier === undefined ? [] : [parentIdentifier]),
+    ],
   });
   return result.success
     ? result
@@ -690,7 +690,7 @@ export const createIdentifierResolver = <CompilerOperationData>(
       return {
         bytecode: opcodeResult,
         status: true,
-        type: IdentifierResolutionType.opcode
+        type: IdentifierResolutionType.opcode,
       };
     }
     const variableResult = resolveAuthenticationTemplateVariable(
@@ -704,14 +704,14 @@ export const createIdentifierResolver = <CompilerOperationData>(
         : {
             bytecode: variableResult,
             status: true,
-            type: IdentifierResolutionType.variable
+            type: IdentifierResolutionType.variable,
           };
     }
     const scriptResult = resolveScriptIdentifier({
       data,
       environment,
       identifier,
-      parentIdentifier: scriptId
+      parentIdentifier: scriptId,
     });
     if (scriptResult !== false) {
       return typeof scriptResult === 'string'
@@ -720,7 +720,7 @@ export const createIdentifierResolver = <CompilerOperationData>(
             bytecode: scriptResult.bytecode,
             source: scriptResult.resolve,
             status: true,
-            type: IdentifierResolutionType.script
+            type: IdentifierResolutionType.script,
           };
     }
     return { error: `Unknown identifier '${identifier}'.`, status: false };

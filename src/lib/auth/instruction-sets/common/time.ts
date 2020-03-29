@@ -1,7 +1,7 @@
 import {
   AuthenticationProgramStateCommon,
   ErrorState,
-  StackState
+  StackState,
 } from '../../state';
 
 import { isScriptNumberError, parseBytesAsScriptNumber } from './common';
@@ -10,7 +10,7 @@ import { OpcodesCommon } from './opcodes';
 
 enum Bits {
   sequenceLocktimeDisableFlag = 31,
-  sequenceLocktimeTypeFlag = 22
+  sequenceLocktimeTypeFlag = 22,
 }
 
 enum Constants {
@@ -23,7 +23,7 @@ enum Constants {
   // eslint-disable-next-line no-bitwise
   sequenceLocktimeTypeFlag = 1 << Bits.sequenceLocktimeTypeFlag,
   sequenceGranularity = 9,
-  sequenceLocktimeMask = 0x0000ffff
+  sequenceLocktimeMask = 0x0000ffff,
 }
 
 export const readLocktime = <
@@ -197,5 +197,5 @@ export const timeOperations = <
   ),
   [OpcodesCommon.OP_CHECKSEQUENCEVERIFY]: opCheckSequenceVerify<State, Errors>(
     flags
-  )
+  ),
 });

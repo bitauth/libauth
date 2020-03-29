@@ -1,16 +1,16 @@
 import {
   instantiateSecp256k1,
   instantiateSha256,
-  Secp256k1
+  Secp256k1,
 } from '../../crypto/crypto';
 import {
   bigIntToBinUint64LE,
   bigIntToBitcoinVarInt,
-  numberToBinUint32LE
+  numberToBinUint32LE,
 } from '../../format/format';
 import {
   generateSigningSerializationBCH,
-  SigningSerializationFlag
+  SigningSerializationFlag,
 } from '../instruction-sets/common/signing-serialization';
 import {
   AuthenticationProgramStateBCH,
@@ -19,7 +19,7 @@ import {
   generateBytecodeMap,
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
-  OpcodesBCH
+  OpcodesBCH,
 } from '../instruction-sets/instruction-sets';
 import { AuthenticationInstruction } from '../instruction-sets/instruction-sets-types';
 import { MinimumProgramState, StackState } from '../state';
@@ -27,12 +27,12 @@ import { MinimumProgramState, StackState } from '../state';
 import {
   CompilationError,
   CompilationResult,
-  compileScript
+  compileScript,
 } from './language/compile';
 import {
   CompilationData,
   CompilationEnvironment,
-  resolveScriptIdentifier
+  resolveScriptIdentifier,
 } from './language/resolve';
 
 export interface CompilerOperationDataBCH {
@@ -81,7 +81,7 @@ export enum SigningSerializationAlgorithmIdentifier {
   /**
    * A.K.A `SIGHASH_NONE|ANYONE_CAN_PAY`
    */
-  no_outputs_single_input = 'no_outputs_single_input'
+  no_outputs_single_input = 'no_outputs_single_input',
 }
 /* eslint-enable camelcase */
 
@@ -122,7 +122,7 @@ export type CompilerOperationsBCH =
 enum ScriptGenerationError {
   missingVm = 'An evaluation is required, but no VM was provided.',
   missingSha256 = 'Sha256 is required, but no implementation was provided.',
-  missingSecp256k1 = 'Secp256k1 is required, but no implementation was provided.'
+  missingSecp256k1 = 'Secp256k1 is required, but no implementation was provided.',
 }
 
 // eslint-disable-next-line complexity
@@ -176,7 +176,7 @@ const getSigningSerializationType = (
 enum SignatureIdentifierConstants {
   variableIdIndex = 0,
   signingTargetIndex = 2,
-  expectedSegments = 3
+  expectedSegments = 3,
 }
 
 export const compilerOperationBCHGenerateSignature = <
@@ -246,12 +246,12 @@ export const compilerOperationBCHGenerateSignature = <
       transactionOutpoints: operationData.transactionOutpoints,
       transactionOutputs: operationData.transactionOutputs,
       transactionSequenceNumbers: operationData.transactionSequenceNumbers,
-      version: operationData.version
+      version: operationData.version,
     });
     const digest = sha256.hash(sha256.hash(serialization));
     const bitcoinEncodedSignature = Uint8Array.from([
       ...signingAlgorithm(secp256k1)(privateKey, digest),
-      ...signingSerializationType
+      ...signingSerializationType,
     ]);
     return bitcoinEncodedSignature;
   }
@@ -296,7 +296,7 @@ export const compilerOperationBCHGenerateDataSignature = <
   const compiledTarget = resolveScriptIdentifier({
     data,
     environment,
-    identifier: scriptId
+    identifier: scriptId,
   });
   if (signingTarget === undefined || compiledTarget === false) {
     return `Data signature tried to sign an unknown target script, "${scriptId}".`;
@@ -326,7 +326,7 @@ export const compilerOperationBCHGenerateDataSignature = <
 
 enum SigningSerializationIdentifierConstants {
   operationIndex = 1,
-  expectedSegments = 2
+  expectedSegments = 2,
 }
 
 // eslint-disable-next-line complexity
@@ -420,7 +420,7 @@ export const compilerOperationBCHGenerateSigningSerialization = <
     transactionOutpoints: operationData.transactionOutpoints,
     transactionOutputs: operationData.transactionOutputs,
     transactionSequenceNumbers: operationData.transactionSequenceNumbers,
-    version: operationData.version
+    version: operationData.version,
   });
 };
 
@@ -432,7 +432,7 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
   Key: {
     data_signature: compilerOperationBCHGenerateDataSignature(
       'data_signature',
-      secp256k1 => secp256k1.signMessageHashDER
+      (secp256k1) => secp256k1.signMessageHashDER
     ),
     // eslint-disable-next-line complexity
     public_key: (identifier, data, environment) => {
@@ -458,16 +458,16 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
     },
     schnorr_data_signature: compilerOperationBCHGenerateDataSignature(
       'schnorr_data_signature',
-      secp256k1 => secp256k1.signMessageHashSchnorr
+      (secp256k1) => secp256k1.signMessageHashSchnorr
     ),
     schnorr_signature: compilerOperationBCHGenerateSignature(
       'schnorr_signature',
-      secp256k1 => secp256k1.signMessageHashSchnorr
+      (secp256k1) => secp256k1.signMessageHashSchnorr
     ),
     signature: compilerOperationBCHGenerateSignature(
       'signature',
-      secp256k1 => secp256k1.signMessageHashDER
-    )
+      (secp256k1) => secp256k1.signMessageHashDER
+    ),
   },
   SigningSerialization: {
     corresponding_output: compilerOperationBCHGenerateSigningSerialization,
@@ -491,8 +491,8 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
     transaction_outputs_hash: compilerOperationBCHGenerateSigningSerialization,
     transaction_sequence_numbers: compilerOperationBCHGenerateSigningSerialization,
     transaction_sequence_numbers_hash: compilerOperationBCHGenerateSigningSerialization,
-    version: compilerOperationBCHGenerateSigningSerialization
-  }
+    version: compilerOperationBCHGenerateSigningSerialization,
+  },
 });
 /* eslint-enable camelcase */
 
@@ -559,7 +559,7 @@ export const createCompiler = <
       : result.success
       ? { bytecode: result.bytecode, success: true }
       : { errorType: result.errorType, errors: result.errors, success: false };
-  }
+  },
 });
 
 /**
@@ -596,7 +596,7 @@ export const createCompilerBCH = async <
   const [sha256, secp256k1, vm] = await Promise.all([
     instantiateSha256(),
     instantiateSecp256k1(),
-    instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict)
+    instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict),
   ]);
   return createCompiler<CompilerOperationData, ProgramState>({
     ...{
@@ -605,8 +605,8 @@ export const createCompilerBCH = async <
       operations: getCompilerOperationsBCH(),
       secp256k1,
       sha256,
-      vm
+      vm,
     },
-    ...overrides
+    ...overrides,
   });
 };

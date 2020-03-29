@@ -10,10 +10,10 @@ import {
   instantiateSha256,
   instantiateVirtualMachineBCH,
   OpcodesBCH,
-  parseBytecode
+  parseBytecode,
 } from '../../../lib';
 
-test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async (t) => {
   const vm = await instantiateVirtualMachineBCH();
   const state = createAuthenticationProgramStateCommonEmpty(
     parseBytecode(
@@ -27,14 +27,14 @@ test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
     executionStack: [],
     instructions: [
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 147
-      }
+        opcode: 147,
+      },
     ],
     ip: 3,
     lastCodeSeparator: -1,
@@ -51,11 +51,11 @@ test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
     transactionSequenceNumbers: Uint8Array.of(0x04),
-    version: 0
+    version: 0,
   });
 });
 
-test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async (t) => {
   const vm = await instantiateVirtualMachineBCH();
   const state = createAuthenticationProgramStateCommonEmpty(
     parseBytecode(
@@ -70,14 +70,14 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       executionStack: [],
       instructions: [
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 147
-        }
+          opcode: 147,
+        },
       ],
       ip: 1,
       lastCodeSeparator: -1,
@@ -94,7 +94,7 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       transactionOutpoints: Uint8Array.of(0x02),
       transactionOutputs: Uint8Array.of(0x03),
       transactionSequenceNumbers: Uint8Array.of(0x04),
-      version: 0
+      version: 0,
     },
     {
       alternateStack: [],
@@ -102,14 +102,14 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       executionStack: [],
       instructions: [
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 147
-        }
+          opcode: 147,
+        },
       ],
       ip: 2,
       lastCodeSeparator: -1,
@@ -126,7 +126,7 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       transactionOutpoints: Uint8Array.of(0x02),
       transactionOutputs: Uint8Array.of(0x03),
       transactionSequenceNumbers: Uint8Array.of(0x04),
-      version: 0
+      version: 0,
     },
     {
       alternateStack: [],
@@ -134,14 +134,14 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       executionStack: [],
       instructions: [
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 147
-        }
+          opcode: 147,
+        },
       ],
       ip: 3,
       lastCodeSeparator: -1,
@@ -158,12 +158,12 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
       transactionOutpoints: Uint8Array.of(0x02),
       transactionOutputs: Uint8Array.of(0x03),
       transactionSequenceNumbers: Uint8Array.of(0x04),
-      version: 0
-    }
+      version: 0,
+    },
   ]);
 });
 
-test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async (t) => {
   const vm = await instantiateVirtualMachineBCH();
   const state0 = createAuthenticationProgramStateCommonEmpty(
     parseBytecode(
@@ -182,14 +182,14 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     executionStack: [],
     instructions: [
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 147
-      }
+        opcode: 147,
+      },
     ],
     ip: 0,
     lastCodeSeparator: -1,
@@ -206,7 +206,7 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
     transactionSequenceNumbers: Uint8Array.of(0x04),
-    version: 0
+    version: 0,
   });
   t.deepEqual(state1, {
     alternateStack: [],
@@ -214,14 +214,14 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     executionStack: [],
     instructions: [
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 147
-      }
+        opcode: 147,
+      },
     ],
     ip: 1,
     lastCodeSeparator: -1,
@@ -238,7 +238,7 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
     transactionSequenceNumbers: Uint8Array.of(0x04),
-    version: 0
+    version: 0,
   });
   t.deepEqual(state2, {
     alternateStack: [],
@@ -246,14 +246,14 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     executionStack: [],
     instructions: [
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 147
-      }
+        opcode: 147,
+      },
     ],
     ip: 2,
     lastCodeSeparator: -1,
@@ -270,7 +270,7 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
     transactionSequenceNumbers: Uint8Array.of(0x04),
-    version: 0
+    version: 0,
   });
   t.deepEqual(state3, {
     alternateStack: [],
@@ -278,14 +278,14 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     executionStack: [],
     instructions: [
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 147
-      }
+        opcode: 147,
+      },
     ],
     ip: 3,
     lastCodeSeparator: -1,
@@ -302,22 +302,22 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async t => {
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
     transactionSequenceNumbers: Uint8Array.of(0x04),
-    version: 0
+    version: 0,
   });
 });
 
-test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async (t) => {
   const sha256 = await instantiateSha256();
   const vm = await instantiateVirtualMachineBCH();
   const program = createTestAuthenticationProgramBCH({
     lockingBytecode: Uint8Array.from([
       OpcodesBCH.OP_2,
       OpcodesBCH.OP_2,
-      OpcodesBCH.OP_ADD
+      OpcodesBCH.OP_ADD,
     ]),
     satoshis: 0,
     sha256,
-    unlockingBytecode: Uint8Array.of()
+    unlockingBytecode: Uint8Array.of(),
   });
   const result = vm.evaluate(program);
   t.deepEqual(result, {
@@ -326,14 +326,14 @@ test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => 
     executionStack: [],
     instructions: [
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 82
+        opcode: 82,
       },
       {
-        opcode: 147
-      }
+        opcode: 147,
+      },
     ],
     ip: 3,
     lastCodeSeparator: -1,
@@ -352,22 +352,22 @@ test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => 
     ),
     transactionOutputs: hexToBin('000000000000000000'),
     transactionSequenceNumbers: hexToBin('ffffffff'),
-    version: 1
+    version: 1,
   });
 });
 
-test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
+test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async (t) => {
   const sha256 = await instantiateSha256();
   const vm = await instantiateVirtualMachineBCH();
   const program = createTestAuthenticationProgramBCH({
     lockingBytecode: Uint8Array.from([
       OpcodesBCH.OP_2,
       OpcodesBCH.OP_2,
-      OpcodesBCH.OP_ADD
+      OpcodesBCH.OP_ADD,
     ]),
     satoshis: 0,
     sha256,
-    unlockingBytecode: Uint8Array.of()
+    unlockingBytecode: Uint8Array.of(),
   });
   const result = vm.debug(program);
   t.deepEqual(result, [
@@ -377,14 +377,14 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       executionStack: [],
       instructions: [
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 147
-        }
+          opcode: 147,
+        },
       ],
       ip: 1,
       lastCodeSeparator: -1,
@@ -403,7 +403,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       ),
       transactionOutputs: hexToBin('000000000000000000'),
       transactionSequenceNumbers: hexToBin('ffffffff'),
-      version: 1
+      version: 1,
     },
     {
       alternateStack: [],
@@ -411,14 +411,14 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       executionStack: [],
       instructions: [
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 147
-        }
+          opcode: 147,
+        },
       ],
       ip: 2,
       lastCodeSeparator: -1,
@@ -437,7 +437,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       ),
       transactionOutputs: hexToBin('000000000000000000'),
       transactionSequenceNumbers: hexToBin('ffffffff'),
-      version: 1
+      version: 1,
     },
     {
       alternateStack: [],
@@ -445,14 +445,14 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       executionStack: [],
       instructions: [
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 147
-        }
+          opcode: 147,
+        },
       ],
       ip: 3,
       lastCodeSeparator: -1,
@@ -471,7 +471,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       ),
       transactionOutputs: hexToBin('000000000000000000'),
       transactionSequenceNumbers: hexToBin('ffffffff'),
-      version: 1
+      version: 1,
     },
     {
       alternateStack: [],
@@ -479,14 +479,14 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       executionStack: [],
       instructions: [
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 82
+          opcode: 82,
         },
         {
-          opcode: 147
-        }
+          opcode: 147,
+        },
       ],
       ip: 3,
       lastCodeSeparator: -1,
@@ -505,7 +505,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
       ),
       transactionOutputs: hexToBin('000000000000000000'),
       transactionSequenceNumbers: hexToBin('ffffffff'),
-      version: 1
-    }
+      version: 1,
+    },
   ]);
 });

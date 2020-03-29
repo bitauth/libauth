@@ -8,15 +8,15 @@ import {
   LocktimeError,
   maximumLocktimeDate,
   minimumLocktimeDate,
-  parseLocktime
+  parseLocktime,
 } from '../lib';
 
-test('dateToLockTime', t => {
+test('dateToLockTime', (t) => {
   t.deepEqual(dateToLocktime(new Date('2019-10-13')), hexToBin('0069a25d'));
   t.deepEqual(dateToLocktime(new Date('2107-01-01')), LocktimeError.outOfRange);
 });
 
-test('parseLockTime', t => {
+test('parseLockTime', (t) => {
   t.deepEqual(parseLocktime(hexToBin('0069a25d')), new Date('2019-10-13'));
   t.deepEqual(parseLocktime(hexToBin('d090371c')), 473403600);
   t.deepEqual(parseLocktime(hexToBin('')), LocktimeError.incorrectLength);
@@ -30,7 +30,7 @@ test('parseLockTime', t => {
 testProp(
   '[fast-check] dateToLockTime <-> parseLockTime',
   [fc.date({ max: maximumLocktimeDate, min: minimumLocktimeDate })],
-  date => {
+  (date) => {
     const withSecondResolution = new Date(
       Math.round(date.getTime() / 1000) * 1000
     );

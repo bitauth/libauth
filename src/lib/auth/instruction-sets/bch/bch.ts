@@ -2,14 +2,14 @@ import {
   instantiateRipemd160,
   instantiateSecp256k1,
   instantiateSha1,
-  instantiateSha256
+  instantiateSha256,
 } from '../../../crypto/crypto';
 import { createAuthenticationVirtualMachine } from '../../virtual-machine';
 
 import {
   createInstructionSetBCH,
   getFlagsForInstructionSetBCH,
-  instructionSetBCHCurrentStrict
+  instructionSetBCHCurrentStrict,
 } from './bch-instruction-sets';
 
 export * from './bch-descriptions';
@@ -33,7 +33,7 @@ export const instantiateVirtualMachineBCH = async (
     instantiateSha1(),
     instantiateSha256(),
     instantiateRipemd160(),
-    instantiateSecp256k1()
+    instantiateSecp256k1(),
   ]);
   return createAuthenticationVirtualMachine(
     createInstructionSetBCH({
@@ -41,7 +41,7 @@ export const instantiateVirtualMachineBCH = async (
       ripemd160,
       secp256k1,
       sha1,
-      sha256
+      sha256,
     })
   );
 };

@@ -10,7 +10,7 @@ import {
   instantiateRipemd160,
   instantiateSha1,
   instantiateSha256,
-  instantiateSha512
+  instantiateSha512,
 } from './crypto';
 
 // eslint-disable-next-line functional/no-return-void
@@ -36,68 +36,69 @@ const singlePassBrowserBenchmark = async ({
   hashFunction,
   hashFunctionName,
   inputLength,
-  subtleCryptoAlgorithmName
+  subtleCryptoAlgorithmName,
 }: {
   hashFunction: HashFunction;
   hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
   inputLength: number;
   subtleCryptoAlgorithmName?: 'SHA-1' | 'SHA-256' | 'SHA-512';
 }) =>
-  suite(`browser: ${hashFunctionName}: hash a ${inputLength}-byte input`, s => {
-    let message = randomBytes(inputLength);
-    let hash: Uint8Array | null;
+  suite(
+    `browser: ${hashFunctionName}: hash a ${inputLength}-byte input`,
+    (s) => {
+      let message = randomBytes(inputLength);
+      let hash: Uint8Array | null;
 
-    s.cycle(() => {
-      if (hash === null) {
-        benchError(
-          `asmcrypto.js produced a null result given message: ${message.toString()}`
-        );
-      } else {
-        compare(hash, hashFunction.hash(message));
-      }
-      message = randomBytes(inputLength);
-    });
-
-    s.bench('bitcoin-ts', () => {
-      hash = hashFunction.hash(message);
-    });
-
-    s.bench('hash.js', () => {
-      hash = new Uint8Array(
-        hashJs[hashFunctionName]()
-          .update(message)
-          .digest()
-      );
-    });
-
-    if (typeof subtleCryptoAlgorithmName === 'string') {
-      s.bench(
-        'crypto.subtle',
-        deferred => {
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          window.crypto.subtle
-            .digest(subtleCryptoAlgorithmName, message)
-            .then(buffer => {
-              hash = new Uint8Array(buffer);
-              deferred.resolve();
-            });
-        },
-        {
-          defer: true
+      s.cycle(() => {
+        if (hash === null) {
+          benchError(
+            `asmcrypto.js produced a null result given message: ${message.toString()}`
+          );
+        } else {
+          compare(hash, hashFunction.hash(message));
         }
-      );
-      const Algorithm =
-        subtleCryptoAlgorithmName === 'SHA-1'
-          ? asmCrypto.Sha1
-          : subtleCryptoAlgorithmName === 'SHA-256'
-          ? asmCrypto.Sha256
-          : asmCrypto.Sha512;
-      s.bench('asmcrypto.js', () => {
-        const instance = new Algorithm();
-        hash = instance.process(message).finish().result;
+        message = randomBytes(inputLength);
       });
+
+      s.bench('bitcoin-ts', () => {
+        hash = hashFunction.hash(message);
+      });
+
+      s.bench('hash.js', () => {
+        hash = new Uint8Array(
+          hashJs[hashFunctionName]().update(message).digest()
+        );
+      });
+
+      if (typeof subtleCryptoAlgorithmName === 'string') {
+        s.bench(
+          'crypto.subtle',
+          (deferred) => {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            window.crypto.subtle
+              .digest(subtleCryptoAlgorithmName, message)
+              .then((buffer) => {
+                hash = new Uint8Array(buffer);
+                deferred.resolve();
+              });
+          },
+          {
+            defer: true,
+          }
+        );
+        const Algorithm =
+          subtleCryptoAlgorithmName === 'SHA-1'
+            ? asmCrypto.Sha1
+            : subtleCryptoAlgorithmName === 'SHA-256'
+            ? asmCrypto.Sha256
+            : asmCrypto.Sha512;
+        s.bench('asmcrypto.js', () => {
+          const instance = new Algorithm();
+          hash = instance.process(message).finish().result;
+        });
+      }
     }
-  });
+  );
 
 const MB = 1_000_000;
 
@@ -105,7 +106,7 @@ const incrementalBrowserBenchmark = async ({
   chunkSize,
   hashFunction,
   hashFunctionName,
-  totalInput
+  totalInput,
 }: {
   hashFunction: HashFunction;
   hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
@@ -113,9 +114,10 @@ const incrementalBrowserBenchmark = async ({
   chunkSize: number;
 }) =>
   suite(
-    `browser: ${hashFunctionName}: incrementally hash a ${totalInput /
-      MB}MB input in ${chunkSize / MB}MB chunks`,
-    s => {
+    `browser: ${hashFunctionName}: incrementally hash a ${
+      totalInput / MB
+    }MB input in ${chunkSize / MB}MB chunks`,
+    (s) => {
       let message: Uint8Array;
       let messageChunks: readonly Uint8Array[];
       let hash: Uint8Array | ArrayBuffer | readonly number[] | null;
@@ -179,7 +181,7 @@ const incrementalBrowserBenchmark = async ({
 const browserBenchmarks = async ({
   hashFunction,
   hashFunctionName,
-  subtleCryptoAlgorithmName
+  subtleCryptoAlgorithmName,
 }: {
   hashFunction: HashFunction;
   hashFunctionName: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
@@ -190,31 +192,31 @@ const browserBenchmarks = async ({
     hashFunction,
     hashFunctionName,
     inputLength: 32,
-    subtleCryptoAlgorithmName
+    subtleCryptoAlgorithmName,
   });
   await singlePassBrowserBenchmark({
     hashFunction,
     hashFunctionName,
     inputLength: 100,
-    subtleCryptoAlgorithmName
+    subtleCryptoAlgorithmName,
   });
   await singlePassBrowserBenchmark({
     hashFunction,
     hashFunctionName,
     inputLength: 1_000,
-    subtleCryptoAlgorithmName
+    subtleCryptoAlgorithmName,
   });
   await singlePassBrowserBenchmark({
     hashFunction,
     hashFunctionName,
     inputLength: 10_000,
-    subtleCryptoAlgorithmName
+    subtleCryptoAlgorithmName,
   });
   await incrementalBrowserBenchmark({
     chunkSize: MB,
     hashFunction,
     hashFunctionName,
-    totalInput: MB * 32
+    totalInput: MB * 32,
   });
   /* eslint-enable @typescript-eslint/no-magic-numbers */
 };
@@ -228,25 +230,25 @@ const browserBenchmarks = async ({
   await browserBenchmarks({
     hashFunction: sha1,
     hashFunctionName: 'sha1',
-    subtleCryptoAlgorithmName: 'SHA-1'
+    subtleCryptoAlgorithmName: 'SHA-1',
   });
   await browserBenchmarks({
     hashFunction: sha256,
     hashFunctionName: 'sha256',
-    subtleCryptoAlgorithmName: 'SHA-256'
+    subtleCryptoAlgorithmName: 'SHA-256',
   });
   await browserBenchmarks({
     hashFunction: sha512,
     hashFunctionName: 'sha512',
-    subtleCryptoAlgorithmName: 'SHA-512'
+    subtleCryptoAlgorithmName: 'SHA-512',
   });
   await browserBenchmarks({
     hashFunction: ripemd160,
-    hashFunctionName: 'ripemd160'
+    hashFunctionName: 'ripemd160',
   });
 
   benchComplete();
-})().catch(err => {
+})().catch((err) => {
   // eslint-disable-next-line no-console
   console.error(err);
 });

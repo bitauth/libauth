@@ -2,7 +2,7 @@ import {
   serializeOutpoints,
   serializeOutput,
   serializeOutputsForSigning,
-  serializeSequenceNumbers
+  serializeSequenceNumbers,
 } from '../../../transaction';
 import {
   AlternateStackState,
@@ -12,7 +12,7 @@ import {
   AuthenticationProgramStateCommon,
   ErrorState,
   ExecutionStackState,
-  StackState
+  StackState,
 } from '../../state';
 import { Operation } from '../../virtual-machine';
 import { AuthenticationInstruction } from '../instruction-sets-types';
@@ -22,14 +22,14 @@ import { bitwiseOperations } from './bitwise';
 import {
   conditionallyEvaluate,
   incrementOperationCount,
-  mapOverOperations
+  mapOverOperations,
 } from './combinators';
 import { cryptoOperations, Ripemd160, Secp256k1, Sha1, Sha256 } from './crypto';
 import { applyError, AuthenticationErrorCommon } from './errors';
 import {
   conditionalFlowControlOperations,
   reservedOperation,
-  unconditionalFlowControlOperations
+  unconditionalFlowControlOperations,
 } from './flow-control';
 import { disabledOperations, nonOperations } from './nop';
 import { OpcodesCommon } from './opcodes';
@@ -72,7 +72,7 @@ export enum ConsensusCommon {
   /**
    * A.K.A. `MAX_STACK_SIZE`
    */
-  maximumStackDepth = 1000
+  maximumStackDepth = 1000,
 }
 
 export const undefinedOperation = <
@@ -81,7 +81,7 @@ export const undefinedOperation = <
 >() => ({
   undefined: conditionallyEvaluate((state: State) =>
     applyError<State, Errors>(AuthenticationErrorCommon.unknownOpcode, state)
-  )
+  ),
 });
 
 export const checkLimitsCommon = <
@@ -116,7 +116,7 @@ export const commonOperations = <
   ripemd160,
   secp256k1,
   sha1,
-  sha256
+  sha256,
 }: {
   sha1: { hash: Sha1['hash'] };
   sha256: { hash: Sha256['hash'] };
@@ -138,12 +138,12 @@ export const commonOperations = <
     ...mapOverOperations<State>(
       unconditionalFlowControlOperations<Opcodes, State, Errors>(flags),
       incrementOperationCount
-    )
+    ),
   };
   const conditionalOperations = mapOverOperations<State>(
     {
       ...pushNumberOperations<Opcodes, State>(),
-      [OpcodesCommon.OP_RESERVED]: reservedOperation<State, Errors>()
+      [OpcodesCommon.OP_RESERVED]: reservedOperation<State, Errors>(),
     },
     conditionallyEvaluate
   );
@@ -156,13 +156,13 @@ export const commonOperations = <
         ripemd160,
         secp256k1,
         sha1,
-        sha256
+        sha256,
       }),
       ...conditionalFlowControlOperations<Opcodes, State, Errors>(),
       ...stackOperations<State, Errors>(flags),
       ...spliceOperations<State, Errors>(),
       ...timeOperations<Opcodes, State, Errors>(flags),
-      ...nonOperations<State>(flags)
+      ...nonOperations<State>(flags),
     },
     conditionallyEvaluate,
     incrementOperationCount
@@ -172,7 +172,7 @@ export const commonOperations = <
     {
       ...unconditionalOperations,
       ...incrementingOperations,
-      ...conditionalOperations
+      ...conditionalOperations,
     },
     checkLimitsCommon
   );
@@ -196,7 +196,7 @@ export const createAuthenticationProgramInternalStateCommon = <Opcodes, Errors>(
   lastCodeSeparator: -1,
   operationCount: 0,
   signatureOperationsCount: 0,
-  stack
+  stack,
 });
 
 const enum Fill {
@@ -205,7 +205,7 @@ const enum Fill {
   transactionOutpoints = 2,
   transactionOutputs = 3,
   transactionSequenceNumbers = 4,
-  outpointTransactionHash = 5
+  outpointTransactionHash = 5,
 }
 
 export const createAuthenticationProgramExternalStateCommon = (
@@ -231,7 +231,7 @@ export const createAuthenticationProgramExternalStateCommon = (
   transactionSequenceNumbers: serializeSequenceNumbers(
     program.spendingTransaction.inputs
   ),
-  version: program.spendingTransaction.version
+  version: program.spendingTransaction.version,
 });
 
 export const createAuthenticationProgramStateCommon = <Opcodes, Errors>(
@@ -243,7 +243,7 @@ export const createAuthenticationProgramStateCommon = <Opcodes, Errors>(
     instructions,
     stack
   ),
-  ...externalState
+  ...externalState,
 });
 
 export const cloneAuthenticationProgramStateCommon = <
@@ -271,7 +271,7 @@ export const cloneAuthenticationProgramStateCommon = <
   transactionOutpoints: state.transactionOutpoints,
   transactionOutputs: state.transactionOutputs,
   transactionSequenceNumbers: state.transactionSequenceNumbers,
-  version: state.version
+  version: state.version,
 });
 
 /**
@@ -290,7 +290,7 @@ export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
   transactionOutpoints: Uint8Array.of(Fill.transactionOutpoints),
   transactionOutputs: Uint8Array.of(Fill.transactionOutputs),
   transactionSequenceNumbers: Uint8Array.of(Fill.transactionSequenceNumbers),
-  version: 0
+  version: 0,
 });
 
 /**
@@ -301,5 +301,5 @@ export const createAuthenticationProgramStateCommonEmpty = <Opcodes, Errors>(
   stack: Uint8Array[] = []
 ): AuthenticationProgramStateCommon<Opcodes, Errors> => ({
   ...createAuthenticationProgramInternalStateCommon(instructions, stack),
-  ...createAuthenticationProgramExternalStateCommonEmpty()
+  ...createAuthenticationProgramExternalStateCommonEmpty(),
 });

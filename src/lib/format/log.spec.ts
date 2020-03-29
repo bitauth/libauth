@@ -3,7 +3,7 @@ import test from 'ava';
 
 import { stringify } from '../lib';
 
-test('stringify', t => {
+test('stringify', (t) => {
   t.deepEqual(stringify(BigInt(0)), '"<bigint: 0n>"');
   t.deepEqual(stringify({ a: BigInt(0) }), '{\n  "a": "<bigint: 0n>"\n}');
   t.deepEqual(stringify(Uint8Array.of(32, 32)), '"<Uint8Array: 0x2020>"');

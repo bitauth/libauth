@@ -2,7 +2,7 @@ import {
   AuthenticationProgramStateCommon,
   ErrorState,
   ExecutionStackState,
-  StackState
+  StackState,
 } from '../../state';
 import { Operation } from '../../virtual-machine';
 
@@ -45,14 +45,14 @@ export const conditionalFlowControlOperations = <
   [OpcodesCommon.OP_VERIFY]: opVerify<State, Errors>(),
   [OpcodesCommon.OP_RETURN]: opReturn<State, Errors>(),
   [OpcodesCommon.OP_RESERVED1]: reservedOperation<State, Errors>(),
-  [OpcodesCommon.OP_RESERVED2]: reservedOperation<State, Errors>()
+  [OpcodesCommon.OP_RESERVED2]: reservedOperation<State, Errors>(),
 });
 
 export const opIf = <
   State extends StackState & ExecutionStackState & ErrorState<Errors>,
   Errors
 >(): Operation<State> => (state: State) => {
-  if (state.executionStack.every(item => item)) {
+  if (state.executionStack.every((item) => item)) {
     // eslint-disable-next-line functional/immutable-data
     const element = state.stack.pop();
     if (element === undefined) {
@@ -126,5 +126,5 @@ export const unconditionalFlowControlOperations = <
   [OpcodesCommon.OP_VERIF]: reservedOperation<State, Errors>(),
   [OpcodesCommon.OP_VERNOTIF]: reservedOperation<State, Errors>(),
   [OpcodesCommon.OP_ELSE]: opElse<State, Errors>(),
-  [OpcodesCommon.OP_ENDIF]: opEndIf<State, Errors>()
+  [OpcodesCommon.OP_ENDIF]: opEndIf<State, Errors>(),
 });

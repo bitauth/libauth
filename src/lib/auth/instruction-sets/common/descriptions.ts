@@ -184,5 +184,5 @@ export enum OpcodeDescriptionsCommon {
   OP_NOP7 = 'No operation (reserved for future expansion). Note: OP_NOP7 counts toward the opcode limit.',
   OP_NOP8 = 'No operation (reserved for future expansion). Note: OP_NOP8 counts toward the opcode limit.',
   OP_NOP9 = 'No operation (reserved for future expansion). Note: OP_NOP9 counts toward the opcode limit.',
-  OP_NOP10 = 'No operation (reserved for future expansion). Note: OP_NOP10 counts toward the opcode limit.'
+  OP_NOP10 = 'No operation (reserved for future expansion). Note: OP_NOP10 counts toward the opcode limit.',
 }

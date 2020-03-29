@@ -1,6 +1,6 @@
 export enum ScriptNumberError {
   outOfRange = 'Failed to parse Script Number: overflows Script Number range.',
-  requiresMinimal = 'Failed to parse Script Number: the number is not minimally-encoded.'
+  requiresMinimal = 'Failed to parse Script Number: the number is not minimally-encoded.',
 }
 
 export const isScriptNumberError = (

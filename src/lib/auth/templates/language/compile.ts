@@ -9,7 +9,7 @@ import {
   createIdentifierResolver,
   Range,
   ResolvedScript,
-  resolveScriptSegment
+  resolveScriptSegment,
 } from './resolve';
 
 export interface CompilationResultResolve {
@@ -72,7 +72,7 @@ export type CompilationResult<
 
 enum Formatting {
   requiresCommas = 3,
-  requiresOr = 2
+  requiresOr = 2,
 }
 
 /**
@@ -87,7 +87,7 @@ const EOF = 'EOF';
  * `parseScript`
  */
 const describeExpectedInput = (expectedArray: string[]) => {
-  const newArray = expectedArray.filter(value => value !== EOF);
+  const newArray = expectedArray.filter((value) => value !== EOF);
   // eslint-disable-next-line functional/no-conditional-statement
   if (newArray.length !== expectedArray.length) {
     // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
@@ -114,7 +114,7 @@ export const compileScriptText = <
   data,
   environment,
   script,
-  scriptId
+  scriptId,
 }: {
   script: string;
   data: CompilationData<CompilerOperationData>;
@@ -132,11 +132,11 @@ export const compileScriptText = <
             endColumn: parseResult.index.column,
             endLineNumber: parseResult.index.line,
             startColumn: parseResult.index.column,
-            startLineNumber: parseResult.index.line
-          }
-        }
+            startLineNumber: parseResult.index.line,
+          },
+        },
       ],
-      success: false
+      success: false,
     };
   }
   const resolver = createIdentifierResolver(scriptId, data, environment);
@@ -148,7 +148,7 @@ export const compileScriptText = <
       errors: resolutionErrors,
       parse: parseResult.value,
       resolve: resolvedScript,
-      success: false
+      success: false,
     };
   }
   const reduction = reduceScript(
@@ -162,7 +162,7 @@ export const compileScriptText = <
       : { errorType: 'reduce', errors: reduction.errors, success: false }),
     parse: parseResult.value,
     reduce: reduction,
-    resolve: resolvedScript
+    resolve: resolvedScript,
   };
 };
 
@@ -189,17 +189,17 @@ export const compileScript = <
             endColumn: 0,
             endLineNumber: 0,
             startColumn: 0,
-            startLineNumber: 0
-          }
-        }
+            startLineNumber: 0,
+          },
+        },
       ],
-      success: false
+      success: false,
     };
   }
   return compileScriptText<ProgramState, CompilerOperationData>({
     data,
     environment,
     script,
-    scriptId
+    scriptId,
   });
 };

@@ -3,7 +3,7 @@ import { flattenBinArray } from '../../../format/hex';
 import {
   AuthenticationProgramStateCommon,
   ErrorState,
-  StackState
+  StackState,
 } from '../../state';
 import {
   combineOperations,
@@ -12,12 +12,12 @@ import {
   useOneStackItem,
   useThreeStackItems,
   useTwoScriptNumbers,
-  useTwoStackItems
+  useTwoStackItems,
 } from '../common/combinators';
 import { ConsensusCommon } from '../common/common';
 import {
   isValidPublicKeyEncoding,
-  isValidSignatureEncodingDER
+  isValidSignatureEncodingDER,
 } from '../common/encoding';
 import { applyError, AuthenticationErrorCommon } from '../common/errors';
 import { opVerify } from '../common/flow-control';
@@ -42,7 +42,7 @@ export const opCat = <
 export const opSplit = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -64,7 +64,7 @@ export const opSplit = <
 
 enum Constants {
   positiveSign = 0x00,
-  negativeSign = 0x80
+  negativeSign = 0x80,
 }
 
 export const padMinimallyEncodedScriptNumber = (
@@ -126,7 +126,7 @@ export const opNum2Bin = <
               maximumScriptNumberByteLength:
                 // TODO: is this right?
                 ConsensusCommon.maximumStackItemLength,
-              requireMinimalEncoding: false
+              requireMinimalEncoding: false,
             }
           );
     },
@@ -150,7 +150,7 @@ export const opBin2Num = <
     {
       // TODO: is this right?
       maximumScriptNumberByteLength: ConsensusCommon.maximumStackItemLength,
-      requireMinimalEncoding: false
+      requireMinimalEncoding: false,
     }
   );
 
@@ -186,7 +186,7 @@ export const opXor = <
 export const opDiv = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -205,7 +205,7 @@ export const opDiv = <
 export const opMod = <
   State extends StackState & ErrorState<AuthenticationErrorBCH>
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -237,7 +237,7 @@ export const opCheckDataSig = <
   Errors
 >({
   secp256k1,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   secp256k1: {
@@ -279,7 +279,7 @@ export const opCheckDataSigVerify = <
   Errors
 >({
   secp256k1,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   secp256k1: {
@@ -301,7 +301,7 @@ export const bitcoinCashOperations = <
 >({
   flags,
   secp256k1,
-  sha256
+  sha256,
 }: {
   sha256: { hash: Sha256['hash'] };
   secp256k1: {
@@ -325,10 +325,10 @@ export const bitcoinCashOperations = <
   [OpcodesBCH.OP_MOD]: opMod<State>(flags),
   [OpcodesBCH.OP_CHECKDATASIG]: opCheckDataSig<State, AuthenticationErrorBCH>({
     secp256k1,
-    sha256
+    sha256,
   }),
   [OpcodesBCH.OP_CHECKDATASIGVERIFY]: opCheckDataSigVerify<
     State,
     AuthenticationErrorBCH
-  >({ secp256k1, sha256 })
+  >({ secp256k1, sha256 }),
 });

@@ -28,7 +28,7 @@ import {
   HdPublicNode,
   hexToBin,
   instantiateBIP32Crypto,
-  validateSecp256k1PrivateKey
+  validateSecp256k1PrivateKey,
 } from '../lib';
 
 const seed = Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -46,7 +46,7 @@ const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
   fc
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map(a => Uint8Array.from(a));
+    .map((a) => Uint8Array.from(a));
 
 const maximumDepth = 255;
 const maximumChildIndex = 0xffffffff;
@@ -57,7 +57,7 @@ const publicKeyLength = 33;
 const hardenedIndexOffset = 0x80000000;
 const maximumNonHardenedIndex = hardenedIndexOffset - 1;
 
-test('deriveHdPrivateNodeFromSeed', async t => {
+test('deriveHdPrivateNodeFromSeed', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(deriveHdPrivateNodeFromSeed(crypto, seed), {
     chainCode: hexToBin(
@@ -69,7 +69,7 @@ test('deriveHdPrivateNodeFromSeed', async t => {
     privateKey: hexToBin(
       '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
     ),
-    valid: true
+    valid: true,
   });
   t.deepEqual(deriveHdPrivateNodeFromSeed(crypto, seed, false), {
     chainCode: hexToBin(
@@ -81,11 +81,11 @@ test('deriveHdPrivateNodeFromSeed', async t => {
       '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
     ),
     parentFingerprint: hexToBin('00000000'),
-    valid: false
+    valid: false,
   });
 });
 
-test('deriveHdPrivateNodeIdentifier', async t => {
+test('deriveHdPrivateNodeIdentifier', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node } = decodeHdPrivateKey(crypto, xprv) as HdKeyParameters<
     HdPrivateNodeValid
@@ -96,7 +96,7 @@ test('deriveHdPrivateNodeIdentifier', async t => {
   );
 });
 
-test('deriveHdPublicNodeIdentifier', async t => {
+test('deriveHdPublicNodeIdentifier', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node } = decodeHdPublicKey(crypto, xpub) as HdKeyParameters<
     HdPublicNode
@@ -107,7 +107,7 @@ test('deriveHdPublicNodeIdentifier', async t => {
   );
 });
 
-test('decodeHdKey', async t => {
+test('decodeHdKey', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(decodeHdKey(crypto, xprv), {
     node: {
@@ -120,9 +120,9 @@ test('decodeHdKey', async t => {
       privateKey: hexToBin(
         '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
       ),
-      valid: true
+      valid: true,
     },
-    version: HdKeyVersion.mainnetPrivateKey
+    version: HdKeyVersion.mainnetPrivateKey,
   });
   t.deepEqual(decodeHdKey(crypto, xpub), {
     node: {
@@ -134,13 +134,13 @@ test('decodeHdKey', async t => {
       parentFingerprint: hexToBin('00000000'),
       publicKey: hexToBin(
         '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
-      )
+      ),
     },
-    version: HdKeyVersion.mainnetPublicKey
+    version: HdKeyVersion.mainnetPublicKey,
   });
 });
 
-test('decodeHdKey: errors', async t => {
+test('decodeHdKey: errors', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(
     decodeHdKey(crypto, '#badKey'),
@@ -159,7 +159,7 @@ test('decodeHdKey: errors', async t => {
   );
 });
 
-test('decodeHdPrivateKey', async t => {
+test('decodeHdPrivateKey', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(decodeHdPrivateKey(crypto, xprv), {
     network: 'mainnet',
@@ -173,8 +173,8 @@ test('decodeHdPrivateKey', async t => {
       privateKey: hexToBin(
         '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
       ),
-      valid: true
-    }
+      valid: true,
+    },
   });
   t.deepEqual(decodeHdPrivateKey(crypto, tprv), {
     network: 'testnet',
@@ -188,12 +188,12 @@ test('decodeHdPrivateKey', async t => {
       privateKey: hexToBin(
         '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
       ),
-      valid: true
-    }
+      valid: true,
+    },
   });
 });
 
-test('decodeHdPrivateKey: errors', async t => {
+test('decodeHdPrivateKey: errors', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(
     decodeHdPrivateKey(crypto, xpub),
@@ -228,7 +228,7 @@ test('decodeHdPrivateKey: errors', async t => {
   );
 });
 
-test('decodeHdPublicKey', async t => {
+test('decodeHdPublicKey', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(decodeHdPublicKey(crypto, xpub), {
     network: 'mainnet',
@@ -241,8 +241,8 @@ test('decodeHdPublicKey', async t => {
       parentFingerprint: hexToBin('00000000'),
       publicKey: hexToBin(
         '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
-      )
-    }
+      ),
+    },
   });
   t.deepEqual(decodeHdPublicKey(crypto, tpub), {
     network: 'testnet',
@@ -255,12 +255,12 @@ test('decodeHdPublicKey', async t => {
       parentFingerprint: hexToBin('00000000'),
       publicKey: hexToBin(
         '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
-      )
-    }
+      ),
+    },
   });
 });
 
-test('decodeHdPublicKey: errors', async t => {
+test('decodeHdPublicKey: errors', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(
     decodeHdPublicKey(crypto, xprv),
@@ -275,7 +275,7 @@ test('decodeHdPublicKey: errors', async t => {
   );
 });
 
-test('encodeHdPrivateKey', async t => {
+test('encodeHdPrivateKey', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(
     encodeHdPrivateKey(crypto, {
@@ -290,8 +290,8 @@ test('encodeHdPrivateKey', async t => {
         privateKey: hexToBin(
           '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
         ),
-        valid: true
-      }
+        valid: true,
+      },
     }),
     xprv
   );
@@ -309,14 +309,14 @@ test('encodeHdPrivateKey', async t => {
         privateKey: hexToBin(
           '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
         ),
-        valid: true
-      }
+        valid: true,
+      },
     }),
     tprv
   );
 });
 
-test('encodeHdPublicKey', async t => {
+test('encodeHdPublicKey', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   t.deepEqual(
     encodeHdPublicKey(crypto, {
@@ -330,8 +330,8 @@ test('encodeHdPublicKey', async t => {
         parentFingerprint: hexToBin('00000000'),
         publicKey: hexToBin(
           '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
-        )
-      }
+        ),
+      },
     }),
     xpub
   );
@@ -347,14 +347,14 @@ test('encodeHdPublicKey', async t => {
         parentFingerprint: hexToBin('00000000'),
         publicKey: hexToBin(
           '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
-        )
-      }
+        ),
+      },
     }),
     tpub
   );
 });
 
-test('deriveHdPublicNode', async t => {
+test('deriveHdPublicNode', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const privateParams = decodeHdPrivateKey(crypto, xprv);
   if (typeof privateParams === 'string') {
@@ -370,11 +370,11 @@ test('deriveHdPublicNode', async t => {
     parentFingerprint: hexToBin('00000000'),
     publicKey: hexToBin(
       '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
-    )
+    ),
   });
 });
 
-test('deriveHdPrivateNodeChild', async t => {
+test('deriveHdPrivateNodeChild', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const master = decodeHdPrivateKey(crypto, xprv);
 
@@ -408,15 +408,15 @@ test('deriveHdPrivateNodeChild', async t => {
 
   t.deepEqual(result0, {
     ...hardenedIndex0Child.node,
-    parentIdentifier: hexToBin('15c918d389673c6cd0660050f268a843361e1111')
+    parentIdentifier: hexToBin('15c918d389673c6cd0660050f268a843361e1111'),
   });
   t.deepEqual(result1, {
     ...index1GrandChild.node,
-    parentIdentifier: hexToBin('2f2bc501c943dd7f17904b612c090dd88270cc59')
+    parentIdentifier: hexToBin('2f2bc501c943dd7f17904b612c090dd88270cc59'),
   });
 });
 
-test('deriveHdPrivateNodeChild: errors', async t => {
+test('deriveHdPrivateNodeChild: errors', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node } = decodeHdPrivateKey(crypto, xprv) as HdKeyParameters<
     HdPrivateNodeValid
@@ -429,7 +429,7 @@ test('deriveHdPrivateNodeChild: errors', async t => {
   );
 });
 
-test('deriveHdPublicNodeChild', async t => {
+test('deriveHdPublicNodeChild', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node } = decodeHdPrivateKey(crypto, xprv) as HdKeyParameters<
     HdPrivateNodeValid
@@ -453,7 +453,7 @@ test('deriveHdPublicNodeChild', async t => {
   );
 });
 
-test('deriveHdPublicNodeChild: errors', async t => {
+test('deriveHdPublicNodeChild: errors', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node } = decodeHdPublicKey(crypto, xpub) as HdKeyParameters<
     HdPublicNode
@@ -465,7 +465,7 @@ test('deriveHdPublicNodeChild: errors', async t => {
   );
 });
 
-test('deriveHdPath', async t => {
+test('deriveHdPath', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node: privateNode } = decodeHdPrivateKey(
     crypto,
@@ -485,7 +485,7 @@ test('deriveHdPath', async t => {
       crypto,
       'xprv9w8PdihBAeR4xgGYWWqBnmDTrpWEW1QjuYAUkR7A6X48q1iQVgN433aSFxQGgtureVz7cCyi5zfuMTtBF3AkanjtvNs9m8u2JobxNfphSi3'
     ) as HdKeyParameters<HdPrivateNodeValid>).node,
-    parentIdentifier: hexToBin('2f2bc501c943dd7f17904b612c090dd88270cc59')
+    parentIdentifier: hexToBin('2f2bc501c943dd7f17904b612c090dd88270cc59'),
   });
   t.deepEqual(
     deriveHdPath(crypto, publicNode, 'M/0/1/2/3'),
@@ -504,7 +504,7 @@ test('deriveHdPath', async t => {
   );
 });
 
-test('deriveHdPath: errors', async t => {
+test('deriveHdPath: errors', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node: privateNode } = decodeHdPrivateKey(
     crypto,
@@ -538,7 +538,7 @@ test('deriveHdPath: errors', async t => {
   );
 });
 
-test('crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode', async t => {
+test('crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode', async (t) => {
   const crypto = await instantiateBIP32Crypto();
   const { node: parentPrivateNode } = decodeHdPrivateKey(
     crypto,
@@ -622,7 +622,7 @@ const bip32Vector: Macro<[string, string, string, string]> = async (
 
   const vectorXprv = encodeHdPrivateKey(crypto, {
     network: 'mainnet',
-    node: childNode
+    node: childNode,
   });
   t.deepEqual(vectorXprv, hdPrivateKey);
 
@@ -637,7 +637,7 @@ const bip32Vector: Macro<[string, string, string, string]> = async (
   );
   t.deepEqual(childNode, {
     ...decodedPrivate.node,
-    ...(path === 'm' ? {} : { parentIdentifier: childNode.parentIdentifier })
+    ...(path === 'm' ? {} : { parentIdentifier: childNode.parentIdentifier }),
   });
 
   const decodedPublic = decodeHdPublicKey(crypto, hdPublicKey);
@@ -652,12 +652,12 @@ const bip32Vector: Macro<[string, string, string, string]> = async (
   );
   t.deepEqual(publicNode, {
     ...decodedPublic.node,
-    ...(path === 'm' ? {} : { parentIdentifier: publicNode.parentIdentifier })
+    ...(path === 'm' ? {} : { parentIdentifier: publicNode.parentIdentifier }),
   });
 
   const vectorXpub = encodeHdPublicKey(crypto, {
     network: 'mainnet',
-    node: publicNode
+    node: publicNode,
   });
   t.deepEqual(vectorXpub, hdPublicKey);
 };
@@ -796,9 +796,9 @@ const fcBip32Path = () =>
   fc
     .array(fc.integer(0, maximumChildIndex), 1, maximumDepth)
     .map(
-      array =>
+      (array) =>
         `m/${array
-          .map(i =>
+          .map((i) =>
             i > hardenedIndexOffset ? `${i - hardenedIndexOffset}'` : `${i}`
           )
           .join('/')}`
@@ -818,7 +818,7 @@ testProp(
     const resultPrv = encodeHdPrivateKey(crypto, { network: 'mainnet', node });
     const resultPub = encodeHdPublicKey(crypto, {
       network: 'mainnet',
-      node: publicNode
+      node: publicNode,
     });
     // eslint-disable-next-line new-cap
     const bitcoreResult = bitcoreLibCash.HDPrivateKey(xprv).deriveChild(path);
@@ -838,7 +838,7 @@ testProp(
     fc.integer(0, maximumChildIndex),
     fcUint8Array(fingerprintLength, fingerprintLength),
     fcUint8Array(chainCodeLength, chainCodeLength),
-    fcUint8Array(publicKeyLength, publicKeyLength)
+    fcUint8Array(publicKeyLength, publicKeyLength),
   ],
   async (
     mainnet: boolean,
@@ -857,8 +857,8 @@ testProp(
         childIndex,
         depth,
         parentFingerprint,
-        publicKey
-      }
+        publicKey,
+      },
     });
     return (
       encoded ===
@@ -878,7 +878,7 @@ testProp(
     fc.integer(0, maximumChildIndex),
     fcUint8Array(fingerprintLength, fingerprintLength),
     fcUint8Array(chainCodeLength, chainCodeLength),
-    fcUint8Array(privateKeyLength, privateKeyLength)
+    fcUint8Array(privateKeyLength, privateKeyLength),
   ],
   async (
     mainnet: boolean,
@@ -899,8 +899,8 @@ testProp(
         depth,
         parentFingerprint,
         privateKey,
-        valid: true
-      }
+        valid: true,
+      },
     });
     return (
       encoded ===
@@ -921,7 +921,7 @@ testProp(
     fc.integer(0, maximumNonHardenedIndex),
     fcUint8Array(fingerprintLength, fingerprintLength),
     fcUint8Array(chainCodeLength, chainCodeLength),
-    fcUint8Array(privateKeyLength, privateKeyLength)
+    fcUint8Array(privateKeyLength, privateKeyLength),
   ],
   async (
     depth: number,
@@ -941,8 +941,8 @@ testProp(
         depth,
         parentFingerprint,
         privateKey,
-        valid: true
-      }
+        valid: true,
+      },
     });
 
     const { node: parentPrivateNode } = decodeHdPrivateKey(
@@ -964,7 +964,7 @@ testProp(
     ) as HdPrivateNodeValid;
     const crackedXprv = encodeHdPrivateKey(crypto, {
       network: 'mainnet',
-      node: crackedParentNode
+      node: crackedParentNode,
     });
 
     return parentXprv === crackedXprv;

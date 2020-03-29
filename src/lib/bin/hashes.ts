@@ -36,11 +36,11 @@ export const instantiateRustWasm = async (
           throw new Error(
             // eslint-disable-next-line @typescript-eslint/no-use-before-define
             Array.from(getUint8Memory().subarray(ptr, ptr + len))
-              .map(num => String.fromCharCode(num))
+              .map((num) => String.fromCharCode(num))
               .join('')
           );
-        }
-      }
+        },
+      },
     })
   ).instance.exports as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
@@ -152,7 +152,7 @@ export const instantiateRustWasm = async (
     final,
     hash,
     init,
-    update
+    update,
   };
 };
 /* eslint-enable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers, max-params */

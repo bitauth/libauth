@@ -11,7 +11,7 @@ export enum OpcodeDescriptionsUniqueBCH {
   OP_DIV = 'Pop the top item from the stack as a denominator (Script Number) and the next as a numerator (Script Number). Divide and push the result to the stack.',
   OP_MOD = 'Pop the top item from the stack as a denominator (Script Number) and the next as a numerator (Script Number). Divide and push the remainder to the stack.',
   OP_CHECKDATASIG = 'Pop the top 3 items from the stack. Treat the top as a public key, the second as a message, and the third as a signature. If the signature is valid, push a Script Number 1, otherwise push a Script Number 0.',
-  OP_CHECKDATASIGVERIFY = 'Pop the top 3 items from the stack. Treat the top as a public key, the second as a message, and the third as a signature. If the signature is not valid, error. (This operation is a combination of OP_CHECKDATASIG followed by OP_VERIFY.)'
+  OP_CHECKDATASIGVERIFY = 'Pop the top 3 items from the stack. Treat the top as a public key, the second as a message, and the third as a signature. If the signature is not valid, error. (This operation is a combination of OP_CHECKDATASIG followed by OP_VERIFY.)',
 }
 
 /**
@@ -19,5 +19,5 @@ export enum OpcodeDescriptionsUniqueBCH {
  */
 export const OpcodeDescriptionsBCH = {
   ...OpcodeDescriptionsCommon,
-  ...OpcodeDescriptionsUniqueBCH
+  ...OpcodeDescriptionsUniqueBCH,
 };

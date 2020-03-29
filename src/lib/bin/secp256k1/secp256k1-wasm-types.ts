@@ -40,7 +40,7 @@ export enum ContextFlag {
   NONE = SECP256K1_CONTEXT_NONE as 1,
   VERIFY = SECP256K1_CONTEXT_VERIFY as 257,
   SIGN = SECP256K1_CONTEXT_SIGN as 513,
-  BOTH = SECP256K1_CONTEXT_SIGN | (SECP256K1_CONTEXT_VERIFY as 769)
+  BOTH = SECP256K1_CONTEXT_SIGN | (SECP256K1_CONTEXT_VERIFY as 769),
 }
 
 /**
@@ -51,7 +51,7 @@ export enum ContextFlag {
  */
 export enum CompressionFlag {
   COMPRESSED = SECP256K1_EC_COMPRESSED as 258,
-  UNCOMPRESSED = SECP256K1_EC_UNCOMPRESSED as 2
+  UNCOMPRESSED = SECP256K1_EC_UNCOMPRESSED as 2,
 }
 /* eslint-enable no-bitwise, @typescript-eslint/no-magic-numbers */
 

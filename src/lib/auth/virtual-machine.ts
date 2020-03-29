@@ -191,7 +191,7 @@ export const createAuthenticationVirtualMachine = <
   instructionSet: InstructionSet<AuthenticationProgram, ProgramState>
 ): AuthenticationVirtualMachine<AuthenticationProgram, ProgramState> => {
   const availableOpcodes = 256;
-  const operators = range(availableOpcodes).map(codepoint =>
+  const operators = range(availableOpcodes).map((codepoint) =>
     instructionSet.operations[codepoint] === undefined
       ? instructionSet.undefined
       : instructionSet.operations[codepoint]
@@ -280,6 +280,6 @@ export const createAuthenticationVirtualMachine = <
     stateEvaluate,
     stateStep,
     stateStepMutate,
-    verify
+    verify,
   };
 };

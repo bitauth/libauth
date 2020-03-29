@@ -3,18 +3,18 @@ import { hexToBin, swapEndianness } from '../../../format/format';
 import {
   getBitcoinTransactionId,
   serializeTransaction,
-  Transaction
+  Transaction,
 } from '../../../transaction';
 import {
   AuthenticationProgramCommon,
-  AuthenticationProgramStateCommon
+  AuthenticationProgramStateCommon,
 } from '../../state';
 
 import { AuthenticationErrorBCH } from './bch-errors';
 import { OpcodesBCH } from './bch-opcodes';
 
 export enum ConsensusBCH {
-  schnorrSignatureLength = 64
+  schnorrSignatureLength = 64,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -31,7 +31,7 @@ export const createTestAuthenticationProgramBCH = ({
   lockingBytecode,
   satoshis = 0,
   sha256,
-  unlockingBytecode
+  unlockingBytecode,
 }: {
   unlockingBytecode: Uint8Array;
   lockingBytecode: Uint8Array;
@@ -46,12 +46,12 @@ export const createTestAuthenticationProgramBCH = ({
           '0000000000000000000000000000000000000000000000000000000000000000'
         ),
         sequenceNumber: 0xffffffff,
-        unlockingBytecode: Uint8Array.of(0, 0)
-      }
+        unlockingBytecode: Uint8Array.of(0, 0),
+      },
     ],
     locktime: 0,
     outputs: [{ lockingBytecode, satoshis }],
-    version: 1
+    version: 1,
   };
   const testSpendingTransaction: Transaction = {
     inputs: [
@@ -66,16 +66,16 @@ export const createTestAuthenticationProgramBCH = ({
           )
         ),
         sequenceNumber: 0xffffffff,
-        unlockingBytecode
-      }
+        unlockingBytecode,
+      },
     ],
     locktime: 0,
     outputs: [{ lockingBytecode: Uint8Array.of(), satoshis }],
-    version: 1
+    version: 1,
   };
   return {
     inputIndex: 0,
     sourceOutput: testFundingTransaction.outputs[0],
-    spendingTransaction: testSpendingTransaction
+    spendingTransaction: testSpendingTransaction,
   };
 };

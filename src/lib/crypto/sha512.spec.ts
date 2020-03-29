@@ -3,7 +3,7 @@ import {
   getEmbeddedSha512Binary,
   instantiateSha512,
   instantiateSha512Bytes,
-  Sha512
+  Sha512,
 } from '../lib';
 
 import { testHashFunction } from './hash.spec.helper';
@@ -25,5 +25,5 @@ testHashFunction<Sha512>({
   instantiate: instantiateSha512,
   instantiateBytes: instantiateSha512Bytes,
   nodeJsAlgorithm: 'sha512',
-  testHash
+  testHash,
 });

@@ -73,7 +73,7 @@ export const instantiateSha1Bytes = async (
     final: wasm.final,
     hash: wasm.hash,
     init: wasm.init,
-    update: wasm.update
+    update: wasm.update,
   };
 };
 

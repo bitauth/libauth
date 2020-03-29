@@ -3,7 +3,7 @@ import {
   base58ToBin,
   BaseConversionError,
   binToBase58,
-  flattenBinArray
+  flattenBinArray,
 } from '../format/format';
 
 /**
@@ -73,7 +73,7 @@ export enum Base58AddressFormatVersion {
    *
    * Hex: `0x28`
    */
-  p2shCopayBCH = 40
+  p2shCopayBCH = 40,
 }
 
 /**
@@ -153,7 +153,7 @@ export const encodeBase58Address = (
       'p2pkh-testnet': Base58AddressFormatVersion.p2pkhTestnet,
       p2sh: Base58AddressFormatVersion.p2sh,
       'p2sh-copay-bch': Base58AddressFormatVersion.p2shCopayBCH,
-      'p2sh-testnet': Base58AddressFormatVersion.p2shTestnet
+      'p2sh-testnet': Base58AddressFormatVersion.p2shTestnet,
     }[type],
     payload
   );
@@ -163,7 +163,7 @@ export enum Base58AddressError {
   tooShort = 'Base58Address error: address is too short to be valid.',
   invalidChecksum = 'Base58Address error: address has an invalid checksum.',
   unknownAddressVersion = 'Base58Address error: address uses an unknown address version.',
-  incorrectLength = 'Base58Address error: the encoded payload is not the correct length (20 bytes).'
+  incorrectLength = 'Base58Address error: the encoded payload is not the correct length (20 bytes).',
 }
 
 /**
@@ -203,7 +203,7 @@ export const decodeBase58AddressFormat = (
 
   return {
     payload: content.slice(1),
-    version: content[0]
+    version: content[0],
   };
 };
 
@@ -239,7 +239,7 @@ export const decodeBase58Address = (
       Base58AddressFormatVersion.p2pkhTestnet,
       Base58AddressFormatVersion.p2shTestnet,
       Base58AddressFormatVersion.p2pkhCopayBCH,
-      Base58AddressFormatVersion.p2shCopayBCH
+      Base58AddressFormatVersion.p2shCopayBCH,
     ].includes(decoded.version)
   ) {
     return Base58AddressError.unknownAddressVersion;

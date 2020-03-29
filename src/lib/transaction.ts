@@ -7,7 +7,7 @@ import {
   binToNumberUint32LE,
   flattenBinArray,
   numberToBinUint32LE,
-  readBitcoinVarInt
+  readBitcoinVarInt,
 } from './format/format';
 
 /**
@@ -119,7 +119,7 @@ export interface Transaction<InputType = Input, OutputType = Output> {
 const enum ByteLength {
   uint32 = 4,
   uint64 = 8,
-  sha256Hash = 32
+  sha256Hash = 32,
 }
 
 /**
@@ -137,7 +137,7 @@ export const readTransactionInput = (bin: Uint8Array, offset: number) => {
   );
   const {
     nextOffset: offsetAfterBytecodeLength,
-    value: bytecodeLength
+    value: bytecodeLength,
   } = readBitcoinVarInt(bin, offsetAfterOutpointIndex);
   const offsetAfterBytecode =
     offsetAfterBytecodeLength + Number(bytecodeLength);
@@ -154,9 +154,9 @@ export const readTransactionInput = (bin: Uint8Array, offset: number) => {
       outpointIndex,
       outpointTransactionHash,
       sequenceNumber,
-      unlockingBytecode
+      unlockingBytecode,
     },
-    nextOffset
+    nextOffset,
   };
 };
 
@@ -170,7 +170,7 @@ export const serializeInput = (input: Input) =>
     numberToBinUint32LE(input.outpointIndex),
     bigIntToBitcoinVarInt(BigInt(input.unlockingBytecode.length)),
     input.unlockingBytecode,
-    numberToBinUint32LE(input.sequenceNumber)
+    numberToBinUint32LE(input.sequenceNumber),
   ]);
 
 /**
@@ -183,7 +183,7 @@ export const serializeInput = (input: Input) =>
 export const serializeInputs = (inputs: readonly Input[]) =>
   flattenBinArray([
     bigIntToBitcoinVarInt(BigInt(inputs.length)),
-    ...inputs.map(serializeInput)
+    ...inputs.map(serializeInput),
   ]);
 
 /**
@@ -210,8 +210,8 @@ export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
     nextOffset,
     output: {
       lockingBytecode,
-      satoshis
-    }
+      satoshis,
+    },
   };
 };
 
@@ -223,7 +223,7 @@ export const serializeOutput = (output: Output) =>
   flattenBinArray([
     bigIntToBinUint64LE(BigInt(output.satoshis)),
     bigIntToBitcoinVarInt(BigInt(output.lockingBytecode.length)),
-    output.lockingBytecode
+    output.lockingBytecode,
   ]);
 
 /**
@@ -236,7 +236,7 @@ export const serializeOutput = (output: Output) =>
 export const serializeOutputsForTransaction = (outputs: readonly Output[]) =>
   flattenBinArray([
     bigIntToBitcoinVarInt(BigInt(outputs.length)),
-    ...outputs.map(serializeOutput)
+    ...outputs.map(serializeOutput),
   ]);
 
 /**
@@ -252,7 +252,7 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
   const offsetAfterVersion = ByteLength.uint32;
   const {
     nextOffset: offsetAfterInputCount,
-    value: inputCount
+    value: inputCount,
   } = readBitcoinVarInt(bin, offsetAfterVersion);
   // eslint-disable-next-line functional/no-let
   let cursor = offsetAfterInputCount;
@@ -267,7 +267,7 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
   }
   const {
     nextOffset: offsetAfterOutputCount,
-    value: outputCount
+    value: outputCount,
   } = readBitcoinVarInt(bin, cursor);
   // eslint-disable-next-line functional/no-expression-statement
   cursor = offsetAfterOutputCount;
@@ -287,7 +287,7 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
     inputs,
     locktime,
     outputs,
-    version
+    version,
   };
 };
 
@@ -299,7 +299,7 @@ export const serializeTransaction = (tx: Transaction) =>
     numberToBinUint32LE(tx.version),
     serializeInputs(tx.inputs),
     serializeOutputsForTransaction(tx.outputs),
-    numberToBinUint32LE(tx.locktime)
+    numberToBinUint32LE(tx.locktime),
   ]);
 
 /**
@@ -348,10 +348,10 @@ export const serializeOutpoints = (
   }[]
 ) =>
   flattenBinArray(
-    inputs.map(i =>
+    inputs.map((i) =>
       flattenBinArray([
         i.outpointTransactionHash.slice().reverse(),
-        numberToBinUint32LE(i.outpointIndex)
+        numberToBinUint32LE(i.outpointIndex),
       ])
     )
   );
@@ -370,4 +370,4 @@ export const serializeOutputsForSigning = (outputs: readonly Output[]) =>
  */
 export const serializeSequenceNumbers = (
   inputs: readonly { sequenceNumber: number }[]
-) => flattenBinArray(inputs.map(i => numberToBinUint32LE(i.sequenceNumber)));
+) => flattenBinArray(inputs.map((i) => numberToBinUint32LE(i.sequenceNumber)));

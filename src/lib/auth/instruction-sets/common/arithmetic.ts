@@ -1,7 +1,7 @@
 import {
   AuthenticationProgramStateCommon,
   ErrorState,
-  StackState
+  StackState,
 } from '../../state';
 
 import {
@@ -9,14 +9,14 @@ import {
   pushToStack,
   useOneScriptNumber,
   useThreeScriptNumbers,
-  useTwoScriptNumbers
+  useTwoScriptNumbers,
 } from './combinators';
 import { opVerify } from './flow-control';
 import { OpcodesCommon } from './opcodes';
 import { bigIntToScriptNumber, booleanToScriptNumber } from './types';
 
 export const op1Add = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -28,7 +28,7 @@ export const op1Add = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const op1Sub = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -43,7 +43,7 @@ export const opNegate = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -55,7 +55,7 @@ export const opNegate = <
   );
 
 export const opAbs = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -67,7 +67,7 @@ export const opAbs = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const opNot = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -87,7 +87,7 @@ export const op0NotEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -104,7 +104,7 @@ export const op0NotEqual = <
   );
 
 export const opAdd = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -116,7 +116,7 @@ export const opAdd = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const opSub = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -131,7 +131,7 @@ export const opBoolAnd = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -151,7 +151,7 @@ export const opBoolOr = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -171,7 +171,7 @@ export const opNumEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -197,7 +197,7 @@ export const opNumNotEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -212,7 +212,7 @@ export const opLessThan = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -227,7 +227,7 @@ export const opLessThanOrEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -242,7 +242,7 @@ export const opGreaterThan = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -257,7 +257,7 @@ export const opGreaterThanOrEqual = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -269,7 +269,7 @@ export const opGreaterThanOrEqual = <
   );
 
 export const opMin = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -286,7 +286,7 @@ export const opMin = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const opMax = <State extends StackState & ErrorState<Errors>, Errors>({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -306,7 +306,7 @@ export const opWithin = <
   State extends StackState & ErrorState<Errors>,
   Errors
 >({
-  requireMinimalEncoding
+  requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
 }) => (state: State) =>
@@ -350,5 +350,5 @@ export const arithmeticOperations = <
   ),
   [OpcodesCommon.OP_MIN]: opMin<State, Errors>(flags),
   [OpcodesCommon.OP_MAX]: opMax<State, Errors>(flags),
-  [OpcodesCommon.OP_WITHIN]: opWithin<State, Errors>(flags)
+  [OpcodesCommon.OP_WITHIN]: opWithin<State, Errors>(flags),
 });

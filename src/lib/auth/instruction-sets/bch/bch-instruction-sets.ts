@@ -3,7 +3,7 @@ import { InstructionSet } from '../../virtual-machine';
 import {
   conditionallyEvaluate,
   incrementOperationCount,
-  mapOverOperations
+  mapOverOperations,
 } from '../common/combinators';
 import {
   applyError,
@@ -16,12 +16,12 @@ import {
   createAuthenticationProgramExternalStateCommon,
   createAuthenticationProgramStateCommon,
   stackItemIsTruthy,
-  undefinedOperation
+  undefinedOperation,
 } from '../common/common';
 import { AuthenticationInstruction } from '../instruction-sets-types';
 import {
   authenticationInstructionsAreMalformed,
-  parseBytecode
+  parseBytecode,
 } from '../instruction-sets-utils';
 
 import { AuthenticationErrorBCH } from './bch-errors';
@@ -29,14 +29,14 @@ import { OpcodesBCH } from './bch-opcodes';
 import { bitcoinCashOperations } from './bch-operations';
 import {
   AuthenticationProgramBCH,
-  AuthenticationProgramStateBCH
+  AuthenticationProgramStateBCH,
 } from './bch-types';
 
 export { OpcodesBCH };
 
 const enum PayToScriptHash {
   length = 3,
-  lastElement = 2
+  lastElement = 2,
 }
 
 export const isPayToScriptHash = <Opcodes>(
@@ -56,7 +56,7 @@ const enum SegWit {
   OP_0 = 0,
   OP_1 = 81,
   OP_16 = 96,
-  versionAndLengthBytes = 2
+  versionAndLengthBytes = 2,
 }
 
 /**
@@ -98,7 +98,7 @@ export enum InstructionSetBCH {
   BCH_2019_05 = 'BCH_2019_05',
   BCH_2019_05_STRICT = 'BCH_2019_05_STRICT',
   BCH_2019_11_SPEC = 'BCH_2019_11',
-  BCH_2019_11_STRICT_SPEC = 'BCH_2019_11_STRICT'
+  BCH_2019_11_STRICT_SPEC = 'BCH_2019_11_STRICT',
 }
 
 export const instructionSetBCHCurrentStrict =
@@ -113,28 +113,28 @@ export const getFlagsForInstructionSetBCH = (
         disallowUpgradableNops: false,
         requireBugValueZero: false,
         requireMinimalEncoding: false,
-        requireNullSignatureFailures: true
+        requireNullSignatureFailures: true,
       };
     case InstructionSetBCH.BCH_2019_05_STRICT:
       return {
         disallowUpgradableNops: true,
         requireBugValueZero: false,
         requireMinimalEncoding: true,
-        requireNullSignatureFailures: true
+        requireNullSignatureFailures: true,
       };
     case InstructionSetBCH.BCH_2019_11_SPEC:
       return {
         disallowUpgradableNops: false,
         requireBugValueZero: true,
         requireMinimalEncoding: true,
-        requireNullSignatureFailures: true
+        requireNullSignatureFailures: true,
       };
     case InstructionSetBCH.BCH_2019_11_STRICT_SPEC:
       return {
         disallowUpgradableNops: true,
         requireBugValueZero: true,
         requireMinimalEncoding: true,
-        requireNullSignatureFailures: true
+        requireNullSignatureFailures: true,
       };
     default:
       return new Error(
@@ -158,7 +158,7 @@ export const createInstructionSetBCH = ({
   ripemd160,
   secp256k1,
   sha1,
-  sha256
+  sha256,
 }: {
   flags: {
     readonly disallowUpgradableNops: boolean;
@@ -217,7 +217,7 @@ export const createInstructionSetBCH = ({
             AuthenticationErrorCommon.malformedLockingBytecode,
             initialState
           )
-        : initialState.instructions.every(instruction =>
+        : initialState.instructions.every((instruction) =>
             isPushOperation((instruction.opcode as unknown) as number)
           )
         ? stateEvaluate(initialState)
@@ -251,7 +251,7 @@ export const createInstructionSetBCH = ({
     return authenticationInstructionsAreMalformed(p2shInstructions)
       ? {
           ...lockingResult,
-          error: AuthenticationErrorBCH.malformedP2shBytecode
+          error: AuthenticationErrorBCH.malformedP2shBytecode,
         }
       : stateEvaluate(
           createAuthenticationProgramStateCommon<
@@ -270,17 +270,17 @@ export const createInstructionSetBCH = ({
       bitcoinCashOperations<OpcodesBCH, AuthenticationProgramStateBCH>({
         flags,
         secp256k1,
-        sha256
+        sha256,
       }),
       conditionallyEvaluate,
       incrementOperationCount,
       checkLimitsCommon
-    )
+    ),
   },
   ...undefinedOperation(),
   verify: (state: AuthenticationProgramStateBCH) =>
     state.error === undefined &&
     state.executionStack.length === 0 &&
     state.stack.length === 1 &&
-    stackItemIsTruthy(state.stack[0])
+    stackItemIsTruthy(state.stack[0]),
 });

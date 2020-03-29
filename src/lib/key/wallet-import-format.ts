@@ -1,12 +1,12 @@
 import {
   Base58AddressFormatVersion,
   decodeBase58AddressFormat,
-  encodeBase58AddressFormat
+  encodeBase58AddressFormat,
 } from '../address/address';
 import { Sha256 } from '../crypto/crypto';
 
 export enum WalletImportFormatError {
-  incorrectLength = 'The WIF private key payload is not the correct length.'
+  incorrectLength = 'The WIF private key payload is not the correct length.',
 }
 
 /**

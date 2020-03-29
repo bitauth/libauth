@@ -5,7 +5,7 @@ import {
   encodeDataPush,
   hexToBin,
   PushOperationConstants,
-  range
+  range,
 } from '../../../lib';
 
 const prefixDataPushVectors = [
@@ -32,10 +32,10 @@ const prefixDataPushVectors = [
   ['80', '0180'],
   ['0081', '020081'],
   ['123456', '03123456'],
-  ['123456789012345678901234567890', '0f123456789012345678901234567890']
+  ['123456789012345678901234567890', '0f123456789012345678901234567890'],
 ];
 
-test('prefixDataPush', t => {
+test('prefixDataPush', (t) => {
   prefixDataPushVectors.map(([inputHex, outputHex]) => {
     t.deepEqual(encodeDataPush(hexToBin(inputHex)), hexToBin(outputHex));
     return undefined;
@@ -47,7 +47,7 @@ test('prefixDataPush', t => {
     Uint8Array.from([
       PushOperationConstants.OP_PUSHDATA_1,
       0xff,
-      ...range(PushOperationConstants.maximumPushData1Size)
+      ...range(PushOperationConstants.maximumPushData1Size),
     ])
   );
   t.deepEqual(
@@ -58,7 +58,7 @@ test('prefixDataPush', t => {
       PushOperationConstants.OP_PUSHDATA_2,
       0,
       1,
-      ...range(PushOperationConstants.maximumPushData1Size + 1)
+      ...range(PushOperationConstants.maximumPushData1Size + 1),
     ])
   );
   t.deepEqual(
@@ -69,7 +69,7 @@ test('prefixDataPush', t => {
       PushOperationConstants.OP_PUSHDATA_2,
       0xff,
       0xff,
-      ...range(PushOperationConstants.maximumPushData2Size)
+      ...range(PushOperationConstants.maximumPushData2Size),
     ])
   );
   t.deepEqual(
@@ -82,7 +82,7 @@ test('prefixDataPush', t => {
       0,
       1,
       0,
-      ...range(PushOperationConstants.maximumPushData2Size + 1)
+      ...range(PushOperationConstants.maximumPushData2Size + 1),
     ])
   );
 });

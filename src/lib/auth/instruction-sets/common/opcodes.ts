@@ -266,5 +266,5 @@ export enum OpcodesCommon {
   OP_UNKNOWN252 = 0xfc,
   OP_UNKNOWN253 = 0xfd,
   OP_UNKNOWN254 = 0xfe,
-  OP_UNKNOWN255 = 0xff
+  OP_UNKNOWN255 = 0xff,
 }

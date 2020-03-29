@@ -1,7 +1,7 @@
 import {
   flattenBinArray,
   hexToBin,
-  utf8ToBin
+  utf8ToBin,
 } from '../../../../../format/format';
 import { bigIntToScriptNumber, encodeDataPush } from '../../../common/common';
 import { generateBytecodeMap } from '../../../instruction-sets-utils';
@@ -14,7 +14,7 @@ export const bitcoinABCOpcodes = Object.entries(
 }>((acc, cur) => ({ ...acc, [cur[0].slice('OP_'.length)]: cur[1] }), {
   PUSHDATA1: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_1),
   PUSHDATA2: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_2),
-  PUSHDATA4: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_4)
+  PUSHDATA4: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_4),
 });
 
 /**
@@ -37,8 +37,8 @@ export const assembleBitcoinABCScript = (abcScript: string) =>
   flattenBinArray(
     abcScript
       .split(' ')
-      .filter(token => token !== '')
-      .map(token =>
+      .filter((token) => token !== '')
+      .map((token) =>
         token.startsWith('0x')
           ? hexToBin(token.slice('0x'.length))
           : token.startsWith("'")

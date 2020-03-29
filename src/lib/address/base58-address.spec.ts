@@ -12,7 +12,7 @@ import {
   encodeBase58AddressFormat,
   hexToBin,
   instantiateSha256,
-  lockingBytecodeToBase58Address
+  lockingBytecodeToBase58Address,
 } from '../lib';
 
 import * as keyIoInvalid from './fixtures/key_io_invalid.json';
@@ -21,14 +21,14 @@ import * as keyIoValid from './fixtures/key_io_valid.json';
 const sha256Promise = instantiateSha256();
 
 const invalidVectors = Object.values(keyIoInvalid).filter(
-  item => Array.isArray(item) && item.every(x => typeof x === 'string')
+  (item) => Array.isArray(item) && item.every((x) => typeof x === 'string')
 );
 
-const validVectors = Object.values(keyIoValid).filter(item =>
-  item.every(x => !Array.isArray(x))
+const validVectors = Object.values(keyIoValid).filter((item) =>
+  item.every((x) => !Array.isArray(x))
 );
 
-test('encodeBase58AddressFormat', async t => {
+test('encodeBase58AddressFormat', async (t) => {
   const sha256 = await sha256Promise;
   const payload = hexToBin('65a16059864a2fdbc7c99a4723a8395bc6f188eb');
   t.deepEqual(
@@ -42,7 +42,7 @@ test('encodeBase58AddressFormat', async t => {
   );
 });
 
-test('encodeBase58Address', async t => {
+test('encodeBase58Address', async (t) => {
   const sha256 = await sha256Promise;
   const payload = hexToBin('76a04053bda0a88bda5177b86a15c3b29f559873');
   t.deepEqual(
@@ -77,7 +77,7 @@ test('encodeBase58Address', async t => {
   );
 });
 
-test('decodeBase58AddressFormat', async t => {
+test('decodeBase58AddressFormat', async (t) => {
   const sha256 = await sha256Promise;
   const payload = hexToBin('65a16059864a2fdbc7c99a4723a8395bc6f188eb');
   t.deepEqual(
@@ -85,12 +85,12 @@ test('decodeBase58AddressFormat', async t => {
     decodeBase58AddressFormat(sha256, '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i'),
     {
       payload,
-      version: Base58AddressFormatVersion.p2pkh
+      version: Base58AddressFormatVersion.p2pkh,
     }
   );
 });
 
-test('decodeBase58Address', async t => {
+test('decodeBase58Address', async (t) => {
   const sha256 = await sha256Promise;
   const payload = hexToBin('65a16059864a2fdbc7c99a4723a8395bc6f188eb');
   t.deepEqual(
@@ -98,7 +98,7 @@ test('decodeBase58Address', async t => {
     decodeBase58Address(sha256, '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i'),
     {
       payload,
-      version: Base58AddressFormatVersion.p2pkh
+      version: Base58AddressFormatVersion.p2pkh,
     }
   );
 });
@@ -107,7 +107,7 @@ const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
   fc
     .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map(a => Uint8Array.from(a));
+    .map((a) => Uint8Array.from(a));
 const maxBinLength = 100;
 
 testProp(
@@ -128,7 +128,7 @@ testProp(
   }
 );
 
-test('decodeBase58AddressFormat: errors', async t => {
+test('decodeBase58AddressFormat: errors', async (t) => {
   const sha256 = await sha256Promise;
   t.deepEqual(
     // cspell: disable-next-line
@@ -145,7 +145,7 @@ test('decodeBase58AddressFormat: errors', async t => {
     Base58AddressError.unknownCharacter
   );
 });
-test('decodeBase58Address: errors', async t => {
+test('decodeBase58Address: errors', async (t) => {
   const sha256 = await sha256Promise;
   t.deepEqual(
     // cspell: disable-next-line
@@ -160,7 +160,7 @@ test('decodeBase58Address: errors', async t => {
   );
 });
 
-test('Base58Address Invalid Vectors', async t => {
+test('Base58Address Invalid Vectors', async (t) => {
   const sha256 = await sha256Promise;
   invalidVectors.forEach(([invalid]) => {
     const result = decodeBase58Address(sha256, invalid);
@@ -172,7 +172,7 @@ test('Base58Address Invalid Vectors', async t => {
        */
       t.deepEqual(result, {
         payload: hexToBin('bc6437e3089918c9cb7e3d3ddd7ca83969b1e0bc'),
-        version: Base58AddressFormatVersion.p2shCopayBCH
+        version: Base58AddressFormatVersion.p2shCopayBCH,
       });
       return;
     }
@@ -180,10 +180,10 @@ test('Base58Address Invalid Vectors', async t => {
   });
 });
 
-test('Base58Address Valid Vectors (from C++ implementation – includes WIF vectors)', async t => {
+test('Base58Address Valid Vectors (from C++ implementation – includes WIF vectors)', async (t) => {
   const sha256 = await sha256Promise;
   // eslint-disable-next-line complexity
-  validVectors.forEach(vectors => {
+  validVectors.forEach((vectors) => {
     const [base58Address, data, meta] = vectors as [
       string,
       string,

@@ -15,8 +15,8 @@ export const getResolutionErrors = (
           ...errors,
           {
             error: segment.value,
-            range: segment.range
-          }
+            range: segment.range,
+          },
         ];
       case 'push':
       case 'evaluation':

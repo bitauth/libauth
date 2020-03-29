@@ -37,7 +37,7 @@ export enum AuthenticationErrorCommon {
   unknownOpcode = 'Called an unknown opcode.',
   unmatchedSequenceDisable = "Program called an OP_CHECKSEQUENCEVERIFY operation requiring the disable flag, but the input's sequence number is missing the disable flag.",
   unsatisfiedLocktime = "Program called an OP_CHECKLOCKTIMEVERIFY operation which requires a locktime greater than the transaction's locktime.",
-  unsatisfiedSequenceNumber = "Program called an OP_CHECKSEQUENCEVERIFY operation which requires a sequence number greater than the input's sequence number."
+  unsatisfiedSequenceNumber = "Program called an OP_CHECKSEQUENCEVERIFY operation which requires a sequence number greater than the input's sequence number.",
 }
 
 /**
@@ -53,5 +53,5 @@ export const applyError = <State extends ErrorState<Errors>, Errors>(
   state: State
 ): State => ({
   ...state,
-  error: state.error === undefined ? error : state.error
+  error: state.error === undefined ? error : state.error,
 });

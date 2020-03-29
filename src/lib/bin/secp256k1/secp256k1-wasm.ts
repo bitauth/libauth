@@ -5,7 +5,7 @@ import { base64ToBin } from '../../format/format';
 import {
   CompressionFlag,
   ContextFlag,
-  Secp256k1Wasm
+  Secp256k1Wasm,
 } from './secp256k1-wasm-types';
 import { secp256k1Base64Bytes } from './secp256k1.base64';
 
@@ -17,17 +17,17 @@ const wrapSecp256k1Wasm = (
   heapU8: Uint8Array,
   heapU32: Uint32Array
 ): Secp256k1Wasm => ({
-  contextCreate: context =>
+  contextCreate: (context) =>
     (instance.exports as any)._secp256k1_context_create(context),
   contextRandomize: (contextPtr, seedPtr) =>
     (instance.exports as any)._secp256k1_context_randomize(contextPtr, seedPtr),
 
-  free: pointer => (instance.exports as any)._free(pointer),
+  free: (pointer) => (instance.exports as any)._free(pointer),
   heapU32,
   heapU8,
   instance,
-  malloc: bytes => (instance.exports as any)._malloc(bytes),
-  mallocSizeT: num => {
+  malloc: (bytes) => (instance.exports as any)._malloc(bytes),
+  mallocSizeT: (num) => {
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     const pointer = (instance.exports as any)._malloc(4);
     // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
@@ -36,7 +36,7 @@ const wrapSecp256k1Wasm = (
     heapU32.set([num], pointerView32);
     return pointer;
   },
-  mallocUint8Array: array => {
+  mallocUint8Array: (array) => {
     const pointer = (instance.exports as any)._malloc(array.length);
     // eslint-disable-next-line functional/no-expression-statement
     heapU8.set(array, pointer);
@@ -99,7 +99,7 @@ const wrapSecp256k1Wasm = (
       tweakNum256Ptr
     ),
   readHeapU8: (pointer, bytes) => new Uint8Array(heapU8.buffer, pointer, bytes),
-  readSizeT: pointer => {
+  readSizeT: (pointer) => {
     // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
     const pointerView32 = pointer >> 2;
     return heapU32[pointerView32];
@@ -212,7 +212,7 @@ const wrapSecp256k1Wasm = (
       sigPtr,
       msg32Ptr,
       pubkeyPtr
-    )
+    ),
 });
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
@@ -260,7 +260,7 @@ export const instantiateSecp256k1WasmBytes = async (
 
   const wasmMemory = new WebAssembly.Memory({
     initial: TOTAL_MEMORY / WASM_PAGE_SIZE,
-    maximum: TOTAL_MEMORY / WASM_PAGE_SIZE
+    maximum: TOTAL_MEMORY / WASM_PAGE_SIZE,
   });
 
   /* istanbul ignore if  */
@@ -332,7 +332,7 @@ export const instantiateSecp256k1WasmBytes = async (
     enlargeMemory: /* istanbul ignore next */ () => {
       throw new Error('Secp256k1 Error: enlargeMemory was called.');
     },
-    getTotalMemory: () => TOTAL_MEMORY
+    getTotalMemory: () => TOTAL_MEMORY,
   };
 
   const info = {
@@ -343,14 +343,14 @@ export const instantiateSecp256k1WasmBytes = async (
       table: new WebAssembly.Table({
         element: 'anyfunc',
         initial: TABLE_SIZE,
-        maximum: MAX_TABLE_SIZE
+        maximum: MAX_TABLE_SIZE,
       }),
-      tableBase: 0
+      tableBase: 0,
     },
-    global: { Infinity, NaN }
+    global: { Infinity, NaN },
   };
 
-  return WebAssembly.instantiate(webassemblyBytes, info).then(result => {
+  return WebAssembly.instantiate(webassemblyBytes, info).then((result) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getErrNoLocation = result.instance.exports.___errno_location as any;
 

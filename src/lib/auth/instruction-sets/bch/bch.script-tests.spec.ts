@@ -9,14 +9,14 @@ import {
   instantiateSha256,
   instantiateVirtualMachineBCH,
   InstructionSetBCH,
-  stackItemIsTruthy
+  stackItemIsTruthy,
 } from '../../../lib';
 
 import * as scriptTestsAddendum from './fixtures/bitcoin-abc/script-tests-addendum.json';
 import * as scriptTests from './fixtures/bitcoin-abc/script_tests.json';
 
 const tests = Object.values(scriptTests)
-  .filter(e => e.length !== 1 && e.length < 7)
+  .filter((e) => e.length !== 1 && e.length < 7)
   .map((expectation, testIndex) => {
     const satoshis =
       typeof expectation[0] === 'string'
@@ -30,7 +30,7 @@ const tests = Object.values(scriptTests)
       message: expectation[4] as string | undefined,
       satoshis,
       testIndex,
-      unlockingBytecodeText: expectation[0] as string
+      unlockingBytecodeText: expectation[0] as string,
     };
   });
 
@@ -47,30 +47,30 @@ const expectedFailureTests = scriptTestsAddendum.fail.concat(
  */
 const minimalIfTests = scriptTestsAddendum.minimalIf;
 const expectedPassTests = scriptTestsAddendum.pass.concat(minimalIfTests);
-invalidUnlockTests.map(index => {
+invalidUnlockTests.map((index) => {
   tests[
     index
   ].lockingBytecodeText = `${tests[index].unlockingBytecodeText} ${tests[index].lockingBytecodeText}`;
   tests[index].unlockingBytecodeText = '';
   return undefined;
 });
-failRequiresReviewTests.map(index => {
+failRequiresReviewTests.map((index) => {
   tests[index].flags.failRequiresReview = true;
   return undefined;
 });
-dirtyStackTests.map(index => {
+dirtyStackTests.map((index) => {
   tests[index].flags.dirtyStack = true;
   return undefined;
 });
-strictTests.map(index => {
+strictTests.map((index) => {
   tests[index].flags.useStrict = true;
   return undefined;
 });
-expectedFailureTests.map(index => {
+expectedFailureTests.map((index) => {
   tests[index].expectedError = 'OVERRIDDEN_FAIL';
   return undefined;
 });
-expectedPassTests.map(index => {
+expectedPassTests.map((index) => {
   tests[index].expectedError = false;
   return undefined;
 });
@@ -103,7 +103,7 @@ const vmStrictPromise = instantiateVirtualMachineBCH(
 );
 const sha256Promise = instantiateSha256();
 
-pendingTests.map(expectation => {
+pendingTests.map((expectation) => {
   const description = `[script_tests] ${expectation.testIndex}/${
     pendingTests.length
   } – "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
@@ -117,7 +117,7 @@ pendingTests.map(expectation => {
   test(
     description,
     // eslint-disable-next-line complexity
-    async t => {
+    async (t) => {
       const unlockingBytecode = assembleBitcoinABCScript(
         expectation.unlockingBytecodeText
       );
@@ -132,7 +132,7 @@ pendingTests.map(expectation => {
         lockingBytecode,
         satoshis: expectation.satoshis,
         sha256,
-        unlockingBytecode
+        unlockingBytecode,
       });
       const result = vm.evaluate(program);
       const valid = expectation.flags.dirtyStack

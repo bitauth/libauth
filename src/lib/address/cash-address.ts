@@ -5,7 +5,7 @@ import { decodeBech32, encodeBech32, isBech32, regroupBits } from './bech32';
 export enum CashAddressNetworkPrefix {
   mainnet = 'bitcoincash',
   testnet = 'bchtest',
-  regtest = 'bchreg'
+  regtest = 'bchreg',
 }
 
 export const cashAddressBitToSize = {
@@ -16,7 +16,7 @@ export const cashAddressBitToSize = {
   4: 320,
   5: 384,
   6: 448,
-  7: 512
+  7: 512,
 } as const;
 
 export const cashAddressSizeToBit = {
@@ -27,7 +27,7 @@ export const cashAddressSizeToBit = {
   320: 4,
   384: 5,
   448: 6,
-  512: 7
+  512: 7,
 } as const;
 
 /**
@@ -62,7 +62,7 @@ export enum CashAddressVersionByte {
    * - Address Type bits: `0001` (P2SH)
    * - Size bits: `000` (160 bits)
    */
-  P2SH = 0b00001000
+  P2SH = 0b00001000,
 }
 
 /**
@@ -77,7 +77,7 @@ export enum CashAddressType {
   /**
    * Pay to Script Hash (P2SH)
    */
-  P2SH = 1
+  P2SH = 1,
 }
 
 const cashAddressTypeBitShift = 3;
@@ -116,7 +116,7 @@ const cashAddressSizeBits = 0b111;
 const empty = 0;
 
 export enum CashAddressVersionByteDecodingError {
-  reservedBitSet = 'Reserved bit is set.'
+  reservedBitSet = 'Reserved bit is set.',
 }
 
 /**
@@ -134,7 +134,7 @@ export const decodeCashAddressVersionByte = (version: number) =>
             (version & cashAddressSizeBits) as keyof typeof cashAddressBitToSize
           ],
         // eslint-disable-next-line no-bitwise
-        type: (version >>> cashAddressTypeBitShift) & cashAddressTypeBits
+        type: (version >>> cashAddressTypeBitShift) & cashAddressTypeBits,
       };
 
 /**
@@ -292,24 +292,24 @@ export const encodeCashAddressFormat = <
   const payloadContents = regroupBits({
     bin: Uint8Array.from([version, ...hash]),
     resultWordLength: base32WordLength,
-    sourceWordLength: base256WordLength
+    sourceWordLength: base256WordLength,
   }) as number[];
   const checksumContents = [
     ...maskCashAddressPrefix(prefix),
     payloadSeparator,
     ...payloadContents,
-    ...checksum40BitPlaceholder
+    ...checksum40BitPlaceholder,
   ];
   const checksum = cashAddressPolynomialModulo(checksumContents);
   const payload = [
     ...payloadContents,
-    ...cashAddressChecksumToUint5Array(checksum)
+    ...cashAddressChecksumToUint5Array(checksum),
   ];
   return `${prefix}:${encodeBech32(payload)}`;
 };
 
 export enum CashAddressEncodingError {
-  unsupportedHashLength = 'CashAddress encoding error: a hash of this length can not be encoded as a valid CashAddress.'
+  unsupportedHashLength = 'CashAddress encoding error: a hash of this length can not be encoded as a valid CashAddress.',
 }
 
 const isValidBitLength = (
@@ -362,7 +362,7 @@ export enum CashAddressDecodingError {
   malformedPayload = 'CashAddress decoding error: the payload is not properly encoded.',
   invalidChecksum = 'CashAddress decoding error: please review the address for errors.',
   reservedByte = 'CashAddress decoding error: unknown CashAddress version, reserved byte set.',
-  mismatchedHashLength = 'CashAddress decoding error: mismatched hash length for specified address version.'
+  mismatchedHashLength = 'CashAddress decoding error: mismatched hash length for specified address version.',
 }
 
 /**
@@ -392,7 +392,7 @@ export const decodeCashAddressFormat = (address: string) => {
   const polynomial = [
     ...maskCashAddressPrefix(prefix),
     payloadSeparator,
-    ...decodedPayload
+    ...decodedPayload,
   ];
   if (cashAddressPolynomialModulo(polynomial) !== 0) {
     return CashAddressDecodingError.invalidChecksum;
@@ -403,7 +403,7 @@ export const decodeCashAddressFormat = (address: string) => {
     bin: decodedPayload.slice(0, -checksum40BitPlaceholderLength),
     padding: false,
     resultWordLength: base256WordLength,
-    sourceWordLength: base32WordLength
+    sourceWordLength: base32WordLength,
   });
 
   if (typeof payloadContents === 'string') {
@@ -449,7 +449,7 @@ export const decodeCashAddress = (address: string) => {
   return {
     hash: decoded.hash,
     prefix: decoded.prefix,
-    type: info.type
+    type: info.type,
   };
 };
 
@@ -466,7 +466,7 @@ export const decodeCashAddressFormatWithoutPrefix = (
   possiblePrefixes: readonly string[] = [
     CashAddressNetworkPrefix.mainnet,
     CashAddressNetworkPrefix.testnet,
-    CashAddressNetworkPrefix.regtest
+    CashAddressNetworkPrefix.regtest,
   ]
 ) => {
   // eslint-disable-next-line functional/no-loop-statement
@@ -502,14 +502,14 @@ export const cashAddressPolynomialToCashAddress = (
   const separatorPosition = polynomial.indexOf(0);
   const prefix = polynomial
     .slice(0, separatorPosition)
-    .map(integer => String.fromCharCode(asciiLowerCaseStart + integer))
+    .map((integer) => String.fromCharCode(asciiLowerCaseStart + integer))
     .join('');
   const contents = encodeBech32(polynomial.slice(separatorPosition + 1));
   return `${prefix}:${contents}`;
 };
 
 export enum CashAddressCorrectionError {
-  tooManyErrors = 'This address has more than 2 errors and cannot be corrected.'
+  tooManyErrors = 'This address has more than 2 errors and cannot be corrected.',
 }
 
 const finiteFieldOrder = 32;
@@ -560,7 +560,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   if (originalChecksum === 0) {
     return {
       address: cashAddressPolynomialToCashAddress(polynomial),
-      corrections: []
+      corrections: [],
     };
   }
 
@@ -576,7 +576,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       if (correct === 0) {
         return {
           address: cashAddressPolynomialToCashAddress(polynomial),
-          corrections: [term]
+          corrections: [term],
         };
       }
       // eslint-disable-next-line no-bitwise
@@ -603,7 +603,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       polynomial[correctionIndex2] ^= s1 % finiteFieldOrder;
       return {
         address: cashAddressPolynomialToCashAddress(polynomial),
-        corrections: [correctionIndex1, correctionIndex2].sort((a, b) => a - b)
+        corrections: [correctionIndex1, correctionIndex2].sort((a, b) => a - b),
       };
     }
   }

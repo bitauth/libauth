@@ -1,7 +1,7 @@
 import {
   HashFunction,
   instantiateRustWasm,
-  ripemd160Base64Bytes
+  ripemd160Base64Bytes,
 } from '../bin/bin';
 import { base64ToBin } from '../format/format';
 
@@ -77,7 +77,7 @@ export const instantiateRipemd160Bytes = async (
     final: wasm.final,
     hash: wasm.hash,
     init: wasm.init,
-    update: wasm.update
+    update: wasm.update,
   };
 };
 

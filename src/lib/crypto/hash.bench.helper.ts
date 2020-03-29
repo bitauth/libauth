@@ -21,9 +21,9 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
       | 'SHA256'
       | 'SHA512'
       | 'SHA1';
-    test(`node: ${hashFunctionName}: hash a ${inputLength}-byte input`, async t => {
+    test(`node: ${hashFunctionName}: hash a ${inputLength}-byte input`, async (t) => {
       const hashFunction = await hashFunctionPromise;
-      await suite(t.title, s => {
+      await suite(t.title, (s) => {
         let message: Uint8Array;
         let hash: Uint8Array | readonly number[] | null;
         /*
@@ -40,17 +40,13 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           hash = hashFunction.hash(message);
         });
         s.bench('hash.js', () => {
-          hash = hashJs[nodeJsAlgorithm]()
-            .update(message)
-            .digest();
+          hash = hashJs[nodeJsAlgorithm]().update(message).digest();
         });
         s.bench('bcoin', () => {
           hash = bcrypto[bcryptoAlgorithm].digest(Buffer.from(message));
         });
         s.bench('node.js native', () => {
-          hash = createHash(nodeJsAlgorithm)
-            .update(nodeJsBuffer)
-            .digest();
+          hash = createHash(nodeJsAlgorithm).update(nodeJsBuffer).digest();
         });
         if (nodeJsAlgorithm !== 'ripemd160') {
           const Algorithm =
@@ -81,10 +77,11 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
   const MB = 1_000_000;
 
   const incrementalNodeBenchmark = (totalInput: number, chunkSize: number) => {
-    test(`node: ${hashFunctionName}: incrementally hash a ${totalInput /
-      MB}MB input in ${chunkSize / MB}MB chunks`, async t => {
+    test(`node: ${hashFunctionName}: incrementally hash a ${
+      totalInput / MB
+    }MB input in ${chunkSize / MB}MB chunks`, async (t) => {
       const hashFunction = await hashFunctionPromise;
-      await suite(t.title, s => {
+      await suite(t.title, (s) => {
         let message: Uint8Array;
         let messageChunks: readonly Uint8Array[];
         let nodeJsChunks: readonly Buffer[];
@@ -95,7 +92,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           messageChunks = Array.from({ length: chunkCount }).map((_, index) =>
             message.slice(index * chunkSize, index * chunkSize + chunkSize)
           );
-          nodeJsChunks = messageChunks.map(chunk => Buffer.from(chunk));
+          nodeJsChunks = messageChunks.map((chunk) => Buffer.from(chunk));
         };
         nextCycle();
         s.bench('bitcoin-ts', () => {

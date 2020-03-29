@@ -16,8 +16,8 @@ export const range = (length: number, begin = 0) =>
  */
 export const splitEvery = (input: string, chunkLength: number) =>
   range(Math.ceil(input.length / chunkLength))
-    .map(index => index * chunkLength)
-    .map(begin => input.slice(begin, begin + chunkLength));
+    .map((index) => index * chunkLength)
+    .map((begin) => input.slice(begin, begin + chunkLength));
 
 const hexByteWidth = 2;
 const hexadecimal = 16;
@@ -36,7 +36,9 @@ const hexadecimal = 16;
  */
 export const hexToBin = (validHex: string) =>
   Uint8Array.from(
-    splitEvery(validHex, hexByteWidth).map(byte => parseInt(byte, hexadecimal))
+    splitEvery(validHex, hexByteWidth).map((byte) =>
+      parseInt(byte, hexadecimal)
+    )
   );
 
 const hexByteLength = 2;

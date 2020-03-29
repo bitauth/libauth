@@ -7,14 +7,14 @@ import * as P from './parsimmon.js';
  */
 /* eslint-disable sort-keys */
 const authenticationScriptParser = P.createLanguage({
-  script: r =>
+  script: (r) =>
     P.seqMap(
       P.optWhitespace,
       r.expression.sepBy(P.optWhitespace).node('Script'),
       P.optWhitespace,
       (_, expressions) => expressions
     ),
-  expression: r =>
+  expression: (r) =>
     P.alt(
       r.comment,
       r.push,
@@ -24,7 +24,8 @@ const authenticationScriptParser = P.createLanguage({
       r.bigint,
       r.identifier
     ),
-  comment: r => P.alt(r.singleLineComment, r.multiLineComment).node('Comment'),
+  comment: (r) =>
+    P.alt(r.singleLineComment, r.multiLineComment).node('Comment'),
   singleLineComment: () =>
     P.seqMap(
       P.string('//').desc("the start of a single-line comment ('//')"),
@@ -40,14 +41,14 @@ const authenticationScriptParser = P.createLanguage({
       P.string('*/'),
       (__, comment) => comment.trim()
     ),
-  push: r =>
+  push: (r) =>
     P.seqMap(
       P.string('<').desc("the start of a push statement ('<')"),
       r.script,
       P.string('>').desc("the end of this push statement ('>')"),
       (_, push) => push
     ).node('Push'),
-  evaluation: r =>
+  evaluation: (r) =>
     P.seqMap(
       P.string('$').desc("the start of an evaluation ('$')"),
       P.string('(').desc("the opening parenthesis of this evaluation ('(')"),
@@ -84,7 +85,7 @@ const authenticationScriptParser = P.createLanguage({
     P.regexp(/-?[0-9]+/u)
       .desc('an integer literal')
       .map(BigInt)
-      .node('BigIntLiteral')
+      .node('BigIntLiteral'),
 });
 /* eslint-enable sort-keys */
 

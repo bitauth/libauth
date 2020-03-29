@@ -5,13 +5,13 @@ import {
   Base58AddressFormatVersion,
   Base58AddressNetwork,
   decodeBase58Address,
-  encodeBase58AddressFormat
+  encodeBase58AddressFormat,
 } from './base58-address';
 import {
   CashAddressNetworkPrefix,
   CashAddressType,
   decodeCashAddress,
-  encodeCashAddress
+  encodeCashAddress,
 } from './cash-address';
 
 /**
@@ -51,7 +51,7 @@ export enum AddressType {
    * This `AddressType` represents an address using an unknown or uncommon
    * locking bytecode pattern for which no standardized address formats exist.
    */
-  unknown = 'unknown'
+  unknown = 'unknown',
 }
 
 /**
@@ -139,7 +139,7 @@ export const lockingBytecodeToAddressContents = (
 
   return {
     payload: bytecode.slice(),
-    type: AddressType.unknown
+    type: AddressType.unknown,
   };
 };
 
@@ -162,7 +162,7 @@ export const addressContentsToLockingBytecode = (
       OpcodesCommon.OP_PUSHBYTES_20,
       ...addressContents.payload,
       OpcodesCommon.OP_EQUALVERIFY,
-      OpcodesCommon.OP_CHECKSIG
+      OpcodesCommon.OP_CHECKSIG,
     ]);
   }
   if (addressContents.type === AddressType.p2sh) {
@@ -170,7 +170,7 @@ export const addressContentsToLockingBytecode = (
       OpcodesCommon.OP_HASH160,
       OpcodesCommon.OP_PUSHBYTES_20,
       ...addressContents.payload,
-      OpcodesCommon.OP_EQUAL
+      OpcodesCommon.OP_EQUAL,
     ]);
   }
   if (addressContents.type === AddressType.p2pk) {
@@ -179,12 +179,12 @@ export const addressContentsToLockingBytecode = (
       ? Uint8Array.from([
           OpcodesCommon.OP_PUSHBYTES_33,
           ...addressContents.payload,
-          OpcodesCommon.OP_CHECKSIG
+          OpcodesCommon.OP_CHECKSIG,
         ])
       : Uint8Array.from([
           OpcodesCommon.OP_PUSHBYTES_65,
           ...addressContents.payload,
-          OpcodesCommon.OP_CHECKSIG
+          OpcodesCommon.OP_CHECKSIG,
         ]);
   }
   return addressContents.payload;
@@ -221,7 +221,7 @@ export const lockingBytecodeToCashAddress = <
 };
 
 export enum LockingBytecodeEncodingError {
-  unknownCashAddressType = 'This CashAddress uses an unknown address type.'
+  unknownCashAddressType = 'This CashAddress uses an unknown address type.',
 }
 
 /**
@@ -240,9 +240,9 @@ export const cashAddressToLockingBytecode = (address: string) => {
     return {
       bytecode: addressContentsToLockingBytecode({
         payload: decoded.hash,
-        type: AddressType.p2pkh
+        type: AddressType.p2pkh,
       }),
-      prefix: decoded.prefix
+      prefix: decoded.prefix,
     };
   }
 
@@ -250,9 +250,9 @@ export const cashAddressToLockingBytecode = (address: string) => {
     return {
       bytecode: addressContentsToLockingBytecode({
         payload: decoded.hash,
-        type: AddressType.p2sh
+        type: AddressType.p2sh,
       }),
-      prefix: decoded.prefix
+      prefix: decoded.prefix,
     };
   }
 
@@ -287,7 +287,7 @@ export const lockingBytecodeToBase58Address = (
       {
         'copay-bch': Base58AddressFormatVersion.p2pkhCopayBCH,
         mainnet: Base58AddressFormatVersion.p2pkh,
-        testnet: Base58AddressFormatVersion.p2pkhTestnet
+        testnet: Base58AddressFormatVersion.p2pkhTestnet,
       }[network],
       contents.payload
     );
@@ -298,7 +298,7 @@ export const lockingBytecodeToBase58Address = (
       {
         'copay-bch': Base58AddressFormatVersion.p2shCopayBCH,
         mainnet: Base58AddressFormatVersion.p2sh,
-        testnet: Base58AddressFormatVersion.p2shTestnet
+        testnet: Base58AddressFormatVersion.p2shTestnet,
       }[network],
       contents.payload
     );
@@ -328,11 +328,11 @@ export const base58AddressToLockingBytecode = (
       type: [
         Base58AddressFormatVersion.p2pkh,
         Base58AddressFormatVersion.p2pkhCopayBCH,
-        Base58AddressFormatVersion.p2pkhTestnet
+        Base58AddressFormatVersion.p2pkhTestnet,
       ].includes(decoded.version)
         ? AddressType.p2pkh
-        : AddressType.p2sh
+        : AddressType.p2sh,
     }),
-    version: decoded.version
+    version: decoded.version,
   };
 };

@@ -6,7 +6,7 @@ import {
   Ripemd160,
   Secp256k1,
   Sha256,
-  Sha512
+  Sha512,
 } from '../crypto/crypto';
 import { hmacSha512 } from '../crypto/hmac';
 import {
@@ -16,7 +16,7 @@ import {
   binToBase58,
   binToBigIntUint256BE,
   flattenBinArray,
-  numberToBinUint32BE
+  numberToBinUint32BE,
 } from '../format/format';
 import { utf8ToBin } from '../format/utf8';
 
@@ -165,7 +165,7 @@ export const instantiateBIP32Crypto = async () => {
     instantiateRipemd160(),
     instantiateSecp256k1(),
     instantiateSha256(),
-    instantiateSha512()
+    instantiateSha512(),
   ]);
   return { ripemd160, secp256k1, sha256, sha512 };
 };
@@ -203,7 +203,7 @@ export const deriveHdPrivateNodeFromSeed = (
         depth,
         invalidPrivateKey: privateKey,
         parentFingerprint,
-        valid
+        valid,
       };
 };
 
@@ -284,7 +284,7 @@ export enum HdKeyVersion {
    *
    * Hex: `0x043587cf`
    */
-  testnetPublicKey = 0x043587cf
+  testnetPublicKey = 0x043587cf,
 }
 
 /**
@@ -298,7 +298,7 @@ export enum HdKeyDecodingError {
   privateKeyExpected = 'HD key decoding error: expected an HD private key, but encountered an HD public key.',
   publicKeyExpected = 'HD key decoding error: expected an HD public key, but encountered an HD private key.',
   unknownCharacter = 'HD key decoding error: key includes a non-base58 character.',
-  unknownVersion = 'HD key decoding error: key uses an unknown version.'
+  unknownVersion = 'HD key decoding error: key uses an unknown version.',
 }
 
 /**
@@ -372,7 +372,7 @@ export const decodeHdKey = (
             depth,
             parentFingerprint,
             privateKey,
-            valid: true
+            valid: true,
           } as HdPrivateNodeValid)
         : ({
             chainCode,
@@ -380,11 +380,11 @@ export const decodeHdKey = (
             depth,
             invalidPrivateKey: privateKey,
             parentFingerprint,
-            valid: false
+            valid: false,
           } as HdPrivateNodeInvalid),
       version: version as
         | HdKeyVersion.mainnetPrivateKey
-        | HdKeyVersion.testnetPrivateKey
+        | HdKeyVersion.testnetPrivateKey,
     };
   }
 
@@ -402,11 +402,11 @@ export const decodeHdKey = (
       childIndex,
       depth,
       parentFingerprint,
-      publicKey: keyData
+      publicKey: keyData,
     } as HdPublicNode,
     version: version as
       | HdKeyVersion.mainnetPublicKey
-      | HdKeyVersion.testnetPublicKey
+      | HdKeyVersion.testnetPublicKey,
   };
 };
 
@@ -437,13 +437,13 @@ export const decodeHdPrivateKey = (
   if (decoded.version === HdKeyVersion.mainnetPrivateKey) {
     return {
       network: 'mainnet',
-      node: decoded.node
+      node: decoded.node,
     } as HdKeyParameters<HdPrivateNodeValid>;
   }
 
   return {
     network: 'testnet',
-    node: decoded.node
+    node: decoded.node,
   } as HdKeyParameters<HdPrivateNodeValid>;
 };
 
@@ -466,13 +466,13 @@ export const decodeHdPublicKey = (
   if (decoded.version === HdKeyVersion.mainnetPublicKey) {
     return {
       network: 'mainnet',
-      node: decoded.node
+      node: decoded.node,
     } as HdKeyParameters<HdPublicNode>;
   }
   if (decoded.version === HdKeyVersion.testnetPublicKey) {
     return {
       network: 'testnet',
-      node: decoded.node
+      node: decoded.node,
     } as HdKeyParameters<HdPublicNode>;
   }
   return HdKeyDecodingError.publicKeyExpected;
@@ -504,7 +504,7 @@ export const encodeHdPrivateKey = (
     childIndex,
     keyParameters.node.chainCode,
     isPrivateKey,
-    keyParameters.node.privateKey
+    keyParameters.node.privateKey,
   ]);
   const checksumLength = 4;
   const checksum = crypto.sha256
@@ -537,7 +537,7 @@ export const encodeHdPublicKey = (
     keyParameters.node.parentFingerprint,
     childIndex,
     keyParameters.node.chainCode,
-    keyParameters.node.publicKey
+    keyParameters.node.publicKey,
   ]);
   const checksumLength = 4;
   const checksum = crypto.sha256
@@ -578,7 +578,7 @@ export const deriveHdPublicNode = <
     ...(node.parentIdentifier === undefined
       ? {}
       : { parentIdentifier: node.parentIdentifier }),
-    publicKey: crypto.secp256k1.derivePublicKeyCompressed(node.privateKey)
+    publicKey: crypto.secp256k1.derivePublicKeyCompressed(node.privateKey),
   } as PrivateNode extends HdPrivateNodeKnownParent
     ? HdPublicNodeKnownParent
     : HdPublicNode;
@@ -593,7 +593,7 @@ export enum HdNodeDerivationError {
   hardenedDerivationRequiresPrivateNode = 'HD key derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
   invalidDerivationPath = 'HD key derivation error: invalid derivation path – paths must begin with "m" or "M" and contain only forward slashes ("/"), apostrophes ("\'"), child index numbers.',
   invalidPrivateDerivationPrefix = 'HD key derivation error: private derivation paths must begin with "m".',
-  invalidPublicDerivationPrefix = 'HD key derivation error: public derivation paths must begin with "M".'
+  invalidPublicDerivationPrefix = 'HD key derivation error: public derivation paths must begin with "M".',
 }
 
 /**
@@ -651,7 +651,7 @@ export const deriveHdPrivateNodeChild = (
   const serialization = Uint8Array.from([
     ...(useHardenedAlgorithm ? [0x00] : []),
     ...keyMaterial,
-    ...numberToBinUint32BE(index)
+    ...numberToBinUint32BE(index),
   ]);
 
   const derivation = hmacSha512(crypto.sha512, node.chainCode, serialization);
@@ -674,7 +674,7 @@ export const deriveHdPrivateNodeChild = (
       parentFingerprint: parentIdentifier.slice(0, parentFingerprintLength),
       parentIdentifier,
       privateKey: nextPrivateKey,
-      valid: true
+      valid: true,
     } as HdPrivateNodeKnownParent;
   } catch (error) /* istanbul ignore next - testing requires >2^127 brute force */ {
     if (index === hardenedIndexOffset - 1) {
@@ -733,7 +733,7 @@ export const deriveHdPublicNodeChild = (
 
   const serialization = Uint8Array.from([
     ...node.publicKey,
-    ...numberToBinUint32BE(index)
+    ...numberToBinUint32BE(index),
   ]);
 
   const derivation = hmacSha512(crypto.sha512, node.chainCode, serialization);
@@ -755,7 +755,7 @@ export const deriveHdPublicNodeChild = (
       depth: node.depth + 1,
       parentFingerprint: parentIdentifier.slice(0, parentFingerprintLength),
       parentIdentifier,
-      publicKey: nextPublicKey
+      publicKey: nextPublicKey,
     } as HdPublicNodeKnownParent;
   } catch (error) /* istanbul ignore next - testing requires >2^127 brute force */ {
     if (index === hardenedIndexOffset - 1) {
@@ -869,7 +869,7 @@ export const deriveHdPath = <
   const hardenedIndexOffset = 0x80000000;
   const indexes = parsed
     .slice(1)
-    .map(index =>
+    .map((index) =>
       index.endsWith("'")
         ? parseInt(index.slice(0, -1), base) + hardenedIndexOffset
         : parseInt(index, base)
@@ -893,7 +893,7 @@ export const deriveHdPath = <
 };
 
 export enum HdNodeCrackingError {
-  cannotCrackHardenedDerivation = 'HD node cracking error: cannot crack an HD parent node using hardened child node.'
+  cannotCrackHardenedDerivation = 'HD node cracking error: cannot crack an HD parent node using hardened child node.',
 }
 
 /**
@@ -935,7 +935,7 @@ export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
   }
   const serialization = Uint8Array.from([
     ...parentPublicNode.publicKey,
-    ...numberToBinUint32BE(childPrivateNode.childIndex)
+    ...numberToBinUint32BE(childPrivateNode.childIndex),
   ]);
 
   const derivation = hmacSha512(
@@ -968,7 +968,7 @@ export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
       ? {}
       : { parentIdentifier: parentPublicNode.parentIdentifier }),
     privateKey,
-    valid: true
+    valid: true,
   } as PublicNode extends HdPublicNodeKnownParent
     ? HdPrivateNodeKnownParent
     : HdPrivateNodeValid;

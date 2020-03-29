@@ -4,7 +4,7 @@ import {
   ContextFlag,
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
-  Secp256k1Wasm
+  Secp256k1Wasm,
 } from '../bin/bin';
 
 import { RecoverableSignature, RecoveryId, Secp256k1 } from './secp256k1-types';
@@ -23,7 +23,7 @@ const enum ByteLength {
   randomSeed = 32,
   recoverableSig = 65,
   schnorrSig = 64,
-  uncompressedPublicKey = 65
+  uncompressedPublicKey = 65,
 }
 
 /**
@@ -120,7 +120,7 @@ const wrapSecp256k1Wasm = (
 
   const convertPublicKey = (
     compressed: boolean
-  ): ((publicKey: Uint8Array) => Uint8Array) => publicKey => {
+  ): ((publicKey: Uint8Array) => Uint8Array) => (publicKey) => {
     if (!parsePublicKey(publicKey)) {
       throw new Error('Failed to parse public key.');
     }
@@ -171,7 +171,7 @@ const wrapSecp256k1Wasm = (
 
   const convertSignature = (
     wasDER: boolean
-  ): ((signature: Uint8Array) => Uint8Array) => signature => {
+  ): ((signature: Uint8Array) => Uint8Array) => (signature) => {
     parseOrThrow(signature, wasDER);
     return wasDER ? getCompactSig() : getDERSig();
   };
@@ -200,7 +200,7 @@ const wrapSecp256k1Wasm = (
 
   const derivePublicKey = (
     compressed: boolean
-  ): ((privateKey: Uint8Array) => Uint8Array) => privateKey => {
+  ): ((privateKey: Uint8Array) => Uint8Array) => (privateKey) => {
     const invalid = withPrivateKey<boolean>(
       privateKey,
       () =>
@@ -233,7 +233,7 @@ const wrapSecp256k1Wasm = (
   const modifySignature = (
     DER: boolean,
     normalize: boolean
-  ): ((signature: Uint8Array) => Uint8Array) => signature => {
+  ): ((signature: Uint8Array) => Uint8Array) => (signature) => {
     parseOrThrow(signature, DER);
     if (normalize) {
       normalizeSignature();
@@ -401,7 +401,7 @@ const wrapSecp256k1Wasm = (
         recoveryId: getRecoveryNumPtr() as RecoveryId,
         signature: secp256k1Wasm
           .readHeapU8(sigScratch, ByteLength.compactSig)
-          .slice()
+          .slice(),
       };
     });
   };
@@ -570,7 +570,7 @@ const wrapSecp256k1Wasm = (
     signatureCompactToDER: convertSignature(false),
     signatureDERToCompact: convertSignature(true),
     uncompressPublicKey: convertPublicKey(false),
-    validatePrivateKey: privateKey =>
+    validatePrivateKey: (privateKey) =>
       withPrivateKey<boolean>(
         privateKey,
         () => secp256k1Wasm.seckeyVerify(contextPtr, privateKeyPtr) === 1
@@ -579,7 +579,7 @@ const wrapSecp256k1Wasm = (
     verifySignatureCompactLowS: verifySignature(false, false),
     verifySignatureDER: verifySignature(true, true),
     verifySignatureDERLowS: verifySignature(true, false),
-    verifySignatureSchnorr: verifySignatureSchnorr()
+    verifySignatureSchnorr: verifySignatureSchnorr(),
   };
 };
 

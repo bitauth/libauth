@@ -11,7 +11,7 @@ import {
   getEmbeddedSecp256k1Binary,
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
-  Secp256k1Wasm
+  Secp256k1Wasm,
 } from '../../lib';
 
 // test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
@@ -493,19 +493,19 @@ const testSecp256k1Wasm = (
 
 const binary = getEmbeddedSecp256k1Binary();
 
-test('[crypto] getEmbeddedSecp256k1Binary returns the proper binary', t => {
+test('[crypto] getEmbeddedSecp256k1Binary returns the proper binary', (t) => {
   // eslint-disable-next-line no-undef
   const path = join(__dirname, 'secp256k1.wasm');
   const binaryFromDisk = readFileSync(path).buffer;
   t.deepEqual(binary, binaryFromDisk);
 });
 
-test('[crypto] Secp256k1Wasm instantiated with embedded binary', async t => {
+test('[crypto] Secp256k1Wasm instantiated with embedded binary', async (t) => {
   const secp256k1Wasm = await instantiateSecp256k1Wasm();
   testSecp256k1Wasm(t, secp256k1Wasm);
 });
 
-test('[crypto] Secp256k1Wasm instantiated with bytes', async t => {
+test('[crypto] Secp256k1Wasm instantiated with bytes', async (t) => {
   const secp256k1Wasm = await instantiateSecp256k1WasmBytes(binary);
   testSecp256k1Wasm(t, secp256k1Wasm);
 });

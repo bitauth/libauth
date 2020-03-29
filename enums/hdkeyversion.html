@@ -1,0 +1,217 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>HdKeyVersion | bitcoin-ts</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">bitcoin-ts</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="hdkeyversion.html">HdKeyVersion</a>
+				</li>
+			</ul>
+			<h1>Enumeration HdKeyVersion</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The 4-byte version indicating the network and type of an <code>HdPrivateKey</code> or
+						<code>HdPublicKey</code>.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Enumeration members</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="hdkeyversion.html#mainnetprivatekey" class="tsd-kind-icon">mainnet<wbr>Private<wbr>Key</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="hdkeyversion.html#mainnetpublickey" class="tsd-kind-icon">mainnet<wbr>Public<wbr>Key</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="hdkeyversion.html#testnetprivatekey" class="tsd-kind-icon">testnet<wbr>Private<wbr>Key</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="hdkeyversion.html#testnetpublickey" class="tsd-kind-icon">testnet<wbr>Public<wbr>Key</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="mainnetprivatekey" class="tsd-anchor"></a>
+					<h3>mainnet<wbr>Private<wbr>Key</h3>
+					<div class="tsd-signature tsd-kind-icon">mainnet<wbr>Private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 76066276</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/key/hd-key.ts#L263">src/lib/key/hd-key.ts:263</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Version indicating the HD key is an <code>HdPrivateKey</code> intended for use on the
+								main network. Base58 encoding at the expected length of an HD key results
+							in a prefix of <code>xprv</code>.</p>
+						</div>
+						<p>Hex: <code>0x0488ade4</code></p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="mainnetpublickey" class="tsd-anchor"></a>
+					<h3>mainnet<wbr>Public<wbr>Key</h3>
+					<div class="tsd-signature tsd-kind-icon">mainnet<wbr>Public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 76067358</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/key/hd-key.ts#L271">src/lib/key/hd-key.ts:271</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Version indicating the HD key is an <code>HdPublicKey</code> intended for use on the
+								main network. Base58 encoding at the expected length of an HD key results
+							in a prefix of <code>xpub</code>.</p>
+						</div>
+						<p>Hex: <code>0x0488b21e</code></p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="testnetprivatekey" class="tsd-anchor"></a>
+					<h3>testnet<wbr>Private<wbr>Key</h3>
+					<div class="tsd-signature tsd-kind-icon">testnet<wbr>Private<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 70615956</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/key/hd-key.ts#L279">src/lib/key/hd-key.ts:279</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Version indicating the HD key is an <code>HdPrivateKey</code> intended for use on the
+								test network. Base58 encoding at the expected length of an HD key results
+							in a prefix of <code>tprv</code>.</p>
+						</div>
+						<p>Hex: <code>0x04358394</code></p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="testnetpublickey" class="tsd-anchor"></a>
+					<h3>testnet<wbr>Public<wbr>Key</h3>
+					<div class="tsd-signature tsd-kind-icon">testnet<wbr>Public<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 70617039</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/key/hd-key.ts#L287">src/lib/key/hd-key.ts:287</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Version indicating the HD key is an <code>HdPublicKey</code> intended for use on the
+								test network. Base58 encoding at the expected length of an HD key results
+							in a prefix of <code>tpub</code>.</p>
+						</div>
+						<p>Hex: <code>0x043587cf</code></p>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-enum tsd-is-external">
+						<a href="hdkeyversion.html" class="tsd-kind-icon">Hd<wbr>Key<wbr>Version</a>
+						<ul>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="hdkeyversion.html#mainnetprivatekey" class="tsd-kind-icon">mainnet<wbr>Private<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="hdkeyversion.html#mainnetpublickey" class="tsd-kind-icon">mainnet<wbr>Public<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="hdkeyversion.html#testnetprivatekey" class="tsd-kind-icon">testnet<wbr>Private<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="hdkeyversion.html#testnetpublickey" class="tsd-kind-icon">testnet<wbr>Public<wbr>Key</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

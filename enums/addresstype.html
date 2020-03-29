@@ -1,0 +1,222 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>AddressType | bitcoin-ts</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">bitcoin-ts</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="addresstype.html">AddressType</a>
+				</li>
+			</ul>
+			<h1>Enumeration AddressType</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The most common address types used on bitcoin and bitcoin-like networks. Each
+						address type represents a commonly used locking bytecode pattern.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>remarks</dt>
+						<dd><p>Addresses are strings which encode information about the network and
+							<code>lockingBytecode</code> to which a transaction output can pay.</p>
+							<p>Several address formats exist – <code>Base58Address</code> was the format used by the
+								original satoshi client, and is still in use on several active chains (see
+								<code>encodeBase58Address</code>). On Bitcoin Cash, the <code>CashAddress</code> standard is most
+							common (See <code>encodeCashAddress</code>).</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Enumeration members</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="addresstype.html#p2pk" class="tsd-kind-icon">p2pk</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="addresstype.html#p2pkh" class="tsd-kind-icon">p2pkh</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="addresstype.html#p2sh" class="tsd-kind-icon">p2sh</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="addresstype.html#unknown" class="tsd-kind-icon">unknown</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="p2pk" class="tsd-anchor"></a>
+					<h3>p2pk</h3>
+					<div class="tsd-signature tsd-kind-icon">p2pk<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;P2PK&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/address/locking-bytecode.ts#L39">src/lib/address/locking-bytecode.ts:39</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Pay to Public Key (P2PK). This address type is uncommon, and primarily
+								occurs in early blocks because the original satoshi implementation mined
+							rewards to P2PK addresses.</p>
+						</div>
+						<p>There are no standardized address formats for representing a P2PK address.
+						Instead, most applications use the <code>AddressType.p2pkh</code> format.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="p2pkh" class="tsd-anchor"></a>
+					<h3>p2pkh</h3>
+					<div class="tsd-signature tsd-kind-icon">p2pkh<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;P2PKH&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/address/locking-bytecode.ts#L44">src/lib/address/locking-bytecode.ts:44</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Pay to Public Key Hash (P2PKH). The most common address type. P2PKH
+							addresses lock funds using a single private key.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="p2sh" class="tsd-anchor"></a>
+					<h3>p2sh</h3>
+					<div class="tsd-signature tsd-kind-icon">p2sh<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;P2SH&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/address/locking-bytecode.ts#L49">src/lib/address/locking-bytecode.ts:49</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Pay to Script Hash (P2SH). An address type which locks funds to the hash of
+							a script provided in the spending transaction. See BIP13 for details.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="unknown" class="tsd-anchor"></a>
+					<h3>unknown</h3>
+					<div class="tsd-signature tsd-kind-icon">unknown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;unknown&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/35aac14/src/lib/address/locking-bytecode.ts#L54">src/lib/address/locking-bytecode.ts:54</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This <code>AddressType</code> represents an address using an unknown or uncommon
+							locking bytecode pattern for which no standardized address formats exist.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-enum tsd-is-external">
+						<a href="addresstype.html" class="tsd-kind-icon">Address<wbr>Type</a>
+						<ul>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="addresstype.html#p2pk" class="tsd-kind-icon">p2pk</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="addresstype.html#p2pkh" class="tsd-kind-icon">p2pkh</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="addresstype.html#p2sh" class="tsd-kind-icon">p2sh</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="addresstype.html#unknown" class="tsd-kind-icon">unknown</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

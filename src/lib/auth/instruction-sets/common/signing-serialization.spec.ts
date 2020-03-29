@@ -9,7 +9,7 @@ import {
   hexToBin,
   instantiateSha256,
   isLegacySigningSerialization,
-  numberToBinUint32LE
+  numberToBinInt32TwosCompliment
 } from '../../../lib';
 import * as sighashTests from '../bch/fixtures/bitcoin-abc/sighash.json';
 
@@ -46,7 +46,8 @@ pendingTests.map((expectation, currentTest) => {
     const sha256 = await sha256Promise;
     const tx = deserializeTransaction(hexToBin(expectation.transactionHex));
     const lockingBytecode = hexToBin(expectation.scriptHex);
-    const signingSerializationType = numberToBinUint32LE(
+
+    const signingSerializationType = numberToBinInt32TwosCompliment(
       expectation.signingSerializationType
     );
     const state = createAuthenticationProgramExternalStateCommon({

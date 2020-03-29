@@ -1,4 +1,4 @@
-import { range } from '../utils/utils';
+import { range } from '../format/format';
 
 import { AuthenticationProgramStateBCH } from './instruction-sets/instruction-sets';
 import { MinimumProgramState } from './state';

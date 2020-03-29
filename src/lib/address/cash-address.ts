@@ -1,4 +1,4 @@
-import { Immutable } from '../utils/utils';
+import { Immutable } from '../format/format';
 
 import { decodeBech32, encodeBech32, isBech32, regroupBits } from './bech32';
 
@@ -320,6 +320,11 @@ const isValidBitLength = (
     | undefined) !== undefined;
 /**
  * Encode a hash as a CashAddress.
+ *
+ * Note, this method does not enforce error handling via the type system. The
+ * returned string may be a `CashAddressEncodingError.unsupportedHashLength`
+ * if `hash` is not a valid length. Check the result if the input is potentially
+ * malformed.
  *
  * For other address standards which closely follow the CashAddress
  * specification (but have alternative version byte requirements), use

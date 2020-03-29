@@ -1,10 +1,10 @@
 import { Sha256 } from '../../../crypto/sha256';
+import { hexToBin, swapEndianness } from '../../../format/format';
 import {
   getBitcoinTransactionId,
   serializeTransaction,
   Transaction
 } from '../../../transaction';
-import { hexToBin, swapEndianness } from '../../../utils/utils';
 import {
   AuthenticationProgramCommon,
   AuthenticationProgramStateCommon

@@ -1,4 +1,5 @@
 export * from './hex';
+export * from './base-convert';
 export * from './base64';
 export * from './numbers';
 export * from './log';

@@ -48,7 +48,7 @@ export const testHashFunction = <T extends HashFunction>({
     | 'SHA512'
     | 'SHA1';
 
-  test(`crypto: ${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
+  test(`[crypto] ${hashFunctionName} getEmbeddedBinary returns the proper binary`, t => {
     const path = join(
       // eslint-disable-next-line no-undef
       __dirname,
@@ -61,7 +61,7 @@ export const testHashFunction = <T extends HashFunction>({
     t.deepEqual(binary, binaryFromDisk);
   });
 
-  test(`crypto: ${hashFunctionName} instantiated with embedded binary`, async t => {
+  test(`[crypto] ${hashFunctionName} instantiated with embedded binary`, async t => {
     const hashFunction = await instantiate();
     t.deepEqual(hashFunction.hash(stringToCharsUint8Array('abc')), abcHash);
     t.deepEqual(hashFunction.hash(stringToCharsUint8Array('test')), testHash);

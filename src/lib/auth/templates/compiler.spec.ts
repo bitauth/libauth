@@ -6,14 +6,13 @@ import {
   createAuthenticationProgramExternalStateCommonEmpty,
   createAuthenticationProgramStateCommon,
   createCompilerBCH,
-  hexToBin,
-  stringify
+  hexToBin
 } from '../../lib';
 
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
 
-test('createCompilerBCH: generateScript', async t => {
+test('[BCH compiler] createCompilerBCH: generateScript', async t => {
   const compiler = await createCompilerBCH({
     scripts: {
       lock:
@@ -42,7 +41,6 @@ test('createCompilerBCH: generateScript', async t => {
         coveredBytecode: resultLock.bytecode
       }
     });
-    t.log(stringify(resultUnlock));
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(
         '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
@@ -52,7 +50,7 @@ test('createCompilerBCH: generateScript', async t => {
   }
 });
 
-test('createCompilerBCH: debug', async t => {
+test('[BCH compiler] createCompilerBCH: debug', async t => {
   const state = createAuthenticationProgramExternalStateCommonEmpty();
   const createState = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -611,7 +609,6 @@ test('createCompilerBCH: debug', async t => {
       },
       true
     );
-    t.log(stringify(resultUnlock));
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(
         '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'

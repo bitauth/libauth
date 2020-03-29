@@ -1,4 +1,4 @@
-import { Immutable } from '../utils/utils';
+import { Immutable } from '../format/format';
 
 /**
  * The list of 32 symbols used in Bech32 encoding.

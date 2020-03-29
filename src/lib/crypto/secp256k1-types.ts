@@ -335,7 +335,7 @@ export interface Secp256k1 {
    * length of 32).
    *
    * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,
-   * any 256-bit number from `0x1` to
+   * any 256-bit number greater than or equal to `0x01` and less than
    * `0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140`
    * is a valid private key. This range is part of the definition of the
    * secp256k1 elliptic curve parameters.

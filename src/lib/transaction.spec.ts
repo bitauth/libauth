@@ -4,6 +4,64 @@ import test from 'ava';
 import { deserializeTransaction, hexToBin, serializeTransaction } from './lib';
 
 test('deserializeTransaction', t => {
+  /**
+   * Example transaction:
+   *
+   * 3eb87070 ← version
+   *
+   * 04 ← number of inputs
+   *
+   * Input 1 outpointTransactionHash (reverse byte order):
+   * 2d16f9469b0080a3c1fe8de0feae345200beef8b1e0d7c62501ae0df899dca1e
+   * 03000000 ← outpointIndex (BinUint32LE)
+   * 06 ← bytecodeLength (Bitcoin VarInt)
+   * 6a0065525365 ← bytecode
+   * ffffffff ← sequence number (BinUint32LE)
+   *
+   * Input 2:
+   * d14a9a335e8babddd89b5d0b6a0f41dd6b18848050a0fc48ce32d892e11817fd
+   * 03000000
+   * 08
+   * 63acac0053520052
+   * 7ff62cf3
+   *
+   * Input 3:
+   * ad30d9064e180eaed5e6303950121a8086b5266b55156e4f7612f2c7ebf223e0
+   * 02000000
+   * 01
+   * 00
+   * ffffffff
+   *
+   * Input 4:
+   * 6273ca3aceb55931160fa7a3064682b4790ee016b4a5c0c0d101fd449dff88ba
+   * 01000000
+   * 05
+   * 5351ac526a
+   * a3b8223d
+   *
+   * 04 ← number of outputs
+   *
+   * Output 1:
+   * 21f25b0400000000 ← satoshis (BinUint64LE)
+   * 02 ← bytecodeLength (Bitcoin VarInt)
+   * 6552 ← lockingBytecode
+   *
+   * Output 2:
+   * f92db70500000000
+   * 07
+   * 5253516a656a53
+   *
+   * Output 3:
+   * c4a9080100000000
+   * 00
+   *
+   * Output 4:
+   * b519290100000000
+   * 06
+   * 52525251516a
+   *
+   * a148ca38 ← locktime (BinUint32LE)
+   */
   const tx = hexToBin(
     '3eb87070042d16f9469b0080a3c1fe8de0feae345200beef8b1e0d7c62501ae0df899dca1e03000000066a0065525365ffffffffd14a9a335e8babddd89b5d0b6a0f41dd6b18848050a0fc48ce32d892e11817fd030000000863acac00535200527ff62cf3ad30d9064e180eaed5e6303950121a8086b5266b55156e4f7612f2c7ebf223e0020000000100ffffffff6273ca3aceb55931160fa7a3064682b4790ee016b4a5c0c0d101fd449dff88ba01000000055351ac526aa3b8223d0421f25b0400000000026552f92db70500000000075253516a656a53c4a908010000000000b5192901000000000652525251516aa148ca38'
   );

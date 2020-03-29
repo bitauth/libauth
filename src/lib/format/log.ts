@@ -30,8 +30,7 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
     // eslint-disable-next-line complexity
     (_, item) => {
       const type = typeof item;
-      const name =
-        type === 'object' ? (item.constructor?.name as string) : type;
+      const name = type === 'object' ? (item as object).constructor.name : type;
       switch (name) {
         case 'Uint8Array':
           return `<Uint8Array: 0x${binToHex(item as Uint8Array)}>`;
@@ -40,7 +39,6 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
         case 'function':
         case 'symbol':
           return `<${name}: ${(item as symbol | Function).toString()}>`;
-
         default:
           return item;
       }

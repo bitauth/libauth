@@ -35,7 +35,7 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async t =>
     let result: boolean;
     let ellipticPublicKey: elliptic.ec.KeyPair;
     const nextCycle = () => {
-      const privKey = generatePrivateKey(secp256k1, secureRandom);
+      const privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       pubkeyUncompressed = secp256k1.derivePublicKeyUncompressed(privKey);
       ellipticPublicKey = ellipticEc.keyFromPublic(
@@ -81,7 +81,7 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async t => {
     let result: boolean;
     let ellipticPublicKey: elliptic.ec.KeyPair;
     const nextCycle = () => {
-      const privKey = generatePrivateKey(secp256k1, secureRandom);
+      const privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(privKey);
       ellipticPublicKey = ellipticEc.keyFromPublic(
@@ -125,7 +125,7 @@ test('bench: secp256k1: derive compressed pubkey', async t => {
     let pubkeyCompressedExpected: Uint8Array;
     let pubkeyCompressedBenchmark: Uint8Array;
     const nextCycle = () => {
-      privKey = generatePrivateKey(secp256k1, secureRandom);
+      privKey = generatePrivateKey(secureRandom);
       pubkeyCompressedExpected = secp256k1.derivePublicKeyCompressed(privKey);
     };
     nextCycle();
@@ -158,7 +158,7 @@ test('bench: secp256k1: create DER Low-S signature', async t => {
     let sigDERExpected: Uint8Array;
     let sigDERBenchmark: Uint8Array;
     const nextCycle = () => {
-      privKey = generatePrivateKey(secp256k1, secureRandom);
+      privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       sigDERExpected = secp256k1.signMessageHashDER(privKey, messageHash);
     };
@@ -203,7 +203,7 @@ test('bench: secp256k1: sign: Schnorr vs. ECDSA', async t => {
     let sigSchnorrBenchmark: Uint8Array;
     let isSchnorr: boolean;
     const nextCycle = () => {
-      privKey = generatePrivateKey(secp256k1, secureRandom);
+      privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       sigDERExpected = secp256k1.signMessageHashDER(privKey, messageHash);
       sigSchnorrExpected = secp256k1.signMessageHashSchnorr(
@@ -242,7 +242,7 @@ test('bench: secp256k1: verify: Schnorr vs. ECDSA', async t => {
     let sigSchnorr: Uint8Array;
     let result: boolean;
     const nextCycle = () => {
-      const privKey = generatePrivateKey(secp256k1, secureRandom);
+      const privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(privKey);
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash);

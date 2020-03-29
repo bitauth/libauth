@@ -14,8 +14,7 @@ import {
   instantiateSha256,
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
-  OpcodesBCH,
-  stringify
+  OpcodesBCH
 } from '../../lib';
 
 // prettier-ignore
@@ -70,7 +69,6 @@ const signingSerializationType: Macro<[string, string]> = async (
         coveredBytecode: resultLock.bytecode
       }
     });
-    t.log(stringify(resultUnlock));
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(bytecodeHex),
       success: true
@@ -79,42 +77,42 @@ const signingSerializationType: Macro<[string, string]> = async (
 };
 
 test(
-  'BCH compiler: signing serialization algorithms – all_outputs',
+  '[BCH compiler] signing serialization algorithms – all_outputs',
   signingSerializationType,
   '<a.signature.all_outputs> <a.public_key>',
   '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
 );
 
 test(
-  'BCH compiler: signing serialization algorithms – all_outputs_single_input',
+  '[BCH compiler] signing serialization algorithms – all_outputs_single_input',
   signingSerializationType,
   '<a.signature.all_outputs_single_input> <a.public_key>',
   '483045022100b30fb165fa511b6ff3718a4dcc6dd25dd916620e08e207c47a54bae56a3dbd5402202cf24193d51a9cd11be879eb1da063ad22ac30b355855e5c8147bf1e5f2e2cf1c1210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
 );
 
 test(
-  'BCH compiler: signing serialization algorithms corresponding_output',
+  '[BCH compiler] signing serialization algorithms corresponding_output',
   signingSerializationType,
   '<a.signature.corresponding_output> <a.public_key>',
   '483045022100cea4e9fe270b4337c3c0cffdf57b2ccba11245752a860f9ff5c06cd3bfa399d902203ebef34068efe7e9bd2a334f886bc720e975fd4485df9d8b8e0b98e671c1d02243210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
 );
 
 test(
-  'BCH compiler: signing serialization algorithms corresponding_output_single_input',
+  '[BCH compiler] signing serialization algorithms corresponding_output_single_input',
   signingSerializationType,
   '<a.signature.corresponding_output_single_input> <a.public_key>',
   '473044022075bdb3381383221ea3073b2cc806b9f63ce0f1c1c5276f72a7b58922df2e69e40220075ec2497b9fa291ab028eed556fdc3591d93c52da80a35410731de40de8a0a6c3210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
 );
 
 test(
-  'BCH compiler: signing serialization algorithms no_outputs',
+  '[BCH compiler] signing serialization algorithms no_outputs',
   signingSerializationType,
   '<a.signature.no_outputs> <a.public_key>',
   '47304402206e41f758eb74d0b679a5747c50a3e0c361dee4249ccc82ee491c862455a973e802204056bc00f207a7fb8ef3e2e068c09ca0d71f70685c66af7231a2aa0fb3e335f242210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
 );
 
 test(
-  'BCH compiler: signing serialization algorithms no_outputs_single_input',
+  '[BCH compiler] signing serialization algorithms no_outputs_single_input',
   signingSerializationType,
   '<a.signature.no_outputs_single_input> <a.public_key>',
   '483045022100bf73fa9557d725441b35af93ba2ae49e3afe3bd93cbddf9555e179fcc0b52d6f02203d7fb85de9ba6347ac87fe400819455c3a9f1a5c310f4e2dd32c00ae353a1981c2210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'

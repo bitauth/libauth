@@ -2,7 +2,7 @@ import {
   flattenBinArray,
   hexToBin,
   utf8ToBin
-} from '../../../../../utils/utils';
+} from '../../../../../format/format';
 import { bigIntToScriptNumber, encodeDataPush } from '../../../common/common';
 import { generateBytecodeMap } from '../../../instruction-sets-utils';
 import { OpcodesBCH } from '../../bch-opcodes';

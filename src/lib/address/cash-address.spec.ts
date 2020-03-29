@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers, functional/no-expression-statement */
-import test from 'ava';
+import test, { Macro } from 'ava';
 import * as fc from 'fast-check';
 
 import {
@@ -14,6 +14,7 @@ import {
   CashAddressType,
   CashAddressVersionByte,
   CashAddressVersionByteDecodingError,
+  decodeBase58AddressFormat,
   decodeCashAddress,
   decodeCashAddressFormat,
   decodeCashAddressFormatWithoutPrefix,
@@ -22,6 +23,7 @@ import {
   encodeCashAddressFormat,
   encodeCashAddressVersionByte,
   hexToBin,
+  instantiateSha256,
   maskCashAddressPrefix,
   splitEvery
 } from '../lib';
@@ -420,3 +422,70 @@ test('[fast-check] attemptCashAddressErrorCorrection', t => {
     fc.assert(correctsUpToTwoErrors(512));
   });
 });
+
+const sha256Promise = instantiateSha256();
+
+const legacyVectors: Macro<[string, string]> = async (
+  t,
+  base58Address,
+  cashAddress
+) => {
+  const sha256 = await sha256Promise;
+  const decodedBase58Address = decodeBase58AddressFormat(sha256, base58Address);
+  const decodedCashAddress = decodeCashAddress(cashAddress);
+  if (
+    typeof decodedCashAddress === 'string' ||
+    typeof decodedBase58Address === 'string'
+  ) {
+    t.fail();
+    return undefined;
+  }
+  t.deepEqual(decodedBase58Address.payload, decodedCashAddress.hash);
+  return undefined;
+};
+
+// eslint-disable-next-line functional/immutable-data
+legacyVectors.title = (_, base58Address) =>
+  `CashAddress <-> Legacy Base58 Vectors: ${base58Address}`;
+
+test(
+  legacyVectors,
+  // cspell: disable-next-line
+  '1BpEi6DfDAUFd7GtittLSdBeYJvcoaVggu',
+  'bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a'
+);
+
+test(
+  legacyVectors,
+  // cspell: disable-next-line
+  '1KXrWXciRDZUpQwQmuM1DbwsKDLYAYsVLR',
+  'bitcoincash:qr95sy3j9xwd2ap32xkykttr4cvcu7as4y0qverfuy'
+);
+
+test(
+  legacyVectors,
+  // cspell: disable-next-line
+  '16w1D5WRVKJuZUsSRzdLp9w3YGcgoxDXb',
+  'bitcoincash:qqq3728yw0y47sqn6l2na30mcw6zm78dzqre909m2r'
+);
+
+test(
+  legacyVectors,
+  // cspell: disable-next-line
+  '3CWFddi6m4ndiGyKqzYvsFYagqDLPVMTzC',
+  'bitcoincash:ppm2qsznhks23z7629mms6s4cwef74vcwvn0h829pq'
+);
+
+test(
+  legacyVectors,
+  // cspell: disable-next-line
+  '3LDsS579y7sruadqu11beEJoTjdFiFCdX4',
+  'bitcoincash:pr95sy3j9xwd2ap32xkykttr4cvcu7as4yc93ky28e'
+);
+
+test(
+  legacyVectors,
+  // cspell: disable-next-line
+  '31nwvkZwyPdgzjBJZXfDmSWsC4ZLKpYyUw',
+  'bitcoincash:pqq3728yw0y47sqn6l2na30mcw6zm78dzq5ucqzc37'
+);

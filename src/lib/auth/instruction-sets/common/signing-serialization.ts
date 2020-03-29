@@ -2,7 +2,7 @@ import {
   bigIntToBinUint64LE,
   bigIntToBitcoinVarInt,
   numberToBinUint32LE
-} from '../../../utils/utils';
+} from '../../../format/format';
 
 /* eslint-disable camelcase */
 /**

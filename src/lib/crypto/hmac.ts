@@ -1,4 +1,4 @@
-import { flattenBinArray } from '../utils/hex';
+import { flattenBinArray } from '../format/hex';
 
 import { Sha256 } from './sha256';
 import { Sha512 } from './sha512';
@@ -37,7 +37,7 @@ const sha256BlockByteLength = 64;
 
 /**
  * Create a hash-based message authentication code using HMAC-SHA256 as
- * specified in `RFC 4231`.
+ * specified in `RFC 4231`. Returns a 32-byte Uint8Array.
  *
  * Secrets longer than the block byte-length (64 bytes) are hashed before
  * use, shortening their length to the minimum recommended length (32 bytes).
@@ -58,7 +58,7 @@ const sha512BlockByteLength = 128;
 
 /**
  * Create a hash-based message authentication code using HMAC-SHA512 as
- * specified in `RFC 4231`.
+ * specified in `RFC 4231`. Returns a 64-byte Uint8Array.
  *
  * Secrets longer than the block byte-length (128 bytes) are hashed before
  * use, shortening their length to the minimum recommended length (64 bytes).

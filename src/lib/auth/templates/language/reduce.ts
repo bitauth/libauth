@@ -1,4 +1,4 @@
-import { flattenBinArray } from '../../../utils/utils';
+import { flattenBinArray } from '../../../format/format';
 import { OpcodesCommon } from '../../instruction-sets/common/opcodes';
 import { encodeDataPush } from '../../instruction-sets/instruction-sets';
 import { AuthenticationInstruction } from '../../instruction-sets/instruction-sets-types';

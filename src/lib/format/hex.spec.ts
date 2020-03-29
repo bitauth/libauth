@@ -1,7 +1,6 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
-import { testProp } from 'ava-fast-check';
-import * as fc from 'fast-check';
+import { fc, testProp } from 'ava-fast-check';
 
 import {
   binToHex,

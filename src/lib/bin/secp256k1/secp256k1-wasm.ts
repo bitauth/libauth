@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle, max-params */
 // cSpell:ignore memcpy, anyfunc
-import { base64ToBin } from '../../utils/utils';
+import { base64ToBin } from '../../format/format';
 
 import {
   CompressionFlag,

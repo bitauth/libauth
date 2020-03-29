@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/bitjson/bitcoin-ts/compare/v1.13.0...v1.14.0) (2020-03-29)
+
+
+### Features
+
+* add support for BIP32 HD keys and node derivation ([c047e55](https://github.com/bitjson/bitcoin-ts/commit/c047e55bcc9d7ba212d0fb54a1a4031762285a49))
+* **WIF:** add support for Wallet Import Format (WIF) ([87cfb6f](https://github.com/bitjson/bitcoin-ts/commit/87cfb6fa105b776d139a5d53c585b55cd130c457))
+* add locking bytecode <-> address utilities ([2117181](https://github.com/bitjson/bitcoin-ts/commit/21171813cb1ba52643973df1db3faaeac725007c))
+* **Base58Address:** add support for the Base58Address format ([84cc241](https://github.com/bitjson/bitcoin-ts/commit/84cc2418c7a76792fb55c95f9378571c5ec61ec8))
+* **format:** add base58 support ([9dec946](https://github.com/bitjson/bitcoin-ts/commit/9dec946b69d506a7541a41e15f6d212a8c5cbf68))
+
+
+### Bug Fixes
+
+* **binToBigIntUintLE:** use only BigInts internally ([3842373](https://github.com/bitjson/bitcoin-ts/commit/3842373a453328dd5aa96a81a8051a132706a05c))
+* **format:** fix locktime format utilities, improve tests ([58b2f73](https://github.com/bitjson/bitcoin-ts/commit/58b2f73027dbcef0a60d484c68b497710a80b86d))
+* **format:** utils -> format, fix number formatting methods and tests ([3901ce6](https://github.com/bitjson/bitcoin-ts/commit/3901ce6641be4af033849f3bbbd3c09466d8a3bf))
+* **stringify:** improve types to get full coverage ([c4359d5](https://github.com/bitjson/bitcoin-ts/commit/c4359d572abd329be7a56eb9c2c05dac62a9e6ac))
+
 ## [1.13.0](https://github.com/bitjson/bitcoin-ts/compare/v1.12.0...v1.13.0) (2020-03-06)
 
 

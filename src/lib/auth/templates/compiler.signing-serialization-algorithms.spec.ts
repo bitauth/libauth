@@ -14,8 +14,7 @@ import {
   instantiateSha256,
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
-  OpcodesBCH,
-  stringify
+  OpcodesBCH
 } from '../../lib';
 
 // prettier-ignore
@@ -70,7 +69,6 @@ const signingSerializationType: Macro<[string, string]> = async (
         coveredBytecode: resultLock.bytecode
       }
     });
-    t.log(stringify(resultUnlock));
     t.deepEqual(resultUnlock, {
       bytecode: hexToBin(bytecodeHex),
       success: true

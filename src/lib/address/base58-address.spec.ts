@@ -166,10 +166,17 @@ test('Base58Address Invalid Vectors', async t => {
     const result = decodeBase58Address(sha256, invalid);
     const hasError = typeof result === 'string';
     if (!hasError) {
+      /*
+       * cspell: disable-next-line
+       * HPhFUhUAh8ZQQisH8QQWafAxtQYju3SFTX
+       */
+      t.deepEqual(result, {
+        payload: hexToBin('bc6437e3089918c9cb7e3d3ddd7ca83969b1e0bc'),
+        version: Base58AddressFormatVersion.p2shCopayBCH
+      });
       return;
     }
-    t.log(result);
-    t.deepEqual(typeof result, 'string');
+    t.true(hasError);
   });
 });
 

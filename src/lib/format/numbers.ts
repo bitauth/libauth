@@ -1,10 +1,3 @@
-const enum ByteLength {
-  uint8 = 1,
-  uint16 = 2,
-  uint32 = 4,
-  uint64 = 8
-}
-
 /**
  * Encode a positive integer as a little-endian Uint8Array. For values exceeding
  * `Number.MAX_SAFE_INTEGER`, use `bigIntToBinUintLE`. Negative values will
@@ -51,8 +44,10 @@ export const binToFixedLength = (bin: Uint8Array, bytes: number) => {
  *
  * @param value - the number to encode
  */
-export const numberToBinUint16LEClamped = (value: number) =>
-  binToFixedLength(numberToBinUintLE(value), ByteLength.uint16);
+export const numberToBinUint16LEClamped = (value: number) => {
+  const uint16 = 2;
+  return binToFixedLength(numberToBinUintLE(value), uint16);
+};
 
 /**
  * Encode a positive integer as a 4-byte Uint32LE Uint8Array, clamping the
@@ -61,8 +56,10 @@ export const numberToBinUint16LEClamped = (value: number) =>
  *
  * @param value - the number to encode
  */
-export const numberToBinUint32LEClamped = (value: number) =>
-  binToFixedLength(numberToBinUintLE(value), ByteLength.uint32);
+export const numberToBinUint32LEClamped = (value: number) => {
+  const uint32 = 4;
+  return binToFixedLength(numberToBinUintLE(value), uint32);
+};
 
 /**
  * Encode a positive integer as a 2-byte Uint16LE Uint8Array.
@@ -83,6 +80,24 @@ export const numberToBinUint16LE = (value: number) => {
 };
 
 /**
+ * Encode a positive integer as a 2-byte Uint16LE Uint8Array.
+ *
+ * This method will return an incorrect result for values outside of the range
+ * `0` to `0xffff`.
+ *
+ * @param value - the number to encode
+ */
+export const numberToBinUint16BE = (value: number) => {
+  const uint16Length = 2;
+  const bin = new Uint8Array(uint16Length);
+  const writeAsLittleEndian = false;
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  // eslint-disable-next-line functional/no-expression-statement
+  view.setUint16(0, value, writeAsLittleEndian);
+  return bin;
+};
+
+/**
  * Encode a positive number as a 4-byte Uint32LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
@@ -94,6 +109,24 @@ export const numberToBinUint32LE = (value: number) => {
   const uint32Length = 4;
   const bin = new Uint8Array(uint32Length);
   const writeAsLittleEndian = true;
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  // eslint-disable-next-line functional/no-expression-statement
+  view.setUint32(0, value, writeAsLittleEndian);
+  return bin;
+};
+
+/**
+ * Encode a positive number as a 4-byte Uint32BE Uint8Array.
+ *
+ * This method will return an incorrect result for values outside of the range
+ * `0` to `0xffffffff`.
+ *
+ * @param value - the number to encode
+ */
+export const numberToBinUint32BE = (value: number) => {
+  const uint32Length = 4;
+  const bin = new Uint8Array(uint32Length);
+  const writeAsLittleEndian = false;
   const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
   // eslint-disable-next-line functional/no-expression-statement
   view.setUint32(0, value, writeAsLittleEndian);
@@ -132,8 +165,10 @@ export const bigIntToBinUintLE = (value: bigint) => {
  *
  * @param value - the number to encode
  */
-export const bigIntToBinUint64LEClamped = (value: bigint) =>
-  binToFixedLength(bigIntToBinUintLE(value), ByteLength.uint64);
+export const bigIntToBinUint64LEClamped = (value: bigint) => {
+  const uint64 = 8;
+  return binToFixedLength(bigIntToBinUintLE(value), uint64);
+};
 
 /**
  * Encode a positive BigInt as an 8-byte Uint64LE Uint8Array.
@@ -184,22 +219,28 @@ export const numberToBinInt32TwosCompliment = (value: number) => {
  * larger than `Number.MAX_SAFE_INTEGER`, use `binToBigIntUintLE`.
  *
  * The `bytes` parameter can be set to constrain the expected length (default:
- * `bin.length`). This method throws if `bin` is shorter than `bytes`.
+ * `bin.length`). This method throws if `bin.length` is not equal to `bytes`.
+ *
+ * @privateRemarks
+ * We avoid a bitwise strategy here because JavaScript uses 32-bit signed
+ * integers for bitwise math, so larger numbers are converted incorrectly. E.g.
+ * `2147483648 << 8` is `0`, while `2147483648n << 8n` is `549755813888n`.
  *
  * @param bin - the Uint8Array to decode
  * @param bytes - the number of bytes to read (default: `bin.length`)
  */
 export const binToNumberUintLE = (bin: Uint8Array, bytes = bin.length) => {
-  const binBase = 2;
+  const base = 2;
   const bitsInAByte = 8;
-  // eslint-disable-next-line functional/no-let
-  let value = 0;
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
-  for (let offset = 0; offset < bytes; offset++) {
-    // eslint-disable-next-line functional/no-expression-statement
-    value += bin[offset] * binBase ** (bitsInAByte * offset);
+  // eslint-disable-next-line functional/no-conditional-statement
+  if (bin.length !== bytes) {
+    // eslint-disable-next-line functional/no-throw-statement
+    throw new TypeError(`Bin length must be ${bytes}.`);
   }
-  return value;
+  return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduce(
+    (accumulated, byte, i) => accumulated + byte * base ** (bitsInAByte * i),
+    0
+  );
 };
 
 /**
@@ -229,27 +270,86 @@ export const binToNumberUint32LE = (bin: Uint8Array) => {
 };
 
 /**
+ * Decode a big-endian Uint8Array of any length into a BigInt. If starting from
+ * a hex value, consider using the BigInt constructor instead:
+ * ```
+ * BigInt(`0x${hex}`)
+ * ```
+ *
+ * The `bytes` parameter can be set to constrain the expected length (default:
+ * `bin.length`). This method throws if `bin.length` is not equal to `bytes`.
+ *
+ * @param bin - the Uint8Array to decode
+ * @param bytes - the number of bytes to read (default: `bin.length`)
+ */
+export const binToBigIntUintBE = (bin: Uint8Array, bytes = bin.length) => {
+  const bitsInAByte = 8;
+  const shift = BigInt(bitsInAByte);
+  // eslint-disable-next-line functional/no-conditional-statement
+  if (bin.length !== bytes) {
+    // eslint-disable-next-line functional/no-throw-statement
+    throw new TypeError(`Bin length must be ${bytes}.`);
+  }
+  return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduce(
+    // eslint-disable-next-line no-bitwise
+    (accumulated, byte) => (accumulated << shift) | BigInt(byte),
+    BigInt(0)
+  );
+};
+
+/**
+ * Decode an unsigned, 32-byte big-endian Uint8Array into a BigInt. This can be
+ * used to decode Uint8Array-encoded cryptographic primitives like private
+ * keys, public keys, curve parameters, and signature points.
+ *
+ * If starting from a hex value, consider using the BigInt constructor instead:
+ * ```
+ * BigInt(`0x${hex}`)
+ * ```
+ * @param bin - the Uint8Array to decode
+ */
+export const binToBigIntUint256BE = (bin: Uint8Array) => {
+  const uint256Bytes = 32;
+  return binToBigIntUintBE(bin, uint256Bytes);
+};
+
+/**
+ * Encode a positive BigInt into an unsigned 32-byte big-endian Uint8Array. This
+ * can be used to encoded numbers for cryptographic primitives like private
+ * keys, public keys, curve parameters, and signature points.
+ *
+ * Negative values will return the same result as `0`, values higher than
+ * 2^256-1 will return the maximum expressible unsigned 256-bit value
+ * (`0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff`).
+ *
+ * @param value - the BigInt to encode
+ */
+export const bigIntToBinUint256BEClamped = (value: bigint) => {
+  const uint256Bytes = 32;
+  return binToFixedLength(bigIntToBinUintLE(value), uint256Bytes).reverse();
+};
+
+/**
  * Decode a little-endian Uint8Array of any length into a BigInt.
  *
  * The `bytes` parameter can be set to constrain the expected length (default:
- * `bin.length`). This method throws if `bin` is shorter than `bytes`.
+ * `bin.length`). This method throws if `bin.length` is not equal to `bytes`.
  *
  * @param bin - the Uint8Array to decode
  * @param bytes - the number of bytes to read (default: `bin.length`)
  */
 export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
-  const base = 2;
   const bitsInAByte = 8;
-  // eslint-disable-next-line functional/no-let
-  let value = BigInt(0);
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
-  for (let offset = 0; offset < bytes; offset++) {
-    // eslint-disable-next-line functional/no-expression-statement
-    value +=
-      BigInt(bin[offset]) *
-      BigInt(base) ** (BigInt(bitsInAByte) * BigInt(offset));
+  // eslint-disable-next-line functional/no-conditional-statement
+  if (bin.length !== bytes) {
+    // eslint-disable-next-line functional/no-throw-statement
+    throw new TypeError(`Bin length must be ${bytes}.`);
   }
-  return value;
+  return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduceRight(
+    // eslint-disable-next-line no-bitwise
+    (accumulated, byte) => (accumulated << BigInt(bitsInAByte)) | BigInt(byte),
+    BigInt(0)
+  );
 };
 
 /**
@@ -280,15 +380,19 @@ const enum VarInt {
  * @param firstByte - the first byte of the VarInt
  */
 export const varIntPrefixToSize = (firstByte: number) => {
+  const uint8 = 1;
+  const uint16 = 2;
+  const uint32 = 4;
+  const uint64 = 8;
   switch (firstByte) {
     default:
-      return ByteLength.uint8;
+      return uint8;
     case VarInt.Uint16Prefix:
-      return ByteLength.uint16 + 1;
+      return uint16 + 1;
     case VarInt.Uint32Prefix:
-      return ByteLength.uint32 + 1;
+      return uint32 + 1;
     case VarInt.Uint64Prefix:
-      return ByteLength.uint64 + 1;
+      return uint64 + 1;
   }
 };
 

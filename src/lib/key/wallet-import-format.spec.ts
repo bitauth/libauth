@@ -12,19 +12,6 @@ import {
 
 const sha256Promise = instantiateSha256();
 
-test('encodePrivateKeyWif: default to mainnet', async t => {
-  const sha256 = await sha256Promise;
-  t.deepEqual(
-    encodePrivateKeyWif(
-      sha256,
-      hexToBin(
-        '7d998b45c219a1e38e99e7cbd312ef67f77a455a9b50c730c27f02c6f730dfb4'
-      )
-    ),
-    'L1RrrnXkcKut5DEMwtDthjwRcTTwED36thyL1DebVrKuwvohjMNi'
-  );
-});
-
 test('decodePrivateKeyWif: pass through errors', async t => {
   const sha256 = await sha256Promise;
   t.deepEqual(

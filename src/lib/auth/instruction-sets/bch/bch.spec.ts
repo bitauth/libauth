@@ -10,8 +10,7 @@ import {
   instantiateSha256,
   instantiateVirtualMachineBCH,
   OpcodesBCH,
-  parseBytecode,
-  stringify
+  parseBytecode
 } from '../../../lib';
 
 test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async t => {
@@ -64,7 +63,6 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async t => {
     )
   ) as AuthenticationProgramStateBCH;
   const result = vm.stateDebug(state);
-  t.log(stringify(result));
   t.deepEqual(result, [
     {
       alternateStack: [],
@@ -322,7 +320,6 @@ test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => 
     unlockingBytecode: Uint8Array.of()
   });
   const result = vm.evaluate(program);
-  t.log(stringify(result));
   t.deepEqual(result, {
     alternateStack: [],
     correspondingOutput: hexToBin('000000000000000000'),
@@ -373,7 +370,6 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async t => {
     unlockingBytecode: Uint8Array.of()
   });
   const result = vm.debug(program);
-  t.log(stringify(result));
   t.deepEqual(result, [
     {
       alternateStack: [],

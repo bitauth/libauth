@@ -100,6 +100,7 @@
     "ava": "^3.2.0",
     "ava-fast-check": "^1.1.2",
     "bcrypto": "^5.0.2",
+    "bitcore-lib-cash": "^8.16.2",
     "browserify": "^16.5.0",
     "chuhai": "^1.2.0",
     "codecov": "^3.6.4",

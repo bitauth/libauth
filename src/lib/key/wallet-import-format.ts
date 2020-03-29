@@ -56,7 +56,7 @@ export type WalletImportFormatType =
 export const encodePrivateKeyWif = (
   sha256: { hash: Sha256['hash'] },
   privateKey: Uint8Array,
-  type: WalletImportFormatType = 'mainnet'
+  type: WalletImportFormatType
 ) => {
   const compressedByte = 0x01;
   const mainnet = type === 'mainnet' || type === 'mainnet-uncompressed';

@@ -423,8 +423,6 @@ test('[fast-check] attemptCashAddressErrorCorrection', t => {
   });
 });
 
-// TODO:
-
 const sha256Promise = instantiateSha256();
 
 const legacyVectors: Macro<[string, string]> = async (

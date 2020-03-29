@@ -9,6 +9,8 @@ import {
   bigIntToBinUint64LE,
   bigIntToBinUint64LEClamped,
   binToBigIntUint64LE,
+  binToBigIntUintBE,
+  binToHex,
   binToNumberUint16LE,
   binToNumberUint32LE,
   numberToBinUint16LE,
@@ -16,6 +18,33 @@ import {
   numberToBinUint32LE,
   numberToBinUint32LEClamped
 } from '../lib';
+
+test(`node: binToBigIntUintBE vs. binToHex -> BigInt()`, async t => {
+  await suite(t.title, s => {
+    let sourceBin: Uint8Array;
+    let num: BigInt;
+    let result: BigInt;
+
+    const nextCycle = () => {
+      const uint256Length = 32;
+      sourceBin = Uint8Array.from(randomBytes(uint256Length));
+      num = binToBigIntUintBE(sourceBin);
+    };
+    nextCycle();
+
+    s.bench('binToBigIntUintBE', () => {
+      result = binToBigIntUintBE(sourceBin);
+    });
+    s.bench('binToHex -> BigInt()', () => {
+      result = BigInt(`0x${binToHex(sourceBin)}`);
+    });
+
+    s.cycle(() => {
+      t.deepEqual(result, num);
+      nextCycle();
+    });
+  });
+});
 
 test(`node: numberToBinUint16LE vs. numberToBinUint16LEClamped`, async t => {
   await suite(t.title, s => {

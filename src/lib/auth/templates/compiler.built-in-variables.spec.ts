@@ -15,8 +15,7 @@ import {
   instantiateSha256,
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
-  OpcodesBCH,
-  stringify
+  OpcodesBCH
 } from '../../lib';
 
 const sha256Promise = instantiateSha256();
@@ -53,7 +52,6 @@ const expectCompilationResult: Macro<[
     },
     ...otherData
   });
-  t.log(stringify(resultUnlock));
   t.deepEqual(resultUnlock, expectedResult);
 };
 

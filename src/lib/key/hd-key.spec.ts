@@ -21,6 +21,7 @@ import {
   HdKeyDecodingError,
   HdKeyParameters,
   HdKeyVersion,
+  HdNodeCrackingError,
   HdNodeDerivationError,
   HdPrivateNodeKnownParent,
   HdPrivateNodeValid,
@@ -549,7 +550,21 @@ test('crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode', async t => {
     crypto,
     parentPrivateNode,
     'm/1234'
-  ) as HdPrivateNodeValid;
+  ) as HdPrivateNodeKnownParent;
+
+  const hardenedChildNode = deriveHdPath(
+    crypto,
+    parentPrivateNode,
+    "m/1234'"
+  ) as HdPrivateNodeKnownParent;
+
+  const hardenedChildPublicNode = deriveHdPublicNode(crypto, hardenedChildNode);
+
+  const nonHardenedGrandchildNode = deriveHdPath(
+    crypto,
+    hardenedChildNode,
+    'm/1234'
+  ) as HdPrivateNodeKnownParent;
 
   t.deepEqual(
     crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode(
@@ -558,6 +573,24 @@ test('crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode', async t => {
       nonHardenedChildNode
     ),
     parentPrivateNode
+  );
+
+  t.deepEqual(
+    crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode(
+      crypto,
+      hardenedChildPublicNode,
+      nonHardenedGrandchildNode
+    ),
+    hardenedChildNode
+  );
+
+  t.deepEqual(
+    crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode(
+      crypto,
+      parentPublicNode,
+      hardenedChildNode
+    ),
+    HdNodeCrackingError.cannotCrackHardenedDerivation
   );
 });
 

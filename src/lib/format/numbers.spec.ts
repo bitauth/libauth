@@ -207,6 +207,9 @@ test('binToNumberUintLE', t => {
   const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12]);
   const view = data.subarray(2);
   t.deepEqual(binToNumberUintLE(view), 0x123456);
+  t.throws(() => {
+    binToNumberUintLE(Uint8Array.of(0x12), 2);
+  });
 });
 
 testProp(
@@ -274,6 +277,9 @@ test('binToBigIntUintBE', t => {
   const d = Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]);
   const view = d.subarray(2);
   t.deepEqual(binToBigIntUintBE(view), BigInt('0x567890abcdef'));
+  t.throws(() => {
+    binToBigIntUintBE(Uint8Array.of(0x12), 2);
+  });
 });
 
 test('binToBigIntUint256BE and bigIntToBinUint256BEClamped', t => {
@@ -332,6 +338,9 @@ test('binToBigIntUintLE', t => {
   const d = Uint8Array.from([0xef, 0xcd, 0xab, 0x90, 0x78, 0x56, 0x34, 0x12]);
   const view = d.subarray(2);
   t.deepEqual(binToBigIntUintLE(view), BigInt('0x1234567890ab'));
+  t.throws(() => {
+    binToBigIntUintLE(Uint8Array.of(0x12), 2);
+  });
 });
 
 testProp(

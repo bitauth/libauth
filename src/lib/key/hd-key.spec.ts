@@ -23,6 +23,8 @@ import {
   HdKeyVersion,
   HdNodeCrackingError,
   HdNodeDerivationError,
+  HdPrivateNode,
+  HdPrivateNodeInvalid,
   HdPrivateNodeKnownParent,
   HdPrivateNodeValid,
   HdPublicNode,
@@ -59,7 +61,7 @@ const maximumNonHardenedIndex = hardenedIndexOffset - 1;
 
 test('deriveHdPrivateNodeFromSeed', async (t) => {
   const crypto = await instantiateBIP32Crypto();
-  t.deepEqual(deriveHdPrivateNodeFromSeed(crypto, seed), {
+  const valid = {
     chainCode: hexToBin(
       '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
     ),
@@ -70,8 +72,8 @@ test('deriveHdPrivateNodeFromSeed', async (t) => {
       '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
     ),
     valid: true,
-  });
-  t.deepEqual(deriveHdPrivateNodeFromSeed(crypto, seed, false), {
+  } as HdPrivateNodeValid;
+  const invalid = {
     chainCode: hexToBin(
       '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
     ),
@@ -82,7 +84,14 @@ test('deriveHdPrivateNodeFromSeed', async (t) => {
     ),
     parentFingerprint: hexToBin('00000000'),
     valid: false,
-  });
+  } as HdPrivateNodeInvalid;
+  const either = deriveHdPrivateNodeFromSeed(crypto, seed);
+  const validNode = deriveHdPrivateNodeFromSeed(crypto, seed, true);
+  const invalidNode = deriveHdPrivateNodeFromSeed(crypto, seed, false);
+
+  t.deepEqual(either, valid as HdPrivateNode);
+  t.deepEqual(validNode, valid);
+  t.deepEqual(invalidNode, invalid);
 });
 
 test('deriveHdPrivateNodeIdentifier', async (t) => {

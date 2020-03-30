@@ -183,11 +183,13 @@ const halfHmacSha512Length = 32;
  * for validity, and will be assumed valid if `true` or invalid if `false` (this
  * is useful for testing)
  */
-export const deriveHdPrivateNodeFromSeed = (
+export const deriveHdPrivateNodeFromSeed = <
+  AssumedValidity extends boolean | undefined
+>(
   crypto: { sha512: { hash: Sha512['hash'] } },
   seed: Uint8Array,
-  assumeValidity?: boolean
-): HdPrivateNode => {
+  assumeValidity?: AssumedValidity
+) => {
   const mac = hmacSha512(crypto.sha512, bip32HmacSha512Key, seed);
   const privateKey = mac.slice(0, halfHmacSha512Length);
   const chainCode = mac.slice(halfHmacSha512Length);
@@ -195,7 +197,7 @@ export const deriveHdPrivateNodeFromSeed = (
   const childIndex = 0;
   const parentFingerprint = Uint8Array.from([0, 0, 0, 0]);
   const valid = assumeValidity ?? validateSecp256k1PrivateKey(privateKey);
-  return valid
+  return (valid
     ? { chainCode, childIndex, depth, parentFingerprint, privateKey, valid }
     : {
         chainCode,
@@ -204,7 +206,11 @@ export const deriveHdPrivateNodeFromSeed = (
         invalidPrivateKey: privateKey,
         parentFingerprint,
         valid,
-      };
+      }) as AssumedValidity extends true
+    ? HdPrivateNodeValid
+    : AssumedValidity extends false
+    ? HdPrivateNodeInvalid
+    : HdPrivateNode;
 };
 
 /**

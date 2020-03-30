@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.14.2](https://github.com/bitjson/bitcoin-ts/compare/v1.14.1...v1.14.2) (2020-03-30)
+
+
+### Bug Fixes
+
+* **deriveHdPrivateNodeFromSeed:** account for validity in return type ([90848d9](https://github.com/bitjson/bitcoin-ts/commit/90848d96ba8cdd2b58efdb1aa578464b697ccba2))
+
 ### [1.14.1](https://github.com/bitjson/bitcoin-ts/compare/v1.14.0...v1.14.1) (2020-03-29)
 
 ## [1.14.0](https://github.com/bitjson/bitcoin-ts/compare/v1.13.0...v1.14.0) (2020-03-29)

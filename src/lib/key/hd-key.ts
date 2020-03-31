@@ -926,7 +926,7 @@ export enum HdNodeCrackingError {
  * @param parentPublicNode - the parent HD public node for which to derive a
  * private node
  * @param childPrivateNode - any non-hardened child private node of the parent
- * node
+ * node (only the `privateKey` and the `childIndex` are required)
  */
 export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
   PublicNode extends HdPublicNode = HdPublicNode

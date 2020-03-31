@@ -166,11 +166,10 @@ export const useOneScriptNumber = <
   }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
 ) =>
   useOneStackItem(state, (nextState, [item]) => {
-    const value = parseBytesAsScriptNumber(
-      item,
+    const value = parseBytesAsScriptNumber(item, {
+      maximumScriptNumberByteLength,
       requireMinimalEncoding,
-      maximumScriptNumberByteLength
-    );
+    });
     if (isScriptNumberError(value)) {
       return applyError<State, Errors>(
         AuthenticationErrorCommon.invalidScriptNumber,

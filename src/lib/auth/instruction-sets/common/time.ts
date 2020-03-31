@@ -43,11 +43,10 @@ export const readLocktime = <
       state
     );
   }
-  const parsedLocktime = parseBytesAsScriptNumber(
-    item,
-    flags.requireMinimalEncoding,
-    Constants.LocktimeScriptNumberByteLength
-  );
+  const parsedLocktime = parseBytesAsScriptNumber(item, {
+    maximumScriptNumberByteLength: Constants.LocktimeScriptNumberByteLength,
+    requireMinimalEncoding: flags.requireMinimalEncoding,
+  });
   if (isScriptNumberError(parsedLocktime)) {
     return applyError<State, Errors>(
       AuthenticationErrorCommon.invalidScriptNumber,

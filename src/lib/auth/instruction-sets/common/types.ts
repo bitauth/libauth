@@ -54,8 +54,16 @@ const normalMaximumScriptNumberByteLength = 4;
 // eslint-disable-next-line complexity
 export const parseBytesAsScriptNumber = (
   bytes: Uint8Array,
-  requireMinimalEncoding = true,
-  maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength
+  {
+    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength,
+    requireMinimalEncoding = true,
+  }: {
+    maximumScriptNumberByteLength?: number;
+    requireMinimalEncoding?: boolean;
+  } = {
+    maximumScriptNumberByteLength: normalMaximumScriptNumberByteLength,
+    requireMinimalEncoding: true,
+  }
 ): bigint | ScriptNumberError => {
   if (bytes.length === 0) {
     return BigInt(0);

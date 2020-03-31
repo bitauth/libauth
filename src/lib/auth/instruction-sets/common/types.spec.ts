@@ -83,10 +83,30 @@ const equivalentScriptNumbers: readonly [string, string][] = [
 ];
 
 test('parseBytesAsScriptNumber', (t) => {
+  minimallyEncodedScriptNumbers.map((pair) => {
+    t.deepEqual(parseBytesAsScriptNumber(hexToBin(pair[0])), pair[1]);
+    t.deepEqual(
+      parseBytesAsScriptNumber(hexToBin(pair[0]), {
+        requireMinimalEncoding: true,
+      }),
+      pair[1]
+    );
+    t.deepEqual(
+      parseBytesAsScriptNumber(hexToBin(pair[0]), {
+        maximumScriptNumberByteLength: 4,
+        requireMinimalEncoding: true,
+      }),
+      pair[1]
+    );
+    return undefined;
+  });
   [...minimallyEncodedScriptNumbers, ...nonMinimallyEncodedScriptNumbers].map(
     (pair) => {
       t.deepEqual(
-        parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
+        parseBytesAsScriptNumber(hexToBin(pair[0]), {
+          maximumScriptNumberByteLength: 5,
+          requireMinimalEncoding: false,
+        }),
         pair[1]
       );
       return undefined;
@@ -94,24 +114,41 @@ test('parseBytesAsScriptNumber', (t) => {
   );
   nonMinimallyEncodedScriptNumbers.map((pair) => {
     t.deepEqual(
-      parseBytesAsScriptNumber(hexToBin(pair[0]), true, 5),
+      parseBytesAsScriptNumber(hexToBin(pair[0]), {
+        maximumScriptNumberByteLength: 5,
+      }),
+      ScriptNumberError.requiresMinimal
+    );
+    t.deepEqual(
+      parseBytesAsScriptNumber(hexToBin(pair[0]), {
+        maximumScriptNumberByteLength: 5,
+        requireMinimalEncoding: true,
+      }),
       ScriptNumberError.requiresMinimal
     );
     return undefined;
   });
   equivalentScriptNumbers.map((pair) => {
     t.deepEqual(
-      parseBytesAsScriptNumber(hexToBin(pair[0]), false, 5),
-      parseBytesAsScriptNumber(hexToBin(pair[1]), true, 5)
+      parseBytesAsScriptNumber(hexToBin(pair[0]), {
+        maximumScriptNumberByteLength: 5,
+        requireMinimalEncoding: false,
+      }),
+      parseBytesAsScriptNumber(hexToBin(pair[1]), {
+        maximumScriptNumberByteLength: 5,
+        requireMinimalEncoding: true,
+      })
     );
     return undefined;
   });
   t.deepEqual(
-    parseBytesAsScriptNumber(hexToBin('abcdef1234'), true, 4),
+    parseBytesAsScriptNumber(hexToBin('abcdef1234')),
     ScriptNumberError.outOfRange
   );
   t.deepEqual(
-    parseBytesAsScriptNumber(hexToBin('abcdef1234'), true, 5),
+    parseBytesAsScriptNumber(hexToBin('abcdef1234'), {
+      maximumScriptNumberByteLength: 5,
+    }),
     BigInt(223656005035)
   );
 });

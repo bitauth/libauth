@@ -25,8 +25,8 @@ import { AuthenticationInstruction } from '../instruction-sets/instruction-sets-
 import { MinimumProgramState, StackState } from '../state';
 
 import {
-  CompilationError,
   CompilationResult,
+  CompilationResultError,
   compileScript,
 } from './language/compile';
 import {
@@ -255,7 +255,7 @@ export const compilerOperationBCHGenerateSignature = <
     ]);
     return bitcoinEncodedSignature;
   }
-  return `Identifier "${identifier}" refers to a signature, but no signatures or private keys for "${variableId}" were provided in the compilation data.`;
+  return `Identifier "${identifier}" refers to a signature, but no matching signatures or private keys for "${variableId}" were provided in the compilation data.`;
 };
 
 export const compilerOperationBCHGenerateDataSignature = <
@@ -321,7 +321,7 @@ export const compilerOperationBCHGenerateDataSignature = <
     const digest = sha256.hash(compiledTarget.bytecode);
     return signingAlgorithm(secp256k1)(privateKey, digest);
   }
-  return `Identifier "${identifier}" refers to a data signature, but no signatures or private keys for "${variableId}" were provided in the compilation data.`;
+  return `Identifier "${identifier}" refers to a data signature, but no matching signatures or private keys for "${variableId}" were provided in the compilation data.`;
 };
 
 enum SigningSerializationIdentifierConstants {
@@ -496,16 +496,12 @@ export const getCompilerOperationsBCH = (): CompilationEnvironment<
 });
 /* eslint-enable camelcase */
 
-export type BytecodeGenerationResult =
+export type BytecodeGenerationResult<ProgramState> =
   | {
       bytecode: Uint8Array;
       success: true;
     }
-  | {
-      errors: CompilationError[];
-      errorType: string;
-      success: false;
-    };
+  | CompilationResultError<ProgramState>;
 
 /**
  * A `Compiler` is a wrapper around a specific `CompilationEnvironment` which
@@ -523,7 +519,7 @@ export interface Compiler<CompilerOperationData, ProgramState> {
     script: string,
     data: CompilationData<CompilerOperationData>,
     debug?: false
-  ): BytecodeGenerationResult;
+  ): BytecodeGenerationResult<ProgramState>;
 }
 
 /**

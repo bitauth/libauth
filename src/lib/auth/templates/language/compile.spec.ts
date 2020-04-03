@@ -1,7 +1,12 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, max-lines */
 import test from 'ava';
 
-import { compileScript, compileScriptText, hexToBin } from '../../../lib';
+import {
+  compileScript,
+  compileScriptText,
+  describeExpectedInput,
+  hexToBin,
+} from '../../../lib';
 
 test('compileScript: unprovided ID', (t) => {
   t.deepEqual(compileScript('test', {}, { scripts: { typo: '1' } }), {
@@ -236,6 +241,20 @@ test('compileScriptText: empty script (script with space)', (t) => {
     ],
     success: true,
   });
+});
+
+test('describeExpectedInput: handles EOF', (t) => {
+  t.deepEqual(
+    describeExpectedInput(['one thing', 'EOF']),
+    'Encountered unexpected input while parsing script. Expected one thing or the end of the script.'
+  );
+});
+
+test('describeExpectedInput: handles 2 options', (t) => {
+  t.deepEqual(
+    describeExpectedInput(['one thing', 'another thing']),
+    'Encountered unexpected input while parsing script. Expected one thing or another thing.'
+  );
 });
 
 test('compileScript parse error', (t) => {

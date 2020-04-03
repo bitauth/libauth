@@ -108,6 +108,7 @@
     "typeof",
     "Uint",
     "uncompress",
+    "utxo",
     "VERIF",
     "VERNOTIF",
     "wasm",

@@ -87,7 +87,7 @@ export interface AuthenticationTemplateEntity {
    * A single-line, Title Case, human-readable name for this entity, e.g.:
    * `Trusted Third-Party` (for use in user interfaces and error messages).
    */
-  name: string;
+  name?: string;
   /**
    * An array of the `id`s of each script the entity must be capable of
    * generating, e.g. each of the unlocking scripts this entity might use.
@@ -137,7 +137,7 @@ export interface AuthenticationTemplateScenario {
    * A single-line, Title Case, human-readable name for this scenario, e.g.:
    * `Trusted Third-Party`
    */
-  name: string;
+  name?: string;
   /**
    * A transaction template to use when testing this scenario. Any properties
    * not defined in this transaction template inherit from the parent scenario.
@@ -341,11 +341,11 @@ export interface WalletData extends AuthenticationTemplateVariableBase {
   /**
    * A single-line, human readable description for this wallet data.
    */
-  description: string;
+  description?: string;
   /**
    * A single-line, Title Case, human-readable name for this wallet data.
    */
-  name: string;
+  name?: string;
   /**
    * The `WalletData` type provides a static piece of data which should be
    * collected once and stored at the time of wallet creation. `WalletData`
@@ -361,11 +361,11 @@ export interface AddressData extends AuthenticationTemplateVariableBase {
   /**
    * A single-line, human readable description for this address data.
    */
-  description: string;
+  description?: string;
   /**
    * A single-line, Title Case, human-readable name for this address data.
    */
-  name: string;
+  name?: string;
 
   /**
    * `AddressData` is the most low-level variable type. It must be collected

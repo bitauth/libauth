@@ -7,6 +7,7 @@ import {
   createAuthenticationProgramExternalStateCommonEmpty,
   createAuthenticationProgramStateCommon,
   instantiateVirtualMachineBCH,
+  mergeRanges,
   OpcodesBCH,
   sampledEvaluateReductionTraceNodes,
 } from '../../../lib';
@@ -62,5 +63,29 @@ test('sampledEvaluateReductionTraceNodes: empty evaluation', async (t) => {
       ],
       success: true,
     }
+  );
+});
+
+test('mergeRanges', (t) => {
+  t.deepEqual(
+    mergeRanges([
+      { endColumn: 3, endLineNumber: 1, startColumn: 0, startLineNumber: 1 },
+      { endColumn: 1, endLineNumber: 3, startColumn: 6, startLineNumber: 0 },
+    ]),
+    { endColumn: 1, endLineNumber: 3, startColumn: 6, startLineNumber: 0 }
+  );
+  t.deepEqual(
+    mergeRanges([
+      { endColumn: 4, endLineNumber: 0, startColumn: 0, startLineNumber: 0 },
+      { endColumn: 8, endLineNumber: 1, startColumn: 6, startLineNumber: 1 },
+    ]),
+    { endColumn: 8, endLineNumber: 1, startColumn: 0, startLineNumber: 0 }
+  );
+  t.deepEqual(
+    mergeRanges([
+      { endColumn: 1, endLineNumber: 1, startColumn: 5, startLineNumber: 0 },
+      { endColumn: 8, endLineNumber: 1, startColumn: 0, startLineNumber: 0 },
+    ]),
+    { endColumn: 8, endLineNumber: 1, startColumn: 0, startLineNumber: 0 }
   );
 });

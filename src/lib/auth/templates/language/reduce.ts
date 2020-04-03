@@ -23,7 +23,11 @@ const pluckEndPosition = (range: Range) => ({
   endLineNumber: range.endLineNumber,
 });
 
-const mergeRanges = (ranges: Range[]) => {
+/**
+ * Combine an array of `Range`s into a single larger `Range`.
+ * @param ranges - an array of `Range`s
+ */
+export const mergeRanges = (ranges: Range[]) => {
   const unsortedMerged = ranges.reduce<Range>(
     // eslint-disable-next-line complexity
     (merged, range) => ({
@@ -48,6 +52,9 @@ const mergeRanges = (ranges: Range[]) => {
   };
 };
 
+/**
+ * The result of reducing a single BTL script node.
+ */
 export interface ScriptReductionTraceNode {
   bytecode: Uint8Array;
   errors?: ErrorInformation[] | undefined;
@@ -203,7 +210,7 @@ export const evaluateInstructionAggregations = <
           {
             error:
               errorSample.state === undefined
-                ? `Failed to reduce evaluation: vm.debug produced no valid program states.`
+                ? `Failed to reduce evaluation: vm.stateDebug produced no valid program states.`
                 : `Failed to reduce evaluation: ${
                     errorSample.state.error ?? 'unknown error'
                   }`,

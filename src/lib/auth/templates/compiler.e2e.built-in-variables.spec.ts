@@ -1,59 +1,13 @@
 /* eslint-disable functional/no-expression-statement */
-import test, { Macro } from 'ava';
+import test from 'ava';
 
 import {
   AuthenticationProgramStateBCH,
-  CompilationData,
-  compilerCreateStateCommon,
-  CompilerOperationDataBCH,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  createCompiler,
-  generateBytecodeMap,
-  getCompilerOperationsBCH,
+  BytecodeGenerationResult,
   hexToBin,
-  instantiateSecp256k1,
-  instantiateSha256,
-  instantiateVirtualMachineBCH,
-  instructionSetBCHCurrentStrict,
-  OpcodesBCH,
 } from '../../lib';
 
-const sha256Promise = instantiateSha256();
-const secp256k1Promise = instantiateSecp256k1();
-const vmPromise = instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict);
-
-const expectCompilationResult: Macro<[
-  string,
-  CompilationData<CompilerOperationDataBCH>,
-  object
-  // eslint-disable-next-line max-params
-]> = async (t, testScript, otherData, expectedResult) => {
-  const sha256 = await sha256Promise;
-  const secp256k1 = await secp256k1Promise;
-  const vm = await vmPromise;
-
-  const compiler = createCompiler<
-    CompilerOperationDataBCH,
-    AuthenticationProgramStateBCH
-  >({
-    createState: compilerCreateStateCommon,
-    opcodes: generateBytecodeMap(OpcodesBCH),
-    operations: getCompilerOperationsBCH(),
-    scripts: { test: testScript },
-    secp256k1,
-    sha256,
-    vm,
-  });
-
-  const resultUnlock = compiler.generateBytecode('test', {
-    operationData: {
-      ...createAuthenticationProgramExternalStateCommonEmpty(),
-      coveredBytecode: Uint8Array.of(),
-    },
-    ...otherData,
-  });
-  t.deepEqual(resultUnlock, expectedResult);
-};
+import { expectCompilationResult } from './compiler.e2e.spec.helper';
 
 test(
   '[BCH compiler] built-in variables – current_block_time - error',
@@ -75,7 +29,7 @@ test(
       },
     ],
     success: false,
-  }
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
 );
 
 test(
@@ -83,10 +37,7 @@ test(
   expectCompilationResult,
   '<current_block_time>',
   { currentBlockTime: new Date('2019-10-13T00:00:00.000Z') },
-  {
-    bytecode: hexToBin('040069a25d'),
-    success: true,
-  }
+  { bytecode: hexToBin('040069a25d'), success: true }
 );
 
 test(
@@ -109,7 +60,15 @@ test(
       },
     ],
     success: false,
-  }
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+);
+
+test(
+  '[BCH compiler] built-in variables – current_block_height',
+  expectCompilationResult,
+  '<current_block_height>',
+  { currentBlockHeight: 1 },
+  { bytecode: hexToBin('51'), success: true }
 );
 
 test(
@@ -132,7 +91,80 @@ test(
       },
     ],
     success: false,
-  }
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+);
+
+test(
+  '[BCH compiler] built-in variables – signing_serialization - no component or algorithm',
+  expectCompilationResult,
+  '<signing_serialization>',
+  { operationData: undefined },
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Tried to resolve an operation for the built-in variable "signing_serialization", but no operation was provided. Provide an operation like "signing_serialization.[operation]".',
+        range: {
+          endColumn: 23,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+);
+
+/**
+ * While this can't work in a locking or unlocking script (a transaction may
+ * have only one locktime value, and OP_CHECKLOCKTIMEVERIFY must test against
+ * the same type), this must still be supported by the compiler for use cases
+ * such as attestation (for data signatures).
+ */
+test(
+  '[BCH compiler] built-in variables – current_block_height and current_block_time',
+  expectCompilationResult,
+  '<current_block_height> <current_block_time>',
+  {
+    currentBlockHeight: 1,
+    currentBlockTime: new Date('2019-10-13T00:00:00.000Z'),
+  },
+  { bytecode: hexToBin('51040069a25d'), success: true }
+);
+
+test(
+  '[BCH compiler] errors – multiple reduction errors',
+  expectCompilationResult,
+  '<current_block_height> <current_block_time>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Tried to resolve the built-in variable "current_block_height", but the "currentBlockHeight" property was not provided in the compilation data.',
+        range: {
+          endColumn: 22,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+      {
+        error:
+          'Tried to resolve the built-in variable "current_block_time", but the "currentBlockTime" property was not provided in the compilation data.',
+        range: {
+          endColumn: 43,
+          endLineNumber: 1,
+          startColumn: 25,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
 );
 
 test(
@@ -155,7 +187,7 @@ test(
       },
     ],
     success: false,
-  }
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
 );
 
 test(
@@ -442,5 +474,5 @@ test(
       },
     ],
     success: false,
-  }
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
 );

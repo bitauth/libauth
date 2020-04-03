@@ -111,10 +111,6 @@ export type IdentifierResolutionFunction = (
     }
   | { error: string; status: false };
 
-enum Constants {
-  hexByte = 2,
-}
-
 export const resolveScriptSegment = (
   segment: BtlScriptSegment,
   resolveIdentifiers: IdentifierResolutionFunction
@@ -171,18 +167,12 @@ export const resolveScriptSegment = (
           value: bigIntToScriptNumber(child.value),
         };
       case 'HexLiteral':
-        return child.value.length % Constants.hexByte === 0
-          ? {
-              literalType: 'HexLiteral' as const,
-              range,
-              type: 'bytecode' as const,
-              value: hexToBin(child.value),
-            }
-          : {
-              range,
-              type: 'error' as const,
-              value: `Improperly formed HexLiteral. HexLiteral must have a length divisible by 2, but this HexLiteral has a length of ${child.value.length}.`,
-            };
+        return {
+          literalType: 'HexLiteral' as const,
+          range,
+          type: 'bytecode' as const,
+          value: hexToBin(child.value),
+        };
       case 'UTF8Literal':
         return {
           literalType: 'UTF8Literal' as const,
@@ -365,8 +355,6 @@ export interface CompilationData<CompilerOperationData> {
    */
   currentBlockTime?: Date;
   /**
-   * TODO: implement `HDKey` support
-   *
    * An object describing the settings used for `HDKey` variables in this
    * compilation.
    */
@@ -506,6 +494,11 @@ const variableTypeToDataProperty: {
   WalletData: 'walletData',
 };
 
+const aOrAnQuotedString = (word: string) =>
+  `${
+    ['a', 'e', 'i', 'o', 'u'].includes(word[0].toLowerCase()) ? 'an' : 'a'
+  } "${word}"`;
+
 const defaultActionByVariableType: {
   [type in AuthenticationTemplateVariable['type']]: <CompilerOperationData>(
     identifier: string,
@@ -517,22 +510,25 @@ const defaultActionByVariableType: {
     data.addressData !== undefined &&
     (data.addressData[variableId] as Uint8Array | undefined) !== undefined
       ? data.addressData[variableId]
-      : `Identifier "${identifier}" refers to an AddressData, but no AddressData for "${variableId}" were provided in the compilation data.`,
+      : `Identifier "${identifier}" refers to ${aOrAnQuotedString(
+          'AddressData'
+        )}, but "${variableId}" was not provided in the compilation data "addressData".`,
   HDKey: (identifier) =>
-    `Identifier "${identifier}" refers to an HDKey, but does not specify an operation, e.g. "${identifier}.public_key".`,
+    `Identifier "${identifier}" refers to ${aOrAnQuotedString(
+      'HDKey'
+    )}, but does not specify an operation, e.g. "${identifier}.public_key".`,
   Key: (identifier) =>
-    `Identifier "${identifier}" refers to a Key, but does not specify an operation, e.g. "${identifier}.public_key".`,
+    `Identifier "${identifier}" refers to ${aOrAnQuotedString(
+      'Key'
+    )}, but does not specify an operation, e.g. "${identifier}.public_key".`,
   WalletData: (identifier, data, variableId) =>
     data.walletData !== undefined &&
     (data.walletData[variableId] as Uint8Array | undefined) !== undefined
       ? data.walletData[variableId]
-      : `Identifier "${identifier}" refers to a WalletData, but no WalletData for "${variableId}" were provided in the compilation data.`,
+      : `Identifier "${identifier}" refers to ${aOrAnQuotedString(
+          'WalletData'
+        )}, but "${variableId}" was not provided in the compilation data "walletData".`,
 };
-
-const aOrAnQuotedString = (word: string) =>
-  `${
-    ['a', 'e', 'i', 'o', 'u'].includes(word[0].toLowerCase()) ? 'an' : 'a'
-  } "${word}"`;
 
 export enum BuiltInVariables {
   currentBlockTime = 'current_block_time',
@@ -584,9 +580,9 @@ export const resolveAuthenticationTemplateVariable = <CompilerOperationData>(
         return false;
       }
       return data[variableTypeToDataProperty[selected.type]] === undefined
-        ? `Identifier "${identifier}" is a ${
+        ? `Identifier "${identifier}" is ${aOrAnQuotedString(
             selected.type
-          }, but the compilation data does not include ${aOrAnQuotedString(
+          )}, but the compilation data does not include ${aOrAnQuotedString(
             variableTypeToDataProperty[selected.type]
           )} property.`
         : operationId === undefined
@@ -658,7 +654,7 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
   });
   return result.success
     ? result
-    : `Compilation error in resolved script, ${identifier}: ${result.errors
+    : `Compilation error in resolved script, "${identifier}": ${result.errors
         .map(
           ({ error, range }) =>
             // tslint:disable-next-line: no-unsafe-any

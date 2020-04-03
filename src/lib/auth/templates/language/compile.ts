@@ -24,7 +24,7 @@ export interface CompilationResultReduce<ProgramState>
 
 export interface CompilationResultErrorBase {
   errors: CompilationError[];
-  errorType: string;
+  errorType: 'parse' | 'resolve' | 'reduce';
   success: false;
 }
 
@@ -86,7 +86,7 @@ const EOF = 'EOF';
  * @param expectedArray - the alphabetized list of expected inputs produced by
  * `parseScript`
  */
-const describeExpectedInput = (expectedArray: string[]) => {
+export const describeExpectedInput = (expectedArray: string[]) => {
   const newArray = expectedArray.filter((value) => value !== EOF);
   // eslint-disable-next-line functional/no-conditional-statement
   if (newArray.length !== expectedArray.length) {

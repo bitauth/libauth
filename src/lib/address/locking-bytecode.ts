@@ -1,5 +1,5 @@
-import { OpcodesCommon } from '../auth/instruction-sets/common/opcodes';
 import { Sha256 } from '../crypto/crypto';
+import { OpcodesCommon } from '../vm/instruction-sets/common/opcodes';
 
 import {
   Base58AddressFormatVersion,

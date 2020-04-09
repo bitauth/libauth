@@ -4,10 +4,24 @@ import test from 'ava';
 import {
   AuthenticationProgramStateBCH,
   BytecodeGenerationResult,
+  CompilationEnvironmentBCH,
+  compilerCreateStateCommon,
+  CompilerOperationDataBCH,
+  compilerOperationsBCH,
+  createAuthenticationProgramExternalStateCommonEmpty,
+  createCompiler,
+  generateBytecodeMap,
   hexToBin,
-} from '../lib';
+  instantiateSha256,
+  instantiateVirtualMachineBCH,
+  instructionSetBCHCurrentStrict,
+  OpcodesBCH,
+} from '../../lib';
 
-import { expectCompilationResult } from './compiler.e2e.spec.helper';
+import {
+  expectCompilationResult,
+  privkey,
+} from './compiler-bch.e2e.spec.helper';
 
 test(
   '[BCH compiler] built-in variables – current_block_time - error',
@@ -19,7 +33,7 @@ test(
     errors: [
       {
         error:
-          'Tried to resolve the built-in variable "current_block_time", but the "currentBlockTime" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_time" – the "currentBlockTime" property was not provided in the compilation data.',
         range: {
           endColumn: 20,
           endLineNumber: 1,
@@ -50,7 +64,7 @@ test(
     errors: [
       {
         error:
-          'Tried to resolve the built-in variable "current_block_height", but the "currentBlockHeight" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_height" – the "currentBlockHeight" property was not provided in the compilation data.',
         range: {
           endColumn: 22,
           endLineNumber: 1,
@@ -81,7 +95,7 @@ test(
     errors: [
       {
         error:
-          'Could not construct the signing serialization "signing_serialization.full_all_outputs", signing serialization data was not provided in the compilation data.',
+          'Cannot resolve "signing_serialization.full_all_outputs" – the "operationData" property was not provided in the compilation data.',
         range: {
           endColumn: 40,
           endLineNumber: 1,
@@ -104,7 +118,7 @@ test(
     errors: [
       {
         error:
-          'Tried to resolve an operation for the built-in variable "signing_serialization", but no operation was provided. Provide an operation like "signing_serialization.[operation]".',
+          'This "signing_serialization" variable could not be resolved because this compiler\'s "signingSerialization" operations require an operation identifier, e.g. \'signing_serialization.version\'.',
         range: {
           endColumn: 23,
           endLineNumber: 1,
@@ -144,7 +158,7 @@ test(
     errors: [
       {
         error:
-          'Tried to resolve the built-in variable "current_block_height", but the "currentBlockHeight" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_height" – the "currentBlockHeight" property was not provided in the compilation data.',
         range: {
           endColumn: 22,
           endLineNumber: 1,
@@ -154,7 +168,7 @@ test(
       },
       {
         error:
-          'Tried to resolve the built-in variable "current_block_time", but the "currentBlockTime" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_time" – the "currentBlockTime" property was not provided in the compilation data.',
         range: {
           endColumn: 43,
           endLineNumber: 1,
@@ -177,7 +191,7 @@ test(
     errors: [
       {
         error:
-          'Tried to resolve an operation for the built-in variable "signing_serialization", but no operation was provided. Provide an operation like "signing_serialization.[operation]".',
+          'This "signing_serialization" variable could not be resolved because this compiler\'s "signingSerialization" operations require an operation identifier, e.g. \'signing_serialization.version\'.',
         range: {
           endColumn: 23,
           endLineNumber: 1,
@@ -464,7 +478,7 @@ test(
     errors: [
       {
         error:
-          'Identifer "signing_serialization.unknown" refers to a SigningSerialization operation "unknown" which is not available to this compiler.',
+          'The identifier "signing_serialization.unknown" could not be resolved because the "signing_serialization.unknown" operation is not available to this compiler.',
         range: {
           endColumn: 31,
           endLineNumber: 1,
@@ -476,3 +490,78 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
 );
+
+test(
+  '[BCH compiler] built-in variables – signing_serialization: unrecognized identifier fragment',
+  expectCompilationResult,
+  '<signing_serialization.full_all_outputs.future_operation.with_more_levels>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Unknown component in "signing_serialization.full_all_outputs.future_operation.with_more_levels" – the fragment "future_operation" is not recognized.',
+        range: {
+          endColumn: 74,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+);
+
+const sha256Promise = instantiateSha256();
+const vmPromise = instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict);
+test('[BCH compiler] signing_serialization.corresponding_output and signing_serialization.corresponding_output_hash – returns empty bytecode if no corresponding output', async (t) => {
+  const sha256 = await sha256Promise;
+  const vm = await vmPromise;
+  const compiler = createCompiler<
+    CompilerOperationDataBCH,
+    CompilationEnvironmentBCH,
+    AuthenticationProgramStateBCH
+  >({
+    createState: compilerCreateStateCommon,
+    opcodes: generateBytecodeMap(OpcodesBCH),
+    operations: compilerOperationsBCH,
+    scripts: {
+      // eslint-disable-next-line camelcase
+      corresponding_output:
+        '<1> <signing_serialization.corresponding_output> <2>',
+      // eslint-disable-next-line camelcase
+      corresponding_output_hash:
+        '<1> <signing_serialization.corresponding_output_hash> <2>',
+    },
+    sha256,
+    variables: {
+      a: {
+        type: 'Key',
+      },
+    },
+    vm,
+  });
+
+  const data = {
+    keys: { privateKeys: { a: privkey } },
+    operationData: {
+      ...createAuthenticationProgramExternalStateCommonEmpty(),
+      coveredBytecode: Uint8Array.of(),
+      ...{
+        correspondingOutput: undefined,
+      },
+    },
+  };
+
+  t.deepEqual(compiler.generateBytecode('corresponding_output', data), {
+    bytecode: hexToBin('510052'),
+    success: true,
+  });
+
+  t.deepEqual(compiler.generateBytecode('corresponding_output_hash', data), {
+    bytecode: hexToBin('510052'),
+    success: true,
+  });
+});

@@ -4,8 +4,11 @@ import {
   numberToBinUint16LE,
   numberToBinUint32LE,
 } from '../../format/format';
+import { createCompilerCommonSynchronous } from '../../template/compiler';
+import { CompilerOperationDataCommon } from '../../template/compiler-types';
+import { AuthenticationProgramStateCommon } from '../state';
 
-import { OpcodesBCH } from './bch/bch';
+import { AuthenticationErrorBCH, OpcodesBCH } from './bch/bch';
 import { OpcodesBTC } from './btc/btc';
 import {
   AuthenticationInstruction,
@@ -262,9 +265,9 @@ export const disassembleParsedAuthenticationInstructions = <Opcodes = number>(
     .join(' ');
 
 /**
- * Disassemble authentication bytecode into a lossless ASM representation.
- *
- * TODO: a similar method which re-formats ASM strings, converting HexLiterals to Script Numbers or UTF8Literals.
+ * Disassemble authentication bytecode into a lossless ASM representation. (All
+ * push operations are represented with the same opcodes used in the bytecode,
+ * even when non-minimally encoded.)
  *
  * @param opcodes - the set to use when determining the name of opcodes, e.g. `OpcodesBCH`
  * @param bytecode - the authentication bytecode to disassemble
@@ -288,8 +291,6 @@ export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
     parseBytecode<OpcodesBCH>(bytecode)
   );
 
-// TODO: assembleBytecodeBCH – instantiate synchronous compiler, throw any errors
-
 /**
  * Disassemble BTC authentication bytecode into its ASM representation.
  * @param bytecode - the authentication bytecode to disassemble
@@ -300,7 +301,77 @@ export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
     parseBytecode<OpcodesBTC>(bytecode)
   );
 
-// TODO: assembleBytecodeBTC
+/**
+ * Create an object where each key is an opcode identifier and each value is
+ * the bytecode value (`Uint8Array`) it represents.
+ * @param opcodes - An opcode enum, e.g. `OpcodesBCH`
+ */
+export const generateBytecodeMap = (opcodes: object) =>
+  Object.entries(opcodes)
+    .filter<[string, number]>(
+      (entry): entry is [string, number] => typeof entry[1] === 'number'
+    )
+    .reduce<{
+      [opcode: string]: Uint8Array;
+    }>(
+      (identifiers, pair) => ({
+        ...identifiers,
+        [pair[0]]: Uint8Array.of(pair[1]),
+      }),
+      {}
+    );
+
+/**
+ * Re-assemble a string of disassembled bytecode (see `disassembleBytecode`).
+ *
+ * @param opcodes - a mapping of opcodes to their respective Uint8Array
+ * representation
+ * @param disassembledBytecode - the disassembled bytecode to re-assemble
+ */
+export const assembleBytecode = <
+  Opcodes = OpcodesBCH,
+  Errors = AuthenticationErrorBCH
+>(
+  opcodes: { readonly [opcode: string]: Uint8Array },
+  disassembledBytecode: string
+) => {
+  const environment = {
+    opcodes,
+    scripts: { asm: disassembledBytecode },
+  };
+  return createCompilerCommonSynchronous<
+    CompilerOperationDataCommon,
+    typeof environment,
+    AuthenticationProgramStateCommon<Opcodes, Errors>,
+    Opcodes,
+    Errors
+  >(environment).generateBytecode('asm', {});
+};
+
+/**
+ * Re-assemble a string of disassembled BCH bytecode (see
+ * `disassembleBytecodeBCH`).
+ *
+ * Note, this method performs automatic minimization of push instructions.
+ *
+ * @param disassembledBytecode - the disassembled BCH bytecode to re-assemble
+ */
+export const assembleBytecodeBCH = (disassembledBytecode: string) =>
+  assembleBytecode(generateBytecodeMap(OpcodesBCH), disassembledBytecode);
+
+/**
+ * Re-assemble a string of disassembled BCH bytecode (see
+ * `disassembleBytecodeBTC`).
+ *
+ * Note, this method performs automatic minimization of push instructions.
+ *
+ * @param disassembledBytecode - the disassembled BTC bytecode to re-assemble
+ */
+export const assembleBytecodeBTC = (disassembledBytecode: string) =>
+  assembleBytecode<OpcodesBTC>(
+    generateBytecodeMap(OpcodesBTC),
+    disassembledBytecode
+  );
 
 const getInstructionLengthBytes = <Opcodes>(
   instruction: AuthenticationInstructionPush<Opcodes>
@@ -370,23 +441,3 @@ export const serializeParsedAuthenticationInstructions = <Opcodes = number>(
   instructions: readonly ParsedAuthenticationInstruction<Opcodes>[]
 ) =>
   flattenBinArray(instructions.map(serializeParsedAuthenticationInstruction));
-
-/**
- * Create an object where each key is an opcode identifier and each value is
- * the bytecode value (`Uint8Array`) it represents.
- * @param opcodes - An opcode enum, e.g. `OpcodesBCH`
- */
-export const generateBytecodeMap = (opcodes: object) =>
-  Object.entries(opcodes)
-    .filter<[string, number]>(
-      (entry): entry is [string, number] => typeof entry[1] === 'number'
-    )
-    .reduce<{
-      [opcode: string]: Uint8Array;
-    }>(
-      (identifiers, pair) => ({
-        ...identifiers,
-        [pair[0]]: Uint8Array.of(pair[1]),
-      }),
-      {}
-    );

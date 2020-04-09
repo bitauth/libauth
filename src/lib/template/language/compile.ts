@@ -1,11 +1,10 @@
 import { MinimumProgramState, StackState } from '../../vm/state';
+import { CompilationData, CompilationEnvironment } from '../compiler-types';
 
 import { getResolutionErrors } from './errors';
 import { BtlScriptSegment, parseScript } from './parse';
 import { reduceScript, ScriptReductionTraceContainerNode } from './reduce';
 import {
-  CompilationData,
-  CompilationEnvironment,
   createIdentifierResolver,
   Range,
   ResolvedScript,
@@ -139,7 +138,7 @@ export const compileScriptText = <
       success: false,
     };
   }
-  const resolver = createIdentifierResolver(scriptId, data, environment);
+  const resolver = createIdentifierResolver({ data, environment, scriptId });
   const resolvedScript = resolveScriptSegment(parseResult.value, resolver);
   const resolutionErrors = getResolutionErrors(resolvedScript);
   if (resolutionErrors.length !== 0) {

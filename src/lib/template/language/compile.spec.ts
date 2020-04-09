@@ -2,6 +2,7 @@
 import test from 'ava';
 
 import {
+  compilerOperationAddressData,
   compileScript,
   compileScriptText,
   describeExpectedInput,
@@ -958,6 +959,9 @@ test('compileScript: variable and script inclusion', (t) => {
       opcodes: {
         OP_1: Uint8Array.of(0x51),
         OP_ADD: Uint8Array.of(0x93),
+      },
+      operations: {
+        addressData: compilerOperationAddressData,
       },
       scripts: { pushNumbers: 'OP_1 varOp2', t: 'pushNumbers OP_ADD' },
       variables: {

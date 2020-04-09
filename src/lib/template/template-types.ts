@@ -36,8 +36,7 @@ export interface AuthenticationTemplate {
   name?: string;
 
   /**
-   * A map of scripts used in this authentication template. Object keys are used
-   * as scenario identifiers, and by convention, should use `snake_case`.
+   * TODO: finish implementing scenarios
    *
    * Scenarios describe a complete environment for testing the authentication
    * template under certain conditions. They are most useful for development,
@@ -243,21 +242,6 @@ export interface AuthenticationTemplateVariableBase {
    */
   description?: string;
   /**
-   * The BTL-encoded test value for this variable. This test value is used
-   * during development and can provide validation when importing this template
-   * into a new system.
-   *
-   * When testing, all variables for all entities are initialized to their
-   * `mock` and each unlocking script is tested against the locking script,
-   * ensuring it is able to unlock it. For inline scripts, variables are also
-   * initialized to their `mock`s when evaluating inline script tests.
-   *
-   * Note, `mock` is itself defined in BTL syntax, but mock scripts do not have
-   * access to evaluations, other variables, or scripts. (Hex, BigInt, and UTF8
-   * literals are permissible, as well as push notation and comments.)
-   */
-  // mock?: string; // TODO: delete – replaced by scenarios
-  /**
    * A single-line, Title Case, human-readable name for this variable (for use
    * in user interfaces).
    */
@@ -272,64 +256,104 @@ export interface AuthenticationTemplateVariableBase {
   // validate?: string;
 }
 
-export interface HDKey extends AuthenticationTemplateVariableBase {
+export interface HdKey extends AuthenticationTemplateVariableBase {
   /**
-   * If `false`, the script-level derivation will use the non-hardened
-   * derivation algorithm. This has critical security implications, see
-   * `templateDerivationHardened` for details.
+   * The offset by which to increment the `addressIndex` provided in the
+   * compilation data when deriving this `HdKey`. (Default: 0)
    *
-   * Because this security consideration should be evaluated for any template
-   * using `HDKey`s, `derivationHardened` defaults to `true`.
+   * This is useful for deriving the "next" (`1`) or "previous" (`-1`) address
+   * to be used in the current compilation context.
    */
-  scriptDerivationHardened?: boolean;
+  addressOffset?: number;
   /**
-   * A "hardened" child key is derived using an extended *private key*, while a
-   * non-hardened child key is derived using only an extended *public key*.
+   * The path to derive the entity's HD public key from the entity's master HD
+   * private key. By default, `m` (i.e. the entity's HD public key represents
+   * the same node in the HD tree as its HD private key).
    *
-   * Non-hardened keys are more useful for some templates, e.g. to allow for
-   * new locking scripts to be generated without communicating new public keys
-   * between entities for each. **However, using a non-hardened key has critical
-   * security implications.** If an attacker gains possession of both a parent
-   * extended *public key* and any child private key, the attacker can easily
-   * derive the parent extended *private key*, and with it, all hardened and
-   * non-hardened child keys. See BIP32 for details.
+   * This can be used to specify another derivation path from which the
+   * `publicDerivationPath` begins, e.g. `m/0'/1'/2'`. See
+   * `publicDerivationPath` for details.
    *
-   * Because this security consideration should be evaluated for any template
-   * using `HDKey`s, `derivationHardened` defaults to `true`.
+   * This path must begin with an `m` (private derivation) and be fixed – it
+   * cannot contain an `i` character to represent the address index, as a
+   * dynamic hardened path would require a new HD public key for each address.
    */
-  templateDerivationHardened?: boolean;
+  hdPublicKeyDerivationPath?: string;
   /**
-   * All `HDKey`s use a derivation of a hierarchical-deterministic key. The
-   * resulting branch is then incremented to generate child keys for scripts:
+   * The derivation path used to derive this `HdKey` from the owning entity's HD
+   * private key. By default, `m/i`.
    *
-   * `m/templateDerivationIndex/scriptDerivationIndex`
+   * This path uses the notation specified in BIP32 and the `i` character to
+   * represent the location of the `addressIndex`:
    *
-   * The template-level derivation algorithm is controlled by
-   * `templateDerivationHardened`, while the script-level derivation algorithm
-   * is controlled by `scriptDerivationHardened`.
+   * The first character must be `m` (private derivation), followed by sets of
+   * `/` and a number representing the child index used in the derivation at
+   * that depth. Hardened derivation is represented by a trailing `'`, and
+   * hardened child indexes are represented with the hardened index offset
+   * (`2147483648`) subtracted. The `i` character is replaced with the value of
+   * `addressIndex` plus this `HdKey`'s `addressOffset`. If the `i` character is
+   * followed by `'`, the hardened index offset is added (`2147483648`) and
+   * hardened derivation is used.
    *
-   * The `scriptDerivationIndex` is provided at compile time to derive the
-   * precise key used for that particular compilation.
+   * For example, `m/0/1'/i'` uses 3 levels of derivation, with child indexes in
+   * the following order:
    *
-   * By default, `templateDerivationIndex` is `0`. If a single entity owns
-   * multiple `HDKey`s, each variable must specify a different
-   * `templateDerivationIndex`. (Otherwise, each key would derive the same child
-   * keys.)
+   * `derive(derive(derive(node, 0), 2147483648 + 1), 2147483648 + addressIndex + addressOffset)`
    *
-   * For greater control over key generation and mapping, use `Key`.
+   * Because hardened derivation requires knowledge of the private key, `HdKey`
+   * variables with `derivationPath`s which include hardened derivation cannot
+   * use HD public derivation (the `hdPublicKeys` property in `CompilationData`).
+   * Instead, compilation requires the respective HD private key
+   * (`CompilationData.hdKeys.hdPrivateKeys`) or the fully-derived public key
+   * (`CompilationData.hdKeys.derivedPublicKeys`).
    */
-  templateDerivationIndex?: number;
+  privateDerivationPath?: string;
   /**
-   * The `HDKey` (Hierarchical-Deterministic Key) type automatically manages key
+   * The derivation path used to derive this `HdKey`'s public key from the
+   * owning entity's HD public key. If not set, the public equivalent of
+   * `privateDerivationPath` is used. For the `privateDerivationPath` default of
+   * `m/i`, this is `M/i`.
+   *
+   * If `privateDerivationPath` uses hardened derivation for some levels, but
+   * later derivation levels use non-hardened derivation, `publicDerivationPath`
+   * can be used to specify a public derivation path beginning from
+   * `hdPublicKeyDerivationPath` (i.e. `publicDerivationPath` should always be a
+   * non-hardened segment of `privateDerivationPath` which follows
+   * `hdPublicKeyDerivationPath`).
+   *
+   * The first character must be `M` (public derivation), followed by sets of
+   * `/` and a number representing the child index used in the non-hardened
+   * derivation at that depth.
+   *
+   * For example, if `privateDerivationPath` is `m/0'/i`, it is not possible to
+   * derive the equivalent public key with only the HD public key `M`. (The path
+   * "`M/0'/i`" is impossible). However, given the HD public key for `m/0'`, it
+   * is possible to derive the public key of `m/0'/i` for any `i`. In this case,
+   * `hdPublicKeyDerivationPath` would be `m/0'` and `publicDerivationPath`
+   * would be the remaining `M/i`.
+   *
+   * @remarks
+   * Non-hardened derivation paths are more useful for some templates, e.g. to
+   * allow for new locking scripts to be generated without communicating new
+   * public keys between entities for each. **However, using a non-hardened key
+   * has critical security implications.** If an attacker gains possession of
+   * both a parent HD *public key* and any child private key, the attacker can
+   * easily derive the parent HD *private key*, and with it, all hardened and
+   * non-hardened child keys. See BIP32 or
+   * `crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode` for details.
+   */
+  publicDerivationPath?: string;
+  /**
+   * The `HdKey` (Hierarchical-Deterministic Key) type automatically manages key
    * generation and mapping in a standard way. For greater control, use `Key`.
    */
-  type: 'HDKey';
+  type: 'HdKey';
 }
 
 export interface Key extends AuthenticationTemplateVariableBase {
   /**
    * The `Key` type provides fine-grained control over key generation and mapping.
-   * Most templates should instead use `HDKey`.
+   * Most templates should instead use `HdKey`.
    *
    * Any HD (Hierarchical-Deterministic) derivation must be completed outside of
    * the templating system and provided at the time of use.
@@ -378,7 +402,7 @@ export interface AddressData extends AuthenticationTemplateVariableBase {
 }
 
 export type AuthenticationTemplateVariable =
-  | HDKey
+  | HdKey
   | Key
   | WalletData
   | AddressData;

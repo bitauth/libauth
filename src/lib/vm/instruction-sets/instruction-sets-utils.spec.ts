@@ -1,8 +1,18 @@
 /* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test, { Macro } from 'ava';
+import { fc, testProp } from 'ava-fast-check';
 
 import {
+  assembleBytecode,
+  assembleBytecodeBCH,
+  assembleBytecodeBTC,
   AuthenticationInstruction,
+  AuthenticationInstructionPush,
+  authenticationInstructionsAreMalformed,
+  binToHex,
+  disassembleBytecode,
+  disassembleBytecodeBCH,
+  disassembleBytecodeBTC,
   disassembleParsedAuthenticationInstructions,
   generateBytecodeMap,
   hexToBin,
@@ -11,6 +21,7 @@ import {
   parseBytecode,
   ParsedAuthenticationInstruction,
   range,
+  serializeAuthenticationInstruction,
   serializeAuthenticationInstructions,
   serializeParsedAuthenticationInstructions,
 } from '../../lib';
@@ -224,3 +235,152 @@ test('generateBytecodeMap', (t) => {
     OP_C: Uint8Array.of(3),
   });
 });
+
+test('serializeAuthenticationInstruction', (t) => {
+  const OP_PUSHDATA_1 = 0x4c;
+  const pushData1Expected = new Uint8Array(102);
+  pushData1Expected.set([OP_PUSHDATA_1, 100]);
+  const pushData1Serialized = serializeAuthenticationInstruction({
+    data: new Uint8Array(100),
+    opcode: OP_PUSHDATA_1,
+  });
+  t.deepEqual(pushData1Serialized, pushData1Expected);
+
+  const OP_PUSHDATA_2 = 0x4d;
+  const pushData2Expected = new Uint8Array(259);
+  pushData2Expected.set([OP_PUSHDATA_2, 0, 1]);
+  const pushData2Serialized = serializeAuthenticationInstruction({
+    data: new Uint8Array(256),
+    opcode: OP_PUSHDATA_2,
+  });
+  t.deepEqual(pushData2Serialized, pushData2Expected);
+
+  const OP_PUSHDATA_4 = 0x4e;
+  const pushData4Expected = new Uint8Array(65541);
+  pushData4Expected.set([OP_PUSHDATA_4, 0, 0, 1, 0]);
+  const pushData4Serialized = serializeAuthenticationInstruction({
+    data: new Uint8Array(65536),
+    opcode: OP_PUSHDATA_4,
+  });
+  t.deepEqual(pushData4Serialized, pushData4Expected);
+});
+
+enum TestOpcodes {
+  OP_PUSH_EMPTY = 0,
+  OP_A = 81,
+  OP_B = 82,
+  OP_C = 83,
+}
+test('disassembleBytecode', (t) => {
+  t.deepEqual(
+    disassembleBytecode(
+      TestOpcodes,
+      Uint8Array.from([0, 81, 82, 83, 81, 82, 83])
+    ),
+    'OP_PUSH_EMPTY OP_A OP_B OP_C OP_A OP_B OP_C'
+  );
+});
+
+test('assembleBytecode', (t) => {
+  t.deepEqual(
+    assembleBytecode(
+      generateBytecodeMap(TestOpcodes),
+      'OP_PUSH_EMPTY OP_A OP_B OP_C OP_A OP_B OP_C'
+    ),
+    { bytecode: Uint8Array.from([0, 81, 82, 83, 81, 82, 83]), success: true }
+  );
+});
+
+const zcfHex =
+  '76a9148b139a5274cc85e2d36d4f97922a15ae5d7f68af8763ac6776a914f127e6b53e2005930718681d245fe5a2b22f2b9f8763785479879169766bbb6cba676a6868';
+
+test('disassembleBytecodeBCH & assembleBytecodeBCH', (t) => {
+  const zcfAsm =
+    'OP_DUP OP_HASH160 OP_PUSHBYTES_20 0x8b139a5274cc85e2d36d4f97922a15ae5d7f68af OP_EQUAL OP_IF OP_CHECKSIG OP_ELSE OP_DUP OP_HASH160 OP_PUSHBYTES_20 0xf127e6b53e2005930718681d245fe5a2b22f2b9f OP_EQUAL OP_IF OP_OVER OP_4 OP_PICK OP_EQUAL OP_NOT OP_VERIFY OP_DUP OP_TOALTSTACK OP_CHECKDATASIGVERIFY OP_FROMALTSTACK OP_CHECKDATASIG OP_ELSE OP_RETURN OP_ENDIF OP_ENDIF';
+  t.deepEqual(disassembleBytecodeBCH(hexToBin(zcfHex)), zcfAsm);
+  t.deepEqual(assembleBytecodeBCH(zcfAsm), {
+    bytecode: hexToBin(zcfHex),
+    success: true,
+  });
+});
+
+test('disassembleBytecodeBTC & assembleBytecodeBTC', (t) => {
+  const zcfAsm =
+    'OP_DUP OP_HASH160 OP_PUSHBYTES_20 0x8b139a5274cc85e2d36d4f97922a15ae5d7f68af OP_EQUAL OP_IF OP_CHECKSIG OP_ELSE OP_DUP OP_HASH160 OP_PUSHBYTES_20 0xf127e6b53e2005930718681d245fe5a2b22f2b9f OP_EQUAL OP_IF OP_OVER OP_4 OP_PICK OP_EQUAL OP_NOT OP_VERIFY OP_DUP OP_TOALTSTACK OP_UNKNOWN187 OP_FROMALTSTACK OP_UNKNOWN186 OP_ELSE OP_RETURN OP_ENDIF OP_ENDIF';
+  t.deepEqual(disassembleBytecodeBTC(hexToBin(zcfHex)), zcfAsm);
+  t.deepEqual(assembleBytecodeBTC(zcfAsm), {
+    bytecode: hexToBin(zcfHex),
+    success: true,
+  });
+});
+
+const maxUint8Number = 255;
+const fcUint8Array = (minLength: number, maxLength: number) =>
+  fc
+    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
+    .map((a) => Uint8Array.from(a));
+const maxBinLength = 100;
+
+testProp(
+  '[fast-check] disassembleBytecodeBCH <-> assembleBytecodeBCH',
+  [fcUint8Array(0, maxBinLength)],
+  (randomBytecode: Uint8Array) => {
+    const parsed = parseBytecode<OpcodesBCH>(randomBytecode);
+    const instructions = (authenticationInstructionsAreMalformed(parsed)
+      ? parsed.slice(0, -1)
+      : parsed) as AuthenticationInstruction<OpcodesBCH>[];
+    const minimalPush = instructions.map((instruction) =>
+      [OpcodesBCH.OP_PUSHDATA_2, OpcodesBCH.OP_PUSHDATA_4].includes(
+        instruction.opcode
+      )
+        ? { opcode: OpcodesBCH.OP_1 }
+        : instruction.opcode === OpcodesBCH.OP_PUSHDATA_1 &&
+          (instruction as AuthenticationInstructionPush).data.length < 76
+        ? {
+            data: new Uint8Array(76),
+            opcode: OpcodesBCH.OP_PUSHDATA_1,
+          }
+        : instruction
+    );
+    const serialized = serializeAuthenticationInstructions(minimalPush);
+
+    const disassembled = disassembleBytecodeBCH(serialized);
+    const reassembled = assembleBytecodeBCH(disassembled);
+    return (
+      reassembled.success &&
+      binToHex(serialized) === binToHex(reassembled.bytecode)
+    );
+  }
+);
+
+testProp(
+  '[fast-check] disassembleBytecodeBTC <-> assembleBytecodeBTC',
+  [fcUint8Array(0, maxBinLength)],
+  (randomBytecode: Uint8Array) => {
+    const parsed = parseBytecode<OpcodesBTC>(randomBytecode);
+    const instructions = (authenticationInstructionsAreMalformed(parsed)
+      ? parsed.slice(0, -1)
+      : parsed) as AuthenticationInstruction<OpcodesBTC>[];
+    const minimalPush = instructions.map((instruction) =>
+      [OpcodesBTC.OP_PUSHDATA_2, OpcodesBTC.OP_PUSHDATA_4].includes(
+        instruction.opcode
+      )
+        ? { opcode: OpcodesBTC.OP_1 }
+        : instruction.opcode === OpcodesBTC.OP_PUSHDATA_1 &&
+          (instruction as AuthenticationInstructionPush).data.length < 76
+        ? {
+            data: new Uint8Array(76),
+            opcode: OpcodesBTC.OP_PUSHDATA_1,
+          }
+        : instruction
+    );
+    const serialized = serializeAuthenticationInstructions(minimalPush);
+
+    const disassembled = disassembleBytecodeBTC(serialized);
+    const reassembled = assembleBytecodeBTC(disassembled);
+    return (
+      reassembled.success &&
+      binToHex(serialized) === binToHex(reassembled.bytecode)
+    );
+  }
+);

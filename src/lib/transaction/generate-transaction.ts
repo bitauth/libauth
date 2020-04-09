@@ -1,13 +1,11 @@
-import {
-  Compiler,
-  CompilerOperationDataBCH,
-  createCompilerBCH,
-} from '../template/compiler';
-import { CompilationError } from '../template/language/compile';
+import { createCompilerBCH } from '../template/compiler-bch/compiler-bch';
 import {
   CompilationData,
   CompilationEnvironment,
-} from '../template/language/resolve';
+  Compiler,
+  CompilerOperationDataCommon,
+} from '../template/compiler-types';
+import { CompilationError } from '../template/language/compile';
 import {
   AuthenticationTemplate,
   AuthenticationTemplateVariable,
@@ -78,7 +76,7 @@ export const authenticationTemplateToCompilationEnvironment = (
  * used to override properties of the default BCH environment
  */
 export const authenticationTemplateToCompilerBCH = async <
-  CompilerOperationData extends CompilerOperationDataBCH,
+  CompilerOperationData extends CompilerOperationDataCommon,
   ProgramState extends AuthenticationProgramStateBCH
 >(
   template: AuthenticationTemplate,
@@ -142,7 +140,7 @@ export type TransactionGenerationResult =
  * `Transaction`
  */
 export const generateTransactionBCH = <
-  CompilerType extends Compiler<CompilerOperationDataBCH, unknown>
+  CompilerType extends Compiler<CompilerOperationDataCommon, unknown>
 >(
   template: Readonly<TransactionTemplate<CompilationData<never>, CompilerType>>
 ): TransactionGenerationResult => {
@@ -225,7 +223,7 @@ export const generateTransactionBCH = <
           // eslint-disable-next-line functional/no-expression-statement
           lockingBytecode = unlockingDirective.output.lockingBytecode.slice();
         }
-        const operationData: CompilerOperationDataBCH = {
+        const operationData: CompilerOperationDataCommon = {
           correspondingOutput: serializeOutput(outputs[inputIndex]),
           coveredBytecode: lockingBytecode,
           locktime: template.locktime,

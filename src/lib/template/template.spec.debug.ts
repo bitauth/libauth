@@ -24,10 +24,8 @@ export const singleSig: AuthenticationTemplate = {
       variables: {
         key: {
           description: 'The private key which controls this wallet.',
-          name: 'Key',
-          templateDerivationHardened: false,
-          templateDerivationIndex: 0,
-          type: 'HDKey',
+          name: 'Owner Key',
+          type: 'HdKey',
         },
       },
     },
@@ -55,9 +53,7 @@ const createCosigner = (
   scripts: ['checksum', 'lock', ...scripts],
   variables: {
     [`key${suffix}`]: {
-      templateDerivationHardened: false,
-      templateDerivationIndex: 0,
-      type: 'HDKey',
+      type: 'HdKey',
     },
   },
 });
@@ -150,7 +146,7 @@ export const treeSig: AuthenticationTemplate = {
           [`key${i}`]: {
             derivationHardened: false,
             derivationIndex: 0,
-            type: 'HDKey' as const,
+            type: 'HdKey' as const,
           },
         },
       },
@@ -231,9 +227,7 @@ export const sigOfSig: AuthenticationTemplate = {
       name: 'First Signer',
       variables: {
         first: {
-          templateDerivationHardened: false,
-          templateDerivationIndex: 0,
-          type: 'HDKey',
+          type: 'HdKey',
         },
       },
     },
@@ -241,9 +235,7 @@ export const sigOfSig: AuthenticationTemplate = {
       name: 'Second Signer',
       variables: {
         second: {
-          templateDerivationHardened: false,
-          templateDerivationIndex: 0,
-          type: 'HDKey',
+          type: 'HdKey',
         },
       },
     },
@@ -284,9 +276,7 @@ export const trustedRecovery: AuthenticationTemplate = {
           type: 'WalletData',
         },
         first: {
-          templateDerivationHardened: false,
-          templateDerivationIndex: 0,
-          type: 'HDKey',
+          type: 'HdKey',
         },
       },
     },
@@ -295,9 +285,7 @@ export const trustedRecovery: AuthenticationTemplate = {
       scripts: ['checksum', 'spend', 'recover_2'],
       variables: {
         second: {
-          templateDerivationHardened: false,
-          templateDerivationIndex: 0,
-          type: 'HDKey',
+          type: 'HdKey',
         },
       },
     },
@@ -306,9 +294,7 @@ export const trustedRecovery: AuthenticationTemplate = {
       scripts: ['checksum', 'recover_1', 'recover_2'],
       variables: {
         trusted: {
-          templateDerivationHardened: false,
-          templateDerivationIndex: 0,
-          type: 'HDKey',
+          type: 'HdKey',
         },
       },
     },

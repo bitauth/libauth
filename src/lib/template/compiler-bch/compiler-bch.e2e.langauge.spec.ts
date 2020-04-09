@@ -1,9 +1,9 @@
 /* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 
-import { hexToBin } from '../lib';
+import { hexToBin } from '../../lib';
 
-import { expectCompilationResult } from './compiler.e2e.spec.helper';
+import { expectCompilationResult } from './compiler-bch.e2e.spec.helper';
 
 test(
   '[BCH compiler] language – empty script',

@@ -5,9 +5,9 @@ import {
   AuthenticationProgramStateBCH,
   BytecodeGenerationResult,
   hexToBin,
-} from '../lib';
+} from '../../lib';
 
-import { expectCompilationResult } from './compiler.e2e.spec.helper';
+import { expectCompilationResult } from './compiler-bch.e2e.spec.helper';
 
 test(
   '[BCH compiler] variables – AddressData',
@@ -61,7 +61,7 @@ test(
     errors: [
       {
         error:
-          'Identifier "one" is an "AddressData", but the compilation data does not include an "addressData" property.',
+          'Cannot resolve "one" – the "addressData" property was not provided in the compilation data.',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -71,7 +71,7 @@ test(
       },
       {
         error:
-          'Identifier "two" is an "AddressData", but the compilation data does not include an "addressData" property.',
+          'Cannot resolve "two" – the "addressData" property was not provided in the compilation data.',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -100,7 +100,7 @@ test(
     errors: [
       {
         error:
-          'Identifier "one" refers to an "AddressData", but "one" was not provided in the compilation data "addressData".',
+          'Identifier "one" refers to an AddressData, but "one" was not provided in the CompilationData "addressData".',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -110,7 +110,7 @@ test(
       },
       {
         error:
-          'Identifier "two" refers to an "AddressData", but "two" was not provided in the compilation data "addressData".',
+          'Identifier "two" refers to an AddressData, but "two" was not provided in the CompilationData "addressData".',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -179,7 +179,7 @@ test(
     errors: [
       {
         error:
-          'Identifier "one" is a "WalletData", but the compilation data does not include a "walletData" property.',
+          'Cannot resolve "one" – the "walletData" property was not provided in the compilation data.',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -189,7 +189,7 @@ test(
       },
       {
         error:
-          'Identifier "two" is a "WalletData", but the compilation data does not include a "walletData" property.',
+          'Cannot resolve "two" – the "walletData" property was not provided in the compilation data.',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -211,14 +211,14 @@ test(
   expectCompilationResult,
   '<one> <two>',
   {
-    addressData: {},
+    walletData: {},
   },
   {
     errorType: 'resolve',
     errors: [
       {
         error:
-          'Identifier "one" is a "WalletData", but the compilation data does not include a "walletData" property.',
+          'Identifier "one" refers to a WalletData, but "one" was not provided in the CompilationData "walletData".',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -228,7 +228,7 @@ test(
       },
       {
         error:
-          'Identifier "two" is a "WalletData", but the compilation data does not include a "walletData" property.',
+          'Identifier "two" refers to a WalletData, but "two" was not provided in the CompilationData "walletData".',
         range: {
           endColumn: 11,
           endLineNumber: 1,

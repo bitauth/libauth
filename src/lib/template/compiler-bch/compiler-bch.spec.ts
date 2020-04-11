@@ -2,11 +2,13 @@
 import test from 'ava';
 
 import {
+  AuthenticationErrorBCH,
   AuthenticationInstruction,
   createAuthenticationProgramExternalStateCommonEmpty,
   createAuthenticationProgramStateCommon,
   createCompilerBCH,
   hexToBin,
+  OpcodesBCH,
 } from '../../lib';
 
 // prettier-ignore
@@ -52,10 +54,12 @@ test('[BCH compiler] createCompilerBCH: generateBytecode', async (t) => {
 
 test('[BCH compiler] createCompilerBCH: debug', async (t) => {
   const state = createAuthenticationProgramExternalStateCommonEmpty();
-  const createState = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    instructions: AuthenticationInstruction<any>[]
-  ) => createAuthenticationProgramStateCommon(instructions, [], state);
+  const createState = (instructions: AuthenticationInstruction<OpcodesBCH>[]) =>
+    createAuthenticationProgramStateCommon<OpcodesBCH, AuthenticationErrorBCH>({
+      externalState: state,
+      instructions,
+      stack: [],
+    });
   const compiler = await createCompilerBCH({
     createState,
     scripts: {

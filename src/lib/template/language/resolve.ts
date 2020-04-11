@@ -8,15 +8,18 @@ import {
 } from '../compiler-types';
 import { AuthenticationTemplateVariable } from '../template-types';
 
-import { CompilationResultSuccess, compileScript } from './compile';
-import { BtlScriptSegment, MarkedNode } from './parse';
-
-export interface Range {
-  endColumn: number;
-  endLineNumber: number;
-  startColumn: number;
-  startLineNumber: number;
-}
+import { compileScript } from './compile';
+import {
+  BtlScriptSegment,
+  CompilationResultSuccess,
+  IdentifierResolutionErrorType,
+  IdentifierResolutionFunction,
+  IdentifierResolutionType,
+  MarkedNode,
+  Range,
+  ResolvedScript,
+  ResolvedSegment,
+} from './language-types';
 
 const pluckRange = (node: MarkedNode): Range => ({
   endColumn: node.end.column,
@@ -24,117 +27,6 @@ const pluckRange = (node: MarkedNode): Range => ({
   startColumn: node.start.column,
   startLineNumber: node.start.line,
 });
-
-interface ResolvedSegmentBase {
-  range: Range;
-  type: string;
-}
-
-export interface ResolvedSegmentPush<T> extends ResolvedSegmentBase {
-  type: 'push';
-  value: T;
-}
-
-export interface ResolvedSegmentEvaluation<T> extends ResolvedSegmentBase {
-  type: 'evaluation';
-  value: T;
-}
-
-export interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
-  type: 'bytecode';
-  value: Uint8Array;
-  variable: string;
-}
-
-export interface ResolvedSegmentScriptBytecode extends ResolvedSegmentBase {
-  script: string;
-  source: ResolvedScript;
-  type: 'bytecode';
-  value: Uint8Array;
-}
-
-export interface ResolvedSegmentOpcodeBytecode extends ResolvedSegmentBase {
-  opcode: string;
-  type: 'bytecode';
-  value: Uint8Array;
-}
-
-export interface ResolvedSegmentLiteralBytecode extends ResolvedSegmentBase {
-  literalType: 'BigIntLiteral' | 'HexLiteral' | 'UTF8Literal';
-  type: 'bytecode';
-  value: Uint8Array;
-}
-
-export type ResolvedSegmentBytecode =
-  | ResolvedSegmentLiteralBytecode
-  | ResolvedSegmentOpcodeBytecode
-  | ResolvedSegmentScriptBytecode
-  | ResolvedSegmentVariableBytecode;
-
-export interface ResolvedSegmentComment extends ResolvedSegmentBase {
-  type: 'comment';
-  value: string;
-}
-
-export interface ResolvedSegmentError extends ResolvedSegmentBase {
-  type: 'error';
-  value: string;
-}
-
-export type ResolvedSegment =
-  | ResolvedSegmentPush<ResolvedScript>
-  | ResolvedSegmentEvaluation<ResolvedScript>
-  | ResolvedSegmentBytecode
-  | ResolvedSegmentComment
-  | ResolvedSegmentError;
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ResolvedScript extends Array<ResolvedSegment> {}
-
-export enum IdentifierResolutionType {
-  opcode = 'opcode',
-  variable = 'variable',
-  script = 'script',
-}
-
-export enum IdentifierResolutionErrorType {
-  unknown = 'unknown',
-  variable = 'variable',
-  script = 'script',
-}
-
-/**
- * A method which accepts a string and returns either the successfully resolved
- * bytecode or an error. The string will never be empty (`''`), so resolution
- * can skip checking the string's length.
- */
-export type IdentifierResolutionFunction = (
-  identifier: string
-) =>
-  | {
-      bytecode: Uint8Array;
-      status: true;
-      type: IdentifierResolutionType.opcode | IdentifierResolutionType.variable;
-    }
-  | {
-      bytecode: Uint8Array;
-      source: ResolvedScript;
-      status: true;
-      type: IdentifierResolutionType.script;
-    }
-  | {
-      error: string;
-      type:
-        | IdentifierResolutionErrorType.variable
-        | IdentifierResolutionErrorType.unknown;
-      status: false;
-    }
-  | {
-      error: string;
-      type: IdentifierResolutionErrorType.script;
-      scriptId: string;
-      status: false;
-    };
 
 export const resolveScriptSegment = (
   segment: BtlScriptSegment,

@@ -194,7 +194,7 @@ export const createInstructionSetBCH = ({
     const initialState = createAuthenticationProgramStateCommon<
       OpcodesBCH,
       AuthenticationErrorBCH
-    >(unlockingInstructions, [], externalState);
+    >({ externalState, instructions: unlockingInstructions, stack: [] });
 
     const unlockingResult =
       unlockingBytecode.length > ConsensusCommon.maximumBytecodeLength
@@ -233,7 +233,11 @@ export const createInstructionSetBCH = ({
       createAuthenticationProgramStateCommon<
         OpcodesBCH,
         AuthenticationErrorBCH
-      >(lockingInstructions, unlockingResult.stack, externalState)
+      >({
+        externalState,
+        instructions: lockingInstructions,
+        stack: unlockingResult.stack,
+      })
     );
     if (!isPayToScriptHash(lockingInstructions)) {
       return lockingResult;
@@ -257,7 +261,7 @@ export const createInstructionSetBCH = ({
           createAuthenticationProgramStateCommon<
             OpcodesBCH,
             AuthenticationErrorBCH
-          >(p2shInstructions, p2shStack, externalState)
+          >({ externalState, instructions: p2shInstructions, stack: p2shStack })
         );
   },
   operations: {

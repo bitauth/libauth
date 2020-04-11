@@ -10,8 +10,21 @@ import {
 import { MinimumProgramState, StackState } from '../../vm/state';
 import { AuthenticationVirtualMachine } from '../../vm/virtual-machine';
 
-import { ErrorInformation } from './errors';
-import { Range, ResolvedScript } from './resolve';
+import {
+  ErrorInformation,
+  EvaluationSample,
+  EvaluationSampleValid,
+  InstructionAggregation,
+  InstructionAggregationError,
+  InstructionAggregationSuccess,
+  Range,
+  ResolvedScript,
+  SampledEvaluationError,
+  SampledEvaluationSuccess,
+  ScriptReductionTraceChildNode,
+  ScriptReductionTraceContainerNode,
+  ScriptReductionTraceNode,
+} from './language-types';
 
 const pluckStartPosition = (range: Range) => ({
   startColumn: range.startColumn,
@@ -25,65 +38,42 @@ const pluckEndPosition = (range: Range) => ({
 
 /**
  * Combine an array of `Range`s into a single larger `Range`.
+ *
  * @param ranges - an array of `Range`s
+ * @param parentRange - the range to assume if `ranges` is an empty array
  */
-export const mergeRanges = (ranges: Range[]) => {
+export const mergeRanges = (
+  ranges: Range[],
+  parentRange = {
+    endColumn: 0,
+    endLineNumber: 0,
+    startColumn: 0,
+    startLineNumber: 0,
+  } as Range
+) => {
   const unsortedMerged = ranges.reduce<Range>(
     // eslint-disable-next-line complexity
     (merged, range) => ({
-      ...(range.startLineNumber < merged.startLineNumber
-        ? pluckStartPosition(range)
-        : range.startLineNumber === merged.startLineNumber &&
-          range.startColumn < merged.startColumn
-        ? pluckStartPosition(range)
-        : pluckStartPosition(merged)),
       ...(range.endLineNumber > merged.endLineNumber
         ? pluckEndPosition(range)
         : range.endLineNumber === merged.endLineNumber &&
           range.endColumn > merged.endColumn
         ? pluckEndPosition(range)
         : pluckEndPosition(merged)),
+      ...(range.startLineNumber < merged.startLineNumber
+        ? pluckStartPosition(range)
+        : range.startLineNumber === merged.startLineNumber &&
+          range.startColumn < merged.startColumn
+        ? pluckStartPosition(range)
+        : pluckStartPosition(merged)),
     }),
-    ranges[0]
+    (ranges[0] as Range | undefined) ?? parentRange
   );
   return {
-    ...pluckStartPosition(unsortedMerged),
     ...pluckEndPosition(unsortedMerged),
+    ...pluckStartPosition(unsortedMerged),
   };
 };
-
-/**
- * The result of reducing a single BTL script node.
- */
-export interface ScriptReductionTraceNode {
-  bytecode: Uint8Array;
-  errors?: ErrorInformation[] | undefined;
-  range: Range;
-}
-interface ScriptReductionTraceErrorNode extends ScriptReductionTraceNode {
-  errors?: ErrorInformation[];
-}
-
-export interface ScriptReductionTraceContainerNode<ProgramState>
-  extends ScriptReductionTraceNode {
-  source: ScriptReductionTraceChildNode<ProgramState>[];
-}
-
-export type ScriptReductionTraceChildNode<ProgramState> =
-  | ScriptReductionTraceNode
-  | ScriptReductionTraceContainerNode<ProgramState>
-  | ScriptReductionTraceErrorNode
-  | ScriptReductionTraceEvaluationNode<ProgramState>;
-
-export interface TraceSample<ProgramState> {
-  range: Range;
-  state: ProgramState;
-}
-
-export interface ScriptReductionTraceEvaluationNode<ProgramState>
-  extends ScriptReductionTraceContainerNode<ProgramState> {
-  samples: TraceSample<ProgramState>[];
-}
 
 const emptyReductionTraceNode = (range: Range) => ({
   bytecode: Uint8Array.of(),
@@ -91,12 +81,23 @@ const emptyReductionTraceNode = (range: Range) => ({
 });
 
 /**
- * Aggregate instructions to build groups of non-malformed instructions.
+ * Parse reduced nodes into groups of non-malformed instructions.
+ *
+ * @remarks
+ * This method incrementally concatenates the reduced bytecode from each node,
+ * parsing the result into arrays of `InstructionAggregation`s. Each node can
+ * contain only a portion of an instruction (like a long push operation), or it
+ * may contain multiple instructions (like a long hex literal representing a
+ * string of bytecode).
+ *
+ * @param nodes - an array of reduced nodes to parse
  */
 // eslint-disable-next-line complexity
-const aggregatedParseReductionTraceNodes = <Opcodes>(
+export const aggregatedParseReductionTraceNodes = <Opcodes>(
   nodes: readonly ScriptReductionTraceNode[]
-): InstructionAggregationResult<Opcodes> => {
+):
+  | InstructionAggregationSuccess<Opcodes>
+  | InstructionAggregationError<Opcodes> => {
   const aggregations: InstructionAggregation<Opcodes>[] = [];
   // eslint-disable-next-line functional/no-let
   let ip = 0;
@@ -104,14 +105,13 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
   let incomplete: { bytecode: Uint8Array; range: Range } | undefined;
   // eslint-disable-next-line functional/no-loop-statement
   for (const node of nodes) {
-    const bytecode =
+    const { bytecode, range } =
       incomplete === undefined
-        ? node.bytecode
-        : flattenBinArray([incomplete.bytecode, node.bytecode]);
-    const range =
-      incomplete === undefined
-        ? node.range
-        : mergeRanges([incomplete.range, node.range]);
+        ? { bytecode: node.bytecode, range: node.range }
+        : {
+            bytecode: flattenBinArray([incomplete.bytecode, node.bytecode]),
+            range: mergeRanges([incomplete.range, node.range]),
+          };
     // eslint-disable-next-line functional/no-expression-statement
     incomplete = undefined;
     const parsed = parseBytecode<Opcodes>(bytecode);
@@ -153,20 +153,70 @@ const aggregatedParseReductionTraceNodes = <Opcodes>(
 };
 
 /**
- * Evaluate an array of `InstructionAggregation`s with the provided
- * `AuthenticationVirtualMachine`, matching the results back to their source
- * ranges.
+ * Incrementally evaluate an array of `ScriptReductionTraceNode`s, returning a
+ * trace of the evaluation and the resulting bytecode (the stack item remaining
+ * at the end of the evaluation).
+ *
+ * @remarks
+ * This method implements evaluations for Bitauth Templating Language (BTL). It
+ * accepts the list of reduced nodes which occur inside the evaluation, and it
+ * returns both the result of the evaluation and a set of "samples" – snapshots
+ * of the evaluation after each instruction – for use in debugging.
+ *
+ * BTL evaluations must produce exactly one stack item, the contents of which
+ * are then interpreted as bytecode. Evaluations which complete with more than
+ * one item on the stack (or no items on the stack) result in a compilation
+ * error.
+ *
+ * It is possible for BTL evaluations to produce no bytecode – an evaluation
+ * which executes only `OP_0` will push an empty stack item (which is how `0` is
+ * represented on the stack).
+ *
+ * @privateRemarks
+ * This method creates an "evaluation plan" by reducing the aggregated
+ * instructions into a list of "breakpoints" and an array of all instructions.
+ * An initial `ProgramState` is created by passing the instructions to
+ * `getState`, and the program state is fully evaluated using the `vm`'s
+ * `stateDebug` method. For each breakpoint, a "sample" is returned including 1)
+ * the range which generated the instruction(s) and 2) the program state
+ * immediately following the evaluation of the instruction(s).
+ *
+ * Notably, errors for malformed instructions are emitted only after attempting
+ * to evaluate the well-formed instructions. This is useful in IDEs to allow
+ * most of the evaluations samples to still be returned for visualization, even
+ * if the evaluation contains later errors.
+ *
+ * @param nodes - an array of reduced nodes – this must include at least one
+ * node
+ * @param vm - the `AuthenticationVirtualMachine` to use in the evaluation
+ * @param createState - a method which should generate a new ProgramState given
+ * an array of instructions
+ * @param parentRange - the range of the parent node (returned as the range of
+ * empty `node` arrays)
  */
-export const evaluateInstructionAggregations = <
+// eslint-disable-next-line complexity
+export const sampledEvaluateReductionTraceNodes = <
   Opcodes,
-  ProgramState extends MinimumProgramState<Opcodes> & { error?: string }
->(
-  aggregations: InstructionAggregation<Opcodes>[],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  vm: AuthenticationVirtualMachine<any, ProgramState>,
-  getState: (instructions: AuthenticationInstruction<Opcodes>[]) => ProgramState
-): InstructionAggregationEvaluationResult<ProgramState> => {
-  const nonEmptyAggregations = aggregations.filter(
+  ProgramState extends MinimumProgramState<Opcodes> &
+    StackState & { error?: string },
+  AuthenticationProgram
+>({
+  createState,
+  nodes,
+  parentRange,
+  vm,
+}: {
+  nodes: ScriptReductionTraceNode[];
+  vm: AuthenticationVirtualMachine<AuthenticationProgram, ProgramState>;
+  createState: (
+    instructions: AuthenticationInstruction<Opcodes>[]
+  ) => ProgramState;
+  parentRange: Range;
+}):
+  | SampledEvaluationSuccess<ProgramState>
+  | SampledEvaluationError<ProgramState> => {
+  const parsed = aggregatedParseReductionTraceNodes<Opcodes>(nodes);
+  const nonEmptyAggregations = parsed.aggregations.filter(
     (aggregation) => aggregation.instructions.length > 0
   );
   const evaluationPlan = nonEmptyAggregations.reduce<{
@@ -185,132 +235,150 @@ export const evaluateInstructionAggregations = <
     },
     { breakpoints: [], instructions: [] }
   );
-  const trace = vm.stateDebug(getState(evaluationPlan.instructions));
+
+  if (evaluationPlan.breakpoints.length === 0) {
+    return {
+      bytecode: Uint8Array.of(),
+      errors: [
+        {
+          error: `An evaluation must leave an item on the stack, but this evaluation contains no operations. To return an empty result, push an empty stack item ("OP_0").`,
+          range: mergeRanges(
+            nodes.map((node) => node.range),
+            parentRange
+          ),
+        },
+      ],
+      samples: [],
+      success: false,
+    };
+  }
+
+  const trace = vm.stateDebug(createState(evaluationPlan.instructions));
   const samples = evaluationPlan.breakpoints.map<
     EvaluationSample<ProgramState>
   >((breakpoint) => ({
     range: breakpoint.range,
     state: trace[breakpoint.ip - 1],
   }));
-  const firstInvalidSample = samples.findIndex(
-    (sample) => sample.state === undefined
-  );
-  const errorSample =
-    (samples[firstInvalidSample - 1] as
-      | EvaluationSample<ProgramState>
-      | undefined) ??
-    (samples[firstInvalidSample] as EvaluationSample<ProgramState> | undefined);
-  return errorSample === undefined
-    ? {
-        samples: samples as EvaluationSampleValid<ProgramState>[],
-        success: true,
-      }
-    : {
-        errors: [
-          {
-            error:
-              errorSample.state === undefined
-                ? `Failed to reduce evaluation: vm.stateDebug produced no valid program states.`
-                : `Failed to reduce evaluation: ${
-                    errorSample.state.error ?? 'unknown error'
-                  }`,
-            range: errorSample.range,
-          },
-        ],
-        samples,
-        success: false,
-      };
-};
 
-/**
- * Incrementally evaluate an array of `ScriptReductionTraceNode`s, returning  a
- * trace of the evaluation and the resulting bytecode – the top stack item
- * remaining at the end of the evaluation.
- *
- *  (`evaluationResult`)
- * if successful.
- *
- * This is allows us to later inspect the
- *
- * @param nodes - an array of reduced nodes
- * @param vm - the `AuthenticationVirtualMachine` to use in the evaluation
- * @param getState - a method which should generate a new ProgramState given an
- * array of `instructions`
- */
-// eslint-disable-next-line complexity
-export const sampledEvaluateReductionTraceNodes = <
-  Opcodes,
-  ProgramState extends MinimumProgramState<Opcodes> &
-    StackState & { error?: string }
->(
-  nodes: ScriptReductionTraceNode[],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  vm: AuthenticationVirtualMachine<any, ProgramState>,
-  getState: (instructions: AuthenticationInstruction<Opcodes>[]) => ProgramState
-): SampledEvaluationResult<ProgramState> => {
-  const parsed = aggregatedParseReductionTraceNodes<Opcodes>(nodes);
-  const evaluated = evaluateInstructionAggregations(
-    parsed.aggregations,
-    vm,
-    getState
-  );
-  if (parsed.success && evaluated.success) {
-    const samples =
-      evaluated.samples.length > 0
-        ? evaluated.samples
-        : [{ range: parsed.aggregations[0].range, state: getState([]) }];
-    const lastSample = samples[samples.length - 1];
-    const lastStackItem = lastSample.state.stack[
-      lastSample.state.stack.length - 1
-    ] as Uint8Array | undefined;
-    const evaluationResult =
-      lastStackItem === undefined ? Uint8Array.of() : lastStackItem.slice();
+  if (!parsed.success) {
     return {
-      bytecode: evaluationResult,
+      bytecode: Uint8Array.of(),
+      errors: [
+        {
+          error: `An instruction is malformed and cannot be evaluated: ${disassembleBytecode(
+            OpcodesCommon,
+            parsed.remainingBytecode
+          )}`,
+          range: parsed.remainingRange,
+        },
+      ],
       samples,
-      success: true,
+      success: false,
+    };
+  }
+
+  const hasInvalidSamples = samples.some((s) => s.state === undefined);
+  if (hasInvalidSamples) {
+    const firstInvalidSample = samples.findIndex((s) => s.state === undefined);
+    const errorSample = samples[firstInvalidSample - 1] as
+      | EvaluationSampleValid<ProgramState>
+      | undefined;
+    const errorBeforeFirstSample = firstInvalidSample === 0;
+    const lastTraceItem = trace[trace.length - 1];
+    const errorMessage = errorBeforeFirstSample
+      ? lastTraceItem === undefined
+        ? 'vm.stateDebug produced no valid program states.'
+        : lastTraceItem.error ??
+          'vm.stateDebug failed to produce program states for any samples and provided no error message.'
+      : (errorSample as EvaluationSampleValid<ProgramState>).state.error ??
+        `vm.stateDebug failed to produce all expected program states and provided no error message.`;
+    const range = errorBeforeFirstSample
+      ? samples[0].range
+      : samples[firstInvalidSample - 1].range;
+    return {
+      bytecode: Uint8Array.of(),
+      errors: [
+        { error: `Failed to reduce evaluation: ${errorMessage}`, range },
+      ],
+      samples,
+      success: false,
+    };
+  }
+
+  const lastSample = samples[samples.length - 1] as EvaluationSampleValid<
+    ProgramState
+  >;
+  if (lastSample.state.error !== undefined) {
+    return {
+      bytecode: Uint8Array.of(),
+      errors: [
+        {
+          error: `Failed to reduce evaluation: ${lastSample.state.error}`,
+          range: lastSample.range,
+        },
+      ],
+      samples,
+      success: false,
+    };
+  }
+  if (lastSample.state.stack.length === 0) {
+    return {
+      bytecode: Uint8Array.of(),
+      errors: [
+        {
+          error: `An evaluation must leave an item on the stack, but this evaluation completed with an empty stack. To return an empty result, push an empty stack item ("OP_0").`,
+          range: lastSample.range,
+        },
+      ],
+      samples,
+      success: false,
+    };
+  }
+  if (lastSample.state.stack.length > 1) {
+    return {
+      bytecode: Uint8Array.of(),
+      errors: [
+        {
+          error: `Evaluations return a single item from the stack, but this evaluation completed with more than one stack item.`,
+          range: lastSample.range,
+        },
+      ],
+      samples,
+      success: false,
     };
   }
   return {
-    bytecode: Uint8Array.of(),
-    errors: [
-      ...(parsed.success
-        ? []
-        : [
-            {
-              error: `A sample is malformed and cannot be evaluated: ${disassembleBytecode(
-                OpcodesCommon,
-                parsed.remainingBytecode
-              )}`,
-              range: parsed.remainingRange,
-            },
-          ]),
-      ...(evaluated.success ? [] : evaluated.errors),
-    ],
-    samples: evaluated.samples,
-    success: false,
+    bytecode: lastSample.state.stack[0],
+    samples: samples as EvaluationSampleValid<ProgramState>[],
+    success: true,
   };
 };
 
 /**
- * This method will throw an error if provided a `compiledScript` with
- * compilation errors. To check for compilation errors, use `getCompileErrors`.
- * @param compiledScript - the `CompiledScript` to reduce
+ * Reduce a resolved script, returning the resulting bytecode and a trace of the
+ * reduction process.
+ *
+ * This method will return an error if provided a `resolvedScript` with
+ * resolution errors. To check for resolution errors, use `getResolutionErrors`.
+ *
+ * @param resolvedScript - the `CompiledScript` to reduce
  * @param vm - the `AuthenticationVirtualMachine` to use for evaluations
- * @param createState - a method which returns the base `ProgramState` used when initializing evaluations
+ * @param createState - a method which returns the base `ProgramState` used when
+ * initializing evaluations
  */
 export const reduceScript = <
   ProgramState extends StackState & MinimumProgramState<Opcodes>,
-  Opcodes
+  Opcodes,
+  AuthenticationProgram
 >(
-  compiledScript: ResolvedScript,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  vm?: AuthenticationVirtualMachine<any, ProgramState>,
+  resolvedScript: ResolvedScript,
+  vm?: AuthenticationVirtualMachine<AuthenticationProgram, ProgramState>,
   createState?: (
     instructions: AuthenticationInstruction<Opcodes>[]
   ) => ProgramState
 ): ScriptReductionTraceContainerNode<ProgramState> => {
-  const source = compiledScript.map<
+  const source = resolvedScript.map<
     ScriptReductionTraceChildNode<ProgramState>
     // eslint-disable-next-line complexity
   >((segment) => {
@@ -318,9 +386,6 @@ export const reduceScript = <
       case 'bytecode':
         return { bytecode: segment.value, range: segment.range };
       case 'push': {
-        if (segment.value.length === 0) {
-          return emptyReductionTraceNode(segment.range);
-        }
         const push = reduceScript(segment.value, vm, createState);
         const bytecode = encodeDataPush(push.bytecode);
         return {
@@ -331,9 +396,6 @@ export const reduceScript = <
         };
       }
       case 'evaluation': {
-        if (segment.value.length === 0) {
-          return emptyReductionTraceNode(segment.range);
-        }
         if (typeof vm === 'undefined' || typeof createState === 'undefined') {
           return {
             errors: [
@@ -347,24 +409,29 @@ export const reduceScript = <
           };
         }
         const reductionTrace = reduceScript(segment.value, vm, createState);
-        const evaluated = sampledEvaluateReductionTraceNodes(
-          reductionTrace.source,
+        if (reductionTrace.errors !== undefined) {
+          return {
+            errors: reductionTrace.errors,
+            samples: [],
+            source: [reductionTrace],
+            ...emptyReductionTraceNode(segment.range),
+          };
+        }
+        const evaluated = sampledEvaluateReductionTraceNodes({
+          createState,
+          nodes: reductionTrace.source,
+          parentRange: segment.range,
           vm,
-          createState
-        );
-        const errors = [
-          ...(reductionTrace.errors === undefined ? [] : reductionTrace.errors),
-          ...(evaluated.success ? [] : evaluated.errors),
-        ];
+        });
         return {
-          ...(errors.length > 0
+          ...(evaluated.success
             ? {
-                errors,
-                ...emptyReductionTraceNode(segment.range),
-              }
-            : {
                 bytecode: evaluated.bytecode,
                 range: segment.range,
+              }
+            : {
+                errors: evaluated.errors,
+                ...emptyReductionTraceNode(segment.range),
               }),
           samples: evaluated.samples,
           source: [reductionTrace],
@@ -382,8 +449,10 @@ export const reduceScript = <
           ],
           ...emptyReductionTraceNode(segment.range),
         };
+      // eslint-disable-next-line functional/no-conditional-statement
       default:
-        return new Error(
+        // eslint-disable-next-line functional/no-throw-statement, @typescript-eslint/no-throw-literal, no-throw-literal
+        throw new Error(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           `"${(segment as any).type as string}" is not a known segment type.`
         ) as never;
@@ -408,85 +477,16 @@ export const reduceScript = <
     }),
     { bytecode: [], ranges: [] }
   );
+
   return {
     ...(reduction.errors === undefined
       ? undefined
       : { errors: reduction.errors }),
     bytecode: flattenBinArray(reduction.bytecode),
-    range: mergeRanges(reduction.ranges),
+    range: mergeRanges(
+      reduction.ranges,
+      resolvedScript.length === 0 ? undefined : resolvedScript[0].range
+    ),
     source,
   };
 };
-
-export interface InstructionAggregation<Opcodes> {
-  instructions: AuthenticationInstruction<Opcodes>[];
-  lastIp: number;
-  range: Range;
-}
-
-export interface InstructionAggregationSuccess<Opcodes> {
-  aggregations: InstructionAggregation<Opcodes>[];
-  success: true;
-}
-
-export interface InstructionAggregationError<Opcodes> {
-  aggregations: InstructionAggregation<Opcodes>[];
-  remainingBytecode: Uint8Array;
-  remainingRange: Range;
-  success: false;
-}
-
-export type InstructionAggregationResult<Opcodes> =
-  | InstructionAggregationSuccess<Opcodes>
-  | InstructionAggregationError<Opcodes>;
-
-export interface EvaluationSample<ProgramState> {
-  range: Range;
-  state: ProgramState | undefined;
-}
-
-export interface EvaluationSampleValid<ProgramState> {
-  range: Range;
-  state: ProgramState;
-}
-
-export interface InstructionAggregationEvaluationError<ProgramState> {
-  errors: ErrorInformation[];
-  samples: EvaluationSample<ProgramState>[];
-  success: false;
-}
-
-export interface InstructionAggregationEvaluationSuccess<ProgramState> {
-  samples: EvaluationSampleValid<ProgramState>[];
-  success: true;
-}
-
-type InstructionAggregationEvaluationResult<ProgramState> =
-  | InstructionAggregationEvaluationError<ProgramState>
-  | InstructionAggregationEvaluationSuccess<ProgramState>;
-
-export interface SampledEvaluationSuccess<ProgramState> {
-  bytecode: Uint8Array;
-  samples: EvaluationSampleValid<ProgramState>[];
-  success: true;
-}
-export interface SampledEvaluationError<ProgramState> {
-  bytecode: Uint8Array;
-  errors: ErrorInformation[];
-  samples: EvaluationSample<ProgramState>[];
-  success: false;
-}
-
-export type SampledEvaluationResult<ProgramState> =
-  | SampledEvaluationSuccess<ProgramState>
-  | SampledEvaluationError<ProgramState>;
-
-export interface FlattenedTraceSample<ProgramState>
-  extends TraceSample<ProgramState> {
-  /**
-   * The nesting-depth of this sample. (E.g. the first level of evaluation has a
-   * depth of `1`, an evaluation inside of it will produce samples with a depth
-   * of `2`, etc.)
-   */
-  depth: number;
-}

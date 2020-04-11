@@ -2,72 +2,10 @@ import { MinimumProgramState, StackState } from '../../vm/state';
 import { CompilationData, CompilationEnvironment } from '../compiler-types';
 
 import { getResolutionErrors } from './errors';
-import { BtlScriptSegment, parseScript } from './parse';
-import { reduceScript, ScriptReductionTraceContainerNode } from './reduce';
-import {
-  createIdentifierResolver,
-  Range,
-  ResolvedScript,
-  resolveScriptSegment,
-} from './resolve';
-
-export interface CompilationResultResolve {
-  parse: BtlScriptSegment;
-  resolve: ResolvedScript;
-}
-
-export interface CompilationResultReduce<ProgramState>
-  extends CompilationResultResolve {
-  reduce: ScriptReductionTraceContainerNode<ProgramState>;
-}
-
-export interface CompilationResultErrorBase {
-  errors: CompilationError[];
-  errorType: 'parse' | 'resolve' | 'reduce';
-  success: false;
-}
-
-export interface CompilationError {
-  error: string;
-  range: Range;
-}
-
-export interface CompilationResultParseError
-  extends CompilationResultErrorBase {
-  /**
-   * The `parse` stage produces only a single parse error at a time.
-   */
-  errors: [CompilationError];
-  errorType: 'parse';
-}
-export interface CompilationResultResolveError
-  extends CompilationResultResolve,
-    CompilationResultErrorBase {
-  errorType: 'resolve';
-}
-
-export interface CompilationResultReduceError<ProgramState>
-  extends CompilationResultReduce<ProgramState>,
-    CompilationResultErrorBase {
-  errorType: 'reduce';
-}
-
-export type CompilationResultError<ProgramState> =
-  | CompilationResultParseError
-  | CompilationResultResolveError
-  | CompilationResultReduceError<ProgramState>;
-
-export interface CompilationResultSuccess<ProgramState>
-  extends CompilationResultReduce<ProgramState> {
-  bytecode: Uint8Array;
-  success: true;
-}
-
-export type CompilationResult<
-  ProgramState = StackState & MinimumProgramState
-> =
-  | CompilationResultSuccess<ProgramState>
-  | CompilationResultError<ProgramState>;
+import { CompilationResult } from './language-types';
+import { parseScript } from './parse';
+import { reduceScript } from './reduce';
+import { createIdentifierResolver, resolveScriptSegment } from './resolve';
 
 enum Formatting {
   requiresCommas = 3,

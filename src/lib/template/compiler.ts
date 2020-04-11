@@ -68,11 +68,11 @@ export const compilerCreateStateCommon = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   instructions: AuthenticationInstruction<any>[]
 ) =>
-  createAuthenticationProgramStateCommon(
+  createAuthenticationProgramStateCommon({
+    externalState: createAuthenticationProgramExternalStateCommonEmpty(),
     instructions,
-    [],
-    createAuthenticationProgramExternalStateCommonEmpty()
-  );
+    stack: [],
+  });
 
 /**
  * Synchronously create a compiler using the default common environment. Because

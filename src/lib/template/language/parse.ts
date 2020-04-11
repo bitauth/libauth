@@ -1,3 +1,4 @@
+import { ParseResult } from './language-types';
 import * as P from './parsimmon.js';
 
 /**
@@ -88,53 +89,6 @@ const authenticationScriptParser = P.createLanguage({
       .node('BigIntLiteral'),
 });
 /* eslint-enable sort-keys */
-
-export interface SourcePosition {
-  column: number;
-  line: number;
-  offset: number;
-}
-
-export interface MarkedNode {
-  end: SourcePosition;
-  start: SourcePosition;
-}
-
-type StringSegmentType =
-  | 'Comment'
-  | 'Identifier'
-  | 'UTF8Literal'
-  | 'HexLiteral';
-
-type RecursiveSegmentType = 'Push' | 'Evaluation';
-
-interface BitauthTemplatingLanguageSegment extends MarkedNode {
-  name: string;
-}
-
-interface BtlStringSegment extends BitauthTemplatingLanguageSegment {
-  name: StringSegmentType;
-  value: string;
-}
-
-interface BtlBigIntSegment extends BitauthTemplatingLanguageSegment {
-  name: 'BigIntLiteral';
-  value: bigint;
-}
-
-interface BtlRecursiveSegment extends BitauthTemplatingLanguageSegment {
-  name: RecursiveSegmentType;
-  value: BtlScriptSegment;
-}
-
-export interface BtlScriptSegment extends BitauthTemplatingLanguageSegment {
-  name: 'Script';
-  value: (BtlRecursiveSegment | BtlBigIntSegment | BtlStringSegment)[];
-}
-
-export type ParseResult =
-  | { expected: string[]; index: SourcePosition; status: false }
-  | { status: true; value: BtlScriptSegment };
 
 export const parseScript = (script: string): ParseResult =>
   authenticationScriptParser.script.parse(script);

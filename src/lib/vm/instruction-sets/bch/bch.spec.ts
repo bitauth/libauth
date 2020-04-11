@@ -15,11 +15,11 @@ import {
 
 test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async (t) => {
   const vm = await instantiateVirtualMachineBCH();
-  const state = createAuthenticationProgramStateCommonEmpty(
-    parseBytecode(
+  const state = createAuthenticationProgramStateCommonEmpty({
+    instructions: parseBytecode(
       Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD])
-    )
-  ) as AuthenticationProgramStateBCH;
+    ),
+  }) as AuthenticationProgramStateBCH;
   const result = vm.stateEvaluate(state);
   t.deepEqual(result, {
     alternateStack: [],
@@ -57,11 +57,11 @@ test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async (t) => {
 
 test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async (t) => {
   const vm = await instantiateVirtualMachineBCH();
-  const state = createAuthenticationProgramStateCommonEmpty(
-    parseBytecode(
+  const state = createAuthenticationProgramStateCommonEmpty({
+    instructions: parseBytecode(
       Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD])
-    )
-  ) as AuthenticationProgramStateBCH;
+    ),
+  }) as AuthenticationProgramStateBCH;
   const result = vm.stateDebug(state);
   t.deepEqual(result, [
     {
@@ -165,11 +165,11 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async (t) => {
 
 test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async (t) => {
   const vm = await instantiateVirtualMachineBCH();
-  const state0 = createAuthenticationProgramStateCommonEmpty(
-    parseBytecode(
+  const state0 = createAuthenticationProgramStateCommonEmpty({
+    instructions: parseBytecode(
       Uint8Array.from([OpcodesBCH.OP_2, OpcodesBCH.OP_2, OpcodesBCH.OP_ADD])
-    )
-  ) as AuthenticationProgramStateBCH;
+    ),
+  }) as AuthenticationProgramStateBCH;
   const state1 = vm.stateStep(state0);
   const state2 = vm.stateStep(state1);
   t.deepEqual(vm.stateContinue(state2), true);

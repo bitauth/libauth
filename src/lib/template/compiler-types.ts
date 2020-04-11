@@ -2,7 +2,10 @@ import { Ripemd160, Secp256k1, Sha256, Sha512 } from '../crypto/crypto';
 import { AuthenticationInstruction } from '../vm/instruction-sets/instruction-sets-types';
 import { AuthenticationVirtualMachine } from '../vm/virtual-machine';
 
-import { CompilationResult, CompilationResultError } from './language/compile';
+import {
+  CompilationResult,
+  CompilationResultError,
+} from './language/language-types';
 import { AuthenticationTemplateVariable } from './template-types';
 
 /**

@@ -5,7 +5,7 @@ import {
   Compiler,
   CompilerOperationDataCommon,
 } from '../template/compiler-types';
-import { CompilationError } from '../template/language/compile';
+import { CompilationError } from '../template/language/language-types';
 import {
   AuthenticationTemplate,
   AuthenticationTemplateVariable,

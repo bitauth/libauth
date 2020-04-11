@@ -1,14 +1,15 @@
-import { Range, ResolvedScript } from './resolve';
+import { ErrorInformation, ResolvedScript } from './language-types';
 
-export interface ErrorInformation {
-  error: string;
-  range: Range;
-}
-
+/**
+ * Extract a list of the errors which occurred while resolving a script.
+ *
+ * @param resolvedScript - the result of `resolveScript` from which to extract
+ * errors
+ */
 export const getResolutionErrors = (
-  compiledScript: ResolvedScript
+  resolvedScript: ResolvedScript
 ): ErrorInformation[] =>
-  compiledScript.reduce<ErrorInformation[]>((errors, segment) => {
+  resolvedScript.reduce<ErrorInformation[]>((errors, segment) => {
     switch (segment.type) {
       case 'error':
         return [

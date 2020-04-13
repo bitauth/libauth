@@ -1,11 +1,6 @@
 import { ParseResult } from './language-types';
-import * as P from './parsimmon.js';
+import { P } from './parsimmon';
 
-/**
- * TODO: `@types/parsimmon` is not in use because of some early hacks. Ideally,
- * this can be cleaned up by converting parsimmon.js to TypeScript, and trimming
- * out the parts we don't need.
- */
 /* eslint-disable sort-keys */
 const authenticationScriptParser = P.createLanguage({
   script: (r) =>
@@ -90,5 +85,5 @@ const authenticationScriptParser = P.createLanguage({
 });
 /* eslint-enable sort-keys */
 
-export const parseScript = (script: string): ParseResult =>
-  authenticationScriptParser.script.parse(script);
+export const parseScript = (script: string) =>
+  authenticationScriptParser.script.parse(script) as ParseResult;

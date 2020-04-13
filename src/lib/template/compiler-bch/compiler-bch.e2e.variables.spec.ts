@@ -244,3 +244,186 @@ test(
     two: { type: 'WalletData' },
   }
 );
+
+test(
+  '[BCH compiler] variables – missing operation: currentBlockHeight',
+  expectCompilationResult,
+  '<current_block_height>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'The "current_block_height" variable type can not be resolved because the "currentBlockHeight" operation has not been included in this compiler\'s CompilationEnvironment.',
+        range: {
+          endColumn: 22,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  { operations: undefined }
+);
+
+test(
+  '[BCH compiler] variables – missing operation: currentBlockTime',
+  expectCompilationResult,
+  '<current_block_time>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'The "current_block_time" variable type can not be resolved because the "currentBlockTime" operation has not been included in this compiler\'s CompilationEnvironment.',
+        range: {
+          endColumn: 20,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  { operations: undefined }
+);
+
+test(
+  '[BCH compiler] variables – missing operation: signingSerialization',
+  expectCompilationResult,
+  '<signing_serialization.version>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'The "signing_serialization" variable type can not be resolved because the "signingSerialization" operation has not been included in this compiler\'s CompilationEnvironment.',
+        range: {
+          endColumn: 31,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  { operations: undefined }
+);
+
+test(
+  '[BCH compiler] variables – missing operation: addressData',
+  expectCompilationResult,
+  '<a>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'The "a" variable type can not be resolved because the "addressData" operation has not been included in this compiler\'s CompilationEnvironment.',
+        range: {
+          endColumn: 3,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {
+    a: { type: 'AddressData' },
+  },
+  { operations: undefined }
+);
+
+test(
+  '[BCH compiler] variables – missing operation: hdKey',
+  expectCompilationResult,
+  '<a>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'The "a" variable type can not be resolved because the "hdKey" operation has not been included in this compiler\'s CompilationEnvironment.',
+        range: {
+          endColumn: 3,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {
+    a: { type: 'HdKey' },
+  },
+  { operations: undefined }
+);
+
+test(
+  '[BCH compiler] variables – missing operation: key',
+  expectCompilationResult,
+  '<a>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'The "a" variable type can not be resolved because the "key" operation has not been included in this compiler\'s CompilationEnvironment.',
+        range: {
+          endColumn: 3,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {
+    a: { type: 'Key' },
+  },
+  { operations: undefined }
+);
+
+test(
+  '[BCH compiler] variables – missing operation: walletData',
+  expectCompilationResult,
+  '<a>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'The "a" variable type can not be resolved because the "walletData" operation has not been included in this compiler\'s CompilationEnvironment.',
+        range: {
+          endColumn: 3,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {
+    a: { type: 'WalletData' },
+  },
+  { operations: undefined }
+);

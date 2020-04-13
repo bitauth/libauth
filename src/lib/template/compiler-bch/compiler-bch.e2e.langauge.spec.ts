@@ -1,7 +1,11 @@
 /* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 
-import { hexToBin } from '../../lib';
+import {
+  AuthenticationProgramStateBCH,
+  BytecodeGenerationResult,
+  hexToBin,
+} from '../../lib';
 
 import { expectCompilationResult } from './compiler-bch.e2e.spec.helper';
 
@@ -161,5 +165,57 @@ test(
   {
     bytecode: hexToBin('00000000000061626327f09fa79927'),
     success: true,
+  }
+);
+
+test(
+  '[BCH compiler] language – compiles internal scripts',
+  expectCompilationResult,
+  '',
+  {},
+  {
+    bytecode: hexToBin('123456'),
+    success: true,
+  },
+  {},
+  {
+    scripts: {
+      a: 'b',
+      b: 'c',
+      c: '0x123456',
+      test: 'a',
+    },
+  }
+);
+
+test(
+  '[BCH compiler] language – error on cyclical compilations',
+  expectCompilationResult,
+  '',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Compilation error in resolved script, "a" [2, 2]: Compilation error in resolved script, "b" [3, 3]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [2, 2]: A circular dependency was encountered: script "b" relies on itself to be generated. (Parent scripts: test, a, b, c); Compilation error in resolved script, "a" [2, 4]: A circular dependency was encountered: script "c" relies on itself to be generated. (Parent scripts: test, a, b, c); Compilation error in resolved script, "a" [2, 4]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [2, 2]: A circular dependency was encountered: script "b" relies on itself to be generated. (Parent scripts: test, a, c); Compilation error in resolved script, "a" [2, 4]: A circular dependency was encountered: script "c" relies on itself to be generated. (Parent scripts: test, a, c)',
+        range: {
+          endColumn: 2,
+          endLineNumber: 2,
+          startColumn: 1,
+          startLineNumber: 2,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  {
+    scripts: {
+      a: ' \n b c',
+      b: '  \n\n  c',
+      c: '   \n   a',
+      test: '\na',
+    },
   }
 );

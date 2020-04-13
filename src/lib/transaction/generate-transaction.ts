@@ -29,15 +29,12 @@ import { Input, Output, Transaction } from './transaction-types';
  * message or the validated `AuthenticationTemplate`.
  * @param maybeTemplate - object to validate as an authentication template
  */
-// tslint:disable-next-line: no-any
 export const validateAuthenticationTemplate = (
   maybeTemplate: unknown
 ): string | AuthenticationTemplate => {
-  // tslint:disable-next-line: no-if-statement
   if (typeof maybeTemplate !== 'object' || maybeTemplate === null) {
     return 'A valid AuthenticationTemplate must be an object.';
   }
-  // tslint:disable-next-line: no-if-statement
   if ((maybeTemplate as { version?: unknown }).version !== 0) {
     return 'Only version 0 authentication templates are currently supported.';
   }
@@ -146,7 +143,6 @@ export const generateTransactionBCH = <
 ): TransactionGenerationResult => {
   const outputResults = template.outputs.map<Output | CompilationError[]>(
     (outputTemplate, outputIndex) => {
-      // tslint:disable-next-line: no-if-statement
       if ('script' in outputTemplate.lockingBytecode) {
         const directive = outputTemplate.lockingBytecode;
         const data = directive.data === undefined ? {} : directive.data;
@@ -174,7 +170,6 @@ export const generateTransactionBCH = <
   const outputCompilationErrors = outputResults
     .filter((output): output is CompilationError[] => Array.isArray(output))
     .reduce((all, entry) => [...all, ...entry], []);
-  // tslint:disable-next-line: no-if-statement
   if (outputCompilationErrors.length > 0) {
     return { errors: outputCompilationErrors, success: false };
   }
@@ -243,7 +238,6 @@ export const generateTransactionBCH = <
             operationData,
           }
         );
-        // tslint:disable-next-line: no-if-statement
         if (!unlockingResult.success) {
           return unlockingResult.errors.map((error) => ({
             error: `Input ${inputIndex}: ${error.error}`,

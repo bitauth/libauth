@@ -56,8 +56,13 @@ export interface Output<Bytecode = Uint8Array, Amount = number> {
    */
   readonly lockingBytecode: Bytecode;
   /**
-   * The value of the output in satoshis, the smallest unit of bitcoin. There
-   * are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.
+   * The value of the output in satoshis, the smallest unit of bitcoin.
+   *
+   * This is a positive integer, from `0` to the maximum number of satoshis
+   * available to the transaction. (Note, the maximum number of satoshis in
+   * existence is about 1/4 of `Number.MAX_SAFE_INTEGER`.)
+   *
+   * There are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.
    */
   readonly satoshis: Amount;
 }
@@ -74,18 +79,19 @@ export interface Transaction<InputType = Input, OutputType = Output> {
    */
   inputs: InputType[];
   /**
-   * The locktime at which this transaction is considered valid.
+   * The locktime at which this transaction is considered valid – a positive
+   * integer from `0` to a maximum of `4294967295`.
    *
    * Locktime can be provided as either a timestamp or a block height. Values
    * less than `500000000` are understood to be a block height (the current
-   * block number in the chain, beginning from block 0). Values greater than or
-   * equal to `500000000` are understood to be a UNIX timestamp.
+   * block number in the chain, beginning from block `0`). Values greater than
+   * or equal to `500000000` are understood to be a UNIX timestamp.
    *
    * For validating timestamp values, the median timestamp of the last 11 blocks
    * is used. The precise behavior is defined in BIP113.
    *
    * If the `sequenceNumber` of every transaction input is set to `0xffffffff`
-   * (4294967295), locktime is ignored, and the transaction may be added to a
+   * (`4294967295`), locktime is ignored, and the transaction may be added to a
    * block (even if the specified locktime has not yet been reached).
    */
   locktime: number;

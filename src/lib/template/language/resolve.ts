@@ -306,7 +306,7 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
     environment.sourceScriptIds !== undefined &&
     environment.sourceScriptIds.includes(parentIdentifier)
   ) {
-    return `A circular dependency was encountered. Script "${identifier}" relies on itself to be generated. (Parent scripts: ${environment.sourceScriptIds.join(
+    return `A circular dependency was encountered: script "${identifier}" relies on itself to be generated. (Parent scripts: ${environment.sourceScriptIds.join(
       ', '
     )})`;
   }
@@ -319,15 +319,19 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
       ...(parentIdentifier === undefined ? [] : [parentIdentifier]),
     ],
   });
-  return result.success
-    ? result
-    : `Compilation error in resolved script, "${identifier}": ${result.errors
-        .map(
-          ({ error, range }) =>
-            // tslint:disable-next-line: no-unsafe-any
-            `${error} [${range.startLineNumber}, ${range.startColumn}]`
-        )
-        .join(', ')}`;
+  if (result.success) {
+    return result;
+  }
+
+  return result.errors.reduce(
+    (all, { error, range }) =>
+      `${
+        all === '' ? '' : `${all}; `
+      }Compilation error in resolved script, "${identifier}" [${
+        range.startLineNumber
+      }, ${range.startColumn}]: ${error}`,
+    ''
+  );
 };
 
 /**

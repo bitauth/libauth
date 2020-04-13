@@ -106,12 +106,12 @@ You can also run the benchmarks (this may take a while):
 yarn bench
 ```
 
-During development, you may find it helpful to use one of the testing `watch` tasks:
+During development, you may find it helpful to use the testing `watch` tasks:
 
 ```sh
-yarn watch
-# OR
-yarn watch:with-crypto # when working on the crypto APIs
+yarn watch # rebuild everything on save
+yarn watch:test # run only the fast tests
+yarn watch:test-slow # test everything
 ```
 
 For more information about the available package scripts, run:

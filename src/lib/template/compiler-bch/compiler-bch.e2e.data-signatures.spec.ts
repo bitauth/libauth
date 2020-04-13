@@ -107,7 +107,7 @@ test(
     errors: [
       {
         error:
-          'Compilation error in resolved script, "broken": Unknown identifier \'does_not_exist\'. [1, 1]',
+          'Compilation error in resolved script, "broken" [1, 1]: Unknown identifier \'does_not_exist\'.',
         range: {
           endColumn: 29,
           endLineNumber: 1,

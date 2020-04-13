@@ -115,7 +115,6 @@ test('createCompilerBCH: generateTransaction', async (t) => {
     version: 2,
   });
 
-  // tslint:disable-next-line: no-if-statement
   if (!result.success) {
     t.log(result.errors);
     t.fail();

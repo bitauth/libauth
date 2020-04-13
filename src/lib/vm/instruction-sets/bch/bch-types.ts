@@ -29,7 +29,7 @@ export interface AuthenticationProgramStateBCH
 
 export const createTestAuthenticationProgramBCH = ({
   lockingBytecode,
-  satoshis = 0,
+  satoshis,
   sha256,
   unlockingBytecode,
 }: {

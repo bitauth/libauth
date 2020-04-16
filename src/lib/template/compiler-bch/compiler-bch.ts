@@ -1,6 +1,9 @@
 import {
+  instantiateRipemd160,
   instantiateSecp256k1,
+  instantiateSha1,
   instantiateSha256,
+  instantiateSha512,
   Sha256,
 } from '../../crypto/crypto';
 import {
@@ -9,12 +12,18 @@ import {
 } from '../../vm/instruction-sets/common/signing-serialization';
 import {
   AuthenticationProgramStateBCH,
+  createInstructionSetBCH,
   generateBytecodeMap,
-  instantiateVirtualMachineBCH,
+  getFlagsForInstructionSetBCH,
   instructionSetBCHCurrentStrict,
   OpcodesBCH,
 } from '../../vm/instruction-sets/instruction-sets';
-import { compilerCreateStateCommon, createCompiler } from '../compiler';
+import { createAuthenticationVirtualMachine } from '../../vm/virtual-machine';
+import {
+  authenticationTemplateToCompilationEnvironment,
+  compilerCreateStateCommon,
+  createCompiler,
+} from '../compiler';
 import {
   attemptCompilerOperations,
   compilerOperationHdKeyPrecomputedSignature,
@@ -27,10 +36,11 @@ import {
   AnyCompilationEnvironment,
   CompilationData,
   CompilationEnvironment,
-  Compiler,
   CompilerOperationDataCommon,
+  CompilerOperationResult,
 } from '../compiler-types';
 import { resolveScriptIdentifier } from '../language/resolve';
+import { AuthenticationTemplate } from '../template-types';
 
 export type CompilerOperationsKeyBCH =
   | 'data_signature'
@@ -130,19 +140,28 @@ export const compilerOperationHelperComputeSignatureBCH = ({
   operationName: string;
   sign: (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array;
   sha256: { hash: Sha256['hash'] };
-}) => {
+}): CompilerOperationResult => {
   const [, , algorithm, unknown] = identifier.split('.');
   if (unknown !== undefined) {
-    return `Unknown component in "${identifier}" – the fragment "${unknown}" is not recognized.`;
+    return {
+      error: `Unknown component in "${identifier}" – the fragment "${unknown}" is not recognized.`,
+      status: 'error',
+    };
   }
 
   if (algorithm === undefined) {
-    return `Invalid signature identifier. Signatures must be of the form: "[variable_id].${operationName}.[signing_serialization_type]".`;
+    return {
+      error: `Invalid signature identifier. Signatures must be of the form: "[variable_id].${operationName}.[signing_serialization_type]".`,
+      status: 'error',
+    };
   }
 
   const signingSerializationType = getSigningSerializationType(algorithm);
   if (signingSerializationType === undefined) {
-    return `Unknown signing serialization algorithm, "${algorithm}".`;
+    return {
+      error: `Unknown signing serialization algorithm, "${algorithm}".`,
+      status: 'error',
+    };
   }
 
   const serialization = generateSigningSerializationBCH({
@@ -165,7 +184,7 @@ export const compilerOperationHelperComputeSignatureBCH = ({
     ...sign(privateKey, digest),
     ...signingSerializationType,
   ]);
-  return bitcoinEncodedSignature;
+  return { bytecode: bitcoinEncodedSignature, status: 'success' };
 };
 
 export const compilerOperationHelperHdKeySignatureBCH = ({
@@ -188,7 +207,7 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
         'sha512',
         'variables',
       ],
-      operation: (identifier, data, environment) => {
+      operation: (identifier, data, environment): CompilerOperationResult => {
         const { hdKeys, operationData } = data;
         const { secp256k1, sha256 } = environment;
 
@@ -197,13 +216,13 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
           hdKeys,
           identifier,
         });
-        if (typeof derivationResult === 'string') return derivationResult;
+        if (derivationResult.status === 'error') return derivationResult;
 
         return compilerOperationHelperComputeSignatureBCH({
           identifier,
           operationData,
           operationName,
-          privateKey: derivationResult,
+          privateKey: derivationResult.bytecode,
           sha256,
           sign: secp256k1[secp256k1Method],
         });
@@ -237,7 +256,7 @@ export const compilerOperationHelperKeySignatureBCH = ({
       canBeSkipped: false,
       dataProperties: ['keys', 'operationData'],
       environmentProperties: ['sha256', 'secp256k1'],
-      operation: (identifier, data, environment) => {
+      operation: (identifier, data, environment): CompilerOperationResult => {
         const { keys, operationData } = data;
         const { secp256k1, sha256 } = environment;
         const { privateKeys } = keys;
@@ -247,7 +266,11 @@ export const compilerOperationHelperKeySignatureBCH = ({
           privateKeys === undefined ? undefined : privateKeys[variableId];
 
         if (privateKey === undefined) {
-          return `Identifier "${identifier}" refers to a Key, but a private key for "${variableId}" (or an existing signature) was not provided in the compilation data.`;
+          return {
+            error: `Identifier "${identifier}" refers to a Key, but a private key for "${variableId}" (or an existing signature) was not provided in the compilation data.`,
+            recoverable: true,
+            status: 'error',
+          };
         }
 
         return compilerOperationHelperComputeSignatureBCH({
@@ -278,7 +301,7 @@ export const compilerOperationKeySchnorrSignatureBCH = compilerOperationHelperKe
 // eslint-disable-next-line complexity
 export const compilerOperationHelperComputeDataSignatureBCH = <
   ProgramState,
-  Data extends CompilationData<CompilerOperationDataCommon>,
+  Data extends CompilationData,
   Environment extends AnyCompilationEnvironment<CompilerOperationDataCommon>
 >({
   data,
@@ -296,7 +319,7 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
   operationName: string;
   sign: (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array;
   sha256: { hash: Sha256['hash'] };
-}) => {
+}): CompilerOperationResult => {
   const [, , scriptId, unknown] = identifier.split('.') as [
     string,
     string | undefined,
@@ -305,11 +328,17 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
   ];
 
   if (unknown !== undefined) {
-    return `Unknown component in "${identifier}" – the fragment "${unknown}" is not recognized.`;
+    return {
+      error: `Unknown component in "${identifier}" – the fragment "${unknown}" is not recognized.`,
+      status: 'error',
+    };
   }
 
   if (scriptId === undefined) {
-    return `Invalid data signature identifier. Data signatures must be of the form: "[variable_id].${operationName}.[target_script_id]".`;
+    return {
+      error: `Invalid data signature identifier. Data signatures must be of the form: "[variable_id].${operationName}.[target_script_id]".`,
+      status: 'error',
+    };
   }
 
   const signingTarget = environment.scripts[scriptId] as string | undefined;
@@ -323,14 +352,17 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
     identifier: scriptId,
   });
   if (signingTarget === undefined || compiledTarget === false) {
-    return `Data signature tried to sign an unknown target script, "${scriptId}".`;
+    return {
+      error: `Data signature tried to sign an unknown target script, "${scriptId}".`,
+      status: 'error',
+    };
   }
   if (typeof compiledTarget === 'string') {
-    return compiledTarget;
+    return { error: compiledTarget, status: 'error' };
   }
 
   const digest = sha256.hash(compiledTarget.bytecode);
-  return sign(privateKey, digest);
+  return { bytecode: sign(privateKey, digest), status: 'success' };
 };
 
 export const compilerOperationHelperKeyDataSignatureBCH = <ProgramState>({
@@ -346,7 +378,7 @@ export const compilerOperationHelperKeyDataSignatureBCH = <ProgramState>({
       canBeSkipped: false,
       dataProperties: ['keys'],
       environmentProperties: ['sha256', 'secp256k1'],
-      operation: (identifier, data, environment) => {
+      operation: (identifier, data, environment): CompilerOperationResult => {
         const { keys } = data;
         const { secp256k1, sha256 } = environment;
         const { privateKeys } = keys;
@@ -356,7 +388,11 @@ export const compilerOperationHelperKeyDataSignatureBCH = <ProgramState>({
           privateKeys === undefined ? undefined : privateKeys[variableId];
 
         if (privateKey === undefined) {
-          return `Identifier "${identifier}" refers to a Key, but a private key for "${variableId}" (or an existing signature) was not provided in the compilation data.`;
+          return {
+            error: `Identifier "${identifier}" refers to a Key, but a private key for "${variableId}" (or an existing signature) was not provided in the compilation data.`,
+            recoverable: true,
+            status: 'error',
+          };
         }
 
         return compilerOperationHelperComputeDataSignatureBCH<
@@ -418,7 +454,7 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = <ProgramState>({
           hdKeys,
           identifier,
         });
-        if (typeof derivationResult === 'string') return derivationResult;
+        if (derivationResult.status === 'error') return derivationResult;
 
         return compilerOperationHelperComputeDataSignatureBCH<
           ProgramState,
@@ -429,7 +465,7 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = <ProgramState>({
           environment,
           identifier,
           operationName,
-          privateKey: derivationResult,
+          privateKey: derivationResult.bytecode,
           sha256,
           sign: secp256k1[secp256k1Method],
         });
@@ -455,15 +491,21 @@ export const compilerOperationSigningSerializationFullBCH = compilerOperationReq
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: ['sha256'],
-    operation: (identifier, data, environment) => {
+    operation: (identifier, data, environment): CompilerOperationResult => {
       const [, algorithmOrComponent, unknownPart] = identifier.split('.');
 
       if (algorithmOrComponent === undefined) {
-        return `Invalid signing serialization operation. Include the desired component or algorithm, e.g. "signing_serialization.version".`;
+        return {
+          error: `Invalid signing serialization operation. Include the desired component or algorithm, e.g. "signing_serialization.version".`,
+          status: 'error',
+        };
       }
 
       if (unknownPart !== undefined) {
-        return `Unknown component in "${identifier}" – the fragment "${unknownPart}" is not recognized.`;
+        return {
+          error: `Unknown component in "${identifier}" – the fragment "${unknownPart}" is not recognized.`,
+          status: 'error',
+        };
       }
 
       const signingSerializationType = getSigningSerializationType(
@@ -471,26 +513,32 @@ export const compilerOperationSigningSerializationFullBCH = compilerOperationReq
         'full_'
       );
       if (signingSerializationType === undefined) {
-        return `Unknown signing serialization algorithm, "${algorithmOrComponent}".`;
+        return {
+          error: `Unknown signing serialization algorithm, "${algorithmOrComponent}".`,
+          status: 'error',
+        };
       }
 
       const { operationData } = data;
       const { sha256 } = environment;
-      return generateSigningSerializationBCH({
-        correspondingOutput: operationData.correspondingOutput,
-        coveredBytecode: operationData.coveredBytecode,
-        locktime: operationData.locktime,
-        outpointIndex: operationData.outpointIndex,
-        outpointTransactionHash: operationData.outpointTransactionHash,
-        outputValue: operationData.outputValue,
-        sequenceNumber: operationData.sequenceNumber,
-        sha256,
-        signingSerializationType,
-        transactionOutpoints: operationData.transactionOutpoints,
-        transactionOutputs: operationData.transactionOutputs,
-        transactionSequenceNumbers: operationData.transactionSequenceNumbers,
-        version: operationData.version,
-      });
+      return {
+        bytecode: generateSigningSerializationBCH({
+          correspondingOutput: operationData.correspondingOutput,
+          coveredBytecode: operationData.coveredBytecode,
+          locktime: operationData.locktime,
+          outpointIndex: operationData.outpointIndex,
+          outpointTransactionHash: operationData.outpointTransactionHash,
+          outputValue: operationData.outputValue,
+          sequenceNumber: operationData.sequenceNumber,
+          sha256,
+          signingSerializationType,
+          transactionOutpoints: operationData.transactionOutpoints,
+          transactionOutputs: operationData.transactionOutputs,
+          transactionSequenceNumbers: operationData.transactionSequenceNumbers,
+          version: operationData.version,
+        }),
+        status: 'success',
+      };
     },
   }
 );
@@ -546,21 +594,55 @@ export const createCompilerBCH = async <
   ProgramState extends AuthenticationProgramStateBCH
 >(
   scriptsAndOverrides: Environment
-): Promise<Compiler<CompilerOperationData, ProgramState>> => {
-  const [sha256, secp256k1, vm] = await Promise.all([
+) => {
+  const [sha1, sha256, sha512, ripemd160, secp256k1] = await Promise.all([
+    instantiateSha1(),
     instantiateSha256(),
+    instantiateSha512(),
+    instantiateRipemd160(),
     instantiateSecp256k1(),
-    instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict),
   ]);
+  const vm = createAuthenticationVirtualMachine(
+    createInstructionSetBCH({
+      flags: getFlagsForInstructionSetBCH(instructionSetBCHCurrentStrict),
+      ripemd160,
+      secp256k1,
+      sha1,
+      sha256,
+    })
+  );
   return createCompiler<CompilerOperationData, Environment, ProgramState>({
     ...{
       createState: compilerCreateStateCommon,
       opcodes: generateBytecodeMap(OpcodesBCH),
       operations: compilerOperationsBCH,
+      ripemd160,
       secp256k1,
       sha256,
+      sha512,
       vm,
     },
     ...scriptsAndOverrides,
   });
 };
+
+/**
+ * Create a BCH `Compiler` from an `AuthenticationTemplate` and an optional set
+ * of overrides.
+ * @param template - the `AuthenticationTemplate` from which to create the BCH
+ * compiler
+ * @param overrides - a compilation environment from which properties will be
+ * used to override properties of the default BCH environment
+ */
+export const authenticationTemplateToCompilerBCH = async <
+  CompilerOperationData extends CompilerOperationDataCommon,
+  Environment extends AnyCompilationEnvironment<CompilerOperationData>,
+  ProgramState extends AuthenticationProgramStateBCH
+>(
+  template: AuthenticationTemplate,
+  overrides?: CompilationEnvironment<CompilerOperationData>
+) =>
+  createCompilerBCH<CompilerOperationData, Environment, ProgramState>({
+    ...overrides,
+    ...authenticationTemplateToCompilationEnvironment(template),
+  } as Environment);

@@ -6,6 +6,9 @@ import {
   CompilationEnvironment,
   CompilerOperation,
   CompilerOperationDataCommon,
+  CompilerOperationErrorFatal,
+  CompilerOperationResult,
+  CompilerOperationSkip,
 } from './compiler-types';
 import { HdKey } from './template-types';
 
@@ -27,7 +30,7 @@ export const attemptCompilerOperations = <
   // eslint-disable-next-line functional/no-loop-statement
   for (const operation of operations) {
     const result = operation(identifier, data, environment);
-    if (result !== false) return result;
+    if (result.status !== 'skip') return result;
   }
   return finalOperation(identifier, data, environment);
 };
@@ -72,9 +75,7 @@ export const compilerOperationRequires = <
       Pick<CompilationEnvironment<OperationData>, RequiredEnvironmentProperties>
     > &
       CompilationEnvironment<OperationData>
-  ) => CanBeSkipped extends true
-    ? Uint8Array | string | false
-    : Uint8Array | string;
+  ) => CompilerOperationResult<CanBeSkipped>;
   // eslint-disable-next-line complexity
 }): CompilerOperation<OperationData, CanBeSkipped> => (
   identifier,
@@ -85,19 +86,25 @@ export const compilerOperationRequires = <
   for (const property of environmentProperties) {
     if (environment[property] === undefined)
       return (canBeSkipped
-        ? false
-        : `Cannot resolve "${identifier}" – the "${property}" property was not provided in the compilation environment.`) as CanBeSkipped extends true
-        ? false
-        : string;
+        ? { status: 'skip' }
+        : {
+            error: `Cannot resolve "${identifier}" – the "${property}" property was not provided in the compilation environment.`,
+            status: 'error',
+          }) as CanBeSkipped extends true
+        ? CompilerOperationSkip
+        : CompilerOperationErrorFatal;
   }
   // eslint-disable-next-line functional/no-loop-statement
   for (const property of dataProperties) {
     if (data[property] === undefined)
       return (canBeSkipped
-        ? false
-        : `Cannot resolve "${identifier}" – the "${property}" property was not provided in the compilation data.`) as CanBeSkipped extends true
-        ? false
-        : string;
+        ? { status: 'skip' }
+        : {
+            error: `Cannot resolve "${identifier}" – the "${property}" property was not provided in the compilation data.`,
+            status: 'error',
+          }) as CanBeSkipped extends true
+        ? CompilerOperationSkip
+        : CompilerOperationErrorFatal;
   }
 
   return operation(
@@ -124,9 +131,9 @@ export const compilerOperationHdKeyPrecomputedSignature = compilerOperationRequi
         signatures !== undefined &&
         (signatures[identifier] as Uint8Array | undefined) !== undefined
       )
-        return signatures[identifier];
+        return { bytecode: signatures[identifier], status: 'success' };
 
-      return false;
+      return { status: 'skip' };
     },
   }
 );
@@ -143,9 +150,9 @@ export const compilerOperationKeyPrecomputedSignature = compilerOperationRequire
         signatures !== undefined &&
         (signatures[identifier] as Uint8Array | undefined) !== undefined
       )
-        return signatures[identifier];
+        return { bytecode: signatures[identifier], status: 'success' };
 
-      return false;
+      return { status: 'skip' };
     },
   }
 );
@@ -169,7 +176,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
   };
   hdKey: HdKey;
   identifier: string;
-}) => {
+}): CompilerOperationResult => {
   const addressOffset =
     hdKey.addressOffset ?? CompilerDefaults.hdKeyAddressOffset;
   const privateDerivationPath =
@@ -179,7 +186,10 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
 
   const masterContents = decodeHdPrivateKey(environment, entityHdPrivateKey);
   if (typeof masterContents === 'string') {
-    return `Could not generate ${identifier} – the HD private key provided for ${entityId} could not be decoded: ${masterContents}`;
+    return {
+      error: `Could not generate ${identifier} – the HD private key provided for ${entityId} could not be decoded: ${masterContents}`,
+      status: 'error',
+    };
   }
 
   const instanceNode = deriveHdPath(
@@ -189,20 +199,30 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
   );
 
   if (typeof instanceNode === 'string') {
-    return `Could not generate ${identifier} – the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`;
+    return {
+      error: `Could not generate ${identifier} – the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
+      status: 'error',
+    };
   }
 
-  return instanceNode.privateKey;
+  return {
+    bytecode: instanceNode.privateKey,
+    status: 'success',
+  };
 };
 
 export const compilerOperationHelperUnknownEntity = (
   identifier: string,
   variableId: string
-) =>
-  `Identifier "${identifier}" refers to an HdKey, but the "entityOwnership" for "${variableId}" is not available in this compilation environment.`;
+) => ({
+  error: `Identifier "${identifier}" refers to an HdKey, but the "entityOwnership" for "${variableId}" is not available in this compilation environment.`,
+  status: 'error' as const,
+});
 
-export const compilerOperationHelperAddressIndex = (identifier: string) =>
-  `Identifier "${identifier}" refers to an HdKey, but "hdKeys.addressIndex" was not provided in the compilation data.`;
+export const compilerOperationHelperAddressIndex = (identifier: string) => ({
+  error: `Identifier "${identifier}" refers to an HdKey, but "hdKeys.addressIndex" was not provided in the compilation data.`,
+  status: 'error' as const,
+});
 
 export const compilerOperationHelperDeriveHdKeyPrivate = ({
   environment,
@@ -217,9 +237,9 @@ export const compilerOperationHelperDeriveHdKeyPrivate = ({
     sha512: NonNullable<CompilationEnvironment['sha512']>;
     variables: NonNullable<CompilationEnvironment['variables']>;
   };
-  hdKeys: NonNullable<CompilationData<CompilerOperationDataCommon>['hdKeys']>;
+  hdKeys: NonNullable<CompilationData['hdKeys']>;
   identifier: string;
-}) => {
+}): CompilerOperationResult => {
   const { addressIndex, hdPrivateKeys } = hdKeys;
   const [variableId] = identifier.split('.');
 
@@ -238,7 +258,11 @@ export const compilerOperationHelperDeriveHdKeyPrivate = ({
     hdPrivateKeys === undefined ? undefined : hdPrivateKeys[entityId];
 
   if (entityHdPrivateKey === undefined) {
-    return `Identifier "${identifier}" refers to an HdKey owned by "${entityId}", but an HD private key for this entity (or an existing signature) was not provided in the compilation data.`;
+    return {
+      error: `Identifier "${identifier}" refers to an HdKey owned by "${entityId}", but an HD private key for this entity (or an existing signature) was not provided in the compilation data.`,
+      recoverable: true,
+      status: 'error',
+    };
   }
 
   /**

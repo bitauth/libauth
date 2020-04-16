@@ -11,7 +11,7 @@ import { MinimumProgramState, StackState } from '../../vm/state';
 import { AuthenticationVirtualMachine } from '../../vm/virtual-machine';
 
 import {
-  ErrorInformation,
+  CompilationError,
   EvaluationSample,
   EvaluationSampleValid,
   InstructionAggregation,
@@ -460,7 +460,7 @@ export const reduceScript = <
   });
   const reduction = source.reduce<{
     bytecode: Uint8Array[];
-    errors?: ErrorInformation[] | undefined;
+    errors?: CompilationError[] | undefined;
     ranges: Range[];
   }>(
     (all, segment) => ({

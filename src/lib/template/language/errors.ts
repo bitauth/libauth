@@ -1,4 +1,8 @@
-import { ErrorInformation, ResolvedScript } from './language-types';
+import {
+  CompilationError,
+  CompilationErrorRecoverable,
+  ResolvedScript,
+} from './language-types';
 
 /**
  * Extract a list of the errors which occurred while resolving a script.
@@ -8,14 +12,17 @@ import { ErrorInformation, ResolvedScript } from './language-types';
  */
 export const getResolutionErrors = (
   resolvedScript: ResolvedScript
-): ErrorInformation[] =>
-  resolvedScript.reduce<ErrorInformation[]>((errors, segment) => {
+): CompilationError[] =>
+  resolvedScript.reduce<CompilationError[]>((errors, segment) => {
     switch (segment.type) {
       case 'error':
         return [
           ...errors,
           {
             error: segment.value,
+            ...(segment.missingIdentifier === undefined
+              ? {}
+              : { missingIdentifier: segment.missingIdentifier }),
             range: segment.range,
           },
         ];
@@ -27,4 +34,14 @@ export const getResolutionErrors = (
     }
   }, []);
 
-// export const getReductionErrors = () => {};
+/**
+ * Verify that every error in the provided array can be resolved by providing
+ * additional variables in the compilation data (rather than deeper issues, like
+ * problems with the authentication template or wallet implementation).
+ *
+ * @param errors - an array of compilation errors
+ */
+export const allErrorsAreRecoverable = (
+  errors: CompilationError[]
+): errors is CompilationErrorRecoverable[] =>
+  errors.every((error) => 'missingIdentifier' in error);

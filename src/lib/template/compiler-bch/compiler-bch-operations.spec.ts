@@ -13,7 +13,11 @@ test('compilerOperationSigningSerializationFullBCH: requires an algorithm', (t) 
       { operationData: {} as CompilerOperationDataCommon },
       { scripts: {}, sha256: { hash: () => Uint8Array.of() } }
     ),
-    'Invalid signing serialization operation. Include the desired component or algorithm, e.g. "signing_serialization.version".'
+    {
+      error:
+        'Invalid signing serialization operation. Include the desired component or algorithm, e.g. "signing_serialization.version".',
+      status: 'error',
+    }
   );
 });
 test('compilerOperationSigningSerializationFullBCH: error on unknown algorithms', (t) => {
@@ -23,6 +27,10 @@ test('compilerOperationSigningSerializationFullBCH: error on unknown algorithms'
       { operationData: {} as CompilerOperationDataCommon },
       { scripts: {}, sha256: { hash: () => Uint8Array.of() } }
     ),
-    'Unknown signing serialization algorithm, "full_unknown_serialization".'
+    {
+      error:
+        'Unknown signing serialization algorithm, "full_unknown_serialization".',
+      status: 'error',
+    }
   );
 });

@@ -15,6 +15,7 @@ import {
   compilerOperationHelperUnknownEntity,
   compilerOperationRequires,
 } from './compiler-operation-helpers';
+import { CompilerOperationResult } from './compiler-types';
 import { HdKey } from './template-types';
 
 export const compilerOperationAddressData = compilerOperationRequires({
@@ -24,9 +25,13 @@ export const compilerOperationAddressData = compilerOperationRequires({
   operation: (identifier, data) => {
     const { addressData } = data;
     if (identifier in addressData) {
-      return addressData[identifier];
+      return { bytecode: addressData[identifier], status: 'success' };
     }
-    return `Identifier "${identifier}" refers to an AddressData, but "${identifier}" was not provided in the CompilationData "addressData".`;
+    return {
+      error: `Identifier "${identifier}" refers to an AddressData, but "${identifier}" was not provided in the CompilationData "addressData".`,
+      recoverable: true,
+      status: 'error',
+    };
   },
 });
 
@@ -37,9 +42,13 @@ export const compilerOperationWalletData = compilerOperationRequires({
   operation: (identifier, data) => {
     const { walletData } = data;
     if (identifier in walletData) {
-      return walletData[identifier];
+      return { bytecode: walletData[identifier], status: 'success' };
     }
-    return `Identifier "${identifier}" refers to a WalletData, but "${identifier}" was not provided in the CompilationData "walletData".`;
+    return {
+      error: `Identifier "${identifier}" refers to a WalletData, but "${identifier}" was not provided in the CompilationData "walletData".`,
+      recoverable: true,
+      status: 'error',
+    };
   },
 });
 
@@ -47,14 +56,25 @@ export const compilerOperationCurrentBlockTime = compilerOperationRequires({
   canBeSkipped: false,
   dataProperties: ['currentBlockTime'],
   environmentProperties: [],
-  operation: (_, data) => dateToLocktime(data.currentBlockTime),
+  operation: (identifier, data) => {
+    const result = dateToLocktime(data.currentBlockTime);
+    return typeof result === 'string'
+      ? {
+          error: `Cannot resolve "${identifier} – the Date provided as "currentBlockTime" in the compilation data is outside the range which can be encoded in locktime."`,
+          status: 'error',
+        }
+      : { bytecode: result, status: 'success' };
+  },
 });
 
 export const compilerOperationCurrentBlockHeight = compilerOperationRequires({
   canBeSkipped: false,
   dataProperties: ['currentBlockHeight'],
   environmentProperties: [],
-  operation: (_, data) => bigIntToScriptNumber(BigInt(data.currentBlockHeight)),
+  operation: (_, data) => ({
+    bytecode: bigIntToScriptNumber(BigInt(data.currentBlockHeight)),
+    status: 'success',
+  }),
 });
 
 export const compilerOperationSigningSerializationCorrespondingOutput = compilerOperationRequires(
@@ -64,8 +84,11 @@ export const compilerOperationSigningSerializationCorrespondingOutput = compiler
     environmentProperties: [],
     operation: (_, data) =>
       data.operationData.correspondingOutput === undefined
-        ? Uint8Array.of()
-        : data.operationData.correspondingOutput,
+        ? { bytecode: Uint8Array.of(), status: 'success' }
+        : {
+            bytecode: data.operationData.correspondingOutput,
+            status: 'success',
+          },
   }
 );
 
@@ -76,10 +99,13 @@ export const compilerOperationSigningSerializationCorrespondingOutputHash = comp
     environmentProperties: ['sha256'],
     operation: (_, data, environment) =>
       data.operationData.correspondingOutput === undefined
-        ? Uint8Array.of()
-        : environment.sha256.hash(
-            environment.sha256.hash(data.operationData.correspondingOutput)
-          ),
+        ? { bytecode: Uint8Array.of(), status: 'success' }
+        : {
+            bytecode: environment.sha256.hash(
+              environment.sha256.hash(data.operationData.correspondingOutput)
+            ),
+            status: 'success',
+          },
   }
 );
 
@@ -88,7 +114,10 @@ export const compilerOperationSigningSerializationCoveredBytecode = compilerOper
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) => data.operationData.coveredBytecode,
+    operation: (_, data) => ({
+      bytecode: data.operationData.coveredBytecode,
+      status: 'success',
+    }),
   }
 );
 
@@ -97,8 +126,12 @@ export const compilerOperationSigningSerializationCoveredBytecodeLength = compil
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) =>
-      bigIntToBitcoinVarInt(BigInt(data.operationData.coveredBytecode.length)),
+    operation: (_, data) => ({
+      bytecode: bigIntToBitcoinVarInt(
+        BigInt(data.operationData.coveredBytecode.length)
+      ),
+      status: 'success',
+    }),
   }
 );
 
@@ -107,7 +140,10 @@ export const compilerOperationSigningSerializationLocktime = compilerOperationRe
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) => numberToBinUint32LE(data.operationData.locktime),
+    operation: (_, data) => ({
+      bytecode: numberToBinUint32LE(data.operationData.locktime),
+      status: 'success',
+    }),
   }
 );
 
@@ -116,8 +152,10 @@ export const compilerOperationSigningSerializationOutpointIndex = compilerOperat
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) =>
-      numberToBinUint32LE(data.operationData.outpointIndex),
+    operation: (_, data) => ({
+      bytecode: numberToBinUint32LE(data.operationData.outpointIndex),
+      status: 'success',
+    }),
   }
 );
 
@@ -126,7 +164,10 @@ export const compilerOperationSigningSerializationOutpointTransactionHash = comp
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) => data.operationData.outpointTransactionHash,
+    operation: (_, data) => ({
+      bytecode: data.operationData.outpointTransactionHash,
+      status: 'success',
+    }),
   }
 );
 
@@ -135,8 +176,10 @@ export const compilerOperationSigningSerializationOutputValue = compilerOperatio
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) =>
-      bigIntToBinUint64LE(BigInt(data.operationData.outputValue)),
+    operation: (_, data) => ({
+      bytecode: bigIntToBinUint64LE(BigInt(data.operationData.outputValue)),
+      status: 'success',
+    }),
   }
 );
 
@@ -145,8 +188,10 @@ export const compilerOperationSigningSerializationSequenceNumber = compilerOpera
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) =>
-      numberToBinUint32LE(data.operationData.sequenceNumber),
+    operation: (_, data) => ({
+      bytecode: numberToBinUint32LE(data.operationData.sequenceNumber),
+      status: 'success',
+    }),
   }
 );
 
@@ -155,7 +200,10 @@ export const compilerOperationSigningSerializationTransactionOutpoints = compile
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) => data.operationData.transactionOutpoints,
+    operation: (_, data) => ({
+      bytecode: data.operationData.transactionOutpoints,
+      status: 'success',
+    }),
   }
 );
 
@@ -164,10 +212,12 @@ export const compilerOperationSigningSerializationTransactionOutpointsHash = com
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: ['sha256'],
-    operation: (_, data, environment) =>
-      environment.sha256.hash(
+    operation: (_, data, environment) => ({
+      bytecode: environment.sha256.hash(
         environment.sha256.hash(data.operationData.transactionOutpoints)
       ),
+      status: 'success',
+    }),
   }
 );
 
@@ -176,7 +226,10 @@ export const compilerOperationSigningSerializationTransactionOutputs = compilerO
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) => data.operationData.transactionOutputs,
+    operation: (_, data) => ({
+      bytecode: data.operationData.transactionOutputs,
+      status: 'success',
+    }),
   }
 );
 
@@ -185,10 +238,12 @@ export const compilerOperationSigningSerializationTransactionOutputsHash = compi
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: ['sha256'],
-    operation: (_, data, environment) =>
-      environment.sha256.hash(
+    operation: (_, data, environment) => ({
+      bytecode: environment.sha256.hash(
         environment.sha256.hash(data.operationData.transactionOutputs)
       ),
+      status: 'success',
+    }),
   }
 );
 
@@ -197,7 +252,10 @@ export const compilerOperationSigningSerializationTransactionSequenceNumbers = c
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) => data.operationData.transactionSequenceNumbers,
+    operation: (_, data) => ({
+      bytecode: data.operationData.transactionSequenceNumbers,
+      status: 'success',
+    }),
   }
 );
 
@@ -206,10 +264,12 @@ export const compilerOperationSigningSerializationTransactionSequenceNumbersHash
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: ['sha256'],
-    operation: (_, data, environment) =>
-      environment.sha256.hash(
+    operation: (_, data, environment) => ({
+      bytecode: environment.sha256.hash(
         environment.sha256.hash(data.operationData.transactionSequenceNumbers)
       ),
+      status: 'success',
+    }),
   }
 );
 
@@ -218,7 +278,10 @@ export const compilerOperationSigningSerializationVersion = compilerOperationReq
     canBeSkipped: false,
     dataProperties: ['operationData'],
     environmentProperties: [],
-    operation: (_, data) => numberToBinUint32LE(data.operationData.version),
+    operation: (_, data) => ({
+      bytecode: numberToBinUint32LE(data.operationData.version),
+      status: 'success',
+    }),
   }
 );
 
@@ -236,9 +299,9 @@ export const compilerOperationKeyPublicKeyCommon = attemptCompilerOperations(
           publicKeys !== undefined &&
           (publicKeys[variableId] as Uint8Array | undefined) !== undefined
         ) {
-          return publicKeys[variableId];
+          return { bytecode: publicKeys[variableId], status: 'success' };
         }
-        return false;
+        return { status: 'skip' };
       },
     }),
   ],
@@ -256,9 +319,18 @@ export const compilerOperationKeyPublicKeyCommon = attemptCompilerOperations(
         privateKeys !== undefined &&
         (privateKeys[variableId] as Uint8Array | undefined) !== undefined
       ) {
-        return secp256k1.derivePublicKeyCompressed(privateKeys[variableId]);
+        return {
+          bytecode: secp256k1.derivePublicKeyCompressed(
+            privateKeys[variableId]
+          ),
+          status: 'success',
+        };
       }
-      return `Identifier "${identifier}" refers to a public key, but no public or private keys for "${variableId}" were provided in the compilation data.`;
+      return {
+        error: `Identifier "${identifier}" refers to a public key, but no public or private keys for "${variableId}" were provided in the compilation data.`,
+        recoverable: true,
+        status: 'error',
+      };
     },
   })
 );
@@ -279,10 +351,10 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
           (derivedPublicKeys[variableId] as Uint8Array | undefined) !==
             undefined
         ) {
-          return derivedPublicKeys[variableId];
+          return { bytecode: derivedPublicKeys[variableId], status: 'success' };
         }
 
-        return false;
+        return { status: 'skip' };
       },
     }),
   ],
@@ -299,7 +371,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
     ],
     operation:
       // eslint-disable-next-line complexity
-      (identifier, data, environment) => {
+      (identifier, data, environment): CompilerOperationResult => {
         const { hdKeys } = data;
         const { hdPrivateKeys, addressIndex, hdPublicKeys } = hdKeys;
         const [variableId] = identifier.split('.');
@@ -332,15 +404,24 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
             hdKey,
             identifier,
           });
-          if (typeof privateResult === 'string') return privateResult;
-          return environment.secp256k1.derivePublicKeyCompressed(privateResult);
+          if (privateResult.status === 'error') return privateResult;
+          return {
+            bytecode: environment.secp256k1.derivePublicKeyCompressed(
+              privateResult.bytecode
+            ),
+            status: 'success',
+          };
         }
 
         const entityHdPublicKey =
           hdPublicKeys === undefined ? undefined : hdPublicKeys[entityId];
 
         if (entityHdPublicKey === undefined) {
-          return `Identifier "${identifier}" refers to an HdKey owned by "${entityId}", but an HD private key or HD public key for this entity was not provided in the compilation data.`;
+          return {
+            error: `Identifier "${identifier}" refers to an HdKey owned by "${entityId}", but an HD private key or HD public key for this entity was not provided in the compilation data.`,
+            recoverable: true,
+            status: 'error',
+          };
         }
 
         const addressOffset =
@@ -359,7 +440,10 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
           entityHdPublicKey
         );
         if (typeof masterContents === 'string') {
-          return `Could not generate "${identifier}" – the HD public key provided for "${entityId}" could not be decoded: ${masterContents}`;
+          return {
+            error: `Could not generate "${identifier}" – the HD public key provided for "${entityId}" could not be decoded: ${masterContents}`,
+            status: 'error',
+          };
         }
 
         const instanceNode = deriveHdPath(
@@ -369,10 +453,13 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
         );
 
         if (typeof instanceNode === 'string') {
-          return `Could not generate "${identifier}" – the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`;
+          return {
+            error: `Could not generate "${identifier}" – the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
+            status: 'error',
+          };
         }
 
-        return instanceNode.publicKey;
+        return { bytecode: instanceNode.publicKey, status: 'success' };
       },
   })
 );

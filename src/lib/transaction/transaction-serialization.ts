@@ -57,7 +57,8 @@ export const readTransactionInput = (bin: Uint8Array, offset: number) => {
 };
 
 /**
- * Serialize a single input.
+ * Serialize a single input for inclusion in a serialized transaction.
+ *
  * @param output - the input to serialize
  */
 export const serializeInput = (input: Input) =>
@@ -70,7 +71,8 @@ export const serializeInput = (input: Input) =>
   ]);
 
 /**
- * Serialize a set of inputs for inclusion in a serialized transaction.
+ * Serialize a set of inputs for inclusion in a serialized transaction including
+ * the prefixed number of inputs.
  *
  * Format: [BitcoinVarInt: input count] [serialized inputs]
  *
@@ -83,6 +85,8 @@ export const serializeInputs = (inputs: readonly Input[]) =>
   ]);
 
 /**
+ * Read a single transaction output from a serialized transaction.
+ *
  * @param bin - the raw transaction from which to read the output
  * @param offset - the offset at which the output begins
  */
@@ -112,7 +116,8 @@ export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
 };
 
 /**
- * Serialize a single output.
+ * Serialize a single output for inclusion in a serialized transaction.
+ *
  * @param output - the output to serialize
  */
 export const serializeOutput = (output: Output) =>
@@ -123,7 +128,8 @@ export const serializeOutput = (output: Output) =>
   ]);
 
 /**
- * Serialize a set of outputs for inclusion in a serialized transaction.
+ * Serialize a set of outputs for inclusion in a serialized transaction
+ * including the prefixed number of outputs.
  *
  * Format: [BitcoinVarInt: output count] [serialized outputs]
  *
@@ -136,10 +142,11 @@ export const serializeOutputsForTransaction = (outputs: readonly Output[]) =>
   ]);
 
 /**
- * TODO: document return type (note outpointTransactionHash is little-endian – most UIs display big-endian transaction hashes)
+ * Deserialize a serialized transaction into a `Transaction`.
  *
- * Note: this method throws runtime errors when attempting to decode improperly
- * encoded transactions.
+ * Note: this method throws runtime errors when attempting to deserialize
+ * improperly serialized transactions. If the input is untrusted, catch errors
+ * thrown by this method to ensure it is a valid serialization.
  *
  * @param bin - the raw transaction to decode
  */
@@ -188,7 +195,9 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
 };
 
 /**
- * TODO: doc
+ * Serialize a `Transaction` using the standard P2P network format. This
+ * serialization is also used when computing the transaction's hash (A.K.A.
+ * "transaction ID" or "TXID").
  */
 export const serializeTransaction = (tx: Transaction) =>
   flattenBinArray([
@@ -199,36 +208,51 @@ export const serializeTransaction = (tx: Transaction) =>
   ]);
 
 /**
- * Derive a standard identifier from a serialized data structure.
+ * Compute a transaction hash (A.K.A. "transaction ID" or "TXID") from a
+ * serialized transaction in big-endian byte order. This is the byte order
+ * typically used by block explorers and other user interfaces.
  *
- * @remarks
- * By convention, Bitcoin transaction and block identifiers are derived by
- * double-sha256 hashing their serialized form, and reversing the byte order.
- * (The result of sha256 is defined by its specification as big-endian, and
- * bitcoin displays hashes in little-endian format.)
- *
- * @returns an identifier in little-endian byte order
- *
- * @param data - the serialized raw data being identified
- * @param sha256 - an implementation of sha256
- */
-export const getBitcoinIdentifier = (
-  data: Uint8Array,
-  sha256: { hash: Sha256['hash'] }
-) => sha256.hash(sha256.hash(data)).reverse();
-
-/**
- * Derive a standard transaction identifier from a serialized transaction.
- *
- * @returns a Transaction ID in little-endian byte order
+ * @returns the transaction hash as a string
  *
  * @param transaction - the serialized transaction
  * @param sha256 - an implementation of sha256
  */
-export const getBitcoinTransactionId = (
-  transaction: Uint8Array,
-  sha256: { hash: Sha256['hash'] }
-) => binToHex(getBitcoinIdentifier(transaction, sha256));
+export const getTransactionHashBE = (
+  sha256: { hash: Sha256['hash'] },
+  transaction: Uint8Array
+) => sha256.hash(sha256.hash(transaction));
+
+/**
+ * Compute a transaction hash (A.K.A. "transaction ID" or "TXID") from a
+ * serialized transaction in little-endian byte order. This is the byte order
+ * used in P2P network messages.
+ *
+ * @remarks
+ * The result of sha256 is defined by its specification as big-endian, but
+ * bitcoin message formats always reverse the order of this result for
+ * serialization in P2P network messages.
+ *
+ * @returns the transaction hash in little-endian byte order
+ *
+ * @param transaction - the serialized transaction
+ * @param sha256 - an implementation of sha256
+ */
+export const getTransactionHashLE = (
+  sha256: { hash: Sha256['hash'] },
+  transaction: Uint8Array
+) => getTransactionHashBE(sha256, transaction).reverse();
+
+/**
+ * Return a `Transaction`'s hash as a string (in big-endian byte order as is
+ * common for user interfaces).
+ *
+ * @param transaction - the serialized transaction
+ * @param sha256 - an implementation of sha256
+ */
+export const getTransactionHash = (
+  sha256: { hash: Sha256['hash'] },
+  transaction: Uint8Array
+) => binToHex(getTransactionHashBE(sha256, transaction));
 
 /**
  * Get the hash of all outpoints in a series of inputs. (For use in
@@ -253,17 +277,21 @@ export const serializeOutpoints = (
   );
 
 /**
- * Get the signing serialization for a series of outputs.
- * @param outputs - the series of outputs to serialize
+ * Serialize an array of transaction outputs for use in transaction signing
+ * serializations.
+ *
+ * @param outputs - the array of outputs to serialize
  */
 export const serializeOutputsForSigning = (outputs: readonly Output[]) =>
   flattenBinArray(outputs.map(serializeOutput));
 
 /**
- * Serialize a series of input sequence numbers.
+ * Serialize an array of input sequence numbers for use in transaction signing
+ * serializations.
  *
- * @param inputs - the series of inputs from which to extract the sequence numbers
+ * @param inputs - the array of inputs from which to extract the sequence
+ * numbers
  */
-export const serializeSequenceNumbers = (
+export const serializeSequenceNumbersForSigning = (
   inputs: readonly { sequenceNumber: number }[]
 ) => flattenBinArray(inputs.map((i) => numberToBinUint32LE(i.sequenceNumber)));

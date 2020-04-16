@@ -8,6 +8,39 @@ import {
 } from './language/language-types';
 import { AuthenticationTemplateVariable } from './template-types';
 
+export interface CompilerOperationErrorFatal {
+  status: 'error';
+  error: string;
+}
+export interface CompilerOperationErrorRecoverable
+  extends CompilerOperationErrorFatal {
+  /**
+   * The full identifier (including any compilation operations) of the variable
+   * missing from compilation, e.g. `my_key.signature.all_outputs` or
+   * `my_key.public_key`.
+   */
+  recoverable: true;
+}
+
+export type CompilerOperationError =
+  | CompilerOperationErrorFatal
+  | CompilerOperationErrorRecoverable;
+
+export interface CompilerOperationSuccess {
+  status: 'success';
+  bytecode: Uint8Array;
+}
+
+export interface CompilerOperationSkip {
+  status: 'skip';
+}
+
+export type CompilerOperationResult<
+  CanBeSkipped extends boolean = false
+> = CanBeSkipped extends true
+  ? CompilerOperationError | CompilerOperationSuccess | CompilerOperationSkip
+  : CompilerOperationError | CompilerOperationSuccess;
+
 /**
  * Returns the bytecode result on success or an error message on failure.
  *
@@ -35,9 +68,7 @@ export type CompilerOperation<
   identifier: string,
   data: Data,
   environment: Environment
-) => CanBeSkipped extends true
-  ? Uint8Array | string | false
-  : Uint8Array | string;
+) => CompilerOperationResult<CanBeSkipped>;
 
 export type CompilerOperationsKeysCommon = 'public_key' | 'signature';
 
@@ -315,7 +346,9 @@ export interface CompilationEnvironment<
  * Data required at compilation time to generate the bytecode for a particular
  * Bitauth Template script.
  */
-export interface CompilationData<CompilerOperationData> {
+export interface CompilationData<
+  CompilerOperationData = CompilerOperationDataCommon
+> {
   /**
    * A map of `AddressData` variable IDs and their values for this compilation.
    */
@@ -472,8 +505,13 @@ export type BytecodeGenerationResult<ProgramState> =
  * A `Compiler` is a wrapper around a specific `CompilationEnvironment` which
  * exposes a purely-functional interface and allows for stronger type checking.
  */
-export interface Compiler<CompilerOperationData, ProgramState> {
-  // eslint-disable-next-line functional/no-method-signature
+export interface Compiler<
+  CompilerOperationData,
+  CompilationEnvironment,
+  ProgramState
+> {
+  environment: CompilationEnvironment;
+  // eslint-disable-next-line functional/no-method-signature,  functional/no-mixed-type
   generateBytecode(
     script: string,
     data: CompilationData<CompilerOperationData>,

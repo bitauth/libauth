@@ -3,61 +3,46 @@
 import test from 'ava';
 
 import {
+  authenticationTemplateP2pkhHd,
   authenticationTemplateToCompilerBCH,
   CashAddressNetworkPrefix,
+  CompilationData,
   deserializeTransaction,
   generateTransaction,
   hexToBin,
   lockingBytecodeToCashAddress,
   validateAuthenticationTemplate,
 } from '../lib';
-import { privkey } from '../template/compiler-bch/compiler-bch.e2e.spec.helper';
 
-const maybeP2pkhTemplate: unknown = {
-  entities: {
-    owner: {
-      name: 'Owner',
-      scripts: ['lock', 'unlock'],
-      variables: {
-        owner: {
-          description: 'The private key which controls this wallet.',
-          name: "Owner's Key",
-          type: 'Key',
-        },
-      },
-    },
-  },
-  scripts: {
-    celebrate: {
-      script: 'OP_RETURN <"hello world">',
-    },
-    lock: {
-      name: 'P2PKH Lock',
-      script:
-        'OP_DUP\nOP_HASH160 <$( <owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
-    },
-    unlock: {
-      name: 'Unlock',
-      script: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
-      unlocks: 'lock',
-    },
-  },
-  supported: ['BCH_2019_05', 'BCH_2019_11'],
-  version: 0,
-};
+import { hdPrivateKey, hdPublicKey } from './transaction-e2e.spec.helper';
 
-test('createCompilerBCH: generateTransaction', async (t) => {
-  const p2pkhTemplate = validateAuthenticationTemplate(maybeP2pkhTemplate);
-
-  if (typeof p2pkhTemplate === 'string') {
-    t.fail(p2pkhTemplate);
+test('transaction e2e tests: P2PKH (authenticationTemplateP2pkhHd)', async (t) => {
+  const template = validateAuthenticationTemplate(
+    authenticationTemplateP2pkhHd
+  );
+  if (typeof template === 'string') {
+    t.fail(template);
     return;
   }
 
-  const p2pkh = await authenticationTemplateToCompilerBCH(p2pkhTemplate);
-  const lockingBytecode = p2pkh.generateBytecode('lock', {
-    keys: { privateKeys: { owner: privkey } },
-  });
+  const lockingScript = 'lock';
+
+  /**
+   * Available to observer
+   */
+  const lockingData: CompilationData<never> = {
+    hdKeys: { addressIndex: 0, hdPublicKeys: { owner: hdPublicKey } },
+  };
+
+  /**
+   * Only available to owner
+   */
+  const unlockingData: CompilationData<never> = {
+    hdKeys: { addressIndex: 0, hdPrivateKeys: { owner: hdPrivateKey } },
+  };
+
+  const compiler = await authenticationTemplateToCompilerBCH(template);
+  const lockingBytecode = compiler.generateBytecode(lockingScript, lockingData);
 
   if (!lockingBytecode.success) {
     t.log(lockingBytecode.errors);
@@ -84,17 +69,13 @@ test('createCompilerBCH: generateTransaction', async (t) => {
         outpointTransactionHash: utxoOutpointTransactionHash,
         sequenceNumber: 0,
         unlockingBytecode: {
-          compiler: p2pkh,
-          data: {
-            keys: { privateKeys: { owner: privkey } },
-          },
+          compiler,
+          data: unlockingData,
           output: {
             lockingBytecode: {
-              compiler: p2pkh,
-              data: {
-                keys: { privateKeys: { owner: privkey } },
-              },
-              script: 'lock',
+              compiler,
+              data: lockingData,
+              script: lockingScript,
             },
             satoshis: 1000000,
           },
@@ -105,10 +86,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
     locktime: 0,
     outputs: [
       {
-        lockingBytecode: {
-          compiler: p2pkh,
-          script: 'celebrate',
-        },
+        lockingBytecode: hexToBin('6a0b68656c6c6f20776f726c64'),
         satoshis: 0,
       },
     ],

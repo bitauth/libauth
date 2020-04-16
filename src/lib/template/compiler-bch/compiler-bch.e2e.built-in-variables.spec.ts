@@ -55,6 +55,29 @@ test(
 );
 
 test(
+  '[BCH compiler] built-in variables – current_block_time - invalid',
+  expectCompilationResult,
+  '<current_block_time>',
+  { currentBlockTime: new Date(0) },
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Cannot resolve "current_block_time – the Date provided as "currentBlockTime" in the compilation data is outside the range which can be encoded in locktime."',
+        range: {
+          endColumn: 20,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+);
+
+test(
   '[BCH compiler] built-in variables – current_block_height - error',
   expectCompilationResult,
   '<current_block_height>',

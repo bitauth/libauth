@@ -8,11 +8,6 @@ export interface Range {
   startLineNumber: number;
 }
 
-export interface ErrorInformation {
-  error: string;
-  range: Range;
-}
-
 export interface SourcePosition {
   column: number;
   line: number;
@@ -78,6 +73,11 @@ export interface ResolvedSegmentEvaluation<T> extends ResolvedSegmentBase {
 export interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
   type: 'bytecode';
   value: Uint8Array;
+  /**
+   * The full identifier (including any compilation operations) of the variable
+   * which resolved to this `value`, e.g. `my_key.signature.all_outputs` or
+   * `my_key.public_key`.
+   */
   variable: string;
 }
 
@@ -114,6 +114,13 @@ export interface ResolvedSegmentComment extends ResolvedSegmentBase {
 export interface ResolvedSegmentError extends ResolvedSegmentBase {
   type: 'error';
   value: string;
+  /**
+   * The full identifier (including any compilation operations) of the variable
+   * missing from compilation, e.g. `my_key.signature.all_outputs` or
+   * `my_key.public_key`. Only present if the error is recoverable – the error
+   * can be resolved by providing the variable in the compilation data.
+   */
+  missingIdentifier?: string;
 }
 
 export type ResolvedSegment =
@@ -159,15 +166,19 @@ export type IdentifierResolutionFunction = (
     }
   | {
       error: string;
-      type:
-        | IdentifierResolutionErrorType.variable
-        | IdentifierResolutionErrorType.unknown;
+      type: IdentifierResolutionErrorType.variable;
       status: false;
+      recoverable: boolean;
     }
   | {
       error: string;
       type: IdentifierResolutionErrorType.script;
       scriptId: string;
+      status: false;
+    }
+  | {
+      error: string;
+      type: IdentifierResolutionErrorType.unknown;
       status: false;
     };
 
@@ -176,11 +187,11 @@ export type IdentifierResolutionFunction = (
  */
 export interface ScriptReductionTraceNode {
   bytecode: Uint8Array;
-  errors?: ErrorInformation[] | undefined;
+  errors?: CompilationError[] | undefined;
   range: Range;
 }
 interface ScriptReductionTraceErrorNode extends ScriptReductionTraceNode {
-  errors: ErrorInformation[];
+  errors: CompilationError[];
 }
 
 export interface ScriptReductionTraceContainerNode<ProgramState>
@@ -251,7 +262,7 @@ export interface SampledEvaluationSuccess<ProgramState> {
 }
 export interface SampledEvaluationError<ProgramState> {
   bytecode: Uint8Array;
-  errors: ErrorInformation[];
+  errors: CompilationError[];
   samples: EvaluationSample<ProgramState>[];
   success: false;
 }
@@ -272,9 +283,44 @@ export interface CompilationResultErrorBase {
   success: false;
 }
 
-export interface CompilationError {
+export type CompilationError =
+  | CompilationErrorFatal
+  | CompilationErrorRecoverable;
+
+/**
+ * A compilation error from which it is not possible to recover. This includes
+ * problems with the authentication template, missing dependencies in the
+ * compilation environment, and other errors which likely require meaningful
+ * software changes.
+ */
+export interface CompilationErrorFatal {
+  /**
+   * A message describing the compilation error.
+   */
   error: string;
+  /**
+   * The range in the source text to which this error can be traced. This is
+   * useful for highlighting/underlining the cause of the error in development.
+   */
   range: Range;
+}
+
+/**
+ * A compilation error from which recovery can happen without template or
+ * software changes. This happens when a required variable is not provided in
+ * the compilation data. If this variable can be added to the compilation data,
+ * the error will be resolved.
+ *
+ * If a compilation fails due only to recoverable errors, the IDs of the missing
+ * variables can be extracted and used to request action by the user or another
+ * system.
+ */
+export interface CompilationErrorRecoverable extends CompilationErrorFatal {
+  /**
+   * The variable ID of the variable which – if provided in the compilation data
+   * – would resolve this error.
+   */
+  missingIdentifier: string;
 }
 
 export interface CompilationResultParseError

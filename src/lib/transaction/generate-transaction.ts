@@ -1,123 +1,145 @@
-import { createCompilerBCH } from '../template/compiler-bch/compiler-bch';
 import {
-  CompilationData,
-  CompilationEnvironment,
   Compiler,
   CompilerOperationDataCommon,
 } from '../template/compiler-types';
-import { CompilationError } from '../template/language/language-types';
-import {
-  AuthenticationTemplate,
-  AuthenticationTemplateVariable,
-} from '../template/template-types';
-import { AuthenticationProgramStateBCH } from '../vm/instruction-sets/instruction-sets';
 
 import {
   serializeOutpoints,
   serializeOutput,
   serializeOutputsForSigning,
-  serializeSequenceNumbers,
+  serializeSequenceNumbersForSigning,
 } from './transaction-serialization';
-import { Input, Output, Transaction } from './transaction-types';
+import {
+  BytecodeGenerationError,
+  Input,
+  InputTemplate,
+  Output,
+  OutputTemplate,
+  TransactionGenerationResult,
+  TransactionTemplateFixed,
+} from './transaction-types';
 
 /**
- * TODO: finish implementing
- * - validate all types
- * - enforce no duplicate IDs (all must be unique among entities, variables, and scripts)
  *
- * Parse and validate an authentication template, returning either an error
- * message or the validated `AuthenticationTemplate`.
- * @param maybeTemplate - object to validate as an authentication template
+ * @param outputTemplate -
+ * @param index -
  */
-export const validateAuthenticationTemplate = (
-  maybeTemplate: unknown
-): string | AuthenticationTemplate => {
-  if (typeof maybeTemplate !== 'object' || maybeTemplate === null) {
-    return 'A valid AuthenticationTemplate must be an object.';
+export const compileOutputTemplate = <
+  CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
+>({
+  outputTemplate,
+  index,
+}: {
+  outputTemplate: OutputTemplate<CompilerType>;
+  index: number;
+}): Output | BytecodeGenerationError => {
+  if ('script' in outputTemplate.lockingBytecode) {
+    const directive = outputTemplate.lockingBytecode;
+    const data = directive.data === undefined ? {} : directive.data;
+    const result = directive.compiler.generateBytecode(
+      directive.script,
+      data,
+      true
+    );
+    return result.success
+      ? {
+          lockingBytecode: result.bytecode,
+          satoshis: outputTemplate.satoshis,
+        }
+      : {
+          errors: result.errors.map((error) => ({
+            ...error,
+            error: `Failed compilation of locking directive at index "${index}": ${error.error}`,
+          })),
+          index,
+          ...(result.errorType === 'parse' ? {} : { resolved: result.resolve }),
+        };
   }
-  if ((maybeTemplate as { version?: unknown }).version !== 0) {
-    return 'Only version 0 authentication templates are currently supported.';
-  }
-  // TODO: finish
-  return maybeTemplate as AuthenticationTemplate;
+  return {
+    lockingBytecode: outputTemplate.lockingBytecode.slice(),
+    satoshis: outputTemplate.satoshis,
+  };
 };
 
 /**
- * Create a partial `CompilationEnvironment` from an `AuthenticationTemplate` by
- * extracting and formatting the `scripts` and `variables` properties.
- *
- * Note, if this `AuthenticationTemplate` might be malformed, first validate it
- * with `validateAuthenticationTemplate`.
- *
- * @param template - the `AuthenticationTemplate` from which to extract the
- * compilation environment
+ * TODO: doc
  */
-export const authenticationTemplateToCompilationEnvironment = (
-  template: AuthenticationTemplate
-) => {
-  const scripts = Object.entries(template.scripts).reduce<{
-    [scriptId: string]: string;
-  }>((all, [id, def]) => ({ ...all, [id]: def.script }), {});
-  const variables = Object.values(template.entities).reduce<{
-    [variableId: string]: AuthenticationTemplateVariable;
-  }>((all, entity) => ({ ...all, ...entity.variables }), {});
-  return { scripts, variables };
+export const compileInputTemplate = <
+  CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
+>({
+  inputTemplate,
+  index,
+  outputs,
+  template,
+  transactionOutpoints,
+  transactionSequenceNumbers,
+}: {
+  inputTemplate: InputTemplate<CompilerType>;
+  index: number;
+  outputs: Output[];
+  template: Readonly<TransactionTemplateFixed<CompilerType>>;
+  transactionOutpoints: Uint8Array;
+  transactionSequenceNumbers: Uint8Array;
+}): Input | BytecodeGenerationError => {
+  if ('script' in inputTemplate.unlockingBytecode) {
+    const unlockingDirective = inputTemplate.unlockingBytecode;
+
+    const lockingResult = compileOutputTemplate({
+      index,
+      outputTemplate: unlockingDirective.output,
+    });
+
+    if ('errors' in lockingResult) {
+      // TODO: do we need to distinguish the errors in the lockingBytecode compilation from errors in the final unlockingBytecode compilation?
+      return lockingResult;
+    }
+
+    const unlockingResult = unlockingDirective.compiler.generateBytecode(
+      unlockingDirective.script,
+      {
+        ...unlockingDirective.data,
+        operationData: {
+          correspondingOutput: serializeOutput(outputs[index]),
+          coveredBytecode: lockingResult.lockingBytecode,
+          locktime: template.locktime,
+          outpointIndex: inputTemplate.outpointIndex,
+          outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
+          outputValue: unlockingDirective.output.satoshis,
+          sequenceNumber: inputTemplate.sequenceNumber,
+          transactionOutpoints: transactionOutpoints.slice(),
+          transactionOutputs: serializeOutputsForSigning(outputs),
+          transactionSequenceNumbers: transactionSequenceNumbers.slice(),
+          version: template.version,
+        },
+      },
+      true
+    );
+
+    return unlockingResult.success
+      ? {
+          outpointIndex: inputTemplate.outpointIndex,
+          outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
+          sequenceNumber: inputTemplate.sequenceNumber,
+          unlockingBytecode: unlockingResult.bytecode,
+        }
+      : {
+          errors: unlockingResult.errors.map((error) => ({
+            ...error,
+            error: `Input ${index}: ${error.error}`,
+          })),
+          index,
+          ...(unlockingResult.errorType === 'parse'
+            ? {}
+            : { resolved: unlockingResult.resolve }),
+        };
+  }
+  return {
+    outpointIndex: inputTemplate.outpointIndex,
+    outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
+    sequenceNumber: inputTemplate.sequenceNumber,
+    unlockingBytecode: inputTemplate.unlockingBytecode.slice(),
+  };
 };
-
-/**
- * Create a BCH `Compiler` from an `AuthenticationTemplate` and an optional set
- * of overrides.
- * @param template - the `AuthenticationTemplate` from which to create the BCH
- * compiler
- * @param overrides - a compilation environment from which properties will be
- * used to override properties of the default BCH environment
- */
-export const authenticationTemplateToCompilerBCH = async <
-  CompilerOperationData extends CompilerOperationDataCommon,
-  ProgramState extends AuthenticationProgramStateBCH
->(
-  template: AuthenticationTemplate,
-  overrides?: CompilationEnvironment<CompilerOperationData>
-): Promise<Compiler<CompilerOperationData, ProgramState>> =>
-  createCompilerBCH({
-    ...overrides,
-    ...authenticationTemplateToCompilationEnvironment(template),
-  });
-
-export interface CompilationDirective<CompilationDataType, CompilerType> {
-  compiler: CompilerType;
-  data?: CompilationDataType;
-  script: string;
-}
-
-export interface CompilationDirectiveUnlocking<
-  CompilationDataType,
-  CompilerType
-> extends CompilationDirective<CompilationDataType, CompilerType> {
-  output: Output<
-    CompilationDirective<CompilationDataType, CompilerType> | Uint8Array
-  >;
-}
-
-export type InputTemplate<CompilationDataType, CompilerType> = Input<
-  CompilationDirectiveUnlocking<CompilationDataType, CompilerType> | Uint8Array
->;
-
-export type OutputTemplate<CompilationDataType, CompilerType> = Output<
-  CompilationDirective<CompilationDataType, CompilerType> | Uint8Array
->;
-
-export type TransactionTemplate<
-  CompilationDataType,
-  CompilerType
-> = Transaction<
-  InputTemplate<CompilationDataType, CompilerType>,
-  OutputTemplate<CompilationDataType, CompilerType>
->;
-
-export type TransactionGenerationResult =
-  | { success: true; transaction: Transaction }
-  | { success: false; errors: CompilationError[] };
 
 /**
  * Generate a `Transaction` given a `TransactionTemplate` and any applicable
@@ -129,50 +151,32 @@ export type TransactionGenerationResult =
  * automatically provided to the compiler. All other necessary `CompilationData`
  * properties must be specified in the `TransactionTemplate`.
  *
- * Note: this method does not currently support the correct signing of inputs
- * utilizing `OP_CODESEPARATOR`. Transactions including these inputs will be
- * invalid.
- *
  * @param template - the `TransactionTemplate` from which to create the
  * `Transaction`
  */
-export const generateTransactionBCH = <
-  CompilerType extends Compiler<CompilerOperationDataCommon, unknown>
+export const generateTransaction = <
+  CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
 >(
-  template: Readonly<TransactionTemplate<CompilationData<never>, CompilerType>>
+  template: Readonly<TransactionTemplateFixed<CompilerType>>
 ): TransactionGenerationResult => {
-  const outputResults = template.outputs.map<Output | CompilationError[]>(
-    (outputTemplate, outputIndex) => {
-      if ('script' in outputTemplate.lockingBytecode) {
-        const directive = outputTemplate.lockingBytecode;
-        const data = directive.data === undefined ? {} : directive.data;
-        const result = directive.compiler.generateBytecode(
-          directive.script,
-          data
-        );
-        return result.success
-          ? {
-              lockingBytecode: result.bytecode,
-              satoshis: outputTemplate.satoshis,
-            }
-          : result.errors.map((error) => ({
-              error: `Output ${outputIndex}: ${error.error}`,
-              range: error.range,
-            }));
-      }
-      return {
-        lockingBytecode: outputTemplate.lockingBytecode.slice(),
-        satoshis: outputTemplate.satoshis,
-      };
-    }
+  const outputResults = template.outputs.map((outputTemplate, index) =>
+    compileOutputTemplate({
+      index,
+      outputTemplate,
+    })
   );
 
-  const outputCompilationErrors = outputResults
-    .filter((output): output is CompilationError[] => Array.isArray(output))
-    .reduce((all, entry) => [...all, ...entry], []);
+  const outputCompilationErrors = outputResults.filter(
+    (result): result is BytecodeGenerationError => 'errors' in result
+  );
   if (outputCompilationErrors.length > 0) {
-    return { errors: outputCompilationErrors, success: false };
+    return {
+      errors: outputCompilationErrors,
+      stage: 'outputs',
+      success: false,
+    };
   }
+
   const outputs = outputResults as Output[];
 
   const inputSerializationElements = template.inputs.map((inputTemplate) => ({
@@ -181,90 +185,27 @@ export const generateTransactionBCH = <
     sequenceNumber: inputTemplate.sequenceNumber,
   }));
   const transactionOutpoints = serializeOutpoints(inputSerializationElements);
-  const transactionSequenceNumbers = serializeSequenceNumbers(
+  const transactionSequenceNumbers = serializeSequenceNumbersForSigning(
     inputSerializationElements
   );
-  const inputResults = template.inputs.map<Input | CompilationError[]>(
-    // eslint-disable-next-line complexity
-    (inputTemplate, inputIndex) => {
-      // eslint-disable-next-line functional/no-let, init-declarations
-      let unlockingBytecode: Uint8Array;
-      if ('script' in inputTemplate.unlockingBytecode) {
-        const unlockingDirective = inputTemplate.unlockingBytecode;
 
-        // eslint-disable-next-line functional/no-let, init-declarations
-        let lockingBytecode: Uint8Array;
-
-        if ('script' in unlockingDirective.output.lockingBytecode) {
-          const lockingDirective = unlockingDirective.output.lockingBytecode;
-          const data =
-            lockingDirective.data === undefined ? {} : lockingDirective.data;
-          const lockingResult = lockingDirective.compiler.generateBytecode(
-            lockingDirective.script,
-            data
-          );
-
-          if (!lockingResult.success) {
-            return lockingResult.errors.map((error) => ({
-              error: `Input ${inputIndex} – Output Directive: ${error.error}`,
-              range: error.range,
-            }));
-          }
-
-          // eslint-disable-next-line functional/no-expression-statement
-          lockingBytecode = lockingResult.bytecode;
-          // eslint-disable-next-line functional/no-conditional-statement
-        } else {
-          // eslint-disable-next-line functional/no-expression-statement
-          lockingBytecode = unlockingDirective.output.lockingBytecode.slice();
-        }
-        const operationData: CompilerOperationDataCommon = {
-          correspondingOutput: serializeOutput(outputs[inputIndex]),
-          coveredBytecode: lockingBytecode,
-          locktime: template.locktime,
-          outpointIndex: inputTemplate.outpointIndex,
-          outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
-          outputValue: unlockingDirective.output.satoshis,
-          sequenceNumber: inputTemplate.sequenceNumber,
-          transactionOutpoints: transactionOutpoints.slice(),
-          transactionOutputs: serializeOutputsForSigning(outputs),
-          transactionSequenceNumbers: transactionSequenceNumbers.slice(),
-          version: template.version,
-        };
-        const unlockingResult = unlockingDirective.compiler.generateBytecode(
-          unlockingDirective.script,
-          {
-            ...unlockingDirective.data,
-            operationData,
-          }
-        );
-        if (!unlockingResult.success) {
-          return unlockingResult.errors.map((error) => ({
-            error: `Input ${inputIndex}: ${error.error}`,
-            range: error.range,
-          }));
-        }
-        // eslint-disable-next-line functional/no-expression-statement
-        unlockingBytecode = unlockingResult.bytecode;
-        // eslint-disable-next-line functional/no-conditional-statement
-      } else {
-        // eslint-disable-next-line functional/no-expression-statement
-        unlockingBytecode = inputTemplate.unlockingBytecode.slice();
-      }
-      return {
-        outpointIndex: inputTemplate.outpointIndex,
-        outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
-        sequenceNumber: inputTemplate.sequenceNumber,
-        unlockingBytecode,
-      };
-    }
+  const inputResults = template.inputs.map((inputTemplate, index) =>
+    compileInputTemplate({
+      index,
+      inputTemplate,
+      outputs,
+      template,
+      transactionOutpoints,
+      transactionSequenceNumbers,
+    })
   );
 
-  const inputCompilationErrors = inputResults
-    .filter((output): output is CompilationError[] => Array.isArray(output))
-    .reduce((all, entry) => [...all, ...entry], []);
+  const inputCompilationErrors = inputResults.filter(
+    (result): result is BytecodeGenerationError => 'errors' in result
+  );
+
   if (inputCompilationErrors.length > 0) {
-    return { errors: inputCompilationErrors, success: false };
+    return { errors: inputCompilationErrors, stage: 'inputs', success: false };
   }
   const inputs = inputResults as Input[];
 

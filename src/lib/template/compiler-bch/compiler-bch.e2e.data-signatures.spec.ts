@@ -132,6 +132,7 @@ test(
       {
         error:
           'Identifier "owner.data_signature.another" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
+        missingIdentifier: 'owner.data_signature.another',
         range: {
           endColumn: 30,
           endLineNumber: 1,

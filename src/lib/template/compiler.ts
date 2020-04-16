@@ -16,10 +16,15 @@ import { compilerOperationsCommon } from './compiler-operations';
 import {
   AnyCompilationEnvironment,
   CompilationData,
+  CompilationEnvironment,
   Compiler,
   CompilerOperationDataCommon,
 } from './compiler-types';
 import { compileScript } from './language/compile';
+import {
+  AuthenticationTemplate,
+  AuthenticationTemplateVariable,
+} from './template-types';
 
 /**
  * Create a `Compiler` from the provided compilation environment. This method
@@ -35,7 +40,8 @@ export const createCompiler = <
   ProgramState = StackState & MinimumProgramState
 >(
   compilationEnvironment: Environment
-): Compiler<CompilerOperationData, ProgramState> => ({
+): Compiler<CompilerOperationData, Environment, ProgramState> => ({
+  environment: compilationEnvironment,
   generateBytecode: (
     script: string,
     data: CompilationData<CompilerOperationData>,
@@ -91,7 +97,7 @@ export const createCompilerCommonSynchronous = <
   Errors = AuthenticationErrorBCH
 >(
   scriptsAndOverrides: Environment
-): Compiler<CompilerOperationData, ProgramState> => {
+): Compiler<CompilerOperationData, Environment, ProgramState> => {
   return createCompiler<CompilerOperationData, Environment, ProgramState>({
     ...{
       createState: compilerCreateStateCommon,
@@ -100,4 +106,44 @@ export const createCompilerCommonSynchronous = <
     },
     ...scriptsAndOverrides,
   });
+};
+
+/**
+ * Create a partial `CompilationEnvironment` from an `AuthenticationTemplate` by
+ * extracting and formatting the `scripts` and `variables` properties.
+ *
+ * Note, if this `AuthenticationTemplate` might be malformed, first validate it
+ * with `validateAuthenticationTemplate`.
+ *
+ * @param template - the `AuthenticationTemplate` from which to extract the
+ * compilation environment
+ */
+export const authenticationTemplateToCompilationEnvironment = (
+  template: AuthenticationTemplate
+): Pick<
+  CompilationEnvironment,
+  'entityOwnership' | 'scripts' | 'variables'
+> => {
+  const scripts = Object.entries(template.scripts).reduce<{
+    [scriptId: string]: string;
+  }>((all, [id, def]) => ({ ...all, [id]: def.script }), {});
+  const variables = Object.values(template.entities).reduce<{
+    [variableId: string]: AuthenticationTemplateVariable;
+  }>((all, entity) => ({ ...all, ...entity.variables }), {});
+  const entityOwnership = Object.entries(template.entities).reduce<{
+    [variableId: string]: string;
+  }>(
+    (all, [entityId, entity]) => ({
+      ...all,
+      ...Object.keys(entity.variables ?? {}).reduce(
+        (entityVariables, variableId) => ({
+          ...entityVariables,
+          [variableId]: entityId,
+        }),
+        {}
+      ),
+    }),
+    {}
+  );
+  return { entityOwnership, scripts, variables };
 };

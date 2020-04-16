@@ -128,6 +128,7 @@ test(
       {
         error:
           'Identifier "owner.public_key" refers to a public key, but no public or private keys for "owner" were provided in the compilation data.',
+        missingIdentifier: 'owner.public_key',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -229,6 +230,7 @@ test(
       {
         error:
           'Identifier "owner.signature.all_outputs" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
+        missingIdentifier: 'owner.signature.all_outputs',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -255,6 +257,7 @@ test(
       {
         error:
           'Identifier "owner.schnorr_signature.all_outputs" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
+        missingIdentifier: 'owner.schnorr_signature.all_outputs',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -281,6 +284,7 @@ test(
       {
         error:
           'Identifier "owner.schnorr_signature.all_outputs" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
+        missingIdentifier: 'owner.schnorr_signature.all_outputs',
         range: {
           endColumn: 37,
           endLineNumber: 1,

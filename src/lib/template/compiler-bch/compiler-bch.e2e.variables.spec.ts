@@ -101,6 +101,7 @@ test(
       {
         error:
           'Identifier "one" refers to an AddressData, but "one" was not provided in the CompilationData "addressData".',
+        missingIdentifier: 'one',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -111,6 +112,7 @@ test(
       {
         error:
           'Identifier "two" refers to an AddressData, but "two" was not provided in the CompilationData "addressData".',
+        missingIdentifier: 'two',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -219,6 +221,7 @@ test(
       {
         error:
           'Identifier "one" refers to a WalletData, but "one" was not provided in the CompilationData "walletData".',
+        missingIdentifier: 'one',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -229,6 +232,7 @@ test(
       {
         error:
           'Identifier "two" refers to a WalletData, but "two" was not provided in the CompilationData "walletData".',
+        missingIdentifier: 'two',
         range: {
           endColumn: 11,
           endLineNumber: 1,

@@ -1,3 +1,9 @@
+import { CompilationData } from '../template/compiler-types';
+import {
+  CompilationError,
+  ResolvedScript,
+} from '../template/language/language-types';
+
 /**
  * Data type representing a Transaction Input.
  */
@@ -15,7 +21,8 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
    *
    * The hash of the raw transaction from which this input is spent in
    * big-endian byte order. This is the order typically seen in block explorers
-   * and user interfaces.
+   * and user interfaces (as opposed to little-endian byte order, which is used
+   * in standard P2P network messages).
    *
    * @remarks
    * An "outpoint" is a reference (A.K.A. "pointer") to a specific output in a
@@ -50,7 +57,7 @@ export interface Output<Bytecode = Uint8Array, Amount = number> {
   /**
    * The bytecode used to encumber a transaction output. To spend the output,
    * unlocking bytecode must be included in a transaction input which – when
-   * evaluated with the locking bytecode – completes in valid state.
+   * evaluated before the locking bytecode – completes in a valid state.
    *
    * A.K.A. `scriptPubKey` or "locking script"
    */
@@ -109,3 +116,146 @@ export interface Transaction<InputType = Input, OutputType = Output> {
    */
   version: number;
 }
+
+export interface CompilationDirectiveLocking<
+  CompilerType,
+  CompilationDataType
+> {
+  /**
+   * The `Compiler` with which to generate bytecode.
+   */
+  compiler: CompilerType;
+  /**
+   * The `CompilationData` required to compile the specified script.
+   */
+  data?: CompilationDataType;
+  /**
+   * The script ID to compile.
+   */
+  script: string;
+}
+
+export interface CompilationDirectiveUnlocking<
+  CompilerType,
+  CompilationDataType
+> extends CompilationDirectiveLocking<CompilerType, CompilationDataType> {
+  /**
+   * The locking bytecode (or a locking compilation directive) which this
+   * unlocking script unlocks.
+   */
+  output: OutputTemplate<CompilerType, false, CompilationDataType>;
+}
+
+export interface CompilationDirectiveUnlockingEstimate<
+  CompilerType,
+  CompilationDataType
+> extends CompilationDirectiveUnlocking<CompilerType, CompilationDataType> {
+  /**
+   * The scenario ID which can be used to estimate the final size of this
+   * unlocking script. This is required when using fee estimation.
+   */
+  estimate: string;
+}
+
+/**
+ * An input which may optionally use a `CompilationDirectiveUnlocking` as its
+ * `unlockingBytecode` property. During compilation, the final `lockingBytecode`
+ * will be generated from this directive.
+ *
+ * If `RequireEstimate` is `true`, all input directives must include an
+ * `estimate` scenario ID. See `estimateTransaction` for details.
+ */
+export type InputTemplate<
+  CompilerType,
+  RequireEstimate = false,
+  CompilationDataType = CompilationData<never>
+> = Input<
+  | (RequireEstimate extends true
+      ? CompilationDirectiveUnlockingEstimate<CompilerType, CompilationDataType>
+      : CompilationDirectiveUnlocking<CompilerType, CompilationDataType>)
+  | Uint8Array
+>;
+
+/**
+ * An output which may optionally use a `CompilationDirectiveLocking` as its
+ * `lockingBytecode` property. During compilation, the final `lockingBytecode`
+ * will be generated from this directive.
+ *
+ * If `EnableFeeEstimation` is `true`, the `satoshis` value may also be
+ * `undefined` (as estimated transactions always set output values to
+ * `impossibleSatoshis`).
+ */
+export type OutputTemplate<
+  CompilerType,
+  EnableFeeEstimation = false,
+  CompilationDataType = CompilationData<never>
+> = Output<
+  CompilationDirectiveLocking<CompilerType, CompilationDataType> | Uint8Array,
+  EnableFeeEstimation extends true ? number | undefined : number
+>;
+
+/**
+ * A `Transaction` which may optionally use compilation directives in place of
+ * `lockingBytecode` and `unlockingBytecode` instances. During transaction
+ * generation, these directives will be generated from these directives.
+ *
+ *  If `EnableFeeEstimation` is `true`, all input directives must include an
+ * `estimate` scenario ID, and the `satoshis` value of each output may also be
+ * `undefined` (as estimated transactions always set output values to
+ * `impossibleSatoshis`).
+ */
+export type TransactionTemplate<
+  CompilerType,
+  EnableFeeEstimation = false,
+  CompilationDataType = CompilationData<never>
+> = Transaction<
+  InputTemplate<CompilerType, EnableFeeEstimation, CompilationDataType>,
+  OutputTemplate<CompilerType, EnableFeeEstimation, CompilationDataType>
+>;
+
+/**
+ * A transaction template where all output amounts are provided (i.e. the values
+ * of each "change" output has been decided). To estimate the final transaction
+ * size given a transaction template (and from it, the required transaction
+ * fee), see `estimateTransaction`.
+ */
+export type TransactionTemplateFixed<CompilerType> = TransactionTemplate<
+  CompilerType
+>;
+
+/**
+ * A transaction template which enables fee estimation. The template must
+ * include an `inputSatoshis` value (the total satoshi value of all
+ * transaction inputs); all unlocking compilation directives must provide an
+ * `estimate` scenario ID which is used to estimate the size of the resulting
+ * unlocking bytecode; and the `satoshis` value of outputs is optional (all
+ * satoshi values will be set to `impossibleSatoshis` in the estimated
+ * transaction).
+ */
+export type TransactionTemplateEstimated<CompilerType> = TransactionTemplate<
+  CompilerType,
+  true
+> & {
+  /**
+   * The total satoshi value of all transaction inputs. This is required when
+   * using fee estimation, and is used to calculate the appropriate value of
+   * change outputs (outputs with `satoshis` set to `undefined`).
+   */
+  inputSatoshis: number;
+};
+
+// TODO: document types below (stages begin with outputs, finish with inputs, how indexes are reported)
+
+export interface BytecodeGenerationError {
+  index: number;
+  resolved?: ResolvedScript;
+  errors: CompilationError[];
+}
+
+export type TransactionGenerationResult =
+  | { success: true; transaction: Transaction }
+  | {
+      success: false;
+      errors: BytecodeGenerationError[];
+      stage: 'outputs' | 'inputs';
+    };

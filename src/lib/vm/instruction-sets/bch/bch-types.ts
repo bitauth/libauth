@@ -1,7 +1,7 @@
 import { Sha256 } from '../../../crypto/sha256';
-import { hexToBin, swapEndianness } from '../../../format/format';
+import { hexToBin } from '../../../format/format';
 import {
-  getBitcoinTransactionId,
+  getTransactionHashBE,
   serializeTransaction,
 } from '../../../transaction/transaction-serialization';
 import { Transaction } from '../../../transaction/transaction-types';
@@ -57,14 +57,11 @@ export const createTestAuthenticationProgramBCH = ({
     inputs: [
       {
         outpointIndex: 0,
-        outpointTransactionHash: hexToBin(
-          swapEndianness(
-            getBitcoinTransactionId(
-              serializeTransaction(testFundingTransaction),
-              sha256
-            )
-          )
+        outpointTransactionHash: getTransactionHashBE(
+          sha256,
+          serializeTransaction(testFundingTransaction)
         ),
+
         sequenceNumber: 0xffffffff,
         unlockingBytecode,
       },

@@ -285,6 +285,7 @@ test(
       {
         error:
           'Identifier "owner.signature.all_outputs" refers to an HdKey owned by "ownerEntityId", but an HD private key for this entity (or an existing signature) was not provided in the compilation data.',
+        missingIdentifier: 'owner.signature.all_outputs',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -309,6 +310,7 @@ test(
       {
         error:
           'Identifier "owner.schnorr_signature.all_outputs" refers to an HdKey owned by "ownerEntityId", but an HD private key for this entity (or an existing signature) was not provided in the compilation data.',
+        missingIdentifier: 'owner.schnorr_signature.all_outputs',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -333,6 +335,7 @@ test(
       {
         error:
           'Identifier "owner.schnorr_signature.all_outputs" refers to an HdKey owned by "ownerEntityId", but an HD private key for this entity (or an existing signature) was not provided in the compilation data.',
+        missingIdentifier: 'owner.schnorr_signature.all_outputs',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -727,6 +730,7 @@ test(
       {
         error:
           'Identifier "owner.public_key" refers to an HdKey owned by "ownerEntityId", but an HD private key or HD public key for this entity was not provided in the compilation data.',
+        missingIdentifier: 'owner.public_key',
         range: {
           endColumn: 18,
           endLineNumber: 1,

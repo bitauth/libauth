@@ -9,8 +9,8 @@ test('attemptCompilerOperations: can skip environment property check', (t) => {
       canBeSkipped: true,
       dataProperties: [],
       environmentProperties: ['entityOwnership'],
-      operation: () => 'test failed',
+      operation: () => ({ error: 'test failed', status: 'error' }),
     })('', {}, { scripts: {} }),
-    false
+    { status: 'skip' }
   );
 });

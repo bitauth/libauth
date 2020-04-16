@@ -5,6 +5,7 @@ import {
   CompilationData,
   CompilationEnvironment,
   CompilerOperation,
+  CompilerOperationResult,
 } from '../compiler-types';
 import { AuthenticationTemplateVariable } from '../template-types';
 
@@ -58,6 +59,9 @@ export const resolveScriptSegment = (
                 : ({ unknown: identifier } as never)),
             }
           : {
+              ...('recoverable' in result && result.recoverable
+                ? { missingIdentifier: identifier }
+                : {}),
               range,
               type: 'error' as const,
               value: result.error,
@@ -150,22 +154,31 @@ const attemptCompilerOperation = <
   variableId: string;
   variableType: string;
   operationExample?: string;
-}) => {
+}): CompilerOperationResult<true> => {
   if (matchingOperations === undefined) {
-    return `The "${variableId}" variable type can not be resolved because the "${variableType}" operation has not been included in this compiler's CompilationEnvironment.`;
+    return {
+      error: `The "${variableId}" variable type can not be resolved because the "${variableType}" operation has not been included in this compiler's CompilationEnvironment.`,
+      status: 'error',
+    };
   }
   if (typeof matchingOperations === 'function') {
     const operation = matchingOperations;
     return operation(identifier, data, environment);
   }
   if (operationId === undefined) {
-    return `This "${variableId}" variable could not be resolved because this compiler's "${variableType}" operations require an operation identifier, e.g. '${variableId}.${operationExample}'.`;
+    return {
+      error: `This "${variableId}" variable could not be resolved because this compiler's "${variableType}" operations require an operation identifier, e.g. '${variableId}.${operationExample}'.`,
+      status: 'error',
+    };
   }
   const operation = (matchingOperations as {
     [x: string]: CompilerOperation<CompilerOperationData> | undefined;
   })[operationId];
   if (operation === undefined) {
-    return `The identifier "${identifier}" could not be resolved because the "${variableId}.${operationId}" operation is not available to this compiler.`;
+    return {
+      error: `The identifier "${identifier}" could not be resolved because the "${variableId}.${operationId}" operation is not available to this compiler.`,
+      status: 'error',
+    };
   }
   return operation(identifier, data, environment);
 };
@@ -193,7 +206,7 @@ export const resolveVariableIdentifier = <
   data: CompilationData<CompilerOperationData>;
   environment: Environment;
   identifier: string;
-}): Uint8Array | string | false => {
+}): CompilerOperationResult<true> => {
   const [variableId, operationId] = identifier.split('.') as [
     string,
     string | undefined
@@ -236,7 +249,7 @@ export const resolveVariableIdentifier = <
         environment.variables?.[variableId];
 
       if (expectedVariable === undefined) {
-        return false;
+        return { status: 'skip' };
       }
       return attemptCompilerOperation({
         data,
@@ -354,7 +367,7 @@ export const createIdentifierResolver = <CompilerOperationData>({
   environment: CompilationEnvironment<CompilerOperationData>;
 }): IdentifierResolutionFunction =>
   // eslint-disable-next-line complexity
-  (identifier: string) => {
+  (identifier: string): ReturnType<IdentifierResolutionFunction> => {
     const opcodeResult: Uint8Array | undefined =
       environment.opcodes?.[identifier];
     if (opcodeResult !== undefined) {
@@ -369,15 +382,16 @@ export const createIdentifierResolver = <CompilerOperationData>({
       environment,
       identifier,
     });
-    if (variableResult !== false) {
-      return typeof variableResult === 'string'
+    if (variableResult.status !== 'skip') {
+      return variableResult.status === 'error'
         ? {
-            error: variableResult,
+            error: variableResult.error,
+            recoverable: 'recoverable' in variableResult,
             status: false,
             type: IdentifierResolutionErrorType.variable,
           }
         : {
-            bytecode: variableResult,
+            bytecode: variableResult.bytecode,
             status: true,
             type: IdentifierResolutionType.variable,
           };

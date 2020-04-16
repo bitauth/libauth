@@ -1,7 +1,17 @@
 /* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 
-import { deserializeTransaction, hexToBin, serializeTransaction } from '../lib';
+import {
+  deserializeTransaction,
+  getTransactionHash,
+  getTransactionHashBE,
+  getTransactionHashLE,
+  hexToBin,
+  instantiateSha256,
+  serializeTransaction,
+} from '../lib';
+
+const sha256Promise = instantiateSha256();
 
 test('deserializeTransaction', (t) => {
   /**
@@ -194,5 +204,19 @@ test('deserialize and re-serialize transaction', (t) => {
   t.deepEqual(
     hexToBin(tx),
     serializeTransaction(deserializeTransaction(hexToBin(tx)))
+  );
+});
+
+test('getTransactionHash, getTransactionHashBE, getTransactionHashLE', async (t) => {
+  const sha256 = await sha256Promise;
+  const tx =
+    '3eb87070042d16f9469b0080a3c1fe8de0feae345200beef8b1e0d7c62501ae0df899dca1e03000000066a0065525365ffffffffd14a9a335e8babddd89b5d0b6a0f41dd6b18848050a0fc48ce32d892e11817fd030000000863acac00535200527ff62cf3ad30d9064e180eaed5e6303950121a8086b5266b55156e4f7612f2c7ebf223e0020000000100ffffffff6273ca3aceb55931160fa7a3064682b4790ee016b4a5c0c0d101fd449dff88ba01000000055351ac526aa3b8223d0421f25b0400000000026552f92db70500000000075253516a656a53c4a908010000000000b5192901000000000652525251516aa148ca38';
+  const txid =
+    'fbc40e8ef481fa11e5ffd2477a28297bcceab8bed0d28405774e372b4ffead67';
+  t.deepEqual(getTransactionHash(sha256, hexToBin(tx)), txid);
+  t.deepEqual(getTransactionHashBE(sha256, hexToBin(tx)), hexToBin(txid));
+  t.deepEqual(
+    getTransactionHashLE(sha256, hexToBin(tx)),
+    hexToBin(txid).reverse()
   );
 });

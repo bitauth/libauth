@@ -52,7 +52,7 @@ const vmPromise = instantiateVirtualMachineBCH(instructionSetBCHCurrentStrict);
  */
 export const expectCompilationResult: Macro<[
   string,
-  CompilationData<CompilerOperationDataCommon>,
+  CompilationData,
   BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   CompilationEnvironment['variables']?,
   Partial<CompilationEnvironment<CompilerOperationDataCommon>>?

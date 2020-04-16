@@ -2,7 +2,7 @@ import {
   serializeOutpoints,
   serializeOutput,
   serializeOutputsForSigning,
-  serializeSequenceNumbers,
+  serializeSequenceNumbersForSigning,
 } from '../../../transaction/transaction-serialization';
 import {
   AlternateStackState,
@@ -234,7 +234,7 @@ export const createAuthenticationProgramExternalStateCommon = (
   transactionOutputs: serializeOutputsForSigning(
     program.spendingTransaction.outputs
   ),
-  transactionSequenceNumbers: serializeSequenceNumbers(
+  transactionSequenceNumbers: serializeSequenceNumbersForSigning(
     program.spendingTransaction.inputs
   ),
   version: program.spendingTransaction.version,

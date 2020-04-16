@@ -1,7 +1,14 @@
 /* eslint-disable functional/no-expression-statement */
 import test from 'ava';
 
-import { createCompilerCommonSynchronous, hexToBin } from '../lib';
+import {
+  authenticationTemplateP2pkh,
+  authenticationTemplateP2pkhHd,
+  authenticationTemplateToCompilationEnvironment,
+  createCompilerCommonSynchronous,
+  hexToBin,
+  stringify,
+} from '../lib';
 
 test('createCompilerCommonSynchronous', (t) => {
   const compiler = createCompilerCommonSynchronous({
@@ -25,4 +32,58 @@ test('createCompilerCommonSynchronous', (t) => {
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
     success: true,
   });
+});
+
+test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pkh', (t) => {
+  const environment = authenticationTemplateToCompilationEnvironment(
+    authenticationTemplateP2pkh
+  );
+  t.deepEqual(
+    environment,
+    {
+      entityOwnership: {
+        owner: 'owner',
+      },
+      scripts: {
+        lock:
+          'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
+        unlock: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+      },
+      variables: {
+        owner: {
+          description: 'The private key which controls this wallet.',
+          name: 'Key',
+          type: 'Key',
+        },
+      },
+    },
+    stringify(environment)
+  );
+});
+
+test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pkhHd', (t) => {
+  const environment = authenticationTemplateToCompilationEnvironment(
+    authenticationTemplateP2pkhHd
+  );
+  t.deepEqual(
+    environment,
+    {
+      entityOwnership: {
+        owner: 'owner',
+      },
+      scripts: {
+        lock:
+          'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
+        unlock: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+      },
+      variables: {
+        owner: {
+          description: 'The private key which controls this wallet.',
+          name: 'Key',
+          type: 'HdKey',
+        },
+      },
+    },
+    stringify(environment)
+  );
 });

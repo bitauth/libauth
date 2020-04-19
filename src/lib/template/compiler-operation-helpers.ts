@@ -6,10 +6,10 @@ import {
   CompilationData,
   CompilationEnvironment,
   CompilerOperation,
-  CompilerOperationDataCommon,
   CompilerOperationErrorFatal,
   CompilerOperationResult,
   CompilerOperationSkip,
+  TransactionContextCommon,
 } from './compiler-types';
 import { resolveScriptIdentifier } from './language/resolve';
 import { HdKey } from './template-types';
@@ -24,11 +24,11 @@ import { HdKey } from './template-types';
  * @param finalOperation - a final, un-skippable operation
  */
 export const attemptCompilerOperations = <
-  OperationData = CompilerOperationDataCommon
+  TransactionContext = TransactionContextCommon
 >(
-  operations: CompilerOperation<OperationData, true>[],
-  finalOperation: CompilerOperation<OperationData>
-): CompilerOperation<OperationData> => (identifier, data, environment) => {
+  operations: CompilerOperation<TransactionContext, true>[],
+  finalOperation: CompilerOperation<TransactionContext>
+): CompilerOperation<TransactionContext> => (identifier, data, environment) => {
   // eslint-disable-next-line functional/no-loop-statement
   for (const operation of operations) {
     const result = operation(identifier, data, environment);
@@ -57,7 +57,7 @@ export const compilerOperationRequires = <
   CanBeSkipped extends boolean,
   RequiredDataProperties extends keyof CompilationData<{}>,
   RequiredEnvironmentProperties extends keyof CompilationEnvironment,
-  OperationData = CompilerOperationDataCommon
+  TransactionContext = TransactionContextCommon
 >({
   canBeSkipped,
   dataProperties,
@@ -70,16 +70,19 @@ export const compilerOperationRequires = <
   operation: (
     identifier: string,
     data: Required<
-      Pick<CompilationData<OperationData>, RequiredDataProperties>
+      Pick<CompilationData<TransactionContext>, RequiredDataProperties>
     > &
-      CompilationData<OperationData>,
+      CompilationData<TransactionContext>,
     environment: Required<
-      Pick<CompilationEnvironment<OperationData>, RequiredEnvironmentProperties>
+      Pick<
+        CompilationEnvironment<TransactionContext>,
+        RequiredEnvironmentProperties
+      >
     > &
-      CompilationEnvironment<OperationData>
+      CompilationEnvironment<TransactionContext>
   ) => CompilerOperationResult<CanBeSkipped>;
   // eslint-disable-next-line complexity
-}): CompilerOperation<OperationData, CanBeSkipped> => (
+}): CompilerOperation<TransactionContext, CanBeSkipped> => (
   identifier,
   data,
   environment
@@ -112,12 +115,15 @@ export const compilerOperationRequires = <
   return operation(
     identifier,
     data as Required<
-      Pick<CompilationData<OperationData>, RequiredDataProperties>
+      Pick<CompilationData<TransactionContext>, RequiredDataProperties>
     >,
     environment as Required<
-      Pick<CompilationEnvironment<OperationData>, RequiredEnvironmentProperties>
+      Pick<
+        CompilationEnvironment<TransactionContext>,
+        RequiredEnvironmentProperties
+      >
     > &
-      CompilationEnvironment<OperationData>
+      CompilationEnvironment<TransactionContext>
   );
 };
 
@@ -268,14 +274,14 @@ export const compilerOperationHelperDeriveHdKeyPrivate = ({
  * If the compilation was successful, returns the compiled bytecode as a
  * `Uint8Array`.
  */
-export const compilerOperationHelperCompileScript = <CompilerOperationData>({
+export const compilerOperationHelperCompileScript = <TransactionContext>({
   targetScriptId,
   data,
   environment,
 }: {
   targetScriptId: string;
-  data: CompilationData<CompilerOperationData>;
-  environment: AnyCompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
+  environment: AnyCompilationEnvironment<TransactionContext>;
 }) => {
   const signingTarget = environment.scripts[targetScriptId] as
     | string
@@ -303,7 +309,7 @@ export const compilerOperationHelperCompileScript = <CompilerOperationData>({
  * `CompilerOperationErrorFatal`.
  */
 export const compilerOperationHelperGenerateCoveredBytecode = <
-  CompilerOperationData
+  TransactionContext
 >({
   data,
   environment,
@@ -311,8 +317,8 @@ export const compilerOperationHelperGenerateCoveredBytecode = <
   sourceScriptIds,
   unlockingScripts,
 }: {
-  data: CompilationData<CompilerOperationData>;
-  environment: AnyCompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
+  environment: AnyCompilationEnvironment<TransactionContext>;
   identifier: string;
   sourceScriptIds: string[];
   unlockingScripts: {

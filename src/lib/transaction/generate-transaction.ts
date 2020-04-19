@@ -1,7 +1,7 @@
 import {
   CompilationData,
   Compiler,
-  CompilerOperationDataCommon,
+  TransactionContextCommon,
 } from '../template/compiler-types';
 import {
   CompilationError,
@@ -61,7 +61,7 @@ const returnFailedCompilationDirective = <
 };
 
 export const compileOutputTemplate = <
-  CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
+  CompilerType extends Compiler<TransactionContextCommon, unknown, unknown>
 >({
   outputTemplate,
   index,
@@ -91,7 +91,7 @@ export const compileOutputTemplate = <
 };
 
 export const compileInputTemplate = <
-  CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
+  CompilerType extends Compiler<TransactionContextCommon, unknown, unknown>
 >({
   inputTemplate,
   index,
@@ -113,7 +113,7 @@ export const compileInputTemplate = <
       directive.script,
       {
         ...directive.data,
-        operationData: {
+        transactionContext: {
           correspondingOutput: serializeOutput(outputs[index]),
           locktime: template.locktime,
           outpointIndex: inputTemplate.outpointIndex,
@@ -151,7 +151,7 @@ export const compileInputTemplate = <
  *
  * Returns either a `Transaction` or an array of compilation errors.
  *
- * For each `CompilationDirective`, the `operationData` property will be
+ * For each `CompilationDirective`, the `transactionContext` property will be
  * automatically provided to the compiler. All other necessary `CompilationData`
  * properties must be specified in the `TransactionTemplate`.
  *
@@ -159,7 +159,7 @@ export const compileInputTemplate = <
  * `Transaction`
  */
 export const generateTransaction = <
-  CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
+  CompilerType extends Compiler<TransactionContextCommon, unknown, unknown>
 >(
   template: Readonly<TransactionTemplateFixed<CompilerType>>
 ): TransactionGenerationAttempt => {
@@ -332,14 +332,14 @@ export const extractMissingVariables = (
  * The first compilation must use only trusted compilation data
  */
 export const safelyExtendCompilationData = <
-  CompilerOperationData = CompilerOperationDataCommon
+  TransactionContext = TransactionContextCommon
 >(
   transactionGenerationError: TransactionGenerationError,
-  trustedCompilationData: CompilationData<CompilerOperationData>,
+  trustedCompilationData: CompilationData<TransactionContext>,
   untrustedResolutions: {
     [providedByEntityId: string]: ReturnType<typeof extractResolvedVariables>;
   }
-): false | CompilationData<CompilerOperationData> => {
+): false | CompilationData<TransactionContext> => {
   const missing = extractMissingVariables(transactionGenerationError);
   if (missing === false) return false;
   const selectedResolutions = Object.entries(missing).reduce<{

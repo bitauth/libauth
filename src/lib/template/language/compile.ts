@@ -46,15 +46,15 @@ export const describeExpectedInput = (expectedArray: string[]) => {
  */
 export const compileScriptContents = <
   ProgramState = StackState & MinimumProgramState,
-  CompilerOperationData = {}
+  TransactionContext = {}
 >({
   data,
   environment,
   script,
 }: {
   script: string;
-  data: CompilationData<CompilerOperationData>;
-  environment: CompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
+  environment: CompilationEnvironment<TransactionContext>;
 }): CompilationResult<ProgramState> => {
   const parseResult = parseScript(script);
   if (!parseResult.status) {
@@ -114,14 +114,14 @@ const emptyRange = () => ({
  */
 export const compileScriptRaw = <
   ProgramState = StackState & MinimumProgramState,
-  CompilerOperationData = {}
+  TransactionContext = {}
 >({
   data,
   environment,
   scriptId,
 }: {
-  data: CompilationData<CompilerOperationData>;
-  environment: CompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
+  environment: CompilationEnvironment<TransactionContext>;
   scriptId: string;
 }): CompilationResult<ProgramState> => {
   const script = environment.scripts[scriptId] as string | undefined;
@@ -157,7 +157,7 @@ export const compileScriptRaw = <
       ? [scriptId]
       : [...environment.sourceScriptIds, scriptId];
 
-  return compileScriptContents<ProgramState, CompilerOperationData>({
+  return compileScriptContents<ProgramState, TransactionContext>({
     data,
     environment: { ...environment, sourceScriptIds },
     script,
@@ -211,23 +211,23 @@ export const compileScriptP2shUnlocking = ({
 // eslint-disable-next-line complexity
 export const compileScript = <
   ProgramState = StackState & MinimumProgramState,
-  CompilerOperationData extends { locktime: number } = { locktime: number }
+  TransactionContext extends { locktime: number } = { locktime: number }
 >(
   scriptId: string,
-  data: CompilationData<CompilerOperationData>,
-  environment: CompilationEnvironment<CompilerOperationData>
+  data: CompilationData<TransactionContext>,
+  environment: CompilationEnvironment<TransactionContext>
 ): CompilationResult<ProgramState> => {
   const lockTimeTypeBecomesTimestamp = 500000000;
-  if (data.operationData?.locktime !== undefined) {
+  if (data.transactionContext?.locktime !== undefined) {
     if (
       environment.unlockingScriptTimeLockTypes?.[scriptId] === 'height' &&
-      data.operationData.locktime >= lockTimeTypeBecomesTimestamp
+      data.transactionContext.locktime >= lockTimeTypeBecomesTimestamp
     ) {
       return {
         errorType: 'parse',
         errors: [
           {
-            error: `The script "${scriptId}" requires a height-based locktime (less than 500,000,000), but this transaction uses a timestamp-based locktime ("${data.operationData.locktime}").`,
+            error: `The script "${scriptId}" requires a height-based locktime (less than 500,000,000), but this transaction uses a timestamp-based locktime ("${data.transactionContext.locktime}").`,
             range: emptyRange(),
           },
         ],
@@ -236,13 +236,13 @@ export const compileScript = <
     }
     if (
       environment.unlockingScriptTimeLockTypes?.[scriptId] === 'timestamp' &&
-      data.operationData.locktime < lockTimeTypeBecomesTimestamp
+      data.transactionContext.locktime < lockTimeTypeBecomesTimestamp
     ) {
       return {
         errorType: 'parse',
         errors: [
           {
-            error: `The script "${scriptId}" requires a timestamp-based locktime (greater than or equal to 500,000,000), but this transaction uses a height-based locktime ("${data.operationData.locktime}").`,
+            error: `The script "${scriptId}" requires a timestamp-based locktime (greater than or equal to 500,000,000), but this transaction uses a height-based locktime ("${data.transactionContext.locktime}").`,
             range: emptyRange(),
           },
         ],
@@ -251,7 +251,7 @@ export const compileScript = <
     }
   }
 
-  const rawResult = compileScriptRaw<ProgramState, CompilerOperationData>({
+  const rawResult = compileScriptRaw<ProgramState, TransactionContext>({
     data,
     environment,
     scriptId,
@@ -289,7 +289,7 @@ export const compileScript = <
   if (isP2shUnlockingScript) {
     const lockingBytecodeResult = compileScriptRaw<
       ProgramState,
-      CompilerOperationData
+      TransactionContext
     >({
       data,
       environment,

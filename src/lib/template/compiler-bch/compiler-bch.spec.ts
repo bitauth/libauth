@@ -40,7 +40,7 @@ test('[BCH compiler] createCompilerBCH: generateBytecode', async (t) => {
 
   const resultUnlock = compiler.generateBytecode('unlock', {
     keys: { privateKeys: { a: privkey } },
-    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
+    transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
   });
   t.deepEqual(resultUnlock, {
     bytecode: hexToBin(
@@ -606,7 +606,7 @@ test('[BCH compiler] createCompilerBCH: debug', async (t) => {
     'unlock',
     {
       keys: { privateKeys: { a: privkey } },
-      operationData: createAuthenticationProgramExternalStateCommonEmpty(),
+      transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
     },
     true
   );

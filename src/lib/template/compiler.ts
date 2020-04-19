@@ -18,7 +18,7 @@ import {
   CompilationData,
   CompilationEnvironment,
   Compiler,
-  CompilerOperationDataCommon,
+  TransactionContextCommon,
 } from './compiler-types';
 import { compileScript } from './language/compile';
 import { AuthenticationTemplate } from './template-types';
@@ -32,23 +32,23 @@ import { AuthenticationTemplate } from './template-types';
  * compiler
  */
 export const createCompiler = <
-  CompilerOperationData extends { locktime: number },
-  Environment extends AnyCompilationEnvironment<CompilerOperationData>,
+  TransactionContext extends { locktime: number },
+  Environment extends AnyCompilationEnvironment<TransactionContext>,
   ProgramState = StackState & MinimumProgramState
 >(
   compilationEnvironment: Environment
-): Compiler<CompilerOperationData, Environment, ProgramState> => ({
+): Compiler<TransactionContext, Environment, ProgramState> => ({
   environment: compilationEnvironment,
   generateBytecode: (
     scriptId: string,
-    data: CompilationData<CompilerOperationData>,
+    data: CompilationData<TransactionContext>,
     // TODO: TS bug?
     // eslint-disable-next-line @typescript-eslint/no-inferrable-types
     debug: boolean = false
     // TODO: is there a way to avoid this `any`?
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any => {
-    const result = compileScript<ProgramState, CompilerOperationData>(
+    const result = compileScript<ProgramState, TransactionContext>(
       scriptId,
       data,
       compilationEnvironment
@@ -87,15 +87,15 @@ export const compilerCreateStateCommon = (
  * environment – must include the `scripts` property
  */
 export const createCompilerCommonSynchronous = <
-  CompilerOperationData extends CompilerOperationDataCommon,
-  Environment extends AnyCompilationEnvironment<CompilerOperationData>,
+  TransactionContext extends TransactionContextCommon,
+  Environment extends AnyCompilationEnvironment<TransactionContext>,
   ProgramState extends AuthenticationProgramStateCommon<Opcodes, Errors>,
   Opcodes = OpcodesBCH,
   Errors = AuthenticationErrorBCH
 >(
   scriptsAndOverrides: Environment
-): Compiler<CompilerOperationData, Environment, ProgramState> => {
-  return createCompiler<CompilerOperationData, Environment, ProgramState>({
+): Compiler<TransactionContext, Environment, ProgramState> => {
+  return createCompiler<TransactionContext, Environment, ProgramState>({
     ...{
       createState: compilerCreateStateCommon,
       opcodes: generateBytecodeMap(OpcodesBCH),

@@ -5,7 +5,7 @@ import {
   numberToBinUint32LE,
 } from '../../format/format';
 import { createCompilerCommonSynchronous } from '../../template/compiler';
-import { CompilerOperationDataCommon } from '../../template/compiler-types';
+import { TransactionContextCommon } from '../../template/compiler-types';
 import { AuthenticationProgramStateCommon } from '../state';
 
 import { AuthenticationErrorBCH, OpcodesBCH } from './bch/bch';
@@ -340,7 +340,7 @@ export const assembleBytecode = <
     scripts: { asm: disassembledBytecode },
   };
   return createCompilerCommonSynchronous<
-    CompilerOperationDataCommon,
+    TransactionContextCommon,
     typeof environment,
     AuthenticationProgramStateCommon<Opcodes, Errors>,
     Opcodes,

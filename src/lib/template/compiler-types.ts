@@ -44,8 +44,8 @@ export type CompilerOperationResult<
 /**
  * Returns the bytecode result on success or an error message on failure.
  *
- * @typeParam OperationData - the type of the `CompilerOperationData` in
- * `CompilationData<CompilerOperationData>` expected by this operation
+ * @typeParam TransactionContext - the type of the `TransactionContext` in
+ * `CompilationData<TransactionContext>` expected by this operation
  * @typeParam CanBeSkipped - if true, this operation may return `false` to
  * indicate that it cannot be applied and should be skipped
  * @typeParam Data - the type of the `CompilationData` expected by this
@@ -58,12 +58,14 @@ export type CompilerOperationResult<
  * @param environment - The `CompilationEnvironment` provided to the compiler
  */
 export type CompilerOperation<
-  OperationData = {},
+  TransactionContext = {},
   CanBeSkipped extends boolean = false,
-  Data extends CompilationData<OperationData> = CompilationData<OperationData>,
+  Data extends CompilationData<TransactionContext> = CompilationData<
+    TransactionContext
+  >,
   Environment extends AnyCompilationEnvironment<
-    OperationData
-  > = CompilationEnvironment<OperationData>
+    TransactionContext
+  > = CompilationEnvironment<TransactionContext>
 > = (
   identifier: string,
   data: Data,
@@ -72,7 +74,7 @@ export type CompilerOperation<
 
 export type CompilerOperationsKeysCommon = 'public_key' | 'signature';
 
-export interface CompilerOperationDataCommon {
+export interface TransactionContextCommon {
   correspondingOutput?: Uint8Array;
   locktime: number;
   outpointIndex: number;
@@ -147,7 +149,7 @@ export type CompilerOperationsSigningSerializationCommon =
  * required. If the script requires evaluations during compilation, the
  * evaluating `AuthenticationVirtualMachine` must also be included.
  *
- * @typeParam CompilerOperationData - additional data available to compiler
+ * @typeParam TransactionContext - additional data available to compiler
  * operations, e.g. transaction signing serialization components
  * @typeParam CompilerKeyOperations - a list of valid compiler operations for
  * `Key` and `HdKey` variables, e.g. `'public_key' | 'signature'`, or `false` if
@@ -170,7 +172,7 @@ export type CompilerOperationsSigningSerializationCommon =
  * compiler operation is used for all instances (default: `false`)
  */
 export interface CompilationEnvironment<
-  CompilerOperationData = {},
+  TransactionContext = {},
   CompilerKeyOperations extends string | false = CompilerOperationsKeysCommon,
   CompilerSigningSerializationOperations extends
     | string
@@ -247,52 +249,52 @@ export interface CompilationEnvironment<
     hdKey?: CompilerKeyOperations extends string
       ? {
           [operationId in CompilerKeyOperations]?: CompilerOperation<
-            CompilerOperationData
+            TransactionContext
           >;
         }
-      : CompilerOperation<CompilerOperationData>;
+      : CompilerOperation<TransactionContext>;
     key?: CompilerKeyOperations extends string
       ? {
           [operationId in CompilerKeyOperations]?: CompilerOperation<
-            CompilerOperationData
+            TransactionContext
           >;
         }
-      : CompilerOperation<CompilerOperationData>;
+      : CompilerOperation<TransactionContext>;
     addressData?: CompilerAddressDataOperations extends string
       ? {
           [operationId in CompilerAddressDataOperations]?: CompilerOperation<
-            CompilerOperationData
+            TransactionContext
           >;
         }
-      : CompilerOperation<CompilerOperationData>;
+      : CompilerOperation<TransactionContext>;
     walletData?: CompilerWalletDataOperations extends string
       ? {
           [operationId in CompilerWalletDataOperations]?: CompilerOperation<
-            CompilerOperationData
+            TransactionContext
           >;
         }
-      : CompilerOperation<CompilerOperationData>;
+      : CompilerOperation<TransactionContext>;
     currentBlockHeight?: CompilerCurrentBlockHeightOperations extends string
       ? {
           [operationId in CompilerCurrentBlockHeightOperations]?: CompilerOperation<
-            CompilerOperationData
+            TransactionContext
           >;
         }
-      : CompilerOperation<CompilerOperationData>;
+      : CompilerOperation<TransactionContext>;
     currentBlockTime?: CompilerCurrentBlockTimeOperations extends string
       ? {
           [operationId in CompilerCurrentBlockTimeOperations]?: CompilerOperation<
-            CompilerOperationData
+            TransactionContext
           >;
         }
-      : CompilerOperation<CompilerOperationData>;
+      : CompilerOperation<TransactionContext>;
     signingSerialization?: CompilerSigningSerializationOperations extends string
       ? {
           [operationId in CompilerSigningSerializationOperations]?: CompilerOperation<
-            CompilerOperationData
+            TransactionContext
           >;
         }
-      : CompilerOperation<CompilerOperationData>;
+      : CompilerOperation<TransactionContext>;
   };
 
   /**
@@ -402,7 +404,7 @@ export interface CompilationEnvironment<
  * Bitauth Template script.
  */
 export interface CompilationData<
-  CompilerOperationData = CompilerOperationDataCommon
+  TransactionContext = TransactionContextCommon
 > {
   /**
    * A map of full identifiers to pre-computed bytecode for this compilation.
@@ -516,16 +518,16 @@ export interface CompilationData<
     };
   };
   /**
-   * The `CompilerOperationData` expected by this particular compiler for any
+   * The `TransactionContext` expected by this particular compiler for any
    * operations used in the compilation.
    */
-  operationData?: CompilerOperationData;
+  transactionContext?: TransactionContext;
 }
 
 export type AnyCompilationEnvironment<
-  CompilerOperationData
+  TransactionContext
 > = CompilationEnvironment<
-  CompilerOperationData,
+  TransactionContext,
   string | false,
   string | false,
   string | false,
@@ -546,7 +548,7 @@ export type BytecodeGenerationResult<ProgramState> =
  * exposes a purely-functional interface and allows for stronger type checking.
  */
 export interface Compiler<
-  CompilerOperationData,
+  TransactionContext,
   CompilationEnvironment,
   ProgramState
 > {
@@ -554,13 +556,13 @@ export interface Compiler<
   // eslint-disable-next-line functional/no-method-signature,  functional/no-mixed-type
   generateBytecode(
     script: string,
-    data: CompilationData<CompilerOperationData>,
+    data: CompilationData<TransactionContext>,
     debug: true
   ): CompilationResult<ProgramState>;
   // eslint-disable-next-line functional/no-method-signature
   generateBytecode(
     script: string,
-    data: CompilationData<CompilerOperationData>,
+    data: CompilationData<TransactionContext>,
     debug?: false
   ): BytecodeGenerationResult<ProgramState>;
 }

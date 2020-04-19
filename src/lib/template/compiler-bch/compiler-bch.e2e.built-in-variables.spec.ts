@@ -6,7 +6,6 @@ import {
   BytecodeGenerationResult,
   CompilationEnvironmentBCH,
   compilerCreateStateCommon,
-  CompilerOperationDataBCH,
   compilerOperationsBCH,
   createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
@@ -16,6 +15,7 @@ import {
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
   OpcodesBCH,
+  TransactionContextBCH,
 } from '../../lib';
 
 import {
@@ -112,13 +112,13 @@ test(
   '[BCH compiler] built-in variables – signing_serialization.full_all_outputs - error',
   expectCompilationResult,
   '<signing_serialization.full_all_outputs>',
-  { operationData: undefined },
+  { transactionContext: undefined },
   {
     errorType: 'resolve',
     errors: [
       {
         error:
-          'Cannot resolve "signing_serialization.full_all_outputs" – the "operationData" property was not provided in the compilation data.',
+          'Cannot resolve "signing_serialization.full_all_outputs" – the "transactionContext" property was not provided in the compilation data.',
         range: {
           endColumn: 40,
           endLineNumber: 1,
@@ -135,7 +135,7 @@ test(
   '[BCH compiler] built-in variables – signing_serialization - no component or algorithm',
   expectCompilationResult,
   '<signing_serialization>',
-  { operationData: undefined },
+  { transactionContext: undefined },
   {
     errorType: 'resolve',
     errors: [
@@ -208,7 +208,7 @@ test(
   '[BCH compiler] built-in variables – signing_serialization - error',
   expectCompilationResult,
   '<signing_serialization>',
-  { operationData: undefined },
+  { transactionContext: undefined },
   {
     errorType: 'resolve',
     errors: [
@@ -543,7 +543,7 @@ test('[BCH compiler] signing_serialization.corresponding_output and signing_seri
   const sha256 = await sha256Promise;
   const vm = await vmPromise;
   const compiler = createCompiler<
-    CompilerOperationDataBCH,
+    TransactionContextBCH,
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
@@ -569,7 +569,7 @@ test('[BCH compiler] signing_serialization.corresponding_output and signing_seri
 
   const data = {
     keys: { privateKeys: { a: privkey } },
-    operationData: {
+    transactionContext: {
       ...createAuthenticationProgramExternalStateCommonEmpty(),
       coveredBytecode: Uint8Array.of(),
       ...{

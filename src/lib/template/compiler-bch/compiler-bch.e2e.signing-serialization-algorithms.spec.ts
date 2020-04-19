@@ -6,7 +6,6 @@ import {
   BytecodeGenerationResult,
   CompilationEnvironmentBCH,
   compilerCreateStateCommon,
-  CompilerOperationDataBCH,
   compilerOperationsBCH,
   createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
@@ -20,6 +19,7 @@ import {
   instructionSetBCHCurrentStrict,
   OpcodesBCH,
   stringify,
+  TransactionContextBCH,
 } from '../../lib';
 
 import { hdPrivateKey, privkey } from './compiler-bch.e2e.spec.helper';
@@ -45,7 +45,7 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
   const vm = await vmPromise;
 
   const compiler = createCompiler<
-    CompilerOperationDataBCH,
+    TransactionContextBCH,
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
@@ -85,7 +85,7 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
 
   const resultUnlock = compiler.generateBytecode('unlock', {
     keys: { privateKeys: { a: privkey } },
-    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
+    transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
   });
   t.deepEqual(
     resultUnlock,
@@ -99,7 +99,7 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
   );
   const resultUnlockHd = compiler.generateBytecode('unlockHd', {
     hdKeys: { addressIndex: 0, hdPrivateKeys: { entity: hdPrivateKey } },
-    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
+    transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
   });
   t.deepEqual(
     resultUnlockHd,
@@ -202,7 +202,7 @@ test('[BCH compiler] signing serialization algorithms – no signing serializati
   const secp256k1 = await secp256k1Promise;
   const vm = await vmPromise;
   const compiler = createCompiler<
-    CompilerOperationDataBCH,
+    TransactionContextBCH,
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
@@ -229,14 +229,14 @@ test('[BCH compiler] signing serialization algorithms – no signing serializati
 
   const resultUnlock = compiler.generateBytecode('unlock', {
     keys: { privateKeys: { a: privkey } },
-    operationData: undefined,
+    transactionContext: undefined,
   });
   t.deepEqual(resultUnlock, {
     errorType: 'resolve',
     errors: [
       {
         error:
-          'Cannot resolve "a.schnorr_signature.all_outputs" – the "operationData" property was not provided in the compilation data.',
+          'Cannot resolve "a.schnorr_signature.all_outputs" – the "transactionContext" property was not provided in the compilation data.',
         range: {
           endColumn: 33,
           endLineNumber: 1,

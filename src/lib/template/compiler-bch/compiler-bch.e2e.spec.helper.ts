@@ -8,8 +8,6 @@ import {
   CompilationEnvironment,
   CompilationEnvironmentBCH,
   compilerCreateStateCommon,
-  CompilerOperationDataBCH,
-  CompilerOperationDataCommon,
   compilerOperationsBCH,
   createAuthenticationProgramExternalStateCommonEmpty,
   createCompiler,
@@ -22,6 +20,8 @@ import {
   instructionSetBCHCurrentStrict,
   OpcodesBCH,
   stringify,
+  TransactionContextBCH,
+  TransactionContextCommon,
 } from '../../lib';
 
 /**
@@ -55,7 +55,7 @@ export const expectCompilationResult: Macro<[
   CompilationData,
   BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   CompilationEnvironment['variables']?,
-  Partial<CompilationEnvironment<CompilerOperationDataCommon>>?
+  Partial<CompilationEnvironment<TransactionContextCommon>>?
 ]> = async (
   t,
   testScript,
@@ -72,7 +72,7 @@ export const expectCompilationResult: Macro<[
   const vm = await vmPromise;
 
   const compiler = createCompiler<
-    CompilerOperationDataBCH,
+    TransactionContextBCH,
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
@@ -103,7 +103,7 @@ export const expectCompilationResult: Macro<[
   });
 
   const resultUnlock = compiler.generateBytecode('test', {
-    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
+    transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
     ...otherData,
   });
   t.deepEqual(

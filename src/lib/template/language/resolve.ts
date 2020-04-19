@@ -132,8 +132,8 @@ export enum BuiltInVariables {
 }
 
 const attemptCompilerOperation = <
-  CompilerOperationData,
-  Environment extends AnyCompilationEnvironment<CompilerOperationData>
+  TransactionContext,
+  Environment extends AnyCompilationEnvironment<TransactionContext>
 >({
   data,
   environment,
@@ -144,14 +144,14 @@ const attemptCompilerOperation = <
   variableId,
   variableType,
 }: {
-  data: CompilationData<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
   environment: Environment;
   identifier: string;
   matchingOperations:
     | {
-        [x: string]: CompilerOperation<CompilerOperationData> | undefined;
+        [x: string]: CompilerOperation<TransactionContext> | undefined;
       }
-    | CompilerOperation<CompilerOperationData>
+    | CompilerOperation<TransactionContext>
     | undefined;
   operationId: string | undefined;
   variableId: string;
@@ -175,7 +175,7 @@ const attemptCompilerOperation = <
     };
   }
   const operation = (matchingOperations as {
-    [x: string]: CompilerOperation<CompilerOperationData> | undefined;
+    [x: string]: CompilerOperation<TransactionContext> | undefined;
   })[operationId];
   if (operation === undefined) {
     return {
@@ -199,14 +199,14 @@ const attemptCompilerOperation = <
  * @param environment - The `CompilationEnvironment` provided to the compiler
  */
 export const resolveVariableIdentifier = <
-  CompilerOperationData,
-  Environment extends AnyCompilationEnvironment<CompilerOperationData>
+  TransactionContext,
+  Environment extends AnyCompilationEnvironment<TransactionContext>
 >({
   data,
   environment,
   identifier,
 }: {
-  data: CompilationData<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
   environment: Environment;
   identifier: string;
 }): CompilerOperationResult<true> => {
@@ -302,14 +302,14 @@ export const resolveVariableIdentifier = <
  * @param parentIdentifier - the identifier of the script which references the
  * script being resolved (for detecting circular dependencies)
  */
-export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
+export const resolveScriptIdentifier = <TransactionContext, ProgramState>({
   data,
   environment,
   identifier,
 }: {
   identifier: string;
-  data: CompilationData<CompilerOperationData>;
-  environment: CompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
+  environment: CompilationEnvironment<TransactionContext>;
 }): CompilationResultSuccess<ProgramState> | string | false => {
   if ((environment.scripts[identifier] as string | undefined) === undefined) {
     return false;
@@ -341,12 +341,12 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
  * @param data - the actual variable values (private keys, shared wallet data,
  * shared address data, etc.) to use in resolving variables.
  */
-export const createIdentifierResolver = <CompilerOperationData>({
+export const createIdentifierResolver = <TransactionContext>({
   data,
   environment,
 }: {
-  data: CompilationData<CompilerOperationData>;
-  environment: CompilationEnvironment<CompilerOperationData>;
+  data: CompilationData<TransactionContext>;
+  environment: CompilationEnvironment<TransactionContext>;
 }): IdentifierResolutionFunction =>
   // eslint-disable-next-line complexity
   (identifier: string): ReturnType<IdentifierResolutionFunction> => {

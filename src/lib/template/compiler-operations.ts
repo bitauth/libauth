@@ -82,13 +82,13 @@ export const compilerOperationCurrentBlockHeight = compilerOperationRequires({
 export const compilerOperationSigningSerializationCorrespondingOutput = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) =>
-      data.operationData.correspondingOutput === undefined
+      data.transactionContext.correspondingOutput === undefined
         ? { bytecode: Uint8Array.of(), status: 'success' }
         : {
-            bytecode: data.operationData.correspondingOutput,
+            bytecode: data.transactionContext.correspondingOutput,
             status: 'success',
           },
   }
@@ -97,14 +97,16 @@ export const compilerOperationSigningSerializationCorrespondingOutput = compiler
 export const compilerOperationSigningSerializationCorrespondingOutputHash = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: ['sha256'],
     operation: (_, data, environment) =>
-      data.operationData.correspondingOutput === undefined
+      data.transactionContext.correspondingOutput === undefined
         ? { bytecode: Uint8Array.of(), status: 'success' }
         : {
             bytecode: environment.sha256.hash(
-              environment.sha256.hash(data.operationData.correspondingOutput)
+              environment.sha256.hash(
+                data.transactionContext.correspondingOutput
+              )
             ),
             status: 'success',
           },
@@ -116,7 +118,7 @@ const compilerOperationHelperSigningSerializationCoveredBytecode = (
 ) =>
   compilerOperationRequires({
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: ['sourceScriptIds', 'unlockingScripts'],
     operation: (identifier, data, environment) => {
       const { unlockingScripts, sourceScriptIds } = environment;
@@ -151,10 +153,10 @@ export const compilerOperationSigningSerializationCoveredBytecodeLength = compil
 export const compilerOperationSigningSerializationLocktime = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: numberToBinUint32LE(data.operationData.locktime),
+      bytecode: numberToBinUint32LE(data.transactionContext.locktime),
       status: 'success',
     }),
   }
@@ -163,10 +165,10 @@ export const compilerOperationSigningSerializationLocktime = compilerOperationRe
 export const compilerOperationSigningSerializationOutpointIndex = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: numberToBinUint32LE(data.operationData.outpointIndex),
+      bytecode: numberToBinUint32LE(data.transactionContext.outpointIndex),
       status: 'success',
     }),
   }
@@ -175,10 +177,10 @@ export const compilerOperationSigningSerializationOutpointIndex = compilerOperat
 export const compilerOperationSigningSerializationOutpointTransactionHash = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: data.operationData.outpointTransactionHash,
+      bytecode: data.transactionContext.outpointTransactionHash,
       status: 'success',
     }),
   }
@@ -187,10 +189,12 @@ export const compilerOperationSigningSerializationOutpointTransactionHash = comp
 export const compilerOperationSigningSerializationOutputValue = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: bigIntToBinUint64LE(BigInt(data.operationData.outputValue)),
+      bytecode: bigIntToBinUint64LE(
+        BigInt(data.transactionContext.outputValue)
+      ),
       status: 'success',
     }),
   }
@@ -199,10 +203,10 @@ export const compilerOperationSigningSerializationOutputValue = compilerOperatio
 export const compilerOperationSigningSerializationSequenceNumber = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: numberToBinUint32LE(data.operationData.sequenceNumber),
+      bytecode: numberToBinUint32LE(data.transactionContext.sequenceNumber),
       status: 'success',
     }),
   }
@@ -211,10 +215,10 @@ export const compilerOperationSigningSerializationSequenceNumber = compilerOpera
 export const compilerOperationSigningSerializationTransactionOutpoints = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: data.operationData.transactionOutpoints,
+      bytecode: data.transactionContext.transactionOutpoints,
       status: 'success',
     }),
   }
@@ -223,11 +227,11 @@ export const compilerOperationSigningSerializationTransactionOutpoints = compile
 export const compilerOperationSigningSerializationTransactionOutpointsHash = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: ['sha256'],
     operation: (_, data, environment) => ({
       bytecode: environment.sha256.hash(
-        environment.sha256.hash(data.operationData.transactionOutpoints)
+        environment.sha256.hash(data.transactionContext.transactionOutpoints)
       ),
       status: 'success',
     }),
@@ -237,10 +241,10 @@ export const compilerOperationSigningSerializationTransactionOutpointsHash = com
 export const compilerOperationSigningSerializationTransactionOutputs = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: data.operationData.transactionOutputs,
+      bytecode: data.transactionContext.transactionOutputs,
       status: 'success',
     }),
   }
@@ -249,11 +253,11 @@ export const compilerOperationSigningSerializationTransactionOutputs = compilerO
 export const compilerOperationSigningSerializationTransactionOutputsHash = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: ['sha256'],
     operation: (_, data, environment) => ({
       bytecode: environment.sha256.hash(
-        environment.sha256.hash(data.operationData.transactionOutputs)
+        environment.sha256.hash(data.transactionContext.transactionOutputs)
       ),
       status: 'success',
     }),
@@ -263,10 +267,10 @@ export const compilerOperationSigningSerializationTransactionOutputsHash = compi
 export const compilerOperationSigningSerializationTransactionSequenceNumbers = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: data.operationData.transactionSequenceNumbers,
+      bytecode: data.transactionContext.transactionSequenceNumbers,
       status: 'success',
     }),
   }
@@ -275,11 +279,13 @@ export const compilerOperationSigningSerializationTransactionSequenceNumbers = c
 export const compilerOperationSigningSerializationTransactionSequenceNumbersHash = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: ['sha256'],
     operation: (_, data, environment) => ({
       bytecode: environment.sha256.hash(
-        environment.sha256.hash(data.operationData.transactionSequenceNumbers)
+        environment.sha256.hash(
+          data.transactionContext.transactionSequenceNumbers
+        )
       ),
       status: 'success',
     }),
@@ -289,10 +295,10 @@ export const compilerOperationSigningSerializationTransactionSequenceNumbersHash
 export const compilerOperationSigningSerializationVersion = compilerOperationRequires(
   {
     canBeSkipped: false,
-    dataProperties: ['operationData'],
+    dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: numberToBinUint32LE(data.operationData.version),
+      bytecode: numberToBinUint32LE(data.transactionContext.version),
       status: 'success',
     }),
   }

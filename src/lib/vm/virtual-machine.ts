@@ -11,7 +11,11 @@ import { MinimumProgramState } from './state';
  * will clone the `ProgramState` before providing it to an operation.
  */
 export type Operation<ProgramState> = (state: ProgramState) => ProgramState;
-export type TestState<ProgramState> = (state: ProgramState) => boolean;
+
+/**
+ * Test a program state, returning an error message
+ */
+export type TestState<ProgramState> = (state: ProgramState) => string | true;
 export interface InstructionSetOperationMapping<ProgramState> {
   [opcode: number]: Operation<ProgramState>;
 }
@@ -50,7 +54,8 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
    * usually test for errors or program completion. This method is exposed via
    * the `AuthenticationVirtualMachine`'s `stateContinue` method.
    */
-  continue: TestState<ProgramState>;
+  // eslint-disable-next-line functional/no-mixed-type
+  continue: (state: ProgramState) => boolean;
 
   /**
    * Evaluate a program to completion given the `AuthenticationVirtualMachine`'s
@@ -80,7 +85,6 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
    * If `stateEvaluate` is called multiple times, the intermediate results from
    * the first call will be appear before the results of the second call, etc.
    */
-  // eslint-disable-next-line functional/no-mixed-type
   evaluate: (
     program: AuthenticationProgram,
     stateEvaluate: (state: Readonly<ProgramState>) => ProgramState
@@ -103,13 +107,14 @@ export interface InstructionSet<AuthenticationProgram, ProgramState> {
   undefined: Operation<ProgramState>;
 
   /**
-   * Validate a `ProgramState` which has completed evaluation.
+   * Verify a program state has completed evaluation successfully.
    *
    * @remarks
    * This method should return `true` if the evaluation was successful, or
-   * `false` on failure.
+   * an error message on failure.
    */
-  verify: TestState<ProgramState>;
+  // eslint-disable-next-line functional/no-mixed-type
+  verify: (state: ProgramState) => string | true;
 }
 
 /**
@@ -167,7 +172,7 @@ export interface AuthenticationVirtualMachine<
   stateStepMutate: (state: ProgramState) => ProgramState;
 
   /**
-   * Verify a program state has successfully completed evaluation.
+   * Verify a program state has completed evaluation successfully.
    *
    * @remarks
    * This method verifies a final `ProgramState` as emitted by the `evaluate` or
@@ -176,7 +181,7 @@ export interface AuthenticationVirtualMachine<
    * `stateContinue` method.
    * @param state - the program state to verify
    */
-  verify: (state: ProgramState) => boolean;
+  verify: (state: ProgramState) => true | string;
 }
 
 /**

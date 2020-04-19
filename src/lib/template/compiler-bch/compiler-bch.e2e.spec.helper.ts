@@ -78,7 +78,9 @@ export const expectCompilationResult: Macro<[
   >({
     createState: compilerCreateStateCommon,
     entityOwnership: {
+      one: 'ownerEntityOne',
       owner: 'ownerEntityId',
+      two: 'ownerEntityTwo',
     },
     opcodes: generateBytecodeMap(OpcodesBCH),
     operations: compilerOperationsBCH,
@@ -86,21 +88,22 @@ export const expectCompilationResult: Macro<[
     scripts: {
       another: '0xabcdef',
       broken: 'does_not_exist',
+      lock: '',
       test: testScript,
     },
     secp256k1,
     sha256,
     sha512,
+    unlockingScripts: {
+      test: 'lock',
+    },
     variables,
     vm,
     ...overwrites,
   });
 
   const resultUnlock = compiler.generateBytecode('test', {
-    operationData: {
-      ...createAuthenticationProgramExternalStateCommonEmpty(),
-      coveredBytecode: Uint8Array.of(),
-    },
+    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
     ...otherData,
   });
   t.deepEqual(

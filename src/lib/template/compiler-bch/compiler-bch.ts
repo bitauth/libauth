@@ -26,9 +26,10 @@ import {
 } from '../compiler';
 import {
   attemptCompilerOperations,
-  compilerOperationHdKeyPrecomputedSignature,
+  compilerOperationAttemptBytecodeResolution,
+  compilerOperationHelperCompileScript,
   compilerOperationHelperDeriveHdKeyPrivate,
-  compilerOperationKeyPrecomputedSignature,
+  compilerOperationHelperGenerateCoveredBytecode,
   compilerOperationRequires,
 } from '../compiler-operation-helpers';
 import { compilerOperationsCommon } from '../compiler-operations';
@@ -39,7 +40,6 @@ import {
   CompilerOperationDataCommon,
   CompilerOperationResult,
 } from '../compiler-types';
-import { resolveScriptIdentifier } from '../language/resolve';
 import { AuthenticationTemplate } from '../template-types';
 
 export type CompilerOperationsKeyBCH =
@@ -127,6 +127,7 @@ const getSigningSerializationType = (
 };
 
 export const compilerOperationHelperComputeSignatureBCH = ({
+  coveredBytecode,
   identifier,
   operationData,
   operationName,
@@ -134,6 +135,7 @@ export const compilerOperationHelperComputeSignatureBCH = ({
   sha256,
   sign,
 }: {
+  coveredBytecode: Uint8Array;
   identifier: string;
   privateKey: Uint8Array;
   operationData: CompilerOperationDataCommon;
@@ -164,9 +166,11 @@ export const compilerOperationHelperComputeSignatureBCH = ({
     };
   }
 
+  //
+
   const serialization = generateSigningSerializationBCH({
     correspondingOutput: operationData.correspondingOutput,
-    coveredBytecode: operationData.coveredBytecode,
+    coveredBytecode,
     locktime: operationData.locktime,
     outpointIndex: operationData.outpointIndex,
     outpointTransactionHash: operationData.outpointTransactionHash,
@@ -195,7 +199,7 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
   secp256k1Method: keyof NonNullable<CompilationEnvironment['secp256k1']>;
 }) =>
   attemptCompilerOperations(
-    [compilerOperationHdKeyPrecomputedSignature],
+    [compilerOperationAttemptBytecodeResolution],
     compilerOperationRequires({
       canBeSkipped: false,
       dataProperties: ['hdKeys', 'operationData'],
@@ -206,10 +210,17 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
         'sha256',
         'sha512',
         'variables',
+        'sourceScriptIds',
+        'unlockingScripts',
       ],
       operation: (identifier, data, environment): CompilerOperationResult => {
         const { hdKeys, operationData } = data;
-        const { secp256k1, sha256 } = environment;
+        const {
+          secp256k1,
+          sha256,
+          sourceScriptIds,
+          unlockingScripts,
+        } = environment;
 
         const derivationResult = compilerOperationHelperDeriveHdKeyPrivate({
           environment,
@@ -218,7 +229,20 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
         });
         if (derivationResult.status === 'error') return derivationResult;
 
+        const result = compilerOperationHelperGenerateCoveredBytecode({
+          data,
+          environment,
+          identifier,
+          sourceScriptIds,
+          unlockingScripts,
+        });
+
+        if ('error' in result) {
+          return result;
+        }
+
         return compilerOperationHelperComputeSignatureBCH({
+          coveredBytecode: result,
           identifier,
           operationData,
           operationName,
@@ -251,14 +275,24 @@ export const compilerOperationHelperKeySignatureBCH = ({
   secp256k1Method: keyof NonNullable<CompilationEnvironment['secp256k1']>;
 }) =>
   attemptCompilerOperations(
-    [compilerOperationKeyPrecomputedSignature],
+    [compilerOperationAttemptBytecodeResolution],
     compilerOperationRequires({
       canBeSkipped: false,
       dataProperties: ['keys', 'operationData'],
-      environmentProperties: ['sha256', 'secp256k1'],
+      environmentProperties: [
+        'sha256',
+        'secp256k1',
+        'unlockingScripts',
+        'sourceScriptIds',
+      ],
       operation: (identifier, data, environment): CompilerOperationResult => {
         const { keys, operationData } = data;
-        const { secp256k1, sha256 } = environment;
+        const {
+          secp256k1,
+          sha256,
+          unlockingScripts,
+          sourceScriptIds,
+        } = environment;
         const { privateKeys } = keys;
         const [variableId] = identifier.split('.');
 
@@ -273,7 +307,20 @@ export const compilerOperationHelperKeySignatureBCH = ({
           };
         }
 
+        const result = compilerOperationHelperGenerateCoveredBytecode({
+          data,
+          environment,
+          identifier,
+          sourceScriptIds,
+          unlockingScripts,
+        });
+
+        if ('error' in result) {
+          return result;
+        }
+
         return compilerOperationHelperComputeSignatureBCH({
+          coveredBytecode: result,
           identifier,
           operationData,
           operationName,
@@ -298,9 +345,7 @@ export const compilerOperationKeySchnorrSignatureBCH = compilerOperationHelperKe
   }
 );
 
-// eslint-disable-next-line complexity
 export const compilerOperationHelperComputeDataSignatureBCH = <
-  ProgramState,
   Data extends CompilationData,
   Environment extends AnyCompilationEnvironment<CompilerOperationDataCommon>
 >({
@@ -341,31 +386,28 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
     };
   }
 
-  const signingTarget = environment.scripts[scriptId] as string | undefined;
-
-  const compiledTarget = resolveScriptIdentifier<
-    CompilerOperationDataCommon,
-    ProgramState
-  >({
+  const result = compilerOperationHelperCompileScript({
     data,
     environment,
-    identifier: scriptId,
+    targetScriptId: scriptId,
   });
-  if (signingTarget === undefined || compiledTarget === false) {
+
+  if (result === false) {
     return {
       error: `Data signature tried to sign an unknown target script, "${scriptId}".`,
       status: 'error',
     };
   }
-  if (typeof compiledTarget === 'string') {
-    return { error: compiledTarget, status: 'error' };
+
+  if ('error' in result) {
+    return result;
   }
 
-  const digest = sha256.hash(compiledTarget.bytecode);
+  const digest = sha256.hash(result);
   return { bytecode: sign(privateKey, digest), status: 'success' };
 };
 
-export const compilerOperationHelperKeyDataSignatureBCH = <ProgramState>({
+export const compilerOperationHelperKeyDataSignatureBCH = ({
   operationName,
   secp256k1Method,
 }: {
@@ -373,7 +415,7 @@ export const compilerOperationHelperKeyDataSignatureBCH = <ProgramState>({
   secp256k1Method: keyof NonNullable<CompilationEnvironment['secp256k1']>;
 }) =>
   attemptCompilerOperations(
-    [compilerOperationKeyPrecomputedSignature],
+    [compilerOperationAttemptBytecodeResolution],
     compilerOperationRequires({
       canBeSkipped: false,
       dataProperties: ['keys'],
@@ -396,7 +438,6 @@ export const compilerOperationHelperKeyDataSignatureBCH = <ProgramState>({
         }
 
         return compilerOperationHelperComputeDataSignatureBCH<
-          ProgramState,
           typeof data,
           typeof environment
         >({
@@ -425,7 +466,7 @@ export const compilerOperationKeySchnorrDataSignatureBCH = compilerOperationHelp
   }
 );
 
-export const compilerOperationHelperHdKeyDataSignatureBCH = <ProgramState>({
+export const compilerOperationHelperHdKeyDataSignatureBCH = ({
   operationName,
   secp256k1Method,
 }: {
@@ -433,7 +474,7 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = <ProgramState>({
   secp256k1Method: keyof NonNullable<CompilationEnvironment['secp256k1']>;
 }) =>
   attemptCompilerOperations(
-    [compilerOperationHdKeyPrecomputedSignature],
+    [compilerOperationAttemptBytecodeResolution],
     compilerOperationRequires({
       canBeSkipped: false,
       dataProperties: ['hdKeys'],
@@ -457,7 +498,6 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = <ProgramState>({
         if (derivationResult.status === 'error') return derivationResult;
 
         return compilerOperationHelperComputeDataSignatureBCH<
-          ProgramState,
           typeof data,
           typeof environment
         >({
@@ -490,7 +530,7 @@ export const compilerOperationSigningSerializationFullBCH = compilerOperationReq
   {
     canBeSkipped: false,
     dataProperties: ['operationData'],
-    environmentProperties: ['sha256'],
+    environmentProperties: ['sha256', 'sourceScriptIds', 'unlockingScripts'],
     operation: (identifier, data, environment): CompilerOperationResult => {
       const [, algorithmOrComponent, unknownPart] = identifier.split('.');
 
@@ -519,12 +559,24 @@ export const compilerOperationSigningSerializationFullBCH = compilerOperationReq
         };
       }
 
+      const { sha256, sourceScriptIds, unlockingScripts } = environment;
+      const result = compilerOperationHelperGenerateCoveredBytecode({
+        data,
+        environment,
+        identifier,
+        sourceScriptIds,
+        unlockingScripts,
+      });
+
+      if ('error' in result) {
+        return result;
+      }
+
       const { operationData } = data;
-      const { sha256 } = environment;
       return {
         bytecode: generateSigningSerializationBCH({
           correspondingOutput: operationData.correspondingOutput,
-          coveredBytecode: operationData.coveredBytecode,
+          coveredBytecode: result,
           locktime: operationData.locktime,
           outpointIndex: operationData.outpointIndex,
           outpointTransactionHash: operationData.outpointTransactionHash,

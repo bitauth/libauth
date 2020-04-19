@@ -2,6 +2,7 @@ import { decodeHdPrivateKey, deriveHdPath } from '../key/hd-key';
 
 import { CompilerDefaults } from './compiler-defaults';
 import {
+  AnyCompilationEnvironment,
   CompilationData,
   CompilationEnvironment,
   CompilerOperation,
@@ -10,6 +11,7 @@ import {
   CompilerOperationResult,
   CompilerOperationSkip,
 } from './compiler-types';
+import { resolveScriptIdentifier } from './language/resolve';
 import { HdKey } from './template-types';
 
 /**
@@ -119,39 +121,16 @@ export const compilerOperationRequires = <
   );
 };
 
-export const compilerOperationHdKeyPrecomputedSignature = compilerOperationRequires(
+export const compilerOperationAttemptBytecodeResolution = compilerOperationRequires(
   {
     canBeSkipped: true,
-    dataProperties: ['hdKeys'],
+    dataProperties: ['bytecode'],
     environmentProperties: [],
     operation: (identifier, data) => {
-      const { hdKeys } = data;
-      const { signatures } = hdKeys;
-      if (
-        signatures !== undefined &&
-        (signatures[identifier] as Uint8Array | undefined) !== undefined
-      )
-        return { bytecode: signatures[identifier], status: 'success' };
-
-      return { status: 'skip' };
-    },
-  }
-);
-
-export const compilerOperationKeyPrecomputedSignature = compilerOperationRequires(
-  {
-    canBeSkipped: true,
-    dataProperties: ['keys'],
-    environmentProperties: [],
-    operation: (identifier, data) => {
-      const { keys } = data;
-      const { signatures } = keys;
-      if (
-        signatures !== undefined &&
-        (signatures[identifier] as Uint8Array | undefined) !== undefined
-      )
-        return { bytecode: signatures[identifier], status: 'success' };
-
+      const { bytecode } = data;
+      if ((bytecode[identifier] as Uint8Array | undefined) !== undefined) {
+        return { bytecode: bytecode[identifier], status: 'success' };
+      }
       return { status: 'skip' };
     },
   }
@@ -278,4 +257,98 @@ export const compilerOperationHelperDeriveHdKeyPrivate = ({
     hdKey,
     identifier,
   });
+};
+
+/**
+ * Returns `false` if the target script ID doesn't exist in the compilation
+ * environment (allows for the caller to generate the error message).
+ *
+ * If the compilation produced errors, returns a `CompilerOperationErrorFatal`.
+ *
+ * If the compilation was successful, returns the compiled bytecode as a
+ * `Uint8Array`.
+ */
+export const compilerOperationHelperCompileScript = <CompilerOperationData>({
+  targetScriptId,
+  data,
+  environment,
+}: {
+  targetScriptId: string;
+  data: CompilationData<CompilerOperationData>;
+  environment: AnyCompilationEnvironment<CompilerOperationData>;
+}) => {
+  const signingTarget = environment.scripts[targetScriptId] as
+    | string
+    | undefined;
+
+  const compiledTarget = resolveScriptIdentifier({
+    data,
+    environment,
+    identifier: targetScriptId,
+  });
+  if (signingTarget === undefined || compiledTarget === false) {
+    return false;
+  }
+  if (typeof compiledTarget === 'string') {
+    return {
+      error: compiledTarget,
+      status: 'error',
+    } as CompilerOperationErrorFatal;
+  }
+  return compiledTarget.bytecode;
+};
+
+/**
+ * Returns either the properly generated `coveredBytecode` or a
+ * `CompilerOperationErrorFatal`.
+ */
+export const compilerOperationHelperGenerateCoveredBytecode = <
+  CompilerOperationData
+>({
+  data,
+  environment,
+  identifier,
+  sourceScriptIds,
+  unlockingScripts,
+}: {
+  data: CompilationData<CompilerOperationData>;
+  environment: AnyCompilationEnvironment<CompilerOperationData>;
+  identifier: string;
+  sourceScriptIds: string[];
+  unlockingScripts: {
+    [unlockingScriptId: string]: string;
+  };
+}): CompilerOperationErrorFatal | Uint8Array => {
+  const currentScriptId = sourceScriptIds[sourceScriptIds.length - 1] as
+    | string
+    | undefined;
+  if (currentScriptId === undefined) {
+    return {
+      error: `Identifier "${identifier}" requires a signing serialization, but "coveredBytecode" cannot be determined because the compilation environment's "sourceScriptIds" is empty.`,
+      status: 'error',
+    };
+  }
+
+  const targetLockingScriptId = unlockingScripts[currentScriptId];
+  if (targetLockingScriptId === undefined) {
+    return {
+      error: `Identifier "${identifier}" requires a signing serialization, but "coveredBytecode" cannot be determined because "${currentScriptId}" is not present in the compilation environment "unlockingScripts".`,
+      status: 'error',
+    };
+  }
+
+  const result = compilerOperationHelperCompileScript({
+    data,
+    environment,
+    targetScriptId: targetLockingScriptId,
+  });
+
+  if (result === false) {
+    return {
+      error: `Identifier "${identifier}"  requires a signing serialization which covers an unknown locking script, "${targetLockingScriptId}".`,
+      status: 'error',
+    };
+  }
+
+  return result;
 };

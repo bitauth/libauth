@@ -140,10 +140,10 @@ export interface CompilationDirectiveUnlocking<
   CompilationDataType
 > extends CompilationDirectiveLocking<CompilerType, CompilationDataType> {
   /**
-   * The locking bytecode (or a locking compilation directive) which this
-   * unlocking script unlocks.
+   * The `satoshis` value of the `Output` being spent by this input. Required
+   * for use in signing serializations.
    */
-  output: OutputTemplate<CompilerType, false, CompilationDataType>;
+  satoshis: Output['satoshis'];
 }
 
 export interface CompilationDirectiveUnlockingEstimate<
@@ -244,18 +244,116 @@ export type TransactionTemplateEstimated<CompilerType> = TransactionTemplate<
   inputSatoshis: number;
 };
 
-// TODO: document types below (stages begin with outputs, finish with inputs, how indexes are reported)
-
-export interface BytecodeGenerationError {
+/**
+ * An error resulting from unsuccessful bytecode generation. Includes the
+ * generation type (`locking` or `unlocking`), and the output or input index
+ */
+export interface BytecodeGenerationErrorBase {
+  /**
+   * The type of bytecode that was being generated when this error occurred.
+   */
+  type: 'locking' | 'unlocking';
+  /**
+   * The input or output index for which this bytecode was being generated. (To )
+   */
   index: number;
+  /**
+   * The stage of generation at which this error occurred – the `outputs` stage
+   * must complete before the `inputs` can begin.
+   */
+  // stage: 'outputs' | 'inputs';
+  /**
+   * If the error occurred after the `parse` stage, the resolved script is
+   * provided for analysis or processing (e.g. `getResolvedBytecode`).
+   */
   resolved?: ResolvedScript;
+  /**
+   * The compilation errors which occurred while generating this bytecode.
+   */
   errors: CompilationError[];
 }
 
-export type TransactionGenerationResult =
-  | { success: true; transaction: Transaction }
+export interface BytecodeGenerationErrorLocking
+  extends BytecodeGenerationErrorBase {
+  type: 'locking';
+}
+
+export interface BytecodeGenerationErrorUnlocking
+  extends BytecodeGenerationErrorBase {
+  type: 'unlocking';
+}
+
+export interface BytecodeGenerationCompletionBase {
+  /**
+   * If `output`, this bytecode was generated for the output at `index` (a
+   * `lockingBytecode`). If `input`, the bytecode was generated for the input at
+   * `index` (an `unlockingBytecode`).
+   */
+  type: 'output' | 'input';
+  /**
+   * The index of the input or output for which this bytecode was generated.
+   */
+  index: number;
+}
+
+export interface BytecodeGenerationCompletionInput
+  extends BytecodeGenerationCompletionBase {
+  type: 'input';
+  /**
+   * The successfully generated Input.
+   */
+  input: Input;
+}
+
+export interface BytecodeGenerationCompletionOutput
+  extends BytecodeGenerationCompletionBase {
+  type: 'output';
+  /**
+   * The successfully generated Output.
+   */
+  output: Output;
+}
+
+/**
+ * A successfully generated `lockingBytecode` (for an output) or
+ * `unlockingBytecode` (for an input). Because this bytecode generation was
+ * successful, the associated compilation directive in the transaction template
+ * can be replaced with this result for subsequent compilations. For example, if
+ * most inputs were successfully compiled, but some inputs require keys held by
+ * another entity, the transaction template can be updated such that only the
+ * final inputs contain compilation directives.
+ */
+export type BytecodeGenerationCompletion =
+  | BytecodeGenerationCompletionOutput
+  | BytecodeGenerationCompletionInput;
+
+export interface TransactionGenerationSuccess {
+  success: true;
+  transaction: Transaction;
+}
+
+export type TransactionGenerationError =
   | {
       success: false;
-      errors: BytecodeGenerationError[];
-      stage: 'outputs' | 'inputs';
+      completions: BytecodeGenerationCompletionOutput[];
+      errors: BytecodeGenerationErrorLocking[];
+      /**
+       * Error(s) occurred at the `output` stage of compilation, so the `input`
+       * stage never began.
+       */
+      stage: 'outputs';
+    }
+  | {
+      success: false;
+      completions: BytecodeGenerationCompletionInput[];
+      errors: BytecodeGenerationErrorUnlocking[];
+      /**
+       * Error(s) occurred at the `input` stage of compilation, meaning the
+       * `output` stage completed successfully.
+       */
+      stage: 'inputs';
     };
+
+export type TransactionGenerationAttempt =
+  | TransactionGenerationSuccess
+  | TransactionGenerationError;

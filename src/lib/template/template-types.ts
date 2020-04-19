@@ -1,5 +1,3 @@
-import { Input, Output, Transaction } from '../transaction/transaction-types';
-
 /**
  * An `AuthenticationTemplate` (A.K.A. `Bitauth Template`) specifies a set of
  * locking scripts, unlocking scripts, and other information required to use a
@@ -48,7 +46,13 @@ export interface AuthenticationTemplate {
    * A map of scripts used in this authentication template. Object keys are used
    * as script identifiers, and by convention, should use `snake_case`.
    */
-  scripts: { [scriptId: string]: AuthenticationTemplateScript };
+  scripts: {
+    [scriptId: string]:
+      | AuthenticationTemplateScript
+      | AuthenticationTemplateScriptUnlocking
+      | AuthenticationTemplateScriptLocking
+      | AuthenticationTemplateScriptTested;
+  };
 
   /**
    * A list of supported AuthenticationVirtualMachines for this template.
@@ -150,12 +154,14 @@ export interface AuthenticationTemplateScenario {
    * - In each output, the `satoshis` value is provided as a number, and the
    * `lockingBytecode` may be either a `Uint8Array` or a `ScenarioDirective`.
    */
-  transaction?: Partial<
-    Transaction<
-      Input<Uint8Array | ScenarioDirective, string>,
-      Output<Uint8Array | ScenarioDirective>
-    >
-  >;
+  /*
+   * transaction?: Partial<
+   *   Transaction<
+   *     Input<string | ScenarioDirective, string>,
+   *     Output<string | ScenarioDirective>
+   *   >
+   * >;
+   */
   /**
    * A map of variable IDs to scripts defining their values in this scenario.
    * Scripts are encoded in BTL, and have access to all other template scripts
@@ -181,11 +187,17 @@ export interface AuthenticationTemplateScript {
    * The script definition in BTL (Bitauth Templating Language).
    */
   script: string;
+}
+
+export interface AuthenticationTemplateScriptUnlocking
+  extends AuthenticationTemplateScript {
   /**
-   * One or more tests which can be used during development and during template
-   * validation to confirm the correctness of this inline script.
+   * The `id` of the script which can be unlocked by this script.
+   *
+   * The presence of the `unlocks` property indicates that this script is an
+   * unlocking script, and the script it unlocks is a locking script.
    */
-  tests?: AuthenticationTemplateScriptTest[];
+  unlocks?: string;
   /**
    * The expected type of time locks in this script.
    *
@@ -208,13 +220,39 @@ export interface AuthenticationTemplateScript {
    * on absolute time locks.
    */
   timeLockType?: 'timestamp' | 'height';
+}
+
+export interface AuthenticationTemplateScriptLocking
+  extends AuthenticationTemplateScript {
   /**
-   * The `id` of the script which can be unlocked by this script.
+   * Indicates if P2SH infrastructure should be used when producing bytecode
+   * related to this script. For more information on P2SH, see BIP16.
    *
-   * (The presence of the `unlocks` property indicates that this script is an
-   * unlocking script, and the script it unlocks is a locking script.)
+   * When compiling locking scripts of type `p2sh`, the result will be placed in
+   * a P2SH "redeem script" format:
+   * `OP_HASH160 <$(<lockingBytecode> OP_HASH160)> OP_EQUAL`
+   *
+   * When compiling unlocking scripts which unlock locking scripts of type
+   * `p2sh`, the result will be transformed into the P2SH unlocking format:
+   * `unlockingBytecode <lockingBytecode>` (where `lockingBytecode` is the
+   * compiled bytecode of the locking script, without the "redeem script"
+   * transformation.)
+   *
+   * The presence of the `lockingType` property indicates that this script is a
+   * locking script.
+   *
+   * Unless otherwise specified, all scripts are assumed to be `standard`.
    */
-  unlocks?: string;
+  lockingType?: 'standard' | 'p2sh';
+}
+
+export interface AuthenticationTemplateScriptTested
+  extends AuthenticationTemplateScript {
+  /**
+   * One or more tests which can be used during development and during template
+   * validation to confirm the correctness of this inline script.
+   */
+  tests?: AuthenticationTemplateScriptTest[];
 }
 
 export interface AuthenticationTemplateScriptTest {
@@ -390,6 +428,15 @@ export interface AddressData extends AuthenticationTemplateVariableBase {
    * A single-line, Title Case, human-readable name for this address data.
    */
   name?: string;
+  /**
+   * A script ID used to compile this AddressData. When a `source` is provided,
+   * wallet implementations can automatically compile the expected value without
+   * prompting users. This is particularly useful for sharing the result of a
+   * script with other entities as a variable.
+   *
+   * TODO: not yet implemented - also requires support in data_signature
+   */
+  source?: string;
 
   /**
    * `AddressData` is the most low-level variable type. It must be collected

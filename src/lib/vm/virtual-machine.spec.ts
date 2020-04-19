@@ -80,7 +80,10 @@ const simpleInstructionSet: InstructionSet<
     state.error = SimpleError.UNDEFINED;
     return state;
   },
-  verify: (state) => state.stack[state.stack.length - 1] === 1,
+  verify: (state) =>
+    state.stack[state.stack.length - 1] === 1
+      ? true
+      : 'The top stack item must be a 1.',
 };
 
 const vm = createAuthenticationVirtualMachine(simpleInstructionSet);

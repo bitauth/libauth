@@ -14,7 +14,7 @@ test(
   expectCompilationResult,
   '<data>',
   {
-    addressData: {
+    bytecode: {
       data: Uint8Array.from([0xab, 0xcd]),
     },
   },
@@ -33,7 +33,7 @@ test(
   expectCompilationResult,
   '<one> <two>',
   {
-    addressData: {
+    bytecode: {
       one: Uint8Array.from([0xab, 0xcd]),
       two: Uint8Array.from([0xef, 0xab]),
     },
@@ -52,7 +52,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing addressData',
+  '[BCH compiler] variables – missing AddressData',
   expectCompilationResult,
   '<one> <two>',
   {},
@@ -61,7 +61,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "one" – the "addressData" property was not provided in the compilation data.',
+          'Cannot resolve "one" – the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -71,7 +71,7 @@ test(
       },
       {
         error:
-          'Cannot resolve "two" – the "addressData" property was not provided in the compilation data.',
+          'Cannot resolve "two" – the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -89,19 +89,20 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – incomplete addressData',
+  '[BCH compiler] variables – incomplete bytecode',
   expectCompilationResult,
   '<one> <two>',
   {
-    addressData: {},
+    bytecode: {},
   },
   {
     errorType: 'resolve',
     errors: [
       {
         error:
-          'Identifier "one" refers to an AddressData, but "one" was not provided in the CompilationData "addressData".',
+          'Identifier "one" refers to an AddressData, but "one" was not provided in the CompilationData "bytecode".',
         missingIdentifier: 'one',
+        owningEntity: 'ownerEntityOne',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -111,8 +112,9 @@ test(
       },
       {
         error:
-          'Identifier "two" refers to an AddressData, but "two" was not provided in the CompilationData "addressData".',
+          'Identifier "two" refers to an AddressData, but "two" was not provided in the CompilationData "bytecode".',
         missingIdentifier: 'two',
+        owningEntity: 'ownerEntityTwo',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -134,7 +136,7 @@ test(
   expectCompilationResult,
   '<data>',
   {
-    walletData: {
+    bytecode: {
       data: Uint8Array.from([0xab, 0xcd]),
     },
   },
@@ -153,7 +155,7 @@ test(
   expectCompilationResult,
   '<one> <two>',
   {
-    walletData: {
+    bytecode: {
       one: Uint8Array.from([0xab, 0xcd]),
       two: Uint8Array.from([0xef, 0xab]),
     },
@@ -172,7 +174,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing walletData',
+  '[BCH compiler] variables – missing WalletData',
   expectCompilationResult,
   '<one> <two>',
   {},
@@ -181,7 +183,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "one" – the "walletData" property was not provided in the compilation data.',
+          'Cannot resolve "one" – the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -191,7 +193,7 @@ test(
       },
       {
         error:
-          'Cannot resolve "two" – the "walletData" property was not provided in the compilation data.',
+          'Cannot resolve "two" – the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -209,19 +211,20 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – incomplete walletData',
+  '[BCH compiler] variables – incomplete WalletData',
   expectCompilationResult,
   '<one> <two>',
   {
-    walletData: {},
+    bytecode: {},
   },
   {
     errorType: 'resolve',
     errors: [
       {
         error:
-          'Identifier "one" refers to a WalletData, but "one" was not provided in the CompilationData "walletData".',
+          'Identifier "one" refers to a WalletData, but "one" was not provided in the CompilationData "bytecode".',
         missingIdentifier: 'one',
+        owningEntity: 'ownerEntityOne',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -231,8 +234,9 @@ test(
       },
       {
         error:
-          'Identifier "two" refers to a WalletData, but "two" was not provided in the CompilationData "walletData".',
+          'Identifier "two" refers to a WalletData, but "two" was not provided in the CompilationData "bytecode".',
         missingIdentifier: 'two',
+        owningEntity: 'ownerEntityTwo',
         range: {
           endColumn: 11,
           endLineNumber: 1,

@@ -4,7 +4,7 @@ import test from 'ava';
 import {
   compilerOperationAddressData,
   compileScript,
-  compileScriptText,
+  compileScriptContents,
   describeExpectedInput,
   hexToBin,
 } from '../../lib';
@@ -15,7 +15,7 @@ test('compileScript: unprovided ID', (t) => {
     errors: [
       {
         error:
-          "No script with an ID of 'test' was provided in the compilation environment.",
+          'No script with an ID of "test" was provided in the compilation environment.',
         range: {
           endColumn: 0,
           endLineNumber: 0,
@@ -135,9 +135,13 @@ test('compileScript: empty string', (t) => {
   });
 });
 
-test('compileScriptText: empty string', (t) => {
+test('compileScriptContents: empty string', (t) => {
   t.deepEqual(
-    compileScriptText({ data: {}, environment: { scripts: {} }, script: '' }),
+    compileScriptContents({
+      data: {},
+      environment: { scripts: {} },
+      script: '',
+    }),
     {
       bytecode: Uint8Array.of(),
       parse: {
@@ -191,7 +195,7 @@ test('compileScriptText: empty string', (t) => {
   );
 });
 
-test('compileScriptText: empty script (script with space)', (t) => {
+test('compileScriptContents: empty script (script with space)', (t) => {
   t.deepEqual(compileScript('t', {}, { scripts: { t: '    ' } }), {
     bytecode: Uint8Array.of(),
     parse: {
@@ -951,7 +955,7 @@ test('compileScript: variable and script inclusion', (t) => {
   const comp = compileScript(
     't',
     {
-      addressData: {
+      bytecode: {
         varOp2: Uint8Array.of(0x52),
       },
     },

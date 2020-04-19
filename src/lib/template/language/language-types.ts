@@ -82,13 +82,22 @@ export interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
 }
 
 export interface ResolvedSegmentScriptBytecode extends ResolvedSegmentBase {
+  /**
+   * The full identifier of the script which resolved to this `value`.
+   */
   script: string;
+  /**
+   * The source `ResolvedScript` which was compiled to produce this `value`.
+   */
   source: ResolvedScript;
   type: 'bytecode';
   value: Uint8Array;
 }
 
 export interface ResolvedSegmentOpcodeBytecode extends ResolvedSegmentBase {
+  /**
+   * The identifier for this opcode, e.g. `OP_1` or `OP_CHECKSIG`.
+   */
   opcode: string;
   type: 'bytecode';
   value: Uint8Array;
@@ -121,6 +130,12 @@ export interface ResolvedSegmentError extends ResolvedSegmentBase {
    * can be resolved by providing the variable in the compilation data.
    */
   missingIdentifier?: string;
+
+  /**
+   * Available if both `missingIdentifier` is provided and the `entityOwnership`
+   * for the referenced variable is available in the compilation data.
+   */
+  owningEntity?: string;
 }
 
 export type ResolvedSegment =
@@ -169,6 +184,11 @@ export type IdentifierResolutionFunction = (
       type: IdentifierResolutionErrorType.variable;
       status: false;
       recoverable: boolean;
+      /**
+       * Only available if this variable is present in the environment's
+       * `entityOwnership`.
+       */
+      entityOwnership?: string;
     }
   | {
       error: string;
@@ -321,6 +341,11 @@ export interface CompilationErrorRecoverable extends CompilationErrorFatal {
    * – would resolve this error.
    */
   missingIdentifier: string;
+  /**
+   * The ID of the entity which owns the variable referenced by
+   * `missingIdentifier`.
+   */
+  owningEntity: string;
 }
 
 export interface CompilationResultParseError
@@ -352,6 +377,18 @@ export interface CompilationResultSuccess<ProgramState>
   extends CompilationResultReduce<ProgramState> {
   bytecode: Uint8Array;
   success: true;
+  /**
+   * The transformation type of the resulting bytecode.
+   *
+   * Set to `p2sh-locking` if the resulting bytecode was transformed into a P2SH
+   * locking script (`OP_HASH160 <$(<result> OP_HASH160)> OP_EQUAL`).
+   *
+   * Set to `p2sh-unlocking` if the resulting bytecode was transformed into a
+   * P2SH unlocking script (`result <locking_script>`).
+   *
+   * This property is not defined if the result was not transformed.
+   */
+  transformed?: 'p2sh-locking' | 'p2sh-unlocking';
 }
 
 export type CompilationResult<

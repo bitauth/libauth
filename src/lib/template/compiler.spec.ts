@@ -23,7 +23,7 @@ test('createCompilerCommonSynchronous', (t) => {
     },
   });
   const resultLock = compiler.generateBytecode('lock', {
-    addressData: {
+    bytecode: {
       // eslint-disable-next-line camelcase
       some_public_key: hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
     },
@@ -44,10 +44,15 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
       entityOwnership: {
         owner: 'owner',
       },
+      lockingScriptTypes: {},
       scripts: {
         lock:
           'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
         unlock: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+      },
+      unlockingScriptTimeLockTypes: {},
+      unlockingScripts: {
+        unlock: 'lock',
       },
       variables: {
         owner: {
@@ -71,10 +76,15 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
       entityOwnership: {
         owner: 'owner',
       },
+      lockingScriptTypes: {},
       scripts: {
         lock:
           'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
         unlock: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+      },
+      unlockingScriptTimeLockTypes: {},
+      unlockingScripts: {
+        unlock: 'lock',
       },
       variables: {
         owner: {

@@ -198,7 +198,7 @@ test(
     errors: [
       {
         error:
-          'Compilation error in resolved script, "a" [2, 2]: Compilation error in resolved script, "b" [3, 3]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [2, 2]: A circular dependency was encountered: script "b" relies on itself to be generated. (Parent scripts: test, a, b, c); Compilation error in resolved script, "a" [2, 4]: A circular dependency was encountered: script "c" relies on itself to be generated. (Parent scripts: test, a, b, c); Compilation error in resolved script, "a" [2, 4]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [2, 2]: A circular dependency was encountered: script "b" relies on itself to be generated. (Parent scripts: test, a, c); Compilation error in resolved script, "a" [2, 4]: A circular dependency was encountered: script "c" relies on itself to be generated. (Parent scripts: test, a, c)',
+          'Compilation error in resolved script, "a" [2, 2]: Compilation error in resolved script, "b" [3, 3]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [0, 0]: A circular dependency was encountered: script "a" relies on itself to be generated. (Source scripts: test → a → b → c); Compilation error in resolved script, "a" [2, 4]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [0, 0]: A circular dependency was encountered: script "a" relies on itself to be generated. (Source scripts: test → a → c)',
         range: {
           endColumn: 2,
           endLineNumber: 2,

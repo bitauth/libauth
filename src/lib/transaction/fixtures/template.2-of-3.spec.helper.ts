@@ -19,9 +19,7 @@ const createSigner = (
  * This is a mostly-hard-coded 2-of-3 example. A more general function could be written to generate m-of-n wallets
  */
 export const twoOfThree: AuthenticationTemplate = {
-  ...{
-    name: '2-of-3 Multisig',
-  },
+  ...{ name: '2-of-3 Multisig' },
   entities: {
     signer_1: createSigner('Signer 1', '1', ['1_and_2', '1_and_3']),
     signer_2: createSigner('Signer 2', '2', ['1_and_2', '2_and_3']),
@@ -30,26 +28,21 @@ export const twoOfThree: AuthenticationTemplate = {
   scripts: {
     '1_and_2': {
       name: 'Cosigner 1 & 2',
-      script:
-        'OP_0 <key1.signature.all_outputs> <key2.signature.all_outputs> <redeem_script>',
+      script: 'OP_0 <key1.signature.all_outputs> <key2.signature.all_outputs>',
       unlocks: 'lock',
     },
     '1_and_3': {
       name: 'Cosigner 1 & 3',
-      script:
-        'OP_0 <key1.signature.all_outputs> <key3.signature.all_outputs> <redeem_script>',
+      script: 'OP_0 <key1.signature.all_outputs> <key3.signature.all_outputs>',
       unlocks: 'lock',
     },
     '2_and_3': {
       name: 'Cosigner 2 & 3',
-      script:
-        'OP_0 <key2.signature.all_outputs> <key3.signature.all_outputs> <redeem_script>',
+      script: 'OP_0 <key2.signature.all_outputs> <key3.signature.all_outputs>',
       unlocks: 'lock',
     },
     lock: {
-      script: 'OP_HASH160 <$(<redeem_script> OP_HASH160)> OP_EQUAL',
-    },
-    redeem_script: {
+      lockingType: 'p2sh',
       script:
         'OP_2 <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG',
     },

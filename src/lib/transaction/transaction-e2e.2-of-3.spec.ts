@@ -4,34 +4,41 @@
 import test from 'ava';
 
 import {
-  allErrorsAreRecoverable,
   authenticationTemplateToCompilerBCH,
   CashAddressNetworkPrefix,
   CompilationData,
-  CompilationError,
+  deserializeTransaction,
+  extractMissingVariables,
+  extractResolvedVariables,
   generateTransaction,
   hexToBin,
+  instantiateVirtualMachineBCH,
   lockingBytecodeToCashAddress,
+  safelyExtendCompilationData,
+  serializeTransaction,
   stringify,
   validateAuthenticationTemplate,
+  verifyTransaction,
 } from '../lib';
 
 import { twoOfThree } from './fixtures/template.2-of-3.spec.helper';
 import {
   hdPrivateKey0H,
+  hdPrivateKey2H,
   hdPublicKey0H,
   hdPublicKey1H,
   hdPublicKey2H,
 } from './transaction-e2e.spec.helper';
 
+const vmPromise = instantiateVirtualMachineBCH();
+
+// eslint-disable-next-line complexity
 test('transaction e2e tests: 2-of-3 multisig', async (t) => {
   const template = validateAuthenticationTemplate(twoOfThree);
   if (typeof template === 'string') {
     t.fail(template);
     return;
   }
-
-  const lockingScript = 'lock';
 
   /**
    * The HD public keys shared between the entities at wallet creation time
@@ -46,6 +53,7 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     hdKeys: { addressIndex: 0, hdPublicKeys },
   };
 
+  const lockingScript = 'lock';
   const compiler = await authenticationTemplateToCompilerBCH(template);
   const lockingBytecode = compiler.generateBytecode(lockingScript, lockingData);
 
@@ -63,8 +71,12 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
   t.deepEqual(address, 'bchtest:pplldqjpjaj0058xma6csnpgxd9ew2vxgv26n639yk');
 
   const utxoOutpointTransactionHash = hexToBin(
-    '68127de83d2ab77d7f5fd8d2ac6181d94473c0cbb2d0776084bf28884f6ecd77'
+    '3423be78a1976b4ae3516cda594577df004663ff24f1beb9d5bb63056b1b0a60'
   );
+  const utxoOutput = {
+    lockingBytecode: hexToBin('a9147ff682419764f7d0e6df75884c28334b9729864387'),
+    satoshis: 10000,
+  };
 
   const signer1UnlockingData: CompilationData<never> = {
     hdKeys: {
@@ -76,27 +88,13 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     },
   };
 
-  const signer1Attempt = generateTransaction({
-    inputs: [
-      {
-        outpointIndex: 1,
-        outpointTransactionHash: utxoOutpointTransactionHash,
-        sequenceNumber: 0,
-        unlockingBytecode: {
-          compiler,
-          data: signer1UnlockingData,
-          output: {
-            lockingBytecode: {
-              compiler,
-              data: lockingData,
-              script: 'lock',
-            },
-            satoshis: 1000000,
-          },
-          script: '1_and_3',
-        },
-      },
-    ],
+  const inputDetails = {
+    outpointIndex: 1,
+    outpointTransactionHash: utxoOutpointTransactionHash,
+    sequenceNumber: 0,
+  };
+
+  const transactionProposal = {
     locktime: 0,
     outputs: [
       {
@@ -105,6 +103,21 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
       },
     ],
     version: 2,
+  };
+
+  const signer1Attempt = generateTransaction({
+    ...transactionProposal,
+    inputs: [
+      {
+        ...inputDetails,
+        unlockingBytecode: {
+          compiler,
+          data: signer1UnlockingData,
+          satoshis: utxoOutput.satoshis,
+          script: '1_and_3',
+        },
+      },
+    ],
   });
 
   if (signer1Attempt.success) {
@@ -112,42 +125,124 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     t.fail();
     return;
   }
-  const allErrors = signer1Attempt.errors.reduce<CompilationError[]>(
-    (all, error) => [...all, ...error.errors],
-    []
+
+  const signer1MissingVariables = extractMissingVariables(signer1Attempt);
+
+  t.deepEqual(signer1MissingVariables, {
+    'key3.signature.all_outputs': 'signer_3',
+  });
+
+  t.deepEqual(signer1Attempt.completions, []);
+
+  const signer1ResolvedVariables = extractResolvedVariables(signer1Attempt);
+
+  const expectedSigner1Signature = hexToBin(
+    '304402205e7d56c4e7854f9c672977d6606dd2f0af5494b8e61108e2a92fc920bf8049fc022065262675b0e1a3850d88bd3c56e0eb5fb463d9cdbe49f2f625da5c0f82c7653041'
   );
 
-  if (!allErrorsAreRecoverable(allErrors)) {
-    t.log(stringify(allErrors));
+  t.deepEqual(
+    signer1ResolvedVariables,
+    {
+      'key1.signature.all_outputs': expectedSigner1Signature,
+    },
+    stringify(signer1ResolvedVariables)
+  );
+
+  const signer3UnlockingData: CompilationData<never> = {
+    hdKeys: {
+      addressIndex: 0,
+      hdPrivateKeys: {
+        signer_3: hdPrivateKey2H,
+      },
+      hdPublicKeys,
+    },
+  };
+
+  const signer3Attempt = generateTransaction({
+    ...transactionProposal,
+    inputs: [
+      {
+        ...inputDetails,
+        unlockingBytecode: {
+          compiler,
+          data: signer3UnlockingData,
+          satoshis: utxoOutput.satoshis,
+          script: '1_and_3',
+        },
+      },
+    ],
+  });
+
+  if (signer3Attempt.success) {
+    t.log('signer3Attempt:', stringify(signer1Attempt));
     t.fail();
     return;
   }
 
-  const missingVariables = allErrors.reduce(
-    (all, error) => ({
-      ...all,
-      [error.missingIdentifier]:
-        compiler.environment.entityOwnership?.[
-          error.missingIdentifier.split('.')[0]
-        ],
-    }),
-    {}
+  const signer3UnlockingDataWithMissingVariables = safelyExtendCompilationData(
+    signer3Attempt,
+    signer3UnlockingData,
+    {
+      signer_1: signer1ResolvedVariables,
+    }
+  ) as CompilationData<never>;
+
+  t.deepEqual(
+    signer3UnlockingDataWithMissingVariables,
+    {
+      ...signer3UnlockingData,
+      bytecode: {
+        'key1.signature.all_outputs': expectedSigner1Signature,
+      },
+    },
+    stringify(signer3UnlockingDataWithMissingVariables)
   );
 
-  t.deepEqual(missingVariables, {
-    'key3.signature.all_outputs': 'signer_3',
+  const successfulCompilation = generateTransaction({
+    ...transactionProposal,
+    inputs: [
+      {
+        ...inputDetails,
+        unlockingBytecode: {
+          compiler,
+          data: signer3UnlockingDataWithMissingVariables,
+          satoshis: utxoOutput.satoshis,
+          script: '1_and_3',
+        },
+      },
+    ],
   });
 
-  // TODO: extract the resolved variables, and pass to the next signer
+  if (!successfulCompilation.success) {
+    t.log('successfulCompilation:', stringify(successfulCompilation));
+    t.fail();
+    return;
+  }
 
-  t.deepEqual(1, 1);
+  const { transaction } = successfulCompilation;
+  const vm = await vmPromise;
+  const result = verifyTransaction({
+    spentOutputs: [utxoOutput],
+    transaction,
+    vm,
+  });
+  t.true(result, stringify(result));
 
-  // signer 3: attempt again, but with signer 1's resolved variables (their signature), should succeed
-
-  /*
-   * t.deepEqual(signer3Attempt, {
-   *   success: true,
-   *   transaction: deserializeTransaction(hexToBin('todo')),
-   * });
-   */
+  t.deepEqual(
+    successfulCompilation,
+    {
+      success: true,
+      transaction: deserializeTransaction(
+        /**
+         * tx: c903aba46b4069e485b51292fd68eefdc95110fb95461b118c650fb454c34a9c
+         */
+        hexToBin(
+          '0200000001600a1b6b0563bbd5b9bef124ff634600df774559da6c51e34a6b97a178be233401000000fc0047304402205e7d56c4e7854f9c672977d6606dd2f0af5494b8e61108e2a92fc920bf8049fc022065262675b0e1a3850d88bd3c56e0eb5fb463d9cdbe49f2f625da5c0f82c765304147304402200d167d5ed77fa169346d295f6fb742e80ae391f0ae086d42b99152bdb23edf4102202c8b85c2583b07b66485b88cacdd14f680bd3aa3f3f12e9f63bc02b4d1cc6d15414c6952210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b84695452103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7de53ae000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000'
+        )
+      ),
+    },
+    `${stringify(successfulCompilation)} - ${stringify(
+      serializeTransaction(successfulCompilation.transaction)
+    )}`
+  );
 });

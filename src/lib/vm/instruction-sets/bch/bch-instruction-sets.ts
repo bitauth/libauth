@@ -282,9 +282,19 @@ export const createInstructionSetBCH = ({
     ),
   },
   ...undefinedOperation(),
-  verify: (state: AuthenticationProgramStateBCH) =>
-    state.error === undefined &&
-    state.executionStack.length === 0 &&
-    state.stack.length === 1 &&
-    stackItemIsTruthy(state.stack[0]),
+  verify: (state: AuthenticationProgramStateBCH) => {
+    if (state.error !== undefined) {
+      return state.error;
+    }
+    if (state.executionStack.length !== 0) {
+      return AuthenticationErrorCommon.nonEmptyExecutionState;
+    }
+    if (state.stack.length !== 1) {
+      return AuthenticationErrorCommon.requiresCleanStack;
+    }
+    if (!stackItemIsTruthy(state.stack[0])) {
+      return AuthenticationErrorCommon.unsuccessfulEvaluation;
+    }
+    return true;
+  },
 });

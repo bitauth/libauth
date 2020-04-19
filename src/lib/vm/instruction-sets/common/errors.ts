@@ -29,8 +29,10 @@ export enum AuthenticationErrorCommon {
   malformedPush = 'Program must be long enough to push the requested number of bytes.',
   malformedUnlockingBytecode = 'The provided unlocking bytecode is malformed.',
   negativeLocktime = 'Program called an OP_CHECKLOCKTIMEVERIFY or OP_CHECKSEQUENCEVERIFY operation with a negative locktime.',
+  nonEmptyExecutionState = 'Program completed with a non-empty execution stack.',
   nonMinimalPush = 'Push operations must use the smallest possible encoding.',
   nonNullSignatureFailure = 'Program failed a signature verification with a non-null signature (violating the "NULLFAIL" rule).',
+  requiresCleanStack = 'Program completed with an unexpected number of items on the stack (must be exactly 1).',
   schnorrSizedSignatureInCheckMultiSig = 'Program used a schnorr-sized signature (65 bytes) in an OP_CHECKMULTISIG operation.',
   unexpectedElse = 'Encountered an OP_ELSE outside of an OP_IF ... OP_ENDIF block.',
   unexpectedEndIf = 'Encountered an OP_ENDIF which is not following a matching OP_IF.',
@@ -38,6 +40,7 @@ export enum AuthenticationErrorCommon {
   unmatchedSequenceDisable = "Program called an OP_CHECKSEQUENCEVERIFY operation requiring the disable flag, but the input's sequence number is missing the disable flag.",
   unsatisfiedLocktime = "Program called an OP_CHECKLOCKTIMEVERIFY operation which requires a locktime greater than the transaction's locktime.",
   unsatisfiedSequenceNumber = "Program called an OP_CHECKSEQUENCEVERIFY operation which requires a sequence number greater than the input's sequence number.",
+  unsuccessfulEvaluation = 'Unsuccessful evaluation: completed with a non-truthy value on top of the stack.',
 }
 
 /**

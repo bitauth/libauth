@@ -88,16 +88,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
           data: {
             keys: { privateKeys: { owner: privkey } },
           },
-          output: {
-            lockingBytecode: {
-              compiler: p2pkh,
-              data: {
-                keys: { privateKeys: { owner: privkey } },
-              },
-              script: 'lock',
-            },
-            satoshis: 1000000,
-          },
+          satoshis: 1000000,
           script: 'unlock',
         },
       },

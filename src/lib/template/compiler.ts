@@ -21,10 +21,7 @@ import {
   CompilerOperationDataCommon,
 } from './compiler-types';
 import { compileScript } from './language/compile';
-import {
-  AuthenticationTemplate,
-  AuthenticationTemplateVariable,
-} from './template-types';
+import { AuthenticationTemplate } from './template-types';
 
 /**
  * Create a `Compiler` from the provided compilation environment. This method
@@ -35,7 +32,7 @@ import {
  * compiler
  */
 export const createCompiler = <
-  CompilerOperationData,
+  CompilerOperationData extends { locktime: number },
   Environment extends AnyCompilationEnvironment<CompilerOperationData>,
   ProgramState = StackState & MinimumProgramState
 >(
@@ -43,7 +40,7 @@ export const createCompiler = <
 ): Compiler<CompilerOperationData, Environment, ProgramState> => ({
   environment: compilationEnvironment,
   generateBytecode: (
-    script: string,
+    scriptId: string,
     data: CompilationData<CompilerOperationData>,
     // TODO: TS bug?
     // eslint-disable-next-line @typescript-eslint/no-inferrable-types
@@ -52,7 +49,7 @@ export const createCompiler = <
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any => {
     const result = compileScript<ProgramState, CompilerOperationData>(
-      script,
+      scriptId,
       data,
       compilationEnvironment
     );
@@ -122,17 +119,22 @@ export const authenticationTemplateToCompilationEnvironment = (
   template: AuthenticationTemplate
 ): Pick<
   CompilationEnvironment,
-  'entityOwnership' | 'scripts' | 'variables'
+  | 'entityOwnership'
+  | 'scripts'
+  | 'variables'
+  | 'unlockingScripts'
+  | 'lockingScriptTypes'
+  | 'unlockingScriptTimeLockTypes'
 > => {
-  const scripts = Object.entries(template.scripts).reduce<{
-    [scriptId: string]: string;
-  }>((all, [id, def]) => ({ ...all, [id]: def.script }), {});
-  const variables = Object.values(template.entities).reduce<{
-    [variableId: string]: AuthenticationTemplateVariable;
-  }>((all, entity) => ({ ...all, ...entity.variables }), {});
-  const entityOwnership = Object.entries(template.entities).reduce<{
-    [variableId: string]: string;
-  }>(
+  const scripts = Object.entries(template.scripts).reduce<
+    CompilationEnvironment['scripts']
+  >((all, [id, def]) => ({ ...all, [id]: def.script }), {});
+  const variables = Object.values(template.entities).reduce<
+    CompilationEnvironment['variables']
+  >((all, entity) => ({ ...all, ...entity.variables }), {});
+  const entityOwnership = Object.entries(template.entities).reduce<
+    CompilationEnvironment['entityOwnership']
+  >(
     (all, [entityId, entity]) => ({
       ...all,
       ...Object.keys(entity.variables ?? {}).reduce(
@@ -145,5 +147,39 @@ export const authenticationTemplateToCompilationEnvironment = (
     }),
     {}
   );
-  return { entityOwnership, scripts, variables };
+  const unlockingScripts = Object.entries(template.scripts).reduce<
+    CompilationEnvironment['unlockingScripts']
+  >(
+    (all, [id, def]) =>
+      'unlocks' in def && def.unlocks !== undefined
+        ? { ...all, [id]: def.unlocks }
+        : all,
+    {}
+  );
+  const unlockingScriptTimeLockTypes = Object.entries(template.scripts).reduce<
+    CompilationEnvironment['unlockingScriptTimeLockTypes']
+  >(
+    (all, [id, def]) =>
+      'timeLockType' in def && def.timeLockType !== undefined
+        ? { ...all, [id]: def.timeLockType }
+        : all,
+    {}
+  );
+  const lockingScriptTypes = Object.entries(template.scripts).reduce<
+    CompilationEnvironment['lockingScriptTypes']
+  >(
+    (all, [id, def]) =>
+      'lockingType' in def && def.lockingType !== undefined
+        ? { ...all, [id]: def.lockingType }
+        : all,
+    {}
+  );
+  return {
+    entityOwnership,
+    lockingScriptTypes,
+    scripts,
+    unlockingScriptTimeLockTypes,
+    unlockingScripts,
+    variables,
+  };
 };

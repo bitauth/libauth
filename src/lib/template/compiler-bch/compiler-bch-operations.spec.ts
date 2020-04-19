@@ -11,7 +11,12 @@ test('compilerOperationSigningSerializationFullBCH: requires an algorithm', (t) 
     compilerOperationSigningSerializationFullBCH(
       '',
       { operationData: {} as CompilerOperationDataCommon },
-      { scripts: {}, sha256: { hash: () => Uint8Array.of() } }
+      {
+        scripts: { lock: '' },
+        sha256: { hash: () => Uint8Array.of() },
+        sourceScriptIds: ['test'],
+        unlockingScripts: { test: 'lock' },
+      }
     ),
     {
       error:
@@ -25,7 +30,12 @@ test('compilerOperationSigningSerializationFullBCH: error on unknown algorithms'
     compilerOperationSigningSerializationFullBCH(
       'signing_serialization.full_unknown_serialization',
       { operationData: {} as CompilerOperationDataCommon },
-      { scripts: {}, sha256: { hash: () => Uint8Array.of() } }
+      {
+        scripts: { lock: '' },
+        sha256: { hash: () => Uint8Array.of() },
+        sourceScriptIds: ['test'],
+        unlockingScripts: { test: 'lock' },
+      }
     ),
     {
       error:

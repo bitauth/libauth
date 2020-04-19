@@ -32,12 +32,10 @@ test(
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   {
-    keys: {
-      signatures: {
-        'owner.data_signature.another': hexToBin(
-          '3044022100de1a02c286421ca34e854b9a01449ff8f19c46dfa4397de563d5f694db9d3855021f55b7bf7cd14189f6e1dca08d9a7cdf9b5c38a5bddbd0168aa33d34666950a0'
-        ),
-      },
+    bytecode: {
+      'owner.data_signature.another': hexToBin(
+        '3044022100de1a02c286421ca34e854b9a01449ff8f19c46dfa4397de563d5f694db9d3855021f55b7bf7cd14189f6e1dca08d9a7cdf9b5c38a5bddbd0168aa33d34666950a0'
+      ),
     },
   },
   {
@@ -133,6 +131,7 @@ test(
         error:
           'Identifier "owner.data_signature.another" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
         missingIdentifier: 'owner.data_signature.another',
+        owningEntity: 'ownerEntityId',
         range: {
           endColumn: 30,
           endLineNumber: 1,

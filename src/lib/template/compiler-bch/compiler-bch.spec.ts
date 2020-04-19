@@ -21,6 +21,9 @@ test('[BCH compiler] createCompilerBCH: generateBytecode', async (t) => {
         'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
       unlock: '<a.signature.all_outputs> <a.public_key>',
     },
+    unlockingScripts: {
+      unlock: 'lock',
+    },
     variables: {
       a: {
         type: 'Key',
@@ -34,22 +37,17 @@ test('[BCH compiler] createCompilerBCH: generateBytecode', async (t) => {
     bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
     success: true,
   });
-  // eslint-disable-next-line functional/no-conditional-statement
-  if (resultLock.success) {
-    const resultUnlock = compiler.generateBytecode('unlock', {
-      keys: { privateKeys: { a: privkey } },
-      operationData: {
-        ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredBytecode: resultLock.bytecode,
-      },
-    });
-    t.deepEqual(resultUnlock, {
-      bytecode: hexToBin(
-        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-      ),
-      success: true,
-    });
-  }
+
+  const resultUnlock = compiler.generateBytecode('unlock', {
+    keys: { privateKeys: { a: privkey } },
+    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
+  });
+  t.deepEqual(resultUnlock, {
+    bytecode: hexToBin(
+      '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+    ),
+    success: true,
+  });
 });
 
 test('[BCH compiler] createCompilerBCH: debug', async (t) => {
@@ -66,6 +64,9 @@ test('[BCH compiler] createCompilerBCH: debug', async (t) => {
       lock:
         'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
       unlock: '<a.signature.all_outputs> <a.public_key>',
+    },
+    unlockingScripts: {
+      unlock: 'lock',
     },
     variables: {
       a: {
@@ -600,260 +601,255 @@ test('[BCH compiler] createCompilerBCH: debug', async (t) => {
     ],
     success: true,
   });
-  // eslint-disable-next-line functional/no-conditional-statement
-  if (resultLock.success) {
-    const resultUnlock = compiler.generateBytecode(
-      'unlock',
-      {
-        keys: { privateKeys: { a: privkey } },
-        operationData: {
-          ...createAuthenticationProgramExternalStateCommonEmpty(),
-          coveredBytecode: resultLock.bytecode,
-        },
+
+  const resultUnlock = compiler.generateBytecode(
+    'unlock',
+    {
+      keys: { privateKeys: { a: privkey } },
+      operationData: createAuthenticationProgramExternalStateCommonEmpty(),
+    },
+    true
+  );
+  t.deepEqual(resultUnlock, {
+    bytecode: hexToBin(
+      '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+    ),
+    parse: {
+      end: {
+        column: 41,
+        line: 1,
+        offset: 40,
       },
-      true
-    );
-    t.deepEqual(resultUnlock, {
+      name: 'Script',
+      start: {
+        column: 1,
+        line: 1,
+        offset: 0,
+      },
+      value: [
+        {
+          end: {
+            column: 26,
+            line: 1,
+            offset: 25,
+          },
+          name: 'Push',
+          start: {
+            column: 1,
+            line: 1,
+            offset: 0,
+          },
+          value: {
+            end: {
+              column: 25,
+              line: 1,
+              offset: 24,
+            },
+            name: 'Script',
+            start: {
+              column: 2,
+              line: 1,
+              offset: 1,
+            },
+            value: [
+              {
+                end: {
+                  column: 25,
+                  line: 1,
+                  offset: 24,
+                },
+                name: 'Identifier',
+                start: {
+                  column: 2,
+                  line: 1,
+                  offset: 1,
+                },
+                value: 'a.signature.all_outputs',
+              },
+            ],
+          },
+        },
+        {
+          end: {
+            column: 41,
+            line: 1,
+            offset: 40,
+          },
+          name: 'Push',
+          start: {
+            column: 27,
+            line: 1,
+            offset: 26,
+          },
+          value: {
+            end: {
+              column: 40,
+              line: 1,
+              offset: 39,
+            },
+            name: 'Script',
+            start: {
+              column: 28,
+              line: 1,
+              offset: 27,
+            },
+            value: [
+              {
+                end: {
+                  column: 40,
+                  line: 1,
+                  offset: 39,
+                },
+                name: 'Identifier',
+                start: {
+                  column: 28,
+                  line: 1,
+                  offset: 27,
+                },
+                value: 'a.public_key',
+              },
+            ],
+          },
+        },
+      ],
+    },
+    reduce: {
       bytecode: hexToBin(
         '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
       ),
-      parse: {
-        end: {
-          column: 41,
-          line: 1,
-          offset: 40,
-        },
-        name: 'Script',
-        start: {
-          column: 1,
-          line: 1,
-          offset: 0,
-        },
-        value: [
-          {
-            end: {
-              column: 26,
-              line: 1,
-              offset: 25,
-            },
-            name: 'Push',
-            start: {
-              column: 1,
-              line: 1,
-              offset: 0,
-            },
-            value: {
-              end: {
-                column: 25,
-                line: 1,
-                offset: 24,
-              },
-              name: 'Script',
-              start: {
-                column: 2,
-                line: 1,
-                offset: 1,
-              },
-              value: [
-                {
-                  end: {
-                    column: 25,
-                    line: 1,
-                    offset: 24,
-                  },
-                  name: 'Identifier',
-                  start: {
-                    column: 2,
-                    line: 1,
-                    offset: 1,
-                  },
-                  value: 'a.signature.all_outputs',
-                },
-              ],
-            },
-          },
-          {
-            end: {
-              column: 41,
-              line: 1,
-              offset: 40,
-            },
-            name: 'Push',
-            start: {
-              column: 27,
-              line: 1,
-              offset: 26,
-            },
-            value: {
-              end: {
-                column: 40,
-                line: 1,
-                offset: 39,
-              },
-              name: 'Script',
-              start: {
-                column: 28,
-                line: 1,
-                offset: 27,
-              },
-              value: [
-                {
-                  end: {
-                    column: 40,
-                    line: 1,
-                    offset: 39,
-                  },
-                  name: 'Identifier',
-                  start: {
-                    column: 28,
-                    line: 1,
-                    offset: 27,
-                  },
-                  value: 'a.public_key',
-                },
-              ],
-            },
-          },
-        ],
+      range: {
+        endColumn: 41,
+        endLineNumber: 1,
+        startColumn: 1,
+        startLineNumber: 1,
       },
-      reduce: {
-        bytecode: hexToBin(
-          '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-        ),
-        range: {
-          endColumn: 41,
-          endLineNumber: 1,
-          startColumn: 1,
-          startLineNumber: 1,
-        },
-        source: [
-          {
-            bytecode: hexToBin(
-              '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
-            ),
-            range: {
-              endColumn: 26,
-              endLineNumber: 1,
-              startColumn: 1,
-              startLineNumber: 1,
-            },
-            source: [
-              {
-                bytecode: hexToBin(
-                  '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
-                ),
-                range: {
-                  endColumn: 25,
-                  endLineNumber: 1,
-                  startColumn: 2,
-                  startLineNumber: 1,
-                },
-                source: [
-                  {
-                    bytecode: hexToBin(
-                      '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
-                    ),
-                    range: {
-                      endColumn: 25,
-                      endLineNumber: 1,
-                      startColumn: 2,
-                      startLineNumber: 1,
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            bytecode: hexToBin(
-              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-            ),
-            range: {
-              endColumn: 41,
-              endLineNumber: 1,
-              startColumn: 27,
-              startLineNumber: 1,
-            },
-            source: [
-              {
-                bytecode: hexToBin(
-                  '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-                ),
-                range: {
-                  endColumn: 40,
-                  endLineNumber: 1,
-                  startColumn: 28,
-                  startLineNumber: 1,
-                },
-                source: [
-                  {
-                    bytecode: hexToBin(
-                      '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-                    ),
-                    range: {
-                      endColumn: 40,
-                      endLineNumber: 1,
-                      startColumn: 28,
-                      startLineNumber: 1,
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      resolve: [
+      source: [
         {
+          bytecode: hexToBin(
+            '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+          ),
           range: {
             endColumn: 26,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1,
           },
-          type: 'push',
-          value: [
+          source: [
             {
+              bytecode: hexToBin(
+                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+              ),
               range: {
                 endColumn: 25,
                 endLineNumber: 1,
                 startColumn: 2,
                 startLineNumber: 1,
               },
-              type: 'bytecode',
-              value: hexToBin(
-                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
-              ),
-              variable: 'a.signature.all_outputs',
+              source: [
+                {
+                  bytecode: hexToBin(
+                    '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+                  ),
+                  range: {
+                    endColumn: 25,
+                    endLineNumber: 1,
+                    startColumn: 2,
+                    startLineNumber: 1,
+                  },
+                },
+              ],
             },
           ],
         },
         {
+          bytecode: hexToBin(
+            '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+          ),
           range: {
             endColumn: 41,
             endLineNumber: 1,
             startColumn: 27,
             startLineNumber: 1,
           },
-          type: 'push',
-          value: [
+          source: [
             {
+              bytecode: hexToBin(
+                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+              ),
               range: {
                 endColumn: 40,
                 endLineNumber: 1,
                 startColumn: 28,
                 startLineNumber: 1,
               },
-              type: 'bytecode',
-              value: hexToBin(
-                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-              ),
-              variable: 'a.public_key',
+              source: [
+                {
+                  bytecode: hexToBin(
+                    '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                  ),
+                  range: {
+                    endColumn: 40,
+                    endLineNumber: 1,
+                    startColumn: 28,
+                    startLineNumber: 1,
+                  },
+                },
+              ],
             },
           ],
         },
       ],
-      success: true,
-    });
-  }
+    },
+    resolve: [
+      {
+        range: {
+          endColumn: 26,
+          endLineNumber: 1,
+          startColumn: 1,
+          startLineNumber: 1,
+        },
+        type: 'push',
+        value: [
+          {
+            range: {
+              endColumn: 25,
+              endLineNumber: 1,
+              startColumn: 2,
+              startLineNumber: 1,
+            },
+            type: 'bytecode',
+            value: hexToBin(
+              '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+            ),
+            variable: 'a.signature.all_outputs',
+          },
+        ],
+      },
+      {
+        range: {
+          endColumn: 41,
+          endLineNumber: 1,
+          startColumn: 27,
+          startLineNumber: 1,
+        },
+        type: 'push',
+        value: [
+          {
+            range: {
+              endColumn: 40,
+              endLineNumber: 1,
+              startColumn: 28,
+              startLineNumber: 1,
+            },
+            type: 'bytecode',
+            value: hexToBin(
+              '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+            ),
+            variable: 'a.public_key',
+          },
+        ],
+      },
+    ],
+    success: true,
+  });
 });

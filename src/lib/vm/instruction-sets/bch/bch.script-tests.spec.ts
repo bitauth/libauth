@@ -137,7 +137,7 @@ pendingTests.map((expectation) => {
       const result = vm.evaluate(program);
       const valid = expectation.flags.dirtyStack
         ? validateDirtyStackState(result)
-        : vm.verify(result);
+        : vm.verify(result) === true;
       const pass =
         (valid && expectation.expectedError === false) ||
         (!valid && expectation.expectedError !== false);

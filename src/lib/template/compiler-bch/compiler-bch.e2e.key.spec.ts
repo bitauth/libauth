@@ -92,12 +92,10 @@ test(
   expectCompilationResult,
   '<owner.public_key>',
   {
-    keys: {
-      publicKeys: {
-        owner: hexToBin(
-          '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
-        ),
-      },
+    bytecode: {
+      'owner.public_key': hexToBin(
+        '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+      ),
     },
   },
   {
@@ -117,9 +115,9 @@ test(
   expectCompilationResult,
   '<owner.public_key>',
   {
+    bytecode: {},
     keys: {
       privateKeys: {},
-      publicKeys: {},
     },
   },
   {
@@ -129,6 +127,7 @@ test(
         error:
           'Identifier "owner.public_key" refers to a public key, but no public or private keys for "owner" were provided in the compilation data.',
         missingIdentifier: 'owner.public_key',
+        owningEntity: 'ownerEntityId',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -149,13 +148,12 @@ test(
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
-    keys: {
-      signatures: {
-        'owner.signature.all_outputs': hexToBin(
-          '3044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
-        ),
-      },
+    bytecode: {
+      'owner.signature.all_outputs': hexToBin(
+        '3044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
+      ),
     },
+    keys: {},
   },
   {
     bytecode: hexToBin(
@@ -174,12 +172,10 @@ test(
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   {
-    keys: {
-      signatures: {
-        'owner.schnorr_signature.all_outputs': hexToBin(
-          '313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
-        ),
-      },
+    bytecode: {
+      'owner.schnorr_signature.all_outputs': hexToBin(
+        '313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
+      ),
     },
   },
   {
@@ -231,6 +227,7 @@ test(
         error:
           'Identifier "owner.signature.all_outputs" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
         missingIdentifier: 'owner.signature.all_outputs',
+        owningEntity: 'ownerEntityId',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -258,6 +255,7 @@ test(
         error:
           'Identifier "owner.schnorr_signature.all_outputs" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
         missingIdentifier: 'owner.schnorr_signature.all_outputs',
+        owningEntity: 'ownerEntityId',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -285,6 +283,7 @@ test(
         error:
           'Identifier "owner.schnorr_signature.all_outputs" refers to a Key, but a private key for "owner" (or an existing signature) was not provided in the compilation data.',
         missingIdentifier: 'owner.schnorr_signature.all_outputs',
+        owningEntity: 'ownerEntityId',
         range: {
           endColumn: 37,
           endLineNumber: 1,

@@ -71,14 +71,7 @@ test('transaction e2e tests: P2PKH (authenticationTemplateP2pkhHd)', async (t) =
         unlockingBytecode: {
           compiler,
           data: unlockingData,
-          output: {
-            lockingBytecode: {
-              compiler,
-              data: lockingData,
-              script: lockingScript,
-            },
-            satoshis: 1000000,
-          },
+          satoshis: 1000000,
           script: 'unlock',
         },
       },

@@ -67,6 +67,10 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
     secp256k1,
     sha256,
     sha512,
+    unlockingScripts: {
+      unlock: 'lock',
+      unlockHd: 'lockHd',
+    },
     variables: {
       a: {
         type: 'Key',
@@ -79,50 +83,34 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
     vm,
   });
 
-  const resultLock = compiler.generateBytecode('lock', {
+  const resultUnlock = compiler.generateBytecode('unlock', {
     keys: { privateKeys: { a: privkey } },
+    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
   });
-  t.deepEqual(resultLock, {
-    bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
-    success: true,
+  t.deepEqual(
+    resultUnlock,
+    {
+      bytecode: hexToBin(bytecodeHex),
+      success: true,
+    },
+    `Expected bytecode:\n ${stringify(bytecodeHex)} \n\nResult: ${stringify(
+      resultUnlock
+    )}`
+  );
+  const resultUnlockHd = compiler.generateBytecode('unlockHd', {
+    hdKeys: { addressIndex: 0, hdPrivateKeys: { entity: hdPrivateKey } },
+    operationData: createAuthenticationProgramExternalStateCommonEmpty(),
   });
-  // eslint-disable-next-line functional/no-conditional-statement
-  if (resultLock.success) {
-    const resultUnlock = compiler.generateBytecode('unlock', {
-      keys: { privateKeys: { a: privkey } },
-      operationData: {
-        ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredBytecode: resultLock.bytecode,
-      },
-    });
-    t.deepEqual(
-      resultUnlock,
-      {
-        bytecode: hexToBin(bytecodeHex),
-        success: true,
-      },
-      `Expected bytecode:\n ${stringify(bytecodeHex)} \n\nResult: ${stringify(
-        resultUnlock
-      )}`
-    );
-    const resultUnlockHd = compiler.generateBytecode('unlockHd', {
-      hdKeys: { addressIndex: 0, hdPrivateKeys: { entity: hdPrivateKey } },
-      operationData: {
-        ...createAuthenticationProgramExternalStateCommonEmpty(),
-        coveredBytecode: resultLock.bytecode,
-      },
-    });
-    t.deepEqual(
-      resultUnlockHd,
-      {
-        bytecode: hexToBin(bytecodeHex),
-        success: true,
-      },
-      `Expected bytecode:\n ${stringify(bytecodeHex)} \n\nResult: ${stringify(
-        resultUnlockHd
-      )}`
-    );
-  }
+  t.deepEqual(
+    resultUnlockHd,
+    {
+      bytecode: hexToBin(bytecodeHex),
+      success: true,
+    },
+    `Expected bytecode:\n ${stringify(bytecodeHex)} \n\nResult: ${stringify(
+      resultUnlockHd
+    )}`
+  );
 };
 
 test(
@@ -228,6 +216,9 @@ test('[BCH compiler] signing serialization algorithms – no signing serializati
     },
     secp256k1,
     sha256,
+    unlockingScripts: {
+      unlock: 'lock',
+    },
     variables: {
       a: {
         type: 'Key',
@@ -236,35 +227,24 @@ test('[BCH compiler] signing serialization algorithms – no signing serializati
     vm,
   });
 
-  const resultLock = compiler.generateBytecode('lock', {
+  const resultUnlock = compiler.generateBytecode('unlock', {
     keys: { privateKeys: { a: privkey } },
+    operationData: undefined,
   });
-
-  t.deepEqual(resultLock, {
-    bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
-    success: true,
-  });
-  // eslint-disable-next-line functional/no-conditional-statement
-  if (resultLock.success) {
-    const resultUnlock = compiler.generateBytecode('unlock', {
-      keys: { privateKeys: { a: privkey } },
-      operationData: undefined,
-    });
-    t.deepEqual(resultUnlock, {
-      errorType: 'resolve',
-      errors: [
-        {
-          error:
-            'Cannot resolve "a.schnorr_signature.all_outputs" – the "operationData" property was not provided in the compilation data.',
-          range: {
-            endColumn: 33,
-            endLineNumber: 1,
-            startColumn: 2,
-            startLineNumber: 1,
-          },
+  t.deepEqual(resultUnlock, {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Cannot resolve "a.schnorr_signature.all_outputs" – the "operationData" property was not provided in the compilation data.',
+        range: {
+          endColumn: 33,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
         },
-      ],
-      success: false,
-    } as BytecodeGenerationResult<AuthenticationProgramStateBCH>);
-  }
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>);
 });

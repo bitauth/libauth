@@ -74,7 +74,6 @@ export type CompilerOperationsKeysCommon = 'public_key' | 'signature';
 
 export interface CompilerOperationDataCommon {
   correspondingOutput?: Uint8Array;
-  coveredBytecode: Uint8Array;
   locktime: number;
   outpointIndex: number;
   outpointTransactionHash: Uint8Array;
@@ -197,11 +196,35 @@ export interface CompilationEnvironment<
    * `HdKey` variable is derived from this key.
    *
    * To avoid compilation errors, this object must contain all `HdKey` variables
-   * referenced by the script being compiled (including in child scripts).
+   * referenced by the script being compiled (including in child scripts). To
+   * enable support for error handling like `extractMissingVariables`, it's
+   * recommended that all variables be provided here.
    */
   // eslint-disable-next-line functional/no-mixed-type
   entityOwnership?: {
     [variableId: string]: string;
+  };
+
+  /**
+   * An object mapping the script identifiers of locking scripts to their
+   * locking script type, either `standard` or `p2sh`.
+   *
+   * This is used to transform compilation results into the proper structure for
+   * P2SH locking and unlocking scripts.
+   *
+   * When compiling locking scripts of type `p2sh`, the result will be placed in
+   * a P2SH "redeemScript" format:
+   * `OP_HASH160 <$(<result> OP_HASH160)> OP_EQUAL`
+   *
+   * When compiling unlocking scripts which unlock locking scripts of type
+   * `p2sh`, the result will be transformed into the P2SH unlocking format:
+   * `result <locking_script>` (where `locking_script` is the compiled bytecode
+   * of the locking script, without the "redeemScript" transformation.)
+   *
+   * By default, all scripts are assumed to have the type `standard`.
+   */
+  lockingScriptTypes?: {
+    [lockingScriptId: string]: 'p2sh' | 'standard';
   };
 
   /**
@@ -271,6 +294,7 @@ export interface CompilationEnvironment<
         }
       : CompilerOperation<CompilerOperationData>;
   };
+
   /**
    * An implementation of ripemd160 is required for any scripts which include
    * `HdKey`s. This can be instantiated with `instantiateRipemd160`.
@@ -314,16 +338,47 @@ export interface CompilationEnvironment<
    */
   sha512?: { hash: Sha512['hash'] };
   /**
-   * The "breadcrumb" path of script IDs currently being resolved. (E.g.
-   * `["grandparentId", "parentId"]`) BTL identifier resolution must be acyclic.
+   * Only for use when recursively calling `compileScript` (e.g. in compiler
+   * operations).
    *
-   * To prevent an infinite loop, `IdentifierResolutionFunction`s must abort
-   * resolution if they encounter their own `id` while resolving another
-   * identifier. Likewise, child scripts being resolved by a parent script
-   * may not reference any script which is already in the process of being
-   * resolved.
+   * The "breadcrumb" path of script IDs currently being compiled, including the
+   * current script. (E.g. `["grandparentId", "parentId", "scriptId"]`)
+   *
+   * BTL identifier resolution must be acyclic. To prevent an infinite loop,
+   * `IdentifierResolutionFunction`s must abort resolution if they encounter
+   * their own `id` while resolving another identifier. Likewise, child scripts
+   * being resolved by a parent script may not reference any script which is
+   * already in the process of being resolved.
    */
   sourceScriptIds?: string[];
+
+  /**
+   * An object mapping the identifiers of unlocking scripts to the identifiers
+   * of the locking scripts they unlock. This is used to identify the
+   * `coveredBytecode` used in signing serializations, and it is required for
+   * all signature operations and many signing serialization operations.
+   */
+  unlockingScripts?: {
+    [unlockingScriptId: string]: string;
+  };
+
+  /**
+   * An object mapping the identifiers of unlocking scripts to their
+   * `timeLockType`.
+   *
+   * The `timestamp` type indicates that the transaction's locktime is provided
+   * as a UNIX timestamp (the `locktime` value is greater than or equal to
+   * `500000000`).
+   *
+   * The `height` type indicates that the transaction's locktime is provided as
+   * a block height (the `locktime` value is less than `500000000`).
+   *
+   * See `AuthenticationTemplateScript.timeLockType` for details.
+   */
+  unlockingScriptTimeLockTypes?: {
+    [unlockingScriptId: string]: 'timestamp' | 'height';
+  };
+
   /**
    * An object mapping template variable identifiers to the
    * `AuthenticationTemplateVariable` describing them.
@@ -350,10 +405,42 @@ export interface CompilationData<
   CompilerOperationData = CompilerOperationDataCommon
 > {
   /**
-   * A map of `AddressData` variable IDs and their values for this compilation.
+   * A map of full identifiers to pre-computed bytecode for this compilation.
+   *
+   * This is always used to provide bytecode for `AddressData` and `WalletData`,
+   * and it can also be used to provide public keys and signatures which have
+   * been pre-computed by other entities (e.g. when computing these would
+   * require access to private keys held by another entities).
+   *
+   * The provided `fullIdentifier` should match the complete identifier for
+   * each item, e.g. `some_wallet_data`, `variable_id.public_key`, or
+   * `variable_id.signature.all_outputs`.
+   *
+   * @remarks
+   * It is security-critical that only identifiers provided by the entities
+   * expected to provide them are included here. For example:
+   *
+   * 1. When generating a `lockingBytecode` for a 2-of-2 wallet, a
+   * malicious entity could provide a pre-computed value for `us.public_key`
+   * which is equal to `them.public_key` such that the resulting
+   * `lockingBytecode` is entirely controlled by that entity.
+   *
+   * 2. When generating an `unlockingBytecode` which includes a data signature,
+   * if a malicious entity can provide a pre-computed value for identifiers
+   * present in the message, the malicious entity can trick the compiling entity
+   * into signing an unintended message, e.g. creating a false attestation or
+   * releasing funds from an unrelated wallet. (This can be partially mitigated
+   * by avoiding key reuse.)
+   *
+   * To safely include identifiers from external entities, the compilation must
+   * first be evaluated only with trusted information (variables owned by or
+   * previously validated by the compiling entity). On unsuccessful
+   * compilations, missing variables can be extracted with
+   * `extractMissingVariables`, and each missing variable should be filled only
+   * by bytecode values provided by entities from which they were expected.
    */
-  addressData?: {
-    [id: string]: Uint8Array;
+  bytecode?: {
+    [fullIdentifier: string]: Uint8Array;
   };
   /**
    * The current block height at compile time.
@@ -383,19 +470,6 @@ export interface CompilationData<
      * by one for each address in a wallet.
      */
     addressIndex?: number;
-    /**
-     * A map of `HdKey` variable IDs to the derived public keys provided to us
-     * by other entities for this compilation. These public keys are derived
-     * according to each `HdKey` variable's `derivationPath`.
-     *
-     * This mapping allows us to fill public keys without requiring access to
-     * the HD public key (or for hardened derivation, the HD private key). Since
-     * we're not able to derive these public keys ourselves, other entities must
-     * send us the derived public keys to include in the proper locations.
-     */
-    derivedPublicKeys?: {
-      [id: string]: Uint8Array;
-    };
     /**
      * A map of entity IDs to HD public keys. These HD public keys are used to
      * derive public keys for each `HdKey` variable assigned to that entity (as
@@ -428,17 +502,6 @@ export interface CompilationData<
     hdPrivateKeys?: {
       [entityId: string]: string;
     };
-    /**
-     * Pre-computed signatures provided by other entities for this compilation.
-     * Since they shouldn't share their private keys, they must share valid
-     * signatures to include in the proper locations.
-     *
-     * The provided `fullIdentifier` should match the complete identifier for
-     * each signature, e.g. `variable_id.signature.all_outputs`.
-     */
-    signatures?: {
-      [fullIdentifier: string]: Uint8Array;
-    };
   };
   /**
    * An object describing the settings used for `Key` variables in this
@@ -449,24 +512,7 @@ export interface CompilationData<
      * A map of `Key` variable IDs to their private keys for this compilation.
      */
     privateKeys?: {
-      [id: string]: Uint8Array;
-    };
-    /**
-     * A map of `Key` variable IDs to their public keys for this compilation.
-     */
-    publicKeys?: {
-      [id: string]: Uint8Array;
-    };
-    /**
-     * Pre-computed signatures provided by other entities for this compilation.
-     * Since they shouldn't share their private keys, they must share valid
-     * signatures to include in the proper locations.
-     *
-     * The provided `fullIdentifier` should match the complete identifier for
-     * each signature, e.g. `variable_id.signature.all_outputs`.
-     */
-    signatures?: {
-      [fullIdentifier: string]: Uint8Array;
+      [variableId: string]: Uint8Array;
     };
   };
   /**
@@ -474,12 +520,6 @@ export interface CompilationData<
    * operations used in the compilation.
    */
   operationData?: CompilerOperationData;
-  /**
-   * A map of `WalletData` variable IDs and their values for this compilation.
-   */
-  walletData?: {
-    [id: string]: Uint8Array;
-  };
 }
 
 export type AnyCompilationEnvironment<

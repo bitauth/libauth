@@ -10,8 +10,10 @@ import { bigIntToScriptNumber } from '../vm/instruction-sets/instruction-sets';
 import { CompilerDefaults } from './compiler-defaults';
 import {
   attemptCompilerOperations,
+  compilerOperationAttemptBytecodeResolution,
   compilerOperationHelperAddressIndex,
   compilerOperationHelperDeriveHdPrivateNode,
+  compilerOperationHelperGenerateCoveredBytecode,
   compilerOperationHelperUnknownEntity,
   compilerOperationRequires,
 } from './compiler-operation-helpers';
@@ -20,15 +22,15 @@ import { HdKey } from './template-types';
 
 export const compilerOperationAddressData = compilerOperationRequires({
   canBeSkipped: false,
-  dataProperties: ['addressData'],
+  dataProperties: ['bytecode'],
   environmentProperties: [],
   operation: (identifier, data) => {
-    const { addressData } = data;
-    if (identifier in addressData) {
-      return { bytecode: addressData[identifier], status: 'success' };
+    const { bytecode } = data;
+    if (identifier in bytecode) {
+      return { bytecode: bytecode[identifier], status: 'success' };
     }
     return {
-      error: `Identifier "${identifier}" refers to an AddressData, but "${identifier}" was not provided in the CompilationData "addressData".`,
+      error: `Identifier "${identifier}" refers to an AddressData, but "${identifier}" was not provided in the CompilationData "bytecode".`,
       recoverable: true,
       status: 'error',
     };
@@ -37,15 +39,15 @@ export const compilerOperationAddressData = compilerOperationRequires({
 
 export const compilerOperationWalletData = compilerOperationRequires({
   canBeSkipped: false,
-  dataProperties: ['walletData'],
+  dataProperties: ['bytecode'],
   environmentProperties: [],
   operation: (identifier, data) => {
-    const { walletData } = data;
-    if (identifier in walletData) {
-      return { bytecode: walletData[identifier], status: 'success' };
+    const { bytecode } = data;
+    if (identifier in bytecode) {
+      return { bytecode: bytecode[identifier], status: 'success' };
     }
     return {
-      error: `Identifier "${identifier}" refers to a WalletData, but "${identifier}" was not provided in the CompilationData "walletData".`,
+      error: `Identifier "${identifier}" refers to a WalletData, but "${identifier}" was not provided in the CompilationData "bytecode".`,
       recoverable: true,
       status: 'error',
     };
@@ -109,30 +111,41 @@ export const compilerOperationSigningSerializationCorrespondingOutputHash = comp
   }
 );
 
-export const compilerOperationSigningSerializationCoveredBytecode = compilerOperationRequires(
-  {
+const compilerOperationHelperSigningSerializationCoveredBytecode = (
+  returnLength: boolean
+) =>
+  compilerOperationRequires({
     canBeSkipped: false,
     dataProperties: ['operationData'],
-    environmentProperties: [],
-    operation: (_, data) => ({
-      bytecode: data.operationData.coveredBytecode,
-      status: 'success',
-    }),
-  }
-);
+    environmentProperties: ['sourceScriptIds', 'unlockingScripts'],
+    operation: (identifier, data, environment) => {
+      const { unlockingScripts, sourceScriptIds } = environment;
+      const result = compilerOperationHelperGenerateCoveredBytecode({
+        data,
+        environment,
+        identifier,
+        sourceScriptIds,
+        unlockingScripts,
+      });
 
-export const compilerOperationSigningSerializationCoveredBytecodeLength = compilerOperationRequires(
-  {
-    canBeSkipped: false,
-    dataProperties: ['operationData'],
-    environmentProperties: [],
-    operation: (_, data) => ({
-      bytecode: bigIntToBitcoinVarInt(
-        BigInt(data.operationData.coveredBytecode.length)
-      ),
-      status: 'success',
-    }),
-  }
+      if ('error' in result) {
+        return result;
+      }
+
+      return {
+        bytecode: returnLength
+          ? bigIntToBitcoinVarInt(BigInt(result.length))
+          : result,
+        status: 'success',
+      };
+    },
+  });
+
+export const compilerOperationSigningSerializationCoveredBytecode = compilerOperationHelperSigningSerializationCoveredBytecode(
+  false
+);
+export const compilerOperationSigningSerializationCoveredBytecodeLength = compilerOperationHelperSigningSerializationCoveredBytecode(
+  true
 );
 
 export const compilerOperationSigningSerializationLocktime = compilerOperationRequires(
@@ -286,25 +299,7 @@ export const compilerOperationSigningSerializationVersion = compilerOperationReq
 );
 
 export const compilerOperationKeyPublicKeyCommon = attemptCompilerOperations(
-  [
-    compilerOperationRequires({
-      canBeSkipped: true,
-      dataProperties: ['keys'],
-      environmentProperties: [],
-      operation: (identifier, data) => {
-        const { keys } = data;
-        const { publicKeys } = keys;
-        const [variableId] = identifier.split('.');
-        if (
-          publicKeys !== undefined &&
-          (publicKeys[variableId] as Uint8Array | undefined) !== undefined
-        ) {
-          return { bytecode: publicKeys[variableId], status: 'success' };
-        }
-        return { status: 'skip' };
-      },
-    }),
-  ],
+  [compilerOperationAttemptBytecodeResolution],
   compilerOperationRequires({
     canBeSkipped: false,
     dataProperties: ['keys'],
@@ -336,28 +331,7 @@ export const compilerOperationKeyPublicKeyCommon = attemptCompilerOperations(
 );
 
 export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
-  [
-    compilerOperationRequires({
-      canBeSkipped: true,
-      dataProperties: ['hdKeys'],
-      environmentProperties: [],
-      operation: (identifier, data) => {
-        const { hdKeys } = data;
-        const { derivedPublicKeys } = hdKeys;
-        const [variableId] = identifier.split('.');
-
-        if (
-          derivedPublicKeys !== undefined &&
-          (derivedPublicKeys[variableId] as Uint8Array | undefined) !==
-            undefined
-        ) {
-          return { bytecode: derivedPublicKeys[variableId], status: 'success' };
-        }
-
-        return { status: 'skip' };
-      },
-    }),
-  ],
+  [compilerOperationAttemptBytecodeResolution],
   compilerOperationRequires({
     canBeSkipped: false,
     dataProperties: ['hdKeys'],

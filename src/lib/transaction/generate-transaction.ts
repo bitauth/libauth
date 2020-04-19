@@ -1,7 +1,18 @@
 import {
+  CompilationData,
   Compiler,
   CompilerOperationDataCommon,
 } from '../template/compiler-types';
+import {
+  CompilationError,
+  CompilationResultParseError,
+  CompilationResultReduceError,
+  CompilationResultResolveError,
+} from '../template/language/language-types';
+import {
+  allErrorsAreRecoverable,
+  getResolvedVariableBytecode,
+} from '../template/language/language-utils';
 
 import {
   serializeOutpoints,
@@ -10,20 +21,45 @@ import {
   serializeSequenceNumbersForSigning,
 } from './transaction-serialization';
 import {
-  BytecodeGenerationError,
+  BytecodeGenerationCompletionInput,
+  BytecodeGenerationCompletionOutput,
+  BytecodeGenerationErrorBase,
+  BytecodeGenerationErrorLocking,
+  BytecodeGenerationErrorUnlocking,
   Input,
   InputTemplate,
   Output,
   OutputTemplate,
-  TransactionGenerationResult,
+  TransactionGenerationAttempt,
+  TransactionGenerationError,
   TransactionTemplateFixed,
 } from './transaction-types';
 
-/**
- *
- * @param outputTemplate -
- * @param index -
- */
+const returnFailedCompilationDirective = <
+  Type extends 'locking' | 'unlocking'
+>({
+  index,
+  result,
+  type,
+}: {
+  index: number;
+  result:
+    | CompilationResultParseError
+    | CompilationResultResolveError
+    | CompilationResultReduceError<unknown>;
+  type: Type;
+}) => {
+  return {
+    errors: result.errors.map((error) => ({
+      ...error,
+      error: `Failed compilation of ${type} directive at index "${index}": ${error.error}`,
+    })),
+    index,
+    ...(result.errorType === 'parse' ? {} : { resolved: result.resolve }),
+    type,
+  };
+};
+
 export const compileOutputTemplate = <
   CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
 >({
@@ -32,7 +68,7 @@ export const compileOutputTemplate = <
 }: {
   outputTemplate: OutputTemplate<CompilerType>;
   index: number;
-}): Output | BytecodeGenerationError => {
+}): Output | BytecodeGenerationErrorLocking => {
   if ('script' in outputTemplate.lockingBytecode) {
     const directive = outputTemplate.lockingBytecode;
     const data = directive.data === undefined ? {} : directive.data;
@@ -46,14 +82,7 @@ export const compileOutputTemplate = <
           lockingBytecode: result.bytecode,
           satoshis: outputTemplate.satoshis,
         }
-      : {
-          errors: result.errors.map((error) => ({
-            ...error,
-            error: `Failed compilation of locking directive at index "${index}": ${error.error}`,
-          })),
-          index,
-          ...(result.errorType === 'parse' ? {} : { resolved: result.resolve }),
-        };
+      : returnFailedCompilationDirective({ index, result, type: 'locking' });
   }
   return {
     lockingBytecode: outputTemplate.lockingBytecode.slice(),
@@ -61,9 +90,6 @@ export const compileOutputTemplate = <
   };
 };
 
-/**
- * TODO: doc
- */
 export const compileInputTemplate = <
   CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
 >({
@@ -80,31 +106,19 @@ export const compileInputTemplate = <
   template: Readonly<TransactionTemplateFixed<CompilerType>>;
   transactionOutpoints: Uint8Array;
   transactionSequenceNumbers: Uint8Array;
-}): Input | BytecodeGenerationError => {
+}): Input | BytecodeGenerationErrorUnlocking => {
   if ('script' in inputTemplate.unlockingBytecode) {
-    const unlockingDirective = inputTemplate.unlockingBytecode;
-
-    const lockingResult = compileOutputTemplate({
-      index,
-      outputTemplate: unlockingDirective.output,
-    });
-
-    if ('errors' in lockingResult) {
-      // TODO: do we need to distinguish the errors in the lockingBytecode compilation from errors in the final unlockingBytecode compilation?
-      return lockingResult;
-    }
-
-    const unlockingResult = unlockingDirective.compiler.generateBytecode(
-      unlockingDirective.script,
+    const directive = inputTemplate.unlockingBytecode;
+    const result = directive.compiler.generateBytecode(
+      directive.script,
       {
-        ...unlockingDirective.data,
+        ...directive.data,
         operationData: {
           correspondingOutput: serializeOutput(outputs[index]),
-          coveredBytecode: lockingResult.lockingBytecode,
           locktime: template.locktime,
           outpointIndex: inputTemplate.outpointIndex,
           outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
-          outputValue: unlockingDirective.output.satoshis,
+          outputValue: directive.satoshis,
           sequenceNumber: inputTemplate.sequenceNumber,
           transactionOutpoints: transactionOutpoints.slice(),
           transactionOutputs: serializeOutputsForSigning(outputs),
@@ -114,24 +128,14 @@ export const compileInputTemplate = <
       },
       true
     );
-
-    return unlockingResult.success
+    return result.success
       ? {
           outpointIndex: inputTemplate.outpointIndex,
           outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
           sequenceNumber: inputTemplate.sequenceNumber,
-          unlockingBytecode: unlockingResult.bytecode,
+          unlockingBytecode: result.bytecode,
         }
-      : {
-          errors: unlockingResult.errors.map((error) => ({
-            ...error,
-            error: `Input ${index}: ${error.error}`,
-          })),
-          index,
-          ...(unlockingResult.errorType === 'parse'
-            ? {}
-            : { resolved: unlockingResult.resolve }),
-        };
+      : returnFailedCompilationDirective({ index, result, type: 'unlocking' });
   }
   return {
     outpointIndex: inputTemplate.outpointIndex,
@@ -158,7 +162,7 @@ export const generateTransaction = <
   CompilerType extends Compiler<CompilerOperationDataCommon, unknown, unknown>
 >(
   template: Readonly<TransactionTemplateFixed<CompilerType>>
-): TransactionGenerationResult => {
+): TransactionGenerationAttempt => {
   const outputResults = template.outputs.map((outputTemplate, index) =>
     compileOutputTemplate({
       index,
@@ -167,16 +171,27 @@ export const generateTransaction = <
   );
 
   const outputCompilationErrors = outputResults.filter(
-    (result): result is BytecodeGenerationError => 'errors' in result
+    (result): result is BytecodeGenerationErrorLocking => 'errors' in result
   );
   if (outputCompilationErrors.length > 0) {
+    const outputCompletions = outputResults
+      .map<BytecodeGenerationCompletionOutput | BytecodeGenerationErrorLocking>(
+        (result, index) =>
+          'lockingBytecode' in result
+            ? { index, output: result, type: 'output' }
+            : result
+      )
+      .filter(
+        (result): result is BytecodeGenerationCompletionOutput =>
+          'output' in result
+      );
     return {
+      completions: outputCompletions,
       errors: outputCompilationErrors,
       stage: 'outputs',
       success: false,
     };
   }
-
   const outputs = outputResults as Output[];
 
   const inputSerializationElements = template.inputs.map((inputTemplate) => ({
@@ -188,7 +203,6 @@ export const generateTransaction = <
   const transactionSequenceNumbers = serializeSequenceNumbersForSigning(
     inputSerializationElements
   );
-
   const inputResults = template.inputs.map((inputTemplate, index) =>
     compileInputTemplate({
       index,
@@ -201,11 +215,27 @@ export const generateTransaction = <
   );
 
   const inputCompilationErrors = inputResults.filter(
-    (result): result is BytecodeGenerationError => 'errors' in result
+    (result): result is BytecodeGenerationErrorUnlocking => 'errors' in result
   );
-
   if (inputCompilationErrors.length > 0) {
-    return { errors: inputCompilationErrors, stage: 'inputs', success: false };
+    const inputCompletions = inputResults
+      .map<
+        BytecodeGenerationCompletionInput | BytecodeGenerationErrorUnlocking
+      >((result, index) =>
+        'unlockingBytecode' in result
+          ? { index, input: result, type: 'input' }
+          : result
+      )
+      .filter(
+        (result): result is BytecodeGenerationCompletionInput =>
+          'output' in result
+      );
+    return {
+      completions: inputCompletions,
+      errors: inputCompilationErrors,
+      stage: 'inputs',
+      success: false,
+    };
   }
   const inputs = inputResults as Input[];
 
@@ -216,6 +246,124 @@ export const generateTransaction = <
       locktime: template.locktime,
       outputs,
       version: template.version,
+    },
+  };
+};
+
+/**
+ * TODO: fundamentally unsound, migrate to PST format
+ *
+ * Extract a map of successfully resolved variables to their resolved bytecode.
+ *
+ * @param transactionGenerationError - a transaction generation attempt where
+ * `success` is `false`
+ */
+export const extractResolvedVariables = (
+  transactionGenerationError: TransactionGenerationError
+) =>
+  (transactionGenerationError.errors as BytecodeGenerationErrorBase[]).reduce<{
+    [fullIdentifier: string]: Uint8Array;
+  }>(
+    (all, error) =>
+      error.resolved === undefined
+        ? all
+        : { ...all, ...getResolvedVariableBytecode(error.resolved) },
+    {}
+  );
+
+/**
+ * TODO: fundamentally unsound, migrate to PST format
+ *
+ * Given an unsuccessful transaction generation result, extract a map of the
+ * identifiers missing from the compilation mapped to the entity which owns each
+ * variable.
+ *
+ * Returns `false` if any errors are fatal (the error either cannot be resolved
+ * by providing a variable, or the entity ownership of the required variable was
+ * not provided in the compilation data).
+ *
+ * @param transactionGenerationError - a transaction generation result where
+ * `success` is `false`
+ */
+export const extractMissingVariables = (
+  transactionGenerationError: TransactionGenerationError
+) => {
+  const allErrors = (transactionGenerationError.errors as BytecodeGenerationErrorBase[]).reduce<
+    CompilationError[]
+  >((all, error) => [...all, ...error.errors], []);
+
+  if (!allErrorsAreRecoverable(allErrors)) {
+    return false;
+  }
+
+  return allErrors.reduce<{ [fullIdentifier: string]: string }>(
+    (all, error) => ({
+      ...all,
+      [error.missingIdentifier]: error.owningEntity,
+    }),
+    {}
+  );
+};
+
+/**
+ * TODO: fundamentally unsound, migrate to PST format
+ *
+ * Safely extend a compilation data with resolutions provided by other entities
+ * (via `extractResolvedVariables`).
+ *
+ * It is security-critical that compilation data only be extended with expected
+ * identifiers from the proper owning entity of each variable. See
+ * `CompilationData.bytecode` for details.
+ *
+ * Returns `false` if any errors are fatal (the error either cannot be resolved
+ * by providing a variable, or the entity ownership of the required variable was
+ * not provided in the compilation data).
+ *
+ * @remarks
+ * To determine which identifiers are required by a given compilation, the
+ * compilation is first attempted with only trusted variables: variables owned
+ * or previously verified (like `WalletData`) by the compiling entity. If this
+ * compilation produces a `TransactionGenerationError`, the error can be
+ * provided to `safelyExtendCompilationData`, along with the trusted compilation
+ * data and a mapping of untrusted resolutions (where the result of
+ * `extractResolvedVariables` is assigned to the entity ID of the entity from
+ * which they were received).
+ *
+ * The first compilation must use only trusted compilation data
+ */
+export const safelyExtendCompilationData = <
+  CompilerOperationData = CompilerOperationDataCommon
+>(
+  transactionGenerationError: TransactionGenerationError,
+  trustedCompilationData: CompilationData<CompilerOperationData>,
+  untrustedResolutions: {
+    [providedByEntityId: string]: ReturnType<typeof extractResolvedVariables>;
+  }
+): false | CompilationData<CompilerOperationData> => {
+  const missing = extractMissingVariables(transactionGenerationError);
+  if (missing === false) return false;
+  const selectedResolutions = Object.entries(missing).reduce<{
+    [fullIdentifier: string]: Uint8Array;
+  }>((all, [identifier, entityId]) => {
+    const entityResolution = untrustedResolutions[entityId] as
+      | {
+          [fullIdentifier: string]: Uint8Array;
+        }
+      | undefined;
+    if (entityResolution === undefined) {
+      return all;
+    }
+    const resolution = entityResolution[identifier] as Uint8Array | undefined;
+    if (resolution === undefined) {
+      return all;
+    }
+    return { ...all, [identifier]: resolution };
+  }, {});
+  return {
+    ...trustedCompilationData,
+    bytecode: {
+      ...selectedResolutions,
+      ...trustedCompilationData.bytecode,
     },
   };
 };

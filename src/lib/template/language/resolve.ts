@@ -9,7 +9,7 @@ import {
 } from '../compiler-types';
 import { AuthenticationTemplateVariable } from '../template-types';
 
-import { compileScript } from './compile';
+import { compileScriptRaw } from './compile';
 import {
   BtlScriptSegment,
   CompilationResultSuccess,
@@ -60,7 +60,10 @@ export const resolveScriptSegment = (
             }
           : {
               ...('recoverable' in result && result.recoverable
-                ? { missingIdentifier: identifier }
+                ? {
+                    missingIdentifier: identifier,
+                    owningEntity: result.entityOwnership,
+                  }
                 : {}),
               range,
               type: 'error' as const,
@@ -299,39 +302,20 @@ export const resolveVariableIdentifier = <
  * @param parentIdentifier - the identifier of the script which references the
  * script being resolved (for detecting circular dependencies)
  */
-// eslint-disable-next-line complexity
 export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
   data,
   environment,
   identifier,
-  parentIdentifier,
 }: {
   identifier: string;
   data: CompilationData<CompilerOperationData>;
   environment: CompilationEnvironment<CompilerOperationData>;
-  parentIdentifier?: string;
 }): CompilationResultSuccess<ProgramState> | string | false => {
   if ((environment.scripts[identifier] as string | undefined) === undefined) {
     return false;
   }
-  if (
-    parentIdentifier !== undefined &&
-    environment.sourceScriptIds !== undefined &&
-    environment.sourceScriptIds.includes(parentIdentifier)
-  ) {
-    return `A circular dependency was encountered: script "${identifier}" relies on itself to be generated. (Parent scripts: ${environment.sourceScriptIds.join(
-      ', '
-    )})`;
-  }
-  const result = compileScript(identifier, data, {
-    ...environment,
-    sourceScriptIds: [
-      ...(environment.sourceScriptIds === undefined
-        ? []
-        : environment.sourceScriptIds),
-      ...(parentIdentifier === undefined ? [] : [parentIdentifier]),
-    ],
-  });
+
+  const result = compileScriptRaw({ data, environment, scriptId: identifier });
   if (result.success) {
     return result;
   }
@@ -360,9 +344,7 @@ export const resolveScriptIdentifier = <CompilerOperationData, ProgramState>({
 export const createIdentifierResolver = <CompilerOperationData>({
   data,
   environment,
-  scriptId,
 }: {
-  scriptId: string | undefined;
   data: CompilationData<CompilerOperationData>;
   environment: CompilationEnvironment<CompilerOperationData>;
 }): IdentifierResolutionFunction =>
@@ -386,6 +368,12 @@ export const createIdentifierResolver = <CompilerOperationData>({
       return variableResult.status === 'error'
         ? {
             error: variableResult.error,
+            ...(environment.entityOwnership === undefined
+              ? {}
+              : {
+                  entityOwnership:
+                    environment.entityOwnership[identifier.split('.')[0]],
+                }),
             recoverable: 'recoverable' in variableResult,
             status: false,
             type: IdentifierResolutionErrorType.variable,
@@ -400,7 +388,6 @@ export const createIdentifierResolver = <CompilerOperationData>({
       data,
       environment,
       identifier,
-      parentIdentifier: scriptId,
     });
     if (scriptResult !== false) {
       return typeof scriptResult === 'string'

@@ -1,9 +1,9 @@
 import {
-  AuthenticationErrorBCH,
+  AuthenticationErrorCommon,
   createAuthenticationProgramExternalStateCommonEmpty,
   createAuthenticationProgramStateCommon,
   generateBytecodeMap,
-  OpcodesBCH,
+  OpcodesCommon,
 } from '../vm/instruction-sets/instruction-sets';
 import { AuthenticationInstruction } from '../vm/instruction-sets/instruction-sets-types';
 import {
@@ -90,15 +90,15 @@ export const createCompilerCommonSynchronous = <
   TransactionContext extends TransactionContextCommon,
   Environment extends AnyCompilationEnvironment<TransactionContext>,
   ProgramState extends AuthenticationProgramStateCommon<Opcodes, Errors>,
-  Opcodes = OpcodesBCH,
-  Errors = AuthenticationErrorBCH
+  Opcodes = OpcodesCommon,
+  Errors = AuthenticationErrorCommon
 >(
   scriptsAndOverrides: Environment
 ): Compiler<TransactionContext, Environment, ProgramState> => {
   return createCompiler<TransactionContext, Environment, ProgramState>({
     ...{
       createState: compilerCreateStateCommon,
-      opcodes: generateBytecodeMap(OpcodesBCH),
+      opcodes: generateBytecodeMap(OpcodesCommon),
       operations: compilerOperationsCommon,
     },
     ...scriptsAndOverrides,

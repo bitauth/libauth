@@ -166,8 +166,6 @@ export const compilerOperationHelperComputeSignatureBCH = ({
     };
   }
 
-  //
-
   const serialization = generateSigningSerializationBCH({
     correspondingOutput: transactionContext.correspondingOutput,
     coveredBytecode,

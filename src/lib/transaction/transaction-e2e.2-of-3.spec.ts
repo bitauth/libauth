@@ -70,28 +70,22 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
 
   t.deepEqual(address, 'bchtest:pplldqjpjaj0058xma6csnpgxd9ew2vxgv26n639yk');
 
-  const utxoOutpointTransactionHash = hexToBin(
-    '3423be78a1976b4ae3516cda594577df004663ff24f1beb9d5bb63056b1b0a60'
-  );
   const utxoOutput = {
-    lockingBytecode: hexToBin('a9147ff682419764f7d0e6df75884c28334b9729864387'),
+    lockingBytecode: lockingBytecode.bytecode,
     satoshis: 10000,
   };
 
-  const signer1UnlockingData: CompilationData<never> = {
-    hdKeys: {
-      addressIndex: 0,
-      hdPrivateKeys: {
-        signer_1: hdPrivateKey0H,
-      },
-      hdPublicKeys,
-    },
-  };
-
-  const inputDetails = {
+  const input1 = {
     outpointIndex: 1,
-    outpointTransactionHash: utxoOutpointTransactionHash,
+    outpointTransactionHash: hexToBin(
+      '3423be78a1976b4ae3516cda594577df004663ff24f1beb9d5bb63056b1b0a60'
+    ),
     sequenceNumber: 0,
+    unlockingBytecode: {
+      compiler,
+      satoshis: utxoOutput.satoshis,
+      script: '1_and_3',
+    },
   };
 
   const transactionProposal = {
@@ -105,16 +99,24 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     version: 2,
   };
 
+  const signer1UnlockingData: CompilationData<never> = {
+    ...lockingData,
+    hdKeys: {
+      ...lockingData.hdKeys,
+      hdPrivateKeys: {
+        signer_1: hdPrivateKey0H,
+      },
+    },
+  };
+
   const signer1Attempt = generateTransaction({
     ...transactionProposal,
     inputs: [
       {
-        ...inputDetails,
+        ...input1,
         unlockingBytecode: {
-          compiler,
+          ...input1.unlockingBytecode,
           data: signer1UnlockingData,
-          satoshis: utxoOutput.satoshis,
-          script: '1_and_3',
         },
       },
     ],
@@ -162,12 +164,10 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     ...transactionProposal,
     inputs: [
       {
-        ...inputDetails,
+        ...input1,
         unlockingBytecode: {
-          compiler,
+          ...input1.unlockingBytecode,
           data: signer3UnlockingData,
-          satoshis: utxoOutput.satoshis,
-          script: '1_and_3',
         },
       },
     ],
@@ -202,12 +202,10 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     ...transactionProposal,
     inputs: [
       {
-        ...inputDetails,
+        ...input1,
         unlockingBytecode: {
-          compiler,
+          ...input1.unlockingBytecode,
           data: signer3UnlockingDataWithMissingVariables,
-          satoshis: utxoOutput.satoshis,
-          script: '1_and_3',
         },
       },
     ],

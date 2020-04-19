@@ -3,7 +3,7 @@ import {
   bigIntToBitcoinVarInt,
   numberToBinUint32LE,
 } from '../format/numbers';
-import { dateToLocktime } from '../format/time';
+import { dateToLocktimeBin } from '../format/time';
 import { decodeHdPublicKey, deriveHdPath } from '../key/hd-key';
 import { bigIntToScriptNumber } from '../vm/instruction-sets/instruction-sets';
 
@@ -59,7 +59,7 @@ export const compilerOperationCurrentBlockTime = compilerOperationRequires({
   dataProperties: ['currentBlockTime'],
   environmentProperties: [],
   operation: (identifier, data) => {
-    const result = dateToLocktime(data.currentBlockTime);
+    const result = dateToLocktimeBin(data.currentBlockTime);
     return typeof result === 'string'
       ? {
           error: `Cannot resolve "${identifier} – the Date provided as "currentBlockTime" in the compilation data is outside the range which can be encoded in locktime."`,

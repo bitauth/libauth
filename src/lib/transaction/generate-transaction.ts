@@ -109,12 +109,16 @@ export const compileInputTemplate = <
 }): Input | BytecodeGenerationErrorUnlocking => {
   if ('script' in inputTemplate.unlockingBytecode) {
     const directive = inputTemplate.unlockingBytecode;
+    const correspondingOutput = outputs[index] as Output | undefined;
     const result = directive.compiler.generateBytecode(
       directive.script,
       {
         ...directive.data,
         transactionContext: {
-          correspondingOutput: serializeOutput(outputs[index]),
+          correspondingOutput:
+            correspondingOutput === undefined
+              ? undefined
+              : serializeOutput(correspondingOutput),
           locktime: template.locktime,
           outpointIndex: inputTemplate.outpointIndex,
           outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
@@ -228,7 +232,7 @@ export const generateTransaction = <
       )
       .filter(
         (result): result is BytecodeGenerationCompletionInput =>
-          'output' in result
+          'input' in result
       );
     return {
       completions: inputCompletions,

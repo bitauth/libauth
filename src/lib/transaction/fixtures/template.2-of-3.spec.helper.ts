@@ -20,6 +20,7 @@ const createSigner = (
  */
 export const twoOfThree: AuthenticationTemplate = {
   ...{ name: '2-of-3 Multisig' },
+  $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
   entities: {
     signer_1: createSigner('Signer 1', '1', ['1_and_2', '1_and_3']),
     signer_2: createSigner('Signer 2', '2', ['1_and_2', '2_and_3']),
@@ -43,6 +44,7 @@ export const twoOfThree: AuthenticationTemplate = {
     },
     lock: {
       lockingType: 'p2sh',
+      name: '2-of-3 Vault',
       script:
         'OP_2 <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG',
     },

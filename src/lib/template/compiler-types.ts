@@ -418,6 +418,9 @@ export interface CompilationData<
    * each item, e.g. `some_wallet_data`, `variable_id.public_key`, or
    * `variable_id.signature.all_outputs`.
    *
+   * To provide `AddressData` or `WalletData` from advanced user interfaces,
+   * consider parsing input with `compileBtl`.
+   *
    * @remarks
    * It is security-critical that only identifiers provided by the entities
    * expected to provide them are included here. For example:

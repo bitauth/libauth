@@ -1,8 +1,40 @@
+import { createCompilerCommonSynchronous } from '../compiler';
+
 import {
   CompilationError,
   CompilationErrorRecoverable,
   ResolvedScript,
 } from './language-types';
+
+/**
+ * Perform a simplified compilation on a Bitauth Templating Language (BTL)
+ * script containing only hex literals, bigint literals, UTF8 literals, and push
+ * statements. Scripts may not contain variables/operations, evaluations, or
+ * opcode identifiers (use hex literals instead).
+ *
+ * This is useful for accepting complex user input in advanced interfaces,
+ * especially for `AddressData` and `WalletData`.
+ *
+ * Returns the compiled bytecode as a `Uint8Array`, or throws an error message.
+ *
+ * @param script - a simple BTL script containing no variables or evaluations
+ */
+export const compileBtl = (script: string) => {
+  const result = createCompilerCommonSynchronous({
+    scripts: { script },
+  }).generateBytecode('script', {});
+  if (result.success) {
+    return result.bytecode;
+  }
+  // eslint-disable-next-line functional/no-throw-statement
+  throw new Error(
+    `BTL compilation error:${result.errors.reduce(
+      (all, { error, range }) =>
+        `${all} [${range.startLineNumber}, ${range.startColumn}]: ${error}`,
+      ''
+    )}`
+  );
+};
 
 /**
  * Extract a list of the errors which occurred while resolving a script.

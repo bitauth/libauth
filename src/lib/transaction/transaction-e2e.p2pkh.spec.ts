@@ -3,7 +3,6 @@
 import test from 'ava';
 
 import {
-  authenticationTemplateP2pkhHd,
   authenticationTemplateToCompilerBCH,
   CashAddressNetworkPrefix,
   CompilationData,
@@ -14,12 +13,14 @@ import {
   validateAuthenticationTemplate,
 } from '../lib';
 
-import { hdPrivateKey, hdPublicKey } from './transaction-e2e.spec.helper';
+import {
+  hdPrivateKey,
+  hdPublicKey,
+  p2pkhJson,
+} from './transaction-e2e.spec.helper';
 
 test('transaction e2e tests: P2PKH (authenticationTemplateP2pkhHd)', async (t) => {
-  const template = validateAuthenticationTemplate(
-    authenticationTemplateP2pkhHd
-  );
+  const template = validateAuthenticationTemplate(p2pkhJson);
   if (typeof template === 'string') {
     t.fail(template);
     return;

@@ -22,7 +22,7 @@ import { Output, Transaction } from './transaction-types';
  * node implementations must confirm that:
  * - all `spentOutputs` are still unspent, and
  * - both relative and absolute locktime consensus requirements have been met.
- * (See BIP65 and BIP68 for details.)
+ * (See BIP65, BIP68, and BIP112 for details.)
  *
  * @param spentOutputs - an array of the `Output`s spent by the transaction's
  * `inputs` in matching order (`inputs[0]` spends `spentOutputs[0]`, etc.)

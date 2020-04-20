@@ -55,6 +55,7 @@
     "doc:check-api": "api-extractor run --typescript-compiler-folder node_modules/typescript",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "doc:generate-json-schema": "ts-json-schema-generator --path 'src/lib/template/template-types.ts' --type 'AuthenticationTemplate' > src/lib/template/bitauth-authentication-template.schema.json",
+    "doc:generate-templates": "node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' 'p2pkh' > src/lib/transaction/fixtures/templates/p2pkh.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-3' > src/lib/transaction/fixtures/templates/2-of-3.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-2-recoverable' > src/lib/transaction/fixtures/templates/2-of-2-recoverable.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' '1-of-8-tree' > src/lib/transaction/fixtures/templates/1-of-8-tree.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' 'sig-of-sig' > src/lib/transaction/fixtures/templates/sig-of-sig.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' 'cash-channels' > src/lib/transaction/fixtures/templates/cash-channels.json && prettier 'src/lib/transaction/fixtures/templates/*.json' --write",
     "version": "standard-version",
     "reset": "git clean -dfx && git reset --hard && yarn",
     "clean": "trash build test",

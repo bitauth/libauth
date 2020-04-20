@@ -1,0 +1,195 @@
+{
+  "name": "1-of-8 Tree Signature",
+  "description": "A 1-of-8 P2SH tree signature authentication template, based on: https://www.yours.org/content/tree-signature-variations-using-commutative-hash-trees-8a898830203a\n\n         root\n        /    \\\n       a1     a2\n      / \\     / \\\n    b1  b2   b3  b4\n    /\\  /\\   /\\   /\\\n c | |  | |  | |  | |\n   1 2  3 4  5 6  7 8\n\n The tree contains 5 levels:\n - root\n - a - concat and hash of b\n - b - concat and hash of c\n - c - hash of each respective public key\n - # - each respective public key",
+  "entities": {
+    "signer_1": {
+      "name": "Signer 1",
+      "scripts": ["lock", "unlock_1"],
+      "variables": {
+        "key1": {
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_2": {
+      "name": "Signer 2",
+      "scripts": ["lock", "unlock_2"],
+      "variables": {
+        "key2": {
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_3": {
+      "name": "Signer 3",
+      "scripts": ["lock", "unlock_3"],
+      "variables": {
+        "key3": {
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_4": {
+      "name": "Signer 4",
+      "scripts": ["lock", "unlock_4"],
+      "variables": {
+        "key4": {
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_5": {
+      "name": "Signer 5",
+      "scripts": ["lock", "unlock_5"],
+      "variables": {
+        "key5": {
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_6": {
+      "name": "Signer 6",
+      "scripts": ["lock", "unlock_6"],
+      "variables": {
+        "key6": {
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_7": {
+      "name": "Signer 7",
+      "scripts": ["lock", "unlock_7"],
+      "variables": {
+        "key7": {
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_8": {
+      "name": "Signer 8",
+      "scripts": ["lock", "unlock_8"],
+      "variables": {
+        "key8": {
+          "type": "HdKey"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "root": {
+      "name": "root",
+      "script": "a1 a2 hash_node"
+    },
+    "a1": {
+      "name": "a1",
+      "script": "b1 b2 hash_node"
+    },
+    "a2": {
+      "name": "a2",
+      "script": "b3 b4 hash_node"
+    },
+    "b1": {
+      "name": "b1",
+      "script": "c1 c2 hash_node"
+    },
+    "b2": {
+      "name": "b2",
+      "script": "c3 c4 hash_node"
+    },
+    "b3": {
+      "name": "b3",
+      "script": "c5 c6 hash_node"
+    },
+    "b4": {
+      "name": "b4",
+      "script": "c7 c8 hash_node"
+    },
+    "c1": {
+      "name": "c1",
+      "script": "<key1.public_key> OP_HASH160"
+    },
+    "c2": {
+      "name": "c2",
+      "script": "<key2.public_key> OP_HASH160"
+    },
+    "c3": {
+      "name": "c3",
+      "script": "<key3.public_key> OP_HASH160"
+    },
+    "c4": {
+      "name": "c4",
+      "script": "<key4.public_key> OP_HASH160"
+    },
+    "c5": {
+      "name": "c5",
+      "script": "<key5.public_key> OP_HASH160"
+    },
+    "c6": {
+      "name": "c6",
+      "script": "<key6.public_key> OP_HASH160"
+    },
+    "c7": {
+      "name": "c7",
+      "script": "<key7.public_key> OP_HASH160"
+    },
+    "c8": {
+      "name": "c8",
+      "script": "<key8.public_key> OP_HASH160"
+    },
+    "hash_node": {
+      "name": "hash_node",
+      "script": "sort_cat OP_HASH160"
+    },
+    "lock": {
+      "lockingType": "p2sh",
+      "name": "1-of-8 Tree Vault",
+      "script": "OP_4 OP_PICK OP_HASH160 sort_cat OP_HASH160 sort_cat OP_HASH160 sort_cat OP_HASH160 <$(root)> OP_EQUALVERIFY OP_CHECKSIG"
+    },
+    "sort_cat": {
+      "name": "sort_cat",
+      "script": "OP_LESSTHAN OP_IF OP_SWAP OP_ENDIF OP_CAT"
+    },
+    "unlock_1": {
+      "name": "Spend - Signer 1",
+      "script": "<key1.signature.all_outputs> <key1.public_key> <$(a2)> <$(b2)> <$(c2)>",
+      "unlocks": "lock"
+    },
+    "unlock_2": {
+      "name": "Spend - Signer 2",
+      "script": "<key2.signature.all_outputs> <key2.public_key> <$(a2)> <$(b2)> <$(c1)>",
+      "unlocks": "lock"
+    },
+    "unlock_3": {
+      "name": "Spend - Signer 3",
+      "script": "<key3.signature.all_outputs> <key3.public_key> <$(a2)> <$(b1)> <$(c4)>",
+      "unlocks": "lock"
+    },
+    "unlock_4": {
+      "name": "Spend - Signer 4",
+      "script": "<key4.signature.all_outputs> <key4.public_key> <$(a2)> <$(b1)> <$(c3)>",
+      "unlocks": "lock"
+    },
+    "unlock_5": {
+      "name": "Spend - Signer 5",
+      "script": "<key5.signature.all_outputs> <key5.public_key> <$(a1)> <$(b4)> <$(c6)>",
+      "unlocks": "lock"
+    },
+    "unlock_6": {
+      "name": "Spend - Signer 6",
+      "script": "<key6.signature.all_outputs> <key6.public_key> <$(a1)> <$(b4)> <$(c5)>",
+      "unlocks": "lock"
+    },
+    "unlock_7": {
+      "name": "Spend - Signer 7",
+      "script": "<key7.signature.all_outputs> <key7.public_key> <$(a1)> <$(b3)> <$(c8)>",
+      "unlocks": "lock"
+    },
+    "unlock_8": {
+      "name": "Spend - Signer 8",
+      "script": "<key8.signature.all_outputs> <key8.public_key> <$(a1)> <$(b3)> <$(c7)>",
+      "unlocks": "lock"
+    }
+  },
+  "supported": ["BCH_2019_11"],
+  "version": 0
+}

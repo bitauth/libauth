@@ -3,37 +3,37 @@ import test from 'ava';
 
 import {
   authenticationTemplateP2pkh,
-  authenticationTemplateP2pkhHd,
+  authenticationTemplateP2pkhNonHd,
   validateAuthenticationTemplate,
 } from '../../lib';
 
 test('authenticationTemplateP2pkh is valid', (t) => {
-  const template = validateAuthenticationTemplate(authenticationTemplateP2pkh);
+  const template = validateAuthenticationTemplate(
+    authenticationTemplateP2pkhNonHd
+  );
   t.true(typeof template !== 'string');
 });
 
 test('authenticationTemplateP2pkh is mostly equivalent to authenticationTemplateP2pkhHd', (t) => {
   t.deepEqual(
-    authenticationTemplateP2pkh.$schema,
-    authenticationTemplateP2pkhHd.$schema
+    authenticationTemplateP2pkhNonHd.$schema,
+    authenticationTemplateP2pkh.$schema
   );
   t.deepEqual(
-    authenticationTemplateP2pkh.scripts,
-    authenticationTemplateP2pkhHd.scripts
+    authenticationTemplateP2pkhNonHd.scripts,
+    authenticationTemplateP2pkh.scripts
   );
   t.deepEqual(
-    authenticationTemplateP2pkh.supported,
-    authenticationTemplateP2pkhHd.supported
+    authenticationTemplateP2pkhNonHd.supported,
+    authenticationTemplateP2pkh.supported
   );
   t.deepEqual(
-    authenticationTemplateP2pkh.version,
-    authenticationTemplateP2pkhHd.version
+    authenticationTemplateP2pkhNonHd.version,
+    authenticationTemplateP2pkh.version
   );
 });
 
 test('authenticationTemplateP2pkhHd is valid', (t) => {
-  const template = validateAuthenticationTemplate(
-    authenticationTemplateP2pkhHd
-  );
+  const template = validateAuthenticationTemplate(authenticationTemplateP2pkh);
   t.true(typeof template !== 'string');
 });

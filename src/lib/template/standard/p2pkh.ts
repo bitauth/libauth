@@ -11,7 +11,7 @@ import { AuthenticationTemplate } from '../template-types';
  * Note, this authentication template uses only a single `Key`. For HD key
  * support, see `authenticationTemplateP2pkhHd`.
  */
-export const authenticationTemplateP2pkh: AuthenticationTemplate = {
+export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
   $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
   description:
     'A standard single-factor authentication template which uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions.',
@@ -57,7 +57,7 @@ export const authenticationTemplateP2pkh: AuthenticationTemplate = {
  * Because the template uses a Hierarchical Deterministic (HD) key, it also
  * supports an "Observer (Watch-Only)" entity.
  */
-export const authenticationTemplateP2pkhHd: AuthenticationTemplate = {
+export const authenticationTemplateP2pkh: AuthenticationTemplate = {
   $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
   description:
     'A standard single-factor authentication template which uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions. Because the template uses a Hierarchical Deterministic (HD) key, it also supports an "Observer (Watch-Only)" entity.',

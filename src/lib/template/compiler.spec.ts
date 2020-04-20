@@ -3,7 +3,7 @@ import test from 'ava';
 
 import {
   authenticationTemplateP2pkh,
-  authenticationTemplateP2pkhHd,
+  authenticationTemplateP2pkhNonHd,
   authenticationTemplateToCompilationEnvironment,
   createCompilerCommonSynchronous,
   hexToBin,
@@ -34,9 +34,9 @@ test('createCompilerCommonSynchronous', (t) => {
   });
 });
 
-test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pkh', (t) => {
+test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pkhNonHd', (t) => {
   const environment = authenticationTemplateToCompilationEnvironment(
-    authenticationTemplateP2pkh
+    authenticationTemplateP2pkhNonHd
   );
   t.deepEqual(
     environment,
@@ -66,9 +66,9 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
   );
 });
 
-test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pkhHd', (t) => {
+test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pkh', (t) => {
   const environment = authenticationTemplateToCompilationEnvironment(
-    authenticationTemplateP2pkhHd
+    authenticationTemplateP2pkh
   );
   t.deepEqual(
     environment,

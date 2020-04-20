@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { AuthenticationTemplate } from '../../template/template-types';
 
-export const twoOfTwoWithContinuity: AuthenticationTemplate = {
+export const twoOfTwoRecoverable: AuthenticationTemplate = {
   ...{ name: '2-of-2 Recoverable Vault' },
   $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
   description:
@@ -48,12 +48,14 @@ export const twoOfTwoWithContinuity: AuthenticationTemplate = {
       name: 'Recover – Signer 1',
       script:
         '<0>\n<first.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>',
+      timeLockType: 'timestamp',
       unlocks: 'lock',
     },
     recover_2: {
       name: 'Recover – Signer 2',
       script:
         '<0>\n<second.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>',
+      timeLockType: 'timestamp',
       unlocks: 'lock',
     },
     spend: {

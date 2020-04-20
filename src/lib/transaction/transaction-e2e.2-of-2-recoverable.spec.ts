@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/no-expression-statement, camelcase */
 
 import test from 'ava';
 
@@ -22,7 +21,6 @@ import {
   verifyTransaction,
 } from '../lib';
 
-import { twoOfTwoWithContinuity } from './fixtures/template.2-of-2-recoverable.spec.helper';
 import {
   hdPrivateKey0H,
   hdPrivateKey1H,
@@ -30,13 +28,14 @@ import {
   hdPublicKey0H,
   hdPublicKey1H,
   hdPublicKey2H,
+  twoOfTwoRecoverableJson,
 } from './transaction-e2e.spec.helper';
 
 const vmPromise = instantiateVirtualMachineBCH();
 
 // eslint-disable-next-line complexity
 test('transaction e2e tests: 2-of-2 Recoverable Vault', async (t) => {
-  const template = validateAuthenticationTemplate(twoOfTwoWithContinuity);
+  const template = validateAuthenticationTemplate(twoOfTwoRecoverableJson);
   if (typeof template === 'string') {
     t.fail(template);
     return;

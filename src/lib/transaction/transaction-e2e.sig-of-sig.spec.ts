@@ -13,7 +13,6 @@ import {
   hexToBin,
   instantiateVirtualMachineBCH,
   lockingBytecodeToCashAddress,
-  safelyExtendCompilationData,
   serializeTransaction,
   stringify,
   validateAuthenticationTemplate,
@@ -22,20 +21,19 @@ import {
 
 import {
   hdPrivateKey0H,
-  hdPrivateKey2H,
+  hdPrivateKey1H,
   hdPublicKey0H,
   hdPublicKey1H,
-  hdPublicKey2H,
-  twoOfThreeJson,
+  sigOfSigJson,
 } from './transaction-e2e.spec.helper';
 
 const vmPromise = instantiateVirtualMachineBCH();
 
 // eslint-disable-next-line complexity
-test('transaction e2e tests: 2-of-3 multisig', async (t) => {
-  const template = validateAuthenticationTemplate(twoOfThreeJson);
+test('transaction e2e tests: Sig-of-Sig Example', async (t) => {
+  const template = validateAuthenticationTemplate(sigOfSigJson);
   if (typeof template === 'string') {
-    t.fail(template);
+    t.fail(stringify(template));
     return;
   }
 
@@ -45,7 +43,6 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
   const hdPublicKeys = {
     signer_1: hdPublicKey0H,
     signer_2: hdPublicKey1H,
-    signer_3: hdPublicKey2H,
   };
 
   const lockingData: CompilationData<never> = {
@@ -67,23 +64,23 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     CashAddressNetworkPrefix.testnet
   );
 
-  t.deepEqual(address, 'bchtest:pplldqjpjaj0058xma6csnpgxd9ew2vxgv26n639yk');
+  t.deepEqual(address, 'bchtest:ppcvyjuqwhuz06np4us443l26dzck305psl0dw6as9');
 
   const utxoOutput = {
     lockingBytecode: lockingBytecode.bytecode,
     satoshis: 10000,
   };
 
-  const input1 = {
+  const input = {
     outpointIndex: 1,
     outpointTransactionHash: hexToBin(
-      '3423be78a1976b4ae3516cda594577df004663ff24f1beb9d5bb63056b1b0a60'
+      '1a3c3f950738c23de2461f04b2acd4dfb6b6eb80daeb457f24a6084c45c7da01'
     ),
     sequenceNumber: 0,
     unlockingBytecode: {
       compiler,
       satoshis: utxoOutput.satoshis,
-      script: '1_and_3',
+      script: 'spend',
     },
   };
 
@@ -112,9 +109,9 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     ...transactionProposal,
     inputs: [
       {
-        ...input1,
+        ...input,
         unlockingBytecode: {
-          ...input1.unlockingBytecode,
+          ...input.unlockingBytecode,
           data: signer1UnlockingData,
         },
       },
@@ -127,84 +124,82 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     return;
   }
 
+  t.deepEqual(signer1Attempt.completions, []);
+
   const signer1MissingVariables = extractMissingVariables(signer1Attempt);
 
-  t.deepEqual(signer1MissingVariables, {
-    'key3.signature.all_outputs': 'signer_3',
-  });
-
-  t.deepEqual(signer1Attempt.completions, []);
+  t.deepEqual(
+    signer1MissingVariables,
+    {
+      'second.data_signature.first_signature': 'signer_2',
+    },
+    stringify(signer1MissingVariables)
+  );
 
   const signer1ResolvedVariables = extractResolvedVariables(signer1Attempt);
 
   const expectedSigner1Signature = hexToBin(
-    '304402205e7d56c4e7854f9c672977d6606dd2f0af5494b8e61108e2a92fc920bf8049fc022065262675b0e1a3850d88bd3c56e0eb5fb463d9cdbe49f2f625da5c0f82c7653041'
+    '30440220097cf5732181c1b398909993b4e7794d6f1dc2d40fa803e4e92665e929ce75d40220208df3ba16d67f20f3063bde3234a131845f21a724ef29dad5086d75d76385ec41'
   );
 
   t.deepEqual(
     signer1ResolvedVariables,
     {
-      'key1.signature.all_outputs': expectedSigner1Signature,
+      'first.public_key': hexToBin(
+        '0349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e46588'
+      ),
+      'first.signature.all_outputs': expectedSigner1Signature,
     },
     stringify(signer1ResolvedVariables)
   );
 
-  const signer3UnlockingData: CompilationData<never> = {
+  /**
+   * Signer 2 tries to sign (but needs Signer 1's signature)
+   */
+
+  const signer2UnlockingData: CompilationData<never> = {
+    ...lockingData,
     hdKeys: {
-      addressIndex: 0,
+      ...lockingData.hdKeys,
       hdPrivateKeys: {
-        signer_3: hdPrivateKey2H,
+        signer_2: hdPrivateKey1H,
       },
-      hdPublicKeys,
     },
   };
 
-  const signer3Attempt = generateTransaction({
+  const signer2Attempt = generateTransaction({
     ...transactionProposal,
     inputs: [
       {
-        ...input1,
+        ...input,
         unlockingBytecode: {
-          ...input1.unlockingBytecode,
-          data: signer3UnlockingData,
+          ...input.unlockingBytecode,
+          data: signer2UnlockingData,
         },
       },
     ],
   });
 
-  if (signer3Attempt.success) {
-    t.log('signer3Attempt:', stringify(signer1Attempt));
+  if (signer2Attempt.success) {
+    t.log('signer2Attempt:', stringify(signer2Attempt));
     t.fail();
     return;
   }
-
-  const signer3UnlockingDataWithMissingVariables = safelyExtendCompilationData(
-    signer3Attempt,
-    signer3UnlockingData,
-    {
-      signer_1: signer1ResolvedVariables,
-    }
-  ) as CompilationData<never>;
-
-  t.deepEqual(
-    signer3UnlockingDataWithMissingVariables,
-    {
-      ...signer3UnlockingData,
-      bytecode: {
-        'key1.signature.all_outputs': expectedSigner1Signature,
-      },
-    },
-    stringify(signer3UnlockingDataWithMissingVariables)
-  );
 
   const successfulCompilation = generateTransaction({
     ...transactionProposal,
     inputs: [
       {
-        ...input1,
+        ...input,
         unlockingBytecode: {
-          ...input1.unlockingBytecode,
-          data: signer3UnlockingDataWithMissingVariables,
+          ...input.unlockingBytecode,
+          data: {
+            ...signer2UnlockingData,
+            bytecode: {
+              ...signer2UnlockingData.bytecode,
+              'first.signature.all_outputs': expectedSigner1Signature,
+            },
+          },
         },
       },
     ],
@@ -229,12 +224,12 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     successfulCompilation,
     {
       success: true,
+      /**
+       * tx: 47623fba38548005eb8e5773a288d3fa5898b80178e94296f7b9f82ee053560c
+       */
       transaction: deserializeTransaction(
-        /**
-         * tx: c903aba46b4069e485b51292fd68eefdc95110fb95461b118c650fb454c34a9c
-         */
         hexToBin(
-          '0200000001600a1b6b0563bbd5b9bef124ff634600df774559da6c51e34a6b97a178be233401000000fc0047304402205e7d56c4e7854f9c672977d6606dd2f0af5494b8e61108e2a92fc920bf8049fc022065262675b0e1a3850d88bd3c56e0eb5fb463d9cdbe49f2f625da5c0f82c765304147304402200d167d5ed77fa169346d295f6fb742e80ae391f0ae086d42b99152bdb23edf4102202c8b85c2583b07b66485b88cacdd14f680bd3aa3f3f12e9f63bc02b4d1cc6d15414c6952210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b84695452103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7de53ae000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000'
+          '020000000101dac7454c08a6247f45ebda80ebb6b6dfd4acb2041f46e23dc23807953f3c1a01000000f04730440220097cf5732181c1b398909993b4e7794d6f1dc2d40fa803e4e92665e929ce75d40220208df3ba16d67f20f3063bde3234a131845f21a724ef29dad5086d75d76385ec41210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e4658846304402201673c0f6e8741bf2fd259411c212a2d7e326fe4c238118c0dbcab662ef439de10220259d9cf3414f662b83f5d7210e5b5890cdb64ee7e36f2187e6377c9e88a484613e52792102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b8469545bb76a91433c4f1d1e60cbe8eda7cf976752bbb313780c7db88ac000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000'
         )
       ),
     },

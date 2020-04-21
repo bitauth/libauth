@@ -16,9 +16,9 @@ import { HdKey } from './template-types';
 
 /**
  * Attempt a series of compiler operations, skipping to the next operation if
- * the current operation returns `false` (indicating it failed and can be
- * skipped, see `CompilerOperation`). The `finalOperation` may not be skipped,
- * and must either return bytecode or an error message.
+ * the current operation returns a `CompilerOperationSkip` (indicating it failed
+ * and can be skipped). The `finalOperation` may not be skipped, and must either
+ * return `CompilerOperationSuccess` or `CompilerOperationError`.
  *
  * @param operations - an array of skippable operations to try
  * @param finalOperation - a final, un-skippable operation

@@ -356,6 +356,7 @@ test('[BCH compiler] createCompilerBCH: debug', async (t) => {
                         outputValue: 0,
                         sequenceNumber: 0,
                         signatureOperationsCount: 0,
+                        signedMessages: [],
                         stack: [
                           hexToBin(
                             '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
@@ -400,6 +401,7 @@ test('[BCH compiler] createCompilerBCH: debug', async (t) => {
                         outputValue: 0,
                         sequenceNumber: 0,
                         signatureOperationsCount: 0,
+                        signedMessages: [],
                         stack: [
                           hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
                         ],
@@ -816,6 +818,11 @@ test('[BCH compiler] createCompilerBCH: debug', async (t) => {
               endLineNumber: 1,
               startColumn: 2,
               startLineNumber: 1,
+            },
+            signature: {
+              serialization: hexToBin(
+                '000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a70505050505050505050505050505050505050505050505050505050505050505000000001976a91415d16c84669ab46059313bf0747e781f1d13936d88ac000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000'
+              ),
             },
             type: 'bytecode',
             value: hexToBin(

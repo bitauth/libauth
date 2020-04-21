@@ -165,6 +165,9 @@ export const opCheckSig = <
     });
     const digest = sha256.hash(sha256.hash(serialization));
 
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    state.signedMessages.push(serialization);
+
     const useSchnorr = signature.length === ConsensusBCH.schnorrSignatureLength;
     const success = useSchnorr
       ? secp256k1.verifySignatureSchnorr(signature, publicKey, digest)
@@ -332,6 +335,9 @@ export const opCheckMultiSig = <
                       version: state.version,
                     });
                     const digest = sha256.hash(sha256.hash(serialization));
+
+                    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+                    finalState.signedMessages.push(serialization);
 
                     if (
                       signature.length === ConsensusBCH.schnorrSignatureLength

@@ -47,6 +47,7 @@ test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', async (t) => {
     outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
+    signedMessages: [],
     stack: [Uint8Array.of(0x04)],
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
@@ -90,6 +91,7 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async (t) => {
       outputValue: 0,
       sequenceNumber: 0,
       signatureOperationsCount: 0,
+      signedMessages: [],
       stack: [Uint8Array.of(0x02)],
       transactionOutpoints: Uint8Array.of(0x02),
       transactionOutputs: Uint8Array.of(0x03),
@@ -122,6 +124,7 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async (t) => {
       outputValue: 0,
       sequenceNumber: 0,
       signatureOperationsCount: 0,
+      signedMessages: [],
       stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
       transactionOutpoints: Uint8Array.of(0x02),
       transactionOutputs: Uint8Array.of(0x03),
@@ -154,6 +157,7 @@ test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', async (t) => {
       outputValue: 0,
       sequenceNumber: 0,
       signatureOperationsCount: 0,
+      signedMessages: [],
       stack: [Uint8Array.of(0x04)],
       transactionOutpoints: Uint8Array.of(0x02),
       transactionOutputs: Uint8Array.of(0x03),
@@ -202,6 +206,7 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async (t) => {
     outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
+    signedMessages: [],
     stack: [],
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
@@ -234,6 +239,7 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async (t) => {
     outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
+    signedMessages: [],
     stack: [Uint8Array.of(0x02)],
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
@@ -266,6 +272,7 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async (t) => {
     outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
+    signedMessages: [],
     stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
@@ -298,6 +305,7 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', async (t) => {
     outputValue: 0,
     sequenceNumber: 0,
     signatureOperationsCount: 0,
+    signedMessages: [],
     stack: [Uint8Array.of(0x04)],
     transactionOutpoints: Uint8Array.of(0x02),
     transactionOutputs: Uint8Array.of(0x03),
@@ -346,6 +354,7 @@ test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', async (t) =
     outputValue: 0,
     sequenceNumber: 4294967295,
     signatureOperationsCount: 0,
+    signedMessages: [],
     stack: [Uint8Array.of(0x04)],
     transactionOutpoints: hexToBin(
       'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
@@ -397,6 +406,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async (t) => {
       outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
+      signedMessages: [],
       stack: [Uint8Array.of(0x02)],
       transactionOutpoints: hexToBin(
         'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
@@ -431,6 +441,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async (t) => {
       outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
+      signedMessages: [],
       stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
       transactionOutpoints: hexToBin(
         'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
@@ -465,6 +476,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async (t) => {
       outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
+      signedMessages: [],
       stack: [Uint8Array.of(0x04)],
       transactionOutpoints: hexToBin(
         'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'
@@ -499,6 +511,7 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', async (t) => {
       outputValue: 0,
       sequenceNumber: 4294967295,
       signatureOperationsCount: 0,
+      signedMessages: [],
       stack: [Uint8Array.of(0x04)],
       transactionOutpoints: hexToBin(
         'afc2d6568ca9a00a1d490c6a91332cc5699dde309a0e69d21967d1b10878d2e300000000'

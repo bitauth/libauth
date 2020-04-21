@@ -70,7 +70,10 @@ export interface ResolvedSegmentEvaluation<T> extends ResolvedSegmentBase {
   value: T;
 }
 
-export interface ResolvedSegmentVariableBytecode extends ResolvedSegmentBase {
+export interface ResolvedSegmentVariableBytecode
+  extends ResolvedSegmentBase,
+    ResolutionDebug,
+    ResolutionSignature {
   type: 'bytecode';
   value: Uint8Array;
   /**
@@ -160,6 +163,34 @@ export enum IdentifierResolutionErrorType {
   script = 'script',
 }
 
+export interface ResolutionDebug {
+  /**
+   * An additional, complex property which may be returned by custom
+   * compiler operations. For use in extending the compiler to support
+   * additional return information like `CompilerOperationSuccessSignature`.
+   */
+  debug?: unknown;
+}
+
+export interface ResolutionSignature {
+  signature?:
+    | {
+        /**
+         * The transaction signing serialization signed by a signature. This
+         * signing serialization is hashed twice with `sha256`, and the
+         * digest is signed.
+         */
+        serialization: Uint8Array;
+      }
+    | {
+        /**
+         * The raw message signed by a data signature. This message is
+         * hashed once with `sha256`, and the digest is signed.
+         */
+        message: Uint8Array;
+      };
+}
+
 /**
  * A method which accepts a string and returns either the successfully resolved
  * bytecode or an error. The string will never be empty (`''`), so resolution
@@ -171,15 +202,21 @@ export type IdentifierResolutionFunction = (
   | {
       bytecode: Uint8Array;
       status: true;
-      type: IdentifierResolutionType.opcode | IdentifierResolutionType.variable;
+      type: IdentifierResolutionType.opcode;
     }
+  | ({
+      bytecode: Uint8Array;
+      status: true;
+      type: IdentifierResolutionType.variable;
+    } & ResolutionDebug &
+      ResolutionSignature)
   | {
       bytecode: Uint8Array;
       source: ResolvedScript;
       status: true;
       type: IdentifierResolutionType.script;
     }
-  | {
+  | ({
       error: string;
       type: IdentifierResolutionErrorType.variable;
       status: false;
@@ -189,7 +226,7 @@ export type IdentifierResolutionFunction = (
        * `entityOwnership`.
        */
       entityOwnership?: string;
-    }
+    } & ResolutionDebug)
   | {
       error: string;
       type: IdentifierResolutionErrorType.script;

@@ -3,6 +3,7 @@ import { flattenBinArray } from '../../../format/hex';
 import {
   AuthenticationProgramStateCommon,
   ErrorState,
+  SignatureAnalysisState,
   StackState,
 } from '../../state';
 import {
@@ -233,7 +234,7 @@ export const isValidSignatureEncodingBCHRaw = (signature: Uint8Array) =>
   isValidSignatureEncodingDER(signature);
 
 export const opCheckDataSig = <
-  State extends StackState & ErrorState<Errors>,
+  State extends StackState & ErrorState<Errors> & SignatureAnalysisState,
   Errors
 >({
   secp256k1,
@@ -261,6 +262,9 @@ export const opCheckDataSig = <
     }
     const digest = sha256.hash(message);
 
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    nextState.signedMessages.push(message);
+
     const useSchnorr = signature.length === ConsensusBCH.schnorrSignatureLength;
     const success = useSchnorr
       ? secp256k1.verifySignatureSchnorr(signature, publicKey, digest)
@@ -275,7 +279,7 @@ export const opCheckDataSig = <
   });
 
 export const opCheckDataSigVerify = <
-  State extends StackState & ErrorState<Errors>,
+  State extends StackState & ErrorState<Errors> & SignatureAnalysisState,
   Errors
 >({
   secp256k1,

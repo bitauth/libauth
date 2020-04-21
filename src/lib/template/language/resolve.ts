@@ -51,6 +51,10 @@ export const resolveScriptSegment = (
                   }
                 : result.type === IdentifierResolutionType.variable
                 ? {
+                    ...('debug' in result ? { debug: result.debug } : {}),
+                    ...('signature' in result
+                      ? { signature: result.signature }
+                      : {}),
                     variable: identifier,
                   }
                 : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -59,6 +63,7 @@ export const resolveScriptSegment = (
                 : ({ unknown: identifier } as never)),
             }
           : {
+              ...('debug' in result ? { debug: result.debug } : {}),
               ...('recoverable' in result && result.recoverable
                 ? {
                     missingIdentifier: identifier,
@@ -367,6 +372,9 @@ export const createIdentifierResolver = <TransactionContext>({
     if (variableResult.status !== 'skip') {
       return variableResult.status === 'error'
         ? {
+            ...('debug' in variableResult
+              ? { debug: variableResult.debug }
+              : {}),
             error: variableResult.error,
             ...(environment.entityOwnership === undefined
               ? {}
@@ -379,7 +387,15 @@ export const createIdentifierResolver = <TransactionContext>({
             type: IdentifierResolutionErrorType.variable,
           }
         : {
+            ...('debug' in variableResult
+              ? { debug: variableResult.debug }
+              : {}),
             bytecode: variableResult.bytecode,
+            ...('signature' in variableResult
+              ? {
+                  signature: variableResult.signature,
+                }
+              : {}),
             status: true,
             type: IdentifierResolutionType.variable,
           };

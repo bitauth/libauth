@@ -119,6 +119,20 @@ export interface AuthenticationProgramCommon {
   spendingTransaction: Transaction;
 }
 
+export interface SignatureAnalysisState {
+  /**
+   * An array of the `Uint8Array` values used in signature verification over the
+   * course of this program. Each raw signing serialization and data signature
+   * message should be pushed to this array in the order it was computed.
+   *
+   * This property is not used within any `AuthenticationVirtualMachine`, but it
+   * is provided in the program state to assist with analysis. Because these
+   * messages must always be computed and hashed during evaluation, recording
+   * them in the state does not meaningfully affect performance.
+   */
+  signedMessages: Uint8Array[];
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AuthenticationProgramExternalStateCommon
   extends TransactionInputState {}
@@ -132,7 +146,8 @@ export interface AuthenticationProgramInternalStateCommon<
     StackState<StackType>,
     AlternateStackState<StackType>,
     ExecutionStackState,
-    ErrorState<InstructionSetError> {
+    ErrorState<InstructionSetError>,
+    SignatureAnalysisState {
   /**
    * The `lastCodeSeparator` indicates the index of the most recently executed
    * `OP_CODESEPARATOR` instruction. In each of the signing serialization

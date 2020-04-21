@@ -8,10 +8,28 @@ import {
 } from './language/language-types';
 import { AuthenticationTemplateVariable } from './template-types';
 
-export interface CompilerOperationErrorFatal {
+export interface CompilerOperationDebug {
+  /**
+   * An additional, complex property which may be returned by custom compiler
+   * operations. For use in extending the compiler to support additional return
+   * information like `CompilerOperationSuccessSignature`.
+   */
+  debug?: unknown;
+}
+
+/**
+ * A non-recoverable error in a compiler operation. This is any error which
+ * cannot be resolved by simply providing a missing variable.
+ */
+export interface CompilerOperationErrorFatal extends CompilerOperationDebug {
   status: 'error';
   error: string;
 }
+
+/**
+ * A recoverable error in a compiler operation. This occurs when a required
+ * variable was not provided.
+ */
 export interface CompilerOperationErrorRecoverable
   extends CompilerOperationErrorFatal {
   /**
@@ -22,15 +40,68 @@ export interface CompilerOperationErrorRecoverable
   recoverable: true;
 }
 
+/**
+ * An unsuccessful compiler operation result.
+ */
 export type CompilerOperationError =
   | CompilerOperationErrorFatal
   | CompilerOperationErrorRecoverable;
 
-export interface CompilerOperationSuccess {
+/**
+ * A successful compiler operation result.
+ */
+export type CompilerOperationSuccess =
+  | CompilerOperationSuccessGeneric
+  | CompilerOperationSuccessSignatureType;
+
+export interface CompilerOperationSuccessGeneric
+  extends CompilerOperationDebug {
   status: 'success';
   bytecode: Uint8Array;
 }
 
+/**
+ * A successful signature-generation compiler operation. This provides slightly
+ * more debugging information than `CompilerOperationSuccessGeneric`. The
+ * signing serialization or data message which was hashed to produce the
+ * to-be-signed message is also provided in the result.
+ */
+export type CompilerOperationSuccessSignatureType =
+  | CompilerOperationSuccessSignature
+  | CompilerOperationSuccessDataSignature;
+
+/**
+ * The result of a successful `signature` compiler operation.
+ */
+export interface CompilerOperationSuccessSignature
+  extends CompilerOperationSuccessGeneric {
+  signature: {
+    /**
+     * The transaction signing serialization signed by a signature. This signing
+     * serialization is hashed twice with `sha256`, and the digest is signed.
+     */
+    serialization: Uint8Array;
+  };
+}
+
+/**
+ * The result of a successful `data_signature` compiler operation.
+ */
+export interface CompilerOperationSuccessDataSignature
+  extends CompilerOperationSuccessGeneric {
+  signature: {
+    /**
+     * The raw message signed by a data signature. This message is hashed once
+     * with `sha256`, and the digest is signed.
+     */
+    message: Uint8Array;
+  };
+}
+
+/**
+ * An unsuccessful compiler operation result which should be skipped by the
+ * compiler. See `attemptCompilerOperations` for details.
+ */
 export interface CompilerOperationSkip {
   status: 'skip';
 }
@@ -42,12 +113,15 @@ export type CompilerOperationResult<
   : CompilerOperationError | CompilerOperationSuccess;
 
 /**
- * Returns the bytecode result on success or an error message on failure.
+ * A compiler operation method which accepts the identifier being evaluated, the
+ * compilation data, and the compilation environment, and returns a
+ * `CompilerOperationResult`.
  *
  * @typeParam TransactionContext - the type of the `TransactionContext` in
  * `CompilationData<TransactionContext>` expected by this operation
- * @typeParam CanBeSkipped - if true, this operation may return `false` to
- * indicate that it cannot be applied and should be skipped
+ * @typeParam CanBeSkipped - if true, this operation may return
+ * `CompilerOperationSkip` to indicate that it cannot be applied and should be
+ * skipped
  * @typeParam Data - the type of the `CompilationData` expected by this
  * operation
  * @typeParam Environment - the type of the `CompilationEnvironment` expected by

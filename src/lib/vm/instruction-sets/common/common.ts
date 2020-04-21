@@ -202,6 +202,7 @@ export const createAuthenticationProgramInternalStateCommon = <
   lastCodeSeparator: -1,
   operationCount: 0,
   signatureOperationsCount: 0,
+  signedMessages: [],
   stack,
 });
 
@@ -256,6 +257,11 @@ export const createAuthenticationProgramStateCommon = <Opcodes, Errors>({
   ...externalState,
 });
 
+/**
+ * Note: this implementation does not safely clone elements within array
+ * properties. Mutating values within arrays will mutate those values in cloned
+ * program states.
+ */
 export const cloneAuthenticationProgramStateCommon = <
   Opcodes,
   State extends AuthenticationProgramStateCommon<Opcodes, Errors>,
@@ -277,6 +283,7 @@ export const cloneAuthenticationProgramStateCommon = <
   outputValue: state.outputValue,
   sequenceNumber: state.sequenceNumber,
   signatureOperationsCount: state.signatureOperationsCount,
+  signedMessages: state.signedMessages.slice(),
   stack: state.stack.slice(),
   transactionOutpoints: state.transactionOutpoints,
   transactionOutputs: state.transactionOutputs,

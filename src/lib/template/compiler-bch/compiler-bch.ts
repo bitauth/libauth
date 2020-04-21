@@ -186,7 +186,11 @@ export const compilerOperationHelperComputeSignatureBCH = ({
     ...sign(privateKey, digest),
     ...signingSerializationType,
   ]);
-  return { bytecode: bitcoinEncodedSignature, status: 'success' };
+  return {
+    bytecode: bitcoinEncodedSignature,
+    signature: { serialization },
+    status: 'success',
+  };
 };
 
 export const compilerOperationHelperHdKeySignatureBCH = ({
@@ -402,7 +406,11 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
   }
 
   const digest = sha256.hash(result);
-  return { bytecode: sign(privateKey, digest), status: 'success' };
+  return {
+    bytecode: sign(privateKey, digest),
+    signature: { message: result },
+    status: 'success',
+  };
 };
 
 export const compilerOperationHelperKeyDataSignatureBCH = ({

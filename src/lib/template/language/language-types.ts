@@ -324,6 +324,10 @@ export interface SampledEvaluationError<ProgramState> {
   success: false;
 }
 
+export type SampledEvaluationResult<ProgramState> =
+  | SampledEvaluationSuccess<ProgramState>
+  | SampledEvaluationError<ProgramState>;
+
 export interface CompilationResultResolve {
   parse: BtlScriptSegment;
   resolve: ResolvedScript;

@@ -44,7 +44,9 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
       entityOwnership: {
         owner: 'owner',
       },
-      lockingScriptTypes: {},
+      lockingScriptTypes: {
+        lock: 'standard',
+      },
       scripts: {
         lock:
           'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
@@ -76,7 +78,9 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
       entityOwnership: {
         owner: 'owner',
       },
-      lockingScriptTypes: {},
+      lockingScriptTypes: {
+        lock: 'standard',
+      },
       scripts: {
         lock:
           'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',

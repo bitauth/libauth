@@ -32,6 +32,7 @@ const maybeP2pkhTemplate: unknown = {
       script: 'OP_RETURN <"hello world">',
     },
     lock: {
+      lockingType: 'standard',
       name: 'P2PKH Lock',
       script:
         'OP_DUP\nOP_HASH160 <$( <owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',

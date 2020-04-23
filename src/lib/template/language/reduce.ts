@@ -19,8 +19,7 @@ import {
   InstructionAggregationSuccess,
   Range,
   ResolvedScript,
-  SampledEvaluationError,
-  SampledEvaluationSuccess,
+  SampledEvaluationResult,
   ScriptReductionTraceChildNode,
   ScriptReductionTraceContainerNode,
   ScriptReductionTraceNode,
@@ -212,9 +211,7 @@ export const sampledEvaluateReductionTraceNodes = <
     instructions: AuthenticationInstruction<Opcodes>[]
   ) => ProgramState;
   parentRange: Range;
-}):
-  | SampledEvaluationSuccess<ProgramState>
-  | SampledEvaluationError<ProgramState> => {
+}): SampledEvaluationResult<ProgramState> => {
   const parsed = aggregatedParseReductionTraceNodes<Opcodes>(nodes);
   const nonEmptyAggregations = parsed.aggregations.filter(
     (aggregation) => aggregation.instructions.length > 0

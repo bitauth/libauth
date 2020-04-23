@@ -69,11 +69,31 @@ export interface AuthenticationTemplate {
 /**
  * Allowable identifiers for Bitcoin virtual machine versions. Identifiers are
  * based upon the month the VM version became active on the specified chain.
+ *
+ * Identifiers with the `_SPEC` suffix indicate that this template is intended
+ * for compatibility with a future virtual machine version, but at the time the
+ * template was create, that virtual machine had not yet become active on the
+ * specified chain.
+ *
+ * The earliest possible `_SPEC` virtual machine version is `BCH_2020_11_SPEC`,
+ * the first virtual machine version after the public release of the version `0`
+ * AuthenticationTemplate format.
  */
 export type AuthenticationVirtualMachineIdentifier =
+  | 'BCH_2022_11_SPEC'
+  | 'BCH_2022_11'
+  | 'BCH_2022_05_SPEC'
+  | 'BCH_2022_05'
+  | 'BCH_2021_11_SPEC'
+  | 'BCH_2021_11'
+  | 'BCH_2021_05_SPEC'
+  | 'BCH_2021_05'
+  | 'BCH_2020_11_SPEC'
+  | 'BCH_2020_11'
   | 'BCH_2020_05'
   | 'BCH_2019_11'
   | 'BCH_2019_05'
+  | 'BSV_2020_02'
   | 'BSV_2018_11'
   | 'BTC_2017_08';
 
@@ -179,8 +199,8 @@ export interface AuthenticationTemplateScenario {
  */
 export interface AuthenticationTemplateScript {
   /**
-   * A single-line, human-readable name for this unlocking script (for use in
-   * user interfaces).
+   * A single-line, human-readable name for this script (for use in user
+   * interfaces).
    */
   name?: string;
   /**
@@ -195,9 +215,9 @@ export interface AuthenticationTemplateScriptUnlocking
    * The `id` of the script which can be unlocked by this script.
    *
    * The presence of the `unlocks` property indicates that this script is an
-   * unlocking script, and the script it unlocks is a locking script.
+   * unlocking script, and the script it unlocks must be a locking script.
    */
-  unlocks?: string;
+  unlocks: string;
   /**
    * The expected type of time locks in this script.
    *
@@ -239,11 +259,10 @@ export interface AuthenticationTemplateScriptLocking
    * transformation.)
    *
    * The presence of the `lockingType` property indicates that this script is a
-   * locking script.
-   *
-   * Unless otherwise specified, all scripts are assumed to be `standard`.
+   * locking script. It must be present on any script referenced by the
+   * `unlocks` property of another script.
    */
-  lockingType?: 'standard' | 'p2sh';
+  lockingType: 'standard' | 'p2sh';
 }
 
 export interface AuthenticationTemplateScriptTested
@@ -252,7 +271,7 @@ export interface AuthenticationTemplateScriptTested
    * One or more tests which can be used during development and during template
    * validation to confirm the correctness of this inline script.
    */
-  tests?: AuthenticationTemplateScriptTest[];
+  tests: AuthenticationTemplateScriptTest[];
 }
 
 export interface AuthenticationTemplateScriptTest {
@@ -340,10 +359,10 @@ export interface HdKey extends AuthenticationTemplateVariableBase {
    *
    * Because hardened derivation requires knowledge of the private key, `HdKey`
    * variables with `derivationPath`s which include hardened derivation cannot
-   * use HD public derivation (the `hdPublicKeys` property in `CompilationData`).
-   * Instead, compilation requires the respective HD private key
-   * (`CompilationData.hdKeys.hdPrivateKeys`) or the fully-derived public key
-   * (`CompilationData.hdKeys.derivedPublicKeys`).
+   * use HD public derivation (the `hdPublicKeys` property in
+   * `CompilationData`). Instead, compilation requires the respective HD private
+   * key (`CompilationData.hdKeys.hdPrivateKeys`) or the fully-derived public
+   * key (`CompilationData.hdKeys.derivedPublicKeys`).
    */
   privateDerivationPath?: string;
   /**

@@ -1,5 +1,8 @@
 /* eslint-disable camelcase */
+import { CompilerDefaults } from '../../template/compiler-defaults';
 import { AuthenticationTemplate } from '../../template/template-types';
+
+const secondsIn30Days = 2592000;
 
 export const twoOfTwoRecoverable: AuthenticationTemplate = {
   ...{ name: '2-of-2 Recoverable Vault' },
@@ -37,6 +40,32 @@ export const twoOfTwoRecoverable: AuthenticationTemplate = {
       variables: { trusted: { name: "Trusted Party's HdKey", type: 'HdKey' } },
     },
   },
+  scenarios: {
+    after_recovery_time: {
+      description: 'An example of a time after the recovery delay has passed.',
+      extends: 'before_recovery_time',
+      name: 'After Recovery Time',
+      transaction: {
+        locktime:
+          (CompilerDefaults.defaultScenarioCurrentBlockTime as number) +
+          secondsIn30Days,
+      },
+    },
+    before_recovery_time: {
+      data: {
+        bytecode: {
+          delay_seconds: '2592000',
+        },
+      },
+      description:
+        'An example of a time before a 30 day recovery delay (2592000 seconds) has passed.',
+      extends: 'estimate',
+      name: 'Before Recovery Time',
+      transaction: {
+        locktime: CompilerDefaults.defaultScenarioCurrentBlockTime as number,
+      },
+    },
+  },
   scripts: {
     lock: {
       lockingType: 'p2sh',
@@ -45,21 +74,29 @@ export const twoOfTwoRecoverable: AuthenticationTemplate = {
         'OP_IF\n  <$(\n    <current_block_time> <delay_seconds>\n    OP_ADD\n  )>\n  OP_CHECKLOCKTIMEVERIFY OP_DROP\n  <trusted.public_key>\n  OP_CHECKSIGVERIFY\n  <1>\nOP_ELSE\n  <2>\nOP_ENDIF\n<first.public_key> <second.public_key> <2>\nOP_CHECKMULTISIG',
     },
     recover_1: {
+      estimate: 'after_recovery_time',
+      fails: ['before_recovery_time'],
       name: 'Recover – Signer 1',
+      passes: ['after_recovery_time'],
       script:
         '<0>\n<first.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>',
       timeLockType: 'timestamp',
       unlocks: 'lock',
     },
     recover_2: {
+      estimate: 'after_recovery_time',
+      fails: ['before_recovery_time'],
       name: 'Recover – Signer 2',
+      passes: ['after_recovery_time'],
       script:
         '<0>\n<second.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>',
       timeLockType: 'timestamp',
       unlocks: 'lock',
     },
     spend: {
+      estimate: 'before_recovery_time',
       name: 'Standard Spend',
+      passes: ['after_recovery_time', 'before_recovery_time'],
       script:
         '<0>\n<first.signature.all_outputs>\n<second.signature.all_outputs>\n<0>',
       unlocks: 'lock',

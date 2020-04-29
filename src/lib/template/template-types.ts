@@ -1,4 +1,14 @@
 /**
+ * Because this file is consumed by the `doc:generate-json-schema` package
+ * script to produce a JSON schema, large sections of the below documentation
+ * are copied from this libraries `Transaction` and `CompilationData` types.
+ *
+ * This is preferable to importing those types, as most documentation needs to
+ * be slightly modified for this context, and avoiding imports in this file
+ * makes it easier to provide a stable API.
+ */
+
+/**
  * An `AuthenticationTemplate` (A.K.A. `Bitauth Template`) specifies a set of
  * locking scripts, unlocking scripts, and other information required to use a
  * certain authentication scheme. Templates fully describe wallets and protocols
@@ -11,40 +21,38 @@ export interface AuthenticationTemplate {
    * to enable documentation, autocompletion, and validation in JSON documents.
    */
   $schema?: string;
-
   /**
    * An optionally multi-line, free-form, human-readable description for this
-   * authentication template (for use in user interfaces). When displayed, this
+   * authentication template (for use in user interfaces). If displayed, this
    * description should use a monospace font to properly render ASCII diagrams.
    */
   description?: string;
-
   /**
-   * A map of entities defined in this authentication template. Object keys are
-   * used as entity identifiers, and by convention, should use `snake_case`.
+   * A map of entities defined in this authentication template.
    *
-   * See `AuthenticationTemplateEntity` for more information.
+   * Object keys are used as entity identifiers, and by convention, should use
+   * `snake_case`.
    */
   entities: { [entityId: string]: AuthenticationTemplateEntity };
-
   /**
    * A single-line, Title Case, human-readable name for this authentication
    * template (for use in user interfaces).
    */
   name?: string;
-
   /**
-   * TODO: finish implementing scenarios
+   * A scenario describes a context in which one or more scripts might be used.
+   * Scenarios are used for transaction estimation and as an integrated testing
+   * system for authentication templates.
    *
-   * Scenarios describe a complete environment for testing the authentication
-   * template under certain conditions. They are most useful for development,
-   * but they can also be used to validate the template in generalized wallets.
+   * Object keys are used as scenario identifiers, and by convention, should use
+   * `snake_case`.
    */
   scenarios?: { [scenarioId: string]: AuthenticationTemplateScenario };
-
   /**
-   * A map of scripts used in this authentication template. Object keys are used
-   * as script identifiers, and by convention, should use `snake_case`.
+   * A map of scripts used in this authentication template.
+   *
+   * Object keys are used as script identifiers, and by convention, should use
+   * `snake_case`.
    */
   scripts: {
     [scriptId: string]:
@@ -53,12 +61,25 @@ export interface AuthenticationTemplate {
       | AuthenticationTemplateScriptLocking
       | AuthenticationTemplateScriptTested;
   };
-
   /**
-   * A list of supported AuthenticationVirtualMachines for this template.
+   * A list of authentication virtual machine versions supported by this
+   * template.
+   *
+   * Virtual machine identifiers use the format `CODE_YYYY_MM`, where `CODE` is
+   * the currency code used to identify the network, and `YYYY_MM` is the year
+   * and month in which the specified VM version became active on the indicated
+   * network.
+   *
+   * Identifiers with the `_SPEC` suffix indicate that this template is intended
+   * for compatibility with a future virtual machine version, but at the time
+   * the template was create, that virtual machine had not yet become active on
+   * the specified chain.
+   *
+   * The earliest possible `_SPEC` virtual machine version is `BCH_2020_11_SPEC`,
+   * the first virtual machine version after the public release of the version `0`
+   * AuthenticationTemplate format.
    */
   supported: AuthenticationVirtualMachineIdentifier[];
-
   /**
    * A number identifying the format of this AuthenticationTemplate.
    * Currently, this implementation requires `version` be set to `0`.
@@ -67,17 +88,10 @@ export interface AuthenticationTemplate {
 }
 
 /**
- * Allowable identifiers for Bitcoin virtual machine versions. Identifiers are
- * based upon the month the VM version became active on the specified chain.
- *
- * Identifiers with the `_SPEC` suffix indicate that this template is intended
- * for compatibility with a future virtual machine version, but at the time the
- * template was create, that virtual machine had not yet become active on the
- * specified chain.
- *
- * The earliest possible `_SPEC` virtual machine version is `BCH_2020_11_SPEC`,
- * the first virtual machine version after the public release of the version `0`
- * AuthenticationTemplate format.
+ * Allowable identifiers for authentication virtual machine versions. The `BCH`
+ * prefix identifies the Bitcoin Cash network, the `BSV` prefix identifies the
+ * Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin (Core)
+ * network.
  */
 export type AuthenticationVirtualMachineIdentifier =
   | 'BCH_2022_11_SPEC'
@@ -103,16 +117,18 @@ export type AuthenticationVirtualMachineIdentifier =
  */
 export interface AuthenticationTemplateEntity {
   /**
-   * A single-line, human readable description for this entity.
+   * An optionally multi-line, free-form, human-readable description for this
+   * entity (for use in user interfaces). If displayed, this description
+   * should use a monospace font to properly render ASCII diagrams.
    */
   description?: string;
   /**
-   * A single-line, Title Case, human-readable name for this entity, e.g.:
-   * `Trusted Third-Party` (for use in user interfaces and error messages).
+   * A single-line, Title Case, human-readable name for this entity for use in
+   * user interfaces and error messages, e.g.: `Trusted Third-Party`.
    */
   name?: string;
   /**
-   * An array of the `id`s of each script the entity must be capable of
+   * An array of the identifiers of each script the entity must be capable of
    * generating, e.g. each of the unlocking scripts this entity might use.
    *
    * Provided the necessary variables, any entity can construct any script, but
@@ -129,16 +145,276 @@ export interface AuthenticationTemplateEntity {
    * template's scripts. Some variables are required before locking script
    * generation, while some variables can or must be resolved only before
    * unlocking script generation.
+   *
+   * Object keys are used as variable identifiers, and by convention, should use
+   * `snake_case`.
    */
   variables?: { [variableId: string]: AuthenticationTemplateVariable };
 }
 
 /**
- * A directive providing instructions for compiling a bytecode segment for use
- * in a scenario.
+ * An object defining the data to use while compiling a scenario.
  */
-export interface ScenarioDirective {
-  script: string;
+export interface AuthenticationTemplateScenarioData {
+  /**
+   * A map of full identifiers to scripts which compile to their values in this
+   * scenario. Scripts are provided in BTL, and have access to all other
+   * template scripts and variables. (However, cyclical references will produce
+   * an error at compile time.)
+   *
+   * The provided `fullIdentifier` should match the complete identifier for
+   * each item, e.g. `some_wallet_data`, `variable_id.public_key`, or
+   * `variable_id.signature.all_outputs`.
+   *
+   * All `AddressData` and `WalletData` variables must be provided via
+   * `bytecode`, and pre-computed results for operations of other variable types
+   * (e.g. `key.public_key`) may also be provided via this property.
+   */
+  bytecode?: {
+    [fullIdentifier: string]: string;
+  };
+  /**
+   * The current block height at the "address creation time" implied in this
+   * scenario.
+   */
+  currentBlockHeight?: number;
+  /**
+   * The current block time at the "address creation time" implied in this
+   * scenario.
+   *
+   * Note: this is never a current timestamp, but the median timestamp of the
+   * last 11 blocks. This value only changes when a new block is found. See
+   * BIP113 for details.
+   */
+  currentBlockTime?: Date;
+  /**
+   * An object describing the settings used for `HdKey` variables in this
+   * scenario.
+   */
+  hdKeys?: {
+    /**
+     * The current address index to be used for this scenario. The
+     * `addressIndex` gets added to each `HdKey`s `addressOffset` to calculate
+     * the dynamic index (`i`) used in each `privateDerivationPath` or
+     * `publicDerivationPath`.
+     *
+     * This is required for any compiler operation which requires derivation.
+     * Typically, the value is incremented by one for each address in a wallet.
+     */
+    addressIndex?: number;
+    /**
+     * A map of entity IDs to HD public keys. These HD public keys are used to
+     * derive public keys for each `HdKey` variable assigned to that entity
+     * according to its `publicDerivationPath`.
+     *
+     * HD public keys may be encoded for either mainnet or testnet (the network
+     * information is ignored).
+     *
+     * If both an HD private key (in `hdPrivateKeys`) and HD public key (in
+     * `hdPublicKeys`) are provided for the same entity in the same scenario
+     * (not recommended), the HD private key is used.
+     */
+    hdPublicKeys?: {
+      [entityId: string]: string;
+    };
+    /**
+     * A map of entity IDs to master HD private keys. These master HD private
+     * keys are used to derive each `HdKey` variable assigned to that entity
+     * according to its `privateDerivationPath`.
+     *
+     * HD private keys may be encoded for either mainnet or testnet (the network
+     * information is ignored).
+     *
+     * If both an HD private key (in `hdPrivateKeys`) and HD public key (in
+     * `hdPublicKeys`) are provided for the same entity in the same scenario
+     * (not recommended), the HD private key is used.
+     */
+    hdPrivateKeys?: {
+      [entityId: string]: string;
+    };
+  };
+  /**
+   * An object describing the settings used for `Key` variables in this
+   * scenario.
+   */
+  keys?: {
+    /**
+     * A map of `Key` variable IDs to scripts defining their values in this
+     * scenario. Scripts are provided in BTL, and have access to all other
+     * template scripts and variables. (However, cyclical references will
+     * produce an error at compile time.)
+     */
+    privateKeys?: {
+      [variableId: string]: string;
+    };
+  };
+}
+
+/**
+ * An example input used to define a scenario for an authentication template.
+ */
+export interface AuthenticationTemplateScenarioInput {
+  /**
+   * The index of the output in the transaction from which this input is spent.
+   *
+   * If undefined, this defaults to `0`.
+   */
+  outpointIndex?: number;
+  /**
+   * A 32-byte hexadecimal-encoded hash of the transaction from which this input
+   * is spent in big-endian byte order. This is the byte order typically seen in
+   * block explorers and user interfaces (as opposed to little-endian byte
+   * order, which is used in standard P2P network messages).
+   *
+   * If undefined, this defaults to the "empty" hash:
+   * `0000000000000000000000000000000000000000000000000000000000000000`
+   *
+   * A.K.A. Outpoint `Transaction ID`
+   */
+  outpointTransactionHash?: string;
+  /**
+   * The positive, 32-bit unsigned integer used as the "sequence number" for
+   * this input.
+   *
+   * If undefined, this defaults to `0`.
+   *
+   * @remarks
+   * A sequence number is a complex bitfield which can encode several properties
+   * about an input:
+   * - **sequence age support** – whether or not the input can use
+   * `OP_CHECKSEQUENCEVERIFY`, and the minimum number of blocks or length of
+   * time which has passed since this input's source transaction was mined (up
+   * to approximately 1 year).
+   * - **locktime support** – whether or not the input can use
+   * `OP_CHECKLOCKTIMEVERIFY`
+   *
+   * **Sequence Age Support**
+   *
+   * Sequence number age is enforced by mining consensus – a transaction is
+   * invalid until it has "aged" such that all outputs referenced by its
+   * age-enabled inputs are at least as old as claimed by their respective
+   * sequence numbers.
+   *
+   * This allows sequence numbers to function as a "relative locktime" for each
+   * input: a `lockingBytecode` can use the `OP_CHECKSEQUENCEVERIFY` operation
+   * to verify that the funds being spent have been "locked" for a minimum
+   * required amount of time (or block count). This can be used in protocols
+   * which require a reliable "proof-of-publication", like escrow, time-delayed
+   * withdrawals, and various payment channel protocols.
+   *
+   * Sequence age support is enabled unless the "disable bit" – the most
+   * significant bit – is set (i.e. the sequence number is less than
+   * `(1 << 31) >>> 0`/`0b10000000000000000000000000000000`/`2147483648`).
+   *
+   * If sequence age is enabled, the "type bit" – the most significant bit in
+   * the second-most significant byte
+   * (`1 << 22`/`0b1000000000000000000000`/`2097152`) – indicates the unit type
+   * of the specified age:
+   *  - if set, the age is in units of `512` seconds (using Median Time-Past)
+   *  - if not set, the age is a number of blocks
+   *
+   * The least significant 16 bits specify the age (i.e.
+   * `age = sequenceNumber & 0x0000ffff`). This makes the maximum age either
+   * `65535` blocks (about 1.25 years) or `33553920` seconds (about 1.06 years).
+   *
+   * **Locktime Support**
+   *
+   * Locktime support is disabled for an input if the sequence number is exactly
+   * `0xffffffff` (`4294967295`). Because this value requires the "disable bit"
+   * to be set, disabling locktime support also disables sequence age support.
+   *
+   * With locktime support disabled, if  either `OP_CHECKLOCKTIMEVERIFY` or
+   * `OP_CHECKSEQUENCEVERIFY` are encountered during the validation of
+   * `unlockingBytecode`, an error is produced, and the transaction is invalid.
+   *
+   * ---
+   *
+   * The term "sequence number" was the name given to this field in the Satoshi
+   * implementation of the bitcoin transaction format. The field was originally
+   * intended for use in a multi-party signing protocol where parties updated
+   * the "sequence number" to indicate to miners that this input should replace
+   * a previously-signed input in an existing, not-yet-mined transaction. The
+   * original use-case was not completed and relied on behavior which can not be
+   * enforced by mining consensus, so the field was mostly-unused until it was
+   * repurposed by BIP68 in block `419328`. See BIP68, BIP112, and BIP113 for
+   * details.
+   */
+  sequenceNumber?: number;
+  /**
+   * A boolean value indicating that this input contains the `unlockingBytecode`
+   * under test by this scenario. This defaults to `undefined`.
+   *
+   * For a scenario to be valid, this property must be `true` for exactly one
+   * input in that scenario.
+   *
+   * @remarks
+   * While the `outpointIndex`, `outpointTransactionHash`, and `sequenceNumber`
+   * of every input is part of a transaction's signing serialization, no virtual
+   * machine currently requires access to the `unlockingBytecode` of sibling
+   * inputs during the evaluation of an input's `unlockingBytecode`. For this
+   * reason, it is not necessary for scenarios to include `unlockingBytecode`
+   * values for inputs not under test.
+   */
+  unlockingBytecode?: true;
+}
+
+/**
+ * An example output used to define a scenario for an authentication template.
+ */
+export interface AuthenticationTemplateScenarioOutput {
+  /**
+   * The bytecode used to encumber this transaction output. To spend the output,
+   * unlocking bytecode must be included in a transaction input which – when
+   * evaluated before the locking bytecode – completes in a valid state.
+   *
+   * A.K.A. `scriptPubKey` or "locking script"
+   *
+   * If undefined, this defaults to `{}`, which uses the default values for
+   * `script` and `overrides`, respectively.
+   */
+  readonly lockingBytecode?:
+    | string
+    | {
+        /**
+         * The identifier of the script to compile when generating this
+         * `lockingBytecode`.
+         *
+         * If undefined, defaults to the locking script unlocked by the
+         * unlocking script under test.
+         */
+        script?: string;
+        /**
+         * Scenario data which extends this scenario's top-level data during
+         * script compilation.
+         *
+         * Each property is extended individually – to unset a property set by
+         * the top-level scenario data, the same property must be specified here
+         * as `undefined`.
+         *
+         * If undefined, defaults to `{ "hdKeys": { "addressIndex": 1 } }`.
+         */
+        overrides: AuthenticationTemplateScenarioData;
+      };
+  /**
+   * The value of the output in satoshis, the smallest unit of bitcoin.
+   *
+   * In a valid transaction, this is a positive integer, from `0` to the maximum
+   * number of satoshis available to the transaction.
+   *
+   * The maximum number of satoshis in existence is about 1/4 of
+   * `Number.MAX_SAFE_INTEGER` (`9007199254740991`), so typically, this value
+   * is defined using a `number`. However, this value may also be defined using
+   * a 16-character, hexadecimal-encoded `string`, to allow for the full range
+   * of the 64-bit unsigned, little-endian integer used to serialized `satoshis`
+   * in the serialized output format, e.g. `"ffffffffffffffff"`. This is useful
+   * for representing scenarios where intentionally excessive values are
+   * provided (to ensure an otherwise properly-signed transaction can never be
+   * included in the blockchain), e.g. transaction size estimations or off-chain
+   * Bitauth signatures.
+   *
+   * If undefined, this defaults to: `0`.
+   */
+  readonly satoshis?: number | string;
 }
 
 /**
@@ -147,49 +423,173 @@ export interface ScenarioDirective {
  */
 export interface AuthenticationTemplateScenario {
   /**
-   * A single-line, human readable description for this scenario.
+   * An object defining the data to use while compiling this scenario. The
+   * properties specified here are used to extend the existing scenario data
+   * based on this scenario's `extends` property.
+   *
+   * Each property is extended individually – to unset a previously-set
+   * property, the same property must be specified here as `undefined`.
+   */
+  data?: AuthenticationTemplateScenarioData;
+
+  /**
+   * An optionally multi-line, free-form, human-readable description for this
+   * scenario (for use in user interfaces). If displayed, this description
+   * should use a monospace font to properly render ASCII diagrams.
    */
   description?: string;
   /**
-   * The identifier of the scenario which this scenario extends. Any properties
-   * not defined in this scenario inherit from this parent scenario. By default,
-   * all scenarios extend the built-in default scenario.
+   * The identifier of the scenario which this scenario extends. Any `data` or
+   * `transaction` properties not defined in this scenario inherit from this
+   * parent scenario.
+   *
+   * If undefined, this scenario is assumed to extend the default scenario:
+   *
+   * - The default values for `data` are set:
+   *   - The identifiers of all `Key` and `HdKey` variable in this template are
+   * lexicographically sorted, then each is assigned an incrementing positive
+   * integer – beginning with `1` – encoded as an unsigned, 256-bit, big-endian
+   * integer (i.e. `0x0000...0001` (32 bytes), `0x0000...0002`, `0x0000...0003`,
+   * etc.). This assigned value is used as the private key for `Key`s and the
+   * master seed for `HdKey`s.
+   *   - `currentBlockHeight` is set to `2`. This is the height of the second
+   * mined block after the genesis block:
+   * `000000006a625f06636b8bb6ac7b960a8d03705d1ace08b1a19da3fdcc99ddbd`. This
+   * default value was chosen to be low enough to simplify the debugging of
+   * block height offsets while remaining differentiated from `0` and `1` which
+   * are used both as boolean return values and for control flow.
+   *   - `currentBlockTime` is set to `1231469665`. This is the Median Time-Past
+   * block time (BIP113) of block `2`.
+   *
+   * - Then `transaction` is set based on use:
+   *   - if the scenario is being used for transaction estimation, all
+   * transaction properties are taken from the transaction being estimated.
+   *   - if the scenario is being used for script testing and validation, the
+   * default scenario `transaction` values are used:
+   *   - `inputs` is set to `[{ "unlockingBytecode": true }]`
+   *   - `locktime` is set to `0`
+   *   - `outputs` is set to `[{}]`
+   *   - `version` is set to `2`
+   *
+   * When a scenario is extended, each property of `data` and `transaction` is
+   * extended individually: if the extending scenario does not provide a new
+   * value for `data.bytecode.value` or `transaction.property`, the parent value
+   * is used. To avoid inheriting a parent value, each child value must be set
+   * to `undefined`.
    */
   extends?: string;
   /**
-   * A single-line, Title Case, human-readable name for this scenario, e.g.:
-   * `Trusted Third-Party`
+   * A single-line, Title Case, human-readable name for this scenario for use in
+   * user interfaces, e.g.: `Delayed Recovery`.
    */
   name?: string;
   /**
-   * A transaction template to use when testing this scenario. Any properties
-   * not defined in this transaction template inherit from the parent scenario.
+   * The transaction within which this scenario should be evaluated. This is
+   * used for script testing and validation.
    *
-   * Scenario transaction templates are a variation of the `Transaction` type
-   * modified for better compatibility with JSON and to add support for
-   * `ScenarioDirectives`:
-   * - In each input, the `outpointTransactionHash` is provided as a hex-encoded
-   * string, and `unlockingBytecode` may be either a `Uint8Array` or a
-   * `ScenarioDirective`.
-   * - In each output, the `satoshis` value is provided as a number, and the
-   * `lockingBytecode` may be either a `Uint8Array` or a `ScenarioDirective`.
+   * If undefined, inherits the default scenario value:
+   * ```json
+   * {
+   *   "inputs": [{ "unlockingBytecode": true }],
+   *   "locktime": 0,
+   *   "outputs": [{}],
+   *   "version": 2
+   * }
+   * ```
+   *
+   * Any `transaction` property which is not set will be inherited from the
+   * scenario specified by `extends`. when specifying the `inputs` and `outputs`
+   * properties, each input and output extends the default values for inputs and
+   * outputs, respectively.
+   *
+   * For example, an input of `{}` is interpreted as:
+   * ```json
+   * {
+   *   "outpointIndex": 0,
+   *   "outpointTransactionHash":
+   *     "0000000000000000000000000000000000000000000000000000000000000000",
+   *   "sequenceNumber": 0
+   * }
+   * ```
+   * And an output of `{}` is interpreted as:
+   * ```json
+   * {
+   *   "lockingBytecode": { "overrides": { "hdKeys": { "addressIndex": 1 } } },
+   *   "satoshis": 0
+   * }
+   * ```
    */
-  /*
-   * transaction?: Partial<
-   *   Transaction<
-   *     Input<string | ScenarioDirective, string>,
-   *     Output<string | ScenarioDirective>
-   *   >
-   * >;
-   */
-  /**
-   * A map of variable IDs to scripts defining their values in this scenario.
-   * Scripts are encoded in BTL, and have access to all other template scripts
-   * and variables. (However, cyclical references will produce an error at
-   * compile time.)
-   */
-  variables?: {
-    [id: string]: string;
+  transaction?: {
+    /**
+     * The list of inputs to use when generating the transaction context for
+     * this scenario.
+     *
+     * To be valid the `inputs` property must have exactly one input with
+     * `unlockingBytecode` set to `true`. This is the input in which the
+     * unlocking script under test will be placed. No other inputs may define
+     * `unlockingBytecode`.
+     *
+     * If undefined, inherits the default scenario `inputs` value:
+     * `[{ "unlockingBytecode": true }]`.
+     */
+    inputs?: AuthenticationTemplateScenarioInput[];
+    /**
+     * The locktime to use when generating the transaction context for this
+     * scenario. A positive integer from `0` to a maximum of `4294967295` – if
+     * undefined, inherits the default scenario `locktime` value: `0`.
+     *
+     * Locktime can be provided as either a timestamp or a block height. Values
+     * less than `500000000` are understood to be a block height (the current
+     * block number in the chain, beginning from block `0`). Values greater than
+     * or equal to `500000000` are understood to be a UNIX timestamp.
+     *
+     * For validating timestamp values, the median timestamp of the last 11
+     * blocks (Median Time-Past) is used. The precise behavior is defined in
+     * BIP113.
+     *
+     * If the `sequenceNumber` of every transaction input is set to `0xffffffff`
+     * (`4294967295`), locktime is disabled, and the transaction may be added to
+     * a block even if the specified locktime has not yet been reached. When
+     * locktime is disabled, if an `OP_CHECKLOCKTIMEVERIFY` operation is
+     * encountered during the verification of any input, an error is produced,
+     * and the transaction is invalid.
+     *
+     * @remarks
+     * There is a subtle difference in how `locktime` is disabled for a
+     * transaction and how it is "disabled" for a single input: `locktime` is
+     * only disabled for a transaction if every input has a sequence number of
+     * `0xffffffff`; however, within each input, if the sequence number is set
+     * to `0xffffffff`, locktime is disabled for that input (and
+     * `OP_CHECKLOCKTIMEVERIFY` operations will error if encountered).
+     *
+     * This difference is a minor virtual machine optimization – it allows
+     * inputs to be properly validated without requiring the virtual machine to
+     * check the sequence number of every other input (only that of the current
+     * input).
+     *
+     * This is inconsequential for valid transactions, since any transaction
+     * which disables `locktime` must have disabled locktime for all of its
+     * inputs; `OP_CHECKLOCKTIMEVERIFY` is always properly enforced. However,
+     * because an input can individually "disable locktime" without the full
+     * transaction *actually disabling locktime*, it is possible that a
+     * carefully-crafted transaction may fail to verify because "locktime is
+     * disabled" for the input – even if locktime is actually enforced on the
+     * transaction level.
+     */
+    locktime?: number;
+    /**
+     * The list of outputs to use when generating the transaction context for
+     * this scenario.
+     *
+     * If undefined, inherits the default scenario `outputs` value: `[{}]`.
+     */
+    outputs?: AuthenticationTemplateScenarioOutput[];
+    /**
+     * The version to use when generating the transaction context for this
+     * scenario. A positive integer from `0` to a maximum of `4294967295` – if
+     * undefined, inherits the default scenario `version` value: `2`.
+     */
+    version?: number;
   };
 }
 
@@ -212,12 +612,65 @@ export interface AuthenticationTemplateScript {
 export interface AuthenticationTemplateScriptUnlocking
   extends AuthenticationTemplateScript {
   /**
-   * The `id` of the script which can be unlocked by this script.
+   * TODO: not yet implemented
    *
-   * The presence of the `unlocks` property indicates that this script is an
-   * unlocking script, and the script it unlocks must be a locking script.
+   * The minimum input age required for this unlocking script to become valid.
+   *
+   * This value is provided as a BTL script which must compile to the least
+   * significant 3 bytes of the minimum sequence number required for this
+   * unlocking script to be valid (the "type bit" and the 2-byte "value" – see
+   * BIP68 for details). This script has access to all other template scripts
+   * and variables, but cyclical references will produce an error at compile
+   * time.
+   *
+   * In supporting wallets, this value can be computed at address creation
+   * time, and the remaining time for which any UTXO remains "age-locked" can be
+   * displayed in user interfaces (by parsing the "type bit" and "value" as
+   * described in BIP68).
+   *
+   * Note, because the precise value used by `OP_CHECKSEQUENCEVERIFY` can be
+   * provided in the unlocking script, it is trivial to create an unlocking
+   * script for which a proper value for `ageLock` is not possible to determine
+   * until the spending transaction is prepared. These cases are intentionally
+   * out-of-scope for this property. Instead, `ageLock` should only be used
+   * for unlocking scripts where the expected value can be compiled at address
+   * creation time.
    */
-  unlocks: string;
+  ageLock?: string;
+  /**
+   * The identifier of the scenario to use for this unlocking script when
+   * compiling an estimated transaction.
+   *
+   * Using estimate scenarios, it's possible for wallet software to compute
+   * an "estimated transaction", an invalid transaction which is guaranteed to
+   * be the same byte length as the final transaction. This length can be used
+   * to calculate the required transaction fee and assign values to the
+   * transaction's change output(s). Because estimate scenarios provide
+   * "estimated" values for all variables, this estimation can be done by a
+   * single entity without input from other entities.
+   *
+   * If not provided, the default scenario will be used for estimation. The
+   * default scenario only provides values for each `Key` and `HdKey` variable,
+   * so compilations requiring other variables will produce errors. See
+   * `AuthenticationTemplateScenario.extends` for details.
+   */
+  estimate?: string;
+  /**
+   * A list of the scenario identifiers which – when used to compile this
+   * unlocking script and the script it unlocks – result in an
+   * `unlockingBytecode` which fails program verification.
+   *
+   * These scenarios can be used to test this script in development and review.
+   */
+  fails?: string[];
+  /**
+   * A list of the scenario identifiers which – when used to compile this
+   * unlocking script and the script it unlocks – result in an
+   * `unlockingBytecode` which passes program verification.
+   *
+   * These scenarios can be used to test this script in development and review.
+   */
+  passes?: string[];
   /**
    * The expected type of time locks in this script.
    *
@@ -240,6 +693,13 @@ export interface AuthenticationTemplateScriptUnlocking
    * on absolute time locks.
    */
   timeLockType?: 'timestamp' | 'height';
+  /**
+   * The identifier of the script which can be unlocked by this script.
+   *
+   * The presence of the `unlocks` property indicates that this script is an
+   * unlocking script, and the script it unlocks must be a locking script.
+   */
+  unlocks: string;
 }
 
 export interface AuthenticationTemplateScriptLocking
@@ -286,6 +746,12 @@ export interface AuthenticationTemplateScriptTest {
    */
   name?: string;
   /**
+   * The identifier of the scenario which should be used when evaluating this
+   * test. If undefined, the default scenario will be used, so only `Key` and
+   * `HdKey` variables will be provided.
+   */
+  scenario?: string;
+  /**
    * A script to evaluate before the script being tested. This can be used to
    * push values to the stack which are operated on by the inline script.
    */
@@ -314,6 +780,14 @@ export interface AuthenticationTemplateVariableBase {
 }
 
 export interface HdKey extends AuthenticationTemplateVariableBase {
+  /**
+   * A single-line, human readable description for this HD key.
+   */
+  description?: string;
+  /**
+   * A single-line, Title Case, human-readable name for this HD key.
+   */
+  name?: string;
   /**
    * The offset by which to increment the `addressIndex` provided in the
    * compilation data when deriving this `HdKey`. (Default: 0)
@@ -409,8 +883,16 @@ export interface HdKey extends AuthenticationTemplateVariableBase {
 
 export interface Key extends AuthenticationTemplateVariableBase {
   /**
-   * The `Key` type provides fine-grained control over key generation and mapping.
-   * Most templates should instead use `HdKey`.
+   * A single-line, human readable description for this key.
+   */
+  description?: string;
+  /**
+   * A single-line, Title Case, human-readable name for this key.
+   */
+  name?: string;
+  /**
+   * The `Key` type provides fine-grained control over key generation and
+   * mapping. Most templates should instead use `HdKey`.
    *
    * Any HD (Hierarchical-Deterministic) derivation must be completed outside of
    * the templating system and provided at the time of use.
@@ -453,10 +935,9 @@ export interface AddressData extends AuthenticationTemplateVariableBase {
    * prompting users. This is particularly useful for sharing the result of a
    * script with other entities as a variable.
    *
-   * TODO: not yet implemented - also requires support in data_signature
+   * TODO: implement? - also requires support in data_signature and validateAuthenticationTemplate
    */
-  source?: string;
-
+  // source?: string;
   /**
    * `AddressData` is the most low-level variable type. It must be collected
    * and stored each time a script is generated (usually, a locking script).

@@ -21,7 +21,7 @@ export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
       name: 'Owner',
       scripts: ['lock', 'unlock'],
       variables: {
-        owner: {
+        key: {
           description: 'The private key which controls this wallet.',
           name: 'Key',
           type: 'Key',
@@ -35,11 +35,11 @@ export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
       lockingType: 'standard',
       name: 'P2PKH Lock',
       script:
-        'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
+        'OP_DUP\nOP_HASH160 <$(<key.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
     },
     unlock: {
       name: 'Unlock',
-      script: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+      script: '<key.schnorr_signature.all_outputs>\n<key.public_key>',
       unlocks: 'lock',
     },
   },
@@ -74,7 +74,7 @@ export const authenticationTemplateP2pkh: AuthenticationTemplate = {
       name: 'Owner',
       scripts: ['lock', 'unlock'],
       variables: {
-        owner: {
+        key: {
           description: 'The private key which controls this wallet.',
           name: 'Key',
           type: 'HdKey',
@@ -88,11 +88,11 @@ export const authenticationTemplateP2pkh: AuthenticationTemplate = {
       lockingType: 'standard',
       name: 'P2PKH Lock',
       script:
-        'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
+        'OP_DUP\nOP_HASH160 <$(<key.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
     },
     unlock: {
       name: 'Unlock',
-      script: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+      script: '<key.schnorr_signature.all_outputs>\n<key.public_key>',
       unlocks: 'lock',
     },
   },

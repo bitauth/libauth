@@ -142,6 +142,7 @@ export const compilerOperationAttemptBytecodeResolution = compilerOperationRequi
   }
 );
 
+// eslint-disable-next-line complexity
 export const compilerOperationHelperDeriveHdPrivateNode = ({
   addressIndex,
   entityId,
@@ -167,6 +168,15 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
   const privateDerivationPath =
     hdKey.privateDerivationPath ?? CompilerDefaults.hdKeyPrivateDerivationPath;
   const i = addressIndex + addressOffset;
+
+  const validPrivatePathWithIndex = /^m(?:\/(?:[0-9]+|i)'?)*$/u;
+  if (!validPrivatePathWithIndex.test(privateDerivationPath)) {
+    return {
+      error: `Could not generate ${identifier} – the path "${privateDerivationPath}" is not a valid "privateDerivationPath".`,
+      status: 'error',
+    };
+  }
+
   const instancePath = privateDerivationPath.replace('i', i.toString());
 
   const masterContents = decodeHdPrivateKey(environment, entityHdPrivateKey);

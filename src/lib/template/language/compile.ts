@@ -207,16 +207,23 @@ export const compileScriptP2shUnlocking = ({
 /**
  * Parse, resolve, and reduce the provided BTL script using the provided `data`
  * and `environment`.
+ *
+ * Note, locktime validation only occurs if `transactionContext` is provided in
+ * the environment.
  */
 // eslint-disable-next-line complexity
 export const compileScript = <
   ProgramState = StackState & MinimumProgramState,
-  TransactionContext extends { locktime: number } = { locktime: number }
+  TransactionContext extends { locktime: number; sequenceNumber: number } = {
+    locktime: number;
+    sequenceNumber: number;
+  }
 >(
   scriptId: string,
   data: CompilationData<TransactionContext>,
   environment: CompilationEnvironment<TransactionContext>
 ): CompilationResult<ProgramState> => {
+  const locktimeDisablingSequenceNumber = 0xffffffff;
   const lockTimeTypeBecomesTimestamp = 500000000;
   if (data.transactionContext?.locktime !== undefined) {
     if (
@@ -249,6 +256,23 @@ export const compileScript = <
         success: false,
       };
     }
+  }
+
+  if (
+    data.transactionContext?.sequenceNumber !== undefined &&
+    environment.unlockingScriptTimeLockTypes?.[scriptId] !== undefined &&
+    data.transactionContext.sequenceNumber === locktimeDisablingSequenceNumber
+  ) {
+    return {
+      errorType: 'parse',
+      errors: [
+        {
+          error: `The script "${scriptId}" requires a locktime, but this input's sequence number is set to disable transaction locktime (0xffffffff). This will cause the OP_CHECKLOCKTIMEVERIFY operation to error when the transaction is verified. To be valid, this input must use a sequence number which does not disable locktime.`,
+          range: emptyRange(),
+        },
+      ],
+      success: false,
+    };
   }
 
   const rawResult = compileScriptRaw<ProgramState, TransactionContext>({

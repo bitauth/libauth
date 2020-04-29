@@ -10,7 +10,12 @@ import {
   readBitcoinVarInt,
 } from '../format/format';
 
-import { Input, Output, Transaction } from './transaction-types';
+import {
+  Input,
+  Output,
+  OutputUncappedAmount,
+  Transaction,
+} from './transaction-types';
 
 const enum ByteLength {
   uint32 = 4,
@@ -120,9 +125,11 @@ export const readTransactionOutput = (bin: Uint8Array, offset: number) => {
  *
  * @param output - the output to serialize
  */
-export const serializeOutput = (output: Output) =>
+export const serializeOutput = (output: OutputUncappedAmount) =>
   flattenBinArray([
-    bigIntToBinUint64LE(BigInt(output.satoshis)),
+    typeof output.satoshis === 'number'
+      ? bigIntToBinUint64LE(BigInt(output.satoshis))
+      : output.satoshis,
     bigIntToBitcoinVarInt(BigInt(output.lockingBytecode.length)),
     output.lockingBytecode,
   ]);
@@ -135,7 +142,9 @@ export const serializeOutput = (output: Output) =>
  *
  * @param outputs - the set of outputs to serialize
  */
-export const serializeOutputsForTransaction = (outputs: readonly Output[]) =>
+export const serializeOutputsForTransaction = (
+  outputs: readonly OutputUncappedAmount[]
+) =>
   flattenBinArray([
     bigIntToBitcoinVarInt(BigInt(outputs.length)),
     ...outputs.map(serializeOutput),
@@ -199,7 +208,14 @@ export const deserializeTransaction = (bin: Uint8Array): Transaction => {
  * serialization is also used when computing the transaction's hash (A.K.A.
  * "transaction ID" or "TXID").
  */
-export const serializeTransaction = (tx: Transaction) =>
+export const serializeTransaction = <
+  TransactionType extends Transaction<
+    Input,
+    Output<Uint8Array, number | Uint8Array>
+  > = Transaction
+>(
+  tx: TransactionType
+) =>
   flattenBinArray([
     numberToBinUint32LE(tx.version),
     serializeInputs(tx.inputs),

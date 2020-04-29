@@ -32,7 +32,7 @@ import { AuthenticationTemplate } from './template-types';
  * compiler
  */
 export const createCompiler = <
-  TransactionContext extends { locktime: number },
+  TransactionContext extends { locktime: number; sequenceNumber: number },
   Environment extends AnyCompilationEnvironment<TransactionContext>,
   ProgramState = StackState & MinimumProgramState
 >(

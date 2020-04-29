@@ -803,7 +803,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate "owner.public_key" – the path "M/0\'/0" could not be derived for entity "ownerEntityId": HD key derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
+          'Could not generate owner.public_key – the path "M/0\'/i" is not a valid "publicDerivationPath".',
         range: {
           endColumn: 18,
           endLineNumber: 1,

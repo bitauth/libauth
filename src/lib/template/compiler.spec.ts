@@ -42,22 +42,22 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
     environment,
     {
       entityOwnership: {
-        owner: 'owner',
+        key: 'owner',
       },
       lockingScriptTypes: {
         lock: 'standard',
       },
       scripts: {
         lock:
-          'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
-        unlock: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+          'OP_DUP\nOP_HASH160 <$(<key.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
+        unlock: '<key.schnorr_signature.all_outputs>\n<key.public_key>',
       },
       unlockingScriptTimeLockTypes: {},
       unlockingScripts: {
         unlock: 'lock',
       },
       variables: {
-        owner: {
+        key: {
           description: 'The private key which controls this wallet.',
           name: 'Key',
           type: 'Key',
@@ -76,22 +76,22 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
     environment,
     {
       entityOwnership: {
-        owner: 'owner',
+        key: 'owner',
       },
       lockingScriptTypes: {
         lock: 'standard',
       },
       scripts: {
         lock:
-          'OP_DUP\nOP_HASH160 <$(<owner.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
-        unlock: '<owner.schnorr_signature.all_outputs>\n<owner.public_key>',
+          'OP_DUP\nOP_HASH160 <$(<key.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG',
+        unlock: '<key.schnorr_signature.all_outputs>\n<key.public_key>',
       },
       unlockingScriptTimeLockTypes: {},
       unlockingScripts: {
         unlock: 'lock',
       },
       variables: {
-        owner: {
+        key: {
           description: 'The private key which controls this wallet.',
           name: 'Key',
           type: 'HdKey',

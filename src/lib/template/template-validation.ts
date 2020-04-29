@@ -1,11 +1,18 @@
+import { CompilerDefaults } from './compiler-defaults';
 import {
+  AddressData,
   AuthenticationTemplate,
+  AuthenticationTemplateEntity,
   AuthenticationTemplateScript,
   AuthenticationTemplateScriptLocking,
   AuthenticationTemplateScriptTest,
   AuthenticationTemplateScriptTested,
   AuthenticationTemplateScriptUnlocking,
+  AuthenticationTemplateVariable,
   AuthenticationVirtualMachineIdentifier,
+  HdKey,
+  Key,
+  WalletData,
 } from './template-types';
 
 const listIds = (ids: string[]) =>
@@ -15,14 +22,14 @@ const listIds = (ids: string[]) =>
     .join(', ');
 
 /**
- * Sort an authentication template `scripts` object into its component scripts,
+ * Parse an authentication template `scripts` object into its component scripts,
  * validating the shape of each script object. Returns either an error message
- * as a string or the sorted scripts object.
+ * as a string or an object of cloned and sorted scripts.
  *
  * @param scripts - the `scripts` property of an `AuthenticationTemplate`
  */
 // eslint-disable-next-line complexity
-export const sortAuthenticationTemplateScripts = (scripts: object) => {
+export const parseAuthenticationTemplateScripts = (scripts: object) => {
   const unknownScripts = Object.entries(scripts).map<{
     id: string;
     script: unknown;
@@ -76,7 +83,12 @@ export const sortAuthenticationTemplateScripts = (scripts: object) => {
       }
       return {
         id,
-        script: { name, script: scriptContents, timeLockType, unlocks },
+        script: {
+          ...(name === undefined ? {} : { name }),
+          script: scriptContents,
+          ...(timeLockType === undefined ? {} : { timeLockType }),
+          unlocks,
+        },
       };
     });
 
@@ -125,7 +137,14 @@ export const sortAuthenticationTemplateScripts = (scripts: object) => {
         return `If defined, the "name" property of locking script "${id}" must be a string.`;
       }
 
-      return { id, script: { lockingType, name, script: scriptContents } };
+      return {
+        id,
+        script: {
+          lockingType,
+          ...(name === undefined ? {} : { name }),
+          script: scriptContents,
+        },
+      };
     });
 
   const invalidLockingResults = lockingResults.filter(
@@ -175,7 +194,7 @@ export const sortAuthenticationTemplateScripts = (scripts: object) => {
       }
 
       if (!Array.isArray(tests)) {
-        return `If defined, the "tests" property of tested script "${id}" must be an Array.`;
+        return `If defined, the "tests" property of tested script "${id}" must be an array.`;
       }
 
       const extractedTests =
@@ -198,7 +217,11 @@ export const sortAuthenticationTemplateScripts = (scripts: object) => {
             return `If defined, the "setup" properties of all tests in tested script "${id}" must be strings.`;
           }
 
-          return { check, name: testName, setup };
+          return {
+            check,
+            ...(testName === undefined ? {} : { name: testName }),
+            ...(setup === undefined ? {} : { setup }),
+          };
         });
 
       const invalidTests = extractedTests.filter(
@@ -213,7 +236,11 @@ export const sortAuthenticationTemplateScripts = (scripts: object) => {
 
       return {
         id,
-        script: { name, script: scriptContents, tests: validTests },
+        script: {
+          ...(name === undefined ? {} : { name }),
+          script: scriptContents,
+          tests: validTests,
+        },
       };
     });
 
@@ -268,7 +295,10 @@ export const sortAuthenticationTemplateScripts = (scripts: object) => {
 
       return {
         id,
-        script: { name, script: scriptContents },
+        script: {
+          ...(name === undefined ? {} : { name }),
+          script: scriptContents,
+        },
       };
     });
 
@@ -292,6 +322,287 @@ export const sortAuthenticationTemplateScripts = (scripts: object) => {
     tested,
     unlocking,
   };
+};
+
+const authenticationTemplateVariableTypes = [
+  'AddressData',
+  'HdKey',
+  'Key',
+  'WalletData',
+] as AuthenticationTemplateVariable['type'][];
+
+const isAuthenticationTemplateVariableType = (
+  type: unknown
+): type is AuthenticationTemplateVariable['type'] =>
+  authenticationTemplateVariableTypes.includes(
+    type as AuthenticationTemplateVariable['type']
+  );
+
+/**
+ * Parse an authentication template entity `variables` object into its component
+ * variables, validating the shape of each variable object. Returns either an
+ * error message as a string or the cloned variables object.
+ *
+ * @param scripts - the `scripts` property of an `AuthenticationTemplate`
+ */
+export const parseAuthenticationTemplateVariable = (
+  variables: object,
+  entityId: string
+) => {
+  const unknownVariables = Object.entries(variables).map<{
+    id: string;
+    variable: unknown;
+  }>(([id, variable]) => ({ id, variable }));
+
+  const nonObjectVariables = unknownVariables
+    .filter(({ variable }) => typeof variable !== 'object' || variable === null)
+    .map(({ id }) => id);
+  if (nonObjectVariables.length > 0) {
+    return `All authentication template variables must be objects, but the following variables owned by entity "${entityId}" are not objects: ${listIds(
+      nonObjectVariables
+    )}.`;
+  }
+  const allEntities = unknownVariables as { id: string; variable: object }[];
+
+  const variableResults: (
+    | { id: string; variable: AuthenticationTemplateVariable }
+    | string
+  )[] = allEntities
+    // eslint-disable-next-line complexity
+    .map(({ id, variable }) => {
+      const { description, name, type } = variable as {
+        description: unknown;
+        name: unknown;
+        type: unknown;
+      };
+
+      if (!isAuthenticationTemplateVariableType(type)) {
+        return `The "type" property of variable "${id}" must be a valid authentication template variable type. Available types are: ${listIds(
+          authenticationTemplateVariableTypes
+        )}.`;
+      }
+
+      if (description !== undefined && typeof description !== 'string') {
+        return `If defined, the "description" property of variable "${id}" must be a string.`;
+      }
+
+      if (name !== undefined && typeof name !== 'string') {
+        return `If defined, the "name" property of variable "${id}" must be a string.`;
+      }
+
+      if (type === 'HdKey') {
+        const {
+          addressOffset,
+          hdPublicKeyDerivationPath,
+          privateDerivationPath,
+          publicDerivationPath,
+        } = variable as {
+          addressOffset: unknown;
+          hdPublicKeyDerivationPath: unknown;
+          privateDerivationPath: unknown;
+          publicDerivationPath: unknown;
+        };
+
+        if (addressOffset !== undefined && typeof addressOffset !== 'number') {
+          return `If defined, the "addressOffset" property of HdKey "${id}" must be a number.`;
+        }
+
+        if (
+          hdPublicKeyDerivationPath !== undefined &&
+          typeof hdPublicKeyDerivationPath !== 'string'
+        ) {
+          return `If defined, the "hdPublicKeyDerivationPath" property of HdKey "${id}" must be a string.`;
+        }
+
+        if (
+          privateDerivationPath !== undefined &&
+          typeof privateDerivationPath !== 'string'
+        ) {
+          return `If defined, the "privateDerivationPath" property of HdKey "${id}" must be a string.`;
+        }
+
+        if (
+          publicDerivationPath !== undefined &&
+          typeof publicDerivationPath !== 'string'
+        ) {
+          return `If defined, the "publicDerivationPath" property of HdKey "${id}" must be a string.`;
+        }
+
+        const hdPublicKeyPath =
+          hdPublicKeyDerivationPath ??
+          CompilerDefaults.hdKeyHdPublicKeyDerivationPath;
+        const privatePath =
+          privateDerivationPath ?? CompilerDefaults.hdKeyPrivateDerivationPath;
+        const publicPath =
+          publicDerivationPath ?? privatePath.replace('m', 'M');
+
+        const validPrivatePathWithIndex = /^m(?:\/(?:[0-9]+|i)'?)*$/u;
+        const validPrivatePath = /^m(?:\/[0-9]+'?)*$/u;
+        const replacedPrivatePath = privatePath.replace('i', '0');
+        if (
+          !validPrivatePathWithIndex.test(privatePath) &&
+          !validPrivatePath.test(replacedPrivatePath)
+        ) {
+          return `If defined, the "privateDerivationPath" property of HdKey "${id}" must be a valid private derivation path, but the provided value is "${hdPublicKeyPath}". A valid path must begin with "m" and include only "/", "'", a single "i" address index character, and numbers.`;
+        }
+        if (!validPrivatePath.test(hdPublicKeyPath)) {
+          return `If defined, the "hdPublicKeyDerivationPath" property of an HdKey must be a valid private derivation path for the HdKey's HD public node, but the provided value for HdKey "${id}" is "${hdPublicKeyPath}". A valid path must begin with "m" and include only "/", "'", and numbers (the "i" character cannot be used in "hdPublicKeyDerivationPath").`;
+        }
+        const validPublicPathWithIndex = /^M(?:\/(?:[0-9]+|i))*$/u;
+        const validPublicPath = /^M(?:\/[0-9]+)*$/u;
+        const replacedPublicPath = publicPath.replace('i', '0');
+        if (
+          !validPublicPathWithIndex.test(publicPath) &&
+          !validPublicPath.test(replacedPublicPath)
+        ) {
+          return `The "publicDerivationPath" property of HdKey "${id}" must be a valid public derivation path, but the current value is "${publicPath}". Public derivation paths must begin with "M" and include only "/", a single "i" address index character, and numbers. If the "privateDerivationPath" uses hardened derivation, the "publicDerivationPath" should be set to enable public derivation from the "hdPublicKeyDerivationPath".`;
+        }
+        const publicPathSuffix = publicPath.replace('M/', '');
+        const impliedPrivatePath = `${hdPublicKeyPath}/${publicPathSuffix}`;
+        if (impliedPrivatePath !== privatePath) {
+          return `The "privateDerivationPath" property of HdKey "${id}" is "${privatePath}", but the implied private derivation path of "hdPublicKeyDerivationPath" and "publicDerivationPath" is "${impliedPrivatePath}". The "publicDerivationPath" property must be set to allow for public derivation of the same HD node derived by "privateDerivationPath" beginning from the HD public key derived at "hdPublicKeyDerivationPath".`;
+        }
+
+        return {
+          id,
+          variable: {
+            ...(addressOffset === undefined ? {} : { addressOffset }),
+            ...(description === undefined ? {} : { description }),
+            ...(hdPublicKeyDerivationPath === undefined
+              ? {}
+              : { hdPublicKeyDerivationPath }),
+            ...(name === undefined ? {} : { name }),
+            ...(privateDerivationPath === undefined
+              ? {}
+              : { privateDerivationPath }),
+            ...(publicDerivationPath === undefined
+              ? {}
+              : { publicDerivationPath }),
+            type,
+          } as HdKey,
+        };
+      }
+
+      return {
+        id,
+        variable: {
+          ...(description === undefined ? {} : { description }),
+          ...(name === undefined ? {} : { name }),
+          type,
+        } as WalletData | AddressData | Key,
+      };
+    });
+
+  const invalidVariableResults = variableResults.filter(
+    (result): result is string => typeof result === 'string'
+  );
+  if (invalidVariableResults.length > 0) {
+    return invalidVariableResults.join(' ');
+  }
+  const validVariableResults = (variableResults as unknown) as {
+    id: string;
+    variable: AuthenticationTemplateVariable;
+  }[];
+  const clonedVariables = validVariableResults.reduce<{
+    [id: string]: AuthenticationTemplateVariable;
+  }>((all, result) => ({ ...all, [result.id]: result.variable }), {});
+
+  return clonedVariables;
+};
+
+/**
+ * Parse an authentication template `entities` object into its component
+ * entities, validating the shape of each entity object. Returns either an error
+ * message as a string or the cloned entities object.
+ *
+ * @param scripts - the `scripts` property of an `AuthenticationTemplate`
+ */
+export const parseAuthenticationTemplateEntities = (entities: object) => {
+  const unknownEntities = Object.entries(entities).map<{
+    id: string;
+    entity: unknown;
+  }>(([id, entity]) => ({ entity, id }));
+
+  const nonObjectEntities = unknownEntities
+    .filter(({ entity }) => typeof entity !== 'object' || entity === null)
+    .map(({ id }) => id);
+  if (nonObjectEntities.length > 0) {
+    return `All authentication template entities must be objects, but the following entities are not objects: ${listIds(
+      nonObjectEntities
+    )}.`;
+  }
+  const allEntities = unknownEntities as { id: string; entity: object }[];
+
+  const entityResults: (
+    | { id: string; entity: AuthenticationTemplateEntity }
+    | string
+  )[] = allEntities
+    // eslint-disable-next-line complexity
+    .map(({ id, entity }) => {
+      const { description, name, scripts, variables } = entity as {
+        description: unknown;
+        name: unknown;
+        scripts: unknown;
+        variables: unknown;
+      };
+      if (description !== undefined && typeof description !== 'string') {
+        return `If defined, the "description" property of entity "${id}" must be a string.`;
+      }
+
+      if (name !== undefined && typeof name !== 'string') {
+        return `If defined, the "name" property of entity "${id}" must be a string.`;
+      }
+
+      if (scripts !== undefined && !Array.isArray(scripts)) {
+        return `If defined, the "scripts" property of entity "${id}" must be an array.`;
+      }
+
+      if (scripts?.some((item) => typeof item !== 'string') ?? false) {
+        return `The "scripts" property of entity "${id}" should contain only script identifiers (strings).`;
+      }
+
+      if (
+        variables !== undefined &&
+        (typeof variables !== 'object' || variables === null)
+      ) {
+        return `If defined, the "variables" property of entity "${id}" must be an object.`;
+      }
+
+      const variableResult =
+        variables === undefined
+          ? undefined
+          : parseAuthenticationTemplateVariable(variables, id);
+
+      if (typeof variableResult === 'string') {
+        return variableResult;
+      }
+
+      return {
+        entity: {
+          ...(description === undefined ? {} : { description }),
+          ...(name === undefined ? {} : { name }),
+          ...(scripts === undefined ? {} : { scripts }),
+          variables: variableResult,
+        },
+        id,
+      };
+    });
+
+  const invalidEntityResults = entityResults.filter(
+    (result): result is string => typeof result === 'string'
+  );
+  if (invalidEntityResults.length > 0) {
+    return invalidEntityResults.join(' ');
+  }
+  const validEntityResults = (entityResults as unknown) as {
+    id: string;
+    entity: AuthenticationTemplateEntity;
+  }[];
+  const clonedEntities = validEntityResults.reduce<{
+    [id: string]: AuthenticationTemplateEntity;
+  }>((all, result) => ({ ...all, [result.id]: result.entity }), {});
+
+  return clonedEntities;
 };
 
 const isVersion0 = (maybeTemplate: object): maybeTemplate is { version: 0 } =>
@@ -331,7 +642,7 @@ const supportsOnlyValidVmIdentifiers = <Identifiers>(
 
 /**
  * Parse and validate an authentication template, returning either an error
- * message as a string or the validated `AuthenticationTemplate`.
+ * message as a string or a valid, safely-cloned `AuthenticationTemplate`.
  *
  * This method validates both the structure and the contents of a template:
  * - All properties and sub-properties are verified to be of the expected type.
@@ -344,7 +655,7 @@ const supportsOnlyValidVmIdentifiers = <Identifiers>(
  * compilation, evaluating `AuthenticationTemplateScriptTest`s, or evaluating
  * scenarios).
  *
- * TODO: finish validation of `entities` and `scenarios`
+ * TODO: finish validation of `scenarios`
  *
  * @param maybeTemplate - object to validate as an authentication template
  */
@@ -414,10 +725,34 @@ export const validateAuthenticationTemplate = (
     return `If defined, the "scenarios" property of an authentication template must be an object.`;
   }
 
-  const entityIds = Object.keys(entities);
-  const scriptsIds = Object.keys(scripts);
+  const parsedScripts = parseAuthenticationTemplateScripts(scripts);
+  if (typeof parsedScripts === 'string') {
+    return parsedScripts;
+  }
+  const clonedScripts = [
+    ...Object.entries(parsedScripts.locking),
+    ...Object.entries(parsedScripts.other),
+    ...Object.entries(parsedScripts.tested),
+    ...Object.entries(parsedScripts.unlocking),
+  ].reduce((all, [id, script]) => ({ ...all, [id]: script }), {});
+
+  const clonedEntities = parseAuthenticationTemplateEntities(entities);
+  if (typeof clonedEntities === 'string') {
+    return clonedEntities;
+  }
+
+  const variableIds = Object.values(clonedEntities).reduce<string[]>(
+    (all, entity) =>
+      entity.variables === undefined
+        ? all
+        : [...all, ...Object.keys(entity.variables)],
+    []
+  );
+  const entityIds = Object.keys(clonedEntities);
+  const scriptsIds = Object.keys(clonedScripts);
 
   const idCount = [
+    ...variableIds,
     ...entityIds,
     ...scriptsIds,
     ...(scenarios === undefined ? [] : Object.keys(scenarios)),
@@ -433,15 +768,29 @@ export const validateAuthenticationTemplate = (
     .map(([id]) => id);
 
   if (duplicateIds.length > 0) {
-    return `The ID of each entity, script, and scenario in an authentication template must be unique. The following IDs are re-used: ${listIds(
+    return `The ID of each entity, variable, script, and scenario in an authentication template must be unique. The following IDs are re-used: ${listIds(
       duplicateIds
     )}.`;
   }
 
-  const sortedScripts = sortAuthenticationTemplateScripts(scripts);
-  if (typeof sortedScripts === 'string') {
-    return sortedScripts;
-  }
+  // TODO: confirm entities[id].scripts all exist
 
-  return maybeTemplate as AuthenticationTemplate;
+  // TODO: confirm every specified scenario in unlocking scripts exists (`estimate`, `passes`, and `fails`), every defined `scenario` in tests exists
+
+  // TODO: return the cloned scenarios object
+
+  return {
+    ...(maybeTemplate.$schema === undefined
+      ? {}
+      : { $schema: maybeTemplate.$schema }),
+    ...(maybeTemplate.description === undefined
+      ? {}
+      : { description: maybeTemplate.description }),
+    entities: clonedEntities,
+    ...(maybeTemplate.name === undefined ? {} : { name: maybeTemplate.name }),
+    scenarios,
+    scripts: clonedScripts,
+    supported: maybeTemplate.supported,
+    version: maybeTemplate.version,
+  } as AuthenticationTemplate;
 };

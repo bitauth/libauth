@@ -1,6 +1,14 @@
 /* eslint-disable camelcase */
 // cspell:ignore bitcoinvarint, IDE\'s
+import { dateToLocktime } from '../../format/time';
 import { AuthenticationTemplate } from '../../template/template-types';
+
+const exampleAuthorizationTime = dateToLocktime(
+  new Date('2020-01-01T00:00:00.000Z')
+) as number;
+const exampleAuthorizedPaymentTime = dateToLocktime(
+  new Date('2020-02-01T00:00:00.000Z')
+) as number;
 
 export const cashChannels: AuthenticationTemplate = {
   ...{ name: 'CashChannels' },
@@ -8,7 +16,7 @@ export const cashChannels: AuthenticationTemplate = {
   description:
     '**Noncustodial, Privacy-Preserving, Flexibly-Denominated, Recurring Payments for Bitcoin Cash**\n\nA single-key channel which allows the owner to preauthorize any number of future payments to a receiver.\n\nEach authorization specifies a payment value, payment time, channel and payment identification information, and maximum satoshi value. When the payment time for an authorization is reached, the receiver can create a single transaction to withdraw the authorized amount to their own wallet, sending the change back to the channel. Beyond initially signing authorizations, the owner does not need to participate in executing authorized payments.\n\nThe channel does not need to hold a balance to preauthorize transactions – much like a debit account, the owner only needs to ensure that the wallet contains adequate funds to satisfy upcoming payments.\n\nChannel payments can be denominated in any asset. If the channel is denominated in an asset other than BCH, the precise payment amount is determined by a Rate Oracle, an entity partially-trusted with determining the current value of the denominating asset. (If the value of the denominating asset rises dramatically in terms of BCH, the Owner must sign a new authorization with a larger maximum authorized satoshi value.)\n \nThis wallet is entirely noncustodial: at any time, the owner can withdraw their funds to end the arrangement.\n\nIn normal use, the owner should create a unique channel for each Receiver. This provides better privacy (receivers can not determine the payment amounts or frequency of payments to other receivers) and better security (misbehaving receivers can not disrupt upcoming payments to other receivers).\n\nImplementation note: a single authorization can be used to withdraw from any channel UTXO. In most cases, authorizations are meant to be used only once, so wallets should never hold more than one unspent UTXO per channel. To “top up” the wallet, the existing UTXO should be spent back to itself, adding funds as necessary.',
   entities: {
-    owner: {
+    owner_entity: {
       description:
         'The owner of this channel. The owner can pre-sign authorizations or withdraw from the channel at any time.',
       name: 'Owner',
@@ -50,7 +58,7 @@ export const cashChannels: AuthenticationTemplate = {
         },
       },
     },
-    rate_oracle: {
+    rate_oracle_entity: {
       description:
         'The Rate Oracle is an entity trusted with determining the current exchange rate of the denominating asset at each authorization’s payment time. If the denominating asset is BCH, no rate oracle is required.\n\nDepending on the relationship between Owner and Receiver, the Receiver (or a party contracted by the receiver) may also serve as the Rate Oracle. (If the Receiver abuses the role, the Owner can end the arrangement.) In a merchant scenario, the payment processor is a good candidate for Rate Oracle.\n\nThe Rate Oracle’s claims are used by the channel to determine the exact BCH amount of the payment, so long as the rate remains below the maximum satoshi value specified by the authorization.',
       name: 'Rate Oracle',
@@ -68,7 +76,7 @@ export const cashChannels: AuthenticationTemplate = {
         },
       },
     },
-    receiver: {
+    receiver_entity: {
       description:
         'The entity designated as the recipient of all channel payments. \n\nThe receiver holds authorizations signed by the Owner. When the payment time of an authorization is reached, the Receiver can create a transaction for the value specified by the authorization, spending the change back to the channel.',
       name: 'Receiver',
@@ -81,8 +89,43 @@ export const cashChannels: AuthenticationTemplate = {
       },
     },
   },
+  scenarios: {
+    after_payment_time: {
+      description: 'An example of successful payment authorization execution.',
+      extends: 'usd10',
+      name: '$10.00 USD – After Payment Time',
+      transaction: {
+        locktime: exampleAuthorizedPaymentTime,
+      },
+    },
+    before_payment_time: {
+      data: {
+        bytecode: {
+          authorized_amount: '1000',
+          denominating_asset: "'USD'",
+          maximum_authorized_satoshis: '10500',
+          payment_number: '2',
+          payment_satoshis: '10000',
+          payment_time: '0xd9a9f35d',
+        },
+      },
+      description:
+        'An example attempting to execute a payment authorization before the payment time authorized by the owner.',
+      extends: 'usd10',
+      name: '$10.00 USD – Before Payment Time',
+      transaction: {
+        locktime: exampleAuthorizationTime,
+      },
+    },
+    usd10: {
+      description:
+        'A working channel denominated in USD. The authorization is for "1000" in asset "USD" (described in cents, so $10.00 USD), and it authorizes a payment of a maximum of 10500 satoshis.',
+      name: '$10.00 USD Authorization',
+    },
+  },
   scripts: {
     channel: {
+      lockingType: 'standard',
       name: 'Channel',
       script:
         'OP_HASH160 <$(\n    // TODO: switch channel implementation based on <denominating_asset>\n    <channel_oracle> OP_HASH160\n)> OP_EQUAL\n',
@@ -98,6 +141,7 @@ export const cashChannels: AuthenticationTemplate = {
         '$(<owner.public_key>\n<receiver.public_key>\nOP_CAT\nOP_HASH160)',
     },
     channel_oracle: {
+      lockingType: 'p2sh',
       name: 'Channel (Oracle)',
       script:
         '<owner.public_key>\nOP_SWAP\nOP_IF\n    // Execute Authorization\n    OP_DUP OP_TOALTSTACK // save owner.public_key\n\n    // reconstruct payment authorization message\n    <6> OP_PICK // channel_identifier\n    <15> OP_PICK // payment_number_padded\n    <7> OP_PICK // maximum_authorized_satoshis\n    OP_DUP\n    <12> OP_PICK // payment_satoshis\n    OP_GREATERTHANOREQUAL OP_VERIFY // maximum_authorized_satoshis >= payment_satoshis\n    <8> OP_NUM2BIN\n    <7> OP_PICK <8> OP_NUM2BIN // authorized_amount\n    <7> OP_PICK <8> OP_NUM2BIN // denominating_asset\n    <7> OP_PICK <8> OP_NUM2BIN // payment_time\n    OP_CAT OP_CAT\n    OP_DUP OP_TOALTSTACK // save (authorized_amount + denominating_asset + payment_time)\n    OP_CAT OP_CAT OP_CAT\n    OP_SWAP\n    OP_CHECKDATASIGVERIFY // check payment authorization signature\n\n    OP_CHECKLOCKTIMEVERIFY // fail if not past payment_time\n    OP_2DROP OP_2DROP\n\n    <8> OP_PICK // payment_number_padded\n    <payment_number_padded>\n    OP_EQUALVERIFY // check against payment_number in authorization\n\n    // reconstruct rate_claim\n    OP_FROMALTSTACK\n    <3> OP_PICK // payment_satoshis\n    <8> OP_NUM2BIN\n    OP_CAT\n\n    OP_SWAP\n    OP_FROMALTSTACK // load owner.public_key\n    <receiver.public_key>\n    OP_DUP\n    OP_TOALTSTACK // save receiver.public_key\n    OP_CAT\n    OP_HASH160\n    OP_EQUALVERIFY // verify channel_identifier\n\n    <rate_oracle.public_key>\n    OP_CHECKDATASIGVERIFY // verify rate_claim\n\n    <7> OP_PICK // covered_bytecode_before_payment_number\n    <7> OP_PICK // payment_number_padded\n    OP_BIN2NUM\n    <1> OP_ADD <2> OP_NUM2BIN // next payment_number\n    <7> OP_PICK // covered_bytecode_after_payment_number\n    OP_CAT OP_CAT \n    OP_HASH160 // P2SH redeem bytecode hash\n    // prefix locking bytecode with its length (required in serialization)\n    <23>\n    <OP_HASH160 OP_PUSHBYTES_20> OP_ROT\n    <OP_EQUAL>\n    OP_CAT OP_CAT OP_CAT // length + locking bytecode\n\n    // calculate expected output value\n    <5> OP_PICK // outpoint_value\n    OP_BIN2NUM\n    OP_ROT\n    OP_SUB <8> OP_NUM2BIN // remaining balance\n    OP_SWAP OP_CAT // expected output serialization\n    OP_SWAP OP_CAT\n    OP_HASH256 // expected transaction_outputs_hash\n    OP_SWAP\n    OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT\n\n    OP_SHA256\n\n    OP_FROMALTSTACK\n    OP_DUP\n    <3> OP_PICK // receiver.schnorr_signature.all_outputs\n    OP_ROT\n    OP_CHECKSIGVERIFY // signature covers transaction\n    OP_ROT <64> OP_SPLIT OP_DROP // remove signature serialization type bit\n    OP_ROT OP_ROT \n    OP_CHECKDATASIG // signature covers expected transaction\nOP_ELSE\n    // Owner Spend \n    OP_CHECKSIG\nOP_ENDIF \n',

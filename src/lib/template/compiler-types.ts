@@ -522,14 +522,15 @@ export interface CompilationData<
     [fullIdentifier: string]: Uint8Array;
   };
   /**
-   * The current block height at compile time.
+   * The current block height at address creation time.
    */
   currentBlockHeight?: number;
   /**
-   * The current block time at compile time. Note: this is not a current
-   * timestamp, but the median timestamp of the last 11 blocks.
+   * The current block time at address creation time.
    *
-   * This value only changes when a new block is found. See BIP113 for details.
+   * Note, this is never a current timestamp, but rather the median timestamp of
+   * the last 11 blocks. This value only changes when a new block is found. See
+   * BIP113 for details.
    */
   currentBlockTime?: Date;
   /**
@@ -543,10 +544,8 @@ export interface CompilationData<
      * the dynamic index (`i`) used in each `privateDerivationPath` or
      * `publicDerivationPath`.
      *
-     * This is required for any compiler operation which requires derivation
-     * (all operations except `public_key`s provided in `derivedPublicKeys` or
-     * signatures provided in `signatures`). Typically, the value is incremented
-     * by one for each address in a wallet.
+     * This is required for any compiler operation which requires derivation.
+     * Typically, the value is incremented by one for each address in a wallet.
      */
     addressIndex?: number;
     /**
@@ -560,7 +559,7 @@ export interface CompilationData<
      *
      * If both an HD private key (in `hdPrivateKeys`) and HD public key (in
      * `hdPublicKeys`) are provided for the same entity in the same compilation
-     * (not recommended), only the HD private key is used.
+     * (not recommended), the HD private key is used.
      */
     hdPublicKeys?: {
       [entityId: string]: string;

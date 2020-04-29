@@ -17,12 +17,12 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
    */
   outpointIndex: number;
   /**
-   * A.K.A. `Transaction ID`
-   *
    * The hash of the raw transaction from which this input is spent in
-   * big-endian byte order. This is the order typically seen in block explorers
-   * and user interfaces (as opposed to little-endian byte order, which is used
-   * in standard P2P network messages).
+   * big-endian byte order. This is the byte order typically seen in block
+   * explorers and user interfaces (as opposed to little-endian byte order,
+   * which is used in standard P2P network messages).
+   *
+   * A.K.A. `Transaction ID`
    *
    * @remarks
    * An "outpoint" is a reference (A.K.A. "pointer") to a specific output in a
@@ -36,7 +36,67 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
    */
   outpointTransactionHash: HashRepresentation;
   /**
-   * TODO: summarize BIP 68
+   * The positive, 32-bit unsigned integer used as the "sequence number" for
+   * this input.
+   *
+   * A sequence number is a complex bitfield which can encode several properties
+   * about an input:
+   * - **sequence age support** – whether or not the input can use
+   * `OP_CHECKSEQUENCEVERIFY`, and the minimum number of blocks or length of
+   * time which has passed since this input's source transaction was mined (up
+   * to approximately 1 year).
+   * - **locktime support** – whether or not the input can use
+   * `OP_CHECKLOCKTIMEVERIFY`
+   *
+   * **Sequence Age Support**
+   *
+   * Sequence number age is enforced by mining consensus – a transaction is
+   * invalid until it has "aged" such that all outputs referenced by its
+   * age-enabled inputs are at least as old as claimed by their respective
+   * sequence numbers.
+   *
+   * This allows sequence numbers to function as a "relative locktime" for each
+   * input: a `lockingBytecode` can use the `OP_CHECKSEQUENCEVERIFY` operation
+   * to verify that the funds being spent have been "locked" for a minimum
+   * required amount of time (or block count). This can be used in protocols
+   * which require a reliable "proof-of-publication", like escrow, time-delayed
+   * withdrawals, and various payment channel protocols.
+   *
+   * Sequence age support is enabled unless the "disable bit" – the most
+   * significant bit – is set (i.e. the sequence number is less than
+   * `(1 << 31) >>> 0`/`0b10000000000000000000000000000000`/`2147483648`).
+   *
+   * If sequence age is enabled, the "type bit" – the most significant bit in
+   * the second-most significant byte
+   * (`1 << 22`/`0b1000000000000000000000`/`2097152`) – indicates the unit type
+   * of the specified age:
+   *  - if set, the age is in units of `512` seconds (using Median Time-Past)
+   *  - if not set, the age is a number of blocks
+   *
+   * The least significant 16 bits specify the age (i.e.
+   * `age = sequenceNumber & 0x0000ffff`). This makes the maximum age either
+   * `65535` blocks (about 1.25 years) or `33553920` seconds (about 1.06 years).
+   *
+   * **Locktime Support**
+   *
+   * Locktime support is disabled for an input if the sequence number is exactly
+   * `0xffffffff` (`4294967295`). Because this value requires the "disable bit"
+   * to be set, disabling locktime support also disables sequence age support.
+   *
+   * With locktime support disabled, if  either `OP_CHECKLOCKTIMEVERIFY` or
+   * `OP_CHECKSEQUENCEVERIFY` are encountered during the validation of
+   * `unlockingBytecode`, an error is produced, and the transaction is invalid.
+   *
+   * @remarks
+   * The term "sequence number" was the name given to this field in the Satoshi
+   * implementation of the bitcoin transaction format. The field was originally
+   * intended for use in a multi-party signing protocol where parties updated
+   * the "sequence number" to indicate to miners that this input should replace
+   * a previously-signed input in an existing, not-yet-mined transaction. The
+   * original use-case was not completed and relied on behavior which can not be
+   * enforced by mining consensus, so the field was mostly-unused until it was
+   * repurposed by BIP68 in block `419328`. See BIP68, BIP112, and BIP113 for
+   * details.
    */
   sequenceNumber: number;
   /**
@@ -51,11 +111,54 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
 }
 
 /**
+ * The maximum uint64 value – an impossibly large, intentionally invalid value
+ * for `satoshis`. See `OutputUncappedAmount` for details.
+ */
+// prettier-ignore
+// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+export const invalidSatoshis = Uint8Array.from([255, 255, 255, 255, 255, 255, 255, 255]);
+
+/**
+ * A modified version of `Output` which also allows `satoshis` to also be
+ * provided as a `Uint8Array` (`Uint64LE`).
+ *
+ * Normally, `satoshis` need only be defined as a `number`, as
+ * `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is about 4 times larger than
+ * the maximum number of satoshis which should ever exist. Therefore, even if
+ * all satoshis were consolidated in a single output, the transaction spending
+ * this output could still be defined with a numeric `satoshis` value.
+ *
+ * Allowing `satoshis` to be set to a `Uint8Array` allows for the full range of
+ * the 64-bit unsigned, little-endian integer used to serialized `satoshis` in
+ * the serialized output format (used in both transaction serialization and
+ * signing serialization). This is useful for encoding intentionally excessive
+ * values.
+ *
+ * For example, `invalidSatoshis` (`0xffffffffffffffff` - the maximum uint64
+ * value) is a clearly impossible `satoshis` value for versions `0`, `1`, and
+ * `2` transactions. As such, this value can safely by used by transaction
+ * signing and verification implementations to ensure that an otherwise
+ * properly-signed transaction can never be included in the blockchain, e.g. for
+ * transaction size estimation or off-chain Bitauth signatures.
+ */
+export interface OutputUncappedAmount
+  extends Output<Uint8Array, number | Uint8Array> {
+  /**
+   * TODO:
+   */
+  satoshis: number | Uint8Array;
+}
+
+/**
  * Data type representing a Transaction Output.
+ *
+ * @typeParam Bytecode - the type of `lockingBytecode` - this can be configured
+ * to allow for defining compilation directives
+ * @typeParam Amount - the type of `satoshis`
  */
 export interface Output<Bytecode = Uint8Array, Amount = number> {
   /**
-   * The bytecode used to encumber a transaction output. To spend the output,
+   * The bytecode used to encumber this transaction output. To spend the output,
    * unlocking bytecode must be included in a transaction input which – when
    * evaluated before the locking bytecode – completes in a valid state.
    *
@@ -66,7 +169,7 @@ export interface Output<Bytecode = Uint8Array, Amount = number> {
    * The value of the output in satoshis, the smallest unit of bitcoin.
    *
    * This is a positive integer, from `0` to the maximum number of satoshis
-   * available to the transaction. (Note, the maximum number of satoshis in
+   * available to the transaction. (The maximum number of satoshis in
    * existence is about 1/4 of `Number.MAX_SAFE_INTEGER`.)
    *
    * There are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.
@@ -95,11 +198,34 @@ export interface Transaction<InputType = Input, OutputType = Output> {
    * or equal to `500000000` are understood to be a UNIX timestamp.
    *
    * For validating timestamp values, the median timestamp of the last 11 blocks
-   * is used. The precise behavior is defined in BIP113.
+   * (Median Time-Past) is used. The precise behavior is defined in BIP113.
    *
    * If the `sequenceNumber` of every transaction input is set to `0xffffffff`
-   * (`4294967295`), locktime is ignored, and the transaction may be added to a
-   * block (even if the specified locktime has not yet been reached).
+   * (`4294967295`), locktime is disabled, and the transaction may be added to a
+   * block even if the specified locktime has not yet been reached. When
+   * locktime is disabled, if an `OP_CHECKLOCKTIMEVERIFY` operation is
+   * encountered during the verification of any input, an error is produced, and
+   * the transaction is invalid.
+   *
+   * @remarks
+   * There is a subtle difference in how `locktime` is disabled for a
+   * transaction and how it is "disabled" for a single input: `locktime` is only
+   * disabled for a transaction if every input has a sequence number of
+   * `0xffffffff`; however, within each input, if the sequence number is set to
+   * `0xffffffff`, locktime is disabled for that input (and
+   * `OP_CHECKLOCKTIMEVERIFY` operations will error if encountered).
+   *
+   * This difference is a minor virtual machine optimization – it allows inputs
+   * to be properly validated without requiring the virtual machine to check the
+   * sequence number of every other input (only that of the current input).
+   *
+   * This is inconsequential for valid transactions, since any transaction which
+   * disables `locktime` must have disabled locktime for all of its inputs;
+   * `OP_CHECKLOCKTIMEVERIFY` is always properly enforced. However, because an
+   * input can individually "disable locktime" without the full transaction
+   * *actually disabling locktime*, it is possible that a carefully-crafted
+   * transaction may fail to verify because "locktime is disabled" for the input
+   * – even if locktime is actually enforced on the transaction level.
    */
   locktime: number;
 
@@ -111,8 +237,8 @@ export interface Transaction<InputType = Input, OutputType = Output> {
    */
   outputs: OutputType[];
   /**
-   * The version of this transaction. Since BIP68, most transactions use a
-   * version of `2`.
+   * The version of this transaction – a positive integer from `0` to a maximum
+   * of `4294967295`. Since BIP68, most transactions use a version of `2`.
    */
   version: number;
 }
@@ -183,7 +309,7 @@ export type InputTemplate<
  *
  * If `EnableFeeEstimation` is `true`, the `satoshis` value may also be
  * `undefined` (as estimated transactions always set output values to
- * `impossibleSatoshis`).
+ * `invalidSatoshis`).
  */
 export type OutputTemplate<
   CompilerType,
@@ -202,7 +328,7 @@ export type OutputTemplate<
  *  If `EnableFeeEstimation` is `true`, all input directives must include an
  * `estimate` scenario ID, and the `satoshis` value of each output may also be
  * `undefined` (as estimated transactions always set output values to
- * `impossibleSatoshis`).
+ * `invalidSatoshis`).
  */
 export type TransactionTemplate<
   CompilerType,

@@ -14,9 +14,9 @@ enum Bits {
 }
 
 enum Constants {
-  LocktimeScriptNumberByteLength = 5,
-  LocktimeThreshold = 500_000_000,
-  maximumSequenceNumber = 0xffffffff,
+  locktimeScriptNumberByteLength = 5,
+  locktimeThreshold = 500_000_000,
+  locktimeDisablingSequenceNumber = 0xffffffff,
   sequenceLocktimeTransactionVersionMinimum = 2,
   // eslint-disable-next-line no-bitwise
   sequenceLocktimeDisableFlag = (1 << Bits.sequenceLocktimeDisableFlag) >>> 0,
@@ -44,7 +44,7 @@ export const readLocktime = <
     );
   }
   const parsedLocktime = parseBytesAsScriptNumber(item, {
-    maximumScriptNumberByteLength: Constants.LocktimeScriptNumberByteLength,
+    maximumScriptNumberByteLength: Constants.locktimeScriptNumberByteLength,
     requireMinimalEncoding: flags.requireMinimalEncoding,
   });
   if (isScriptNumberError(parsedLocktime)) {
@@ -67,10 +67,10 @@ const locktimeTypesAreCompatible = (
   locktime: number,
   requiredLocktime: number
 ) =>
-  (locktime < Constants.LocktimeThreshold &&
-    requiredLocktime < Constants.LocktimeThreshold) ||
-  (locktime >= Constants.LocktimeThreshold &&
-    requiredLocktime >= Constants.LocktimeThreshold);
+  (locktime < Constants.locktimeThreshold &&
+    requiredLocktime < Constants.locktimeThreshold) ||
+  (locktime >= Constants.locktimeThreshold &&
+    requiredLocktime >= Constants.locktimeThreshold);
 
 export const opCheckLockTimeVerify = <
   State extends StackState &
@@ -97,7 +97,9 @@ export const opCheckLockTimeVerify = <
           nextState
         );
       }
-      if (nextState.sequenceNumber === Constants.maximumSequenceNumber) {
+      if (
+        nextState.sequenceNumber === Constants.locktimeDisablingSequenceNumber
+      ) {
         return applyError<State, Errors>(
           AuthenticationErrorCommon.locktimeDisabled,
           nextState

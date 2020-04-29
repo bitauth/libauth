@@ -412,6 +412,14 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
         const publicDerivationPath =
           hdKey.publicDerivationPath ?? privateDerivationPath.replace('m', 'M');
 
+        const validPublicPathWithIndex = /^M(?:\/(?:[0-9]+|i))*$/u;
+        if (!validPublicPathWithIndex.test(publicDerivationPath)) {
+          return {
+            error: `Could not generate ${identifier} – the path "${publicDerivationPath}" is not a valid "publicDerivationPath".`,
+            status: 'error',
+          };
+        }
+
         const i = addressIndex + addressOffset;
         const instancePath = publicDerivationPath.replace('i', i.toString());
 

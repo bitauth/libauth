@@ -15,7 +15,7 @@ import { privkey } from '../template/compiler-bch/compiler-bch.e2e.spec.helper';
 
 const maybeP2pkhTemplate: unknown = {
   entities: {
-    owner: {
+    ownerEntity: {
       name: 'Owner',
       scripts: ['lock', 'unlock'],
       variables: {

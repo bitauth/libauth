@@ -4,7 +4,7 @@
   "description": "A 2-of-2 wallet, which after a specified delay, can be recovered by either of the original two keys and a signature from a trusted user (e.g. an attorney).\n\nIn this implementation, all wallet addresses become recoverable at the same time. To \"bump\" the recovery time to a later date, create a new wallet and transfer the funds.\n\nThis scheme is described in more detail in BIP-65.",
   "entities": {
     "signer_1": {
-      "description": "One of the two co-owners of this wallet. If Signer 1 is unable to sign, Signer 2 and Trusted Party can recover funds after 30 days.",
+      "description": "One of the two co-owners of this wallet. If Signer 1 is unable to sign, Signer 2 and Trusted Party can recover funds after the specified delay.",
       "name": "Signer 1",
       "scripts": ["lock", "spend", "recover_1"],
       "variables": {
@@ -58,7 +58,6 @@
         }
       },
       "description": "An example of a time before a 30 day recovery delay (2592000 seconds) has passed.",
-      "extends": "estimate",
       "name": "Before Recovery Time",
       "transaction": {
         "locktime": 1231469665

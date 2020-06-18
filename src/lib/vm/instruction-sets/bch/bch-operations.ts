@@ -2,10 +2,10 @@ import { Secp256k1, Sha256 } from '../../../crypto/crypto';
 import { flattenBinArray } from '../../../format/hex';
 import {
   AuthenticationProgramStateCommon,
-  ErrorState,
-  SignatureAnalysisState,
-  StackState,
-} from '../../state';
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateSignatureAnalysis,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 import {
   combineOperations,
   pushToStack,
@@ -29,7 +29,8 @@ import { OpcodesBCH } from './bch-opcodes';
 import { ConsensusBCH } from './bch-types';
 
 export const opCat = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
 >() => (state: State) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
     a.length + b.length > ConsensusCommon.maximumStackItemLength
@@ -41,7 +42,8 @@ export const opCat = <
   );
 
 export const opSplit = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
 >({
   requireMinimalEncoding,
 }: {
@@ -93,7 +95,8 @@ export const padMinimallyEncodedScriptNumber = (
 };
 
 export const opNum2Bin = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
 >() => (state: State) =>
   useOneScriptNumber(
     state,
@@ -135,7 +138,8 @@ export const opNum2Bin = <
   );
 
 export const opBin2Num = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
 >() => (state: State) =>
   useOneScriptNumber(
     state,
@@ -156,7 +160,8 @@ export const opBin2Num = <
   );
 
 export const bitwiseOperation = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
 >(
   combine: (a: Uint8Array, b: Uint8Array) => Uint8Array
 ) => (state: State) =>
@@ -170,22 +175,26 @@ export const bitwiseOperation = <
   );
 
 export const opAnd = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
   // eslint-disable-next-line no-bitwise
 >() => bitwiseOperation<State>((a, b) => a.map((v, i) => v & b[i]));
 
 export const opOr = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
   // eslint-disable-next-line no-bitwise
 >() => bitwiseOperation<State>((a, b) => a.map((v, i) => v | b[i]));
 
 export const opXor = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
   // eslint-disable-next-line no-bitwise
 >() => bitwiseOperation<State>((a, b) => a.map((v, i) => v ^ b[i]));
 
 export const opDiv = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
 >({
   requireMinimalEncoding,
 }: {
@@ -204,7 +213,8 @@ export const opDiv = <
   );
 
 export const opMod = <
-  State extends StackState & ErrorState<AuthenticationErrorBCH>
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<AuthenticationErrorBCH>
 >({
   requireMinimalEncoding,
 }: {
@@ -234,7 +244,9 @@ export const isValidSignatureEncodingBCHRaw = (signature: Uint8Array) =>
   isValidSignatureEncodingDER(signature);
 
 export const opCheckDataSig = <
-  State extends StackState & ErrorState<Errors> & SignatureAnalysisState,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors> &
+    AuthenticationProgramStateSignatureAnalysis,
   Errors
 >({
   secp256k1,
@@ -279,7 +291,9 @@ export const opCheckDataSig = <
   });
 
 export const opCheckDataSigVerify = <
-  State extends StackState & ErrorState<Errors> & SignatureAnalysisState,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors> &
+    AuthenticationProgramStateSignatureAnalysis,
   Errors
 >({
   secp256k1,

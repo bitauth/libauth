@@ -5,10 +5,11 @@ import {
   AuthenticationProgramStateBCH,
   BytecodeGenerationResult,
   CompilationEnvironmentBCH,
-  compilerCreateStateCommon,
   compilerOperationsBCH,
-  createAuthenticationProgramExternalStateCommonEmpty,
+  createAuthenticationProgramEvaluationCommon,
   createCompiler,
+  createTransactionContextCommonTesting,
+  dateToLocktime,
   generateBytecodeMap,
   hexToBin,
   instantiateSha256,
@@ -50,31 +51,12 @@ test(
   '[BCH compiler] built-in variables – current_block_time',
   expectCompilationResult,
   '<current_block_time>',
-  { currentBlockTime: new Date('2019-10-13T00:00:00.000Z') },
-  { bytecode: hexToBin('040069a25d'), success: true }
-);
-
-test(
-  '[BCH compiler] built-in variables – current_block_time - invalid',
-  expectCompilationResult,
-  '<current_block_time>',
-  { currentBlockTime: new Date(0) },
   {
-    errorType: 'resolve',
-    errors: [
-      {
-        error:
-          'Cannot resolve "current_block_time – the Date provided as "currentBlockTime" in the compilation data is outside the range which can be encoded in locktime."',
-        range: {
-          endColumn: 20,
-          endLineNumber: 1,
-          startColumn: 2,
-          startLineNumber: 1,
-        },
-      },
-    ],
-    success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+    currentBlockTime: dateToLocktime(
+      new Date('2019-10-13T00:00:00.000Z')
+    ) as number,
+  },
+  { bytecode: hexToBin('040069a25d'), success: true }
 );
 
 test(
@@ -106,6 +88,96 @@ test(
   '<current_block_height>',
   { currentBlockHeight: 1 },
   { bytecode: hexToBin('51'), success: true }
+);
+
+test(
+  '[BCH compiler] timeLockType – requires a height-based locktime',
+  expectCompilationResult,
+  '',
+  {
+    transactionContext: {
+      ...createTransactionContextCommonTesting(),
+      locktime: 500000000,
+    },
+  },
+  {
+    errorType: 'parse',
+    errors: [
+      {
+        error:
+          'The script "test" requires a height-based locktime (less than 500,000,000), but this transaction uses a timestamp-based locktime ("500000000").',
+        range: {
+          endColumn: 0,
+          endLineNumber: 0,
+          startColumn: 0,
+          startLineNumber: 0,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  { unlockingScriptTimeLockTypes: { test: 'height' } }
+);
+
+test(
+  '[BCH compiler] timeLockType – requires a timestamp-based locktime',
+  expectCompilationResult,
+  '',
+  {
+    transactionContext: {
+      ...createTransactionContextCommonTesting(),
+      locktime: 0,
+    },
+  },
+  {
+    errorType: 'parse',
+    errors: [
+      {
+        error:
+          'The script "test" requires a timestamp-based locktime (greater than or equal to 500,000,000), but this transaction uses a height-based locktime ("0").',
+        range: {
+          endColumn: 0,
+          endLineNumber: 0,
+          startColumn: 0,
+          startLineNumber: 0,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  { unlockingScriptTimeLockTypes: { test: 'timestamp' } }
+);
+
+test(
+  '[BCH compiler] timeLockType – locktime disabled by sequenceNumber',
+  expectCompilationResult,
+  '',
+  {
+    transactionContext: {
+      ...createTransactionContextCommonTesting(),
+      sequenceNumber: 0xffffffff,
+    },
+  },
+  {
+    errorType: 'parse',
+    errors: [
+      {
+        error:
+          'The script "test" requires a locktime, but this input\'s sequence number is set to disable transaction locktime (0xffffffff). This will cause the OP_CHECKLOCKTIMEVERIFY operation to error when the transaction is verified. To be valid, this input must use a sequence number which does not disable locktime.',
+        range: {
+          endColumn: 0,
+          endLineNumber: 0,
+          startColumn: 0,
+          startLineNumber: 0,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  { unlockingScriptTimeLockTypes: { test: 'height' } }
 );
 
 test(
@@ -166,7 +238,9 @@ test(
   '<current_block_height> <current_block_time>',
   {
     currentBlockHeight: 1,
-    currentBlockTime: new Date('2019-10-13T00:00:00.000Z'),
+    currentBlockTime: dateToLocktime(
+      new Date('2019-10-13T00:00:00.000Z')
+    ) as number,
   },
   { bytecode: hexToBin('51040069a25d'), success: true }
 );
@@ -492,6 +566,92 @@ test(
 );
 
 test(
+  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode - unlocking script not in unlockingScripts',
+  expectCompilationResult,
+  '<signing_serialization.covered_bytecode>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Identifier "signing_serialization.covered_bytecode" requires a signing serialization, but "coveredBytecode" cannot be determined because "test" is not present in the compilation environment "unlockingScripts".',
+        range: {
+          endColumn: 40,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  {
+    unlockingScripts: {},
+  }
+);
+
+test(
+  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode - unknown covered script',
+  expectCompilationResult,
+  '<signing_serialization.covered_bytecode>',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Identifier "signing_serialization.covered_bytecode" requires a signing serialization which covers an unknown locking script, "some_unknown_script".',
+        range: {
+          endColumn: 40,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  {
+    unlockingScripts: {
+      test: 'some_unknown_script',
+    },
+  }
+);
+
+test(
+  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode - error in coveredBytecode compilation',
+  expectCompilationResult,
+  '',
+  {},
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Compilation error in resolved script "lock": [1, 1] Unknown identifier "invalid".',
+        range: {
+          endColumn: 40,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {},
+  {
+    scripts: {
+      lock: 'invalid',
+      test: '<signing_serialization.full_all_outputs>',
+    },
+  }
+);
+
+test(
   '[BCH compiler] built-in variables – signing_serialization.unknown',
   expectCompilationResult,
   '<signing_serialization.unknown>',
@@ -547,7 +707,7 @@ test('[BCH compiler] signing_serialization.corresponding_output and signing_seri
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
-    createState: compilerCreateStateCommon,
+    createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
     opcodes: generateBytecodeMap(OpcodesBCH),
     operations: compilerOperationsBCH,
     scripts: {
@@ -570,8 +730,7 @@ test('[BCH compiler] signing_serialization.corresponding_output and signing_seri
   const data = {
     keys: { privateKeys: { a: privkey } },
     transactionContext: {
-      ...createAuthenticationProgramExternalStateCommonEmpty(),
-      coveredBytecode: Uint8Array.of(),
+      ...createTransactionContextCommonTesting(),
       ...{
         correspondingOutput: undefined,
       },

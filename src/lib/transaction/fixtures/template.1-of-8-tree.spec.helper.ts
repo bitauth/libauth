@@ -1,5 +1,8 @@
 /* eslint-disable camelcase, @typescript-eslint/no-magic-numbers */
-import { AuthenticationTemplate, HdKey } from '../../template/template-types';
+import {
+  AuthenticationTemplate,
+  AuthenticationTemplateHdKey,
+} from '../../template/template-types';
 
 /**
  * This is a mostly-hard-coded 1-of-8 example. A more general function could
@@ -37,7 +40,7 @@ export const oneOfEightTreeSig: AuthenticationTemplate = {
         variables: {
           [`key${i}`]: {
             type: 'HdKey' as const,
-          } as HdKey,
+          } as AuthenticationTemplateHdKey,
         },
       },
     }),

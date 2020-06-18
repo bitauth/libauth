@@ -1,4 +1,5 @@
 export * from './hex';
+export * from './bin-string';
 export * from './base-convert';
 export * from './base64';
 export * from './numbers';

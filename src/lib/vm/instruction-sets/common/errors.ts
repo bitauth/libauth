@@ -1,4 +1,4 @@
-import { ErrorState } from '../../state';
+import { AuthenticationProgramStateError } from '../../vm-types';
 
 export enum AuthenticationErrorCommon {
   calledReserved = 'Program called an unassigned, reserved operation.',
@@ -29,7 +29,7 @@ export enum AuthenticationErrorCommon {
   malformedPush = 'Program must be long enough to push the requested number of bytes.',
   malformedUnlockingBytecode = 'The provided unlocking bytecode is malformed.',
   negativeLocktime = 'Program called an OP_CHECKLOCKTIMEVERIFY or OP_CHECKSEQUENCEVERIFY operation with a negative locktime.',
-  nonEmptyExecutionState = 'Program completed with a non-empty execution stack.',
+  nonEmptyExecutionStack = 'Program completed with a non-empty execution stack (missing `OP_ENDIF`).',
   nonMinimalPush = 'Push operations must use the smallest possible encoding.',
   nonNullSignatureFailure = 'Program failed a signature verification with a non-null signature (violating the "NULLFAIL" rule).',
   requiresCleanStack = 'Program completed with an unexpected number of items on the stack (must be exactly 1).',
@@ -51,7 +51,10 @@ export enum AuthenticationErrorCommon {
  * (Evaluation should end after the first encountered error, so further errors
  * aren't relevant.)
  */
-export const applyError = <State extends ErrorState<Errors>, Errors>(
+export const applyError = <
+  State extends AuthenticationProgramStateError<Errors>,
+  Errors
+>(
   error: AuthenticationErrorCommon | Errors,
   state: State
 ): State => ({

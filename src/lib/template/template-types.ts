@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /**
  * Because this file is consumed by the `doc:generate-json-schema` package
  * script to produce a JSON schema, large sections of the below documentation
@@ -157,10 +158,15 @@ export interface AuthenticationTemplateEntity {
  */
 export interface AuthenticationTemplateScenarioData {
   /**
-   * A map of full identifiers to scripts which compile to their values in this
-   * scenario. Scripts are provided in BTL, and have access to all other
-   * template scripts and variables. (However, cyclical references will produce
-   * an error at compile time.)
+   * A map of full identifiers to scripts which compile to their values for this
+   * scenario.
+   *
+   * Scripts are provided in BTL, and have access to each other and all other
+   * template scripts and defined variables. However, cyclical references will
+   * produce an error at compile time. Also, because the results of these
+   * compilations will be used to generate the transaction context for this
+   * scenario, these scripts may not use compiler operations which themselves
+   * require access to transaction context (e.g. signatures).
    *
    * The provided `fullIdentifier` should match the complete identifier for
    * each item, e.g. `some_wallet_data`, `variable_id.public_key`, or
@@ -169,6 +175,12 @@ export interface AuthenticationTemplateScenarioData {
    * All `AddressData` and `WalletData` variables must be provided via
    * `bytecode`, and pre-computed results for operations of other variable types
    * (e.g. `key.public_key`) may also be provided via this property.
+   *
+   * Because each bytecode identifier may precisely match the identifier of the
+   * variable it defines for this scenario, references between these scripts
+   * must refer to the target script with a `_scenario_` prefix. E.g. to
+   * reference a sibling script `my_foo` from `my_bar`, the `my_bar` script must
+   * use the identifier `_scenario_my_foo`.
    */
   bytecode?: {
     [fullIdentifier: string]: string;
@@ -179,14 +191,16 @@ export interface AuthenticationTemplateScenarioData {
    */
   currentBlockHeight?: number;
   /**
-   * The current block time at the "address creation time" implied in this
-   * scenario.
+   * The current MTP block time as a UNIX timestamp at the "address creation
+   * time" implied in this scenario.
    *
-   * Note: this is never a current timestamp, but the median timestamp of the
-   * last 11 blocks. This value only changes when a new block is found. See
+   * Note, this is never a current timestamp, but rather the median timestamp of
+   * the last 11 blocks. It is therefore approximately one hour in the past.
+   *
+   * Every block has a precise MTP block time, much like a block height. See
    * BIP113 for details.
    */
-  currentBlockTime?: Date;
+  currentBlockTime?: number;
   /**
    * An object describing the settings used for `HdKey` variables in this
    * scenario.
@@ -239,10 +253,8 @@ export interface AuthenticationTemplateScenarioData {
    */
   keys?: {
     /**
-     * A map of `Key` variable IDs to scripts defining their values in this
-     * scenario. Scripts are provided in BTL, and have access to all other
-     * template scripts and variables. (However, cyclical references will
-     * produce an error at compile time.)
+     * A map of `Key` variable IDs to their 32-byte, hexadecimal-encoded private
+     * key values.
      */
     privateKeys?: {
       [variableId: string]: string;
@@ -261,10 +273,10 @@ export interface AuthenticationTemplateScenarioInput {
    */
   outpointIndex?: number;
   /**
-   * A 32-byte hexadecimal-encoded hash of the transaction from which this input
-   * is spent in big-endian byte order. This is the byte order typically seen in
-   * block explorers and user interfaces (as opposed to little-endian byte
-   * order, which is used in standard P2P network messages).
+   * A 32-byte, hexadecimal-encoded hash of the transaction from which this
+   * input is spent in big-endian byte order. This is the byte order typically
+   * seen in block explorers and user interfaces (as opposed to little-endian
+   * byte order, which is used in standard P2P network messages).
    *
    * If undefined, this defaults to the "empty" hash:
    * `0000000000000000000000000000000000000000000000000000000000000000`
@@ -341,21 +353,26 @@ export interface AuthenticationTemplateScenarioInput {
    */
   sequenceNumber?: number;
   /**
-   * A boolean value indicating that this input contains the `unlockingBytecode`
-   * under test by this scenario. This defaults to `undefined`.
+   * The `unlockingBytecode` value of this input for this scenario. May be
+   * either a boolean value indicating that this input contains the
+   * `unlockingBytecode` under test by the scenario, or a hexadecimal-encoded
+   * bytecode value.
    *
-   * For a scenario to be valid, this property must be `true` for exactly one
-   * input in that scenario.
+   * This defaults to `false`. For a scenario to be valid, this property must be
+   * `true` for exactly one input in the scenario. If this property is
+   * `undefined` or `false`, the resulting `unlockingBytecode` is a bytecode
+   * of length `0` (`0x`).
    *
    * @remarks
    * While the `outpointIndex`, `outpointTransactionHash`, and `sequenceNumber`
-   * of every input is part of a transaction's signing serialization, no virtual
-   * machine currently requires access to the `unlockingBytecode` of sibling
-   * inputs during the evaluation of an input's `unlockingBytecode`. For this
-   * reason, it is not necessary for scenarios to include `unlockingBytecode`
-   * values for inputs not under test.
+   * of every input is part of a transaction's signing serialization, as of
+   * 2020, no virtual machine currently requires access to the
+   * `unlockingBytecode` of sibling inputs during the evaluation of an input's
+   * `unlockingBytecode`. However, for completeness (and to allow for testing o
+   * virtual machines with this requirement), scenarios may also specify an
+   * `unlockingBytecode` value for each input not under test.
    */
-  unlockingBytecode?: true;
+  unlockingBytecode?: boolean | string;
 }
 
 /**
@@ -363,11 +380,12 @@ export interface AuthenticationTemplateScenarioInput {
  */
 export interface AuthenticationTemplateScenarioOutput {
   /**
-   * The bytecode used to encumber this transaction output. To spend the output,
-   * unlocking bytecode must be included in a transaction input which – when
-   * evaluated before the locking bytecode – completes in a valid state.
+   * The bytecode used to encumber this transaction output for this scenario.
+   * This value is included in signing serializations, and therefore has an
+   * effect on the transaction context for this scenario.
    *
-   * A.K.A. `scriptPubKey` or "locking script"
+   * This value may be provided as either a hexadecimal-encoded string or an
+   * object describing the required compilation.
    *
    * If undefined, this defaults to `{}`, which uses the default values for
    * `script` and `overrides`, respectively.
@@ -377,23 +395,23 @@ export interface AuthenticationTemplateScenarioOutput {
     | {
         /**
          * The identifier of the script to compile when generating this
-         * `lockingBytecode`.
+         * `lockingBytecode`. May also be set to `true`, which represents the
+         * identifier of the locking script unlocked by the unlocking script
+         * under test.
          *
-         * If undefined, defaults to the locking script unlocked by the
-         * unlocking script under test.
+         * If undefined, defaults to `true`.
          */
-        script?: string;
+        script?: string | true;
         /**
          * Scenario data which extends this scenario's top-level data during
          * script compilation.
          *
-         * Each property is extended individually – to unset a property set by
-         * the top-level scenario data, the same property must be specified here
-         * as `undefined`.
+         * Each property is extended individually – to modify a property set by
+         * the top-level scenario data, the new value must be listed here.
          *
          * If undefined, defaults to `{ "hdKeys": { "addressIndex": 1 } }`.
          */
-        overrides: AuthenticationTemplateScenarioData;
+        overrides?: AuthenticationTemplateScenarioData;
       };
   /**
    * The value of the output in satoshis, the smallest unit of bitcoin.
@@ -405,8 +423,8 @@ export interface AuthenticationTemplateScenarioOutput {
    * `Number.MAX_SAFE_INTEGER` (`9007199254740991`), so typically, this value
    * is defined using a `number`. However, this value may also be defined using
    * a 16-character, hexadecimal-encoded `string`, to allow for the full range
-   * of the 64-bit unsigned, little-endian integer used to serialized `satoshis`
-   * in the serialized output format, e.g. `"ffffffffffffffff"`. This is useful
+   * of the 64-bit unsigned, little-endian integer used to serialize `satoshis`
+   * in the encoded output format, e.g. `"ffffffffffffffff"`. This is useful
    * for representing scenarios where intentionally excessive values are
    * provided (to ensure an otherwise properly-signed transaction can never be
    * included in the blockchain), e.g. transaction size estimations or off-chain
@@ -428,7 +446,7 @@ export interface AuthenticationTemplateScenario {
    * based on this scenario's `extends` property.
    *
    * Each property is extended individually – to unset a previously-set
-   * property, the same property must be specified here as `undefined`.
+   * property, the property must be individually overridden in this object.
    */
   data?: AuthenticationTemplateScenarioData;
 
@@ -440,18 +458,20 @@ export interface AuthenticationTemplateScenario {
   description?: string;
   /**
    * The identifier of the scenario which this scenario extends. Any `data` or
-   * `transaction` properties not defined in this scenario inherit from this
-   * parent scenario.
+   * `transaction` properties not defined in this scenario inherit from the
+   * extended parent scenario.
    *
    * If undefined, this scenario is assumed to extend the default scenario:
    *
    * - The default values for `data` are set:
-   *   - The identifiers of all `Key` and `HdKey` variable in this template are
-   * lexicographically sorted, then each is assigned an incrementing positive
-   * integer – beginning with `1` – encoded as an unsigned, 256-bit, big-endian
-   * integer (i.e. `0x0000...0001` (32 bytes), `0x0000...0002`, `0x0000...0003`,
-   * etc.). This assigned value is used as the private key for `Key`s and the
-   * master seed for `HdKey`s.
+   *   - The identifiers of all `Key` variables and entities in this template
+   * are lexicographically sorted, then each is assigned an incrementing
+   * positive integer – beginning with `1` – encoded as an unsigned, 256-bit,
+   * big-endian integer (i.e. `0x0000...0001` (32 bytes), `0x0000...0002`,
+   * `0x0000...0003`, etc.). For `Key`s, this assigned value is used as the
+   * private key; For entities, the assigned value is used as the master seed of
+   * that entity's `HdPrivateKey`. If `hdKey` is set, the `addressIndex` is set
+   * to `0`.
    *   - `currentBlockHeight` is set to `2`. This is the height of the second
    * mined block after the genesis block:
    * `000000006a625f06636b8bb6ac7b960a8d03705d1ace08b1a19da3fdcc99ddbd`. This
@@ -465,17 +485,13 @@ export interface AuthenticationTemplateScenario {
    *   - if the scenario is being used for transaction estimation, all
    * transaction properties are taken from the transaction being estimated.
    *   - if the scenario is being used for script testing and validation, the
-   * default scenario `transaction` values are used:
-   *   - `inputs` is set to `[{ "unlockingBytecode": true }]`
-   *   - `locktime` is set to `0`
-   *   - `outputs` is set to `[{}]`
-   *   - `version` is set to `2`
+   * default value for each `transaction` property used.
    *
    * When a scenario is extended, each property of `data` and `transaction` is
    * extended individually: if the extending scenario does not provide a new
    * value for `data.bytecode.value` or `transaction.property`, the parent value
-   * is used. To avoid inheriting a parent value, each child value must be set
-   * to `undefined`.
+   * is used. To avoid inheriting a parent value, each child value must be
+   * individually overridden.
    */
   extends?: string;
   /**
@@ -487,12 +503,12 @@ export interface AuthenticationTemplateScenario {
    * The transaction within which this scenario should be evaluated. This is
    * used for script testing and validation.
    *
-   * If undefined, inherits the default scenario value:
+   * If undefined, inherits the default value for each property:
    * ```json
    * {
    *   "inputs": [{ "unlockingBytecode": true }],
    *   "locktime": 0,
-   *   "outputs": [{}],
+   *   "outputs": [{ "lockingBytecode": "" }],
    *   "version": 2
    * }
    * ```
@@ -514,7 +530,10 @@ export interface AuthenticationTemplateScenario {
    * And an output of `{}` is interpreted as:
    * ```json
    * {
-   *   "lockingBytecode": { "overrides": { "hdKeys": { "addressIndex": 1 } } },
+   *   "lockingBytecode": {
+   *     "script": true,
+   *     "overrides": { "hdKeys": { "addressIndex": 1 } }
+   *   },
    *   "satoshis": 0
    * }
    * ```
@@ -536,7 +555,7 @@ export interface AuthenticationTemplateScenario {
     /**
      * The locktime to use when generating the transaction context for this
      * scenario. A positive integer from `0` to a maximum of `4294967295` – if
-     * undefined, inherits the default scenario `locktime` value: `0`.
+     * undefined, defaults to `0`.
      *
      * Locktime can be provided as either a timestamp or a block height. Values
      * less than `500000000` are understood to be a block height (the current
@@ -581,7 +600,7 @@ export interface AuthenticationTemplateScenario {
      * The list of outputs to use when generating the transaction context for
      * this scenario.
      *
-     * If undefined, inherits the default scenario `outputs` value: `[{}]`.
+     * If undefined, defaults to `[{ "lockingBytecode": "" }]`.
      */
     outputs?: AuthenticationTemplateScenarioOutput[];
     /**
@@ -591,6 +610,17 @@ export interface AuthenticationTemplateScenario {
      */
     version?: number;
   };
+  /**
+   * The value in satoshis of the hypothetical output being spent by the input
+   * under test in this scenario.
+   *
+   * May be encoded as either a number (for values below `2^53-1`) or a
+   * little-endian, unsigned 64-bit integer in hexadecimal format (a
+   * 16-character string).
+   *
+   * If undefined, defaults to `0`.
+   */
+  value?: number | string;
 }
 
 /**
@@ -657,16 +687,16 @@ export interface AuthenticationTemplateScriptUnlocking
   estimate?: string;
   /**
    * A list of the scenario identifiers which – when used to compile this
-   * unlocking script and the script it unlocks – result in an
-   * `unlockingBytecode` which fails program verification.
+   * unlocking script and the script it unlocks – result in bytecode which fails
+   * program verification.
    *
    * These scenarios can be used to test this script in development and review.
    */
   fails?: string[];
   /**
    * A list of the scenario identifiers which – when used to compile this
-   * unlocking script and the script it unlocks – result in an
-   * `unlockingBytecode` which passes program verification.
+   * unlocking script and the script it unlocks – result in bytecode which
+   * passes program verification.
    *
    * These scenarios can be used to test this script in development and review.
    */
@@ -736,8 +766,17 @@ export interface AuthenticationTemplateScriptTested
 
 export interface AuthenticationTemplateScriptTest {
   /**
-   * The script to evaluate after the script being tested. The test passes if
-   * this script leaves only a 1 (ScriptNumber) on the stack.
+   * The script to evaluate after the script being tested. This can be used to
+   * check that the tested script leaves the expected results on the stack. For
+   * example, if the tested script is expected to leave 3 items of a specific
+   * size on the stack, the `check` script could pop each resulting item from
+   * the stack and examine it for correctness.
+   *
+   * In scenario testing, this script is appended to the script under test, and
+   * together they are treated as the locking script. Program evaluation is
+   * considered successful if the resulting program state can be verified by the
+   * virtual machine (e.g. the resulting stack contains a single `1`, no errors
+   * are produced, etc.).
    */
   check: string;
   /**
@@ -746,14 +785,30 @@ export interface AuthenticationTemplateScriptTest {
    */
   name?: string;
   /**
-   * The identifier of the scenario which should be used when evaluating this
-   * test. If undefined, the default scenario will be used, so only `Key` and
-   * `HdKey` variables will be provided.
+   * A list of the scenario identifiers which – when used to compile this
+   * test and the script it tests – result in bytecode which fails program
+   * verification. The `setup` script is used in place of an unlocking
+   * script, and the concatenation of the script under test and the `check`
+   * script are used in place of a locking script.
+   *
+   * These scenarios can be used to test this script in development and review.
    */
-  scenario?: string;
+  fails?: string[];
+  /**
+   * A list of the scenario identifiers which – when used to compile this
+   * test and the script it tests – result in bytecode which passes program
+   * verification. The `setup` script is used in place of an unlocking
+   * script, and the concatenation of the script under test and the `check`
+   * script are used in place of a locking script.
+   *
+   * These scenarios can be used to test this script in development and review.
+   */
+  passes?: string[];
   /**
    * A script to evaluate before the script being tested. This can be used to
-   * push values to the stack which are operated on by the inline script.
+   * push values to the stack which are operated on by the tested script.
+   *
+   * In scenario testing, this script is treated as the unlocking script.
    */
   setup?: string;
 }
@@ -779,7 +834,8 @@ export interface AuthenticationTemplateVariableBase {
   // validate?: string;
 }
 
-export interface HdKey extends AuthenticationTemplateVariableBase {
+export interface AuthenticationTemplateHdKey
+  extends AuthenticationTemplateVariableBase {
   /**
    * A single-line, human readable description for this HD key.
    */
@@ -881,7 +937,8 @@ export interface HdKey extends AuthenticationTemplateVariableBase {
   type: 'HdKey';
 }
 
-export interface Key extends AuthenticationTemplateVariableBase {
+export interface AuthenticationTemplateKey
+  extends AuthenticationTemplateVariableBase {
   /**
    * A single-line, human readable description for this key.
    */
@@ -900,7 +957,8 @@ export interface Key extends AuthenticationTemplateVariableBase {
   type: 'Key';
 }
 
-export interface WalletData extends AuthenticationTemplateVariableBase {
+export interface AuthenticationTemplateWalletData
+  extends AuthenticationTemplateVariableBase {
   /**
    * A single-line, human readable description for this wallet data.
    */
@@ -920,7 +978,8 @@ export interface WalletData extends AuthenticationTemplateVariableBase {
   type: 'WalletData';
 }
 
-export interface AddressData extends AuthenticationTemplateVariableBase {
+export interface AuthenticationTemplateAddressData
+  extends AuthenticationTemplateVariableBase {
   /**
    * A single-line, human readable description for this address data.
    */
@@ -949,7 +1008,7 @@ export interface AddressData extends AuthenticationTemplateVariableBase {
 }
 
 export type AuthenticationTemplateVariable =
-  | HdKey
-  | Key
-  | WalletData
-  | AddressData;
+  | AuthenticationTemplateHdKey
+  | AuthenticationTemplateKey
+  | AuthenticationTemplateWalletData
+  | AuthenticationTemplateAddressData;

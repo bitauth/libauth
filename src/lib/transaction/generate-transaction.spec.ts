@@ -4,8 +4,9 @@ import test from 'ava';
 
 import {
   authenticationTemplateToCompilerBCH,
+  bigIntToBinUint64LE,
   CashAddressNetworkPrefix,
-  deserializeTransaction,
+  decodeTransaction,
   generateTransaction,
   hexToBin,
   lockingBytecodeToCashAddress,
@@ -78,6 +79,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
     '68127de83d2ab77d7f5fd8d2ac6181d94473c0cbb2d0776084bf28884f6ecd77'
   );
 
+  const satoshis = 1000000;
   const result = generateTransaction({
     inputs: [
       {
@@ -89,7 +91,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
           data: {
             keys: { privateKeys: { owner: privkey } },
           },
-          satoshis: 1000000,
+          satoshis: bigIntToBinUint64LE(BigInt(satoshis)),
           script: 'unlock',
         },
       },
@@ -101,7 +103,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
           compiler: p2pkh,
           script: 'celebrate',
         },
-        satoshis: 0,
+        satoshis: bigIntToBinUint64LE(BigInt(0)),
       },
     ],
     version: 2,
@@ -115,7 +117,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
 
   t.deepEqual(result, {
     success: true,
-    transaction: deserializeTransaction(
+    transaction: decodeTransaction(
       hexToBin(
         '020000000177cd6e4f8828bf846077d0b2cbc07344d98161acd2d85f7f7db72a3de87d1268010000006441f87a1dc0fb4a30443fdfcc678e713d99cffb963bd52b497377e81abe2cc2b5ac6e9837fab0a23f4d05fd06b80e7673a68bfa8d2f66b7ec5537e88696d7bae1b841210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000'
       )

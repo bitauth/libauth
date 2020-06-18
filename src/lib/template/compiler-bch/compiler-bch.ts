@@ -6,6 +6,7 @@ import {
   instantiateSha512,
   Sha256,
 } from '../../crypto/crypto';
+import { TransactionContextCommon } from '../../transaction/transaction-types';
 import {
   generateSigningSerializationBCH,
   SigningSerializationFlag,
@@ -21,7 +22,7 @@ import {
 import { createAuthenticationVirtualMachine } from '../../vm/virtual-machine';
 import {
   authenticationTemplateToCompilationEnvironment,
-  compilerCreateStateCommon,
+  createAuthenticationProgramEvaluationCommon,
   createCompiler,
 } from '../compiler';
 import {
@@ -38,7 +39,6 @@ import {
   CompilationData,
   CompilationEnvironment,
   CompilerOperationResult,
-  TransactionContextCommon,
 } from '../compiler-types';
 import { AuthenticationTemplate } from '../template-types';
 
@@ -672,7 +672,7 @@ export const createCompilerBCH = async <
   );
   return createCompiler<TransactionContext, Environment, ProgramState>({
     ...{
-      createState: compilerCreateStateCommon,
+      createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
       opcodes: generateBytecodeMap(OpcodesBCH),
       operations: compilerOperationsBCH,
       ripemd160,

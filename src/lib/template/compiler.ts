@@ -1,26 +1,28 @@
+import { TransactionContextCommon } from '../transaction/transaction-types';
 import {
   AuthenticationErrorCommon,
-  createAuthenticationProgramExternalStateCommonEmpty,
-  createAuthenticationProgramStateCommon,
   generateBytecodeMap,
   OpcodesCommon,
 } from '../vm/instruction-sets/instruction-sets';
-import { AuthenticationInstruction } from '../vm/instruction-sets/instruction-sets-types';
 import {
+  AuthenticationProgramCommon,
   AuthenticationProgramStateCommon,
-  MinimumProgramState,
-  StackState,
-} from '../vm/state';
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
+} from '../vm/vm-types';
 
+import { CompilerDefaults } from './compiler-defaults';
 import { compilerOperationsCommon } from './compiler-operations';
 import {
   AnyCompilationEnvironment,
+  BytecodeGenerationResult,
   CompilationData,
   CompilationEnvironment,
   Compiler,
-  TransactionContextCommon,
 } from './compiler-types';
 import { compileScript } from './language/compile';
+import { CompilationResult } from './language/language-types';
+import { generateScenarioCommon } from './scenarios';
 import { AuthenticationTemplate } from './template-types';
 
 /**
@@ -32,50 +34,87 @@ import { AuthenticationTemplate } from './template-types';
  * compiler
  */
 export const createCompiler = <
-  TransactionContext extends { locktime: number; sequenceNumber: number },
+  TransactionContext extends TransactionContextCommon,
   Environment extends AnyCompilationEnvironment<TransactionContext>,
-  ProgramState = StackState & MinimumProgramState
+  ProgramState = AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum
 >(
   compilationEnvironment: Environment
 ): Compiler<TransactionContext, Environment, ProgramState> => ({
   environment: compilationEnvironment,
-  generateBytecode: (
+  generateBytecode: <Debug extends boolean>(
     scriptId: string,
     data: CompilationData<TransactionContext>,
-    // TODO: TS bug?
-    // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-    debug: boolean = false
-    // TODO: is there a way to avoid this `any`?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): any => {
+    debug = false
+  ) => {
     const result = compileScript<ProgramState, TransactionContext>(
       scriptId,
       data,
       compilationEnvironment
     );
-    return debug
+    return (debug
       ? result
       : result.success
       ? { bytecode: result.bytecode, success: true }
-      : { errorType: result.errorType, errors: result.errors, success: false };
+      : {
+          errorType: result.errorType,
+          errors: result.errors,
+          success: false,
+        }) as Debug extends true
+      ? CompilationResult<ProgramState>
+      : BytecodeGenerationResult<ProgramState>;
   },
+  generateScenario: ({ unlockingScriptId, scenarioId }) =>
+    generateScenarioCommon({
+      environment: compilationEnvironment,
+      scenarioId,
+      unlockingScriptId,
+    }),
 });
 
+const nullHashLength = 32;
+
 /**
- * A common `createState` implementation for most compilers.
+ * A common `createAuthenticationProgram` implementation for most compilers.
  *
- * @param instructions - the list of instructions to incorporate in the created
- * state.
+ * Accepts the compiled contents of an evaluation and produces a
+ * `AuthenticationProgramCommon` which can be evaluated to produce the resulting
+ * program state.
+ *
+ * The precise shape of the authentication program produced by this method is
+ * critical to the determinism of BTL evaluations for the compiler in which it
+ * is used, it therefore must be standardized between compiler implementations.
+ *
+ * @param evaluationBytecode - the compiled bytecode to incorporate in the
+ * created authentication program
  */
-export const compilerCreateStateCommon = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  instructions: AuthenticationInstruction<any>[]
-) =>
-  createAuthenticationProgramStateCommon({
-    externalState: createAuthenticationProgramExternalStateCommonEmpty(),
-    instructions,
-    stack: [],
-  });
+export const createAuthenticationProgramEvaluationCommon = (
+  evaluationBytecode: Uint8Array
+): AuthenticationProgramCommon => ({
+  inputIndex: 0,
+  sourceOutput: {
+    lockingBytecode: evaluationBytecode,
+    satoshis: Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
+  },
+  spendingTransaction: {
+    inputs: [
+      {
+        outpointIndex: 0,
+        outpointTransactionHash: new Uint8Array(nullHashLength),
+        sequenceNumber: 0,
+        unlockingBytecode: Uint8Array.of(),
+      },
+    ],
+    locktime: 0,
+    outputs: [
+      {
+        lockingBytecode: Uint8Array.of(),
+        satoshis: Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
+      },
+    ],
+    version: 0,
+  },
+});
 
 /**
  * Synchronously create a compiler using the default common environment. Because
@@ -87,17 +126,16 @@ export const compilerCreateStateCommon = (
  * environment – must include the `scripts` property
  */
 export const createCompilerCommonSynchronous = <
-  TransactionContext extends TransactionContextCommon,
-  Environment extends AnyCompilationEnvironment<TransactionContext>,
+  Environment extends AnyCompilationEnvironment<TransactionContextCommon>,
   ProgramState extends AuthenticationProgramStateCommon<Opcodes, Errors>,
   Opcodes = OpcodesCommon,
   Errors = AuthenticationErrorCommon
 >(
   scriptsAndOverrides: Environment
-): Compiler<TransactionContext, Environment, ProgramState> => {
-  return createCompiler<TransactionContext, Environment, ProgramState>({
+): Compiler<TransactionContextCommon, Environment, ProgramState> => {
+  return createCompiler<TransactionContextCommon, Environment, ProgramState>({
     ...{
-      createState: compilerCreateStateCommon,
+      createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
       opcodes: generateBytecodeMap(OpcodesCommon),
       operations: compilerOperationsCommon,
     },
@@ -120,6 +158,7 @@ export const authenticationTemplateToCompilationEnvironment = (
 ): Pick<
   CompilationEnvironment,
   | 'entityOwnership'
+  | 'scenarios'
   | 'scripts'
   | 'variables'
   | 'unlockingScripts'
@@ -174,12 +213,70 @@ export const authenticationTemplateToCompilationEnvironment = (
         : all,
     {}
   );
+  const scenarios =
+    template.scenarios === undefined
+      ? undefined
+      : Object.entries(template.scenarios).reduce<
+          CompilationEnvironment['scenarios']
+        >((all, [id, def]) => ({ ...all, [id]: def }), {});
   return {
     entityOwnership,
     lockingScriptTypes,
+    ...(scenarios === undefined ? {} : { scenarios }),
     scripts,
     unlockingScriptTimeLockTypes,
     unlockingScripts,
     variables,
   };
+};
+
+/**
+ * Create a partial `CompilationEnvironment` from an `AuthenticationTemplate`,
+ * virtualizing all script tests as unlocking and locking script pairs.
+ *
+ * @param template - the authentication template from which to extract the
+ * compilation environment
+ */
+export const authenticationTemplateToCompilationEnvironmentVirtualizedTests = (
+  template: AuthenticationTemplate
+): ReturnType<typeof authenticationTemplateToCompilationEnvironment> => {
+  const virtualizedScripts = Object.entries(template.scripts).reduce<
+    typeof template.scripts
+  >((all, [scriptId, script]) => {
+    if ('tests' in script) {
+      return {
+        ...all,
+        ...script.tests.reduce<typeof template.scripts>(
+          (tests, test, index) => {
+            const checkScriptId = `${CompilerDefaults.virtualizedTestCheckScriptPrefix}${scriptId}_${index}`;
+            const virtualizedLockingScriptId = `${CompilerDefaults.virtualizedTestLockingScriptPrefix}${scriptId}_${index}`;
+            const virtualizedUnlockingScriptId = `${CompilerDefaults.virtualizedTestUnlockingScriptPrefix}${scriptId}_${index}`;
+            return {
+              ...tests,
+              [checkScriptId]: { script: test.check },
+              [virtualizedLockingScriptId]: {
+                script: `${scriptId} ${checkScriptId}`,
+              },
+              [virtualizedUnlockingScriptId]: {
+                script: test.setup ?? '',
+                unlocks: virtualizedLockingScriptId,
+              },
+            };
+          },
+          {}
+        ),
+      };
+    }
+    return all;
+  }, {});
+  const templateWithVirtualizedTests: AuthenticationTemplate = {
+    ...template,
+    scripts: {
+      ...template.scripts,
+      ...virtualizedScripts,
+    },
+  };
+  return authenticationTemplateToCompilationEnvironment(
+    templateWithVirtualizedTests
+  );
 };

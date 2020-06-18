@@ -40,6 +40,7 @@
     "bench:browser-deps": "browserify node_modules/chuhai/index.js --standalone chuhai -o build/bench/chuhai.js && browserify node_modules/hash.js/lib/hash.js --standalone hash -o build/bench/hash.js",
     "watch": "run-s clean build:main build:wasm && yarn build:main -- -w",
     "watch:module": "run-s clean build:main build:wasm && yarn build:module -- -w",
+    "watch:single": "echo 'Usage: yarn watch:single --match=\"*pattern*\"' && ava -v --watch",
     "watch:test": "yarn test:unit:fast -- --watch -v",
     "watch:test-slow": "yarn test:unit -- --watch -v",
     "cov": "run-s build test:unit cov:html cov:lcov && open-cli coverage/index.html",

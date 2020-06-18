@@ -12,7 +12,7 @@ export const twoOfTwoRecoverable: AuthenticationTemplate = {
   entities: {
     signer_1: {
       description:
-        'One of the two co-owners of this wallet. If Signer 1 is unable to sign, Signer 2 and Trusted Party can recover funds after 30 days.',
+        'One of the two co-owners of this wallet. If Signer 1 is unable to sign, Signer 2 and Trusted Party can recover funds after the specified delay.',
       name: 'Signer 1',
       scripts: ['lock', 'spend', 'recover_1'],
       variables: {
@@ -59,7 +59,6 @@ export const twoOfTwoRecoverable: AuthenticationTemplate = {
       },
       description:
         'An example of a time before a 30 day recovery delay (2592000 seconds) has passed.',
-      extends: 'estimate',
       name: 'Before Recovery Time',
       transaction: {
         locktime: CompilerDefaults.defaultScenarioCurrentBlockTime as number,

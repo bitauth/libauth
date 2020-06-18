@@ -1,9 +1,12 @@
-import { MinimumProgramState, StackState } from '../../vm/state';
 import { AuthenticationVirtualMachine } from '../../vm/virtual-machine';
+import {
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
+} from '../../vm/vm-types';
 import { createCompilerCommonSynchronous } from '../compiler';
 import { CompilationData, CompilationEnvironment } from '../compiler-types';
 
-import { CompilationResult } from './language-types';
+import { CompilationResult, CompilationResultSuccess } from './language-types';
 import { getResolutionErrors } from './language-utils';
 import { parseScript } from './parse';
 import { reduceScript } from './reduce';
@@ -45,7 +48,8 @@ export const describeExpectedInput = (expectedArray: string[]) => {
  * recommended API for direct compilation.
  */
 export const compileScriptContents = <
-  ProgramState = StackState & MinimumProgramState,
+  ProgramState = AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum,
   TransactionContext = {}
 >({
   data,
@@ -89,7 +93,7 @@ export const compileScriptContents = <
   const reduction = reduceScript(
     resolvedScript,
     environment.vm,
-    environment.createState
+    environment.createAuthenticationProgram
   );
   return {
     ...(reduction.errors === undefined
@@ -113,7 +117,8 @@ const emptyRange = () => ({
  * recommended API for direct compilation.
  */
 export const compileScriptRaw = <
-  ProgramState = StackState & MinimumProgramState,
+  ProgramState = AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum,
   TransactionContext = {}
 >({
   data,
@@ -164,12 +169,14 @@ export const compileScriptRaw = <
   });
 };
 
-export const compileScriptP2shLocking = ({
+export const compileScriptP2shLocking = <AuthenticationProgram, ProgramState>({
   lockingBytecode,
   vm,
 }: {
   lockingBytecode: Uint8Array;
-  vm: AuthenticationVirtualMachine<unknown, unknown> | undefined;
+  vm:
+    | AuthenticationVirtualMachine<AuthenticationProgram, ProgramState>
+    | undefined;
 }) => {
   const compiler = createCompilerCommonSynchronous({
     scripts: {
@@ -183,7 +190,7 @@ export const compileScriptP2shLocking = ({
   });
 };
 
-export const compileScriptP2shUnlocking = ({
+export const compileScriptP2shUnlocking = <ProgramState>({
   lockingBytecode,
   unlockingBytecode,
 }: {
@@ -201,19 +208,20 @@ export const compileScriptP2shUnlocking = ({
   });
   return compiler.generateBytecode('p2shUnlocking', {
     bytecode: { lockingBytecode, unlockingBytecode },
-  });
+  }) as CompilationResultSuccess<ProgramState>;
 };
 
 /**
- * Parse, resolve, and reduce the provided BTL script using the provided `data`
- * and `environment`.
+ * Parse, resolve, and reduce the selected script using the provided `data` and
+ * `environment`.
  *
  * Note, locktime validation only occurs if `transactionContext` is provided in
  * the environment.
  */
 // eslint-disable-next-line complexity
 export const compileScript = <
-  ProgramState = StackState & MinimumProgramState,
+  ProgramState = AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum,
   TransactionContext extends { locktime: number; sequenceNumber: number } = {
     locktime: number;
     sequenceNumber: number;
@@ -296,7 +304,7 @@ export const compileScript = <
   const isP2shLockingScript = lockingScriptType === 'p2sh';
 
   if (isP2shLockingScript) {
-    const transformedResult = compileScriptP2shLocking({
+    const transformedResult = compileScriptP2shLocking<unknown, ProgramState>({
       lockingBytecode: rawResult.bytecode,
       vm: environment.vm,
     });
@@ -322,13 +330,10 @@ export const compileScript = <
     if (!lockingBytecodeResult.success) {
       return lockingBytecodeResult;
     }
-    const transformedResult = compileScriptP2shUnlocking({
+    const transformedResult = compileScriptP2shUnlocking<ProgramState>({
       lockingBytecode: lockingBytecodeResult.bytecode,
       unlockingBytecode: rawResult.bytecode,
     });
-    if (!transformedResult.success) {
-      return lockingBytecodeResult;
-    }
     return {
       ...rawResult,
       bytecode: transformedResult.bytecode,

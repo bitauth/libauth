@@ -1,7 +1,11 @@
-/* eslint-disable functional/no-expression-statement */
+/* eslint-disable max-lines, functional/no-expression-statement */
 import test, { Macro } from 'ava';
 
-import { stringify, validateAuthenticationTemplate } from '../lib';
+import {
+  BuiltInVariables,
+  stringify,
+  validateAuthenticationTemplate,
+} from '../lib';
 
 const testValidation: Macro<[
   unknown,
@@ -40,6 +44,14 @@ test(
   'must use only known virtual machine identifiers in "supported"',
   testValidation,
   { supported: ['not supported'], version: 0 },
+  'Version 0 authentication templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_2022_11_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.'
+);
+
+test(
+  'may not have empty items in "supported"',
+  testValidation,
+  // eslint-disable-next-line no-sparse-arrays
+  { supported: ['BCH_2020_05', , 'BCH_2020_11_SPEC'], version: 0 },
   'Version 0 authentication templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_2022_11_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.'
 );
 
@@ -189,6 +201,128 @@ test(
 );
 
 test(
+  'unlocking script, invalid ageLock',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { ageLock: 42, script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "ageLock" property of unlocking script "a" must be a string.'
+);
+
+test(
+  'unlocking script, invalid estimate',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { estimate: 42, script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "estimate" property of unlocking script "a" must be a string.'
+);
+
+test(
+  'unlocking script, invalid passes',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { passes: 42, script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "passes" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'unlocking script, invalid fails',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { fails: 42, script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "fails" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'unlocking script, empty passes item',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      // eslint-disable-next-line no-sparse-arrays
+      a: { passes: ['s1', , 's2'], script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "passes" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'unlocking script, non-string fails item',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { fails: [0], script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "fails" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'unlocking script, valid ageLock',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { ageLock: '0xffffff', script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh', script: '' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { ageLock: '0xffffff', script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh', script: '' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
   'locking script, no type',
   testValidation,
   {
@@ -321,11 +455,41 @@ test(
 );
 
 test(
-  'tested script, valid test',
+  'tested script, invalid passes',
   testValidation,
   {
     entities: {},
     scenarios: {},
+    scripts: {
+      a: { script: '', tests: [{ check: '', passes: [0] }] },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "passes" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'tested script, invalid fails',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { script: '', tests: [{ check: '', fails: [0] }] },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "fails" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'tested script, valid test',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { s1: {}, s2: {} },
     scripts: {
       a: {
         script: '',
@@ -334,7 +498,10 @@ test(
       b: {
         name: '',
         script: '',
-        tests: [{ check: '' }, { check: '', name: '', setup: '' }],
+        tests: [
+          { check: '', fails: ['s1'] },
+          { check: '', passes: ['s2'] },
+        ],
       },
     },
     supported: ['BCH_2022_11_SPEC'],
@@ -342,7 +509,7 @@ test(
   },
   {
     entities: {},
-    scenarios: {},
+    scenarios: { s1: {}, s2: {} },
     scripts: {
       a: {
         script: '',
@@ -351,7 +518,10 @@ test(
       b: {
         name: '',
         script: '',
-        tests: [{ check: '' }, { check: '', name: '', setup: '' }],
+        tests: [
+          { check: '', fails: ['s1'] },
+          { check: '', passes: ['s2'] },
+        ],
       },
     },
     supported: ['BCH_2022_11_SPEC'],
@@ -437,20 +607,21 @@ test(
     supported: ['BCH_2022_11_SPEC'],
     version: 0,
   },
-  'If defined, the "scripts" property of entity "e" must be an array.'
+  'If defined, the "scripts" property of entity "e" must be an array containing only script identifiers (strings).'
 );
 
 test(
   'invalid entity scripts items',
   testValidation,
   {
-    entities: { e: { scripts: ['', 0, ''] } },
+    // eslint-disable-next-line no-sparse-arrays
+    entities: { e: { scripts: ['', , 0, ''] } },
     scenarios: {},
     scripts: { a: { script: '' } },
     supported: ['BCH_2022_11_SPEC'],
     version: 0,
   },
-  'The "scripts" property of entity "e" should contain only script identifiers (strings).'
+  'If defined, the "scripts" property of entity "e" must be an array containing only script identifiers (strings).'
 );
 
 test(
@@ -719,6 +890,1029 @@ test(
 );
 
 test(
+  'Scenario, invalid type',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: '' },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'All authentication template scenarios must be objects, but the following scenarios are not objects: "a".'
+);
+
+test(
+  'Scenario, invalid name',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { name: 1 } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "name" property of scenario "a" must be a string.'
+);
+
+test(
+  'Scenario, invalid description',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { description: 1 } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "description" property of scenario "a" must be a string.'
+);
+
+test(
+  'Scenario, invalid extends',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { extends: 1 } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "extends" property of scenario "a" must be a string.'
+);
+
+test(
+  'Scenario, unknown extends',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { extends: 'c' }, b: { extends: 'd' } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, each scenario ID referenced by another scenario\'s "extends" property must exist. Unknown scenario IDs: "c", "d".'
+);
+
+test(
+  'Scenario, invalid value (negative)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { value: -1 } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+);
+
+test(
+  'Scenario, invalid value (greater than Number.MAX_SAFE_INTEGER)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { value: Number.MAX_SAFE_INTEGER + 1 } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+);
+
+test(
+  'Scenario, invalid value (insufficient hex)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { value: '' } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+);
+
+test(
+  'Scenario, value (hex)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { value: 'ffffffffffffffff' } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { value: 'ffffffffffffffff' } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid data',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: '' } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data" property of scenario "a" must be an object.'
+);
+
+test(
+  'Scenario, empty data',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: {} } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { data: {} } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid bytecode',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { bytecode: 1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.bytecode" property of scenario "a" must be an object, and each value must be a string.'
+);
+
+test(
+  'Scenario, valid bytecode',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { bytecode: { a: '' } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { data: { bytecode: { a: '' } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid currentBlockHeight (string)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockHeight: '42' } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+);
+
+test(
+  'Scenario, invalid currentBlockHeight (negative)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockHeight: -1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+);
+
+test(
+  'Scenario, invalid currentBlockHeight (decimal)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockHeight: 1.1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+);
+
+test(
+  'Scenario, invalid currentBlockHeight (exceeds maximum)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockHeight: 500000000 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+);
+
+test(
+  'Scenario, valid currentBlockHeight',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockHeight: 0 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockHeight: 0 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid currentBlockTime (below minimum)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockTime: 1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "currentBlockTime" property of scenario "a" must be a positive integer from 500,000,000 to 4,294,967,295 (inclusive).'
+);
+
+test(
+  'Scenario, valid currentBlockTime',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockTime: 500000000 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { data: { currentBlockTime: 500000000 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid data.hdKeys',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: '' } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys" property of scenario "a" must be an object.'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.addressIndex (string)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { addressIndex: '1' } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.addressIndex (negative)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { addressIndex: -1 } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.addressIndex (decimal)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { addressIndex: 1.3 } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.addressIndex (exceeds maximum)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { addressIndex: 2147483649 } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.hdPublicKeys',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { hdPublicKeys: 1 } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.hdPublicKeys" property of scenario "a" must be an object, and each value must be a string.'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.hdPublicKeys (non-string value)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { hdPublicKeys: { e: 1 } } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.hdPublicKeys" property of scenario "a" must be an object, and each value must be a string.'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.hdPrivateKeys',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { hdPrivateKeys: 1 } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.hdPrivateKeys" property of scenario "a" must be an object, and each value must be a string.'
+);
+
+test(
+  'Scenario, invalid data.hdKeys.hdPrivateKeys (non-string value)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { hdKeys: { hdPrivateKeys: { e: 1 } } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.hdKeys.hdPrivateKeys" property of scenario "a" must be an object, and each value must be a string.'
+);
+
+test(
+  'Scenario, valid data.hdKeys',
+  testValidation,
+  {
+    entities: { e: {}, f: {} },
+    scenarios: {
+      a: {
+        data: {
+          hdKeys: {
+            addressIndex: 1,
+            hdPrivateKeys: { f: '' },
+            hdPublicKeys: { e: '' },
+          },
+        },
+      },
+      b: {
+        data: { hdKeys: {} },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: { e: {}, f: {} },
+    scenarios: {
+      a: {
+        data: {
+          hdKeys: {
+            addressIndex: 1,
+            hdPrivateKeys: { f: '' },
+            hdPublicKeys: { e: '' },
+          },
+        },
+      },
+      b: {
+        data: { hdKeys: {} },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid data.keys',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { keys: '' } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.keys" property of scenario "a" must be an object.'
+);
+
+test(
+  'Scenario, empty data.keys',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { keys: {} } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { data: { keys: {} } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid data.keys.privateKeys',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { keys: { privateKeys: 1 } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.keys.privateKeys" property of scenario "a" must be an object, and each value must be a 32-byte, hexadecimal-encoded private key.'
+);
+
+test(
+  'Scenario, invalid data.keys.privateKeys (non-string value)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { data: { keys: { privateKeys: { b: 1 } } } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "data.keys.privateKeys" property of scenario "a" must be an object, and each value must be a 32-byte, hexadecimal-encoded private key.'
+);
+
+test(
+  'Scenario, valid data.keys',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        data: {
+          keys: {
+            privateKeys: {
+              b:
+                '0000000000000000000000000000000000000000000000000000000000000001',
+            },
+          },
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        data: {
+          keys: {
+            privateKeys: {
+              b:
+                '0000000000000000000000000000000000000000000000000000000000000001',
+            },
+          },
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid transaction',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { transaction: '' } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "transaction" property of scenario "a" must be an object.'
+);
+
+test(
+  'Scenario, empty transaction',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { transaction: {} } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { transaction: {} } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid transaction.locktime',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { transaction: { locktime: '' } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "locktime" property of scenario "a" must be an integer between 0 and 4,294,967,295 (inclusive).'
+);
+
+test(
+  'Scenario, valid transaction.locktime',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { transaction: { locktime: 1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { transaction: { locktime: 1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid transaction.version',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { transaction: { version: '' } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "version" property of scenario "a" must be an integer between 0 and 4,294,967,295 (inclusive).'
+);
+
+test(
+  'Scenario, valid transaction.version',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { transaction: { version: 1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: { a: { transaction: { version: 1 } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, invalid transaction.inputs (no inputs)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: { a: { transaction: { inputs: [] } } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "transaction.inputs" array of scenario "a" must have exactly one input under test (an "unlockingBytecode" set to "undefined" or "true").'
+);
+
+test(
+  'Scenario, invalid transaction.inputs (sparse array)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      // eslint-disable-next-line no-sparse-arrays
+      a: { transaction: { inputs: [, { unlockingBytecode: true }] } },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "transaction.inputs" property of scenario "a" must be an array of scenario input objects.'
+);
+
+test(
+  'Scenario, invalid transaction input outpointIndex (negative)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          inputs: [{ outpointIndex: -1, unlockingBytecode: true }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "outpointIndex" property of input 0 in scenario "a" must be a positive integer.'
+);
+
+test(
+  'Scenario, invalid transaction input outpointTransactionHash (non-string)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          inputs: [{ outpointTransactionHash: 1, unlockingBytecode: true }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "outpointTransactionHash" property of input 0 in scenario "a" must be a 32-byte, hexadecimal-encoded hash (string).'
+);
+
+test(
+  'Scenario, invalid transaction input outpointTransactionHash (incorrect length)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          inputs: [
+            { outpointTransactionHash: 'beef', unlockingBytecode: true },
+          ],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "outpointTransactionHash" property of input 0 in scenario "a" must be a 32-byte, hexadecimal-encoded hash (string).'
+);
+
+test(
+  'Scenario, invalid transaction input sequenceNumber',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          inputs: [{ sequenceNumber: -1, unlockingBytecode: true }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "sequenceNumber" property of input 0 in scenario "a" must be a number between 0 and 4294967295 (inclusive).'
+);
+
+test(
+  'Scenario, invalid transaction input unlockingBytecode',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          inputs: [{ unlockingBytecode: 1 }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "unlockingBytecode" property of input 0 in scenario "a" must be either a boolean value or a hexadecimal-encoded string.'
+);
+
+test(
+  'Scenario, valid transaction.inputs',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          inputs: [
+            {
+              outpointIndex: 0,
+              outpointTransactionHash:
+                '0000000000000000000000000000000000000000000000000000000000000000',
+              sequenceNumber: 0,
+              unlockingBytecode: 'beef',
+            },
+            {},
+          ],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          inputs: [
+            {
+              outpointIndex: 0,
+              outpointTransactionHash:
+                '0000000000000000000000000000000000000000000000000000000000000000',
+              sequenceNumber: 0,
+              unlockingBytecode: 'beef',
+            },
+            {},
+          ],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'Scenario, empty transaction.outputs',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "transaction.outputs" property of scenario "a" must be have at least one output.'
+);
+
+test(
+  'Scenario, invalid transaction.outputs (sparse array)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      // eslint-disable-next-line no-sparse-arrays
+      a: { transaction: { outputs: [, { lockingBytecode: 'beef' }] } },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "transaction.outputs" property of scenario "a" must be an array of scenario output objects.'
+);
+
+test(
+  'Scenario, invalid transaction output lockingBytecode type',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [{ lockingBytecode: 1 }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "lockingBytecode" property of output 0 in scenario "a" must be a string or an object.'
+);
+
+test(
+  'Scenario, invalid transaction output lockingBytecode (non-hex)',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [{ lockingBytecode: 'g' }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If the "lockingBytecode" property of output 0 in scenario "a" is a string, it must be a valid, hexadecimal-encoded locking bytecode.'
+);
+
+test(
+  'Scenario, invalid transaction output lockingBytecode.script',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [{ lockingBytecode: { script: false } }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "script" property of output 0 in scenario "a" must be a hexadecimal-encoded string or "true".'
+);
+
+test(
+  'Scenario, invalid transaction output lockingBytecode.override',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [{ lockingBytecode: { overrides: false } }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "overrides" property of output 0 in scenario "a" must be an object.'
+);
+
+test(
+  'Scenario, invalid transaction output satoshis',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [{ satoshis: false }],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "satoshis" property of output 0 in scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+);
+
+test(
+  'Scenario, valid transaction output',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [
+            {
+              lockingBytecode: {
+                overrides: { bytecode: { a: 'beef' } },
+                script: 'beef',
+              },
+              satoshis: 'ffffffffffffffff',
+            },
+            {
+              lockingBytecode: {},
+            },
+            {
+              lockingBytecode: 'beef',
+            },
+          ],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  {
+    entities: {},
+    scenarios: {
+      a: {
+        transaction: {
+          outputs: [
+            {
+              lockingBytecode: {
+                overrides: { bytecode: { a: 'beef' } },
+                script: 'beef',
+              },
+              satoshis: 'ffffffffffffffff',
+            },
+            {
+              lockingBytecode: {},
+            },
+            {
+              lockingBytecode: 'beef',
+            },
+          ],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  }
+);
+
+test(
+  'built-in identifiers may not be re-used',
+  testValidation,
+  {
+    entities: { [BuiltInVariables.currentBlockHeight]: {} },
+    scripts: { [BuiltInVariables.signingSerialization]: { script: '' } },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'Built-in identifiers may not be re-used by any entity, variable, script, or scenario. The following built-in identifiers are re-used: "current_block_height", "signing_serialization".'
+);
+
+test(
   'all IDs must be unique',
   testValidation,
   {
@@ -729,4 +1923,87 @@ test(
     version: 0,
   },
   'The ID of each entity, variable, script, and scenario in an authentication template must be unique. The following IDs are re-used: "b", "d".'
+);
+
+test(
+  'all entity script IDs must exist',
+  testValidation,
+  {
+    entities: { a: { scripts: ['b', 'c'] } },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'Only known scripts may be assigned to entities. The following script IDs are not provided in this template: "b", "c".'
+);
+
+test(
+  'all scenarios reference by scripts must exist',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: {
+        estimate: 's3',
+        fails: ['s1', 's4'],
+        passes: ['s3', 's5'],
+        script: '',
+        unlocks: 'c',
+      },
+      b: {
+        script: '',
+        tests: [
+          { check: '', fails: ['s1'] },
+          { check: '', passes: ['s2'] },
+        ],
+      },
+      c: {
+        lockingType: 'p2sh',
+        script: '',
+      },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'Only known scenarios may be referenced by scripts. The following scenario IDs are not provided in this template: "s1", "s2", "s3", "s4", "s5".'
+);
+
+test(
+  'all entities referenced by data.hdKeys must exist',
+  testValidation,
+  {
+    entities: { a: {}, b: {} },
+    scenarios: {
+      s: {
+        data: {
+          hdKeys: {
+            hdPrivateKeys: { b: '', c: '' },
+            hdPublicKeys: { a: '', d: '' },
+          },
+        },
+        transaction: {
+          outputs: [
+            {
+              lockingBytecode: {
+                overrides: {
+                  hdKeys: {
+                    hdPrivateKeys: { b: '', c: '', f: '' },
+                    hdPublicKeys: { a: '', e: '' },
+                  },
+                },
+              },
+            },
+            {
+              lockingBytecode: {},
+            },
+          ],
+        },
+      },
+    },
+    scripts: {},
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'Only known entities may be referenced by hdKeys properties within scenarios. The following entity IDs are not provided in this template: "c", "d", "e", "f".'
 );

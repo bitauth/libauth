@@ -4,7 +4,6 @@ import * as fc from 'fast-check';
 
 import {
   attemptCashAddressFormatErrorCorrection,
-  BitRegroupingError,
   CashAddressAvailableSizesInBits,
   CashAddressAvailableTypes,
   CashAddressCorrectionError,
@@ -211,24 +210,24 @@ test('decodeCashAddress: works', (t) => {
 
   t.deepEqual(
     decodeCashAddress('prefix:broken'),
-    CashAddressDecodingError.malformedPayload
+    CashAddressDecodingError.invalidCharacters
   );
 
   t.deepEqual(
     decodeCashAddressFormat('prefix:broken'),
-    CashAddressDecodingError.malformedPayload
+    CashAddressDecodingError.invalidCharacters
   );
 
   t.deepEqual(
     // cspell: disable-next-line
     decodeCashAddressFormat('verybroken:lll30n6j98m5'),
-    BitRegroupingError.requiresDisallowedPadding
+    CashAddressDecodingError.improperPadding
   );
 
   t.deepEqual(
     // cspell: disable-next-line
     decodeCashAddressFormat('bchtest:testnetaddress4d6njnut'),
-    CashAddressDecodingError.malformedPayload
+    CashAddressDecodingError.improperPadding
   );
   t.deepEqual(
     decodeCashAddress(
@@ -357,7 +356,7 @@ test('attemptCashAddressErrorCorrection', (t) => {
       // cspell: disable-next-line
       'broken:broken'
     ),
-    CashAddressDecodingError.malformedPayload
+    CashAddressDecodingError.invalidCharacters
   );
 
   t.deepEqual(

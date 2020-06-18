@@ -4,18 +4,19 @@ import test from 'ava';
 
 import {
   authenticationTemplateToCompilerBCH,
+  bigIntToBinUint64LE,
   BytecodeGenerationCompletionInput,
   CashAddressNetworkPrefix,
   CompilationData,
   compileBtl,
   dateToLocktime,
-  deserializeTransaction,
+  decodeTransaction,
+  encodeTransaction,
   extractMissingVariables,
   generateTransaction,
   hexToBin,
   instantiateVirtualMachineBCH,
   lockingBytecodeToCashAddress,
-  serializeTransaction,
   stringify,
   validateAuthenticationTemplate,
   verifyTransaction,
@@ -50,7 +51,9 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', async (t) => {
     trusted_party: hdPublicKey2H,
   };
 
-  const creationDate = new Date('2020-01-01T00:00:00.000Z');
+  const creationDate = dateToLocktime(
+    new Date('2020-01-01T00:00:00.000Z')
+  ) as number;
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   const threeMonths = 60 * 60 * 24 * 90;
   const locktimeFourMonthsLater = dateToLocktime(
@@ -58,7 +61,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', async (t) => {
   ) as number;
 
   const lockingData: CompilationData<never> = {
-    bytecode: { delay_seconds: compileBtl(`${threeMonths}`) },
+    bytecode: { delay_seconds: compileBtl(`${threeMonths}`) as Uint8Array },
     currentBlockTime: creationDate,
     hdKeys: { addressIndex: 0, hdPublicKeys },
   };
@@ -80,14 +83,15 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', async (t) => {
 
   t.deepEqual(address, 'bchtest:pz8p649zg3a492hxy86sh0ccvc7sptrlx5cp3eapah');
 
+  const satoshis = 10000;
   const utxoOutput1 = {
     lockingBytecode: lockingBytecode.bytecode,
-    satoshis: 10000,
+    satoshis: bigIntToBinUint64LE(BigInt(satoshis)),
   };
 
   const utxoOutput2 = {
     lockingBytecode: lockingBytecode.bytecode,
-    satoshis: 10000,
+    satoshis: bigIntToBinUint64LE(BigInt(satoshis)),
   };
 
   /**
@@ -127,7 +131,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', async (t) => {
     outputs: [
       {
         lockingBytecode: hexToBin('6a0b68656c6c6f20776f726c64'),
-        satoshis: 0,
+        satoshis: bigIntToBinUint64LE(BigInt(0)),
       },
     ],
     version: 2,
@@ -364,7 +368,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', async (t) => {
     successfulCompilation,
     {
       success: true,
-      transaction: deserializeTransaction(
+      transaction: decodeTransaction(
         /**
          * tx: e6c808adcb3cfc06461e962373659554bf6c447ea7b25ac503ff429e21050755
          */
@@ -374,7 +378,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', async (t) => {
       ),
     },
     `${stringify(successfulCompilation)} - ${stringify(
-      serializeTransaction(successfulCompilation.transaction)
+      encodeTransaction(successfulCompilation.transaction)
     )}`
   );
 });

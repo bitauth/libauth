@@ -4,6 +4,7 @@ import test from 'ava';
 import {
   assembleBitcoinABCScript,
   AuthenticationProgramStateBCH,
+  bigIntToBinUint64LE,
   createTestAuthenticationProgramBCH,
   disassembleBytecodeBCH,
   instantiateSha256,
@@ -130,7 +131,7 @@ pendingTests.map((expectation) => {
       const sha256 = await sha256Promise;
       const program = createTestAuthenticationProgramBCH({
         lockingBytecode,
-        satoshis: expectation.satoshis,
+        satoshis: bigIntToBinUint64LE(BigInt(expectation.satoshis)),
         sha256,
         unlockingBytecode,
       });

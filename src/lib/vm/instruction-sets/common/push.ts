@@ -3,13 +3,13 @@ import {
   numberToBinUint32LE,
 } from '../../../format/format';
 import { range } from '../../../format/hex';
-import {
-  ErrorState,
-  ExecutionStackState,
-  MinimumProgramState,
-  StackState,
-} from '../../state';
 import { Operation } from '../../virtual-machine';
+import {
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateExecutionStack,
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 import { AuthenticationInstructionPush } from '../instruction-sets-types';
 
 import { pushToStack } from './combinators';
@@ -219,15 +219,18 @@ export const pushByteOpcodes: readonly OpcodesCommon[] = [
   OpcodesCommon.OP_PUSHBYTES_75,
 ];
 
-const executionIsActive = <State extends ExecutionStackState>(state: State) =>
-  state.executionStack.every((item) => item);
+const executionIsActive = <
+  State extends AuthenticationProgramStateExecutionStack
+>(
+  state: State
+) => state.executionStack.every((item) => item);
 
 export const pushOperation = <
   Opcodes,
-  State extends StackState &
-    MinimumProgramState<Opcodes> &
-    ErrorState<Errors> &
-    ExecutionStackState,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum<Opcodes> &
+    AuthenticationProgramStateError<Errors> &
+    AuthenticationProgramStateExecutionStack,
   Errors
 >(
   flags: { requireMinimalEncoding: boolean },
@@ -257,10 +260,10 @@ export const pushOperation = <
 
 export const pushOperations = <
   Opcodes,
-  State extends StackState &
-    MinimumProgramState<Opcodes> &
-    ErrorState<Errors> &
-    ExecutionStackState,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum<Opcodes> &
+    AuthenticationProgramStateError<Errors> &
+    AuthenticationProgramStateExecutionStack,
   Errors
 >(
   flags: { requireMinimalEncoding: boolean },
@@ -296,7 +299,8 @@ const op1NegateValue = -1;
 
 export const pushNumberOperations = <
   Opcodes,
-  ProgramState extends StackState & MinimumProgramState<Opcodes>
+  ProgramState extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum<Opcodes>
 >() =>
   pushNumberOpcodes
     .map<[OpcodesCommon, Uint8Array]>((opcode, i) => [

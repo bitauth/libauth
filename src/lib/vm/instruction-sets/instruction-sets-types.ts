@@ -4,7 +4,7 @@ export interface AuthenticationInstructionPush<Opcodes = number> {
    */
   readonly data: Uint8Array;
   /**
-   * The opcode used to serialize this data.
+   * The opcode used to push this data.
    */
   readonly opcode: Opcodes;
 }

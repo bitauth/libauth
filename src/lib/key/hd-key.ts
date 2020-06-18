@@ -70,7 +70,7 @@ interface HdNodeBase {
   /**
    * The full identifer of the parent node. This can be used to resolve
    * collisions where two possible parent nodes share a `parentFingerprint`.
-   * Since the full `parentIdentifier` is not serialized in BIP32 HD keys, it
+   * Since the full `parentIdentifier` is not encoded in BIP32 HD keys, it
    * might be unknown.
    */
   parentIdentifier?: Uint8Array;

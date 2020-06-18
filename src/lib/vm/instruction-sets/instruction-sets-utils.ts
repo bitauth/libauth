@@ -5,8 +5,7 @@ import {
   numberToBinUint32LE,
 } from '../../format/format';
 import { createCompilerCommonSynchronous } from '../../template/compiler';
-import { TransactionContextCommon } from '../../template/compiler-types';
-import { AuthenticationProgramStateCommon } from '../state';
+import { AuthenticationProgramStateCommon } from '../vm-types';
 
 import { AuthenticationErrorBCH, OpcodesBCH } from './bch/bch';
 import { OpcodesBTC } from './btc/btc';
@@ -19,17 +18,31 @@ import {
   ParsedAuthenticationInstructions,
 } from './instruction-sets-types';
 
+/**
+ * A type-guard which checks if the provided instruction is malformed.
+ * @param instruction - the instruction to check
+ */
 export const authenticationInstructionIsMalformed = <Opcodes>(
   instruction: ParsedAuthenticationInstruction<Opcodes>
 ): instruction is ParsedAuthenticationInstructionMalformed<Opcodes> =>
-  (instruction as ParsedAuthenticationInstructionMalformed<Opcodes>).malformed;
+  'malformed' in instruction;
 
+/**
+ * A type-guard which checks if the final instruction in the provided array of
+ * instructions is malformed. (Only the final instruction can be malformed.)
+ * @param instruction - the array of instructions to check
+ */
 export const authenticationInstructionsAreMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>
 ): instructions is ParsedAuthenticationInstructionMalformed<Opcodes>[] =>
   instructions.length > 0 &&
   authenticationInstructionIsMalformed(instructions[instructions.length - 1]);
 
+/**
+ * A type-guard which confirms that the final instruction in the provided array
+ * is not malformed. (Only the final instruction can be malformed.)
+ * @param instruction - the array of instructions to check
+ */
 export const authenticationInstructionsAreNotMalformed = <Opcodes>(
   instructions: ParsedAuthenticationInstructions<Opcodes>
 ): instructions is AuthenticationInstruction<Opcodes>[] =>
@@ -197,11 +210,15 @@ const formatMissingBytesAsm = (missing: number) =>
 const hasMalformedLength = <Opcodes>(
   instruction: ParsedAuthenticationInstructionMalformed<Opcodes>
 ): instruction is ParsedAuthenticationInstructionPushMalformedLength<Opcodes> =>
-  (instruction as ParsedAuthenticationInstructionPushMalformedLength<Opcodes>)
-    .length !== undefined;
+  'length' in instruction;
 const isPushData = (pushOpcode: number) =>
   pushOpcode >= CommonPushOpcodes.OP_PUSHDATA_1;
 
+/**
+ * Disassemble a malformed authentication instruction into a string description.
+ * @param opcodes - a mapping of possible opcodes to their string representation
+ * @param instruction - the malformed instruction to disassemble
+ */
 export const disassembleParsedAuthenticationInstructionMalformed = <
   Opcodes = number
 >(
@@ -222,6 +239,12 @@ export const disassembleParsedAuthenticationInstructionMalformed = <
         )}`
   }`;
 
+/**
+ * Disassemble a properly-formed authentication instruction into a string
+ * description.
+ * @param opcodes - a mapping of possible opcodes to their string representation
+ * @param instruction - the instruction to disassemble
+ */
 export const disassembleAuthenticationInstruction = <Opcodes = number>(
   opcodes: { readonly [opcode: number]: string },
   instruction: AuthenticationInstruction<Opcodes>
@@ -237,6 +260,12 @@ export const disassembleAuthenticationInstruction = <Opcodes = number>(
       : ''
   }`;
 
+/**
+ * Disassemble a single `ParsedAuthenticationInstruction` (includes potentially
+ * malformed instructions) into its ASM representation.
+ *
+ * @param script - the instruction to disassemble
+ */
 export const disassembleParsedAuthenticationInstruction = <Opcodes = number>(
   opcodes: { readonly [opcode: number]: string },
   instruction: ParsedAuthenticationInstruction<Opcodes>
@@ -340,7 +369,6 @@ export const assembleBytecode = <
     scripts: { asm: disassembledBytecode },
   };
   return createCompilerCommonSynchronous<
-    TransactionContextCommon,
     typeof environment,
     AuthenticationProgramStateCommon<Opcodes, Errors>,
     Opcodes,
@@ -385,6 +413,10 @@ const getInstructionLengthBytes = <Opcodes>(
     : numberToBinUint32LE(instruction.data.length);
 };
 
+/**
+ * Re-serialize a valid authentication instruction.
+ * @param instruction - the instruction to serialize
+ */
 export const serializeAuthenticationInstruction = <Opcodes = number>(
   instruction: AuthenticationInstruction<Opcodes>
 ) =>
@@ -400,6 +432,10 @@ export const serializeAuthenticationInstruction = <Opcodes = number>(
       : []),
   ]);
 
+/**
+ * Re-serialize a malformed authentication instruction.
+ * @param instruction - the malformed instruction to serialize
+ */
 export const serializeParsedAuthenticationInstructionMalformed = <
   Opcodes = number
 >(
@@ -426,6 +462,10 @@ export const serializeParsedAuthenticationInstructionMalformed = <
   return Uint8Array.from([opcode, ...instruction.data]);
 };
 
+/**
+ * Re-serialize a potentially-malformed authentication instruction.
+ * @param instruction - the potentially-malformed instruction to serialize
+ */
 export const serializeParsedAuthenticationInstruction = <Opcodes = number>(
   instruction: ParsedAuthenticationInstruction<Opcodes>
 ): Uint8Array =>
@@ -433,10 +473,18 @@ export const serializeParsedAuthenticationInstruction = <Opcodes = number>(
     ? serializeParsedAuthenticationInstructionMalformed(instruction)
     : serializeAuthenticationInstruction(instruction);
 
+/**
+ * Re-serialize an array of valid authentication instructions.
+ * @param instructions - the array of valid instructions to serialize
+ */
 export const serializeAuthenticationInstructions = <Opcodes = number>(
   instructions: readonly AuthenticationInstruction<Opcodes>[]
 ) => flattenBinArray(instructions.map(serializeAuthenticationInstruction));
 
+/**
+ * Re-serialize an array of potentially-malformed authentication instructions.
+ * @param instructions - the array of instructions to serialize
+ */
 export const serializeParsedAuthenticationInstructions = <Opcodes = number>(
   instructions: readonly ParsedAuthenticationInstruction<Opcodes>[]
 ) =>

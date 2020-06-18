@@ -1,9 +1,4 @@
-import {
-  bigIntToBinUint64LE,
-  bigIntToBitcoinVarInt,
-  numberToBinUint32LE,
-} from '../format/numbers';
-import { dateToLocktimeBin } from '../format/time';
+import { bigIntToBitcoinVarInt, numberToBinUint32LE } from '../format/numbers';
 import { decodeHdPublicKey, deriveHdPath } from '../key/hd-key';
 import { bigIntToScriptNumber } from '../vm/instruction-sets/instruction-sets';
 
@@ -18,7 +13,7 @@ import {
   compilerOperationRequires,
 } from './compiler-operation-helpers';
 import { CompilerOperationResult } from './compiler-types';
-import { HdKey } from './template-types';
+import { AuthenticationTemplateHdKey } from './template-types';
 
 export const compilerOperationAddressData = compilerOperationRequires({
   canBeSkipped: false,
@@ -58,14 +53,11 @@ export const compilerOperationCurrentBlockTime = compilerOperationRequires({
   canBeSkipped: false,
   dataProperties: ['currentBlockTime'],
   environmentProperties: [],
-  operation: (identifier, data) => {
-    const result = dateToLocktimeBin(data.currentBlockTime);
-    return typeof result === 'string'
-      ? {
-          error: `Cannot resolve "${identifier} – the Date provided as "currentBlockTime" in the compilation data is outside the range which can be encoded in locktime."`,
-          status: 'error',
-        }
-      : { bytecode: result, status: 'success' };
+  operation: (_, data) => {
+    return {
+      bytecode: numberToBinUint32LE(data.currentBlockTime),
+      status: 'success',
+    };
   },
 });
 
@@ -192,9 +184,7 @@ export const compilerOperationSigningSerializationOutputValue = compilerOperatio
     dataProperties: ['transactionContext'],
     environmentProperties: [],
     operation: (_, data) => ({
-      bytecode: bigIntToBinUint64LE(
-        BigInt(data.transactionContext.outputValue)
-      ),
+      bytecode: data.transactionContext.outputValue,
       status: 'success',
     }),
   }
@@ -373,7 +363,9 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
         /**
          * Guaranteed to be an `HdKey` if this method is reached in the compiler.
          */
-        const hdKey = environment.variables[variableId] as HdKey;
+        const hdKey = environment.variables[
+          variableId
+        ] as AuthenticationTemplateHdKey;
 
         if (entityHdPrivateKey !== undefined) {
           const privateResult = compilerOperationHelperDeriveHdPrivateNode({

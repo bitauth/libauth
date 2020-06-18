@@ -4,9 +4,11 @@ import test from 'ava';
 
 import {
   authenticationTemplateToCompilerBCH,
+  bigIntToBinUint64LE,
   CashAddressNetworkPrefix,
   CompilationData,
-  deserializeTransaction,
+  decodeTransaction,
+  encodeTransaction,
   extractMissingVariables,
   extractResolvedVariables,
   generateTransaction,
@@ -14,7 +16,6 @@ import {
   instantiateVirtualMachineBCH,
   lockingBytecodeToCashAddress,
   safelyExtendCompilationData,
-  serializeTransaction,
   stringify,
   validateAuthenticationTemplate,
   verifyTransaction,
@@ -69,9 +70,10 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
 
   t.deepEqual(address, 'bchtest:pplldqjpjaj0058xma6csnpgxd9ew2vxgv26n639yk');
 
+  const satoshis = 10000;
   const utxoOutput = {
     lockingBytecode: lockingBytecode.bytecode,
-    satoshis: 10000,
+    satoshis: bigIntToBinUint64LE(BigInt(satoshis)),
   };
 
   const input1 = {
@@ -92,7 +94,7 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     outputs: [
       {
         lockingBytecode: hexToBin('6a0b68656c6c6f20776f726c64'),
-        satoshis: 0,
+        satoshis: bigIntToBinUint64LE(BigInt(0)),
       },
     ],
     version: 2,
@@ -229,7 +231,7 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
     successfulCompilation,
     {
       success: true,
-      transaction: deserializeTransaction(
+      transaction: decodeTransaction(
         /**
          * tx: c903aba46b4069e485b51292fd68eefdc95110fb95461b118c650fb454c34a9c
          */
@@ -239,7 +241,7 @@ test('transaction e2e tests: 2-of-3 multisig', async (t) => {
       ),
     },
     `${stringify(successfulCompilation)} - ${stringify(
-      serializeTransaction(successfulCompilation.transaction)
+      encodeTransaction(successfulCompilation.transaction)
     )}`
   );
 });

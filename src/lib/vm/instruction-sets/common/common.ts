@@ -1,20 +1,20 @@
 import {
-  serializeOutpoints,
-  serializeOutput,
-  serializeOutputsForSigning,
-  serializeSequenceNumbersForSigning,
+  encodeOutpoints,
+  encodeOutput,
+  encodeOutputsForSigning,
+  encodeSequenceNumbersForSigning,
 } from '../../../transaction/transaction-serialization';
-import {
-  AlternateStackState,
-  AuthenticationProgramCommon,
-  AuthenticationProgramExternalStateCommon,
-  AuthenticationProgramInternalStateCommon,
-  AuthenticationProgramStateCommon,
-  ErrorState,
-  ExecutionStackState,
-  StackState,
-} from '../../state';
+import { TransactionContextCommon } from '../../../transaction/transaction-types';
 import { Operation } from '../../virtual-machine';
+import {
+  AuthenticationProgramStateAlternateStack,
+  AuthenticationProgramStateCommon,
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateExecutionStack,
+  AuthenticationProgramStateInternalCommon,
+  AuthenticationProgramStateStack,
+  AuthenticationProgramTransactionContextCommon,
+} from '../../vm-types';
 import { AuthenticationInstruction } from '../instruction-sets-types';
 
 import { arithmeticOperations } from './arithmetic';
@@ -76,7 +76,8 @@ export enum ConsensusCommon {
 }
 
 export const undefinedOperation = <
-  State extends ExecutionStackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >() => ({
   undefined: conditionallyEvaluate((state: State) =>
@@ -85,9 +86,9 @@ export const undefinedOperation = <
 });
 
 export const checkLimitsCommon = <
-  State extends ErrorState<Errors> &
-    StackState &
-    AlternateStackState & { operationCount: number },
+  State extends AuthenticationProgramStateError<Errors> &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateAlternateStack & { operationCount: number },
   Errors
 >(
   operation: Operation<State>
@@ -194,7 +195,7 @@ export const createAuthenticationProgramInternalStateCommon = <
 }: {
   instructions: readonly AuthenticationInstruction<Opcodes>[];
   stack?: Uint8Array[];
-}): AuthenticationProgramInternalStateCommon<Opcodes, Errors> => ({
+}): AuthenticationProgramStateInternalCommon<Opcodes, Errors> => ({
   alternateStack: [],
   executionStack: [],
   instructions,
@@ -206,21 +207,12 @@ export const createAuthenticationProgramInternalStateCommon = <
   stack,
 });
 
-const enum Fill {
-  length = 32,
-  correspondingOutput = 1,
-  transactionOutpoints = 2,
-  transactionOutputs = 3,
-  transactionSequenceNumbers = 4,
-  outpointTransactionHash = 5,
-}
-
-export const createAuthenticationProgramExternalStateCommon = (
-  program: AuthenticationProgramCommon
-): AuthenticationProgramExternalStateCommon => ({
+export const createTransactionContextCommon = (
+  program: AuthenticationProgramTransactionContextCommon
+): TransactionContextCommon => ({
   correspondingOutput:
     program.inputIndex < program.spendingTransaction.outputs.length
-      ? serializeOutput(program.spendingTransaction.outputs[program.inputIndex])
+      ? encodeOutput(program.spendingTransaction.outputs[program.inputIndex])
       : undefined,
   locktime: program.spendingTransaction.locktime,
   outpointIndex:
@@ -231,22 +223,22 @@ export const createAuthenticationProgramExternalStateCommon = (
   outputValue: program.sourceOutput.satoshis,
   sequenceNumber:
     program.spendingTransaction.inputs[program.inputIndex].sequenceNumber,
-  transactionOutpoints: serializeOutpoints(program.spendingTransaction.inputs),
-  transactionOutputs: serializeOutputsForSigning(
+  transactionOutpoints: encodeOutpoints(program.spendingTransaction.inputs),
+  transactionOutputs: encodeOutputsForSigning(
     program.spendingTransaction.outputs
   ),
-  transactionSequenceNumbers: serializeSequenceNumbersForSigning(
+  transactionSequenceNumbers: encodeSequenceNumbersForSigning(
     program.spendingTransaction.inputs
   ),
   version: program.spendingTransaction.version,
 });
 
 export const createAuthenticationProgramStateCommon = <Opcodes, Errors>({
-  externalState,
+  transactionContext,
   instructions,
   stack,
 }: {
-  externalState: AuthenticationProgramExternalStateCommon;
+  transactionContext: TransactionContextCommon;
   instructions: readonly AuthenticationInstruction<Opcodes>[];
   stack: Uint8Array[];
 }): AuthenticationProgramStateCommon<Opcodes, Errors> => ({
@@ -254,7 +246,7 @@ export const createAuthenticationProgramStateCommon = <Opcodes, Errors>({
     instructions,
     stack,
   }),
-  ...externalState,
+  ...transactionContext,
 });
 
 /**
@@ -291,27 +283,54 @@ export const cloneAuthenticationProgramStateCommon = <
   version: state.version,
 });
 
+const sha256HashLength = 32;
+const outputValueLength = 8;
+
 /**
- * This is a meaningless but complete `CommonExternalProgramState`, useful for
- * testing and debugging.
+ * This is a meaningless but complete `TransactionContextCommon` which uses `0`
+ * values for each property.
  */
-export const createAuthenticationProgramExternalStateCommonEmpty = () => ({
-  correspondingOutput: Uint8Array.of(Fill.correspondingOutput),
+export const createTransactionContextCommonEmpty = () => ({
+  correspondingOutput: Uint8Array.of(0),
   locktime: 0,
   outpointIndex: 0,
-  outpointTransactionHash: new Uint8Array(Fill.length).fill(
-    Fill.outpointTransactionHash
-  ),
-  outputValue: 0,
+  outpointTransactionHash: new Uint8Array(sha256HashLength),
+  outputValue: new Uint8Array(outputValueLength),
   sequenceNumber: 0,
-  transactionOutpoints: Uint8Array.of(Fill.transactionOutpoints),
-  transactionOutputs: Uint8Array.of(Fill.transactionOutputs),
-  transactionSequenceNumbers: Uint8Array.of(Fill.transactionSequenceNumbers),
+  transactionOutpoints: Uint8Array.of(0),
+  transactionOutputs: Uint8Array.of(0),
+  transactionSequenceNumbers: Uint8Array.of(0),
+  version: 0,
+});
+
+const correspondingOutput = 1;
+const transactionOutpoints = 2;
+const transactionOutputs = 3;
+const transactionSequenceNumbers = 4;
+const outpointTransactionHashFill = 5;
+
+/**
+ * This is a meaningless but complete `TransactionContextCommon` which uses a
+ * different value for each property. This is useful for testing and debugging.
+ */
+export const createTransactionContextCommonTesting = () => ({
+  correspondingOutput: Uint8Array.of(correspondingOutput),
+  locktime: 0,
+  outpointIndex: 0,
+  outpointTransactionHash: new Uint8Array(sha256HashLength).fill(
+    outpointTransactionHashFill
+  ),
+  outputValue: new Uint8Array(outputValueLength),
+  sequenceNumber: 0,
+  transactionOutpoints: Uint8Array.of(transactionOutpoints),
+  transactionOutputs: Uint8Array.of(transactionOutputs),
+  transactionSequenceNumbers: Uint8Array.of(transactionSequenceNumbers),
   version: 0,
 });
 
 /**
- * Create an "empty" CommonProgramState, suitable for testing a VM/compiler.
+ * Create an "empty" common authentication program state, suitable for testing a
+ * VM/compiler.
  */
 export const createAuthenticationProgramStateCommonEmpty = <Opcodes, Errors>({
   instructions,
@@ -321,5 +340,5 @@ export const createAuthenticationProgramStateCommonEmpty = <Opcodes, Errors>({
   stack?: Uint8Array[];
 }): AuthenticationProgramStateCommon<Opcodes, Errors> => ({
   ...createAuthenticationProgramInternalStateCommon({ instructions, stack }),
-  ...createAuthenticationProgramExternalStateCommonEmpty(),
+  ...createTransactionContextCommonEmpty(),
 });

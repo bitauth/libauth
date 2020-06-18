@@ -1,5 +1,8 @@
 import { AuthenticationInstruction } from '../../vm/instruction-sets/instruction-sets-types';
-import { MinimumProgramState, StackState } from '../../vm/state';
+import {
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
+} from '../../vm/vm-types';
 
 export interface Range {
   endColumn: number;
@@ -23,6 +26,8 @@ type StringSegmentType =
   | 'Comment'
   | 'Identifier'
   | 'UTF8Literal'
+  | 'BigIntLiteral'
+  | 'BinaryLiteral'
   | 'HexLiteral';
 
 type RecursiveSegmentType = 'Push' | 'Evaluation';
@@ -36,11 +41,6 @@ interface BtlStringSegment extends BitauthTemplatingLanguageSegment {
   value: string;
 }
 
-interface BtlBigIntSegment extends BitauthTemplatingLanguageSegment {
-  name: 'BigIntLiteral';
-  value: bigint;
-}
-
 interface BtlRecursiveSegment extends BitauthTemplatingLanguageSegment {
   name: RecursiveSegmentType;
   value: BtlScriptSegment;
@@ -48,7 +48,7 @@ interface BtlRecursiveSegment extends BitauthTemplatingLanguageSegment {
 
 export interface BtlScriptSegment extends BitauthTemplatingLanguageSegment {
   name: 'Script';
-  value: (BtlRecursiveSegment | BtlBigIntSegment | BtlStringSegment)[];
+  value: (BtlRecursiveSegment | BtlStringSegment)[];
 }
 
 export type ParseResult =
@@ -106,8 +106,15 @@ export interface ResolvedSegmentOpcodeBytecode extends ResolvedSegmentBase {
   value: Uint8Array;
 }
 
+export type ResolvedSegmentLiteralType =
+  | 'BigIntLiteral'
+  | 'BinaryLiteral'
+  | 'HexLiteral'
+  | 'UTF8Literal';
+
 export interface ResolvedSegmentLiteralBytecode extends ResolvedSegmentBase {
-  literalType: 'BigIntLiteral' | 'HexLiteral' | 'UTF8Literal';
+  literal: string;
+  literalType: ResolvedSegmentLiteralType;
   type: 'bytecode';
   value: Uint8Array;
 }
@@ -251,15 +258,26 @@ interface ScriptReductionTraceErrorNode extends ScriptReductionTraceNode {
   errors: CompilationError[];
 }
 
-export interface ScriptReductionTraceContainerNode<ProgramState>
+export interface ScriptReductionTraceScriptNode<ProgramState>
   extends ScriptReductionTraceNode {
-  source: ScriptReductionTraceChildNode<ProgramState>[];
+  script: ScriptReductionTraceChildNode<ProgramState>[];
+}
+
+export interface ScriptReductionTracePushNode<ProgramState>
+  extends ScriptReductionTraceNode {
+  push: ScriptReductionTraceScriptNode<ProgramState>;
+}
+
+export interface ScriptReductionTraceEvaluationNode<ProgramState>
+  extends ScriptReductionTraceNode {
+  trace: ProgramState[];
+  source: ScriptReductionTraceScriptNode<ProgramState>;
 }
 
 export type ScriptReductionTraceChildNode<ProgramState> =
   | ScriptReductionTraceNode
-  | ScriptReductionTraceContainerNode<ProgramState>
   | ScriptReductionTraceErrorNode
+  | ScriptReductionTracePushNode<ProgramState>
   | ScriptReductionTraceEvaluationNode<ProgramState>;
 
 /**
@@ -268,11 +286,6 @@ export type ScriptReductionTraceChildNode<ProgramState> =
 export interface TraceSample<ProgramState> {
   range: Range;
   state: ProgramState;
-}
-
-export interface ScriptReductionTraceEvaluationNode<ProgramState>
-  extends ScriptReductionTraceContainerNode<ProgramState> {
-  samples: TraceSample<ProgramState>[];
 }
 
 /**
@@ -299,34 +312,52 @@ export interface InstructionAggregationError<Opcodes> {
   success: false;
 }
 
-export interface EvaluationSample<ProgramState> {
+/**
+ * An evaluation sample extracted from a script reduction trace – includes the
+ * range of the evaluation from which the sample was extracted, the instruction
+ * which was evaluated, the range in the source script over which the
+ * instruction was defined, and the resulting program state.
+ */
+export interface EvaluationSample<ProgramState, Opcodes = number> {
+  /**
+   * The range of the evaluation node in which this sample was generated.
+   *
+   * This can be used to identify which other samples were part of the same
+   * evaluation that produced this sample.
+   */
+  evaluationRange: Range;
+  /**
+   * The final instruction which was evaluated during this sample.
+   *
+   * Note, the first sample from any evaluation is the initial state before any
+   * instructions are executed, so its `instruction` is `undefined`. For all
+   * other samples, `instruction` must be defined.
+   */
+  instruction?: AuthenticationInstruction<Opcodes>;
+  /**
+   * An ordered array of instructions and program states which occurred within
+   * the range of a single reduction trace node before the final instruction and
+   * state (assigned to `instruction` and `state`, respectively).
+   *
+   * This occurs in unusual cases where multiple opcodes are defined in the same
+   * reduced node, e.g. a long hex literal of operations as bytecode or an
+   * evaluation which is not wrapped in a push.
+   *
+   * Usually, this will be an empty array.
+   */
+  internalStates: {
+    instruction: AuthenticationInstruction<Opcodes>;
+    state: ProgramState;
+  }[];
+  /**
+   * The range over which this sample was defined in the source script.
+   */
   range: Range;
   /**
-   * This may be undefined if an error occurred before this sample was taken.
+   * The program state after the evaluation of this sample's `instruction`.
    */
-  state: ProgramState | undefined;
-}
-
-export interface EvaluationSampleValid<ProgramState> {
-  range: Range;
   state: ProgramState;
 }
-
-export interface SampledEvaluationSuccess<ProgramState> {
-  bytecode: Uint8Array;
-  samples: EvaluationSampleValid<ProgramState>[];
-  success: true;
-}
-export interface SampledEvaluationError<ProgramState> {
-  bytecode: Uint8Array;
-  errors: CompilationError[];
-  samples: EvaluationSample<ProgramState>[];
-  success: false;
-}
-
-export type SampledEvaluationResult<ProgramState> =
-  | SampledEvaluationSuccess<ProgramState>
-  | SampledEvaluationError<ProgramState>;
 
 export interface CompilationResultResolve {
   parse: BtlScriptSegment;
@@ -335,7 +366,7 @@ export interface CompilationResultResolve {
 
 export interface CompilationResultReduce<ProgramState>
   extends CompilationResultResolve {
-  reduce: ScriptReductionTraceContainerNode<ProgramState>;
+  reduce: ScriptReductionTraceScriptNode<ProgramState>;
 }
 
 export interface CompilationResultErrorBase {
@@ -433,7 +464,8 @@ export interface CompilationResultSuccess<ProgramState>
 }
 
 export type CompilationResult<
-  ProgramState = StackState & MinimumProgramState
+  ProgramState = AuthenticationProgramStateStack &
+    AuthenticationProgramStateMinimum
 > =
   | CompilationResultSuccess<ProgramState>
   | CompilationResultError<ProgramState>;

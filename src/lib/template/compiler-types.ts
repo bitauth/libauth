@@ -1,12 +1,16 @@
 import { Ripemd160, Secp256k1, Sha256, Sha512 } from '../crypto/crypto';
-import { AuthenticationInstruction } from '../vm/instruction-sets/instruction-sets-types';
+import { TransactionContextCommon } from '../transaction/transaction-types';
 import { AuthenticationVirtualMachine } from '../vm/virtual-machine';
+import { AuthenticationProgramTransactionContextCommon } from '../vm/vm-types';
 
 import {
   CompilationResult,
   CompilationResultError,
 } from './language/language-types';
-import { AuthenticationTemplateVariable } from './template-types';
+import {
+  AuthenticationTemplateScenario,
+  AuthenticationTemplateVariable,
+} from './template-types';
 
 export interface CompilerOperationDebug {
   /**
@@ -148,19 +152,6 @@ export type CompilerOperation<
 
 export type CompilerOperationsKeysCommon = 'public_key' | 'signature';
 
-export interface TransactionContextCommon {
-  correspondingOutput?: Uint8Array;
-  locktime: number;
-  outpointIndex: number;
-  outpointTransactionHash: Uint8Array;
-  outputValue: number;
-  sequenceNumber: number;
-  transactionOutpoints: Uint8Array;
-  transactionOutputs: Uint8Array;
-  transactionSequenceNumbers: Uint8Array;
-  version: number;
-}
-
 /**
  * Valid identifiers for full transaction signing serialization algorithms. Each
  * full serialization is double-sha256 hashed to produce the digest which is
@@ -257,12 +248,15 @@ export interface CompilationEnvironment<
   CompilerCurrentBlockTimeOperations extends string | false = false
 > {
   /**
-   * A method which accepts an array of `AuthenticationInstruction`s, and
-   * returns a ProgramState. This method will be used to generate the initial
-   * ProgramState for `evaluation`s.
+   * A method which accepts the compiled bytecode contents of a BTL evaluation
+   * and produces the equivalent `AuthenticationProgram` to be evaluated by the
+   * VM. This method is used internally to compute BTL evaluations. See
+   * `createAuthenticationProgramEvaluationCommon` for details.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  createState?: (instructions: AuthenticationInstruction<any>[]) => any;
+  createAuthenticationProgram?: (
+    evaluationBytecode: Uint8Array
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) => any;
 
   /**
    * An object mapping template variable identifiers to the entity identifiers
@@ -376,6 +370,13 @@ export interface CompilationEnvironment<
    * `HdKey`s. This can be instantiated with `instantiateRipemd160`.
    */
   ripemd160?: { hash: Ripemd160['hash'] };
+  /**
+   * An object mapping scenario identifiers to the
+   * `AuthenticationTemplateScenario`s they represent.
+   */
+  scenarios?: {
+    [scriptId: string]: AuthenticationTemplateScenario;
+  };
   /**
    * An object mapping script identifiers to the text of script in Bitauth
    * Templating Language.
@@ -526,13 +527,15 @@ export interface CompilationData<
    */
   currentBlockHeight?: number;
   /**
-   * The current block time at address creation time.
+   * The current MTP block time as a UNIX timestamp at address creation time.
    *
    * Note, this is never a current timestamp, but rather the median timestamp of
-   * the last 11 blocks. This value only changes when a new block is found. See
+   * the last 11 blocks. It is therefore approximately one hour in the past.
+   *
+   * Every block has a precise MTP block time, much like a block height. See
    * BIP113 for details.
    */
-  currentBlockTime?: Date;
+  currentBlockTime?: number;
   /**
    * An object describing the settings used for `HdKey` variables in this
    * compilation.
@@ -600,6 +603,10 @@ export interface CompilationData<
   transactionContext?: TransactionContext;
 }
 
+/**
+ * Any compilation environment, where each data type may use either a single or
+ * multiple operations.
+ */
 export type AnyCompilationEnvironment<
   TransactionContext
 > = CompilationEnvironment<
@@ -612,12 +619,30 @@ export type AnyCompilationEnvironment<
   string | false
 >;
 
+/**
+ * Any compilation environment where the type of the `operations` value is
+ * irrelevant.
+ */
+export type AnyCompilationEnvironmentIgnoreOperations<
+  TransactionContext = TransactionContextCommon
+> = Omit<AnyCompilationEnvironment<TransactionContext>, 'operations'>;
+
 export type BytecodeGenerationResult<ProgramState> =
   | {
       bytecode: Uint8Array;
       success: true;
     }
   | CompilationResultError<ProgramState>;
+
+/**
+ * A fully-generated authentication template scenario. Useful for estimating
+ * transactions and testing of authentication templates. See
+ * `AuthenticationTemplateScenario` for details.
+ */
+export interface Scenario {
+  data: CompilationData;
+  program: AuthenticationProgramTransactionContextCommon;
+}
 
 /**
  * A `Compiler` is a wrapper around a specific `CompilationEnvironment` which
@@ -629,16 +654,36 @@ export interface Compiler<
   ProgramState
 > {
   environment: CompilationEnvironment;
-  // eslint-disable-next-line functional/no-method-signature,  functional/no-mixed-type
-  generateBytecode(
-    script: string,
+  /**
+   * Generate the bytecode for the given script and compilation data.
+   *
+   * @param script - the identifer of the script to compile
+   * @param data - the compilation data required to compile this script
+   * @param debug - enable compilation debugging information (default: `false`)
+   */
+  // eslint-disable-next-line functional/no-mixed-type
+  generateBytecode: <Debug extends boolean>(
+    scriptId: string,
     data: CompilationData<TransactionContext>,
-    debug: true
-  ): CompilationResult<ProgramState>;
-  // eslint-disable-next-line functional/no-method-signature
-  generateBytecode(
-    script: string,
-    data: CompilationData<TransactionContext>,
-    debug?: false
-  ): BytecodeGenerationResult<ProgramState>;
+    debug?: Debug
+  ) => Debug extends true
+    ? CompilationResult<ProgramState>
+    : BytecodeGenerationResult<ProgramState>;
+  /**
+   * Generate the compilation data for a scenario specified in this compilation
+   * environment. Returns either the full `CompilationData` for the selected
+   * scenario or an error message (as a `string`).
+   *
+   * Note, generated compilation data always uses a `transactionContext` of type
+   * `TransactionContextCommon`.
+   *
+   * @param scenario - the identifer of the scenario to generate
+   */
+  generateScenario: ({
+    scenarioId,
+    unlockingScriptId,
+  }: {
+    scenarioId?: string;
+    unlockingScriptId?: string;
+  }) => Scenario | string;
 }

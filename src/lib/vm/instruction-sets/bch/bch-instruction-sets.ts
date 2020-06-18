@@ -13,8 +13,8 @@ import {
   cloneStack,
   commonOperations,
   ConsensusCommon,
-  createAuthenticationProgramExternalStateCommon,
   createAuthenticationProgramStateCommon,
+  createTransactionContextCommon,
   stackItemIsTruthy,
   undefinedOperation,
 } from '../common/common';
@@ -188,13 +188,15 @@ export const createInstructionSetBCH = ({
     const { lockingBytecode } = program.sourceOutput;
     const unlockingInstructions = parseBytecode<OpcodesBCH>(unlockingBytecode);
     const lockingInstructions = parseBytecode<OpcodesBCH>(lockingBytecode);
-    const externalState = createAuthenticationProgramExternalStateCommon(
-      program
-    );
+    const externalState = createTransactionContextCommon(program);
     const initialState = createAuthenticationProgramStateCommon<
       OpcodesBCH,
       AuthenticationErrorBCH
-    >({ externalState, instructions: unlockingInstructions, stack: [] });
+    >({
+      instructions: unlockingInstructions,
+      stack: [],
+      transactionContext: externalState,
+    });
 
     const unlockingResult =
       unlockingBytecode.length > ConsensusCommon.maximumBytecodeLength
@@ -234,9 +236,9 @@ export const createInstructionSetBCH = ({
         OpcodesBCH,
         AuthenticationErrorBCH
       >({
-        externalState,
         instructions: lockingInstructions,
         stack: unlockingResult.stack,
+        transactionContext: externalState,
       })
     );
     if (!isPayToScriptHash(lockingInstructions)) {
@@ -261,7 +263,11 @@ export const createInstructionSetBCH = ({
           createAuthenticationProgramStateCommon<
             OpcodesBCH,
             AuthenticationErrorBCH
-          >({ externalState, instructions: p2shInstructions, stack: p2shStack })
+          >({
+            instructions: p2shInstructions,
+            stack: p2shStack,
+            transactionContext: externalState,
+          })
         );
   },
   operations: {
@@ -287,7 +293,7 @@ export const createInstructionSetBCH = ({
       return state.error;
     }
     if (state.executionStack.length !== 0) {
-      return AuthenticationErrorCommon.nonEmptyExecutionState;
+      return AuthenticationErrorCommon.nonEmptyExecutionStack;
     }
     if (state.stack.length !== 1) {
       return AuthenticationErrorCommon.requiresCleanStack;

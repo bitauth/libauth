@@ -1,4 +1,4 @@
-import { ErrorState } from '../../state';
+import { AuthenticationProgramStateError } from '../../vm-types';
 
 import { applyError, AuthenticationErrorCommon } from './errors';
 import { OpcodesCommon } from './opcodes';
@@ -29,13 +29,13 @@ export const nonOperations = <State>(flags: {
  * script, even within an unexecuted branch.
  */
 export const disabledOperation = <
-  State extends ErrorState<Errors>,
+  State extends AuthenticationProgramStateError<Errors>,
   Errors
 >() => (state: State) =>
   applyError<State, Errors>(AuthenticationErrorCommon.unknownOpcode, state);
 
 export const disabledOperations = <
-  State extends ErrorState<Errors>,
+  State extends AuthenticationProgramStateError<Errors>,
   Errors
 >() => ({
   [OpcodesCommon.OP_CAT]: disabledOperation<State, Errors>(),

@@ -1,8 +1,8 @@
 import {
   AuthenticationProgramStateCommon,
-  ErrorState,
-  StackState,
-} from '../../state';
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 
 import {
   combineOperations,
@@ -15,7 +15,11 @@ import { opVerify } from './flow-control';
 import { OpcodesCommon } from './opcodes';
 import { bigIntToScriptNumber, booleanToScriptNumber } from './types';
 
-export const op1Add = <State extends StackState & ErrorState<Errors>, Errors>({
+export const op1Add = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -27,7 +31,11 @@ export const op1Add = <State extends StackState & ErrorState<Errors>, Errors>({
     { requireMinimalEncoding }
   );
 
-export const op1Sub = <State extends StackState & ErrorState<Errors>, Errors>({
+export const op1Sub = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -40,7 +48,8 @@ export const op1Sub = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const opNegate = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -54,7 +63,11 @@ export const opNegate = <
     { requireMinimalEncoding }
   );
 
-export const opAbs = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opAbs = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -66,7 +79,11 @@ export const opAbs = <State extends StackState & ErrorState<Errors>, Errors>({
     { requireMinimalEncoding }
   );
 
-export const opNot = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opNot = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -84,7 +101,8 @@ export const opNot = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const op0NotEqual = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -103,7 +121,11 @@ export const op0NotEqual = <
     { requireMinimalEncoding }
   );
 
-export const opAdd = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opAdd = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -115,7 +137,11 @@ export const opAdd = <State extends StackState & ErrorState<Errors>, Errors>({
     { requireMinimalEncoding }
   );
 
-export const opSub = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opSub = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -128,7 +154,8 @@ export const opSub = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const opBoolAnd = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -148,7 +175,8 @@ export const opBoolAnd = <
   );
 
 export const opBoolOr = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -168,7 +196,8 @@ export const opBoolOr = <
   );
 
 export const opNumEqual = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -183,7 +212,8 @@ export const opNumEqual = <
   );
 
 export const opNumEqualVerify = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(flags: {
   requireMinimalEncoding: boolean;
@@ -194,7 +224,8 @@ export const opNumEqualVerify = <
   );
 
 export const opNumNotEqual = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -209,7 +240,8 @@ export const opNumNotEqual = <
   );
 
 export const opLessThan = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -224,7 +256,8 @@ export const opLessThan = <
   );
 
 export const opLessThanOrEqual = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -239,7 +272,8 @@ export const opLessThanOrEqual = <
   );
 
 export const opGreaterThan = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -254,7 +288,8 @@ export const opGreaterThan = <
   );
 
 export const opGreaterThanOrEqual = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,
@@ -268,7 +303,11 @@ export const opGreaterThanOrEqual = <
     { requireMinimalEncoding }
   );
 
-export const opMin = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opMin = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -285,7 +324,11 @@ export const opMin = <State extends StackState & ErrorState<Errors>, Errors>({
     { requireMinimalEncoding }
   );
 
-export const opMax = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opMax = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -303,7 +346,8 @@ export const opMax = <State extends StackState & ErrorState<Errors>, Errors>({
   );
 
 export const opWithin = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   requireMinimalEncoding,

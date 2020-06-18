@@ -1,6 +1,6 @@
 import {
-  bigIntToBinUint64LE,
   bigIntToBitcoinVarInt,
+  flattenBinArray,
   numberToBinUint32LE,
 } from '../../../format/format';
 
@@ -138,6 +138,11 @@ export const hashOutputs = ({
 /**
  * Serialize the signature-protected properties of a transaction following the
  * algorithm required by the `signingSerializationType` of a signature.
+ *
+ * Note: this implementation re-computes all hashes each time it is called. A
+ * performance-critical application could instead use memoization to avoid
+ * re-computing these values when validating many signatures within a single
+ * transaction. See BIP143 for details.
  */
 export const generateSigningSerializationBCH = ({
   correspondingOutput,
@@ -184,9 +189,10 @@ export const generateSigningSerializationBCH = ({
    */
   coveredBytecode: Uint8Array;
   /**
-   * The value of the outpoint in satoshis.
+   * The 8-byte `Uint64LE`-encoded value of the outpoint in satoshis (see
+   * `bigIntToBinUint64LE`).
    */
-  outputValue: number;
+  outputValue: Uint8Array;
   /**
    * The sequence number of the input (A.K.A. `nSequence`).
    */
@@ -217,31 +223,29 @@ export const generateSigningSerializationBCH = ({
    */
   forkId?: Uint8Array;
 }) =>
-  new Uint8Array([
-    ...numberToBinUint32LE(version),
-    ...hashPrevouts({ sha256, signingSerializationType, transactionOutpoints }),
-    ...hashSequence({
+  flattenBinArray([
+    numberToBinUint32LE(version),
+    hashPrevouts({ sha256, signingSerializationType, transactionOutpoints }),
+    hashSequence({
       sha256,
       signingSerializationType,
       transactionSequenceNumbers,
     }),
-    ...outpointTransactionHash.slice().reverse(),
-    ...numberToBinUint32LE(outpointIndex),
-    ...Uint8Array.from([
-      ...bigIntToBitcoinVarInt(BigInt(coveredBytecode.length)),
-      ...coveredBytecode,
-    ]),
-    ...bigIntToBinUint64LE(BigInt(outputValue)),
-    ...numberToBinUint32LE(sequenceNumber),
-    ...hashOutputs({
+    outpointTransactionHash.slice().reverse(),
+    numberToBinUint32LE(outpointIndex),
+    bigIntToBitcoinVarInt(BigInt(coveredBytecode.length)),
+    coveredBytecode,
+    outputValue,
+    numberToBinUint32LE(sequenceNumber),
+    hashOutputs({
       correspondingOutput,
       sha256,
       signingSerializationType,
       transactionOutputs,
     }),
-    ...numberToBinUint32LE(locktime),
-    ...signingSerializationType,
-    ...forkId,
+    numberToBinUint32LE(locktime),
+    signingSerializationType,
+    forkId,
   ]);
 
 /**

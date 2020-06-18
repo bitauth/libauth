@@ -200,6 +200,14 @@ function seqMap<T, U, V, W, X>(
   p4: Parser<W>,
   cb: (a1: T, a2: U, a3: V, a4: W) => X
 ): Parser<X>;
+function seqMap<T, U, V, W, X, Y>(
+  p1: Parser<T>,
+  p2: Parser<U>,
+  p3: Parser<V>,
+  p4: Parser<W>,
+  p5: Parser<X>,
+  cb: (a1: T, a2: U, a3: V, a4: W, a5: X) => Y
+): Parser<Y>;
 function seqMap(...params: any[]) {
   const args = [].slice.call(params);
   const mapper = args.pop();

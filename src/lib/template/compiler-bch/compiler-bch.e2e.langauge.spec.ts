@@ -20,9 +20,17 @@ test(
 test(
   '[BCH compiler] language – compile BigIntLiterals to script numbers',
   expectCompilationResult,
-  '42 -42 2147483647 -2147483647',
+  '42 -42 2_147_483_647 -2_147_483_647',
   {},
   { bytecode: hexToBin('2aaaffffff7fffffffff'), success: true }
+);
+
+test(
+  '[BCH compiler] language – compile BinaryLiterals to script numbers',
+  expectCompilationResult,
+  '0b1 0b1111_1111 0b111 0b1111_1111__1111_1111__1111_1111__1111_1111____1111_1111__1111_1111__1111_1111__1111_1111_1',
+  {},
+  { bytecode: hexToBin('01ff0007ffffffffffffffff01'), success: true }
 );
 
 test(
@@ -44,7 +52,7 @@ test(
 test(
   '[BCH compiler] language – compile HexLiteral',
   expectCompilationResult,
-  '0xdeadbeef',
+  '0xdead__beef',
   {},
   { bytecode: hexToBin('deadbeef'), success: true }
 );
@@ -198,7 +206,7 @@ test(
     errors: [
       {
         error:
-          'Compilation error in resolved script, "a" [2, 2]: Compilation error in resolved script, "b" [3, 3]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [0, 0]: A circular dependency was encountered: script "a" relies on itself to be generated. (Source scripts: test → a → b → c); Compilation error in resolved script, "a" [2, 4]: Compilation error in resolved script, "c" [2, 4]: Compilation error in resolved script, "a" [0, 0]: A circular dependency was encountered: script "a" relies on itself to be generated. (Source scripts: test → a → c)',
+          'Compilation error in resolved script "a": [2, 2] Compilation error in resolved script "b": [3, 3] Compilation error in resolved script "c": [2, 4] Compilation error in resolved script "a": [0, 0] A circular dependency was encountered: script "a" relies on itself to be generated. (Source scripts: test → a → b → c); [2, 4] Compilation error in resolved script "c": [2, 4] Compilation error in resolved script "a": [0, 0] A circular dependency was encountered: script "a" relies on itself to be generated. (Source scripts: test → a → c)',
         range: {
           endColumn: 2,
           endLineNumber: 2,

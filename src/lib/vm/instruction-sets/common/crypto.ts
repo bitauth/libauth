@@ -1,11 +1,11 @@
 import { Ripemd160, Secp256k1, Sha1, Sha256 } from '../../../crypto/crypto';
+import { Operation } from '../../virtual-machine';
 import {
   AuthenticationProgramStateCommon,
-  ErrorState,
-  MinimumProgramState,
-  StackState,
-} from '../../state';
-import { Operation } from '../../virtual-machine';
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 import { ConsensusBCH } from '../bch/bch-types';
 import { serializeAuthenticationInstructions } from '../instruction-sets-utils';
 
@@ -31,7 +31,9 @@ export { Ripemd160, Sha1, Sha256, Secp256k1 };
 
 export const opRipemd160 = <
   Opcodes,
-  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateMinimum<Opcodes> &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   ripemd160,
@@ -44,7 +46,9 @@ export const opRipemd160 = <
 
 export const opSha1 = <
   Opcodes,
-  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateMinimum<Opcodes> &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   sha1,
@@ -57,7 +61,9 @@ export const opSha1 = <
 
 export const opSha256 = <
   Opcodes,
-  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateMinimum<Opcodes> &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   sha256,
@@ -72,7 +78,9 @@ export const opSha256 = <
 
 export const opHash160 = <
   Opcodes,
-  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateMinimum<Opcodes> &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   ripemd160,
@@ -87,7 +95,9 @@ export const opHash160 = <
 
 export const opHash256 = <
   Opcodes,
-  State extends MinimumProgramState<Opcodes> & StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateMinimum<Opcodes> &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >({
   sha256,
@@ -102,7 +112,7 @@ export const opHash256 = <
 
 export const opCodeSeparator = <
   Opcodes,
-  State extends MinimumProgramState<Opcodes> & {
+  State extends AuthenticationProgramStateMinimum<Opcodes> & {
     lastCodeSeparator: number;
   }
 >(): Operation<State> => (state: State) => {

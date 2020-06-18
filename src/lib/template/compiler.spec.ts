@@ -1,13 +1,16 @@
-/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/no-expression-statement, camelcase */
 import test from 'ava';
 
 import {
+  AuthenticationTemplate,
   authenticationTemplateP2pkh,
   authenticationTemplateP2pkhNonHd,
   authenticationTemplateToCompilationEnvironment,
+  authenticationTemplateToCompilationEnvironmentVirtualizedTests,
   createCompilerCommonSynchronous,
   hexToBin,
   stringify,
+  stringifyTestVector,
 } from '../lib';
 
 test('createCompilerCommonSynchronous', (t) => {
@@ -16,7 +19,6 @@ test('createCompilerCommonSynchronous', (t) => {
       lock: 'OP_DUP OP_HASH160 <some_public_key> OP_EQUALVERIFY OP_CHECKSIG',
     },
     variables: {
-      // eslint-disable-next-line camelcase
       some_public_key: {
         type: 'AddressData',
       },
@@ -24,7 +26,6 @@ test('createCompilerCommonSynchronous', (t) => {
   });
   const resultLock = compiler.generateBytecode('lock', {
     bytecode: {
-      // eslint-disable-next-line camelcase
       some_public_key: hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
     },
   });
@@ -99,5 +100,67 @@ test('authenticationTemplateToCompilationEnvironment: authenticationTemplateP2pk
       },
     },
     stringify(environment)
+  );
+});
+
+test('authenticationTemplateToCompilationEnvironmentVirtualizedTests', (t) => {
+  const environment = authenticationTemplateToCompilationEnvironmentVirtualizedTests(
+    {
+      entities: {},
+      scripts: {
+        add_two: {
+          script: '<2> OP_ADD',
+          tests: [
+            { check: '<3> OP_EQUAL', setup: '<1>' },
+            { check: '<4> OP_EQUAL', setup: '<2>' },
+          ],
+        },
+        push_three: {
+          script: '<3>',
+          tests: [{ check: '<3> OP_EQUAL' }],
+        },
+        unrelated: {
+          script: '<1>',
+        },
+      },
+      supported: ['BCH_2019_05'],
+      version: 0,
+    } as AuthenticationTemplate
+  );
+
+  t.deepEqual(
+    environment,
+    {
+      entityOwnership: {},
+      lockingScriptTypes: {},
+      scripts: {
+        __virtualized_test_check_add_two_0: '<3> OP_EQUAL',
+        __virtualized_test_check_add_two_1: '<4> OP_EQUAL',
+        __virtualized_test_check_push_three_0: '<3> OP_EQUAL',
+        __virtualized_test_lock_add_two_0:
+          'add_two __virtualized_test_check_add_two_0',
+        __virtualized_test_lock_add_two_1:
+          'add_two __virtualized_test_check_add_two_1',
+        __virtualized_test_lock_push_three_0:
+          'push_three __virtualized_test_check_push_three_0',
+        __virtualized_test_unlock_add_two_0: '<1>',
+        __virtualized_test_unlock_add_two_1: '<2>',
+        __virtualized_test_unlock_push_three_0: '',
+        add_two: '<2> OP_ADD',
+        push_three: '<3>',
+        unrelated: '<1>',
+      },
+      unlockingScriptTimeLockTypes: {},
+      unlockingScripts: {
+        __virtualized_test_unlock_add_two_0:
+          '__virtualized_test_lock_add_two_0',
+        __virtualized_test_unlock_add_two_1:
+          '__virtualized_test_lock_add_two_1',
+        __virtualized_test_unlock_push_three_0:
+          '__virtualized_test_lock_push_three_0',
+      },
+      variables: {},
+    },
+    stringifyTestVector(environment)
   );
 });

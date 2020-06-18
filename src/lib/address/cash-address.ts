@@ -1,6 +1,11 @@
 import { Immutable } from '../format/format';
 
-import { decodeBech32, encodeBech32, isBech32, regroupBits } from './bech32';
+import {
+  decodeBech32,
+  encodeBech32,
+  isBech32CharacterSet,
+  regroupBits,
+} from './bech32';
 
 export enum CashAddressNetworkPrefix {
   mainnet = 'bitcoincash',
@@ -358,11 +363,12 @@ export const encodeCashAddress = <
 };
 
 export enum CashAddressDecodingError {
-  invalidFormat = 'CashAddress decoding error: CashAddresses should be of the form "prefix:payload".',
-  malformedPayload = 'CashAddress decoding error: the payload is not properly encoded.',
+  improperPadding = 'CashAddress decoding error: the payload is improperly padded.',
+  invalidCharacters = 'CashAddress decoding error: the payload contains non-bech32 characters.',
   invalidChecksum = 'CashAddress decoding error: please review the address for errors.',
-  reservedByte = 'CashAddress decoding error: unknown CashAddress version, reserved byte set.',
+  invalidFormat = 'CashAddress decoding error: CashAddresses should be of the form "prefix:payload".',
   mismatchedHashLength = 'CashAddress decoding error: mismatched hash length for specified address version.',
+  reservedByte = 'CashAddress decoding error: unknown CashAddress version, reserved byte set.',
 }
 
 /**
@@ -384,8 +390,8 @@ export const decodeCashAddressFormat = (address: string) => {
     return CashAddressDecodingError.invalidFormat;
   }
   const [prefix, payload] = parts;
-  if (!isBech32(payload)) {
-    return CashAddressDecodingError.malformedPayload;
+  if (!isBech32CharacterSet(payload)) {
+    return CashAddressDecodingError.invalidCharacters;
   }
   const decodedPayload = decodeBech32(payload);
 
@@ -400,14 +406,14 @@ export const decodeCashAddressFormat = (address: string) => {
 
   const checksum40BitPlaceholderLength = 8;
   const payloadContents = regroupBits({
+    allowPadding: false,
     bin: decodedPayload.slice(0, -checksum40BitPlaceholderLength),
-    padding: false,
     resultWordLength: base256WordLength,
     sourceWordLength: base32WordLength,
   });
 
   if (typeof payloadContents === 'string') {
-    return payloadContents;
+    return CashAddressDecodingError.improperPadding;
   }
 
   const [version, ...hashContents] = payloadContents;
@@ -549,8 +555,8 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
     return CashAddressDecodingError.invalidFormat;
   }
   const [prefix, payload] = parts;
-  if (!isBech32(payload)) {
-    return CashAddressDecodingError.malformedPayload;
+  if (!isBech32CharacterSet(payload)) {
+    return CashAddressDecodingError.invalidCharacters;
   }
   const decodedPayload = decodeBech32(payload);
 

@@ -51,11 +51,11 @@ test(
     errors: [
       {
         error:
-          'Evaluations return a single item from the stack, but this evaluation completed with more than one stack item.',
+          'Failed to reduce evaluation: Program completed with an unexpected number of items on the stack (must be exactly 1).',
         range: {
-          endColumn: 13,
+          endColumn: 15,
           endLineNumber: 1,
-          startColumn: 9,
+          startColumn: 1,
           startLineNumber: 1,
         },
       },
@@ -111,7 +111,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { createState: undefined }
+  { createAuthenticationProgram: undefined }
 );
 
 test(
@@ -124,11 +124,11 @@ test(
     errors: [
       {
         error:
-          'An evaluation must leave an item on the stack, but this evaluation completed with an empty stack. To return an empty result, push an empty stack item ("OP_0").',
+          'Failed to reduce evaluation: Program completed with an unexpected number of items on the stack (must be exactly 1).',
         range: {
-          endColumn: 22,
+          endColumn: 24,
           endLineNumber: 1,
-          startColumn: 14,
+          startColumn: 1,
           startLineNumber: 1,
         },
       },
@@ -149,9 +149,9 @@ test(
         error:
           'Failed to reduce evaluation: Program called an OP_RETURN operation.',
         range: {
-          endColumn: 18,
+          endColumn: 20,
           endLineNumber: 1,
-          startColumn: 9,
+          startColumn: 1,
           startLineNumber: 1,
         },
       },
@@ -172,9 +172,9 @@ test(
         error:
           'Failed to reduce evaluation: Program called an OP_RETURN operation.',
         range: {
-          endColumn: 16,
+          endColumn: 18,
           endLineNumber: 1,
-          startColumn: 7,
+          startColumn: 4,
           startLineNumber: 1,
         },
       },
@@ -195,9 +195,9 @@ test(
         error:
           'Failed to reduce evaluation: Program called an OP_RETURN operation.',
         range: {
-          endColumn: 15,
+          endColumn: 17,
           endLineNumber: 1,
-          startColumn: 7,
+          startColumn: 4,
           startLineNumber: 1,
         },
       },
@@ -216,11 +216,11 @@ test(
     errors: [
       {
         error:
-          'An evaluation must leave an item on the stack, but this evaluation contains no operations. To return an empty result, push an empty stack item ("OP_0").',
+          'Failed to reduce evaluation: The provided locking bytecode is malformed.',
         range: {
-          endColumn: 11,
+          endColumn: 13,
           endLineNumber: 1,
-          startColumn: 7,
+          startColumn: 4,
           startLineNumber: 1,
         },
       },
@@ -239,11 +239,11 @@ test(
     errors: [
       {
         error:
-          'An instruction is malformed and cannot be evaluated: OP_PUSHBYTES_1 [missing 1 byte]',
+          'Failed to reduce evaluation: The provided locking bytecode is malformed.',
         range: {
-          endColumn: 16,
+          endColumn: 18,
           endLineNumber: 1,
-          startColumn: 12,
+          startColumn: 4,
           startLineNumber: 1,
         },
       },
@@ -286,9 +286,32 @@ test(
         error:
           'Failed to reduce evaluation: Program called an OP_RETURN operation.',
         range: {
-          endColumn: 37,
+          endColumn: 47,
           endLineNumber: 1,
-          startColumn: 28,
+          startColumn: 1,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+);
+
+test(
+  '[BCH compiler] evaluations – evaluation with non-empty execution stack',
+  expectCompilationResult,
+  '$( OP_1 OP_IF <"abc"> )',
+  {},
+  {
+    errorType: 'reduce',
+    errors: [
+      {
+        error:
+          'Failed to reduce evaluation: Program completed with a non-empty execution stack (missing `OP_ENDIF`).',
+        range: {
+          endColumn: 24,
+          endLineNumber: 1,
+          startColumn: 1,
           startLineNumber: 1,
         },
       },
@@ -309,9 +332,9 @@ test(
         error:
           'Failed to reduce evaluation: Program called an OP_RETURN operation.',
         range: {
-          endColumn: 16,
+          endColumn: 18,
           endLineNumber: 1,
-          startColumn: 7,
+          startColumn: 4,
           startLineNumber: 1,
         },
       },
@@ -319,9 +342,9 @@ test(
         error:
           'Failed to reduce evaluation: Program called an OP_RETURN operation.',
         range: {
-          endColumn: 31,
+          endColumn: 33,
           endLineNumber: 1,
-          startColumn: 22,
+          startColumn: 19,
           startLineNumber: 1,
         },
       },
@@ -340,11 +363,11 @@ test(
     errors: [
       {
         error:
-          'An evaluation must leave an item on the stack, but this evaluation contains no operations. To return an empty result, push an empty stack item ("OP_0").',
+          'Failed to reduce evaluation: Program completed with an unexpected number of items on the stack (must be exactly 1).',
         range: {
-          endColumn: 4,
+          endColumn: 5,
           endLineNumber: 1,
-          startColumn: 4,
+          startColumn: 2,
           startLineNumber: 1,
         },
       },

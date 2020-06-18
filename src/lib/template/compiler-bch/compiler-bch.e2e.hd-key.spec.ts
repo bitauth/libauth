@@ -605,6 +605,40 @@ test(
 );
 
 test(
+  '[BCH compiler] HdKey – error in coveredBytecode compilation',
+  expectCompilationResult,
+  '',
+  {
+    hdKeys: { addressIndex: 0, hdPrivateKeys: { ownerEntityId: hdPrivateKey } },
+  },
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Compilation error in resolved script "lock": [1, 1] Unknown identifier "invalid".',
+        range: {
+          endColumn: 29,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {
+    owner: { type: 'HdKey' },
+  },
+  {
+    scripts: {
+      lock: 'invalid',
+      test: '<owner.signature.all_outputs>',
+    },
+  }
+);
+
+test(
   '[BCH compiler] HdKey – signature no "entityOwnership"',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
@@ -819,6 +853,80 @@ test(
     variables: {
       owner: {
         privateDerivationPath: "m/0'/i",
+        type: 'HdKey',
+      },
+    },
+  }
+);
+
+test(
+  '[BCH compiler] HdKey – public_key derivation failure using HD public key',
+  expectCompilationResult,
+  '<owner.public_key>',
+  {
+    hdKeys: {
+      addressIndex: 0,
+      hdPublicKeys: { ownerEntityId: hdPublicKey },
+    },
+  },
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Could not generate "owner.public_key" – the path "M/2147483649/0" could not be derived for entity "ownerEntityId": HD key derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
+        range: {
+          endColumn: 18,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  { owner: { type: 'HdKey' } },
+  {
+    variables: {
+      owner: {
+        publicDerivationPath: 'M/2147483649/i',
+        type: 'HdKey',
+      },
+    },
+  }
+);
+
+test(
+  '[BCH compiler] HdKey – attempt public_key at invalid path using HD private key',
+  expectCompilationResult,
+  '<owner.public_key>',
+  {
+    hdKeys: {
+      addressIndex: 0,
+      hdPrivateKeys: { ownerEntityId: hdPrivateKey },
+    },
+  },
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Could not generate owner.public_key – the path "bad/i" is not a valid "privateDerivationPath".',
+        range: {
+          endColumn: 18,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  { owner: { type: 'HdKey' } },
+  {
+    variables: {
+      owner: {
+        privateDerivationPath: 'bad/i',
         type: 'HdKey',
       },
     },

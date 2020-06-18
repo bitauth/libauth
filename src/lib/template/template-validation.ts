@@ -1,18 +1,27 @@
+/* eslint-disable max-lines */
+import { hexToBin } from '../format/hex';
+import { validateSecp256k1PrivateKey } from '../key/key-utils';
+
 import { CompilerDefaults } from './compiler-defaults';
+import { BuiltInVariables } from './language/resolve';
 import {
-  AddressData,
   AuthenticationTemplate,
+  AuthenticationTemplateAddressData,
   AuthenticationTemplateEntity,
+  AuthenticationTemplateHdKey,
+  AuthenticationTemplateKey,
+  AuthenticationTemplateScenario,
+  AuthenticationTemplateScenarioData,
+  AuthenticationTemplateScenarioInput,
+  AuthenticationTemplateScenarioOutput,
   AuthenticationTemplateScript,
   AuthenticationTemplateScriptLocking,
   AuthenticationTemplateScriptTest,
   AuthenticationTemplateScriptTested,
   AuthenticationTemplateScriptUnlocking,
   AuthenticationTemplateVariable,
+  AuthenticationTemplateWalletData,
   AuthenticationVirtualMachineIdentifier,
-  HdKey,
-  Key,
-  WalletData,
 } from './template-types';
 
 const listIds = (ids: string[]) =>
@@ -20,6 +29,76 @@ const listIds = (ids: string[]) =>
     .map((id) => `"${id}"`)
     .sort((a, b) => a.localeCompare(b))
     .join(', ');
+
+/**
+ * Verify that the provided value is an array which is not sparse.
+ */
+const isDenseArray = (maybeArray: unknown): maybeArray is unknown[] =>
+  Array.isArray(maybeArray) && !maybeArray.includes(undefined);
+
+/**
+ * Check that a value is an array which contains only strings and has no empty
+ * items (is not a sparse array, e.g. `[1, , 3]`).
+ */
+const isStringArray = (maybeArray: unknown): maybeArray is string[] =>
+  isDenseArray(maybeArray) &&
+  !maybeArray.some((item) => typeof item !== 'string');
+
+const isObject = (maybeObject: unknown): maybeObject is object =>
+  typeof maybeObject === 'object' && maybeObject !== null;
+
+const isStringObject = (
+  maybeStringObject: object
+): maybeStringObject is { [key: string]: string } =>
+  !Object.values(maybeStringObject).some((value) => typeof value !== 'string');
+
+const hasNonHexCharacter = /[^a-fA-F0-9]/u;
+const isHexString = (maybeHexString: unknown): maybeHexString is string =>
+  typeof maybeHexString === 'string' &&
+  !hasNonHexCharacter.test(maybeHexString);
+
+const characterLength32BytePrivateKey = 64;
+const isObjectOfValidPrivateKeys = (
+  maybePrivateKeysObject: object
+): maybePrivateKeysObject is { [key: string]: string } =>
+  !Object.values(maybePrivateKeysObject).some(
+    (value) =>
+      !isHexString(value) ||
+      value.length !== characterLength32BytePrivateKey ||
+      !validateSecp256k1PrivateKey(hexToBin(value))
+  );
+
+const isInteger = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isInteger(value);
+
+const isPositiveInteger = (value: unknown): value is number =>
+  isInteger(value) && value >= 0;
+
+const isRangedInteger = (
+  value: unknown,
+  minimum: number,
+  maximum: number
+): value is number => isInteger(value) && value >= minimum && value <= maximum;
+
+/**
+ * Verify that a value is a valid `satoshi` value: either a number between `0`
+ * and `Number.MAX_SAFE_INTEGER` or a 16-character, hexadecimal-encoded string.
+ *
+ * @param maybeSatoshis - the value to verify
+ */
+const isValidSatoshisValue = (
+  maybeSatoshis: unknown
+): maybeSatoshis is number | string | undefined => {
+  const uint64HexLength = 16;
+  if (
+    maybeSatoshis === undefined ||
+    isRangedInteger(maybeSatoshis, 0, Number.MAX_SAFE_INTEGER) ||
+    (isHexString(maybeSatoshis) && maybeSatoshis.length === uint64HexLength)
+  ) {
+    return true;
+  }
+  return false;
+};
 
 /**
  * Parse an authentication template `scripts` object into its component scripts,
@@ -53,12 +132,20 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
     // eslint-disable-next-line complexity
     .map(({ id, script }) => {
       const {
+        ageLock,
+        estimate,
+        fails,
+        name,
+        passes,
+        script: scriptContents,
         timeLockType,
         unlocks,
-        script: scriptContents,
-        name,
       } = script as {
+        ageLock: unknown;
+        estimate: unknown;
+        fails: unknown;
         name: unknown;
+        passes: unknown;
         script: unknown;
         timeLockType: unknown;
         unlocks: unknown;
@@ -70,8 +157,24 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
         return `The "script" property of unlocking script "${id}" must be a string.`;
       }
 
+      if (ageLock !== undefined && typeof ageLock !== 'string') {
+        return `If defined, the "ageLock" property of unlocking script "${id}" must be a string.`;
+      }
+
+      if (estimate !== undefined && typeof estimate !== 'string') {
+        return `If defined, the "estimate" property of unlocking script "${id}" must be a string.`;
+      }
+
       if (name !== undefined && typeof name !== 'string') {
         return `If defined, the "name" property of unlocking script "${id}" must be a string.`;
+      }
+
+      if (fails !== undefined && !isStringArray(fails)) {
+        return `If defined, the "fails" property of unlocking script "${id}" must be an array containing only scenario identifiers (strings).`;
+      }
+
+      if (passes !== undefined && !isStringArray(passes)) {
+        return `If defined, the "passes" property of unlocking script "${id}" must be an array containing only scenario identifiers (strings).`;
       }
 
       if (
@@ -84,6 +187,10 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
       return {
         id,
         script: {
+          ...(ageLock === undefined ? {} : { ageLock }),
+          ...(estimate === undefined ? {} : { estimate }),
+          ...(fails === undefined ? {} : { fails }),
+          ...(passes === undefined ? {} : { passes }),
           ...(name === undefined ? {} : { name }),
           script: scriptContents,
           ...(timeLockType === undefined ? {} : { timeLockType }),
@@ -98,7 +205,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
   if (invalidUnlockingResults.length > 0) {
     return invalidUnlockingResults.join(' ');
   }
-  const validUnlockingResults = (unlockingResults as unknown) as {
+  const validUnlockingResults = unlockingResults as {
     id: string;
     script: AuthenticationTemplateScriptUnlocking;
   }[];
@@ -153,7 +260,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
   if (invalidLockingResults.length > 0) {
     return invalidLockingResults.join(' ');
   }
-  const validLockingResults = (lockingResults as unknown) as {
+  const validLockingResults = lockingResults as {
     id: string;
     script: AuthenticationTemplateScriptLocking;
   }[];
@@ -200,9 +307,11 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
       const extractedTests =
         // eslint-disable-next-line complexity
         tests.map<string | AuthenticationTemplateScriptTest>((test) => {
-          const { check, name: testName, setup } = test as {
+          const { check, fails, name: testName, passes, setup } = test as {
             check: unknown;
+            fails: unknown;
             name: unknown;
+            passes: unknown;
             setup: unknown;
           };
           if (typeof check !== 'string') {
@@ -217,8 +326,18 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
             return `If defined, the "setup" properties of all tests in tested script "${id}" must be strings.`;
           }
 
+          if (fails !== undefined && !isStringArray(fails)) {
+            return `If defined, the "fails" property of each test in tested script "${id}" must be an array containing only scenario identifiers (strings).`;
+          }
+
+          if (passes !== undefined && !isStringArray(passes)) {
+            return `If defined, the "passes" property of each test in tested script "${id}" must be an array containing only scenario identifiers (strings).`;
+          }
+
           return {
             check,
+            ...(fails === undefined ? {} : { fails }),
+            ...(passes === undefined ? {} : { passes }),
             ...(testName === undefined ? {} : { name: testName }),
             ...(setup === undefined ? {} : { setup }),
           };
@@ -250,7 +369,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
   if (invalidTestedResults.length > 0) {
     return invalidTestedResults.join(' ');
   }
-  const validTestedResults = (testedResults as unknown) as {
+  const validTestedResults = testedResults as {
     id: string;
     script: AuthenticationTemplateScriptTested;
   }[];
@@ -308,7 +427,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
   if (invalidOtherResults.length > 0) {
     return invalidOtherResults.join(' ');
   }
-  const validOtherResults = (otherResults as unknown) as {
+  const validOtherResults = otherResults as {
     id: string;
     script: AuthenticationTemplateScript;
   }[];
@@ -479,7 +598,7 @@ export const parseAuthenticationTemplateVariable = (
               ? {}
               : { publicDerivationPath }),
             type,
-          } as HdKey,
+          } as AuthenticationTemplateHdKey,
         };
       }
 
@@ -489,7 +608,10 @@ export const parseAuthenticationTemplateVariable = (
           ...(description === undefined ? {} : { description }),
           ...(name === undefined ? {} : { name }),
           type,
-        } as WalletData | AddressData | Key,
+        } as
+          | AuthenticationTemplateWalletData
+          | AuthenticationTemplateAddressData
+          | AuthenticationTemplateKey,
       };
     });
 
@@ -553,18 +675,11 @@ export const parseAuthenticationTemplateEntities = (entities: object) => {
         return `If defined, the "name" property of entity "${id}" must be a string.`;
       }
 
-      if (scripts !== undefined && !Array.isArray(scripts)) {
-        return `If defined, the "scripts" property of entity "${id}" must be an array.`;
+      if (scripts !== undefined && !isStringArray(scripts)) {
+        return `If defined, the "scripts" property of entity "${id}" must be an array containing only script identifiers (strings).`;
       }
 
-      if (scripts?.some((item) => typeof item !== 'string') ?? false) {
-        return `The "scripts" property of entity "${id}" should contain only script identifiers (strings).`;
-      }
-
-      if (
-        variables !== undefined &&
-        (typeof variables !== 'object' || variables === null)
-      ) {
+      if (variables !== undefined && !isObject(variables)) {
         return `If defined, the "variables" property of entity "${id}" must be an object.`;
       }
 
@@ -582,7 +697,9 @@ export const parseAuthenticationTemplateEntities = (entities: object) => {
           ...(description === undefined ? {} : { description }),
           ...(name === undefined ? {} : { name }),
           ...(scripts === undefined ? {} : { scripts }),
-          variables: variableResult,
+          ...(variableResult === undefined
+            ? {}
+            : { variables: variableResult }),
         },
         id,
       };
@@ -594,7 +711,7 @@ export const parseAuthenticationTemplateEntities = (entities: object) => {
   if (invalidEntityResults.length > 0) {
     return invalidEntityResults.join(' ');
   }
-  const validEntityResults = (entityResults as unknown) as {
+  const validEntityResults = entityResults as {
     id: string;
     entity: AuthenticationTemplateEntity;
   }[];
@@ -603,6 +720,582 @@ export const parseAuthenticationTemplateEntities = (entities: object) => {
   }>((all, result) => ({ ...all, [result.id]: result.entity }), {});
 
   return clonedEntities;
+};
+
+/**
+ * Validate and clone an Authentication Template Scenario `data.hdKeys` object.
+ *
+ * @param hdKeys - the `data.hdKeys` object to validate and clone
+ * @param location - the location of the error to specify in error messages,
+ * e.g. `scenario "test"` or
+ * `'lockingBytecode.override' in output 2 of scenario "test"`
+ */
+// eslint-disable-next-line complexity
+export const parseAuthenticationTemplateScenarioDataHdKeys = (
+  hdKeys: object,
+  location: string
+): string | AuthenticationTemplateScenarioData['hdKeys'] => {
+  const { addressIndex, hdPublicKeys, hdPrivateKeys } = hdKeys as {
+    addressIndex: unknown;
+    hdPublicKeys: unknown;
+    hdPrivateKeys: unknown;
+  };
+
+  const maximumAddressIndex = 2147483648;
+  if (
+    addressIndex !== undefined &&
+    !isRangedInteger(addressIndex, 0, maximumAddressIndex)
+  ) {
+    return `If defined, the "data.hdKeys.addressIndex" property of ${location} must be a positive integer between 0 and 2,147,483,648 (inclusive).`;
+  }
+
+  if (
+    hdPublicKeys !== undefined &&
+    !(isObject(hdPublicKeys) && isStringObject(hdPublicKeys))
+  ) {
+    return `If defined, the "data.hdKeys.hdPublicKeys" property of ${location} must be an object, and each value must be a string.`;
+  }
+
+  if (
+    hdPrivateKeys !== undefined &&
+    !(isObject(hdPrivateKeys) && isStringObject(hdPrivateKeys))
+  ) {
+    return `If defined, the "data.hdKeys.hdPrivateKeys" property of ${location} must be an object, and each value must be a string.`;
+  }
+
+  return {
+    ...(addressIndex === undefined ? {} : { addressIndex }),
+    ...(hdPublicKeys === undefined
+      ? {}
+      : { hdPublicKeys: { ...hdPublicKeys } }),
+    ...(hdPrivateKeys === undefined
+      ? {}
+      : { hdPrivateKeys: { ...hdPrivateKeys } }),
+  };
+};
+
+/**
+ * Validate and clone an Authentication Template Scenario `data.keys` object.
+ *
+ * @param keys - the `data.keys` object to validate and clone
+ * @param location - the location of the error to specify in error messages,
+ * e.g. `scenario "test"` or
+ * `'lockingBytecode.override' in output 2 of scenario "test"`
+ */
+export const parseAuthenticationTemplateScenarioDataKeys = (
+  keys: object,
+  location: string
+): string | AuthenticationTemplateScenarioData['keys'] => {
+  const { privateKeys } = keys as { privateKeys: unknown };
+
+  if (
+    privateKeys !== undefined &&
+    !(isObject(privateKeys) && isObjectOfValidPrivateKeys(privateKeys))
+  ) {
+    return `If defined, the "data.keys.privateKeys" property of ${location} must be an object, and each value must be a 32-byte, hexadecimal-encoded private key.`;
+  }
+
+  return { ...(privateKeys === undefined ? {} : { privateKeys }) };
+};
+
+/**
+ * Validate and clone an Authentication Template Scenario `data` object.
+ *
+ * @param data - the `data` object to validate and clone
+ * @param location - the location of the error to specify in error messages,
+ * e.g. `scenario "test"` or
+ * `'lockingBytecode.override' in output 2 of scenario "test"`
+ */
+// eslint-disable-next-line complexity
+export const parseAuthenticationTemplateScenarioData = (
+  data: object,
+  location: string
+): string | AuthenticationTemplateScenarioData => {
+  const {
+    bytecode,
+    currentBlockHeight,
+    currentBlockTime,
+    hdKeys,
+    keys,
+  } = data as {
+    bytecode: unknown;
+    currentBlockHeight: unknown;
+    currentBlockTime: unknown;
+    hdKeys: unknown;
+    keys: unknown;
+  };
+  if (
+    bytecode !== undefined &&
+    (!isObject(bytecode) || !isStringObject(bytecode))
+  ) {
+    return `If defined, the "data.bytecode" property of ${location} must be an object, and each value must be a string.`;
+  }
+
+  const minimumBlockTime = 500000000;
+  const maximumBlockTime = 4294967295;
+  if (
+    currentBlockHeight !== undefined &&
+    !isRangedInteger(currentBlockHeight, 0, minimumBlockTime - 1)
+  ) {
+    return `If defined, the "currentBlockHeight" property of ${location} must be a positive integer from 0 to 499,999,999 (inclusive).`;
+  }
+
+  if (
+    currentBlockTime !== undefined &&
+    !isRangedInteger(currentBlockTime, minimumBlockTime, maximumBlockTime)
+  ) {
+    return `If defined, the "currentBlockTime" property of ${location} must be a positive integer from 500,000,000 to 4,294,967,295 (inclusive).`;
+  }
+
+  const hdKeysResult =
+    hdKeys === undefined
+      ? undefined
+      : isObject(hdKeys)
+      ? parseAuthenticationTemplateScenarioDataHdKeys(hdKeys, location)
+      : `If defined, the "data.hdKeys" property of ${location} must be an object.`;
+
+  if (typeof hdKeysResult === 'string') {
+    return hdKeysResult;
+  }
+
+  const keysResult =
+    keys === undefined
+      ? undefined
+      : isObject(keys)
+      ? parseAuthenticationTemplateScenarioDataKeys(keys, location)
+      : `If defined, the "data.keys" property of ${location} must be an object.`;
+
+  if (typeof keysResult === 'string') {
+    return keysResult;
+  }
+
+  return {
+    ...(bytecode === undefined ? {} : { bytecode: { ...bytecode } }),
+    ...(currentBlockHeight === undefined ? {} : { currentBlockHeight }),
+    ...(currentBlockTime === undefined ? {} : { currentBlockTime }),
+    ...(hdKeysResult === undefined ? {} : { hdKeys: hdKeysResult }),
+    ...(keysResult === undefined ? {} : { keys: keysResult }),
+  };
+};
+
+/**
+ * Validate and clone an Authentication Template Scenario `transaction.inputs`
+ * array.
+ *
+ * @param inputs - the `transaction.inputs` array to validate and clone
+ * @param location - the location of the error to specify in error messages,
+ * e.g. `scenario "test"`
+ */
+export const parseAuthenticationTemplateScenarioTransactionInputs = (
+  inputs: unknown,
+  location: string
+): undefined | string | AuthenticationTemplateScenarioInput[] => {
+  if (inputs === undefined) {
+    return undefined;
+  }
+
+  if (!isDenseArray(inputs)) {
+    return `If defined, the "transaction.inputs" property of ${location} must be an array of scenario input objects.`;
+  }
+
+  const inputResults: (AuthenticationTemplateScenarioInput | string)[] = inputs
+    // eslint-disable-next-line complexity
+    .map((maybeInput, inputIndex) => {
+      const {
+        outpointIndex,
+        outpointTransactionHash,
+        sequenceNumber,
+        unlockingBytecode,
+      } = maybeInput as {
+        outpointIndex: unknown;
+        outpointTransactionHash: unknown;
+        sequenceNumber: unknown;
+        unlockingBytecode: unknown;
+      };
+      const newLocation = `input ${inputIndex} in ${location}`;
+      if (outpointIndex !== undefined && !isPositiveInteger(outpointIndex)) {
+        return `If defined, the "outpointIndex" property of ${newLocation} must be a positive integer.`;
+      }
+
+      const characterLength32ByteHash = 64;
+      if (
+        outpointTransactionHash !== undefined &&
+        !(
+          isHexString(outpointTransactionHash) &&
+          outpointTransactionHash.length === characterLength32ByteHash
+        )
+      ) {
+        return `If defined, the "outpointTransactionHash" property of ${newLocation} must be a 32-byte, hexadecimal-encoded hash (string).`;
+      }
+
+      const maxSequenceNumber = 0xffffffff;
+      if (
+        sequenceNumber !== undefined &&
+        !isRangedInteger(sequenceNumber, 0, maxSequenceNumber)
+      ) {
+        return `If defined, the "sequenceNumber" property of ${newLocation} must be a number between 0 and 4294967295 (inclusive).`;
+      }
+
+      if (
+        unlockingBytecode !== undefined &&
+        unlockingBytecode !== true &&
+        unlockingBytecode !== false &&
+        !isHexString(unlockingBytecode)
+      ) {
+        return `If defined, the "unlockingBytecode" property of ${newLocation} must be either a boolean value or a hexadecimal-encoded string.`;
+      }
+
+      return {
+        ...(outpointIndex === undefined ? {} : { outpointIndex }),
+        ...(outpointTransactionHash === undefined
+          ? {}
+          : { outpointTransactionHash }),
+        ...(sequenceNumber === undefined ? {} : { sequenceNumber }),
+        ...(unlockingBytecode === undefined ? {} : { unlockingBytecode }),
+      };
+    });
+
+  const invalidInputResults = inputResults.filter(
+    (result): result is string => typeof result === 'string'
+  );
+  if (invalidInputResults.length > 0) {
+    return invalidInputResults.join(' ');
+  }
+  const clonedInputs = inputResults as AuthenticationTemplateScenarioInput[];
+  return clonedInputs;
+};
+
+/**
+ * Validate and clone an Authentication Template Scenario transaction output
+ * `lockingBytecode` object.
+ *
+ * @param outputs - the `transaction.outputs[outputIndex].lockingBytecode`
+ * object to validate and clone
+ * @param location - the location of the error to specify in error messages,
+ * e.g. `output 2 in scenario "test"`
+ */
+// eslint-disable-next-line complexity
+export const parseAuthenticationTemplateScenarioTransactionOutputLockingBytecode = (
+  lockingBytecode: object,
+  location: string
+): string | AuthenticationTemplateScenarioOutput['lockingBytecode'] => {
+  const { overrides, script } = lockingBytecode as {
+    overrides: unknown;
+    script: unknown;
+  };
+
+  if (script !== undefined && script !== true && !isHexString(script)) {
+    return `If defined, the "script" property of ${location} must be a hexadecimal-encoded string or "true".`;
+  }
+
+  const clonedOverrides =
+    overrides === undefined
+      ? undefined
+      : isObject(overrides)
+      ? parseAuthenticationTemplateScenarioData(
+          overrides,
+          `'lockingBytecode.override' in ${location}`
+        )
+      : `If defined, the "overrides" property of ${location} must be an object.`;
+
+  if (typeof clonedOverrides === 'string') {
+    return clonedOverrides;
+  }
+
+  return {
+    ...(script === undefined ? {} : { script }),
+    ...(clonedOverrides === undefined ? {} : { overrides: clonedOverrides }),
+  };
+};
+
+/**
+ * Validate and clone an Authentication Template Scenario `transaction.outputs`
+ * array.
+ *
+ * @param outputs - the `transaction.outputs` array to validate and clone
+ * @param location - the location of the error to specify in error messages,
+ * e.g. `of output 2 in scenario "test"`
+ */
+export const parseAuthenticationTemplateScenarioTransactionOutputs = (
+  outputs: unknown,
+  location: string
+): undefined | string | AuthenticationTemplateScenarioOutput[] => {
+  if (outputs === undefined) {
+    return undefined;
+  }
+
+  if (!isDenseArray(outputs)) {
+    return `If defined, the "transaction.outputs" property of ${location} must be an array of scenario output objects.`;
+  }
+
+  const outputResults: (
+    | AuthenticationTemplateScenarioOutput
+    | string
+  )[] = outputs
+    // eslint-disable-next-line complexity
+    .map((maybeOutput, outputIndex) => {
+      const { lockingBytecode, satoshis } = maybeOutput as {
+        lockingBytecode: unknown;
+        satoshis: unknown;
+      };
+
+      const newLocation = `output ${outputIndex} in ${location}`;
+      if (
+        lockingBytecode !== undefined &&
+        typeof lockingBytecode !== 'string' &&
+        !isObject(lockingBytecode)
+      ) {
+        return `If defined, the "lockingBytecode" property of ${newLocation} must be a string or an object.`;
+      }
+
+      if (
+        typeof lockingBytecode === 'string' &&
+        !isHexString(lockingBytecode)
+      ) {
+        return `If the "lockingBytecode" property of ${newLocation} is a string, it must be a valid, hexadecimal-encoded locking bytecode.`;
+      }
+
+      const clonedLockingBytecode =
+        lockingBytecode === undefined || typeof lockingBytecode === 'string'
+          ? undefined
+          : parseAuthenticationTemplateScenarioTransactionOutputLockingBytecode(
+              lockingBytecode,
+              newLocation
+            );
+
+      if (typeof clonedLockingBytecode === 'string') {
+        return clonedLockingBytecode;
+      }
+
+      if (!isValidSatoshisValue(satoshis)) {
+        return `If defined, the "satoshis" property of ${newLocation} must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).`;
+      }
+
+      return {
+        ...(lockingBytecode === undefined
+          ? {}
+          : typeof lockingBytecode === 'string'
+          ? { lockingBytecode }
+          : { lockingBytecode: clonedLockingBytecode }),
+        ...(satoshis === undefined ? {} : { satoshis }),
+      };
+    });
+
+  const invalidOutputResults = outputResults.filter(
+    (result): result is string => typeof result === 'string'
+  );
+  if (invalidOutputResults.length > 0) {
+    return invalidOutputResults.join(' ');
+  }
+  const clonedOutputs = outputResults as AuthenticationTemplateScenarioOutput[];
+
+  if (clonedOutputs.length === 0) {
+    return `If defined, the "transaction.outputs" property of ${location} must be have at least one output.`;
+  }
+  return clonedOutputs;
+};
+
+/**
+ * Validate and clone an Authentication Template Scenario `transaction` object.
+ *
+ * @param transaction - the `transaction` object to validate and clone
+ * @param location - the location of the error to specify in error messages,
+ * e.g. `of output 2 in scenario "test"`
+ */
+// eslint-disable-next-line complexity
+export const parseAuthenticationTemplateScenarioTransaction = (
+  transaction: object,
+  location: string
+): string | AuthenticationTemplateScenario['transaction'] => {
+  const { inputs, locktime, outputs, version } = transaction as {
+    inputs: unknown;
+    locktime: unknown;
+    outputs: unknown;
+    version: unknown;
+  };
+
+  const maximumLocktime = 4294967295;
+  if (
+    locktime !== undefined &&
+    !isRangedInteger(locktime, 0, maximumLocktime)
+  ) {
+    return `If defined, the "locktime" property of ${location} must be an integer between 0 and 4,294,967,295 (inclusive).`;
+  }
+
+  const maximumVersion = 4294967295;
+  if (version !== undefined && !isRangedInteger(version, 0, maximumVersion)) {
+    return `If defined, the "version" property of ${location} must be an integer between 0 and 4,294,967,295 (inclusive).`;
+  }
+
+  const clonedInputs = parseAuthenticationTemplateScenarioTransactionInputs(
+    inputs,
+    location
+  );
+
+  if (typeof clonedInputs === 'string') {
+    return clonedInputs;
+  }
+
+  const clonedOutputs = parseAuthenticationTemplateScenarioTransactionOutputs(
+    outputs,
+    location
+  );
+
+  if (typeof clonedOutputs === 'string') {
+    return clonedOutputs;
+  }
+
+  return {
+    ...(locktime === undefined ? {} : { locktime }),
+    ...(clonedInputs === undefined ? {} : { inputs: clonedInputs }),
+    ...(clonedOutputs === undefined ? {} : { outputs: clonedOutputs }),
+    ...(version === undefined ? {} : { version }),
+  };
+};
+
+/**
+ * Validate and clone an object of Authentication Template scenarios.
+ *
+ * @param scenarios - the scenarios object to validate and clone
+ */
+export const parseAuthenticationTemplateScenarios = (scenarios: object) => {
+  const unknownScenarios = Object.entries(scenarios).map<{
+    id: string;
+    scenario: unknown;
+  }>(([id, scenario]) => ({ id, scenario }));
+
+  const nonObjectScenarios = unknownScenarios
+    .filter(({ scenario }) => typeof scenario !== 'object' || scenario === null)
+    .map(({ id }) => id);
+  if (nonObjectScenarios.length > 0) {
+    return `All authentication template scenarios must be objects, but the following scenarios are not objects: ${listIds(
+      nonObjectScenarios
+    )}.`;
+  }
+  const allScenarios = unknownScenarios as { id: string; scenario: object }[];
+
+  const scenarioResults: (
+    | { id: string; scenario: AuthenticationTemplateScenario }
+    | string
+  )[] = allScenarios
+    // eslint-disable-next-line complexity
+    .map(({ id, scenario }) => {
+      const {
+        data,
+        description,
+        extends: extendsProp,
+        name,
+        transaction,
+        value,
+      } = scenario as {
+        data: unknown;
+        description: unknown;
+        extends: unknown;
+        name: unknown;
+        transaction: unknown;
+        value: unknown;
+      };
+
+      const location = `scenario "${id}"`;
+      if (description !== undefined && typeof description !== 'string') {
+        return `If defined, the "description" property of ${location} must be a string.`;
+      }
+
+      if (name !== undefined && typeof name !== 'string') {
+        return `If defined, the "name" property of ${location} must be a string.`;
+      }
+
+      if (extendsProp !== undefined && typeof extendsProp !== 'string') {
+        return `If defined, the "extends" property of ${location} must be a string.`;
+      }
+
+      if (!isValidSatoshisValue(value)) {
+        return `If defined, the "value" property of ${location} must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).`;
+      }
+
+      if (data !== undefined && !isObject(data)) {
+        return `If defined, the "data" property of ${location} must be an object.`;
+      }
+
+      if (transaction !== undefined && !isObject(transaction)) {
+        return `If defined, the "transaction" property of ${location} must be an object.`;
+      }
+
+      const dataResult =
+        data === undefined
+          ? undefined
+          : parseAuthenticationTemplateScenarioData(data, location);
+
+      if (typeof dataResult === 'string') {
+        return dataResult;
+      }
+
+      const transactionResult =
+        transaction === undefined
+          ? undefined
+          : parseAuthenticationTemplateScenarioTransaction(
+              transaction,
+              location
+            );
+
+      if (typeof transactionResult === 'string') {
+        return transactionResult;
+      }
+
+      const inputsUnderTest = transactionResult?.inputs?.filter(
+        (input) =>
+          input.unlockingBytecode === undefined ||
+          input.unlockingBytecode === true
+      );
+      if (inputsUnderTest !== undefined && inputsUnderTest.length !== 1) {
+        return `If defined, the "transaction.inputs" array of ${location} must have exactly one input under test (an "unlockingBytecode" set to "undefined" or "true").`;
+      }
+
+      return {
+        id,
+        scenario: {
+          ...(dataResult === undefined ? {} : { data: dataResult }),
+          ...(description === undefined ? {} : { description }),
+          ...(extendsProp === undefined ? {} : { extends: extendsProp }),
+          ...(name === undefined ? {} : { name }),
+          ...(transactionResult === undefined
+            ? {}
+            : { transaction: transactionResult }),
+          ...(value === undefined ? {} : { value }),
+        },
+      };
+    });
+
+  const invalidScenarioResults = scenarioResults.filter(
+    (result): result is string => typeof result === 'string'
+  );
+  if (invalidScenarioResults.length > 0) {
+    return invalidScenarioResults.join(' ');
+  }
+  const validScenarioResults = scenarioResults as {
+    id: string;
+    scenario: AuthenticationTemplateScenario;
+  }[];
+  const clonedScenarios = validScenarioResults.reduce<{
+    [id: string]: AuthenticationTemplateScenario;
+  }>((all, result) => ({ ...all, [result.id]: result.scenario }), {});
+
+  const unknownExtends = Object.values(clonedScenarios).reduce<string[]>(
+    (all, scenario) =>
+      scenario.extends !== undefined &&
+      (clonedScenarios[scenario.extends] as
+        | AuthenticationTemplateScenario
+        | undefined) === undefined
+        ? [...all, scenario.extends]
+        : all,
+    []
+  );
+  if (unknownExtends.length > 0) {
+    return `If defined, each scenario ID referenced by another scenario's "extends" property must exist. Unknown scenario IDs: ${listIds(
+      unknownExtends
+    )}.`;
+  }
+  return clonedScenarios;
 };
 
 const isVersion0 = (maybeTemplate: object): maybeTemplate is { version: 0 } =>
@@ -652,10 +1345,9 @@ const supportsOnlyValidVmIdentifiers = <Identifiers>(
  * - The derivation paths of each HdKey are validated against each other.
  *
  * This method does not validate the BTL contents of scripts (by attempting
- * compilation, evaluating `AuthenticationTemplateScriptTest`s, or evaluating
- * scenarios).
- *
- * TODO: finish validation of `scenarios`
+ * compilation, evaluate `AuthenticationTemplateScriptTest`s, or test scenario
+ * generation. Unknown properties are ignored and excluded from the final
+ * result.
  *
  * @param maybeTemplate - object to validate as an authentication template
  */
@@ -687,7 +1379,11 @@ export const validateAuthenticationTemplate = (
     'BSV_2018_11',
     'BTC_2017_08',
   ] as AuthenticationVirtualMachineIdentifier[];
-  if (!supportsOnlyValidVmIdentifiers(maybeTemplate, vmIdentifiers)) {
+  if (
+    !supportsOnlyValidVmIdentifiers(maybeTemplate, vmIdentifiers) ||
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    maybeTemplate.supported.includes(undefined as any)
+  ) {
     return `Version 0 authentication templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: ${vmIdentifiers.join(
       ', '
     )}.`;
@@ -741,6 +1437,14 @@ export const validateAuthenticationTemplate = (
     return clonedEntities;
   }
 
+  const clonedScenarios =
+    scenarios === undefined
+      ? undefined
+      : parseAuthenticationTemplateScenarios(scenarios);
+  if (typeof clonedScenarios === 'string') {
+    return clonedScenarios;
+  }
+
   const variableIds = Object.values(clonedEntities).reduce<string[]>(
     (all, entity) =>
       entity.variables === undefined
@@ -749,21 +1453,34 @@ export const validateAuthenticationTemplate = (
     []
   );
   const entityIds = Object.keys(clonedEntities);
-  const scriptsIds = Object.keys(clonedScripts);
+  const scriptIds = Object.keys(clonedScripts);
+  const scenarioIds =
+    clonedScenarios === undefined ? [] : Object.keys(clonedScenarios);
 
-  const idCount = [
-    ...variableIds,
-    ...entityIds,
-    ...scriptsIds,
-    ...(scenarios === undefined ? [] : Object.keys(scenarios)),
-  ].reduce<{ [id: string]: number }>(
+  const usedIds = [...variableIds, ...entityIds, ...scriptIds, ...scenarioIds];
+  const builtInIds = [
+    BuiltInVariables.currentBlockHeight,
+    BuiltInVariables.currentBlockTime,
+    BuiltInVariables.signingSerialization,
+  ];
+
+  const usedBuiltInIds = builtInIds.filter((builtInIdentifier) =>
+    usedIds.includes(builtInIdentifier)
+  );
+  if (usedBuiltInIds.length > 0) {
+    return `Built-in identifiers may not be re-used by any entity, variable, script, or scenario. The following built-in identifiers are re-used: ${listIds(
+      usedBuiltInIds
+    )}.`;
+  }
+
+  const idUsageCount = usedIds.reduce<{ [id: string]: number }>(
     (count, id) => ({
       ...count,
       [id]: ((count[id] as number | undefined) ?? 0) + 1,
     }),
     {}
   );
-  const duplicateIds = Object.entries(idCount)
+  const duplicateIds = Object.entries(idUsageCount)
     .filter(([, count]) => count > 1)
     .map(([id]) => id);
 
@@ -773,11 +1490,113 @@ export const validateAuthenticationTemplate = (
     )}.`;
   }
 
-  // TODO: confirm entities[id].scripts all exist
+  const unknownScriptIds = Object.values(clonedEntities)
+    .reduce<string[]>(
+      (all, entity) =>
+        entity.scripts === undefined ? all : [...all, ...entity.scripts],
+      []
+    )
+    .reduce<string[]>(
+      (unique, id) =>
+        scriptIds.includes(id) || unique.includes(id)
+          ? unique
+          : [...unique, id],
+      []
+    );
 
-  // TODO: confirm every specified scenario in unlocking scripts exists (`estimate`, `passes`, and `fails`), every defined `scenario` in tests exists
+  if (unknownScriptIds.length > 0) {
+    return `Only known scripts may be assigned to entities. The following script IDs are not provided in this template: ${listIds(
+      unknownScriptIds
+    )}.`;
+  }
 
-  // TODO: return the cloned scenarios object
+  const unknownScenarioIds = [
+    ...Object.values(parsedScripts.unlocking).reduce<string[]>(
+      (all, script) => [
+        ...all,
+        ...(script.estimate === undefined ? [] : [script.estimate]),
+        ...(script.fails === undefined ? [] : script.fails),
+        ...(script.passes === undefined ? [] : script.passes),
+      ],
+      []
+    ),
+    ...Object.values(parsedScripts.tested).reduce<string[]>(
+      (all, script) => [
+        ...all,
+        ...script.tests.reduce<string[]>(
+          (fromScript, test) => [
+            ...fromScript,
+            ...(test.fails === undefined ? [] : test.fails),
+            ...(test.passes === undefined ? [] : test.passes),
+          ],
+          []
+        ),
+      ],
+      []
+    ),
+  ].reduce<string[]>(
+    (unique, id) =>
+      scenarioIds.includes(id) || unique.includes(id)
+        ? unique
+        : [...unique, id],
+    []
+  );
+
+  if (unknownScenarioIds.length > 0) {
+    return `Only known scenarios may be referenced by scripts. The following scenario IDs are not provided in this template: ${listIds(
+      unknownScenarioIds
+    )}.`;
+  }
+
+  const entityIdsReferencedByScenarioData = (
+    data: AuthenticationTemplateScenarioData | undefined
+  ) => {
+    const hdPublicKeyEntityIds =
+      data?.hdKeys?.hdPublicKeys === undefined
+        ? []
+        : Object.keys(data.hdKeys.hdPublicKeys);
+    const hdPrivateKeyEntityIds =
+      data?.hdKeys?.hdPrivateKeys === undefined
+        ? []
+        : Object.keys(data.hdKeys.hdPrivateKeys);
+    return [...hdPublicKeyEntityIds, ...hdPrivateKeyEntityIds];
+  };
+  const unknownEntityIds =
+    clonedScenarios === undefined
+      ? []
+      : Object.values(clonedScenarios)
+          .reduce<string[]>(
+            (all, scenario) => [
+              ...all,
+              ...entityIdsReferencedByScenarioData(scenario.data),
+              ...(scenario.transaction?.outputs ?? []).reduce<string[]>(
+                (fromOverrides, output) =>
+                  isObject(output.lockingBytecode)
+                    ? [
+                        ...fromOverrides,
+                        ...entityIdsReferencedByScenarioData(
+                          output.lockingBytecode.overrides
+                        ),
+                      ]
+                    : fromOverrides,
+                []
+              ),
+            ],
+            []
+          )
+          .reduce<string[]>(
+            (unique, id) =>
+              entityIds.includes(id) || unique.includes(id)
+                ? unique
+                : [...unique, id],
+            []
+          );
+
+  if (unknownEntityIds.length > 0) {
+    return `Only known entities may be referenced by hdKeys properties within scenarios. The following entity IDs are not provided in this template: ${listIds(
+      unknownEntityIds
+    )}.`;
+  }
 
   return {
     ...(maybeTemplate.$schema === undefined
@@ -788,7 +1607,7 @@ export const validateAuthenticationTemplate = (
       : { description: maybeTemplate.description }),
     entities: clonedEntities,
     ...(maybeTemplate.name === undefined ? {} : { name: maybeTemplate.name }),
-    scenarios,
+    scenarios: clonedScenarios,
     scripts: clonedScripts,
     supported: maybeTemplate.supported,
     version: maybeTemplate.version,

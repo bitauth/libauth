@@ -1,14 +1,18 @@
 import { Sha256 } from '../../../crypto/sha256';
 import { hexToBin } from '../../../format/format';
 import {
+  encodeTransaction,
   getTransactionHashBE,
-  serializeTransaction,
 } from '../../../transaction/transaction-serialization';
-import { Transaction } from '../../../transaction/transaction-types';
+import {
+  Input,
+  Output,
+  Transaction,
+} from '../../../transaction/transaction-types';
 import {
   AuthenticationProgramCommon,
   AuthenticationProgramStateCommon,
-} from '../../state';
+} from '../../vm-types';
 
 import { AuthenticationErrorBCH } from './bch-errors';
 import { OpcodesBCH } from './bch-opcodes';
@@ -33,11 +37,12 @@ export const createTestAuthenticationProgramBCH = ({
   sha256,
   unlockingBytecode,
 }: {
-  unlockingBytecode: Uint8Array;
-  lockingBytecode: Uint8Array;
+  /**
+   * An implementation of sha256. Available via `instantiateSha256`.
+   */
   sha256: { hash: Sha256['hash'] };
-  satoshis: number;
-}) => {
+} & Output &
+  Pick<Input, 'unlockingBytecode'>) => {
   const testFundingTransaction: Transaction = {
     inputs: [
       {
@@ -59,7 +64,7 @@ export const createTestAuthenticationProgramBCH = ({
         outpointIndex: 0,
         outpointTransactionHash: getTransactionHashBE(
           sha256,
-          serializeTransaction(testFundingTransaction)
+          encodeTransaction(testFundingTransaction)
         ),
 
         sequenceNumber: 0xffffffff,

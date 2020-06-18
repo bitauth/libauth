@@ -6,16 +6,17 @@ const authenticationScriptParser = P.createLanguage({
   script: (r) =>
     P.seqMap(
       P.optWhitespace,
-      r.expression.sepBy(P.optWhitespace).node('Script'),
+      r.expression.sepBy(P.optWhitespace),
       P.optWhitespace,
       (_, expressions) => expressions
-    ),
+    ).node('Script'),
   expression: (r) =>
     P.alt(
       r.comment,
       r.push,
       r.evaluation,
       r.utf8,
+      r.binary,
       r.hex,
       r.bigint,
       r.identifier
@@ -31,11 +32,10 @@ const authenticationScriptParser = P.createLanguage({
   multiLineComment: () =>
     P.seqMap(
       P.string('/*').desc("the start of a multi-line comment ('/*')"),
-      P.regexp(/[\s\S]*(?=\*\/)/u).desc(
+      P.regexp(/[\s\S]*?\*\//u).desc(
         "the end of this multi-line comment ('*/')"
       ),
-      P.string('*/'),
-      (__, comment) => comment.trim()
+      (__, comment) => comment.slice(0, -'*/'.length).trim()
     ),
   push: (r) =>
     P.seqMap(
@@ -74,13 +74,20 @@ const authenticationScriptParser = P.createLanguage({
   hex: () =>
     P.seqMap(
       P.string('0x').desc("a hex literal ('0x...')"),
-      P.regexp(/(?:[0-9a-f]{2})+/iu).desc('a valid hexadecimal string'),
+      P.regexp(/[0-9a-f]_*(?:_*[0-9a-f]_*[0-9a-f]_*)*[0-9a-f]/iu).desc(
+        'a valid hexadecimal string'
+      ),
       (__, literal) => literal
     ).node('HexLiteral'),
+  binary: () =>
+    P.seqMap(
+      P.string('0b').desc("a binary literal ('0b...')"),
+      P.regexp(/[01]+(?:[01_]*[01]+)*/iu).desc('a string of binary digits'),
+      (__, literal) => literal
+    ).node('BinaryLiteral'),
   bigint: () =>
-    P.regexp(/-?[0-9]+/u)
+    P.regexp(/-?[0-9]+(?:[0-9_]*[0-9]+)*/u)
       .desc('an integer literal')
-      .map(BigInt)
       .node('BigIntLiteral'),
 });
 /* eslint-enable sort-keys */

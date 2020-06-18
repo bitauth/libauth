@@ -7,10 +7,10 @@ import {
   CompilationData,
   CompilationEnvironment,
   CompilationEnvironmentBCH,
-  compilerCreateStateCommon,
   compilerOperationsBCH,
-  createAuthenticationProgramExternalStateCommonEmpty,
+  createAuthenticationProgramEvaluationCommon,
   createCompiler,
+  createTransactionContextCommonTesting,
   generateBytecodeMap,
   instantiateRipemd160,
   instantiateSecp256k1,
@@ -19,7 +19,7 @@ import {
   instantiateVirtualMachineBCH,
   instructionSetBCHCurrentStrict,
   OpcodesBCH,
-  stringify,
+  stringifyTestVector,
   TransactionContextBCH,
   TransactionContextCommon,
 } from '../../lib';
@@ -62,7 +62,7 @@ export const expectCompilationResult: Macro<[
   otherData,
   expectedResult,
   variables,
-  overwrites
+  environmentOverrides
   // eslint-disable-next-line max-params
 ) => {
   const ripemd160 = await ripemd160Promise;
@@ -76,7 +76,7 @@ export const expectCompilationResult: Macro<[
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
-    createState: compilerCreateStateCommon,
+    createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
     entityOwnership: {
       one: 'ownerEntityOne',
       owner: 'ownerEntityId',
@@ -99,18 +99,18 @@ export const expectCompilationResult: Macro<[
     },
     variables,
     vm,
-    ...overwrites,
+    ...environmentOverrides,
   });
 
   const resultUnlock = compiler.generateBytecode('test', {
-    transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
+    transactionContext: createTransactionContextCommonTesting(),
     ...otherData,
   });
   t.deepEqual(
     resultUnlock,
     expectedResult,
-    `– \nResult: ${stringify(resultUnlock)}\n\nExpected:\n ${stringify(
-      expectedResult
-    )}\n`
+    `– \nResult: ${stringifyTestVector(
+      resultUnlock
+    )}\n\nExpected:\n ${stringifyTestVector(expectedResult)}\n`
   );
 };

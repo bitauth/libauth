@@ -1,10 +1,10 @@
+import { Operation } from '../../virtual-machine';
 import {
   AuthenticationProgramStateCommon,
-  ErrorState,
-  ExecutionStackState,
-  StackState,
-} from '../../state';
-import { Operation } from '../../virtual-machine';
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateExecutionStack,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 
 import { opNot } from './arithmetic';
 import { conditionallyEvaluate, useOneStackItem } from './combinators';
@@ -13,7 +13,8 @@ import { applyError, AuthenticationErrorCommon } from './errors';
 import { OpcodesCommon } from './opcodes';
 
 export const opVerify = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(): Operation<State> => (state: State) =>
   useOneStackItem(state, (nextState, [item]) =>
@@ -26,14 +27,16 @@ export const opVerify = <
   );
 
 export const reservedOperation = <
-  State extends ErrorState<Errors>,
+  State extends AuthenticationProgramStateError<Errors>,
   Errors
 >() => (state: State) =>
   applyError<State, Errors>(AuthenticationErrorCommon.calledReserved, state);
 
-export const opReturn = <State extends ErrorState<Errors>, Errors>() => (
-  state: State
-) => applyError<State, Errors>(AuthenticationErrorCommon.calledReturn, state);
+export const opReturn = <
+  State extends AuthenticationProgramStateError<Errors>,
+  Errors
+>() => (state: State) =>
+  applyError<State, Errors>(AuthenticationErrorCommon.calledReturn, state);
 
 export const conditionalFlowControlOperations = <
   Opcodes,
@@ -49,7 +52,9 @@ export const conditionalFlowControlOperations = <
 });
 
 export const opIf = <
-  State extends StackState & ExecutionStackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(): Operation<State> => (state: State) => {
   if (state.executionStack.every((item) => item)) {
@@ -71,7 +76,9 @@ export const opIf = <
 };
 
 export const opNotIf = <
-  State extends StackState & ExecutionStackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(flags: {
   requireMinimalEncoding: boolean;
@@ -82,7 +89,8 @@ export const opNotIf = <
 };
 
 export const opEndIf = <
-  State extends ExecutionStackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(): Operation<State> => (state: State) => {
   // eslint-disable-next-line functional/immutable-data
@@ -97,7 +105,8 @@ export const opEndIf = <
 };
 
 export const opElse = <
-  State extends ExecutionStackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(): Operation<State> => (state: State) => {
   const top = state.executionStack[state.executionStack.length - 1] as

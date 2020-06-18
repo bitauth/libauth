@@ -3,10 +3,10 @@ import test from 'ava';
 
 import {
   AuthenticationInstruction,
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
   createAuthenticationVirtualMachine,
   InstructionSet,
-  MinimumProgramState,
-  StackState,
 } from '../lib';
 
 enum simpleOps {
@@ -25,7 +25,9 @@ interface SimpleProgram {
   instructions: readonly AuthenticationInstruction<simpleOps>[];
 }
 
-interface SimpleProgramState extends MinimumProgramState, StackState<number> {
+interface SimpleProgramState
+  extends AuthenticationProgramStateMinimum,
+    AuthenticationProgramStateStack<number> {
   error?: SimpleError;
 }
 
@@ -107,6 +109,7 @@ test('vm.evaluate with a simple instruction set', (t) => {
 
 test('vm.debug with a simple instruction set', (t) => {
   t.deepEqual(vm.debug({ instructions }), [
+    { instructions, ip: 0, stack: [] },
     { instructions, ip: 1, stack: [0] },
     { instructions, ip: 2, stack: [1] },
     { instructions, ip: 3, stack: [2] },
@@ -119,6 +122,7 @@ test('vm.debug with a simple instruction set', (t) => {
 
 test('vm.stateDebug with a simple instruction set', (t) => {
   t.deepEqual(vm.stateDebug({ instructions, ip: 0, stack: [] }), [
+    { instructions, ip: 0, stack: [] },
     { instructions, ip: 1, stack: [0] },
     { instructions, ip: 2, stack: [1] },
     { instructions, ip: 3, stack: [2] },

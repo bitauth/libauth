@@ -3,8 +3,8 @@ import test from 'ava';
 
 import {
   binToHex,
-  createAuthenticationProgramExternalStateCommon,
-  deserializeTransaction,
+  createTransactionContextCommon,
+  decodeTransactionUnsafe,
   generateSigningSerializationBCH,
   hexToBin,
   instantiateSha256,
@@ -44,18 +44,15 @@ const sha256Promise = instantiateSha256();
 pendingTests.map((expectation, currentTest) => {
   test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async (t) => {
     const sha256 = await sha256Promise;
-    const tx = deserializeTransaction(hexToBin(expectation.transactionHex));
+    const tx = decodeTransactionUnsafe(hexToBin(expectation.transactionHex));
     const lockingBytecode = hexToBin(expectation.scriptHex);
 
     const signingSerializationType = numberToBinInt32TwosCompliment(
       expectation.signingSerializationType
     );
-    const state = createAuthenticationProgramExternalStateCommon({
+    const state = createTransactionContextCommon({
       inputIndex: expectation.inputIndex,
-      sourceOutput: {
-        lockingBytecode,
-        satoshis: 0,
-      },
+      sourceOutput: { satoshis: new Uint8Array(8) },
       spendingTransaction: tx,
     });
     const serialization = generateSigningSerializationBCH({

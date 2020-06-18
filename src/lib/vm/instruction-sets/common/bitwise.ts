@@ -1,9 +1,9 @@
+import { Operation } from '../../virtual-machine';
 import {
   AuthenticationProgramStateCommon,
-  ErrorState,
-  StackState,
-} from '../../state';
-import { Operation } from '../../virtual-machine';
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 
 import {
   combineOperations,
@@ -28,7 +28,8 @@ const areEqual = (a: Uint8Array, b: Uint8Array) => {
 };
 
 export const opEqual = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(): Operation<State> => (state: State) =>
   useTwoStackItems(state, (nextState, [element1, element2]) =>
@@ -36,7 +37,8 @@ export const opEqual = <
   );
 
 export const opEqualVerify = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(): Operation<State> =>
   combineOperations(opEqual<State, Errors>(), opVerify<State, Errors>());

@@ -21,6 +21,7 @@ import {
   ResolvedScript,
   ResolvedSegment,
 } from './language-types';
+import { stringifyErrors } from './language-utils';
 
 const pluckRange = (node: MarkedNode): Range => ({
   endColumn: node.end.column,
@@ -28,6 +29,9 @@ const pluckRange = (node: MarkedNode): Range => ({
   startColumn: node.start.column,
   startLineNumber: node.start.line,
 });
+
+const removeNumericSeparators = (numericLiteral: string) =>
+  numericLiteral.replace(/_/gu, '');
 
 export const resolveScriptSegment = (
   segment: BtlScriptSegment,
@@ -90,20 +94,35 @@ export const resolveScriptSegment = (
         };
       case 'BigIntLiteral':
         return {
+          literal: child.value,
           literalType: 'BigIntLiteral' as const,
           range,
           type: 'bytecode' as const,
-          value: bigIntToScriptNumber(child.value),
+          value: bigIntToScriptNumber(
+            BigInt(removeNumericSeparators(child.value))
+          ),
+        };
+      case 'BinaryLiteral':
+        return {
+          literal: child.value,
+          literalType: 'BinaryLiteral' as const,
+          range,
+          type: 'bytecode' as const,
+          value: bigIntToScriptNumber(
+            BigInt(`0b${removeNumericSeparators(child.value)}`)
+          ),
         };
       case 'HexLiteral':
         return {
+          literal: child.value,
           literalType: 'HexLiteral' as const,
           range,
           type: 'bytecode' as const,
-          value: hexToBin(child.value),
+          value: hexToBin(removeNumericSeparators(child.value)),
         };
       case 'UTF8Literal':
         return {
+          literal: child.value,
           literalType: 'UTF8Literal' as const,
           range,
           type: 'bytecode' as const,
@@ -325,15 +344,21 @@ export const resolveScriptIdentifier = <TransactionContext, ProgramState>({
     return result;
   }
 
-  return result.errors.reduce(
-    (all, { error, range }) =>
-      `${
-        all === '' ? '' : `${all}; `
-      }Compilation error in resolved script, "${identifier}" [${
-        range.startLineNumber
-      }, ${range.startColumn}]: ${error}`,
-    ''
-  );
+  return `Compilation error in resolved script "${identifier}": ${stringifyErrors(
+    result.errors
+  )}`;
+
+  /*
+   * result.errors.reduce(
+   *   (all, { error, range }) =>
+   *     `${
+   *       all === '' ? '' : `${all}; `
+   *     } [${
+   *       range.startLineNumber
+   *     }, ${range.startColumn}]: ${error}`,
+   *   ''
+   * );
+   */
 };
 
 /**
@@ -421,7 +446,7 @@ export const createIdentifierResolver = <TransactionContext>({
           };
     }
     return {
-      error: `Unknown identifier '${identifier}'.`,
+      error: `Unknown identifier "${identifier}".`,
       status: false,
       type: IdentifierResolutionErrorType.unknown,
     };

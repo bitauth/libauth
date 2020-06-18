@@ -1,4 +1,8 @@
-import { AlternateStackState, ErrorState, StackState } from '../../state';
+import {
+  AuthenticationProgramStateAlternateStack,
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 
 import {
   pushToStack,
@@ -14,7 +18,8 @@ import { OpcodesCommon } from './opcodes';
 import { bigIntToScriptNumber, stackItemIsTruthy } from './types';
 
 export const opToAltStack = <
-  State extends StackState & AlternateStackState
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateAlternateStack
 >() => (state: State) =>
   useOneStackItem(state, (nextState, [item]) => {
     // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
@@ -23,7 +28,9 @@ export const opToAltStack = <
   });
 
 export const opFromAltStack = <
-  State extends StackState & AlternateStackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateAlternateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >() => (state: State) => {
   // eslint-disable-next-line functional/immutable-data
@@ -37,35 +44,48 @@ export const opFromAltStack = <
   return pushToStack(state, item);
 };
 
-export const op2Drop = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, (nextState) => nextState);
+export const op2Drop = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) => useTwoStackItems(state, (nextState) => nextState);
 
-export const op2Dup = <State extends StackState>() => (state: State) =>
+export const op2Dup = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
     pushToStack(nextState, a, b, a.slice(), b.slice())
   );
 
-export const op3Dup = <State extends StackState>() => (state: State) =>
+export const op3Dup = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useThreeStackItems(state, (nextState, [a, b, c]) =>
     pushToStack(nextState, a, b, c, a.slice(), b.slice(), c.slice())
   );
 
-export const op2Over = <State extends StackState>() => (state: State) =>
+export const op2Over = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useFourStackItems(state, (nextState, [a, b, c, d]) =>
     pushToStack(nextState, a, b, c, d, a.slice(), b.slice())
   );
 
-export const op2Rot = <State extends StackState>() => (state: State) =>
+export const op2Rot = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useSixStackItems(state, (nextState, [a, b, c, d, e, f]) =>
     pushToStack(nextState, c, d, e, f, a, b)
   );
 
-export const op2Swap = <State extends StackState>() => (state: State) =>
+export const op2Swap = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useFourStackItems(state, (nextState, [a, b, c, d]) =>
     pushToStack(nextState, c, d, a, b)
   );
 
-export const opIfDup = <State extends StackState>() => (state: State) =>
+export const opIfDup = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useOneStackItem(state, (nextState, [item]) =>
     pushToStack(
       nextState,
@@ -73,26 +93,37 @@ export const opIfDup = <State extends StackState>() => (state: State) =>
     )
   );
 
-export const opDepth = <State extends StackState>() => (state: State) =>
-  pushToStack(state, bigIntToScriptNumber(BigInt(state.stack.length)));
+export const opDepth = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) => pushToStack(state, bigIntToScriptNumber(BigInt(state.stack.length)));
 
-export const opDrop = <State extends StackState>() => (state: State) =>
-  useOneStackItem(state, (nextState) => nextState);
+export const opDrop = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) => useOneStackItem(state, (nextState) => nextState);
 
-export const opDup = <State extends StackState>() => (state: State) =>
+export const opDup = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useOneStackItem(state, (nextState, [item]) =>
     pushToStack(nextState, item, item.slice())
   );
 
-export const opNip = <State extends StackState>() => (state: State) =>
-  useTwoStackItems(state, (nextState, [, b]) => pushToStack(nextState, b));
+export const opNip = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) => useTwoStackItems(state, (nextState, [, b]) => pushToStack(nextState, b));
 
-export const opOver = <State extends StackState>() => (state: State) =>
+export const opOver = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
     pushToStack(nextState, a, b, a.slice())
   );
 
-export const opPick = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opPick = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -114,7 +145,11 @@ export const opPick = <State extends StackState & ErrorState<Errors>, Errors>({
     { requireMinimalEncoding }
   );
 
-export const opRoll = <State extends StackState & ErrorState<Errors>, Errors>({
+export const opRoll = <
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
+  Errors
+>({
   requireMinimalEncoding,
 }: {
   requireMinimalEncoding: boolean;
@@ -135,21 +170,29 @@ export const opRoll = <State extends StackState & ErrorState<Errors>, Errors>({
     { requireMinimalEncoding }
   );
 
-export const opRot = <State extends StackState>() => (state: State) =>
+export const opRot = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useThreeStackItems(state, (nextState, [a, b, c]) =>
     pushToStack(nextState, b, c, a)
   );
 
-export const opSwap = <State extends StackState>() => (state: State) =>
+export const opSwap = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useTwoStackItems(state, (nextState, [a, b]) => pushToStack(nextState, b, a));
 
-export const opTuck = <State extends StackState>() => (state: State) =>
+export const opTuck = <State extends AuthenticationProgramStateStack>() => (
+  state: State
+) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
     pushToStack(nextState, b.slice(), a, b)
   );
 
 export const stackOperations = <
-  State extends StackState & AlternateStackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateAlternateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(flags: {
   requireMinimalEncoding: boolean;

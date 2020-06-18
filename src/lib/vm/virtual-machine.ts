@@ -1,7 +1,7 @@
 import { range } from '../format/format';
 
 import { AuthenticationProgramStateBCH } from './instruction-sets/instruction-sets';
-import { MinimumProgramState } from './state';
+import { AuthenticationProgramStateMinimum } from './vm-types';
 
 /**
  * Operations define the behavior of an opcode in an `InstructionSet`.
@@ -127,8 +127,31 @@ export interface AuthenticationVirtualMachine<
 > {
   /**
    * Debug a program by fully evaluating it, cloning and adding each
-   * intermediate `ProgramState` to the returned array. The last
+   * intermediate `ProgramState` to the returned array. The first `ProgramState`
+   * in the returned array is the initial program state, and the last
    * `ProgramState` in the returned array is the result of the evaluation.
+   *
+   * Note, If the virtual machine is multi-phasic (as is the case with all
+   * bitcoin forks), the initial program state at the start of of each phase
+   * will appear in the debug trace. For example, all inputs in all bitcoin
+   * forks use at least two phases 1) the unlocking phase 2) the locking
+   * phase. Inputs which match the P2SH format perform a third P2SH phase. Other
+   * virtual machines may include different phases (e.g. the SegWit phase in
+   * BTC). For each phase performed, the count of program states in the final
+   * debug trace will increase by one, even if the phase includes no
+   * instructions.
+   *
+   * @remarks
+   * Even for simple virtual machines, this method includes one final program
+   * state in addition to the output which would otherwise be produced by
+   * `stateDebug`. This occurs because the `evaluate` method of the instruction
+   * set must return one final program state after `stateContinue` has produced
+   * a `false`. Often, this is cloned from the previous program state, but it
+   * is also possible that this final state will include changes produced by
+   * the remaining portion of the instruction set's `evaluate` method (e.g. P2SH
+   * evaluation). In any case, this final program state is **not a
+   * "duplicate"**: it is the finalized result of the complete virtual machine
+   * evaluation.
    *
    * @param state - the `AuthenticationProgram` to debug
    */
@@ -148,18 +171,35 @@ export interface AuthenticationVirtualMachine<
 
   /**
    * Return an array of program states by fully evaluating `state`, cloning and
-   * adding each intermediate state to the returned array.
+   * adding each intermediate state to the returned array. The first
+   * `ProgramState` in the returned array is the initial program state, and the
+   * last `ProgramState` in the returned array is the first program state which
+   * returns `false` when provided to `stateContinue`.
+   *
+   * Note, this method is typically an implementation detail of the virtual
+   * machine and cannot produce a final result. In most cases, `debug` is the
+   * proper method to debug a program.
    */
   stateDebug: (state: Readonly<ProgramState>) => ProgramState[];
 
   /**
    * Return a new program state by cloning and fully evaluating `state`.
+   *
+   * To evaluate a state, the state is cloned and provided to `stateStepMutate`
+   * until a final result is obtained (a `ProgramState` which returns `false`
+   * when provided to `stateContinue`).
+   *
+   * Note, this method is typically an implementation detail of the virtual
+   * machine and cannot produce a final result. In most cases, `evaluate` is the
+   * proper method to evaluate a program.
+   *
    * @param state - the program state to evaluate
    */
   stateEvaluate: (state: Readonly<ProgramState>) => ProgramState;
 
   /**
    * Clones and return a new program state advanced by one step.
+   *
    * @param state - the program state to advance
    */
   stateStep: (state: Readonly<ProgramState>) => ProgramState;
@@ -167,6 +207,7 @@ export interface AuthenticationVirtualMachine<
   /**
    * A faster, less-safe version of `step` which directly modifies the provided
    * program state.
+   *
    * @param state - the program state to mutate
    */
   stateStepMutate: (state: ProgramState) => ProgramState;
@@ -191,7 +232,7 @@ export interface AuthenticationVirtualMachine<
  */
 export const createAuthenticationVirtualMachine = <
   AuthenticationProgram,
-  ProgramState extends MinimumProgramState = AuthenticationProgramStateBCH
+  ProgramState extends AuthenticationProgramStateMinimum = AuthenticationProgramStateBCH
 >(
   instructionSet: InstructionSet<AuthenticationProgram, ProgramState>
 ): AuthenticationVirtualMachine<AuthenticationProgram, ProgramState> => {
@@ -247,6 +288,8 @@ export const createAuthenticationVirtualMachine = <
 
   const stateDebug = (state: ProgramState) => {
     const trace: ProgramState[] = [];
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    trace.push(state);
     // eslint-disable-next-line functional/no-expression-statement
     untilComplete(state, (currentState: ProgramState) => {
       const nextState = stateDebugStep(currentState);

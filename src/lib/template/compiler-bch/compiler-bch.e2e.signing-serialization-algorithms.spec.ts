@@ -5,10 +5,10 @@ import {
   AuthenticationProgramStateBCH,
   BytecodeGenerationResult,
   CompilationEnvironmentBCH,
-  compilerCreateStateCommon,
   compilerOperationsBCH,
-  createAuthenticationProgramExternalStateCommonEmpty,
+  createAuthenticationProgramEvaluationCommon,
   createCompiler,
+  createTransactionContextCommonTesting,
   generateBytecodeMap,
   hexToBin,
   instantiateRipemd160,
@@ -49,7 +49,7 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
-    createState: compilerCreateStateCommon,
+    createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
     entityOwnership: {
       b: 'entity',
     },
@@ -85,7 +85,7 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
 
   const resultUnlock = compiler.generateBytecode('unlock', {
     keys: { privateKeys: { a: privkey } },
-    transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
+    transactionContext: createTransactionContextCommonTesting(),
   });
   t.deepEqual(
     resultUnlock,
@@ -99,7 +99,7 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
   );
   const resultUnlockHd = compiler.generateBytecode('unlockHd', {
     hdKeys: { addressIndex: 0, hdPrivateKeys: { entity: hdPrivateKey } },
-    transactionContext: createAuthenticationProgramExternalStateCommonEmpty(),
+    transactionContext: createTransactionContextCommonTesting(),
   });
   t.deepEqual(
     resultUnlockHd,
@@ -206,7 +206,7 @@ test('[BCH compiler] signing serialization algorithms – no signing serializati
     CompilationEnvironmentBCH,
     AuthenticationProgramStateBCH
   >({
-    createState: compilerCreateStateCommon,
+    createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
     opcodes: generateBytecodeMap(OpcodesBCH),
     operations: compilerOperationsBCH,
     scripts: {

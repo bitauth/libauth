@@ -5,6 +5,77 @@ import {
 } from '../template/language/language-types';
 
 /**
+ * The partial transaction context which is shared between all of the inputs in
+ * a transaction.
+ */
+export interface TransactionContextSharedCommon {
+  /**
+   * A time or block height at which the transaction is considered valid (and
+   * can be added to the block chain). This allows signers to create time-locked
+   * transactions which may only become valid in the future.
+   */
+  readonly locktime: number;
+  /**
+   * A.K.A. the serialization for `hashPrevouts`
+   *
+   * The signing serialization of all input outpoints. (See BIP143 or Bitcoin
+   * Cash's Replay Protected Sighash spec for details.)
+   */
+  readonly transactionOutpoints: Uint8Array;
+  /*
+   * A.K.A. the serialization for `hashOutputs` with `SIGHASH_ALL`
+   *
+   * The signing serialization of output amounts and locking scripts. (See
+   * BIP143 or Bitcoin Cash's Replay Protected Sighash spec for details.)
+   */
+  readonly transactionOutputs: Uint8Array;
+  /*
+   * A.K.A. the serialization for `hashSequence`
+   *
+   * The signing serialization of all input sequence numbers. (See BIP143 or
+   * Bitcoin Cash's Replay Protected Sighash spec for details.)
+   */
+  readonly transactionSequenceNumbers: Uint8Array;
+  readonly version: number;
+}
+
+/**
+ * The complete transaction context in which a single transaction input exists.
+ */
+export interface TransactionContextCommon
+  extends TransactionContextSharedCommon {
+  /*
+   * A.K.A. the serialization for `hashOutputs` with `SIGHASH_SINGLE`
+   *
+   * The signing serialization of the output at the same index as this input. If
+   * this input's index is larger than the total number of outputs (such that
+   * there is no corresponding output), this should be `undefined`. (See BIP143
+   * or Bitcoin Cash's Replay Protected Sighash spec for details.)
+   */
+  readonly correspondingOutput?: Uint8Array;
+  /**
+   * The index (within the previous transaction) of the outpoint being spent by
+   * this input.
+   */
+  readonly outpointIndex: number;
+  /**
+   * The hash/ID of the transaction from which the outpoint being spent by this
+   * input originated.
+   */
+  readonly outpointTransactionHash: Uint8Array;
+  /**
+   * The 8-byte `Uint64LE`-encoded value of the outpoint in satoshis (see
+   * `bigIntToBinUint64LE`).
+   */
+  readonly outputValue: Uint8Array;
+  /**
+   * The `sequenceNumber` associated with the input being validated. See
+   * `Input.sequenceNumber` for details.
+   */
+  readonly sequenceNumber: number;
+}
+
+/**
  * Data type representing a Transaction Input.
  */
 export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
@@ -28,7 +99,7 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
    * An "outpoint" is a reference (A.K.A. "pointer") to a specific output in a
    * previous transaction.
    *
-   * Serialized raw bitcoin transactions encode this value in little-endian byte
+   * Encoded raw bitcoin transactions serialize this value in little-endian byte
    * order. However, it is more common to use big-endian byte order when
    * displaying transaction hashes. (In part because the SHA-256 specification
    * defines its output as big-endian, so this byte order is output by most
@@ -111,52 +182,13 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
 }
 
 /**
- * The maximum uint64 value – an impossibly large, intentionally invalid value
- * for `satoshis`. See `OutputUncappedAmount` for details.
- */
-// prettier-ignore
-// eslint-disable-next-line @typescript-eslint/no-magic-numbers
-export const invalidSatoshis = Uint8Array.from([255, 255, 255, 255, 255, 255, 255, 255]);
-
-/**
- * A modified version of `Output` which also allows `satoshis` to also be
- * provided as a `Uint8Array` (`Uint64LE`).
- *
- * Normally, `satoshis` need only be defined as a `number`, as
- * `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is about 4 times larger than
- * the maximum number of satoshis which should ever exist. Therefore, even if
- * all satoshis were consolidated in a single output, the transaction spending
- * this output could still be defined with a numeric `satoshis` value.
- *
- * Allowing `satoshis` to be set to a `Uint8Array` allows for the full range of
- * the 64-bit unsigned, little-endian integer used to serialized `satoshis` in
- * the serialized output format (used in both transaction serialization and
- * signing serialization). This is useful for encoding intentionally excessive
- * values.
- *
- * For example, `invalidSatoshis` (`0xffffffffffffffff` - the maximum uint64
- * value) is a clearly impossible `satoshis` value for versions `0`, `1`, and
- * `2` transactions. As such, this value can safely by used by transaction
- * signing and verification implementations to ensure that an otherwise
- * properly-signed transaction can never be included in the blockchain, e.g. for
- * transaction size estimation or off-chain Bitauth signatures.
- */
-export interface OutputUncappedAmount
-  extends Output<Uint8Array, number | Uint8Array> {
-  /**
-   * TODO:
-   */
-  satoshis: number | Uint8Array;
-}
-
-/**
  * Data type representing a Transaction Output.
  *
  * @typeParam Bytecode - the type of `lockingBytecode` - this can be configured
  * to allow for defining compilation directives
  * @typeParam Amount - the type of `satoshis`
  */
-export interface Output<Bytecode = Uint8Array, Amount = number> {
+export interface Output<Bytecode = Uint8Array, Amount = Uint8Array> {
   /**
    * The bytecode used to encumber this transaction output. To spend the output,
    * unlocking bytecode must be included in a transaction input which – when
@@ -166,19 +198,48 @@ export interface Output<Bytecode = Uint8Array, Amount = number> {
    */
   readonly lockingBytecode: Bytecode;
   /**
-   * The value of the output in satoshis, the smallest unit of bitcoin.
-   *
-   * This is a positive integer, from `0` to the maximum number of satoshis
-   * available to the transaction. (The maximum number of satoshis in
-   * existence is about 1/4 of `Number.MAX_SAFE_INTEGER`.)
+   * The 8-byte `Uint64LE`-encoded value of the output in satoshis, the smallest
+   * unit of bitcoin.
    *
    * There are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.
+   *
+   * This value could be defined using a `number`, as `Number.MAX_SAFE_INTEGER`
+   * (`9007199254740991`) is about 4 times larger than the maximum number of
+   * satoshis which should ever exist. I.e. even if all satoshis were
+   * consolidated into a single output, the transaction spending this output
+   * could still be defined with a numeric `satoshis` value.
+   *
+   * However, because the encoded output format for version 1 and 2 transactions
+   * (used in both transaction encoding and signing serialization) uses a 64-bit
+   * unsigned, little-endian integer to serialize `satoshis`, this property is
+   * encoded in the same format, allowing it to cover the full possible range.
+   *
+   * This is useful for encoding values using schemes for fractional satoshis
+   * (for which no finalized specification yet exists) or for encoding
+   * intentionally excessive values. For example, `invalidSatoshis`
+   * (`0xffffffffffffffff` - the maximum uint64 value) is a clearly impossible
+   * `satoshis` value for version 1 and 2 transactions. As such, this value can
+   * safely by used by transaction signing and verification implementations to
+   * ensure that an otherwise properly-signed transaction can never be included
+   * n the blockchain, e.g. for transaction size estimation or off-chain Bitauth
+   * signatures.
+   *
+   * To convert this value to and from a `BigInt` use `bigIntToBinUint64LE` and
+   * `binToBigIntUint64LE`, respectively.
    */
   readonly satoshis: Amount;
 }
 
 /**
- * Data type representing a Transaction.
+ * The maximum uint64 value – an impossibly large, intentionally invalid value
+ * for `satoshis`. See `Transaction.satoshis` for details.
+ */
+// prettier-ignore
+// eslint-disable-next-line @typescript-eslint/no-magic-numbers
+export const invalidSatoshis = Uint8Array.from([255, 255, 255, 255, 255, 255, 255, 255]);
+
+/**
+ * Data type representing a transaction.
  */
 export interface Transaction<InputType = Input, OutputType = Output> {
   /**
@@ -317,7 +378,7 @@ export type OutputTemplate<
   CompilationDataType = CompilationData<never>
 > = Output<
   CompilationDirectiveLocking<CompilerType, CompilationDataType> | Uint8Array,
-  EnableFeeEstimation extends true ? number | undefined : number
+  EnableFeeEstimation extends true ? Uint8Array | undefined : Uint8Array
 >;
 
 /**

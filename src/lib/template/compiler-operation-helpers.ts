@@ -1,4 +1,5 @@
 import { decodeHdPrivateKey, deriveHdPath } from '../key/hd-key';
+import { TransactionContextCommon } from '../transaction/transaction-types';
 
 import { CompilerDefaults } from './compiler-defaults';
 import {
@@ -9,10 +10,9 @@ import {
   CompilerOperationErrorFatal,
   CompilerOperationResult,
   CompilerOperationSkip,
-  TransactionContextCommon,
 } from './compiler-types';
 import { resolveScriptIdentifier } from './language/resolve';
-import { HdKey } from './template-types';
+import { AuthenticationTemplateHdKey } from './template-types';
 
 /**
  * Attempt a series of compiler operations, skipping to the next operation if
@@ -160,7 +160,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
     sha256: NonNullable<CompilationEnvironment['sha256']>;
     sha512: NonNullable<CompilationEnvironment['sha512']>;
   };
-  hdKey: HdKey;
+  hdKey: AuthenticationTemplateHdKey;
   identifier: string;
 }): CompilerOperationResult => {
   const addressOffset =
@@ -263,7 +263,9 @@ export const compilerOperationHelperDeriveHdKeyPrivate = ({
   /**
    * Guaranteed to be an `HdKey` if this method is reached in the compiler.
    */
-  const hdKey = environment.variables[variableId] as HdKey;
+  const hdKey = environment.variables[
+    variableId
+  ] as AuthenticationTemplateHdKey;
 
   return compilerOperationHelperDeriveHdPrivateNode({
     addressIndex,
@@ -361,7 +363,7 @@ export const compilerOperationHelperGenerateCoveredBytecode = <
 
   if (result === false) {
     return {
-      error: `Identifier "${identifier}"  requires a signing serialization which covers an unknown locking script, "${targetLockingScriptId}".`,
+      error: `Identifier "${identifier}" requires a signing serialization which covers an unknown locking script, "${targetLockingScriptId}".`,
       status: 'error',
     };
   }

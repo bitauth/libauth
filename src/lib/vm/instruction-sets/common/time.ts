@@ -1,8 +1,8 @@
 import {
   AuthenticationProgramStateCommon,
-  ErrorState,
-  StackState,
-} from '../../state';
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 
 import { isScriptNumberError, parseBytesAsScriptNumber } from './common';
 import { applyError, AuthenticationErrorCommon } from './errors';
@@ -27,7 +27,8 @@ enum Constants {
 }
 
 export const readLocktime = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -73,8 +74,8 @@ const locktimeTypesAreCompatible = (
     requiredLocktime >= Constants.locktimeThreshold);
 
 export const opCheckLockTimeVerify = <
-  State extends StackState &
-    ErrorState<Errors> & {
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors> & {
       readonly locktime: number;
       readonly sequenceNumber: number;
     },
@@ -114,8 +115,8 @@ export const opCheckLockTimeVerify = <
 const includesFlag = (value: number, flag: number) => (value & flag) !== 0;
 
 export const opCheckSequenceVerify = <
-  State extends StackState &
-    ErrorState<Errors> & {
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors> & {
       readonly sequenceNumber: number;
       readonly version: number;
     },

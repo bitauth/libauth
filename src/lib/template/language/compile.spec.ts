@@ -7,6 +7,7 @@ import {
   compileScriptContents,
   describeExpectedInput,
   hexToBin,
+  stringifyTestVector,
 } from '../../lib';
 
 test('compileScript: unprovided ID', (t) => {
@@ -52,7 +53,7 @@ test('compileScript: clean errors on unexpected input', (t) => {
       errors: [
         {
           error:
-            "Encountered unexpected input while parsing script. Expected a double quote (\"), a hex literal ('0x...'), a single quote ('), a valid identifier, an integer literal, the closing parenthesis of this evaluation (')'), the start of a multi-line comment ('/*'), the start of a push statement ('<'), the start of a single-line comment ('//'), or the start of an evaluation ('$').",
+            "Encountered unexpected input while parsing script. Expected a binary literal ('0b...'), a double quote (\"), a hex literal ('0x...'), a single quote ('), a valid identifier, an integer literal, the closing parenthesis of this evaluation (')'), the start of a multi-line comment ('/*'), the start of a push statement ('<'), the start of a single-line comment ('//'), or the start of an evaluation ('$').",
           range: {
             endColumn: 19,
             endLineNumber: 1,
@@ -107,7 +108,7 @@ test('compileScript: empty string', (t) => {
         startColumn: 1,
         startLineNumber: 1,
       },
-      source: [
+      script: [
         {
           bytecode: Uint8Array.of(),
           range: {
@@ -166,7 +167,7 @@ test('compileScriptContents: empty string', (t) => {
           startColumn: 1,
           startLineNumber: 1,
         },
-        source: [
+        script: [
           {
             bytecode: Uint8Array.of(),
             range: {
@@ -206,9 +207,9 @@ test('compileScriptContents: empty script (script with space)', (t) => {
       },
       name: 'Script',
       start: {
-        column: 5,
+        column: 1,
         line: 1,
-        offset: 4,
+        offset: 0,
       },
       value: [],
     },
@@ -217,16 +218,16 @@ test('compileScriptContents: empty script (script with space)', (t) => {
       range: {
         endColumn: 5,
         endLineNumber: 1,
-        startColumn: 5,
+        startColumn: 1,
         startLineNumber: 1,
       },
-      source: [
+      script: [
         {
           bytecode: Uint8Array.of(),
           range: {
             endColumn: 5,
             endLineNumber: 1,
-            startColumn: 5,
+            startColumn: 1,
             startLineNumber: 1,
           },
         },
@@ -237,7 +238,7 @@ test('compileScriptContents: empty script (script with space)', (t) => {
         range: {
           endColumn: 5,
           endLineNumber: 1,
-          startColumn: 5,
+          startColumn: 1,
           startLineNumber: 1,
         },
         type: 'comment',
@@ -282,153 +283,155 @@ test('compileScript parse error', (t) => {
 });
 
 test('compileScript: 0x51', (t) => {
-  t.deepEqual(compileScript('t', {}, { scripts: { t: '0x51' } }), {
-    bytecode: Uint8Array.of(0x51),
-    parse: {
-      end: {
-        column: 5,
-        line: 1,
-        offset: 4,
-      },
-      name: 'Script',
-      start: {
-        column: 1,
-        line: 1,
-        offset: 0,
-      },
-      value: [
-        {
-          end: {
-            column: 5,
-            line: 1,
-            offset: 4,
-          },
-          name: 'HexLiteral',
-          start: {
-            column: 1,
-            line: 1,
-            offset: 0,
-          },
-          value: '51',
-        },
-      ],
-    },
-    reduce: {
+  const result = compileScript('t', {}, { scripts: { t: '0x51' } });
+  t.deepEqual(
+    result,
+    {
       bytecode: Uint8Array.of(0x51),
-      range: {
-        endColumn: 5,
-        endLineNumber: 1,
-        startColumn: 1,
-        startLineNumber: 1,
-      },
-      source: [
-        {
-          bytecode: Uint8Array.of(0x51),
-          range: {
-            endColumn: 5,
-            endLineNumber: 1,
-            startColumn: 1,
-            startLineNumber: 1,
-          },
+      parse: {
+        end: {
+          column: 5,
+          line: 1,
+          offset: 4,
         },
-      ],
-    },
-    resolve: [
-      {
-        literalType: 'HexLiteral',
+        name: 'Script',
+        start: {
+          column: 1,
+          line: 1,
+          offset: 0,
+        },
+        value: [
+          {
+            end: {
+              column: 5,
+              line: 1,
+              offset: 4,
+            },
+            name: 'HexLiteral',
+            start: {
+              column: 1,
+              line: 1,
+              offset: 0,
+            },
+            value: '51',
+          },
+        ],
+      },
+      reduce: {
+        bytecode: Uint8Array.of(0x51),
         range: {
           endColumn: 5,
           endLineNumber: 1,
           startColumn: 1,
           startLineNumber: 1,
         },
-        type: 'bytecode',
-        value: Uint8Array.of(0x51),
-      },
-    ],
-    success: true,
-  });
-});
-
-test('compileScript: <1>', (t) => {
-  t.deepEqual(compileScript('t', {}, { scripts: { t: '<1>' } }), {
-    bytecode: Uint8Array.of(0x51),
-    parse: {
-      end: {
-        column: 4,
-        line: 1,
-        offset: 3,
-      },
-      name: 'Script',
-      start: {
-        column: 1,
-        line: 1,
-        offset: 0,
-      },
-      value: [
-        {
-          end: {
-            column: 4,
-            line: 1,
-            offset: 3,
-          },
-          name: 'Push',
-          start: {
-            column: 1,
-            line: 1,
-            offset: 0,
-          },
-          value: {
-            end: {
-              column: 3,
-              line: 1,
-              offset: 2,
+        script: [
+          {
+            bytecode: Uint8Array.of(0x51),
+            range: {
+              endColumn: 5,
+              endLineNumber: 1,
+              startColumn: 1,
+              startLineNumber: 1,
             },
-            name: 'Script',
-            start: {
-              column: 2,
-              line: 1,
-              offset: 1,
-            },
-            value: [
-              {
-                end: {
-                  column: 3,
-                  line: 1,
-                  offset: 2,
-                },
-                name: 'BigIntLiteral',
-                start: {
-                  column: 2,
-                  line: 1,
-                  offset: 1,
-                },
-                value: BigInt(1),
-              },
-            ],
           },
-        },
-      ],
-    },
-    reduce: {
-      bytecode: Uint8Array.of(0x51),
-      range: {
-        endColumn: 4,
-        endLineNumber: 1,
-        startColumn: 1,
-        startLineNumber: 1,
+        ],
       },
-      source: [
+      resolve: [
         {
-          bytecode: Uint8Array.of(0x51),
+          literal: '51',
+          literalType: 'HexLiteral',
           range: {
-            endColumn: 4,
+            endColumn: 5,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1,
           },
-          source: [
-            {
+          type: 'bytecode',
+          value: Uint8Array.of(0x51),
+        },
+      ],
+      success: true,
+    },
+    stringifyTestVector(result)
+  );
+});
+
+test('compileScript: <1>', (t) => {
+  const result = compileScript('t', {}, { scripts: { t: '<1>' } });
+  t.deepEqual(
+    result,
+    {
+      bytecode: Uint8Array.of(0x51),
+      parse: {
+        end: {
+          column: 4,
+          line: 1,
+          offset: 3,
+        },
+        name: 'Script',
+        start: {
+          column: 1,
+          line: 1,
+          offset: 0,
+        },
+        value: [
+          {
+            end: {
+              column: 4,
+              line: 1,
+              offset: 3,
+            },
+            name: 'Push',
+            start: {
+              column: 1,
+              line: 1,
+              offset: 0,
+            },
+            value: {
+              end: {
+                column: 3,
+                line: 1,
+                offset: 2,
+              },
+              name: 'Script',
+              start: {
+                column: 2,
+                line: 1,
+                offset: 1,
+              },
+              value: [
+                {
+                  end: {
+                    column: 3,
+                    line: 1,
+                    offset: 2,
+                  },
+                  name: 'BigIntLiteral',
+                  start: {
+                    column: 2,
+                    line: 1,
+                    offset: 1,
+                  },
+                  value: '1',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      reduce: {
+        bytecode: Uint8Array.of(0x51),
+        range: {
+          endColumn: 4,
+          endLineNumber: 1,
+          startColumn: 1,
+          startLineNumber: 1,
+        },
+        script: [
+          {
+            bytecode: Uint8Array.of(0x51),
+            push: {
               bytecode: Uint8Array.of(0x01),
               range: {
                 endColumn: 3,
@@ -436,7 +439,7 @@ test('compileScript: <1>', (t) => {
                 startColumn: 2,
                 startLineNumber: 1,
               },
-              source: [
+              script: [
                 {
                   bytecode: Uint8Array.of(0x01),
                   range: {
@@ -448,117 +451,121 @@ test('compileScript: <1>', (t) => {
                 },
               ],
             },
-          ],
-        },
-      ],
-    },
-    resolve: [
-      {
-        range: {
-          endColumn: 4,
-          endLineNumber: 1,
-          startColumn: 1,
-          startLineNumber: 1,
-        },
-        type: 'push',
-        value: [
-          {
-            literalType: 'BigIntLiteral',
             range: {
-              endColumn: 3,
+              endColumn: 4,
               endLineNumber: 1,
-              startColumn: 2,
+              startColumn: 1,
               startLineNumber: 1,
             },
-            type: 'bytecode',
-            value: Uint8Array.of(0x01),
           },
         ],
       },
-    ],
-    success: true,
-  });
-});
-
-test('compileScript: <0xabcdef>', (t) => {
-  t.deepEqual(compileScript('t', {}, { scripts: { t: '<0xabcdef>' } }), {
-    bytecode: Uint8Array.of(0x03, 0xab, 0xcd, 0xef),
-    parse: {
-      end: {
-        column: 11,
-        line: 1,
-        offset: 10,
-      },
-      name: 'Script',
-      start: {
-        column: 1,
-        line: 1,
-        offset: 0,
-      },
-      value: [
+      resolve: [
         {
-          end: {
-            column: 11,
-            line: 1,
-            offset: 10,
-          },
-          name: 'Push',
-          start: {
-            column: 1,
-            line: 1,
-            offset: 0,
-          },
-          value: {
-            end: {
-              column: 10,
-              line: 1,
-              offset: 9,
-            },
-            name: 'Script',
-            start: {
-              column: 2,
-              line: 1,
-              offset: 1,
-            },
-            value: [
-              {
-                end: {
-                  column: 10,
-                  line: 1,
-                  offset: 9,
-                },
-                name: 'HexLiteral',
-                start: {
-                  column: 2,
-                  line: 1,
-                  offset: 1,
-                },
-                value: 'abcdef',
-              },
-            ],
-          },
-        },
-      ],
-    },
-    reduce: {
-      bytecode: Uint8Array.of(0x03, 0xab, 0xcd, 0xef),
-      range: {
-        endColumn: 11,
-        endLineNumber: 1,
-        startColumn: 1,
-        startLineNumber: 1,
-      },
-      source: [
-        {
-          bytecode: Uint8Array.of(0x03, 0xab, 0xcd, 0xef),
           range: {
-            endColumn: 11,
+            endColumn: 4,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1,
           },
-          source: [
+          type: 'push',
+          value: [
             {
+              literal: '1',
+              literalType: 'BigIntLiteral',
+              range: {
+                endColumn: 3,
+                endLineNumber: 1,
+                startColumn: 2,
+                startLineNumber: 1,
+              },
+              type: 'bytecode',
+              value: Uint8Array.of(0x01),
+            },
+          ],
+        },
+      ],
+      success: true,
+    },
+    stringifyTestVector(result)
+  );
+});
+
+test('compileScript: <0xabcdef>', (t) => {
+  const result = compileScript('t', {}, { scripts: { t: '<0xabcdef>' } });
+  t.deepEqual(
+    result,
+    {
+      bytecode: Uint8Array.of(0x03, 0xab, 0xcd, 0xef),
+      parse: {
+        end: {
+          column: 11,
+          line: 1,
+          offset: 10,
+        },
+        name: 'Script',
+        start: {
+          column: 1,
+          line: 1,
+          offset: 0,
+        },
+        value: [
+          {
+            end: {
+              column: 11,
+              line: 1,
+              offset: 10,
+            },
+            name: 'Push',
+            start: {
+              column: 1,
+              line: 1,
+              offset: 0,
+            },
+            value: {
+              end: {
+                column: 10,
+                line: 1,
+                offset: 9,
+              },
+              name: 'Script',
+              start: {
+                column: 2,
+                line: 1,
+                offset: 1,
+              },
+              value: [
+                {
+                  end: {
+                    column: 10,
+                    line: 1,
+                    offset: 9,
+                  },
+                  name: 'HexLiteral',
+                  start: {
+                    column: 2,
+                    line: 1,
+                    offset: 1,
+                  },
+                  value: 'abcdef',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      reduce: {
+        bytecode: Uint8Array.of(0x03, 0xab, 0xcd, 0xef),
+        range: {
+          endColumn: 11,
+          endLineNumber: 1,
+          startColumn: 1,
+          startLineNumber: 1,
+        },
+        script: [
+          {
+            bytecode: Uint8Array.of(0x03, 0xab, 0xcd, 0xef),
+            push: {
               bytecode: Uint8Array.of(0xab, 0xcd, 0xef),
               range: {
                 endColumn: 10,
@@ -566,7 +573,7 @@ test('compileScript: <0xabcdef>', (t) => {
                 startColumn: 2,
                 startLineNumber: 1,
               },
-              source: [
+              script: [
                 {
                   bytecode: Uint8Array.of(0xab, 0xcd, 0xef),
                   range: {
@@ -578,117 +585,121 @@ test('compileScript: <0xabcdef>', (t) => {
                 },
               ],
             },
-          ],
-        },
-      ],
-    },
-    resolve: [
-      {
-        range: {
-          endColumn: 11,
-          endLineNumber: 1,
-          startColumn: 1,
-          startLineNumber: 1,
-        },
-        type: 'push',
-        value: [
-          {
-            literalType: 'HexLiteral',
             range: {
-              endColumn: 10,
+              endColumn: 11,
               endLineNumber: 1,
-              startColumn: 2,
+              startColumn: 1,
               startLineNumber: 1,
             },
-            type: 'bytecode',
-            value: Uint8Array.of(0xab, 0xcd, 0xef),
           },
         ],
       },
-    ],
-    success: true,
-  });
-});
-
-test('compileScript: <"abc 👍">', (t) => {
-  t.deepEqual(compileScript('t', {}, { scripts: { t: '<"abc 👍">' } }), {
-    bytecode: hexToBin('0861626320f09f918d'),
-    parse: {
-      end: {
-        column: 11,
-        line: 1,
-        offset: 10,
-      },
-      name: 'Script',
-      start: {
-        column: 1,
-        line: 1,
-        offset: 0,
-      },
-      value: [
+      resolve: [
         {
-          end: {
-            column: 11,
-            line: 1,
-            offset: 10,
-          },
-          name: 'Push',
-          start: {
-            column: 1,
-            line: 1,
-            offset: 0,
-          },
-          value: {
-            end: {
-              column: 10,
-              line: 1,
-              offset: 9,
-            },
-            name: 'Script',
-            start: {
-              column: 2,
-              line: 1,
-              offset: 1,
-            },
-            value: [
-              {
-                end: {
-                  column: 10,
-                  line: 1,
-                  offset: 9,
-                },
-                name: 'UTF8Literal',
-                start: {
-                  column: 2,
-                  line: 1,
-                  offset: 1,
-                },
-                value: 'abc 👍',
-              },
-            ],
-          },
-        },
-      ],
-    },
-    reduce: {
-      bytecode: hexToBin('0861626320f09f918d'),
-      range: {
-        endColumn: 11,
-        endLineNumber: 1,
-        startColumn: 1,
-        startLineNumber: 1,
-      },
-      source: [
-        {
-          bytecode: hexToBin('0861626320f09f918d'),
           range: {
             endColumn: 11,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1,
           },
-          source: [
+          type: 'push',
+          value: [
             {
+              literal: 'abcdef',
+              literalType: 'HexLiteral',
+              range: {
+                endColumn: 10,
+                endLineNumber: 1,
+                startColumn: 2,
+                startLineNumber: 1,
+              },
+              type: 'bytecode',
+              value: Uint8Array.of(0xab, 0xcd, 0xef),
+            },
+          ],
+        },
+      ],
+      success: true,
+    },
+    stringifyTestVector(result)
+  );
+});
+
+test('compileScript: <"abc 👍">', (t) => {
+  const result = compileScript('t', {}, { scripts: { t: '<"abc 👍">' } });
+  t.deepEqual(
+    result,
+    {
+      bytecode: hexToBin('0861626320f09f918d'),
+      parse: {
+        end: {
+          column: 11,
+          line: 1,
+          offset: 10,
+        },
+        name: 'Script',
+        start: {
+          column: 1,
+          line: 1,
+          offset: 0,
+        },
+        value: [
+          {
+            end: {
+              column: 11,
+              line: 1,
+              offset: 10,
+            },
+            name: 'Push',
+            start: {
+              column: 1,
+              line: 1,
+              offset: 0,
+            },
+            value: {
+              end: {
+                column: 10,
+                line: 1,
+                offset: 9,
+              },
+              name: 'Script',
+              start: {
+                column: 2,
+                line: 1,
+                offset: 1,
+              },
+              value: [
+                {
+                  end: {
+                    column: 10,
+                    line: 1,
+                    offset: 9,
+                  },
+                  name: 'UTF8Literal',
+                  start: {
+                    column: 2,
+                    line: 1,
+                    offset: 1,
+                  },
+                  value: 'abc 👍',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      reduce: {
+        bytecode: hexToBin('0861626320f09f918d'),
+        range: {
+          endColumn: 11,
+          endLineNumber: 1,
+          startColumn: 1,
+          startLineNumber: 1,
+        },
+        script: [
+          {
+            bytecode: hexToBin('0861626320f09f918d'),
+            push: {
               bytecode: hexToBin('61626320f09f918d'),
               range: {
                 endColumn: 10,
@@ -696,7 +707,7 @@ test('compileScript: <"abc 👍">', (t) => {
                 startColumn: 2,
                 startLineNumber: 1,
               },
-              source: [
+              script: [
                 {
                   bytecode: hexToBin('61626320f09f918d'),
                   range: {
@@ -708,36 +719,44 @@ test('compileScript: <"abc 👍">', (t) => {
                 },
               ],
             },
-          ],
-        },
-      ],
-    },
-    resolve: [
-      {
-        range: {
-          endColumn: 11,
-          endLineNumber: 1,
-          startColumn: 1,
-          startLineNumber: 1,
-        },
-        type: 'push',
-        value: [
-          {
-            literalType: 'UTF8Literal',
             range: {
-              endColumn: 10,
+              endColumn: 11,
               endLineNumber: 1,
-              startColumn: 2,
+              startColumn: 1,
               startLineNumber: 1,
             },
-            type: 'bytecode',
-            value: hexToBin('61626320f09f918d'),
           },
         ],
       },
-    ],
-    success: true,
-  });
+      resolve: [
+        {
+          range: {
+            endColumn: 11,
+            endLineNumber: 1,
+            startColumn: 1,
+            startLineNumber: 1,
+          },
+          type: 'push',
+          value: [
+            {
+              literal: 'abc 👍',
+              literalType: 'UTF8Literal',
+              range: {
+                endColumn: 10,
+                endLineNumber: 1,
+                startColumn: 2,
+                startLineNumber: 1,
+              },
+              type: 'bytecode',
+              value: hexToBin('61626320f09f918d'),
+            },
+          ],
+        },
+      ],
+      success: true,
+    },
+    stringifyTestVector(result)
+  );
 });
 
 test('compileScript (no identifiers): OP_1', (t) => {
@@ -745,7 +764,7 @@ test('compileScript (no identifiers): OP_1', (t) => {
     errorType: 'resolve',
     errors: [
       {
-        error: "Unknown identifier 'OP_1'.",
+        error: 'Unknown identifier "OP_1".',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -793,7 +812,7 @@ test('compileScript (no identifiers): OP_1', (t) => {
           startLineNumber: 1,
         },
         type: 'error',
-        value: "Unknown identifier 'OP_1'.",
+        value: 'Unknown identifier "OP_1".',
       },
     ],
     success: false,
@@ -881,7 +900,7 @@ test('compileScript: OP_1 OP_2 OP_ADD', (t) => {
           startColumn: 1,
           startLineNumber: 1,
         },
-        source: [
+        script: [
           {
             bytecode: Uint8Array.of(0x51),
             range: {
@@ -1030,7 +1049,7 @@ test('compileScript: variable and script inclusion', (t) => {
         startColumn: 1,
         startLineNumber: 1,
       },
-      source: [
+      script: [
         {
           bytecode: Uint8Array.of(0x51, 0x52),
           range: {
@@ -1163,7 +1182,7 @@ test('compileScript: comments', (t) => {
           startColumn: 1,
           startLineNumber: 1,
         },
-        source: [
+        script: [
           {
             bytecode: Uint8Array.of(),
             range: {

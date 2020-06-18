@@ -29,24 +29,27 @@ export const twoOfThree: AuthenticationTemplate = {
   scripts: {
     '1_and_2': {
       name: 'Cosigner 1 & 2',
-      script: 'OP_0 <key1.signature.all_outputs> <key2.signature.all_outputs>',
+      script:
+        'OP_0\n<key1.signature.all_outputs>\n<key2.signature.all_outputs>',
       unlocks: 'lock',
     },
     '1_and_3': {
       name: 'Cosigner 1 & 3',
-      script: 'OP_0 <key1.signature.all_outputs> <key3.signature.all_outputs>',
+      script:
+        'OP_0\n<key1.signature.all_outputs>\n<key3.signature.all_outputs>',
       unlocks: 'lock',
     },
     '2_and_3': {
       name: 'Cosigner 2 & 3',
-      script: 'OP_0 <key2.signature.all_outputs> <key3.signature.all_outputs>',
+      script:
+        'OP_0\n<key2.signature.all_outputs>\n<key3.signature.all_outputs>',
       unlocks: 'lock',
     },
     lock: {
       lockingType: 'p2sh',
       name: '2-of-3 Vault',
       script:
-        'OP_2 <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG',
+        'OP_2\n<key1.public_key>\n<key2.public_key>\n<key3.public_key>\nOP_3\nOP_CHECKMULTISIG',
     },
   },
   supported: ['BCH_2019_11'],

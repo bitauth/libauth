@@ -1,8 +1,12 @@
-import { ErrorState, ExecutionStackState, StackState } from '../../state';
 import {
   InstructionSetOperationMapping,
   Operation,
 } from '../../virtual-machine';
+import {
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateExecutionStack,
+  AuthenticationProgramStateStack,
+} from '../../vm-types';
 
 import { isScriptNumberError, parseBytesAsScriptNumber } from './common';
 import { applyError, AuthenticationErrorCommon } from './errors';
@@ -18,7 +22,9 @@ export const incrementOperationCount = <
   return nextState;
 };
 
-export const conditionallyEvaluate = <State extends ExecutionStackState>(
+export const conditionallyEvaluate = <
+  State extends AuthenticationProgramStateExecutionStack
+>(
   operation: Operation<State>
 ): Operation<State> => (state: State) =>
   state.executionStack.every((item) => item) ? operation(state) : state;
@@ -50,7 +56,8 @@ export const mapOverOperations = <State>(
  * Pop one stack item off of `state.stack` and provide that item to `operation`.
  */
 export const useOneStackItem = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -68,7 +75,8 @@ export const useOneStackItem = <
 };
 
 export const useTwoStackItems = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -84,7 +92,8 @@ export const useTwoStackItems = <
   );
 
 export const useThreeStackItems = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -100,7 +109,8 @@ export const useThreeStackItems = <
   );
 
 export const useFourStackItems = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -121,7 +131,8 @@ export const useFourStackItems = <
   );
 
 export const useSixStackItems = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -155,7 +166,8 @@ export const useSixStackItems = <
 const normalMaximumScriptNumberByteLength = 4;
 
 export const useOneScriptNumber = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -180,7 +192,8 @@ export const useOneScriptNumber = <
   });
 
 export const useTwoScriptNumbers = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -206,7 +219,8 @@ export const useTwoScriptNumbers = <
   );
 
 export const useThreeScriptNumbers = <
-  State extends StackState & ErrorState<Errors>,
+  State extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateError<Errors>,
   Errors
 >(
   state: State,
@@ -236,7 +250,7 @@ export const useThreeScriptNumbers = <
  * @param state - the state to update and return
  * @param data - the value to push to the stack
  */
-export const pushToStack = <State extends StackState>(
+export const pushToStack = <State extends AuthenticationProgramStateStack>(
   state: State,
   ...data: Uint8Array[]
 ) => {

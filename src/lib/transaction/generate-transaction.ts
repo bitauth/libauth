@@ -1,8 +1,4 @@
-import {
-  CompilationData,
-  Compiler,
-  TransactionContextCommon,
-} from '../template/compiler-types';
+import { CompilationData, Compiler } from '../template/compiler-types';
 import {
   CompilationError,
   CompilationResultParseError,
@@ -11,14 +7,14 @@ import {
 } from '../template/language/language-types';
 import {
   allErrorsAreRecoverable,
-  getResolvedVariableBytecode,
+  extractResolvedVariableBytecodeMap,
 } from '../template/language/language-utils';
 
 import {
-  serializeOutpoints,
-  serializeOutput,
-  serializeOutputsForSigning,
-  serializeSequenceNumbersForSigning,
+  encodeOutpoints,
+  encodeOutput,
+  encodeOutputsForSigning,
+  encodeSequenceNumbersForSigning,
 } from './transaction-serialization';
 import {
   BytecodeGenerationCompletionInput,
@@ -30,6 +26,7 @@ import {
   InputTemplate,
   Output,
   OutputTemplate,
+  TransactionContextCommon,
   TransactionGenerationAttempt,
   TransactionGenerationError,
   TransactionTemplateFixed,
@@ -118,14 +115,14 @@ export const compileInputTemplate = <
           correspondingOutput:
             correspondingOutput === undefined
               ? undefined
-              : serializeOutput(correspondingOutput),
+              : encodeOutput(correspondingOutput),
           locktime: template.locktime,
           outpointIndex: inputTemplate.outpointIndex,
           outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
           outputValue: directive.satoshis,
           sequenceNumber: inputTemplate.sequenceNumber,
           transactionOutpoints: transactionOutpoints.slice(),
-          transactionOutputs: serializeOutputsForSigning(outputs),
+          transactionOutputs: encodeOutputsForSigning(outputs),
           transactionSequenceNumbers: transactionSequenceNumbers.slice(),
           version: template.version,
         },
@@ -203,8 +200,8 @@ export const generateTransaction = <
     outpointTransactionHash: inputTemplate.outpointTransactionHash.slice(),
     sequenceNumber: inputTemplate.sequenceNumber,
   }));
-  const transactionOutpoints = serializeOutpoints(inputSerializationElements);
-  const transactionSequenceNumbers = serializeSequenceNumbersForSigning(
+  const transactionOutpoints = encodeOutpoints(inputSerializationElements);
+  const transactionSequenceNumbers = encodeSequenceNumbersForSigning(
     inputSerializationElements
   );
   const inputResults = template.inputs.map((inputTemplate, index) =>
@@ -271,7 +268,7 @@ export const extractResolvedVariables = (
     (all, error) =>
       error.resolved === undefined
         ? all
-        : { ...all, ...getResolvedVariableBytecode(error.resolved) },
+        : { ...all, ...extractResolvedVariableBytecodeMap(error.resolved) },
     {}
   );
 

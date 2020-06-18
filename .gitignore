@@ -7,6 +7,7 @@ docs/markdown
 coverage
 .nyc_output
 *.log
+report.*.json
 scratch
 
 src/lib/bin/**/*.html

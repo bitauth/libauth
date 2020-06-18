@@ -5,6 +5,7 @@ export * from './compiler-operation-helpers';
 export * from './compiler-operations';
 export * from './compiler-types';
 export * from './compiler';
+export * from './scenarios';
 export * from './standard/standard';
 export * from './template-types';
 export * from './template-validation';

@@ -482,3 +482,35 @@ test(
   },
   { sha256: undefined }
 );
+
+test(
+  '[BCH compiler] Key – error in coveredBytecode compilation',
+  expectCompilationResult,
+  '',
+  { keys: { privateKeys: { owner: privkey } } },
+  {
+    errorType: 'resolve',
+    errors: [
+      {
+        error:
+          'Compilation error in resolved script "lock": [1, 1] Unknown identifier "invalid".',
+        range: {
+          endColumn: 29,
+          endLineNumber: 1,
+          startColumn: 2,
+          startLineNumber: 1,
+        },
+      },
+    ],
+    success: false,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  {
+    owner: { type: 'Key' },
+  },
+  {
+    scripts: {
+      lock: 'invalid',
+      test: '<owner.signature.all_outputs>',
+    },
+  }
+);

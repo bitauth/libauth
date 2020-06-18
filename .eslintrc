@@ -7,7 +7,23 @@
   "extends": ["bitauth"],
   "globals": { "BigInt": true, "console": true, "WebAssembly": true },
   "rules": {
-    "@typescript-eslint/prefer-readonly-parameter-types": "off" // TODO: enable
+    "@typescript-eslint/prefer-readonly-parameter-types": "off", // TODO: enable when Uint8Array can be made readonly, see `Immutable` type
+    "@typescript-eslint/no-unused-expressions": "off", // TODO: bug causes crash in eslint 7.2.0 – re-enable later
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "default",
+        "format": ["camelCase"],
+        "leadingUnderscore": "allow"
+      },
+      {
+        "selector": "variable",
+        "format": ["camelCase", "UPPER_CASE"],
+        "leadingUnderscore": "allow"
+      },
+      { "selector": "typeLike", "format": ["PascalCase"] },
+      { "selector": "enumMember", "format": ["camelCase", "UPPER_CASE"] } // Allow UPPER_CASE for opcodes
+    ]
   },
   "overrides": [
     /*

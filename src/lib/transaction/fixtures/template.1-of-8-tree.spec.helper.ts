@@ -1,4 +1,4 @@
-/* eslint-disable camelcase, @typescript-eslint/no-magic-numbers */
+/* eslint-disable camelcase, @typescript-eslint/naming-convention, @typescript-eslint/no-magic-numbers */
 import {
   AuthenticationTemplate,
   AuthenticationTemplateHdKey,

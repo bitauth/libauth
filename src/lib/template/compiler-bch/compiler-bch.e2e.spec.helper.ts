@@ -74,6 +74,7 @@ export const expectCompilationResult: Macro<[
   const compiler = createCompiler<
     TransactionContextBCH,
     CompilationEnvironmentBCH,
+    OpcodesBCH,
     AuthenticationProgramStateBCH
   >({
     createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,

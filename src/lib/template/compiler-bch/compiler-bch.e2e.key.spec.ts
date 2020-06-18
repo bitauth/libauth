@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/naming-convention */
 import test from 'ava';
 
 import {

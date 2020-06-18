@@ -1,7 +1,7 @@
 import { ParseResult } from './language-types';
 import { P } from './parsimmon';
 
-/* eslint-disable sort-keys */
+/* eslint-disable sort-keys, @typescript-eslint/naming-convention, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 const authenticationScriptParser = P.createLanguage({
   script: (r) =>
     P.seqMap(
@@ -90,7 +90,7 @@ const authenticationScriptParser = P.createLanguage({
       .desc('an integer literal')
       .node('BigIntLiteral'),
 });
-/* eslint-enable sort-keys */
+/* eslint-enable sort-keys, @typescript-eslint/naming-convention, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 
 export const parseScript = (script: string) =>
   authenticationScriptParser.script.parse(script) as ParseResult;

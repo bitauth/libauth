@@ -138,8 +138,7 @@ export const resolveScriptSegment = (
         return {
           range,
           type: 'error' as const,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          value: `Unrecognized segment: ${(child as any).name as string}`,
+          value: `Unrecognized segment: ${(child as { name: string }).name}`,
         };
     }
   });
@@ -285,20 +284,24 @@ export const resolveVariableIdentifier = <
         operationId,
         variableId,
         ...{
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           AddressData: {
             matchingOperations: environment.operations?.addressData,
             variableType: 'addressData',
           },
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           HdKey: {
             matchingOperations: environment.operations?.hdKey,
             operationExample: 'public_key',
             variableType: 'hdKey',
           },
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           Key: {
             matchingOperations: environment.operations?.key,
             operationExample: 'public_key',
             variableType: 'key',
           },
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           WalletData: {
             matchingOperations: environment.operations?.walletData,
             variableType: 'walletData',

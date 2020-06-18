@@ -1,5 +1,5 @@
 /* global window, crypto */
-/* eslint-disable functional/no-let, init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
 import * as asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
 import * as hashJs from 'hash.js';
@@ -20,6 +20,7 @@ declare const benchComplete: () => void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isUint8Array = (array: any): array is Uint8Array =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   array?.constructor?.name === 'Uint8Array';
 
 const compare = (a?: Uint8Array, b?: Uint8Array) => {
@@ -86,6 +87,7 @@ const singlePassBrowserBenchmark = async ({
             defer: true,
           }
         );
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const Algorithm =
           subtleCryptoAlgorithmName === 'SHA-1'
             ? asmCrypto.Sha1
@@ -100,7 +102,7 @@ const singlePassBrowserBenchmark = async ({
     }
   );
 
-const MB = 1_000_000;
+const mb = 1_000_000;
 
 const incrementalBrowserBenchmark = async ({
   chunkSize,
@@ -115,8 +117,8 @@ const incrementalBrowserBenchmark = async ({
 }) =>
   suite(
     `browser: ${hashFunctionName}: incrementally hash a ${
-      totalInput / MB
-    }MB input in ${chunkSize / MB}MB chunks`,
+      totalInput / mb
+    }MB input in ${chunkSize / mb}MB chunks`,
     (s) => {
       let message: Uint8Array;
       let messageChunks: readonly Uint8Array[];
@@ -164,6 +166,7 @@ const incrementalBrowserBenchmark = async ({
       });
 
       if (hashFunctionName !== 'ripemd160') {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const Algorithm =
           hashFunctionName === 'sha1'
             ? asmCrypto.Sha1
@@ -213,10 +216,10 @@ const browserBenchmarks = async ({
     subtleCryptoAlgorithmName,
   });
   await incrementalBrowserBenchmark({
-    chunkSize: MB,
+    chunkSize: mb,
     hashFunction,
     hashFunctionName,
-    totalInput: MB * 32,
+    totalInput: mb * 32,
   });
   /* eslint-enable @typescript-eslint/no-magic-numbers */
 };

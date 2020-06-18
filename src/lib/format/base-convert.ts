@@ -35,11 +35,11 @@ export const createBaseConverter = (
   alphabet: string
 ): BaseConversionError | BaseConverter => {
   const undefinedValue = 255;
-  const Uint8ArrayBase = 256;
+  const uint8ArrayBase = 256;
 
   if (alphabet.length >= undefinedValue) return BaseConversionError.tooLong;
 
-  const alphabetMap = new Uint8Array(Uint8ArrayBase).fill(undefinedValue);
+  const alphabetMap = new Uint8Array(uint8ArrayBase).fill(undefinedValue);
 
   // eslint-disable-next-line functional/no-loop-statement, functional/no-let, no-plusplus
   for (let index = 0; index < alphabet.length; index++) {
@@ -53,8 +53,8 @@ export const createBaseConverter = (
 
   const base = alphabet.length;
   const paddingCharacter = alphabet.charAt(0);
-  const factor = Math.log(base) / Math.log(Uint8ArrayBase);
-  const inverseFactor = Math.log(Uint8ArrayBase) / Math.log(base);
+  const factor = Math.log(base) / Math.log(uint8ArrayBase);
+  const inverseFactor = Math.log(uint8ArrayBase) / Math.log(base);
 
   return {
     // eslint-disable-next-line complexity
@@ -78,7 +78,7 @@ export const createBaseConverter = (
       let remainingBytes = 0;
 
       // eslint-disable-next-line functional/no-loop-statement
-      while (input[nextByte] !== undefined) {
+      while ((input[nextByte] as string | undefined) !== undefined) {
         let carry = alphabetMap[input.charCodeAt(nextByte)];
         if (carry === undefinedValue)
           return BaseConversionError.unknownCharacter;
@@ -93,8 +93,8 @@ export const createBaseConverter = (
         ) {
           carry += Math.floor(base * decoded[steps]);
           // eslint-disable-next-line functional/immutable-data
-          decoded[steps] = Math.floor(carry % Uint8ArrayBase);
-          carry = Math.floor(carry / Uint8ArrayBase);
+          decoded[steps] = Math.floor(carry % uint8ArrayBase);
+          carry = Math.floor(carry / uint8ArrayBase);
         }
 
         remainingBytes = digit;
@@ -140,7 +140,7 @@ export const createBaseConverter = (
           // eslint-disable-next-line no-plusplus
           steps--, digit++
         ) {
-          carry += Math.floor(Uint8ArrayBase * encoded[steps]);
+          carry += Math.floor(uint8ArrayBase * encoded[steps]);
           // eslint-disable-next-line functional/immutable-data
           encoded[steps] = Math.floor(carry % base);
           carry = Math.floor(carry / base);

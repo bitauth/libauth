@@ -4,6 +4,7 @@ type ImmutablePrimitive =
   | boolean
   | string
   | number
+  // eslint-disable-next-line @typescript-eslint/ban-types
   | Function;
 type ImmutableArray<T> = readonly Immutable<T>[];
 type ImmutableMap<K, V> = ReadonlyMap<Immutable<K>, Immutable<V>>;

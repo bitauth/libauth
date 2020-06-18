@@ -55,22 +55,20 @@ enum CommonPushOpcodes {
   OP_PUSHDATA_4 = 0x4e,
 }
 
-enum Bytes {
-  Uint8 = 1,
-  Uint16 = 2,
-  Uint32 = 4,
-}
+const uint8Bytes = 1;
+const uint16Bytes = 2;
+const uint32Bytes = 4;
 
 const readLittleEndianNumber = (
   script: Uint8Array,
   index: number,
-  length: Bytes
+  length: typeof uint8Bytes | typeof uint16Bytes | typeof uint32Bytes
 ) => {
   const view = new DataView(script.buffer, index, length);
   const readAsLittleEndian = true;
-  return length === Bytes.Uint8
+  return length === uint8Bytes
     ? view.getUint8(0)
-    : length === Bytes.Uint16
+    : length === uint16Bytes
     ? view.getUint16(0, readAsLittleEndian)
     : view.getUint32(0, readAsLittleEndian);
 };
@@ -80,14 +78,14 @@ const readLittleEndianNumber = (
  * operation.
  * @param opcode - an opcode between 0x00 and 0x4e
  */
-export const lengthBytesForPushOpcode = (opcode: number): Bytes =>
+export const lengthBytesForPushOpcode = (opcode: number) =>
   opcode < CommonPushOpcodes.OP_PUSHDATA_1
     ? 0
     : opcode === CommonPushOpcodes.OP_PUSHDATA_1
-    ? Bytes.Uint8
+    ? uint8Bytes
     : opcode === CommonPushOpcodes.OP_PUSHDATA_2
-    ? Bytes.Uint16
-    : Bytes.Uint32;
+    ? uint16Bytes
+    : uint32Bytes;
 
 /**
  * Parse one instruction from the provided script.
@@ -122,9 +120,8 @@ export const readAuthenticationInstruction = <Opcodes = number>(
     };
   }
   const lengthBytes = lengthBytesForPushOpcode(opcode);
-  const pushBytes = lengthBytes === 0;
 
-  if (!pushBytes && index + lengthBytes >= script.length) {
+  if (lengthBytes !== 0 && index + lengthBytes >= script.length) {
     const sliceStart = index + 1;
     const sliceEnd = sliceStart + lengthBytes;
     return {
@@ -138,9 +135,10 @@ export const readAuthenticationInstruction = <Opcodes = number>(
     };
   }
 
-  const dataBytes = pushBytes
-    ? opcode
-    : readLittleEndianNumber(script, index + 1, lengthBytes);
+  const dataBytes =
+    lengthBytes === 0
+      ? opcode
+      : readLittleEndianNumber(script, index + 1, lengthBytes);
   const dataStart = index + 1 + lengthBytes;
   const dataEnd = dataStart + dataBytes;
   return {
@@ -191,11 +189,6 @@ export const parseBytecode = <Opcodes = number>(script: Uint8Array) => {
   }
   return instructions;
 };
-
-const isPush = <Opcodes>(
-  instruction: AuthenticationInstruction<Opcodes>
-): instruction is AuthenticationInstructionPush<Opcodes> =>
-  (instruction as AuthenticationInstructionPush<Opcodes>).data !== undefined;
 
 /**
  * OP_0 is the only single-word push. All other push instructions will
@@ -250,7 +243,7 @@ export const disassembleAuthenticationInstruction = <Opcodes = number>(
   instruction: AuthenticationInstruction<Opcodes>
 ): string =>
   `${opcodes[(instruction.opcode as unknown) as number]}${
-    isPush(instruction) &&
+    'data' in instruction &&
     isMultiWordPush((instruction.opcode as unknown) as number)
       ? ` ${
           isPushData((instruction.opcode as unknown) as number)
@@ -335,7 +328,7 @@ export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
  * the bytecode value (`Uint8Array`) it represents.
  * @param opcodes - An opcode enum, e.g. `OpcodesBCH`
  */
-export const generateBytecodeMap = (opcodes: object) =>
+export const generateBytecodeMap = (opcodes: Record<string, unknown>) =>
   Object.entries(opcodes)
     .filter<[string, number]>(
       (entry): entry is [string, number] => typeof entry[1] === 'number'
@@ -358,7 +351,7 @@ export const generateBytecodeMap = (opcodes: object) =>
  * @param disassembledBytecode - the disassembled bytecode to re-assemble
  */
 export const assembleBytecode = <
-  Opcodes = OpcodesBCH,
+  Opcodes extends number = OpcodesBCH,
   Errors = AuthenticationErrorBCH
 >(
   opcodes: { readonly [opcode: string]: Uint8Array },
@@ -406,9 +399,9 @@ const getInstructionLengthBytes = <Opcodes>(
 ) => {
   const opcode = (instruction.opcode as unknown) as number;
   const expectedLength = lengthBytesForPushOpcode(opcode);
-  return expectedLength === Bytes.Uint8
+  return expectedLength === uint8Bytes
     ? Uint8Array.of(instruction.data.length)
-    : expectedLength === Bytes.Uint16
+    : expectedLength === uint16Bytes
     ? numberToBinUint16LE(instruction.data.length)
     : numberToBinUint32LE(instruction.data.length);
 };
@@ -422,7 +415,7 @@ export const serializeAuthenticationInstruction = <Opcodes = number>(
 ) =>
   Uint8Array.from([
     (instruction.opcode as unknown) as number,
-    ...(isPush(instruction)
+    ...('data' in instruction
       ? [
           ...(isPushData((instruction.opcode as unknown) as number)
             ? getInstructionLengthBytes(instruction)

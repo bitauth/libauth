@@ -829,9 +829,11 @@ testProp(
       network: 'mainnet',
       node: publicNode,
     });
-    // eslint-disable-next-line new-cap
+    // eslint-disable-next-line new-cap, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const bitcoreResult = bitcoreLibCash.HDPrivateKey(xprv).deriveChild(path);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const bitcorePrv = bitcoreResult.xprivkey;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const bitcorePub = bitcoreResult.xpubkey;
 
     return resultPrv === bitcorePrv && resultPub === bitcorePub;

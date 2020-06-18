@@ -18,6 +18,7 @@ import {
   twoOfTwoRecoverableJson,
 } from './transaction-e2e.spec.helper';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const ignoreDefault = (anything: object) => ({
   ...anything,
   default: true,

@@ -187,9 +187,7 @@ export const allErrorsAreRecoverable = (
   errors: CompilationError[]
 ): errors is CompilationErrorRecoverable[] =>
   errors.every(
-    (error) =>
-      (error as CompilationErrorRecoverable).missingIdentifier !== undefined &&
-      (error as CompilationErrorRecoverable).owningEntity !== undefined
+    (error) => 'missingIdentifier' in error && 'owningEntity' in error
   );
 
 /**
@@ -479,7 +477,7 @@ export const extractEvaluationSamples = <ProgramState, Opcodes = number>({
   let nextState = 1;
   // eslint-disable-next-line functional/no-let
   let nextNode = 0;
-  // eslint-disable-next-line functional/no-let, init-declarations
+  // eslint-disable-next-line functional/no-let, @typescript-eslint/init-declarations
   let incomplete: { bytecode: Uint8Array; range: Range } | undefined;
   // eslint-disable-next-line functional/no-loop-statement
   while (nextState < traceWithoutFinalState.length && nextNode < nodes.length) {

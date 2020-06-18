@@ -7,6 +7,7 @@ import {
 import {
   AuthenticationProgramCommon,
   AuthenticationProgramStateCommon,
+  AuthenticationProgramStateExecutionStack,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
 } from '../vm/vm-types';
@@ -36,8 +37,14 @@ import { AuthenticationTemplate } from './template-types';
 export const createCompiler = <
   TransactionContext extends TransactionContextCommon,
   Environment extends AnyCompilationEnvironment<TransactionContext>,
-  ProgramState = AuthenticationProgramStateStack &
-    AuthenticationProgramStateMinimum
+  Opcodes extends number = number,
+  ProgramState extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateMinimum<
+      Opcodes
+    > = AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateMinimum<Opcodes>
 >(
   compilationEnvironment: Environment
 ): Compiler<TransactionContext, Environment, ProgramState> => ({
@@ -128,12 +135,17 @@ export const createAuthenticationProgramEvaluationCommon = (
 export const createCompilerCommonSynchronous = <
   Environment extends AnyCompilationEnvironment<TransactionContextCommon>,
   ProgramState extends AuthenticationProgramStateCommon<Opcodes, Errors>,
-  Opcodes = OpcodesCommon,
+  Opcodes extends number = OpcodesCommon,
   Errors = AuthenticationErrorCommon
 >(
   scriptsAndOverrides: Environment
 ): Compiler<TransactionContextCommon, Environment, ProgramState> => {
-  return createCompiler<TransactionContextCommon, Environment, ProgramState>({
+  return createCompiler<
+    TransactionContextCommon,
+    Environment,
+    Opcodes,
+    ProgramState
+  >({
     ...{
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
       opcodes: generateBytecodeMap(OpcodesCommon),
@@ -190,7 +202,7 @@ export const authenticationTemplateToCompilationEnvironment = (
     CompilationEnvironment['unlockingScripts']
   >(
     (all, [id, def]) =>
-      'unlocks' in def && def.unlocks !== undefined
+      'unlocks' in def && (def.unlocks as string | undefined) !== undefined
         ? { ...all, [id]: def.unlocks }
         : all,
     {}
@@ -208,7 +220,8 @@ export const authenticationTemplateToCompilationEnvironment = (
     CompilationEnvironment['lockingScriptTypes']
   >(
     (all, [id, def]) =>
-      'lockingType' in def && def.lockingType !== undefined
+      'lockingType' in def &&
+      (def.lockingType as string | undefined) !== undefined
         ? { ...all, [id]: def.lockingType }
         : all,
     {}

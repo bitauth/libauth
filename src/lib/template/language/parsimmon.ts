@@ -2,7 +2,7 @@
  * This file is derived from https://github.com/jneen/parsimmon and
  * https://github.com/DefinitelyTyped/DefinitelyTyped.
  */
-/* eslint-disable prefer-destructuring, @typescript-eslint/unified-signatures, functional/no-method-signature, functional/no-throw-statement, functional/no-conditional-statement, @typescript-eslint/no-this-alias, consistent-this, @typescript-eslint/ban-ts-comment, prefer-spread, @typescript-eslint/restrict-template-expressions, func-names, init-declarations, new-cap, @typescript-eslint/require-array-sort-compare, guard-for-in, no-plusplus, functional/no-let, functional/no-loop-statement, @typescript-eslint/prefer-for-of, @typescript-eslint/restrict-plus-operands, functional/immutable-data, @typescript-eslint/no-use-before-define, @typescript-eslint/strict-boolean-expressions, no-param-reassign, functional/no-expression-statement, functional/no-this-expression, @typescript-eslint/no-explicit-any, func-style */
+/* eslint-disable prefer-destructuring, @typescript-eslint/unified-signatures, functional/no-method-signature, functional/no-throw-statement, functional/no-conditional-statement, @typescript-eslint/no-this-alias, consistent-this, @typescript-eslint/ban-ts-comment, prefer-spread, @typescript-eslint/restrict-template-expressions, func-names, @typescript-eslint/init-declarations, new-cap, @typescript-eslint/require-array-sort-compare, guard-for-in, no-plusplus, functional/no-let, functional/no-loop-statement, @typescript-eslint/prefer-for-of, @typescript-eslint/restrict-plus-operands, functional/immutable-data, @typescript-eslint/no-use-before-define, @typescript-eslint/strict-boolean-expressions, no-param-reassign, functional/no-expression-statement, functional/no-this-expression, @typescript-eslint/no-explicit-any, func-style, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/naming-convention, @typescript-eslint/method-signature-style */
 // cspell: ignore accum
 
 interface Index {
@@ -62,12 +62,12 @@ interface Parser<T> {
 }
 
 function Parsimmon(action: any) {
-  // @ts-ignore
+  // @ts-expect-error
   if (!(this instanceof Parsimmon)) {
-    // @ts-ignore
+    // @ts-expect-error
     return new Parsimmon(action);
   }
-  // @ts-ignore
+  // @ts-expect-error
   this._ = action;
 }
 
@@ -135,11 +135,11 @@ function makeLineColumnIndex(input: any, i: any) {
 function union(xs: any, ys: any) {
   const obj = {};
   for (let i = 0; i < xs.length; i++) {
-    // @ts-ignore
+    // @ts-expect-error
     obj[xs[i]] = true;
   }
   for (let j = 0; j < ys.length; j++) {
-    // @ts-ignore
+    // @ts-expect-error
     obj[ys[j]] = true;
   }
   const keys = [];
@@ -211,9 +211,8 @@ function seqMap<T, U, V, W, X, Y>(
 function seqMap(...params: any[]) {
   const args = [].slice.call(params);
   const mapper = args.pop();
-  // @ts-ignore
   return seq.apply(null, args).map(function (results: any) {
-    // @ts-ignore
+    // @ts-expect-error
     return mapper.apply(null, results);
   });
 }
@@ -223,10 +222,10 @@ function createLanguage<TLanguageSpec>(parsers: TypedRule<TLanguageSpec>) {
   for (const key in parsers) {
     (function (rule: string) {
       const func = function () {
-        // @ts-ignore
+        // @ts-expect-error
         return parsers[rule](language);
       };
-      // @ts-ignore
+      // @ts-expect-error
       language[rule] = lazy(func);
     })(key);
   }

@@ -1,5 +1,5 @@
 /* global Buffer */
-/* eslint-disable functional/no-let, init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
 import { createHash, randomBytes } from 'crypto';
 
 import * as asmCrypto from 'asmcrypto.js';
@@ -49,6 +49,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           hash = createHash(nodeJsAlgorithm).update(nodeJsBuffer).digest();
         });
         if (nodeJsAlgorithm !== 'ripemd160') {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const Algorithm =
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
@@ -74,12 +75,12 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
     });
   };
 
-  const MB = 1_000_000;
+  const mb = 1_000_000;
 
   const incrementalNodeBenchmark = (totalInput: number, chunkSize: number) => {
     test(`node: ${hashFunctionName}: incrementally hash a ${
-      totalInput / MB
-    }MB input in ${chunkSize / MB}MB chunks`, async (t) => {
+      totalInput / mb
+    }MB input in ${chunkSize / mb}MB chunks`, async (t) => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, (s) => {
         let message: Uint8Array;
@@ -120,6 +121,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             .digest();
         });
         if (nodeJsAlgorithm !== 'ripemd160') {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const Algorithm =
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
@@ -151,6 +153,6 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
   singlePassNodeBenchmark(1_000);
   singlePassNodeBenchmark(10_000);
 
-  incrementalNodeBenchmark(MB * 32, MB);
+  incrementalNodeBenchmark(mb * 32, mb);
   /* eslint-enable @typescript-eslint/no-magic-numbers */
 };

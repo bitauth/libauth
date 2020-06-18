@@ -17,6 +17,7 @@ export enum OpcodeDescriptionsUniqueBCH {
 /**
  * A map of descriptions for each Bitcoin Cash opcode.
  */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const OpcodeDescriptionsBCH = {
   ...OpcodeDescriptionsCommon,
   ...OpcodeDescriptionsUniqueBCH,

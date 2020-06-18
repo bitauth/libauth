@@ -32,8 +32,9 @@ export const numberToBinUintLE = (value: number) => {
 export const binToFixedLength = (bin: Uint8Array, bytes: number) => {
   const fixedBytes = new Uint8Array(bytes);
   const maxValue = 255;
-  // eslint-disable-next-line functional/no-expression-statement, @typescript-eslint/no-unused-expressions
+  // eslint-disable-next-line functional/no-expression-statement
   bin.length > bytes ? fixedBytes.fill(maxValue) : fixedBytes.set(bin);
+  // TODO: re-enable eslint-disable-next-line @typescript-eslint/no-unused-expressions
   return fixedBytes;
 };
 
@@ -367,12 +368,12 @@ export const binToBigIntUint64LE = (bin: Uint8Array) => {
 };
 
 const enum VarInt {
-  Uint8MaxValue = 0xfc,
-  Uint16Prefix = 0xfd,
-  Uint16MaxValue = 0xffff,
-  Uint32Prefix = 0xfe,
-  Uint32MaxValue = 0xffffffff,
-  Uint64Prefix = 0xff,
+  uint8MaxValue = 0xfc,
+  uint16Prefix = 0xfd,
+  uint16MaxValue = 0xffff,
+  uint32Prefix = 0xfe,
+  uint32MaxValue = 0xffffffff,
+  uint64Prefix = 0xff,
 }
 
 /**
@@ -386,14 +387,14 @@ export const varIntPrefixToSize = (firstByte: number) => {
   const uint32 = 4;
   const uint64 = 8;
   switch (firstByte) {
+    case VarInt.uint16Prefix:
+      return uint16 + 1;
+    case VarInt.uint32Prefix:
+      return uint32 + 1;
+    case VarInt.uint64Prefix:
+      return uint64 + 1;
     default:
       return uint8;
-    case VarInt.Uint16Prefix:
-      return uint16 + 1;
-    case VarInt.Uint32Prefix:
-      return uint32 + 1;
-    case VarInt.Uint64Prefix:
-      return uint64 + 1;
   }
 };
 
@@ -425,16 +426,16 @@ export const readBitcoinVarInt = (bin: Uint8Array, offset = 0) => {
  * @param value - the BigInt to encode (no larger than `0xffff_ffff_ffff_ffff`)
  */
 export const bigIntToBitcoinVarInt = (value: bigint) =>
-  value <= BigInt(VarInt.Uint8MaxValue)
+  value <= BigInt(VarInt.uint8MaxValue)
     ? Uint8Array.of(Number(value))
-    : value <= BigInt(VarInt.Uint16MaxValue)
+    : value <= BigInt(VarInt.uint16MaxValue)
     ? Uint8Array.from([
-        VarInt.Uint16Prefix,
+        VarInt.uint16Prefix,
         ...numberToBinUint16LE(Number(value)),
       ])
-    : value <= BigInt(VarInt.Uint32MaxValue)
+    : value <= BigInt(VarInt.uint32MaxValue)
     ? Uint8Array.from([
-        VarInt.Uint32Prefix,
+        VarInt.uint32Prefix,
         ...numberToBinUint32LE(Number(value)),
       ])
-    : Uint8Array.from([VarInt.Uint64Prefix, ...bigIntToBinUint64LE(value)]);
+    : Uint8Array.from([VarInt.uint64Prefix, ...bigIntToBinUint64LE(value)]);

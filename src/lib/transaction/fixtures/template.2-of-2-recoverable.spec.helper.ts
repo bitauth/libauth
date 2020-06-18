@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, @typescript-eslint/naming-convention */
 import { CompilerDefaults } from '../../template/compiler-defaults';
 import { AuthenticationTemplate } from '../../template/template-types';
 

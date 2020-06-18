@@ -50,7 +50,6 @@ export const testHashFunction = <T extends HashFunction>({
 
   test(`[crypto] ${hashFunctionName} getEmbeddedBinary returns the proper binary`, (t) => {
     const path = join(
-      // eslint-disable-next-line no-undef
       __dirname,
       '..',
       'bin',

@@ -235,7 +235,7 @@ export const cashAddressPolynomialModulo = (v: readonly number[]) => {
     lowerBytes ^= v[j];
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < bech32GeneratorMostSignificantByte.length; ++i) {
-      // eslint-disable-next-line functional/no-conditional-statement, @typescript-eslint/strict-boolean-expressions
+      // eslint-disable-next-line functional/no-conditional-statement
       if (c & (1 << i)) {
         mostSignificantByte ^= bech32GeneratorMostSignificantByte[i];
         lowerBytes ^= bech32GeneratorRemainingBytes[i];

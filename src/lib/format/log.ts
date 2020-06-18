@@ -28,9 +28,12 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
   JSON.stringify(
     value,
     // eslint-disable-next-line complexity
-    (_, item) => {
+    (_, item: unknown) => {
       const type = typeof item;
-      const name = type === 'object' ? (item as object).constructor.name : type;
+      const name =
+        typeof item === 'object' && item !== null
+          ? item.constructor.name
+          : type;
       switch (name) {
         case 'Uint8Array':
           return `<Uint8Array: 0x${binToHex(item as Uint8Array)}>`;
@@ -38,6 +41,7 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
           return `<bigint: ${(item as bigint).toString()}n>`;
         case 'function':
         case 'symbol':
+          // eslint-disable-next-line @typescript-eslint/ban-types
           return `<${name}: ${(item as symbol | Function).toString()}>`;
         default:
           return item;
@@ -57,6 +61,7 @@ export const sortObjectKeys = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any => {
   if (Array.isArray(objectOrArray)) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return objectOrArray.map(sortObjectKeys);
   }
   if (
@@ -71,14 +76,15 @@ export const sortObjectKeys = (
   return keys.reduce(
     (all, key) => ({
       ...all,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       [key]: sortObjectKeys((objectOrArray as { [key: string]: unknown })[key]),
     }),
     {}
   );
 };
 
-const Uint8ArrayRegex = /"<Uint8Array: 0x(?<hex>[0-9a-f]*)>"/gu;
-const BigIntRegex = /"<bigint: (?<bigint>[0-9]*)n>"/gu;
+const uint8ArrayRegex = /"<Uint8Array: 0x(?<hex>[0-9a-f]*)>"/gu;
+const bigIntRegex = /"<bigint: (?<bigint>[0-9]*)n>"/gu;
 
 /**
  * An alternative to `stringify` which produces valid JavaScript for use as a
@@ -102,6 +108,6 @@ export const stringifyTestVector = (
     ? stringify(sortObjectKeys(value))
     : stringify(value);
   return stringified
-    .replace(Uint8ArrayRegex, "hexToBin('$1')")
-    .replace(BigIntRegex, "BigInt('$1')");
+    .replace(uint8ArrayRegex, "hexToBin('$1')")
+    .replace(bigIntRegex, "BigInt('$1')");
 };

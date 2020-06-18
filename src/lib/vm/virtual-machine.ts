@@ -238,7 +238,9 @@ export const createAuthenticationVirtualMachine = <
 ): AuthenticationVirtualMachine<AuthenticationProgram, ProgramState> => {
   const availableOpcodes = 256;
   const operators = range(availableOpcodes).map((codepoint) =>
-    instructionSet.operations[codepoint] === undefined
+    (instructionSet.operations[codepoint] as
+      | Operation<ProgramState>
+      | undefined) === undefined
       ? instructionSet.undefined
       : instructionSet.operations[codepoint]
   );

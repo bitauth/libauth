@@ -127,9 +127,9 @@ const wrapSecp256k1Wasm = (
     return getSerializedPublicKey(compressed);
   };
 
-  const parseSignature = (signature: Uint8Array, DER: boolean) => {
+  const parseSignature = (signature: Uint8Array, isDer: boolean) => {
     secp256k1Wasm.heapU8.set(signature, sigScratch);
-    return DER
+    return isDer
       ? secp256k1Wasm.signatureParseDER(
           contextPtr,
           internalSigPtr,
@@ -143,8 +143,8 @@ const wrapSecp256k1Wasm = (
         ) === 1;
   };
 
-  const parseOrThrow = (signature: Uint8Array, DER: boolean) => {
-    if (!parseSignature(signature, DER)) {
+  const parseOrThrow = (signature: Uint8Array, isDer: boolean) => {
+    if (!parseSignature(signature, isDer)) {
       throw new Error('Failed to parse signature.');
     }
   };
@@ -231,10 +231,10 @@ const wrapSecp256k1Wasm = (
   };
 
   const modifySignature = (
-    DER: boolean,
+    isDer: boolean,
     normalize: boolean
   ): ((signature: Uint8Array) => Uint8Array) => (signature) => {
-    parseOrThrow(signature, DER);
+    parseOrThrow(signature, isDer);
     if (normalize) {
       normalizeSignature();
     } else {
@@ -244,22 +244,22 @@ const wrapSecp256k1Wasm = (
         internalSigPtr
       );
     }
-    return DER ? getDERSig() : getCompactSig();
+    return isDer ? getDERSig() : getCompactSig();
   };
 
   const parseAndNormalizeSignature = (
     signature: Uint8Array,
-    DER: boolean,
+    isDer: boolean,
     normalize: boolean
   ) => {
-    const ret = parseSignature(signature, DER);
+    const ret = parseSignature(signature, isDer);
     if (normalize) {
       normalizeSignature();
     }
     return ret;
   };
 
-  const signMessageHash = (DER: boolean) => (
+  const signMessageHash = (isDer: boolean) => (
     privateKey: Uint8Array,
     messageHash: Uint8Array
   ) => {
@@ -279,7 +279,7 @@ const wrapSecp256k1Wasm = (
         );
       }
 
-      if (DER) {
+      if (isDer) {
         setLengthPtr(ByteLength.maxECDSASig);
         secp256k1Wasm.signatureSerializeDER(
           contextPtr,
@@ -338,13 +338,13 @@ const wrapSecp256k1Wasm = (
     );
   };
 
-  const verifySignature = (DER: boolean, normalize: boolean) => (
+  const verifySignature = (isDer: boolean, normalize: boolean) => (
     signature: Uint8Array,
     publicKey: Uint8Array,
     messageHash: Uint8Array
   ) =>
     parsePublicKey(publicKey) &&
-    parseAndNormalizeSignature(signature, DER, normalize) &&
+    parseAndNormalizeSignature(signature, isDer, normalize) &&
     verifyMessage(messageHash);
 
   const verifyMessageSchnorr = (

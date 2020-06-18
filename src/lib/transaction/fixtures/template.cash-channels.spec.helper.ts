@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, @typescript-eslint/naming-convention */
 // cspell:ignore bitcoinvarint, IDE\'s
 import { AuthenticationTemplate } from '../../template/template-types';
 

@@ -136,7 +136,7 @@ export type CompilerOperationResult<
  * @param environment - The `CompilationEnvironment` provided to the compiler
  */
 export type CompilerOperation<
-  TransactionContext = {},
+  TransactionContext = unknown,
   CanBeSkipped extends boolean = false,
   Data extends CompilationData<TransactionContext> = CompilationData<
     TransactionContext
@@ -237,7 +237,7 @@ export type CompilerOperationsSigningSerializationCommon =
  * compiler operation is used for all instances (default: `false`)
  */
 export interface CompilationEnvironment<
-  TransactionContext = {},
+  TransactionContext = unknown,
   CompilerKeyOperations extends string | false = CompilerOperationsKeysCommon,
   CompilerSigningSerializationOperations extends
     | string

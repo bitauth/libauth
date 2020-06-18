@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, max-lines, max-params */
+/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, max-lines, max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
 // cspell:ignore recid
 /* global Buffer */
 

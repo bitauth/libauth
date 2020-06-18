@@ -494,7 +494,6 @@ const testSecp256k1Wasm = (
 const binary = getEmbeddedSecp256k1Binary();
 
 test('[crypto] getEmbeddedSecp256k1Binary returns the proper binary', (t) => {
-  // eslint-disable-next-line no-undef
   const path = join(__dirname, 'secp256k1.wasm');
   const binaryFromDisk = readFileSync(path).buffer;
   t.deepEqual(binary, binaryFromDisk);

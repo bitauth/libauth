@@ -1,5 +1,6 @@
 import { AuthenticationVirtualMachine } from '../../vm/virtual-machine';
 import {
+  AuthenticationProgramStateExecutionStack,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
 } from '../../vm/vm-types';
@@ -48,9 +49,10 @@ export const describeExpectedInput = (expectedArray: string[]) => {
  * recommended API for direct compilation.
  */
 export const compileScriptContents = <
-  ProgramState = AuthenticationProgramStateStack &
-    AuthenticationProgramStateMinimum,
-  TransactionContext = {}
+  ProgramState extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack = AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack,
+  TransactionContext = unknown
 >({
   data,
   environment,
@@ -90,7 +92,7 @@ export const compileScriptContents = <
       success: false,
     };
   }
-  const reduction = reduceScript(
+  const reduction = reduceScript<ProgramState, unknown>(
     resolvedScript,
     environment.vm,
     environment.createAuthenticationProgram
@@ -117,9 +119,12 @@ const emptyRange = () => ({
  * recommended API for direct compilation.
  */
 export const compileScriptRaw = <
-  ProgramState = AuthenticationProgramStateStack &
+  ProgramState extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateMinimum = AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
     AuthenticationProgramStateMinimum,
-  TransactionContext = {}
+  TransactionContext = unknown
 >({
   data,
   environment,
@@ -220,7 +225,10 @@ export const compileScriptP2shUnlocking = <ProgramState>({
  */
 // eslint-disable-next-line complexity
 export const compileScript = <
-  ProgramState = AuthenticationProgramStateStack &
+  ProgramState extends AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
+    AuthenticationProgramStateMinimum = AuthenticationProgramStateStack &
+    AuthenticationProgramStateExecutionStack &
     AuthenticationProgramStateMinimum,
   TransactionContext extends { locktime: number; sequenceNumber: number } = {
     locktime: number;

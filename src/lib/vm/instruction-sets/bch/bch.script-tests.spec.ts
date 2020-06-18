@@ -142,17 +142,18 @@ pendingTests.map((expectation) => {
       const pass =
         (valid && expectation.expectedError === false) ||
         (!valid && expectation.expectedError !== false);
-      // eslint-disable-next-line functional/no-conditional-statement
       if (!pass) {
         t.log(`unlockingBytecodeText: "${expectation.unlockingBytecodeText}"`);
         t.log(`disassembled: "${disassembleBytecodeBCH(unlockingBytecode)}"`);
         t.log(`lockingBytecodeText: "${expectation.lockingBytecodeText}"`);
         t.log(`disassembled: "${disassembleBytecodeBCH(lockingBytecode)}"`);
         t.log('result:', result);
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        expectation.expectedError === false
-          ? t.fail('Expected a valid state, but this result is invalid.')
-          : t.fail(`Expected error reason: ${expectation.expectedError}`);
+        if (expectation.expectedError === false) {
+          t.fail('Expected a valid state, but this result is invalid.');
+          return;
+        }
+        t.fail(`Expected error reason: ${expectation.expectedError}`);
+        return;
       }
       t.pass();
     }

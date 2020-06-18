@@ -826,9 +826,9 @@ test('compileScript: OP_1 OP_2 OP_ADD', (t) => {
       {},
       {
         opcodes: {
-          OP_1: Uint8Array.of(0x51),
-          OP_2: Uint8Array.of(0x52),
-          OP_ADD: Uint8Array.of(0x93),
+          OP_1: Uint8Array.of(0x51), // eslint-disable-line @typescript-eslint/naming-convention
+          OP_2: Uint8Array.of(0x52), // eslint-disable-line @typescript-eslint/naming-convention
+          OP_ADD: Uint8Array.of(0x93), // eslint-disable-line @typescript-eslint/naming-convention
         },
         scripts: { t: 'OP_1 OP_2 OP_ADD' },
       }
@@ -980,8 +980,8 @@ test('compileScript: variable and script inclusion', (t) => {
     },
     {
       opcodes: {
-        OP_1: Uint8Array.of(0x51),
-        OP_ADD: Uint8Array.of(0x93),
+        OP_1: Uint8Array.of(0x51), // eslint-disable-line @typescript-eslint/naming-convention
+        OP_ADD: Uint8Array.of(0x93), // eslint-disable-line @typescript-eslint/naming-convention
       },
       operations: {
         addressData: compilerOperationAddressData,

@@ -32,11 +32,9 @@ const printTemplate = (template: string) => {
     // eslint-disable-next-line functional/no-conditional-statement
     default:
       console.error('unknown template');
-      // eslint-disable-next-line no-process-exit, no-undef
       process.exit(1);
   }
 };
 
-// eslint-disable-next-line no-undef
 const [, , arg] = process.argv;
 printTemplate(arg);

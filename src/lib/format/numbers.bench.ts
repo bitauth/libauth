@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-let, init-declarations, functional/no-expression-statement */
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement */
 
 import { randomBytes } from 'crypto';
 

@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, @typescript-eslint/naming-convention */
 import {
   AuthenticationTemplate,
   AuthenticationTemplateEntity,

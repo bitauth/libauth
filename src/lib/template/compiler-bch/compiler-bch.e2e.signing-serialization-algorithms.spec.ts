@@ -47,6 +47,7 @@ const testSigningSerializationAlgorithms: Macro<[string, string]> = async (
   const compiler = createCompiler<
     TransactionContextBCH,
     CompilationEnvironmentBCH,
+    OpcodesBCH,
     AuthenticationProgramStateBCH
   >({
     createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
@@ -204,6 +205,7 @@ test('[BCH compiler] signing serialization algorithms – no signing serializati
   const compiler = createCompiler<
     TransactionContextBCH,
     CompilationEnvironmentBCH,
+    OpcodesBCH,
     AuthenticationProgramStateBCH
   >({
     createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,

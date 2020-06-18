@@ -4,7 +4,6 @@ import {
   numberToBinUint32LE,
 } from '../../../format/format';
 
-/* eslint-disable camelcase */
 /**
  * A.K.A. `sighash` flags
  */
@@ -12,22 +11,21 @@ export enum SigningSerializationFlag {
   /**
    * A.K.A. `SIGHASH_ALL`
    */
-  all_outputs = 0x01,
+  allOutputs = 0x01,
   /**
    * A.K.A `SIGHASH_NONE`
    */
-  no_outputs = 0x02,
+  noOutputs = 0x02,
   /**
    * A.K.A. `SIGHASH_SINGLE`
    */
-  corresponding_output = 0x03,
-  fork_id = 0x40,
+  correspondingOutput = 0x03,
+  forkId = 0x40,
   /**
    * A.K.A `ANYONE_CAN_PAY`
    */
-  single_input = 0x80,
+  singleInput = 0x80,
 }
-/* eslint-enable camelcase */
 
 const enum Internal {
   mask5Bits = 0b11111,
@@ -39,10 +37,10 @@ export const isDefinedSigningSerializationType = (byte: number) => {
     // eslint-disable-next-line no-bitwise
     byte &
     // eslint-disable-next-line no-bitwise
-    ~(SigningSerializationFlag.fork_id | SigningSerializationFlag.single_input);
+    ~(SigningSerializationFlag.forkId | SigningSerializationFlag.singleInput);
   return (
-    baseType >= SigningSerializationFlag.all_outputs &&
-    baseType <= SigningSerializationFlag.corresponding_output
+    baseType >= SigningSerializationFlag.allOutputs &&
+    baseType <= SigningSerializationFlag.correspondingOutput
   );
 };
 
@@ -57,13 +55,13 @@ const equals = (
 ) => (type[0] & Internal.mask5Bits) === flag;
 
 const shouldSerializeSingleInput = (type: Uint8Array) =>
-  match(type, SigningSerializationFlag.single_input);
+  match(type, SigningSerializationFlag.singleInput);
 
 const shouldSerializeCorrespondingOutput = (type: Uint8Array) =>
-  equals(type, SigningSerializationFlag.corresponding_output);
+  equals(type, SigningSerializationFlag.correspondingOutput);
 
 const shouldSerializeNoOutputs = (type: Uint8Array) =>
-  equals(type, SigningSerializationFlag.no_outputs);
+  equals(type, SigningSerializationFlag.noOutputs);
 
 const emptyHash = () => new Uint8Array(Internal.sha256HashByteLength).fill(0);
 
@@ -262,5 +260,5 @@ export const isLegacySigningSerialization = (
   // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const sighashType = (newForkValue << 8) | (signingSerializationType & 0xff);
   // eslint-disable-next-line no-bitwise
-  return (sighashType & SigningSerializationFlag.fork_id) === 0;
+  return (sighashType & SigningSerializationFlag.forkId) === 0;
 };

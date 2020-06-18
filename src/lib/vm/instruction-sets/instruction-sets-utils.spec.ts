@@ -230,9 +230,9 @@ test('generateBytecodeMap', (t) => {
     OP_C = 3,
   }
   t.deepEqual(generateBytecodeMap(TestOpcodes), {
-    OP_A: Uint8Array.of(1),
-    OP_B: Uint8Array.of(2),
-    OP_C: Uint8Array.of(3),
+    OP_A: Uint8Array.of(1), // eslint-disable-line @typescript-eslint/naming-convention
+    OP_B: Uint8Array.of(2), // eslint-disable-line @typescript-eslint/naming-convention
+    OP_C: Uint8Array.of(3), // eslint-disable-line @typescript-eslint/naming-convention
   });
 });
 

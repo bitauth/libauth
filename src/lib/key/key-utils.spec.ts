@@ -60,7 +60,9 @@ test('validateSecp256k1PrivateKey', (t) => {
 
 const secp256k1OrderNFFBytes = 15;
 // eslint-disable-next-line functional/immutable-data
-const almostInvalid = Array(secp256k1OrderNFFBytes).fill(maximumUint8Value);
+const almostInvalid = Array(secp256k1OrderNFFBytes).fill(
+  maximumUint8Value
+) as number[];
 const theRest = privateKeyLength - almostInvalid.length;
 
 testProp(

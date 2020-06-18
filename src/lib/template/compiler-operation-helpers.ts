@@ -55,7 +55,7 @@ export const attemptCompilerOperations = <
  */
 export const compilerOperationRequires = <
   CanBeSkipped extends boolean,
-  RequiredDataProperties extends keyof CompilationData<{}>,
+  RequiredDataProperties extends keyof CompilationData<unknown>,
   RequiredEnvironmentProperties extends keyof CompilationEnvironment,
   TransactionContext = TransactionContextCommon
 >({
@@ -101,7 +101,9 @@ export const compilerOperationRequires = <
   }
   // eslint-disable-next-line functional/no-loop-statement
   for (const property of dataProperties) {
-    if (data[property] === undefined)
+    if (
+      (data[property] as typeof data[typeof property] | undefined) === undefined
+    )
       return (canBeSkipped
         ? { status: 'skip' }
         : {
@@ -347,7 +349,9 @@ export const compilerOperationHelperGenerateCoveredBytecode = <
     };
   }
 
-  const targetLockingScriptId = unlockingScripts[currentScriptId];
+  const targetLockingScriptId = unlockingScripts[currentScriptId] as
+    | string
+    | undefined;
   if (targetLockingScriptId === undefined) {
     return {
       error: `Identifier "${identifier}" requires a signing serialization, but "coveredBytecode" cannot be determined because "${currentScriptId}" is not present in the compilation environment "unlockingScripts".`,

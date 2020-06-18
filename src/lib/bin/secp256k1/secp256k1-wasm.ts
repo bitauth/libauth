@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle, max-params */
+/* eslint-disable no-underscore-dangle, max-params, @typescript-eslint/naming-convention */
 // cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../format/format';
 
@@ -11,7 +11,7 @@ import { secp256k1Base64Bytes } from './secp256k1.base64';
 
 export { ContextFlag, CompressionFlag, Secp256k1Wasm };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 const wrapSecp256k1Wasm = (
   instance: WebAssembly.Instance,
   heapU8: Uint8Array,
@@ -214,7 +214,7 @@ const wrapSecp256k1Wasm = (
       pubkeyPtr
     ),
 });
-/* eslint-enable @typescript-eslint/no-explicit-any */
+/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 
 /* eslint-disable functional/immutable-data, functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/no-conditional-statement, no-bitwise, functional/no-throw-statement */
 /**
@@ -292,7 +292,7 @@ export const instantiateSecp256k1WasmBytes = async (
   const TABLE_SIZE = 6;
   const MAX_TABLE_SIZE = 6;
 
-  // eslint-disable-next-line functional/no-let, init-declarations
+  // eslint-disable-next-line functional/no-let, @typescript-eslint/init-declarations
   let getErrNoLocation: (() => number) | undefined;
 
   /*
@@ -351,7 +351,7 @@ export const instantiateSecp256k1WasmBytes = async (
   };
 
   return WebAssembly.instantiate(webassemblyBytes, info).then((result) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
     getErrNoLocation = result.instance.exports.___errno_location as any;
 
     return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);

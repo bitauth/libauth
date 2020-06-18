@@ -705,16 +705,17 @@ test('[BCH compiler] signing_serialization.corresponding_output and signing_seri
   const compiler = createCompiler<
     TransactionContextBCH,
     CompilationEnvironmentBCH,
+    OpcodesBCH,
     AuthenticationProgramStateBCH
   >({
     createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
     opcodes: generateBytecodeMap(OpcodesBCH),
     operations: compilerOperationsBCH,
     scripts: {
-      // eslint-disable-next-line camelcase
+      // eslint-disable-next-line camelcase, @typescript-eslint/naming-convention
       corresponding_output:
         '<1> <signing_serialization.corresponding_output> <2>',
-      // eslint-disable-next-line camelcase
+      // eslint-disable-next-line camelcase, @typescript-eslint/naming-convention
       corresponding_output_hash:
         '<1> <signing_serialization.corresponding_output_hash> <2>',
     },

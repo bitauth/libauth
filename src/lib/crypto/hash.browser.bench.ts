@@ -2,11 +2,11 @@
 import { join } from 'path';
 
 import alias from '@rollup/plugin-alias';
+import commonjs from '@rollup/plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import test from 'ava';
 import { launch } from 'puppeteer';
 import { rollup } from 'rollup';
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
 
 const prepareCode = async () => {
   // eslint-disable-next-line no-console
@@ -19,7 +19,6 @@ const prepareCode = async () => {
   console.warn = (suppress: string) => suppress;
 
   const bundle = await rollup({
-    // eslint-disable-next-line no-undef
     input: join(__dirname, 'hash.browser.bench.helper.js'),
     plugins: [
       alias({

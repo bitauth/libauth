@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+/* eslint-disable max-lines, @typescript-eslint/ban-types */
 import { hexToBin } from '../format/hex';
 import { validateSecp256k1PrivateKey } from '../key/key-utils';
 
@@ -112,6 +112,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
   const unknownScripts = Object.entries(scripts).map<{
     id: string;
     script: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   }>(([id, script]) => ({ id, script }));
 
   const nonObjectScripts = unknownScripts
@@ -471,6 +472,7 @@ export const parseAuthenticationTemplateVariable = (
   const unknownVariables = Object.entries(variables).map<{
     id: string;
     variable: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   }>(([id, variable]) => ({ id, variable }));
 
   const nonObjectVariables = unknownVariables
@@ -643,6 +645,7 @@ export const parseAuthenticationTemplateEntities = (entities: object) => {
   const unknownEntities = Object.entries(entities).map<{
     id: string;
     entity: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   }>(([id, entity]) => ({ entity, id }));
 
   const nonObjectEntities = unknownEntities
@@ -1162,6 +1165,7 @@ export const parseAuthenticationTemplateScenarios = (scenarios: object) => {
   const unknownScenarios = Object.entries(scenarios).map<{
     id: string;
     scenario: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   }>(([id, scenario]) => ({ id, scenario }));
 
   const nonObjectScenarios = unknownScenarios

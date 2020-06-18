@@ -435,7 +435,9 @@ export const extendCompilationDataWithScenarioBytecode = <
 }: {
   compilationData: CompilationData<TransactionContext>;
   environment: Environment;
-  scenarioDataBytecodeScripts: AuthenticationTemplateScenarioData['bytecode'] & {};
+  scenarioDataBytecodeScripts: NonNullable<
+    AuthenticationTemplateScenarioData['bytecode']
+  >;
 }) => {
   const prefixBytecodeScriptId = (id: string) =>
     `${CompilerDefaults.scenarioBytecodeScriptPrefix}${id}`;

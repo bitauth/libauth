@@ -49,34 +49,32 @@ export type CompilerOperationsKeyBCH =
   | 'schnorr_signature'
   | 'signature';
 
-/* eslint-disable camelcase */
 export enum SigningSerializationAlgorithmIdentifier {
   /**
    * A.K.A. `SIGHASH_ALL`
    */
-  all_outputs = 'all_outputs',
+  allOutputs = 'all_outputs',
   /**
    * A.K.A. `SIGHASH_ALL|ANYONE_CAN_PAY`
    */
-  all_outputs_single_input = 'all_outputs_single_input',
+  allOutputsSingleInput = 'all_outputs_single_input',
   /**
    * A.K.A. `SIGHASH_SINGLE`
    */
-  corresponding_output = 'corresponding_output',
+  correspondingOutput = 'corresponding_output',
   /**
    * A.K.A. `SIGHASH_SINGLE|ANYONE_CAN_PAY`
    */
-  corresponding_output_single_input = 'corresponding_output_single_input',
+  correspondingOutputSingleInput = 'corresponding_output_single_input',
   /**
    * A.K.A `SIGHASH_NONE`
    */
-  no_outputs = 'no_outputs',
+  noOutputs = 'no_outputs',
   /**
    * A.K.A `SIGHASH_NONE|ANYONE_CAN_PAY`
    */
-  no_outputs_single_input = 'no_outputs_single_input',
+  noOutputsSingleInput = 'no_outputs_single_input',
 }
-/* eslint-enable camelcase */
 
 // eslint-disable-next-line complexity
 const getSigningSerializationType = (
@@ -84,42 +82,42 @@ const getSigningSerializationType = (
   prefix = ''
 ) => {
   switch (algorithmIdentifier) {
-    case `${prefix}${SigningSerializationAlgorithmIdentifier.all_outputs}`:
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputs}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.all_outputs | SigningSerializationFlag.fork_id
+        SigningSerializationFlag.allOutputs | SigningSerializationFlag.forkId
       );
-    case `${prefix}${SigningSerializationAlgorithmIdentifier.all_outputs_single_input}`:
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputsSingleInput}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.all_outputs |
-          SigningSerializationFlag.single_input |
-          SigningSerializationFlag.fork_id
+        SigningSerializationFlag.allOutputs |
+          SigningSerializationFlag.singleInput |
+          SigningSerializationFlag.forkId
       );
-    case `${prefix}${SigningSerializationAlgorithmIdentifier.corresponding_output}`:
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutput}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.corresponding_output |
-          SigningSerializationFlag.fork_id
+        SigningSerializationFlag.correspondingOutput |
+          SigningSerializationFlag.forkId
       );
-    case `${prefix}${SigningSerializationAlgorithmIdentifier.corresponding_output_single_input}`:
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutputSingleInput}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.corresponding_output |
-          SigningSerializationFlag.single_input |
-          SigningSerializationFlag.fork_id
+        SigningSerializationFlag.correspondingOutput |
+          SigningSerializationFlag.singleInput |
+          SigningSerializationFlag.forkId
       );
-    case `${prefix}${SigningSerializationAlgorithmIdentifier.no_outputs}`:
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputs}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.no_outputs | SigningSerializationFlag.fork_id
+        SigningSerializationFlag.noOutputs | SigningSerializationFlag.forkId
       );
-    case `${prefix}${SigningSerializationAlgorithmIdentifier.no_outputs_single_input}`:
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputsSingleInput}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.no_outputs |
-          SigningSerializationFlag.single_input |
-          SigningSerializationFlag.fork_id
+        SigningSerializationFlag.noOutputs |
+          SigningSerializationFlag.singleInput |
+          SigningSerializationFlag.forkId
       );
     default:
       return undefined;
@@ -143,7 +141,10 @@ export const compilerOperationHelperComputeSignatureBCH = ({
   sign: (privateKey: Uint8Array, messageHash: Uint8Array) => Uint8Array;
   sha256: { hash: Sha256['hash'] };
 }): CompilerOperationResult => {
-  const [, , algorithm, unknown] = identifier.split('.');
+  const [, , algorithm, unknown] = identifier.split('.') as (
+    | string
+    | undefined
+  )[];
   if (unknown !== undefined) {
     return {
       error: `Unknown component in "${identifier}" – the fragment "${unknown}" is not recognized.`,
@@ -538,7 +539,10 @@ export const compilerOperationSigningSerializationFullBCH = compilerOperationReq
     dataProperties: ['transactionContext'],
     environmentProperties: ['sha256', 'sourceScriptIds', 'unlockingScripts'],
     operation: (identifier, data, environment): CompilerOperationResult => {
-      const [, algorithmOrComponent, unknownPart] = identifier.split('.');
+      const [, algorithmOrComponent, unknownPart] = identifier.split('.') as (
+        | string
+        | undefined
+      )[];
 
       if (algorithmOrComponent === undefined) {
         return {
@@ -602,7 +606,7 @@ export const compilerOperationSigningSerializationFullBCH = compilerOperationReq
   }
 );
 
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, @typescript-eslint/naming-convention */
 export const compilerOperationsBCH = {
   ...compilerOperationsCommon,
   hdKey: {
@@ -629,7 +633,7 @@ export const compilerOperationsBCH = {
     full_no_outputs_single_input: compilerOperationSigningSerializationFullBCH,
   },
 };
-/* eslint-enable camelcase */
+/* eslint-enable camelcase, @typescript-eslint/naming-convention */
 
 export type TransactionContextBCH = TransactionContextCommon;
 export type CompilationEnvironmentBCH = CompilationEnvironment<
@@ -670,7 +674,12 @@ export const createCompilerBCH = async <
       sha256,
     })
   );
-  return createCompiler<TransactionContext, Environment, ProgramState>({
+  return createCompiler<
+    TransactionContext,
+    Environment,
+    OpcodesBCH,
+    ProgramState
+  >({
     ...{
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
       opcodes: generateBytecodeMap(OpcodesBCH),

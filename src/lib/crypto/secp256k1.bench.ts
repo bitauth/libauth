@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statement, functional/no-let, init-declarations */
+/* eslint-disable functional/no-expression-statement, functional/no-let, @typescript-eslint/init-declarations, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 import { randomBytes } from 'crypto';
 
 import test from 'ava';
@@ -221,10 +221,12 @@ test('bench: secp256k1: sign: Schnorr vs. ECDSA', async (t) => {
       );
     });
     s.cycle(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      isSchnorr
-        ? t.deepEqual(sigSchnorrExpected, sigSchnorrBenchmark)
-        : t.deepEqual(sigDERExpected, sigDERBenchmark);
+      if (isSchnorr) {
+        t.deepEqual(sigSchnorrExpected, sigSchnorrBenchmark);
+        nextCycle();
+        return;
+      }
+      t.deepEqual(sigDERExpected, sigDERBenchmark);
       nextCycle();
     });
   });

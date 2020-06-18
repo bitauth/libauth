@@ -887,14 +887,14 @@ export const deriveHdPath = <
           typeof result === 'string'
             ? result
             : deriveHdPrivateNodeChild(crypto, result, nextIndex),
-        node as PrivateResults<HdPrivateNodeValid>
+        node as PrivateResults<HdPrivateNodeValid> // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
       )
     : indexes.reduce(
         (result, nextIndex) =>
           typeof result === 'string'
             ? result
             : deriveHdPublicNodeChild(crypto, result, nextIndex),
-        node as PublicResults<HdPublicNode>
+        node as PublicResults<HdPublicNode> // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
       )) as ReductionResults<NodeType>;
 };
 

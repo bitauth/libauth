@@ -173,8 +173,7 @@ export const reduceScript = <
       default:
         // eslint-disable-next-line functional/no-throw-statement, @typescript-eslint/no-throw-literal, no-throw-literal
         throw new Error(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          `"${(segment as any).type as string}" is not a known segment type.`
+          `"${(segment as { type: string }).type}" is not a known segment type.`
         ) as never;
     }
   });

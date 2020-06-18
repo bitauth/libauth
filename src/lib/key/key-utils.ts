@@ -68,7 +68,7 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
  * Uint8Array
  */
 export const generatePrivateKey = (secureRandom: () => Uint8Array) => {
-  // eslint-disable-next-line functional/no-let, init-declarations
+  // eslint-disable-next-line functional/no-let, @typescript-eslint/init-declarations
   let maybeKey: Uint8Array;
   // eslint-disable-next-line functional/no-loop-statement
   do {

@@ -444,7 +444,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
   })
 );
 
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, @typescript-eslint/naming-convention */
 export const compilerOperationsCommon = {
   addressData: compilerOperationAddressData,
   currentBlockHeight: compilerOperationCurrentBlockHeight,
@@ -475,4 +475,4 @@ export const compilerOperationsCommon = {
   },
   walletData: compilerOperationWalletData,
 };
-/* eslint-enable camelcase */
+/* eslint-enable camelcase, @typescript-eslint/naming-convention */

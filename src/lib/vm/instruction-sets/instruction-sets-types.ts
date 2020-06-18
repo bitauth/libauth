@@ -16,12 +16,6 @@ export interface AuthenticationInstructionOperation<Opcodes = number> {
   readonly opcode: Opcodes;
 }
 
-enum Bytes {
-  Uint8 = 1,
-  Uint16 = 2,
-  Uint32 = 4,
-}
-
 /**
  * A properly-formed instruction used by an `AuthenticationVirtualMachine`.
  */
@@ -33,13 +27,16 @@ export type AuthenticationInstructions<
   Opcodes = number
 > = AuthenticationInstruction<Opcodes>[];
 
+type Uint8Bytes = 1;
+type Uint16Bytes = 2;
+type Uint32Bytes = 4;
 export interface ParsedAuthenticationInstructionPushMalformedLength<
   Opcodes = number
 > {
   /**
    * The expected number of length bytes (`length.length`) for this `PUSHDATA` operation.
    */
-  readonly expectedLengthBytes: Bytes.Uint8 | Bytes.Uint16 | Bytes.Uint32;
+  readonly expectedLengthBytes: Uint8Bytes | Uint16Bytes | Uint32Bytes;
   /**
    * The length `Uint8Array` provided. This instruction is malformed because the length of this `Uint8Array` is shorter than the `expectedLengthBytes`.
    */

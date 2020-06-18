@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statement, camelcase, max-lines */
+/* eslint-disable functional/no-expression-statement, camelcase, max-lines, @typescript-eslint/naming-convention */
 import test, { Macro } from 'ava';
 
 import {
@@ -473,6 +473,7 @@ export const expectScenarioGenerationResult: Macro<[
   const compiler = createCompiler<
     TransactionContextBCH,
     CompilationEnvironmentBCH,
+    OpcodesBCH,
     AuthenticationProgramStateBCH
   >({
     ...{

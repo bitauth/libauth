@@ -12,9 +12,9 @@ export const bitcoinABCOpcodes = Object.entries(
 ).reduce<{
   readonly [opcode: string]: Uint8Array;
 }>((acc, cur) => ({ ...acc, [cur[0].slice('OP_'.length)]: cur[1] }), {
-  PUSHDATA1: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_1),
-  PUSHDATA2: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_2),
-  PUSHDATA4: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_4),
+  PUSHDATA1: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_1), // eslint-disable-line @typescript-eslint/naming-convention
+  PUSHDATA2: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_2), // eslint-disable-line @typescript-eslint/naming-convention
+  PUSHDATA4: Uint8Array.of(OpcodesBCH.OP_PUSHDATA_4), // eslint-disable-line @typescript-eslint/naming-convention
 });
 
 /**

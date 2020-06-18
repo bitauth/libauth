@@ -9,7 +9,7 @@ import {
   InstructionSet,
 } from '../lib';
 
-enum simpleOps {
+enum SimpleOps {
   OP_0 = 0,
   OP_INCREMENT = 1,
   OP_DECREMENT = 2,
@@ -22,7 +22,7 @@ enum SimpleError {
 }
 
 interface SimpleProgram {
-  instructions: readonly AuthenticationInstruction<simpleOps>[];
+  instructions: readonly AuthenticationInstruction<SimpleOps>[];
 }
 
 interface SimpleProgramState
@@ -48,33 +48,36 @@ const simpleInstructionSet: InstructionSet<
     return stateEvaluate({ ...internalState, ...program });
   },
   operations: {
-    [simpleOps.OP_0]: (state) => {
+    [SimpleOps.OP_0]: (state) => {
       state.stack.push(0);
       return state;
     },
-    [simpleOps.OP_INCREMENT]: (state) => {
+    [SimpleOps.OP_INCREMENT]: (state) => {
       const top = state.stack.pop();
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      top === undefined
-        ? (state.error = SimpleError.EMPTY_STACK)
-        : state.stack.push(top + 1);
+      if (top === undefined) {
+        state.error = SimpleError.EMPTY_STACK;
+        return state;
+      }
+      state.stack.push(top + 1);
       return state;
     },
-    [simpleOps.OP_DECREMENT]: (state) => {
+    [SimpleOps.OP_DECREMENT]: (state) => {
       const top = state.stack.pop();
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      top === undefined
-        ? (state.error = SimpleError.EMPTY_STACK)
-        : state.stack.push(top - 1);
+      if (top === undefined) {
+        state.error = SimpleError.EMPTY_STACK;
+        return state;
+      }
+      state.stack.push(top - 1);
       return state;
     },
-    [simpleOps.OP_ADD]: (state) => {
+    [SimpleOps.OP_ADD]: (state) => {
       const a = state.stack.pop();
       const b = state.stack.pop();
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      a === undefined || b === undefined
-        ? (state.error = SimpleError.EMPTY_STACK)
-        : state.stack.push(a + b);
+      if (a === undefined || b === undefined) {
+        state.error = SimpleError.EMPTY_STACK;
+        return state;
+      }
+      state.stack.push(a + b);
       return state;
     },
   },
@@ -90,13 +93,13 @@ const simpleInstructionSet: InstructionSet<
 
 const vm = createAuthenticationVirtualMachine(simpleInstructionSet);
 
-const instructions: readonly AuthenticationInstruction<simpleOps>[] = [
-  { opcode: simpleOps.OP_0 },
-  { opcode: simpleOps.OP_INCREMENT },
-  { opcode: simpleOps.OP_INCREMENT },
-  { opcode: simpleOps.OP_0 },
-  { opcode: simpleOps.OP_DECREMENT },
-  { opcode: simpleOps.OP_ADD },
+const instructions: readonly AuthenticationInstruction<SimpleOps>[] = [
+  { opcode: SimpleOps.OP_0 },
+  { opcode: SimpleOps.OP_INCREMENT },
+  { opcode: SimpleOps.OP_INCREMENT },
+  { opcode: SimpleOps.OP_0 },
+  { opcode: SimpleOps.OP_DECREMENT },
+  { opcode: SimpleOps.OP_ADD },
 ];
 
 test('vm.evaluate with a simple instruction set', (t) => {

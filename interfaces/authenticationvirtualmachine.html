@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AuthenticationVirtualMachine | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>AuthenticationVirtualMachine | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -119,16 +119,38 @@
 					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>program<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AuthenticationProgram</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L130">src/lib/auth/virtual-machine.ts:130</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L158">src/lib/vm/virtual-machine.ts:158</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Debug a program by fully evaluating it, cloning and adding each
-								intermediate <code>ProgramState</code> to the returned array. The last
+								intermediate <code>ProgramState</code> to the returned array. The first <code>ProgramState</code>
+								in the returned array is the initial program state, and the last
 							<code>ProgramState</code> in the returned array is the result of the evaluation.</p>
 						</div>
+						<p>Note, If the virtual machine is multi-phasic (as is the case with all
+							bitcoin forks), the initial program state at the start of of each phase
+							will appear in the debug trace. For example, all inputs in all bitcoin
+							forks use at least two phases 1) the unlocking phase 2) the locking
+							phase. Inputs which match the P2SH format perform a third P2SH phase. Other
+							virtual machines may include different phases (e.g. the SegWit phase in
+							BTC). For each phase performed, the count of program states in the final
+							debug trace will increase by one, even if the phase includes no
+						instructions.</p>
 						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>Even for simple virtual machines, this method includes one final program
+									state in addition to the output which would otherwise be produced by
+									<code>stateDebug</code>. This occurs because the <code>evaluate</code> method of the instruction
+									set must return one final program state after <code>stateContinue</code> has produced
+									a <code>false</code>. Often, this is cloned from the previous program state, but it
+									is also possible that this final state will include changes produced by
+									the remaining portion of the instruction set&#39;s <code>evaluate</code> method (e.g. P2SH
+									evaluation). In any case, this final program state is <strong>not a
+									&quot;duplicate&quot;</strong>: it is the finalized result of the complete virtual machine
+								evaluation.</p>
+							</dd>
 							<dt>param</dt>
 							<dd><p>the <code>AuthenticationProgram</code> to debug</p>
 							</dd>
@@ -162,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">evaluate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>program<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AuthenticationProgram</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ProgramState</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L137">src/lib/auth/virtual-machine.ts:137</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L165">src/lib/vm/virtual-machine.ts:165</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,7 +225,7 @@
 					<div class="tsd-signature tsd-kind-icon">state<wbr>Continue<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L142">src/lib/auth/virtual-machine.ts:142</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L170">src/lib/vm/virtual-machine.ts:170</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -239,14 +261,20 @@
 					<div class="tsd-signature tsd-kind-icon">state<wbr>Debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L148">src/lib/auth/virtual-machine.ts:148</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L183">src/lib/vm/virtual-machine.ts:183</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Return an array of program states by fully evaluating <code>state</code>, cloning and
-							adding each intermediate state to the returned array.</p>
+								adding each intermediate state to the returned array. The first
+								<code>ProgramState</code> in the returned array is the initial program state, and the
+								last <code>ProgramState</code> in the returned array is the first program state which
+							returns <code>false</code> when provided to <code>stateContinue</code>.</p>
 						</div>
+						<p>Note, this method is typically an implementation detail of the virtual
+							machine and cannot produce a final result. In most cases, <code>debug</code> is the
+						proper method to debug a program.</p>
 					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
@@ -276,13 +304,19 @@
 					<div class="tsd-signature tsd-kind-icon">state<wbr>Evaluate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ProgramState</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L154">src/lib/auth/virtual-machine.ts:154</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L198">src/lib/vm/virtual-machine.ts:198</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Return a new program state by cloning and fully evaluating <code>state</code>.</p>
 						</div>
+						<p>To evaluate a state, the state is cloned and provided to <code>stateStepMutate</code>
+							until a final result is obtained (a <code>ProgramState</code> which returns <code>false</code>
+						when provided to <code>stateContinue</code>).</p>
+						<p>Note, this method is typically an implementation detail of the virtual
+							machine and cannot produce a final result. In most cases, <code>evaluate</code> is the
+						proper method to evaluate a program.</p>
 						<dl class="tsd-comment-tags">
 							<dt>param</dt>
 							<dd><p>the program state to evaluate</p>
@@ -317,7 +351,7 @@
 					<div class="tsd-signature tsd-kind-icon">state<wbr>Step<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Readonly</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ProgramState</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L160">src/lib/auth/virtual-machine.ts:160</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L205">src/lib/vm/virtual-machine.ts:205</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -358,7 +392,7 @@
 					<div class="tsd-signature tsd-kind-icon">state<wbr>Step<wbr>Mutate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ProgramState</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L167">src/lib/auth/virtual-machine.ts:167</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L213">src/lib/vm/virtual-machine.ts:213</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -397,15 +431,15 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="verify" class="tsd-anchor"></a>
 					<h3>verify</h3>
-					<div class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></div>
+					<div class="tsd-signature tsd-kind-icon">verify<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/virtual-machine.ts#L179">src/lib/auth/virtual-machine.ts:179</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/virtual-machine.ts#L225">src/lib/vm/virtual-machine.ts:225</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Verify a program state has successfully completed evaluation.</p>
+							<p>Verify a program state has completed evaluation successfully.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>remarks</dt>
@@ -424,7 +458,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-signature">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -434,7 +468,7 @@
 												<h5>state: <span class="tsd-signature-type">ProgramState</span></h5>
 											</li>
 										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h4>
 									</li>
 								</ul>
 							</li>

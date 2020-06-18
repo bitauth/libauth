@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Compiler | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>Compiler | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -57,7 +57,7 @@
 					<a href="compiler.html">Compiler</a>
 				</li>
 			</ul>
-			<h1>Interface Compiler&lt;CompilerOperationData, ProgramState&gt;</h1>
+			<h1>Interface Compiler&lt;TransactionContext, CompilationEnvironment, ProgramState&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +76,10 @@
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>CompilerOperationData</h4>
+						<h4>TransactionContext</h4>
+					</li>
+					<li>
+						<h4>CompilationEnvironment</h4>
 					</li>
 					<li>
 						<h4>ProgramState</h4>
@@ -96,65 +99,139 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
-							<h3>Methods</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-external"><a href="compiler.html#generatebytecode" class="tsd-kind-icon">generate<wbr>Bytecode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compiler.html#environment" class="tsd-kind-icon">environment</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compiler.html#generatebytecode" class="tsd-kind-icon">generate<wbr>Bytecode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compiler.html#generatescenario" class="tsd-kind-icon">generate<wbr>Scenario</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-external">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="environment" class="tsd-anchor"></a>
+					<h3>environment</h3>
+					<div class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CompilationEnvironment</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L656">src/lib/template/compiler-types.ts:656</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="generatebytecode" class="tsd-anchor"></a>
 					<h3>generate<wbr>Bytecode</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Bytecode<span class="tsd-signature-symbol">(</span>script<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span>, debug<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#compilationresult" class="tsd-signature-type">CompilationResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Bytecode<span class="tsd-signature-symbol">(</span>script<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span>, debug<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#bytecodegenerationresult" class="tsd-signature-type">BytecodeGenerationResult</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/compiler.ts#L516">src/lib/auth/templates/compiler.ts:516</a></li>
+					<div class="tsd-signature tsd-kind-icon">generate<wbr>Bytecode<span class="tsd-signature-symbol">:</span> &lt;Debug&gt;<span class="tsd-signature-symbol">(</span>scriptId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span>, debug<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">Debug</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Debug</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">CompilationResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">BytecodeGenerationResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L665">src/lib/template/compiler-types.ts:665</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Generate the bytecode for the given script and compilation data.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>the identifer of the script to compile</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>the compilation data required to compile this script</p>
+							</dd>
+							<dt>param</dt>
+							<dd><p>enable compilation debugging information (default: <code>false</code>)</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-has-type-parameter">
+									<li class="tsd-signature tsd-kind-icon">&lt;Debug&gt;<span class="tsd-signature-symbol">(</span>scriptId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span>, debug<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">Debug</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Debug</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">CompilationResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">BytecodeGenerationResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></li>
 								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>script: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>data: <a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>debug: <span class="tsd-signature-type">true</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../globals.html#compilationresult" class="tsd-signature-type">CompilationResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/compiler.ts#L522">src/lib/auth/templates/compiler.ts:522</a></li>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-type-parameters-title">Type parameters</h4>
+										<ul class="tsd-type-parameters">
+											<li>
+												<h4>Debug<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h4>
+											</li>
+										</ul>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>scriptId: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>data: <a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span></h5>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> debug: <a href="" class="tsd-signature-type">Debug</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Debug</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">CompilationResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">BytecodeGenerationResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
 								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>script: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>data: <a href="compilationdata.html" class="tsd-signature-type">CompilationData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CompilerOperationData</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> debug: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../globals.html#bytecodegenerationresult" class="tsd-signature-type">BytecodeGenerationResult</a></h4>
-						</li>
-					</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="generatescenario" class="tsd-anchor"></a>
+					<h3>generate<wbr>Scenario</h3>
+					<div class="tsd-signature tsd-kind-icon">generate<wbr>Scenario<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>scenarioId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>unlockingScriptId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="scenario.html" class="tsd-signature-type">Scenario</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L682">src/lib/template/compiler-types.ts:682</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Generate the compilation data for a scenario specified in this compilation
+								environment. Returns either the full <code>CompilationData</code> for the selected
+							scenario or an error message (as a <code>string</code>).</p>
+						</div>
+						<p>Note, generated compilation data always uses a <code>transactionContext</code> of type
+						<code>TransactionContextCommon</code>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>the identifer of the scenario to generate</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>scenarioId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>unlockingScriptId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="scenario.html" class="tsd-signature-type">Scenario</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>scenarioId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>unlockingScriptId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
+												<ul class="tsd-parameters">
+													<li class="tsd-parameter">
+														<h5>scenario<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+													</li>
+													<li class="tsd-parameter">
+														<h5>unlocking<wbr>Script<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="scenario.html" class="tsd-signature-type">Scenario</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -173,8 +250,14 @@
 					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="compiler.html" class="tsd-kind-icon">Compiler</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compiler.html#environment" class="tsd-kind-icon">environment</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compiler.html#generatebytecode" class="tsd-kind-icon">generate<wbr>Bytecode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compiler.html#generatescenario" class="tsd-kind-icon">generate<wbr>Scenario</a>
 							</li>
 						</ul>
 					</li>

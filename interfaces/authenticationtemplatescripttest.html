@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AuthenticationTemplateScriptTest | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>AuthenticationTemplateScriptTest | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -80,7 +80,9 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#check" class="tsd-kind-icon">check</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#fails" class="tsd-kind-icon">fails</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#passes" class="tsd-kind-icon">passes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#setup" class="tsd-kind-icon">setup</a></li>
 							</ul>
 						</section>
@@ -95,14 +97,42 @@
 					<div class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L226">src/lib/auth/templates/types.ts:226</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L781">src/lib/template/template-types.ts:781</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The script to evaluate after the script being tested. The test passes if
-							this script leaves only a 1 (ScriptNumber) on the stack.</p>
+							<p>The script to evaluate after the script being tested. This can be used to
+								check that the tested script leaves the expected results on the stack. For
+								example, if the tested script is expected to leave 3 items of a specific
+								size on the stack, the <code>check</code> script could pop each resulting item from
+							the stack and examine it for correctness.</p>
 						</div>
+						<p>In scenario testing, this script is appended to the script under test, and
+							together they are treated as the locking script. Program evaluation is
+							considered successful if the resulting program state can be verified by the
+							virtual machine (e.g. the resulting stack contains a single <code>1</code>, no errors
+						are produced, etc.).</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="fails" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> fails</h3>
+					<div class="tsd-signature tsd-kind-icon">fails<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L796">src/lib/template/template-types.ts:796</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of the scenario identifiers which – when used to compile this
+								test and the script it tests – result in bytecode which fails program
+								verification. The <code>setup</code> script is used in place of an unlocking
+								script, and the concatenation of the script under test and the <code>check</code>
+							script are used in place of a locking script.</p>
+						</div>
+						<p>These scenarios can be used to test this script in development and review.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -111,7 +141,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L231">src/lib/auth/templates/types.ts:231</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L786">src/lib/template/template-types.ts:786</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -122,19 +152,40 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="passes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> passes</h3>
+					<div class="tsd-signature tsd-kind-icon">passes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L806">src/lib/template/template-types.ts:806</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of the scenario identifiers which – when used to compile this
+								test and the script it tests – result in bytecode which passes program
+								verification. The <code>setup</code> script is used in place of an unlocking
+								script, and the concatenation of the script under test and the <code>check</code>
+							script are used in place of a locking script.</p>
+						</div>
+						<p>These scenarios can be used to test this script in development and review.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="setup" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> setup</h3>
 					<div class="tsd-signature tsd-kind-icon">setup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L236">src/lib/auth/templates/types.ts:236</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L813">src/lib/template/template-types.ts:813</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>A script to evaluate before the script being tested. This can be used to
-							push values to the stack which are operated on by the inline script.</p>
+							push values to the stack which are operated on by the tested script.</p>
 						</div>
+						<p>In scenario testing, this script is treated as the unlocking script.</p>
 					</div>
 				</section>
 			</section>
@@ -158,7 +209,13 @@
 								<a href="authenticationtemplatescripttest.html#check" class="tsd-kind-icon">check</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescripttest.html#fails" class="tsd-kind-icon">fails</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplatescripttest.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescripttest.html#passes" class="tsd-kind-icon">passes</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplatescripttest.html#setup" class="tsd-kind-icon">setup</a>

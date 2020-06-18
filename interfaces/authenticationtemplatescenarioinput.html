@@ -1,0 +1,295 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>AuthenticationTemplateScenarioInput | libauth</title>
+	<meta name="description" content="Documentation for libauth">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">libauth</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="authenticationtemplatescenarioinput.html">AuthenticationTemplateScenarioInput</a>
+				</li>
+			</ul>
+			<h1>Interface AuthenticationTemplateScenarioInput</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An example input used to define a scenario for an authentication template.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">AuthenticationTemplateScenarioInput</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenarioinput.html#outpointindex" class="tsd-kind-icon">outpoint<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenarioinput.html#outpointtransactionhash" class="tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenarioinput.html#sequencenumber" class="tsd-kind-icon">sequence<wbr>Number</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenarioinput.html#unlockingbytecode" class="tsd-kind-icon">unlocking<wbr>Bytecode</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="outpointindex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> outpoint<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L274">src/lib/template/template-types.ts:274</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The index of the output in the transaction from which this input is spent.</p>
+						</div>
+						<p>If undefined, this defaults to <code>0</code>.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="outpointtransactionhash" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> outpoint<wbr>Transaction<wbr>Hash</h3>
+					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L286">src/lib/template/template-types.ts:286</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A 32-byte, hexadecimal-encoded hash of the transaction from which this
+								input is spent in big-endian byte order. This is the byte order typically
+								seen in block explorers and user interfaces (as opposed to little-endian
+							byte order, which is used in standard P2P network messages).</p>
+						</div>
+						<p>If undefined, this defaults to the &quot;empty&quot; hash:
+						<code>0000000000000000000000000000000000000000000000000000000000000000</code></p>
+						<p>A.K.A. Outpoint <code>Transaction ID</code></p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="sequencenumber" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sequence<wbr>Number</h3>
+					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L354">src/lib/template/template-types.ts:354</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The positive, 32-bit unsigned integer used as the &quot;sequence number&quot; for
+							this input.</p>
+						</div>
+						<p>If undefined, this defaults to <code>0</code>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>A sequence number is a complex bitfield which can encode several properties
+								about an input:</p>
+								<ul>
+									<li><strong>sequence age support</strong> – whether or not the input can use
+										<code>OP_CHECKSEQUENCEVERIFY</code>, and the minimum number of blocks or length of
+										time which has passed since this input&#39;s source transaction was mined (up
+									to approximately 1 year).</li>
+									<li><strong>locktime support</strong> – whether or not the input can use
+									<code>OP_CHECKLOCKTIMEVERIFY</code></li>
+								</ul>
+								<p><strong>Sequence Age Support</strong></p>
+								<p>Sequence number age is enforced by mining consensus – a transaction is
+									invalid until it has &quot;aged&quot; such that all outputs referenced by its
+									age-enabled inputs are at least as old as claimed by their respective
+								sequence numbers.</p>
+								<p>This allows sequence numbers to function as a &quot;relative locktime&quot; for each
+									input: a <code>lockingBytecode</code> can use the <code>OP_CHECKSEQUENCEVERIFY</code> operation
+									to verify that the funds being spent have been &quot;locked&quot; for a minimum
+									required amount of time (or block count). This can be used in protocols
+									which require a reliable &quot;proof-of-publication&quot;, like escrow, time-delayed
+								withdrawals, and various payment channel protocols.</p>
+								<p>Sequence age support is enabled unless the &quot;disable bit&quot; – the most
+									significant bit – is set (i.e. the sequence number is less than
+								<code>(1 &lt;&lt; 31) &gt;&gt;&gt; 0</code>/<code>0b10000000000000000000000000000000</code>/<code>2147483648</code>).</p>
+								<p>If sequence age is enabled, the &quot;type bit&quot; – the most significant bit in
+									the second-most significant byte
+									(<code>1 &lt;&lt; 22</code>/<code>0b1000000000000000000000</code>/<code>2097152</code>) – indicates the unit type
+								of the specified age:</p>
+								<ul>
+									<li>if set, the age is in units of <code>512</code> seconds (using Median Time-Past)</li>
+									<li>if not set, the age is a number of blocks</li>
+								</ul>
+								<p>The least significant 16 bits specify the age (i.e.
+									<code>age = sequenceNumber &amp; 0x0000ffff</code>). This makes the maximum age either
+								<code>65535</code> blocks (about 1.25 years) or <code>33553920</code> seconds (about 1.06 years).</p>
+								<p><strong>Locktime Support</strong></p>
+								<p>Locktime support is disabled for an input if the sequence number is exactly
+									<code>0xffffffff</code> (<code>4294967295</code>). Because this value requires the &quot;disable bit&quot;
+								to be set, disabling locktime support also disables sequence age support.</p>
+								<p>With locktime support disabled, if  either <code>OP_CHECKLOCKTIMEVERIFY</code> or
+									<code>OP_CHECKSEQUENCEVERIFY</code> are encountered during the validation of
+								<code>unlockingBytecode</code>, an error is produced, and the transaction is invalid.</p>
+								<hr>
+								<p>The term &quot;sequence number&quot; was the name given to this field in the Satoshi
+									implementation of the bitcoin transaction format. The field was originally
+									intended for use in a multi-party signing protocol where parties updated
+									the &quot;sequence number&quot; to indicate to miners that this input should replace
+									a previously-signed input in an existing, not-yet-mined transaction. The
+									original use-case was not completed and relied on behavior which can not be
+									enforced by mining consensus, so the field was mostly-unused until it was
+									repurposed by BIP68 in block <code>419328</code>. See BIP68, BIP112, and BIP113 for
+								details.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="unlockingbytecode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> unlocking<wbr>Bytecode</h3>
+					<div class="tsd-signature tsd-kind-icon">unlocking<wbr>Bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L375">src/lib/template/template-types.ts:375</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <code>unlockingBytecode</code> value of this input for this scenario. May be
+								either a boolean value indicating that this input contains the
+								<code>unlockingBytecode</code> under test by the scenario, or a hexadecimal-encoded
+							bytecode value.</p>
+						</div>
+						<p>This defaults to <code>false</code>. For a scenario to be valid, this property must be
+							<code>true</code> for exactly one input in the scenario. If this property is
+							<code>undefined</code> or <code>false</code>, the resulting <code>unlockingBytecode</code> is a bytecode
+						of length <code>0</code> (<code>0x</code>).</p>
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>While the <code>outpointIndex</code>, <code>outpointTransactionHash</code>, and <code>sequenceNumber</code>
+									of every input is part of a transaction&#39;s signing serialization, as of
+									2020, no virtual machine currently requires access to the
+									<code>unlockingBytecode</code> of sibling inputs during the evaluation of an input&#39;s
+									<code>unlockingBytecode</code>. However, for completeness (and to allow for testing o
+									virtual machines with this requirement), scenarios may also specify an
+								<code>unlockingBytecode</code> value for each input not under test.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-is-external">
+						<a href="authenticationtemplatescenarioinput.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Scenario<wbr>Input</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescenarioinput.html#outpointindex" class="tsd-kind-icon">outpoint<wbr>Index</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescenarioinput.html#outpointtransactionhash" class="tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescenarioinput.html#sequencenumber" class="tsd-kind-icon">sequence<wbr>Number</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescenarioinput.html#unlockingbytecode" class="tsd-kind-icon">unlocking<wbr>Bytecode</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

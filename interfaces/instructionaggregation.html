@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>InstructionAggregation | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>InstructionAggregation | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -64,6 +64,16 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A group of instructions which when read together are not malformed (contain
+							incomplete push instructions). For example, the BTL <code>0x03 &#39;a&#39; &#39;b&#39; &#39;c&#39;</code> would
+							be malformed if not evaluated together, since the <code>0x03</code> becomes
+						<code>OP_PUSHBYTES_3</code>, and the UTF8 literals compile to <code>0x616263</code>.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
@@ -103,7 +113,7 @@
 					<div class="tsd-signature tsd-kind-icon">instructions<span class="tsd-signature-symbol">:</span> <a href="../globals.html#authenticationinstruction" class="tsd-signature-type">AuthenticationInstruction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Opcodes</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/reduce.ts#L410">src/lib/auth/templates/language/reduce.ts:410</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L298">src/lib/template/language/language-types.ts:298</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -113,7 +123,7 @@
 					<div class="tsd-signature tsd-kind-icon">last<wbr>Ip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/reduce.ts#L411">src/lib/auth/templates/language/reduce.ts:411</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L299">src/lib/template/language/language-types.ts:299</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -123,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <a href="range.html" class="tsd-signature-type">Range</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/reduce.ts#L412">src/lib/auth/templates/language/reduce.ts:412</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L300">src/lib/template/language/language-types.ts:300</a></li>
 						</ul>
 					</aside>
 				</section>

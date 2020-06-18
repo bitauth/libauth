@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AuthenticationTemplateScenario | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>AuthenticationTemplateScenario | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -87,11 +87,12 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenario.html#data" class="tsd-kind-icon">data</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenario.html#description" class="tsd-kind-icon">description</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenario.html#extends" class="tsd-kind-icon">extends</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenario.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenario.html#transaction" class="tsd-kind-icon">transaction</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenario.html#variables" class="tsd-kind-icon">variables</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescenario.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,17 +101,38 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="data" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> data</h3>
+					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <a href="authenticationtemplatescenariodata.html" class="tsd-signature-type">AuthenticationTemplateScenarioData</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L451">src/lib/template/template-types.ts:451</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object defining the data to use while compiling this scenario. The
+								properties specified here are used to extend the existing scenario data
+							based on this scenario&#39;s <code>extends</code> property.</p>
+						</div>
+						<p>Each property is extended individually – to unset a previously-set
+						property, the property must be individually overridden in this object.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="description" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> description</h3>
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L129">src/lib/auth/templates/types.ts:129</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L458">src/lib/template/template-types.ts:458</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A single-line, human readable description for this scenario.</p>
+							<p>An optionally multi-line, free-form, human-readable description for this
+								scenario (for use in user interfaces). If displayed, this description
+							should use a monospace font to properly render ASCII diagrams.</p>
 						</div>
 					</div>
 				</section>
@@ -120,75 +142,129 @@
 					<div class="tsd-signature tsd-kind-icon">extends<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L135">src/lib/auth/templates/types.ts:135</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L496">src/lib/template/template-types.ts:496</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The identifier of the scenario which this scenario extends. Any properties
-								not defined in this scenario inherit from this parent scenario. By default,
-							all scenarios extend the built-in default scenario.</p>
+							<p>The identifier of the scenario which this scenario extends. Any <code>data</code> or
+								<code>transaction</code> properties not defined in this scenario inherit from the
+							extended parent scenario.</p>
 						</div>
+						<p>If undefined, this scenario is assumed to extend the default scenario:</p>
+						<ul>
+							<li><p>The default values for <code>data</code> are set:</p>
+								<ul>
+									<li>The identifiers of all <code>Key</code> variables and entities in this template
+										are lexicographically sorted, then each is assigned an incrementing
+										positive integer – beginning with <code>1</code> – encoded as an unsigned, 256-bit,
+										big-endian integer (i.e. <code>0x0000...0001</code> (32 bytes), <code>0x0000...0002</code>,
+										<code>0x0000...0003</code>, etc.). For <code>Key</code>s, this assigned value is used as the
+										private key; For entities, the assigned value is used as the master seed of
+										that entity&#39;s <code>HdPrivateKey</code>. If <code>hdKey</code> is set, the <code>addressIndex</code> is set
+									to <code>0</code>.</li>
+									<li><code>currentBlockHeight</code> is set to <code>2</code>. This is the height of the second
+										mined block after the genesis block:
+										<code>000000006a625f06636b8bb6ac7b960a8d03705d1ace08b1a19da3fdcc99ddbd</code>. This
+										default value was chosen to be low enough to simplify the debugging of
+										block height offsets while remaining differentiated from <code>0</code> and <code>1</code> which
+									are used both as boolean return values and for control flow.</li>
+									<li><code>currentBlockTime</code> is set to <code>1231469665</code>. This is the Median Time-Past
+									block time (BIP113) of block <code>2</code>.</li>
+								</ul>
+							</li>
+							<li><p>Then <code>transaction</code> is set based on use:</p>
+								<ul>
+									<li>if the scenario is being used for transaction estimation, all
+									transaction properties are taken from the transaction being estimated.</li>
+									<li>if the scenario is being used for script testing and validation, the
+									default value for each <code>transaction</code> property used.</li>
+								</ul>
+							</li>
+						</ul>
+						<p>When a scenario is extended, each property of <code>data</code> and <code>transaction</code> is
+							extended individually: if the extending scenario does not provide a new
+							value for <code>data.bytecode.value</code> or <code>transaction.property</code>, the parent value
+							is used. To avoid inheriting a parent value, each child value must be
+						individually overridden.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L140">src/lib/auth/templates/types.ts:140</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L501">src/lib/template/template-types.ts:501</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A single-line, Title Case, human-readable name for this scenario, e.g.:
-							<code>Trusted Third-Party</code></p>
+							<p>A single-line, Title Case, human-readable name for this scenario for use in
+							user interfaces, e.g.: <code>Delayed Recovery</code>.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="transaction" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> transaction</h3>
-					<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="transaction.html" class="tsd-signature-type">Transaction</a><span class="tsd-signature-symbol">&lt;</span><a href="input.html" class="tsd-signature-type">Input</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><a href="scenariodirective.html" class="tsd-signature-type">ScenarioDirective</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="output.html" class="tsd-signature-type">Output</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> | </span><a href="scenariodirective.html" class="tsd-signature-type">ScenarioDirective</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>inputs<span class="tsd-signature-symbol">?: </span><a href="authenticationtemplatescenarioinput.html" class="tsd-signature-type">AuthenticationTemplateScenarioInput</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>locktime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>outputs<span class="tsd-signature-symbol">?: </span><a href="authenticationtemplatescenariooutput.html" class="tsd-signature-type">AuthenticationTemplateScenarioOutput</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>version<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L154">src/lib/auth/templates/types.ts:154</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L541">src/lib/template/template-types.ts:541</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A transaction template to use when testing this scenario. Any properties
-							not defined in this transaction template inherit from the parent scenario.</p>
+							<p>The transaction within which this scenario should be evaluated. This is
+							used for script testing and validation.</p>
 						</div>
-						<p>Scenario transaction templates are a variation of the <code>Transaction</code> type
-							modified for better compatibility with JSON and to add support for
-						<code>ScenarioDirectives</code>:</p>
-						<ul>
-							<li>In each input, the <code>outpointTransactionHash</code> is provided as a hex-encoded
-								string, and <code>unlockingBytecode</code> may be either a <code>Uint8Array</code> or a
-							<code>ScenarioDirective</code>.</li>
-							<li>In each output, the <code>satoshis</code> value is provided as a number, and the
-							<code>lockingBytecode</code> may be either a <code>Uint8Array</code> or a <code>ScenarioDirective</code>.</li>
-						</ul>
+						<p>If undefined, inherits the default value for each property:</p>
+						<pre><code class="language-json">{
+  <span class="hljs-attr">&quot;inputs&quot;</span>: [{ <span class="hljs-attr">&quot;unlockingBytecode&quot;</span>: <span class="hljs-literal">true</span> }],
+  <span class="hljs-attr">&quot;locktime&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">&quot;outputs&quot;</span>: [{ <span class="hljs-attr">&quot;lockingBytecode&quot;</span>: <span class="hljs-string">&quot;&quot;</span> }],
+  <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-number">2</span>
+}</code></pre>
+						<p>Any <code>transaction</code> property which is not set will be inherited from the
+							scenario specified by <code>extends</code>. when specifying the <code>inputs</code> and <code>outputs</code>
+							properties, each input and output extends the default values for inputs and
+						outputs, respectively.</p>
+						<p>For example, an input of <code>{}</code> is interpreted as:</p>
+						<pre><code class="language-json">{
+  <span class="hljs-attr">&quot;outpointIndex&quot;</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">&quot;outpointTransactionHash&quot;</span>:
+    <span class="hljs-string">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span>,
+  <span class="hljs-attr">&quot;sequenceNumber&quot;</span>: <span class="hljs-number">0</span>
+}</code></pre>
+						<p>And an output of <code>{}</code> is interpreted as:</p>
+						<pre><code class="language-json">{
+  <span class="hljs-attr">&quot;lockingBytecode&quot;</span>: {
+    <span class="hljs-attr">&quot;script&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">&quot;overrides&quot;</span>: { <span class="hljs-attr">&quot;hdKeys&quot;</span>: { <span class="hljs-attr">&quot;addressIndex&quot;</span>: <span class="hljs-number">1</span> } }
+  },
+  <span class="hljs-attr">&quot;satoshis&quot;</span>: <span class="hljs-number">0</span>
+}</code></pre>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="variables" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> variables</h3>
-					<div class="tsd-signature tsd-kind-icon">variables<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<a name="value" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L166">src/lib/auth/templates/types.ts:166</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L623">src/lib/template/template-types.ts:623</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A map of variable IDs to scripts defining their values in this scenario.
-								Scripts are encoded in BTL, and have access to all other template scripts
-								and variables. (However, cyclical references will produce an error at
-							compile time.)</p>
+							<p>The value in satoshis of the hypothetical output being spent by the input
+							under test in this scenario.</p>
 						</div>
+						<p>May be encoded as either a number (for values below <code>2^53-1</code>) or a
+							little-endian, unsigned 64-bit integer in hexadecimal format (a
+						16-character string).</p>
+						<p>If undefined, defaults to <code>0</code>.</p>
 					</div>
 				</section>
 			</section>
@@ -209,6 +285,9 @@
 						<a href="authenticationtemplatescenario.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Scenario</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescenario.html#data" class="tsd-kind-icon">data</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplatescenario.html#description" class="tsd-kind-icon">description</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -221,7 +300,7 @@
 								<a href="authenticationtemplatescenario.html#transaction" class="tsd-kind-icon">transaction</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="authenticationtemplatescenario.html#variables" class="tsd-kind-icon">variables</a>
+								<a href="authenticationtemplatescenario.html#value" class="tsd-kind-icon">value</a>
 							</li>
 						</ul>
 					</li>

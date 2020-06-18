@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AuthenticationTemplateScript | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>AuthenticationTemplateScript | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -77,6 +77,17 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="target">AuthenticationTemplateScript</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<a href="authenticationtemplatescriptunlocking.html" class="tsd-signature-type">AuthenticationTemplateScriptUnlocking</a>
+							</li>
+							<li>
+								<a href="authenticationtemplatescriptlocking.html" class="tsd-signature-type">AuthenticationTemplateScriptLocking</a>
+							</li>
+							<li>
+								<a href="authenticationtemplatescripttested.html" class="tsd-signature-type">AuthenticationTemplateScriptTested</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -89,9 +100,6 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescript.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescript.html#script" class="tsd-kind-icon">script</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescript.html#tests" class="tsd-kind-icon">tests</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescript.html#timelocktype" class="tsd-kind-icon">time<wbr>Lock<wbr>Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescript.html#unlocks" class="tsd-kind-icon">unlocks</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,13 +113,13 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L180">src/lib/auth/templates/types.ts:180</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L635">src/lib/template/template-types.ts:635</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A single-line, human-readable name for this unlocking script (for use in
-							user interfaces).</p>
+							<p>A single-line, human-readable name for this script (for use in user
+							interfaces).</p>
 						</div>
 					</div>
 				</section>
@@ -121,74 +129,13 @@
 					<div class="tsd-signature tsd-kind-icon">script<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L184">src/lib/auth/templates/types.ts:184</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/template-types.ts#L639">src/lib/template/template-types.ts:639</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The script definition in BTL (Bitauth Templating Language).</p>
 						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="tests" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tests</h3>
-					<div class="tsd-signature tsd-kind-icon">tests<span class="tsd-signature-symbol">:</span> <a href="authenticationtemplatescripttest.html" class="tsd-signature-type">AuthenticationTemplateScriptTest</a><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L189">src/lib/auth/templates/types.ts:189</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>One or more tests which can be used during development and during template
-							validation to confirm the correctness of this inline script.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="timelocktype" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> time<wbr>Lock<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">time<wbr>Lock<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"timestamp"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"height"</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L211">src/lib/auth/templates/types.ts:211</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The expected type of time locks in this script.</p>
-						</div>
-						<p>Because <code>OP_CHECKLOCKTIMEVERIFY</code> reads from a transaction&#39;s <code>locktime</code>
-							property, every input to a given transaction must share the same time lock
-							type. This differs from <code>OP_CHECKSEQUENCEVERIFY</code> in that each input has its
-						own <code>sequenceNumber</code>, so compatibility is not required.</p>
-						<p>If a transaction includes multiple inputs using scripts with <code>timeLockType</code>
-						defined, and the types are not compatible, generation should fail.</p>
-						<p>The <code>timestamp</code> type indicates that the transaction&#39;s locktime is provided
-							as a UNIX timestamp (the <code>locktime</code> value is greater than or equal to
-						<code>500000000</code>).</p>
-						<p>The <code>height</code> type indicates that the transaction&#39;s locktime is provided as
-						a block height (the <code>locktime</code> value is less than <code>500000000</code>).</p>
-						<p>If <code>timeLockType</code> is undefined, the script is assumed to have no reliance
-						on absolute time locks.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="unlocks" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> unlocks</h3>
-					<div class="tsd-signature tsd-kind-icon">unlocks<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/types.ts#L218">src/lib/auth/templates/types.ts:218</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The <code>id</code> of the script which can be unlocked by this script.</p>
-						</div>
-						<p>(The presence of the <code>unlocks</code> property indicates that this script is an
-						unlocking script, and the script it unlocks is a locking script.)</p>
 					</div>
 				</section>
 			</section>
@@ -213,15 +160,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplatescript.html#script" class="tsd-kind-icon">script</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="authenticationtemplatescript.html#tests" class="tsd-kind-icon">tests</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="authenticationtemplatescript.html#timelocktype" class="tsd-kind-icon">time<wbr>Lock<wbr>Type</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="authenticationtemplatescript.html#unlocks" class="tsd-kind-icon">unlocks</a>
 							</li>
 						</ul>
 					</li>

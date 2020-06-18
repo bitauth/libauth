@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>EvaluationSample | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>EvaluationSample | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -57,18 +57,31 @@
 					<a href="evaluationsample.html">EvaluationSample</a>
 				</li>
 			</ul>
-			<h1>Interface EvaluationSample&lt;ProgramState&gt;</h1>
+			<h1>Interface EvaluationSample&lt;ProgramState, Opcodes&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An evaluation sample extracted from a script reduction trace – includes the
+							range of the evaluation from which the sample was extracted, the instruction
+							which was evaluated, the range in the source script over which the
+						instruction was defined, and the resulting program state.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
 						<h4>ProgramState</h4>
+					</li>
+					<li>
+						<h4>Opcodes</h4>
 					</li>
 				</ul>
 			</section>
@@ -87,6 +100,9 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="evaluationsample.html#evaluationrange" class="tsd-kind-icon">evaluation<wbr>Range</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="evaluationsample.html#instruction" class="tsd-kind-icon">instruction</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="evaluationsample.html#internalstates" class="tsd-kind-icon">internal<wbr>States</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="evaluationsample.html#range" class="tsd-kind-icon">range</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="evaluationsample.html#state" class="tsd-kind-icon">state</a></li>
 							</ul>
@@ -97,24 +113,90 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="evaluationrange" class="tsd-anchor"></a>
+					<h3>evaluation<wbr>Range</h3>
+					<div class="tsd-signature tsd-kind-icon">evaluation<wbr>Range<span class="tsd-signature-symbol">:</span> <a href="range.html" class="tsd-signature-type">Range</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L328">src/lib/template/language/language-types.ts:328</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The range of the evaluation node in which this sample was generated.</p>
+						</div>
+						<p>This can be used to identify which other samples were part of the same
+						evaluation that produced this sample.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="instruction" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> instruction</h3>
+					<div class="tsd-signature tsd-kind-icon">instruction<span class="tsd-signature-symbol">:</span> <a href="../globals.html#authenticationinstruction" class="tsd-signature-type">AuthenticationInstruction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Opcodes</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L336">src/lib/template/language/language-types.ts:336</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The final instruction which was evaluated during this sample.</p>
+						</div>
+						<p>Note, the first sample from any evaluation is the initial state before any
+							instructions are executed, so its <code>instruction</code> is <code>undefined</code>. For all
+						other samples, <code>instruction</code> must be defined.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="internalstates" class="tsd-anchor"></a>
+					<h3>internal<wbr>States</h3>
+					<div class="tsd-signature tsd-kind-icon">internal<wbr>States<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>instruction<span class="tsd-signature-symbol">: </span><a href="../globals.html#authenticationinstruction" class="tsd-signature-type">AuthenticationInstruction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Opcodes</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L348">src/lib/template/language/language-types.ts:348</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An ordered array of instructions and program states which occurred within
+								the range of a single reduction trace node before the final instruction and
+							state (assigned to <code>instruction</code> and <code>state</code>, respectively).</p>
+						</div>
+						<p>This occurs in unusual cases where multiple opcodes are defined in the same
+							reduced node, e.g. a long hex literal of operations as bytecode or an
+						evaluation which is not wrapped in a push.</p>
+						<p>Usually, this will be an empty array.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="range" class="tsd-anchor"></a>
 					<h3>range</h3>
 					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <a href="range.html" class="tsd-signature-type">Range</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/reduce.ts#L432">src/lib/auth/templates/language/reduce.ts:432</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L355">src/lib/template/language/language-types.ts:355</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The range over which this sample was defined in the source script.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="state" class="tsd-anchor"></a>
 					<h3>state</h3>
-					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ProgramState</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/reduce.ts#L433">src/lib/auth/templates/language/reduce.ts:433</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L359">src/lib/template/language/language-types.ts:359</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The program state after the evaluation of this sample&#39;s <code>instruction</code>.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -133,6 +215,15 @@
 					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="evaluationsample.html" class="tsd-kind-icon">Evaluation<wbr>Sample</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="evaluationsample.html#evaluationrange" class="tsd-kind-icon">evaluation<wbr>Range</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="evaluationsample.html#instruction" class="tsd-kind-icon">instruction</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="evaluationsample.html#internalstates" class="tsd-kind-icon">internal<wbr>States</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="evaluationsample.html#range" class="tsd-kind-icon">range</a>
 							</li>

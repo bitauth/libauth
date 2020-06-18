@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Constants | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>Constants | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -71,14 +71,9 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#locktimescriptnumberbytelength" class="tsd-kind-icon">Locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#locktimethreshold" class="tsd-kind-icon">Locktime<wbr>Threshold</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#bytelength" class="tsd-kind-icon">byte<wbr>Length</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#hexbyte" class="tsd-kind-icon">hex<wbr>Byte</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#maximumlocktime" class="tsd-kind-icon">maximum<wbr>Locktime</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#maximumsequencenumber" class="tsd-kind-icon">maximum<wbr>Sequence<wbr>Number</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#minimumtimestamp" class="tsd-kind-icon">minimum<wbr>Timestamp</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#msperlocktimesecond" class="tsd-kind-icon">ms<wbr>Per<wbr>Locktime<wbr>Second</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#locktimedisablingsequencenumber" class="tsd-kind-icon">locktime<wbr>Disabling<wbr>Sequence<wbr>Number</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#locktimescriptnumberbytelength" class="tsd-kind-icon">locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#locktimethreshold" class="tsd-kind-icon">locktime<wbr>Threshold</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#negativesign" class="tsd-kind-icon">negative<wbr>Sign</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#positivesign" class="tsd-kind-icon">positive<wbr>Sign</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="constants.html#sequencegranularity" class="tsd-kind-icon">sequence<wbr>Granularity</a></li>
@@ -94,82 +89,32 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="locktimescriptnumberbytelength" class="tsd-anchor"></a>
-					<h3>Locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length</h3>
-					<div class="tsd-signature tsd-kind-icon">Locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 5</span></div>
+					<a name="locktimedisablingsequencenumber" class="tsd-anchor"></a>
+					<h3>locktime<wbr>Disabling<wbr>Sequence<wbr>Number</h3>
+					<div class="tsd-signature tsd-kind-icon">locktime<wbr>Disabling<wbr>Sequence<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4294967295</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L17">src/lib/auth/instruction-sets/common/time.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L19">src/lib/vm/instruction-sets/common/time.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="locktimescriptnumberbytelength" class="tsd-anchor"></a>
+					<h3>locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length</h3>
+					<div class="tsd-signature tsd-kind-icon">locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 5</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L17">src/lib/vm/instruction-sets/common/time.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
 					<a name="locktimethreshold" class="tsd-anchor"></a>
-					<h3>Locktime<wbr>Threshold</h3>
-					<div class="tsd-signature tsd-kind-icon">Locktime<wbr>Threshold<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 500000000</span></div>
+					<h3>locktime<wbr>Threshold</h3>
+					<div class="tsd-signature tsd-kind-icon">locktime<wbr>Threshold<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 500000000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L18">src/lib/auth/instruction-sets/common/time.ts:18</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="bytelength" class="tsd-anchor"></a>
-					<h3>byte<wbr>Length</h3>
-					<div class="tsd-signature tsd-kind-icon">byte<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/format/time.ts#L7">src/lib/format/time.ts:7</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="hexbyte" class="tsd-anchor"></a>
-					<h3>hex<wbr>Byte</h3>
-					<div class="tsd-signature tsd-kind-icon">hex<wbr>Byte<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L115">src/lib/auth/templates/language/resolve.ts:115</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="maximumlocktime" class="tsd-anchor"></a>
-					<h3>maximum<wbr>Locktime</h3>
-					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Locktime<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4294967295</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/format/time.ts#L6">src/lib/format/time.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="maximumsequencenumber" class="tsd-anchor"></a>
-					<h3>maximum<wbr>Sequence<wbr>Number</h3>
-					<div class="tsd-signature tsd-kind-icon">maximum<wbr>Sequence<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4294967295</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L19">src/lib/auth/instruction-sets/common/time.ts:19</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="minimumtimestamp" class="tsd-anchor"></a>
-					<h3>minimum<wbr>Timestamp</h3>
-					<div class="tsd-signature tsd-kind-icon">minimum<wbr>Timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 500000000</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/format/time.ts#L5">src/lib/format/time.ts:5</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="msperlocktimesecond" class="tsd-anchor"></a>
-					<h3>ms<wbr>Per<wbr>Locktime<wbr>Second</h3>
-					<div class="tsd-signature tsd-kind-icon">ms<wbr>Per<wbr>Locktime<wbr>Second<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1000</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/format/time.ts#L4">src/lib/format/time.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L18">src/lib/vm/instruction-sets/common/time.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,7 +124,7 @@
 					<div class="tsd-signature tsd-kind-icon">negative<wbr>Sign<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 128</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/bch/bch-operations.ts#L67">src/lib/auth/instruction-sets/bch/bch-operations.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/bch/bch-operations.ts#L70">src/lib/vm/instruction-sets/bch/bch-operations.ts:70</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,7 +134,7 @@
 					<div class="tsd-signature tsd-kind-icon">positive<wbr>Sign<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/bch/bch-operations.ts#L66">src/lib/auth/instruction-sets/bch/bch-operations.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/bch/bch-operations.ts#L69">src/lib/vm/instruction-sets/bch/bch-operations.ts:69</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -199,7 +144,7 @@
 					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Granularity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 9</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L25">src/lib/auth/instruction-sets/common/time.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L25">src/lib/vm/instruction-sets/common/time.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -209,7 +154,7 @@
 					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Locktime<wbr>Disable<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = (1 &lt;&lt; Bits.sequenceLocktimeDisableFlag) &gt;&gt;&gt; 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L22">src/lib/auth/instruction-sets/common/time.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L22">src/lib/vm/instruction-sets/common/time.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Locktime<wbr>Mask<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 65535</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L26">src/lib/auth/instruction-sets/common/time.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L26">src/lib/vm/instruction-sets/common/time.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -229,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Locktime<wbr>Transaction<wbr>Version<wbr>Minimum<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L20">src/lib/auth/instruction-sets/common/time.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L20">src/lib/vm/instruction-sets/common/time.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -239,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Locktime<wbr>Type<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1 &lt;&lt; Bits.sequenceLocktimeTypeFlag</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/instruction-sets/common/time.ts#L24">src/lib/auth/instruction-sets/common/time.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/vm/instruction-sets/common/time.ts#L24">src/lib/vm/instruction-sets/common/time.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -261,28 +206,13 @@
 						<a href="constants.html" class="tsd-kind-icon">Constants</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#locktimescriptnumberbytelength" class="tsd-kind-icon">Locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length</a>
+								<a href="constants.html#locktimedisablingsequencenumber" class="tsd-kind-icon">locktime<wbr>Disabling<wbr>Sequence<wbr>Number</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#locktimethreshold" class="tsd-kind-icon">Locktime<wbr>Threshold</a>
+								<a href="constants.html#locktimescriptnumberbytelength" class="tsd-kind-icon">locktime<wbr>Script<wbr>Number<wbr>Byte<wbr>Length</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#bytelength" class="tsd-kind-icon">byte<wbr>Length</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#hexbyte" class="tsd-kind-icon">hex<wbr>Byte</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#maximumlocktime" class="tsd-kind-icon">maximum<wbr>Locktime</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#maximumsequencenumber" class="tsd-kind-icon">maximum<wbr>Sequence<wbr>Number</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#minimumtimestamp" class="tsd-kind-icon">minimum<wbr>Timestamp</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="constants.html#msperlocktimesecond" class="tsd-kind-icon">ms<wbr>Per<wbr>Locktime<wbr>Second</a>
+								<a href="constants.html#locktimethreshold" class="tsd-kind-icon">locktime<wbr>Threshold</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
 								<a href="constants.html#negativesign" class="tsd-kind-icon">negative<wbr>Sign</a>

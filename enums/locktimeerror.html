@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LocktimeError | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>LocktimeError | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -71,8 +71,9 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="locktimeerror.html#dateoutofrange" class="tsd-kind-icon">date<wbr>Out<wbr>OfRange</a></li>
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="locktimeerror.html#incorrectlength" class="tsd-kind-icon">incorrect<wbr>Length</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="locktimeerror.html#outofrange" class="tsd-kind-icon">out<wbr>OfRange</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external"><a href="locktimeerror.html#locktimeoutofrange" class="tsd-kind-icon">locktime<wbr>Out<wbr>OfRange</a></li>
 							</ul>
 						</section>
 					</div>
@@ -81,22 +82,32 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+					<a name="dateoutofrange" class="tsd-anchor"></a>
+					<h3>date<wbr>Out<wbr>OfRange</h3>
+					<div class="tsd-signature tsd-kind-icon">date<wbr>Out<wbr>OfRange<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;The provided Date is outside of the range which can be encoded in locktime.&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/format/time.ts#L34">src/lib/format/time.ts:34</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
 					<a name="incorrectlength" class="tsd-anchor"></a>
 					<h3>incorrect<wbr>Length</h3>
 					<div class="tsd-signature tsd-kind-icon">incorrect<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;The provided locktime is not the correct length (4 bytes).&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/format/time.ts#L28">src/lib/format/time.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/format/time.ts#L36">src/lib/format/time.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-					<a name="outofrange" class="tsd-anchor"></a>
-					<h3>out<wbr>OfRange</h3>
-					<div class="tsd-signature tsd-kind-icon">out<wbr>OfRange<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;The provided Date is outside of the range which can be encoded in locktime.&quot;</span></div>
+					<a name="locktimeoutofrange" class="tsd-anchor"></a>
+					<h3>locktime<wbr>Out<wbr>OfRange</h3>
+					<div class="tsd-signature tsd-kind-icon">locktime<wbr>Out<wbr>OfRange<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;The provided locktime is outside of the range which can be encoded as a Date (greater than or equal to 500000000 and less than or equal to 4294967295).&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/format/time.ts#L27">src/lib/format/time.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/format/time.ts#L35">src/lib/format/time.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -118,10 +129,13 @@
 						<a href="locktimeerror.html" class="tsd-kind-icon">Locktime<wbr>Error</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
+								<a href="locktimeerror.html#dateoutofrange" class="tsd-kind-icon">date<wbr>Out<wbr>OfRange</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
 								<a href="locktimeerror.html#incorrectlength" class="tsd-kind-icon">incorrect<wbr>Length</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum tsd-is-external">
-								<a href="locktimeerror.html#outofrange" class="tsd-kind-icon">out<wbr>OfRange</a>
+								<a href="locktimeerror.html#locktimeoutofrange" class="tsd-kind-icon">locktime<wbr>Out<wbr>OfRange</a>
 							</li>
 						</ul>
 					</li>

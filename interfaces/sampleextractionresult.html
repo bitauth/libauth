@@ -1,0 +1,191 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>SampleExtractionResult | libauth</title>
+	<meta name="description" content="Documentation for libauth">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">libauth</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="sampleextractionresult.html">SampleExtractionResult</a>
+				</li>
+			</ul>
+			<h1>Interface SampleExtractionResult&lt;ProgramState, Opcodes&gt;</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>ProgramState</h4>
+					</li>
+					<li>
+						<h4>Opcodes</h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">SampleExtractionResult</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="sampleextractionresult.html#samples" class="tsd-kind-icon">samples</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="sampleextractionresult.html#unmatchedstates" class="tsd-kind-icon">unmatched<wbr>States</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="samples" class="tsd-anchor"></a>
+					<h3>samples</h3>
+					<div class="tsd-signature tsd-kind-icon">samples<span class="tsd-signature-symbol">:</span> <a href="evaluationsample.html" class="tsd-signature-type">EvaluationSample</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Opcodes</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-utils.ts#L316">src/lib/template/language/language-utils.ts:316</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The samples successfully extracted from the provided <code>nodes</code> and <code>trace</code>.</p>
+						</div>
+						<p>In a successful evaluation, one sample will be produced for each state in
+							<code>trace</code> with the exception of the last state (the evaluation result) which
+						will be returned in <code>unmatchedStates</code>.</p>
+						<p>In an unsuccessful evaluation, the <code>trace</code> states will be exhausted before
+							all <code>nodes</code> have been matched. In this case, all matched samples are
+							returned, and the final state (the evaluation result) is dropped. This can
+						be detected by checking if the length of <code>unmatchedStates</code> is <code>0</code>.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="unmatchedstates" class="tsd-anchor"></a>
+					<h3>unmatched<wbr>States</h3>
+					<div class="tsd-signature tsd-kind-icon">unmatched<wbr>States<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-utils.ts#L327">src/lib/template/language/language-utils.ts:327</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If the provided <code>nodes</code> are exhausted before all states from <code>trace</code> have
+								been matched, the remaining &quot;unmatched&quot; states are returned. This is useful
+								for extracting samples for an evaluation involving two or more
+							compilations.</p>
+						</div>
+						<p>In a successful evaluation, after samples have been extracted from each set
+							of <code>nodes</code>, the final <code>trace</code> state (the evaluation result) will be
+						returned in <code>unmatchedStates</code>.</p>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="sampleextractionresult.html" class="tsd-kind-icon">Sample<wbr>Extraction<wbr>Result</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="sampleextractionresult.html#samples" class="tsd-kind-icon">samples</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="sampleextractionresult.html#unmatchedstates" class="tsd-kind-icon">unmatched<wbr>States</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Input | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>Input | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -114,7 +114,7 @@
 					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L24">src/lib/transaction.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L89">src/lib/transaction/transaction-types.ts:89</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -135,21 +135,22 @@
 					<div class="tsd-signature tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HashRepresentation</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L42">src/lib/transaction.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L108">src/lib/transaction/transaction-types.ts:108</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A.K.A. <code>Transaction ID</code></p>
+							<p>The hash of the raw transaction from which this input is spent in
+								big-endian byte order. This is the byte order typically seen in block
+								explorers and user interfaces (as opposed to little-endian byte order,
+							which is used in standard P2P network messages).</p>
 						</div>
-						<p>The hash of the raw transaction from which this input is spent in
-							big-endian byte order. This is the order typically seen in block explorers
-						and user interfaces.</p>
+						<p>A.K.A. <code>Transaction ID</code></p>
 						<dl class="tsd-comment-tags">
 							<dt>remarks</dt>
 							<dd><p>An &quot;outpoint&quot; is a reference (A.K.A. &quot;pointer&quot;) to a specific output in a
 								previous transaction.</p>
-								<p>Serialized raw bitcoin transactions encode this value in little-endian byte
+								<p>Encoded raw bitcoin transactions serialize this value in little-endian byte
 									order. However, it is more common to use big-endian byte order when
 									displaying transaction hashes. (In part because the SHA-256 specification
 									defines its output as big-endian, so this byte order is output by most
@@ -164,13 +165,69 @@
 					<div class="tsd-signature tsd-kind-icon">sequence<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L46">src/lib/transaction.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L172">src/lib/transaction/transaction-types.ts:172</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO: summarize BIP 68</p>
+							<p>The positive, 32-bit unsigned integer used as the &quot;sequence number&quot; for
+							this input.</p>
 						</div>
+						<p>A sequence number is a complex bitfield which can encode several properties
+						about an input:</p>
+						<ul>
+							<li><strong>sequence age support</strong> – whether or not the input can use
+								<code>OP_CHECKSEQUENCEVERIFY</code>, and the minimum number of blocks or length of
+								time which has passed since this input&#39;s source transaction was mined (up
+							to approximately 1 year).</li>
+							<li><strong>locktime support</strong> – whether or not the input can use
+							<code>OP_CHECKLOCKTIMEVERIFY</code></li>
+						</ul>
+						<p><strong>Sequence Age Support</strong></p>
+						<p>Sequence number age is enforced by mining consensus – a transaction is
+							invalid until it has &quot;aged&quot; such that all outputs referenced by its
+							age-enabled inputs are at least as old as claimed by their respective
+						sequence numbers.</p>
+						<p>This allows sequence numbers to function as a &quot;relative locktime&quot; for each
+							input: a <code>lockingBytecode</code> can use the <code>OP_CHECKSEQUENCEVERIFY</code> operation
+							to verify that the funds being spent have been &quot;locked&quot; for a minimum
+							required amount of time (or block count). This can be used in protocols
+							which require a reliable &quot;proof-of-publication&quot;, like escrow, time-delayed
+						withdrawals, and various payment channel protocols.</p>
+						<p>Sequence age support is enabled unless the &quot;disable bit&quot; – the most
+							significant bit – is set (i.e. the sequence number is less than
+						<code>(1 &lt;&lt; 31) &gt;&gt;&gt; 0</code>/<code>0b10000000000000000000000000000000</code>/<code>2147483648</code>).</p>
+						<p>If sequence age is enabled, the &quot;type bit&quot; – the most significant bit in
+							the second-most significant byte
+							(<code>1 &lt;&lt; 22</code>/<code>0b1000000000000000000000</code>/<code>2097152</code>) – indicates the unit type
+						of the specified age:</p>
+						<ul>
+							<li>if set, the age is in units of <code>512</code> seconds (using Median Time-Past)</li>
+							<li>if not set, the age is a number of blocks</li>
+						</ul>
+						<p>The least significant 16 bits specify the age (i.e.
+							<code>age = sequenceNumber &amp; 0x0000ffff</code>). This makes the maximum age either
+						<code>65535</code> blocks (about 1.25 years) or <code>33553920</code> seconds (about 1.06 years).</p>
+						<p><strong>Locktime Support</strong></p>
+						<p>Locktime support is disabled for an input if the sequence number is exactly
+							<code>0xffffffff</code> (<code>4294967295</code>). Because this value requires the &quot;disable bit&quot;
+						to be set, disabling locktime support also disables sequence age support.</p>
+						<p>With locktime support disabled, if  either <code>OP_CHECKLOCKTIMEVERIFY</code> or
+							<code>OP_CHECKSEQUENCEVERIFY</code> are encountered during the validation of
+						<code>unlockingBytecode</code>, an error is produced, and the transaction is invalid.</p>
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>The term &quot;sequence number&quot; was the name given to this field in the Satoshi
+									implementation of the bitcoin transaction format. The field was originally
+									intended for use in a multi-party signing protocol where parties updated
+									the &quot;sequence number&quot; to indicate to miners that this input should replace
+									a previously-signed input in an existing, not-yet-mined transaction. The
+									original use-case was not completed and relied on behavior which can not be
+									enforced by mining consensus, so the field was mostly-unused until it was
+									repurposed by BIP68 in block <code>419328</code>. See BIP68, BIP112, and BIP113 for
+								details.</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -179,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">unlocking<wbr>Bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Bytecode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L55">src/lib/transaction.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L181">src/lib/transaction/transaction-types.ts:181</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

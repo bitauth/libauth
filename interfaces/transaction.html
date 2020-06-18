@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Transaction | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>Transaction | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -67,7 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data type representing a Transaction.</p>
+						<p>Data type representing a transaction.</p>
 					</div>
 				</div>
 			</section>
@@ -114,7 +114,7 @@
 					<div class="tsd-signature tsd-kind-icon">inputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">InputType</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L87">src/lib/transaction.ts:87</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L251">src/lib/transaction/transaction-types.ts:251</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -131,22 +131,46 @@
 					<div class="tsd-signature tsd-kind-icon">locktime<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L103">src/lib/transaction.ts:103</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L291">src/lib/transaction/transaction-types.ts:291</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The locktime at which this transaction is considered valid.</p>
+							<p>The locktime at which this transaction is considered valid – a positive
+							integer from <code>0</code> to a maximum of <code>4294967295</code>.</p>
 						</div>
 						<p>Locktime can be provided as either a timestamp or a block height. Values
 							less than <code>500000000</code> are understood to be a block height (the current
-							block number in the chain, beginning from block 0). Values greater than or
-						equal to <code>500000000</code> are understood to be a UNIX timestamp.</p>
+							block number in the chain, beginning from block <code>0</code>). Values greater than
+						or equal to <code>500000000</code> are understood to be a UNIX timestamp.</p>
 						<p>For validating timestamp values, the median timestamp of the last 11 blocks
-						is used. The precise behavior is defined in BIP113.</p>
+						(Median Time-Past) is used. The precise behavior is defined in BIP113.</p>
 						<p>If the <code>sequenceNumber</code> of every transaction input is set to <code>0xffffffff</code>
-							(4294967295), locktime is ignored, and the transaction may be added to a
-						block (even if the specified locktime has not yet been reached).</p>
+							(<code>4294967295</code>), locktime is disabled, and the transaction may be added to a
+							block even if the specified locktime has not yet been reached. When
+							locktime is disabled, if an <code>OP_CHECKLOCKTIMEVERIFY</code> operation is
+							encountered during the verification of any input, an error is produced, and
+						the transaction is invalid.</p>
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>There is a subtle difference in how <code>locktime</code> is disabled for a
+									transaction and how it is &quot;disabled&quot; for a single input: <code>locktime</code> is only
+									disabled for a transaction if every input has a sequence number of
+									<code>0xffffffff</code>; however, within each input, if the sequence number is set to
+									<code>0xffffffff</code>, locktime is disabled for that input (and
+								<code>OP_CHECKLOCKTIMEVERIFY</code> operations will error if encountered).</p>
+								<p>This difference is a minor virtual machine optimization – it allows inputs
+									to be properly validated without requiring the virtual machine to check the
+								sequence number of every other input (only that of the current input).</p>
+								<p>This is inconsequential for valid transactions, since any transaction which
+									disables <code>locktime</code> must have disabled locktime for all of its inputs;
+									<code>OP_CHECKLOCKTIMEVERIFY</code> is always properly enforced. However, because an
+									input can individually &quot;disable locktime&quot; without the full transaction
+									<em>actually disabling locktime</em>, it is possible that a carefully-crafted
+									transaction may fail to verify because &quot;locktime is disabled&quot; for the input
+								– even if locktime is actually enforced on the transaction level.</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -155,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">outputs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OutputType</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L111">src/lib/transaction.ts:111</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L299">src/lib/transaction/transaction-types.ts:299</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -172,13 +196,13 @@
 					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L116">src/lib/transaction.ts:116</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L304">src/lib/transaction/transaction-types.ts:304</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The version of this transaction. Since BIP68, most transactions use a
-							version of <code>2</code>.</p>
+							<p>The version of this transaction – a positive integer from <code>0</code> to a maximum
+							of <code>4294967295</code>. Since BIP68, most transactions use a version of <code>2</code>.</p>
 						</div>
 					</div>
 				</section>

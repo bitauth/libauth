@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CompilationEnvironment | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>CompilationEnvironment | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -57,7 +57,7 @@
 					<a href="compilationenvironment.html">CompilationEnvironment</a>
 				</li>
 			</ul>
-			<h1>Interface CompilationEnvironment&lt;CompilerOperationData, CompilerOperations&gt;</h1>
+			<h1>Interface CompilationEnvironment&lt;TransactionContext, CompilerKeyOperations, CompilerSigningSerializationOperations, CompilerAddressDataOperations, CompilerWalletDataOperations, CompilerCurrentBlockHeightOperations, CompilerCurrentBlockTimeOperations&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -72,24 +72,92 @@
 							generate the compiled bytecode (targeting a specific
 						<code>AuthenticationVirtualMachine</code>).</p>
 					</div>
-					<p>A <code>CompilationEnvironment</code> must include a subset of the script&#39;s
-						<code>AuthenticationTemplate</code> – all the variables and scripts referenced
-					(including children of children) by the script in question.</p>
-					<p>The context must also include an object mapping of opcode identifiers to the
-					bytecode they generate.</p>
-					<p>If keys are used, an implementation of <code>sha256</code> and <code>secp256k1</code> is
-						required. If the script requires evaluations during compilation, the
-					evaluating <code>AuthenticationVirtualMachine</code> must also be included.</p>
+					<dl class="tsd-comment-tags">
+						<dt>remarks</dt>
+						<dd><p>A <code>CompilationEnvironment</code> must include a subset of the script&#39;s
+								<code>AuthenticationTemplate</code> – all the variables and scripts referenced
+							(including children of children) by the script in question.</p>
+							<p>The context must also include an object mapping of opcode identifiers to the
+							bytecode they generate.</p>
+							<p>If keys are used, an implementation of <code>sha256</code> and <code>secp256k1</code> is
+								required. If the script requires evaluations during compilation, the
+							evaluating <code>AuthenticationVirtualMachine</code> must also be included.</p>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>CompilerOperationData</h4>
+						<h4>TransactionContext</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>additional data available to compiler
+								operations, e.g. transaction signing serialization components</p>
+							</div>
+						</div>
 					</li>
 					<li>
-						<h4>CompilerOperations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
+						<h4>CompilerKeyOperations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>a list of valid compiler operations for
+									<code>Key</code> and <code>HdKey</code> variables, e.g. <code>&#39;public_key&#39; | &#39;signature&#39;</code>, or <code>false</code> if
+								only a single compiler operation is used for all instances</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<h4>CompilerSigningSerializationOperations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>a list of valid compiler
+									operations for <code>Key</code> and <code>HdKey</code> variables, e.g.
+									<code>&quot;version&quot; | &quot;transaction_outpoints&quot; | ...</code>, or <code>false</code> if only a single
+								compiler operation is used for all <code>signing_serialization</code> instances</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<h4>CompilerAddressDataOperations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>a list of valid compiler
+									operations for <code>AddressData</code> variables or <code>false</code> if only a single compiler
+								operation is used for all <code>AddressData</code> instances (default: <code>false</code>)</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<h4>CompilerWalletDataOperations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>a list of valid compiler
+									operations for <code>WalletData</code> variables or <code>false</code> if only a single compiler
+								operation is used for all <code>WalletData</code> instances (default: <code>false</code>)</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<h4>CompilerCurrentBlockHeightOperations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>a list of valid compiler
+									operations for <code>current_block_height</code> variables or <code>false</code> if only a single
+								compiler operation is used for all instances (default: <code>false</code>)</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<h4>CompilerCurrentBlockTimeOperations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>a list of valid compiler
+									operations for <code>current_block_time</code> variables or <code>false</code> if only a single
+								compiler operation is used for all instances (default: <code>false</code>)</p>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</section>
@@ -108,13 +176,20 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#createstate" class="tsd-kind-icon">create<wbr>State</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#createauthenticationprogram" class="tsd-kind-icon">create<wbr>Authentication<wbr>Program</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#entityownership" class="tsd-kind-icon">entity<wbr>Ownership</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#lockingscripttypes" class="tsd-kind-icon">locking<wbr>Script<wbr>Types</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#opcodes" class="tsd-kind-icon">opcodes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#operations" class="tsd-kind-icon">operations</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#ripemd160" class="tsd-kind-icon">ripemd160</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#scenarios" class="tsd-kind-icon">scenarios</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#scripts" class="tsd-kind-icon">scripts</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#secp256k1" class="tsd-kind-icon">secp256k1</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#sha256" class="tsd-kind-icon">sha256</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#sha512" class="tsd-kind-icon">sha512</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#sourcescriptids" class="tsd-kind-icon">source<wbr>Script<wbr>Ids</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#unlockingscripttimelocktypes" class="tsd-kind-icon">unlocking<wbr>Script<wbr>Time<wbr>Lock<wbr>Types</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#unlockingscripts" class="tsd-kind-icon">unlocking<wbr>Scripts</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#variables" class="tsd-kind-icon">variables</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationenvironment.html#vm" class="tsd-kind-icon">vm</a></li>
 							</ul>
@@ -125,20 +200,70 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="createstate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> create<wbr>State</h3>
-					<div class="tsd-signature tsd-kind-icon">create<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>instructions<span class="tsd-signature-symbol">: </span><a href="../globals.html#authenticationinstruction" class="tsd-signature-type">AuthenticationInstruction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span></div>
+					<a name="createauthenticationprogram" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> create<wbr>Authentication<wbr>Program</h3>
+					<div class="tsd-signature tsd-kind-icon">create<wbr>Authentication<wbr>Program<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>evaluationBytecode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L271">src/lib/auth/templates/language/resolve.ts:271</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L256">src/lib/template/compiler-types.ts:256</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A method which accepts an array of <code>AuthenticationInstruction</code>s, and
-								returns a ProgramState. This method will be used to generate the initial
-							ProgramState for <code>evaluation</code>s.</p>
+							<p>A method which accepts the compiled bytecode contents of a BTL evaluation
+								and produces the equivalent <code>AuthenticationProgram</code> to be evaluated by the
+								VM. This method is used internally to compute BTL evaluations. See
+							<code>createAuthenticationProgramEvaluationCommon</code> for details.</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="entityownership" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> entity<wbr>Ownership</h3>
+					<div class="tsd-signature tsd-kind-icon">entity<wbr>Ownership<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L274">src/lib/template/compiler-types.ts:274</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object mapping template variable identifiers to the entity identifiers
+								responsible for them. This is required for <code>HdKey</code> support, as each entity
+								uses a single HD private key (provided in <code>hdKeys.hdPrivateKeys</code>) or HD
+								public key (provided in <code>hdKeys.hdPublicKeys</code>) per compilation, and each
+							<code>HdKey</code> variable is derived from this key.</p>
+						</div>
+						<p>To avoid compilation errors, this object must contain all <code>HdKey</code> variables
+							referenced by the script being compiled (including in child scripts). To
+							enable support for error handling like <code>extractMissingVariables</code>, it&#39;s
+						recommended that all variables be provided here.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="lockingscripttypes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> locking<wbr>Script<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">locking<wbr>Script<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L296">src/lib/template/compiler-types.ts:296</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object mapping the script identifiers of locking scripts to their
+							locking script type, either <code>standard</code> or <code>p2sh</code>.</p>
+						</div>
+						<p>This is used to transform compilation results into the proper structure for
+						P2SH locking and unlocking scripts.</p>
+						<p>When compiling locking scripts of type <code>p2sh</code>, the result will be placed in
+							a P2SH &quot;redeemScript&quot; format:
+						<code>OP_HASH160 &lt;$(&lt;result&gt; OP_HASH160)&gt; OP_EQUAL</code></p>
+						<p>When compiling unlocking scripts which unlock locking scripts of type
+							<code>p2sh</code>, the result will be transformed into the P2SH unlocking format:
+							<code>result &lt;locking_script&gt;</code> (where <code>locking_script</code> is the compiled bytecode
+						of the locking script, without the &quot;redeemScript&quot; transformation.)</p>
+						<p>By default, all scripts are assumed to have the type <code>standard</code>.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -147,7 +272,7 @@
 					<div class="tsd-signature tsd-kind-icon">opcodes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L276">src/lib/auth/templates/language/resolve.ts:276</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L303">src/lib/template/compiler-types.ts:303</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -159,17 +284,53 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="operations" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> operations</h3>
-					<div class="tsd-signature tsd-kind-icon">operations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<div class="tsd-signature tsd-kind-icon">operations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>addressData<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CompilerAddressDataOperations</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">CompilerOperation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>currentBlockHeight<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CompilerCurrentBlockHeightOperations</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">CompilerOperation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>currentBlockTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CompilerCurrentBlockTimeOperations</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">CompilerOperation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>hdKey<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CompilerKeyOperations</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">CompilerOperation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>key<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CompilerKeyOperations</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">CompilerOperation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>signingSerialization<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CompilerSigningSerializationOperations</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">CompilerOperation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>walletData<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CompilerWalletDataOperations</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">CompilerOperation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionContext</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L284">src/lib/auth/templates/language/resolve.ts:284</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L316">src/lib/template/compiler-types.ts:316</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An object specifying the operations made available by this
-								CompilationEnvironment for each variable type, e.g. keys may support public
-							key derivation and multiple signature types.</p>
+							<p>An object specifying the operations made available by this compilation
+								environment for each variable type. For example, keys typically support
+							public key derivation (<code>.public_key</code>) and several signature types.</p>
+						</div>
+						<p>Compiler operations can be specified as a single operation for all
+							instances of a variable type (as is the default for <code>AddressData</code> or
+							<code>WalletData</code>), or they can be specified as an object, where each key is a
+						valid operation name (as is the default for <code>Key</code> and <code>HdKey</code>).</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="ripemd160" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ripemd160</h3>
+					<div class="tsd-signature tsd-kind-icon">ripemd160<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Ripemd160</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"hash"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L372">src/lib/template/compiler-types.ts:372</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An implementation of ripemd160 is required for any scripts which include
+							<code>HdKey</code>s. This can be instantiated with <code>instantiateRipemd160</code>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="scenarios" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> scenarios</h3>
+					<div class="tsd-signature tsd-kind-icon">scenarios<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L377">src/lib/template/compiler-types.ts:377</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object mapping scenario identifiers to the
+							<code>AuthenticationTemplateScenario</code>s they represent.</p>
 						</div>
 					</div>
 				</section>
@@ -179,7 +340,7 @@
 					<div class="tsd-signature tsd-kind-icon">scripts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L299">src/lib/auth/templates/language/resolve.ts:299</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L387">src/lib/template/compiler-types.ts:387</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -202,10 +363,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="secp256k1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> secp256k1</h3>
-					<div class="tsd-signature tsd-kind-icon">secp256k1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>derivePublicKeyCompressed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Secp256k1</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"derivePublicKeyCompressed"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>signMessageHashDER<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Secp256k1</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"signMessageHashDER"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>signMessageHashSchnorr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Secp256k1</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"signMessageHashSchnorr"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">secp256k1<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>addTweakPrivateKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>privateKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, tweakValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">; </span>addTweakPublicKeyCompressed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, tweakValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">; </span>derivePublicKeyCompressed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Secp256k1</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"derivePublicKeyCompressed"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>signMessageHashDER<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Secp256k1</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"signMessageHashDER"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>signMessageHashSchnorr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Secp256k1</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"signMessageHashSchnorr"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L306">src/lib/auth/templates/language/resolve.ts:306</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L394">src/lib/template/compiler-types.ts:394</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -221,7 +382,7 @@
 					<div class="tsd-signature tsd-kind-icon">sha256<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Sha256</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"hash"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L315">src/lib/auth/templates/language/resolve.ts:315</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L411">src/lib/template/compiler-types.ts:411</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -232,24 +393,82 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="sha512" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sha512</h3>
+					<div class="tsd-signature tsd-kind-icon">sha512<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Sha512</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">"hash"</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L416">src/lib/template/compiler-types.ts:416</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An implementation of sha512 is required for any scripts which include
+							<code>HdKey</code>s. This can be instantiated with <code>instantiateSha512</code>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="sourcescriptids" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> source<wbr>Script<wbr>Ids</h3>
 					<div class="tsd-signature tsd-kind-icon">source<wbr>Script<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L326">src/lib/auth/templates/language/resolve.ts:326</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L430">src/lib/template/compiler-types.ts:430</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The &quot;breadcrumb&quot; path of script IDs currently being resolved. (E.g.
-							<code>[&quot;grandparentId&quot;, &quot;parentId&quot;]</code>) BTL identifier resolution must be acyclic.</p>
+							<p>Only for use when recursively calling <code>compileScript</code> (e.g. in compiler
+							operations).</p>
 						</div>
-						<p>To prevent an infinite loop, <code>IdentifierResolutionFunction</code>s must abort
-							resolution if they encounter their own <code>id</code> while resolving another
-							identifier. Likewise, child scripts being resolved by a parent script
-							may not reference any script which is already in the process of being
-						resolved.</p>
+						<p>The &quot;breadcrumb&quot; path of script IDs currently being compiled, including the
+						current script. (E.g. <code>[&quot;grandparentId&quot;, &quot;parentId&quot;, &quot;scriptId&quot;]</code>)</p>
+						<p>BTL identifier resolution must be acyclic. To prevent an infinite loop,
+							<code>IdentifierResolutionFunction</code>s must abort resolution if they encounter
+							their own <code>id</code> while resolving another identifier. Likewise, child scripts
+							being resolved by a parent script may not reference any script which is
+						already in the process of being resolved.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="unlockingscripttimelocktypes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> unlocking<wbr>Script<wbr>Time<wbr>Lock<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">unlocking<wbr>Script<wbr>Time<wbr>Lock<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L455">src/lib/template/compiler-types.ts:455</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object mapping the identifiers of unlocking scripts to their
+							<code>timeLockType</code>.</p>
+						</div>
+						<p>The <code>timestamp</code> type indicates that the transaction&#39;s locktime is provided
+							as a UNIX timestamp (the <code>locktime</code> value is greater than or equal to
+						<code>500000000</code>).</p>
+						<p>The <code>height</code> type indicates that the transaction&#39;s locktime is provided as
+						a block height (the <code>locktime</code> value is less than <code>500000000</code>).</p>
+						<p>See <code>AuthenticationTemplateScript.timeLockType</code> for details.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="unlockingscripts" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> unlocking<wbr>Scripts</h3>
+					<div class="tsd-signature tsd-kind-icon">unlocking<wbr>Scripts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L438">src/lib/template/compiler-types.ts:438</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An object mapping the identifiers of unlocking scripts to the identifiers
+								of the locking scripts they unlock. This is used to identify the
+								<code>coveredBytecode</code> used in signing serializations, and it is required for
+							all signature operations and many signing serialization operations.</p>
+						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -258,12 +477,12 @@
 					<div class="tsd-signature tsd-kind-icon">variables<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L334">src/lib/auth/templates/language/resolve.ts:334</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L466">src/lib/template/compiler-types.ts:466</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>An object mapping Bitauth variable identifiers to the
+							<p>An object mapping template variable identifiers to the
 							<code>AuthenticationTemplateVariable</code> describing them.</p>
 						</div>
 						<p>To avoid compilation errors, this object must contain all variables
@@ -276,7 +495,7 @@
 					<div class="tsd-signature tsd-kind-icon">vm<span class="tsd-signature-symbol">:</span> <a href="authenticationvirtualmachine.html" class="tsd-signature-type">AuthenticationVirtualMachine</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L342">src/lib/auth/templates/language/resolve.ts:342</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L474">src/lib/template/compiler-types.ts:474</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -304,13 +523,25 @@
 						<a href="compilationenvironment.html" class="tsd-kind-icon">Compilation<wbr>Environment</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="compilationenvironment.html#createstate" class="tsd-kind-icon">create<wbr>State</a>
+								<a href="compilationenvironment.html#createauthenticationprogram" class="tsd-kind-icon">create<wbr>Authentication<wbr>Program</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationenvironment.html#entityownership" class="tsd-kind-icon">entity<wbr>Ownership</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationenvironment.html#lockingscripttypes" class="tsd-kind-icon">locking<wbr>Script<wbr>Types</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compilationenvironment.html#opcodes" class="tsd-kind-icon">opcodes</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compilationenvironment.html#operations" class="tsd-kind-icon">operations</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationenvironment.html#ripemd160" class="tsd-kind-icon">ripemd160</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationenvironment.html#scenarios" class="tsd-kind-icon">scenarios</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compilationenvironment.html#scripts" class="tsd-kind-icon">scripts</a>
@@ -322,7 +553,16 @@
 								<a href="compilationenvironment.html#sha256" class="tsd-kind-icon">sha256</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationenvironment.html#sha512" class="tsd-kind-icon">sha512</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compilationenvironment.html#sourcescriptids" class="tsd-kind-icon">source<wbr>Script<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationenvironment.html#unlockingscripttimelocktypes" class="tsd-kind-icon">unlocking<wbr>Script<wbr>Time<wbr>Lock<wbr>Types</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationenvironment.html#unlockingscripts" class="tsd-kind-icon">unlocking<wbr>Scripts</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compilationenvironment.html#variables" class="tsd-kind-icon">variables</a>

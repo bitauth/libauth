@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CompilationResultSuccess | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>CompilationResultSuccess | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="compilationresultsuccess.html#reduce" class="tsd-kind-icon">reduce</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="compilationresultsuccess.html#resolve" class="tsd-kind-icon">resolve</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationresultsuccess.html#success" class="tsd-kind-icon">success</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationresultsuccess.html#transformed" class="tsd-kind-icon">transformed</a></li>
 							</ul>
 						</section>
 					</div>
@@ -110,7 +111,7 @@
 					<div class="tsd-signature tsd-kind-icon">bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/compile.ts#L63">src/lib/auth/templates/language/compile.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L450">src/lib/template/language/language-types.ts:450</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -121,18 +122,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="compilationresultresolve.html">CompilationResultResolve</a>.<a href="compilationresultresolve.html#parse">parse</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/compile.ts#L16">src/lib/auth/templates/language/compile.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L363">src/lib/template/language/language-types.ts:363</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="reduce" class="tsd-anchor"></a>
 					<h3>reduce</h3>
-					<div class="tsd-signature tsd-kind-icon">reduce<span class="tsd-signature-symbol">:</span> <a href="scriptreductiontracecontainernode.html" class="tsd-signature-type">ScriptReductionTraceContainerNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">reduce<span class="tsd-signature-symbol">:</span> <a href="scriptreductiontracescriptnode.html" class="tsd-signature-type">ScriptReductionTraceScriptNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ProgramState</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="compilationresultreduce.html">CompilationResultReduce</a>.<a href="compilationresultreduce.html#reduce">reduce</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/compile.ts#L22">src/lib/auth/templates/language/compile.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L369">src/lib/template/language/language-types.ts:369</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -143,7 +144,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="compilationresultresolve.html">CompilationResultResolve</a>.<a href="compilationresultresolve.html#resolve">resolve</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/compile.ts#L17">src/lib/auth/templates/language/compile.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L364">src/lib/template/language/language-types.ts:364</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -153,9 +154,29 @@
 					<div class="tsd-signature tsd-kind-icon">success<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/compile.ts#L64">src/lib/auth/templates/language/compile.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L451">src/lib/template/language/language-types.ts:451</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="transformed" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> transformed</h3>
+					<div class="tsd-signature tsd-kind-icon">transformed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"p2sh-locking"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"p2sh-unlocking"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/language/language-types.ts#L463">src/lib/template/language/language-types.ts:463</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The transformation type of the resulting bytecode.</p>
+						</div>
+						<p>Set to <code>p2sh-locking</code> if the resulting bytecode was transformed into a P2SH
+						locking script (<code>OP_HASH160 &lt;$(&lt;result&gt; OP_HASH160)&gt; OP_EQUAL</code>).</p>
+						<p>Set to <code>p2sh-unlocking</code> if the resulting bytecode was transformed into a
+						P2SH unlocking script (<code>result &lt;locking_script&gt;</code>).</p>
+						<p>This property is not defined if the result was not transformed.</p>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -188,6 +209,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compilationresultsuccess.html#success" class="tsd-kind-icon">success</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="compilationresultsuccess.html#transformed" class="tsd-kind-icon">transformed</a>
 							</li>
 						</ul>
 					</li>

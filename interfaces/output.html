@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Output | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>Output | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -76,9 +76,20 @@
 				<ul class="tsd-type-parameters">
 					<li>
 						<h4>Bytecode</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>the type of <code>lockingBytecode</code> - this can be configured
+								to allow for defining compilation directives</p>
+							</div>
+						</div>
 					</li>
 					<li>
 						<h4>Amount</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>the type of <code>satoshis</code></p>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</section>
@@ -108,36 +119,57 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="lockingbytecode" class="tsd-anchor"></a>
-					<h3>locking<wbr>Bytecode</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> locking<wbr>Bytecode</h3>
 					<div class="tsd-signature tsd-kind-icon">locking<wbr>Bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Bytecode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L69">src/lib/transaction.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L199">src/lib/transaction/transaction-types.ts:199</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The bytecode used to encumber a transaction output. To spend the output,
+							<p>The bytecode used to encumber this transaction output. To spend the output,
 								unlocking bytecode must be included in a transaction input which – when
-							evaluated with the locking bytecode – completes in valid state.</p>
+							evaluated before the locking bytecode – completes in a valid state.</p>
 						</div>
 						<p>A.K.A. <code>scriptPubKey</code> or &quot;locking script&quot;</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="satoshis" class="tsd-anchor"></a>
-					<h3>satoshis</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> satoshis</h3>
 					<div class="tsd-signature tsd-kind-icon">satoshis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Amount</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/transaction.ts#L74">src/lib/transaction.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/transaction/transaction-types.ts#L230">src/lib/transaction/transaction-types.ts:230</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The value of the output in satoshis, the smallest unit of bitcoin. There
-							are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.</p>
+							<p>The 8-byte <code>Uint64LE</code>-encoded value of the output in satoshis, the smallest
+							unit of bitcoin.</p>
 						</div>
+						<p>There are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.</p>
+						<p>This value could be defined using a <code>number</code>, as <code>Number.MAX_SAFE_INTEGER</code>
+							(<code>9007199254740991</code>) is about 4 times larger than the maximum number of
+							satoshis which should ever exist. I.e. even if all satoshis were
+							consolidated into a single output, the transaction spending this output
+						could still be defined with a numeric <code>satoshis</code> value.</p>
+						<p>However, because the encoded output format for version 1 and 2 transactions
+							(used in both transaction encoding and signing serialization) uses a 64-bit
+							unsigned, little-endian integer to serialize <code>satoshis</code>, this property is
+						encoded in the same format, allowing it to cover the full possible range.</p>
+						<p>This is useful for encoding values using schemes for fractional satoshis
+							(for which no finalized specification yet exists) or for encoding
+							intentionally excessive values. For example, <code>invalidSatoshis</code>
+							(<code>0xffffffffffffffff</code> - the maximum uint64 value) is a clearly impossible
+							<code>satoshis</code> value for version 1 and 2 transactions. As such, this value can
+							safely by used by transaction signing and verification implementations to
+							ensure that an otherwise properly-signed transaction can never be included
+							n the blockchain, e.g. for transaction size estimation or off-chain Bitauth
+						signatures.</p>
+						<p>To convert this value to and from a <code>BigInt</code> use <code>bigIntToBinUint64LE</code> and
+						<code>binToBigIntUint64LE</code>, respectively.</p>
 					</div>
 				</section>
 			</section>

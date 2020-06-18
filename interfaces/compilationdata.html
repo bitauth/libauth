@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CompilationData | bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>CompilationData | libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">bitcoin-ts</a>
+					<a href="../index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -57,7 +57,7 @@
 					<a href="compilationdata.html">CompilationData</a>
 				</li>
 			</ul>
-			<h1>Interface CompilationData&lt;CompilerOperationData&gt;</h1>
+			<h1>Interface CompilationData&lt;TransactionContext&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +76,7 @@
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>CompilerOperationData</h4>
+						<h4>TransactionContext</h4>
 					</li>
 				</ul>
 			</section>
@@ -95,13 +95,12 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#addressdata" class="tsd-kind-icon">address<wbr>Data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#bytecode" class="tsd-kind-icon">bytecode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#currentblockheight" class="tsd-kind-icon">current<wbr>Block<wbr>Height</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#currentblocktime" class="tsd-kind-icon">current<wbr>Block<wbr>Time</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#hdkeys" class="tsd-kind-icon">hd<wbr>Keys</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#keys" class="tsd-kind-icon">keys</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#operationdata" class="tsd-kind-icon">operation<wbr>Data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#walletdata" class="tsd-kind-icon">wallet<wbr>Data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="compilationdata.html#transactioncontext" class="tsd-kind-icon">transaction<wbr>Context</a></li>
 							</ul>
 						</section>
 					</div>
@@ -110,18 +109,53 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="addressdata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> address<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">address<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
+					<a name="bytecode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> bytecode</h3>
+					<div class="tsd-signature tsd-kind-icon">bytecode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L353">src/lib/auth/templates/language/resolve.ts:353</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L522">src/lib/template/compiler-types.ts:522</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A map of <code>AddressData</code> variable IDs and their values for this compilation.</p>
+							<p>A map of full identifiers to pre-computed bytecode for this compilation.</p>
 						</div>
+						<p>This is always used to provide bytecode for <code>AddressData</code> and <code>WalletData</code>,
+							and it can also be used to provide public keys and signatures which have
+							been pre-computed by other entities (e.g. when computing these would
+						require access to private keys held by another entities).</p>
+						<p>The provided <code>fullIdentifier</code> should match the complete identifier for
+							each item, e.g. <code>some_wallet_data</code>, <code>variable_id.public_key</code>, or
+						<code>variable_id.signature.all_outputs</code>.</p>
+						<p>To provide <code>AddressData</code> or <code>WalletData</code> from advanced user interfaces,
+						consider parsing input with <code>compileBtl</code>.</p>
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>It is security-critical that only identifiers provided by the entities
+								expected to provide them are included here. For example:</p>
+								<ol>
+									<li><p>When generating a <code>lockingBytecode</code> for a 2-of-2 wallet, a
+											malicious entity could provide a pre-computed value for <code>us.public_key</code>
+											which is equal to <code>them.public_key</code> such that the resulting
+										<code>lockingBytecode</code> is entirely controlled by that entity.</p>
+									</li>
+									<li><p>When generating an <code>unlockingBytecode</code> which includes a data signature,
+											if a malicious entity can provide a pre-computed value for identifiers
+											present in the message, the malicious entity can trick the compiling entity
+											into signing an unintended message, e.g. creating a false attestation or
+											releasing funds from an unrelated wallet. (This can be partially mitigated
+										by avoiding key reuse.)</p>
+									</li>
+								</ol>
+								<p>To safely include identifiers from external entities, the compilation must
+									first be evaluated only with trusted information (variables owned by or
+									previously validated by the compiling entity). On unsuccessful
+									compilations, missing variables can be extracted with
+									<code>extractMissingVariables</code>, and each missing variable should be filled only
+								by bytecode values provided by entities from which they were expected.</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
@@ -130,56 +164,57 @@
 					<div class="tsd-signature tsd-kind-icon">current<wbr>Block<wbr>Height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L359">src/lib/auth/templates/language/resolve.ts:359</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L528">src/lib/template/compiler-types.ts:528</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The current block height at compile time.</p>
+							<p>The current block height at address creation time.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="currentblocktime" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> current<wbr>Block<wbr>Time</h3>
-					<div class="tsd-signature tsd-kind-icon">current<wbr>Block<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Block<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L366">src/lib/auth/templates/language/resolve.ts:366</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L538">src/lib/template/compiler-types.ts:538</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The current block time at compile time. Note: this is not a current
-							timestamp, but the median timestamp of the last 11 blocks.</p>
+							<p>The current MTP block time as a UNIX timestamp at address creation time.</p>
 						</div>
-						<p>This value only changes when a new block is found. See BIP113 for details.</p>
+						<p>Note, this is never a current timestamp, but rather the median timestamp of
+						the last 11 blocks. It is therefore approximately one hour in the past.</p>
+						<p>Every block has a precise MTP block time, much like a block height. See
+						BIP113 for details.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="hdkeys" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> hd<wbr>Keys</h3>
-					<div class="tsd-signature tsd-kind-icon">hd<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>extendedPublicKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>publicKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>rootPrivateKeys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>scriptDerivationIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>signatures<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">hd<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>addressIndex<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>hdPrivateKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>hdPublicKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L373">src/lib/auth/templates/language/resolve.ts:373</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L543">src/lib/template/compiler-types.ts:543</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>TODO: implement <code>HDKey</code> support</p>
+							<p>An object describing the settings used for <code>HdKey</code> variables in this
+							compilation.</p>
 						</div>
-						<p>An object describing the settings used for <code>HDKey</code> variables in this
-						compilation.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="keys" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> keys</h3>
-					<div class="tsd-signature tsd-kind-icon">keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>privateKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>publicKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>signatures<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>privateKeys<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L427">src/lib/auth/templates/language/resolve.ts:427</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L591">src/lib/template/compiler-types.ts:591</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,33 +225,18 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="operationdata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> operation<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">operation<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">CompilerOperationData</a></div>
+					<a name="transactioncontext" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> transaction<wbr>Context</h3>
+					<div class="tsd-signature tsd-kind-icon">transaction<wbr>Context<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type">TransactionContext</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L454">src/lib/auth/templates/language/resolve.ts:454</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/bitcoin-ts/blob/97c20f00/src/lib/template/compiler-types.ts#L603">src/lib/template/compiler-types.ts:603</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The <code>CompilerOperationData</code> expected by this particular compiler for any
+							<p>The <code>TransactionContext</code> expected by this particular compiler for any
 							operations used in the compilation.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="walletdata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> wallet<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">wallet<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/bitjson/bitcoin-ts/blob/90848d9/src/lib/auth/templates/language/resolve.ts#L458">src/lib/auth/templates/language/resolve.ts:458</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A map of <code>WalletData</code> variable IDs and their values for this compilation.</p>
 						</div>
 					</div>
 				</section>
@@ -238,7 +258,7 @@
 						<a href="compilationdata.html" class="tsd-kind-icon">Compilation<wbr>Data</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="compilationdata.html#addressdata" class="tsd-kind-icon">address<wbr>Data</a>
+								<a href="compilationdata.html#bytecode" class="tsd-kind-icon">bytecode</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="compilationdata.html#currentblockheight" class="tsd-kind-icon">current<wbr>Block<wbr>Height</a>
@@ -253,10 +273,7 @@
 								<a href="compilationdata.html#keys" class="tsd-kind-icon">keys</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="compilationdata.html#operationdata" class="tsd-kind-icon">operation<wbr>Data</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="compilationdata.html#walletdata" class="tsd-kind-icon">wallet<wbr>Data</a>
+								<a href="compilationdata.html#transactioncontext" class="tsd-kind-icon">transaction<wbr>Context</a>
 							</li>
 						</ul>
 					</li>

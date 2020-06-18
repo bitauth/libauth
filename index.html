@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>bitcoin-ts</title>
-	<meta name="description" content="">
+	<title>libauth</title>
+	<meta name="description" content="Documentation for libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -13,7 +13,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">bitcoin-ts</a>
+					<a href="index.html" class="title">libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -54,7 +54,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1>bitcoin-ts</h1>
+			<h1>libauth</h1>
 		</div>
 	</div>
 </header>
@@ -62,12 +62,12 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p><a href="https://www.npmjs.com/package/bitcoin-ts"><img src="https://img.shields.io/npm/v/bitcoin-ts.svg" alt="NPM version"></a>
-					<a href="https://codecov.io/gh/bitauth/bitcoin-ts"><img src="https://img.shields.io/codecov/c/github/bitauth/bitcoin-ts/master.svg" alt="Codecov"></a>
-					<a href="https://circleci.com/gh/bitauth/bitcoin-ts"><img src="https://img.shields.io/circleci/project/github/bitauth/bitcoin-ts/master.svg" alt="CircleCI"></a>
-				<a href="https://github.com/bitauth/bitcoin-ts"><img src="https://img.shields.io/github/stars/bitauth/bitcoin-ts.svg?style=social&logo=github&label=Stars" alt="GitHub stars"></a></p>
-				<a href="#bitcoin-ts" id="bitcoin-ts" style="color: inherit; text-decoration: none;">
-					<h1>bitcoin-ts</h1>
+				<p><a href="https://www.npmjs.com/package/libauth"><img src="https://img.shields.io/npm/v/libauth.svg" alt="NPM version"></a>
+					<a href="https://codecov.io/gh/bitauth/libauth"><img src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg" alt="Codecov"></a>
+					<a href="https://circleci.com/gh/bitauth/libauth"><img src="https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg" alt="CircleCI"></a>
+				<a href="https://github.com/bitauth/libauth"><img src="https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars" alt="GitHub stars"></a></p>
+				<a href="#libauth" id="libauth" style="color: inherit; text-decoration: none;">
+					<h1>Libauth</h1>
 				</a>
 				<p>A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin library.</p>
 				<a href="#work-in-progress" id="work-in-progress" style="color: inherit; text-decoration: none;">
@@ -88,46 +88,46 @@
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
-				<p>To use, simply install <code>bitcoin-ts</code>:</p>
-				<pre><code class="language-sh">npm install bitcoin-ts
+				<p>To use, simply install <code>libauth</code>:</p>
+				<pre><code class="language-sh">npm install libauth
 <span class="hljs-comment"># OR</span>
-yarn add bitcoin-ts</code></pre>
+yarn add libauth</code></pre>
 				<p>And import the functionality you need:</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">'bitcoin-ts'</span>;
-<span class="hljs-keyword">import</span> { msgHash, pubkey, sig } <span class="hljs-keyword">from</span> <span class="hljs-string">'./somewhere'</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;libauth&#x27;</span>;
+<span class="hljs-keyword">import</span> { msgHash, pubkey, sig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./somewhere&#x27;</span>;
 
-<span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
-  <span class="hljs-keyword">const</span> secp256k1 = <span class="hljs-keyword">await</span> instantiateSecp256k1(<span class="hljs-params"></span>);
-  secp256k1.verifySignatureDERLowS(<span class="hljs-params">sig, pubkey, msgHash</span>)
-    ? <span class="hljs-built_in">console</span>.log(<span class="hljs-params">'🚀 Signature valid'</span>)
-    : <span class="hljs-built_in">console</span>.log(<span class="hljs-params">'❌ Signature invalid'</span>);
-}</span>)<span class="hljs-params">()</span>;</span></code></pre>
-				<p><strong>Note</strong>: <code>bitcoin-ts</code> uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt"><code>BigInt</code></a>, <a href="https://developer.mozilla.org/en-US/docs/WebAssembly"><code>WebAssembly</code></a>, and es2017 features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments.</p>
+(<span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-keyword">const</span> secp256k1 = <span class="hljs-keyword">await</span> instantiateSecp256k1();
+  secp256k1.verifySignatureDERLowS(sig, pubkey, msgHash)
+    ? <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;🚀 Signature valid&#x27;</span>)
+    : <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;❌ Signature invalid&#x27;</span>);
+})();</code></pre>
+				<p><strong>Note</strong>: <code>libauth</code> uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt"><code>BigInt</code></a>, <a href="https://developer.mozilla.org/en-US/docs/WebAssembly"><code>WebAssembly</code></a>, and es2017 features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments.</p>
 				<p>To include the necessary TypeScript library files in you application, add <code>&quot;lib&quot;: [&quot;es2017&quot;, &quot;esnext.bigint&quot;, &quot;dom&quot;]</code> to your <code>tsconfig.json</code>.</p>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
 				<p>The following APIs are considered stable, and will only include breaking changes in major version upgrades.</p>
-				<p><a href="https://bitauth.github.io/bitcoin-ts/"><strong>API Documentation →</strong></a></p>
+				<p><a href="https://bitauth.github.io/libauth/"><strong>API Documentation →</strong></a></p>
 				<a href="#ecdsa" id="ecdsa" style="color: inherit; text-decoration: none;">
 					<h3>ECDSA</h3>
 				</a>
 				<ul>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesecp256k1">instantiateSecp256k1</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/interfaces/secp256k1.html">Secp256k1 Interface</a></li>
+					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesecp256k1">instantiateSecp256k1</a></li>
+					<li><a href="https://bitauth.github.io/libauth/interfaces/secp256k1.html">Secp256k1 Interface</a></li>
 				</ul>
 				<a href="#hashing-functions" id="hashing-functions" style="color: inherit; text-decoration: none;">
 					<h3>Hashing Functions</h3>
 				</a>
 				<ul>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/globals.html#instantiateripemd160">instantiateRipemd160</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/interfaces/ripemd160.html">Ripemd160 Interface</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha1">instantiateSha1</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/interfaces/sha1.html">Sha1 Interface</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha256">instantiateSha256</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/interfaces/sha256.html">Sha256 Interface</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha512">instantiateSha512</a></li>
-					<li><a href="https://bitauth.github.io/bitcoin-ts/interfaces/sha512.html">Sha512 Interface</a></li>
+					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiateripemd160">instantiateRipemd160</a></li>
+					<li><a href="https://bitauth.github.io/libauth/interfaces/ripemd160.html">Ripemd160 Interface</a></li>
+					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesha1">instantiateSha1</a></li>
+					<li><a href="https://bitauth.github.io/libauth/interfaces/sha1.html">Sha1 Interface</a></li>
+					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesha256">instantiateSha256</a></li>
+					<li><a href="https://bitauth.github.io/libauth/interfaces/sha256.html">Sha256 Interface</a></li>
+					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesha512">instantiateSha512</a></li>
+					<li><a href="https://bitauth.github.io/libauth/interfaces/sha512.html">Sha512 Interface</a></li>
 				</ul>
 				<a href="#unstable-apis" id="unstable-apis" style="color: inherit; text-decoration: none;">
 					<h3>Unstable APIs</h3>
@@ -139,15 +139,15 @@ yarn add bitcoin-ts</code></pre>
 				<p>Pull Requests welcome! Please see <a href=".github/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> for details.</p>
 				<p>This library requires <a href="https://yarnpkg.com/">Yarn</a> for development. If you don&#39;t have Yarn, make sure you have <code>Node.js</code> installed (which ships with <code>npm</code>), then run <code>npm install -g yarn</code>. Once Yarn is installed:</p>
 				<pre><code class="language-sh"><span class="hljs-comment"># use --recursive to clone the secp256k1 submodule</span>
-git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitjson/bitcoin-ts.git &amp;&amp; <span class="hljs-built_in">cd</span> bitcoin-ts</code></pre>
+git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitauth/libauth.git &amp;&amp; <span class="hljs-built_in">cd</span> libauth</code></pre>
 				<p>Install the development dependencies:</p>
 				<pre><code><span class="hljs-attribute">yarn</span></code></pre><p>Then try running the test suite:</p>
 				<pre><code>yarn <span class="hljs-built_in">test</span></code></pre><p>You can also run the benchmarks (this may take a while):</p>
 				<pre><code class="language-sh">yarn bench</code></pre>
-				<p>During development, you may find it helpful to use one of the testing <code>watch</code> tasks:</p>
-				<pre><code class="language-sh">yarn watch
-<span class="hljs-comment"># OR</span>
-yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto APIs</span></code></pre>
+				<p>During development, you may find it helpful to use the testing <code>watch</code> tasks:</p>
+				<pre><code class="language-sh">yarn watch <span class="hljs-comment"># rebuild everything on save</span>
+yarn watch:<span class="hljs-built_in">test</span> <span class="hljs-comment"># run only the fast tests</span>
+yarn watch:<span class="hljs-built_in">test</span>-slow <span class="hljs-comment"># test everything</span></code></pre>
 				<p>For more information about the available package scripts, run:</p>
 				<pre><code class="language-sh">yarn run info</code></pre>
 			</div>
@@ -199,9 +199,6 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="enums/bytelength.html" class="tsd-kind-icon">Byte<wbr>Length</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="enums/bytes.html" class="tsd-kind-icon">Bytes</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/cashaddresscorrectionerror.html" class="tsd-kind-icon">Cash<wbr>Address<wbr>Correction<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
@@ -226,6 +223,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="enums/commonpushopcodes.html" class="tsd-kind-icon">Common<wbr>Push<wbr>Opcodes</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
+						<a href="enums/compilerdefaults.html" class="tsd-kind-icon">Compiler<wbr>Defaults</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/compressionflag.html" class="tsd-kind-icon">Compression<wbr>Flag</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
@@ -244,12 +244,6 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="enums/der.html" class="tsd-kind-icon">DER</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="enums/fill.html" class="tsd-kind-icon">Fill</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="enums/formatting.html" class="tsd-kind-icon">Formatting</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/hdkeydecodingerror.html" class="tsd-kind-icon">Hd<wbr>Key<wbr>Decoding<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
@@ -260,6 +254,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/hdnodederivationerror.html" class="tsd-kind-icon">Hd<wbr>Node<wbr>Derivation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-is-external">
+						<a href="enums/identifierresolutionerrortype.html" class="tsd-kind-icon">Identifier<wbr>Resolution<wbr>Error<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/identifierresolutiontype.html" class="tsd-kind-icon">Identifier<wbr>Resolution<wbr>Type</a>
@@ -310,16 +307,10 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="enums/pushoperationconstants.html" class="tsd-kind-icon">Push<wbr>Operation<wbr>Constants</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="enums/scriptgenerationerror.html" class="tsd-kind-icon">Script<wbr>Generation<wbr>Error</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/scriptnumbererror.html" class="tsd-kind-icon">Script<wbr>Number<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/segwit.html" class="tsd-kind-icon">Seg<wbr>Wit</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="enums/signatureidentifierconstants.html" class="tsd-kind-icon">Signature<wbr>Identifier<wbr>Constants</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/signingserializationalgorithmidentifier.html" class="tsd-kind-icon">Signing<wbr>Serialization<wbr>Algorithm<wbr>Identifier</a>
@@ -328,7 +319,7 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="enums/signingserializationflag.html" class="tsd-kind-icon">Signing<wbr>Serialization<wbr>Flag</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="enums/signingserializationidentifierconstants.html" class="tsd-kind-icon">Signing<wbr>Serialization<wbr>Identifier<wbr>Constants</a>
+						<a href="enums/transactiondecodingerror.html" class="tsd-kind-icon">Transaction<wbr>Decoding<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-is-external">
 						<a href="enums/varint.html" class="tsd-kind-icon">Var<wbr>Int</a>
@@ -338,12 +329,6 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/addresscontents.html" class="tsd-kind-icon">Address<wbr>Contents</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/addressdata.html" class="tsd-kind-icon">Address<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/alternatestackstate.html" class="tsd-kind-icon">Alternate<wbr>Stack<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/authenticationinstructionoperation.html" class="tsd-kind-icon">Authentication<wbr>Instruction<wbr>Operation</a>
@@ -357,11 +342,8 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/authenticationprogramcommon.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>Common</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/authenticationprogramexternalstatecommon.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>External<wbr>State<wbr>Common</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/authenticationprograminternalstatecommon.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>Internal<wbr>State<wbr>Common</a>
+						<a href="interfaces/authenticationprogramstatealternatestack.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Alternate<wbr>Stack</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/authenticationprogramstatebch.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>StateBCH</a>
@@ -372,23 +354,74 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/authenticationprogramstatecommon.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Common</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/authenticationprogramstateerror.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationprogramstateexecutionstack.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Execution<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/authenticationprogramstateinternalcommon.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Internal<wbr>Common</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/authenticationprogramstateminimum.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Minimum</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationprogramstatesignatureanalysis.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Signature<wbr>Analysis</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/authenticationprogramstatestack.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>State<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationprogramtransactioncontextcommon.html" class="tsd-kind-icon">Authentication<wbr>Program<wbr>Transaction<wbr>Context<wbr>Common</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/authenticationtemplate.html" class="tsd-kind-icon">Authentication<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplateaddressdata.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Address<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/authenticationtemplateentity.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Entity</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatehdkey.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>HdKey</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatekey.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/authenticationtemplatescenario.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Scenario</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatescenariodata.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Scenario<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatescenarioinput.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Scenario<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatescenariooutput.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Scenario<wbr>Output</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/authenticationtemplatescript.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Script</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatescriptlocking.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Script<wbr>Locking</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/authenticationtemplatescripttest.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Script<wbr>Test</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatescripttested.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Script<wbr>Tested</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatescriptunlocking.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Script<wbr>Unlocking</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/authenticationtemplatevariablebase.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Variable<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/authenticationtemplatewalletdata.html" class="tsd-kind-icon">Authentication<wbr>Template<wbr>Wallet<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/authenticationvirtualmachine.html" class="tsd-kind-icon">Authentication<wbr>Virtual<wbr>Machine</a>
@@ -400,10 +433,10 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="interfaces/bitauthtemplatinglanguagesegment.html" class="tsd-kind-icon">Bitauth<wbr>Templating<wbr>Language<wbr>Segment</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/btlbigintsegment.html" class="tsd-kind-icon">Btl<wbr>Big<wbr>Int<wbr>Segment</a>
+						<a href="interfaces/btlrecursivesegment.html" class="tsd-kind-icon">Btl<wbr>Recursive<wbr>Segment</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/btlrecursivesegment.html" class="tsd-kind-icon">Btl<wbr>Recursive<wbr>Segment</a>
+						<a href="interfaces/btlresolution.html" class="tsd-kind-icon">Btl<wbr>Resolution</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/btlscriptsegment.html" class="tsd-kind-icon">Btl<wbr>Script<wbr>Segment</a>
@@ -411,14 +444,44 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/btlstringsegment.html" class="tsd-kind-icon">Btl<wbr>String<wbr>Segment</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/bytecodegenerationcompletionbase.html" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Completion<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/bytecodegenerationcompletioninput.html" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Completion<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/bytecodegenerationcompletionoutput.html" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Completion<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/bytecodegenerationerrorbase.html" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Error<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/bytecodegenerationerrorlocking.html" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Error<wbr>Locking</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/bytecodegenerationerrorunlocking.html" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Error<wbr>Unlocking</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/compilationdata.html" class="tsd-kind-icon">Compilation<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/compilationdirectivelocking.html" class="tsd-kind-icon">Compilation<wbr>Directive<wbr>Locking</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/compilationdirectiveunlocking.html" class="tsd-kind-icon">Compilation<wbr>Directive<wbr>Unlocking</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/compilationdirectiveunlockingestimate.html" class="tsd-kind-icon">Compilation<wbr>Directive<wbr>Unlocking<wbr>Estimate</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/compilationenvironment.html" class="tsd-kind-icon">Compilation<wbr>Environment</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/compilationerror.html" class="tsd-kind-icon">Compilation<wbr>Error</a>
+						<a href="interfaces/compilationerrorfatal.html" class="tsd-kind-icon">Compilation<wbr>Error<wbr>Fatal</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/compilationerrorrecoverable.html" class="tsd-kind-icon">Compilation<wbr>Error<wbr>Recoverable</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/compilationresulterrorbase.html" class="tsd-kind-icon">Compilation<wbr>Result<wbr>Error<wbr>Base</a>
@@ -445,28 +508,31 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="interfaces/compiler.html" class="tsd-kind-icon">Compiler</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/compileroperationdatabch.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>DataBCH</a>
+						<a href="interfaces/compileroperationdebug.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Debug</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/errorinformation.html" class="tsd-kind-icon">Error<wbr>Information</a>
+						<a href="interfaces/compileroperationerrorfatal.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Error<wbr>Fatal</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/errorstate.html" class="tsd-kind-icon">Error<wbr>State</a>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/compileroperationerrorrecoverable.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Error<wbr>Recoverable</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/compileroperationskip.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Skip</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/compileroperationsuccessdatasignature.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Success<wbr>Data<wbr>Signature</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/compileroperationsuccessgeneric.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Success<wbr>Generic</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/compileroperationsuccesssignature.html" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Success<wbr>Signature</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/evaluationsample.html" class="tsd-kind-icon">Evaluation<wbr>Sample</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/evaluationsamplevalid.html" class="tsd-kind-icon">Evaluation<wbr>Sample<wbr>Valid</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/executionstackstate.html" class="tsd-kind-icon">Execution<wbr>Stack<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/flattenedtracesample.html" class="tsd-kind-icon">Flattened<wbr>Trace<wbr>Sample</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/hdkey.html" class="tsd-kind-icon">HDKey</a>
+						<a href="interfaces/failure.html" class="tsd-kind-icon">Failure</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/hashfunction.html" class="tsd-kind-icon">Hash<wbr>Function</a>
@@ -492,6 +558,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/hdpublicnodeknownparent.html" class="tsd-kind-icon">Hd<wbr>Public<wbr>Node<wbr>Known<wbr>Parent</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/index.html" class="tsd-kind-icon">Index</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/input.html" class="tsd-kind-icon">Input</a>
 					</li>
@@ -502,12 +571,6 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="interfaces/instructionaggregationerror.html" class="tsd-kind-icon">Instruction<wbr>Aggregation<wbr>Error</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/instructionaggregationevaluationerror.html" class="tsd-kind-icon">Instruction<wbr>Aggregation<wbr>Evaluation<wbr>Error</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/instructionaggregationevaluationsuccess.html" class="tsd-kind-icon">Instruction<wbr>Aggregation<wbr>Evaluation<wbr>Success</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/instructionaggregationsuccess.html" class="tsd-kind-icon">Instruction<wbr>Aggregation<wbr>Success</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
@@ -516,14 +579,14 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/instructionsetoperationmapping.html" class="tsd-kind-icon">Instruction<wbr>Set<wbr>Operation<wbr>Mapping</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/key.html" class="tsd-kind-icon">Key</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/mark.html" class="tsd-kind-icon">Mark</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/markednode.html" class="tsd-kind-icon">Marked<wbr>Node</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/minimumprogramstate.html" class="tsd-kind-icon">Minimum<wbr>Program<wbr>State</a>
+						<a href="interfaces/node.html" class="tsd-kind-icon">Node</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/output.html" class="tsd-kind-icon">Output</a>
@@ -534,11 +597,20 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/parsedauthenticationinstructionpushmalformedlength.html" class="tsd-kind-icon">Parsed<wbr>Authentication<wbr>Instruction<wbr>Push<wbr>Malformed<wbr>Length</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/parser.html" class="tsd-kind-icon">Parser</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/range.html" class="tsd-kind-icon">Range</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/recoverablesignature.html" class="tsd-kind-icon">Recoverable<wbr>Signature</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/resolutiondebug.html" class="tsd-kind-icon">Resolution<wbr>Debug</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/resolutionsignature.html" class="tsd-kind-icon">Resolution<wbr>Signature</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/resolvedscript.html" class="tsd-kind-icon">Resolved<wbr>Script</a>
@@ -574,16 +646,10 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="interfaces/ripemd160.html" class="tsd-kind-icon">Ripemd160</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/sampledevaluationerror.html" class="tsd-kind-icon">Sampled<wbr>Evaluation<wbr>Error</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/sampledevaluationsuccess.html" class="tsd-kind-icon">Sampled<wbr>Evaluation<wbr>Success</a>
+						<a href="interfaces/sampleextractionresult.html" class="tsd-kind-icon">Sample<wbr>Extraction<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/scenariodirective.html" class="tsd-kind-icon">Scenario<wbr>Directive</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/scriptreductiontracecontainernode.html" class="tsd-kind-icon">Script<wbr>Reduction<wbr>Trace<wbr>Container<wbr>Node</a>
+						<a href="interfaces/scenario.html" class="tsd-kind-icon">Scenario</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/scriptreductiontraceerrornode.html" class="tsd-kind-icon">Script<wbr>Reduction<wbr>Trace<wbr>Error<wbr>Node</a>
@@ -593,6 +659,12 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/scriptreductiontracenode.html" class="tsd-kind-icon">Script<wbr>Reduction<wbr>Trace<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/scriptreductiontracepushnode.html" class="tsd-kind-icon">Script<wbr>Reduction<wbr>Trace<wbr>Push<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/scriptreductiontracescriptnode.html" class="tsd-kind-icon">Script<wbr>Reduction<wbr>Trace<wbr>Script<wbr>Node</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
 						<a href="interfaces/secp256k1.html" class="tsd-kind-icon">Secp256k1</a>
@@ -616,7 +688,7 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="interfaces/sourceposition.html" class="tsd-kind-icon">Source<wbr>Position</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
-						<a href="interfaces/stackstate.html" class="tsd-kind-icon">Stack<wbr>State</a>
+						<a href="interfaces/success.html" class="tsd-kind-icon">Success</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
 						<a href="interfaces/tracesample.html" class="tsd-kind-icon">Trace<wbr>Sample</a>
@@ -625,13 +697,19 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="interfaces/transaction.html" class="tsd-kind-icon">Transaction</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/transactioninputstate.html" class="tsd-kind-icon">Transaction<wbr>Input<wbr>State</a>
+						<a href="interfaces/transactioncontextcommon.html" class="tsd-kind-icon">Transaction<wbr>Context<wbr>Common</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/transactionstate.html" class="tsd-kind-icon">Transaction<wbr>State</a>
+						<a href="interfaces/transactioncontextsharedcommon.html" class="tsd-kind-icon">Transaction<wbr>Context<wbr>Shared<wbr>Common</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="interfaces/walletdata.html" class="tsd-kind-icon">Wallet<wbr>Data</a>
+						<a href="interfaces/transactiongenerationsuccess.html" class="tsd-kind-icon">Transaction<wbr>Generation<wbr>Success</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#anycompilationenvironment" class="tsd-kind-icon">Any<wbr>Compilation<wbr>Environment</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#anycompilationenvironmentignoreoperations" class="tsd-kind-icon">Any<wbr>Compilation<wbr>Environment<wbr>Ignore<wbr>Operations</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#authenticationinstruction" class="tsd-kind-icon">Authentication<wbr>Instruction</a>
@@ -649,6 +727,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#base58addressnetwork" class="tsd-kind-icon">Base58<wbr>Address<wbr>Network</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#bytecodegenerationcompletion" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Completion</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#bytecodegenerationresult" class="tsd-kind-icon">Bytecode<wbr>Generation<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
@@ -660,6 +741,12 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#cashaddressavailabletypes" class="tsd-kind-icon">Cash<wbr>Address<wbr>Available<wbr>Types</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#compilationenvironmentbch" class="tsd-kind-icon">Compilation<wbr>EnvironmentBCH</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#compilationerror" class="tsd-kind-icon">Compilation<wbr>Error</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#compilationresult" class="tsd-kind-icon">Compilation<wbr>Result</a>
 					</li>
@@ -670,25 +757,34 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#compileroperation" class="tsd-kind-icon">Compiler<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#compileroperationtypes" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Types</a>
+						<a href="globals.html#compileroperationerror" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#compileroperationresult" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#compileroperationsbch" class="tsd-kind-icon">Compiler<wbr>OperationsBCH</a>
+						<a href="globals.html#compileroperationsuccess" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Success</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#compileroperationsuccesssignaturetype" class="tsd-kind-icon">Compiler<wbr>Operation<wbr>Success<wbr>Signature<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#compileroperationskeybch" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>KeyBCH</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#compileroperationsminimal" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Minimal</a>
+						<a href="globals.html#compileroperationskeyscommon" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Keys<wbr>Common</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#compileroperationssigningserializationbch" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Signing<wbr>SerializationBCH</a>
+						<a href="globals.html#compileroperationssigningserializationcommon" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Signing<wbr>Serialization<wbr>Common</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#compileroperationssigningserializationcomponentbch" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Signing<wbr>Serialization<wbr>ComponentBCH</a>
+						<a href="globals.html#compileroperationssigningserializationcomponent" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Signing<wbr>Serialization<wbr>Component</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#compileroperationssigningserializationfullbch" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Signing<wbr>Serialization<wbr>FullBCH</a>
+						<a href="globals.html#compileroperationssigningserializationfull" class="tsd-kind-icon">Compiler<wbr>Operations<wbr>Signing<wbr>Serialization<wbr>Full</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#extendedscenariodefinition" class="tsd-kind-icon">Extended<wbr>Scenario<wbr>Definition</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#hdkeynetwork" class="tsd-kind-icon">Hd<wbr>Key<wbr>Network</a>
@@ -721,13 +817,16 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#immutableuint8array" class="tsd-kind-icon">Immutable<wbr>Uint8<wbr>Array</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#instructionaggregationevaluationresult" class="tsd-kind-icon">Instruction<wbr>Aggregation<wbr>Evaluation<wbr>Result</a>
+						<a href="globals.html#inputtemplate" class="tsd-kind-icon">Input<wbr>Template</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#instructionaggregationresult" class="tsd-kind-icon">Instruction<wbr>Aggregation<wbr>Result</a>
+						<a href="globals.html#makeoptional" class="tsd-kind-icon">Make<wbr>Optional</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#outputtemplate" class="tsd-kind-icon">Output<wbr>Template</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#parseresult" class="tsd-kind-icon">Parse<wbr>Result</a>
@@ -756,14 +855,23 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#reductionresults" class="tsd-kind-icon">Reduction<wbr>Results</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#requiredtwolevels" class="tsd-kind-icon">Required<wbr>Two<wbr>Levels</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#resolvedsegment" class="tsd-kind-icon">Resolved<wbr>Segment</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
 						<a href="globals.html#resolvedsegmentbytecode" class="tsd-kind-icon">Resolved<wbr>Segment<wbr>Bytecode</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#resolvedsegmentliteraltype" class="tsd-kind-icon">Resolved<wbr>Segment<wbr>Literal<wbr>Type</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#sampledevaluationresult" class="tsd-kind-icon">Sampled<wbr>Evaluation<wbr>Result</a>
+						<a href="globals.html#result" class="tsd-kind-icon">Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#scenariodefinition" class="tsd-kind-icon">Scenario<wbr>Definition</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#scriptreductiontracechildnode" class="tsd-kind-icon">Script<wbr>Reduction<wbr>Trace<wbr>Child<wbr>Node</a>
@@ -775,10 +883,40 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#teststate" class="tsd-kind-icon">Test<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="globals.html#walletimportformattype" class="tsd-kind-icon">Wallet<wbr>Import<wbr>Format<wbr>Type</a>
+						<a href="globals.html#transactioncontextbch" class="tsd-kind-icon">Transaction<wbr>ContextBCH</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#eof" class="tsd-kind-icon">EOF</a>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#transactiongenerationattempt" class="tsd-kind-icon">Transaction<wbr>Generation<wbr>Attempt</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#transactiongenerationerror" class="tsd-kind-icon">Transaction<wbr>Generation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#transactiontemplate" class="tsd-kind-icon">Transaction<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#transactiontemplateestimated" class="tsd-kind-icon">Transaction<wbr>Template<wbr>Estimated</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#transactiontemplatefixed" class="tsd-kind-icon">Transaction<wbr>Template<wbr>Fixed</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#typedlanguage" class="tsd-kind-icon">Typed<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#typedrule" class="tsd-kind-icon">Typed<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#uint16bytes" class="tsd-kind-icon">Uint16<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#uint32bytes" class="tsd-kind-icon">Uint32<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#uint8bytes" class="tsd-kind-icon">Uint8<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#walletimportformattype" class="tsd-kind-icon">Wallet<wbr>Import<wbr>Format<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#secp256k1_context_none" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>CONTEXT_<wbr>NONE</a>
@@ -811,6 +949,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#secp256k1_flags_type_context" class="tsd-kind-icon">SECP256<wbr>K1_<wbr>FLAGS_<wbr>TYPE_<wbr>CONTEXT</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#_" class="tsd-kind-icon">_</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#asciicaseinsensitivebits" class="tsd-kind-icon">ascii<wbr>Case<wbr>Insensitive<wbr>Bits</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
@@ -818,6 +959,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#authenticationscriptparser" class="tsd-kind-icon">authentication<wbr>Script<wbr>Parser</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#authenticationtemplatevariabletypes" class="tsd-kind-icon">authentication<wbr>Template<wbr>Variable<wbr>Types</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#base256wordlength" class="tsd-kind-icon">base256<wbr>Word<wbr>Length</a>
@@ -847,7 +991,16 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#bech32generatorremainingbytes" class="tsd-kind-icon">bech32<wbr>Generator<wbr>Remaining<wbr>Bytes</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#bigintregex" class="tsd-kind-icon">big<wbr>Int<wbr>Regex</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#bintobase58" class="tsd-kind-icon">bin<wbr>ToBase58</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#binary" class="tsd-kind-icon">binary</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#binarybytewidth" class="tsd-kind-icon">binary<wbr>Byte<wbr>Width</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#bip32hmacsha512key" class="tsd-kind-icon">bip32<wbr>Hmac<wbr>Sha512<wbr>Key</a>
@@ -857,6 +1010,21 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#bitcoinbase58alphabet" class="tsd-kind-icon">bitcoin<wbr>Base58<wbr>Alphabet</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#cachedripemd160" class="tsd-kind-icon">cached<wbr>Ripemd160</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#cachedsecp256k1" class="tsd-kind-icon">cached<wbr>Secp256k1</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#cachedsha1" class="tsd-kind-icon">cached<wbr>Sha1</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#cachedsha256" class="tsd-kind-icon">cached<wbr>Sha256</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#cachedsha512" class="tsd-kind-icon">cached<wbr>Sha512</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#cashaddressbittosize" class="tsd-kind-icon">cash<wbr>Address<wbr>Bit<wbr>ToSize</a>
@@ -877,7 +1045,109 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#cashaddresstypebits" class="tsd-kind-icon">cash<wbr>Address<wbr>Type<wbr>Bits</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#characterlength32byteprivatekey" class="tsd-kind-icon">character<wbr>Length32<wbr>Byte<wbr>Private<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#chars" class="tsd-kind-icon">chars</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationaddressdata" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Address<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationattemptbytecoderesolution" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Attempt<wbr>Bytecode<wbr>Resolution</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationcurrentblockheight" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Current<wbr>Block<wbr>Height</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationcurrentblocktime" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Current<wbr>Block<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationhdkeyecdsadatasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>HdKey<wbr>Ecdsa<wbr>Data<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationhdkeyecdsasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>HdKey<wbr>Ecdsa<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationhdkeypublickeycommon" class="tsd-kind-icon">compiler<wbr>Operation<wbr>HdKey<wbr>Public<wbr>Key<wbr>Common</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationhdkeyschnorrdatasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>HdKey<wbr>Schnorr<wbr>Data<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationhdkeyschnorrsignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>HdKey<wbr>Schnorr<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationkeyecdsadatasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Key<wbr>Ecdsa<wbr>Data<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationkeyecdsasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Key<wbr>Ecdsa<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationkeypublickeycommon" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Key<wbr>Public<wbr>Key<wbr>Common</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationkeyschnorrdatasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Key<wbr>Schnorr<wbr>Data<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationkeyschnorrsignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Key<wbr>Schnorr<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationcorrespondingoutput" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Corresponding<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationcorrespondingoutputhash" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Corresponding<wbr>Output<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationcoveredbytecode" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Covered<wbr>Bytecode</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationcoveredbytecodelength" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Covered<wbr>Bytecode<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationfullbch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>FullBCH</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationlocktime" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Locktime</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationoutpointindex" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Outpoint<wbr>Index</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationoutpointtransactionhash" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Outpoint<wbr>Transaction<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationoutputvalue" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Output<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationsequencenumber" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Sequence<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationtransactionoutpoints" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Transaction<wbr>Outpoints</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationtransactionoutpointshash" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Transaction<wbr>Outpoints<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationtransactionoutputs" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Transaction<wbr>Outputs</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationtransactionoutputshash" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Transaction<wbr>Outputs<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationtransactionsequencenumbers" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Transaction<wbr>Sequence<wbr>Numbers</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationtransactionsequencenumbershash" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Transaction<wbr>Sequence<wbr>Numbers<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationsigningserializationversion" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Signing<wbr>Serialization<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#compileroperationwalletdata" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Wallet<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#correspondingoutput" class="tsd-kind-icon">corresponding<wbr>Output</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#defaultstringifyspacing" class="tsd-kind-icon">default<wbr>Stringify<wbr>Spacing</a>
@@ -886,13 +1156,16 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#empty" class="tsd-kind-icon">empty</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#eof" class="tsd-kind-icon">eof</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#finitefieldorder" class="tsd-kind-icon">finite<wbr>Field<wbr>Order</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#halfhmacsha512length" class="tsd-kind-icon">half<wbr>Hmac<wbr>Sha512<wbr>Length</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#hexbytelength" class="tsd-kind-icon">hex<wbr>Byte<wbr>Length</a>
+						<a href="globals.html#hasnonhexcharacter" class="tsd-kind-icon">has<wbr>Non<wbr>Hex<wbr>Character</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#hexbytewidth" class="tsd-kind-icon">hex<wbr>Byte<wbr>Width</a>
@@ -901,13 +1174,31 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#hexadecimal" class="tsd-kind-icon">hexadecimal</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#index" class="tsd-kind-icon">index</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#instructionsetbchcurrentstrict" class="tsd-kind-icon">instruction<wbr>SetBCHCurrent<wbr>Strict</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#invalidsatoshis" class="tsd-kind-icon">invalid<wbr>Satoshis</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#locktimebytelength" class="tsd-kind-icon">locktime<wbr>Byte<wbr>Length</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#maximumlocktimedate" class="tsd-kind-icon">maximum<wbr>Locktime<wbr>Date</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#maximumlocktimetimestamp" class="tsd-kind-icon">maximum<wbr>Locktime<wbr>Timestamp</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#minimumlocktimedate" class="tsd-kind-icon">minimum<wbr>Locktime<wbr>Date</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#minimumlocktimetimestamp" class="tsd-kind-icon">minimum<wbr>Locktime<wbr>Timestamp</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#msperlocktimesecond" class="tsd-kind-icon">ms<wbr>Per<wbr>Locktime<wbr>Second</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#nonbase64chars" class="tsd-kind-icon">non<wbr>Base64<wbr>Chars</a>
@@ -919,7 +1210,19 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#normalmaximumscriptnumberbytelength" class="tsd-kind-icon">normal<wbr>Maximum<wbr>Script<wbr>Number<wbr>Byte<wbr>Length</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#nullhashlength" class="tsd-kind-icon">null<wbr>Hash<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#op1negatevalue" class="tsd-kind-icon">op1<wbr>Negate<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#optwhitespace" class="tsd-kind-icon">opt<wbr>Whitespace</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#outpointtransactionhashfill" class="tsd-kind-icon">outpoint<wbr>Transaction<wbr>Hash<wbr>Fill</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#outputvaluelength" class="tsd-kind-icon">output<wbr>Value<wbr>Length</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#payloadseparator" class="tsd-kind-icon">payload<wbr>Separator</a>
@@ -934,22 +1237,52 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#sha256blockbytelength" class="tsd-kind-icon">sha256<wbr>Block<wbr>Byte<wbr>Length</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#sha256hashlength" class="tsd-kind-icon">sha256<wbr>Hash<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
 						<a href="globals.html#sha512blockbytelength" class="tsd-kind-icon">sha512<wbr>Block<wbr>Byte<wbr>Length</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#zero" class="tsd-kind-icon">zero</a>
+						<a href="globals.html#transactionoutpoints" class="tsd-kind-icon">transaction<wbr>Outpoints</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#transactionoutputs" class="tsd-kind-icon">transaction<wbr>Outputs</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#transactionsequencenumbers" class="tsd-kind-icon">transaction<wbr>Sequence<wbr>Numbers</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#uint16bytes" class="tsd-kind-icon">uint16<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#uint32bytes" class="tsd-kind-icon">uint32<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#uint8arrayregex" class="tsd-kind-icon">uint8<wbr>Array<wbr>Regex</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#uint8bytes" class="tsd-kind-icon">uint8<wbr>Bytes</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external">
+						<a href="globals.html#whitespace" class="tsd-kind-icon">whitespace</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#aoranquotedstring" class="tsd-kind-icon">a<wbr>OrAn<wbr>Quoted<wbr>String</a>
+						<a href="globals.html#parsimmon" class="tsd-kind-icon">Parsimmon</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#addresscontentstolockingbytecode" class="tsd-kind-icon">address<wbr>Contents<wbr>ToLocking<wbr>Bytecode</a>
 					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#aggregatedparsereductiontracenodes" class="tsd-kind-icon">aggregated<wbr>Parse<wbr>Reduction<wbr>Trace<wbr>Nodes</a>
-					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#alignmemory" class="tsd-kind-icon">align<wbr>Memory</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#allerrorsarerecoverable" class="tsd-kind-icon">all<wbr>Errors<wbr>Are<wbr>Recoverable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#alt" class="tsd-kind-icon">alt</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#anchoredregexp" class="tsd-kind-icon">anchored<wbr>Regexp</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#applyerror" class="tsd-kind-icon">apply<wbr>Error</a>
@@ -961,16 +1294,25 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#arithmeticoperations" class="tsd-kind-icon">arithmetic<wbr>Operations</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#articleandvariabletype" class="tsd-kind-icon">article<wbr>And<wbr>Variable<wbr>Type</a>
+						<a href="globals.html#assemblebitcoinabcscript" class="tsd-kind-icon">assemble<wbr>BitcoinABCScript</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#assemblebytecode" class="tsd-kind-icon">assemble<wbr>Bytecode</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#assemblebitcoinabcscript" class="tsd-kind-icon">assemble<wbr>BitcoinABCScript</a>
+						<a href="globals.html#assemblebytecodebch" class="tsd-kind-icon">assemble<wbr>BytecodeBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#assemblebytecodebtc" class="tsd-kind-icon">assemble<wbr>BytecodeBTC</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#attemptcashaddressformaterrorcorrection" class="tsd-kind-icon">attempt<wbr>Cash<wbr>Address<wbr>Format<wbr>Error<wbr>Correction</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#attemptcompileroperation" class="tsd-kind-icon">attempt<wbr>Compiler<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#attemptcompileroperations" class="tsd-kind-icon">attempt<wbr>Compiler<wbr>Operations</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#authenticationinstructionismalformed" class="tsd-kind-icon">authentication<wbr>Instruction<wbr>IsMalformed</a>
@@ -980,6 +1322,15 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#authenticationinstructionsarenotmalformed" class="tsd-kind-icon">authentication<wbr>Instructions<wbr>Are<wbr>Not<wbr>Malformed</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#authenticationtemplatetocompilationenvironment" class="tsd-kind-icon">authentication<wbr>Template<wbr>ToCompilation<wbr>Environment</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#authenticationtemplatetocompilationenvironmentvirtualizedtests" class="tsd-kind-icon">authentication<wbr>Template<wbr>ToCompilation<wbr>Environment<wbr>Virtualized<wbr>Tests</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#authenticationtemplatetocompilerbch" class="tsd-kind-icon">authentication<wbr>Template<wbr>ToCompilerBCH</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#base58addresstolockingbytecode" class="tsd-kind-icon">base58<wbr>Address<wbr>ToLocking<wbr>Bytecode</a>
@@ -1009,6 +1360,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#biginttoscriptnumber" class="tsd-kind-icon">big<wbr>Int<wbr>ToScript<wbr>Number</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#binstringtobin" class="tsd-kind-icon">bin<wbr>String<wbr>ToBin</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#bintobase64" class="tsd-kind-icon">bin<wbr>ToBase64</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
@@ -1025,6 +1379,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#bintobigintuintle" class="tsd-kind-icon">bin<wbr>ToBig<wbr>Int<wbr>UintLE</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#bintobinstring" class="tsd-kind-icon">bin<wbr>ToBin<wbr>String</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#bintofixedlength" class="tsd-kind-icon">bin<wbr>ToFixed<wbr>Length</a>
@@ -1083,23 +1440,71 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#commonoperations" class="tsd-kind-icon">common<wbr>Operations</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compilebtl" class="tsd-kind-icon">compile<wbr>Btl</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#compileinputtemplate" class="tsd-kind-icon">compile<wbr>Input<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#compileoutputtemplate" class="tsd-kind-icon">compile<wbr>Output<wbr>Template</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#compilescript" class="tsd-kind-icon">compile<wbr>Script</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#compilescripttext" class="tsd-kind-icon">compile<wbr>Script<wbr>Text</a>
+						<a href="globals.html#compilescriptcontents" class="tsd-kind-icon">compile<wbr>Script<wbr>Contents</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#compilescriptp2shlocking" class="tsd-kind-icon">compile<wbr>Script<wbr>P2sh<wbr>Locking</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#compilescriptp2shunlocking" class="tsd-kind-icon">compile<wbr>Script<wbr>P2sh<wbr>Unlocking</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#compilescriptraw" class="tsd-kind-icon">compile<wbr>Script<wbr>Raw</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#compilercreatestatecommon" class="tsd-kind-icon">compiler<wbr>Create<wbr>State<wbr>Common</a>
+						<a href="globals.html#compileroperationhelperaddressindex" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Address<wbr>Index</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#compileroperationbchgeneratedatasignature" class="tsd-kind-icon">compiler<wbr>OperationBCHGenerate<wbr>Data<wbr>Signature</a>
+						<a href="globals.html#compileroperationhelpercompilescript" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Compile<wbr>Script</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#compileroperationbchgeneratesignature" class="tsd-kind-icon">compiler<wbr>OperationBCHGenerate<wbr>Signature</a>
+						<a href="globals.html#compileroperationhelpercomputedatasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Compute<wbr>Data<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelpercomputesignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Compute<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelperderivehdkeyprivate" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Derive<wbr>HdKey<wbr>Private</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelperderivehdprivatenode" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Derive<wbr>HdPrivate<wbr>Node</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#compileroperationbchgeneratesigningserialization" class="tsd-kind-icon">compiler<wbr>OperationBCHGenerate<wbr>Signing<wbr>Serialization</a>
+						<a href="globals.html#compileroperationhelpergeneratecoveredbytecode" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Generate<wbr>Covered<wbr>Bytecode</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelperhdkeydatasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>HdKey<wbr>Data<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelperhdkeysignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>HdKey<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelperkeydatasignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Key<wbr>Data<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelperkeysignaturebch" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Key<wbr>SignatureBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelpersigningserializationcoveredbytecode" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Signing<wbr>Serialization<wbr>Covered<wbr>Bytecode</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#compileroperationhelperunknownentity" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Helper<wbr>Unknown<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#compileroperationrequires" class="tsd-kind-icon">compiler<wbr>Operation<wbr>Requires</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#conditionalflowcontroloperations" class="tsd-kind-icon">conditional<wbr>Flow<wbr>Control<wbr>Operations</a>
@@ -1107,14 +1512,14 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#conditionallyevaluate" class="tsd-kind-icon">conditionally<wbr>Evaluate</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#containsrange" class="tsd-kind-icon">contains<wbr>Range</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#crackhdprivatenodefromhdpublicnodeandchildprivatenode" class="tsd-kind-icon">crack<wbr>HdPrivate<wbr>Node<wbr>From<wbr>HdPublic<wbr>Node<wbr>And<wbr>Child<wbr>Private<wbr>Node</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#createauthenticationprogramexternalstatecommon" class="tsd-kind-icon">create<wbr>Authentication<wbr>Program<wbr>External<wbr>State<wbr>Common</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#createauthenticationprogramexternalstatecommonempty" class="tsd-kind-icon">create<wbr>Authentication<wbr>Program<wbr>External<wbr>State<wbr>Common<wbr>Empty</a>
+						<a href="globals.html#createauthenticationprogramevaluationcommon" class="tsd-kind-icon">create<wbr>Authentication<wbr>Program<wbr>Evaluation<wbr>Common</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#createauthenticationprograminternalstatecommon" class="tsd-kind-icon">create<wbr>Authentication<wbr>Program<wbr>Internal<wbr>State<wbr>Common</a>
@@ -1138,19 +1543,37 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#createcompilerbch" class="tsd-kind-icon">create<wbr>CompilerBCH</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#createcompilercommonsynchronous" class="tsd-kind-icon">create<wbr>Compiler<wbr>Common<wbr>Synchronous</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#createidentifierresolver" class="tsd-kind-icon">create<wbr>Identifier<wbr>Resolver</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#createinstructionsetbch" class="tsd-kind-icon">create<wbr>Instruction<wbr>SetBCH</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#createlanguage" class="tsd-kind-icon">create<wbr>Language</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#createtestauthenticationprogrambch" class="tsd-kind-icon">create<wbr>Test<wbr>Authentication<wbr>ProgramBCH</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#createtransactioncontextcommon" class="tsd-kind-icon">create<wbr>Transaction<wbr>Context<wbr>Common</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#createtransactioncontextcommonempty" class="tsd-kind-icon">create<wbr>Transaction<wbr>Context<wbr>Common<wbr>Empty</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#createtransactioncontextcommontesting" class="tsd-kind-icon">create<wbr>Transaction<wbr>Context<wbr>Common<wbr>Testing</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#cryptooperations" class="tsd-kind-icon">crypto<wbr>Operations</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#datetolocktime" class="tsd-kind-icon">date<wbr>ToLocktime</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#datetolocktimebin" class="tsd-kind-icon">date<wbr>ToLocktime<wbr>Bin</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#decodebase58address" class="tsd-kind-icon">decode<wbr>Base58<wbr>Address</a>
@@ -1188,6 +1611,12 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#decodeprivatekeywif" class="tsd-kind-icon">decode<wbr>Private<wbr>Key<wbr>Wif</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#decodetransaction" class="tsd-kind-icon">decode<wbr>Transaction</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#decodetransactionunsafe" class="tsd-kind-icon">decode<wbr>Transaction<wbr>Unsafe</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#derivehdpath" class="tsd-kind-icon">derive<wbr>HdPath</a>
 					</li>
@@ -1213,7 +1642,7 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#describeexpectedinput" class="tsd-kind-icon">describe<wbr>Expected<wbr>Input</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#deserializetransaction" class="tsd-kind-icon">deserialize<wbr>Transaction</a>
+						<a href="globals.html#descriptionisoptionalstring" class="tsd-kind-icon">description<wbr>IsOptional<wbr>String</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#disabledoperation" class="tsd-kind-icon">disabled<wbr>Operation</a>
@@ -1246,6 +1675,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#emptyhash" class="tsd-kind-icon">empty<wbr>Hash</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#emptyrange" class="tsd-kind-icon">empty<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#emptyreductiontracenode" class="tsd-kind-icon">empty<wbr>Reduction<wbr>Trace<wbr>Node</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
@@ -1276,16 +1708,73 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#encodehdpublickey" class="tsd-kind-icon">encode<wbr>HdPublic<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodeinput" class="tsd-kind-icon">encode<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodeinputs" class="tsd-kind-icon">encode<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodeoutpoints" class="tsd-kind-icon">encode<wbr>Outpoints</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodeoutput" class="tsd-kind-icon">encode<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodeoutputsforsigning" class="tsd-kind-icon">encode<wbr>Outputs<wbr>For<wbr>Signing</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodeoutputsfortransaction" class="tsd-kind-icon">encode<wbr>Outputs<wbr>For<wbr>Transaction</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#encodeprivatekeywif" class="tsd-kind-icon">encode<wbr>Private<wbr>Key<wbr>Wif</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodesequencenumbersforsigning" class="tsd-kind-icon">encode<wbr>Sequence<wbr>Numbers<wbr>For<wbr>Signing</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#encodetransaction" class="tsd-kind-icon">encode<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#equals" class="tsd-kind-icon">equals</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#evaluateinstructionaggregations" class="tsd-kind-icon">evaluate<wbr>Instruction<wbr>Aggregations</a>
+						<a href="globals.html#executionisactive" class="tsd-kind-icon">execution<wbr>IsActive</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#executionisactive" class="tsd-kind-icon">execution<wbr>IsActive</a>
+						<a href="globals.html#extendcompilationdatawithscenariobytecode" class="tsd-kind-icon">extend<wbr>Compilation<wbr>Data<wbr>With<wbr>Scenario<wbr>Bytecode</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#extendscenariodefinition" class="tsd-kind-icon">extend<wbr>Scenario<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#extendscenariodefinitiondata" class="tsd-kind-icon">extend<wbr>Scenario<wbr>Definition<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#extendedscenariodefinitiontocompilationdata" class="tsd-kind-icon">extended<wbr>Scenario<wbr>Definition<wbr>ToCompilation<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#extractbytecoderesolutions" class="tsd-kind-icon">extract<wbr>Bytecode<wbr>Resolutions</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#extractevaluationsamples" class="tsd-kind-icon">extract<wbr>Evaluation<wbr>Samples</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#extractevaluationsamplesrecursive" class="tsd-kind-icon">extract<wbr>Evaluation<wbr>Samples<wbr>Recursive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#extractmissingvariables" class="tsd-kind-icon">extract<wbr>Missing<wbr>Variables</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#extractresolvedvariablebytecodemap" class="tsd-kind-icon">extract<wbr>Resolved<wbr>Variable<wbr>Bytecode<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#extractresolvedvariables" class="tsd-kind-icon">extract<wbr>Resolved<wbr>Variables</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#extractunexecutedranges" class="tsd-kind-icon">extract<wbr>Unexecuted<wbr>Ranges</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#flags" class="tsd-kind-icon">flags</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#flattenbinarray" class="tsd-kind-icon">flatten<wbr>Bin<wbr>Array</a>
@@ -1299,20 +1788,23 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#generatebytecodemap" class="tsd-kind-icon">generate<wbr>Bytecode<wbr>Map</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#generatedefaultscenariodefinition" class="tsd-kind-icon">generate<wbr>Default<wbr>Scenario<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#generateextendedscenario" class="tsd-kind-icon">generate<wbr>Extended<wbr>Scenario</a>
+					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#generateprivatekey" class="tsd-kind-icon">generate<wbr>Private<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#generatescenariocommon" class="tsd-kind-icon">generate<wbr>Scenario<wbr>Common</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#generatesigningserializationbch" class="tsd-kind-icon">generate<wbr>Signing<wbr>SerializationBCH</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#getbitcoinidentifier" class="tsd-kind-icon">get<wbr>Bitcoin<wbr>Identifier</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#getbitcointransactionid" class="tsd-kind-icon">get<wbr>Bitcoin<wbr>Transaction<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#getcompileroperationsbch" class="tsd-kind-icon">get<wbr>Compiler<wbr>OperationsBCH</a>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#generatetransaction" class="tsd-kind-icon">generate<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#getembeddedripemd160binary" class="tsd-kind-icon">get<wbr>Embedded<wbr>Ripemd160<wbr>Binary</a>
@@ -1339,7 +1831,19 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#getresolutionerrors" class="tsd-kind-icon">get<wbr>Resolution<wbr>Errors</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#getscenariooutputdefaultlockingbytecode" class="tsd-kind-icon">get<wbr>Scenario<wbr>Output<wbr>Default<wbr>Locking<wbr>Bytecode</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#getsigningserializationtype" class="tsd-kind-icon">get<wbr>Signing<wbr>Serialization<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#gettransactionhash" class="tsd-kind-icon">get<wbr>Transaction<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#gettransactionhashbe" class="tsd-kind-icon">get<wbr>Transaction<wbr>HashBE</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#gettransactionhashle" class="tsd-kind-icon">get<wbr>Transaction<wbr>HashLE</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#hasmalformedlength" class="tsd-kind-icon">has<wbr>Malformed<wbr>Length</a>
@@ -1420,16 +1924,31 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#instantiatevirtualmachinebch" class="tsd-kind-icon">instantiate<wbr>Virtual<wbr>MachineBCH</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isauthenticationtemplatevariabletype" class="tsd-kind-icon">is<wbr>Authentication<wbr>Template<wbr>Variable<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isbase64" class="tsd-kind-icon">is<wbr>Base64</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#isbech32" class="tsd-kind-icon">is<wbr>Bech32</a>
+						<a href="globals.html#isbech32characterset" class="tsd-kind-icon">is<wbr>Bech32<wbr>Character<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isbinstring" class="tsd-kind-icon">is<wbr>Bin<wbr>String</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isdefinedsigningserializationtype" class="tsd-kind-icon">is<wbr>Defined<wbr>Signing<wbr>Serialization<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isdensearray" class="tsd-kind-icon">is<wbr>Dense<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#ishex" class="tsd-kind-icon">is<wbr>Hex</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#ishexstring" class="tsd-kind-icon">is<wbr>Hex<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isinteger" class="tsd-kind-icon">is<wbr>Integer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#islegacysigningserialization" class="tsd-kind-icon">is<wbr>Legacy<wbr>Signing<wbr>Serialization</a>
@@ -1446,11 +1965,17 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isnegative" class="tsd-kind-icon">is<wbr>Negative</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isobject" class="tsd-kind-icon">is<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isobjectofvalidprivatekeys" class="tsd-kind-icon">is<wbr>Object<wbr>OfValid<wbr>Private<wbr>Keys</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#ispaytoscripthash" class="tsd-kind-icon">is<wbr>Pay<wbr>ToScript<wbr>Hash</a>
 					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#ispush" class="tsd-kind-icon">is<wbr>Push</a>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#ispositiveinteger" class="tsd-kind-icon">is<wbr>Positive<wbr>Integer</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#ispushdata" class="tsd-kind-icon">is<wbr>Push<wbr>Data</a>
@@ -1459,7 +1984,16 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#ispushoperation" class="tsd-kind-icon">is<wbr>Push<wbr>Operation</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#israngedinteger" class="tsd-kind-icon">is<wbr>Ranged<wbr>Integer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isscriptnumbererror" class="tsd-kind-icon">is<wbr>Script<wbr>Number<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isstringarray" class="tsd-kind-icon">is<wbr>String<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isstringobject" class="tsd-kind-icon">is<wbr>String<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isvalidbitlength" class="tsd-kind-icon">is<wbr>Valid<wbr>Bit<wbr>Length</a>
@@ -1474,6 +2008,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#isvalidpublickeyencoding" class="tsd-kind-icon">is<wbr>Valid<wbr>Public<wbr>Key<wbr>Encoding</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isvalidsatoshisvalue" class="tsd-kind-icon">is<wbr>Valid<wbr>Satoshis<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#isvalidsignatureencodingbchraw" class="tsd-kind-icon">is<wbr>Valid<wbr>Signature<wbr>EncodingBCHRaw</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
@@ -1486,10 +2023,19 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#isvaliduncompressedpublickeyencoding" class="tsd-kind-icon">is<wbr>Valid<wbr>Uncompressed<wbr>Public<wbr>Key<wbr>Encoding</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#isversion0" class="tsd-kind-icon">is<wbr>Version0</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#iswitnessprogram" class="tsd-kind-icon">is<wbr>Witness<wbr>Program</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#lazy" class="tsd-kind-icon">lazy</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#lengthbytesforpushopcode" class="tsd-kind-icon">length<wbr>Bytes<wbr>For<wbr>Push<wbr>Opcode</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#listids" class="tsd-kind-icon">list<wbr>Ids</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#lockingbytecodetoaddresscontents" class="tsd-kind-icon">locking<wbr>Bytecode<wbr>ToAddress<wbr>Contents</a>
@@ -1501,7 +2047,19 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#lockingbytecodetocashaddress" class="tsd-kind-icon">locking<wbr>Bytecode<wbr>ToCash<wbr>Address</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#locktimetodate" class="tsd-kind-icon">locktime<wbr>ToDate</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#locktimetypesarecompatible" class="tsd-kind-icon">locktime<wbr>Types<wbr>Are<wbr>Compatible</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#makefailure" class="tsd-kind-icon">make<wbr>Failure</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#makelinecolumnindex" class="tsd-kind-icon">make<wbr>Line<wbr>Column<wbr>Index</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#makesuccess" class="tsd-kind-icon">make<wbr>Success</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#mapoveroperations" class="tsd-kind-icon">map<wbr>Over<wbr>Operations</a>
@@ -1514,6 +2072,12 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#mergeranges" class="tsd-kind-icon">merge<wbr>Ranges</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#mergereplies" class="tsd-kind-icon">merge<wbr>Replies</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#nameisoptionalstring" class="tsd-kind-icon">name<wbr>IsOptional<wbr>String</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#nonoperations" class="tsd-kind-icon">non<wbr>Operations</a>
@@ -1761,6 +2325,39 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#padminimallyencodedscriptnumber" class="tsd-kind-icon">pad<wbr>Minimally<wbr>Encoded<wbr>Script<wbr>Number</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplateentities" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Entities</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenariodata" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenario<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenariodatahdkeys" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenario<wbr>Data<wbr>HdKeys</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenariodatakeys" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenario<wbr>Data<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenariotransaction" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenario<wbr>Transaction</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenariotransactioninputs" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenario<wbr>Transaction<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenariotransactionoutputlockingbytecode" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenario<wbr>Transaction<wbr>Output<wbr>Locking<wbr>Bytecode</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenariotransactionoutputs" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenario<wbr>Transaction<wbr>Outputs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescenarios" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scenarios</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatescripts" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Scripts</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#parseauthenticationtemplatevariable" class="tsd-kind-icon">parse<wbr>Authentication<wbr>Template<wbr>Variable</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#parsebytecode" class="tsd-kind-icon">parse<wbr>Bytecode</a>
 					</li>
@@ -1768,7 +2365,7 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#parsebytesasscriptnumber" class="tsd-kind-icon">parse<wbr>Bytes<wbr>AsScript<wbr>Number</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#parselocktime" class="tsd-kind-icon">parse<wbr>Locktime</a>
+						<a href="globals.html#parselocktimebin" class="tsd-kind-icon">parse<wbr>Locktime<wbr>Bin</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#parsescript" class="tsd-kind-icon">parse<wbr>Script</a>
@@ -1819,13 +2416,16 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#reducescript" class="tsd-kind-icon">reduce<wbr>Script</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#regexp" class="tsd-kind-icon">regexp</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#regroupbits" class="tsd-kind-icon">regroup<wbr>Bits</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#removenumericseparators" class="tsd-kind-icon">remove<wbr>Numeric<wbr>Separators</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#reservedoperation" class="tsd-kind-icon">reserved<wbr>Operation</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#resolveauthenticationtemplatevariable" class="tsd-kind-icon">resolve<wbr>Authentication<wbr>Template<wbr>Variable</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#resolvescriptidentifier" class="tsd-kind-icon">resolve<wbr>Script<wbr>Identifier</a>
@@ -1834,31 +2434,34 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#resolvescriptsegment" class="tsd-kind-icon">resolve<wbr>Script<wbr>Segment</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#sampledevaluatereductiontracenodes" class="tsd-kind-icon">sampled<wbr>Evaluate<wbr>Reduction<wbr>Trace<wbr>Nodes</a>
+						<a href="globals.html#resolvevariableidentifier" class="tsd-kind-icon">resolve<wbr>Variable<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#returnfailedcompilationdirective" class="tsd-kind-icon">return<wbr>Failed<wbr>Compilation<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#safelyextendcompilationdata" class="tsd-kind-icon">safely<wbr>Extend<wbr>Compilation<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#schemaisoptionalstring" class="tsd-kind-icon">schema<wbr>IsOptional<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#sepby" class="tsd-kind-icon">sep<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#sepby1" class="tsd-kind-icon">sep<wbr>By1</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#seq" class="tsd-kind-icon">seq</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#seqmap" class="tsd-kind-icon">seq<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#serializeauthenticationinstruction" class="tsd-kind-icon">serialize<wbr>Authentication<wbr>Instruction</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#serializeauthenticationinstructions" class="tsd-kind-icon">serialize<wbr>Authentication<wbr>Instructions</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializeinput" class="tsd-kind-icon">serialize<wbr>Input</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializeinputs" class="tsd-kind-icon">serialize<wbr>Inputs</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializeoutpoints" class="tsd-kind-icon">serialize<wbr>Outpoints</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializeoutput" class="tsd-kind-icon">serialize<wbr>Output</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializeoutputsforsigning" class="tsd-kind-icon">serialize<wbr>Outputs<wbr>For<wbr>Signing</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializeoutputsfortransaction" class="tsd-kind-icon">serialize<wbr>Outputs<wbr>For<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#serializeparsedauthenticationinstruction" class="tsd-kind-icon">serialize<wbr>Parsed<wbr>Authentication<wbr>Instruction</a>
@@ -1870,12 +2473,6 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#serializeparsedauthenticationinstructions" class="tsd-kind-icon">serialize<wbr>Parsed<wbr>Authentication<wbr>Instructions</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializesequencenumbers" class="tsd-kind-icon">serialize<wbr>Sequence<wbr>Numbers</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
-						<a href="globals.html#serializetransaction" class="tsd-kind-icon">serialize<wbr>Transaction</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#shouldserializecorrespondingoutput" class="tsd-kind-icon">should<wbr>Serialize<wbr>Corresponding<wbr>Output</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
@@ -1883,6 +2480,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#shouldserializesingleinput" class="tsd-kind-icon">should<wbr>Serialize<wbr>Single<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#sortobjectkeys" class="tsd-kind-icon">sort<wbr>Object<wbr>Keys</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#spliceoperations" class="tsd-kind-icon">splice<wbr>Operations</a>
@@ -1897,7 +2497,25 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#stackoperations" class="tsd-kind-icon">stack<wbr>Operations</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#stateisexecuting" class="tsd-kind-icon">state<wbr>IsExecuting</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#string" class="tsd-kind-icon">string</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#stringify" class="tsd-kind-icon">stringify</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#stringifyerrors" class="tsd-kind-icon">stringify<wbr>Errors</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#stringifytestvector" class="tsd-kind-icon">stringify<wbr>Test<wbr>Vector</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#succeed" class="tsd-kind-icon">succeed</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#supportsonlyvalidvmidentifiers" class="tsd-kind-icon">supports<wbr>Only<wbr>Valid<wbr>VmIdentifiers</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#swapendianness" class="tsd-kind-icon">swap<wbr>Endianness</a>
@@ -1910,6 +2528,9 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#undefinedoperation" class="tsd-kind-icon">undefined<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#union" class="tsd-kind-icon">union</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#usefourstackitems" class="tsd-kind-icon">use<wbr>Four<wbr>Stack<wbr>Items</a>
@@ -1939,10 +2560,19 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#utf8tobin" class="tsd-kind-icon">utf8<wbr>ToBin</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#validateauthenticationtemplate" class="tsd-kind-icon">validate<wbr>Authentication<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#validatesecp256k1privatekey" class="tsd-kind-icon">validate<wbr>Secp256k1<wbr>Private<wbr>Key</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#varintprefixtosize" class="tsd-kind-icon">var<wbr>Int<wbr>Prefix<wbr>ToSize</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#verifybtlevaluationstate" class="tsd-kind-icon">verify<wbr>Btl<wbr>Evaluation<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#verifytransaction" class="tsd-kind-icon">verify<wbr>Transaction</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#wrapsecp256k1wasm" class="tsd-kind-icon">wrap<wbr>Secp256k1<wbr>Wasm</a>
@@ -1951,10 +2581,19 @@ yarn watch:with-crypto <span class="hljs-comment"># when working on the crypto A
 						<a href="globals.html#opcodedescriptionsbch" class="tsd-kind-icon">Opcode<wbr>DescriptionsBCH</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-external">
-						<a href="globals.html#defaultactionbyvariabletype" class="tsd-kind-icon">default<wbr>Action<wbr>ByVariable<wbr>Type</a>
+						<a href="globals.html#p" class="tsd-kind-icon">P</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-external">
-						<a href="globals.html#variabletypetodataproperty" class="tsd-kind-icon">variable<wbr>Type<wbr>ToData<wbr>Property</a>
+						<a href="globals.html#authenticationtemplatep2pkh" class="tsd-kind-icon">authentication<wbr>Template<wbr>P2pkh</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-external">
+						<a href="globals.html#authenticationtemplatep2pkhnonhd" class="tsd-kind-icon">authentication<wbr>Template<wbr>P2pkh<wbr>Non<wbr>Hd</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-external">
+						<a href="globals.html#compileroperationsbch" class="tsd-kind-icon">compiler<wbr>OperationsBCH</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-external">
+						<a href="globals.html#compileroperationscommon" class="tsd-kind-icon">compiler<wbr>Operations<wbr>Common</a>
 					</li>
 				</ul>
 			</nav>

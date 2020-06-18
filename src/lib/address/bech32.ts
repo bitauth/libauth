@@ -19,7 +19,6 @@ export enum BitRegroupingError {
 }
 
 /* eslint-disable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
-// cSpell:ignore Pieter, Wuille
 /**
  * Given an array of integers, regroup bits from `sourceWordLength` to
  * `resultWordLength`, returning a new array of integers between 0 and
@@ -30,63 +29,62 @@ export enum BitRegroupingError {
  *
  * A.K.A. `convertbits`
  *
+ * @param bin - an array of numbers representing the bits to regroup. Each item
+ * must be a number within the range of `sourceWordLength`
+ * @param sourceWordLength - the bit-length of each number in `bin`, e.g. to
+ * regroup bits from a `Uint8Array`, use `8` (must be a positive integer)
+ * @param resultWordLength - the bit-length of each number in the desired result
+ * array, e.g. to regroup bits into 4-bit numbers, use `4` (must be a positive
+ * integer)
+ * @param allowPadding - whether to allow the use of padding for `bin` values
+ * where the provided number of bits cannot be directly mapped to an equivalent
+ * result array (remaining bits are filled with `0`), defaults to `true`
  * @privateRemarks
  * Derived from: https://github.com/sipa/bech32
- * Copyright (c) 2017 Pieter Wuille, MIT License
  */
 export const regroupBits = ({
   bin,
   sourceWordLength,
   resultWordLength,
-  padding = true,
+  allowPadding = true,
 }: {
   bin: Immutable<Uint8Array> | readonly number[];
   sourceWordLength: number;
   resultWordLength: number;
-  padding?: boolean;
-}) =>
-  /*
-   * bin: Immutable<Uint8Array> | readonly number[],
-   * sourceWordLength: number,
-   * resultWordLength: number,
-   * padding = true
-   */
-  {
-    let accumulator = 0;
-    let bits = 0;
-    const result = [];
-    const maxResultInt = (1 << resultWordLength) - 1;
-    // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of, no-plusplus
-    for (let p = 0; p < bin.length; ++p) {
-      const value = bin[p];
-      if (value < 0 || value >> sourceWordLength !== 0) {
-        return BitRegroupingError.integerOutOfRange;
-      }
-      accumulator = (accumulator << sourceWordLength) | value;
-      bits += sourceWordLength;
-      // eslint-disable-next-line functional/no-loop-statement
-      while (bits >= resultWordLength) {
-        bits -= resultWordLength;
-        // eslint-disable-next-line functional/immutable-data
-        result.push((accumulator >> bits) & maxResultInt);
-      }
+  allowPadding?: boolean;
+}) => {
+  let accumulator = 0;
+  let bits = 0;
+  const result = [];
+  const maxResultInt = (1 << resultWordLength) - 1;
+  // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of, no-plusplus
+  for (let p = 0; p < bin.length; ++p) {
+    const value = bin[p];
+    if (value < 0 || value >> sourceWordLength !== 0) {
+      return BitRegroupingError.integerOutOfRange;
     }
+    accumulator = (accumulator << sourceWordLength) | value;
+    bits += sourceWordLength;
+    // eslint-disable-next-line functional/no-loop-statement
+    while (bits >= resultWordLength) {
+      bits -= resultWordLength;
+      // eslint-disable-next-line functional/immutable-data
+      result.push((accumulator >> bits) & maxResultInt);
+    }
+  }
 
-    if (padding) {
-      if (bits > 0) {
-        // eslint-disable-next-line functional/immutable-data
-        result.push((accumulator << (resultWordLength - bits)) & maxResultInt);
-      }
-    } else if (bits >= sourceWordLength) {
-      return BitRegroupingError.hasDisallowedPadding;
-    } else if (
-      ((accumulator << (resultWordLength - bits)) & maxResultInt) >
-      0
-    ) {
-      return BitRegroupingError.requiresDisallowedPadding;
+  if (allowPadding) {
+    if (bits > 0) {
+      // eslint-disable-next-line functional/immutable-data
+      result.push((accumulator << (resultWordLength - bits)) & maxResultInt);
     }
-    return result;
-  };
+  } else if (bits >= sourceWordLength) {
+    return BitRegroupingError.hasDisallowedPadding;
+  } else if (((accumulator << (resultWordLength - bits)) & maxResultInt) > 0) {
+    return BitRegroupingError.requiresDisallowedPadding;
+  }
+  return result;
+};
 /* eslint-enable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
 
 /**
@@ -134,36 +132,17 @@ export const decodeBech32 = (validBech32: string) => {
 const nonBech32Characters = new RegExp(`[^${bech32CharacterSet}]`, 'u');
 const base32WordLength = 5;
 const base256WordLength = 8;
-const zero = 0;
 
 /**
- * Validate that a string is bech32 encoded (without a checksum). The string
- * must use only the bech32 character set, and it must be padded correctly, i.e.
- * it must encode a multiple of 8 bits.
+ * Validate that a string uses only characters from the bech32 character set.
  *
  * @param maybeBech32 - a string to test for valid Bech32 encoding
  */
-export const isBech32 = (maybeBech32: string) => {
-  const expectedPadding =
-    (maybeBech32.length * base32WordLength) % base256WordLength;
-  const last5Bits = bech32CharacterSetIndex[
-    maybeBech32[maybeBech32.length] as keyof typeof bech32CharacterSetIndex
-  ] as
-    | typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex]
-    | undefined;
-  const onlyBech32Characters = !nonBech32Characters.test(maybeBech32);
-  const noExcessivePadding = expectedPadding < base32WordLength;
-  // eslint-disable-next-line no-bitwise
-  const mask = (1 << expectedPadding) - 1;
-  // eslint-disable-next-line no-bitwise
-  const expectedPaddingIsZeroFilled = (Number(last5Bits) & mask) === zero;
-  return (
-    onlyBech32Characters && noExcessivePadding && expectedPaddingIsZeroFilled
-  );
-};
+export const isBech32CharacterSet = (maybeBech32: string) =>
+  !nonBech32Characters.test(maybeBech32);
 
 export enum Bech32DecodingError {
-  notBech32Padded = 'Bech32 decoding error: input is not in Bech32 padded format.',
+  notBech32CharacterSet = 'Bech32 decoding error: input contains characters outside of the Bech32 character set.',
 }
 
 /**
@@ -177,14 +156,14 @@ export enum Bech32DecodingError {
  * @param bech32Padded - the padded bech32-encoded string to decode
  */
 export const bech32PaddedToBin = (bech32Padded: string) => {
-  const result = isBech32(bech32Padded)
+  const result = isBech32CharacterSet(bech32Padded)
     ? regroupBits({
+        allowPadding: false,
         bin: decodeBech32(bech32Padded),
-        padding: false,
         resultWordLength: base256WordLength,
         sourceWordLength: base32WordLength,
       })
-    : Bech32DecodingError.notBech32Padded;
+    : Bech32DecodingError.notBech32CharacterSet;
   return typeof result === 'string' ? result : Uint8Array.from(result);
 };
 

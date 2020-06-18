@@ -625,12 +625,12 @@ export const instantiateSecp256k1Bytes = async (
     randomSeed
   );
 
+const cachedSecp256k1: { cache?: Promise<Secp256k1> } = {};
+
 /**
  * Create and wrap a Secp256k1 WebAssembly instance to expose a set of
  * purely-functional Secp256k1 methods. For slightly faster initialization, use
  * `instantiateSecp256k1Bytes`.
- *
- * TODO: cache resulting instance to return in all future calls
  *
  * @param randomSeed - a 32-byte random seed used to randomize the secp256k1
  * context after creation. See the description in `instantiateSecp256k1Bytes`
@@ -638,5 +638,14 @@ export const instantiateSecp256k1Bytes = async (
  */
 export const instantiateSecp256k1 = async (
   randomSeed?: Uint8Array
-): Promise<Secp256k1> =>
-  wrapSecp256k1Wasm(await instantiateSecp256k1Wasm(), randomSeed);
+): Promise<Secp256k1> => {
+  if (cachedSecp256k1.cache !== undefined) {
+    return cachedSecp256k1.cache;
+  }
+  const result = Promise.resolve(
+    wrapSecp256k1Wasm(await instantiateSecp256k1Wasm(), randomSeed)
+  );
+  // eslint-disable-next-line require-atomic-updates, functional/immutable-data
+  cachedSecp256k1.cache = result;
+  return result;
+};

@@ -80,9 +80,18 @@ export const instantiateSha1Bytes = async (
 export const getEmbeddedSha1Binary = (): ArrayBuffer =>
   base64ToBin(sha1Base64Bytes).buffer;
 
+const cachedSha1: { cache?: Promise<Sha1> } = {};
+
 /**
  * An ultimately-portable (but slower) version of `instantiateSha1Bytes`
  * which does not require the consumer to provide the sha1 binary buffer.
  */
-export const instantiateSha1 = async (): Promise<Sha1> =>
-  instantiateSha1Bytes(getEmbeddedSha1Binary());
+export const instantiateSha1 = async (): Promise<Sha1> => {
+  if (cachedSha1.cache !== undefined) {
+    return cachedSha1.cache;
+  }
+  const result = instantiateSha1Bytes(getEmbeddedSha1Binary());
+  // eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+  cachedSha1.cache = result;
+  return result;
+};

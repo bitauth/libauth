@@ -4,39 +4,60 @@ import { fc, testProp } from 'ava-fast-check';
 
 import {
   dateToLocktime,
+  dateToLocktimeBin,
   hexToBin,
   LocktimeError,
+  locktimeToDate,
   maximumLocktimeDate,
+  maximumLocktimeTimestamp,
   minimumLocktimeDate,
-  parseLocktime,
+  minimumLocktimeTimestamp,
+  parseLocktimeBin,
 } from '../lib';
 
-test('dateToLockTime', (t) => {
-  t.deepEqual(dateToLocktime(new Date('2019-10-13')), hexToBin('0069a25d'));
-  t.deepEqual(dateToLocktime(new Date('2107-01-01')), LocktimeError.outOfRange);
+test('dateToLocktime', (t) => {
+  t.deepEqual(dateToLocktime(new Date('2019-10-13')), 1570924800);
+  t.deepEqual(
+    dateToLocktime(new Date('2107-01-01')),
+    LocktimeError.dateOutOfRange
+  );
+});
+
+test('dateToLocktimeBin', (t) => {
+  t.deepEqual(dateToLocktimeBin(new Date('2019-10-13')), hexToBin('0069a25d'));
+  t.deepEqual(
+    dateToLocktimeBin(new Date('2107-01-01')),
+    LocktimeError.dateOutOfRange
+  );
 });
 
 test('parseLockTime', (t) => {
-  t.deepEqual(parseLocktime(hexToBin('0069a25d')), new Date('2019-10-13'));
-  t.deepEqual(parseLocktime(hexToBin('d090371c')), 473403600);
-  t.deepEqual(parseLocktime(hexToBin('')), LocktimeError.incorrectLength);
-  t.deepEqual(parseLocktime(hexToBin('00')), LocktimeError.incorrectLength);
+  t.deepEqual(parseLocktimeBin(hexToBin('0069a25d')), new Date('2019-10-13'));
+  t.deepEqual(parseLocktimeBin(hexToBin('d090371c')), 473403600);
+  t.deepEqual(parseLocktimeBin(hexToBin('')), LocktimeError.incorrectLength);
+  t.deepEqual(parseLocktimeBin(hexToBin('00')), LocktimeError.incorrectLength);
   t.deepEqual(
-    parseLocktime(hexToBin('0000000000')),
+    parseLocktimeBin(hexToBin('0000000000')),
     LocktimeError.incorrectLength
   );
 });
 
 testProp(
-  '[fast-check] dateToLockTime <-> parseLockTime',
+  '[fast-check] dateToLocktime <-> locktimeToDate',
+  [fc.integer(minimumLocktimeTimestamp, maximumLocktimeTimestamp)],
+  (timestamp) => dateToLocktime(locktimeToDate(timestamp) as Date) === timestamp
+);
+
+testProp(
+  '[fast-check] dateToLocktimeBin <-> parseLocktimeBin',
   [fc.date({ max: maximumLocktimeDate, min: minimumLocktimeDate })],
   (date) => {
     const withSecondResolution = new Date(
       Math.round(date.getTime() / 1000) * 1000
     );
     return (
-      (parseLocktime(
-        dateToLocktime(withSecondResolution) as Uint8Array
+      (parseLocktimeBin(
+        dateToLocktimeBin(withSecondResolution) as Uint8Array
       ) as Date).getTime() === withSecondResolution.getTime()
     );
   }

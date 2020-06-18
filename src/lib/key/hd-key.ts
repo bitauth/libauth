@@ -70,7 +70,7 @@ interface HdNodeBase {
   /**
    * The full identifer of the parent node. This can be used to resolve
    * collisions where two possible parent nodes share a `parentFingerprint`.
-   * Since the full `parentIdentifier` is not serialized in BIP32 HD keys, it
+   * Since the full `parentIdentifier` is not encoded in BIP32 HD keys, it
    * might be unknown.
    */
   parentIdentifier?: Uint8Array;
@@ -597,7 +597,7 @@ export enum HdNodeDerivationError {
   childIndexExceedsMaximum = 'HD key derivation error: child index exceeds maximum (4294967295).',
   nextChildIndexRequiresHardenedAlgorithm = 'HD key derivation error: an incredibly rare HMAC-SHA512 result occurred, and incrementing the child index would require switching to the hardened algorithm.',
   hardenedDerivationRequiresPrivateNode = 'HD key derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
-  invalidDerivationPath = 'HD key derivation error: invalid derivation path – paths must begin with "m" or "M" and contain only forward slashes ("/"), apostrophes ("\'"), child index numbers.',
+  invalidDerivationPath = 'HD key derivation error: invalid derivation path – paths must begin with "m" or "M" and contain only forward slashes ("/"), apostrophes ("\'"), or positive child index numbers.',
   invalidPrivateDerivationPrefix = 'HD key derivation error: private derivation paths must begin with "m".',
   invalidPublicDerivationPrefix = 'HD key derivation error: public derivation paths must begin with "M".',
 }
@@ -926,7 +926,7 @@ export enum HdNodeCrackingError {
  * @param parentPublicNode - the parent HD public node for which to derive a
  * private node
  * @param childPrivateNode - any non-hardened child private node of the parent
- * node
+ * node (only the `privateKey` and the `childIndex` are required)
  */
 export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
   PublicNode extends HdPublicNode = HdPublicNode

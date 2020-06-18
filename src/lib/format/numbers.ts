@@ -1,7 +1,7 @@
 /**
  * Encode a positive integer as a little-endian Uint8Array. For values exceeding
- * `Number.MAX_SAFE_INTEGER`, use `bigIntToBinUintLE`. Negative values will
- * return the same result as `0`.
+ * `Number.MAX_SAFE_INTEGER` (`9007199254740991`), use `bigIntToBinUintLE`.
+ * Negative values will return the same result as `0`.
  *
  * @param value - the number to encode
  */
@@ -216,7 +216,8 @@ export const numberToBinInt32TwosCompliment = (value: number) => {
 
 /**
  * Decode a little-endian Uint8Array of any length into a number. For numbers
- * larger than `Number.MAX_SAFE_INTEGER`, use `binToBigIntUintLE`.
+ * larger than `Number.MAX_SAFE_INTEGER` (`9007199254740991`), use
+ * `binToBigIntUintLE`.
  *
  * The `bytes` parameter can be set to constrain the expected length (default:
  * `bin.length`). This method throws if `bin.length` is not equal to `bytes`.

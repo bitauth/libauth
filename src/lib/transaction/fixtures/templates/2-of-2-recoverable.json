@@ -1,0 +1,101 @@
+{
+  "name": "2-of-2 Recoverable Vault",
+  "$schema": "https://bitauth.com/schemas/authentication-template-v0.schema.json",
+  "description": "A 2-of-2 wallet, which after a specified delay, can be recovered by either of the original two keys and a signature from a trusted user (e.g. an attorney).\n\nIn this implementation, all wallet addresses become recoverable at the same time. To \"bump\" the recovery time to a later date, create a new wallet and transfer the funds.\n\nThis scheme is described in more detail in BIP-65.",
+  "entities": {
+    "signer_1": {
+      "description": "One of the two co-owners of this wallet. If Signer 1 is unable to sign, Signer 2 and Trusted Party can recover funds after the specified delay.",
+      "name": "Signer 1",
+      "scripts": ["lock", "spend", "recover_1"],
+      "variables": {
+        "delay_seconds": {
+          "description": "The waiting period (from the time the wallet is created) after which the Trusted Party can assist with delayed recoveries. The delay is measured in seconds, e.g. 1 day is 86400, 30 days is 2592000.",
+          "name": "Recovery Delay (Seconds)",
+          "type": "WalletData"
+        },
+        "first": {
+          "name": "Signer 1's HdKey",
+          "type": "HdKey"
+        }
+      }
+    },
+    "signer_2": {
+      "description": "One of the two co-owners of this wallet. If Signer 2 is unable to sign, Signer 1 and Trusted Party can recover funds after the specified delay.",
+      "name": "Signer 2",
+      "scripts": ["lock", "spend", "recover_2"],
+      "variables": {
+        "second": {
+          "name": "Signer 2's HdKey",
+          "type": "HdKey"
+        }
+      }
+    },
+    "trusted_party": {
+      "description": "A trusted party, like a lawyer or trusted employee. If either signer is unable to sign, after the specified delay, Trusted Party can help to recover funds by co-signing on that signer's behalf.",
+      "name": "Trusted Party",
+      "scripts": ["lock", "recover_1", "recover_2"],
+      "variables": {
+        "trusted": {
+          "name": "Trusted Party's HdKey",
+          "type": "HdKey"
+        }
+      }
+    }
+  },
+  "scenarios": {
+    "after_recovery_time": {
+      "description": "An example of a time after the recovery delay has passed.",
+      "extends": "before_recovery_time",
+      "name": "After Recovery Time",
+      "transaction": {
+        "locktime": 1234061665
+      }
+    },
+    "before_recovery_time": {
+      "data": {
+        "bytecode": {
+          "delay_seconds": "2592000"
+        }
+      },
+      "description": "An example of a time before a 30 day recovery delay (2592000 seconds) has passed.",
+      "name": "Before Recovery Time",
+      "transaction": {
+        "locktime": 1231469665
+      }
+    }
+  },
+  "scripts": {
+    "lock": {
+      "lockingType": "p2sh",
+      "name": "2-of-2 Recoverable Vault",
+      "script": "OP_IF\n  <$(\n    <current_block_time> <delay_seconds>\n    OP_ADD\n  )>\n  OP_CHECKLOCKTIMEVERIFY OP_DROP\n  <trusted.public_key>\n  OP_CHECKSIGVERIFY\n  <1>\nOP_ELSE\n  <2>\nOP_ENDIF\n<first.public_key> <second.public_key> <2>\nOP_CHECKMULTISIG"
+    },
+    "recover_1": {
+      "estimate": "after_recovery_time",
+      "fails": ["before_recovery_time"],
+      "name": "Recover – Signer 1",
+      "passes": ["after_recovery_time"],
+      "script": "<0>\n<first.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>",
+      "timeLockType": "timestamp",
+      "unlocks": "lock"
+    },
+    "recover_2": {
+      "estimate": "after_recovery_time",
+      "fails": ["before_recovery_time"],
+      "name": "Recover – Signer 2",
+      "passes": ["after_recovery_time"],
+      "script": "<0>\n<second.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>",
+      "timeLockType": "timestamp",
+      "unlocks": "lock"
+    },
+    "spend": {
+      "estimate": "before_recovery_time",
+      "name": "Standard Spend",
+      "passes": ["after_recovery_time", "before_recovery_time"],
+      "script": "<0>\n<first.signature.all_outputs>\n<second.signature.all_outputs>\n<0>",
+      "unlocks": "lock"
+    }
+  },
+  "supported": ["BCH_2019_11"],
+  "version": 0
+}

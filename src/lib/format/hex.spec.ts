@@ -38,17 +38,17 @@ test('isHex', (t) => {
 test('hexToBin', (t) => {
   t.deepEqual(
     hexToBin('0001022a646566ff'),
-    new Uint8Array([0, 1, 2, 42, 100, 101, 102, 255])
+    Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255])
   );
   t.deepEqual(
     hexToBin('0001022A646566FF'),
-    new Uint8Array([0, 1, 2, 42, 100, 101, 102, 255])
+    Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255])
   );
 });
 
 test('binToHex', (t) => {
   t.deepEqual(
-    binToHex(new Uint8Array([0, 1, 2, 42, 100, 101, 102, 255])),
+    binToHex(Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255])),
     '0001022a646566ff'
   );
 });

@@ -42,8 +42,6 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
   return false;
 };
 
-// privateKey.every((value, i) => value <= maximumSecp256k1PrivateKey[i]);
-
 /**
  * Securely generate a valid Secp256k1 private key given a secure source of
  * randomness.

@@ -1,2 +1,0 @@
-# Bitauth Templating Language (BTL)
-

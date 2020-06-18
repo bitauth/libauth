@@ -2,8 +2,6 @@
 // cspell:ignore recid
 /* global Buffer */
 
-// TODO: all tests should include a "stateless" property – instantiate a new Secp256k1 and immediately call the method, verify it produces the same result as the existing instance
-
 import { randomBytes } from 'crypto';
 
 import test from 'ava';

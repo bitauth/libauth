@@ -84,9 +84,18 @@ export const instantiateRipemd160Bytes = async (
 export const getEmbeddedRipemd160Binary = () =>
   base64ToBin(ripemd160Base64Bytes).buffer;
 
+const cachedRipemd160: { cache?: Promise<Ripemd160> } = {};
+
 /**
  * An ultimately-portable (but slower) version of `instantiateRipemd160Bytes`
  * which does not require the consumer to provide the ripemd160 binary buffer.
  */
-export const instantiateRipemd160 = async (): Promise<Ripemd160> =>
-  instantiateRipemd160Bytes(getEmbeddedRipemd160Binary());
+export const instantiateRipemd160 = async (): Promise<Ripemd160> => {
+  if (cachedRipemd160.cache !== undefined) {
+    return cachedRipemd160.cache;
+  }
+  const result = instantiateRipemd160Bytes(getEmbeddedRipemd160Binary());
+  // eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+  cachedRipemd160.cache = result;
+  return result;
+};

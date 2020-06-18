@@ -7,9 +7,9 @@ RUN apt-get update \
   libtool \
   build-essential
 
-COPY wasm /bitcoin-ts/wasm
+COPY wasm /libauth/wasm
 
-WORKDIR /bitcoin-ts/wasm/secp256k1
+WORKDIR /libauth/wasm/secp256k1
 
 RUN ./autogen.sh
 RUN emconfigure ./configure --enable-module-recovery \
@@ -61,7 +61,7 @@ RUN emcc src/libsecp256k1_la-secp256k1.o \
 
 RUN OUTPUT_TS_FILE=out/secp256k1/secp256k1.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const secp256k1Base64Bytes =\n  '" > $OUTPUT_TS_FILE && base64 -w 0 out/secp256k1/secp256k1.wasm >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
 
-RUN cp -r /bitcoin-ts/wasm/secp256k1/out /bitcoin-ts/bin
+RUN cp -r /libauth/wasm/secp256k1/out /libauth/bin
 
 # copy outputs to mounted volume
-CMD ["cp", "-r", "/bitcoin-ts/bin", "/bitcoin-ts/out"]
+CMD ["cp", "-r", "/libauth/bin", "/libauth/out"]

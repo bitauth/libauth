@@ -2,9 +2,9 @@
 name = "sha512"
 version = "0.1.0"
 authors = ["Jason Dreyzehner <jason@dreyzehner.com>"]
-description = "Sha512 for bitcoin-ts"
+description = "Sha512 for Libauth"
 license = "MIT"
-repository = "https://github.com/bitjson/bitcoin-ts/"
+repository = "https://github.com/bitauth/libauth/"
 publish = false
 
 [lib]

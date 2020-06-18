@@ -74,7 +74,7 @@ const sigSchnorr = new Uint8Array([0xb5, 0x10, 0x41, 0x58, 0x7d, 0xa9, 0x46, 0xe
 
 const sigRecovery = 1;
 
-// bitcoin-ts setup
+// libauth setup
 const secp256k1Promise = instantiateSecp256k1();
 const binary = getEmbeddedSecp256k1Binary();
 

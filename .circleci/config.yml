@@ -1,10 +1,10 @@
 # https://circleci.com/docs/2.0/language-javascript/
 version: 2
 jobs:
-  "node-14":
+  'node-14':
     docker:
       - image: circleci/node:14
-    working_directory: ~/bitcoin-ts
+    working_directory: ~/libauth
     steps:
       - checkout
       - restore_cache:
@@ -21,10 +21,10 @@ jobs:
       - run: yarn test
       - run: yarn run cov:send
       - run: yarn run cov:check
-  "node-12":
+  'node-12':
     docker:
       - image: circleci/node:12
-    working_directory: ~/bitcoin-ts
+    working_directory: ~/libauth
     steps:
       - checkout
       - restore_cache:
@@ -40,10 +40,10 @@ jobs:
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run: yarn test
       - run: yarn run cov:check
-  "node-10":
+  'node-10':
     docker:
       - image: circleci/node:10
-    working_directory: ~/bitcoin-ts
+    working_directory: ~/libauth
     steps:
       - checkout
       - restore_cache:
@@ -59,10 +59,10 @@ jobs:
           key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run: yarn test
       - run: yarn run cov:check
-  "benchmarks":
+  'benchmarks':
     docker:
       - image: circleci/node:12-browsers
-    working_directory: ~/bitcoin-ts
+    working_directory: ~/libauth
     steps:
       - checkout
       - restore_cache:
@@ -82,7 +82,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - "node-10"
-      - "node-12"
-      - "node-14"
-      - "benchmarks"
+      - 'node-10'
+      - 'node-12'
+      - 'node-14'
+      - 'benchmarks'

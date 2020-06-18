@@ -2,9 +2,9 @@
 name = "ripemd160"
 version = "0.1.0"
 authors = ["Jason Dreyzehner <jason@dreyzehner.com>"]
-description = "Ripemd160 for bitcoin-ts"
+description = "Ripemd160 for Libauth"
 license = "MIT"
-repository = "https://github.com/bitjson/bitcoin-ts/"
+repository = "https://github.com/bitauth/libauth/"
 publish = false
 
 [lib]

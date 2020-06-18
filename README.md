@@ -1,9 +1,9 @@
-[![NPM version](https://img.shields.io/npm/v/bitcoin-ts.svg)](https://www.npmjs.com/package/bitcoin-ts)
-[![Codecov](https://img.shields.io/codecov/c/github/bitauth/bitcoin-ts/master.svg)](https://codecov.io/gh/bitauth/bitcoin-ts)
-[![CircleCI](https://img.shields.io/circleci/project/github/bitauth/bitcoin-ts/master.svg)](https://circleci.com/gh/bitauth/bitcoin-ts)
-[![GitHub stars](https://img.shields.io/github/stars/bitauth/bitcoin-ts.svg?style=social&logo=github&label=Stars)](https://github.com/bitauth/bitcoin-ts)
+[![NPM version](https://img.shields.io/npm/v/libauth.svg)](https://www.npmjs.com/package/libauth)
+[![Codecov](https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg)](https://codecov.io/gh/bitauth/libauth)
+[![CircleCI](https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg)](https://circleci.com/gh/bitauth/libauth)
+[![GitHub stars](https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars)](https://github.com/bitauth/libauth)
 
-# bitcoin-ts
+# Libauth
 
 A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin library.
 
@@ -25,18 +25,18 @@ Please see the [Design Guidelines](.github/CONTRIBUTING.md) for more info.
 
 ## Usage
 
-To use, simply install `bitcoin-ts`:
+To use, simply install `libauth`:
 
 ```sh
-npm install bitcoin-ts
+npm install libauth
 # OR
-yarn add bitcoin-ts
+yarn add libauth
 ```
 
 And import the functionality you need:
 
 ```typescript
-import { instantiateSecp256k1 } from 'bitcoin-ts';
+import { instantiateSecp256k1 } from 'libauth';
 import { msgHash, pubkey, sig } from './somewhere';
 
 (async () => {
@@ -47,7 +47,7 @@ import { msgHash, pubkey, sig } from './somewhere';
 })();
 ```
 
-**Note**: `bitcoin-ts` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and es2017 features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments.
+**Note**: `libauth` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and es2017 features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments.
 
 To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
 
@@ -55,23 +55,23 @@ To include the necessary TypeScript library files in you application, add `"lib"
 
 The following APIs are considered stable, and will only include breaking changes in major version upgrades.
 
-[**API Documentation →**](https://bitauth.github.io/bitcoin-ts/)
+[**API Documentation →**](https://bitauth.github.io/libauth/)
 
 ### ECDSA
 
-- [instantiateSecp256k1](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesecp256k1)
-- [Secp256k1 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/secp256k1.html)
+- [instantiateSecp256k1](https://bitauth.github.io/libauth/globals.html#instantiatesecp256k1)
+- [Secp256k1 Interface](https://bitauth.github.io/libauth/interfaces/secp256k1.html)
 
 ### Hashing Functions
 
-- [instantiateRipemd160](https://bitauth.github.io/bitcoin-ts/globals.html#instantiateripemd160)
-- [Ripemd160 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/ripemd160.html)
-- [instantiateSha1](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha1)
-- [Sha1 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha1.html)
-- [instantiateSha256](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha256)
-- [Sha256 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha256.html)
-- [instantiateSha512](https://bitauth.github.io/bitcoin-ts/globals.html#instantiatesha512)
-- [Sha512 Interface](https://bitauth.github.io/bitcoin-ts/interfaces/sha512.html)
+- [instantiateRipemd160](https://bitauth.github.io/libauth/globals.html#instantiateripemd160)
+- [Ripemd160 Interface](https://bitauth.github.io/libauth/interfaces/ripemd160.html)
+- [instantiateSha1](https://bitauth.github.io/libauth/globals.html#instantiatesha1)
+- [Sha1 Interface](https://bitauth.github.io/libauth/interfaces/sha1.html)
+- [instantiateSha256](https://bitauth.github.io/libauth/globals.html#instantiatesha256)
+- [Sha256 Interface](https://bitauth.github.io/libauth/interfaces/sha256.html)
+- [instantiateSha512](https://bitauth.github.io/libauth/globals.html#instantiatesha512)
+- [Sha512 Interface](https://bitauth.github.io/libauth/interfaces/sha512.html)
 
 ### Unstable APIs
 
@@ -85,7 +85,7 @@ This library requires [Yarn](https://yarnpkg.com/) for development. If you don't
 
 ```sh
 # use --recursive to clone the secp256k1 submodule
-git clone --recursive https://github.com/bitjson/bitcoin-ts.git && cd bitcoin-ts
+git clone --recursive https://github.com/bitauth/libauth.git && cd libauth
 ```
 
 Install the development dependencies:

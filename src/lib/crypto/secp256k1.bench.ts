@@ -46,7 +46,7 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async (t) 
       result = false;
     };
     nextCycle();
-    s.bench('bitcoin-ts', () => {
+    s.bench('libauth', () => {
       result = secp256k1.verifySignatureDERLowS(
         sigDER,
         pubkeyUncompressed,
@@ -92,7 +92,7 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async (t) =>
       result = false;
     };
     nextCycle();
-    s.bench('bitcoin-ts', () => {
+    s.bench('libauth', () => {
       result = secp256k1.verifySignatureDERLowS(
         sigDER,
         pubkeyCompressed,
@@ -129,7 +129,7 @@ test('bench: secp256k1: derive compressed pubkey', async (t) => {
       pubkeyCompressedExpected = secp256k1.derivePublicKeyCompressed(privKey);
     };
     nextCycle();
-    s.bench('bitcoin-ts', () => {
+    s.bench('libauth', () => {
       pubkeyCompressedBenchmark = secp256k1.derivePublicKeyCompressed(privKey);
     });
     s.bench('elliptic', () => {
@@ -160,7 +160,7 @@ test('bench: secp256k1: create DER Low-S signature', async (t) => {
       sigDERExpected = secp256k1.signMessageHashDER(privKey, messageHash);
     };
     nextCycle();
-    s.bench('bitcoin-ts', () => {
+    s.bench('libauth', () => {
       sigDERBenchmark = secp256k1.signMessageHashDER(privKey, messageHash);
     });
     s.bench('elliptic', () => {

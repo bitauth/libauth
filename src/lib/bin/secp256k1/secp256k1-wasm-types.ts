@@ -430,7 +430,7 @@ export interface Secp256k1Wasm {
    * "flipping" the sign of the random point R which is not included in the
    * signature.
    *
-   * This method is added by bitcoin-ts to make testing of `signatureNormalize`
+   * This method is added by Libauth to make testing of `signatureNormalize`
    * easier.
    *
    * @param contextPtr - pointer to a context object

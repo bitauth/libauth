@@ -1,4 +1,4 @@
-# Contributing to bitcoin-ts
+# Contributing to Libauth
 
 Thanks for your interest! Contributions are very welcome.
 

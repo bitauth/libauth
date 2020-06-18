@@ -610,7 +610,7 @@ const wrapSecp256k1Wasm = (
  * the ability to randomize the context like the C library. Depending on the
  * intended application, consumers can decide whether or not to randomize.
  *
- * @param webassemblyBytes - an ArrayBuffer containing the bytes from bitcoin-ts'
+ * @param webassemblyBytes - an ArrayBuffer containing the bytes from Libauth's
  * `secp256k1.wasm` binary. Providing this buffer manually may be faster than
  * the internal base64 decode which happens in `instantiateSecp256k1`.
  * @param randomSeed - a 32-byte random seed used to randomize the secp256k1

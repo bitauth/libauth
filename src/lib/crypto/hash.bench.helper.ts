@@ -36,7 +36,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           nodeJsBuffer = Buffer.from(message);
         };
         nextCycle();
-        s.bench('bitcoin-ts', () => {
+        s.bench('libauth', () => {
           hash = hashFunction.hash(message);
         });
         s.bench('hash.js', () => {
@@ -96,7 +96,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           nodeJsChunks = messageChunks.map((chunk) => Buffer.from(chunk));
         };
         nextCycle();
-        s.bench('bitcoin-ts', () => {
+        s.bench('libauth', () => {
           hash = hashFunction.final(
             messageChunks.reduce(
               (state, chunk) => hashFunction.update(state, chunk),

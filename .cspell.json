@@ -57,6 +57,8 @@
     "IFDUP",
     "INVALIDOPCODE",
     "LESSTHAN",
+    "libauth",
+    "Libauth's",
     "libsecp",
     "lifecycle",
     "locktime",

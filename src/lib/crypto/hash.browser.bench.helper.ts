@@ -61,7 +61,7 @@ const singlePassBrowserBenchmark = async ({
         message = randomBytes(inputLength);
       });
 
-      s.bench('bitcoin-ts', () => {
+      s.bench('libauth', () => {
         hash = hashFunction.hash(message);
       });
 
@@ -147,7 +147,7 @@ const incrementalBrowserBenchmark = async ({
         nextCycle();
       });
 
-      s.bench('bitcoin-ts', () => {
+      s.bench('libauth', () => {
         hash = hashFunction.final(
           messageChunks.reduce(
             (state, chunk) => hashFunction.update(state, chunk),

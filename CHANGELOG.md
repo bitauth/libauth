@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://github.com/bitjson/bitcoin-ts/compare/v1.14.2...v1.15.0) (2020-06-18)
+
+
+### Features
+
+* **compiler:** add support for scenarios, binary literals, numeric separators, p2sh transformation, ([17bfd1e](https://github.com/bitjson/bitcoin-ts/commit/17bfd1e5f25c7bd1be0e9b55d6baa6704d915515))
+* add compileBtl, more locktime utils ([7657647](https://github.com/bitjson/bitcoin-ts/commit/765764781b2b45750cca2d8f98767d766f801d25))
+* add serialization contents to compiler output and vm state ([8592e9b](https://github.com/bitjson/bitcoin-ts/commit/8592e9b3862b93710f2ab15c1bba3f3afadd6935))
+* add transaction generation support, increase compiler coverage ([2225f4b](https://github.com/bitjson/bitcoin-ts/commit/2225f4b9cf4a100709603770307eff5eaecf9fb7))
+* improve authentication template validation, improve types ([9fbec21](https://github.com/bitjson/bitcoin-ts/commit/9fbec21204ca871b36a9043a9f90d0c2bce50169))
+* **compiler:** add built-in support for P2SH ([d7ba2ef](https://github.com/bitjson/bitcoin-ts/commit/d7ba2ef7137f1a43d9531c243d3bd3c7d36a252c))
+* **compiler:** add HdKey support to the compiler ([0412caf](https://github.com/bitjson/bitcoin-ts/commit/0412cafb417a5b169bddfbe0afca572c0763df08))
+* **transaction:** report missing variables during compilation ([9eee817](https://github.com/bitjson/bitcoin-ts/commit/9eee817409c02e346c961599b0466ac5955caac9))
+
+
+### Bug Fixes
+
+* **compiler:** better error messages for cyclical compilations ([4bbd1bd](https://github.com/bitjson/bitcoin-ts/commit/4bbd1bdc34d747ba7166cb25bda318bec231dec9))
+* **compiler:** require evaluations to return exactly one stack item ([86c4c19](https://github.com/bitjson/bitcoin-ts/commit/86c4c197234639cf6fadebb3788acf3eda425aa5))
+* **parseBytesAsScriptNumber:** accept options as an object ([8a73752](https://github.com/bitjson/bitcoin-ts/commit/8a73752c526da67e1de069e02aa613d98f93a59c))
+
 ### [1.14.2](https://github.com/bitjson/bitcoin-ts/compare/v1.14.1...v1.14.2) (2020-03-30)
 
 

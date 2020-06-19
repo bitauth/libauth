@@ -1,8 +1,9 @@
 {
+  "cSpell.userWords": [], // only use words from .cspell.json
+  // "debug.javascript.usePreview": true
   "deno.enable": false,
   "editor.formatOnSave": true,
   "editor.semanticHighlighting.enabled": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true
-  // "debug.javascript.usePreview": true
 }

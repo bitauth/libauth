@@ -1,4 +1,4 @@
-[![NPM version](https://img.shields.io/npm/v/libauth.svg)](https://www.npmjs.com/package/libauth)
+[![NPM version](https://img.shields.io/npm/v/@bitauth/libauth.svg)](https://www.npmjs.com/package/@bitauth/libauth)
 [![Codecov](https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg)](https://codecov.io/gh/bitauth/libauth)
 [![CircleCI](https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg)](https://circleci.com/gh/bitauth/libauth)
 [![GitHub stars](https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars)](https://github.com/bitauth/libauth)
@@ -20,18 +20,18 @@ Libauth is designed to be **flexible**, **lightweight**, and **easily auditable*
 
 ## Getting Started
 
-To get started, install `libauth`:
+To get started, install `@bitauth/libauth`:
 
 ```sh
-npm install libauth
+npm install @bitauth/libauth
 # OR
-yarn add libauth
+yarn add @bitauth/libauth
 ```
 
 And import the functionality you need:
 
 ```typescript
-import { instantiateSecp256k1 } from 'libauth';
+import { instantiateSecp256k1 } from '@bitauth/libauth';
 import { msgHash, pubkey, sig } from './somewhere';
 
 (async () => {
@@ -42,7 +42,7 @@ import { msgHash, pubkey, sig } from './somewhere';
 })();
 ```
 
-**Note**: `libauth` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and `es2017` features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments. To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
+**Note**: `@bitauth/libauth` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and `es2017` features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments. To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
 
 ## Stable API
 

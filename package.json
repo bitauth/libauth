@@ -1,7 +1,7 @@
 {
-  "name": "libauth",
+  "name": "@bitauth/libauth",
   "version": "1.15.0",
-  "description": "a typescript bitcoin library",
+  "description": "ultra-lightweight library for Bitcoin, Bitcoin Cash, and Bitauth",
   "main": "build/main/index.js",
   "typings": "build/module/index.d.ts",
   "module": "build/module/index.js",

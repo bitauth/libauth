@@ -20,7 +20,7 @@ export interface RecoverableSignature {
  * ## Example
  *
  * ```typescript
- * import { instantiateSecp256k1 } from 'libauth';
+ * import { instantiateSecp256k1 } from '@bitauth/libauth';
  * import { msgHash, pubkey, sig } from './somewhere';
  *
  * (async () => {

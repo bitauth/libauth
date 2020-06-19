@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.3](https://github.com/bitauth/libauth/compare/v1.15.2...v1.15.3) (2020-06-19)
+
 ### [1.15.2](https://github.com/bitauth/libauth/compare/v1.15.1...v1.15.2) (2020-06-19)
 
 ### [1.15.1](https://github.com/bitauth/libauth/compare/v1.15.0...v1.15.1) (2020-06-19)

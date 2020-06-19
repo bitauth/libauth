@@ -144,7 +144,8 @@
     "!**/*.json",
     "CHANGELOG.md",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "SECURITY.md"
   ],
   "ava": {
     "failFast": true,

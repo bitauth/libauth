@@ -6,6 +6,7 @@
   "typings": "build/module/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/bitauth/libauth",
+  "homepage": "https://libauth.org/",
   "license": "MIT",
   "keywords": [],
   "scripts": {

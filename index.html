@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>libauth</title>
-	<meta name="description" content="Documentation for libauth">
+	<title>@bitauth/libauth</title>
+	<meta name="description" content="Documentation for @bitauth/libauth">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">libauth</a>
+					<a href="index.html" class="title">@bitauth/libauth</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -54,7 +54,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1>libauth</h1>
+			<h1>@bitauth/libauth</h1>
 		</div>
 	</div>
 </header>
@@ -62,38 +62,34 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p><a href="https://www.npmjs.com/package/libauth"><img src="https://img.shields.io/npm/v/libauth.svg" alt="NPM version"></a>
+				<p><a href="https://www.npmjs.com/package/@bitauth/libauth"><img src="https://img.shields.io/npm/v/@bitauth/libauth.svg" alt="NPM version"></a>
 					<a href="https://codecov.io/gh/bitauth/libauth"><img src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg" alt="Codecov"></a>
 					<a href="https://circleci.com/gh/bitauth/libauth"><img src="https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg" alt="CircleCI"></a>
 				<a href="https://github.com/bitauth/libauth"><img src="https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars" alt="GitHub stars"></a></p>
 				<a href="#libauth" id="libauth" style="color: inherit; text-decoration: none;">
 					<h1>Libauth</h1>
 				</a>
-				<p>A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin library.</p>
-				<a href="#work-in-progress" id="work-in-progress" style="color: inherit; text-decoration: none;">
-					<h2>Work in Progress</h2>
+				<p><strong>An ultra-lightweight JavaScript library for Bitcoin, Bitcoin Cash, and Bitauth applications.</strong></p>
+				<p>Libauth has <strong>no dependencies</strong> and works in all JavaScript environments, including <a href="https://nodejs.org/">Node.js</a>, <a href="https://deno.land/">Deno</a>, and browsers.</p>
+				<a href="#purpose" id="purpose" style="color: inherit; text-decoration: none;">
+					<h2>Purpose</h2>
 				</a>
-				<p>While this library is under active development, current functionality is production-ready (WASM implementations of secp256k1, ripemd160, sha256, sha512, and sha1).</p>
-				<p>More functionality will be exposed and stabilized in future versions.</p>
-				<a href="#design-goals" id="design-goals" style="color: inherit; text-decoration: none;">
-					<h2>Design Goals</h2>
+				<p>Libauth is designed to be <strong>flexible</strong>, <strong>lightweight</strong>, and <strong>easily auditable</strong>. Rather than providing a single, overarching object-oriented API, all functionality is composed from simple functions. This has several benefits:</p>
+				<ul>
+					<li><strong>Flexibility</strong> – Even highly-complex functionality is built-up from simpler functions. These lower-level functions can be used to experiment, tweak, and remix your own higher-level methods without maintaining a fork of the library.</li>
+					<li><strong>Smaller application bundles</strong> – Applications can import only the methods they need, eliminating the unused code (via <a href="https://webpack.js.org/guides/tree-shaking/">dead-code elimination</a>).</li>
+					<li><strong>Better auditability</strong> – Beyond having no dependencies of its own, Libauth&#39;s <a href="https://en.wikipedia.org/wiki/Functional_programming">functional programming</a> approach makes auditing critical code easier: smaller bundles, smaller functions, and less churn between versions (fewer cascading changes to object-oriented interfaces).</li>
+					<li><strong>Fully-portable</strong> – No platform-specific APIs are ever used, so the same code paths are used across all JavaScript environments (reducing the auditable &quot;surface area&quot; and simplifying library development).</li>
+				</ul>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
 				</a>
-				<p>This library should provide the primitives needed to <a href="http://www.paulgraham.com/gh.html">hack</a> on Bitcoin and Bitcoin-related ideas.</p>
-				<ol>
-					<li><strong>flexible</strong> - Consumers should be able to import only the functionality they need</li>
-					<li><strong>simple</strong> - Functions should be simple and return one type</li>
-					<li><strong>portable</strong> – All code should work on every platform (no Node.js bindings or separate browser versions)</li>
-				</ol>
-				<p>Please see the <a href=".github/CONTRIBUTING.md">Design Guidelines</a> for more info.</p>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<p>To use, simply install <code>libauth</code>:</p>
-				<pre><code class="language-sh">npm install libauth
+				<p>To get started, install <code>@bitauth/libauth</code>:</p>
+				<pre><code class="language-sh">npm install @bitauth/libauth
 <span class="hljs-comment"># OR</span>
-yarn add libauth</code></pre>
+yarn add @bitauth/libauth</code></pre>
 				<p>And import the functionality you need:</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;libauth&#x27;</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { instantiateSecp256k1 } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@bitauth/libauth&#x27;</span>;
 <span class="hljs-keyword">import</span> { msgHash, pubkey, sig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./somewhere&#x27;</span>;
 
 (<span class="hljs-keyword">async</span> () =&gt; {
@@ -102,54 +98,54 @@ yarn add libauth</code></pre>
     ? <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;🚀 Signature valid&#x27;</span>)
     : <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;❌ Signature invalid&#x27;</span>);
 })();</code></pre>
-				<p><strong>Note</strong>: <code>libauth</code> uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt"><code>BigInt</code></a>, <a href="https://developer.mozilla.org/en-US/docs/WebAssembly"><code>WebAssembly</code></a>, and es2017 features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments.</p>
-				<p>To include the necessary TypeScript library files in you application, add <code>&quot;lib&quot;: [&quot;es2017&quot;, &quot;esnext.bigint&quot;, &quot;dom&quot;]</code> to your <code>tsconfig.json</code>.</p>
-				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
-					<h2>API</h2>
+				<p><strong>Note</strong>: <code>@bitauth/libauth</code> uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt"><code>BigInt</code></a>, <a href="https://developer.mozilla.org/en-US/docs/WebAssembly"><code>WebAssembly</code></a>, and <code>es2017</code> features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments. To include the necessary TypeScript library files in you application, add <code>&quot;lib&quot;: [&quot;es2017&quot;, &quot;esnext.bigint&quot;, &quot;dom&quot;]</code> to your <code>tsconfig.json</code>.</p>
+				<a href="#stable-api" id="stable-api" style="color: inherit; text-decoration: none;">
+					<h2>Stable API</h2>
 				</a>
 				<p>The following APIs are considered stable, and will only include breaking changes in major version upgrades.</p>
-				<p><a href="https://bitauth.github.io/libauth/"><strong>API Documentation →</strong></a></p>
-				<a href="#ecdsa" id="ecdsa" style="color: inherit; text-decoration: none;">
-					<h3>ECDSA</h3>
+				<a href="#webassembly-ecdsa-amp-schnorr" id="webassembly-ecdsa-amp-schnorr" style="color: inherit; text-decoration: none;">
+					<h3>WebAssembly ECDSA &amp; Schnorr</h3>
 				</a>
 				<ul>
-					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesecp256k1">instantiateSecp256k1</a></li>
-					<li><a href="https://bitauth.github.io/libauth/interfaces/secp256k1.html">Secp256k1 Interface</a></li>
+					<li><a href="https://libauth.org/globals.html#instantiatesecp256k1">instantiateSecp256k1</a></li>
+					<li><a href="https://libauth.org/interfaces/secp256k1.html">Secp256k1 Interface</a></li>
 				</ul>
-				<a href="#hashing-functions" id="hashing-functions" style="color: inherit; text-decoration: none;">
-					<h3>Hashing Functions</h3>
+				<a href="#webassembly-hashing-functions" id="webassembly-hashing-functions" style="color: inherit; text-decoration: none;">
+					<h3>WebAssembly Hashing Functions</h3>
 				</a>
 				<ul>
-					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiateripemd160">instantiateRipemd160</a></li>
-					<li><a href="https://bitauth.github.io/libauth/interfaces/ripemd160.html">Ripemd160 Interface</a></li>
-					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesha1">instantiateSha1</a></li>
-					<li><a href="https://bitauth.github.io/libauth/interfaces/sha1.html">Sha1 Interface</a></li>
-					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesha256">instantiateSha256</a></li>
-					<li><a href="https://bitauth.github.io/libauth/interfaces/sha256.html">Sha256 Interface</a></li>
-					<li><a href="https://bitauth.github.io/libauth/globals.html#instantiatesha512">instantiateSha512</a></li>
-					<li><a href="https://bitauth.github.io/libauth/interfaces/sha512.html">Sha512 Interface</a></li>
+					<li><a href="https://libauth.org/globals.html#instantiateripemd160">instantiateRipemd160</a></li>
+					<li><a href="https://libauth.org/interfaces/ripemd160.html">Ripemd160 Interface</a></li>
+					<li><a href="https://libauth.org/globals.html#instantiatesha1">instantiateSha1</a></li>
+					<li><a href="https://libauth.org/interfaces/sha1.html">Sha1 Interface</a></li>
+					<li><a href="https://libauth.org/globals.html#instantiatesha256">instantiateSha256</a></li>
+					<li><a href="https://libauth.org/interfaces/sha256.html">Sha256 Interface</a></li>
+					<li><a href="https://libauth.org/globals.html#instantiatesha512">instantiateSha512</a></li>
+					<li><a href="https://libauth.org/interfaces/sha512.html">Sha512 Interface</a></li>
 				</ul>
 				<a href="#unstable-apis" id="unstable-apis" style="color: inherit; text-decoration: none;">
 					<h3>Unstable APIs</h3>
 				</a>
-				<p>The master branch of this repo also contains new, potentially unstable APIs. As these APIs stabilize, they will be included in the above Stable APIs.</p>
-				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
-					<h2>Contributing</h2>
-				</a>
-				<p>Pull Requests welcome! Please see <a href=".github/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> for details.</p>
-				<p>This library requires <a href="https://yarnpkg.com/">Yarn</a> for development. If you don&#39;t have Yarn, make sure you have <code>Node.js</code> installed (which ships with <code>npm</code>), then run <code>npm install -g yarn</code>. Once Yarn is installed:</p>
-				<pre><code class="language-sh"><span class="hljs-comment"># use --recursive to clone the secp256k1 submodule</span>
+				<p>Libauth also exports new, potentially unstable APIs. As these APIs stabilize, they will be included in the above reference.</p>
+				<p><a href="https://libauth.org/"><strong>Full API Documentation →</strong></a></p>
+				<hr>
+				<details>
+					<summary><strong>Contributing</strong></summary>
+					<p>Pull Requests welcome! Please see <a href=".github/CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> for details.</p>
+					<p>This library requires <a href="https://yarnpkg.com/">Yarn</a> for development. If you don&#39;t have Yarn, make sure you have <code>Node.js</code> installed (which ships with <code>npm</code>), then run <code>npm install -g yarn</code>. Once Yarn is installed:</p>
+					<pre><code class="language-sh"><span class="hljs-comment"># use --recursive to clone the secp256k1 submodule</span>
 git <span class="hljs-built_in">clone</span> --recursive https://github.com/bitauth/libauth.git &amp;&amp; <span class="hljs-built_in">cd</span> libauth</code></pre>
-				<p>Install the development dependencies:</p>
-				<pre><code><span class="hljs-attribute">yarn</span></code></pre><p>Then try running the test suite:</p>
-				<pre><code>yarn <span class="hljs-built_in">test</span></code></pre><p>You can also run the benchmarks (this may take a while):</p>
-				<pre><code class="language-sh">yarn bench</code></pre>
-				<p>During development, you may find it helpful to use the testing <code>watch</code> tasks:</p>
-				<pre><code class="language-sh">yarn watch <span class="hljs-comment"># rebuild everything on save</span>
+					<p>Install the development dependencies:</p>
+					<pre><code><span class="hljs-attribute">yarn</span></code></pre><p>Then try running the test suite:</p>
+					<pre><code>yarn <span class="hljs-built_in">test</span></code></pre><p>You can also run the benchmarks (this will take a while):</p>
+					<pre><code class="language-sh">yarn bench</code></pre>
+					<p>During development, you may find it helpful to use the testing <code>watch</code> tasks:</p>
+					<pre><code class="language-sh">yarn watch <span class="hljs-comment"># rebuild everything on save</span>
 yarn watch:<span class="hljs-built_in">test</span> <span class="hljs-comment"># run only the fast tests</span>
 yarn watch:<span class="hljs-built_in">test</span>-slow <span class="hljs-comment"># test everything</span></code></pre>
-				<p>For more information about the available package scripts, run:</p>
-				<pre><code class="language-sh">yarn run info</code></pre>
+					<p>For more information about the available package scripts, run:</p>
+					<pre><code class="language-sh">yarn run info</code></pre>
+				</details>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

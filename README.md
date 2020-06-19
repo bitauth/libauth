@@ -5,27 +5,22 @@
 
 # Libauth
 
-A flexible, strongly-typed, FP-inspired, highly-portable, typescript bitcoin library.
+**An ultra-lightweight JavaScript library for Bitcoin, Bitcoin Cash, and Bitauth applications.**
 
-## Work in Progress
+Libauth has **no dependencies** and works in all JavaScript environments, including [Node.js](https://nodejs.org/), [Deno](https://deno.land/), and browsers.
 
-While this library is under active development, current functionality is production-ready (WASM implementations of secp256k1, ripemd160, sha256, sha512, and sha1).
+## Purpose
 
-More functionality will be exposed and stabilized in future versions.
+Libauth is designed to be **flexible**, **lightweight**, and **easily auditable**. Rather than providing a single, overarching object-oriented API, all functionality is composed from simple functions. This has several benefits:
 
-## Design Goals
+- **Flexibility** – Even highly-complex functionality is built-up from simpler functions. These lower-level functions can be used to experiment, tweak, and remix your own higher-level methods without maintaining a fork of the library.
+- **Smaller application bundles** – Applications can import only the methods they need, eliminating the unused code (via [dead-code elimination](https://webpack.js.org/guides/tree-shaking/)).
+- **Better auditability** – Beyond having no dependencies of its own, Libauth's [functional programming](https://en.wikipedia.org/wiki/Functional_programming) approach makes auditing critical code easier: smaller bundles, smaller functions, and less churn between versions (fewer cascading changes to object-oriented interfaces).
+- **Fully-portable** – No platform-specific APIs are ever used, so the same code paths are used across all JavaScript environments (reducing the auditable "surface area" and simplifying library development).
 
-This library should provide the primitives needed to [hack](http://www.paulgraham.com/gh.html) on Bitcoin and Bitcoin-related ideas.
+## Getting Started
 
-1.  **flexible** - Consumers should be able to import only the functionality they need
-2.  **simple** - Functions should be simple and return one type
-3.  **portable** – All code should work on every platform (no Node.js bindings or separate browser versions)
-
-Please see the [Design Guidelines](.github/CONTRIBUTING.md) for more info.
-
-## Usage
-
-To use, simply install `libauth`:
+To get started, install `libauth`:
 
 ```sh
 npm install libauth
@@ -47,37 +42,38 @@ import { msgHash, pubkey, sig } from './somewhere';
 })();
 ```
 
-**Note**: `libauth` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and es2017 features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments.
+**Note**: `libauth` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and `es2017` features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments. To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
 
-To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
-
-## API
+## Stable API
 
 The following APIs are considered stable, and will only include breaking changes in major version upgrades.
 
-[**API Documentation →**](https://bitauth.github.io/libauth/)
+### WebAssembly ECDSA & Schnorr
 
-### ECDSA
+- [instantiateSecp256k1](https://libauth.org/globals.html#instantiatesecp256k1)
+- [Secp256k1 Interface](https://libauth.org/interfaces/secp256k1.html)
 
-- [instantiateSecp256k1](https://bitauth.github.io/libauth/globals.html#instantiatesecp256k1)
-- [Secp256k1 Interface](https://bitauth.github.io/libauth/interfaces/secp256k1.html)
+### WebAssembly Hashing Functions
 
-### Hashing Functions
-
-- [instantiateRipemd160](https://bitauth.github.io/libauth/globals.html#instantiateripemd160)
-- [Ripemd160 Interface](https://bitauth.github.io/libauth/interfaces/ripemd160.html)
-- [instantiateSha1](https://bitauth.github.io/libauth/globals.html#instantiatesha1)
-- [Sha1 Interface](https://bitauth.github.io/libauth/interfaces/sha1.html)
-- [instantiateSha256](https://bitauth.github.io/libauth/globals.html#instantiatesha256)
-- [Sha256 Interface](https://bitauth.github.io/libauth/interfaces/sha256.html)
-- [instantiateSha512](https://bitauth.github.io/libauth/globals.html#instantiatesha512)
-- [Sha512 Interface](https://bitauth.github.io/libauth/interfaces/sha512.html)
+- [instantiateRipemd160](https://libauth.org/globals.html#instantiateripemd160)
+- [Ripemd160 Interface](https://libauth.org/interfaces/ripemd160.html)
+- [instantiateSha1](https://libauth.org/globals.html#instantiatesha1)
+- [Sha1 Interface](https://libauth.org/interfaces/sha1.html)
+- [instantiateSha256](https://libauth.org/globals.html#instantiatesha256)
+- [Sha256 Interface](https://libauth.org/interfaces/sha256.html)
+- [instantiateSha512](https://libauth.org/globals.html#instantiatesha512)
+- [Sha512 Interface](https://libauth.org/interfaces/sha512.html)
 
 ### Unstable APIs
 
-The master branch of this repo also contains new, potentially unstable APIs. As these APIs stabilize, they will be included in the above Stable APIs.
+Libauth also exports new, potentially unstable APIs. As these APIs stabilize, they will be included in the above reference.
 
-## Contributing
+[**Full API Documentation →**](https://libauth.org/)
+
+---
+
+<details>
+<summary><strong>Contributing</strong></summary>
 
 Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) for details.
 
@@ -100,7 +96,7 @@ Then try running the test suite:
 yarn test
 ```
 
-You can also run the benchmarks (this may take a while):
+You can also run the benchmarks (this will take a while):
 
 ```sh
 yarn bench
@@ -119,3 +115,5 @@ For more information about the available package scripts, run:
 ```sh
 yarn run info
 ```
+
+</details>

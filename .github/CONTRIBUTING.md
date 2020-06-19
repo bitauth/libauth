@@ -4,6 +4,14 @@ Thanks for your interest! Contributions are very welcome.
 
 Below you'll find the conventions we're trying to follow. Of course, please feel free to send PRs to improve these guidelines too.
 
+## Design Goals
+
+This library should provide the primitives needed to hack on Bitcoin and Bitcoin-related ideas.
+
+1.  **flexible** - Consumers should be able to import only the functionality they need
+2.  **simple** - Functions should be simple and return one type
+3.  **portable** – All code should work on every platform (no Node.js bindings or separate browser versions)
+
 ## Design Guidelines
 
 - **start small, compose** - Compose larger functions from their smallest possible components.
@@ -14,7 +22,7 @@ Below you'll find the conventions we're trying to follow. Of course, please feel
 - **don't overvalue historical names** - Many Bitcoin implementations make imprecise (and even misleading) naming choices for historical reasons. We make little effort to match the type/function names of other Bitcoin implementations; names should be chosen to improve clarity.
 - **don't add package dependencies** - This library should be as simple and stable as possible. Generally, if something is hard enough to warrant bringing in a dependency, it's something this library should provide. (Can you compile and expose a WASM version?)
 
-## Some practical details
+## Some Practical Details
 
 - **accept `readonly`, return mutable** - We should always return mutable types to allow consumers the option of mutating results without running afoul of type-checking. For the same reason, when we accept a value, we should always accept it as `readonly` for maximum flexibility.
 - **use `eslint-disable-next-line` or `eslint-disable-line`** - It's ok to disable eslint; in some cases, rules should be disabled every time they're hit (e.g. `no-bitwise`). By using single-line disables, we clearly mark intentional deviations from our conventions.

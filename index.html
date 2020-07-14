@@ -62,10 +62,44 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p><a href="https://www.npmjs.com/package/@bitauth/libauth"><img src="https://img.shields.io/npm/v/@bitauth/libauth.svg" alt="NPM version"></a>
-					<a href="https://codecov.io/gh/bitauth/libauth"><img src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg" alt="Codecov"></a>
-					<a href="https://circleci.com/gh/bitauth/libauth"><img src="https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg" alt="CircleCI"></a>
-				<a href="https://github.com/bitauth/libauth"><img src="https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars" alt="GitHub stars"></a></p>
+				<p align="center">
+					<a href="https://v5.getbootstrap.com/">
+						<img src="https://libauth.org/libauth.svg" alt="Libauth logo" width="200">
+					</a>
+				</p>
+				<p align="center">
+					An ultra-lightweight JavaScript library for Bitcoin, Bitcoin Cash, and Bitauth
+					applications.
+					<br />
+					<br />
+					<a href="https://libauth.org/"><strong>Explore API Reference »</strong></a>
+					<br />
+					<br />
+					<a href="https://www.npmjs.com/package/@bitauth/libauth">
+						<img
+						src="https://img.shields.io/npm/v/@bitauth/libauth.svg"
+						alt="NPM version"
+						/>
+					</a>
+					<a href="https://codecov.io/gh/bitauth/libauth">
+						<img
+						src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg"
+						alt="Codecov"
+						/>
+					</a>
+					<a href="https://circleci.com/gh/bitauth/libauth">
+						<img
+						src="https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg"
+						alt="CircleCI"
+						/>
+					</a>
+					<a href="https://github.com/bitauth/libauth">
+						<img
+						src="https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars"
+						alt="GitHub stars"
+						/>
+					</a>
+				</p>
 				<a href="#libauth" id="libauth" style="color: inherit; text-decoration: none;">
 					<h1>Libauth</h1>
 				</a>
@@ -74,7 +108,7 @@
 				<a href="#purpose" id="purpose" style="color: inherit; text-decoration: none;">
 					<h2>Purpose</h2>
 				</a>
-				<p>Libauth is designed to be <strong>flexible</strong>, <strong>lightweight</strong>, and <strong>easily auditable</strong>. Rather than providing a single, overarching object-oriented API, all functionality is composed from simple functions. This has several benefits:</p>
+				<p>Libauth is designed to be <strong>flexible</strong>, <strong>lightweight</strong>, and <strong>easily auditable</strong>. Rather than providing a single, overarching, object-oriented API, all functionality is composed from simple functions. This has several benefits:</p>
 				<ul>
 					<li><strong>Flexibility</strong> – Even highly-complex functionality is built-up from simpler functions. These lower-level functions can be used to experiment, tweak, and remix your own higher-level methods without maintaining a fork of the library.</li>
 					<li><strong>Smaller application bundles</strong> – Applications can import only the methods they need, eliminating the unused code (via <a href="https://webpack.js.org/guides/tree-shaking/">dead-code elimination</a>).</li>
@@ -98,7 +132,17 @@ yarn add @bitauth/libauth</code></pre>
     ? <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;🚀 Signature valid&#x27;</span>)
     : <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;❌ Signature invalid&#x27;</span>);
 })();</code></pre>
+				<a href="#typescript-types" id="typescript-types" style="color: inherit; text-decoration: none;">
+					<h3>Typescript Types</h3>
+				</a>
 				<p><strong>Note</strong>: <code>@bitauth/libauth</code> uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt"><code>BigInt</code></a>, <a href="https://developer.mozilla.org/en-US/docs/WebAssembly"><code>WebAssembly</code></a>, and <code>es2017</code> features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments. To include the necessary TypeScript library files in you application, add <code>&quot;lib&quot;: [&quot;es2017&quot;, &quot;esnext.bigint&quot;, &quot;dom&quot;]</code> to your <code>tsconfig.json</code>.</p>
+				<a href="#using-with-deno" id="using-with-deno" style="color: inherit; text-decoration: none;">
+					<h3>Using with Deno</h3>
+				</a>
+				<p>Deno is a great runtime for quickly working with Libauth. You can import from the latest module build:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { hexToBin } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;https://unpkg.com/@bitauth/libauth/build/module/index.js&#x27;</span>;
+
+<span class="hljs-built_in">console</span>.log(hexToBin(<span class="hljs-string">&#x27;beef&#x27;</span>));</code></pre>
 				<a href="#stable-api" id="stable-api" style="color: inherit; text-decoration: none;">
 					<h2>Stable API</h2>
 				</a>

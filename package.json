@@ -70,6 +70,7 @@
     "cov:send": "run-s cov:lcov && codecov",
     "cov:check": "nyc report && nyc check-coverage --lines 85 --functions 80 --branches 65",
     "doc": "run-s doc:html && open-cli build/docs/index.html",
+    "doc:logo": "cpy assets/libauth.svg build/docs",
     "doc:cname": "node -e \"console.log('libauth.org')\" > build/docs/CNAME",
     "doc:html": "typedoc src/index.ts --target ES6 --mode file --excludeNotExported --out build/docs",
     "doc:json": "typedoc src/index.ts --target ES6 --mode file --excludeNotExported --json build/docs/typedoc.json",
@@ -83,7 +84,7 @@
     "version": "standard-version",
     "reset": "git clean -dfx && git reset --hard && yarn",
     "clean": "trash build test",
-    "prepare-release": "run-s reset test cov:check doc:html doc:cname version doc:publish"
+    "prepare-release": "run-s reset test cov:check doc:html doc:logo doc:cname version doc:publish"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",

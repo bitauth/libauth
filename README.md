@@ -1,7 +1,42 @@
-[![NPM version](https://img.shields.io/npm/v/@bitauth/libauth.svg)](https://www.npmjs.com/package/@bitauth/libauth)
-[![Codecov](https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg)](https://codecov.io/gh/bitauth/libauth)
-[![CircleCI](https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg)](https://circleci.com/gh/bitauth/libauth)
-[![GitHub stars](https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars)](https://github.com/bitauth/libauth)
+<p align="center">
+  <a href="https://libauth.org/">
+    <img src="https://libauth.org/libauth.svg" alt="Libauth logo" width="200">
+  </a>
+</p>
+
+<p align="center">
+  An ultra-lightweight JavaScript library for Bitcoin, Bitcoin Cash, and Bitauth
+  applications.
+  <br />
+  <br />
+  <a href="https://libauth.org/"><strong>Explore API Reference »</strong></a>
+  <br />
+  <br />
+  <a href="https://www.npmjs.com/package/@bitauth/libauth">
+    <img
+      src="https://img.shields.io/npm/v/@bitauth/libauth.svg"
+      alt="NPM version"
+    />
+  </a>
+  <a href="https://codecov.io/gh/bitauth/libauth">
+    <img
+      src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg"
+      alt="Codecov"
+    />
+  </a>
+  <a href="https://circleci.com/gh/bitauth/libauth">
+    <img
+      src="https://img.shields.io/circleci/project/github/bitauth/libauth/master.svg"
+      alt="CircleCI"
+    />
+  </a>
+  <a href="https://github.com/bitauth/libauth">
+    <img
+      src="https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars"
+      alt="GitHub stars"
+    />
+  </a>
+</p>
 
 # Libauth
 
@@ -11,7 +46,7 @@ Libauth has **no dependencies** and works in all JavaScript environments, includ
 
 ## Purpose
 
-Libauth is designed to be **flexible**, **lightweight**, and **easily auditable**. Rather than providing a single, overarching object-oriented API, all functionality is composed from simple functions. This has several benefits:
+Libauth is designed to be **flexible**, **lightweight**, and **easily auditable**. Rather than providing a single, overarching, object-oriented API, all functionality is composed from simple functions. This has several benefits:
 
 - **Flexibility** – Even highly-complex functionality is built-up from simpler functions. These lower-level functions can be used to experiment, tweak, and remix your own higher-level methods without maintaining a fork of the library.
 - **Smaller application bundles** – Applications can import only the methods they need, eliminating the unused code (via [dead-code elimination](https://webpack.js.org/guides/tree-shaking/)).
@@ -42,7 +77,19 @@ import { msgHash, pubkey, sig } from './somewhere';
 })();
 ```
 
+### Typescript Types
+
 **Note**: `@bitauth/libauth` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and `es2017` features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments. To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
+
+### Using with Deno
+
+Deno is a great runtime for quickly working with Libauth. You can import from the latest module build:
+
+```ts
+import { hexToBin } from 'https://unpkg.com/@bitauth/libauth/build/module/index.js';
+
+console.log(hexToBin('beef'));
+```
 
 ## Stable API
 

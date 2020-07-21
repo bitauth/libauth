@@ -106,7 +106,7 @@
 					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <a href="authenticationtemplatescenariodata.html" class="tsd-signature-type">AuthenticationTemplateScenarioData</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L451">src/lib/template/template-types.ts:451</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L449">src/lib/template/template-types.ts:449</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -125,7 +125,7 @@
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L458">src/lib/template/template-types.ts:458</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L456">src/lib/template/template-types.ts:456</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -142,7 +142,7 @@
 					<div class="tsd-signature tsd-kind-icon">extends<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L496">src/lib/template/template-types.ts:496</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L494">src/lib/template/template-types.ts:494</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -195,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L501">src/lib/template/template-types.ts:501</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L499">src/lib/template/template-types.ts:499</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -211,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>inputs<span class="tsd-signature-symbol">?: </span><a href="authenticationtemplatescenarioinput.html" class="tsd-signature-type">AuthenticationTemplateScenarioInput</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>locktime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>outputs<span class="tsd-signature-symbol">?: </span><a href="authenticationtemplatescenariooutput.html" class="tsd-signature-type">AuthenticationTemplateScenarioOutput</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>version<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L541">src/lib/template/template-types.ts:541</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L539">src/lib/template/template-types.ts:539</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -221,7 +221,7 @@
 						</div>
 						<p>If undefined, inherits the default value for each property:</p>
 						<pre><code class="language-json">{
-  <span class="hljs-attr">&quot;inputs&quot;</span>: [{ <span class="hljs-attr">&quot;unlockingBytecode&quot;</span>: <span class="hljs-literal">true</span> }],
+  <span class="hljs-attr">&quot;inputs&quot;</span>: [{ <span class="hljs-attr">&quot;unlockingBytecode&quot;</span>: <span class="hljs-literal">null</span> }],
   <span class="hljs-attr">&quot;locktime&quot;</span>: <span class="hljs-number">0</span>,
   <span class="hljs-attr">&quot;outputs&quot;</span>: [{ <span class="hljs-attr">&quot;lockingBytecode&quot;</span>: <span class="hljs-string">&quot;&quot;</span> }],
   <span class="hljs-attr">&quot;version&quot;</span>: <span class="hljs-number">2</span>
@@ -240,7 +240,7 @@
 						<p>And an output of <code>{}</code> is interpreted as:</p>
 						<pre><code class="language-json">{
   <span class="hljs-attr">&quot;lockingBytecode&quot;</span>: {
-    <span class="hljs-attr">&quot;script&quot;</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">&quot;script&quot;</span>: <span class="hljs-literal">null</span>,
     <span class="hljs-attr">&quot;overrides&quot;</span>: { <span class="hljs-attr">&quot;hdKeys&quot;</span>: { <span class="hljs-attr">&quot;addressIndex&quot;</span>: <span class="hljs-number">1</span> } }
   },
   <span class="hljs-attr">&quot;satoshis&quot;</span>: <span class="hljs-number">0</span>
@@ -253,7 +253,7 @@
 					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L623">src/lib/template/template-types.ts:623</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L620">src/lib/template/template-types.ts:620</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

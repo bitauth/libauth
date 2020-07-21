@@ -81,6 +81,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#check" class="tsd-kind-icon">check</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#fails" class="tsd-kind-icon">fails</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#invalid" class="tsd-kind-icon">invalid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#passes" class="tsd-kind-icon">passes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttest.html#setup" class="tsd-kind-icon">setup</a></li>
@@ -97,7 +98,7 @@
 					<div class="tsd-signature tsd-kind-icon">check<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L781">src/lib/template/template-types.ts:781</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L797">src/lib/template/template-types.ts:797</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -121,7 +122,7 @@
 					<div class="tsd-signature tsd-kind-icon">fails<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L796">src/lib/template/template-types.ts:796</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L812">src/lib/template/template-types.ts:812</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -136,12 +137,32 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="invalid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> invalid</h3>
+					<div class="tsd-signature tsd-kind-icon">invalid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L822">src/lib/template/template-types.ts:822</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A list of the scenario identifiers which – when used to compile this
+								test and the script it tests – result in a compilation error. The <code>setup</code>
+								script is used in place of an unlocking script, and the concatenation of
+								the script under test and the <code>check</code> script are used in place of a locking
+							script.</p>
+						</div>
+						<p>These scenarios can be used to test this script in development and review.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a name="name" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L786">src/lib/template/template-types.ts:786</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L802">src/lib/template/template-types.ts:802</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -157,7 +178,7 @@
 					<div class="tsd-signature tsd-kind-icon">passes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L806">src/lib/template/template-types.ts:806</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L832">src/lib/template/template-types.ts:832</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -177,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">setup<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L813">src/lib/template/template-types.ts:813</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L839">src/lib/template/template-types.ts:839</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -210,6 +231,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplatescripttest.html#fails" class="tsd-kind-icon">fails</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescripttest.html#invalid" class="tsd-kind-icon">invalid</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 								<a href="authenticationtemplatescripttest.html#name" class="tsd-kind-icon">name</a>

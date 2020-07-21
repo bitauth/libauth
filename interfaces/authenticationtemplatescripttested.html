@@ -85,6 +85,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="authenticationtemplatescripttested.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttested.html#pushed" class="tsd-kind-icon">pushed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="authenticationtemplatescripttested.html#script" class="tsd-kind-icon">script</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="authenticationtemplatescripttested.html#tests" class="tsd-kind-icon">tests</a></li>
 							</ul>
@@ -101,7 +102,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="authenticationtemplatescript.html">AuthenticationTemplateScript</a>.<a href="authenticationtemplatescript.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L635">src/lib/template/template-types.ts:635</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L632">src/lib/template/template-types.ts:632</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -111,6 +112,27 @@
 						</div>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="pushed" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> pushed</h3>
+					<div class="tsd-signature tsd-kind-icon">pushed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L775">src/lib/template/template-types.ts:775</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If set to <code>true</code>, indicates that this script should be wrapped in a push
+							statement for testing.</p>
+						</div>
+						<p>This is useful for scripts which serve as &quot;bytecode templates&quot; – e.g.
+							formatted messages or signature preimages. These scripts are typically not
+							evaluated as bytecode but appear within push statements elsewhere in the
+						template.</p>
+						<p>Defaults to <code>false</code>.</p>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 					<a name="script" class="tsd-anchor"></a>
 					<h3>script</h3>
@@ -118,7 +140,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="authenticationtemplatescript.html">AuthenticationTemplateScript</a>.<a href="authenticationtemplatescript.html#script">script</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L639">src/lib/template/template-types.ts:639</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L636">src/lib/template/template-types.ts:636</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -133,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">tests<span class="tsd-signature-symbol">:</span> <a href="authenticationtemplatescripttest.html" class="tsd-signature-type">AuthenticationTemplateScriptTest</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/8aaf9420/src/lib/template/template-types.ts#L764">src/lib/template/template-types.ts:764</a></li>
+							<li>Defined in <a href="https://github.com/bitauth/libauth/blob/a38544a7/src/lib/template/template-types.ts#L780">src/lib/template/template-types.ts:780</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -162,6 +184,9 @@
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="authenticationtemplatescripttested.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="authenticationtemplatescripttested.html#pushed" class="tsd-kind-icon">pushed</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
 								<a href="authenticationtemplatescripttested.html#script" class="tsd-kind-icon">script</a>

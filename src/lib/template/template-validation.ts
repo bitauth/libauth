@@ -136,6 +136,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
         ageLock,
         estimate,
         fails,
+        invalid,
         name,
         passes,
         script: scriptContents,
@@ -145,6 +146,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
         ageLock: unknown;
         estimate: unknown;
         fails: unknown;
+        invalid: unknown;
         name: unknown;
         passes: unknown;
         script: unknown;
@@ -174,6 +176,10 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
         return `If defined, the "fails" property of unlocking script "${id}" must be an array containing only scenario identifiers (strings).`;
       }
 
+      if (invalid !== undefined && !isStringArray(invalid)) {
+        return `If defined, the "invalid" property of unlocking script "${id}" must be an array containing only scenario identifiers (strings).`;
+      }
+
       if (passes !== undefined && !isStringArray(passes)) {
         return `If defined, the "passes" property of unlocking script "${id}" must be an array containing only scenario identifiers (strings).`;
       }
@@ -191,6 +197,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
           ...(ageLock === undefined ? {} : { ageLock }),
           ...(estimate === undefined ? {} : { estimate }),
           ...(fails === undefined ? {} : { fails }),
+          ...(invalid === undefined ? {} : { invalid }),
           ...(passes === undefined ? {} : { passes }),
           ...(name === undefined ? {} : { name }),
           script: scriptContents,
@@ -287,10 +294,11 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
     .filter(({ script }) => 'tests' in script)
     // eslint-disable-next-line complexity
     .map(({ id, script }) => {
-      const { tests, script: scriptContents, name } = script as {
+      const { tests, script: scriptContents, name, pushed } = script as {
         name: unknown;
         script: unknown;
         tests: unknown;
+        pushed: unknown;
       };
 
       if (typeof scriptContents !== 'string') {
@@ -301,6 +309,10 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
         return `If defined, the "name" property of tested script "${id}" must be a string.`;
       }
 
+      if (pushed !== undefined && pushed !== true && pushed !== false) {
+        return `If defined, the "pushed" property of tested script "${id}" must be a boolean value.`;
+      }
+
       if (!Array.isArray(tests)) {
         return `If defined, the "tests" property of tested script "${id}" must be an array.`;
       }
@@ -308,9 +320,17 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
       const extractedTests =
         // eslint-disable-next-line complexity
         tests.map<string | AuthenticationTemplateScriptTest>((test) => {
-          const { check, fails, name: testName, passes, setup } = test as {
+          const {
+            check,
+            fails,
+            invalid,
+            name: testName,
+            passes,
+            setup,
+          } = test as {
             check: unknown;
             fails: unknown;
+            invalid: unknown;
             name: unknown;
             passes: unknown;
             setup: unknown;
@@ -331,6 +351,10 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
             return `If defined, the "fails" property of each test in tested script "${id}" must be an array containing only scenario identifiers (strings).`;
           }
 
+          if (invalid !== undefined && !isStringArray(invalid)) {
+            return `If defined, the "invalid" property of each test in tested script "${id}" must be an array containing only scenario identifiers (strings).`;
+          }
+
           if (passes !== undefined && !isStringArray(passes)) {
             return `If defined, the "passes" property of each test in tested script "${id}" must be an array containing only scenario identifiers (strings).`;
           }
@@ -338,6 +362,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
           return {
             check,
             ...(fails === undefined ? {} : { fails }),
+            ...(invalid === undefined ? {} : { invalid }),
             ...(passes === undefined ? {} : { passes }),
             ...(testName === undefined ? {} : { name: testName }),
             ...(setup === undefined ? {} : { setup }),
@@ -358,6 +383,7 @@ export const parseAuthenticationTemplateScripts = (scripts: object) => {
         id,
         script: {
           ...(name === undefined ? {} : { name }),
+          ...(pushed === undefined ? {} : { pushed }),
           script: scriptContents,
           tests: validTests,
         },
@@ -941,11 +967,10 @@ export const parseAuthenticationTemplateScenarioTransactionInputs = (
 
       if (
         unlockingBytecode !== undefined &&
-        unlockingBytecode !== true &&
-        unlockingBytecode !== false &&
+        unlockingBytecode !== null &&
         !isHexString(unlockingBytecode)
       ) {
-        return `If defined, the "unlockingBytecode" property of ${newLocation} must be either a boolean value or a hexadecimal-encoded string.`;
+        return `If defined, the "unlockingBytecode" property of ${newLocation} must be either a null value or a hexadecimal-encoded string.`;
       }
 
       return {
@@ -987,8 +1012,8 @@ export const parseAuthenticationTemplateScenarioTransactionOutputLockingBytecode
     script: unknown;
   };
 
-  if (script !== undefined && script !== true && !isHexString(script)) {
-    return `If defined, the "script" property of ${location} must be a hexadecimal-encoded string or "true".`;
+  if (script !== undefined && script !== null && !isHexString(script)) {
+    return `If defined, the "script" property of ${location} must be a hexadecimal-encoded string or "null".`;
   }
 
   const clonedOverrides =
@@ -1249,10 +1274,10 @@ export const parseAuthenticationTemplateScenarios = (scenarios: object) => {
       const inputsUnderTest = transactionResult?.inputs?.filter(
         (input) =>
           input.unlockingBytecode === undefined ||
-          input.unlockingBytecode === true
+          input.unlockingBytecode === null
       );
       if (inputsUnderTest !== undefined && inputsUnderTest.length !== 1) {
-        return `If defined, the "transaction.inputs" array of ${location} must have exactly one input under test (an "unlockingBytecode" set to "undefined" or "true").`;
+        return `If defined, the "transaction.inputs" array of ${location} must have exactly one input under test (an "unlockingBytecode" set to "null").`;
       }
 
       return {
@@ -1520,6 +1545,7 @@ export const validateAuthenticationTemplate = (
         ...all,
         ...(script.estimate === undefined ? [] : [script.estimate]),
         ...(script.fails === undefined ? [] : script.fails),
+        ...(script.invalid === undefined ? [] : script.invalid),
         ...(script.passes === undefined ? [] : script.passes),
       ],
       []
@@ -1531,6 +1557,7 @@ export const validateAuthenticationTemplate = (
           (fromScript, test) => [
             ...fromScript,
             ...(test.fails === undefined ? [] : test.fails),
+            ...(test.invalid === undefined ? [] : test.invalid),
             ...(test.passes === undefined ? [] : test.passes),
           ],
           []

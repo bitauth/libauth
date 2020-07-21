@@ -164,8 +164,8 @@ export const generateSigningSerializationBCH = ({
    */
   version: number;
   /**
-   * The serialization of output amounts and locking bytecode values (A.K.A.
-   * `hashOutputs` with `SIGHASH_ALL`) – only used if `ALL` is set.
+   * The serialization of all input outpoints (A.K.A. `hashPrevouts`) – used if
+   * `ANYONECANPAY` is not set.
    */
   transactionOutpoints: Uint8Array;
   /**
@@ -201,8 +201,8 @@ export const generateSigningSerializationBCH = ({
    */
   correspondingOutput: Uint8Array | undefined;
   /**
-   * The serialization of all input outpoints (A.K.A. `hashPrevouts`) – used if
-   * `ANYONECANPAY` is not set.
+   * The serialization of output amounts and locking bytecode values (A.K.A.
+   * `hashOutputs` with `SIGHASH_ALL`) – only used if `ALL` is set.
    */
   transactionOutputs: Uint8Array;
   /**

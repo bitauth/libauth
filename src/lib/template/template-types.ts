@@ -353,26 +353,24 @@ export interface AuthenticationTemplateScenarioInput {
    */
   sequenceNumber?: number;
   /**
-   * The `unlockingBytecode` value of this input for this scenario. May be
-   * either a boolean value indicating that this input contains the
-   * `unlockingBytecode` under test by the scenario, or a hexadecimal-encoded
+   * The `unlockingBytecode` value of this input for this scenario. This must be
+   * either a `null` value – indicating that this input contains the
+   * `unlockingBytecode` under test by the scenario – or a hexadecimal-encoded
    * bytecode value.
    *
-   * This defaults to `false`. For a scenario to be valid, this property must be
-   * `true` for exactly one input in the scenario. If this property is
-   * `undefined` or `false`, the resulting `unlockingBytecode` is a bytecode
-   * of length `0` (`0x`).
+   * Defaults to an empty string (`''`). For a scenario to be valid,
+   * `unlockingBytecode` must be `null` for exactly one input in the scenario.
    *
    * @remarks
    * While the `outpointIndex`, `outpointTransactionHash`, and `sequenceNumber`
    * of every input is part of a transaction's signing serialization, as of
    * 2020, no virtual machine currently requires access to the
    * `unlockingBytecode` of sibling inputs during the evaluation of an input's
-   * `unlockingBytecode`. However, for completeness (and to allow for testing o
+   * `unlockingBytecode`. However, for completeness (and to allow for testing of
    * virtual machines with this requirement), scenarios may also specify an
    * `unlockingBytecode` value for each input not under test.
    */
-  unlockingBytecode?: boolean | string;
+  unlockingBytecode?: null | string;
 }
 
 /**
@@ -395,13 +393,13 @@ export interface AuthenticationTemplateScenarioOutput {
     | {
         /**
          * The identifier of the script to compile when generating this
-         * `lockingBytecode`. May also be set to `true`, which represents the
+         * `lockingBytecode`. May also be set to `null`, which represents the
          * identifier of the locking script unlocked by the unlocking script
          * under test.
          *
-         * If undefined, defaults to `true`.
+         * If undefined, defaults to `null`.
          */
-        script?: string | true;
+        script?: string | null;
         /**
          * Scenario data which extends this scenario's top-level data during
          * script compilation.
@@ -506,7 +504,7 @@ export interface AuthenticationTemplateScenario {
    * If undefined, inherits the default value for each property:
    * ```json
    * {
-   *   "inputs": [{ "unlockingBytecode": true }],
+   *   "inputs": [{ "unlockingBytecode": null }],
    *   "locktime": 0,
    *   "outputs": [{ "lockingBytecode": "" }],
    *   "version": 2
@@ -531,7 +529,7 @@ export interface AuthenticationTemplateScenario {
    * ```json
    * {
    *   "lockingBytecode": {
-   *     "script": true,
+   *     "script": null,
    *     "overrides": { "hdKeys": { "addressIndex": 1 } }
    *   },
    *   "satoshis": 0
@@ -544,12 +542,11 @@ export interface AuthenticationTemplateScenario {
      * this scenario.
      *
      * To be valid the `inputs` property must have exactly one input with
-     * `unlockingBytecode` set to `true`. This is the input in which the
-     * unlocking script under test will be placed. No other inputs may define
-     * `unlockingBytecode`.
+     * `unlockingBytecode` set to `null`. This is the input in which the
+     * unlocking script under test will be placed.
      *
      * If undefined, inherits the default scenario `inputs` value:
-     * `[{ "unlockingBytecode": true }]`.
+     * `[{ "unlockingBytecode": null }]`.
      */
     inputs?: AuthenticationTemplateScenarioInput[];
     /**
@@ -695,6 +692,13 @@ export interface AuthenticationTemplateScriptUnlocking
   fails?: string[];
   /**
    * A list of the scenario identifiers which – when used to compile this
+   * unlocking script and the script it unlocks – result in a compilation error.
+   *
+   * These scenarios can be used to test this script in development and review.
+   */
+  invalid?: string[];
+  /**
+   * A list of the scenario identifiers which – when used to compile this
    * unlocking script and the script it unlocks – result in bytecode which
    * passes program verification.
    *
@@ -758,6 +762,18 @@ export interface AuthenticationTemplateScriptLocking
 export interface AuthenticationTemplateScriptTested
   extends AuthenticationTemplateScript {
   /**
+   * If set to `true`, indicates that this script should be wrapped in a push
+   * statement for testing.
+   *
+   * This is useful for scripts which serve as "bytecode templates" – e.g.
+   * formatted messages or signature preimages. These scripts are typically not
+   * evaluated as bytecode but appear within push statements elsewhere in the
+   * template.
+   *
+   * Defaults to `false`.
+   */
+  pushed?: boolean;
+  /**
    * One or more tests which can be used during development and during template
    * validation to confirm the correctness of this inline script.
    */
@@ -794,6 +810,16 @@ export interface AuthenticationTemplateScriptTest {
    * These scenarios can be used to test this script in development and review.
    */
   fails?: string[];
+  /**
+   * A list of the scenario identifiers which – when used to compile this
+   * test and the script it tests – result in a compilation error. The `setup`
+   * script is used in place of an unlocking script, and the concatenation of
+   * the script under test and the `check` script are used in place of a locking
+   * script.
+   *
+   * These scenarios can be used to test this script in development and review.
+   */
+  invalid?: string[];
   /**
    * A list of the scenario identifiers which – when used to compile this
    * test and the script it tests – result in bytecode which passes program

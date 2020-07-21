@@ -33,10 +33,7 @@ export enum CompilerDefaults {
    */
   defaultScenarioInputSequenceNumber = 0,
   /**
-   * The default `unlockingBytecode` of inputs in scenarios. This is also the
-   * value used in the `Scenario.program.spendingTransaction` for the
-   * `unlockingBytecode` of the input under test (also identified by
-   * `Scenario.program.inputIndex`).
+   * The default `unlockingBytecode` of untested inputs in scenarios.
    */
   defaultScenarioInputUnlockingBytecodeHex = '',
   /**

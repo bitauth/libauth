@@ -3,7 +3,6 @@
 import { AuthenticationTemplate } from '../../template/template-types';
 
 export const cashChannels: AuthenticationTemplate = {
-  ...{ name: 'CashChannels' },
   $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
   description:
     '**Noncustodial, Privacy-Preserving, Flexibly-Denominated, Recurring Payments for Bitcoin Cash**\n\nA single-key channel which allows the owner to preauthorize any number of future payments to a receiver.\n\nEach authorization specifies a payment value, payment time, channel and payment identification information, and maximum satoshi value. When the payment time for an authorization is reached, the receiver can create a single transaction to withdraw the authorized amount to their own wallet, sending the change back to the channel. Beyond initially signing authorizations, the owner does not need to participate in executing authorized payments.\n\nThe channel does not need to hold a balance to preauthorize transactions – much like a debit account, the owner only needs to ensure that the wallet contains adequate funds to satisfy upcoming payments.\n\nChannel payments can be denominated in any asset. If the channel is denominated in an asset other than BCH, the precise payment amount is determined by a Rate Oracle, an entity partially-trusted with determining the current value of the denominating asset. (If the value of the denominating asset rises dramatically in terms of BCH, the Owner must sign a new authorization with a larger maximum authorized satoshi value.)\n \nThis wallet is entirely noncustodial: at any time, the owner can withdraw their funds to end the arrangement.\n\nIn normal use, the owner should create a unique channel for each Receiver. This provides better privacy (receivers can not determine the payment amounts or frequency of payments to other receivers) and better security (misbehaving receivers can not disrupt upcoming payments to other receivers).\n\nImplementation note: a single authorization can be used to withdraw from any channel UTXO. In most cases, authorizations are meant to be used only once, so wallets should never hold more than one unspent UTXO per channel. To “top up” the wallet, the existing UTXO should be spent back to itself, adding funds as necessary.',
@@ -81,6 +80,7 @@ export const cashChannels: AuthenticationTemplate = {
       },
     },
   },
+  name: 'CashChannels',
   scenarios: {
     after_payment_time: {
       description: 'An example of successful payment authorization execution.',
@@ -100,21 +100,48 @@ export const cashChannels: AuthenticationTemplate = {
           payment_satoshis: '10000',
           payment_time: '1580515200',
         },
+        hdKeys: {
+          addressIndex: 0,
+        },
       },
       description:
         'An example attempting to execute a payment authorization before the payment time authorized by the owner. The authorization is for "1000" in asset "USD" (described in cents, so $10.00 USD), and it authorizes a payment of a maximum of 10500 satoshis. The hypothetical UTXO being spent has a value of 20000 satoshis.',
       name: '$10.00 USD – Before Payment Time',
       transaction: {
         locktime: 1577836800,
-        outputs: [{}],
+        outputs: [
+          {
+            lockingBytecode: {
+              overrides: {
+                bytecode: {
+                  payment_number: '3',
+                },
+                hdKeys: {
+                  addressIndex: 0,
+                },
+              },
+            },
+            satoshis: 10000,
+          },
+        ],
       },
       value: 20000,
+    },
+    exceeds_maximum_payment_number: {
+      data: {
+        bytecode: {
+          payment_number: '65536',
+        },
+      },
+      description:
+        'An example scenario where the payment number exceeds the maximum uint16 value.',
+      name: 'Payment Number Exceeds Maximum',
     },
     test_bytecode_values: {
       description:
         "A scenario for testing all bytecode values. Because this scenario doesn't require compiling the script under test for its outputs, errors are a little easier to debug.",
       extends: 'after_payment_time',
-      name: '$10.00 USD – After Payment Time',
+      name: 'Test Bytecode Values',
       transaction: {
         outputs: [
           {
@@ -129,45 +156,68 @@ export const cashChannels: AuthenticationTemplate = {
       lockingType: 'p2sh',
       name: 'Channel',
       script:
-        '<owner.public_key>\nOP_SWAP\nOP_IF \n    // Execute Authorization\n    OP_DUP OP_TOALTSTACK // save owner.public_key\n    // reconstruct payment authorization message\n    <6> OP_PICK // channel_identifier\n    <15> OP_PICK // payment_number_padded\n    <7> OP_PICK // maximum_authorized_satoshis\n    OP_DUP\n    <12> OP_PICK // payment_satoshis\n    OP_GREATERTHANOREQUAL OP_VERIFY // maximum_authorized_satoshis >= payment_satoshis\n    <8> OP_NUM2BIN\n    <7> OP_PICK <8> OP_NUM2BIN // authorized_amount\n    <7> OP_PICK <8> OP_NUM2BIN // denominating_asset\n    <7> OP_PICK <8> OP_NUM2BIN // payment_time\n    OP_CAT OP_CAT\n    OP_DUP OP_TOALTSTACK // save (authorized_amount + denominating_asset + payment_time)\n    OP_CAT OP_CAT OP_CAT\n    OP_SWAP \n\n   OP_CHECKDATASIGVERIFY // check payment authorization signature\n\n    OP_CHECKLOCKTIMEVERIFY // fail if not past payment_time\n    OP_2DROP OP_2DROP\n\n    <8> OP_PICK // payment_number_padded\n    <payment_number_padded>\n    OP_EQUALVERIFY // check against payment_number in authorization\n\n    // reconstruct rate_claim\n    OP_FROMALTSTACK\n    <3> OP_PICK // payment_satoshis\n    <8> OP_NUM2BIN\n    OP_CAT\n\n\n    OP_SWAP\n    OP_FROMALTSTACK // load owner.public_key\n    <receiver.public_key>\n    OP_DUP\n    OP_TOALTSTACK // save receiver.public_key\n    OP_CAT\n    OP_HASH160\n\n    OP_EQUALVERIFY // verify channel_identifier\n\n    <rate_oracle.public_key>\n    OP_CHECKDATASIGVERIFY // verify rate_claim\n\n    <7> OP_PICK // covered_bytecode_before_payment_number\n    <7> OP_PICK // payment_number_padded\n    OP_BIN2NUM\n    <1> OP_ADD <2> OP_NUM2BIN // next payment_number\n    <7> OP_PICK // covered_bytecode_after_payment_number\n    OP_CAT OP_CAT \n    OP_HASH160 // P2SH redeem bytecode hash\n    // prefix locking bytecode with its length (required in serialization)\n    <23>\n    <OP_HASH160 OP_PUSHBYTES_20> OP_ROT\n    <OP_EQUAL>\n    OP_CAT OP_CAT OP_CAT // length + locking bytecode\n\n    // calculate expected output value\n    <5> OP_PICK // outpoint_value\n    OP_BIN2NUM\n    OP_ROT\n    OP_SUB <8> OP_NUM2BIN // remaining balance\n    OP_SWAP OP_CAT // expected output serialization\n    OP_SWAP OP_CAT\n    OP_HASH256 // expected transaction_outputs_hash\n    OP_SWAP\n    OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT\n\n    OP_SHA256\n\n    OP_FROMALTSTACK\n    OP_DUP\n    <3> OP_PICK // receiver.schnorr_signature.all_outputs\n    OP_ROT\n    OP_CHECKSIGVERIFY // signature covers transaction\n    OP_ROT \n    <64> OP_SPLIT OP_DROP // remove signature serialization type bit\n    OP_ROT OP_ROT\n    OP_CHECKDATASIG // signature covers expected transaction\nOP_ELSE\n    // Owner Spend\n    OP_CHECKSIG\nOP_ENDIF \n\n\n',
+        '<owner.public_key>\nOP_SWAP\nOP_IF\n    /**\n     * Execute Authorization\n     */\n    OP_DUP OP_TOALTSTACK // save owner.public_key\n\n    /**\n     * Reconstruct payment authorization message\n     */\n    <6> OP_PICK // channel_identifier\n    <15> OP_PICK // payment_number_padded\n    <7> OP_PICK // maximum_authorized_satoshis\n    OP_DUP\n    <12> OP_PICK // payment_satoshis\n    OP_GREATERTHANOREQUAL OP_VERIFY // maximum_authorized_satoshis >= payment_satoshis\n    <8> OP_NUM2BIN\n    <7> OP_PICK <8> OP_NUM2BIN // authorized_amount\n    <7> OP_PICK <8> OP_NUM2BIN // denominating_asset\n    <7> OP_PICK <8> OP_NUM2BIN // payment_time\n    OP_CAT OP_CAT\n    OP_DUP OP_TOALTSTACK // save (authorized_amount + denominating_asset + payment_time)\n    OP_CAT OP_CAT OP_CAT\n    OP_SWAP \n\n   OP_CHECKDATASIGVERIFY // check payment authorization signature\n\n    OP_CHECKLOCKTIMEVERIFY // fail if not past payment_time\n    OP_2DROP OP_2DROP\n\n    <8> OP_PICK // payment_number_padded\n    <payment_number_padded>\n    OP_EQUALVERIFY // check against payment_number in authorization\n\n    // reconstruct rate_claim\n    OP_FROMALTSTACK\n    <3> OP_PICK // payment_satoshis\n    <8> OP_NUM2BIN\n    OP_CAT\n\n\n    OP_SWAP\n    OP_FROMALTSTACK // load owner.public_key\n    <receiver.public_key>\n    OP_DUP\n    OP_TOALTSTACK // save receiver.public_key\n    OP_CAT\n    OP_HASH160\n\n    OP_EQUALVERIFY // verify channel_identifier\n\n    <rate_oracle.public_key>\n    OP_CHECKDATASIGVERIFY // verify rate_claim\n\n    <7> OP_PICK // covered_bytecode_before_payment_number\n    <7> OP_PICK // payment_number_padded\n    OP_BIN2NUM\n    <1> OP_ADD <2> OP_NUM2BIN // next payment_number\n    <7> OP_PICK // covered_bytecode_after_payment_number\n    OP_CAT OP_CAT \n    OP_HASH160 // P2SH redeem bytecode hash\n    \n    /**\n     * prefix locking bytecode with its length (required in serialization)\n     */\n    <23>\n    <OP_HASH160 OP_PUSHBYTES_20>\n    OP_ROT\n    <OP_EQUAL>\n    OP_CAT OP_CAT // expected locking bytecode\n    OP_CAT // length + locking bytecode\n\n    // calculate expected output value\n    <5> OP_PICK // outpoint_value\n    OP_BIN2NUM\n    OP_ROT\n    OP_SUB <8> OP_NUM2BIN // remaining balance\n    OP_SWAP OP_CAT // expected output serialization\n    OP_SWAP OP_CAT\n\n    /**\n     * Verify signing serialization transaction outputs (uncomment for testing)\n     */\n    // OP_DUP OP_TOALTSTACK\n    // <8> OP_PICK // signing_serialization.transaction_outputs\n    // OP_EQUALVERIFY\n    // OP_FROMALTSTACK\n    /**\n     * End signing serialization transaction outputs verification (uncomment for testing)\n     */\n\n    OP_HASH256 // expected transaction_outputs_hash\n    OP_SWAP\n    OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT\n\n    /**\n     * Verify full signing serialization (uncomment for testing)\n     */\n    // OP_DUP OP_TOALTSTACK\n    // OP_EQUALVERIFY\n    // OP_FROMALTSTACK\n    /**\n     * End full signing serialization verification (uncomment for testing)\n     */\n    \n    OP_SHA256\n\n    OP_FROMALTSTACK\n    OP_DUP\n    <3> OP_PICK // receiver.schnorr_signature.all_outputs\n    OP_ROT\n    OP_CHECKSIGVERIFY // signature covers transaction\n    OP_ROT \n    <64> OP_SPLIT OP_DROP // remove signature serialization type bit\n    OP_ROT OP_ROT\n    OP_CHECKDATASIG // signature covers expected transaction\nOP_ELSE\n    // Owner Spend\n    OP_CHECKSIG\nOP_ENDIF \n\n\n',
     },
     channel_components: {
       name: 'Channel Components',
       script:
-        '// serialization of the next channel output\n<channel>\n// the location of payment_number_padded in channel\n<78> OP_SPLIT\n<2> OP_SPLIT',
+        '/**\n * This is just a convenience script to split the locking bytecode\n * at the location of "payment_number_padded". Since this is used in\n * several places, using a single script makes updates easier.\n **/\n<channel> // The raw locking bytecode of the current channel\n<78> OP_SPLIT // the location of payment_number_padded in channel\n<2> OP_SPLIT // the length of payment_number_padded',
+      tests: [
+        {
+          check:
+            '/**\n * Here we confirm that we split the bytecode at the\n * correct indexes:\n * - item 1 should be the bytecode before payment_number_padded\n * - item 2 should be payment_number_padded\n * - item 3 should be the bytecode after payment_number_padded\n */\n\n<1> OP_PICK OP_TOALTSTACK\n\nOP_CAT OP_CAT <channel> OP_EQUALVERIFY\n\nOP_FROMALTSTACK <payment_number_padded> OP_EQUAL',
+          name: 'Contains Padded Payment Number',
+          passes: ['after_payment_time', 'before_payment_time'],
+        },
+      ],
     },
     channel_identifier: {
       name: 'Channel Identifier',
+      pushed: true,
       script:
         '$(<owner.public_key>\n<receiver.public_key>\nOP_CAT\nOP_HASH160)',
+      tests: [
+        {
+          check: '<0x564752b9f1c9f0246c8444a7f0a0ee8348f2e339>\nOP_EQUAL',
+          name: 'Expected ID',
+        },
+      ],
     },
     covered_bytecode_after_payment_number: {
       name: 'Covered Bytecode After Payment Number',
+      pushed: true,
       script:
         '$(\n    channel_components <0> OP_PICK\n    OP_NIP OP_NIP OP_NIP\n)',
+      tests: [
+        {
+          check:
+            '<0x886c537958807e7c6c2102e493dbf1c10d80f3581e4904930b1404cc6c13900ee0758474fa94abe8c4cd13766b7ea9882102f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9bb57795779815193528057797e7ea9011702a9147b01877e7e7e5579817b9458807c7e7c7eaa7c7e7e7e7e7e7e7ea86c7653797bad7b01407f757b7bba67ac68>\nOP_EQUAL',
+          name: 'Check Bytecode',
+          passes: ['test_bytecode_values'],
+        },
+      ],
     },
     covered_bytecode_before_payment_number: {
       name: 'Covered Bytecode Before Payment Number',
+      pushed: true,
       script:
         '$(\n    channel_components <2> OP_PICK\n    OP_NIP OP_NIP OP_NIP\n)',
-    },
-    covered_bytecode_bitcoinvarint: {
-      name: 'Covered Bytecode BitcoinVarInt',
-      script:
-        '// covered bytecode must be prefixed with a BitcoinVarInt if its length\n$(\n    <channel_oracle> OP_SIZE // value as script number\n    // BitcoinVarInt is unsigned, so we have to manually\n    // correct the number here\n    <1> OP_SPLIT OP_DROP OP_NIP\n)\n/**\n * Pardon the error here in Bitauth IDE – this template is never evaluated,\n * but the IDE does not yet support a way of indicating that a script\n * is only being used as a "bytecode template":\n * https://github.com/bitauth/bitauth-ide/issues/33\n *\n */',
+      tests: [
+        {
+          check:
+            '<0x210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817987c63766b56795f795779765c79a26958805779588057795880577958807e7e766b7e7e7e7cbbb16d6d587902>\nOP_EQUAL',
+          name: 'Check Bytecode',
+          passes: ['test_bytecode_values'],
+        },
+      ],
     },
     execute_authorization: {
       fails: ['before_payment_time'],
       name: 'Execute Authorization',
       passes: ['after_payment_time'],
       script:
-        '/**\n * Once the payment time for an authorization has passed,\n * this script can be used to execute it.\n */\n<receiver.schnorr_signature.all_outputs>\n<$(\n    <signing_serialization.version>\n    <signing_serialization.transaction_outpoints_hash>\n    OP_CAT\n    <signing_serialization.transaction_sequence_numbers_hash>\n    OP_CAT\n    <signing_serialization.covered_bytecode_length>\n    OP_CAT\n)> // signing serialization before the covered bytecode\n<covered_bytecode_before_payment_number>\n<$(channel_components <1> OP_PICK\nOP_NIP OP_NIP OP_NIP)> // payment_number_padded\n<covered_bytecode_after_payment_number>\n<signing_serialization.output_value> // initial balance of channel\n<signing_serialization.sequence_number>\n<signing_serialization_after_transaction_outputs_hash>\n// length of first output (P2SH output)\n<$(\n/**\n * signing_serialization.transaction_outputs with the\n * first output (the next channel UTXO) removed\n */\n<signing_serialization.transaction_outputs>\n    <32> // length of channel output (P2SH output)\n    OP_SPLIT\n    OP_NIP\n)>\n<payment_satoshis>\n<rate_oracle.data_signature.rate_claim>\n<channel_identifier>\n<maximum_authorized_satoshis>\n<authorized_amount>\n<denominating_asset>\n<payment_time>\n<owner.data_signature.payment_authorization>\n<1>',
+        '/**\n * Once the payment time for an authorization has passed,\n * this script can be used to execute it.\n */\n<receiver.schnorr_signature.all_outputs>\n\n/**\n * Verify signing serialization transaction outputs (uncomment for testing)\n */\n// <signing_serialization.transaction_outputs>\n/**\n * Verify full signing serialization (uncomment for testing)\n */\n// <signing_serialization.full_all_outputs>\n\n<$(  \n    <signing_serialization.version>\n    <signing_serialization.transaction_outpoints_hash>\n    <signing_serialization.transaction_sequence_numbers_hash>\n    <signing_serialization.outpoint_transaction_hash>\n    <signing_serialization.outpoint_index>\n    <signing_serialization.covered_bytecode_length>\n    OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT\n)> // signing serialization before the covered bytecode\n<covered_bytecode_before_payment_number>\n<payment_number_padded>\n<covered_bytecode_after_payment_number>\n<signing_serialization.output_value> // initial balance of channel\n<signing_serialization.sequence_number>\n<$(\n    <signing_serialization.locktime>\n    <0x41000000> // signing serialization type\n    OP_CAT\n)>\n<$(\n/**\n * signing_serialization.transaction_outputs with the\n * first output (the next channel UTXO) removed\n */\n<signing_serialization.transaction_outputs>\n    <32> // length of channel output (P2SH output)\n    OP_SPLIT\n    OP_NIP\n)>\n<payment_satoshis>\n<rate_oracle.data_signature.rate_claim>\n<channel_identifier>\n<maximum_authorized_satoshis>\n<authorized_amount>\n<denominating_asset>\n<payment_time>\n<owner.data_signature.payment_authorization>\n<1>',
       unlocks: 'channel',
-    },
-    get_next_channel_hash: {
-      name: 'Get Next Channel Hash',
-      script:
-        '/**\n * Not used in the actual template – this is useful for adjusting the\n * hard-coded `nextCashChannelHash160` in the IDE before scenarios\n * are added. \n */\n<covered_bytecode_before_payment_number>\n<payment_number>\n<1> OP_ADD <2> OP_NUM2BIN // next payment_number\n<covered_bytecode_after_payment_number>\nOP_CAT OP_CAT  // next redeem script\nOP_HASH160 // `nextCashChannelHash160`\n\n\n\n// full locking bytecode:\n<OP_HASH160 OP_PUSHBYTES_20> OP_SWAP\n<OP_EQUAL>\nOP_CAT OP_CAT',
     },
     owner_spend: {
       name: 'Owner Spend',
@@ -178,54 +228,45 @@ export const cashChannels: AuthenticationTemplate = {
     },
     payment_authorization: {
       name: 'Payment Authorization',
+      pushed: true,
       script:
         '$(\n    <channel_identifier>\n    <payment_number>\n    <2> OP_NUM2BIN\n    <maximum_authorized_satoshis>\n    <8> OP_NUM2BIN\n    <authorized_amount>\n    <8> OP_NUM2BIN\n    <denominating_asset>\n    <8> OP_NUM2BIN\n    <payment_time>\n    <8> OP_NUM2BIN\n    OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT\n)',
       tests: [
         {
-          check: '',
+          check:
+            '<0x564752b9f1c9f0246c8444a7f0a0ee8348f2e33902000429000000000000e803000000000000555344000000000080bf345e00000000>\nOP_EQUAL',
           name: 'Check Format',
-          setup: '<1>',
+          passes: ['before_payment_time'],
         },
       ],
     },
     payment_number_padded: {
       name: 'Payment Number Padded',
+      pushed: true,
       script:
-        '$(\n    <payment_number>\n    OP_DUP <65534> OP_LESSTHANOREQUAL OP_VERIFY\n    <2> OP_NUM2BIN\n)',
+        '$(\n    <payment_number>\n    OP_DUP <65534> OP_LESSTHANOREQUAL OP_VERIFY\n    <2> OP_NUM2BIN\n)\n\n\n<1>',
+      tests: [
+        {
+          check: '<0x0200>\nOP_EQUAL',
+          fails: ['exceeds_maximum_payment_number'],
+          name: 'Requires Uint16',
+          passes: ['before_payment_time'],
+        },
+      ],
     },
     rate_claim: {
       name: 'Rate Claim',
+      pushed: true,
       script:
-        '< signing_serialization.locktime >\n\n<$(\n    <authorized_amount>\n    <8> OP_NUM2BIN\n    <denominating_asset>\n    <8> OP_NUM2BIN\n    <payment_time>\n    <8> OP_NUM2BIN\n    <payment_satoshis>\n    <8> OP_NUM2BIN\n    OP_CAT\n    OP_CAT\n    OP_CAT\n)>\n\n\n',
+        '$(\n    <authorized_amount>\n    <8> OP_NUM2BIN\n    <denominating_asset>\n    <8> OP_NUM2BIN\n    <payment_time>\n    <8> OP_NUM2BIN\n    <payment_satoshis>\n    <8> OP_NUM2BIN\n    OP_CAT\n    OP_CAT\n    OP_CAT\n)',
       tests: [
         {
           check:
-            '<0xe803000000000000555344000000000080bf345e000000001027000000000000>\nOP_EQUAL',
+            '<\n    0xe803000000000000\n    0x5553440000000000\n    0x80bf345e00000000\n    0x1027000000000000\n>\nOP_EQUAL',
           name: 'Check Format',
           passes: ['after_payment_time'],
         },
       ],
-    },
-    remaining_transaction_outputs: {
-      name: 'Remaining Transaction Outputs',
-      script:
-        '/**\n * signing_serialization.transaction_outputs with the\n * first output (the next Channel UTXO) removed\n */\n$( \n    <signing_serialization.transaction_outputs>\n    // length of first output (P2SH output)\n    <32> OP_SPLIT\n    OP_NIP\n)',
-      tests: [
-        {
-          check: '',
-          name: 'Has Expected Length',
-        },
-      ],
-    },
-    signing_serialization_after_transaction_outputs_hash: {
-      name: 'Signing Serialization After Transaction Outputs Hash',
-      script:
-        '$(\n    <signing_serialization.locktime>\n    <0x41000000>\n    OP_CAT\n)',
-    },
-    signing_serialization_before_covered_bytecode: {
-      name: 'Signing Serialization Before Covered Bytecode',
-      script:
-        '$(  \n    <signing_serialization.version>\n    <signing_serialization.transaction_outpoints_hash>\n    <signing_serialization.transaction_sequence_numbers_hash>\n    <signing_serialization.outpoint_transaction_hash>\n    <signing_serialization.outpoint_index>\n    <signing_serialization.covered_bytecode_length>\n    OP_CAT OP_CAT OP_CAT OP_CAT OP_CAT\n)',
     },
   },
   supported: ['BCH_2019_05', 'BCH_2019_11'],

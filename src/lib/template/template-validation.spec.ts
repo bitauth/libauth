@@ -265,6 +265,22 @@ test(
 );
 
 test(
+  'unlocking script, invalid "invalid"',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { invalid: 42, script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "invalid" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
   'unlocking script, empty passes item',
   testValidation,
   {
@@ -295,6 +311,22 @@ test(
     version: 0,
   },
   'If defined, the "fails" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'unlocking script, non-string invalid item',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { invalid: [0], script: '', unlocks: 'b' },
+      b: { lockingType: 'p2sh' },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "invalid" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
 );
 
 test(
@@ -485,22 +517,55 @@ test(
 );
 
 test(
+  'tested script, invalid "invalid"',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { script: '', tests: [{ check: '', invalid: [0] }] },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "invalid" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).'
+);
+
+test(
+  'tested script, invalid pushed',
+  testValidation,
+  {
+    entities: {},
+    scenarios: {},
+    scripts: {
+      a: { pushed: 0, script: '', tests: [{ check: '' }] },
+    },
+    supported: ['BCH_2022_11_SPEC'],
+    version: 0,
+  },
+  'If defined, the "pushed" property of tested script "a" must be a boolean value.'
+);
+
+test(
   'tested script, valid test',
   testValidation,
   {
     entities: {},
-    scenarios: { s1: {}, s2: {} },
+    scenarios: { s1: {}, s2: {}, s3: {} },
     scripts: {
       a: {
+        pushed: true,
         script: '',
         tests: [{ check: '' }, { check: '', name: '', setup: '' }],
       },
       b: {
         name: '',
+        pushed: false,
         script: '',
         tests: [
           { check: '', fails: ['s1'] },
           { check: '', passes: ['s2'] },
+          { check: '', invalid: ['s3'] },
         ],
       },
     },
@@ -509,18 +574,21 @@ test(
   },
   {
     entities: {},
-    scenarios: { s1: {}, s2: {} },
+    scenarios: { s1: {}, s2: {}, s3: {} },
     scripts: {
       a: {
+        pushed: true,
         script: '',
         tests: [{ check: '' }, { check: '', name: '', setup: '' }],
       },
       b: {
         name: '',
+        pushed: false,
         script: '',
         tests: [
           { check: '', fails: ['s1'] },
           { check: '', passes: ['s2'] },
+          { check: '', invalid: ['s3'] },
         ],
       },
     },
@@ -1546,7 +1614,7 @@ test(
     supported: ['BCH_2022_11_SPEC'],
     version: 0,
   },
-  'If defined, the "transaction.inputs" array of scenario "a" must have exactly one input under test (an "unlockingBytecode" set to "undefined" or "true").'
+  'If defined, the "transaction.inputs" array of scenario "a" must have exactly one input under test (an "unlockingBytecode" set to "null").'
 );
 
 test(
@@ -1659,7 +1727,7 @@ test(
     supported: ['BCH_2022_11_SPEC'],
     version: 0,
   },
-  'If defined, the "unlockingBytecode" property of input 0 in scenario "a" must be either a boolean value or a hexadecimal-encoded string.'
+  'If defined, the "unlockingBytecode" property of input 0 in scenario "a" must be either a null value or a hexadecimal-encoded string.'
 );
 
 test(
@@ -1800,7 +1868,7 @@ test(
     supported: ['BCH_2022_11_SPEC'],
     version: 0,
   },
-  'If defined, the "script" property of output 0 in scenario "a" must be a hexadecimal-encoded string or "true".'
+  'If defined, the "script" property of output 0 in scenario "a" must be a hexadecimal-encoded string or "null".'
 );
 
 test(
@@ -1947,6 +2015,7 @@ test(
       a: {
         estimate: 's3',
         fails: ['s1', 's4'],
+        invalid: ['s6'],
         passes: ['s3', 's5'],
         script: '',
         unlocks: 'c',
@@ -1956,6 +2025,7 @@ test(
         tests: [
           { check: '', fails: ['s1'] },
           { check: '', passes: ['s2'] },
+          { check: '', invalid: ['s7'] },
         ],
       },
       c: {
@@ -1966,7 +2036,7 @@ test(
     supported: ['BCH_2022_11_SPEC'],
     version: 0,
   },
-  'Only known scenarios may be referenced by scripts. The following scenario IDs are not provided in this template: "s1", "s2", "s3", "s4", "s5".'
+  'Only known scenarios may be referenced by scripts. The following scenario IDs are not provided in this template: "s1", "s2", "s3", "s4", "s5", "s6", "s7".'
 );
 
 test(

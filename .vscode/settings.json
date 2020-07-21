@@ -1,6 +1,6 @@
 {
   "cSpell.userWords": [], // only use words from .cspell.json
-  // "debug.javascript.usePreview": true
+  "debug.javascript.usePreview": false,
   "deno.enable": false,
   "editor.formatOnSave": true,
   "editor.semanticHighlighting.enabled": true,

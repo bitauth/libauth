@@ -261,6 +261,7 @@ export const authenticationTemplateToCompilationEnvironmentVirtualizedTests = (
         ...all,
         ...script.tests.reduce<typeof template.scripts>(
           (tests, test, index) => {
+            const pushTestedScript = script.pushed === true;
             const checkScriptId = `${CompilerDefaults.virtualizedTestCheckScriptPrefix}${scriptId}_${index}`;
             const virtualizedLockingScriptId = `${CompilerDefaults.virtualizedTestLockingScriptPrefix}${scriptId}_${index}`;
             const virtualizedUnlockingScriptId = `${CompilerDefaults.virtualizedTestUnlockingScriptPrefix}${scriptId}_${index}`;
@@ -268,7 +269,9 @@ export const authenticationTemplateToCompilationEnvironmentVirtualizedTests = (
               ...tests,
               [checkScriptId]: { script: test.check },
               [virtualizedLockingScriptId]: {
-                script: `${scriptId} ${checkScriptId}`,
+                script: pushTestedScript
+                  ? `<${scriptId}> ${checkScriptId}`
+                  : `${scriptId} ${checkScriptId}`,
               },
               [virtualizedUnlockingScriptId]: {
                 script: test.setup ?? '',

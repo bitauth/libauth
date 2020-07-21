@@ -49,7 +49,7 @@ test('generateDefaultScenarioDefinition: empty', (t) => {
       transaction: {
         inputs: [
           {
-            unlockingBytecode: true,
+            unlockingBytecode: null,
           },
         ],
         locktime: 0,
@@ -146,7 +146,7 @@ test('extendScenarioDefinition: default', (t) => {
       transaction: {
         inputs: [
           {
-            unlockingBytecode: true,
+            unlockingBytecode: null,
           },
         ],
         locktime: 0,
@@ -169,7 +169,7 @@ test('extendScenarioDefinition: complex extend', (t) => {
       transaction: {
         inputs: [
           {
-            unlockingBytecode: true,
+            unlockingBytecode: null,
           },
         ],
         locktime: 0,
@@ -230,7 +230,7 @@ test('extendScenarioDefinition: complex extend', (t) => {
       transaction: {
         inputs: [
           {
-            unlockingBytecode: true,
+            unlockingBytecode: null,
           },
         ],
         locktime: 0,
@@ -354,7 +354,7 @@ test('generateDefaultScenarioDefinition: authenticationTemplateP2pkhNonHd', (t) 
       transaction: {
         inputs: [
           {
-            unlockingBytecode: true,
+            unlockingBytecode: null,
           },
         ],
         locktime: 0,
@@ -399,7 +399,7 @@ test('generateDefaultScenarioDefinition: authenticationTemplateP2pkh', async (t)
       transaction: {
         inputs: [
           {
-            unlockingBytecode: true,
+            unlockingBytecode: null,
           },
         ],
         locktime: 0,
@@ -564,7 +564,7 @@ test(
               '0000000000000000000000000000000000000000000000000000000000000000'
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: undefined,
           },
         ],
         locktime: 0,
@@ -670,7 +670,7 @@ test(
               '0000000000000000000000000000000000000000000000000000000000000000'
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: undefined,
           },
         ],
         locktime: 0,
@@ -724,7 +724,7 @@ test(
               '0000000000000000000000000000000000000000000000000000000000000000'
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: undefined,
           },
         ],
         locktime: 0,
@@ -750,7 +750,7 @@ test(
       a: { transaction: { inputs: [{}, {}] } },
     },
   },
-  'Cannot generate scenario "a": the specific input under test in this scenario is ambiguous – "transaction.inputs" must include exactly one input which has "unlockingBytecode" set to "true".'
+  'Cannot generate scenario "a": the specific input under test in this scenario is ambiguous – "transaction.inputs" must include exactly one input which has "unlockingBytecode" set to "null".'
 );
 
 test(
@@ -882,7 +882,7 @@ test(
               '0000000000000000000000000000000000000000000000000000000000000000'
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: undefined,
           },
         ],
         locktime: 0,
@@ -920,7 +920,7 @@ test(
               sequenceNumber: 1,
               unlockingBytecode: 'beef',
             },
-            { unlockingBytecode: true },
+            { unlockingBytecode: null },
           ],
           locktime: 4294967295,
           outputs: [
@@ -968,7 +968,7 @@ test(
       },
     },
     program: {
-      inputIndex: 0,
+      inputIndex: 1,
       sourceOutput: {
         satoshis: hexToBin('0000000000000000'),
       },
@@ -988,7 +988,7 @@ test(
               '0000000000000000000000000000000000000000000000000000000000000000'
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: undefined,
           },
         ],
         locktime: 4294967295,
@@ -1058,6 +1058,9 @@ test('generateScenario: cash-channels – after_payment_time', async (t) => {
         },
         currentBlockHeight: 2,
         currentBlockTime: 1231469665,
+        hdKeys: {
+          addressIndex: 0,
+        },
         keys: {
           privateKeys: {
             owner: hexToBin(
@@ -1085,16 +1088,16 @@ test('generateScenario: cash-channels – after_payment_time', async (t) => {
                 '0000000000000000000000000000000000000000000000000000000000000000'
               ),
               sequenceNumber: 0,
-              unlockingBytecode: hexToBin(''),
+              unlockingBytecode: undefined,
             },
           ],
           locktime: 1580515200,
           outputs: [
             {
               lockingBytecode: hexToBin(
-                '210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817987c63766b56795f795779765c79a26958805779588057795880577958807e7e766b7e7e7e7cbbb16d6d5879020200886c537958807e7c6c2102e493dbf1c10d80f3581e4904930b1404cc6c13900ee0758474fa94abe8c4cd13766b7ea9882102f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9bb57795779815193528057797e7ea9011702a9147b01877e7e7e5579817b9458807c7e7c7eaa7c7e7e7e7e7e7e7ea86c7653797bad7b01407f757b7bba67ac68'
+                'a9149a97dc2531b9b9af6319aab57ea369284289998987'
               ),
-              satoshis: hexToBin('0000000000000000'),
+              satoshis: hexToBin('1027000000000000'),
             },
           ],
           version: 2,

@@ -214,10 +214,10 @@
         },
         "transaction": {
           "additionalProperties": false,
-          "description": "The transaction within which this scenario should be evaluated. This is\nused for script testing and validation.\n\nIf undefined, inherits the default value for each property:\n```json\n{\n   \"inputs\": [{ \"unlockingBytecode\": true }],\n   \"locktime\": 0,\n   \"outputs\": [{ \"lockingBytecode\": \"\" }],\n   \"version\": 2\n}\n```\n\nAny `transaction` property which is not set will be inherited from the\nscenario specified by `extends`. when specifying the `inputs` and `outputs`\nproperties, each input and output extends the default values for inputs and\noutputs, respectively.\n\nFor example, an input of `{}` is interpreted as:\n```json\n{\n   \"outpointIndex\": 0,\n   \"outpointTransactionHash\":\n     \"0000000000000000000000000000000000000000000000000000000000000000\",\n   \"sequenceNumber\": 0\n}\n```\nAnd an output of `{}` is interpreted as:\n```json\n{\n   \"lockingBytecode\": {\n     \"script\": true,\n     \"overrides\": { \"hdKeys\": { \"addressIndex\": 1 } }\n   },\n   \"satoshis\": 0\n}\n```",
+          "description": "The transaction within which this scenario should be evaluated. This is\nused for script testing and validation.\n\nIf undefined, inherits the default value for each property:\n```json\n{\n   \"inputs\": [{ \"unlockingBytecode\": null }],\n   \"locktime\": 0,\n   \"outputs\": [{ \"lockingBytecode\": \"\" }],\n   \"version\": 2\n}\n```\n\nAny `transaction` property which is not set will be inherited from the\nscenario specified by `extends`. when specifying the `inputs` and `outputs`\nproperties, each input and output extends the default values for inputs and\noutputs, respectively.\n\nFor example, an input of `{}` is interpreted as:\n```json\n{\n   \"outpointIndex\": 0,\n   \"outpointTransactionHash\":\n     \"0000000000000000000000000000000000000000000000000000000000000000\",\n   \"sequenceNumber\": 0\n}\n```\nAnd an output of `{}` is interpreted as:\n```json\n{\n   \"lockingBytecode\": {\n     \"script\": null,\n     \"overrides\": { \"hdKeys\": { \"addressIndex\": 1 } }\n   },\n   \"satoshis\": 0\n}\n```",
           "properties": {
             "inputs": {
-              "description": "The list of inputs to use when generating the transaction context for\nthis scenario.\n\nTo be valid the `inputs` property must have exactly one input with\n`unlockingBytecode` set to `true`. This is the input in which the\nunlocking script under test will be placed. No other inputs may define\n`unlockingBytecode`.\n\nIf undefined, inherits the default scenario `inputs` value:\n`[{ \"unlockingBytecode\": true }]`.",
+              "description": "The list of inputs to use when generating the transaction context for\nthis scenario.\n\nTo be valid the `inputs` property must have exactly one input with\n`unlockingBytecode` set to `null`. This is the input in which the\nunlocking script under test will be placed.\n\nIf undefined, inherits the default scenario `inputs` value:\n`[{ \"unlockingBytecode\": null }]`.",
               "items": {
                 "$ref": "#/definitions/AuthenticationTemplateScenarioInput"
               },
@@ -329,9 +329,9 @@
           "type": "number"
         },
         "unlockingBytecode": {
-          "description": "The `unlockingBytecode` value of this input for this scenario. May be\neither a boolean value indicating that this input contains the\n`unlockingBytecode` under test by the scenario, or a hexadecimal-encoded\nbytecode value.\n\nThis defaults to `false`. For a scenario to be valid, this property must be\n`true` for exactly one input in the scenario. If this property is\n`undefined` or `false`, the resulting `unlockingBytecode` is a bytecode\nof length `0` (`0x`).",
+          "description": "The `unlockingBytecode` value of this input for this scenario. This must be\neither a `null` value – indicating that this input contains the\n`unlockingBytecode` under test by the scenario – or a hexadecimal-encoded\nbytecode value.\n\nDefaults to an empty string (`''`). For a scenario to be valid,\n`unlockingBytecode` must be `null` for exactly one input in the scenario.",
           "type": [
-            "boolean",
+            "null",
             "string"
           ]
         }
@@ -355,18 +355,11 @@
                   "description": "Scenario data which extends this scenario's top-level data during\nscript compilation.\n\nEach property is extended individually – to modify a property set by\nthe top-level scenario data, the new value must be listed here.\n\nIf undefined, defaults to `{ \"hdKeys\": { \"addressIndex\": 1 } }`."
                 },
                 "script": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "enum": [
-                        true
-                      ],
-                      "type": "boolean"
-                    }
-                  ],
-                  "description": "The identifier of the script to compile when generating this\n`lockingBytecode`. May also be set to `true`, which represents the\nidentifier of the locking script unlocked by the unlocking script\nunder test.\n\nIf undefined, defaults to `true`."
+                  "description": "The identifier of the script to compile when generating this\n`lockingBytecode`. May also be set to `null`, which represents the\nidentifier of the locking script unlocked by the unlocking script\nunder test.\n\nIf undefined, defaults to `null`.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "type": "object"
@@ -442,6 +435,13 @@
           },
           "type": "array"
         },
+        "invalid": {
+          "description": "A list of the scenario identifiers which – when used to compile this\ntest and the script it tests – result in a compilation error. The `setup`\nscript is used in place of an unlocking script, and the concatenation of\nthe script under test and the `check` script are used in place of a locking\nscript.\n\nThese scenarios can be used to test this script in development and review.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "name": {
           "description": "A single-line, Title Case, human-readable name for this test (for use in\nuser interfaces).",
           "type": "string"
@@ -469,6 +469,10 @@
         "name": {
           "description": "A single-line, human-readable name for this script (for use in user\ninterfaces).",
           "type": "string"
+        },
+        "pushed": {
+          "description": "If set to `true`, indicates that this script should be wrapped in a push\nstatement for testing.\n\nThis is useful for scripts which serve as \"bytecode templates\" – e.g.\nformatted messages or signature preimages. These scripts are typically not\nevaluated as bytecode but appear within push statements elsewhere in the\ntemplate.\n\nDefaults to `false`.",
+          "type": "boolean"
         },
         "script": {
           "description": "The script definition in BTL (Bitauth Templating Language).",
@@ -501,6 +505,13 @@
         },
         "fails": {
           "description": "A list of the scenario identifiers which – when used to compile this\nunlocking script and the script it unlocks – result in bytecode which fails\nprogram verification.\n\nThese scenarios can be used to test this script in development and review.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "invalid": {
+          "description": "A list of the scenario identifiers which – when used to compile this\nunlocking script and the script it unlocks – result in a compilation error.\n\nThese scenarios can be used to test this script in development and review.",
           "items": {
             "type": "string"
           },

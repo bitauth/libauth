@@ -15,7 +15,7 @@ import {
   CompilationData,
   Scenario,
 } from './compiler-types';
-import { compileScriptRaw } from './language/compile';
+import { compileScript, compileScriptRaw } from './language/compile';
 import { CompilationError } from './language/language-types';
 import { stringifyErrors } from './language/language-utils';
 import {
@@ -129,7 +129,7 @@ export const generateDefaultScenarioDefinition = <
         : { keys: { privateKeys } }),
     },
     transaction: {
-      inputs: [{ unlockingBytecode: true }],
+      inputs: [{ unlockingBytecode: null }],
       locktime: CompilerDefaults.defaultScenarioTransactionLocktime as const,
       outputs: [
         {
@@ -590,13 +590,13 @@ export const generateScenarioCommon = <
   }
 
   const testedInputs = extendedScenario.transaction.inputs.filter(
-    (input) => input.unlockingBytecode === true
+    (input) => input.unlockingBytecode === null
   );
   if (testedInputs.length !== 1) {
-    return `Cannot generate ${scenarioName}: the specific input under test in this scenario is ambiguous – "transaction.inputs" must include exactly one input which has "unlockingBytecode" set to "true".`;
+    return `Cannot generate ${scenarioName}: the specific input under test in this scenario is ambiguous – "transaction.inputs" must include exactly one input which has "unlockingBytecode" set to "null".`;
   }
   const testedInputIndex = extendedScenario.transaction.inputs.findIndex(
-    (input) => input.unlockingBytecode
+    (input) => input.unlockingBytecode === null
   );
 
   const outputs = extendedScenario.transaction.outputs.map<
@@ -667,7 +667,7 @@ export const generateScenarioCommon = <
           ? fullCompilationData
           : overriddenCompilationData;
 
-      const result = compileScriptRaw({ data, environment, scriptId });
+      const result = compileScript(scriptId, data, environment);
 
       if (!result.success) {
         return `Cannot generate locking bytecode for output ${index}: ${stringifyErrors(
@@ -693,12 +693,15 @@ export const generateScenarioCommon = <
     typeof extendedScenario.value === 'number'
       ? bigIntToBinUint64LE(BigInt(extendedScenario.value))
       : hexToBin(extendedScenario.value);
+
+  const unlockingBytecodeUnderTest = undefined;
   return {
     data: fullCompilationData,
     program: {
       inputIndex: testedInputIndex,
       sourceOutput: { satoshis: sourceSatoshis },
       spendingTransaction: {
+        // eslint-disable-next-line complexity
         inputs: extendedScenario.transaction.inputs.map((input) => ({
           outpointIndex:
             input.outpointIndex ??
@@ -710,11 +713,14 @@ export const generateScenarioCommon = <
           sequenceNumber:
             input.sequenceNumber ??
             CompilerDefaults.defaultScenarioInputSequenceNumber,
-          unlockingBytecode: hexToBin(
-            typeof input.unlockingBytecode === 'string'
-              ? input.unlockingBytecode
-              : CompilerDefaults.defaultScenarioInputUnlockingBytecodeHex
-          ),
+          unlockingBytecode:
+            input.unlockingBytecode === null
+              ? unlockingBytecodeUnderTest
+              : hexToBin(
+                  typeof input.unlockingBytecode === 'string'
+                    ? input.unlockingBytecode
+                    : CompilerDefaults.defaultScenarioInputUnlockingBytecodeHex
+                ),
         })),
         locktime: extendedScenario.transaction.locktime,
         outputs: compiledOutputs,

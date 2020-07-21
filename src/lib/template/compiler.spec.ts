@@ -115,6 +115,11 @@ test('authenticationTemplateToCompilationEnvironmentVirtualizedTests', (t) => {
             { check: '<4> OP_EQUAL', setup: '<2>' },
           ],
         },
+        message: {
+          pushed: true,
+          script: '"abc"',
+          tests: [{ check: '<"abc"> OP_EQUAL' }],
+        },
         push_three: {
           script: '<3>',
           tests: [{ check: '<3> OP_EQUAL' }],
@@ -136,17 +141,22 @@ test('authenticationTemplateToCompilationEnvironmentVirtualizedTests', (t) => {
       scripts: {
         __virtualized_test_check_add_two_0: '<3> OP_EQUAL',
         __virtualized_test_check_add_two_1: '<4> OP_EQUAL',
+        __virtualized_test_check_message_0: '<"abc"> OP_EQUAL',
         __virtualized_test_check_push_three_0: '<3> OP_EQUAL',
         __virtualized_test_lock_add_two_0:
           'add_two __virtualized_test_check_add_two_0',
         __virtualized_test_lock_add_two_1:
           'add_two __virtualized_test_check_add_two_1',
+        __virtualized_test_lock_message_0:
+          '<message> __virtualized_test_check_message_0',
         __virtualized_test_lock_push_three_0:
           'push_three __virtualized_test_check_push_three_0',
         __virtualized_test_unlock_add_two_0: '<1>',
         __virtualized_test_unlock_add_two_1: '<2>',
+        __virtualized_test_unlock_message_0: '',
         __virtualized_test_unlock_push_three_0: '',
         add_two: '<2> OP_ADD',
+        message: '"abc"',
         push_three: '<3>',
         unrelated: '<1>',
       },
@@ -156,6 +166,8 @@ test('authenticationTemplateToCompilationEnvironmentVirtualizedTests', (t) => {
           '__virtualized_test_lock_add_two_0',
         __virtualized_test_unlock_add_two_1:
           '__virtualized_test_lock_add_two_1',
+        __virtualized_test_unlock_message_0:
+          '__virtualized_test_lock_message_0',
         __virtualized_test_unlock_push_three_0:
           '__virtualized_test_lock_push_three_0',
       },

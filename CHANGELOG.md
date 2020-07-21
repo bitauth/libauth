@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/bitauth/libauth/compare/v1.15.4...v1.16.0) (2020-07-21)
+
+
+### Features
+
+* **scenarios:** support "pushed" and "invalid" properties ([a38544a](https://github.com/bitauth/libauth/commit/a38544a797711175d0cc18cd967fb9f1fc88c827))
+
 ### [1.15.4](https://github.com/bitauth/libauth/compare/v1.15.3...v1.15.4) (2020-07-14)
 
 ### [1.15.3](https://github.com/bitauth/libauth/compare/v1.15.2...v1.15.3) (2020-06-19)

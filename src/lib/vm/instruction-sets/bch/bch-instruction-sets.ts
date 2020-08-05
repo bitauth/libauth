@@ -99,11 +99,14 @@ export enum InstructionSetBCH {
   BCH_2019_05_STRICT = 'BCH_2019_05_STRICT',
   BCH_2019_11_SPEC = 'BCH_2019_11',
   BCH_2019_11_STRICT_SPEC = 'BCH_2019_11_STRICT',
+  BCH_2020_05_SPEC = 'BCH_2020_05',
+  BCH_2020_05_STRICT_SPEC = 'BCH_2020_05_STRICT',
 }
 
 export const instructionSetBCHCurrentStrict =
   InstructionSetBCH.BCH_2019_05_STRICT;
 
+// eslint-disable-next-line complexity
 export const getFlagsForInstructionSetBCH = (
   instructionSet: InstructionSetBCH
 ) => {
@@ -111,6 +114,7 @@ export const getFlagsForInstructionSetBCH = (
     case InstructionSetBCH.BCH_2019_05:
       return {
         disallowUpgradableNops: false,
+        opReverseBytes: false,
         requireBugValueZero: false,
         requireMinimalEncoding: false,
         requireNullSignatureFailures: true,
@@ -118,6 +122,7 @@ export const getFlagsForInstructionSetBCH = (
     case InstructionSetBCH.BCH_2019_05_STRICT:
       return {
         disallowUpgradableNops: true,
+        opReverseBytes: false,
         requireBugValueZero: false,
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true,
@@ -125,6 +130,7 @@ export const getFlagsForInstructionSetBCH = (
     case InstructionSetBCH.BCH_2019_11_SPEC:
       return {
         disallowUpgradableNops: false,
+        opReverseBytes: false,
         requireBugValueZero: true,
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true,
@@ -132,6 +138,23 @@ export const getFlagsForInstructionSetBCH = (
     case InstructionSetBCH.BCH_2019_11_STRICT_SPEC:
       return {
         disallowUpgradableNops: true,
+        opReverseBytes: false,
+        requireBugValueZero: true,
+        requireMinimalEncoding: true,
+        requireNullSignatureFailures: true,
+      };
+    case InstructionSetBCH.BCH_2020_05_SPEC:
+      return {
+        disallowUpgradableNops: false,
+        opReverseBytes: true,
+        requireBugValueZero: false,
+        requireMinimalEncoding: false,
+        requireNullSignatureFailures: true,
+      };
+    case InstructionSetBCH.BCH_2020_05_STRICT_SPEC:
+      return {
+        disallowUpgradableNops: true,
+        opReverseBytes: true,
         requireBugValueZero: true,
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true,
@@ -162,6 +185,7 @@ export const createInstructionSetBCH = ({
 }: {
   flags: {
     readonly disallowUpgradableNops: boolean;
+    readonly opReverseBytes: boolean;
     readonly requireBugValueZero: boolean;
     readonly requireMinimalEncoding: boolean;
     readonly requireNullSignatureFailures: boolean;

@@ -310,6 +310,13 @@ export const opCheckDataSigVerify = <
     opVerify<State, Errors>()
   );
 
+export const opReverseBytes = <
+  State extends AuthenticationProgramStateStack
+>() => (state: State) =>
+  useOneStackItem(state, (nextState, [item]) =>
+    pushToStack(nextState, item.reverse())
+  );
+
 export const bitcoinCashOperations = <
   Opcodes,
   State extends AuthenticationProgramStateCommon<
@@ -327,26 +334,34 @@ export const bitcoinCashOperations = <
     verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
   };
   flags: {
+    opReverseBytes: boolean;
     requireBugValueZero: boolean;
     requireMinimalEncoding: boolean;
     requireNullSignatureFailures: boolean;
   };
-}) => ({
-  [OpcodesBCH.OP_CAT]: opCat<State>(),
-  [OpcodesBCH.OP_SPLIT]: opSplit<State>(flags),
-  [OpcodesBCH.OP_NUM2BIN]: opNum2Bin<State>(),
-  [OpcodesBCH.OP_BIN2NUM]: opBin2Num<State>(),
-  [OpcodesBCH.OP_AND]: opAnd<State>(),
-  [OpcodesBCH.OP_OR]: opOr<State>(),
-  [OpcodesBCH.OP_XOR]: opXor<State>(),
-  [OpcodesBCH.OP_DIV]: opDiv<State>(flags),
-  [OpcodesBCH.OP_MOD]: opMod<State>(flags),
-  [OpcodesBCH.OP_CHECKDATASIG]: opCheckDataSig<State, AuthenticationErrorBCH>({
-    secp256k1,
-    sha256,
-  }),
-  [OpcodesBCH.OP_CHECKDATASIGVERIFY]: opCheckDataSigVerify<
-    State,
-    AuthenticationErrorBCH
-  >({ secp256k1, sha256 }),
-});
+}) => {
+  const operations = {
+    [OpcodesBCH.OP_CAT]: opCat<State>(),
+    [OpcodesBCH.OP_SPLIT]: opSplit<State>(flags),
+    [OpcodesBCH.OP_NUM2BIN]: opNum2Bin<State>(),
+    [OpcodesBCH.OP_BIN2NUM]: opBin2Num<State>(),
+    [OpcodesBCH.OP_AND]: opAnd<State>(),
+    [OpcodesBCH.OP_OR]: opOr<State>(),
+    [OpcodesBCH.OP_XOR]: opXor<State>(),
+    [OpcodesBCH.OP_DIV]: opDiv<State>(flags),
+    [OpcodesBCH.OP_MOD]: opMod<State>(flags),
+    [OpcodesBCH.OP_CHECKDATASIG]: opCheckDataSig<State, AuthenticationErrorBCH>(
+      {
+        secp256k1,
+        sha256,
+      }
+    ),
+    [OpcodesBCH.OP_CHECKDATASIGVERIFY]: opCheckDataSigVerify<
+      State,
+      AuthenticationErrorBCH
+    >({ secp256k1, sha256 }),
+  };
+  return flags.opReverseBytes
+    ? { ...operations, [OpcodesBCH.OP_REVERSEBYTES]: opReverseBytes<State>() }
+    : operations;
+};

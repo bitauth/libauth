@@ -5,5 +5,6 @@
   "editor.formatOnSave": true,
   "editor.semanticHighlighting.enabled": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "cSpell.enabled": true
 }

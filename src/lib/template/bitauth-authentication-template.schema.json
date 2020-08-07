@@ -592,7 +592,7 @@
       "type": "object"
     },
     "AuthenticationVirtualMachineIdentifier": {
-      "description": "Allowable identifiers for authentication virtual machine versions. The `BCH`\nprefix identifies the Bitcoin Cash network, the `BSV` prefix identifies the\nBitcoin SV network, and the `BTC` prefix identifies the Bitcoin (Core)\nnetwork.",
+      "description": "Allowable identifiers for authentication virtual machine versions. The `BCH`\nprefix identifies the Bitcoin Cash network, the `BSV` prefix identifies the\nBitcoin SV network, and the `BTC` prefix identifies the Bitcoin (Core)\nnetwork.\n\nVirtual machine versions may be marked with the `SPEC` suffix to indicate\nthat they have not yet been deployed to a main network and are therefore only\na draft specification. After deployment, when template compatibility is\nverified, templates should update their `supported` array to indicate\ncompatibility with the live virtual machine version.",
       "enum": [
         "BCH_2022_11_SPEC",
         "BCH_2022_11",

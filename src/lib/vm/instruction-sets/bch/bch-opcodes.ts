@@ -206,9 +206,12 @@ export enum OpcodesBCH {
    */
   OP_CHECKDATASIGVERIFY = 0xbb,
   /**
+   * Previously `OP_UNKNOWN188`
+   */
+  OP_REVERSEBYTES = 0xbc,
+  /**
    * A.K.A. `FIRST_UNDEFINED_OP_VALUE`
    */
-  OP_UNKNOWN188 = 0xbc,
   OP_UNKNOWN189 = 0xbd,
   OP_UNKNOWN190 = 0xbe,
   OP_UNKNOWN191 = 0xbf,
@@ -314,9 +317,9 @@ export enum OpcodeAlternateNamesBCH {
    */
   OP_UNKNOWN187 = 0xbb,
   /**
-   * A.K.A. `OP_UNKNOWN188`
+   * A.K.A. `OP_UNKNOWN189`
    */
-  FIRST_UNDEFINED_OP_VALUE = 0xbc,
+  FIRST_UNDEFINED_OP_VALUE = 0xbd,
   /**
    * A.K.A. `OP_UNKNOWN240`. Some implementations have reserved opcodes
    * `0xf0` through `0xf7` for a future range of multi-byte opcodes, though none

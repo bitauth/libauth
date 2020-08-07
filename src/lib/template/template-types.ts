@@ -93,6 +93,12 @@ export interface AuthenticationTemplate {
  * prefix identifies the Bitcoin Cash network, the `BSV` prefix identifies the
  * Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin (Core)
  * network.
+ *
+ * Virtual machine versions may be marked with the `SPEC` suffix to indicate
+ * that they have not yet been deployed to a main network and are therefore only
+ * a draft specification. After deployment, when template compatibility is
+ * verified, templates should update their `supported` array to indicate
+ * compatibility with the live virtual machine version.
  */
 export type AuthenticationVirtualMachineIdentifier =
   | 'BCH_2022_11_SPEC'

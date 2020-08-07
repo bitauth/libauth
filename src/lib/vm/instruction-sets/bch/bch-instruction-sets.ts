@@ -93,18 +93,49 @@ const isPushOperation = (opcode: number) => opcode < OpcodesBCH.OP_16;
  * transactions. Transactions which fail these rules are often called
  * "non-standard" – the transactions can technically be included by miners in
  * valid blocks, but most network nodes will refuse to relay them.
+ *
+ * BCH instruction sets marked `SPEC` ("specification") have not yet been
+ * deployed on the main network and are subject to change. After deployment, the
+ * `SPEC` suffix is removed. This change only effects the name of the TypeScript
+ * enum member – the value remains the same. E.g.
+ * `InstructionSetBCH.BCH_2020_05_SPEC` became `InstructionSetBCH.BCH_2020_05`,
+ * but the value remained `BCH_2020_05`.
+ *
+ * This allows consumers to select an upgrade policy: when a version of Libauth
+ * is released in which compatibility with a deployed virtual machine is
+ * confirmed, this change can help to identify downstream code which requires
+ * review.
+ *  - Consumers which prefer to upgrade manually should specify a `SPEC` type,
+ * e.g. `InstructionSetBCH.BCH_2020_05_SPEC`.
+ *  - Consumers which prefer full compatibility between Libauth version should
+ * specify a precise instruction set value (e.g. `BCH_2020_05`) or use the
+ * dedicated "current" value: `instructionSetBCHCurrentStrict`.
  */
 export enum InstructionSetBCH {
   BCH_2019_05 = 'BCH_2019_05',
   BCH_2019_05_STRICT = 'BCH_2019_05_STRICT',
-  BCH_2019_11_SPEC = 'BCH_2019_11',
-  BCH_2019_11_STRICT_SPEC = 'BCH_2019_11_STRICT',
-  BCH_2020_05_SPEC = 'BCH_2020_05',
-  BCH_2020_05_STRICT_SPEC = 'BCH_2020_05_STRICT',
+  BCH_2019_11 = 'BCH_2019_11',
+  BCH_2019_11_STRICT = 'BCH_2019_11_STRICT',
+  BCH_2020_05 = 'BCH_2020_05',
+  BCH_2020_05_STRICT = 'BCH_2020_05_STRICT',
+  BCH_2020_11_SPEC = 'BCH_2020_11',
+  BCH_2020_11_STRICT_SPEC = 'BCH_2020_11_STRICT',
+  BCH_2021_05_SPEC = 'BCH_2021_05',
+  BCH_2021_05_STRICT_SPEC = 'BCH_2021_05_STRICT',
+  BCH_2021_11_SPEC = 'BCH_2021_11',
+  BCH_2021_11_STRICT_SPEC = 'BCH_2021_11_STRICT',
+  BCH_2022_05_SPEC = 'BCH_2022_05',
+  BCH_2022_05_STRICT_SPEC = 'BCH_2022_05_STRICT',
+  BCH_2022_11_SPEC = 'BCH_2022_11',
+  BCH_2022_11_STRICT_SPEC = 'BCH_2022_11_STRICT',
 }
 
+/**
+ * The current strict virtual machine version used by the Bitcoin Cash (BCH)
+ * network.
+ */
 export const instructionSetBCHCurrentStrict =
-  InstructionSetBCH.BCH_2019_05_STRICT;
+  InstructionSetBCH.BCH_2020_05_STRICT;
 
 // eslint-disable-next-line complexity
 export const getFlagsForInstructionSetBCH = (
@@ -127,7 +158,7 @@ export const getFlagsForInstructionSetBCH = (
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true,
       };
-    case InstructionSetBCH.BCH_2019_11_SPEC:
+    case InstructionSetBCH.BCH_2019_11:
       return {
         disallowUpgradableNops: false,
         opReverseBytes: false,
@@ -135,7 +166,7 @@ export const getFlagsForInstructionSetBCH = (
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true,
       };
-    case InstructionSetBCH.BCH_2019_11_STRICT_SPEC:
+    case InstructionSetBCH.BCH_2019_11_STRICT:
       return {
         disallowUpgradableNops: true,
         opReverseBytes: false,
@@ -143,7 +174,7 @@ export const getFlagsForInstructionSetBCH = (
         requireMinimalEncoding: true,
         requireNullSignatureFailures: true,
       };
-    case InstructionSetBCH.BCH_2020_05_SPEC:
+    case InstructionSetBCH.BCH_2020_05:
       return {
         disallowUpgradableNops: false,
         opReverseBytes: true,
@@ -151,7 +182,7 @@ export const getFlagsForInstructionSetBCH = (
         requireMinimalEncoding: false,
         requireNullSignatureFailures: true,
       };
-    case InstructionSetBCH.BCH_2020_05_STRICT_SPEC:
+    case InstructionSetBCH.BCH_2020_05_STRICT:
       return {
         disallowUpgradableNops: true,
         opReverseBytes: true,
@@ -161,7 +192,7 @@ export const getFlagsForInstructionSetBCH = (
       };
     default:
       return new Error(
-        `${instructionSet as string} is not an instruction set.`
+        `${instructionSet as string} is not a known instruction set.`
       ) as never;
   }
 };

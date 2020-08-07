@@ -98,11 +98,9 @@ const pendingTests = tests;
 const elide = (text: string, length: number) =>
   text.length > length ? `${text.slice(0, length)}...` : text;
 
-const vmPromise = instantiateVirtualMachineBCH(
-  InstructionSetBCH.BCH_2020_05_SPEC
-);
+const vmPromise = instantiateVirtualMachineBCH(InstructionSetBCH.BCH_2020_05);
 const vmStrictPromise = instantiateVirtualMachineBCH(
-  InstructionSetBCH.BCH_2020_05_STRICT_SPEC
+  InstructionSetBCH.BCH_2020_05_STRICT
 );
 const sha256Promise = instantiateSha256();
 

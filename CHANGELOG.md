@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/bitauth/libauth/compare/v1.16.0...v1.17.0) (2020-08-07)
+
+
+### Features
+
+* add support for OP_REVERSEBYTES to BCH VM ([965bd6f](https://github.com/bitauth/libauth/commit/965bd6f9680c20015ff18a3d29348a2fdce8bc56)), closes [#56](https://github.com/bitauth/libauth/issues/56)
+
+
+### Bug Fixes
+
+* update current BCH instruction set ([d0bff0c](https://github.com/bitauth/libauth/commit/d0bff0c68e543f62abadd81b01d0f69ebd3b2841))
+
 ## [1.16.0](https://github.com/bitauth/libauth/compare/v1.15.4...v1.16.0) (2020-07-21)
 
 

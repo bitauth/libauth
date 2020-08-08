@@ -314,7 +314,7 @@ export const opReverseBytes = <
   State extends AuthenticationProgramStateStack
 >() => (state: State) =>
   useOneStackItem(state, (nextState, [item]) =>
-    pushToStack(nextState, item.reverse())
+    pushToStack(nextState, item.slice().reverse())
   );
 
 export const bitcoinCashOperations = <

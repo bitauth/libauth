@@ -45,20 +45,22 @@ test('parseLockTime', (t) => {
 testProp(
   '[fast-check] dateToLocktime <-> locktimeToDate',
   [fc.integer(minimumLocktimeTimestamp, maximumLocktimeTimestamp)],
-  (timestamp) => dateToLocktime(locktimeToDate(timestamp) as Date) === timestamp
+  (t, timestamp) =>
+    t.deepEqual(dateToLocktime(locktimeToDate(timestamp) as Date), timestamp)
 );
 
 testProp(
   '[fast-check] dateToLocktimeBin <-> parseLocktimeBin',
   [fc.date({ max: maximumLocktimeDate, min: minimumLocktimeDate })],
-  (date) => {
+  (t, date) => {
     const withSecondResolution = new Date(
       Math.round(date.getTime() / 1000) * 1000
     );
-    return (
+    t.deepEqual(
       (parseLocktimeBin(
         dateToLocktimeBin(withSecondResolution) as Uint8Array
-      ) as Date).getTime() === withSecondResolution.getTime()
+      ) as Date).getTime(),
+      withSecondResolution.getTime()
     );
   }
 );

@@ -215,8 +215,8 @@ test('binToNumberUintLE', (t) => {
 testProp(
   '[fast-check] numberToBinUintLE <-> binToNumberUintLE',
   [fc.integer(0, Number.MAX_SAFE_INTEGER)],
-  (maxSafeInt) =>
-    binToNumberUintLE(numberToBinUintLE(maxSafeInt)) === maxSafeInt
+  (t, maxSafeInt) =>
+    t.deepEqual(binToNumberUintLE(numberToBinUintLE(maxSafeInt)), maxSafeInt)
 );
 
 test('binToNumberUint16LE', (t) => {
@@ -307,8 +307,11 @@ test('binToBigIntUint256BE and bigIntToBinUint256BEClamped', (t) => {
 testProp(
   '[fast-check] binToBigIntUint256BE <-> bigIntToBinUint256BEClamped',
   [fc.bigUintN(256)],
-  (uint256) =>
-    binToBigIntUint256BE(bigIntToBinUint256BEClamped(uint256)) === uint256
+  (t, uint256) =>
+    t.deepEqual(
+      binToBigIntUint256BE(bigIntToBinUint256BEClamped(uint256)),
+      uint256
+    )
 );
 
 test('binToBigIntUintLE', (t) => {
@@ -347,17 +350,18 @@ test('binToBigIntUintLE', (t) => {
 testProp(
   '[fast-check] bigIntToBinUintLE <-> binToBigIntUintBE -> reverse',
   [fc.bigUintN(256)],
-  (uint256) => {
+  (t, uint256) => {
     const bin = bigIntToBinUintLE(uint256);
     const binReverse = bin.slice().reverse();
-    return binToBigIntUintBE(binReverse) === binToBigIntUintLE(bin);
+    t.deepEqual(binToBigIntUintBE(binReverse), binToBigIntUintLE(bin));
   }
 );
 
 testProp(
   '[fast-check] bigIntToBinUintLE <-> binToBigIntUintLE',
   [fc.bigUintN(65)],
-  (uint65) => binToBigIntUintLE(bigIntToBinUintLE(uint65)) === uint65
+  (t, uint65) =>
+    t.deepEqual(binToBigIntUintLE(bigIntToBinUintLE(uint65)), uint65)
 );
 
 test('binToBigIntUint64LE', (t) => {
@@ -433,10 +437,10 @@ test(varIntVector, 'ff1234567890abcdef', BigInt('0xefcdab9078563412'), 9);
 testProp(
   '[fast-check] bigIntToBitcoinVarInt <-> readBitcoinVarInt',
   [fc.bigUintN(64)],
-  (uint64) => {
+  (t, uint64) => {
     const varInt = bigIntToBitcoinVarInt(uint64);
     const expectedOffset = varIntPrefixToSize(varInt[0]);
     const result = readBitcoinVarInt(varInt);
-    return result.nextOffset === expectedOffset && result.value === uint64;
+    t.deepEqual(result, { nextOffset: expectedOffset, value: uint64 });
   }
 );

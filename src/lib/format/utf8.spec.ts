@@ -23,5 +23,6 @@ const testBinLength = 100;
 testProp(
   '[fast-check] utf8ToBin <-> binToUtf8',
   [fcUint8Array(0, testBinLength)],
-  (input) => binToUtf8(utf8ToBin(binToUtf8(input))) === binToUtf8(input)
+  (t, input) =>
+    t.deepEqual(binToUtf8(utf8ToBin(binToUtf8(input))), binToUtf8(input))
 );

@@ -257,33 +257,41 @@ const maxBinLength = 100;
 testProp(
   '[fast-check] encodeBech32 <-> decodeBech32',
   [fc.array(fc.integer(0, max5BitNumber), 0, maxBinLength)],
-  (input) => decodeBech32(encodeBech32(input)).toString() === input.toString()
+  (t, input) => {
+    t.deepEqual(decodeBech32(encodeBech32(input)), input);
+  }
 );
 
 testProp(
   '[fast-check] bech32PaddedToBin <-> binToBech32Padded',
   [fcUint8Array(0, maxBinLength)],
-  (input) =>
-    binToBech32Padded(
-      bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array
-    ) === binToBech32Padded(input)
+  (t, input) => {
+    t.deepEqual(
+      binToBech32Padded(
+        bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array
+      ),
+      binToBech32Padded(input)
+    );
+  }
 );
 
 testProp(
   '[fast-check] binToBech32Padded -> isBech32',
   [fcUint8Array(0, maxBinLength)],
-  (input) => isBech32CharacterSet(binToBech32Padded(input))
+  (t, input) => t.true(isBech32CharacterSet(binToBech32Padded(input)))
 );
 
 testProp(
   '[fast-check] isBech32: matches round trip results',
   [fcUint8Array(0, maxBinLength)],
-  (input) => {
+  (t, input) => {
     const maybeBech32 = binToUtf8(input);
     const tryBin = bech32PaddedToBin(maybeBech32);
-    const skip = true;
-    return typeof tryBin === 'string'
-      ? skip
-      : binToBech32Padded(tryBin) === maybeBech32;
+    if (typeof tryBin === 'string') {
+      // skip
+      t.pass();
+      return;
+    }
+    t.deepEqual(binToBech32Padded(tryBin), maybeBech32);
   }
 );

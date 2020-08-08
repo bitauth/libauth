@@ -56,7 +56,8 @@ test('binToHex', (t) => {
 testProp(
   '[fast-check] hexToBin <-> binToHex',
   [fcUint8Array(0, 100)],
-  (input) => binToHex(hexToBin(binToHex(input))) === binToHex(input)
+  (t, input) =>
+    t.deepEqual(binToHex(hexToBin(binToHex(input))), binToHex(input))
 );
 
 test('swapEndianness', (t) => {

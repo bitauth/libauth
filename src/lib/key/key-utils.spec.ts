@@ -72,10 +72,11 @@ testProp(
       .array(fc.integer(0, maximumUint8Value), theRest, theRest)
       .map((random) => Uint8Array.from([...almostInvalid, ...random])),
   ],
-  async (input) => {
+  async (t, input) => {
     const secp256k1 = await secp256k1Promise;
-    return (
-      validateSecp256k1PrivateKey(input) === secp256k1.validatePrivateKey(input)
+    t.deepEqual(
+      validateSecp256k1PrivateKey(input),
+      secp256k1.validatePrivateKey(input)
     );
   }
 );

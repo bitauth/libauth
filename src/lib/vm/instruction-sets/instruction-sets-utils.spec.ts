@@ -9,7 +9,6 @@ import {
   AuthenticationInstruction,
   AuthenticationInstructionPush,
   authenticationInstructionsAreMalformed,
-  binToHex,
   disassembleBytecode,
   disassembleBytecodeBCH,
   disassembleBytecodeBTC,
@@ -324,7 +323,7 @@ const maxBinLength = 100;
 testProp(
   '[fast-check] disassembleBytecodeBCH <-> assembleBytecodeBCH',
   [fcUint8Array(0, maxBinLength)],
-  (randomBytecode: Uint8Array) => {
+  (t, randomBytecode: Uint8Array) => {
     const parsed = parseBytecode<OpcodesBCH>(randomBytecode);
     const instructions = (authenticationInstructionsAreMalformed(parsed)
       ? parsed.slice(0, -1)
@@ -346,17 +345,18 @@ testProp(
 
     const disassembled = disassembleBytecodeBCH(serialized);
     const reassembled = assembleBytecodeBCH(disassembled);
-    return (
-      reassembled.success &&
-      binToHex(serialized) === binToHex(reassembled.bytecode)
-    );
+    if (!reassembled.success) {
+      t.fail();
+      return;
+    }
+    t.deepEqual(serialized, reassembled.bytecode);
   }
 );
 
 testProp(
   '[fast-check] disassembleBytecodeBTC <-> assembleBytecodeBTC',
   [fcUint8Array(0, maxBinLength)],
-  (randomBytecode: Uint8Array) => {
+  (t, randomBytecode: Uint8Array) => {
     const parsed = parseBytecode<OpcodesBTC>(randomBytecode);
     const instructions = (authenticationInstructionsAreMalformed(parsed)
       ? parsed.slice(0, -1)
@@ -378,9 +378,10 @@ testProp(
 
     const disassembled = disassembleBytecodeBTC(serialized);
     const reassembled = assembleBytecodeBTC(disassembled);
-    return (
-      reassembled.success &&
-      binToHex(serialized) === binToHex(reassembled.bytecode)
-    );
+    if (!reassembled.success) {
+      t.fail();
+      return;
+    }
+    t.deepEqual(serialized, reassembled.bytecode);
   }
 );

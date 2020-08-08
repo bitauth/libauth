@@ -32,7 +32,9 @@ test('binToBinString', (t) => {
 testProp(
   '[fast-check] binStringToBin <-> binToBinString',
   [fcUint8Array(0, 100)],
-  (input) =>
-    binToBinString(binStringToBin(binToBinString(input))) ===
-    binToBinString(input)
+  (t, input) =>
+    t.deepEqual(
+      binToBinString(binStringToBin(binToBinString(input))),
+      binToBinString(input)
+    )
 );

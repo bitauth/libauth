@@ -103,10 +103,10 @@ const fcUint8Array = (minLength: number, maxLength: number) =>
 testProp(
   '[fast-check] [crypto] hmacSha256 is equivalent to Node.js native HMAC-SHA256',
   [fcUint8Array(1, 100), fcUint8Array(1, 100)],
-  async (secret, message) => {
+  async (t, secret, message) => {
     const sha256 = await sha256Promise;
-    return (
-      binToHex(hmacSha256(sha256, secret, message)) ===
+    t.deepEqual(
+      binToHex(hmacSha256(sha256, secret, message)),
       createHmac('sha256', secret).update(message).digest('hex')
     );
   }
@@ -115,10 +115,10 @@ testProp(
 testProp(
   '[fast-check] [crypto] hmacSha512 is equivalent to Node.js native HMAC-SHA512',
   [fcUint8Array(0, 100), fcUint8Array(0, 100)],
-  async (secret, message) => {
+  async (t, secret, message) => {
     const sha512 = await sha512Promise;
-    return (
-      binToHex(hmacSha512(sha512, secret, message)) ===
+    t.deepEqual(
+      binToHex(hmacSha512(sha512, secret, message)),
       createHmac('sha512', secret).update(message).digest('hex')
     );
   }

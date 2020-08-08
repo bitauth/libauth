@@ -113,18 +113,19 @@ const maxBinLength = 100;
 testProp(
   '[fast-check] encodeBase58Address <-> decodeBase58Address',
   [fc.integer(0, maxUint8Number), fcUint8Array(0, maxBinLength)],
-  async (version: number, payload: Uint8Array) => {
+  async (t, version: number, payload: Uint8Array) => {
     const sha256 = await sha256Promise;
     const address = encodeBase58AddressFormat(sha256, version, payload);
 
     const decoded = decodeBase58AddressFormat(sha256, address);
     if (typeof decoded === 'string') {
-      return false;
+      t.fail(decoded);
+      return;
     }
-    return (
-      decoded.version === version &&
-      decoded.payload.every((value, index) => value === payload[index])
-    );
+    t.deepEqual(decoded, {
+      payload,
+      version,
+    });
   }
 );
 

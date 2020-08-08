@@ -816,7 +816,7 @@ const fcBip32Path = () =>
 testProp(
   '[fast-check] [crypto] HD key derivation is equivalent to bitcore-lib-cash',
   [fcBip32Path()],
-  async (path: string) => {
+  async (t, path: string) => {
     const crypto = await instantiateBIP32Crypto();
     const privateNode = (decodeHdPrivateKey(crypto, xprv) as HdKeyParameters<
       HdPrivateNodeValid
@@ -836,7 +836,8 @@ testProp(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const bitcorePub = bitcoreResult.xpubkey;
 
-    return resultPrv === bitcorePrv && resultPub === bitcorePub;
+    t.deepEqual(resultPrv, bitcorePrv);
+    t.deepEqual(resultPub, bitcorePub);
   },
   { numRuns: 10 }
 );
@@ -852,6 +853,7 @@ testProp(
     fcUint8Array(publicKeyLength, publicKeyLength),
   ],
   async (
+    t,
     mainnet: boolean,
     depth: number,
     childIndex: number,
@@ -871,8 +873,8 @@ testProp(
         publicKey,
       },
     });
-    return (
-      encoded ===
+    t.deepEqual(
+      encoded,
       encodeHdPublicKey(
         crypto,
         decodeHdPublicKey(crypto, encoded) as HdKeyParameters<HdPublicNode>
@@ -892,6 +894,7 @@ testProp(
     fcUint8Array(privateKeyLength, privateKeyLength),
   ],
   async (
+    t,
     mainnet: boolean,
     depth: number,
     childIndex: number,
@@ -900,7 +903,10 @@ testProp(
     privateKey: Uint8Array
     // eslint-disable-next-line max-params
   ) => {
-    if (!validateSecp256k1PrivateKey(privateKey)) return true;
+    if (!validateSecp256k1PrivateKey(privateKey)) {
+      t.pass();
+      return;
+    }
     const crypto = await instantiateBIP32Crypto();
     const encoded = encodeHdPrivateKey(crypto, {
       network: mainnet ? 'mainnet' : 'testnet',
@@ -913,8 +919,8 @@ testProp(
         valid: true,
       },
     });
-    return (
-      encoded ===
+    t.deepEqual(
+      encoded,
       encodeHdPrivateKey(
         crypto,
         decodeHdPrivateKey(crypto, encoded) as HdKeyParameters<
@@ -935,6 +941,7 @@ testProp(
     fcUint8Array(privateKeyLength, privateKeyLength),
   ],
   async (
+    t,
     depth: number,
     childIndexes: number,
     parentFingerprint: Uint8Array,
@@ -943,7 +950,10 @@ testProp(
     // eslint-disable-next-line max-params
   ) => {
     const crypto = await instantiateBIP32Crypto();
-    if (!validateSecp256k1PrivateKey(privateKey)) return true;
+    if (!validateSecp256k1PrivateKey(privateKey)) {
+      t.pass();
+      return;
+    }
     const parentXprv = encodeHdPrivateKey(crypto, {
       network: 'mainnet',
       node: {
@@ -978,6 +988,6 @@ testProp(
       node: crackedParentNode,
     });
 
-    return parentXprv === crackedXprv;
+    t.deepEqual(parentXprv, crackedXprv);
   }
 );

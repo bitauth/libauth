@@ -203,5 +203,6 @@
       "**/*.spec.helper.js",
       "**/*.spec.debug.js"
     ]
-  }
+  },
+  "sideEffects": false
 }

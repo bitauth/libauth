@@ -13,10 +13,14 @@ import {
   binToBigIntUintBE,
   binToBigIntUintLE,
   binToHex,
+  binToNumberInt16LE,
+  binToNumberInt32LE,
   binToNumberUint16LE,
   binToNumberUint32LE,
   binToNumberUintLE,
   hexToBin,
+  numberToBinInt16LE,
+  numberToBinInt32LE,
   numberToBinInt32TwosCompliment,
   numberToBinUint16BE,
   numberToBinUint16LE,
@@ -97,6 +101,31 @@ test('numberToBinUintLE', (t) => {
   t.deepEqual(
     numberToBinUintLE(Number.MAX_SAFE_INTEGER),
     Uint8Array.from([255, 255, 255, 255, 255, 255, 31])
+  );
+});
+
+test('numberToBinInt16LE', (t) => {
+  t.deepEqual(numberToBinInt16LE(0), Uint8Array.from([0, 0]));
+  t.deepEqual(numberToBinInt16LE(1), Uint8Array.from([1, 0]));
+  t.deepEqual(numberToBinInt16LE(0x1234), Uint8Array.from([0x34, 0x12]));
+  t.deepEqual(numberToBinInt16LE(-0x1234), Uint8Array.from([0xcc, 0xed]));
+});
+
+test('numberToBinInt32LE', (t) => {
+  t.deepEqual(numberToBinInt32LE(0), Uint8Array.from([0, 0, 0, 0]));
+  t.deepEqual(numberToBinInt32LE(1), Uint8Array.from([1, 0, 0, 0]));
+  t.deepEqual(numberToBinInt32LE(0x1234), Uint8Array.from([0x34, 0x12, 0, 0]));
+  t.deepEqual(
+    numberToBinInt32LE(-0x1234),
+    Uint8Array.from([0xcc, 0xed, 0xff, 0xff])
+  );
+  t.deepEqual(
+    numberToBinUint32LE(0x12345678),
+    Uint8Array.from([0x78, 0x56, 0x34, 0x12])
+  );
+  t.deepEqual(
+    numberToBinInt32LE(-0x12345678),
+    Uint8Array.from([0x88, 0xa9, 0xcb, 0xed])
   );
 });
 
@@ -224,6 +253,23 @@ test('binToNumberUint16LE', (t) => {
   const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12, 0x00]);
   const view = data.subarray(2, 4);
   t.deepEqual(binToNumberUint16LE(view), 0x3456);
+});
+
+test('binToNumberInt16LE', (t) => {
+  t.deepEqual(binToNumberInt16LE(Uint8Array.from([0x34, 0x12])), 0x1234);
+  t.deepEqual(binToNumberInt16LE(Uint8Array.from([0xcc, 0xed])), -0x1234);
+});
+
+test('binToNumberInt32LE', (t) => {
+  t.deepEqual(
+    binToNumberInt32LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12])),
+    0x12345678
+  );
+
+  t.deepEqual(
+    binToNumberInt32LE(Uint8Array.from([0x88, 0xa9, 0xcb, 0xed])),
+    -0x12345678
+  );
 });
 
 test('binToNumberUint16LE: ignores bytes after the 2nd', (t) => {

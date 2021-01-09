@@ -180,13 +180,10 @@ export const bigIntToBinUint64LEClamped = (value: bigint) => {
  * @param value - the number to encode
  */
 export const bigIntToBinUint64LE = (value: bigint) => {
-  const uint64Length = 8;
-  const bin = new Uint8Array(uint64Length);
-  const writeAsLittleEndian = true;
-  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  // eslint-disable-next-line functional/no-expression-statement
-  view.setBigUint64(0, value, writeAsLittleEndian);
-  return bin;
+  const uint64LengthInBits = 64;
+  const valueAsUint64 = BigInt.asUintN(uint64LengthInBits, value);
+  const fixedLengthBin = bigIntToBinUint64LEClamped(valueAsUint64);
+  return fixedLengthBin;
 };
 
 /**

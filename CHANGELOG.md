@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.18.0](https://github.com/bitauth/libauth/compare/v1.17.3...v1.18.0) (2021-02-11)
+
+
+### Features
+
+* add Int16LE and Int32LE bin <-> Number utilities ([60c6580](https://github.com/bitauth/libauth/commit/60c6580f2be517545555940c3f71b389afd35eed)), closes [#66](https://github.com/bitauth/libauth/issues/66)
+
+
+### Bug Fixes
+
+* make bigIntToBinUint64LE compatible with Safari ([a884702](https://github.com/bitauth/libauth/commit/a88470284684a1a21709f78a067ab529cb01ca42)), closes [#70](https://github.com/bitauth/libauth/issues/70) [#69](https://github.com/bitauth/libauth/issues/69)
+
 ### [1.17.3](https://github.com/bitauth/libauth/compare/v1.17.2...v1.17.3) (2020-10-23)
 
 ### [1.17.2](https://github.com/bitauth/libauth/compare/v1.17.1...v1.17.2) (2020-09-15)

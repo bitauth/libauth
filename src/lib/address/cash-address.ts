@@ -365,7 +365,7 @@ export const encodeCashAddress = <
 export enum CashAddressDecodingError {
   improperPadding = 'CashAddress decoding error: the payload is improperly padded.',
   invalidCharacters = 'CashAddress decoding error: the payload contains non-bech32 characters.',
-  invalidChecksum = 'CashAddress decoding error: please review the address for errors.',
+  invalidChecksum = 'CashAddress decoding error: invalid checksum – please review the address for errors.',
   invalidFormat = 'CashAddress decoding error: CashAddresses should be of the form "prefix:payload".',
   mismatchedHashLength = 'CashAddress decoding error: mismatched hash length for specified address version.',
   reservedByte = 'CashAddress decoding error: unknown CashAddress version, reserved byte set.',

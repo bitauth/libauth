@@ -81,6 +81,68 @@ export const numberToBinUint16LE = (value: number) => {
 };
 
 /**
+ * Encode an integer as a 2-byte Int16LE Uint8Array.
+ *
+ * This method will return an incorrect result for values outside of the range
+ * `0x0000` to `0xffff`.
+ *
+ * @param value - the number to encode
+ */
+export const numberToBinInt16LE = (value: number) => {
+  const int16Length = 2;
+  const bin = new Uint8Array(int16Length);
+  const writeAsLittleEndian = true;
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  // eslint-disable-next-line functional/no-expression-statement
+  view.setInt16(0, value, writeAsLittleEndian);
+  return bin;
+};
+
+/**
+ * Encode an integer as a 4-byte Uint32LE Uint8Array.
+ *
+ * This method will return an incorrect result for values outside of the range
+ * `0x00000000` to `0xffffffff`.
+ *
+ * @param value - the number to encode
+ */
+export const numberToBinInt32LE = (value: number) => {
+  const int32Length = 4;
+  const bin = new Uint8Array(int32Length);
+  const writeAsLittleEndian = true;
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  // eslint-disable-next-line functional/no-expression-statement
+  view.setInt32(0, value, writeAsLittleEndian);
+  return bin;
+};
+
+/**
+ * Decode a 2-byte Int16LE Uint8Array into a number.
+ *
+ * Throws if `bin` is shorter than 2 bytes.
+ *
+ * @param bin - the Uint8Array to decode
+ */
+export const binToNumberInt16LE = (bin: Uint8Array) => {
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  const readAsLittleEndian = true;
+  return view.getInt16(0, readAsLittleEndian);
+};
+
+/**
+ * Decode a 4-byte Int32LE Uint8Array into a number.
+ *
+ * Throws if `bin` is shorter than 4 bytes.
+ *
+ * @param bin - the Uint8Array to decode
+ */
+export const binToNumberInt32LE = (bin: Uint8Array) => {
+  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
+  const readAsLittleEndian = true;
+  return view.getInt32(0, readAsLittleEndian);
+};
+
+/**
  * Encode a positive integer as a 2-byte Uint16LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range

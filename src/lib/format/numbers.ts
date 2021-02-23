@@ -422,9 +422,8 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
  */
 export const binToBigIntUint64LE = (bin: Uint8Array) => {
   const uint64LengthInBytes = 8;
-  const truncatedBin = bin.length > uint64LengthInBytes
-    ? bin.slice(0, uint64LengthInBytes)
-    : bin;
+  const truncatedBin =
+    bin.length > uint64LengthInBytes ? bin.slice(0, uint64LengthInBytes) : bin;
   return binToBigIntUintLE(truncatedBin, uint64LengthInBytes);
 };
 

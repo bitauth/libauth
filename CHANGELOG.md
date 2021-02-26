@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.18.1](https://github.com/bitauth/libauth/compare/v1.18.0...v1.18.1) (2021-02-26)
+
+
+### Bug Fixes
+
+* refactor binToBigIntUint64LE to support safari ([#71](https://github.com/bitauth/libauth/issues/71)) ([d41f3cc](https://github.com/bitauth/libauth/commit/d41f3cc7dfcbefe8a8bd04ce855122836eb47417))
+
 ## [1.18.0](https://github.com/bitauth/libauth/compare/v1.17.3...v1.18.0) (2021-02-11)
 
 

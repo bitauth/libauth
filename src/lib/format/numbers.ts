@@ -421,9 +421,10 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
  * @param bin - the Uint8Array to decode
  */
 export const binToBigIntUint64LE = (bin: Uint8Array) => {
-  const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  const readAsLittleEndian = true;
-  return view.getBigUint64(0, readAsLittleEndian);
+  const uint64LengthInBytes = 8;
+  const truncatedBin =
+    bin.length > uint64LengthInBytes ? bin.slice(0, uint64LengthInBytes) : bin;
+  return binToBigIntUintLE(truncatedBin, uint64LengthInBytes);
 };
 
 const enum VarInt {

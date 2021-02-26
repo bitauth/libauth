@@ -415,9 +415,35 @@ test('binToBigIntUint64LE', (t) => {
     binToBigIntUint64LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0])),
     BigInt(0x12345678)
   );
+  t.deepEqual(
+    binToBigIntUint64LE(
+      Uint8Array.from([0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01])
+    ),
+    BigInt('0x0123456789abcdef')
+  );
+  t.deepEqual(
+    binToBigIntUint64LE(
+      Uint8Array.from([
+        0xef,
+        0xcd,
+        0xab,
+        0x89,
+        0x67,
+        0x45,
+        0x23,
+        0x01,
+        0x00,
+        0x00,
+      ])
+    ),
+    BigInt('0x0123456789abcdef')
+  );
   const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0, 0]);
   const view = data.subarray(2);
   t.deepEqual(binToBigIntUint64LE(view), BigInt(0x123456));
+  t.throws(() =>
+    binToBigIntUint64LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12]))
+  );
 });
 
 test('readBitcoinVarInt: offset is optional', (t) => {

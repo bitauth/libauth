@@ -347,6 +347,15 @@ export interface Secp256k1 {
   readonly validatePrivateKey: (privateKey: Uint8Array) => boolean;
 
   /**
+   * Verify that a public key is valid for secp256k1.
+   *
+   * This method returns true if the public key is valid or false if it isn't.
+   *
+   * @param publicKey - a public key to validate
+   */
+  readonly validatePublicKey: (publicKey: Uint8Array) => boolean;
+
+  /**
    * Normalize a signature to lower-S form, then `verifySignatureCompactLowS`.
    *
    * @param signature - a compact-encoded ECDSA signature to verify, max 72 bytes

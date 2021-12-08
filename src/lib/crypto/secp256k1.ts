@@ -575,6 +575,7 @@ const wrapSecp256k1Wasm = (
         privateKey,
         () => secp256k1Wasm.seckeyVerify(contextPtr, privateKeyPtr) === 1
       ),
+    validatePublicKey: parsePublicKey,
     verifySignatureCompact: verifySignature(false, true),
     verifySignatureCompactLowS: verifySignature(false, false),
     verifySignatureDER: verifySignature(true, true),

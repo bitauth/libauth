@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.19.0](https://github.com/bitauth/libauth/compare/v1.18.1...v1.19.0) (2021-12-08)
+
+
+### Features
+
+* expose validatePublicKey method on secp256k1 ([#83](https://github.com/bitauth/libauth/issues/83)) ([0f84420](https://github.com/bitauth/libauth/commit/0f84420483ca0d8782e49bd97d503066f95b0dbe))
+
 ### [1.18.1](https://github.com/bitauth/libauth/compare/v1.18.0...v1.18.1) (2021-02-26)
 
 

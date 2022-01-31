@@ -76,8 +76,15 @@ const wrapSecp256k1Wasm = (
   // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
   const lengthPtrView32 = lengthPtr >> 2;
 
+  const cloneAndPad = (value: Uint8Array, expectedLength: number) => {
+    const zeroPaddedValue = new Uint8Array(expectedLength);
+    zeroPaddedValue.set(value);
+    return zeroPaddedValue;
+  };
+
   const parsePublicKey = (publicKey: Uint8Array) => {
-    secp256k1Wasm.heapU8.set(publicKey, publicKeyScratch);
+    const paddedPublicKey = cloneAndPad(publicKey, ByteLength.maxPublicKey);
+    secp256k1Wasm.heapU8.set(paddedPublicKey, publicKeyScratch);
     return (
       secp256k1Wasm.pubkeyParse(
         contextPtr,
@@ -128,7 +135,8 @@ const wrapSecp256k1Wasm = (
   };
 
   const parseSignature = (signature: Uint8Array, isDer: boolean) => {
-    secp256k1Wasm.heapU8.set(signature, sigScratch);
+    const paddedSignature = cloneAndPad(signature, ByteLength.maxECDSASig);
+    secp256k1Wasm.heapU8.set(paddedSignature, sigScratch);
     return isDer
       ? secp256k1Wasm.signatureParseDER(
           contextPtr,
@@ -177,7 +185,8 @@ const wrapSecp256k1Wasm = (
   };
 
   const fillPrivateKeyPtr = (privateKey: Uint8Array) => {
-    secp256k1Wasm.heapU8.set(privateKey, privateKeyPtr);
+    const paddedPrivateKey = cloneAndPad(privateKey, ByteLength.privateKey);
+    secp256k1Wasm.heapU8.set(paddedPrivateKey, privateKeyPtr);
   };
 
   const zeroOutPtr = (pointer: number, bytes: number) => {
@@ -219,7 +228,8 @@ const wrapSecp256k1Wasm = (
   };
 
   const fillMessageHashScratch = (messageHash: Uint8Array) => {
-    secp256k1Wasm.heapU8.set(messageHash, messageHashScratch);
+    const paddedMessageHash = cloneAndPad(messageHash, ByteLength.messageHash);
+    secp256k1Wasm.heapU8.set(paddedMessageHash, messageHashScratch);
   };
 
   const normalizeSignature = () => {
@@ -352,7 +362,8 @@ const wrapSecp256k1Wasm = (
     signature: Uint8Array
   ) => {
     fillMessageHashScratch(messageHash);
-    secp256k1Wasm.heapU8.set(signature, schnorrSigPtr);
+    const paddedSignature = cloneAndPad(signature, ByteLength.schnorrSig);
+    secp256k1Wasm.heapU8.set(paddedSignature, schnorrSigPtr);
     return (
       secp256k1Wasm.schnorrVerify(
         contextPtr,
@@ -412,7 +423,8 @@ const wrapSecp256k1Wasm = (
     messageHash: Uint8Array
   ) => {
     fillMessageHashScratch(messageHash);
-    secp256k1Wasm.heapU8.set(signature, sigScratch);
+    const paddedSignature = cloneAndPad(signature, ByteLength.maxECDSASig);
+    secp256k1Wasm.heapU8.set(paddedSignature, sigScratch);
     if (
       secp256k1Wasm.recoverableSignatureParse(
         contextPtr,
@@ -542,7 +554,8 @@ const wrapSecp256k1Wasm = (
    */
   if (randomSeed !== undefined) {
     const randomSeedPtr = messageHashScratch;
-    secp256k1Wasm.heapU8.set(randomSeed, randomSeedPtr);
+    const paddedRandomSeed = cloneAndPad(randomSeed, ByteLength.randomSeed);
+    secp256k1Wasm.heapU8.set(paddedRandomSeed, randomSeedPtr);
     secp256k1Wasm.contextRandomize(contextPtr, randomSeedPtr);
     zeroOutPtr(randomSeedPtr, ByteLength.randomSeed);
   }

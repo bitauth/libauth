@@ -12,11 +12,19 @@ Critical security issues may be backported to previous versions, but we recommen
 
 If you have found a security issue in Libauth, please notify us via email at security@bitauth.com.
 
+## Acknowledgements
+
+Thank you to the following contributors for reporting security issues in Libauth.
+
+| Contributor | Issue                                      | Resolution                                                                                     |
+| ----------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Jim Hamill  | Secp256k1: improper sanitization of inputs | [7fc75c90](https://github.com/bitauth/libauth/commit/7fc75c90be441cf22f3bb7946363e78fa0a61b17) |
+
 ## PGP Key
 
 Files and messages may be encrypted with the following PGP key.
 
-**Fingerprint**: `B9BE 5C81 9327 99DD F37D  74B2 97A1 A7DF 9EB6 9AB8` 
+**Fingerprint**: `B9BE 5C81 9327 99DD F37D 74B2 97A1 A7DF 9EB6 9AB8`
 
 ```pgp
 -----BEGIN PGP PUBLIC KEY BLOCK-----

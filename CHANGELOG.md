@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.19.1](https://github.com/bitauth/libauth/compare/v1.19.0...v1.19.1) (2022-02-01)
+
+
+### Bug Fixes
+
+* **secp256k1:** prevent vulnerabilities in consumers which don't validate input lengths ([7fc75c9](https://github.com/bitauth/libauth/commit/7fc75c90be441cf22f3bb7946363e78fa0a61b17))
+
 ## [1.19.0](https://github.com/bitauth/libauth/compare/v1.18.1...v1.19.0) (2021-12-08)
 
 

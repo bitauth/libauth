@@ -51,14 +51,14 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
  * import { randomBytes } from 'crypto';
  * import { generatePrivateKey } from '@bitauth/libauth';
  *
- * const key = generatePrivateKey(secp256k1, () => randomBytes(32));
+ * const key = generatePrivateKey(() => randomBytes(32));
  * ```
  *
  * **Browser Usage**
  * ```ts
  * import { generatePrivateKey } from '@bitauth/libauth';
  *
- * const key = generatePrivateKey(secp256k1, () =>
+ * const key = generatePrivateKey(() =>
  *   window.crypto.getRandomValues(new Uint8Array(32))
  * );
  * ```

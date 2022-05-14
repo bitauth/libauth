@@ -4,7 +4,7 @@ import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import test from 'ava';
-import { launch } from 'puppeteer';
+import puppeteer from 'puppeteer';
 import { rollup } from 'rollup';
 
 const prepareCode = async () => {
@@ -25,8 +25,8 @@ const prepareCode = async () => {
     plugins: [
       alias({
         entries: {
-          chuhai: './../../../bench/chuhai.js',
-          'hash.js': './../../../bench/hash.js',
+          chuhai: './../../bench/chuhai.js',
+          'hash.js': './../../bench/hash.js',
         },
       }),
       commonjs(),
@@ -43,7 +43,7 @@ const prepareCode = async () => {
 };
 
 const preparePage = async () => {
-  const browser = await launch({
+  const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     // devtools: true
   });

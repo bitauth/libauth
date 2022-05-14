@@ -1,6 +1,6 @@
 /* global window, crypto */
 /* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement, functional/no-return-void */
-import asmCrypto from 'asmcrypto.js';
+import * as asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
 import hashJs from 'hash.js';
 

@@ -1,0 +1,38 @@
+name: Lint, Build, and Test Libauth
+on: [push, pull_request]
+
+jobs:
+  
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 16 ]
+    name: Test Node ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn --frozen-lockfile --ignore-engines
+      - run: yarn test
+
+  build-and-test-node18:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 18 ]
+    name: Test Node ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn --frozen-lockfile --ignore-engines
+      - run: yarn test-node18
+      - name: Upload test coverage
+        uses: codecov/codecov-action@v2

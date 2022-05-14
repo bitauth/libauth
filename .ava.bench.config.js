@@ -1,5 +1,5 @@
 export default {
-  files: ['build/main/**/*.bench.js'],
+  files: ['build/**/*.bench.js'],
   workerThreads: false,
   verbose: true,
 };

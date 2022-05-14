@@ -52,31 +52,31 @@
     "gen:schema:authentication-template": "ts-json-schema-generator --no-ref-encode --path 'src/lib/compiler/template-types.ts' --type 'AuthenticationTemplate' > src/lib/schema/authentication-template.schema.json && prettier 'src/lib/schema/authentication-template.schema.json' --write && ajv compile -s src/lib/schema/authentication-template.schema.json --allowUnionTypes -o src/lib/schema/ajv/validate-authentication-template.js && prettier 'src/lib/schema/ajv/validate-authentication-template.js' --write && node -e \"const fs = require('fs'), path = 'src/lib/schema/ajv/validate-authentication-template.js'; fs.writeFileSync(path, fs.readFileSync(path, 'utf8').replace(/'use strict'[\\s\\S]*module.exports.default =/, 'export default'), 'utf8')\"",
     "gen:schema-TODO": "//TODO: use ajv compile --code-esm option after merge: https://github.com/ajv-validator/ajv-cli/pull/200",
     "gen:templates": "run-s build && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'p2pkh' > src/lib/transaction/fixtures/templates/p2pkh.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-3' > src/lib/transaction/fixtures/templates/2-of-3.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-2-recoverable' > src/lib/transaction/fixtures/templates/2-of-2-recoverable.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'sig-of-sig' > src/lib/transaction/fixtures/templates/sig-of-sig.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'cash-channels' > src/lib/transaction/fixtures/templates/cash-channels.json && prettier 'src/lib/transaction/fixtures/templates/*.json' --write",
+    "gen:graph": "mkdir -p scratch && madge --image scratch/deps-$(date +\"%FT%H%M\").svg build/index.js",
     "test": "run-s build test:*",
+    "test-node18": "NODE_OPTIONS=--openssl-legacy-provider run-s build test:*",
     "test:deps": "node -e \"if(Object.keys(require('./package.json').dependencies).length > 0) { console.error('Dependencies are not allowed.'); process.exit(1); }\"",
     "test:schemas": "run-s gen:schema && if [ `git status src/lib/schema --porcelain | head -c1 | wc -c` -gt 0 ]; then echo \"Error: one or more schemas are outdated. Please review and commit the changes in src/lib/schema.\" && false; fi && echo \"Schemas are up to date.\"",
     "test:lint": "eslint . --ext .ts",
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:cycles": "madge --circular build/index.js",
-    "test:unit": "NODE_OPTIONS=--openssl-legacy-provider nyc --silent ava",
-    "test:unit:fast": "nyc --silent ava --match='!*[fast-check]*' --match='!*[crypto]*' --match='!*[script_tests]*' --match='!*[signing-serialization tests]*' --match='!*[BCH compiler]*' --match='!*[BCH VM]*'",
-    "test:unit:fast-check": "nyc --silent ava --match='*[fast-check]*",
-    "test:unit:script_tests": "nyc --silent ava --match='*[script_tests]*' --serial",
-    "test:unit:vmb_tests": "nyc --silent ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
+    "test:unit": "c8 ava",
+    "test:unit:script_tests": "c8 ava --match='*[script_tests]*' --serial",
+    "test:unit:vmb_tests": "c8 ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
     "test:unit:vmb_test": "node 'build/lib/vmb-tests/bch-vmb-test.spec.helper.js'",
     "bench": "run-s build bench:browser-deps bench:test",
-    "bench:test": "NODE_OPTIONS=--openssl-legacy-provider ava --config .ava.bench.config.js --serial --timeout=2m",
+    "bench:test": "ava --config .ava.bench.config.js --serial --timeout=2m 2>&1 | tee bench.log",
     "bench:browser-deps": "browserify node_modules/chuhai/index.js --standalone chuhai -o build/bench/chuhai.js && browserify node_modules/hash.js/lib/hash.js --standalone hash -o build/bench/hash.js",
     "watch": "run-s build:tsc build:wasm && yarn build:tsc -- -w",
     "watch:single": "echo 'Usage: yarn watch:single --match=\"*pattern*\"' && ava -v --watch",
     "watch:test": "yarn test:unit:fast -- --watch -v",
     "watch:test-slow": "yarn test:unit -- --watch -v",
     "cov": "run-s build test:unit cov:html cov:lcov && open-cli coverage/index.html",
-    "cov:html": "nyc report --reporter=html",
-    "cov:lcov": "nyc report --reporter=lcov",
+    "cov:html": "c8 report --reporter=html",
+    "cov:lcov": "c8 report --reporter=lcov",
     "cov:send": "run-s cov:lcov && codecov",
-    "cov:check": "nyc report && nyc check-coverage --lines 85 --functions 80 --branches 65",
+    "cov:check": "c8 report && c8 check-coverage --lines 90 --functions 90 --branches 90",
     "doc": "run-s doc:html && open-cli build/docs/index.html",
     "doc:logo": "cpy assets/libauth.svg build/docs",
     "doc:cname": "node -e \"console.log('libauth.org')\" > build/docs/CNAME",
@@ -88,8 +88,10 @@
     "doc:check-api": "api-extractor run --typescript-compiler-folder node_modules/typescript",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
+    "version:alpha": "standard-version --prerelease alpha",
     "reset": "git clean -dfx && git reset --hard && yarn",
-    "prepare-release": "run-s reset test cov:check doc:html doc:logo doc:cname version doc:publish"
+    "prepare-release": "run-s reset test cov:check doc:html doc:logo doc:cname version doc:publish",
+    "prepare-release:alpha": "run-s reset test cov:check version:alpha"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
@@ -97,8 +99,6 @@
   "dependencies": {},
   "devDependencies": {
     "@ava/typescript": "^3.0.1",
-    "@bitjson/npm-scripts-info": "^1.0.0",
-    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@microsoft/api-documenter": "^7.17.13",
     "@microsoft/api-extractor": "^7.23.2",
     "@rollup/plugin-alias": "^3.1.9",
@@ -116,7 +116,8 @@
     "ava-fast-check": "^5.0.0",
     "bcrypto": "^5.4.0",
     "bitcore-lib-cash": "^8.25.28",
-    "browserify": "17.0.0",
+    "browserify": "16.5.1",
+    "c8": "^7.11.2",
     "chuhai": "^1.2.0",
     "codecov": "^3.8.3",
     "cpy-cli": "^4.1.0",
@@ -124,6 +125,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "elliptic": "^6.5.4",
     "eslint": "8.15.0",
+    "eslint-config-bitauth": "^3.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-functional": "^4.2.1",
@@ -136,7 +138,6 @@
     "hash.js": "^1.1.5",
     "madge": "^5.0.1",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.1.0",
     "open-cli": "^7.0.1",
     "prettier": "^2.6.2",
     "puppeteer": "^14.1.0",
@@ -144,9 +145,7 @@
     "secp256k1": "^4.0.3",
     "source-map-support": "^0.5.21",
     "standard-version": "^9.3.2",
-    "trash-cli": "^5.0.0",
     "ts-json-schema-generator": "^1.0.0",
-    "ts-node": "^10.7.0",
     "typedoc": "^0.22.13",
     "typescript": "^4.6.4"
   },
@@ -205,13 +204,11 @@
       }
     ]
   },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
+  "c8": {
     "exclude": [
       "**/*.bench.js",
       "**/*.spec.js",
-      "**/*.spec.helper.js",
-      "**/*.spec.debug.js"
+      "**/*.spec.helper.js"
     ]
   },
   "sideEffects": false

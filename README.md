@@ -40,7 +40,7 @@
 
 # Libauth
 
-**An ultra-lightweight JavaScript library for Bitcoin, Bitcoin Cash, and Bitauth applications.**
+**An ultra-lightweight JavaScript library for Bitcoin Cash, Bitcoin, and Bitauth applications.**
 
 Libauth has **no dependencies** and works in all JavaScript environments, including [Node.js](https://nodejs.org/), [Deno](https://deno.land/), and browsers.
 

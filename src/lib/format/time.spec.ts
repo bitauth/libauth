@@ -1,10 +1,10 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 import { fc, testProp } from 'ava-fast-check';
 
 import {
   dateToLocktime,
   dateToLocktimeBin,
+  decodeLocktime,
   hexToBin,
   LocktimeError,
   locktimeToDate,
@@ -12,8 +12,7 @@ import {
   maximumLocktimeTimestamp,
   minimumLocktimeDate,
   minimumLocktimeTimestamp,
-  parseLocktimeBin,
-} from '../lib';
+} from '../lib.js';
 
 test('dateToLocktime', (t) => {
   t.deepEqual(dateToLocktime(new Date('2019-10-13')), 1570924800);
@@ -32,12 +31,12 @@ test('dateToLocktimeBin', (t) => {
 });
 
 test('parseLockTime', (t) => {
-  t.deepEqual(parseLocktimeBin(hexToBin('0069a25d')), new Date('2019-10-13'));
-  t.deepEqual(parseLocktimeBin(hexToBin('d090371c')), 473403600);
-  t.deepEqual(parseLocktimeBin(hexToBin('')), LocktimeError.incorrectLength);
-  t.deepEqual(parseLocktimeBin(hexToBin('00')), LocktimeError.incorrectLength);
+  t.deepEqual(decodeLocktime(hexToBin('0069a25d')), new Date('2019-10-13'));
+  t.deepEqual(decodeLocktime(hexToBin('d090371c')), 473403600);
+  t.deepEqual(decodeLocktime(hexToBin('')), LocktimeError.incorrectLength);
+  t.deepEqual(decodeLocktime(hexToBin('00')), LocktimeError.incorrectLength);
   t.deepEqual(
-    parseLocktimeBin(hexToBin('0000000000')),
+    decodeLocktime(hexToBin('0000000000')),
     LocktimeError.incorrectLength
   );
 });
@@ -50,16 +49,18 @@ testProp(
 );
 
 testProp(
-  '[fast-check] dateToLocktimeBin <-> parseLocktimeBin',
+  '[fast-check] dateToLocktimeBin <-> decodeLocktime',
   [fc.date({ max: maximumLocktimeDate, min: minimumLocktimeDate })],
   (t, date) => {
     const withSecondResolution = new Date(
       Math.round(date.getTime() / 1000) * 1000
     );
     t.deepEqual(
-      (parseLocktimeBin(
-        dateToLocktimeBin(withSecondResolution) as Uint8Array
-      ) as Date).getTime(),
+      (
+        decodeLocktime(
+          dateToLocktimeBin(withSecondResolution) as Uint8Array
+        ) as Date
+      ).getTime(),
       withSecondResolution.getTime()
     );
   }

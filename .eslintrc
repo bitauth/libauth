@@ -23,7 +23,9 @@
       },
       { "selector": "typeLike", "format": ["PascalCase"] },
       { "selector": "enumMember", "format": ["camelCase", "UPPER_CASE"] } // Allow UPPER_CASE for opcodes
-    ]
+    ],
+    "import/no-internal-modules": ["error"],
+    "import/extensions": ["error", "always"]
   },
   "overrides": [
     /*
@@ -44,7 +46,12 @@
               }
             ]
           }
-        ]
+        ],
+        "functional/no-expression-statement": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/no-magic-numbers": "off",
+        "functional/immutable-data": "off",
+        "functional/no-return-void": "off"
       }
     }
   ]

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * This implementations is derived from:
  * https://github.com/google/closure-library/blob/8598d87242af59aac233270742c8984e2b2bdbe0/closure/goog/crypt/crypt.js
@@ -61,24 +62,24 @@ export const binToUtf8 = (bytes: Uint8Array) => {
   let pos = 0;
   let c = 0;
   while (pos < bytes.length) {
-    const c1 = bytes[pos++];
+    const c1 = bytes[pos++]!;
     if (c1 < 128) {
       out[c++] = String.fromCharCode(c1);
     } else if (c1 > 191 && c1 < 224) {
-      const c2 = bytes[pos++];
+      const c2 = bytes[pos++]!;
       out[c++] = String.fromCharCode(((c1 & 31) << 6) | (c2 & 63));
     } else if (c1 > 239 && c1 < 365) {
-      const c2 = bytes[pos++];
-      const c3 = bytes[pos++];
-      const c4 = bytes[pos++];
+      const c2 = bytes[pos++]!;
+      const c3 = bytes[pos++]!;
+      const c4 = bytes[pos++]!;
       const u =
         (((c1 & 7) << 18) | ((c2 & 63) << 12) | ((c3 & 63) << 6) | (c4 & 63)) -
         0x10000;
       out[c++] = String.fromCharCode((u >> 10) + 0xd800);
       out[c++] = String.fromCharCode((u & 1023) + 0xdc00);
     } else {
-      const c2 = bytes[pos++];
-      const c3 = bytes[pos++];
+      const c2 = bytes[pos++]!;
+      const c3 = bytes[pos++]!;
       out[c++] = String.fromCharCode(
         ((c1 & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63)
       );

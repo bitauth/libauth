@@ -1,12 +1,24 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers, functional/no-expression-statement */
 import test from 'ava';
 
-import {
-  encodeDataPush,
-  hexToBin,
-  PushOperationConstants,
-  range,
-} from '../../../lib';
+import { encodeDataPush, hexToBin, range } from '../../../lib.js';
+
+const enum PushOperationConstants {
+  OP_PUSHDATA_1 = 0x4c,
+  OP_PUSHDATA_2 = 0x4d,
+  OP_PUSHDATA_4 = 0x4e,
+  /**
+   * 256 - 1
+   */
+  maximumPushData1Size = 255,
+  /**
+   * 256 ** 2 - 1
+   */
+  maximumPushData2Size = 65535,
+  /**
+   * 256 ** 4 - 1
+   */
+  maximumPushData4Size = 4294967295,
+}
 
 const prefixDataPushVectors = [
   ['', '00'],
@@ -33,12 +45,11 @@ const prefixDataPushVectors = [
   ['0081', '020081'],
   ['123456', '03123456'],
   ['123456789012345678901234567890', '0f123456789012345678901234567890'],
-];
+] as const;
 
 test('prefixDataPush', (t) => {
-  prefixDataPushVectors.map(([inputHex, outputHex]) => {
+  prefixDataPushVectors.forEach(([inputHex, outputHex]) => {
     t.deepEqual(encodeDataPush(hexToBin(inputHex)), hexToBin(outputHex));
-    return undefined;
   });
   t.deepEqual(
     encodeDataPush(

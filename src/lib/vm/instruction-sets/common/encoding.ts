@@ -1,72 +1,48 @@
-import { ConsensusBCH } from '../bch/bch';
-
-import { isDefinedSigningSerializationType } from './signing-serialization';
-
-const enum PublicKey {
-  uncompressedByteLength = 65,
-  uncompressedHeaderByte = 0x04,
-  compressedByteLength = 33,
-  compressedHeaderByteEven = 0x02,
-  compressedHeaderByteOdd = 0x03,
-}
-
-export const isValidUncompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
-  publicKey.length === PublicKey.uncompressedByteLength &&
-  publicKey[0] === PublicKey.uncompressedHeaderByte;
-
-export const isValidCompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
-  publicKey.length === PublicKey.compressedByteLength &&
-  (publicKey[0] === PublicKey.compressedHeaderByteEven ||
-    publicKey[0] === PublicKey.compressedHeaderByteOdd);
-
-export const isValidPublicKeyEncoding = (publicKey: Uint8Array) =>
-  isValidCompressedPublicKeyEncoding(publicKey) ||
-  isValidUncompressedPublicKeyEncoding(publicKey);
+import { ConsensusCommon } from './consensus.js';
+import { isDefinedSigningSerializationType } from './signing-serialization.js';
 
 const enum ASN1 {
   sequenceTagType = 0x30,
   integerTagType = 0x02,
 }
 
+/* eslint-disable @typescript-eslint/no-duplicate-enum-values, @typescript-eslint/prefer-literal-enum-member, @typescript-eslint/restrict-plus-operands */
 const enum DER {
   minimumLength = 8,
   maximumLength = 72,
-
   sequenceTagIndex = 0,
   sequenceLengthIndex = 1,
   rTagIndex = 2,
   rLengthIndex = 3,
   rValueIndex = 4,
-
   sequenceTagByte = 1,
   sequenceLengthByte = 1,
   integerTagByte = 1,
   integerLengthByte = 1,
-  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   sequenceMetadataBytes = sequenceTagByte + sequenceLengthByte,
-  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   integerMetadataBytes = integerTagByte + integerLengthByte,
   minimumSValueBytes = 1,
-  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   minimumNonRValueBytes = sequenceMetadataBytes +
     integerMetadataBytes +
     integerMetadataBytes +
     minimumSValueBytes,
 }
+/* eslint-enable @typescript-eslint/no-duplicate-enum-values, @typescript-eslint/prefer-literal-enum-member, @typescript-eslint/restrict-plus-operands */
 
 const enum Mask {
   negative = 0x80,
 }
 
-const isNegative = (value: number) =>
-  // eslint-disable-next-line no-bitwise
-  (value & Mask.negative) !== 0;
+const isNegative = (value: number | undefined) =>
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+  (value! & Mask.negative) !== 0;
 
 const hasUnnecessaryPadding = (
-  length: number,
-  firstByte: number,
-  secondByte: number
-) => length > 1 && firstByte === 0 && !isNegative(secondByte);
+  length: number | undefined,
+  firstByte: number | undefined,
+  secondByte: number | undefined
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+) => length! > 1 && firstByte === 0 && !isNegative(secondByte);
 
 const isValidInteger = (
   signature: Uint8Array,
@@ -92,7 +68,7 @@ const isValidInteger = (
  * specification in that it does not validate the existence of a signing
  * serialization type byte at the end of the signature (to support
  * OP_CHECKDATASIG). To validate a bitcoin-encoded signature (including null
- * signatures), use `isValidSignatureEncodingBCH`.
+ * signatures), use {@link isValidSignatureEncodingBCHTransaction}.
  *
  * @privateRemarks
  * From the Bitcoin ABC C++ implementation:
@@ -118,7 +94,7 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
   const correctSequenceLength =
     signature[DER.sequenceLengthIndex] ===
     signature.length - DER.sequenceMetadataBytes;
-  const rLength = signature[DER.rLengthIndex] as number | undefined;
+  const rLength = signature[DER.rLengthIndex];
   if (rLength === undefined) {
     return false;
   }
@@ -132,7 +108,7 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
   );
   const sTagIndex = DER.rValueIndex + rLength; // eslint-disable-line @typescript-eslint/restrict-plus-operands
   const sLengthIndex = sTagIndex + 1;
-  const sLength = signature[sLengthIndex] as number | undefined;
+  const sLength = signature[sLengthIndex];
   if (sLength === undefined) {
     return false;
   }
@@ -160,7 +136,7 @@ export const isValidSignatureEncodingBCHTransaction = (
   transactionSignature: Uint8Array
 ) =>
   transactionSignature.length === 0 ||
-  transactionSignature.length === ConsensusBCH.schnorrSignatureLength + 1 ||
+  transactionSignature.length === ConsensusCommon.schnorrSignatureLength + 1 ||
   (isDefinedSigningSerializationType(
     transactionSignature[transactionSignature.length - 1]
   ) &&
@@ -177,11 +153,10 @@ export const isValidSignatureEncodingBCHTransaction = (
  * serialization to provide replay-protection between different forks. (See
  * Bitcoin Cash's Replay Protected Sighash spec for details.)
  *
- * @param signature - a signature which passes `isValidSignatureEncoding`
+ * @param encodedSignature - a signature that passes
+ * {@link isValidSignatureEncodingBCHTransaction}
  */
 export const decodeBitcoinSignature = (encodedSignature: Uint8Array) => ({
-  signature: encodedSignature.slice(0, encodedSignature.length - 1),
-  signingSerializationType: new Uint8Array([
-    encodedSignature[encodedSignature.length - 1],
-  ]),
+  signature: encodedSignature.slice(0, -1),
+  signingSerializationType: encodedSignature.slice(-1),
 });

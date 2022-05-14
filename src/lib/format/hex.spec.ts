@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 import { fc, testProp } from 'ava-fast-check';
 
@@ -9,7 +8,7 @@ import {
   range,
   splitEvery,
   swapEndianness,
-} from '../lib';
+} from '../lib.js';
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>

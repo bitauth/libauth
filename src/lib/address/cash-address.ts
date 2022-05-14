@@ -1,11 +1,11 @@
-import { Immutable } from '../format/format';
+import type { Immutable } from '../lib';
 
 import {
   decodeBech32,
   encodeBech32,
   isBech32CharacterSet,
   regroupBits,
-} from './bech32';
+} from './bech32.js';
 
 export enum CashAddressNetworkPrefix {
   mainnet = 'bitcoincash',
@@ -14,6 +14,7 @@ export enum CashAddressNetworkPrefix {
 }
 
 export const cashAddressBitToSize = {
+  /* eslint-disable @typescript-eslint/naming-convention */
   0: 160,
   1: 192,
   2: 224,
@@ -33,6 +34,7 @@ export const cashAddressSizeToBit = {
   384: 5,
   448: 6,
   512: 7,
+  /* eslint-enable @typescript-eslint/naming-convention */
 } as const;
 
 /**
@@ -41,15 +43,17 @@ export const cashAddressSizeToBit = {
  * - next 4 bits: Address Type
  * - 3 least significant bits: Hash Size
  *
- * Only two Address Type values are currently standardized:
+ * Two Address Type values are currently standardized:
  * - 0 (`0b0000`): P2PKH
- * - 1 (`0b0001`): P2SH
+ * - 1 (`0b0001`): P2SH20
  *
- * While both P2PKH and P2SH addresses always use 160 bit hashes, the
+ * And two are proposed by `CHIP-2022-02-CashTokens`:
+ * - 2 (`0b0010`): P2PKH + Token Support
+ * - 3 (`0b0011`): P2SH20 + Token Support
+ *
+ * While both P2PKH and P2SH20 addresses always use 160 bit hashes, the
  * CashAddress specification standardizes other sizes for future use (or use by
  * other systems), see `CashAddressSizeBit`.
- *
- * With these constraints, only two version byte values are currently standard.
  */
 export enum CashAddressVersionByte {
   /**
@@ -59,30 +63,45 @@ export enum CashAddressVersionByte {
    * - Address Type bits: `0000` (P2PKH)
    * - Size bits: `000` (160 bits)
    */
-  P2PKH = 0b00000000,
+  p2pkh = 0b00000000,
   /**
-   * Pay to Script Hash (P2SH): `0b00001000`
+   * 20-byte Pay to Script Hash (P2SH20): `0b00001000`
    *
    * - Most significant bit: `0` (reserved)
-   * - Address Type bits: `0001` (P2SH)
+   * - Address Type bits: `0001` (P2SH20)
    * - Size bits: `000` (160 bits)
    */
-  P2SH = 0b00001000,
+  p2sh20 = 0b00001000,
+  /**
+   * Pay to Public Key Hash (P2PKH) With Token Support: `0b00010000`
+   *
+   * - Most significant bit: `0` (reserved)
+   * - Address Type bits: `0010` (P2PKH + Tokens)
+   * - Size bits: `000` (160 bits)
+   */
+  p2pkhWithTokens = 0b00010000,
+  /**
+   * 20-byte Pay to Script Hash (P2SH20) With Token Support: `0b00011000`
+   * - Most significant bit: `0` (reserved)
+   * - Address Type bits: `0011` (P2SH20 + Tokens)
+   * - Size bits: `000` (160 bits)
+   */
+  p2sh20WithTokens = 0b00011000,
 }
 
 /**
  * The address types currently defined in the CashAddress specification. See
- * also: `CashAddressVersionByte`.
+ * also: {@link CashAddressVersionByte}.
  */
 export enum CashAddressType {
   /**
    * Pay to Public Key Hash (P2PKH)
    */
-  P2PKH = 0,
+  p2pkh = 0,
   /**
-   * Pay to Script Hash (P2SH)
+   * Pay to Script Hash (P2SH20)
    */
-  P2SH = 1,
+  p2sh20 = 1,
 }
 
 const cashAddressTypeBitShift = 3;
@@ -96,11 +115,12 @@ export type CashAddressAvailableSizes = keyof typeof cashAddressBitToSize;
 
 /**
  * Encode a CashAddress version byte for the given address type and hash length.
- * See `CashAddressVersionByte` for more information.
+ * See {@link CashAddressVersionByte} for more information.
  *
  * The `type` parameter must be a number between `0` and `15`, and `bitLength`
  * must be one of the standardized lengths. To use the contents of a variable,
- * cast it to `CashAddressType` or `CashAddressSize` respectively, e.g.:
+ * cast it to {@link CashAddressType} or {@link CashAddressSize} respectively,
+ * e.g.:
  * ```ts
  * const type = 3 as CashAddressType;
  * const size = 160 as CashAddressSize;
@@ -149,8 +169,8 @@ export const decodeCashAddressVersionByte = (version: number) =>
 const asciiCaseInsensitiveBits = 0b11111;
 
 /**
- * Convert a string into an array of 5-bit numbers, representing the
- * characters in a case-insensitive way.
+ * Convert a string into an array of 5-bit numbers, representing the characters
+ * in a case-insensitive way.
  * @param prefix - the prefix to mask
  */
 export const maskCashAddressPrefix = (prefix: string) => {
@@ -176,7 +196,7 @@ const bech32GeneratorRemainingBytes = [0xf2bc8e61, 0xb76d99e2, 0x3e5fb3c4, 0x2ea
  * A.K.A. `PolyMod`
  *
  * @remarks
- * Notes from Bitcoin ABC:
+ * Notes from C++ implementation:
  * This function will compute what 8 5-bit values to XOR into the last 8 input
  * values, in order to make the checksum 0. These 8 values are packed together
  * in a single 40-bit integer. The higher bits correspond to earlier values.
@@ -213,12 +233,9 @@ const bech32GeneratorRemainingBytes = [0xf2bc8e61, 0xb76d99e2, 0x3e5fb3c4, 0x2ea
  * corresponds to x^2 + v0*x + v1 mod g(x). As 1 mod g(x) = 1, that is the
  * starting value for `c`.
  *
- * @privateRemarks
- * Derived from the `bitcore-lib-cash` implementation, which does not require
- * BigInt: https://github.com/bitpay/bitcore
- *
  * @param v - Array of 5-bit integers over which the checksum is to be computed
  */
+// Derived from the `bitcore-lib-cash` implementation (does not require BigInt): https://github.com/bitpay/bitcore
 export const cashAddressPolynomialModulo = (v: readonly number[]) => {
   /* eslint-disable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, @typescript-eslint/no-magic-numbers */
   let mostSignificantByte = 0;
@@ -232,13 +249,16 @@ export const cashAddressPolynomialModulo = (v: readonly number[]) => {
     mostSignificantByte |= lowerBytes >>> 27;
     lowerBytes &= 0x07ffffff;
     lowerBytes <<= 5;
-    lowerBytes ^= v[j];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    lowerBytes ^= v[j]!;
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < bech32GeneratorMostSignificantByte.length; ++i) {
       // eslint-disable-next-line functional/no-conditional-statement
       if (c & (1 << i)) {
-        mostSignificantByte ^= bech32GeneratorMostSignificantByte[i];
-        lowerBytes ^= bech32GeneratorRemainingBytes[i];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        mostSignificantByte ^= bech32GeneratorMostSignificantByte[i]!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        lowerBytes ^= bech32GeneratorRemainingBytes[i]!;
       }
     }
   }
@@ -256,9 +276,10 @@ const base32WordLength = 5;
 const base256WordLength = 8;
 
 /**
- * Convert the checksum returned by `cashAddressPolynomialModulo` to an array of
- * 5-bit positive integers which can be Base32 encoded.
- * @param checksum - a 40 bit checksum returned by `cashAddressPolynomialModulo`
+ * Convert the checksum returned by {@link cashAddressPolynomialModulo} to an
+ * array of 5-bit positive integers that can be Base32 encoded.
+ * @param checksum - a 40 bit checksum returned by
+ * {@link cashAddressPolynomialModulo}
  */
 export const cashAddressChecksumToUint5Array = (checksum: number) => {
   const result = [];
@@ -278,7 +299,7 @@ const payloadSeparator = 0;
 /**
  * Encode a hash as a CashAddress-like string using the CashAddress format.
  *
- * To encode a standard CashAddress, use `encodeCashAddress`.
+ * To encode a standard CashAddress, use {@link encodeCashAddress}.
  *
  * @param prefix - a valid prefix indicating the network for which to encode the
  * address – must be only lowercase letters
@@ -327,13 +348,13 @@ const isValidBitLength = (
  * Encode a hash as a CashAddress.
  *
  * Note, this method does not enforce error handling via the type system. The
- * returned string may be a `CashAddressEncodingError.unsupportedHashLength`
- * if `hash` is not a valid length. Check the result if the input is potentially
- * malformed.
+ * returned string may be a
+ * {@link CashAddressEncodingError.unsupportedHashLength} if `hash` is not a
+ * valid length. Check the result if the input is potentially malformed.
  *
- * For other address standards which closely follow the CashAddress
+ * For other address standards that closely follow the CashAddress
  * specification (but have alternative version byte requirements), use
- * `encodeCashAddressFormat`.
+ * {@link encodeCashAddressFormat}.
  *
  * @param prefix - a valid prefix indicating the network for which to encode the
  * address (usually a `CashAddressNetworkPrefix`) – must be only lowercase
@@ -373,12 +394,12 @@ export enum CashAddressDecodingError {
 
 /**
  * Decode and validate a string using the CashAddress format. This is more
- * lenient than `decodeCashAddress`, which also validates the contents of the
- * version byte.
+ * lenient than {@link decodeCashAddress}, which also validates the contents of
+ * the version byte.
  *
  * Note, this method requires `address` to include a network prefix. To
  * decode a string with an unknown prefix, try
- * `decodeCashAddressFormatWithoutPrefix`.
+ * {@link decodeCashAddressFormatWithoutPrefix}.
  *
  * @param address - the CashAddress-like string to decode
  */
@@ -389,7 +410,7 @@ export const decodeCashAddressFormat = (address: string) => {
   if (parts.length !== 2 || parts[0] === '' || parts[1] === '') {
     return CashAddressDecodingError.invalidFormat;
   }
-  const [prefix, payload] = parts;
+  const [prefix, payload] = parts as [string, string];
   if (!isBech32CharacterSet(payload)) {
     return CashAddressDecodingError.invalidCharacters;
   }
@@ -416,7 +437,7 @@ export const decodeCashAddressFormat = (address: string) => {
     return CashAddressDecodingError.improperPadding;
   }
 
-  const [version, ...hashContents] = payloadContents;
+  const [version, ...hashContents] = payloadContents as [number, ...number[]];
   const hash = Uint8Array.from(hashContents);
 
   return { hash, prefix, version };
@@ -427,13 +448,13 @@ export const decodeCashAddressFormat = (address: string) => {
  * according to the CashAddress specification. This is important for error
  * detection in CashAddresses.
  *
- * For other address-like standards which closely follow the CashAddress
+ * For other address-like standards that closely follow the CashAddress
  * specification (but have alternative version byte requirements), use
- * `decodeCashAddressFormat`.
+ * {@link decodeCashAddressFormat}.
  *
  * Note, this method requires that CashAddresses include a network prefix. To
  * decode an address with an unknown prefix, try
- * `decodeCashAddressFormatWithoutPrefix`.
+ * {@link decodeCashAddressFormatWithoutPrefix}.
  *
  * @param address - the CashAddress to decode
  */
@@ -461,7 +482,7 @@ export const decodeCashAddress = (address: string) => {
 
 /**
  * Attempt to decode and validate a CashAddress against a list of possible
- * prefixes. If the correct prefix is known, use `decodeCashAddress`.
+ * prefixes. If the correct prefix is known, use {@link decodeCashAddress}.
  *
  * @param address - the CashAddress to decode
  * @param possiblePrefixes - the network prefixes to try
@@ -532,7 +553,7 @@ const finiteFieldOrder = 32;
  * effectively equivalent to burning the funds.
  *
  * Only 2 substitution errors can be corrected (or a single swap) – deletions
- * and insertions (errors which shift many other characters and change the
+ * and insertions (errors that shift many other characters and change the
  * length of the payload) can never be safely corrected and will produce an
  * error.
  *
@@ -542,11 +563,9 @@ const finiteFieldOrder = 32;
  * `bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfdecc` can be corrected, while
  * `typo:qq2azmyyv6dtgczexyalqar70q036yund53jvfdecc` can not.
  *
- * @privateRemarks
- * Derived from: https://github.com/deadalnix/cashaddressed
- *
  * @param address - the CashAddress on which to attempt error correction
  */
+// Derived from: https://github.com/deadalnix/cashaddressed
 // eslint-disable-next-line complexity
 export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   const parts = address.toLowerCase().split(':');
@@ -554,7 +573,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   if (parts.length !== 2 || parts[0] === '' || parts[1] === '') {
     return CashAddressDecodingError.invalidFormat;
   }
-  const [prefix, payload] = parts;
+  const [prefix, payload] = parts as [string, string];
   if (!isBech32CharacterSet(payload)) {
     return CashAddressDecodingError.invalidCharacters;
   }
@@ -599,7 +618,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   for (const [s0, pe] of Object.entries(syndromes)) {
     // eslint-disable-next-line no-bitwise
     const s1Location = (BigInt(s0) ^ BigInt(originalChecksum)).toString();
-    const s1 = syndromes[s1Location] as number | undefined;
+    const s1 = syndromes[s1Location];
     if (s1 !== undefined) {
       const correctionIndex1 = Math.trunc(pe / finiteFieldOrder);
       const correctionIndex2 = Math.trunc(s1 / finiteFieldOrder);

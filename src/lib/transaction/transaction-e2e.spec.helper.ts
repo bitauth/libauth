@@ -1,12 +1,11 @@
-import * as oneOfEightTreeJson from './fixtures/templates/1-of-8-tree.json';
-import * as twoOfTwoRecoverableJson from './fixtures/templates/2-of-2-recoverable.json';
-import * as twoOfThreeJson from './fixtures/templates/2-of-3.json';
-import * as cashChannelsJson from './fixtures/templates/cash-channels.json';
-import * as p2pkhJson from './fixtures/templates/p2pkh.json';
-import * as sigOfSigJson from './fixtures/templates/sig-of-sig.json';
+/* eslint-disable import/no-internal-modules */
+import twoOfTwoRecoverableJson from './fixtures/templates/2-of-2-recoverable.json' assert { type: 'json' };
+import twoOfThreeJson from './fixtures/templates/2-of-3.json' assert { type: 'json' };
+import cashChannelsJson from './fixtures/templates/cash-channels.json' assert { type: 'json' };
+import p2pkhJson from './fixtures/templates/p2pkh.json' assert { type: 'json' };
+import sigOfSigJson from './fixtures/templates/sig-of-sig.json' assert { type: 'json' };
 
 export {
-  oneOfEightTreeJson,
   twoOfTwoRecoverableJson,
   twoOfThreeJson,
   cashChannelsJson,

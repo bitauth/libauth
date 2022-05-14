@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  An ultra-lightweight JavaScript library for Bitcoin, Bitcoin Cash, and Bitauth
+  An ultra-lightweight JavaScript library for Bitcoin Cash, Bitcoin, and Bitauth
   applications.
   <br />
   <br />
@@ -49,7 +49,7 @@ Libauth has **no dependencies** and works in all JavaScript environments, includ
 Libauth is designed to be **flexible**, **lightweight**, and **easily auditable**. Rather than providing a single, overarching, object-oriented API, all functionality is composed from simple functions. This has several benefits:
 
 - **Flexibility** – Even highly-complex functionality is built-up from simpler functions. These lower-level functions can be used to experiment, tweak, and remix your own higher-level methods without maintaining a fork of the library.
-- **Smaller application bundles** – Applications can import only the methods they need, eliminating the unused code (via [dead-code elimination](https://webpack.js.org/guides/tree-shaking/)).
+- **Smaller application bundles** – Applications can import only the methods they need, eliminating the unused code (via [dead-code elimination](https://rollupjs.org/guide/en/#tree-shaking)).
 - **Better auditability** – Beyond having no dependencies of its own, Libauth's [functional programming](https://en.wikipedia.org/wiki/Functional_programming) approach makes auditing critical code easier: smaller bundles, smaller functions, and less churn between versions (fewer cascading changes to object-oriented interfaces).
 - **Fully-portable** – No platform-specific APIs are ever used, so the same code paths are used across all JavaScript environments (reducing the auditable "surface area" and simplifying library development).
 
@@ -66,30 +66,35 @@ yarn add @bitauth/libauth
 And import the functionality you need:
 
 ```typescript
-import { instantiateSecp256k1 } from '@bitauth/libauth';
+import { secp256k1 } from '@bitauth/libauth';
 import { msgHash, pubkey, sig } from './somewhere';
 
-(async () => {
-  const secp256k1 = await instantiateSecp256k1();
-  secp256k1.verifySignatureDERLowS(sig, pubkey, msgHash)
-    ? console.log('🚀 Signature valid')
-    : console.log('❌ Signature invalid');
-})();
+secp256k1.verifySignatureDERLowS(sig, pubkey, msgHash)
+  ? console.log('🚀 Signature valid')
+  : console.log('❌ Signature invalid');
+```
+
+Note, Libauth is a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c), so Node.js v12 or higher is required (or Deno), and [using ESM is recommended](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c#how-can-i-move-my-commonjs-project-to-esm).
+
+### Web Usage
+
+For web projects, a bundler with [dead-code elimination](https://rollupjs.org/guide/en/#tree-shaking) (A.K.A. "tree shaking") is **strongly recommended** – Libauth is designed to minimize application code size, and dead-code elimination will improve load performance in nearly all applications.
+
+Consider [Parcel](https://parceljs.org/), [Rollup](https://rollupjs.org/), [Webpack](https://webpack.js.org/), or a bundler designed for your web framework.
+
+### Deno Usage
+
+Deno is a great runtime for working with Libauth. You can import the library from `unpkg.com`:
+
+```ts
+import { hexToBin } from 'https://unpkg.com/@bitauth/libauth/build/index.js';
+
+console.log(hexToBin('beef'));
 ```
 
 ### Typescript Types
 
-**Note**: `@bitauth/libauth` uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and `es2017` features for some functionality. While support is required to use this functionality (Node.js v10 LTS or later), other parts of the library will continue to work in older environments. To include the necessary TypeScript library files in you application, add `"lib": ["es2017", "esnext.bigint", "dom"]` to your `tsconfig.json`.
-
-### Using with Deno
-
-Deno is a great runtime for quickly working with Libauth. You can import from the latest module build:
-
-```ts
-import { hexToBin } from 'https://unpkg.com/@bitauth/libauth/build/module/index.js';
-
-console.log(hexToBin('beef'));
-```
+Libauth uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and `es2017` features for some functionality. To type-check this library in you application (without [`skipLibCheck`](https://www.typescriptlang.org/tsconfig#skipLibCheck)), your `tsconfig.json` will need a minimum `target` of `es2020` or `lib` must include `es2017` and `esnext.bigint`. If your application is not already importing types for `WebAssembly`, you may also need to add `dom` to `lib`.
 
 ## Stable API
 
@@ -124,7 +129,7 @@ Libauth also exports new, potentially unstable APIs. As these APIs stabilize, th
 
 Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) for details.
 
-This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed (which ships with `npm`), then run `npm install -g yarn`. Once Yarn is installed:
+This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed (ships with `npm`), then run `npm install -g yarn`. Once Yarn is installed:
 
 ```sh
 # use --recursive to clone the secp256k1 submodule

@@ -1,20 +1,18 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
 import {
-  bigIntToScriptNumber,
+  bigIntToVmNumber,
   binToHex,
-  booleanToScriptNumber,
+  booleanToVmNumber,
+  decodeVmNumber,
   hexToBin,
-  parseBytesAsScriptNumber,
-  ScriptNumberError,
   stackItemIsTruthy,
-} from '../../../lib';
+  VmNumberError,
+} from '../../../lib.js';
 
-/**
- * Derived from https://github.com/bitcoinjs/bitcoinjs-lib
- */
-const minimallyEncodedScriptNumbers: readonly [string, bigint][] = [
+// Derived from https://github.com/bitcoinjs/bitcoinjs-lib
+const minimallyEncodedVmNumbers: readonly [string, bigint][] = [
+  /* spell-checker:disable */
   ['', BigInt(0)],
   ['01', BigInt(1)],
   ['02', BigInt(2)],
@@ -62,9 +60,10 @@ const minimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['fd', BigInt(-125)],
   ['82', BigInt(-2)],
   ['81', BigInt(-1)],
+  /* spell-checker:enable */
 ];
 
-const nonMinimallyEncodedScriptNumbers: readonly [string, bigint][] = [
+const nonMinimallyEncodedVmNumbers: readonly [string, bigint][] = [
   ['00', BigInt(0)],
   ['0000', BigInt(0)],
   ['80', BigInt(0)],
@@ -76,35 +75,35 @@ const nonMinimallyEncodedScriptNumbers: readonly [string, bigint][] = [
   ['abcdef4280', BigInt(-1123012011)],
 ];
 
-const equivalentScriptNumbers: readonly [string, string][] = [
+const equivalentVmNumbers: readonly [string, string][] = [
   ['01020380', '010283'],
   ['0102030480', '01020384'],
   ['abcdef4280', 'abcdefc2'],
 ];
 
-test('parseBytesAsScriptNumber', (t) => {
-  minimallyEncodedScriptNumbers.map((pair) => {
-    t.deepEqual(parseBytesAsScriptNumber(hexToBin(pair[0])), pair[1]);
+test('decodeVmNumber', (t) => {
+  minimallyEncodedVmNumbers.map((pair) => {
+    t.deepEqual(decodeVmNumber(hexToBin(pair[0])), pair[1]);
     t.deepEqual(
-      parseBytesAsScriptNumber(hexToBin(pair[0]), {
+      decodeVmNumber(hexToBin(pair[0]), {
         requireMinimalEncoding: true,
       }),
       pair[1]
     );
     t.deepEqual(
-      parseBytesAsScriptNumber(hexToBin(pair[0]), {
-        maximumScriptNumberByteLength: 4,
+      decodeVmNumber(hexToBin(pair[0]), {
+        maximumVmNumberByteLength: 4,
         requireMinimalEncoding: true,
       }),
       pair[1]
     );
     return undefined;
   });
-  [...minimallyEncodedScriptNumbers, ...nonMinimallyEncodedScriptNumbers].map(
+  [...minimallyEncodedVmNumbers, ...nonMinimallyEncodedVmNumbers].map(
     (pair) => {
       t.deepEqual(
-        parseBytesAsScriptNumber(hexToBin(pair[0]), {
-          maximumScriptNumberByteLength: 5,
+        decodeVmNumber(hexToBin(pair[0]), {
+          maximumVmNumberByteLength: 5,
           requireMinimalEncoding: false,
         }),
         pair[1]
@@ -112,61 +111,63 @@ test('parseBytesAsScriptNumber', (t) => {
       return undefined;
     }
   );
-  nonMinimallyEncodedScriptNumbers.map((pair) => {
+  nonMinimallyEncodedVmNumbers.map((pair) => {
     t.deepEqual(
-      parseBytesAsScriptNumber(hexToBin(pair[0]), {
-        maximumScriptNumberByteLength: 5,
+      decodeVmNumber(hexToBin(pair[0]), {
+        maximumVmNumberByteLength: 5,
       }),
-      ScriptNumberError.requiresMinimal
+      VmNumberError.requiresMinimal
     );
     t.deepEqual(
-      parseBytesAsScriptNumber(hexToBin(pair[0]), {
-        maximumScriptNumberByteLength: 5,
+      decodeVmNumber(hexToBin(pair[0]), {
+        maximumVmNumberByteLength: 5,
         requireMinimalEncoding: true,
       }),
-      ScriptNumberError.requiresMinimal
+      VmNumberError.requiresMinimal
     );
     return undefined;
   });
-  equivalentScriptNumbers.map((pair) => {
+  equivalentVmNumbers.map((pair) => {
     t.deepEqual(
-      parseBytesAsScriptNumber(hexToBin(pair[0]), {
-        maximumScriptNumberByteLength: 5,
+      decodeVmNumber(hexToBin(pair[0]), {
+        maximumVmNumberByteLength: 5,
         requireMinimalEncoding: false,
       }),
-      parseBytesAsScriptNumber(hexToBin(pair[1]), {
-        maximumScriptNumberByteLength: 5,
+      decodeVmNumber(hexToBin(pair[1]), {
+        maximumVmNumberByteLength: 5,
         requireMinimalEncoding: true,
       })
     );
     return undefined;
   });
   t.deepEqual(
-    parseBytesAsScriptNumber(hexToBin('abcdef1234')),
-    ScriptNumberError.outOfRange
+    decodeVmNumber(hexToBin('abcdef1234'), {
+      maximumVmNumberByteLength: 4,
+    }),
+    VmNumberError.outOfRange
   );
   t.deepEqual(
-    parseBytesAsScriptNumber(hexToBin('abcdef1234'), {
-      maximumScriptNumberByteLength: 5,
+    decodeVmNumber(hexToBin('abcdef1234'), {
+      maximumVmNumberByteLength: 5,
     }),
     BigInt(223656005035)
   );
 });
 
-test('bigIntToScriptNumber', (t) => {
-  minimallyEncodedScriptNumbers.map((pair) => {
-    t.deepEqual(binToHex(bigIntToScriptNumber(pair[1])), pair[0]);
+test('bigIntToVmNumber', (t) => {
+  minimallyEncodedVmNumbers.map((pair) => {
+    t.deepEqual(binToHex(bigIntToVmNumber(pair[1])), pair[0]);
     return undefined;
   });
 });
 
 // TODO: more test vectors
 test('stackElementIsTruthy', (t) => {
-  t.is(stackItemIsTruthy(bigIntToScriptNumber(BigInt(0))), false);
-  t.is(stackItemIsTruthy(bigIntToScriptNumber(BigInt(1))), true);
+  t.is(stackItemIsTruthy(bigIntToVmNumber(BigInt(0))), false);
+  t.is(stackItemIsTruthy(bigIntToVmNumber(BigInt(1))), true);
 });
 
-test('booleanToScriptNumber', (t) => {
-  t.deepEqual(booleanToScriptNumber(false), bigIntToScriptNumber(BigInt(0)));
-  t.deepEqual(booleanToScriptNumber(true), bigIntToScriptNumber(BigInt(1)));
+test('booleanToVmNumber', (t) => {
+  t.deepEqual(booleanToVmNumber(false), bigIntToVmNumber(BigInt(0)));
+  t.deepEqual(booleanToVmNumber(true), bigIntToVmNumber(BigInt(1)));
 });

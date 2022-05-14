@@ -1,7 +1,6 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { sortObjectKeys, stringify, stringifyTestVector } from '../lib';
+import { sortObjectKeys, stringify, stringifyTestVector } from '../lib.js';
 
 test('stringify', (t) => {
   t.deepEqual(stringify(BigInt(0)), '"<bigint: 0n>"');

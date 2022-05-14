@@ -1,7 +1,6 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 import { testProp } from 'ava-fast-check';
-import * as fc from 'fast-check';
+import fc from 'fast-check';
 
 import {
   Bech32DecodingError,
@@ -13,7 +12,7 @@ import {
   encodeBech32,
   isBech32CharacterSet,
   regroupBits,
-} from '../lib';
+} from '../lib.js';
 
 test('regroupBits', (t) => {
   t.deepEqual(
@@ -250,15 +249,26 @@ const max5BitNumber = 31;
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
   fc
-    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
+    .array(fc.integer({ max: maxUint8Number, min: 0 }), {
+      maxLength,
+      minLength,
+    })
     .map((a) => Uint8Array.from(a));
 const maxBinLength = 100;
 
 testProp(
   '[fast-check] encodeBech32 <-> decodeBech32',
-  [fc.array(fc.integer(0, max5BitNumber), 0, maxBinLength)],
+  [
+    fc.array(fc.integer({ max: max5BitNumber, min: 0 }), {
+      maxLength: maxBinLength,
+      minLength: 0,
+    }),
+  ],
   (t, input) => {
-    t.deepEqual(decodeBech32(encodeBech32(input)), input);
+    t.deepEqual(
+      decodeBech32(encodeBech32(input)),
+      input as ReturnType<typeof decodeBech32>
+    );
   }
 );
 

@@ -1,37 +1,45 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/immutable-data */
 import test from 'ava';
 
-import {
+import type {
   AuthenticationInstruction,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
-  createAuthenticationVirtualMachine,
   InstructionSet,
 } from '../lib';
+import { createAuthenticationVirtualMachine } from '../lib.js';
 
-enum SimpleOps {
+import { applyError } from './vm.js';
+
+const enum SimpleOps {
   OP_0 = 0,
   OP_INCREMENT = 1,
   OP_DECREMENT = 2,
   OP_ADD = 3,
 }
 
-enum SimpleError {
+const enum SimpleError {
   UNDEFINED = 'The program called an undefined opcode.',
   EMPTY_STACK = 'The program tried to pop from an empty stack.',
+  EXCESSIVE = 'Values may be no larger than 2.',
+  FAIL = 'The top stack item must be a 1.',
+}
+
+interface SimpleResolvedTransaction {
+  transaction: { instructions: readonly AuthenticationInstruction[] };
 }
 
 interface SimpleProgram {
-  instructions: readonly AuthenticationInstruction<SimpleOps>[];
+  instructions: readonly AuthenticationInstruction[];
 }
 
 interface SimpleProgramState
   extends AuthenticationProgramStateMinimum,
     AuthenticationProgramStateStack<number> {
-  error?: SimpleError;
+  error?: string;
 }
 
 const simpleInstructionSet: InstructionSet<
+  SimpleResolvedTransaction,
   SimpleProgram,
   SimpleProgramState
 > = {
@@ -47,6 +55,10 @@ const simpleInstructionSet: InstructionSet<
     const internalState = { ip: 0, stack: [] };
     return stateEvaluate({ ...internalState, ...program });
   },
+  every: (state) =>
+    (state.stack[state.stack.length - 1] ?? 0) > 2
+      ? applyError(state, SimpleError.EXCESSIVE)
+      : state,
   operations: {
     [SimpleOps.OP_0]: (state) => {
       state.stack.push(0);
@@ -81,25 +93,49 @@ const simpleInstructionSet: InstructionSet<
       return state;
     },
   },
+  success: (state) =>
+    state.error === undefined
+      ? state.stack[state.stack.length - 1] === 1
+        ? true
+        : SimpleError.FAIL
+      : state.error,
   undefined: (state) => {
     state.error = SimpleError.UNDEFINED;
     return state;
   },
-  verify: (state) =>
-    state.stack[state.stack.length - 1] === 1
-      ? true
-      : 'The top stack item must be a 1.',
+  verify: (resolvedTransaction, evaluate, success) => {
+    const result = success(
+      evaluate({
+        instructions: resolvedTransaction.transaction.instructions,
+      })
+    );
+    return typeof result === 'string' ? result : true;
+  },
 };
 
 const vm = createAuthenticationVirtualMachine(simpleInstructionSet);
 
-const instructions: readonly AuthenticationInstruction<SimpleOps>[] = [
+const instructions: readonly AuthenticationInstruction[] = [
   { opcode: SimpleOps.OP_0 },
   { opcode: SimpleOps.OP_INCREMENT },
   { opcode: SimpleOps.OP_INCREMENT },
   { opcode: SimpleOps.OP_0 },
   { opcode: SimpleOps.OP_DECREMENT },
   { opcode: SimpleOps.OP_ADD },
+];
+
+const instructionsFail1: readonly AuthenticationInstruction[] = [
+  { opcode: SimpleOps.OP_0 },
+  { opcode: SimpleOps.OP_DECREMENT },
+];
+
+const instructionsFail2: readonly AuthenticationInstruction[] = [
+  { opcode: SimpleOps.OP_0 },
+  { opcode: SimpleOps.OP_INCREMENT },
+  { opcode: SimpleOps.OP_INCREMENT },
+  { opcode: SimpleOps.OP_INCREMENT },
+  { opcode: SimpleOps.OP_DECREMENT },
+  { opcode: SimpleOps.OP_DECREMENT },
 ];
 
 test('vm.evaluate with a simple instruction set', (t) => {
@@ -121,6 +157,54 @@ test('vm.debug with a simple instruction set', (t) => {
     { instructions, ip: 6, stack: [1] },
     { instructions, ip: 6, stack: [1] },
   ]);
+});
+
+test('vm.debug with a simple instruction set (failure 1)', (t) => {
+  t.deepEqual(vm.debug({ instructions: instructionsFail1 }), [
+    { instructions: instructionsFail1, ip: 0, stack: [] },
+    { instructions: instructionsFail1, ip: 1, stack: [0] },
+    { instructions: instructionsFail1, ip: 2, stack: [-1] },
+    { instructions: instructionsFail1, ip: 2, stack: [-1] },
+  ]);
+});
+
+test('vm.debug with a simple instruction set (failure 2)', (t) => {
+  t.deepEqual(vm.debug({ instructions: instructionsFail2 }), [
+    { instructions: instructionsFail2, ip: 0, stack: [] },
+    { instructions: instructionsFail2, ip: 1, stack: [0] },
+    { instructions: instructionsFail2, ip: 2, stack: [1] },
+    { instructions: instructionsFail2, ip: 3, stack: [2] },
+    {
+      error: SimpleError.EXCESSIVE,
+      instructions: instructionsFail2,
+      ip: 4,
+      stack: [3],
+    },
+    {
+      error: SimpleError.EXCESSIVE,
+      instructions: instructionsFail2,
+      ip: 4,
+      stack: [3],
+    },
+  ]);
+});
+
+test('vm.verify with a simple instruction set (success)', (t) => {
+  t.deepEqual(vm.verify({ transaction: { instructions } }), true);
+});
+
+test('vm.verify with a simple instruction set (failure 1)', (t) => {
+  t.deepEqual(
+    vm.verify({ transaction: { instructions: instructionsFail1 } }),
+    SimpleError.FAIL
+  );
+});
+
+test('vm.verify with a simple instruction set (failure 2)', (t) => {
+  t.deepEqual(
+    vm.verify({ transaction: { instructions: instructionsFail2 } }),
+    SimpleError.EXCESSIVE
+  );
 });
 
 test('vm.stateDebug with a simple instruction set', (t) => {
@@ -151,4 +235,26 @@ test('vm.stateStepMutate does not clone (mutating the original state)', (t) => {
   const changed = { instructions, ip: 5, stack: [2, -1] };
   t.deepEqual(vm.stateStepMutate(changed), { instructions, ip: 6, stack: [1] });
   t.deepEqual(changed, { instructions, ip: 6, stack: [1] });
+});
+
+test('vm.stateSuccess is available', (t) => {
+  t.deepEqual(
+    vm.stateSuccess({ instructions: instructionsFail1, ip: 0, stack: [2] }),
+    SimpleError.FAIL
+  );
+});
+
+test('vm.stateClone is available', (t) => {
+  t.deepEqual(
+    vm.stateClone({
+      instructions,
+      ip: 0,
+      stack: [1, 2, 3],
+    }),
+    {
+      instructions,
+      ip: 0,
+      stack: [1, 2, 3],
+    }
+  );
 });

@@ -1,19 +1,19 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
-import test, { Macro } from 'ava';
+import test from 'ava';
 import { fc, testProp } from 'ava-fast-check';
 
+import type { BaseConverter } from '../lib';
 import {
   base58ToBin,
   BaseConversionError,
-  BaseConverter,
   binToBase58,
   createBaseConverter,
   hexToBin,
   range,
   utf8ToBin,
-} from '../lib';
+} from '../lib.js';
 
-import * as base58Json from './fixtures/base58_encode_decode.json';
+// eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
+import base58Json from './fixtures/base58_encode_decode.json' assert { type: 'json' };
 
 const base58Vectors = Object.values(base58Json).filter(
   (item) => Array.isArray(item) && item.every((x) => typeof x === 'string')
@@ -21,13 +21,13 @@ const base58Vectors = Object.values(base58Json).filter(
 
 const base2 = createBaseConverter('01') as BaseConverter;
 
-const base2Vector: Macro<[string, Uint8Array]> = (t, string, bin) => {
-  t.deepEqual(base2.decode(string), bin);
-  t.deepEqual(base2.encode(bin), string);
-};
-
-// eslint-disable-next-line functional/immutable-data
-base2Vector.title = (_, string) => `createBaseConverter – base2: ${string}`;
+const base2Vector = test.macro<[string, Uint8Array]>({
+  exec: (t, string, bin) => {
+    t.deepEqual(base2.decode(string), bin);
+    t.deepEqual(base2.encode(bin), string);
+  },
+  title: (_, string) => `createBaseConverter – base2: ${string}`,
+});
 
 test(base2Vector, '', Uint8Array.of());
 test(base2Vector, '0', Uint8Array.of(0));
@@ -45,13 +45,13 @@ test(
 
 const base16 = createBaseConverter('0123456789abcdef') as BaseConverter;
 
-const base16Vector: Macro<[string, Uint8Array]> = (t, string, bin) => {
-  t.deepEqual(base16.decode(string), bin);
-  t.deepEqual(base16.encode(bin), string);
-};
-
-// eslint-disable-next-line functional/immutable-data
-base16Vector.title = (_, string) => `createBaseConverter – base16: ${string}`;
+const base16Vector = test.macro<[string, Uint8Array]>({
+  exec: (t, string, bin) => {
+    t.deepEqual(base16.decode(string), bin);
+    t.deepEqual(base16.encode(bin), string);
+  },
+  title: (_, string) => `createBaseConverter – base16: ${string}`,
+});
 
 test(base16Vector, '', Uint8Array.of());
 test(base16Vector, '0', Uint8Array.of(0));
@@ -59,13 +59,13 @@ test(base16Vector, '000f', Uint8Array.of(0, 0, 0, 15));
 test(base16Vector, '0fff', Uint8Array.of(0, 15, 255));
 test(base16Vector, 'ffff', Uint8Array.of(255, 255));
 
-const base58Vector: Macro<[string, Uint8Array]> = (t, string, bin) => {
-  t.deepEqual(base58ToBin(string), bin);
-  t.deepEqual(binToBase58(bin), string);
-};
-
-// eslint-disable-next-line functional/immutable-data
-base58Vector.title = (_, string) => `base58ToBin – binToBase58: ${string}`;
+const base58Vector = test.macro<[string, Uint8Array]>({
+  exec: (t, string, bin) => {
+    t.deepEqual(base58ToBin(string), bin);
+    t.deepEqual(binToBase58(bin), string);
+  },
+  title: (_, string) => `base58ToBin – binToBase58: ${string}`,
+});
 
 test(base58Vector, '', Uint8Array.of());
 test(base58Vector, '1', Uint8Array.of(0));
@@ -170,7 +170,9 @@ test('base58 Test Vectors', (t) => {
   t.truthy(base58Vectors);
   // eslint-disable-next-line functional/no-loop-statement
   for (const [binHex, base58] of base58Vectors) {
-    t.deepEqual(base58ToBin(base58) as Uint8Array, hexToBin(binHex));
-    t.deepEqual(binToBase58(hexToBin(binHex)), base58);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    t.deepEqual(base58ToBin(base58!) as Uint8Array, hexToBin(binHex!));
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    t.deepEqual(binToBase58(hexToBin(binHex!)), base58);
   }
 });

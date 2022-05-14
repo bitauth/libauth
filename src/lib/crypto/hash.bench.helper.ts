@@ -1,26 +1,26 @@
 /* global Buffer */
-/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement, functional/no-return-void*/
 import { createHash, randomBytes } from 'crypto';
 
-import * as asmCrypto from 'asmcrypto.js';
+import asmCrypto from 'asmcrypto.js';
 import test from 'ava';
-import * as bcrypto from 'bcrypto';
+import bcrypto from 'bcrypto';
 import suite from 'chuhai';
-import * as hashJs from 'hash.js';
+import hashJs from 'hash.js';
 
-import { HashFunction } from '../bin/bin';
+import type { HashFunction } from '../lib';
 
 export const benchmarkHashingFunction = <T extends HashFunction>(
   hashFunctionName: string,
   hashFunctionPromise: Promise<T>,
-  nodeJsAlgorithm: 'ripemd160' | 'sha256' | 'sha512' | 'sha1'
+  nodeJsAlgorithm: 'ripemd160' | 'sha1' | 'sha256' | 'sha512'
 ) => {
   const singlePassNodeBenchmark = (inputLength: number) => {
     const bcryptoAlgorithm = nodeJsAlgorithm.toUpperCase() as
       | 'RIPEMD160'
+      | 'SHA1'
       | 'SHA256'
-      | 'SHA512'
-      | 'SHA1';
+      | 'SHA512';
     test(`node: ${hashFunctionName}: hash a ${inputLength}-byte input`, async (t) => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, (s) => {

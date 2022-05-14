@@ -1,6 +1,6 @@
-import { instantiateSha256, Sha256 } from '../lib';
+import type { Sha256 } from '../lib';
+import { instantiateSha256 } from '../lib.js';
 
-import { benchmarkHashingFunction } from './hash.bench.helper';
+import { benchmarkHashingFunction } from './hash.bench.helper.js';
 
-// eslint-disable-next-line functional/no-expression-statement
 benchmarkHashingFunction<Sha256>('sha256', instantiateSha256(), 'sha256');

@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statement */
 import { join } from 'path';
 
 import alias from '@rollup/plugin-alias';
@@ -15,11 +14,14 @@ const prepareCode = async () => {
    * Suppress Rollup warning:
    * `Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification`
    */
-  // eslint-disable-next-line no-console, functional/immutable-data
+  // eslint-disable-next-line no-console
   console.warn = (suppress: string) => suppress;
 
   const bundle = await rollup({
-    input: join(__dirname, 'hash.browser.bench.helper.js'),
+    input: join(
+      new URL('.', import.meta.url).pathname,
+      'hash.browser.bench.helper.js'
+    ),
     plugins: [
       alias({
         entries: {
@@ -31,7 +33,7 @@ const prepareCode = async () => {
       nodeResolve(),
     ],
   });
-  // eslint-disable-next-line no-console, require-atomic-updates, functional/immutable-data
+  // eslint-disable-next-line no-console, require-atomic-updates
   console.warn = realConsoleWarn;
 
   const result = await bundle.generate({

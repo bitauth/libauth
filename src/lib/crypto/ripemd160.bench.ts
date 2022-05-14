@@ -1,8 +1,8 @@
-import { instantiateRipemd160, Ripemd160 } from '../lib';
+import type { Ripemd160 } from '../lib';
+import { instantiateRipemd160 } from '../lib.js';
 
-import { benchmarkHashingFunction } from './hash.bench.helper';
+import { benchmarkHashingFunction } from './hash.bench.helper.js';
 
-// eslint-disable-next-line functional/no-expression-statement
 benchmarkHashingFunction<Ripemd160>(
   'ripemd160',
   instantiateRipemd160(),

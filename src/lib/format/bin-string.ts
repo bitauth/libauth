@@ -1,4 +1,4 @@
-import { splitEvery } from './hex';
+import { splitEvery } from './hex.js';
 
 const binaryByteWidth = 8;
 const binary = 2;
@@ -36,8 +36,8 @@ export const binToBinString = (bytes: Uint8Array) =>
   );
 
 /**
- * For use before `binStringToBin`. Returns true if the provided string is a
- * valid binary string (length is divisible by 8 and only uses the characters
+ * For use before {@link binStringToBin}. Returns true if the provided string is
+ * a valid binary string (length is divisible by 8 and only uses the characters
  * `0` and `1`).
  * @param maybeBinString - a string to test
  */

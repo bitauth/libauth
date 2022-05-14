@@ -6,5 +6,6 @@
   "editor.semanticHighlighting.enabled": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "cSpell.enabled": true
+  "cSpell.enabled": true,
+  "typescript.preferences.importModuleSpecifierEnding": "js"
 }

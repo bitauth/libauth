@@ -1,4 +1,4 @@
-import { binToHex } from './hex';
+import { binToHex } from './hex.js';
 
 const defaultStringifySpacing = 2;
 
@@ -10,7 +10,7 @@ const defaultStringifySpacing = 2;
  * Without modifications, `JSON.stringify` has several shortcomings in
  * debugging and logging usage:
  * - throws when serializing anything containing a `bigint`
- * - `Uint8Array`s are often serialized in base 10 with newlines between each
+ * - `Uint8Array`s are often encoded in base 10 with newlines between each
  *   index item
  * - `functions` and `symbols` are not clearly marked
  *
@@ -20,7 +20,7 @@ const defaultStringifySpacing = 2;
  * - `function`: `(x) => x * 2` → `<function: (x) => x * 2>`
  * - `symbol`: `Symbol(A)` → `<symbol: Symbol(A)>`
  *
- * @param value - the data to serialize
+ * @param value - the data to stringify
  * @param spacing - the number of spaces to use in
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,7 +42,7 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
         case 'function':
         case 'symbol':
           // eslint-disable-next-line @typescript-eslint/ban-types
-          return `<${name}: ${(item as symbol | Function).toString()}>`;
+          return `<${name}: ${(item as Function | symbol).toString()}>`;
         default:
           return item;
       }
@@ -72,7 +72,9 @@ export const sortObjectKeys = (
     return objectOrArray;
   }
   // eslint-disable-next-line functional/immutable-data
-  const keys = Object.keys(objectOrArray).sort((a, b) => a.localeCompare(b));
+  const keys = Object.keys(objectOrArray).sort((a, b) =>
+    a.localeCompare(b, 'en')
+  );
   return keys.reduce(
     (all, key) => ({
       ...all,
@@ -87,17 +89,19 @@ const uint8ArrayRegex = /"<Uint8Array: 0x(?<hex>[0-9a-f]*)>"/gu;
 const bigIntRegex = /"<bigint: (?<bigint>[0-9]*)n>"/gu;
 
 /**
- * An alternative to `stringify` which produces valid JavaScript for use as a
- * test vector in this library. `Uint8Array`s are constructed using `hexToBin`
- * and `bigint` values use the `BigInt` constructor. If `alphabetize` is `true`,
- * all objects will be sorted in the output.
+ * An alternative to {@link stringify} that produces valid JavaScript for use
+ * as a test vector in this library. `Uint8Array`s are constructed using
+ * {@link hexToBin} and `bigint` values use the `BigInt` constructor. If
+ * `alphabetize` is `true`, all objects will be sorted in the output.
  *
- * Note, this assumes all strings which match the expected regular expressions
+ * Note, this assumes all strings that match the expected regular expressions
  * are values of type `Uint8Array` and `bigint` respectively. String values
- * which otherwise happen to match these regular expressions will be converted
+ * that otherwise happen to match these regular expressions will be converted
  * incorrectly.
  *
- * @param stringified - the result of `stringify`
+ * @param value - the value to stringify
+ * @param alphabetize - whether or not to alphabetize object keys, defaults
+ * to true
  */
 export const stringifyTestVector = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

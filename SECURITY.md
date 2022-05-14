@@ -4,9 +4,9 @@ Thank you for your interest in Libauth's security!
 
 ## Supported Versions
 
-Only the latest major version (currently `1.*`) is regularly supported.
+Only the latest major version is regularly supported.
 
-Critical security issues may be backported to previous versions, but we recommend all users migrate to new major versions within 6 months of release.
+Critical security updates may be backported to previous versions, but we recommend all users migrate to new major versions within 6 months of release.
 
 ## Reporting a Vulnerability
 

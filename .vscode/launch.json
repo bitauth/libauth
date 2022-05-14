@@ -7,12 +7,10 @@
       "request": "launch",
       "name": "Debug Active Spec",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
-      "runtimeArgs": ["debug", "--break", "--serial", "${file}"],
-      "port": 9229,
+      "runtimeArgs": ["--serial", "${file}"],
       "outputCapture": "std",
-      "skipFiles": ["<node_internals>/**/*.js"],
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "preLaunchTask": "npm: build"
-      // "smartStep": true
     },
     {
       // Use this one if you're already running `yarn watch`
@@ -20,11 +18,9 @@
       "request": "launch",
       "name": "Debug Active Spec (no build)",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
-      "runtimeArgs": ["debug", "--break", "--serial", "${file}"],
-      "port": 9229,
+      "runtimeArgs": ["--serial", "${file}"],
       "outputCapture": "std",
-      "skipFiles": ["<node_internals>/**/*.js"]
-      // "smartStep": true
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"]
     }
   ]
 }

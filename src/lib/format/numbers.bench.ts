@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement */
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations */
 
 import { randomBytes } from 'crypto';
 
@@ -17,7 +17,7 @@ import {
   numberToBinUint16LEClamped,
   numberToBinUint32LE,
   numberToBinUint32LEClamped,
-} from '../lib';
+} from '../lib.js';
 
 test(`node: binToBigIntUintBE vs. binToHex -> BigInt()`, async (t) => {
   await suite(t.title, (s) => {

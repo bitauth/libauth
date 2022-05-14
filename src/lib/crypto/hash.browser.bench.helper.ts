@@ -1,21 +1,20 @@
 /* global window, crypto */
-/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement */
-import * as asmCrypto from 'asmcrypto.js';
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement, functional/no-return-void */
+import asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
-import * as hashJs from 'hash.js';
+import hashJs from 'hash.js';
 
-import { HashFunction } from '../bin/bin';
+import type { HashFunction } from '../lib';
 
 import {
   instantiateRipemd160,
   instantiateSha1,
   instantiateSha256,
   instantiateSha512,
-} from './crypto';
+} from './crypto.js';
 
-// eslint-disable-next-line functional/no-return-void
 declare const benchError: (error: string) => void;
-// eslint-disable-next-line functional/no-return-void
+
 declare const benchComplete: () => void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -122,7 +121,7 @@ const incrementalBrowserBenchmark = async ({
     (s) => {
       let message: Uint8Array;
       let messageChunks: readonly Uint8Array[];
-      let hash: Uint8Array | ArrayBuffer | readonly number[] | null;
+      let hash: ArrayBuffer | Uint8Array | readonly number[] | null;
 
       const nextCycle = () => {
         /**

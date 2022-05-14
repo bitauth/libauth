@@ -1,11 +1,12 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers, functional/no-expression-statement */
-import test, { Macro } from 'ava';
-import * as fc from 'fast-check';
+import test from 'ava';
+import fc from 'fast-check';
 
-import {
-  attemptCashAddressFormatErrorCorrection,
+import type {
   CashAddressAvailableSizesInBits,
   CashAddressAvailableTypes,
+} from '../lib';
+import {
+  attemptCashAddressFormatErrorCorrection,
   CashAddressCorrectionError,
   CashAddressDecodingError,
   CashAddressEncodingError,
@@ -22,12 +23,12 @@ import {
   encodeCashAddressFormat,
   encodeCashAddressVersionByte,
   hexToBin,
-  instantiateSha256,
   maskCashAddressPrefix,
   splitEvery,
-} from '../lib';
+} from '../lib.js';
 
-import * as cashAddrJson from './fixtures/cashaddr.json';
+// eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
+import cashAddrJson from './fixtures/cashaddr.json' assert { type: 'json' };
 
 const maxUint8Number = 255;
 const fcUint8Array = (length: number) =>
@@ -51,20 +52,20 @@ test('maskCashAddressPrefix', (t) => {
 test('encodeCashAddressVersionByte', (t) => {
   t.deepEqual(
     encodeCashAddressVersionByte(0, 160),
-    CashAddressVersionByte.P2PKH
+    CashAddressVersionByte.p2pkh
   );
   t.deepEqual(
     encodeCashAddressVersionByte(1, 160),
-    CashAddressVersionByte.P2SH
+    CashAddressVersionByte.p2sh20
   );
 });
 
 test('decodeCashAddressVersionByte', (t) => {
-  t.deepEqual(decodeCashAddressVersionByte(CashAddressVersionByte.P2PKH), {
+  t.deepEqual(decodeCashAddressVersionByte(CashAddressVersionByte.p2pkh), {
     bitLength: 160,
     type: 0,
   });
-  t.deepEqual(decodeCashAddressVersionByte(CashAddressVersionByte.P2SH), {
+  t.deepEqual(decodeCashAddressVersionByte(CashAddressVersionByte.p2sh20), {
     bitLength: 160,
     type: 1,
   });
@@ -89,7 +90,7 @@ test('encodeCashAddress: works', (t) => {
   t.deepEqual(
     encodeCashAddress(
       CashAddressNetworkPrefix.testnet,
-      CashAddressVersionByte.P2PKH,
+      CashAddressVersionByte.p2pkh,
       hash
     ),
     'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'
@@ -102,7 +103,7 @@ test('encodeCashAddress: works', (t) => {
   t.deepEqual(
     encodeCashAddress(
       CashAddressNetworkPrefix.mainnet,
-      CashAddressVersionByte.P2PKH,
+      CashAddressVersionByte.p2pkh,
       hash
     ),
     'bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6'
@@ -115,7 +116,7 @@ test('encodeCashAddress: works', (t) => {
   t.deepEqual(
     encodeCashAddress(
       CashAddressNetworkPrefix.regtest,
-      CashAddressVersionByte.P2PKH,
+      CashAddressVersionByte.p2pkh,
       hash
     ),
     'bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq'
@@ -158,7 +159,7 @@ test('decodeCashAddress: works', (t) => {
     {
       hash,
       prefix: CashAddressNetworkPrefix.testnet,
-      type: CashAddressType.P2PKH,
+      type: CashAddressType.p2pkh,
     }
   );
 
@@ -167,7 +168,7 @@ test('decodeCashAddress: works', (t) => {
     {
       hash,
       prefix: CashAddressNetworkPrefix.mainnet,
-      type: CashAddressType.P2PKH,
+      type: CashAddressType.p2pkh,
     }
   );
   t.deepEqual(
@@ -180,7 +181,7 @@ test('decodeCashAddress: works', (t) => {
     {
       hash,
       prefix: CashAddressNetworkPrefix.regtest,
-      type: CashAddressType.P2PKH,
+      type: CashAddressType.p2pkh,
     }
   );
   t.deepEqual(
@@ -244,7 +245,7 @@ test('decodeCashAddress: works', (t) => {
 test('CashAddress test vectors', (t) => {
   cashAddressTestVectors.forEach((vector) => {
     const { cashaddr } = vector;
-    const [prefix] = cashaddr.split(':');
+    const [prefix] = cashaddr.split(':') as [string];
     const payload = hexToBin(vector.payload);
     const type = vector.type as CashAddressAvailableTypes;
     const encodeResult = encodeCashAddress(prefix, type, payload);
@@ -424,30 +425,24 @@ test('[fast-check] attemptCashAddressErrorCorrection', (t) => {
   });
 });
 
-const sha256Promise = instantiateSha256();
-
-const legacyVectors: Macro<[string, string]> = async (
-  t,
-  base58Address,
-  cashAddress
-) => {
-  const sha256 = await sha256Promise;
-  const decodedBase58Address = decodeBase58AddressFormat(sha256, base58Address);
-  const decodedCashAddress = decodeCashAddress(cashAddress);
-  if (
-    typeof decodedCashAddress === 'string' ||
-    typeof decodedBase58Address === 'string'
-  ) {
-    t.fail();
+const legacyVectors = test.macro<[string, string]>({
+  exec: (t, base58Address, cashAddress) => {
+    const decodedBase58Address = decodeBase58AddressFormat(base58Address);
+    const decodedCashAddress = decodeCashAddress(cashAddress);
+    if (
+      typeof decodedCashAddress === 'string' ||
+      typeof decodedBase58Address === 'string'
+    ) {
+      t.fail();
+      return undefined;
+    }
+    t.deepEqual(decodedBase58Address.payload, decodedCashAddress.hash);
     return undefined;
-  }
-  t.deepEqual(decodedBase58Address.payload, decodedCashAddress.hash);
-  return undefined;
-};
+  },
 
-// eslint-disable-next-line functional/immutable-data
-legacyVectors.title = (_, base58Address) =>
-  `CashAddress <-> Legacy Base58 Vectors: ${base58Address}`;
+  title: (_, base58Address) =>
+    `CashAddress <-> Legacy Base58 Vectors: ${base58Address}`,
+});
 
 test(
   legacyVectors,

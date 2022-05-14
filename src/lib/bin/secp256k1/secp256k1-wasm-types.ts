@@ -4,7 +4,7 @@
  * bitflags used in secp256k1's public API (translated from secp256k1.h)
  */
 
-/* eslint-disable no-bitwise, @typescript-eslint/no-magic-numbers */
+/* eslint-disable no-bitwise, @typescript-eslint/no-magic-numbers, @typescript-eslint/prefer-literal-enum-member */
 /** All flags' lower 8 bits indicate what they're for. Do not use directly. */
 // const SECP256K1_FLAGS_TYPE_MASK = (1 << 8) - 1;
 const SECP256K1_FLAGS_TYPE_CONTEXT = 1 << 0;
@@ -53,14 +53,10 @@ export enum CompressionFlag {
   COMPRESSED = SECP256K1_EC_COMPRESSED as 258,
   UNCOMPRESSED = SECP256K1_EC_UNCOMPRESSED as 2,
 }
-/* eslint-enable no-bitwise, @typescript-eslint/no-magic-numbers */
+/* eslint-enable no-bitwise, @typescript-eslint/no-magic-numbers, @typescript-eslint/prefer-literal-enum-member */
 
 /**
- * An object which wraps the WebAssembly implementation of `libsecp256k1`.
- *
- * Because WebAssembly modules are dynamically-instantiated at runtime, this
- * object must be created and awaited from `instantiateSecp256k1Wasm` or
- * `instantiateSecp256k1WasmBytes`.
+ * An object that wraps the WebAssembly implementation of `libsecp256k1`.
  *
  * **It's very unlikely that consumers will need to use this interface directly.
  * See [[Secp256k1]] for a more purely-functional API.**
@@ -86,14 +82,14 @@ export interface Secp256k1Wasm {
    * Returns 1 if the randomization was successfully updated, or 0 if not.
    *
    * While secp256k1 code is written to be constant-time no matter what secret
-   * values are, it's possible that a future compiler may output code which isn't,
-   * and also that the CPU may not emit the same radio frequencies or draw the same
-   * amount power for all values.
+   * values are, it's possible that a future compiler may output code that
+   * isn't, and also that the CPU may not emit the same radio frequencies or
+   * draw the same amount power for all values.
    *
-   * This function provides a seed which is combined into the blinding value: that
-   * blinding value is added before each multiplication (and removed afterwards) so
-   * that it does not affect function results, but shields against attacks which
-   * rely on any input-dependent behavior.
+   * This function provides a seed that is combined into the blinding value:
+   * that blinding value is added before each multiplication (and removed
+   * afterwards) so that it does not affect function results, but shields
+   * against attacks that rely on any input-dependent behavior.
    *
    * You should call this after `contextCreate` or
    * secp256k1_context_clone, and may call this repeatedly afterwards.
@@ -101,7 +97,7 @@ export interface Secp256k1Wasm {
    * @param contextPtr - pointer to a context object
    * @param seedPtr - pointer to a 32-byte random seed
    */
-  readonly contextRandomize: (contextPtr: number, seedPtr: number) => 1 | 0;
+  readonly contextRandomize: (contextPtr: number, seedPtr: number) => 0 | 1;
 
   /**
    * Frees a pointer allocated by the `malloc` method.
@@ -109,7 +105,6 @@ export interface Secp256k1Wasm {
    */
   readonly free: (pointer: number) => number;
 
-  // eslint-disable-next-line functional/no-mixed-type
   readonly heapU32: Uint32Array;
   readonly heapU8: Uint8Array;
   readonly instance: WebAssembly.Instance;
@@ -118,7 +113,7 @@ export interface Secp256k1Wasm {
    * Allocates the given number of bytes in WebAssembly memory.
    * @param malloc - the number of bytes to allocate
    */
-  // eslint-disable-next-line functional/no-mixed-type
+
   readonly malloc: (bytes: number) => number;
 
   /**
@@ -149,7 +144,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     secretKeyPtr: number,
     tweakNum256Ptr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Tweak a _privateKey_ by multiplying _tweak_ to it.
@@ -163,7 +158,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     secretKeyPtr: number,
     tweakNum256Ptr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Compute the public key for a secret key.
@@ -179,7 +174,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyPtr: number,
     secretKeyPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Parse a variable-length public key into the pubkey object.
@@ -187,9 +182,9 @@ export interface Secp256k1Wasm {
    * Returns 1 if the public key was fully valid, or 0 if the public key could
    * not be parsed or is invalid.
    *
-   *  This function supports parsing compressed (33 bytes, header byte 0x02 or
-   *  0x03), uncompressed (65 bytes, header byte 0x04), or hybrid (65 bytes, header
-   *  byte 0x06 or 0x07) format public keys.
+   * This function supports parsing compressed (33 bytes, header byte 0x02 or
+   * 0x03), uncompressed (65 bytes, header byte 0x04), or hybrid (65 bytes, header
+   * byte 0x06 or 0x07) format public keys.
    *
    * @param contextPtr - pointer to a context object
    * @param publicKeyOutPtr - a pointer to a 64 byte space where the parsed public
@@ -205,7 +200,7 @@ export interface Secp256k1Wasm {
     publicKeyInPtr: number,
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     publicKeyInLength: 33 | 65
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Serialize a pubkey object into a serialized byte sequence.
@@ -215,10 +210,11 @@ export interface Secp256k1Wasm {
    * @param contextPtr - pointer to a context object
    * @param outputPtr - pointer to a 65-byte (if uncompressed) or 33-byte (if
    * compressed) byte array in which to place the serialized key
-   * @param outputLengthPtr - pointer to an integer which is initially set to the
+   * @param outputLengthPtr - pointer to an integer that is initially set to the
    * size of output, and is overwritten with the written size
    * @param publicKeyPtr - pointer to a public key (parsed, internal format)
-   * @param compression - a CompressionFlag indicating compressed or uncompressed
+   * @param compression - a CompressionFlag indicating compressed
+   * or uncompressed
    */
   readonly pubkeySerialize: (
     contextPtr: number,
@@ -242,7 +238,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyPtr: number,
     tweakNum256Ptr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Tweak a _publicKey_ by multiplying it by a _tweak_ value.
@@ -258,7 +254,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     publicKeyPtr: number,
     tweakNum256Ptr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Read from WebAssembly memory by creating a new Uint8Array beginning at
@@ -293,7 +289,7 @@ export interface Secp256k1Wasm {
     publicKeyPtr: number,
     rSigPtr: number,
     msg32Ptr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Parse an ECDSA signature in compact (64 bytes) format with a recovery
@@ -318,7 +314,7 @@ export interface Secp256k1Wasm {
     outputRSigPtr: number,
     inputSigPtr: number,
     rid: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Serialize a recoverable ECDSA signature in compact (64 byte) format along
@@ -329,7 +325,7 @@ export interface Secp256k1Wasm {
    * @param contextPtr - pointer to a context object
    * @param sigOutPtr - pointer to a 64-byte space to store the compact
    * serialization
-   * @param recIDOutPtr - pointer to an int which will store the recovery number
+   * @param recIDOutPtr - pointer to an int that will store the recovery number
    * @param rSigPtr - pointer to the 65-byte signature to be serialized
    * (internal format)
    */
@@ -368,7 +364,7 @@ export interface Secp256k1Wasm {
     outputSigPtr: number,
     msg32Ptr: number,
     secretKeyPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Verify a Secp256k1 EC-Schnorr-SHA256 signature (BCH construction).
@@ -387,7 +383,7 @@ export interface Secp256k1Wasm {
     sigPtr: number,
     msg32Ptr: number,
     publicKeyPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Verify an ECDSA secret key.
@@ -397,7 +393,7 @@ export interface Secp256k1Wasm {
    * @param contextPtr - pointer to a context object
    * @param secretKeyPtr - pointer to a 32-byte secret key
    */
-  readonly seckeyVerify: (contextPtr: number, secretKeyPtr: number) => 1 | 0;
+  readonly seckeyVerify: (contextPtr: number, secretKeyPtr: number) => 0 | 1;
 
   /**
    * Create an ECDSA signature. The created signature is always in lower-S form.
@@ -421,13 +417,13 @@ export interface Secp256k1Wasm {
     outputSigPtr: number,
     msg32Ptr: number,
     secretKeyPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Malleate an ECDSA signature.
    *
    * This is done by negating the S value modulo the order of the curve,
-   * "flipping" the sign of the random point R which is not included in the
+   * "flipping" the sign of the random point R that is not included in the
    * signature.
    *
    * This method is added by Libauth to make testing of `signatureNormalize`
@@ -491,7 +487,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     outputSigPtr: number,
     inputSigPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Parse an ECDSA signature in compact (64 bytes) format. Returns 1 when the
@@ -514,7 +510,7 @@ export interface Secp256k1Wasm {
     contextPtr: number,
     sigOutPtr: number,
     compactSigInPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Parse a DER ECDSA signature.
@@ -541,12 +537,12 @@ export interface Secp256k1Wasm {
     sigOutPtr: number,
     sigDERInPtr: number,
     sigDERInLength: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Serialize an ECDSA signature in compact (64 byte) format. Always returns 1.
    *
-   * See `signatureParseCompact` for details about the encoding.
+   * See {@link signatureParseCompact} for details about the encoding.
    *
    * @param contextPtr - pointer to a context object
    * @param outputCompactSigPtr - pointer to a 64-byte space to store the compact
@@ -579,7 +575,7 @@ export interface Secp256k1Wasm {
     outputDERSigPtr: number,
     outputDERSigLengthPtr: number,
     inputSigPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Create a recoverable ECDSA signature. The created signature is always in
@@ -604,7 +600,7 @@ export interface Secp256k1Wasm {
     outputRSigPtr: number,
     msg32Ptr: number,
     secretKeyPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 
   /**
    * Verify an ECDSA signature.
@@ -632,5 +628,5 @@ export interface Secp256k1Wasm {
     sigPtr: number,
     msg32Ptr: number,
     pubkeyPtr: number
-  ) => 1 | 0;
+  ) => 0 | 1;
 }

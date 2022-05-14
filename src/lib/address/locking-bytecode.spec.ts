@@ -1,5 +1,4 @@
-/* eslint-disable functional/no-expression-statement */
-import test, { Macro } from 'ava';
+import test from 'ava';
 
 import {
   addressContentsToLockingBytecode,
@@ -11,14 +10,12 @@ import {
   CashAddressNetworkPrefix,
   cashAddressToLockingBytecode,
   hexToBin,
-  instantiateSha256,
   LockingBytecodeEncodingError,
   lockingBytecodeToAddressContents,
   lockingBytecodeToBase58Address,
   lockingBytecodeToCashAddress,
-} from '../lib';
-
-const sha256Promise = instantiateSha256();
+  sha256,
+} from '../lib.js';
 
 test('lockingBytecode <-> AddressContents: P2PK', (t) => {
   const genesisCoinbase = hexToBin(
@@ -77,19 +74,19 @@ test('lockingBytecode <-> AddressContents: P2PKH', (t) => {
   );
 });
 
-test('lockingBytecode <-> AddressContents: P2SH', (t) => {
-  const p2sh = hexToBin('a91474f209f6ea907e2ea48f74fae05782ae8a66525787');
+test('lockingBytecode <-> AddressContents: P2SH20', (t) => {
+  const p2sh20 = hexToBin('a91474f209f6ea907e2ea48f74fae05782ae8a66525787');
   const expectedPayload = hexToBin('74f209f6ea907e2ea48f74fae05782ae8a665257');
-  t.deepEqual(lockingBytecodeToAddressContents(p2sh), {
+  t.deepEqual(lockingBytecodeToAddressContents(p2sh20), {
     payload: expectedPayload,
-    type: AddressType.p2sh,
+    type: AddressType.p2sh20,
   });
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: expectedPayload,
-      type: AddressType.p2sh,
+      type: AddressType.p2sh20,
     }),
-    p2sh
+    p2sh20
   );
 });
 
@@ -109,7 +106,7 @@ test('lockingBytecode <-> AddressContents: unknown', (t) => {
 
   const almostP2pk = hexToBin('0100ac');
   const almostP2pkh = hexToBin('76a9010088ac');
-  const almostP2sh = hexToBin('a9010087');
+  const almostP2sh20 = hexToBin('a9010087');
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2pk), {
     payload: almostP2pk,
@@ -121,8 +118,8 @@ test('lockingBytecode <-> AddressContents: unknown', (t) => {
     type: AddressType.unknown,
   });
 
-  t.deepEqual(lockingBytecodeToAddressContents(almostP2sh), {
-    payload: almostP2sh,
+  t.deepEqual(lockingBytecodeToAddressContents(almostP2sh20), {
+    payload: almostP2sh20,
     type: AddressType.unknown,
   });
 });
@@ -130,7 +127,7 @@ test('lockingBytecode <-> AddressContents: unknown', (t) => {
 test('lockingBytecodeToAddressContents: improperly sized scripts return AddressType.unknown', (t) => {
   const almostP2pk = hexToBin('0100ac');
   const almostP2pkh = hexToBin('76a9010088ac');
-  const almostP2sh = hexToBin('a9010087');
+  const almostP2sh20 = hexToBin('a9010087');
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2pk), {
     payload: almostP2pk,
@@ -142,26 +139,26 @@ test('lockingBytecodeToAddressContents: improperly sized scripts return AddressT
     type: AddressType.unknown,
   });
 
-  t.deepEqual(lockingBytecodeToAddressContents(almostP2sh), {
-    payload: almostP2sh,
+  t.deepEqual(lockingBytecodeToAddressContents(almostP2sh20), {
+    payload: almostP2sh20,
     type: AddressType.unknown,
   });
 });
 
-const cashVectors: Macro<[string, string]> = (t, cashAddress, bytecode) => {
-  t.deepEqual(cashAddressToLockingBytecode(cashAddress), {
-    bytecode: hexToBin(bytecode),
-    prefix: 'bitcoincash',
-  });
-  t.deepEqual(
-    lockingBytecodeToCashAddress(hexToBin(bytecode), 'bitcoincash'),
-    cashAddress
-  );
-};
-
-// eslint-disable-next-line functional/immutable-data
-cashVectors.title = (_, cashAddress) =>
-  `cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: ${cashAddress}`;
+const cashVectors = test.macro<[string, string]>({
+  exec: (t, cashAddress, bytecode) => {
+    t.deepEqual(cashAddressToLockingBytecode(cashAddress), {
+      bytecode: hexToBin(bytecode),
+      prefix: 'bitcoincash',
+    });
+    t.deepEqual(
+      lockingBytecodeToCashAddress(hexToBin(bytecode), 'bitcoincash'),
+      cashAddress
+    );
+  },
+  title: (_, cashAddress) =>
+    `cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: ${cashAddress}`,
+});
 
 test(
   cashVectors,
@@ -236,12 +233,12 @@ test('lockingBytecodeToCashAddress: P2PK', (t) => {
   );
 });
 
-test('cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: P2SH', (t) => {
-  const p2sh = hexToBin('a91474f209f6ea907e2ea48f74fae05782ae8a66525787');
+test('cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: P2SH20', (t) => {
+  const p2sh20 = hexToBin('a91474f209f6ea907e2ea48f74fae05782ae8a66525787');
   const address = 'bitcoincash:pp60yz0ka2g8ut4y3a604czhs2hg5ejj2ugn82jfsr';
-  t.deepEqual(lockingBytecodeToCashAddress(p2sh, 'bitcoincash'), address);
+  t.deepEqual(lockingBytecodeToCashAddress(p2sh20, 'bitcoincash'), address);
   t.deepEqual(cashAddressToLockingBytecode(address), {
-    bytecode: p2sh,
+    bytecode: p2sh20,
     prefix: 'bitcoincash',
   });
 });
@@ -276,8 +273,7 @@ test('cashAddressToLockingBytecode: error', (t) => {
   );
 });
 
-test('lockingBytecodeToBase58Address: P2PK', async (t) => {
-  const sha256 = await sha256Promise;
+test('lockingBytecodeToBase58Address: P2PK', (t) => {
   const genesisCoinbase = hexToBin(
     '4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac'
   );
@@ -286,7 +282,7 @@ test('lockingBytecodeToBase58Address: P2PK', async (t) => {
   );
 
   t.deepEqual(
-    lockingBytecodeToBase58Address(sha256, genesisCoinbase, 'mainnet'),
+    lockingBytecodeToBase58Address(genesisCoinbase, 'mainnet', sha256),
     {
       payload: genesisPublicKey,
       type: AddressType.p2pk,
@@ -301,9 +297,9 @@ test('lockingBytecodeToBase58Address: P2PK', async (t) => {
   );
   t.deepEqual(
     lockingBytecodeToBase58Address(
-      sha256,
       genesisCoinbaseCompressed,
-      'testnet'
+      'testnet',
+      sha256
     ),
     {
       payload: compressedPublicKey,
@@ -312,8 +308,7 @@ test('lockingBytecodeToBase58Address: P2PK', async (t) => {
   );
 });
 
-test('base58AddressToLockingBytecode <-> lockingBytecodeToBase58Address: P2PKH', async (t) => {
-  const sha256 = await sha256Promise;
+test('base58AddressToLockingBytecode <-> lockingBytecodeToBase58Address: P2PKH', (t) => {
   const p2pkh = hexToBin('76a91476a04053bda0a88bda5177b86a15c3b29f55987388ac');
   // cspell: disable-next-line
   const address = '1BpEi6DfDAUFd7GtittLSdBeYJvcoaVggu';
@@ -321,70 +316,59 @@ test('base58AddressToLockingBytecode <-> lockingBytecodeToBase58Address: P2PKH',
   const addressTestnet = 'mrLC19Je2BuWQDkWSTriGYPyQJXKkkBmCx';
   // cspell: disable-next-line
   const addressCopay = 'CTH8H8Zj6DSnXFBKQeDG28ogAS92iS16Bp';
+  t.deepEqual(lockingBytecodeToBase58Address(p2pkh, 'mainnet'), address);
   t.deepEqual(
-    lockingBytecodeToBase58Address(sha256, p2pkh, 'mainnet'),
-    address
-  );
-  t.deepEqual(
-    lockingBytecodeToBase58Address(sha256, p2pkh, 'testnet'),
+    lockingBytecodeToBase58Address(p2pkh, 'testnet', sha256),
     addressTestnet
   );
-  t.deepEqual(
-    lockingBytecodeToBase58Address(sha256, p2pkh, 'copay-bch'),
-    addressCopay
-  );
+  t.deepEqual(lockingBytecodeToBase58Address(p2pkh, 'copayBCH'), addressCopay);
 
-  t.deepEqual(base58AddressToLockingBytecode(sha256, address), {
+  t.deepEqual(base58AddressToLockingBytecode(address), {
     bytecode: p2pkh,
     version: Base58AddressFormatVersion.p2pkh,
   });
-  t.deepEqual(base58AddressToLockingBytecode(sha256, addressTestnet), {
+  t.deepEqual(base58AddressToLockingBytecode(addressTestnet), {
     bytecode: p2pkh,
     version: Base58AddressFormatVersion.p2pkhTestnet,
   });
-  t.deepEqual(base58AddressToLockingBytecode(sha256, addressCopay), {
+  t.deepEqual(base58AddressToLockingBytecode(addressCopay, sha256), {
     bytecode: p2pkh,
     version: Base58AddressFormatVersion.p2pkhCopayBCH,
   });
 });
 
-test('base58AddressToLockingBytecode <-> lockingBytecodeToBase58Address: P2SH', async (t) => {
-  const sha256 = await sha256Promise;
-  const p2sh = hexToBin('a91476a04053bda0a88bda5177b86a15c3b29f55987387');
+test('base58AddressToLockingBytecode <-> lockingBytecodeToBase58Address: P2SH20', (t) => {
+  const p2sh20 = hexToBin('a91476a04053bda0a88bda5177b86a15c3b29f55987387');
   // cspell: disable-next-line
   const address = '3CWFddi6m4ndiGyKqzYvsFYagqDLPVMTzC';
   // cspell: disable-next-line
   const addressTestnet = '2N44ThNe8NXHyv4bsX8AoVCXquBRW94Ls7W';
   // cspell: disable-next-line
   const addressCopay = 'HHLN6S9BcP1JLSrMhgD5qe57iVEMFMLCBT';
-  t.deepEqual(lockingBytecodeToBase58Address(sha256, p2sh, 'mainnet'), address);
+  t.deepEqual(lockingBytecodeToBase58Address(p2sh20, 'mainnet'), address);
   t.deepEqual(
-    lockingBytecodeToBase58Address(sha256, p2sh, 'testnet'),
+    lockingBytecodeToBase58Address(p2sh20, 'testnet', sha256),
     addressTestnet
   );
-  t.deepEqual(
-    lockingBytecodeToBase58Address(sha256, p2sh, 'copay-bch'),
-    addressCopay
-  );
+  t.deepEqual(lockingBytecodeToBase58Address(p2sh20, 'copayBCH'), addressCopay);
 
-  t.deepEqual(base58AddressToLockingBytecode(sha256, address), {
-    bytecode: p2sh,
-    version: Base58AddressFormatVersion.p2sh,
+  t.deepEqual(base58AddressToLockingBytecode(address), {
+    bytecode: p2sh20,
+    version: Base58AddressFormatVersion.p2sh20,
   });
-  t.deepEqual(base58AddressToLockingBytecode(sha256, addressTestnet), {
-    bytecode: p2sh,
-    version: Base58AddressFormatVersion.p2shTestnet,
+  t.deepEqual(base58AddressToLockingBytecode(addressTestnet), {
+    bytecode: p2sh20,
+    version: Base58AddressFormatVersion.p2sh20Testnet,
   });
-  t.deepEqual(base58AddressToLockingBytecode(sha256, addressCopay), {
-    bytecode: p2sh,
-    version: Base58AddressFormatVersion.p2shCopayBCH,
+  t.deepEqual(base58AddressToLockingBytecode(addressCopay, sha256), {
+    bytecode: p2sh20,
+    version: Base58AddressFormatVersion.p2sh20CopayBCH,
   });
 });
 
-test('base58AddressToLockingBytecode: error', async (t) => {
-  const sha256 = await sha256Promise;
+test('base58AddressToLockingBytecode: error', (t) => {
   t.deepEqual(
-    base58AddressToLockingBytecode(sha256, 'bad:address'),
+    base58AddressToLockingBytecode('bad:address'),
     Base58AddressError.unknownCharacter
   );
 });

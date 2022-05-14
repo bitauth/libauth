@@ -213,11 +213,11 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
     ],
   ],
   [
-    'Standard transaction inputs may only include push operations',
+    'Standard and P2SH transaction inputs may only include push operations',
     [
-      ['<0> OP_IF OP_RESERVED OP_ENDIF', '<1>', 'OP_RESERVED is valid if not executed (and is standard in unlocking bytecode, but OP_IF/OP_ENDIF are not)', ['valid']],
+      ['<0> OP_IF OP_RESERVED OP_ENDIF', '<1>', 'OP_RESERVED is valid if not executed (and is standard in unlocking bytecode, but OP_IF/OP_ENDIF are not)', ['valid', 'p2sh_invalid']],
       ['<1> OP_IF OP_RESERVED OP_ENDIF', '<1>', 'OP_RESERVED is only valid if not executed (and is standard in unlocking bytecode, but OP_IF/OP_ENDIF are not)', ['invalid']],
-      ['OP_NOP', '<1>', 'OP_NOP is non-standard in unlocking bytecode', ['valid']],
+      ['OP_NOP', '<1>', 'OP_NOP is non-standard in unlocking bytecode', ['valid', 'p2sh_invalid']],
       // TODO: ensure all non-push opcodes are non-standard when found in unlocking bytecode
     ],
   ],
@@ -255,6 +255,19 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<1>', 'OP_NOP8', 'OP_NOP8 is non-standard', ['valid']],
       ['<1>', 'OP_NOP9', 'OP_NOP9 is non-standard', ['valid']],
       ['<1>', 'OP_NOP10', 'OP_NOP10 is non-standard', ['valid']],
+    ],
+  ],
+  [
+    'Conditionals',
+    [
+      ['<0>', 'OP_IF <0> OP_ENDIF <1>', 'OP_IF'],
+      ['<1>', 'OP_NOTIF <0> OP_ENDIF <1>', 'OP_NOTIF'],
+      ['<0> OP_IF', '<1>', 'Unbalanced OP_IF in unlocking bytecode', ['invalid']],
+      ['<0> OP_IF', 'OP_ENDIF <1>', 'Unbalanced OP_IF, must OP_ENDIF in active bytecode', ['invalid']],
+      ['<1> ', 'OP_IF <1>', 'Unbalanced OP_IF in locking bytecode', ['invalid']],
+      ['<0> OP_NOTIF', '<1>', 'Unbalanced OP_NOTIF in unlocking bytecode', ['invalid']],
+      ['<0> OP_NOTIF', 'OP_ENDIF <1>', 'Unbalanced OP_NOTIF, must OP_ENDIF in active bytecode', ['invalid']],
+      ['<1> ', 'OP_NOTIF <1>', 'Unbalanced OP_NOTIF in locking bytecode', ['invalid']],
     ],
   ],
   [
@@ -332,8 +345,9 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<3>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 2, while version 3 is expected)', ['invalid']],
       ['<3>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 3)', ['2021_invalid', '2022_valid'], { transaction: { version: 3 } }],
       ['<123456>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 123456)', ['2021_invalid', '2022_valid'], { transaction: { version: 123456 } }],
-      ['<4294967294>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 4294967294)', ['2021_invalid', '2022_valid'], { transaction: { version: 4294967294 } }],
-      ['<4294967295>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 4294967295)', ['2021_invalid', '2022_valid'], { transaction: { version: 4294967295 } }],
+      // Libauth considers version to be an unsigned integer, but the Satoshi implementation considers it to be signed
+      ['<-2>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version 0xfeffffff; 4294967294 unsigned, -2 signed)', ['2021_invalid', '2022_valid'], { transaction: { version: 4294967294 } }],
+      ['<-1>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version 0xffffffff; 4294967295 unsigned, -1 signed)', ['2021_invalid', '2022_valid'], { transaction: { version: 4294967295 } }],
       ['<2>', 'OP_TXINPUTCOUNT OP_EQUAL', 'OP_TXINPUTCOUNT (2 inputs)', ['2021_invalid']],
       ['<1>', 'OP_TXINPUTCOUNT OP_EQUAL', 'OP_TXINPUTCOUNT (2 inputs, 1 expected)', ['invalid']],
       ['<1> <"100-byte tx size minimum 123456789012345678901234567890">', 'OP_DROP OP_TXINPUTCOUNT OP_EQUAL', 'OP_TXINPUTCOUNT (1 input)', ['2021_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }] } }],

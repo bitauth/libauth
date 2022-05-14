@@ -466,7 +466,7 @@ export const varIntPrefixToSize = (firstByte: number) => {
  * @param bin - the Uint8Array from which to read the VarInt
  * @param index - the index at which the VarInt begins
  */
-export const decodeVarInt = (bin: Uint8Array, index = 0) => {
+export const varIntToBigInt = (bin: Uint8Array, index = 0) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const bytes = varIntPrefixToSize(bin[index]!);
   const hasPrefix = bytes !== 1;
@@ -503,3 +503,11 @@ export const bigIntToVarInt = (value: bigint) =>
         ...numberToBinUint32LE(Number(value)),
       ])
     : Uint8Array.from([VarInt.uint64Prefix, ...bigIntToBinUint64LE(value)]);
+
+export const int32SignedToUnsigned = (int32: number) =>
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  Uint32Array.from(Int32Array.of(int32))[0]!;
+
+export const int32UnsignedToSigned = (int32: number) =>
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  Int32Array.from(Uint32Array.of(int32))[0]!;

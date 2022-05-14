@@ -14,6 +14,7 @@
     "bcoin",
     "bcrypto",
     "bech",
+    "benchmarkjs",
     "bigint",
     "bindgen",
     "bitauth",
@@ -165,7 +166,8 @@
     "yarn.lock",
     "tsconfig.json",
     "node_modules/**",
-    "src/**/*.base64.ts"
+    "src/**/*.base64.ts",
+    "src/**/script_tests.json"
   ],
   "ignoreRegExpList": ["Base64", "HexValues"]
 }

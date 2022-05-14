@@ -3,9 +3,9 @@ import {
   bigIntToVarInt,
   binToHex,
   binToNumberUint32LE,
-  decodeVarInt,
   flattenBinArray,
   numberToBinUint32LE,
+  varIntToBigInt,
 } from '../format/format.js';
 import type { Input, Output, Sha256, TransactionCommon } from '../lib';
 
@@ -46,7 +46,7 @@ export const decodeTransactionInputUnsafe = (
     bin.subarray(indexAfterTxHash, indexAfterOutpointIndex)
   );
   const { nextIndex: indexAfterBytecodeLength, value: bytecodeLength } =
-    decodeVarInt(bin, indexAfterOutpointIndex);
+    varIntToBigInt(bin, indexAfterOutpointIndex);
   const indexAfterBytecode = indexAfterBytecodeLength + Number(bytecodeLength);
   const unlockingBytecode = bin.slice(
     indexAfterBytecodeLength,
@@ -82,7 +82,7 @@ export const encodeTransactionInputs = (inputs: readonly Input[]) =>
   ]);
 
 /**
- * Decode an array of items following a VarInt (see {@link decodeVarInt}). A
+ * Decode an array of items following a VarInt (see {@link varIntToBigInt}). A
  * VarInt will be read beginning at `index`, and then the encoded number of
  * items will be decoded using `itemDecoder`.
  *
@@ -101,7 +101,7 @@ export const createVarIntItemUnsafeDecoder =
     keyPlural: KeyPlural
   ) =>
   (bin: Uint8Array, index = 0) => {
-    const { nextIndex: indexAfterItemCount, value: itemCount } = decodeVarInt(
+    const { nextIndex: indexAfterItemCount, value: itemCount } = varIntToBigInt(
       bin,
       index
     );
@@ -168,7 +168,7 @@ export const decodeTransactionOutputUnsafe = (
   const uint64Bytes = 8;
   const indexAfterSatoshis = index + uint64Bytes;
   const valueSatoshis = bin.slice(index, indexAfterSatoshis);
-  const { nextIndex: indexAfterScriptLength, value } = decodeVarInt(
+  const { nextIndex: indexAfterScriptLength, value } = varIntToBigInt(
     bin,
     indexAfterSatoshis
   );

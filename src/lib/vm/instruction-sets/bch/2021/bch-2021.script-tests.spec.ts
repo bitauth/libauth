@@ -10,6 +10,8 @@ import {
   disassembleBytecodeBCH,
   stackItemIsTruthy,
   stringify,
+  stringifyDebugTraceSummary,
+  summarizeDebugTrace,
 } from '../../../../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
@@ -139,7 +141,10 @@ pendingTests.map((expectation) => {
         t.log(`lockingBytecodeText: "${expectation.lockingBytecodeText}"`);
         t.log(`disassembled: "${disassembleBytecodeBCH(lockingBytecode)}"`);
         t.log('result:', stringify(result));
-        t.log('debug:', stringify(vm.debug(program)));
+        t.log(
+          'debug:',
+          stringifyDebugTraceSummary(summarizeDebugTrace(vm.debug(program)))
+        );
         if (expectation.expectedError === false) {
           t.fail('Expected a valid state, but this result is invalid.');
           return;

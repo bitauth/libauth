@@ -223,15 +223,15 @@ export const createInstructionSetBCH2022 = (
           AuthenticationErrorCommon.malformedLockingBytecode
         );
       }
-      if (standard && !isPushOnly(unlockingBytecode)) {
-        return applyError(
-          initialState,
-          AuthenticationErrorCommon.requiresPushOnly
-        );
-      }
       const unlockingResult = stateEvaluate(initialState);
       if (unlockingResult.error !== undefined) {
         return unlockingResult;
+      }
+      if (unlockingResult.controlStack.length !== 0) {
+        return applyError(
+          initialState,
+          AuthenticationErrorCommon.nonEmptyControlStack
+        );
       }
       const lockingResult = stateEvaluate(
         createAuthenticationProgramStateCommon({
@@ -243,7 +243,12 @@ export const createInstructionSetBCH2022 = (
       if (!isPayToScriptHash20(lockingBytecode)) {
         return lockingResult;
       }
-
+      if (!isPushOnly(unlockingBytecode)) {
+        return applyError(
+          initialState,
+          AuthenticationErrorCommon.requiresPushOnly
+        );
+      }
       const p2shStack = cloneStack(unlockingResult.stack);
       // eslint-disable-next-line functional/immutable-data
       const p2shScript = p2shStack.pop() ?? Uint8Array.of();

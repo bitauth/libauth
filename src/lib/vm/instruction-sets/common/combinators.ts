@@ -10,8 +10,8 @@ import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import {
   bigIntToVmNumber,
-  decodeVmNumber,
   isVmNumberError,
+  vmNumberToBigInt,
 } from './instruction-sets-utils.js';
 
 export const incrementOperationCount =
@@ -178,7 +178,7 @@ export const useOneVmNumber = <
   }
 ) =>
   useOneStackItem(state, (nextState, [item]) => {
-    const value = decodeVmNumber(item, {
+    const value = vmNumberToBigInt(item, {
       maximumVmNumberByteLength,
       requireMinimalEncoding,
     });

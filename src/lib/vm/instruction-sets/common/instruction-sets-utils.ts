@@ -483,7 +483,7 @@ const typicalMaximumVmNumberByteLength = 8;
  * @param bytes - a Uint8Array from the stack
  */
 // eslint-disable-next-line complexity
-export const decodeVmNumber = (
+export const vmNumberToBigInt = (
   bytes: Uint8Array,
   {
     maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
@@ -548,7 +548,7 @@ export const decodeVmNumber = (
 };
 
 /**
- * Convert a BigInt into the VM Number format. See {@link decodeVmNumber} for
+ * Convert a BigInt into the VM Number format. See {@link vmNumberToBigInt} for
  * more information.
  *
  * @param integer - the BigInt to encode as a VM Number

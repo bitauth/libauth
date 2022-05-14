@@ -1049,7 +1049,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
   });
 });
 
-test('extractEvaluationSamples: error in initial validation', (t) => {
+test.failing('extractEvaluationSamples: error in initial validation', (t) => {
   const result = compiler.generateBytecode({
     data: {},
     debug: true,

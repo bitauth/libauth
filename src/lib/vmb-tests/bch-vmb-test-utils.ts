@@ -109,6 +109,7 @@ type SupportedTestSetOverrideLists =
   | ['invalid', 'nonP2sh_valid']
   | ['invalid', 'p2sh_ignore']
   | ['invalid']
+  | ['valid', 'p2sh_invalid']
   | ['valid']
   | [];
 export const supportedTestSetOverrides: {
@@ -169,6 +170,10 @@ export const supportedTestSetOverrides: {
   valid: [
     { mode: 'nonP2SH', sets: ['2021_valid', '2022_valid'] },
     { mode: 'P2SH20', sets: ['2021_valid', '2022_valid'] },
+  ],
+  'valid,p2sh_invalid': [
+    { mode: 'nonP2SH', sets: ['2021_valid', '2022_valid'] },
+    { mode: 'P2SH20', sets: ['2021_invalid', '2022_invalid'] },
   ],
 };
 /* eslint-enable @typescript-eslint/naming-convention */

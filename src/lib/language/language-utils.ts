@@ -17,9 +17,9 @@ import type {
 import {
   authenticationInstructionIsMalformed,
   decodeAuthenticationInstructions,
-  decodeVmNumber,
   encodeAuthenticationInstructionMalformed,
   OpcodesBCH,
+  vmNumberToBigInt,
 } from '../vm/vm.js';
 
 const pluckStartPosition = (range: Range) => ({
@@ -803,7 +803,7 @@ export const extractUnexecutedRanges = <
  */
 export const summarizeStack = (stack: Uint8Array[]) =>
   stack.map((item) => {
-    const asNumber = decodeVmNumber(item);
+    const asNumber = vmNumberToBigInt(item);
     return `0x${binToHex(item)}${
       typeof asNumber === 'string' ? '' : `(${asNumber.toString()})`
     }`;

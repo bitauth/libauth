@@ -5,7 +5,7 @@ import type {
 } from '../../../lib';
 
 import { applyError, AuthenticationErrorCommon } from './errors.js';
-import { decodeVmNumber, isVmNumberError } from './instruction-sets-utils.js';
+import { isVmNumberError, vmNumberToBigInt } from './instruction-sets-utils.js';
 
 const enum Bits {
   sequenceLocktimeDisableFlag = 31,
@@ -36,7 +36,7 @@ export const useLocktime = <
   if (item === undefined) {
     return applyError(state, AuthenticationErrorCommon.emptyStack);
   }
-  const decodedLocktime = decodeVmNumber(item, {
+  const decodedLocktime = vmNumberToBigInt(item, {
     maximumVmNumberByteLength: Constants.locktimeVmNumberByteLength,
     requireMinimalEncoding: true,
   });

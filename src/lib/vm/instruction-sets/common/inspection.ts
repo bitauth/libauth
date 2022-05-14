@@ -1,4 +1,7 @@
-import { binToBigIntUint64LE } from '../../../format/format.js';
+import {
+  binToBigIntUint64LE,
+  int32UnsignedToSigned,
+} from '../../../format/format.js';
 import type {
   AuthenticationProgramStateCommon,
   Input,
@@ -32,7 +35,10 @@ export const opActiveBytecode = <
 export const opTxVersion = <State extends AuthenticationProgramStateCommon>(
   state: State
 ) =>
-  pushToStackVmNumberChecked(state, BigInt(state.program.transaction.version));
+  pushToStackVmNumberChecked(
+    state,
+    BigInt(int32UnsignedToSigned(state.program.transaction.version))
+  );
 
 export const opTxInputCount = <State extends AuthenticationProgramStateCommon>(
   state: State

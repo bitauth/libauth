@@ -17,7 +17,6 @@ import {
   binToNumberUint16LE,
   binToNumberUint32LE,
   binToNumberUintLE,
-  decodeVarInt,
   hexToBin,
   numberToBinInt16LE,
   numberToBinInt32LE,
@@ -30,6 +29,7 @@ import {
   numberToBinUint32LEClamped,
   numberToBinUintLE,
   varIntPrefixToSize,
+  varIntToBigInt,
 } from '../lib.js';
 
 test('numberToBinUint16LE', (t) => {
@@ -436,8 +436,8 @@ test('binToBigIntUint64LE', (t) => {
   );
 });
 
-test('decodeVarInt: index is optional', (t) => {
-  t.deepEqual(decodeVarInt(hexToBin('00')), {
+test('varIntToBigInt: index is optional', (t) => {
+  t.deepEqual(varIntToBigInt(hexToBin('00')), {
     nextIndex: 1,
     value: BigInt(0x00),
   });
@@ -446,13 +446,13 @@ test('decodeVarInt: index is optional', (t) => {
 const varIntVector = test.macro<[string, bigint, number, number?, string?]>({
   // eslint-disable-next-line max-params
   exec: (t, hex, value, nextIndex, start = 0, expected = hex) => {
-    t.deepEqual(decodeVarInt(hexToBin(hex), start), {
+    t.deepEqual(varIntToBigInt(hexToBin(hex), start), {
       nextIndex,
       value,
     });
     t.deepEqual(bigIntToVarInt(value), hexToBin(expected));
   },
-  title: (_, string) => `decodeVarInt/bigIntToVarInt: ${string}`,
+  title: (_, string) => `varIntToBigInt/bigIntToVarInt: ${string}`,
 });
 
 /* spell-checker: disable */
@@ -492,13 +492,13 @@ test(varIntVector, 'ff1111111111111111', BigInt('0x1111111111111111'), 9);
 test(varIntVector, 'ff1234567890abcdef', BigInt('0xefcdab9078563412'), 9);
 
 testProp(
-  '[fast-check] bigIntToVarInt <-> decodeVarInt',
+  '[fast-check] bigIntToVarInt <-> varIntToBigInt',
   [fc.bigUintN(64)],
   (t, uint64) => {
     const varInt = bigIntToVarInt(uint64);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const expectedIndex = varIntPrefixToSize(varInt[0]!);
-    const result = decodeVarInt(varInt);
+    const result = varIntToBigInt(varInt);
     t.deepEqual(result, { nextIndex: expectedIndex, value: uint64 });
   }
 );

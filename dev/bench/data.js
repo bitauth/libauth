@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1652523066916,
+  "lastUpdate": 1652562061580,
   "repoUrl": "https://github.com/bitauth/libauth",
   "entries": {
     "Benchmark.js Benchmark": [
@@ -3894,6 +3894,1304 @@ window.BENCHMARK_DATA = {
             "range": "±1.05%",
             "unit": "ops/sec",
             "extra": "92 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jason@dreyzehner.com",
+            "name": "Jason Dreyzehner",
+            "username": "bitjson"
+          },
+          "committer": {
+            "email": "jason@dreyzehner.com",
+            "name": "Jason Dreyzehner",
+            "username": "bitjson"
+          },
+          "distinct": true,
+          "id": "6f2e782752234625c646a70318f74132afbbaa42",
+          "message": "fix: rename format utils for consistency, improve vmb_tests, fix issues in BCH vm",
+          "timestamp": "2022-05-14T16:35:48-04:00",
+          "tree_id": "d7ff93f40657461da2b33cd2a7a3853111c0ae7e",
+          "url": "https://github.com/bitauth/libauth/commit/6f2e782752234625c646a70318f74132afbbaa42"
+        },
+        "date": 1652562059441,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "    libauth",
+            "value": 364756,
+            "range": "±1.10%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 270114,
+            "range": "±1.20%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 24328,
+            "range": "±2.58%",
+            "unit": "ops/sec",
+            "extra": "56 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 20592,
+            "range": "±2.23%",
+            "unit": "ops/sec",
+            "extra": "54 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 475565,
+            "range": "±0.94%",
+            "unit": "ops/sec",
+            "extra": "61 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 132934,
+            "range": "±2.37%",
+            "unit": "ops/sec",
+            "extra": "61 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 24106,
+            "range": "±2.19%",
+            "unit": "ops/sec",
+            "extra": "56 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 19485,
+            "range": "±3.53%",
+            "unit": "ops/sec",
+            "extra": "55 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 96770,
+            "range": "±1.13%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 22197,
+            "range": "±1.76%",
+            "unit": "ops/sec",
+            "extra": "59 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 18948,
+            "range": "±2.65%",
+            "unit": "ops/sec",
+            "extra": "55 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 18200,
+            "range": "±1.17%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 13764,
+            "range": "±2.71%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 11740,
+            "range": "±1.65%",
+            "unit": "ops/sec",
+            "extra": "60 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 10723,
+            "range": "±1.20%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 1767,
+            "range": "±1.11%",
+            "unit": "ops/sec",
+            "extra": "61 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 8.24,
+            "range": "±1.71%",
+            "unit": "ops/sec",
+            "extra": "25 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 3.49,
+            "range": "±1.63%",
+            "unit": "ops/sec",
+            "extra": "13 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.44,
+            "range": "±1.22%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 444464,
+            "range": "±1.72%",
+            "unit": "ops/sec",
+            "extra": "59 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 261055,
+            "range": "±1.57%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 23947,
+            "range": "±2.34%",
+            "unit": "ops/sec",
+            "extra": "56 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 20720,
+            "range": "±2.39%",
+            "unit": "ops/sec",
+            "extra": "55 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 309932,
+            "range": "±1.27%",
+            "unit": "ops/sec",
+            "extra": "58 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 131825,
+            "range": "±1.18%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 23857,
+            "range": "±1.99%",
+            "unit": "ops/sec",
+            "extra": "55 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 20203,
+            "range": "±2.18%",
+            "unit": "ops/sec",
+            "extra": "56 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 56793,
+            "range": "±0.92%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 18941,
+            "range": "±2.34%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 18218,
+            "range": "±2.53%",
+            "unit": "ops/sec",
+            "extra": "56 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 17370,
+            "range": "±1.14%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 10886,
+            "range": "±1.72%",
+            "unit": "ops/sec",
+            "extra": "55 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 7155,
+            "range": "±2.23%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 6273,
+            "range": "±1.01%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 1803,
+            "range": "±1.68%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 3.32,
+            "range": "±1.86%",
+            "unit": "ops/sec",
+            "extra": "13 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 2.3,
+            "range": "±1.76%",
+            "unit": "ops/sec",
+            "extra": "10 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.45,
+            "range": "±1.22%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 378035,
+            "range": "±1.77%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 72349,
+            "range": "±1.55%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 20027,
+            "range": "±2.38%",
+            "unit": "ops/sec",
+            "extra": "56 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 16495,
+            "range": "±1.93%",
+            "unit": "ops/sec",
+            "extra": "58 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 372105,
+            "range": "±1.55%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 77401,
+            "range": "±1.11%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 20585,
+            "range": "±2.03%",
+            "unit": "ops/sec",
+            "extra": "53 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 15955,
+            "range": "±2.01%",
+            "unit": "ops/sec",
+            "extra": "54 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 92075,
+            "range": "±0.84%",
+            "unit": "ops/sec",
+            "extra": "64 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 19035,
+            "range": "±2.50%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 11749,
+            "range": "±2.09%",
+            "unit": "ops/sec",
+            "extra": "56 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 5790,
+            "range": "±1.02%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    crypto.subtle",
+            "value": 11587,
+            "range": "±3.38%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 10748,
+            "range": "±0.97%",
+            "unit": "ops/sec",
+            "extra": "57 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 1494,
+            "range": "±1.30%",
+            "unit": "ops/sec",
+            "extra": "12 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 595,
+            "range": "±0.89%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 3.35,
+            "range": "±2.20%",
+            "unit": "ops/sec",
+            "extra": "13 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 0.67,
+            "range": "±1.14%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.19,
+            "range": "±1.34%",
+            "unit": "ops/sec",
+            "extra": "5 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 845672,
+            "range": "±1.31%",
+            "unit": "ops/sec",
+            "extra": "60 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 253199,
+            "range": "±1.22%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 705176,
+            "range": "±1.41%",
+            "unit": "ops/sec",
+            "extra": "51 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 120847,
+            "range": "±1.61%",
+            "unit": "ops/sec",
+            "extra": "61 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 205243,
+            "range": "±1.11%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 15655,
+            "range": "±1.08%",
+            "unit": "ops/sec",
+            "extra": "63 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 25681,
+            "range": "±1.17%",
+            "unit": "ops/sec",
+            "extra": "62 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 1649,
+            "range": "±1.43%",
+            "unit": "ops/sec",
+            "extra": "13 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 7.85,
+            "range": "±2.00%",
+            "unit": "ops/sec",
+            "extra": "24 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.43,
+            "range": "±1.14%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 889267,
+            "range": "±0.94%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 604383,
+            "range": "±2.16%",
+            "unit": "ops/sec",
+            "extra": "81 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 400294,
+            "range": "±1.43%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 289831,
+            "range": "±6.44%",
+            "unit": "ops/sec",
+            "extra": "73 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 698438,
+            "range": "±1.01%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 469627,
+            "range": "±2.19%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 266555,
+            "range": "±6.32%",
+            "unit": "ops/sec",
+            "extra": "76 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 209101,
+            "range": "±1.07%",
+            "unit": "ops/sec",
+            "extra": "86 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 214476,
+            "range": "±1.25%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 149103,
+            "range": "±2.58%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 134772,
+            "range": "±2.06%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 30061,
+            "range": "±1.46%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 26236,
+            "range": "±1.44%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 20721,
+            "range": "±0.81%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 19451,
+            "range": "±1.31%",
+            "unit": "ops/sec",
+            "extra": "86 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 3310,
+            "range": "±0.91%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 8.32,
+            "range": "±1.53%",
+            "unit": "ops/sec",
+            "extra": "25 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 6.97,
+            "range": "±1.35%",
+            "unit": "ops/sec",
+            "extra": "22 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.66,
+            "range": "±1.08%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    secp256k1-node",
+            "value": 13373,
+            "range": "±0.89%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 4168,
+            "range": "±0.91%",
+            "unit": "ops/sec",
+            "extra": "92 samples"
+          },
+          {
+            "name": "    elliptic",
+            "value": 454,
+            "range": "±1.07%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
+          },
+          {
+            "name": "    secp256k1-node",
+            "value": 11926,
+            "range": "±1.21%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 3821,
+            "range": "±1.28%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    elliptic",
+            "value": 432,
+            "range": "±1.02%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
+          },
+          {
+            "name": "    secp256k1-node",
+            "value": 24005,
+            "range": "±1.01%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 12694,
+            "range": "±1.49%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    elliptic",
+            "value": 1278,
+            "range": "±1.31%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    secp256k1-node",
+            "value": 13906,
+            "range": "±0.95%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 5519,
+            "range": "±1.02%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    elliptic",
+            "value": 930,
+            "range": "±1.42%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    secp256k1.signMessageHashDER",
+            "value": 5548,
+            "range": "±1.07%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    secp256k1.signMessageHashSchnorr",
+            "value": 5470,
+            "range": "±1.02%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    secp256k1.verifySignatureSchnorr (Schnorr, pubkey compressed)",
+            "value": 5660,
+            "range": "±0.87%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    secp256k1.verifySignatureDERLowS (ECDSA, pubkey compressed)",
+            "value": 3899,
+            "range": "±0.86%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 633032,
+            "range": "±2.26%",
+            "unit": "ops/sec",
+            "extra": "79 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 622188,
+            "range": "±1.16%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 440981,
+            "range": "±1.21%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 370768,
+            "range": "±4.54%",
+            "unit": "ops/sec",
+            "extra": "81 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 20946,
+            "range": "±2.34%",
+            "unit": "ops/sec",
+            "extra": "79 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 514496,
+            "range": "±2.57%",
+            "unit": "ops/sec",
+            "extra": "77 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 427101,
+            "range": "±1.59%",
+            "unit": "ops/sec",
+            "extra": "81 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 371255,
+            "range": "±2.80%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 236066,
+            "range": "±1.21%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 20468,
+            "range": "±2.02%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 254075,
+            "range": "±2.65%",
+            "unit": "ops/sec",
+            "extra": "86 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 216102,
+            "range": "±2.85%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 98152,
+            "range": "±0.96%",
+            "unit": "ops/sec",
+            "extra": "92 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 34844,
+            "range": "±1.36%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 18817,
+            "range": "±1.59%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 63475,
+            "range": "±1.70%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 32946,
+            "range": "±2.82%",
+            "unit": "ops/sec",
+            "extra": "81 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 11484,
+            "range": "±3.36%",
+            "unit": "ops/sec",
+            "extra": "76 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 10953,
+            "range": "±1.16%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 3823,
+            "range": "±1.39%",
+            "unit": "ops/sec",
+            "extra": "84 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 24.01,
+            "range": "±2.19%",
+            "unit": "ops/sec",
+            "extra": "43 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 8.25,
+            "range": "±1.83%",
+            "unit": "ops/sec",
+            "extra": "25 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 3.41,
+            "range": "±1.99%",
+            "unit": "ops/sec",
+            "extra": "13 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.71,
+            "range": "±4.18%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 556642,
+            "range": "±2.04%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 504288,
+            "range": "±1.06%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 399267,
+            "range": "±0.83%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 286992,
+            "range": "±7.10%",
+            "unit": "ops/sec",
+            "extra": "73 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 16289,
+            "range": "±3.10%",
+            "unit": "ops/sec",
+            "extra": "66 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 468944,
+            "range": "±1.38%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 380579,
+            "range": "±0.99%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 276600,
+            "range": "±6.49%",
+            "unit": "ops/sec",
+            "extra": "77 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 201929,
+            "range": "±0.99%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 17232,
+            "range": "±2.43%",
+            "unit": "ops/sec",
+            "extra": "73 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 157955,
+            "range": "±5.26%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 122724,
+            "range": "±2.10%",
+            "unit": "ops/sec",
+            "extra": "83 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 67706,
+            "range": "±0.94%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 29251,
+            "range": "±0.97%",
+            "unit": "ops/sec",
+            "extra": "86 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 14837,
+            "range": "±2.97%",
+            "unit": "ops/sec",
+            "extra": "70 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 32155,
+            "range": "±1.09%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 15643,
+            "range": "±1.15%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 7291,
+            "range": "±0.97%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 6533,
+            "range": "±3.45%",
+            "unit": "ops/sec",
+            "extra": "76 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 3236,
+            "range": "±0.90%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 11.3,
+            "range": "±0.98%",
+            "unit": "ops/sec",
+            "extra": "32 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 3.38,
+            "range": "±2.29%",
+            "unit": "ops/sec",
+            "extra": "13 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 2.25,
+            "range": "±2.21%",
+            "unit": "ops/sec",
+            "extra": "10 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.64,
+            "range": "±1.64%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 482097,
+            "range": "±2.16%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 393483,
+            "range": "±1.12%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 275316,
+            "range": "±7.94%",
+            "unit": "ops/sec",
+            "extra": "70 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 109026,
+            "range": "±1.09%",
+            "unit": "ops/sec",
+            "extra": "86 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 14482,
+            "range": "±1.58%",
+            "unit": "ops/sec",
+            "extra": "83 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 456490,
+            "range": "±2.59%",
+            "unit": "ops/sec",
+            "extra": "79 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 374652,
+            "range": "±1.10%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 279987,
+            "range": "±8.12%",
+            "unit": "ops/sec",
+            "extra": "72 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 104257,
+            "range": "±0.99%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 14550,
+            "range": "±2.85%",
+            "unit": "ops/sec",
+            "extra": "83 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 213971,
+            "range": "±0.98%",
+            "unit": "ops/sec",
+            "extra": "89 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 165554,
+            "range": "±2.14%",
+            "unit": "ops/sec",
+            "extra": "85 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 93189,
+            "range": "±0.82%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 10719,
+            "range": "±2.11%",
+            "unit": "ops/sec",
+            "extra": "81 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 7953,
+            "range": "±0.81%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 44577,
+            "range": "±1.07%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    bcoin",
+            "value": 23231,
+            "range": "±1.06%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 10639,
+            "range": "±0.99%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 1890,
+            "range": "±1.93%",
+            "unit": "ops/sec",
+            "extra": "86 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 752,
+            "range": "±1.10%",
+            "unit": "ops/sec",
+            "extra": "90 samples"
+          },
+          {
+            "name": "    node.js native",
+            "value": 15.82,
+            "range": "±1.60%",
+            "unit": "ops/sec",
+            "extra": "43 samples"
+          },
+          {
+            "name": "    libauth",
+            "value": 3.41,
+            "range": "±1.93%",
+            "unit": "ops/sec",
+            "extra": "13 samples"
+          },
+          {
+            "name": "    asmcrypto.js",
+            "value": 0.68,
+            "range": "±1.24%",
+            "unit": "ops/sec",
+            "extra": "6 samples"
+          },
+          {
+            "name": "    hash.js",
+            "value": 0.21,
+            "range": "±1.27%",
+            "unit": "ops/sec",
+            "extra": "5 samples"
+          },
+          {
+            "name": "    binToHex -> BigInt()",
+            "value": 370300,
+            "range": "±1.19%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    binToBigIntUintBE",
+            "value": 178938,
+            "range": "±1.08%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    numberToBinUint16LEClamped",
+            "value": 3431892,
+            "range": "±1.00%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
+          },
+          {
+            "name": "    numberToBinUint16LE",
+            "value": 1468230,
+            "range": "±3.17%",
+            "unit": "ops/sec",
+            "extra": "71 samples"
+          },
+          {
+            "name": "    numberToBinUint32LEClamped",
+            "value": 2497338,
+            "range": "±2.75%",
+            "unit": "ops/sec",
+            "extra": "78 samples"
+          },
+          {
+            "name": "    numberToBinUint32LE",
+            "value": 1383623,
+            "range": "±3.44%",
+            "unit": "ops/sec",
+            "extra": "70 samples"
+          },
+          {
+            "name": "    bigIntToBinUint64LEClamped",
+            "value": 453919,
+            "range": "±1.31%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
+          },
+          {
+            "name": "    bigIntToBinUint64LE",
+            "value": 440062,
+            "range": "±1.65%",
+            "unit": "ops/sec",
+            "extra": "84 samples"
           }
         ]
       }

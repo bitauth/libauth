@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.0](https://github.com/bitauth/libauth/compare/v1.19.0...v2.0.0-alpha.0) (2022-05-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires esm, modifies some crypto interfaces, renames many exports for
+consistency, expands the program state available to vms and compilers
+
+### Features
+
+* switch to pure esm, simplify types, simplify crypto, update vms and compiler ([c80044f](https://github.com/bitauth/libauth/commit/c80044f003b31e88b9d526242ecfcac02add6971)), closes [#31](https://github.com/bitauth/libauth/issues/31) [#53](https://github.com/bitauth/libauth/issues/53) [#72](https://github.com/bitauth/libauth/issues/72)
+
+
+### Bug Fixes
+
+* clarify endianness of outpointTransactionHash around library ([04c8c52](https://github.com/bitauth/libauth/commit/04c8c52ac555954d5e40775ded758df84993759b))
+
 ## [1.19.0](https://github.com/bitauth/libauth/compare/v1.18.1...v1.19.0) (2021-12-08)
 
 

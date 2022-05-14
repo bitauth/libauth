@@ -14,9 +14,9 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
   outpointIndex: number;
   /**
    * The hash of the raw transaction from which this input is spent in
-   * big-endian byte order. This is the byte order typically seen in block
-   * explorers and user interfaces (as opposed to little-endian byte order,
-   * which is used in standard P2P network messages).
+   * user interface byte order ({@link hashTransactionUiOrder}). This is the
+   * byte order typically seen in wallets and block explorers (the reverse of
+   * that used by P2P network messages, the VM, and most SHA-256 libraries).
    *
    * A.K.A. `Transaction ID`
    *

@@ -30,7 +30,7 @@ export enum CompilerDefaults {
   /**
    * The default `outpointTransactionHash` of inputs in scenarios.
    */
-  defaultScenarioInputOutpointTransactionHash = '0000000000000000000000000000000000000000000000000000000000000000',
+  defaultScenarioInputOutpointTransactionHash = '0000000000000000000000000000000000000000000000000000000000000001',
   /**
    * The default `sequenceNumber` of inputs in scenarios.
    */

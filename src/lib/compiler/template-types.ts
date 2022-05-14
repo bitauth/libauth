@@ -318,8 +318,8 @@ export interface AuthenticationTemplateScenarioInput {
    * seen in block explorers and user interfaces (as opposed to little-endian
    * byte order, which is used in standard P2P network messages).
    *
-   * If undefined, this defaults to the "empty" hash:
-   * `0000000000000000000000000000000000000000000000000000000000000000`
+   * If undefined, this defaults to the value:
+   * `0000000000000000000000000000000000000000000000000000000000000001`
    *
    * A.K.A. Outpoint `Transaction ID`
    */

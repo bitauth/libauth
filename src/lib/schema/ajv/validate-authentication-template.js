@@ -367,7 +367,7 @@ const schema22 = {
         },
         outpointTransactionHash: {
           description:
-            'A 32-byte, hexadecimal-encoded hash of the transaction from which this input is spent in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the "empty" hash: `0000000000000000000000000000000000000000000000000000000000000000`\n\nA.K.A. Outpoint `Transaction ID`',
+            'A 32-byte, hexadecimal-encoded hash of the transaction from which this input is spent in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000001`\n\nA.K.A. Outpoint `Transaction ID`',
           type: 'string',
         },
         sequenceNumber: {
@@ -3101,7 +3101,7 @@ const schema35 = {
     },
     outpointTransactionHash: {
       description:
-        'A 32-byte, hexadecimal-encoded hash of the transaction from which this input is spent in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the "empty" hash: `0000000000000000000000000000000000000000000000000000000000000000`\n\nA.K.A. Outpoint `Transaction ID`',
+        'A 32-byte, hexadecimal-encoded hash of the transaction from which this input is spent in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000001`\n\nA.K.A. Outpoint `Transaction ID`',
       type: 'string',
     },
     sequenceNumber: {

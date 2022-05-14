@@ -535,11 +535,11 @@ test(
           {
             outpointIndex: 0,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000000'
+              '0000000000000000000000000000000000000000000000000000000000000001'
             ),
             sequenceNumber: 0,
             unlockingBytecode: hexToBin(
-              '4130389ff5dbd624dae23cc61e74dbdf51ac34952a2ab1591fc1266e7bb0cc4d232c885b7b181cb9a2996e490895e0297e88c808c7bad8eb2c74bc4ba71f9f759b41'
+              '41d1851c0a464c5d6b5b15452327e187f5c19d0805a2ce821b00b239dcc2de2112335cf481bed0f69c780adf9eda30c3e0706b893b53e0a58fa9fad0628e30d0da41'
             ),
           },
         ],
@@ -591,7 +591,7 @@ test(
   'Cannot generate scenario "does_not_exist": a scenario definition with the identifier does_not_exist is not included in this compiler configuration.'
 );
 
-test.failing(
+test(
   'generateScenario: invalid bytecode value',
   expectScenarioGenerationResult,
   'a',
@@ -601,7 +601,7 @@ test.failing(
       a: { data: { bytecode: { var1: 'invalid' } } },
     },
   },
-  'Cannot generate scenario "a": Compilation error while generating bytecode for "var1": [1, 1] Unknown identifier "invalid".'
+  'Cannot generate scenario "a". Compilation error while generating bytecode for "var1": [1, 1] Unknown identifier "invalid".'
 );
 
 test.failing(
@@ -703,7 +703,7 @@ test(
           {
             outpointIndex: 0,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000000'
+              '0000000000000000000000000000000000000000000000000000000000000001'
             ),
             sequenceNumber: 0,
             unlockingBytecode: hexToBin(''),
@@ -722,8 +722,8 @@ test(
   }
 );
 
-test.failing(
-  'generateScenario: unknown locking bytecode script',
+test(
+  'generateScenario: mismatched source outputs and transaction inputs',
   expectScenarioGenerationResult,
   'a',
   'unlock',
@@ -732,10 +732,10 @@ test.failing(
       a: { transaction: { inputs: [{}, {}] } },
     },
   },
-  'Cannot generate scenario "a": the specific input under test in this scenario is ambiguous – "transaction.inputs" must include exactly one input that has "unlockingBytecode" set to "null".'
+  'Cannot generate scenario "a": could not match source outputs with inputs – "sourceOutputs" must be the same length as "transaction.inputs".'
 );
 
-test.failing(
+test(
   'generateScenario: ambiguous input under test',
   expectScenarioGenerationResult,
   'a',
@@ -747,10 +747,10 @@ test.failing(
       },
     },
   },
-  'Cannot generate scenario "a": Cannot generate locking bytecode for output 0: [0, 0] No script with an ID of "unknown" was provided in the compiler configuration.'
+  'Cannot generate scenario "a": Failed compilation of source output at index 0: Cannot resolve "var1" – the "bytecode" property was not provided in the compilation data. Failed compilation of transaction output at index 0: No script with an ID of "unknown" was provided in the compiler configuration.'
 );
 
-test.failing(
+test(
   'generateScenario: no locking script',
   expectScenarioGenerationResult,
   'a',
@@ -762,7 +762,7 @@ test.failing(
       },
     },
   },
-  'Cannot generate scenario "a": Cannot generate locking bytecode for output 0: the locking script unlocked by "unlock" is not provided in this compiler configuration.',
+  'Cannot generate scenario "a" using unlocking script "unlock": the locking script unlocked by "unlock" is not provided in this compiler configuration.',
   {
     unlockingScripts: undefined,
   }

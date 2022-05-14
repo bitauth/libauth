@@ -344,8 +344,8 @@ export const cloneTransactionCommon = <Transaction extends TransactionCommon>(
 /**
  * Compute a transaction hash (A.K.A. "transaction ID" or "TXID") from an
  * encoded transaction in P2P network message order. This is the byte order
- * produced by most sha256 libraries and used in most P2P network messages. It
- * is also the byte order produced by `OP_SHA256` and `OP_HASH256` in the
+ * produced by most sha256 libraries and used by encoded P2P network messages.
+ * It is also the byte order produced by `OP_SHA256` and `OP_HASH256` in the
  * virtual machine.
  *
  * @returns the transaction hash in P2P network message byte order

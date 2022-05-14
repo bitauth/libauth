@@ -20,7 +20,7 @@
  */
 
 import type { VmbTestDefinitionGroup } from '../lib';
-import { bigIntToBinUint64LE, binToHex, cashAssemblyToBin, range } from '../lib.js';
+import { bigIntToBinUint64LE, binToHex, cashAssemblyToBin, hashTransactionUiOrder, hexToBin, range } from '../lib.js';
 
 import { slot0Scenario, slot2Scenario, slot9Scenario } from './bch-vmb-test-mixins.js';
 import { vmbTestGroupToVmbTests } from './bch-vmb-test-utils.js';
@@ -289,7 +289,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<1>', 'OP_TXLOCKTIME OP_TXLOCKTIME OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_TXLOCKTIME pushes an independent stack item', ['2021_invalid']],
       ['<1>', '<1> OP_UTXOVALUE <1> OP_UTXOVALUE OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_UTXOVALUE pushes an independent stack item', ['2021_invalid']],
       ['<1>', '<1> OP_UTXOBYTECODE <1> OP_UTXOBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT OP_VERIFY', 'each OP_UTXOBYTECODE pushes an independent stack item', ['2021_invalid']],
-      ['<1>', '<1> OP_OUTPOINTTXHASH <1> OP_OUTPOINTTXHASH <0xf00000000000000000000000000000000000000000000000000000000000000f> OP_XOR OP_EQUAL OP_NOT OP_VERIFY', 'each OP_OUTPOINTTXHASH pushes an independent stack item', ['2021_invalid']],
+      ['<1>', '<1> OP_OUTPOINTTXHASH <1> OP_OUTPOINTTXHASH <0xf000000000000000000000000000000000000000000000000000000000000001> OP_XOR OP_EQUAL OP_NOT OP_VERIFY', 'each OP_OUTPOINTTXHASH pushes an independent stack item', ['2021_invalid']],
       ['<1>', '<1> OP_OUTPOINTINDEX <1> OP_OUTPOINTINDEX OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_OUTPOINTINDEX pushes an independent stack item', ['2021_invalid']],
       ['<1>', '<0> OP_INPUTBYTECODE <0> OP_INPUTBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT OP_VERIFY', 'each OP_INPUTBYTECODE pushes an independent stack item', ['2021_invalid']],
       ['<1>', '<1> OP_INPUTSEQUENCENUMBER <1> OP_INPUTSEQUENCENUMBER OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_INPUTSEQUENCENUMBER pushes an independent stack item', ['2021_invalid']],
@@ -440,15 +440,25 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ lockingBytecode: { script: `lock${i}` }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ unlockingBytecode: { script: `unlock${i}` } }))] } },
         range(49, 1).reduce((agg, i) => ({ ...agg, [`unlock${i}`]: { script: `<0x00 ${i}>`, unlocks: `lock${i}` }, [`lock${i}`]: { lockingType: 'p2sh20', script: `<0x00 ${i}> OP_EQUAL` } }), {}),
       ],
-      ['<0x0000000000000000000000000000000000000000000000000000000000000000>', '<0> OP_OUTPOINTTXHASH OP_EQUAL', 'OP_OUTPOINTTXHASH (input 0)', ['2021_invalid']],
-      ['<0x0000000000000000000000000000000000000000000000000000000000000000>', '<1> OP_OUTPOINTTXHASH OP_EQUAL', 'OP_OUTPOINTTXHASH (input 1)', ['2021_invalid']],
+      ['<0x0100000000000000000000000000000000000000000000000000000000000000>', '<0> OP_OUTPOINTTXHASH OP_EQUAL', 'OP_OUTPOINTTXHASH (input 0)', ['2021_invalid']],
+      ['<0x0100000000000000000000000000000000000000000000000000000000000000>', '<1> OP_OUTPOINTTXHASH OP_EQUAL', 'OP_OUTPOINTTXHASH (input 1)', ['2021_invalid']],
+      [
+        '<0x6fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000>',
+        '<1> OP_OUTPOINTTXHASH OP_EQUAL',
+        'OP_OUTPOINTTXHASH returns in OP_HASH256 order (genesis block)',
+        ['2021_invalid'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'] }, { lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }],
+          transaction: { inputs: [{ unlockingBytecode: ['slot'] }, { outpointTransactionHash: binToHex(hashTransactionUiOrder(hexToBin('0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a29ab5f49ffff001d1dac2b7c'))), unlockingBytecode: { script: 'unlockEmptyP2sh20' } }] },
+        },
+      ],
       ['<0x0000000000000000000000000000000000000000000000000000000000000001>', '<1> OP_OUTPOINTTXHASH OP_EQUAL', 'OP_OUTPOINTTXHASH (input 1, expected 0x00...01)', ['invalid']],
       [
-        '<0x0000000000000000000000000000000000000000000000000000000000000001>',
+        '<0x000000000000000000000000000000000000000000000000000000000000001>',
         '<1> OP_OUTPOINTTXHASH OP_EQUAL',
         'OP_OUTPOINTTXHASH (input 1, 0x00...01)',
         ['2021_invalid'],
-        { sourceOutputs: [{ lockingBytecode: ['slot'] }, { lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, { outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000001', unlockingBytecode: { script: 'unlockEmptyP2sh20' } }] } },
+        { sourceOutputs: [{ lockingBytecode: ['slot'] }, { lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, { outpointTransactionHash: '0100000000000000000000000000000000000000000000000000000000000000', unlockingBytecode: { script: 'unlockEmptyP2sh20' } }] } },
       ],
       ['<1>', '<0> OP_OUTPOINTTXHASH OP_DROP', 'OP_OUTPOINTTXHASH (ignore result, input 0)', ['2021_invalid']],
       ['<1>', '<1> OP_OUTPOINTTXHASH OP_DROP', 'OP_OUTPOINTTXHASH (ignore result, input 1)', ['2021_invalid']],
@@ -469,7 +479,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         ['2021_invalid'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map(() => ({ lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }))],
-          transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ outpointTransactionHash: `${binToHex(Uint8Array.of(i))}00000000000000000000000000000000000000000000000000000000000000`, unlockingBytecode: { script: 'unlockEmptyP2sh20' } }))] },
+          transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ outpointTransactionHash: binToHex(Uint8Array.of(i)).padStart(64, '0'), unlockingBytecode: { script: 'unlockEmptyP2sh20' } }))] },
         },
       ],
       ['<0>', '<0> OP_OUTPOINTINDEX OP_EQUAL', 'OP_OUTPOINTINDEX (input 0)', ['2021_invalid']],
@@ -495,7 +505,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         ['2021_invalid'],
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map(() => ({ lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ outpointIndex: i, unlockingBytecode: { script: 'unlockEmptyP2sh20' } }))] } },
       ],
-      ['<0>', 'OP_INPUTBYTECODE <<0x016bef010b024a4ac48b0d37b6d68866fd5d878cf85e6778e913a43cece4e0c4a176f874b8d092619d67857d189f4b9542576b010687310490c538985edbb94cc3> <0x03a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785>> OP_EQUAL', 'OP_INPUTBYTECODE (input 0)', ['2021_invalid']],
+      ['<0>', 'OP_INPUTBYTECODE <<0x7dfb529d352908ee0a88a0074c216b09793d6aa8c94c7640bb4ced51eaefc75d0aef61f7685d0307491e2628da3d4f91e86329265a4a58ca27a41ec0b8910779c3> <0x03a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785>> OP_EQUAL', 'OP_INPUTBYTECODE (input 0)', ['2021_invalid']],
       ['<1>', 'OP_INPUTBYTECODE <<1>> OP_EQUAL', 'OP_INPUTBYTECODE (self, nonP2SH)', ['invalid', '2022_nonP2sh_valid']],
       ['<1> OP_CODESEPARATOR <1>', 'OP_VERIFY OP_INPUTBYTECODE <<1> OP_CODESEPARATOR <1>> OP_EQUAL', 'OP_INPUTBYTECODE,  OP_CODESEPARATOR in input bytecode has no effect (self, nonP2SH)', ['invalid', '2022_nonP2sh_valid']],
       ['<OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>>', 'OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20)', ['invalid', '2022_p2sh_standard']],

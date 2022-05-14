@@ -112,7 +112,10 @@ export const opOutpointTxHash = <
   state: State
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
-    pushToStackChecked(nextState, input.outpointTransactionHash.slice())
+    pushToStackChecked(
+      nextState,
+      input.outpointTransactionHash.slice().reverse()
+    )
   );
 
 export const opOutpointIndex = <State extends AuthenticationProgramStateCommon>(

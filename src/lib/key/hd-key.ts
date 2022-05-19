@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   ripemd160 as internalRipemd160,
   secp256k1 as internalSecp256k1,
@@ -474,6 +475,36 @@ export const decodeHdPublicKey = (
     } as HdKeyParameters<HdPublicNode>;
   }
   return HdKeyDecodingError.publicKeyExpected;
+};
+
+/**
+ * Decode the provided HD private key and compute its identifier. Error messages
+ * are returned as a string.
+ */
+export const hdPrivateKeyToIdentifier = (
+  hdPrivateKey: string,
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+) => {
+  const privateKeyParams = decodeHdPrivateKey(hdPrivateKey, crypto);
+  if (typeof privateKeyParams === 'string') {
+    return privateKeyParams;
+  }
+  return deriveHdPrivateNodeIdentifier(privateKeyParams.node);
+};
+
+/**
+ * Decode the provided HD public key and compute its identifier. Error messages
+ * are returned as a string.
+ */
+export const hdPublicKeyToIdentifier = (
+  hdPublicKey: string,
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+) => {
+  const publicKeyParams = decodeHdPublicKey(hdPublicKey, crypto);
+  if (typeof publicKeyParams === 'string') {
+    return publicKeyParams;
+  }
+  return deriveHdPublicNodeIdentifier(publicKeyParams.node);
 };
 
 /**

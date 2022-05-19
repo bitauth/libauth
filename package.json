@@ -30,7 +30,6 @@
     "BTC"
   ],
   "scripts": {
-    "info": "npm-scripts-info",
     "compile:secp256k1": "docker build -f wasm/docker/secp256k1.Dockerfile . -t libauth-secp256k1 && docker run -it --mount type=bind,src=$(pwd)/src/lib,dst=/libauth/out,consistency=delegated libauth-secp256k1",
     "compile:hashes": "docker build -f wasm/docker/hashes.Dockerfile . -t libauth-hashes && docker run -it --mount type=bind,src=$(pwd)/src/lib,dst=/libauth/out,consistency=delegated libauth-hashes",
     "build": "run-p build:*",
@@ -48,11 +47,12 @@
     "fix:lint": "eslint . --ext .ts --fix",
     "gen:vmb-tests": "run-s build gen:vmb-tests:*",
     "gen:vmb-tests:bch": "node 'build/lib/vmb-tests/bch-vmb-tests.spec.helper.js' 'src/lib/vmb-tests/generated/bch' && prettier 'src/lib/vmb-tests/generated/bch/*.json' --write",
+    "gen:vmb-tests-live": "node 'build/lib/vmb-tests/bch-vmb-tests.live.spec.helper.js'",
     "gen:schema": "run-p gen:schema:*",
     "gen:schema:authentication-template": "ts-json-schema-generator --no-ref-encode --path 'src/lib/compiler/template-types.ts' --type 'AuthenticationTemplate' > src/lib/schema/authentication-template.schema.json && prettier 'src/lib/schema/authentication-template.schema.json' --write && ajv compile -s src/lib/schema/authentication-template.schema.json --allowUnionTypes -o src/lib/schema/ajv/validate-authentication-template.js && prettier 'src/lib/schema/ajv/validate-authentication-template.js' --write && node -e \"const fs = require('fs'), path = 'src/lib/schema/ajv/validate-authentication-template.js'; fs.writeFileSync(path, fs.readFileSync(path, 'utf8').replace(/'use strict'[\\s\\S]*module.exports.default =/, 'export default'), 'utf8')\"",
     "gen:schema-TODO": "//TODO: use ajv compile --code-esm option after merge: https://github.com/ajv-validator/ajv-cli/pull/200",
     "gen:templates": "run-s build && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'p2pkh' > src/lib/transaction/fixtures/templates/p2pkh.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-3' > src/lib/transaction/fixtures/templates/2-of-3.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-2-recoverable' > src/lib/transaction/fixtures/templates/2-of-2-recoverable.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'sig-of-sig' > src/lib/transaction/fixtures/templates/sig-of-sig.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'cash-channels' > src/lib/transaction/fixtures/templates/cash-channels.json && prettier 'src/lib/transaction/fixtures/templates/*.json' --write",
-    "gen:graph": "mkdir -p scratch && madge --image scratch/deps-$(date +\"%FT%H%M\").svg build/index.js",
+    "gen:graph": "mkdir -p temp && madge --image temp/deps-$(date +\"%FT%H%M\").svg build/index.js",
     "test": "run-s build test:*",
     "test-node18": "NODE_OPTIONS=--openssl-legacy-provider run-s build test:*",
     "test:deps": "node -e \"if(Object.keys(require('./package.json').dependencies).length > 0) { console.error('Dependencies are not allowed.'); process.exit(1); }\"",

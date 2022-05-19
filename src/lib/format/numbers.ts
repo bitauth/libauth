@@ -39,8 +39,8 @@ export const binToFixedLength = (bin: Uint8Array, bytes: number) => {
 
 /**
  * Encode a positive integer as a 2-byte Uint16LE Uint8Array, clamping the
- * results. (Values exceeding `0xffff` return the same result as `0xffff`,
- * negative values will return the same result as `0`.)
+ * results – values exceeding `0xffff` (`65535`) return the same result as
+ * `0xffff`, negative values will return the same result as `0`.
  *
  * @param value - the number to encode
  */
@@ -51,8 +51,8 @@ export const numberToBinUint16LEClamped = (value: number) => {
 
 /**
  * Encode a positive integer as a 4-byte Uint32LE Uint8Array, clamping the
- * results. (Values exceeding `0xffffffff` return the same result as
- * `0xffffffff`, negative values will return the same result as `0`.)
+ * results – values exceeding `0xffffffff` (`4294967295`) return the same result
+ * as `0xffffffff`, negative values will return the same result as `0`.
  *
  * @param value - the number to encode
  */
@@ -65,7 +65,8 @@ export const numberToBinUint32LEClamped = (value: number) => {
  * Encode a positive integer as a 2-byte Uint16LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
- * `0` to `0xffff`.
+ * `0` to `0xffff` (`65535`). If applicable, applications should handle such
+ * cases prior to calling this method.
  *
  * @param value - the number to encode
  */
@@ -83,7 +84,8 @@ export const numberToBinUint16LE = (value: number) => {
  * Encode an integer as a 2-byte Int16LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
- * `0x0000` to `0xffff`.
+ * `0x0000` to `0xffff` (`65535`). If applicable, applications should handle
+ * such cases prior to calling this method.
  *
  * @param value - the number to encode
  */
@@ -101,7 +103,8 @@ export const numberToBinInt16LE = (value: number) => {
  * Encode an integer as a 4-byte Uint32LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
- * `0x00000000` to `0xffffffff`.
+ * `0x00000000` to `0xffffffff` (`4294967295`). If applicable, applications
+ * should handle such cases prior to calling this method.
  *
  * @param value - the number to encode
  */
@@ -145,7 +148,8 @@ export const binToNumberInt32LE = (bin: Uint8Array) => {
  * Encode a positive integer as a 2-byte Uint16LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
- * `0` to `0xffff`.
+ * `0` to `0xffff` (`65535`). If applicable, applications should handle such
+ * cases prior to calling this method.
  *
  * @param value - the number to encode
  */
@@ -163,7 +167,8 @@ export const numberToBinUint16BE = (value: number) => {
  * Encode a positive number as a 4-byte Uint32LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
- * `0` to `0xffffffff`.
+ * `0` to `0xffffffff` (`4294967295`). If applicable, applications should handle
+ * such cases prior to calling this method.
  *
  * @param value - the number to encode
  */
@@ -181,7 +186,8 @@ export const numberToBinUint32LE = (value: number) => {
  * Encode a positive number as a 4-byte Uint32BE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
- * `0` to `0xffffffff`.
+ * `0` to `0xffffffff` (`4294967295`). If applicable, applications should handle
+ * such cases prior to calling this method.
  *
  * @param value - the number to encode
  */
@@ -222,8 +228,9 @@ export const bigIntToBinUintLE = (value: bigint) => {
 
 /**
  * Encode a positive BigInt as an 8-byte Uint64LE Uint8Array, clamping the
- * results. (Values exceeding `0xffff_ffff_ffff_ffff` return the same result as
- * `0xffff_ffff_ffff_ffff`, negative values return the same result as `0`.)
+ * results – values exceeding `0xffff_ffff_ffff_ffff` (`18446744073709551615`)
+ * return the same result as `0xffff_ffff_ffff_ffff`, negative values return the
+ * same result as `0`.
  *
  * @param value - the number to encode
  */
@@ -236,7 +243,7 @@ export const bigIntToBinUint64LEClamped = (value: bigint) => {
  * Encode a positive BigInt as an 8-byte Uint64LE Uint8Array.
  *
  * This method will return an incorrect result for values outside of the range
- * `0` to `0xffff_ffff_ffff_ffff`.
+ * `0` to `0xffff_ffff_ffff_ffff` (`18446744073709551615`).
  *
  * @param value - the number to encode
  */
@@ -426,6 +433,23 @@ export const binToBigIntUint64LE = (bin: Uint8Array) => {
   return binToBigIntUintLE(truncatedBin, uint64LengthInBytes);
 };
 
+/**
+ * Decode an {@link Output.valueSatoshis} into a `BigInt`. This is an alias for
+ * {@link binToBigIntUint64LE}.
+ *
+ * Throws if the provided value is shorter than 8 bytes.
+ */
+export const valueSatoshisToBigInt = binToBigIntUint64LE;
+
+/**
+ * Encode a `BigInt` into an {@link Output.valueSatoshis}. This is an alias for
+ * {@link bigIntToBinUint64LE}.
+ *
+ * This method will return an incorrect result for values outside of the range 0
+ * to 0xffff_ffff_ffff_ffff (`18446744073709551615`).
+ */
+export const bigIntToValueSatoshis = bigIntToBinUint64LE;
+
 const enum VarInt {
   uint8MaxValue = 0xfc,
   uint16Prefix = 0xfd,
@@ -481,10 +505,10 @@ export const varIntToBigInt = (bin: Uint8Array, index = 0) => {
 /**
  * Encode a positive BigInt as a VarInt (Satoshi's Variable-length integer).
  *
- * Note: the maximum value of a VarInt is `0xffff_ffff_ffff_ffff`. This method
- * will return an incorrect result for values outside of the range `0` to
- * `0xffff_ffff_ffff_ffff`. If applicable, applications should handle such cases
- * prior to calling this method.
+ * Note: the maximum value of a VarInt is `0xffff_ffff_ffff_ffff`
+ * (`18446744073709551615`). This method will return an incorrect result for
+ * values outside of the range `0` to `0xffff_ffff_ffff_ffff`. If applicable,
+ * applications should handle such cases prior to calling this method.
  *
  * @param value - the BigInt to encode (must be no larger than
  * `0xffff_ffff_ffff_ffff`)

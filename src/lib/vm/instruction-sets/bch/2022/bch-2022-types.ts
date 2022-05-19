@@ -1,9 +1,11 @@
 import { hexToBin } from '../../../../format/format.js';
 import type {
+  AnyCompilerConfiguration,
   AuthenticationProgramCommon,
   AuthenticationProgramStateCommon,
   AuthenticationVirtualMachine,
   CompilationContext,
+  Compiler,
   Input,
   Output,
   ResolvedTransactionCommon,
@@ -20,6 +22,11 @@ export type AuthenticationProgramBCH = AuthenticationProgramCommon;
 export type AuthenticationProgram = AuthenticationProgramBCH;
 export type AuthenticationProgramStateBCH = AuthenticationProgramStateCommon;
 export type AuthenticationProgramState = AuthenticationProgramStateBCH;
+export type AuthenticationVirtualMachineBCH = AuthenticationVirtualMachine<
+  ResolvedTransactionBCH,
+  AuthenticationProgramBCH,
+  AuthenticationProgramStateBCH
+>;
 export type TransactionBCH<
   InputType = Input,
   OutputType = Output
@@ -28,14 +35,12 @@ export type Transaction<
   InputType = Input,
   OutputType = Output
 > = TransactionBCH<InputType, OutputType>;
-
 export type CompilationContextBCH = CompilationContext<
   TransactionBCH<Input<Uint8Array | undefined>>
 >;
-
-export type AuthenticationVirtualMachineBCH = AuthenticationVirtualMachine<
-  ResolvedTransactionBCH,
-  AuthenticationProgramBCH,
+export type CompilerBCH = Compiler<
+  CompilationContextBCH,
+  AnyCompilerConfiguration<CompilationContextBCH>,
   AuthenticationProgramStateBCH
 >;
 

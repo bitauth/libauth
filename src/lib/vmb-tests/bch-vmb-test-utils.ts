@@ -24,7 +24,7 @@ import { slot1Scenario } from './bch-vmb-test-mixins.js';
  * Libauth can also support testing of draft proposals by specifying a short
  * identifier for each independent proposal.
  */
-const vmVersions = [
+const vmVersionsBCH = [
   '2021',
   '2022',
   'chip_cashtokens',
@@ -40,32 +40,26 @@ const vmVersions = [
  */
 const vmModes = ['nop2sh', 'p2sh20', 'p2sh32'] as const;
 
-type TestSetType = 'invalid' | 'standard' | 'valid';
+type TestSetType = 'invalid' | 'nonstandard' | 'standard';
 type TestSetOverrideType = TestSetType | 'ignore';
-type VmVersion = typeof vmVersions[number];
+type VmVersionBCH = typeof vmVersionsBCH[number];
 type VmMode = typeof vmModes[number];
-type TestSetOverride =
+type TestSetOverrideLabelBCH =
   | `${TestSetOverrideType}`
   | `${VmMode}_${TestSetOverrideType}`
-  | `${VmVersion}_${TestSetOverrideType}`
-  | `${VmVersion}_${VmMode}_${TestSetOverrideType}`;
+  | `${VmVersionBCH}_${TestSetOverrideType}`
+  | `${VmVersionBCH}_${VmMode}_${TestSetOverrideType}`;
 
-export const vmbTestDefinitionDefaultBehavior: TestSetOverride[] = [
-  'nop2sh_valid',
-  'p2sh20_standard',
-  'p2sh32_ignore',
-];
+export type TestSetIdBCH = `${VmVersionBCH}_${TestSetType}`;
 
-export type TestSet = `${VmVersion}_${TestSetType}`;
-
-export type VmbTestMaster = [
+export type VmbTestMasterBCH = [
   shortId: string,
   testDescription: string,
   unlockingScriptAsm: string,
   redeemOrLockingScriptAsm: string,
   testTransactionHex: string,
   sourceOutputsHex: string,
-  testSets: TestSet[],
+  testSets: TestSetIdBCH[],
   /**
    * This isn't required for testing (implementations should always validate the
    * full test transaction), but it can allow downstream applications to
@@ -88,6 +82,16 @@ export type VmbTest = [
   inputIndex?: number
 ];
 
+/**
+ * Not used currently, but these are the defaults that inform
+ * {@link supportedTestSetOverridesBCH}.
+ */
+export const vmbTestDefinitionDefaultBehaviorBCH: TestSetOverrideLabelBCH[] = [
+  'nop2sh_nonstandard',
+  'p2sh20_standard',
+  'p2sh32_ignore',
+];
+
 /* eslint-disable @typescript-eslint/naming-convention */
 /**
  * The list of test set overrides currently supported. Eventually this should be
@@ -96,42 +100,48 @@ export type VmbTest = [
  * For now, this implementation simplifies VMB test generation – we just
  * `join()` the provided overrides and look up resulting modes/test sets here.
  */
-type SupportedTestSetOverrideLists =
-  | ['2021_invalid', '2022_valid', 'p2sh_ignore']
-  | ['2021_invalid', '2022_valid']
+type TestSetOverrideListBCH =
+  | ['2021_invalid', '2022_nonstandard', 'p2sh_ignore']
+  | ['2021_invalid', '2022_nonstandard']
   | ['2021_invalid', 'nonP2sh_invalid']
   | ['2021_invalid', 'nonP2sh20_invalid']
   | ['2021_invalid', 'p2sh_ignore']
   | ['2021_invalid', 'p2sh_invalid']
   | ['2021_invalid']
-  | ['invalid', '2022_nonP2sh_valid']
+  | ['invalid', '2022_nonP2sh_nonstandard']
   | ['invalid', '2022_p2sh_standard']
-  | ['invalid', 'nonP2sh_valid']
+  | ['invalid', 'nonP2sh_nonstandard']
   | ['invalid', 'p2sh_ignore']
   | ['invalid']
-  | ['valid', 'p2sh_invalid']
-  | ['valid']
+  | ['nonstandard', 'p2sh_invalid']
+  | ['nonstandard']
   | [];
-export const supportedTestSetOverrides: {
-  [joinedList: string]: {
-    mode: 'nonP2SH' | 'P2SH20' | 'P2SH32';
-    sets: TestSet[];
-  }[];
+
+type TestPlan = {
+  mode: 'nonP2SH' | 'P2SH20' | 'P2SH32';
+  sets: TestSetIdBCH[];
+}[];
+/**
+ * Given one of these values and the {@link vmbTestDefinitionDefaultBehavior},
+ * return these test plans.
+ */
+export const supportedTestSetOverridesBCH: {
+  [joinedList: string]: TestPlan;
 } = {
   '': [
-    { mode: 'nonP2SH', sets: ['2021_valid', '2022_valid'] },
+    { mode: 'nonP2SH', sets: ['2021_nonstandard', '2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2021_standard', '2022_standard'] },
   ],
   '2021_invalid': [
-    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_valid'] },
+    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_standard'] },
   ],
-  '2021_invalid,2022_valid': [
-    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_valid'] },
-    { mode: 'P2SH20', sets: ['2021_invalid', '2022_valid'] },
+  '2021_invalid,2022_nonstandard': [
+    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_nonstandard'] },
+    { mode: 'P2SH20', sets: ['2021_invalid', '2022_nonstandard'] },
   ],
-  '2021_invalid,2022_valid,p2sh_ignore': [
-    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_valid'] },
+  '2021_invalid,2022_nonstandard,p2sh_ignore': [
+    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_nonstandard'] },
   ],
   '2021_invalid,nonP2sh20_invalid': [
     { mode: 'nonP2SH', sets: ['2021_invalid', '2022_invalid'] },
@@ -142,37 +152,37 @@ export const supportedTestSetOverrides: {
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_standard'] },
   ],
   '2021_invalid,p2sh_ignore': [
-    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_valid'] },
+    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_nonstandard'] },
   ],
   '2021_invalid,p2sh_invalid': [
-    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_valid'] },
+    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_invalid'] },
   ],
   invalid: [
     { mode: 'nonP2SH', sets: ['2021_invalid', '2022_invalid'] },
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_invalid'] },
   ],
-  'invalid,2022_nonP2sh_valid': [
-    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_valid'] },
+  'invalid,2022_nonP2sh_nonstandard': [
+    { mode: 'nonP2SH', sets: ['2021_invalid', '2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_invalid'] },
   ],
   'invalid,2022_p2sh_standard': [
     { mode: 'nonP2SH', sets: ['2021_invalid', '2022_invalid'] },
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_standard'] },
   ],
-  'invalid,nonP2sh_valid': [
-    { mode: 'nonP2SH', sets: ['2021_valid', '2022_valid'] },
+  'invalid,nonP2sh_nonstandard': [
+    { mode: 'nonP2SH', sets: ['2021_nonstandard', '2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_invalid'] },
   ],
   'invalid,p2sh_ignore': [
     { mode: 'nonP2SH', sets: ['2021_invalid', '2022_invalid'] },
   ],
-  valid: [
-    { mode: 'nonP2SH', sets: ['2021_valid', '2022_valid'] },
-    { mode: 'P2SH20', sets: ['2021_valid', '2022_valid'] },
+  nonstandard: [
+    { mode: 'nonP2SH', sets: ['2021_nonstandard', '2022_nonstandard'] },
+    { mode: 'P2SH20', sets: ['2021_nonstandard', '2022_nonstandard'] },
   ],
-  'valid,p2sh_invalid': [
-    { mode: 'nonP2SH', sets: ['2021_valid', '2022_valid'] },
+  'nonstandard,p2sh_invalid': [
+    { mode: 'nonP2SH', sets: ['2021_nonstandard', '2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2021_invalid', '2022_invalid'] },
   ],
 };
@@ -201,7 +211,7 @@ export type VmbTestDefinition = [
    */
   redeemOrLockingScript: string,
   testDescription: string,
-  testSetOverrideLabels?: SupportedTestSetOverrideLists,
+  testSetOverrideLabels?: TestSetOverrideListBCH,
   /**
    * A scenario that extends the default scenario for use with this test.
    */
@@ -223,6 +233,11 @@ export type VmbTestDefinitionGroup = [
  */
 const defaultShortIdLength = 5;
 
+const planTestsBCH = (
+  labels?: string[]
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+) => supportedTestSetOverridesBCH[(labels ?? []).join(',')]!;
+
 /**
  * Given a VMB test definition, generate a full VMB test vector. Note, this
  * method throws immediately on the first test vector generation failure.
@@ -231,7 +246,7 @@ export const vmbTestDefinitionToVmbTests = (
   testDefinition: VmbTestDefinition,
   groupName = '',
   shortIdLength = defaultShortIdLength
-): VmbTestMaster[] => {
+): VmbTestMasterBCH[] => {
   const [
     unlockingScript,
     redeemOrLockingScript,
@@ -242,9 +257,7 @@ export const vmbTestDefinitionToVmbTests = (
   ] = testDefinition;
   const scenarioId = 'test';
 
-  const testGenerationPlan =
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    supportedTestSetOverrides[(testSetOverrideLabels ?? []).join(',')]!;
+  const testGenerationPlan = planTestsBCH(testSetOverrideLabels);
 
   const scenarioDefinition = { extends: 'vmb_default', ...scenarioOverride };
 
@@ -336,7 +349,7 @@ export const vmbTestDefinitionToVmbTests = (
       result.scenario.program.inputIndex === 0
         ? testCase
         : [...testCase, result.scenario.program.inputIndex]
-    ) as VmbTestMaster;
+    ) as VmbTestMasterBCH;
   });
 
   return tests;
@@ -346,3 +359,61 @@ export const vmbTestGroupToVmbTests = (testGroup: VmbTestDefinitionGroup) =>
   testGroup[1].map((testDefinition) =>
     vmbTestDefinitionToVmbTests(testDefinition, testGroup[0])
   );
+
+/**
+ * Partition a master test list (produced by {@link vmbTestGroupToVmbTests} or
+ * {@link vmbTestDefinitionToVmbTests}) into sets. E.g.:
+ * ```ts
+ * const definitions: VmbTestDefinitionGroup[] = [...]
+ * const master = [
+ *   vmbTestDefinitionToVmbTests(...),
+ *   vmbTestDefinitionToVmbTests(...),
+ * ];
+ * const partitioned = vmbTestPartitionMasterTestList(master);
+ * ```
+ * Or:
+ * ```ts
+ * const definitions: VmbTestDefinitionGroup[] = [...]
+ * const master = definitions.map(vmbTestGroupToVmbTests).flat(2);
+ * const partitioned = vmbTestPartitionMasterTestList(master);
+ * ```
+ * Tests are aggregated by set into a map of test sets (e.g. to export to
+ * separate files).
+ */
+export const vmbTestPartitionMasterTestList = (
+  masterTestList: VmbTestMasterBCH[]
+) =>
+  masterTestList.reduce<{
+    [key in TestSetIdBCH]?: VmbTest[];
+  }>((accumulatedTestSets, testCase) => {
+    const [
+      shortId,
+      testDescription,
+      unlockingScriptAsm,
+      redeemOrLockingScriptAsm,
+      testTransactionHex,
+      sourceOutputsHex,
+      testSets,
+      inputIndex,
+    ] = testCase;
+
+    const withoutSets = [
+      shortId,
+      testDescription,
+      unlockingScriptAsm,
+      redeemOrLockingScriptAsm,
+      testTransactionHex,
+      sourceOutputsHex,
+      ...(inputIndex === undefined ? [] : [inputIndex]),
+    ] as VmbTest;
+
+    // eslint-disable-next-line functional/no-return-void, functional/no-expression-statement
+    testSets.forEach((testSet) => {
+      // eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+      accumulatedTestSets[testSet] = [
+        ...(accumulatedTestSets[testSet] ?? []),
+        withoutSets,
+      ];
+    });
+    return accumulatedTestSets;
+  }, {});

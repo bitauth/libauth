@@ -46,7 +46,7 @@ For ease of use, VMB tests are divided into files by expected testing "mode", e.
 Three files are available for each VM corresponding with the modes in which the contained tests should be run:
 
 - **`standard`** – these tests must pass in both standard and non-standard mode.
-- **`valid`** – these tests must pass in non-standard mode but fail in standard mode.
+- **`nonstandard`** – these tests must pass in non-standard mode but fail in standard mode.
 - **`invalid`** – these tests must fail in both standard and non-standard mode.
 
 For an example of VMB test usage, see [`bch-vmb-tests.spec.ts`](./bch-vmb-tests.spec.ts).

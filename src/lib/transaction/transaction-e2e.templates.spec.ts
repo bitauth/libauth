@@ -21,7 +21,7 @@ const ignoreDefault = (anything: object) => ({
 
 test('example authentication templates are updated', (t) => {
   const solution =
-    'Run "yarn doc:generate-templates" to correct this issue. (Note: watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc.)';
+    'Run "yarn gen:templates" to correct this issue. (Note: watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc.)';
   t.deepEqual(
     ignoreDefault(twoOfTwoRecoverable),
     ignoreDefault(twoOfTwoRecoverableJson),

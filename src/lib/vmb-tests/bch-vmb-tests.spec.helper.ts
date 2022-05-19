@@ -6,8 +6,7 @@
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-import type { TestSet, VmbTest } from '../lib';
-
+import { vmbTestPartitionMasterTestList } from './bch-vmb-test-utils.js';
 import { vmbTestsBCH } from './bch-vmb-tests.js';
 
 /**
@@ -23,49 +22,12 @@ const outputAbsolutePath = resolve(outputDir);
 
 const testGroupsAndTypes = 2;
 const allTestCases = vmbTestsBCH.flat(testGroupsAndTypes);
-
 writeFileSync(
   `${outputAbsolutePath}/bch_vmb_tests.json`,
   JSON.stringify(allTestCases),
   { encoding: 'utf8' }
 );
-
-// iterate over allTestCases, split into files by testSets (case[6])
-
-const partitionedTestCases = allTestCases.reduce<{
-  [key in TestSet]?: VmbTest[];
-}>((accumulatedTestSets, testCase) => {
-  const [
-    shortId,
-    testDescription,
-    unlockingScriptAsm,
-    redeemOrLockingScriptAsm,
-    testTransactionHex,
-    sourceOutputsHex,
-    testSets,
-    inputIndex,
-  ] = testCase;
-
-  const withoutSets = [
-    shortId,
-    testDescription,
-    unlockingScriptAsm,
-    redeemOrLockingScriptAsm,
-    testTransactionHex,
-    sourceOutputsHex,
-    ...(inputIndex === undefined ? [] : [inputIndex]),
-  ] as VmbTest;
-
-  // eslint-disable-next-line functional/no-return-void
-  testSets.forEach((testSet) => {
-    // eslint-disable-next-line functional/immutable-data
-    accumulatedTestSets[testSet] = [
-      ...(accumulatedTestSets[testSet] ?? []),
-      withoutSets,
-    ];
-  });
-  return accumulatedTestSets;
-}, {});
+const partitionedTestCases = vmbTestPartitionMasterTestList(allTestCases);
 
 // eslint-disable-next-line functional/no-return-void
 Object.entries(partitionedTestCases).forEach(([testSetName, testSet]) => {

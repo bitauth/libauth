@@ -693,10 +693,6 @@ export interface Compiler<
    * `["copy"]` locations in the generated transaction (useful for testing
    * isolated scripts, i.e. scripts without either tests or any corresponding
    * unlocking scripts).
-   *
-   * @param scenarioId -
-   * @param unlockingScriptId -
-   * @param debug -
    */
   generateScenario: <Debug extends boolean>({
     debug,

@@ -1,3 +1,4 @@
+import { binsAreEqual } from '../../../format/format.js';
 import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
@@ -13,19 +14,6 @@ import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { opVerify } from './flow-control.js';
 import { booleanToVmNumber } from './instruction-sets-utils.js';
 
-const areEqual = (a: Uint8Array, b: Uint8Array) => {
-  if (a.length !== b.length) {
-    return false;
-  }
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) {
-      return false;
-    }
-  }
-  return true;
-};
-
 export const opEqual = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack
@@ -33,7 +21,7 @@ export const opEqual = <
   state: State
 ) =>
   useTwoStackItems(state, (nextState, [element1, element2]) =>
-    pushToStack(nextState, booleanToVmNumber(areEqual(element1, element2)))
+    pushToStack(nextState, booleanToVmNumber(binsAreEqual(element1, element2)))
   );
 
 export const opEqualVerify = combineOperations(opEqual, opVerify);

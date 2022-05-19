@@ -9,7 +9,7 @@ import type { AuthenticationTemplate } from '../../lib';
  * transactions.
  *
  * Note, this authentication template uses only a single `Key`. For HD key
- * support, see `authenticationTemplateP2pkhHd`.
+ * support, see {@link authenticationTemplateP2pkhHd}.
  */
 export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
   $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
@@ -56,19 +56,13 @@ export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
  * transactions.
  *
  * Because the template uses a Hierarchical Deterministic (HD) key, it also
- * supports an "Observer (Watch-Only)" entity.
+ * supports watch-only clients.
  */
 export const authenticationTemplateP2pkh: AuthenticationTemplate = {
   $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
   description:
-    'A standard single-factor authentication template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions. Because the template uses a Hierarchical Deterministic (HD) key, it also supports an "Observer (Watch-Only)" entity.',
+    'A standard single-factor authentication template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions. Because the template uses a Hierarchical Deterministic (HD) key, it also supports watch-only clients.',
   entities: {
-    observer: {
-      description:
-        'An entity that can generate addresses but cannot spend funds from this wallet.',
-      name: 'Observer (Watch-Only)',
-      scripts: ['lock'],
-    },
     owner: {
       description: 'The individual who can spend from this wallet.',
       name: 'Owner',

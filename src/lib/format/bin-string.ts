@@ -13,7 +13,7 @@ const binary = 2;
  * is interpreted as `00000001`). If `binaryDigits` is potentially malformed,
  * check it with `isBinString` before calling this method.
  *
- * @param validHex - a string of valid, hexadecimal-encoded data
+ * @param binaryDigits - a string of `0`s and `1`s with a length divisible by 8
  */
 export const binStringToBin = (binaryDigits: string) =>
   Uint8Array.from(

@@ -88,3 +88,22 @@ export const flattenBinArray = (array: readonly Uint8Array[]) => {
   }, 0);
   return flattened;
 };
+
+/**
+ * Compare to `Uint8Array`s, return true if their contents are exactly the same,
+ * otherwise return false.
+ * @param a - the first Uint8Array
+ * @param b - the second Uint8Array
+ */
+export const binsAreEqual = (a: Uint8Array, b: Uint8Array) => {
+  if (a.length !== b.length) {
+    return false;
+  }
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
+};

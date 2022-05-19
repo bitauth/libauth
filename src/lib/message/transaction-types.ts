@@ -140,16 +140,17 @@ export interface Output<Bytecode = Uint8Array, Amount = Uint8Array> {
    *
    * This is useful for encoding values using schemes for fractional satoshis
    * (for which no finalized specification yet exists) or for encoding
-   * intentionally excessive values. For example, `excessiveSatoshis`
+   * intentionally excessive values. For example, {@link excessiveSatoshis}
    * (`0xffffffffffffffff` - the maximum uint64 value) is a clearly impossible
    * `valueSatoshis` value for version 1 and 2 transactions. As such, this value
    * can safely be used by transaction signing and verification implementations
    * to ensure that an otherwise properly-signed transaction can never be
-   * included in the blockchain, e.g. for transaction size estimation or
-   * off-chain Bitauth signatures.
+   * included in the blockchain, e.g. for testing, transaction size estimation,
+   * or off-chain Bitauth signatures.
    *
    * To convert this value to and from a `BigInt` use
-   * {@link bigIntToBinUint64LE} and {@link binToBigIntUint64LE}, respectively.
+   * {@link bigIntToValueSatoshis} and {@link valueSatoshisToBigInt},
+   * respectively.
    */
   readonly valueSatoshis: Amount;
 }

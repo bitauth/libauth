@@ -16,11 +16,11 @@ import { vmbTestsBCH } from './bch-vmb-tests.js';
 /* eslint-disable import/no-restricted-paths, import/no-internal-modules */
 import vmbTestsBCHJson from './generated/bch/bch_vmb_tests.json' assert { type: 'json' };
 import vmbTestsBCH2021InvalidJson from './generated/bch/bch_vmb_tests_2021_invalid.json' assert { type: 'json' };
+import vmbTestsBCH2021NonstandardJson from './generated/bch/bch_vmb_tests_2021_nonstandard.json' assert { type: 'json' };
 import vmbTestsBCH2021StandardJson from './generated/bch/bch_vmb_tests_2021_standard.json' assert { type: 'json' };
-import vmbTestsBCH2021ValidJson from './generated/bch/bch_vmb_tests_2021_valid.json' assert { type: 'json' };
 import vmbTestsBCH2022InvalidJson from './generated/bch/bch_vmb_tests_2022_invalid.json' assert { type: 'json' };
+import vmbTestsBCH2022NonstandardJson from './generated/bch/bch_vmb_tests_2022_nonstandard.json' assert { type: 'json' };
 import vmbTestsBCH2022StandardJson from './generated/bch/bch_vmb_tests_2022_standard.json' assert { type: 'json' };
-import vmbTestsBCH2022ValidJson from './generated/bch/bch_vmb_tests_2022_valid.json' assert { type: 'json' };
 /* eslint-enable import/no-restricted-paths, import/no-internal-modules */
 
 test('bch_vmb_tests.json is up to date and contains no test ID collisions', (t) => {
@@ -33,19 +33,27 @@ test('bch_vmb_tests.json is up to date and contains no test ID collisions', (t) 
   );
 
   const testCaseIds = allTestCases.map((testCase) => testCase[0]);
-  const firstDuplicate = testCaseIds.find(
-    (id, index) => testCaseIds.lastIndexOf(id) !== index
+  const descriptions = allTestCases.map((testCase) => testCase[1]);
+  const idDup = testCaseIds.findIndex(
+    (id, i) => testCaseIds.lastIndexOf(id) !== i
   );
-  const noDuplicates = '✅ No duplicate short IDs';
-  const duplicateStatus =
-    firstDuplicate === undefined
-      ? noDuplicates
-      : `Duplicate short ID found: ${firstDuplicate}`;
-  t.is(
-    duplicateStatus,
-    noDuplicates,
-    `Multiple VMB test vectors share a short ID. Either increase the short ID length, or tweak one of the test definitions to eliminate the collision.`
+  const descDup = descriptions.findIndex(
+    (desc, i) => descriptions.lastIndexOf(desc) !== i
   );
+
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+  if (idDup !== -1) {
+    return t.fail(`Multiple VMB test vectors share a short ID. Either increase the short ID length, or tweak one of the test definitions to eliminate the collision.
+
+    Collision: ${allTestCases[idDup]![0]}: ${allTestCases[idDup]![1]}`);
+  }
+  if (descDup !== -1) {
+    return t.fail(`Multiple VMB test vectors share a description. Please either include additional detail or remove the unnecessary test.
+
+    Collision: ${allTestCases[descDup]![0]}: ${allTestCases[descDup]![1]}`);
+  }
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
+  return t.pass();
 });
 
 const testVm = ({
@@ -172,7 +180,7 @@ const testVm = ({
 testVm({
   fails: [
     vmbTestsBCH2021InvalidJson as VmbTest[],
-    vmbTestsBCH2021ValidJson as VmbTest[],
+    vmbTestsBCH2021NonstandardJson as VmbTest[],
   ],
   succeeds: [vmbTestsBCH2021StandardJson as VmbTest[]],
   vm: createVirtualMachineBCH2021(true),
@@ -183,16 +191,16 @@ testVm({
   fails: [vmbTestsBCH2021InvalidJson as VmbTest[]],
   succeeds: [
     vmbTestsBCH2021StandardJson as VmbTest[],
-    vmbTestsBCH2021ValidJson as VmbTest[],
+    vmbTestsBCH2021NonstandardJson as VmbTest[],
   ],
   vm: createVirtualMachineBCH2021(false),
-  vmName: 'bch_2021_valid',
+  vmName: 'bch_2021_nonstandard',
 });
 
 testVm({
   fails: [
     vmbTestsBCH2022InvalidJson as VmbTest[],
-    vmbTestsBCH2022ValidJson as VmbTest[],
+    vmbTestsBCH2022NonstandardJson as VmbTest[],
   ],
   succeeds: [vmbTestsBCH2022StandardJson as VmbTest[]],
   vm: createVirtualMachineBCH2022(true),
@@ -203,10 +211,10 @@ testVm({
   fails: [vmbTestsBCH2022InvalidJson as VmbTest[]],
   succeeds: [
     vmbTestsBCH2022StandardJson as VmbTest[],
-    vmbTestsBCH2022ValidJson as VmbTest[],
+    vmbTestsBCH2022NonstandardJson as VmbTest[],
   ],
   vm: createVirtualMachineBCH2022(false),
-  vmName: 'bch_2022_valid',
+  vmName: 'bch_2022_nonstandard',
 });
 
 test.todo('test CHIP limits VM');

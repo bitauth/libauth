@@ -162,6 +162,7 @@
   ],
   "flagWords": [],
   "ignorePaths": [
+    ".cspell.json",
     "package.json",
     "yarn.lock",
     "tsconfig.json",
@@ -169,5 +170,11 @@
     "src/**/*.base64.ts",
     "src/**/script_tests.json"
   ],
-  "ignoreRegExpList": ["Base64", "HexValues"]
+  "patterns": [
+    {
+      "name": "cash-address-format",
+      "pattern": "/:[qpzry9x8gf2tvdw0s3jn54khce6mua7l]+/g"
+    }
+  ],
+  "ignoreRegExpList": ["Base64", "HexValues", "cash-address-format"]
 }

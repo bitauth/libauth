@@ -215,9 +215,9 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
   [
     'Standard and P2SH transaction inputs may only include push operations',
     [
-      ['<0> OP_IF OP_RESERVED OP_ENDIF', '<1>', 'OP_RESERVED is valid if not executed (and is standard in unlocking bytecode, but OP_IF/OP_ENDIF are not)', ['valid', 'p2sh_invalid']],
+      ['<0> OP_IF OP_RESERVED OP_ENDIF', '<1>', 'OP_RESERVED is valid if not executed (and is standard in unlocking bytecode, but OP_IF/OP_ENDIF are not)', ['nonstandard', 'p2sh_invalid']],
       ['<1> OP_IF OP_RESERVED OP_ENDIF', '<1>', 'OP_RESERVED is only valid if not executed (and is standard in unlocking bytecode, but OP_IF/OP_ENDIF are not)', ['invalid']],
-      ['OP_NOP', '<1>', 'OP_NOP is non-standard in unlocking bytecode', ['valid', 'p2sh_invalid']],
+      ['OP_NOP', '<1>', 'OP_NOP is non-standard in unlocking bytecode', ['nonstandard', 'p2sh_invalid']],
       // TODO: ensure all non-push opcodes are non-standard when found in unlocking bytecode
     ],
   ],
@@ -247,14 +247,14 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
   [
     'OP_NOP1-OP_NOP10 expansion range',
     [
-      ['<1>', 'OP_NOP1', 'OP_NOP1 is non-standard', ['valid']],
-      ['<1>', 'OP_NOP4', 'OP_NOP4 is non-standard', ['valid']],
-      ['<1>', 'OP_NOP5', 'OP_NOP5 is non-standard', ['valid']],
-      ['<1>', 'OP_NOP6', 'OP_NOP6 is non-standard', ['valid']],
-      ['<1>', 'OP_NOP7', 'OP_NOP7 is non-standard', ['valid']],
-      ['<1>', 'OP_NOP8', 'OP_NOP8 is non-standard', ['valid']],
-      ['<1>', 'OP_NOP9', 'OP_NOP9 is non-standard', ['valid']],
-      ['<1>', 'OP_NOP10', 'OP_NOP10 is non-standard', ['valid']],
+      ['<1>', 'OP_NOP1', 'OP_NOP1 is non-standard', ['nonstandard']],
+      ['<1>', 'OP_NOP4', 'OP_NOP4 is non-standard', ['nonstandard']],
+      ['<1>', 'OP_NOP5', 'OP_NOP5 is non-standard', ['nonstandard']],
+      ['<1>', 'OP_NOP6', 'OP_NOP6 is non-standard', ['nonstandard']],
+      ['<1>', 'OP_NOP7', 'OP_NOP7 is non-standard', ['nonstandard']],
+      ['<1>', 'OP_NOP8', 'OP_NOP8 is non-standard', ['nonstandard']],
+      ['<1>', 'OP_NOP9', 'OP_NOP9 is non-standard', ['nonstandard']],
+      ['<1>', 'OP_NOP10', 'OP_NOP10 is non-standard', ['nonstandard']],
     ],
   ],
   [
@@ -339,15 +339,15 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ],
       ['<1>', 'OP_INPUTINDEX OP_UTXOBYTECODE OP_ACTIVEBYTECODE OP_EQUALVERIFY', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working nonP2SH)', ['2021_invalid', 'p2sh_invalid']],
       ['<OP_HASH160 OP_PUSHBYTES_20>', 'OP_ACTIVEBYTECODE OP_HASH160 <OP_EQUAL> OP_CAT OP_CAT OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working P2SH)', ['2021_invalid', 'nonP2sh_invalid']],
-      ['<0>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 0)', ['2021_invalid', '2022_valid'], { transaction: { version: 0 } }],
+      ['<0>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 0)', ['2021_invalid', '2022_nonstandard'], { transaction: { version: 0 } }],
       ['<1>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 1)', ['2021_invalid'], { transaction: { version: 1 } }],
       ['<2>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 2)', ['2021_invalid']],
       ['<3>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 2, while version 3 is expected)', ['invalid']],
-      ['<3>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 3)', ['2021_invalid', '2022_valid'], { transaction: { version: 3 } }],
-      ['<123456>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 123456)', ['2021_invalid', '2022_valid'], { transaction: { version: 123456 } }],
+      ['<3>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 3)', ['2021_invalid', '2022_nonstandard'], { transaction: { version: 3 } }],
+      ['<123456>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 123456)', ['2021_invalid', '2022_nonstandard'], { transaction: { version: 123456 } }],
       // Libauth considers version to be an unsigned integer, but the Satoshi implementation considers it to be signed
-      ['<-2>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version 0xfeffffff; 4294967294 unsigned, -2 signed)', ['2021_invalid', '2022_valid'], { transaction: { version: 4294967294 } }],
-      ['<-1>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version 0xffffffff; 4294967295 unsigned, -1 signed)', ['2021_invalid', '2022_valid'], { transaction: { version: 4294967295 } }],
+      ['<-2>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version 0xfeffffff; 4294967294 unsigned, -2 signed)', ['2021_invalid', '2022_nonstandard'], { transaction: { version: 4294967294 } }],
+      ['<-1>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version 0xffffffff; 4294967295 unsigned, -1 signed)', ['2021_invalid', '2022_nonstandard'], { transaction: { version: 4294967295 } }],
       ['<2>', 'OP_TXINPUTCOUNT OP_EQUAL', 'OP_TXINPUTCOUNT (2 inputs)', ['2021_invalid']],
       ['<1>', 'OP_TXINPUTCOUNT OP_EQUAL', 'OP_TXINPUTCOUNT (2 inputs, 1 expected)', ['invalid']],
       ['<1> <"100-byte tx size minimum 123456789012345678901234567890">', 'OP_DROP OP_TXINPUTCOUNT OP_EQUAL', 'OP_TXINPUTCOUNT (1 input)', ['2021_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }] } }],
@@ -358,7 +358,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<2>', 'OP_TXOUTPUTCOUNT OP_EQUAL', 'OP_TXOUTPUTCOUNT (2 outputs)', ['2021_invalid'], { transaction: { outputs: [...range(2).map(() => ({ lockingBytecode: { script: 'vmbTestNullData' } }))] } }],
       ['<3>', 'OP_TXOUTPUTCOUNT OP_EQUAL', 'OP_TXOUTPUTCOUNT (3 outputs)', ['2021_invalid'], { transaction: { outputs: [...range(3).map(() => ({ lockingBytecode: { script: 'vmbTestNullData' } }))] } }],
       ['<20>', 'OP_TXOUTPUTCOUNT OP_EQUAL', 'OP_TXOUTPUTCOUNT (20 outputs)', ['2021_invalid'], { transaction: { outputs: [...range(20).map(() => ({ lockingBytecode: { script: 'vmbTestNullData' } }))] } }],
-      ['<100>', 'OP_TXOUTPUTCOUNT OP_EQUAL', 'OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit)', ['2021_invalid', '2022_valid'], { transaction: { outputs: [...range(100).map(() => ({ lockingBytecode: { script: 'vmbTestNullData' } }))] } }],
+      ['<100>', 'OP_TXOUTPUTCOUNT OP_EQUAL', 'OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit)', ['2021_invalid', '2022_nonstandard'], { transaction: { outputs: [...range(100).map(() => ({ lockingBytecode: { script: 'vmbTestNullData' } }))] } }],
       ['<0>', 'OP_TXLOCKTIME OP_EQUAL', 'OP_TXLOCKTIME (locktime == 0)', ['2021_invalid']],
       ['<1>', 'OP_TXLOCKTIME OP_EQUAL', 'OP_TXLOCKTIME (locktime == 0, but expects 1)', ['invalid']],
       ['<1>', 'OP_TXLOCKTIME OP_EQUAL', 'OP_TXLOCKTIME (locktime == 1)', ['2021_invalid'], { transaction: { locktime: 1 } }],
@@ -442,7 +442,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         '<<0x00 42> OP_EQUAL> <<0x00 13> OP_EQUAL> <<0x00 7> OP_EQUAL> <<0x00 3> OP_EQUAL> <<0x00 2> OP_EQUAL> <<0x00 1> OP_EQUAL> <<0> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_CODESEPARATOR OP_UTXOBYTECODE OP_EQUALVERIFY <2> OP_UTXOBYTECODE OP_EQUALVERIFY <3> OP_UTXOBYTECODE OP_CODESEPARATOR OP_EQUALVERIFY <7> OP_UTXOBYTECODE OP_EQUALVERIFY <13> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <42> OP_UTXOBYTECODE OP_EQUAL>',
         `<0> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_CODESEPARATOR OP_UTXOBYTECODE OP_EQUALVERIFY <2> OP_UTXOBYTECODE OP_EQUALVERIFY <3> OP_UTXOBYTECODE OP_CODESEPARATOR OP_EQUALVERIFY <7> OP_UTXOBYTECODE OP_EQUALVERIFY <13> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <42> OP_UTXOBYTECODE OP_EQUAL`,
         'multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs)',
-        ['invalid', '2022_nonP2sh_valid'],
+        ['invalid', '2022_nonP2sh_nonstandard'],
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ lockingBytecode: { script: `lock${i}` }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ unlockingBytecode: { script: `unlock${i}` } }))] } },
         range(49, 1).reduce((agg, i) => ({ ...agg, [`unlock${i}`]: { script: `<0x00 ${i}>`, unlocks: `lock${i}` }, [`lock${i}`]: { lockingType: 'standard', script: `<0x00 ${i}> OP_EQUAL` } }), {}),
       ],
@@ -520,8 +520,8 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map(() => ({ lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ outpointIndex: i, unlockingBytecode: { script: 'unlockEmptyP2sh20' } }))] } },
       ],
       ['<0>', 'OP_INPUTBYTECODE <<0x7dfb529d352908ee0a88a0074c216b09793d6aa8c94c7640bb4ced51eaefc75d0aef61f7685d0307491e2628da3d4f91e86329265a4a58ca27a41ec0b8910779c3> <0x03a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785>> OP_EQUAL', 'OP_INPUTBYTECODE (input 0)', ['2021_invalid']],
-      ['<1>', 'OP_INPUTBYTECODE <<1>> OP_EQUAL', 'OP_INPUTBYTECODE (self, nonP2SH)', ['invalid', '2022_nonP2sh_valid']],
-      ['<1> OP_CODESEPARATOR <1>', 'OP_VERIFY OP_INPUTBYTECODE <<1> OP_CODESEPARATOR <1>> OP_EQUAL', 'OP_INPUTBYTECODE,  OP_CODESEPARATOR in input bytecode has no effect (self, nonP2SH)', ['invalid', '2022_nonP2sh_valid']],
+      ['<1>', 'OP_INPUTBYTECODE <<1>> OP_EQUAL', 'OP_INPUTBYTECODE (self, nonP2SH)', ['invalid', '2022_nonP2sh_nonstandard']],
+      ['<1> OP_CODESEPARATOR <1>', 'OP_VERIFY OP_INPUTBYTECODE <<1> OP_CODESEPARATOR <1>> OP_EQUAL', 'OP_INPUTBYTECODE,  OP_CODESEPARATOR in input bytecode has no effect (self, nonP2SH)', ['invalid', '2022_nonP2sh_nonstandard']],
       ['<OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>>', 'OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20)', ['invalid', '2022_p2sh_standard']],
       ['<1>', 'OP_INPUTBYTECODE <2> OP_SPLIT OP_CODESEPARATOR OP_HASH160 <OP_HASH160 OP_PUSHBYTES_20> OP_SWAP OP_CAT <OP_EQUAL> OP_CAT OP_CODESEPARATOR <1> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_SPLIT OP_DROP <<1>> OP_EQUAL', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20, compare OP_UTXOBYTECODE)', ['invalid', '2022_p2sh_standard']],
       ['<1>', 'OP_INPUTBYTECODE <1> OP_EQUAL', 'OP_INPUTBYTECODE (input 1, expected missing OP_PUSHBYTES_1)', ['invalid']],
@@ -674,7 +674,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<OP_RETURN <"vmb_test">>', '<0> OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE (output 0)', ['2021_invalid']],
       ['<OP_RETURN>', '<0> OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE (output 0, expected <OP_RETURN>)', ['invalid']],
       ['<OP_RETURN>', '<0> OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE (output 0, <OP_RETURN>)', ['2021_invalid'], { transaction: { outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN') as Uint8Array), valueSatoshis: 10_000 }] } }],
-      ['<OP_DROP OP_CODESEPARATOR <1>>', '<0> OP_CODESEPARATOR OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE, OP_CODESEPARATOR has no effect (output 0, <OP_RETURN>)', ['2021_invalid', '2022_valid'], { transaction: { outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_DROP OP_CODESEPARATOR <1>') as Uint8Array), valueSatoshis: 10_000 }] } }],
+      ['<OP_DROP OP_CODESEPARATOR <1>>', '<0> OP_CODESEPARATOR OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE, OP_CODESEPARATOR has no effect (output 0, <OP_DROP OP_CODESEPARATOR <1>>)', ['2021_invalid', '2022_nonstandard'], { transaction: { outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_DROP OP_CODESEPARATOR <1>') as Uint8Array), valueSatoshis: 10_000 }] } }],
       ['<1>', '<0> OP_OUTPUTBYTECODE OP_DROP', 'OP_OUTPUTBYTECODE (ignore result, output 0)', ['2021_invalid']],
       ['<1>', '<0x0000> OP_OUTPUTBYTECODE OP_DROP', 'OP_OUTPUTBYTECODE (ignore result, output 0, non-minimally encoded)', ['invalid']],
       ['<1>', '<-1> OP_OUTPUTBYTECODE OP_DROP', 'OP_OUTPUTBYTECODE (ignore result, negative output index)', ['invalid'], { transaction: { outputs: [{ valueSatoshis: 10_000 }, { valueSatoshis: 10_001 }] } }],
@@ -693,7 +693,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
           .join('')}>>`,
         `<0> OP_OUTPUTBYTECODE OP_EQUAL`,
         'OP_OUTPUTBYTECODE (maximum size)',
-        ['2021_invalid', '2022_valid'],
+        ['2021_invalid', '2022_nonstandard'],
         {
           transaction: {
             outputs: [
@@ -737,7 +737,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         `<1>`,
         `<0> OP_OUTPUTBYTECODE OP_DROP`,
         'OP_OUTPUTBYTECODE (ignore result, not excessive size)',
-        ['2021_invalid', '2022_valid'],
+        ['2021_invalid', '2022_nonstandard'],
         {
           transaction: {
             outputs: [

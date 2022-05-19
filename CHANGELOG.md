@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.1](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2022-05-19)
+
+
+### Features
+
+* improve BCH VMB tests, add basic P2PKH utils, export more aliases ([087de5a](https://github.com/bitauth/libauth/commit/087de5a91af12fa62fc438ce88a256d0ee83238b))
+
+
+### Bug Fixes
+
+* rename format utils for consistency, improve vmb_tests, fix issues in BCH vm ([6f2e782](https://github.com/bitauth/libauth/commit/6f2e782752234625c646a70318f74132afbbaa42))
+
 ## [2.0.0-alpha.0](https://github.com/bitauth/libauth/compare/v1.19.0...v2.0.0-alpha.0) (2022-05-14)
 
 

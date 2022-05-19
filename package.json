@@ -152,6 +152,7 @@
   "files": [
     "build",
     "!build/.tsbuildinfo",
+    "!build/**/*.map",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",

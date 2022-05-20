@@ -1,4 +1,4 @@
-import { sha256 as internalSha256 } from '../crypto/default-crypto-instances.js';
+import { sha256 as internalSha256 } from '../crypto/crypto.js';
 import type {
   Base58AddressNetwork,
   CashAddressNetworkPrefix,
@@ -50,23 +50,35 @@ export enum AddressType {
    * BIPs 13 and 16 for details.
    */
   p2sh20 = 'P2SH20',
+}
+
+/**
+ * An object representing the contents of an address of a known address type.
+ * This can be used to encode an address or its locking bytecode.
+ */
+export interface KnownAddressTypeContents {
+  type: `${AddressType}`;
+  payload: Uint8Array;
+}
+
+export interface UnknownAddressTypeContents {
   /**
-   * This `AddressType` represents an address using an unknown or uncommon
+   * This address type represents an address using an unknown or uncommon
    * locking bytecode pattern for which no standardized address formats exist.
    */
-  unknown = 'unknown',
+  type: 'unknown';
+  payload: Uint8Array;
 }
 
 /**
  * An object representing the contents of an address. This can be used to encode
  * an address or its locking bytecode.
  *
- * See `lockingBytecodeToAddressContents` for details.
+ * See {@link lockingBytecodeToAddressContents} for details.
  */
-export interface AddressContents {
-  type: AddressType;
-  payload: Uint8Array;
-}
+export type AddressContents =
+  | KnownAddressTypeContents
+  | UnknownAddressTypeContents;
 
 const enum Opcodes {
   OP_0 = 0x00,
@@ -140,6 +152,7 @@ const enum AddressPayload {
   p2pkUncompressedEnd = 66,
   // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   p2pkCompressedStart = 1,
+  compressedPublicKeyLength = 33,
   p2pkCompressedEnd = 34,
 }
 
@@ -208,54 +221,92 @@ export const lockingBytecodeToAddressContents = (
     };
   }
 
-  return { payload: bytecode.slice(), type: AddressType.unknown };
+  return { payload: bytecode.slice(), type: 'unknown' };
 };
 
 /**
- * Get the locking bytecode for a valid {@link AddressContents}. See
- * {@link lockingBytecodeToAddressContents} for details.
+ * Given the 20-byte {@link hash160} of a compressed public key, return a P2PKH
+ * locking bytecode:
+ * `OP_DUP OP_HASH160 OP_PUSHBYTES_20 publicKeyHash OP_EQUALVERIFY OP_CHECKSIG`.
  *
- * For {@link AddressContents} of `type` {@link AddressType.unknown}, this
- * method returns the `payload` without modification.
+ * This method does not validate `publicKeyHash` in any way; inputs of incorrect
+ * lengths will produce incorrect results.
+ *
+ * @param publicKeyHash - the 20-byte hash of the compressed public key
+ * @returns
+ */
+export const encodeLockingBytecodeP2pkh = (publicKeyHash: Uint8Array) =>
+  Uint8Array.from([
+    Opcodes.OP_DUP,
+    Opcodes.OP_HASH160,
+    Opcodes.OP_PUSHBYTES_20,
+    ...publicKeyHash,
+    Opcodes.OP_EQUALVERIFY,
+    Opcodes.OP_CHECKSIG,
+  ]);
+
+/**
+ * Given the 20-byte {@link hash160} of a P2SH20 redeem bytecode, encode a
+ * P2SH20 locking bytecode:
+ * `OP_HASH160 OP_PUSHBYTES_20 redeemBytecodeHash OP_EQUAL`.
+ *
+ * This method does not validate `p2sh20Hash` in any way; inputs of incorrect
+ * lengths will produce incorrect results.
+ *
+ * @param p2sh20Hash - the 20-byte, p2sh20 redeem bytecode hash
+ * @returns
+ */
+export const encodeLockingBytecodeP2sh20 = (p2sh20Hash: Uint8Array) =>
+  Uint8Array.from([
+    Opcodes.OP_HASH160,
+    Opcodes.OP_PUSHBYTES_20,
+    ...p2sh20Hash,
+    Opcodes.OP_EQUAL,
+  ]);
+
+/**
+ * Given a 33-byte compressed or 65-byte uncompressed public key, encode a P2PK
+ * locking bytecode: `OP_PUSHBYTES_33 publicKey OP_CHECKSIG` or
+ * `OP_PUSHBYTES_65 publicKey OP_CHECKSIG`.
+ *
+ * This method does not validate `publicKey` in any way; inputs of incorrect
+ * lengths will produce incorrect results.
+ *
+ * @param publicKey - the 33-byte or 65-byte public key
+ */
+export const encodeLockingBytecodeP2pk = (publicKey: Uint8Array) =>
+  publicKey.length === AddressPayload.compressedPublicKeyLength
+    ? Uint8Array.from([
+        Opcodes.OP_PUSHBYTES_33,
+        ...publicKey,
+        Opcodes.OP_CHECKSIG,
+      ])
+    : Uint8Array.from([
+        Opcodes.OP_PUSHBYTES_65,
+        ...publicKey,
+        Opcodes.OP_CHECKSIG,
+      ]);
+
+/**
+ * Get the locking bytecode for a {@link KnownAddressTypeContents}. See
+ * {@link lockingBytecodeToAddressContents} for details.
  *
  * @param addressContents - the `AddressContents` to encode
  */
-export const addressContentsToLockingBytecode = (
-  addressContents: AddressContents
-) => {
-  if (addressContents.type === AddressType.p2pkh) {
-    return Uint8Array.from([
-      Opcodes.OP_DUP,
-      Opcodes.OP_HASH160,
-      Opcodes.OP_PUSHBYTES_20,
-      ...addressContents.payload,
-      Opcodes.OP_EQUALVERIFY,
-      Opcodes.OP_CHECKSIG,
-    ]);
+export const addressContentsToLockingBytecode = ({
+  payload,
+  type,
+}: KnownAddressTypeContents): Uint8Array => {
+  if (type === AddressType.p2pkh) {
+    return encodeLockingBytecodeP2pkh(payload);
   }
-  if (addressContents.type === AddressType.p2sh20) {
-    return Uint8Array.from([
-      Opcodes.OP_HASH160,
-      Opcodes.OP_PUSHBYTES_20,
-      ...addressContents.payload,
-      Opcodes.OP_EQUAL,
-    ]);
+  if (type === AddressType.p2sh20) {
+    return encodeLockingBytecodeP2sh20(payload);
   }
-  if (addressContents.type === AddressType.p2pk) {
-    const compressedPublicKeyLength = 33;
-    return addressContents.payload.length === compressedPublicKeyLength
-      ? Uint8Array.from([
-          Opcodes.OP_PUSHBYTES_33,
-          ...addressContents.payload,
-          Opcodes.OP_CHECKSIG,
-        ])
-      : Uint8Array.from([
-          Opcodes.OP_PUSHBYTES_65,
-          ...addressContents.payload,
-          Opcodes.OP_CHECKSIG,
-        ]);
+  if ((type as unknown) === AddressType.p2pk) {
+    return encodeLockingBytecodeP2pk(payload);
   }
-  return addressContents.payload;
+  return undefined as never;
 };
 
 /**

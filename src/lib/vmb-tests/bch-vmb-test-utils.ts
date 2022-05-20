@@ -4,7 +4,7 @@
 import { encodeBech32, regroupBits } from '../address/address.js';
 import { createCompilerBCH } from '../compiler/compiler-bch/compiler-bch.js';
 import { authenticationTemplateToCompilerConfiguration } from '../compiler/compiler-utils.js';
-import { sha256 } from '../crypto/default-crypto-instances.js';
+import { sha256 } from '../crypto/crypto.js';
 import { binToHex, flattenBinArray } from '../format/format.js';
 import type {
   AuthenticationTemplate,

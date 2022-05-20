@@ -5,8 +5,8 @@ import {
   decodeTransactionUnsafeCommon,
   encodeSigningSerializationBCH,
   generateSigningSerializationComponentsBCH,
+  hash256,
   hexToBin,
-  instantiateSha256,
   isLegacySigningSerialization,
   numberToBinInt32TwosCompliment,
 } from '../../../lib.js';
@@ -39,11 +39,8 @@ const tests = Object.values(sighashTests)
 // const pendingTests = tests.filter(e => e.testIndex === 999);
 const pendingTests = tests;
 
-const sha256Promise = instantiateSha256();
-
 pendingTests.map((expectation, currentTest) => {
-  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async (t) => {
-    const sha256 = await sha256Promise;
+  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, (t) => {
     const tx = decodeTransactionUnsafeCommon(
       hexToBin(expectation.transactionHex)
     );
@@ -78,7 +75,7 @@ pendingTests.map((expectation, currentTest) => {
       transactionSequenceNumbers: components.transactionSequenceNumbers,
       version: components.version,
     });
-    const digest = sha256.hash(sha256.hash(serialization));
+    const digest = hash256(serialization);
     t.deepEqual(
       digest,
       hexToBin(expectation.signingSerializationBCHDigestHex).reverse(),

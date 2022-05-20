@@ -1,9 +1,10 @@
 import {
+  hash256,
   ripemd160 as internalRipemd160,
   secp256k1 as internalSecp256k1,
   sha256 as internalSha256,
   sha512 as internalSha512,
-} from '../../crypto/default-crypto-instances.js';
+} from '../../crypto/crypto.js';
 import type {
   AnyCompilerConfiguration,
   AuthenticationProgramStateBCH,
@@ -169,7 +170,7 @@ export const compilerOperationHelperComputeSignatureBCH = ({
     { coveredBytecode, signingSerializationType },
     sha256
   );
-  const digest = sha256.hash(sha256.hash(serialization));
+  const digest = hash256(serialization, sha256);
   const bitcoinEncodedSignature = Uint8Array.from([
     ...(sign(privateKey, digest) as Uint8Array),
     ...signingSerializationType,

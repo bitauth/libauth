@@ -12,7 +12,7 @@ import { authenticationTemplateP2pkh } from './standard/standard.js';
  * Derive the P2PKH locking bytecode at the provided index of the provided HD
  * private key.
  */
-export const hdKeyToP2pkhLockingBytecode = ({
+export const hdPrivateKeyToP2pkhLockingBytecode = ({
   addressIndex,
   hdKey,
 }: {
@@ -45,7 +45,7 @@ export const hdKeyToP2pkhLockingBytecode = ({
  * Derive the P2PKH address at the provided index of the provided HD
  * private key.
  */
-export const hdKeyToP2pkhAddress = <
+export const hdPrivateKeyToP2pkhAddress = <
   Prefix extends string = CashAddressNetworkPrefix
 >({
   addressIndex,
@@ -71,6 +71,6 @@ export const hdKeyToP2pkhAddress = <
   prefix?: Prefix;
 }) =>
   lockingBytecodeToCashAddress(
-    hdKeyToP2pkhLockingBytecode({ addressIndex, hdKey }),
+    hdPrivateKeyToP2pkhLockingBytecode({ addressIndex, hdKey }),
     prefix
   ) as string;

@@ -1,11 +1,11 @@
 /* eslint-disable max-lines */
 import {
+  hmacSha512,
   ripemd160 as internalRipemd160,
   secp256k1 as internalSecp256k1,
   sha256 as internalSha256,
   sha512 as internalSha512,
-} from '../crypto/default-crypto-instances.js';
-import { hmacSha512 } from '../crypto/hmac.js';
+} from '../crypto/crypto.js';
 import {
   base58ToBin,
   BaseConversionError,

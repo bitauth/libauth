@@ -3,7 +3,7 @@ import {
   decodeBase58AddressFormat,
   encodeBase58AddressFormat,
 } from '../address/address.js';
-import { sha256 as internalSha256 } from '../crypto/default-crypto-instances.js';
+import { sha256 as internalSha256 } from '../crypto/crypto.js';
 import type { Sha256 } from '../lib';
 
 export enum WalletImportFormatError {

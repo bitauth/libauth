@@ -1,3 +1,4 @@
+export * from './combinations.js';
 export * from './default-crypto-instances.js';
 export * from './hmac.js';
 export * from './ripemd160.js';

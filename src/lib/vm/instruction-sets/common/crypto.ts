@@ -1,9 +1,10 @@
 import {
+  hash256,
   ripemd160 as internalRipemd160,
   secp256k1 as internalSecp256k1,
   sha1 as internalSha1,
   sha256 as internalSha256,
-} from '../../../crypto/default-crypto-instances.js';
+} from '../../../crypto/crypto.js';
 import type {
   AuthenticationProgramStateCommon,
   AuthenticationProgramStateError,
@@ -128,7 +129,7 @@ export const opHash256 =
   ): Operation<State> =>
   (state: State) =>
     useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, sha256.hash(sha256.hash(value)))
+      pushToStack(nextState, hash256(value, sha256))
     );
 
 export const opCodeSeparator = <
@@ -183,7 +184,7 @@ export const opCheckSig =
         { coveredBytecode, signingSerializationType },
         sha256
       );
-      const digest = sha256.hash(sha256.hash(serialization));
+      const digest = hash256(serialization, sha256);
 
       // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
       state.signedMessages.push(serialization);
@@ -328,7 +329,7 @@ export const opCheckMultiSig =
                       { coveredBytecode, signingSerializationType },
                       sha256
                     );
-                    const digest = sha256.hash(sha256.hash(serialization));
+                    const digest = hash256(serialization, sha256);
 
                     // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
                     finalState.signedMessages.push(serialization);

@@ -3,7 +3,7 @@
   "version": "2.0.0-alpha.2",
   "description": "ultra-lightweight library for Bitcoin Cash, Bitcoin, and Bitauth",
   "type": "module",
-  "exports": "./build/index.js",
+  "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "repository": "https://github.com/bitauth/libauth",
   "homepage": "https://libauth.org/",

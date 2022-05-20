@@ -1,4 +1,4 @@
-import { sha256 as internalSha256 } from '../../../crypto/default-crypto-instances.js';
+import { hash256, sha256 as internalSha256 } from '../../../crypto/crypto.js';
 import {
   bigIntToVarInt,
   flattenBinArray,
@@ -95,7 +95,7 @@ export const hashPrevouts = (
 ) =>
   shouldSerializeSingleInput(signingSerializationType)
     ? emptyHash()
-    : sha256.hash(sha256.hash(transactionOutpoints));
+    : hash256(transactionOutpoints, sha256);
 
 /**
  * Return the proper `hashSequence` value for a given a signing serialization
@@ -120,7 +120,7 @@ export const hashSequence = (
   !shouldSerializeSingleInput(signingSerializationType) &&
   !shouldSerializeCorrespondingOutput(signingSerializationType) &&
   !shouldSerializeNoOutputs(signingSerializationType)
-    ? sha256.hash(sha256.hash(transactionSequenceNumbers))
+    ? hash256(transactionSequenceNumbers, sha256)
     : emptyHash();
 
 /**
@@ -150,11 +150,11 @@ export const hashOutputs = (
 ) =>
   !shouldSerializeCorrespondingOutput(signingSerializationType) &&
   !shouldSerializeNoOutputs(signingSerializationType)
-    ? sha256.hash(sha256.hash(transactionOutputs))
+    ? hash256(transactionOutputs, sha256)
     : shouldSerializeCorrespondingOutput(signingSerializationType)
     ? correspondingOutput === undefined
       ? emptyHash()
-      : sha256.hash(sha256.hash(correspondingOutput))
+      : hash256(correspondingOutput, sha256)
     : emptyHash();
 
 /**

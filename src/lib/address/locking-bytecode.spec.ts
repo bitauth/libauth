@@ -33,6 +33,13 @@ test('lockingBytecode <-> AddressContents: P2PK', (t) => {
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: genesisPublicKey,
+      type: 'P2PK',
+    }),
+    genesisCoinbase
+  );
+  t.deepEqual(
+    addressContentsToLockingBytecode({
+      payload: genesisPublicKey,
       type: AddressType.p2pk,
     }),
     genesisCoinbase
@@ -68,6 +75,13 @@ test('lockingBytecode <-> AddressContents: P2PKH', (t) => {
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: expectedPayload,
+      type: 'P2PKH',
+    }),
+    p2pkh
+  );
+  t.deepEqual(
+    addressContentsToLockingBytecode({
+      payload: expectedPayload,
       type: AddressType.p2pkh,
     }),
     p2pkh
@@ -84,6 +98,13 @@ test('lockingBytecode <-> AddressContents: P2SH20', (t) => {
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: expectedPayload,
+      type: 'P2SH20',
+    }),
+    p2sh20
+  );
+  t.deepEqual(
+    addressContentsToLockingBytecode({
+      payload: expectedPayload,
       type: AddressType.p2sh20,
     }),
     p2sh20
@@ -94,14 +115,16 @@ test('lockingBytecode <-> AddressContents: unknown', (t) => {
   const simpleMath = hexToBin('52935387');
   t.deepEqual(lockingBytecodeToAddressContents(simpleMath), {
     payload: simpleMath,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: simpleMath,
-      type: AddressType.unknown,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      type: 'unknown',
     }),
-    simpleMath
+    undefined
   );
 
   const almostP2pk = hexToBin('0100ac');
@@ -110,17 +133,17 @@ test('lockingBytecode <-> AddressContents: unknown', (t) => {
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2pk), {
     payload: almostP2pk,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2pkh), {
     payload: almostP2pkh,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2sh20), {
     payload: almostP2sh20,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
 });
 
@@ -131,17 +154,17 @@ test('lockingBytecodeToAddressContents: improperly sized scripts return AddressT
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2pk), {
     payload: almostP2pk,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2pkh), {
     payload: almostP2pkh,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2sh20), {
     payload: almostP2sh20,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
 });
 
@@ -247,7 +270,7 @@ test('lockingBytecodeToCashAddress: error', (t) => {
   const simpleMath = hexToBin('52935387');
   t.deepEqual(lockingBytecodeToCashAddress(simpleMath, 'bitcoincash'), {
     payload: simpleMath,
-    type: AddressType.unknown,
+    type: 'unknown',
   });
   const genesisCoinbase = hexToBin(
     '4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac'

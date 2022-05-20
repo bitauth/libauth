@@ -18,9 +18,9 @@ import {
   deriveHdPrivateNodeFromSeed,
   encodeHdPrivateKey,
   encodeTransaction,
-  hdKeyToP2pkhAddress,
-  hdKeyToP2pkhLockingBytecode,
   hdPrivateKeyToIdentifier,
+  hdPrivateKeyToP2pkhAddress,
+  hdPrivateKeyToP2pkhLockingBytecode,
   hexToBin,
   isHex,
   lockingBytecodeToCashAddress,
@@ -108,7 +108,7 @@ if (arg1 === 'address') {
     console.log('\n', keyId);
     process.exit(1);
   }
-  const address = hdKeyToP2pkhAddress({
+  const address = hdPrivateKeyToP2pkhAddress({
     addressIndex: fundingAddressIndex,
     hdKey: arg3,
     prefix: arg2,
@@ -147,7 +147,7 @@ if (typeof keyId === 'string') {
   process.exit(1);
 }
 const fundingTransaction = decodeTransactionUnsafe(hexToBin(arg3));
-const fundingLockingBytecode = hdKeyToP2pkhLockingBytecode({
+const fundingLockingBytecode = hdPrivateKeyToP2pkhLockingBytecode({
   addressIndex: fundingAddressIndex,
   hdKey: hdPrivateKey,
 });

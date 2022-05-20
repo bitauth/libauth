@@ -3,7 +3,7 @@ import {
   secp256k1 as internalSecp256k1,
   sha256 as internalSha256,
   sha512 as internalSha512,
-} from '../crypto/default-crypto-instances.js';
+} from '../crypto/crypto.js';
 import { compileScript } from '../language/language.js';
 import type {
   AnyCompilerConfiguration,

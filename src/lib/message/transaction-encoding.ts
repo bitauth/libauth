@@ -1,4 +1,4 @@
-import { sha256 as internalSha256 } from '../crypto/default-crypto-instances.js';
+import { hash256, sha256 as internalSha256 } from '../crypto/crypto.js';
 import {
   bigIntToVarInt,
   binToHex,
@@ -356,7 +356,7 @@ export const cloneTransactionCommon = <Transaction extends TransactionCommon>(
 export const hashTransactionP2pOrder = (
   transaction: Uint8Array,
   sha256: { hash: Sha256['hash'] } = internalSha256
-) => sha256.hash(sha256.hash(transaction));
+) => hash256(transaction, sha256);
 
 /**
  * Compute a transaction hash (A.K.A. "transaction ID" or "TXID") from an

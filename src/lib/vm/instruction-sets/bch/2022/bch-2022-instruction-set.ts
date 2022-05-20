@@ -4,7 +4,7 @@ import {
   secp256k1 as internalSecp256k1,
   sha1 as internalSha1,
   sha256 as internalSha256,
-} from '../../../../crypto/default-crypto-instances.js';
+} from '../../../../crypto/crypto.js';
 import type {
   AuthenticationProgramBCH,
   AuthenticationProgramStateBCH,

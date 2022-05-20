@@ -1,4 +1,4 @@
-import { sha256 as internalSha256 } from '../crypto/default-crypto-instances.js';
+import { hash256, sha256 as internalSha256 } from '../crypto/crypto.js';
 import {
   base58ToBin,
   BaseConversionError,
@@ -115,7 +115,7 @@ export const encodeBase58AddressFormat = <
 ) => {
   const checksumBytes = 4;
   const content = Uint8Array.from([version, ...payload]);
-  const checksum = sha256.hash(sha256.hash(content)).slice(0, checksumBytes);
+  const checksum = hash256(content, sha256).slice(0, checksumBytes);
   const bin = flattenBinArray([content, checksum]);
   return binToBase58(bin);
 };

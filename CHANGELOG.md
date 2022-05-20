@@ -1,7 +1,3 @@
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
 ### Draft v2 Notes
 
 Libauth is now a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c), simplifying the developer experience by allowing WASM crypto to be instantiated internally/automatically by default 🎉. This refactor also simplifies the usage of and types surrounding Libauth virtual machines and compilers, and several other APIs have been improved.
@@ -40,6 +36,17 @@ Several other improvements have been made:
 * **New VM bytecode test vector generation** – Libauth includes a new `vmb_tests` test vector generation system to produce sets of cross-implementation test vectors as serialized transactions; this allows for sets of test vectors that fully test all transaction validation infrastructure without making assumptions about implementation internals.
 
 ---
+
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.0.0-alpha.3](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2022-05-20)
+
+
+### Features
+
+* add hash160, hash256, and encodeLockingBytecode* utils ([c2a787c](https://github.com/bitauth/libauth/commit/c2a787cbdd96354edc4245601e23051ef4ee8e5e))
 
 ## [2.0.0-alpha.2](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2022-05-19)
 

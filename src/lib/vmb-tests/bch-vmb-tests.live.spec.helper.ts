@@ -111,7 +111,7 @@ if (arg1 === 'address') {
   const address = hdPrivateKeyToP2pkhAddress({
     addressIndex: fundingAddressIndex,
     hdKey: arg3,
-    prefix: arg2,
+    prefix: arg2 as 'bchreg' | 'bchtest' | 'bitcoincash',
   });
   console.log(`
 Derived address index ${fundingAddressIndex} from key ID: ${binToHex(keyId)}.

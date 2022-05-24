@@ -2,18 +2,18 @@ import test from 'ava';
 
 import {
   addressContentsToLockingBytecode,
-  AddressType,
   Base58AddressError,
   Base58AddressFormatVersion,
   base58AddressToLockingBytecode,
   CashAddressDecodingError,
+  CashAddressEncodingError,
   CashAddressNetworkPrefix,
   cashAddressToLockingBytecode,
   hexToBin,
-  LockingBytecodeEncodingError,
   lockingBytecodeToAddressContents,
   lockingBytecodeToBase58Address,
   lockingBytecodeToCashAddress,
+  LockingBytecodeType,
   sha256,
 } from '../lib.js';
 
@@ -27,7 +27,7 @@ test('lockingBytecode <-> AddressContents: P2PK', (t) => {
 
   t.deepEqual(lockingBytecodeToAddressContents(genesisCoinbase), {
     payload: genesisPublicKey,
-    type: AddressType.p2pk,
+    type: LockingBytecodeType.p2pk,
   });
 
   t.deepEqual(
@@ -40,7 +40,7 @@ test('lockingBytecode <-> AddressContents: P2PK', (t) => {
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: genesisPublicKey,
-      type: AddressType.p2pk,
+      type: LockingBytecodeType.p2pk,
     }),
     genesisCoinbase
   );
@@ -53,13 +53,13 @@ test('lockingBytecode <-> AddressContents: P2PK', (t) => {
   );
   t.deepEqual(lockingBytecodeToAddressContents(genesisCoinbaseCompressed), {
     payload: compressedPublicKey,
-    type: AddressType.p2pk,
+    type: LockingBytecodeType.p2pk,
   });
 
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: compressedPublicKey,
-      type: AddressType.p2pk,
+      type: LockingBytecodeType.p2pk,
     }),
     genesisCoinbaseCompressed
   );
@@ -70,7 +70,7 @@ test('lockingBytecode <-> AddressContents: P2PKH', (t) => {
   const expectedPayload = hexToBin('65a16059864a2fdbc7c99a4723a8395bc6f188eb');
   t.deepEqual(lockingBytecodeToAddressContents(p2pkh), {
     payload: expectedPayload,
-    type: AddressType.p2pkh,
+    type: LockingBytecodeType.p2pkh,
   });
   t.deepEqual(
     addressContentsToLockingBytecode({
@@ -82,7 +82,7 @@ test('lockingBytecode <-> AddressContents: P2PKH', (t) => {
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: expectedPayload,
-      type: AddressType.p2pkh,
+      type: LockingBytecodeType.p2pkh,
     }),
     p2pkh
   );
@@ -93,7 +93,7 @@ test('lockingBytecode <-> AddressContents: P2SH20', (t) => {
   const expectedPayload = hexToBin('74f209f6ea907e2ea48f74fae05782ae8a665257');
   t.deepEqual(lockingBytecodeToAddressContents(p2sh20), {
     payload: expectedPayload,
-    type: AddressType.p2sh20,
+    type: LockingBytecodeType.p2sh20,
   });
   t.deepEqual(
     addressContentsToLockingBytecode({
@@ -105,7 +105,7 @@ test('lockingBytecode <-> AddressContents: P2SH20', (t) => {
   t.deepEqual(
     addressContentsToLockingBytecode({
       payload: expectedPayload,
-      type: AddressType.p2sh20,
+      type: LockingBytecodeType.p2sh20,
     }),
     p2sh20
   );
@@ -170,13 +170,18 @@ test('lockingBytecodeToAddressContents: improperly sized scripts return AddressT
 
 const cashVectors = test.macro<[string, string]>({
   exec: (t, cashAddress, bytecode) => {
-    t.deepEqual(cashAddressToLockingBytecode(cashAddress), {
-      bytecode: hexToBin(bytecode),
-      prefix: 'bitcoincash',
-    });
+    t.deepEqual(
+      cashAddressToLockingBytecode(cashAddress),
+      {
+        bytecode: hexToBin(bytecode),
+        prefix: 'bitcoincash',
+      },
+      'cashAddressToLockingBytecode'
+    );
     t.deepEqual(
       lockingBytecodeToCashAddress(hexToBin(bytecode), 'bitcoincash'),
-      cashAddress
+      cashAddress,
+      'lockingBytecodeToCashAddress'
     );
   },
   title: (_, cashAddress) =>
@@ -223,26 +228,13 @@ test('lockingBytecodeToCashAddress: P2PK', (t) => {
   const genesisCoinbase = hexToBin(
     '4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac'
   );
-  const genesisPublicKey = hexToBin(
-    '04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f'
-  );
 
-  t.deepEqual(
-    lockingBytecodeToCashAddress(
-      genesisCoinbase,
-      CashAddressNetworkPrefix.mainnet
-    ),
-    {
-      payload: genesisPublicKey,
-      type: AddressType.p2pk,
-    }
-  );
+  t.deepEqual(lockingBytecodeToCashAddress(genesisCoinbase, 'bitcoincash'), {
+    error: CashAddressEncodingError.noTypeBitStandardizedForP2pk,
+  });
 
   const genesisCoinbaseCompressed = hexToBin(
     '2103678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb6ac'
-  );
-  const compressedPublicKey = hexToBin(
-    '03678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb6'
   );
   t.deepEqual(
     lockingBytecodeToCashAddress(
@@ -250,8 +242,7 @@ test('lockingBytecodeToCashAddress: P2PK', (t) => {
       CashAddressNetworkPrefix.mainnet
     ),
     {
-      payload: compressedPublicKey,
-      type: AddressType.p2pk,
+      error: CashAddressEncodingError.noTypeBitStandardizedForP2pk,
     }
   );
 });
@@ -268,18 +259,15 @@ test('cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: P2SH20', (t
 
 test('lockingBytecodeToCashAddress: error', (t) => {
   const simpleMath = hexToBin('52935387');
+
   t.deepEqual(lockingBytecodeToCashAddress(simpleMath, 'bitcoincash'), {
-    payload: simpleMath,
-    type: 'unknown',
+    error: CashAddressEncodingError.unknownLockingBytecodeType,
   });
   const genesisCoinbase = hexToBin(
     '4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac'
   );
   t.deepEqual(lockingBytecodeToCashAddress(genesisCoinbase, 'bitcoincash'), {
-    payload: hexToBin(
-      '04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f'
-    ),
-    type: AddressType.p2pk,
+    error: CashAddressEncodingError.noTypeBitStandardizedForP2pk,
   });
 });
 
@@ -292,7 +280,7 @@ test('cashAddressToLockingBytecode: error', (t) => {
     cashAddressToLockingBytecode(
       'bitcoincash:dp60yz0ka2g8ut4y3a604czhs2hg5ejj2u6xkulaqj'
     ),
-    LockingBytecodeEncodingError.unknownCashAddressType
+    `${CashAddressDecodingError.unknownAddressType} Type bit value: 13.`
   );
 });
 
@@ -308,7 +296,7 @@ test('lockingBytecodeToBase58Address: P2PK', (t) => {
     lockingBytecodeToBase58Address(genesisCoinbase, 'mainnet', sha256),
     {
       payload: genesisPublicKey,
-      type: AddressType.p2pk,
+      type: LockingBytecodeType.p2pk,
     }
   );
 
@@ -326,7 +314,7 @@ test('lockingBytecodeToBase58Address: P2PK', (t) => {
     ),
     {
       payload: compressedPublicKey,
-      type: AddressType.p2pk,
+      type: LockingBytecodeType.p2pk,
     }
   );
 });

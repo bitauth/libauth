@@ -2,14 +2,13 @@ import test from 'ava';
 import fc from 'fast-check';
 
 import type {
-  CashAddressAvailableSizesInBits,
-  CashAddressAvailableTypes,
+  CashAddressAvailableTypeBit,
+  CashAddressSupportedLength,
 } from '../lib';
 import {
   attemptCashAddressFormatErrorCorrection,
   CashAddressCorrectionError,
   CashAddressDecodingError,
-  CashAddressEncodingError,
   CashAddressNetworkPrefix,
   CashAddressType,
   CashAddressVersionByte,
@@ -18,9 +17,11 @@ import {
   decodeCashAddress,
   decodeCashAddressFormat,
   decodeCashAddressFormatWithoutPrefix,
+  decodeCashAddressNonStandard,
   decodeCashAddressVersionByte,
   encodeCashAddress,
   encodeCashAddressFormat,
+  encodeCashAddressNonStandard,
   encodeCashAddressVersionByte,
   hexToBin,
   maskCashAddressPrefix,
@@ -29,12 +30,6 @@ import {
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
 import cashAddrJson from './fixtures/cashaddr.json' assert { type: 'json' };
-
-const maxUint8Number = 255;
-const fcUint8Array = (length: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), length, length)
-    .map((a) => Uint8Array.from(a));
 
 const lowercaseLetter = () =>
   fc.integer(97, 122).map((i) => String.fromCharCode(i));
@@ -51,36 +46,36 @@ test('maskCashAddressPrefix', (t) => {
 
 test('encodeCashAddressVersionByte', (t) => {
   t.deepEqual(
-    encodeCashAddressVersionByte(0, 160),
+    encodeCashAddressVersionByte(0, 20),
     CashAddressVersionByte.p2pkh
   );
   t.deepEqual(
-    encodeCashAddressVersionByte(1, 160),
+    encodeCashAddressVersionByte(1, 20),
     CashAddressVersionByte.p2sh20
   );
 });
 
 test('decodeCashAddressVersionByte', (t) => {
   t.deepEqual(decodeCashAddressVersionByte(CashAddressVersionByte.p2pkh), {
-    bitLength: 160,
-    type: 0,
+    length: 20,
+    typeBit: 0,
   });
   t.deepEqual(decodeCashAddressVersionByte(CashAddressVersionByte.p2sh20), {
-    bitLength: 160,
-    type: 1,
+    length: 20,
+    typeBit: 1,
   });
   t.deepEqual(
     decodeCashAddressVersionByte(0b10000000),
     CashAddressVersionByteDecodingError.reservedBitSet
   );
   t.deepEqual(decodeCashAddressVersionByte(0b01000011), {
-    bitLength: 256,
-    type: 8,
+    length: 32,
+    typeBit: 8,
   });
 
   t.deepEqual(decodeCashAddressVersionByte(0b01111111), {
-    bitLength: 512,
-    type: 15,
+    length: 64,
+    typeBit: 15,
   });
 });
 
@@ -88,48 +83,36 @@ test('encodeCashAddress: works', (t) => {
   const hash = hexToBin('15d16c84669ab46059313bf0747e781f1d13936d');
 
   t.deepEqual(
-    encodeCashAddress(
-      CashAddressNetworkPrefix.testnet,
-      CashAddressVersionByte.p2pkh,
-      hash
-    ),
+    encodeCashAddress('bchtest', 'p2pkh', hash),
     'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'
   );
   t.deepEqual(
-    encodeCashAddress('bchtest', 0, hash),
+    encodeCashAddress('bchtest', 'p2pkh', hash),
     'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'
   );
 
   t.deepEqual(
-    encodeCashAddress(
-      CashAddressNetworkPrefix.mainnet,
-      CashAddressVersionByte.p2pkh,
-      hash
-    ),
+    encodeCashAddress('bitcoincash', 'p2pkh', hash),
     'bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6'
   );
   t.deepEqual(
-    encodeCashAddress('bitcoincash', 0, hash),
+    encodeCashAddress('bitcoincash', 'p2pkh', hash),
     'bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6'
   );
 
   t.deepEqual(
-    encodeCashAddress(
-      CashAddressNetworkPrefix.regtest,
-      CashAddressVersionByte.p2pkh,
-      hash
-    ),
+    encodeCashAddress('bchreg', 'p2pkh', hash),
     'bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq'
   );
   t.deepEqual(
-    encodeCashAddress('bchreg', 0, hash),
+    encodeCashAddress('bchreg', 'p2pkh', hash),
     'bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq'
   );
 
   t.deepEqual(
     encodeCashAddressFormat(
       'bitauth',
-      encodeCashAddressVersionByte(0, 256),
+      encodeCashAddressVersionByte(0, 32),
       hexToBin(
         '978306aa4e02fd06e251b38d2e961f78f4af2ea6524a3e4531126776276a6af1'
       )
@@ -137,10 +120,10 @@ test('encodeCashAddress: works', (t) => {
     'bitauth:qwtcxp42fcp06phz2xec6t5krau0ftew5efy50j9xyfxwa38df40zp58z6t5w'
   );
 
-  t.deepEqual(
-    encodeCashAddress('broken', 0, hexToBin('97')),
-    CashAddressEncodingError.unsupportedHashLength
-  );
+  t.throws(() => encodeCashAddress('bitcoincash', 'p2sh', hexToBin('97')), {
+    message:
+      'Error encoding CashAddress: a hash of this length can not be encoded as a valid CashAddress. Hash length: 1.',
+  });
 });
 
 test('decodeCashAddress: works', (t) => {
@@ -148,12 +131,12 @@ test('decodeCashAddress: works', (t) => {
   const result = decodeCashAddress(
     'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'
   );
-  // eslint-disable-next-line functional/no-conditional-statement
   if (typeof result === 'string') {
     t.log(result);
     t.fail();
+    return;
   }
-  t.deepEqual(result, { hash, prefix: 'bchtest', type: 0 });
+  t.deepEqual(result, { hash, prefix: 'bchtest', type: CashAddressType.p2pkh });
   t.deepEqual(
     decodeCashAddress('bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'),
     {
@@ -173,7 +156,7 @@ test('decodeCashAddress: works', (t) => {
   );
   t.deepEqual(
     decodeCashAddress('bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6'),
-    { hash, prefix: 'bitcoincash', type: 0 }
+    { hash, prefix: 'bitcoincash', type: CashAddressType.p2pkh }
   );
 
   t.deepEqual(
@@ -186,7 +169,7 @@ test('decodeCashAddress: works', (t) => {
   );
   t.deepEqual(
     decodeCashAddress('bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq'),
-    { hash, prefix: 'bchreg', type: 0 }
+    { hash, prefix: 'bchreg', type: CashAddressType.p2pkh }
   );
 
   t.deepEqual(
@@ -198,7 +181,7 @@ test('decodeCashAddress: works', (t) => {
         '978306aa4e02fd06e251b38d2e961f78f4af2ea6524a3e4531126776276a6af1'
       ),
       prefix: 'bitauth',
-      version: encodeCashAddressVersionByte(0, 256),
+      version: encodeCashAddressVersionByte(0, 32),
     }
   );
 
@@ -247,25 +230,29 @@ test('CashAddress test vectors', (t) => {
     const { cashaddr } = vector;
     const [prefix] = cashaddr.split(':') as [string];
     const payload = hexToBin(vector.payload);
-    const type = vector.type as CashAddressAvailableTypes;
-    const encodeResult = encodeCashAddress(prefix, type, payload);
+    const typeBit = vector.type as CashAddressAvailableTypeBit;
+    const version = encodeCashAddressVersionByte(
+      typeBit,
+      payload.length as CashAddressSupportedLength
+    );
+    const encodeResult = encodeCashAddressFormat(prefix, version, payload);
     // eslint-disable-next-line functional/no-conditional-statement
     if (cashaddr !== encodeResult) {
       t.log('expected vector', vector.cashaddr);
-      t.log('type', type);
+      t.log('typeBit', typeBit);
       t.log('prefix', prefix);
       t.log('payload', payload);
       t.log('encodeResult', encodeResult);
     }
     t.deepEqual(vector.cashaddr, encodeResult);
 
-    const decodeResult = decodeCashAddress(cashaddr);
+    const decodeResult = decodeCashAddressNonStandard(cashaddr);
     // eslint-disable-next-line functional/no-conditional-statement
     if (typeof decodeResult === 'string') {
       t.log(decodeResult);
       t.fail();
     }
-    t.deepEqual(decodeResult, { hash: payload, prefix, type });
+    t.deepEqual(decodeResult, { hash: payload, prefix, typeBit });
   });
 });
 
@@ -302,7 +289,7 @@ test('decodeCashAddressWithoutPrefix', (t) => {
         '978306aa4e02fd06e251b38d2e961f78f4af2ea6524a3e4531126776276a6af1'
       ),
       prefix: 'bitauth',
-      version: encodeCashAddressVersionByte(0, 256),
+      version: encodeCashAddressVersionByte(0, 32),
     }
   );
 
@@ -313,33 +300,99 @@ test('decodeCashAddressWithoutPrefix', (t) => {
   );
 });
 
-test('[fast-check] encodeCashAddress <-> decodeCashAddress', (t) => {
-  const roundTripWithHashLength = (
-    hashLength: CashAddressAvailableSizesInBits
-  ) =>
+test('[fast-check] encodeCashAddressFormat <-> decodeCashAddressFormat', (t) => {
+  const roundTripWithHashLength = (length: CashAddressSupportedLength) =>
     fc.property(
-      fc.array(lowercaseLetter(), 1, 50).map((arr) => arr.join('')),
-      fc.nat(15),
-      fcUint8Array(hashLength / 8),
-      (prefix, type, hash) => {
-        // t.log(decodeCashAddressVersionByte(version));
+      fc
+        .array(lowercaseLetter(), { maxLength: 50, minLength: 1 })
+        .map((arr) => arr.join('')),
+      fc.nat(0xff),
+      fc.uint8Array({ maxLength: length, minLength: length }),
+      (prefix, version, hash) => {
         t.deepEqual(
-          decodeCashAddress(
-            encodeCashAddress(prefix, type as CashAddressAvailableTypes, hash)
+          decodeCashAddressFormat(
+            encodeCashAddressFormat(prefix, version, hash)
           ),
-          { hash, prefix, type }
+          { hash, prefix, version }
         );
       }
     );
   t.notThrows(() => {
-    fc.assert(roundTripWithHashLength(160));
-    fc.assert(roundTripWithHashLength(192));
-    fc.assert(roundTripWithHashLength(224));
-    fc.assert(roundTripWithHashLength(256));
-    fc.assert(roundTripWithHashLength(320));
-    fc.assert(roundTripWithHashLength(384));
-    fc.assert(roundTripWithHashLength(448));
-    fc.assert(roundTripWithHashLength(512));
+    fc.assert(roundTripWithHashLength(20));
+    fc.assert(roundTripWithHashLength(24));
+    fc.assert(roundTripWithHashLength(28));
+    fc.assert(roundTripWithHashLength(32));
+    fc.assert(roundTripWithHashLength(40));
+    fc.assert(roundTripWithHashLength(48));
+    fc.assert(roundTripWithHashLength(56));
+    fc.assert(roundTripWithHashLength(64));
+  });
+});
+
+test('[fast-check] encodeCashAddressNonStandard <-> decodeCashAddressNonStandard', (t) => {
+  const roundTripWithHashLength = (length: CashAddressSupportedLength) =>
+    fc.property(
+      fc
+        .array(lowercaseLetter(), { maxLength: 50, minLength: 1 })
+        .map((arr) => arr.join('')),
+      fc.nat(15),
+      fc.uint8Array({ maxLength: length, minLength: length }),
+      (prefix, typeBit, hash) => {
+        t.deepEqual(
+          decodeCashAddressNonStandard(
+            encodeCashAddressNonStandard(
+              prefix,
+              typeBit as CashAddressAvailableTypeBit,
+              hash
+            )
+          ),
+          { hash, prefix, typeBit }
+        );
+      }
+    );
+  t.notThrows(() => {
+    fc.assert(roundTripWithHashLength(20));
+    fc.assert(roundTripWithHashLength(24));
+    fc.assert(roundTripWithHashLength(28));
+    fc.assert(roundTripWithHashLength(32));
+    fc.assert(roundTripWithHashLength(40));
+    fc.assert(roundTripWithHashLength(48));
+    fc.assert(roundTripWithHashLength(56));
+    fc.assert(roundTripWithHashLength(64));
+  });
+});
+
+test('[fast-check] encodeCashAddress <-> decodeCashAddress', (t) => {
+  const prefixes = Object.keys(
+    CashAddressNetworkPrefix
+  ) as CashAddressNetworkPrefix[];
+  const types = Object.keys(CashAddressType) as CashAddressType[];
+  const roundTripWithHashLength = (length: CashAddressSupportedLength) =>
+    fc.property(
+      fc.nat(prefixes.length - 1),
+      fc.nat(types.length - 1),
+      fc.uint8Array({ maxLength: length, minLength: length }),
+      (prefixIndex, typeIndex, hash) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const prefix = prefixes[prefixIndex]!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const type = types[typeIndex]!;
+        t.deepEqual(decodeCashAddress(encodeCashAddress(prefix, type, hash)), {
+          hash,
+          prefix,
+          type,
+        });
+      }
+    );
+  t.notThrows(() => {
+    fc.assert(roundTripWithHashLength(20));
+    fc.assert(roundTripWithHashLength(24));
+    fc.assert(roundTripWithHashLength(28));
+    fc.assert(roundTripWithHashLength(32));
+    fc.assert(roundTripWithHashLength(40));
+    fc.assert(roundTripWithHashLength(48));
+    fc.assert(roundTripWithHashLength(56));
+    fc.assert(roundTripWithHashLength(64));
   });
 });
 
@@ -380,17 +433,19 @@ test('attemptCashAddressErrorCorrection', (t) => {
 });
 
 test('[fast-check] attemptCashAddressErrorCorrection', (t) => {
-  const correctsUpToTwoErrors = (hashLength: CashAddressAvailableSizesInBits) =>
+  const correctsUpToTwoErrors = (hashLength: CashAddressSupportedLength) =>
     fc.property(
-      fc.array(lowercaseLetter(), 1, 50).map((arr) => arr.join('')),
+      fc
+        .array(lowercaseLetter(), { maxLength: 50, minLength: 1 })
+        .map((arr) => arr.join('')),
       fc.nat(15),
-      fcUint8Array(hashLength / 8),
-      fc.array(fc.nat(hashLength / 8), 0, 2),
+      fc.uint8Array({ maxLength: hashLength, minLength: hashLength }),
+      fc.array(fc.nat(hashLength), { maxLength: 2, minLength: 0 }),
       // eslint-disable-next-line max-params
-      (prefix, type, hash, randomErrors) => {
-        const address = encodeCashAddress(
+      (prefix, typeBit, hash, randomErrors) => {
+        const address = encodeCashAddressNonStandard(
           prefix,
-          type as CashAddressAvailableTypes,
+          typeBit as CashAddressAvailableTypeBit,
           hash
         );
         const addressChars = splitEvery(address, 1);
@@ -414,14 +469,14 @@ test('[fast-check] attemptCashAddressErrorCorrection', (t) => {
       }
     );
   t.notThrows(() => {
-    fc.assert(correctsUpToTwoErrors(160));
-    fc.assert(correctsUpToTwoErrors(192));
-    fc.assert(correctsUpToTwoErrors(224));
-    fc.assert(correctsUpToTwoErrors(256));
-    fc.assert(correctsUpToTwoErrors(320));
-    fc.assert(correctsUpToTwoErrors(384));
-    fc.assert(correctsUpToTwoErrors(448));
-    fc.assert(correctsUpToTwoErrors(512));
+    fc.assert(correctsUpToTwoErrors(20));
+    fc.assert(correctsUpToTwoErrors(24));
+    fc.assert(correctsUpToTwoErrors(28));
+    fc.assert(correctsUpToTwoErrors(32));
+    fc.assert(correctsUpToTwoErrors(40));
+    fc.assert(correctsUpToTwoErrors(48));
+    fc.assert(correctsUpToTwoErrors(56));
+    fc.assert(correctsUpToTwoErrors(64));
   });
 });
 
@@ -429,15 +484,15 @@ const legacyVectors = test.macro<[string, string]>({
   exec: (t, base58Address, cashAddress) => {
     const decodedBase58Address = decodeBase58AddressFormat(base58Address);
     const decodedCashAddress = decodeCashAddress(cashAddress);
-    if (
-      typeof decodedCashAddress === 'string' ||
-      typeof decodedBase58Address === 'string'
-    ) {
-      t.fail();
-      return undefined;
+    if (typeof decodedCashAddress === 'string') {
+      t.fail(decodedCashAddress);
+      return;
+    }
+    if (typeof decodedBase58Address === 'string') {
+      t.fail(decodedBase58Address);
+      return;
     }
     t.deepEqual(decodedBase58Address.payload, decodedCashAddress.hash);
-    return undefined;
   },
 
   title: (_, base58Address) =>

@@ -45,12 +45,10 @@ export const hdPrivateKeyToP2pkhLockingBytecode = ({
  * Derive the P2PKH address at the provided index of the provided HD
  * private key.
  */
-export const hdPrivateKeyToP2pkhAddress = <
-  Prefix extends string = CashAddressNetworkPrefix
->({
+export const hdPrivateKeyToP2pkhAddress = ({
   addressIndex,
   hdKey,
-  prefix = 'bitcoincash' as Prefix,
+  prefix = 'bitcoincash',
 }: {
   /**
    * An encoded HD private key, e.g.
@@ -65,10 +63,10 @@ export const hdPrivateKeyToP2pkhAddress = <
    */
   addressIndex: number;
   /**
-   * The CashAddress prefix to use when encoding the address. Typically
-   * `bitcoincash`, `bchtest`, or `bchreg`. (Default: `bitcoincash`)
+   * The {@link CashAddressNetworkPrefix} to use when encoding the address.
+   * (Default: `bitcoincash`)
    */
-  prefix?: Prefix;
+  prefix?: `${CashAddressNetworkPrefix}`;
 }) =>
   lockingBytecodeToCashAddress(
     hdPrivateKeyToP2pkhLockingBytecode({ addressIndex, hdKey }),

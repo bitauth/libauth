@@ -30,10 +30,9 @@ export const compilerOperationAddressData = compilerOperationRequires({
   configurationProperties: [],
   dataProperties: ['bytecode'],
   operation: (identifier, data) => {
-    const { bytecode } = data;
-    if (identifier in bytecode) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return { bytecode: bytecode[identifier]!, status: 'success' };
+    const bytecode = data.bytecode[identifier];
+    if (bytecode !== undefined) {
+      return { bytecode, status: 'success' };
     }
     return {
       error: `Identifier "${identifier}" refers to an AddressData, but "${identifier}" was not provided in the CompilationData "bytecode".`,
@@ -48,10 +47,9 @@ export const compilerOperationWalletData = compilerOperationRequires({
   configurationProperties: [],
   dataProperties: ['bytecode'],
   operation: (identifier, data) => {
-    const { bytecode } = data;
-    if (identifier in bytecode) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return { bytecode: bytecode[identifier]!, status: 'success' };
+    const bytecode = data.bytecode[identifier];
+    if (bytecode !== undefined) {
+      return { bytecode, status: 'success' };
     }
     return {
       error: `Identifier "${identifier}" refers to a WalletData, but "${identifier}" was not provided in the CompilationData "bytecode".`,

@@ -147,10 +147,9 @@ export const compilerOperationAttemptBytecodeResolution =
     configurationProperties: [],
     dataProperties: ['bytecode'],
     operation: (identifier, data) => {
-      const { bytecode } = data;
-      if (bytecode[identifier] !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return { bytecode: bytecode[identifier]!, status: 'success' };
+      const bytecode = data.bytecode[identifier];
+      if (bytecode !== undefined) {
+        return { bytecode, status: 'success' };
       }
       return { status: 'skip' };
     },

@@ -93,11 +93,17 @@ export const compilerConfigurationToCompilerBCH = <
   return {
     configuration,
     generateBytecode,
-    generateScenario: ({ unlockingScriptId, scenarioId, debug }) =>
+    generateScenario: ({
+      lockingScriptId,
+      unlockingScriptId,
+      scenarioId,
+      debug,
+    }) =>
       generateScenarioBCH(
         {
           configuration,
           generateBytecode,
+          lockingScriptId,
           scenarioId,
           unlockingScriptId,
         },
@@ -134,7 +140,7 @@ export const createAuthenticationProgramEvaluationCommon = (
   sourceOutputs: [
     {
       lockingBytecode: evaluationBytecode,
-      valueSatoshis: Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
+      valueSatoshis: 0n,
     },
   ],
   transaction: {
@@ -150,7 +156,7 @@ export const createAuthenticationProgramEvaluationCommon = (
     outputs: [
       {
         lockingBytecode: Uint8Array.of(),
-        valueSatoshis: Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
+        valueSatoshis: 0n,
       },
     ],
     version: 0,

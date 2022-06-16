@@ -127,7 +127,7 @@ test('authenticationTemplateToCompilerConfiguration: virtualized tests', (t) => 
         script: '<1>',
       },
     },
-    supported: ['BCH_2019_05'],
+    supported: ['BCH_2022_05'],
     version: 0,
   } as AuthenticationTemplate);
 

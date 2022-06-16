@@ -1,3 +1,4 @@
+import { formatError } from '../../../format/format.js';
 import type { AuthenticationProgramStateError } from '../../../lib';
 
 export enum AuthenticationErrorCommon {
@@ -64,8 +65,12 @@ export enum AuthenticationErrorCommon {
  */
 export const applyError = <State extends AuthenticationProgramStateError>(
   state: State,
-  error: string
+  errorType: string,
+  errorDetails?: string
 ): State => ({
   ...state,
-  error: state.error === undefined ? error : state.error,
+  error:
+    state.error === undefined
+      ? formatError(errorType, errorDetails)
+      : state.error,
 });

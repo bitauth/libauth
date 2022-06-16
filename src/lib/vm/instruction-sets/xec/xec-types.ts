@@ -1,4 +1,4 @@
-export enum ConsensusBCH2021 {
+export enum ConsensusXEC {
   /**
    * A.K.A. `MAX_SCRIPT_ELEMENT_SIZE`
    */

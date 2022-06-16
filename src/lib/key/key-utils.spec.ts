@@ -66,7 +66,10 @@ testProp(
   '[fast-check] validateSecp256k1PrivateKey <-> Secp256k1.validatePrivateKey',
   [
     fc
-      .array(fc.integer(0, maximumUint8Value), theRest, theRest)
+      .array(fc.integer({ max: maximumUint8Value, min: 0 }), {
+        maxLength: theRest,
+        minLength: theRest,
+      })
       .map((random) => Uint8Array.from([...almostInvalid, ...random])),
   ],
   (t, input) => {

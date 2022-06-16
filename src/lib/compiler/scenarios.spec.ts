@@ -527,7 +527,7 @@ test(
       sourceOutputs: [
         {
           lockingBytecode: hexToBin('03010203757551'),
-          valueSatoshis: hexToBin('0000000000000000'),
+          valueSatoshis: 0n,
         },
       ],
       transaction: {
@@ -547,7 +547,7 @@ test(
         outputs: [
           {
             lockingBytecode: hexToBin('03010203757551'),
-            valueSatoshis: hexToBin('0000000000000000'),
+            valueSatoshis: 0n,
           },
         ],
         version: 2,
@@ -638,7 +638,7 @@ test.failing(
       sourceOutputs: [
         {
           lockingBytecode: hexToBin(''),
-          valueSatoshis: hexToBin('0000000000000000'),
+          valueSatoshis: 0n,
         },
       ],
       transaction: {
@@ -656,7 +656,7 @@ test.failing(
         outputs: [
           {
             lockingBytecode: hexToBin(''),
-            valueSatoshis: hexToBin('0000000000000000'),
+            valueSatoshis: 0n,
           },
         ],
         version: 2,
@@ -695,7 +695,7 @@ test(
       sourceOutputs: [
         {
           lockingBytecode: hexToBin(''),
-          valueSatoshis: hexToBin('0000000000000000'),
+          valueSatoshis: 0n,
         },
       ],
       transaction: {
@@ -713,7 +713,7 @@ test(
         outputs: [
           {
             lockingBytecode: hexToBin(''),
-            valueSatoshis: hexToBin('0000000000000000'),
+            valueSatoshis: 0n,
           },
         ],
         version: 2,
@@ -856,7 +856,7 @@ test.failing(
       sourceOutputs: [
         {
           lockingBytecode: hexToBin(''),
-          valueSatoshis: hexToBin('ffffffffffffffff'),
+          valueSatoshis: 0xffffffffffffffffn,
         },
       ],
       transaction: {
@@ -874,11 +874,11 @@ test.failing(
         outputs: [
           {
             lockingBytecode: hexToBin('75597551'),
-            valueSatoshis: hexToBin('ffffffffffffffff'),
+            valueSatoshis: 0xffffffffffffffffn,
           },
           {
             lockingBytecode: hexToBin('75557551'),
-            valueSatoshis: hexToBin('ffffffffffffffff'),
+            valueSatoshis: 0xffffffffffffffffn,
           },
         ],
         version: 3,
@@ -957,7 +957,7 @@ test.failing(
       sourceOutputs: [
         {
           lockingBytecode: hexToBin(''),
-          valueSatoshis: hexToBin('0000000000000000'),
+          valueSatoshis: 0n,
         },
       ],
       transaction: {
@@ -983,15 +983,15 @@ test.failing(
         outputs: [
           {
             lockingBytecode: hexToBin('03010203757551'),
-            valueSatoshis: hexToBin('e803000000000000'),
+            valueSatoshis: 1000n,
           },
           {
             lockingBytecode: hexToBin('03010203757551'),
-            valueSatoshis: hexToBin('0000000000000000'),
+            valueSatoshis: 0n,
           },
           {
             lockingBytecode: hexToBin('03030405757551'),
-            valueSatoshis: hexToBin('ffffffffffffffff'),
+            valueSatoshis: 0xffffffffffffffffn,
           },
         ],
         version: 3,

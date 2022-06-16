@@ -221,7 +221,7 @@ export const bigIntToBinUintLE = (value: bigint) => {
     remaining /= base;
   }
   // eslint-disable-next-line functional/no-conditional-statement, functional/no-expression-statement, functional/immutable-data
-  if (remaining > BigInt(0)) result.push(Number(remaining));
+  if (remaining > 0n) result.push(Number(remaining));
 
   return Uint8Array.from(result.length > 0 ? result : [0]);
 };
@@ -360,7 +360,7 @@ export const binToBigIntUintBE = (bin: Uint8Array, bytes = bin.length) => {
   return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduce(
     // eslint-disable-next-line no-bitwise
     (accumulated, byte) => (accumulated << shift) | BigInt(byte),
-    BigInt(0)
+    0n
   );
 };
 
@@ -415,7 +415,7 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
   return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduceRight(
     // eslint-disable-next-line no-bitwise
     (accumulated, byte) => (accumulated << BigInt(bitsInAByte)) | BigInt(byte),
-    BigInt(0)
+    0n
   );
 };
 
@@ -439,7 +439,7 @@ export const binToBigIntUint64LE = (bin: Uint8Array) => {
  *
  * Throws if the provided value is shorter than 8 bytes.
  */
-export const valueSatoshisToBigInt = binToBigIntUint64LE;
+export const binToValueSatoshis = binToBigIntUint64LE;
 
 /**
  * Encode a `BigInt` into an {@link Output.valueSatoshis}. This is an alias for
@@ -448,7 +448,7 @@ export const valueSatoshisToBigInt = binToBigIntUint64LE;
  * This method will return an incorrect result for values outside of the range 0
  * to 0xffff_ffff_ffff_ffff (`18446744073709551615`).
  */
-export const bigIntToValueSatoshis = bigIntToBinUint64LE;
+export const valueSatoshisToBin = bigIntToBinUint64LE;
 
 const enum VarInt {
   uint8MaxValue = 0xfc,

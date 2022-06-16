@@ -32,7 +32,7 @@ import {
 import cashAddrJson from './fixtures/cashaddr.json' assert { type: 'json' };
 
 const lowercaseLetter = () =>
-  fc.integer(97, 122).map((i) => String.fromCharCode(i));
+  fc.integer({ max: 122, min: 97 }).map((i) => String.fromCharCode(i));
 
 const cashAddressTestVectors = Object.values(cashAddrJson).filter(
   (item) => !Array.isArray(item)

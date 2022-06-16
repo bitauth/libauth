@@ -1,8 +1,12 @@
 import test from 'ava';
 
-import type { AuthenticationVirtualMachineBCH, VmbTest } from '../lib';
+import type {
+  AuthenticationProgramStateCommon,
+  AuthenticationVirtualMachineBCH,
+  AuthenticationVirtualMachineBCHCHIPs,
+  VmbTest,
+} from '../lib';
 import {
-  createVirtualMachineBCH2021,
   createVirtualMachineBCH2022,
   decodeTransactionOutputsUnsafe,
   decodeTransactionUnsafeBCH,
@@ -11,16 +15,17 @@ import {
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
 } from '../lib.js';
+import { createVirtualMachineBCHCHIPs } from '../vm/instruction-sets/bch/chips/bch-chips-vm.js';
 
 import { vmbTestsBCH } from './bch-vmb-tests.js';
 /* eslint-disable import/no-restricted-paths, import/no-internal-modules */
 import vmbTestsBCHJson from './generated/bch/bch_vmb_tests.json' assert { type: 'json' };
-import vmbTestsBCH2021InvalidJson from './generated/bch/bch_vmb_tests_2021_invalid.json' assert { type: 'json' };
-import vmbTestsBCH2021NonstandardJson from './generated/bch/bch_vmb_tests_2021_nonstandard.json' assert { type: 'json' };
-import vmbTestsBCH2021StandardJson from './generated/bch/bch_vmb_tests_2021_standard.json' assert { type: 'json' };
 import vmbTestsBCH2022InvalidJson from './generated/bch/bch_vmb_tests_2022_invalid.json' assert { type: 'json' };
 import vmbTestsBCH2022NonstandardJson from './generated/bch/bch_vmb_tests_2022_nonstandard.json' assert { type: 'json' };
 import vmbTestsBCH2022StandardJson from './generated/bch/bch_vmb_tests_2022_standard.json' assert { type: 'json' };
+import vmbTestsBCHChipLoopsInvalidJson from './generated/bch/bch_vmb_tests_chip_loops_invalid.json' assert { type: 'json' };
+import vmbTestsBCHChipLoopsNonstandardJson from './generated/bch/bch_vmb_tests_chip_loops_nonstandard.json' assert { type: 'json' };
+import vmbTestsBCHChipLoopsStandardJson from './generated/bch/bch_vmb_tests_chip_loops_standard.json' assert { type: 'json' };
 /* eslint-enable import/no-restricted-paths, import/no-internal-modules */
 
 test('bch_vmb_tests.json is up to date and contains no test ID collisions', (t) => {
@@ -65,7 +70,7 @@ const testVm = ({
   vmName: string;
   succeeds: VmbTest[][];
   fails: VmbTest[][];
-  vm: AuthenticationVirtualMachineBCH;
+  vm: AuthenticationVirtualMachineBCH | AuthenticationVirtualMachineBCHCHIPs;
 }) => {
   const runCase = test.macro({
     // eslint-disable-next-line complexity
@@ -126,7 +131,7 @@ const testVm = ({
                   inputIndex: Number(failingIndex),
                   sourceOutputs,
                   transaction,
-                })
+                }) as AuthenticationProgramStateCommon[]
               )
             )
           );
@@ -179,26 +184,6 @@ const testVm = ({
 
 testVm({
   fails: [
-    vmbTestsBCH2021InvalidJson as VmbTest[],
-    vmbTestsBCH2021NonstandardJson as VmbTest[],
-  ],
-  succeeds: [vmbTestsBCH2021StandardJson as VmbTest[]],
-  vm: createVirtualMachineBCH2021(true),
-  vmName: 'bch_2021_standard',
-});
-
-testVm({
-  fails: [vmbTestsBCH2021InvalidJson as VmbTest[]],
-  succeeds: [
-    vmbTestsBCH2021StandardJson as VmbTest[],
-    vmbTestsBCH2021NonstandardJson as VmbTest[],
-  ],
-  vm: createVirtualMachineBCH2021(false),
-  vmName: 'bch_2021_nonstandard',
-});
-
-testVm({
-  fails: [
     vmbTestsBCH2022InvalidJson as VmbTest[],
     vmbTestsBCH2022NonstandardJson as VmbTest[],
   ],
@@ -217,4 +202,22 @@ testVm({
   vmName: 'bch_2022_nonstandard',
 });
 
-test.todo('test CHIP limits VM');
+testVm({
+  fails: [
+    vmbTestsBCHChipLoopsInvalidJson as VmbTest[],
+    vmbTestsBCHChipLoopsNonstandardJson as VmbTest[],
+  ],
+  succeeds: [vmbTestsBCHChipLoopsStandardJson as VmbTest[]],
+  vm: createVirtualMachineBCHCHIPs(true),
+  vmName: 'bch_chips_standard',
+});
+
+testVm({
+  fails: [vmbTestsBCHChipLoopsInvalidJson as VmbTest[]],
+  succeeds: [
+    vmbTestsBCHChipLoopsStandardJson as VmbTest[],
+    vmbTestsBCHChipLoopsNonstandardJson as VmbTest[],
+  ],
+  vm: createVirtualMachineBCHCHIPs(false),
+  vmName: 'bch_chips_nonstandard',
+});

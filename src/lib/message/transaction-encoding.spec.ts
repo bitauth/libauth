@@ -2,7 +2,6 @@ import test from 'ava';
 
 import type { TransactionCommon } from '../lib';
 import {
-  bigIntToBinUint64LE,
   decodeTransactionCommon,
   encodeTransactionCommon,
   hashTransaction,
@@ -114,19 +113,19 @@ test('decodeTransaction', (t) => {
     outputs: [
       {
         lockingBytecode: hexToBin('6552'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(73134625)),
+        valueSatoshis: 73134625n,
       },
       {
         lockingBytecode: hexToBin('5253516a656a53'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(95890937)),
+        valueSatoshis: 95890937n,
       },
       {
         lockingBytecode: hexToBin(''),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(17344964)),
+        valueSatoshis: 17344964n,
       },
       {
         lockingBytecode: hexToBin('52525251516a'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(19470773)),
+        valueSatoshis: 19470773n,
       },
     ],
     version: 1886435390,
@@ -173,19 +172,19 @@ test('encodeTransaction', (t) => {
     outputs: [
       {
         lockingBytecode: hexToBin('6552'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(73134625)),
+        valueSatoshis: 73134625n,
       },
       {
         lockingBytecode: hexToBin('5253516a656a53'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(95890937)),
+        valueSatoshis: 95890937n,
       },
       {
         lockingBytecode: hexToBin(''),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(17344964)),
+        valueSatoshis: 17344964n,
       },
       {
         lockingBytecode: hexToBin('52525251516a'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(19470773)),
+        valueSatoshis: 19470773n,
       },
     ],
     version: 1886435390,

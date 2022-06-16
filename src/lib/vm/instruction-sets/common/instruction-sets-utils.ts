@@ -458,7 +458,7 @@ export enum VmNumberError {
 }
 
 export const isVmNumberError = (
-  value: BigInt | VmNumberError
+  value: VmNumberError | bigint
 ): value is VmNumberError =>
   value === VmNumberError.outOfRange || value === VmNumberError.requiresMinimal;
 
@@ -504,7 +504,7 @@ export const vmNumberToBigInt = (
   }
 ): VmNumberError | bigint => {
   if (bytes.length === 0) {
-    return BigInt(0);
+    return 0n;
   }
   if (bytes.length > maximumVmNumberByteLength) {
     return VmNumberError.outOfRange;
@@ -528,7 +528,7 @@ export const vmNumberToBigInt = (
   const bitsPerByte = 8;
   const signFlippingByte = 0x80;
   // eslint-disable-next-line functional/no-let
-  let result = BigInt(0);
+  let result = 0n;
   // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
   for (let byte = 0; byte < bytes.length; byte++) {
     // eslint-disable-next-line functional/no-expression-statement,  no-bitwise, @typescript-eslint/no-non-null-assertion
@@ -555,7 +555,7 @@ export const vmNumberToBigInt = (
  */
 // eslint-disable-next-line complexity
 export const bigIntToVmNumber = (integer: bigint): Uint8Array => {
-  if (integer === BigInt(0)) {
+  if (integer === 0n) {
     return new Uint8Array();
   }
 
@@ -615,7 +615,7 @@ export const stackItemIsTruthy = (item: Uint8Array) => {
  * @param value - the boolean value to convert
  */
 export const booleanToVmNumber = (value: boolean) =>
-  value ? bigIntToVmNumber(BigInt(1)) : bigIntToVmNumber(BigInt(0));
+  value ? bigIntToVmNumber(1n) : bigIntToVmNumber(0n);
 
 const enum Opcodes {
   OP_0 = 0x00,

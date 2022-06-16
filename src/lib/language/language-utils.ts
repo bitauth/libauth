@@ -3,8 +3,11 @@ import type {
   AuthenticationInstruction,
   AuthenticationInstructionMalformed,
   AuthenticationInstructionMaybeMalformed,
-  AuthenticationProgramStateCommon,
+  AuthenticationProgramStateAlternateStack,
   AuthenticationProgramStateControlStack,
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
   CompilationError,
   CompilationErrorRecoverable,
   EvaluationSample,
@@ -18,7 +21,7 @@ import {
   authenticationInstructionIsMalformed,
   decodeAuthenticationInstructions,
   encodeAuthenticationInstructionMalformed,
-  OpcodesBCH,
+  OpcodesBCHCHIPs,
   vmNumberToBigInt,
 } from '../vm/vm.js';
 
@@ -699,8 +702,9 @@ export const extractEvaluationSamplesRecursive = <ProgramState>({
   };
 };
 
-const stateIsExecuting = (state: AuthenticationProgramStateControlStack) =>
-  state.controlStack.every((item) => item);
+const stateIsExecuting = (
+  state: AuthenticationProgramStateControlStack<boolean | number>
+) => state.controlStack.every((item) => item !== false);
 
 /**
  * Extract an array of ranges that were unused by an evaluation. This is useful
@@ -731,7 +735,7 @@ const stateIsExecuting = (state: AuthenticationProgramStateControlStack) =>
  * executing), defaults to `1,1`
  */
 export const extractUnexecutedRanges = <
-  ProgramState extends AuthenticationProgramStateControlStack
+  ProgramState extends AuthenticationProgramStateControlStack<boolean | number>
 >(
   samples: EvaluationSample<ProgramState>[],
   evaluationBegins = '1,1'
@@ -817,9 +821,13 @@ export const summarizeStack = (stack: Uint8Array[]) =>
  * evaluation step.
  */
 export const summarizeDebugTrace = <
-  ProgramState extends AuthenticationProgramStateCommon
+  Trace extends (AuthenticationProgramStateAlternateStack &
+    AuthenticationProgramStateControlStack<unknown> &
+    AuthenticationProgramStateError &
+    AuthenticationProgramStateMinimum &
+    AuthenticationProgramStateStack)[]
 >(
-  trace: ProgramState[]
+  trace: Trace
 ) =>
   trace.reduce<
     {
@@ -875,7 +883,7 @@ export const stringifyDebugTraceSummary = (
      */
     padInstruction: number;
   } = {
-    opcodes: OpcodesBCH,
+    opcodes: OpcodesBCHCHIPs,
     padInstruction: 23,
   }
 ) =>

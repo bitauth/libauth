@@ -1,23 +1,22 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import test from 'ava';
 
-import type { AuthenticationProgramStateBCH } from '../../../../lib';
+import type { AuthenticationProgramStateBCH } from '../../../lib';
 import {
   assembleBitcoinSatoshiScript,
-  bigIntToBinUint64LE,
   createTestAuthenticationProgramBCH,
-  createVirtualMachineBCH2021,
+  createVirtualMachineXEC,
   disassembleBytecodeBCH,
   stackItemIsTruthy,
   stringify,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
-} from '../../../../lib.js';
+} from '../../../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import scriptTestsAddendum from './fixtures/bchn/script-tests-addendum.json' assert { type: 'json' };
+import scriptTestsAddendum from './fixtures/satoshi-client/script-tests-addendum.json' assert { type: 'json' };
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import scriptTests from './fixtures/bchn/script_tests.json' assert { type: 'json' };
+import scriptTests from './fixtures/satoshi-client/script_tests.json' assert { type: 'json' };
 
 const tests = Object.values(scriptTests)
   .filter((e) => e.length !== 1 && e.length < 7)
@@ -96,8 +95,8 @@ const pendingTests = tests;
 const elide = (text: string, length: number) =>
   text.length > length ? `${text.slice(0, length)}...` : text;
 
-const vmNonStandard = createVirtualMachineBCH2021(false);
-const vmStandard = createVirtualMachineBCH2021(true);
+const vmNonStandard = createVirtualMachineXEC(false);
+const vmStandard = createVirtualMachineXEC(true);
 
 pendingTests.map((expectation) => {
   const description = `[script_tests] ${expectation.testIndex}/${
@@ -126,7 +125,7 @@ pendingTests.map((expectation) => {
       const program = createTestAuthenticationProgramBCH({
         lockingBytecode,
         unlockingBytecode,
-        valueSatoshis: bigIntToBinUint64LE(BigInt(expectation.valueSatoshis)),
+        valueSatoshis: BigInt(expectation.valueSatoshis),
       });
       const result = vm.evaluate(program);
       const valid = expectation.flags.dirtyStack

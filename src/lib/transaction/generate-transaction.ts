@@ -93,6 +93,7 @@ export const compileInputTemplate = <
   inputTemplate,
   index,
   template,
+  outputs,
 }: {
   inputTemplate: InputTemplate<CompilerType>;
   index: number;
@@ -101,22 +102,26 @@ export const compileInputTemplate = <
 }): BytecodeGenerationErrorUnlocking | Input => {
   if ('script' in inputTemplate.unlockingBytecode) {
     const directive = inputTemplate.unlockingBytecode;
+    // TODO: workaround, replace by migrating to PST format
+    const sourceOutputs = [];
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    sourceOutputs[index] = {
+      lockingBytecode: Uint8Array.of(),
+      valueSatoshis: inputTemplate.unlockingBytecode.valueSatoshis,
+    };
     const result = directive.compiler.generateBytecode({
       data: {
         ...directive.data,
-        /**
-         * TODO: skipped during refactor – fix when migrating to PST format/workflow
-         */
         compilationContext: {
           inputIndex: index,
-          sourceOutputs: [],
+          sourceOutputs,
           transaction: {
-            inputs: [],
+            inputs: template.inputs,
             locktime: template.locktime,
-            outputs: [],
+            outputs,
             version: template.version,
           },
-        } as unknown as CompilationContext,
+        } as CompilationContext,
       },
       debug: true,
       scriptId: directive.script,

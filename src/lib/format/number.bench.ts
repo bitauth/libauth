@@ -22,8 +22,8 @@ import {
 test(`node: binToBigIntUintBE vs. binToHex -> BigInt()`, async (t) => {
   await suite(t.title, (s) => {
     let sourceBin: Uint8Array;
-    let num: BigInt;
-    let result: BigInt;
+    let num: bigint;
+    let result: bigint;
 
     const nextCycle = () => {
       const uint256Length = 32;

@@ -294,11 +294,12 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
     nodes,
     trace,
   });
+
   t.deepEqual(
     nodes,
     [
       {
-        bytecode: Uint8Array.of(0),
+        bytecode: hexToBin('00'),
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -307,7 +308,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         },
       },
       {
-        bytecode: Uint8Array.of(0x01),
+        bytecode: hexToBin('01'),
         range: {
           endColumn: 10,
           endLineNumber: 1,
@@ -408,7 +409,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             },
           ],
         },
-
         trace: [
           {
             alternateStack: [],
@@ -430,7 +430,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
                 opcode: 83,
               },
               {
-                data: Uint8Array.of(0),
+                data: hexToBin('00'),
                 opcode: 1,
               },
               {
@@ -456,7 +456,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
                 opcode: 83,
               },
               {
-                data: Uint8Array.of(0),
+                data: hexToBin('00'),
                 opcode: 1,
               },
               {
@@ -482,7 +482,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
                 opcode: 83,
               },
               {
-                data: Uint8Array.of(0),
+                data: hexToBin('00'),
                 opcode: 1,
               },
               {
@@ -498,7 +498,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             program,
             signatureOperationsCount: 0,
             signedMessages: [],
-            stack: [hexToBin('03'), Uint8Array.of(0)],
+            stack: [hexToBin('03'), hexToBin('00')],
           },
           {
             alternateStack: [],
@@ -508,7 +508,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
                 opcode: 83,
               },
               {
-                data: Uint8Array.of(0),
+                data: hexToBin('00'),
                 opcode: 1,
               },
               {
@@ -524,7 +524,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             program,
             signatureOperationsCount: 0,
             signedMessages: [],
-            stack: [Uint8Array.of(0), hexToBin('03')],
+            stack: [hexToBin('00'), hexToBin('03')],
           },
           {
             alternateStack: [],
@@ -534,7 +534,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
                 opcode: 83,
               },
               {
-                data: Uint8Array.of(0),
+                data: hexToBin('00'),
                 opcode: 1,
               },
               {
@@ -560,7 +560,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
                 opcode: 83,
               },
               {
-                data: Uint8Array.of(0),
+                data: hexToBin('00'),
                 opcode: 1,
               },
               {
@@ -1049,7 +1049,7 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
   });
 });
 
-test.failing('extractEvaluationSamples: error in initial validation', (t) => {
+test('extractEvaluationSamples: error in initial validation', (t) => {
   const result = compiler.generateBytecode({
     data: {},
     debug: true,
@@ -1065,7 +1065,7 @@ test.failing('extractEvaluationSamples: error in initial validation', (t) => {
     sourceOutputs: [
       {
         lockingBytecode: Uint8Array.of(Opcodes.OP_1),
-        valueSatoshis: Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
+        valueSatoshis: 0n,
       },
     ],
     transaction: {
@@ -1081,7 +1081,7 @@ test.failing('extractEvaluationSamples: error in initial validation', (t) => {
       outputs: [
         {
           lockingBytecode: Uint8Array.of(),
-          valueSatoshis: Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
+          valueSatoshis: 0n,
         },
       ],
       version: 0,

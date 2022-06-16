@@ -11,7 +11,7 @@ import {
   numberToBinInt32TwosCompliment,
 } from '../../../lib.js';
 // eslint-disable-next-line import/no-internal-modules, import/no-restricted-paths
-import sighashTests from '../bch/2021/fixtures/bchn/sighash.json' assert { type: 'json' };
+import sighashTests from '../xec/fixtures/satoshi-client/sighash.json' assert { type: 'json' };
 
 const tests = Object.values(sighashTests)
   .filter((e) => e.length !== 1 && e.length < 8)
@@ -52,7 +52,7 @@ pendingTests.map((expectation, currentTest) => {
     const sourceOutputs = [];
     sourceOutputs[expectation.inputIndex] = {
       lockingBytecode: Uint8Array.of(),
-      valueSatoshis: new Uint8Array(8),
+      valueSatoshis: 0n,
     };
 
     const components = generateSigningSerializationComponentsBCH({

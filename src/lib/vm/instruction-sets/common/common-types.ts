@@ -1,4 +1,3 @@
-import { hexToBin } from '../../../format/format.js';
 import type {
   AuthenticationInstruction,
   AuthenticationProgramCommon,
@@ -6,7 +5,6 @@ import type {
   AuthenticationProgramStateCommon,
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
-  AuthenticationProgramStateInternalCommon,
   AuthenticationProgramStateStack,
   Input,
   Operation,
@@ -59,24 +57,6 @@ export const checkLimitsCommon =
 export const cloneStack = (stack: readonly Readonly<Uint8Array>[]) =>
   stack.map((item) => item.slice());
 
-export const createAuthenticationProgramInternalStateCommon = ({
-  instructions,
-  stack = [],
-}: {
-  instructions: readonly AuthenticationInstruction[];
-  stack?: Uint8Array[];
-}): AuthenticationProgramStateInternalCommon => ({
-  alternateStack: [],
-  controlStack: [],
-  instructions,
-  ip: 0,
-  lastCodeSeparator: -1,
-  operationCount: 0,
-  signatureOperationsCount: 0,
-  signedMessages: [],
-  stack,
-});
-
 export const createAuthenticationProgramStateCommon = ({
   program,
   instructions,
@@ -86,11 +66,16 @@ export const createAuthenticationProgramStateCommon = ({
   instructions: readonly AuthenticationInstruction[];
   stack: Uint8Array[];
 }): AuthenticationProgramStateCommon => ({
-  ...createAuthenticationProgramInternalStateCommon({
-    instructions,
-    stack,
-  }),
+  alternateStack: [],
+  controlStack: [],
+  instructions,
+  ip: 0,
+  lastCodeSeparator: -1,
+  operationCount: 0,
   program,
+  signatureOperationsCount: 0,
+  signedMessages: [],
+  stack,
 });
 
 export const cloneAuthenticationProgramCommon = <
@@ -174,7 +159,7 @@ export const createCompilationContextCommonTesting = ({
     : [
         {
           lockingBytecode: Uint8Array.from([]),
-          valueSatoshis: hexToBin('ffffffffffffffff'),
+          valueSatoshis: 0xffffffffffffffffn,
         },
       ],
   transaction: {
@@ -194,7 +179,7 @@ export const createCompilationContextCommonTesting = ({
         ? [
             {
               lockingBytecode: Uint8Array.from([]),
-              valueSatoshis: hexToBin('ffffffffffffffff'),
+              valueSatoshis: 0xffffffffffffffffn,
             },
           ]
         : outputs,

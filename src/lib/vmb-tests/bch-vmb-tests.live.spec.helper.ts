@@ -1,6 +1,6 @@
 /* eslint-disable no-console, functional/no-expression-statement */
 
-// TODO: finish live VMB test generation
+// TODO: finish this simple wallet CLI
 
 import { randomBytes } from 'node:crypto';
 import { writeFileSync } from 'node:fs';
@@ -9,7 +9,6 @@ import { resolve } from 'node:path';
 import {
   authenticationTemplateToCompilerConfiguration,
   binsAreEqual,
-  binToBigIntUint64LE,
   binToHex,
   cashAddressToLockingBytecode,
   createCompilerBCH,
@@ -23,6 +22,7 @@ import {
   hdPrivateKeyToP2pkhLockingBytecode,
   hexToBin,
   isHex,
+  lockingBytecodeToBase58Address,
   lockingBytecodeToCashAddress,
   stringify,
 } from '../lib.js';
@@ -32,23 +32,23 @@ Usage:
 
 # Generate an HD private key
 ============================
-Command: yarn gen:vmb-tests-live private [seed]
+Command: yarn wallet private [optional-hex-encoded-seed]
 
-Generate a new private key to use when funding tests. To provide entropy from another source, a hex-encoded seed can be provided. A seed should include between 16 bytes and 64 bytes of entropy (recommended: 32 bytes).
+Generate a new private key to use when funding tests. To provide entropy from another source, a hex-encoded seed can optionally be provided. A seed should include between 16 bytes and 64 bytes of entropy (recommended: 32 bytes).
 
 
 # Generate a funding address
 ============================
-Command: yarn gen:vmb-tests-live address <prefix> <hd_private_key>
-   E.g.: yarn gen:vmb-tests-live address bitcoincash xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ6zZNcJaiJogsRaLaYFFjs48qt4Fg7y1GnmrchQt1zFNu6QVnta
+Command: yarn wallet address <prefix> <hd_private_key> [optional-address-index]
+   E.g.: yarn wallet address bitcoincash xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ6zZNcJaiJogsRaLaYFFjs48qt4Fg7y1GnmrchQt1zFNu6QVnta
 
 To generate an address, provide the CashAddress prefix and the xprv of the HD key to use when generating the funding transaction. Typical prefixes are: bitcoincash, bchtest, bchreg
 
 
-# Generate the tests
+# Generate the transaction(s)
 ====================
-Command: yarn gen:vmb-tests-live generate <hd_private_key> <transaction_hex>
-   E.g.: yarn gen:vmb-tests-live generate out/transactions.json xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ6zZNcJaiJogsRaLaYFFjs48qt4Fg7y1GnmrchQt1zFNu6QVnta 020000...
+Command: yarn wallet generate <hd_private_key> <transaction_hex>
+   E.g.: yarn wallet generate out/transactions.json xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ6zZNcJaiJogsRaLaYFFjs48qt4Fg7y1GnmrchQt1zFNu6QVnta 020000...
 
 For <transaction_hex>, provide the full, encoded funding transaction. The generate command will use the first output paying to index 0 of the provided address.
 `;
@@ -86,12 +86,13 @@ Derived a new HD private key from seed: ${binToHex(seed)}
 
 HD private key: ${privateKey}
 
-To use it, run: yarn gen:vmb-tests-live address <prefix> <hd_private_key>
+To use it, run: yarn wallet address <prefix> <hd_private_key> [index]
 
 For <prefix> provide the CashAddress prefix to use. Typical prefixes are: bitcoincash, bchtest, bchreg
+For [index], optionally provide an address index to use (default: 0)
 
-E.g.:
-yarn gen:vmb-tests-live address bitcoincash ${privateKey}
+E.g. for a mainnet address:
+yarn wallet address bitcoincash ${privateKey}
   `);
 
   process.exit(0);
@@ -113,14 +114,28 @@ if (arg1 === 'address') {
     hdKey: arg3,
     prefix: arg2 as 'bchreg' | 'bchtest' | 'bitcoincash',
   });
+  const { bytecode } = cashAddressToLockingBytecode(address) as {
+    bytecode: Uint8Array;
+    prefix: string;
+  };
+  const legacyAddress = lockingBytecodeToBase58Address(
+    bytecode,
+    'mainnet'
+  ) as string;
+  const copayAddress = lockingBytecodeToBase58Address(
+    bytecode,
+    'copayBCH'
+  ) as string;
   console.log(`
 Derived address index ${fundingAddressIndex} from key ID: ${binToHex(keyId)}.
 
 Send funds to this address:
 ${address}
 
+(Legacy format: ${legacyAddress}, Copay legacy format: ${copayAddress})
+
 When the funding transaction has been created, run the "generate" command:
-yarn gen:vmb-tests-live generate ${arg3} <transaction_hex>
+yarn wallet generate ${arg3} <transaction_hex>
 
 For <transaction_hex>, provide the full, encoded funding transaction. The generate command will use the first output paying to index 0 of the provided address.
 `);
@@ -182,7 +197,7 @@ if (typeof outputLockingBytecode === 'string') {
   process.exit(1);
 }
 
-const fundingUtxoValue = Number(binToBigIntUint64LE(fundingUtxo.valueSatoshis));
+const fundingUtxoValue = Number(fundingUtxo.valueSatoshis);
 const expectedInputTransactionSizeBytes = 1000;
 const setupOutputValue = fundingUtxoValue - expectedInputTransactionSizeBytes;
 const finalOutputValue = setupOutputValue - expectedInputTransactionSizeBytes;

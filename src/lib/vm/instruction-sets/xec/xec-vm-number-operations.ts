@@ -1,7 +1,7 @@
 import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
-} from '../../../../lib';
+} from '../../../lib';
 import {
   applyError,
   AuthenticationErrorCommon,
@@ -15,11 +15,11 @@ import {
   useOneVmNumber,
   useThreeVmNumbers,
   useTwoVmNumbers,
-} from '../../common/common.js';
+} from '../common/common.js';
 
-import { ConsensusBCH2021 } from './bch-2021-types.js';
+import { ConsensusXEC } from './xec-types.js';
 
-const maximumVmNumberByteLength = ConsensusBCH2021.maximumVmNumberLength;
+const maximumVmNumberByteLength = ConsensusXEC.maximumVmNumberLength;
 
 export const opPick4Byte = <
   State extends AuthenticationProgramStateError &
@@ -77,7 +77,7 @@ export const opNum2Bin4Byte = <
 ) =>
   useOneVmNumber(state, (nextState, value) => {
     const targetLength = Number(value);
-    return targetLength > ConsensusBCH2021.maximumStackItemLength
+    return targetLength > ConsensusXEC.maximumStackItemLength
       ? applyError(
           nextState,
           AuthenticationErrorCommon.exceededMaximumStackItemLength
@@ -99,7 +99,7 @@ export const opNum2Bin4Byte = <
                 );
           },
           {
-            maximumVmNumberByteLength: ConsensusBCH2021.maximumStackItemLength,
+            maximumVmNumberByteLength: ConsensusXEC.maximumStackItemLength,
             requireMinimalEncoding: false,
           }
         );
@@ -115,7 +115,7 @@ export const opBin2Num4Byte = <
     state,
     (nextState, [target]) => {
       const minimallyEncoded = bigIntToVmNumber(target);
-      return minimallyEncoded.length > ConsensusBCH2021.maximumVmNumberLength
+      return minimallyEncoded.length > ConsensusXEC.maximumVmNumberLength
         ? applyError(
             nextState,
             AuthenticationErrorCommon.exceededMaximumVmNumberLength
@@ -123,7 +123,7 @@ export const opBin2Num4Byte = <
         : pushToStack(nextState, minimallyEncoded);
     },
     {
-      maximumVmNumberByteLength: ConsensusBCH2021.maximumStackItemLength,
+      maximumVmNumberByteLength: ConsensusXEC.maximumStackItemLength,
       requireMinimalEncoding: false,
     }
   );
@@ -137,7 +137,7 @@ export const op1Add4Byte = <
   useOneVmNumber(
     state,
     (nextState, [value]) =>
-      pushToStack(nextState, bigIntToVmNumber(value + BigInt(1))),
+      pushToStack(nextState, bigIntToVmNumber(value + 1n)),
     { maximumVmNumberByteLength }
   );
 
@@ -150,7 +150,7 @@ export const op1Sub4Byte = <
   useOneVmNumber(
     state,
     (nextState, [value]) =>
-      pushToStack(nextState, bigIntToVmNumber(value - BigInt(1))),
+      pushToStack(nextState, bigIntToVmNumber(value - 1n)),
     { maximumVmNumberByteLength }
   );
 
@@ -190,9 +190,7 @@ export const opNot4Byte = <
     (nextState, [value]) =>
       pushToStack(
         nextState,
-        value === BigInt(0)
-          ? bigIntToVmNumber(BigInt(1))
-          : bigIntToVmNumber(BigInt(0))
+        value === 0n ? bigIntToVmNumber(1n) : bigIntToVmNumber(0n)
       ),
     { maximumVmNumberByteLength }
   );
@@ -208,9 +206,7 @@ export const op0NotEqual4Byte = <
     (nextState, [value]) =>
       pushToStack(
         nextState,
-        value === BigInt(0)
-          ? bigIntToVmNumber(BigInt(0))
-          : bigIntToVmNumber(BigInt(1))
+        value === 0n ? bigIntToVmNumber(0n) : bigIntToVmNumber(1n)
       ),
     { maximumVmNumberByteLength }
   );
@@ -250,7 +246,7 @@ export const opDiv4Byte = <
   useTwoVmNumbers(
     state,
     (nextState, [a, b]) =>
-      b === BigInt(0)
+      b === 0n
         ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
         : pushToStack(nextState, bigIntToVmNumber(a / b)),
     { maximumVmNumberByteLength }
@@ -265,7 +261,7 @@ export const opMod4Byte = <
   useTwoVmNumbers(
     state,
     (nextState, [a, b]) =>
-      b === BigInt(0)
+      b === 0n
         ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
         : pushToStack(nextState, bigIntToVmNumber(a % b)),
     { maximumVmNumberByteLength }
@@ -282,7 +278,7 @@ export const opBoolAnd4Byte = <
     (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
-        booleanToVmNumber(firstValue !== BigInt(0) && secondValue !== BigInt(0))
+        booleanToVmNumber(firstValue !== 0n && secondValue !== 0n)
       ),
     { maximumVmNumberByteLength }
   );
@@ -298,7 +294,7 @@ export const opBoolOr4Byte = <
     (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
-        booleanToVmNumber(firstValue !== BigInt(0) || secondValue !== BigInt(0))
+        booleanToVmNumber(firstValue !== 0n || secondValue !== 0n)
       ),
     { maximumVmNumberByteLength }
   );

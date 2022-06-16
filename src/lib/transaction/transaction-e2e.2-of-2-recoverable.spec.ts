@@ -9,7 +9,6 @@ import type {
 } from '../lib';
 import {
   authenticationTemplateToCompilerBCH,
-  bigIntToBinUint64LE,
   CashAddressNetworkPrefix,
   compileCashAssembly,
   createVirtualMachineBCH,
@@ -37,7 +36,7 @@ import {
 const vm = createVirtualMachineBCH();
 
 // eslint-disable-next-line complexity
-test.failing('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
+test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   const template = importAuthenticationTemplate(twoOfTwoRecoverableJson);
   if (typeof template === 'string') {
     t.fail(template);
@@ -93,12 +92,12 @@ test.failing('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   const valueSatoshis = 10000;
   const utxoOutput1 = {
     lockingBytecode: lockingBytecode.bytecode,
-    valueSatoshis: bigIntToBinUint64LE(BigInt(valueSatoshis)),
+    valueSatoshis: BigInt(valueSatoshis),
   };
 
   const utxoOutput2 = {
     lockingBytecode: lockingBytecode.bytecode,
-    valueSatoshis: bigIntToBinUint64LE(BigInt(valueSatoshis)),
+    valueSatoshis: BigInt(valueSatoshis),
   };
 
   /**
@@ -138,7 +137,7 @@ test.failing('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
     outputs: [
       {
         lockingBytecode: hexToBin('6a0b68656c6c6f20776f726c64'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(0)),
+        valueSatoshis: 0n,
       },
     ],
     version: 2,

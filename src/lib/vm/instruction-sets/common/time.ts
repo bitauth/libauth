@@ -1,7 +1,7 @@
 import type {
-  AuthenticationProgramStateCommon,
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
+  AuthenticationProgramStateTransactionContext,
 } from '../../../lib';
 
 import { applyError, AuthenticationErrorCommon } from './errors.js';
@@ -60,7 +60,9 @@ const locktimeTypesAreCompatible = (
     requiredLocktime >= Constants.locktimeThreshold);
 
 export const opCheckLockTimeVerify = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State
 ) =>
@@ -95,7 +97,9 @@ export const opCheckLockTimeVerify = <
 const includesFlag = (value: number, flag: number) => (value & flag) !== 0;
 
 export const opCheckSequenceVerify = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State
 ) =>

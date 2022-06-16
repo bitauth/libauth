@@ -25,7 +25,7 @@ export const op1Add = <
   state: State
 ) =>
   useOneVmNumber(state, (nextState, [value]) =>
-    pushToStackVmNumberChecked(nextState, value + BigInt(1))
+    pushToStackVmNumberChecked(nextState, value + 1n)
   );
 
 export const op1Sub = <
@@ -35,7 +35,7 @@ export const op1Sub = <
   state: State
 ) =>
   useOneVmNumber(state, (nextState, [value]) =>
-    pushToStack(nextState, bigIntToVmNumber(value - BigInt(1)))
+    pushToStack(nextState, bigIntToVmNumber(value - 1n))
   );
 
 export const opNegate = <
@@ -67,9 +67,7 @@ export const opNot = <
   useOneVmNumber(state, (nextState, [value]) =>
     pushToStack(
       nextState,
-      value === BigInt(0)
-        ? bigIntToVmNumber(BigInt(1))
-        : bigIntToVmNumber(BigInt(0))
+      value === 0n ? bigIntToVmNumber(1n) : bigIntToVmNumber(0n)
     )
   );
 
@@ -82,9 +80,7 @@ export const op0NotEqual = <
   useOneVmNumber(state, (nextState, [value]) =>
     pushToStack(
       nextState,
-      value === BigInt(0)
-        ? bigIntToVmNumber(BigInt(0))
-        : bigIntToVmNumber(BigInt(1))
+      value === 0n ? bigIntToVmNumber(0n) : bigIntToVmNumber(1n)
     )
   );
 
@@ -117,7 +113,7 @@ export const opBoolAnd = <
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
     pushToStack(
       nextState,
-      booleanToVmNumber(firstValue !== BigInt(0) && secondValue !== BigInt(0))
+      booleanToVmNumber(firstValue !== 0n && secondValue !== 0n)
     )
   );
 
@@ -130,7 +126,7 @@ export const opBoolOr = <
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
     pushToStack(
       nextState,
-      booleanToVmNumber(firstValue !== BigInt(0) || secondValue !== BigInt(0))
+      booleanToVmNumber(firstValue !== 0n || secondValue !== 0n)
     )
   );
 
@@ -252,7 +248,7 @@ export const opDiv = <
   state: State
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    secondValue === BigInt(0)
+    secondValue === 0n
       ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
       : pushToStack(nextState, bigIntToVmNumber(firstValue / secondValue))
   );
@@ -264,7 +260,7 @@ export const opMod = <
   state: State
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    secondValue === BigInt(0)
+    secondValue === 0n
       ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
       : pushToStack(nextState, bigIntToVmNumber(firstValue % secondValue))
   );

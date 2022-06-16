@@ -1,4 +1,4 @@
-export enum OpcodeDescriptionsBCH2021 {
+export enum OpcodeDescriptionsXEC {
   OP_0 = 'Push the VM Number 0 onto the stack.',
   OP_PUSHBYTES_1 = 'Push the next byte onto the stack.',
   OP_PUSHBYTES_2 = 'Push the next 2 bytes onto the stack.',

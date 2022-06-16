@@ -993,9 +993,8 @@ export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
     derivation.slice(0, tweakValueLength)
   );
   const childPrivateValue = binToBigIntUint256BE(childPrivateNode.privateKey);
-  const secp256k1OrderN = BigInt(
-    '0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141'
-  );
+  const secp256k1OrderN =
+    0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141n;
   const trueMod = (n: bigint, m: bigint) => ((n % m) + m) % m;
 
   const parentPrivateValue = trueMod(

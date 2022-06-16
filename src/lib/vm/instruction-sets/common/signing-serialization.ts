@@ -3,6 +3,7 @@ import {
   bigIntToVarInt,
   flattenBinArray,
   numberToBinUint32LE,
+  valueSatoshisToBin,
 } from '../../../format/format.js';
 import type { CompilationContextBCH, Sha256 } from '../../../lib';
 import {
@@ -367,8 +368,10 @@ export const generateSigningSerializationComponentsBCH = (
   outpointTransactionHash:
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     context.transaction.inputs[context.inputIndex]!.outpointTransactionHash,
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  outputValue: context.sourceOutputs[context.inputIndex]!.valueSatoshis,
+  outputValue: valueSatoshisToBin(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    context.sourceOutputs[context.inputIndex]!.valueSatoshis
+  ),
   sequenceNumber:
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     context.transaction.inputs[context.inputIndex]!.sequenceNumber,

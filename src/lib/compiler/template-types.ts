@@ -73,12 +73,8 @@ export interface AuthenticationTemplate {
    *
    * Identifiers with the `_SPEC` suffix indicate that this template is intended
    * for compatibility with a future virtual machine version, but at the time
-   * the template was create, that virtual machine had not yet become active on
+   * the template was created, that virtual machine had not yet become active on
    * the specified chain.
-   *
-   * The earliest possible `_SPEC` virtual machine version is `BCH_2020_11_SPEC`,
-   * the first virtual machine version after the public release of the version `0`
-   * AuthenticationTemplate format.
    */
   supported: AuthenticationVirtualMachineIdentifier[];
   /**
@@ -88,36 +84,31 @@ export interface AuthenticationTemplate {
   version: 0;
 }
 
-// TODO: clean up VM versions?
 /**
  * Allowable identifiers for authentication virtual machine versions. The `BCH`
- * prefix identifies the Bitcoin Cash network, the `BSV` prefix identifies the
- * Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin (Core)
- * network.
+ * prefix identifies the Bitcoin Cash network, the `XEC` prefix identifies the
+ * eCash network, the `BSV` prefix identifies the Bitcoin SV network, and the
+ * `BTC` prefix identifies the Bitcoin Core network. VM versions are named
+ * according to the date they were deployed on the indicated network.
  *
- * Virtual machine versions may be marked with the `SPEC` suffix to indicate
- * that they have not yet been deployed to a main network and are therefore only
- * a draft specification. After deployment, when template compatibility is
- * verified, templates should update their `supported` array to indicate
- * compatibility with the live virtual machine version.
+ * For each network prefix, a `_SPEC` VM version is reserved to indicate that
+ * the template requires a custom, not-yet-deployed VM version (e.g. one or more
+ * CHIPs). By convention, templates marked for `_SPEC` VMs should indicate their
+ * requirements in the template description. After deployment of the `_SPEC` VM,
+ * when template compatibility is verified, the template's `supported` array
+ * should be updated to indicate compatibility with the live VM version.
  */
 export type AuthenticationVirtualMachineIdentifier =
-  | 'BCH_2019_05'
-  | 'BCH_2019_11'
   | 'BCH_2020_05'
-  | 'BCH_2020_11_SPEC'
-  | 'BCH_2020_11'
-  | 'BCH_2021_05_SPEC'
   | 'BCH_2021_05'
-  | 'BCH_2021_11_SPEC'
-  | 'BCH_2021_11'
-  | 'BCH_2022_05_SPEC'
   | 'BCH_2022_05'
-  | 'BCH_2022_11_SPEC'
-  | 'BCH_2022_11'
-  | 'BSV_2018_11'
+  | 'BCH_SPEC'
   | 'BSV_2020_02'
-  | 'BTC_2017_08';
+  | 'BSV_SPEC'
+  | 'BTC_2017_08'
+  | 'BTC_SPEC'
+  | 'XEC_2020_05'
+  | 'XEC_SPEC';
 
 /**
  * An object describing the configuration for a particular entity within an

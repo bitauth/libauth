@@ -89,14 +89,12 @@ test('7', vectors, {
     'e37b6a775dc87dbaa4dfa9f96e5e3ffddebd71f8867289865df5a32d20cdc944b6022cac3c4982b10d5eeb55c3e4de15134676fb6de0446065c97440fa8c6a58',
 });
 
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, 255), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
-
 testProp(
   '[fast-check] [crypto] hmacSha256 is equivalent to Node.js native HMAC-SHA256',
-  [fcUint8Array(1, 100), fcUint8Array(1, 100)],
+  [
+    fc.uint8Array({ maxLength: 100, minLength: 1 }),
+    fc.uint8Array({ maxLength: 100, minLength: 1 }),
+  ],
   (t, secret, message) => {
     t.deepEqual(
       binToHex(hmacSha256(secret, message)),
@@ -107,7 +105,10 @@ testProp(
 
 testProp(
   '[fast-check] [crypto] hmacSha512 is equivalent to Node.js native HMAC-SHA512',
-  [fcUint8Array(0, 100), fcUint8Array(0, 100)],
+  [
+    fc.uint8Array({ maxLength: 100, minLength: 0 }),
+    fc.uint8Array({ maxLength: 100, minLength: 0 }),
+  ],
   (t, secret, message) => {
     t.deepEqual(
       binToHex(hmacSha512(secret, message)),

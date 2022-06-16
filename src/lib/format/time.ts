@@ -1,4 +1,4 @@
-import { binToNumberUint32LE, numberToBinUint32LE } from './numbers.js';
+import { binToNumberUint32LE, numberToBinUint32LE } from './number.js';
 
 const msPerLocktimeSecond = 1000;
 

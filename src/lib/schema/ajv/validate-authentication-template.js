@@ -54,7 +54,7 @@ const schema22 = {
         },
         supported: {
           description:
-            'A list of authentication virtual machine versions supported by this template.\n\nVirtual machine identifiers use the format `CODE_YYYY_MM`, where `CODE` is the currency code used to identify the network, and `YYYY_MM` is the year and month in which the specified VM version became active on the indicated network.\n\nIdentifiers with the `_SPEC` suffix indicate that this template is intended for compatibility with a future virtual machine version, but at the time the template was create, that virtual machine had not yet become active on the specified chain.\n\nThe earliest possible `_SPEC` virtual machine version is `BCH_2020_11_SPEC`, the first virtual machine version after the public release of the version `0` AuthenticationTemplate format.',
+            'A list of authentication virtual machine versions supported by this template.\n\nVirtual machine identifiers use the format `CODE_YYYY_MM`, where `CODE` is the currency code used to identify the network, and `YYYY_MM` is the year and month in which the specified VM version became active on the indicated network.\n\nIdentifiers with the `_SPEC` suffix indicate that this template is intended for compatibility with a future virtual machine version, but at the time the template was created, that virtual machine had not yet become active on the specified chain.',
           items: {
             $ref: '#/definitions/AuthenticationVirtualMachineIdentifier',
           },
@@ -642,24 +642,18 @@ const schema22 = {
     },
     AuthenticationVirtualMachineIdentifier: {
       description:
-        'Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin (Core) network.\n\nVirtual machine versions may be marked with the `SPEC` suffix to indicate that they have not yet been deployed to a main network and are therefore only a draft specification. After deployment, when template compatibility is verified, templates should update their `supported` array to indicate compatibility with the live virtual machine version.',
+        "Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `XEC` prefix identifies the eCash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin Core network. VM versions are named according to the date they were deployed on the indicated network.\n\nFor each network prefix, a `_SPEC` VM version is reserved to indicate that the template requires a custom, not-yet-deployed VM version (e.g. one or more CHIPs). By convention, templates marked for `_SPEC` VMs should indicate their requirements in the template description. After deployment of the `_SPEC` VM, when template compatibility is verified, the template's `supported` array should be updated to indicate compatibility with the live VM version.",
       enum: [
-        'BCH_2019_05',
-        'BCH_2019_11',
         'BCH_2020_05',
-        'BCH_2020_11_SPEC',
-        'BCH_2020_11',
-        'BCH_2021_05_SPEC',
         'BCH_2021_05',
-        'BCH_2021_11_SPEC',
-        'BCH_2021_11',
-        'BCH_2022_05_SPEC',
         'BCH_2022_05',
-        'BCH_2022_11_SPEC',
-        'BCH_2022_11',
-        'BSV_2018_11',
+        'BCH_SPEC',
         'BSV_2020_02',
+        'BSV_SPEC',
         'BTC_2017_08',
+        'BTC_SPEC',
+        'XEC_2020_05',
+        'XEC_SPEC',
       ],
       type: 'string',
     },
@@ -716,7 +710,7 @@ const schema23 = {
     },
     supported: {
       description:
-        'A list of authentication virtual machine versions supported by this template.\n\nVirtual machine identifiers use the format `CODE_YYYY_MM`, where `CODE` is the currency code used to identify the network, and `YYYY_MM` is the year and month in which the specified VM version became active on the indicated network.\n\nIdentifiers with the `_SPEC` suffix indicate that this template is intended for compatibility with a future virtual machine version, but at the time the template was create, that virtual machine had not yet become active on the specified chain.\n\nThe earliest possible `_SPEC` virtual machine version is `BCH_2020_11_SPEC`, the first virtual machine version after the public release of the version `0` AuthenticationTemplate format.',
+        'A list of authentication virtual machine versions supported by this template.\n\nVirtual machine identifiers use the format `CODE_YYYY_MM`, where `CODE` is the currency code used to identify the network, and `YYYY_MM` is the year and month in which the specified VM version became active on the indicated network.\n\nIdentifiers with the `_SPEC` suffix indicate that this template is intended for compatibility with a future virtual machine version, but at the time the template was created, that virtual machine had not yet become active on the specified chain.',
       items: { $ref: '#/definitions/AuthenticationVirtualMachineIdentifier' },
       type: 'array',
     },
@@ -827,24 +821,18 @@ const schema41 = {
 };
 const schema42 = {
   description:
-    'Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin (Core) network.\n\nVirtual machine versions may be marked with the `SPEC` suffix to indicate that they have not yet been deployed to a main network and are therefore only a draft specification. After deployment, when template compatibility is verified, templates should update their `supported` array to indicate compatibility with the live virtual machine version.',
+    "Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `XEC` prefix identifies the eCash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin Core network. VM versions are named according to the date they were deployed on the indicated network.\n\nFor each network prefix, a `_SPEC` VM version is reserved to indicate that the template requires a custom, not-yet-deployed VM version (e.g. one or more CHIPs). By convention, templates marked for `_SPEC` VMs should indicate their requirements in the template description. After deployment of the `_SPEC` VM, when template compatibility is verified, the template's `supported` array should be updated to indicate compatibility with the live VM version.",
   enum: [
-    'BCH_2019_05',
-    'BCH_2019_11',
     'BCH_2020_05',
-    'BCH_2020_11_SPEC',
-    'BCH_2020_11',
-    'BCH_2021_05_SPEC',
     'BCH_2021_05',
-    'BCH_2021_11_SPEC',
-    'BCH_2021_11',
-    'BCH_2022_05_SPEC',
     'BCH_2022_05',
-    'BCH_2022_11_SPEC',
-    'BCH_2022_11',
-    'BSV_2018_11',
+    'BCH_SPEC',
     'BSV_2020_02',
+    'BSV_SPEC',
     'BTC_2017_08',
+    'BTC_SPEC',
+    'XEC_2020_05',
+    'XEC_SPEC',
   ],
   type: 'string',
 };
@@ -6283,22 +6271,16 @@ function validate21(
                               }
                               if (
                                 !(
-                                  data27 === 'BCH_2019_05' ||
-                                  data27 === 'BCH_2019_11' ||
                                   data27 === 'BCH_2020_05' ||
-                                  data27 === 'BCH_2020_11_SPEC' ||
-                                  data27 === 'BCH_2020_11' ||
-                                  data27 === 'BCH_2021_05_SPEC' ||
                                   data27 === 'BCH_2021_05' ||
-                                  data27 === 'BCH_2021_11_SPEC' ||
-                                  data27 === 'BCH_2021_11' ||
-                                  data27 === 'BCH_2022_05_SPEC' ||
                                   data27 === 'BCH_2022_05' ||
-                                  data27 === 'BCH_2022_11_SPEC' ||
-                                  data27 === 'BCH_2022_11' ||
-                                  data27 === 'BSV_2018_11' ||
+                                  data27 === 'BCH_SPEC' ||
                                   data27 === 'BSV_2020_02' ||
-                                  data27 === 'BTC_2017_08'
+                                  data27 === 'BSV_SPEC' ||
+                                  data27 === 'BTC_2017_08' ||
+                                  data27 === 'BTC_SPEC' ||
+                                  data27 === 'XEC_2020_05' ||
+                                  data27 === 'XEC_SPEC'
                                 )
                               ) {
                                 validate21.errors = [

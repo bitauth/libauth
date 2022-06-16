@@ -1,7 +1,7 @@
 /* eslint-disable no-console, functional/no-expression-statement, @typescript-eslint/no-non-null-assertion */
 import {
-  createVirtualMachineBCH2021,
   createVirtualMachineBCH2022,
+  createVirtualMachineBCHCHIPs,
   decodeTransactionOutputsUnsafe,
   decodeTransactionUnsafeBCH,
   hexToBin,
@@ -16,10 +16,10 @@ import vmbTestsBCHJson from './generated/bch/bch_vmb_tests.json' assert { type: 
 
 const vms = {
   /* eslint-disable @typescript-eslint/naming-convention, camelcase */
-  bch_2021_nonstandard: createVirtualMachineBCH2021(false),
-  bch_2021_standard: createVirtualMachineBCH2021(true),
   bch_2022_nonstandard: createVirtualMachineBCH2022(false),
   bch_2022_standard: createVirtualMachineBCH2022(true),
+  bch_chips_nonstandard: createVirtualMachineBCHCHIPs(false),
+  bch_chips_standard: createVirtualMachineBCHCHIPs(true),
   /* eslint-enable @typescript-eslint/naming-convention, camelcase */
 };
 const isVm = (vmId: string): vmId is keyof typeof vms =>

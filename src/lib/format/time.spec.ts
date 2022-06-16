@@ -43,7 +43,12 @@ test('parseLockTime', (t) => {
 
 testProp(
   '[fast-check] dateToLocktime <-> locktimeToDate',
-  [fc.integer(minimumLocktimeTimestamp, maximumLocktimeTimestamp)],
+  [
+    fc.integer({
+      max: maximumLocktimeTimestamp,
+      min: minimumLocktimeTimestamp,
+    }),
+  ],
   (t, timestamp) =>
     t.deepEqual(dateToLocktime(locktimeToDate(timestamp) as Date), timestamp)
 );

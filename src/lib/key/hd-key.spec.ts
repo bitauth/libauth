@@ -47,12 +47,6 @@ const xpub =
 const tpub =
   'tpubD6NzVbkrYhZ4Was8nwnZi7eiWUNJq2LFpPSCMQLioUfUtT1e72GkRbmVeRAZc26j5MRUz2hRLsaVHJfs6L7ppNfLUrm9btQTuaEsLrT7D87';
 
-const maxUint8Number = 255;
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
-
 const maximumDepth = 255;
 const maximumChildIndex = 0xffffffff;
 const fingerprintLength = 4;
@@ -765,7 +759,10 @@ test(
 
 const fcBip32Path = () =>
   fc
-    .array(fc.integer(0, maximumChildIndex), 1, maximumDepth)
+    .array(fc.integer({ max: maximumChildIndex, min: 0 }), {
+      maxLength: maximumDepth,
+      minLength: 1,
+    })
     .map(
       (array) =>
         `m/${array
@@ -807,11 +804,14 @@ testProp(
   '[fast-check] [crypto] encodeHdPublicKey <-> decodeHdPublicKey',
   [
     fc.boolean(),
-    fc.integer(0, maximumDepth),
-    fc.integer(0, maximumChildIndex),
-    fcUint8Array(fingerprintLength, fingerprintLength),
-    fcUint8Array(chainCodeLength, chainCodeLength),
-    fcUint8Array(publicKeyLength, publicKeyLength),
+    fc.integer({ max: maximumDepth, min: 0 }),
+    fc.integer({ max: maximumChildIndex, min: 0 }),
+    fc.uint8Array({
+      maxLength: fingerprintLength,
+      minLength: fingerprintLength,
+    }),
+    fc.uint8Array({ maxLength: chainCodeLength, minLength: chainCodeLength }),
+    fc.uint8Array({ maxLength: publicKeyLength, minLength: publicKeyLength }),
   ],
   (
     t,
@@ -846,11 +846,15 @@ testProp(
   '[fast-check] [crypto] encodeHdPrivateKey <-> decodeHdPrivateKey',
   [
     fc.boolean(),
-    fc.integer(0, maximumDepth),
-    fc.integer(0, maximumChildIndex),
-    fcUint8Array(fingerprintLength, fingerprintLength),
-    fcUint8Array(chainCodeLength, chainCodeLength),
-    fcUint8Array(privateKeyLength, privateKeyLength),
+
+    fc.integer({ max: maximumDepth, min: 0 }),
+    fc.integer({ max: maximumChildIndex, min: 0 }),
+    fc.uint8Array({
+      maxLength: fingerprintLength,
+      minLength: fingerprintLength,
+    }),
+    fc.uint8Array({ maxLength: chainCodeLength, minLength: chainCodeLength }),
+    fc.uint8Array({ maxLength: publicKeyLength, minLength: publicKeyLength }),
   ],
   (
     t,
@@ -889,11 +893,14 @@ testProp(
 testProp(
   '[fast-check] [crypto] derive non-hardened HD node <-> crack HD node',
   [
-    fc.integer(0, maximumDepth),
-    fc.integer(0, maximumNonHardenedIndex),
-    fcUint8Array(fingerprintLength, fingerprintLength),
-    fcUint8Array(chainCodeLength, chainCodeLength),
-    fcUint8Array(privateKeyLength, privateKeyLength),
+    fc.integer({ max: maximumDepth, min: 0 }),
+    fc.integer({ max: maximumNonHardenedIndex, min: 0 }),
+    fc.uint8Array({
+      maxLength: fingerprintLength,
+      minLength: fingerprintLength,
+    }),
+    fc.uint8Array({ maxLength: chainCodeLength, minLength: chainCodeLength }),
+    fc.uint8Array({ maxLength: privateKeyLength, minLength: privateKeyLength }),
   ],
   (
     t,

@@ -16,11 +16,10 @@ import type {
   Sha256,
 } from '../../lib';
 import {
-  createAuthenticationVirtualMachine,
-  createInstructionSetBCH,
+  createVirtualMachineBCH,
   generateBytecodeMap,
   generateSigningSerializationBCH,
-  OpcodesBCH2022,
+  OpcodesBCHCHIPs,
   SigningSerializationFlag,
 } from '../../vm/vm.js';
 import {
@@ -622,22 +621,23 @@ export const createCompilerBCH = <
   ProgramState extends AuthenticationProgramStateBCH
 >(
   configuration: Configuration
-) => {
-  const vm = createAuthenticationVirtualMachine(createInstructionSetBCH());
-  return compilerConfigurationToCompilerBCH<Configuration, ProgramState>({
+) =>
+  compilerConfigurationToCompilerBCH<Configuration, ProgramState>({
     ...{
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
-      opcodes: generateBytecodeMap(OpcodesBCH2022),
+      opcodes: generateBytecodeMap(OpcodesBCHCHIPs),
       operations: compilerOperationsBCH,
       ripemd160: internalRipemd160,
       secp256k1: internalSecp256k1,
       sha256: internalSha256,
       sha512: internalSha512,
-      vm,
+      vm:
+        configuration.vm === undefined
+          ? createVirtualMachineBCH()
+          : configuration.vm,
     },
     ...configuration,
   });
-};
 
 export const createCompiler = createCompilerBCH;
 

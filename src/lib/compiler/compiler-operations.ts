@@ -1,4 +1,8 @@
-import { bigIntToVarInt, numberToBinUint32LE } from '../format/format.js';
+import {
+  bigIntToVarInt,
+  numberToBinUint32LE,
+  valueSatoshisToBin,
+} from '../format/format.js';
 import { decodeHdPublicKey, deriveHdPath } from '../key/key.js';
 import type {
   AuthenticationTemplateHdKey,
@@ -200,11 +204,12 @@ export const compilerOperationSigningSerializationOutputValue =
     configurationProperties: [],
     dataProperties: ['compilationContext'],
     operation: (_, data) => ({
-      bytecode:
+      bytecode: valueSatoshisToBin(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         data.compilationContext.sourceOutputs[
           data.compilationContext.inputIndex
-        ]!.valueSatoshis,
+        ]!.valueSatoshis
+      ),
       status: 'success',
     }),
   });

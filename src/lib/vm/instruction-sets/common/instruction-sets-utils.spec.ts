@@ -323,16 +323,11 @@ test('disassembleBytecodeBTC & assembleBytecodeBTC', (t) => {
   });
 });
 
-const maxUint8Number = 255;
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
 const maxBinLength = 100;
 
 testProp(
   '[fast-check] disassembleBytecodeBCH <-> assembleBytecodeBCH',
-  [fcUint8Array(0, maxBinLength)],
+  [fc.uint8Array({ maxLength: maxBinLength, minLength: 0 })],
   (t, randomBytecode: Uint8Array) => {
     const parsed = decodeAuthenticationInstructions(randomBytecode);
     const instructions = (
@@ -367,7 +362,7 @@ testProp(
 
 testProp(
   '[fast-check] disassembleBytecodeBTC <-> assembleBytecodeBTC',
-  [fcUint8Array(0, maxBinLength)],
+  [fc.uint8Array({ maxLength: maxBinLength, minLength: 0 })],
   (t, randomBytecode: Uint8Array) => {
     const parsed = decodeAuthenticationInstructions(randomBytecode);
     const instructions = (

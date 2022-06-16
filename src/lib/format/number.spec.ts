@@ -163,15 +163,15 @@ test('numberToBinInt32TwosCompliment', (t) => {
 
 test('bigIntToBinUint64LE', (t) => {
   t.deepEqual(
-    bigIntToBinUint64LE(BigInt(0)),
+    bigIntToBinUint64LE(0n),
     Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0])
   );
   t.deepEqual(
-    bigIntToBinUint64LE(BigInt(0x01)),
+    bigIntToBinUint64LE(0x01n),
     Uint8Array.from([0x01, 0, 0, 0, 0, 0, 0, 0])
   );
   t.deepEqual(
-    bigIntToBinUint64LE(BigInt(0x12345678)),
+    bigIntToBinUint64LE(0x12345678n),
     Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0])
   );
   t.deepEqual(
@@ -179,39 +179,36 @@ test('bigIntToBinUint64LE', (t) => {
     Uint8Array.from([255, 255, 255, 255, 255, 255, 31, 0])
   );
   t.deepEqual(
-    bigIntToBinUint64LE(BigInt('0xffffffffffffffff')),
+    bigIntToBinUint64LE(0xffffffffffffffffn),
     Uint8Array.from([255, 255, 255, 255, 255, 255, 255, 255])
   );
 });
 
 test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on overflow', (t) => {
   t.deepEqual(
-    bigIntToBinUint64LE(BigInt('0x010000000000000000')),
-    bigIntToBinUint64LE(
-      BigInt('0x010000000000000000') %
-        (BigInt('0xffffffffffffffff') + BigInt(1))
-    )
+    bigIntToBinUint64LE(0x010000000000000000n),
+    bigIntToBinUint64LE(0x010000000000000000n % (0xffffffffffffffffn + 1n))
   );
   t.deepEqual(
-    bigIntToBinUint64LEClamped(BigInt('0x010000000000000000')),
+    bigIntToBinUint64LEClamped(0x010000000000000000n),
     Uint8Array.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])
   );
 });
 
 test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on negative numbers', (t) => {
   t.deepEqual(
-    bigIntToBinUint64LE(BigInt(-1)),
+    bigIntToBinUint64LE(-1n),
     Uint8Array.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])
   );
   t.deepEqual(
-    bigIntToBinUint64LEClamped(BigInt(-1)),
+    bigIntToBinUint64LEClamped(-1n),
     Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0])
   );
 });
 
 test('bigIntToVarInt: larger values return modulo result after opcode', (t) => {
   t.deepEqual(
-    bigIntToVarInt(BigInt('0x010000000000000001')),
+    bigIntToVarInt(0x010000000000000001n),
     Uint8Array.from([0xff, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
   );
 });
@@ -242,7 +239,7 @@ test('binToNumberUintLE', (t) => {
 
 testProp(
   '[fast-check] numberToBinUintLE <-> binToNumberUintLE',
-  [fc.integer(0, Number.MAX_SAFE_INTEGER)],
+  [fc.integer({ max: Number.MAX_SAFE_INTEGER, min: 0 })],
   (t, maxSafeInt) =>
     t.deepEqual(binToNumberUintLE(numberToBinUintLE(maxSafeInt)), maxSafeInt)
 );
@@ -296,42 +293,42 @@ test('binToNumberUint32LE: ignores bytes after the 4th', (t) => {
 });
 
 test('binToBigIntUintBE', (t) => {
-  t.deepEqual(binToBigIntUintBE(Uint8Array.from([0x12])), BigInt(0x12));
-  t.deepEqual(binToBigIntUintBE(Uint8Array.from([0x12, 0x34])), BigInt(0x1234));
+  t.deepEqual(binToBigIntUintBE(Uint8Array.from([0x12])), 0x12n);
+  t.deepEqual(binToBigIntUintBE(Uint8Array.from([0x12, 0x34])), 0x1234n);
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x12, 0x34, 0x56])),
-    BigInt(0x123456)
+    0x123456n
   );
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x12, 0x34, 0x56, 0x78])),
-    BigInt(0x12345678)
+    0x12345678n
   );
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90])),
-    BigInt(0x1234567890)
+    0x1234567890n
   );
   t.deepEqual(
     binToBigIntUintBE(
       Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef])
     ),
-    BigInt('0x1234567890abcdef')
+    0x1234567890abcdefn
   );
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x56, 0x78, 0x90, 0xab, 0xcd, 0xef])),
-    BigInt('0x567890abcdef')
+    0x567890abcdefn
   );
   const d = Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]);
   const view = d.subarray(2);
-  t.deepEqual(binToBigIntUintBE(view), BigInt('0x567890abcdef'));
+  t.deepEqual(binToBigIntUintBE(view), 0x567890abcdefn);
   t.throws(() => {
     binToBigIntUintBE(Uint8Array.of(0x12), 2);
   });
 });
 
 test('binToBigIntUint256BE and bigIntToBinUint256BEClamped', (t) => {
-  t.deepEqual(binToBigIntUint256BE(new Uint8Array(32)), BigInt(0));
-  t.deepEqual(bigIntToBinUint256BEClamped(BigInt(0)), new Uint8Array(32));
-  t.deepEqual(bigIntToBinUint256BEClamped(BigInt(-1)), new Uint8Array(32));
+  t.deepEqual(binToBigIntUint256BE(new Uint8Array(32)), 0n);
+  t.deepEqual(bigIntToBinUint256BEClamped(0n), new Uint8Array(32));
+  t.deepEqual(bigIntToBinUint256BEClamped(-1n), new Uint8Array(32));
   const secp256k1OrderNHex =
     'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141';
   const secp256k1OrderNBin = hexToBin(secp256k1OrderNHex);
@@ -360,33 +357,33 @@ testProp(
 );
 
 test('binToBigIntUintLE', (t) => {
-  t.deepEqual(binToBigIntUintLE(Uint8Array.from([0x12])), BigInt(0x12));
-  t.deepEqual(binToBigIntUintLE(Uint8Array.from([0x34, 0x12])), BigInt(0x1234));
+  t.deepEqual(binToBigIntUintLE(Uint8Array.from([0x12])), 0x12n);
+  t.deepEqual(binToBigIntUintLE(Uint8Array.from([0x34, 0x12])), 0x1234n);
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0x56, 0x34, 0x12])),
-    BigInt(0x123456)
+    0x123456n
   );
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0x78, 0x56, 0x34, 0x12])),
-    BigInt(0x12345678)
+    0x12345678n
   );
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12])),
-    BigInt(0x1234567890)
+    0x1234567890n
   );
   t.deepEqual(
     binToBigIntUintLE(
       Uint8Array.from([0xef, 0xcd, 0xab, 0x90, 0x78, 0x56, 0x34, 0x12])
     ),
-    BigInt('0x1234567890abcdef')
+    0x1234567890abcdefn
   );
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0xab, 0x90, 0x78, 0x56, 0x34, 0x12])),
-    BigInt('0x1234567890ab')
+    0x1234567890abn
   );
   const d = Uint8Array.from([0xef, 0xcd, 0xab, 0x90, 0x78, 0x56, 0x34, 0x12]);
   const view = d.subarray(2);
-  t.deepEqual(binToBigIntUintLE(view), BigInt('0x1234567890ab'));
+  t.deepEqual(binToBigIntUintLE(view), 0x1234567890abn);
   t.throws(() => {
     binToBigIntUintLE(Uint8Array.of(0x12), 2);
   });
@@ -412,13 +409,13 @@ testProp(
 test('binToBigIntUint64LE', (t) => {
   t.deepEqual(
     binToBigIntUint64LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0])),
-    BigInt(0x12345678)
+    0x12345678n
   );
   t.deepEqual(
     binToBigIntUint64LE(
       Uint8Array.from([0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01])
     ),
-    BigInt('0x0123456789abcdef')
+    0x0123456789abcdefn
   );
   t.deepEqual(
     binToBigIntUint64LE(
@@ -426,11 +423,11 @@ test('binToBigIntUint64LE', (t) => {
         0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01, 0x00, 0x00,
       ])
     ),
-    BigInt('0x0123456789abcdef')
+    0x0123456789abcdefn
   );
   const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0, 0]);
   const view = data.subarray(2);
-  t.deepEqual(binToBigIntUint64LE(view), BigInt(0x123456));
+  t.deepEqual(binToBigIntUint64LE(view), 0x123456n);
   t.throws(() =>
     binToBigIntUint64LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12]))
   );
@@ -439,7 +436,7 @@ test('binToBigIntUint64LE', (t) => {
 test('varIntToBigInt: index is optional', (t) => {
   t.deepEqual(varIntToBigInt(hexToBin('00')), {
     nextIndex: 1,
-    value: BigInt(0x00),
+    value: 0x00n,
   });
 });
 
@@ -456,40 +453,40 @@ const varIntVector = test.macro<[string, bigint, number, number?, string?]>({
 });
 
 /* spell-checker: disable */
-test(varIntVector, '00', BigInt(0x00), 1);
-test(varIntVector, '01', BigInt(0x01), 1);
-test(varIntVector, '12', BigInt(0x12), 1);
-test(varIntVector, '6a', BigInt(0x6a), 1);
-test(varIntVector, '00006a', BigInt(0x6a), 3, 2, '6a');
-test(varIntVector, 'fc', BigInt(0xfc), 1);
-test(varIntVector, 'fdfd00', BigInt(0x00fd), 3);
-test(varIntVector, '000000fdfd00', BigInt(0xfd), 6, 3, 'fdfd00');
-test(varIntVector, 'fdfe00', BigInt(0x00fe), 3);
-test(varIntVector, 'fdff00', BigInt(0x00ff), 3);
-test(varIntVector, 'fd1111', BigInt(0x1111), 3);
-test(varIntVector, 'fd1234', BigInt(0x3412), 3);
-test(varIntVector, 'fdfeff', BigInt(0xfffe), 3);
-test(varIntVector, 'fdffff', BigInt(0xffff), 3);
-test(varIntVector, 'fe00000100', BigInt(0x010000), 5);
-test(varIntVector, '00fe00000100', BigInt(0x010000), 6, 1, 'fe00000100');
-test(varIntVector, 'fe01000100', BigInt(0x010001), 5);
-test(varIntVector, 'fe11111111', BigInt(0x11111111), 5);
-test(varIntVector, 'fe12345678', BigInt(0x78563412), 5);
-test(varIntVector, 'feffffffff', BigInt(0xffffffff), 5);
-test(varIntVector, 'ff0000000001000000', BigInt(0x0100000000), 9);
+test(varIntVector, '00', 0x00n, 1);
+test(varIntVector, '01', 0x01n, 1);
+test(varIntVector, '12', 0x12n, 1);
+test(varIntVector, '6a', 0x6an, 1);
+test(varIntVector, '00006a', 0x6an, 3, 2, '6a');
+test(varIntVector, 'fc', 0xfcn, 1);
+test(varIntVector, 'fdfd00', 0x00fdn, 3);
+test(varIntVector, '000000fdfd00', 0xfdn, 6, 3, 'fdfd00');
+test(varIntVector, 'fdfe00', 0x00fen, 3);
+test(varIntVector, 'fdff00', 0x00ffn, 3);
+test(varIntVector, 'fd1111', 0x1111n, 3);
+test(varIntVector, 'fd1234', 0x3412n, 3);
+test(varIntVector, 'fdfeff', 0xfffen, 3);
+test(varIntVector, 'fdffff', 0xffffn, 3);
+test(varIntVector, 'fe00000100', 0x010000n, 5);
+test(varIntVector, '00fe00000100', 0x010000n, 6, 1, 'fe00000100');
+test(varIntVector, 'fe01000100', 0x010001n, 5);
+test(varIntVector, 'fe11111111', 0x11111111n, 5);
+test(varIntVector, 'fe12345678', 0x78563412n, 5);
+test(varIntVector, 'feffffffff', 0xffffffffn, 5);
+test(varIntVector, 'ff0000000001000000', 0x0100000000n, 9);
 /* spell-checker: enable */
 
 test(
   varIntVector,
   '0000ff0000000001000000',
-  BigInt(0x0100000000),
+  0x0100000000n,
   11,
   2,
   'ff0000000001000000'
 );
-test(varIntVector, 'ff0100000001000000', BigInt(0x0100000001), 9);
-test(varIntVector, 'ff1111111111111111', BigInt('0x1111111111111111'), 9);
-test(varIntVector, 'ff1234567890abcdef', BigInt('0xefcdab9078563412'), 9);
+test(varIntVector, 'ff0100000001000000', 0x0100000001n, 9);
+test(varIntVector, 'ff1111111111111111', 0x1111111111111111n, 9);
+test(varIntVector, 'ff1234567890abcdef', 0xefcdab9078563412n, 9);
 
 testProp(
   '[fast-check] bigIntToVarInt <-> varIntToBigInt',

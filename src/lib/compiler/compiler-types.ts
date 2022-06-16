@@ -696,6 +696,7 @@ export interface Compiler<
    */
   generateScenario: <Debug extends boolean>({
     debug,
+    lockingScriptId,
     scenarioId,
     unlockingScriptId,
   }: {
@@ -703,6 +704,12 @@ export interface Compiler<
      * Enable compilation debugging information (default: `false`)
      */
     debug?: Debug;
+    /**
+     * If no unlocking script is used in the scenario, the identifier of the
+     * locking script to use in the source output slot. (Note: `lockingScriptId`
+     * should only be defined if `unlockingScriptId` is undefined.)
+     */
+    lockingScriptId?: string | undefined;
     /**
      * The identifier of the scenario to generate
      */

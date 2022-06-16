@@ -101,15 +101,9 @@ test('base58ToBin: unknown character', (t) => {
   t.deepEqual(base58ToBin('#'), BaseConversionError.unknownCharacter);
 });
 
-const maxUint8Number = 255;
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
-
 testProp(
   '[fast-check] base2.encode <-> base2.encode',
-  [fcUint8Array(0, 100)],
+  [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
     t.deepEqual(
       base2.encode(base2.decode(base2.encode(input)) as Uint8Array),
@@ -119,7 +113,7 @@ testProp(
 
 testProp(
   '[fast-check] base16.encode <-> base16.encode',
-  [fcUint8Array(0, 100)],
+  [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
     t.deepEqual(
       base16.encode(base16.decode(base16.encode(input)) as Uint8Array),
@@ -134,7 +128,7 @@ const base26 = createBaseConverter(
 
 testProp(
   '[fast-check] base26.encode <-> base26.encode',
-  [fcUint8Array(0, 100)],
+  [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
     t.deepEqual(
       base26.encode(base26.decode(base26.encode(input)) as Uint8Array),
@@ -148,7 +142,7 @@ const base42 = createBaseConverter(
 
 testProp(
   '[fast-check] base42.encode <-> base42.encode',
-  [fcUint8Array(0, 100)],
+  [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
     t.deepEqual(
       base42.encode(base42.decode(base42.encode(input)) as Uint8Array),
@@ -158,7 +152,7 @@ testProp(
 
 testProp(
   '[fast-check] binToBase58 <-> base58ToBin',
-  [fcUint8Array(0, 100)],
+  [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
     t.deepEqual(
       binToBase58(base58ToBin(binToBase58(input)) as Uint8Array),

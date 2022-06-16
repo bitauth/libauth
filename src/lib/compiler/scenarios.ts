@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 import {
   bigIntToBinUint256BEClamped,
-  bigIntToBinUint64LE,
   binToHex,
+  binToValueSatoshis,
   hexToBin,
 } from '../format/format.js';
 import { deriveHdPrivateNodeFromSeed, encodeHdPrivateKey } from '../key/key.js';
@@ -542,8 +542,8 @@ export const compileAuthenticationTemplateScenarioValueSatoshis = (
   valueSatoshisDefinition: AuthenticationTemplateScenarioOutput<boolean>['valueSatoshis'] = CompilerDefaults.defaultScenarioOutputValueSatoshis
 ) =>
   typeof valueSatoshisDefinition === 'string'
-    ? hexToBin(valueSatoshisDefinition)
-    : bigIntToBinUint64LE(BigInt(valueSatoshisDefinition));
+    ? binToValueSatoshis(hexToBin(valueSatoshisDefinition))
+    : BigInt(valueSatoshisDefinition);
 
 /**
  * Compile an {@link AuthenticationTemplateScenarioBytecode} definition for an
@@ -651,6 +651,7 @@ export const generateScenarioBCH = <
     generateBytecode,
     scenarioId,
     unlockingScriptId,
+    lockingScriptId: providedLockingScriptId,
   }: {
     /**
      * The compiler configuration from which to generate the scenario.
@@ -667,6 +668,17 @@ export const generateScenarioBCH = <
      * `undefined` but required by the scenario, an error will be produced.
      */
     unlockingScriptId?: string | undefined;
+
+    /**
+     * If this scenario does not require an `unlockingScriptId` (an "isolated"
+     * locking script with no defined unlocking scripts), the ID of the locking
+     * script to generate for this scenario.
+     *
+     * If `unlockingScriptId` is defined, the locking script ID will be read
+     * from `configuration`, and an error will be produced if `lockingScriptId`
+     * is also defined.
+     */
+    lockingScriptId?: string | undefined;
   },
   debug?: Debug
 ):
@@ -743,10 +755,20 @@ export const generateScenarioBCH = <
     return `Cannot generate ${scenarioName}: the source output unlocked by the input under test in this scenario is ambiguous – the ["slot"] in "transaction.inputs" and "sourceOutputs" must be at the same index.`;
   }
 
+  if (
+    unlockingScriptId !== undefined &&
+    providedLockingScriptId !== undefined
+  ) {
+    return `Cannot generate ${scenarioName}: a scenario cannot be generated with both unlocking and locking script IDs defined. If an unlocking script is provided, the associated locking script ID must be read from the template.`;
+  }
+
   const lockingScriptId =
-    unlockingScriptId === undefined
-      ? undefined
-      : configuration.unlockingScripts?.[unlockingScriptId];
+    providedLockingScriptId === undefined
+      ? unlockingScriptId === undefined
+        ? undefined
+        : configuration.unlockingScripts?.[unlockingScriptId]
+      : providedLockingScriptId;
+
   if (unlockingScriptId !== undefined && lockingScriptId === undefined) {
     return `Cannot generate ${scenarioName} using unlocking script "${unlockingScriptId}": the locking script unlocked by "${unlockingScriptId}" is not provided in this compiler configuration.`;
   }
@@ -845,7 +867,7 @@ export const generateScenarioBCH = <
   interface AuthenticationTemplateScenarioOutputSuccessfulCompilation {
     compiled: {
       lockingBytecode: CompilationResultSuccess<ProgramState> | Uint8Array;
-      valueSatoshis: Uint8Array;
+      valueSatoshis: bigint;
     };
     index: number;
     slot?: boolean;

@@ -15,6 +15,7 @@ const enum SimpleOps {
   OP_INCREMENT = 1,
   OP_DECREMENT = 2,
   OP_ADD = 3,
+  OP_REPEAT = 4,
 }
 
 const enum SimpleError {
@@ -35,6 +36,7 @@ interface SimpleProgram {
 interface SimpleProgramState
   extends AuthenticationProgramStateMinimum,
     AuthenticationProgramStateStack<number> {
+  repeated?: true;
   error?: string;
 }
 
@@ -47,6 +49,7 @@ const simpleInstructionSet: InstructionSet<
     ...(state.error === undefined ? {} : { error: state.error }),
     instructions: state.instructions.slice(),
     ip: state.ip,
+    ...(state.repeated === undefined ? {} : { repeated: state.repeated }),
     stack: state.stack.slice(),
   }),
   continue: (state) =>
@@ -90,6 +93,14 @@ const simpleInstructionSet: InstructionSet<
         return state;
       }
       state.stack.push(a + b);
+      return state;
+    },
+    [SimpleOps.OP_REPEAT]: (state) => {
+      if (state.repeated) {
+        return state;
+      }
+      state.repeated = true;
+      state.ip = -1;
       return state;
     },
   },
@@ -257,4 +268,30 @@ test('vm.stateClone is available', (t) => {
       stack: [1, 2, 3],
     }
   );
+});
+
+test('vm can control the instruction pointer', (t) => {
+  const repeated: readonly AuthenticationInstruction[] = [
+    { opcode: SimpleOps.OP_0 },
+    { opcode: SimpleOps.OP_INCREMENT },
+    { opcode: SimpleOps.OP_REPEAT },
+    { opcode: SimpleOps.OP_ADD },
+    { opcode: SimpleOps.OP_0 },
+    { opcode: SimpleOps.OP_DECREMENT },
+    { opcode: SimpleOps.OP_ADD },
+  ];
+  const result = vm.stateDebug({ instructions: repeated, ip: 0, stack: [] });
+  t.deepEqual(result, [
+    { instructions: repeated, ip: 0, stack: [] },
+    { instructions: repeated, ip: 1, stack: [0] },
+    { instructions: repeated, ip: 2, stack: [1] },
+    { instructions: repeated, ip: 0, repeated: true, stack: [1] },
+    { instructions: repeated, ip: 1, repeated: true, stack: [1, 0] },
+    { instructions: repeated, ip: 2, repeated: true, stack: [1, 1] },
+    { instructions: repeated, ip: 3, repeated: true, stack: [1, 1] },
+    { instructions: repeated, ip: 4, repeated: true, stack: [2] },
+    { instructions: repeated, ip: 5, repeated: true, stack: [2, 0] },
+    { instructions: repeated, ip: 6, repeated: true, stack: [2, -1] },
+    { instructions: repeated, ip: 7, repeated: true, stack: [1] },
+  ]);
 });

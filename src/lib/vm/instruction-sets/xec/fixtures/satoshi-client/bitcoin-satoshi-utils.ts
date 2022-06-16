@@ -2,22 +2,22 @@ import {
   flattenBinArray,
   hexToBin,
   utf8ToBin,
-} from '../../../../../../format/format.js';
+} from '../../../../../format/format.js';
 import {
   bigIntToVmNumber,
   encodeDataPush,
   generateBytecodeMap,
-} from '../../../../common/common.js';
-import { OpcodesBCH2021 } from '../../bch-2021-opcodes.js';
+} from '../../../common/common.js';
+import { OpcodesXEC } from '../../xec-opcodes.js';
 
 export const bitcoinSatoshiOpcodes = Object.entries(
-  generateBytecodeMap(OpcodesBCH2021)
+  generateBytecodeMap(OpcodesXEC)
 ).reduce<Readonly<{ [opcode: string]: Uint8Array }>>(
   (acc, cur) => ({ ...acc, [cur[0].slice('OP_'.length)]: cur[1] }),
   {
-    PUSHDATA1: Uint8Array.of(OpcodesBCH2021.OP_PUSHDATA_1), // eslint-disable-line @typescript-eslint/naming-convention
-    PUSHDATA2: Uint8Array.of(OpcodesBCH2021.OP_PUSHDATA_2), // eslint-disable-line @typescript-eslint/naming-convention
-    PUSHDATA4: Uint8Array.of(OpcodesBCH2021.OP_PUSHDATA_4), // eslint-disable-line @typescript-eslint/naming-convention
+    PUSHDATA1: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_1), // eslint-disable-line @typescript-eslint/naming-convention
+    PUSHDATA2: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_2), // eslint-disable-line @typescript-eslint/naming-convention
+    PUSHDATA4: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_4), // eslint-disable-line @typescript-eslint/naming-convention
   }
 );
 

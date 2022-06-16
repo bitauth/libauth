@@ -3,8 +3,10 @@ import {
   bigIntToVarInt,
   binToHex,
   binToNumberUint32LE,
+  binToValueSatoshis,
   flattenBinArray,
   numberToBinUint32LE,
+  valueSatoshisToBin,
   varIntToBigInt,
 } from '../format/format.js';
 import type { Input, Output, Sha256, TransactionCommon } from '../lib';
@@ -167,7 +169,9 @@ export const decodeTransactionOutputUnsafe = (
 ) => {
   const uint64Bytes = 8;
   const indexAfterSatoshis = index + uint64Bytes;
-  const valueSatoshis = bin.slice(index, indexAfterSatoshis);
+  const valueSatoshis = binToValueSatoshis(
+    bin.slice(index, indexAfterSatoshis)
+  );
   const { nextIndex: indexAfterScriptLength, value } = varIntToBigInt(
     bin,
     indexAfterSatoshis
@@ -195,7 +199,7 @@ export const decodeTransactionOutputUnsafe = (
  */
 export const encodeTransactionOutput = (output: Output) =>
   flattenBinArray([
-    output.valueSatoshis,
+    valueSatoshisToBin(output.valueSatoshis),
     bigIntToVarInt(BigInt(output.lockingBytecode.length)),
     output.lockingBytecode,
   ]);
@@ -221,7 +225,7 @@ export const decodeTransactionOutputsUnsafe = createVarIntItemUnsafeDecoder(
 ) => {
   outputs: {
     lockingBytecode: Uint8Array;
-    valueSatoshis: Uint8Array;
+    valueSatoshis: bigint;
   }[];
   nextIndex: number;
 };
@@ -329,7 +333,7 @@ export const cloneTransactionOutputsCommon = <
 ) =>
   outputs.map((output) => ({
     lockingBytecode: output.lockingBytecode.slice(),
-    valueSatoshis: output.valueSatoshis.slice(),
+    valueSatoshis: output.valueSatoshis,
   }));
 
 export const cloneTransactionCommon = <Transaction extends TransactionCommon>(

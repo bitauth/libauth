@@ -113,5 +113,5 @@ export const stringifyTestVector = (
     : stringify(value);
   return stringified
     .replace(uint8ArrayRegex, "hexToBin('$1')")
-    .replace(bigIntRegex, "BigInt('$1')");
+    .replace(bigIntRegex, '$1n');
 };

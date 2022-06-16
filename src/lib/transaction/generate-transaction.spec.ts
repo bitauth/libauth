@@ -4,7 +4,6 @@ import { privkey } from '../compiler/compiler-bch/compiler-bch.e2e.spec.helper.j
 import type { TransactionCommon } from '../lib';
 import {
   authenticationTemplateToCompilerBCH,
-  bigIntToBinUint64LE,
   CashAddressNetworkPrefix,
   decodeTransactionCommon,
   generateTransaction,
@@ -43,11 +42,11 @@ const maybeP2pkhTemplate: unknown = {
       unlocks: 'lock',
     },
   },
-  supported: ['BCH_2019_05', 'BCH_2019_11'],
+  supported: ['BCH_2022_05'],
   version: 0,
 };
 
-test.failing('createCompilerBCH: generateTransaction', (t) => {
+test('createCompilerBCH: generateTransaction', (t) => {
   const p2pkhTemplate = importAuthenticationTemplate(maybeP2pkhTemplate);
 
   if (typeof p2pkhTemplate === 'string') {
@@ -92,7 +91,7 @@ test.failing('createCompilerBCH: generateTransaction', (t) => {
             keys: { privateKeys: { owner: privkey } },
           },
           script: 'unlock',
-          valueSatoshis: bigIntToBinUint64LE(BigInt(valueSatoshis)),
+          valueSatoshis: BigInt(valueSatoshis),
         },
       },
     ],
@@ -103,7 +102,7 @@ test.failing('createCompilerBCH: generateTransaction', (t) => {
           compiler: p2pkh,
           script: 'celebrate',
         },
-        valueSatoshis: bigIntToBinUint64LE(BigInt(0)),
+        valueSatoshis: 0n,
       },
     ],
     version: 2,

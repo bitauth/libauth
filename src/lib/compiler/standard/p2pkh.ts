@@ -43,7 +43,7 @@ export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
       unlocks: 'lock',
     },
   },
-  supported: ['BCH_2019_05', 'BCH_2019_11', 'BCH_2020_05'],
+  supported: ['BCH_2020_05', 'BCH_2021_05', 'BCH_2022_05'],
   version: 0,
 };
 
@@ -90,6 +90,6 @@ export const authenticationTemplateP2pkh: AuthenticationTemplate = {
       unlocks: 'lock',
     },
   },
-  supported: ['BCH_2019_05', 'BCH_2019_11', 'BCH_2020_05'],
+  supported: ['BCH_2020_05', 'BCH_2021_05', 'BCH_2022_05'],
   version: 0,
 };

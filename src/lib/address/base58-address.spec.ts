@@ -108,15 +108,13 @@ test('decodeBase58Address', (t) => {
 });
 
 const maxUint8Number = 255;
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
 const maxBinLength = 100;
-
 testProp(
   '[fast-check] encodeBase58Address <-> decodeBase58Address',
-  [fc.integer({ max: maxUint8Number, min: 0 }), fcUint8Array(0, maxBinLength)],
+  [
+    fc.integer({ max: maxUint8Number, min: 0 }),
+    fc.uint8Array({ maxLength: maxBinLength, minLength: 0 }),
+  ],
   (t, version: number, payload: Uint8Array) => {
     const address = encodeBase58AddressFormat(version, payload);
     const decoded = decodeBase58AddressFormat(address);

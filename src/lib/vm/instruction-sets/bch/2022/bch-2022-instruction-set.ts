@@ -177,7 +177,7 @@ export const createInstructionSetBCH2022 = (
   AuthenticationProgramBCH,
   AuthenticationProgramStateBCH
 > => {
-  const push = pushOperation<AuthenticationProgramStateBCH>();
+  const conditionallyPush = pushOperation<AuthenticationProgramStateBCH>();
   return {
     clone: cloneAuthenticationProgramStateBCH,
     continue: (state) =>
@@ -211,6 +211,12 @@ export const createInstructionSetBCH2022 = (
           AuthenticationErrorCommon.malformedUnlockingBytecode
         );
       }
+      if (!isPushOnly(unlockingBytecode)) {
+        return applyError(
+          initialState,
+          AuthenticationErrorCommon.requiresPushOnly
+        );
+      }
       if (lockingBytecode.length > ConsensusBCH.maximumBytecodeLength) {
         return applyError(
           initialState,
@@ -242,12 +248,6 @@ export const createInstructionSetBCH2022 = (
       );
       if (!isPayToScriptHash20(lockingBytecode)) {
         return lockingResult;
-      }
-      if (!isPushOnly(unlockingBytecode)) {
-        return applyError(
-          initialState,
-          AuthenticationErrorCommon.requiresPushOnly
-        );
       }
       const p2shStack = cloneStack(unlockingResult.stack);
       // eslint-disable-next-line functional/immutable-data
@@ -283,85 +283,85 @@ export const createInstructionSetBCH2022 = (
           )
         : state,
     operations: {
-      [OpcodesBCH.OP_0]: push,
-      [OpcodesBCH.OP_PUSHBYTES_1]: push,
-      [OpcodesBCH.OP_PUSHBYTES_2]: push,
-      [OpcodesBCH.OP_PUSHBYTES_3]: push,
-      [OpcodesBCH.OP_PUSHBYTES_4]: push,
-      [OpcodesBCH.OP_PUSHBYTES_5]: push,
-      [OpcodesBCH.OP_PUSHBYTES_6]: push,
-      [OpcodesBCH.OP_PUSHBYTES_7]: push,
-      [OpcodesBCH.OP_PUSHBYTES_8]: push,
-      [OpcodesBCH.OP_PUSHBYTES_9]: push,
-      [OpcodesBCH.OP_PUSHBYTES_10]: push,
-      [OpcodesBCH.OP_PUSHBYTES_11]: push,
-      [OpcodesBCH.OP_PUSHBYTES_12]: push,
-      [OpcodesBCH.OP_PUSHBYTES_13]: push,
-      [OpcodesBCH.OP_PUSHBYTES_14]: push,
-      [OpcodesBCH.OP_PUSHBYTES_15]: push,
-      [OpcodesBCH.OP_PUSHBYTES_16]: push,
-      [OpcodesBCH.OP_PUSHBYTES_17]: push,
-      [OpcodesBCH.OP_PUSHBYTES_18]: push,
-      [OpcodesBCH.OP_PUSHBYTES_19]: push,
-      [OpcodesBCH.OP_PUSHBYTES_20]: push,
-      [OpcodesBCH.OP_PUSHBYTES_21]: push,
-      [OpcodesBCH.OP_PUSHBYTES_22]: push,
-      [OpcodesBCH.OP_PUSHBYTES_23]: push,
-      [OpcodesBCH.OP_PUSHBYTES_24]: push,
-      [OpcodesBCH.OP_PUSHBYTES_25]: push,
-      [OpcodesBCH.OP_PUSHBYTES_26]: push,
-      [OpcodesBCH.OP_PUSHBYTES_27]: push,
-      [OpcodesBCH.OP_PUSHBYTES_28]: push,
-      [OpcodesBCH.OP_PUSHBYTES_29]: push,
-      [OpcodesBCH.OP_PUSHBYTES_30]: push,
-      [OpcodesBCH.OP_PUSHBYTES_31]: push,
-      [OpcodesBCH.OP_PUSHBYTES_32]: push,
-      [OpcodesBCH.OP_PUSHBYTES_33]: push,
-      [OpcodesBCH.OP_PUSHBYTES_34]: push,
-      [OpcodesBCH.OP_PUSHBYTES_35]: push,
-      [OpcodesBCH.OP_PUSHBYTES_36]: push,
-      [OpcodesBCH.OP_PUSHBYTES_37]: push,
-      [OpcodesBCH.OP_PUSHBYTES_38]: push,
-      [OpcodesBCH.OP_PUSHBYTES_39]: push,
-      [OpcodesBCH.OP_PUSHBYTES_40]: push,
-      [OpcodesBCH.OP_PUSHBYTES_41]: push,
-      [OpcodesBCH.OP_PUSHBYTES_42]: push,
-      [OpcodesBCH.OP_PUSHBYTES_43]: push,
-      [OpcodesBCH.OP_PUSHBYTES_44]: push,
-      [OpcodesBCH.OP_PUSHBYTES_45]: push,
-      [OpcodesBCH.OP_PUSHBYTES_46]: push,
-      [OpcodesBCH.OP_PUSHBYTES_47]: push,
-      [OpcodesBCH.OP_PUSHBYTES_48]: push,
-      [OpcodesBCH.OP_PUSHBYTES_49]: push,
-      [OpcodesBCH.OP_PUSHBYTES_50]: push,
-      [OpcodesBCH.OP_PUSHBYTES_51]: push,
-      [OpcodesBCH.OP_PUSHBYTES_52]: push,
-      [OpcodesBCH.OP_PUSHBYTES_53]: push,
-      [OpcodesBCH.OP_PUSHBYTES_54]: push,
-      [OpcodesBCH.OP_PUSHBYTES_55]: push,
-      [OpcodesBCH.OP_PUSHBYTES_56]: push,
-      [OpcodesBCH.OP_PUSHBYTES_57]: push,
-      [OpcodesBCH.OP_PUSHBYTES_58]: push,
-      [OpcodesBCH.OP_PUSHBYTES_59]: push,
-      [OpcodesBCH.OP_PUSHBYTES_60]: push,
-      [OpcodesBCH.OP_PUSHBYTES_61]: push,
-      [OpcodesBCH.OP_PUSHBYTES_62]: push,
-      [OpcodesBCH.OP_PUSHBYTES_63]: push,
-      [OpcodesBCH.OP_PUSHBYTES_64]: push,
-      [OpcodesBCH.OP_PUSHBYTES_65]: push,
-      [OpcodesBCH.OP_PUSHBYTES_66]: push,
-      [OpcodesBCH.OP_PUSHBYTES_67]: push,
-      [OpcodesBCH.OP_PUSHBYTES_68]: push,
-      [OpcodesBCH.OP_PUSHBYTES_69]: push,
-      [OpcodesBCH.OP_PUSHBYTES_70]: push,
-      [OpcodesBCH.OP_PUSHBYTES_71]: push,
-      [OpcodesBCH.OP_PUSHBYTES_72]: push,
-      [OpcodesBCH.OP_PUSHBYTES_73]: push,
-      [OpcodesBCH.OP_PUSHBYTES_74]: push,
-      [OpcodesBCH.OP_PUSHBYTES_75]: push,
-      [OpcodesBCH.OP_PUSHDATA_1]: push,
-      [OpcodesBCH.OP_PUSHDATA_2]: push,
-      [OpcodesBCH.OP_PUSHDATA_4]: push,
+      [OpcodesBCH.OP_0]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_1]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_2]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_3]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_4]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_5]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_6]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_7]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_8]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_9]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_10]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_11]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_12]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_13]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_14]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_15]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_16]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_17]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_18]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_19]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_20]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_21]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_22]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_23]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_24]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_25]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_26]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_27]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_28]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_29]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_30]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_31]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_32]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_33]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_34]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_35]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_36]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_37]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_38]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_39]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_40]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_41]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_42]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_43]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_44]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_45]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_46]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_47]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_48]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_49]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_50]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_51]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_52]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_53]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_54]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_55]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_56]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_57]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_58]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_59]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_60]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_61]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_62]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_63]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_64]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_65]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_66]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_67]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_68]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_69]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_70]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_71]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_72]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_73]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_74]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHBYTES_75]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHDATA_1]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHDATA_2]: conditionallyPush,
+      [OpcodesBCH.OP_PUSHDATA_4]: conditionallyPush,
       [OpcodesBCH.OP_1NEGATE]: conditionallyEvaluate(pushNumberOperation(-1)),
       [OpcodesBCH.OP_RESERVED]: conditionallyEvaluate(reservedOperation),
       [OpcodesBCH.OP_1]: conditionallyEvaluate(pushNumberOperation(1)),
@@ -442,90 +442,102 @@ export const createInstructionSetBCH2022 = (
           [OpcodesBCH.OP_MOD]: conditionallyEvaluate(opMod),
           [OpcodesBCH.OP_LSHIFT]: disabledOperation,
           [OpcodesBCH.OP_RSHIFT]: disabledOperation,
-          ...mapOverOperations<AuthenticationProgramStateBCH>(
-            [conditionallyEvaluate],
-            {
-              [OpcodesBCH.OP_BOOLAND]: opBoolAnd,
-              [OpcodesBCH.OP_BOOLOR]: opBoolOr,
-              [OpcodesBCH.OP_NUMEQUAL]: opNumEqual,
-              [OpcodesBCH.OP_NUMEQUALVERIFY]: opNumEqualVerify,
-              [OpcodesBCH.OP_NUMNOTEQUAL]: opNumNotEqual,
-              [OpcodesBCH.OP_LESSTHAN]: opLessThan,
-              [OpcodesBCH.OP_GREATERTHAN]: opGreaterThan,
-              [OpcodesBCH.OP_LESSTHANOREQUAL]: opLessThanOrEqual,
-              [OpcodesBCH.OP_GREATERTHANOREQUAL]: opGreaterThanOrEqual,
-              [OpcodesBCH.OP_MIN]: opMin,
-              [OpcodesBCH.OP_MAX]: opMax,
-              [OpcodesBCH.OP_WITHIN]: opWithin,
-              [OpcodesBCH.OP_RIPEMD160]: opRipemd160({ ripemd160 }),
-              [OpcodesBCH.OP_SHA1]: opSha1({ sha1 }),
-              [OpcodesBCH.OP_SHA256]: opSha256({ sha256 }),
-              [OpcodesBCH.OP_HASH160]: opHash160({ ripemd160, sha256 }),
-              [OpcodesBCH.OP_HASH256]: opHash256({ sha256 }),
-              [OpcodesBCH.OP_CODESEPARATOR]: opCodeSeparator,
-              [OpcodesBCH.OP_CHECKSIG]: opCheckSig({ secp256k1, sha256 }),
-              [OpcodesBCH.OP_CHECKSIGVERIFY]: opCheckSigVerify({
-                secp256k1,
-                sha256,
-              }),
-              [OpcodesBCH.OP_CHECKMULTISIG]: opCheckMultiSig({
-                secp256k1,
-                sha256,
-              }),
-              [OpcodesBCH.OP_CHECKMULTISIGVERIFY]: opCheckMultiSigVerify({
-                secp256k1,
-                sha256,
-              }),
-              ...(standard
-                ? {
-                    [OpcodesBCH.OP_NOP1]: opNopDisallowed,
-                    [OpcodesBCH.OP_CHECKLOCKTIMEVERIFY]: opCheckLockTimeVerify,
-                    [OpcodesBCH.OP_CHECKSEQUENCEVERIFY]: opCheckSequenceVerify,
-                    [OpcodesBCH.OP_NOP4]: opNopDisallowed,
-                    [OpcodesBCH.OP_NOP5]: opNopDisallowed,
-                    [OpcodesBCH.OP_NOP6]: opNopDisallowed,
-                    [OpcodesBCH.OP_NOP7]: opNopDisallowed,
-                    [OpcodesBCH.OP_NOP8]: opNopDisallowed,
-                    [OpcodesBCH.OP_NOP9]: opNopDisallowed,
-                    [OpcodesBCH.OP_NOP10]: opNopDisallowed,
-                  }
-                : {
-                    [OpcodesBCH.OP_NOP1]: opNop,
-                    [OpcodesBCH.OP_CHECKLOCKTIMEVERIFY]: opCheckLockTimeVerify,
-                    [OpcodesBCH.OP_CHECKSEQUENCEVERIFY]: opCheckSequenceVerify,
-                    [OpcodesBCH.OP_NOP4]: opNop,
-                    [OpcodesBCH.OP_NOP5]: opNop,
-                    [OpcodesBCH.OP_NOP6]: opNop,
-                    [OpcodesBCH.OP_NOP7]: opNop,
-                    [OpcodesBCH.OP_NOP8]: opNop,
-                    [OpcodesBCH.OP_NOP9]: opNop,
-                    [OpcodesBCH.OP_NOP10]: opNop,
-                  }),
-              [OpcodesBCH.OP_CHECKDATASIG]: opCheckDataSig({
-                secp256k1,
-                sha256,
-              }),
-              [OpcodesBCH.OP_CHECKDATASIGVERIFY]: opCheckDataSigVerify({
-                secp256k1,
-                sha256,
-              }),
-              [OpcodesBCH.OP_REVERSEBYTES]: opReverseBytes,
-              [OpcodesBCH.OP_INPUTINDEX]: opInputIndex,
-              [OpcodesBCH.OP_ACTIVEBYTECODE]: opActiveBytecode,
-              [OpcodesBCH.OP_TXVERSION]: opTxVersion,
-              [OpcodesBCH.OP_TXINPUTCOUNT]: opTxInputCount,
-              [OpcodesBCH.OP_TXOUTPUTCOUNT]: opTxOutputCount,
-              [OpcodesBCH.OP_TXLOCKTIME]: opTxLocktime,
-              [OpcodesBCH.OP_UTXOVALUE]: opUtxoValue,
-              [OpcodesBCH.OP_UTXOBYTECODE]: opUtxoBytecode,
-              [OpcodesBCH.OP_OUTPOINTTXHASH]: opOutpointTxHash,
-              [OpcodesBCH.OP_OUTPOINTINDEX]: opOutpointIndex,
-              [OpcodesBCH.OP_INPUTBYTECODE]: opInputBytecode,
-              [OpcodesBCH.OP_INPUTSEQUENCENUMBER]: opInputSequenceNumber,
-              [OpcodesBCH.OP_OUTPUTVALUE]: opOutputValue,
-              [OpcodesBCH.OP_OUTPUTBYTECODE]: opOutputBytecode,
-            }
+          [OpcodesBCH.OP_BOOLAND]: conditionallyEvaluate(opBoolAnd),
+          [OpcodesBCH.OP_BOOLOR]: conditionallyEvaluate(opBoolOr),
+          [OpcodesBCH.OP_NUMEQUAL]: conditionallyEvaluate(opNumEqual),
+          [OpcodesBCH.OP_NUMEQUALVERIFY]:
+            conditionallyEvaluate(opNumEqualVerify),
+          [OpcodesBCH.OP_NUMNOTEQUAL]: conditionallyEvaluate(opNumNotEqual),
+          [OpcodesBCH.OP_LESSTHAN]: conditionallyEvaluate(opLessThan),
+          [OpcodesBCH.OP_GREATERTHAN]: conditionallyEvaluate(opGreaterThan),
+          [OpcodesBCH.OP_LESSTHANOREQUAL]:
+            conditionallyEvaluate(opLessThanOrEqual),
+          [OpcodesBCH.OP_GREATERTHANOREQUAL]:
+            conditionallyEvaluate(opGreaterThanOrEqual),
+          [OpcodesBCH.OP_MIN]: conditionallyEvaluate(opMin),
+          [OpcodesBCH.OP_MAX]: conditionallyEvaluate(opMax),
+          [OpcodesBCH.OP_WITHIN]: conditionallyEvaluate(opWithin),
+          [OpcodesBCH.OP_RIPEMD160]: conditionallyEvaluate(
+            opRipemd160({ ripemd160 })
           ),
+          [OpcodesBCH.OP_SHA1]: conditionallyEvaluate(opSha1({ sha1 })),
+          [OpcodesBCH.OP_SHA256]: conditionallyEvaluate(opSha256({ sha256 })),
+          [OpcodesBCH.OP_HASH160]: conditionallyEvaluate(
+            opHash160({ ripemd160, sha256 })
+          ),
+          [OpcodesBCH.OP_HASH256]: conditionallyEvaluate(opHash256({ sha256 })),
+          [OpcodesBCH.OP_CODESEPARATOR]: conditionallyEvaluate(opCodeSeparator),
+          [OpcodesBCH.OP_CHECKSIG]: conditionallyEvaluate(
+            opCheckSig({ secp256k1, sha256 })
+          ),
+          [OpcodesBCH.OP_CHECKSIGVERIFY]: conditionallyEvaluate(
+            opCheckSigVerify({ secp256k1, sha256 })
+          ),
+          [OpcodesBCH.OP_CHECKMULTISIG]: conditionallyEvaluate(
+            opCheckMultiSig({ secp256k1, sha256 })
+          ),
+          [OpcodesBCH.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
+            opCheckMultiSigVerify({ secp256k1, sha256 })
+          ),
+          ...(standard
+            ? {
+                [OpcodesBCH.OP_NOP1]: conditionallyEvaluate(opNopDisallowed),
+                [OpcodesBCH.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
+                  opCheckLockTimeVerify
+                ),
+                [OpcodesBCH.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
+                  opCheckSequenceVerify
+                ),
+                [OpcodesBCH.OP_NOP4]: conditionallyEvaluate(opNopDisallowed),
+                [OpcodesBCH.OP_NOP5]: conditionallyEvaluate(opNopDisallowed),
+                [OpcodesBCH.OP_NOP6]: conditionallyEvaluate(opNopDisallowed),
+                [OpcodesBCH.OP_NOP7]: conditionallyEvaluate(opNopDisallowed),
+                [OpcodesBCH.OP_NOP8]: conditionallyEvaluate(opNopDisallowed),
+                [OpcodesBCH.OP_NOP9]: conditionallyEvaluate(opNopDisallowed),
+                [OpcodesBCH.OP_NOP10]: conditionallyEvaluate(opNopDisallowed),
+              }
+            : {
+                [OpcodesBCH.OP_NOP1]: conditionallyEvaluate(opNop),
+                [OpcodesBCH.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
+                  opCheckLockTimeVerify
+                ),
+                [OpcodesBCH.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
+                  opCheckSequenceVerify
+                ),
+                [OpcodesBCH.OP_NOP4]: conditionallyEvaluate(opNop),
+                [OpcodesBCH.OP_NOP5]: conditionallyEvaluate(opNop),
+                [OpcodesBCH.OP_NOP6]: conditionallyEvaluate(opNop),
+                [OpcodesBCH.OP_NOP7]: conditionallyEvaluate(opNop),
+                [OpcodesBCH.OP_NOP8]: conditionallyEvaluate(opNop),
+                [OpcodesBCH.OP_NOP9]: conditionallyEvaluate(opNop),
+                [OpcodesBCH.OP_NOP10]: conditionallyEvaluate(opNop),
+              }),
+          [OpcodesBCH.OP_CHECKDATASIG]: conditionallyEvaluate(
+            opCheckDataSig({ secp256k1, sha256 })
+          ),
+          [OpcodesBCH.OP_CHECKDATASIGVERIFY]: conditionallyEvaluate(
+            opCheckDataSigVerify({ secp256k1, sha256 })
+          ),
+          [OpcodesBCH.OP_REVERSEBYTES]: conditionallyEvaluate(opReverseBytes),
+          [OpcodesBCH.OP_INPUTINDEX]: conditionallyEvaluate(opInputIndex),
+          [OpcodesBCH.OP_ACTIVEBYTECODE]:
+            conditionallyEvaluate(opActiveBytecode),
+          [OpcodesBCH.OP_TXVERSION]: conditionallyEvaluate(opTxVersion),
+          [OpcodesBCH.OP_TXINPUTCOUNT]: conditionallyEvaluate(opTxInputCount),
+          [OpcodesBCH.OP_TXOUTPUTCOUNT]: conditionallyEvaluate(opTxOutputCount),
+          [OpcodesBCH.OP_TXLOCKTIME]: conditionallyEvaluate(opTxLocktime),
+          [OpcodesBCH.OP_UTXOVALUE]: conditionallyEvaluate(opUtxoValue),
+          [OpcodesBCH.OP_UTXOBYTECODE]: conditionallyEvaluate(opUtxoBytecode),
+          [OpcodesBCH.OP_OUTPOINTTXHASH]:
+            conditionallyEvaluate(opOutpointTxHash),
+          [OpcodesBCH.OP_OUTPOINTINDEX]: conditionallyEvaluate(opOutpointIndex),
+          [OpcodesBCH.OP_INPUTBYTECODE]: conditionallyEvaluate(opInputBytecode),
+          [OpcodesBCH.OP_INPUTSEQUENCENUMBER]: conditionallyEvaluate(
+            opInputSequenceNumber
+          ),
+          [OpcodesBCH.OP_OUTPUTVALUE]: conditionallyEvaluate(opOutputValue),
+          [OpcodesBCH.OP_OUTPUTBYTECODE]:
+            conditionallyEvaluate(opOutputBytecode),
         }
       ),
     },

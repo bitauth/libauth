@@ -2,8 +2,17 @@ import type { CompilationData, CompilationError, ResolvedScript } from '../lib';
 
 /**
  * Data type representing a Transaction Input.
+ *
+ * @typeParam Bytecode - the type of `unlockingBytecode` - this can be
+ * configured to allow for defining compilation directives.
+ * @typeParam ByteStringRepresentation - the type used to represent strings of
+ * bytes ({@link Input.outpointTransactionHash}) - this allows for
+ * JSON-compatible types to be used rather than the default `Uint8Array`.
  */
-export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
+export interface Input<
+  Bytecode = Uint8Array,
+  ByteStringRepresentation = Uint8Array
+> {
   /**
    * The index of the output in the transaction from which this input is spent.
    *
@@ -29,7 +38,7 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
    * use big-endian byte order when displaying transaction hashes
    * (see {@link hashTransactionUiOrder}).
    */
-  outpointTransactionHash: HashRepresentation;
+  outpointTransactionHash: ByteStringRepresentation;
   /**
    * The positive, 32-bit unsigned integer used as the "sequence number" for
    * this input.
@@ -109,10 +118,16 @@ export interface Input<Bytecode = Uint8Array, HashRepresentation = Uint8Array> {
  * Data type representing a Transaction Output.
  *
  * @typeParam Bytecode - the type of `lockingBytecode` - this can be configured
- * to allow for defining compilation directives
- * @typeParam Amount - the type of `valueSatoshis`
+ * to allow for defining compilation directives.
+ * @typeParam ByteStringRepresentation - the type used to represent strings of
+ * bytes (in {@link Output.token.category} and {@link Output.token.commitment})
+ * - this allows for JSON-compatible types to be used rather than the
+ * default `Uint8Array`.
  */
-export interface Output<Bytecode = Uint8Array, Amount = Uint8Array> {
+export interface Output<
+  Bytecode = Uint8Array,
+  ByteStringRepresentation = Uint8Array
+> {
   /**
    * The bytecode used to encumber this transaction output. To spend the output,
    * unlocking bytecode must be included in a transaction input that – when
@@ -121,9 +136,45 @@ export interface Output<Bytecode = Uint8Array, Amount = Uint8Array> {
    * A.K.A. `scriptPubKey` or "locking script"
    */
   readonly lockingBytecode: Bytecode;
+
   /**
-   * The 8-byte `Uint64LE`-encoded value of the output in satoshis, the smallest
-   * unit of bitcoin.
+   * The CashToken contents of this output.
+   *
+   * TODO: expand TSDocs for tokens
+   */
+  readonly token?: {
+    /**
+     * The number of fungible tokens (of `category`) held in this output.
+     *
+     * Because `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the
+     * maximum token amount (`9223372036854775807`), this value is encoded as
+     * a `BigInt`.
+     */
+    readonly amount: bigint;
+    /**
+     * The 32-byte token category ID to which the token(s) in this output belong.
+     */
+    readonly category: ByteStringRepresentation;
+    /**
+     * If present, the non-fungible token (NFT) held by this output. If the
+     * output does not include a non-fungible token, `undefined`.
+     */
+    nft?: {
+      /**
+       * The capability of this non-fungible token.
+       */
+      readonly capability: 'minting' | 'mutable' | 'none';
+
+      /**
+       * The commitment message included in the non-fungible token (of
+       * `category`) held in this output.
+       */
+      readonly commitment: ByteStringRepresentation;
+    };
+  };
+
+  /**
+   * The value of the output in satoshis, the smallest unit of bitcoin.
    *
    * There are 100 satoshis in a bit, and 100,000,000 satoshis in a bitcoin.
    *
@@ -136,7 +187,7 @@ export interface Output<Bytecode = Uint8Array, Amount = Uint8Array> {
    * However, because the encoded output format for version 1 and 2 transactions
    * (used in both transaction encoding and signing serialization) uses a 64-bit
    * unsigned, little-endian integer to encode `valueSatoshis`, this property is
-   * encoded in the same format, allowing it to cover the full possible range.
+   * encoded as a bigint, allowing it to cover the full possible range.
    *
    * This is useful for encoding values using schemes for fractional satoshis
    * (for which no finalized specification yet exists) or for encoding
@@ -148,11 +199,11 @@ export interface Output<Bytecode = Uint8Array, Amount = Uint8Array> {
    * included in the blockchain, e.g. for testing, transaction size estimation,
    * or off-chain Bitauth signatures.
    *
-   * To convert this value to and from a `BigInt` use
-   * {@link bigIntToValueSatoshis} and {@link valueSatoshisToBigInt},
+   * To convert this value to and from a `Uint8Array` use
+   * {@link valueSatoshisToBin} and {@link binToValueSatoshis},
    * respectively.
    */
-  readonly valueSatoshis: Amount;
+  readonly valueSatoshis: bigint;
 }
 
 /**

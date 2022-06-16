@@ -1,12 +1,13 @@
-import {
-  binToBigIntUint64LE,
-  int32UnsignedToSigned,
-} from '../../../format/format.js';
+import { int32UnsignedToSigned } from '../../../format/format.js';
 import type {
-  AuthenticationProgramStateCommon,
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateStack,
+  AuthenticationProgramStateTransactionContext,
   Input,
   Output,
 } from '../../../lib';
+import type { AuthenticationProgramStateCodeSeparator } from '../../vm-types.js';
 
 import {
   pushToStackChecked,
@@ -16,12 +17,20 @@ import {
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { encodeAuthenticationInstructions } from './instruction-sets-utils.js';
 
-export const opInputIndex = <State extends AuthenticationProgramStateCommon>(
+export const opInputIndex = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) => pushToStackVmNumberChecked(state, BigInt(state.program.inputIndex));
 
 export const opActiveBytecode = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateCodeSeparator &
+    AuthenticationProgramStateError &
+    AuthenticationProgramStateMinimum &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State
 ) =>
@@ -32,7 +41,11 @@ export const opActiveBytecode = <
     )
   );
 
-export const opTxVersion = <State extends AuthenticationProgramStateCommon>(
+export const opTxVersion = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   pushToStackVmNumberChecked(
@@ -40,7 +53,11 @@ export const opTxVersion = <State extends AuthenticationProgramStateCommon>(
     BigInt(int32UnsignedToSigned(state.program.transaction.version))
   );
 
-export const opTxInputCount = <State extends AuthenticationProgramStateCommon>(
+export const opTxInputCount = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   pushToStackVmNumberChecked(
@@ -48,7 +65,11 @@ export const opTxInputCount = <State extends AuthenticationProgramStateCommon>(
     BigInt(state.program.transaction.inputs.length)
   );
 
-export const opTxOutputCount = <State extends AuthenticationProgramStateCommon>(
+export const opTxOutputCount = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   pushToStackVmNumberChecked(
@@ -56,13 +77,19 @@ export const opTxOutputCount = <State extends AuthenticationProgramStateCommon>(
     BigInt(state.program.transaction.outputs.length)
   );
 
-export const opTxLocktime = <State extends AuthenticationProgramStateCommon>(
+export const opTxLocktime = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   pushToStackVmNumberChecked(state, BigInt(state.program.transaction.locktime));
 
 export const useTransactionUtxo = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State,
   operation: (nextState: State, [utxo]: [Output]) => State
@@ -78,17 +105,22 @@ export const useTransactionUtxo = <
     return operation(state, [utxo]);
   });
 
-export const opUtxoValue = <State extends AuthenticationProgramStateCommon>(
+export const opUtxoValue = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushToStackVmNumberChecked(
-      nextState,
-      binToBigIntUint64LE(utxo.valueSatoshis)
-    )
+    pushToStackVmNumberChecked(nextState, utxo.valueSatoshis)
   );
 
-export const opUtxoBytecode = <State extends AuthenticationProgramStateCommon>(
+export const opUtxoBytecode = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
@@ -96,7 +128,9 @@ export const opUtxoBytecode = <State extends AuthenticationProgramStateCommon>(
   );
 
 export const useTransactionInput = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State,
   operation: (nextState: State, [input]: [Input]) => State
@@ -113,7 +147,9 @@ export const useTransactionInput = <
   });
 
 export const opOutpointTxHash = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State
 ) =>
@@ -124,14 +160,22 @@ export const opOutpointTxHash = <
     )
   );
 
-export const opOutpointIndex = <State extends AuthenticationProgramStateCommon>(
+export const opOutpointIndex = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
     pushToStackVmNumberChecked(nextState, BigInt(input.outpointIndex))
   );
 
-export const opInputBytecode = <State extends AuthenticationProgramStateCommon>(
+export const opInputBytecode = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
@@ -139,7 +183,9 @@ export const opInputBytecode = <State extends AuthenticationProgramStateCommon>(
   );
 
 export const opInputSequenceNumber = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State
 ) =>
@@ -148,7 +194,9 @@ export const opInputSequenceNumber = <
   );
 
 export const useTransactionOutput = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State,
   operation: (nextState: State, [output]: [Output]) => State
@@ -164,18 +212,21 @@ export const useTransactionOutput = <
     return operation(state, [input]);
   });
 
-export const opOutputValue = <State extends AuthenticationProgramStateCommon>(
+export const opOutputValue = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
+>(
   state: State
 ) =>
   useTransactionOutput(state, (nextState, [output]) =>
-    pushToStackVmNumberChecked(
-      nextState,
-      binToBigIntUint64LE(output.valueSatoshis)
-    )
+    pushToStackVmNumberChecked(nextState, output.valueSatoshis)
   );
 
 export const opOutputBytecode = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext
 >(
   state: State
 ) =>

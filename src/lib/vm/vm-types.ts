@@ -36,7 +36,7 @@ export interface AuthenticationProgramStateAlternateStack<
   alternateStack: StackType[];
 }
 
-export interface AuthenticationProgramStateControlStack {
+export interface AuthenticationProgramStateControlStack<ItemType = boolean> {
   /**
    * An array of boolean values representing the current execution status of the
    * program. This allows the state to track nested conditional branches.
@@ -50,7 +50,7 @@ export interface AuthenticationProgramStateControlStack {
    *
    * A.K.A. `vfExec` in the C++ implementation.
    */
-  controlStack: boolean[];
+  controlStack: ItemType[];
 }
 
 export interface AuthenticationProgramStateError {
@@ -77,6 +77,21 @@ export interface AuthenticationProgramCommon extends ResolvedTransactionCommon {
   inputIndex: number;
 }
 
+export interface AuthenticationProgramStateCodeSeparator {
+  /**
+   * The `lastCodeSeparator` indicates the index of the most recently executed
+   * `OP_CODESEPARATOR` instruction. In each of the signing serialization
+   * algorithms, the `instructions` are sliced at `lastCodeSeparator`, and the
+   * subarray is re-encoded. The resulting bytecode is called the
+   * `coveredBytecode` (A.K.A. `scriptCode`), and is part of the data hashed to
+   * create the signing serialization digest.
+   *
+   * By default, this is `-1`, which indicates that the whole `instructions`
+   * array is included in the signing serialization.
+   */
+  lastCodeSeparator: number;
+}
+
 export interface AuthenticationProgramStateSignatureAnalysis {
   /**
    * An array of the `Uint8Array` values used in signature verification over the
@@ -91,31 +106,22 @@ export interface AuthenticationProgramStateSignatureAnalysis {
   signedMessages: Uint8Array[];
 }
 
-export interface AuthenticationProgramStateInternalCommon<
-  StackType = Uint8Array
-> extends AuthenticationProgramStateMinimum,
-    AuthenticationProgramStateStack<StackType>,
-    AuthenticationProgramStateAlternateStack<StackType>,
-    AuthenticationProgramStateControlStack,
-    AuthenticationProgramStateError,
-    AuthenticationProgramStateSignatureAnalysis {
-  /**
-   * The `lastCodeSeparator` indicates the index of the most recently executed
-   * `OP_CODESEPARATOR` instruction. In each of the signing serialization
-   * algorithms, the `instructions` are sliced at `lastCodeSeparator`, and the
-   * subarray is re-encoded. The resulting bytecode is called the
-   * `coveredBytecode` (A.K.A. `scriptCode`), and is part of the data hashed to
-   * create the signing serialization digest.
-   *
-   * By default, this is `-1`, which indicates that the whole `instructions`
-   * array is included in the signing serialization.
-   */
-  lastCodeSeparator: number;
+export interface AuthenticationProgramStateResourceLimits {
   operationCount: number;
   signatureOperationsCount: number;
 }
 
-export interface AuthenticationProgramStateCommon
-  extends AuthenticationProgramStateInternalCommon {
+export interface AuthenticationProgramStateTransactionContext {
   program: Readonly<AuthenticationProgramCommon>;
 }
+
+export interface AuthenticationProgramStateCommon
+  extends AuthenticationProgramStateMinimum,
+    AuthenticationProgramStateStack,
+    AuthenticationProgramStateAlternateStack,
+    AuthenticationProgramStateControlStack,
+    AuthenticationProgramStateError,
+    AuthenticationProgramStateCodeSeparator,
+    AuthenticationProgramStateSignatureAnalysis,
+    AuthenticationProgramStateResourceLimits,
+    AuthenticationProgramStateTransactionContext {}

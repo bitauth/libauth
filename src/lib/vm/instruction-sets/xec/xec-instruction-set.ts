@@ -3,16 +3,16 @@ import type {
   AuthenticationProgramStateBCH,
   InstructionSet,
   ResolvedTransactionBCH,
-} from '../../../../lib';
+} from '../../../lib';
+import { createInstructionSetBCH2022 } from '../bch/2022/bch-2022-instruction-set.js';
+import { OpcodesBCH2022 } from '../bch/2022/bch-2022-opcodes.js';
 import {
   conditionallyEvaluate,
   disabledOperation,
   incrementOperationCount,
   mapOverOperations,
   undefinedOperation,
-} from '../../common/common.js';
-import { createInstructionSetBCH2022 } from '../2022/bch-2022-instruction-set.js';
-import { OpcodesBCH2022 } from '../2022/bch-2022-opcodes.js';
+} from '../common/common.js';
 
 import {
   op0NotEqual4Byte,
@@ -42,17 +42,17 @@ import {
   opSplit4Byte,
   opSub4Byte,
   opWithin4Byte,
-} from './bch-2021-vm-number-operations.js';
+} from './xec-vm-number-operations.js';
 
 /**
- * create an instance of the BCH 2021 virtual machine instruction set.
+ * create an instance of the XEC virtual machine instruction set.
  *
  * @param standard - If `true`, the additional `isStandard` validations will be
  * enabled. Transactions that fail these rules are often called "non-standard"
  * and can technically be included by miners in valid blocks, but most network
  * nodes will refuse to relay them. (Default: `true`)
  */
-export const createInstructionSetBCH2021 = (
+export const createInstructionSetXEC = (
   standard = true
 ): InstructionSet<
   ResolvedTransactionBCH,

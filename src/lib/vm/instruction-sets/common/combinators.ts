@@ -304,6 +304,19 @@ export const pushToStackChecked = <
 };
 
 /**
+ * Return the provided state with the VM number pushed to its stack.
+ * @param state - the state to update and return
+ * @param vmNumber - the number to push to the stack
+ */
+export const pushToStackVmNumber = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
+>(
+  state: State,
+  vmNumber: bigint
+) => pushToStack(state, bigIntToVmNumber(vmNumber));
+
+/**
  * If the provided number is outside the VM number range, apply an error.
  * Otherwise, return the provided state with the VM number pushed to its stack.
  * @param state - the state to update and return
@@ -322,7 +335,7 @@ export const pushToStackVmNumberChecked = <
   if (vmNumber > maxVmNumber || vmNumber < minVmNumber) {
     return applyError(state, AuthenticationErrorCommon.overflowsVmNumberRange);
   }
-  return pushToStack(state, bigIntToVmNumber(vmNumber));
+  return pushToStackVmNumber(state, vmNumber);
 };
 
 export const combineOperations =

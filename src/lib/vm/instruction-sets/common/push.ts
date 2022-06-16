@@ -12,6 +12,7 @@ import type {
 } from '../../../lib';
 
 import { pushToStack } from './combinators.js';
+import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { bigIntToVmNumber } from './instruction-sets-utils.js';
 
@@ -45,10 +46,6 @@ const enum PushOperationConstants {
    * 256 - 1
    */
   maximumPushData1Size = 255,
-  /**
-   * Standard consensus parameter for most Bitcoin forks.
-   */
-  maximumPushSize = 520,
   /**
    * 256 ** 2 - 1
    */
@@ -172,7 +169,7 @@ export const pushOperation =
       AuthenticationProgramStateMinimum &
       AuthenticationProgramStateStack
   >(
-    maximumPushSize = PushOperationConstants.maximumPushSize
+    maximumPushSize = ConsensusCommon.maximumStackItemLength
   ): Operation<State> =>
   (state: State) => {
     const instruction = state.instructions[

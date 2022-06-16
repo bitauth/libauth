@@ -5,7 +5,6 @@ import test from 'ava';
 import type { CompilationData, TransactionCommon } from '../lib';
 import {
   authenticationTemplateToCompilerBCH,
-  bigIntToBinUint64LE,
   CashAddressNetworkPrefix,
   createVirtualMachineBCH,
   decodeTransactionCommon,
@@ -32,7 +31,7 @@ import {
 const vm = createVirtualMachineBCH();
 
 // eslint-disable-next-line complexity
-test.failing('transaction e2e tests: 2-of-3 multisig', (t) => {
+test('transaction e2e tests: 2-of-3 multisig', (t) => {
   const template = importAuthenticationTemplate(twoOfThreeJson);
   if (typeof template === 'string') {
     t.fail(template);
@@ -75,7 +74,7 @@ test.failing('transaction e2e tests: 2-of-3 multisig', (t) => {
   const valueSatoshis = 10000;
   const utxoOutput = {
     lockingBytecode: lockingBytecode.bytecode,
-    valueSatoshis: bigIntToBinUint64LE(BigInt(valueSatoshis)),
+    valueSatoshis: BigInt(valueSatoshis),
   };
 
   const input1 = {
@@ -96,7 +95,7 @@ test.failing('transaction e2e tests: 2-of-3 multisig', (t) => {
     outputs: [
       {
         lockingBytecode: hexToBin('6a0b68656c6c6f20776f726c64'),
-        valueSatoshis: bigIntToBinUint64LE(BigInt(0)),
+        valueSatoshis: 0n,
       },
     ],
     version: 2,

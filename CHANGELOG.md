@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.5](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2022-06-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* Binary literals are now compiled as bytes rather than numbers.
+
+### Features
+
+* improve VM errors, correct binary literals, add vmb_tests ([e146a94](https://github.com/bitauth/libauth/commit/e146a9467194aa23b35e7f900b509d70e08e20ad))
+
 ## [2.0.0-alpha.4](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.2...v2.0.0-alpha.4) (2022-06-16)
 
 

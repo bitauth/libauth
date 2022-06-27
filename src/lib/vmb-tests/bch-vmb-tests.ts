@@ -312,6 +312,20 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
     ],
   ],
   [
+    'Transaction structure and limits',
+    [
+      ['', '<1>', 'Empty unlocking bytecode is supported'],
+      ['<1>', '<1>', 'Requires empty unlocking bytecode', ['invalid']],
+      ['', '<1>', '(Nonstandard) outputs may be malformed', ['nonstandard'], { transaction: { outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_PUSHBYTES_13') as Uint8Array) }] } }],
+      ['<1>', '', 'Empty locking bytecode is supported'],
+      ['<0>', '', 'Empty locking bytecode requires truthy result', ['invalid']],
+      ['<0>', 'OP_DROP <1>', 'Drop item and succeed'],
+      ['', 'OP_DROP <1>', 'Drop non-existent item', ['invalid']],
+      ['OP_PUSHDATA_2 520 $(<0> <520> OP_NUM2BIN)', 'OP_SIZE <520> OP_EQUAL OP_NIP', 'Allow 520 byte push'],
+      ['OP_PUSHDATA_2 521 $(<0> <520> OP_NUM2BIN) 0xff', 'OP_SIZE <521> OP_EQUAL OP_NIP', 'Disallow 521 byte push', ['invalid']],
+    ],
+  ],
+  [
     'Transaction inspection',
     [
       ['<0>', 'OP_INPUTINDEX OP_EQUAL', 'OP_INPUTINDEX returns the index of the input currently being evaluated (0)', [], slot0Scenario],

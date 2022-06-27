@@ -29,7 +29,7 @@ test(
   expectCompilationResult,
   '0b1 0b1111_1111 0b111 0b1111_1111__1111_1111__1111_1111__1111_1111____1111_1111__1111_1111__1111_1111__1111_1111_1',
   {},
-  { bytecode: hexToBin('01ff0007ffffffffffffffff01'), success: true }
+  { bytecode: hexToBin('01ff07ffffffffffffffff01'), success: true }
 );
 
 test(

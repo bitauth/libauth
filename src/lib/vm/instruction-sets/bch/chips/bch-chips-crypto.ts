@@ -5,6 +5,7 @@ import {
   sha1 as internalSha1,
   sha256 as internalSha256,
 } from '../../../../crypto/crypto.js';
+import { binToHex } from '../../../../format/format.js';
 import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateMinimum,
@@ -209,7 +210,10 @@ export const opCheckSigChipLimits =
       if (!isValidSignatureEncodingBCHTransaction(bitcoinEncodedSignature)) {
         return applyError(
           state,
-          AuthenticationErrorCommon.invalidSignatureEncoding
+          AuthenticationErrorCommon.invalidSignatureEncoding,
+          `Transaction signature (including signing serialization type): ${binToHex(
+            bitcoinEncodedSignature
+          )}`
         );
       }
       const coveredBytecode = encodeAuthenticationInstructions(
@@ -360,7 +364,10 @@ export const opCheckMultiSigChipLimits =
                 ) {
                   return applyError(
                     finalState,
-                    AuthenticationErrorCommon.invalidSignatureEncoding
+                    AuthenticationErrorCommon.invalidSignatureEncoding,
+                    `Transaction signature (including signing serialization type): ${binToHex(
+                      bitcoinEncodedSignature
+                    )}`
                   );
                 }
 
@@ -490,7 +497,8 @@ export const opCheckDataSigChipLimits =
       if (!isValidSignatureEncodingBCHRaw(signature)) {
         return applyError(
           nextState,
-          AuthenticationErrorCommon.invalidSignatureEncoding
+          AuthenticationErrorCommon.invalidSignatureEncoding,
+          `Data signature: ${binToHex(signature)}`
         );
       }
       if (!isValidPublicKeyEncoding(publicKey)) {

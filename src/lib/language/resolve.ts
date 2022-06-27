@@ -1,4 +1,4 @@
-import { hexToBin, utf8ToBin } from '../format/format.js';
+import { binStringToBin, hexToBin, utf8ToBin } from '../format/format.js';
 import type {
   AnyCompilerConfiguration,
   AuthenticationProgramStateControlStack,
@@ -111,9 +111,7 @@ export const resolveScriptSegment = (
           literalType: 'BinaryLiteral' as const,
           range,
           type: 'bytecode' as const,
-          value: bigIntToVmNumber(
-            BigInt(`0b${removeNumericSeparators(child.value)}`)
-          ),
+          value: binStringToBin(removeNumericSeparators(child.value)),
         };
       case 'HexLiteral':
         return {

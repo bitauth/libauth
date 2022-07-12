@@ -29,7 +29,6 @@ const vmVersionsBCH = [
   'chip_cashtokens',
   'chip_limits',
   'chip_loops',
-  'chip_minimalbool',
   'chip_p2sh32',
   'chip_strict_checkmultisig',
   'chip_zce',

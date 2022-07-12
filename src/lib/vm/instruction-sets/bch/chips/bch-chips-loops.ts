@@ -14,6 +14,7 @@ import {
   encodeAuthenticationInstructions,
   isMinimalDataPush,
   pushToStack,
+  stackItemIsTruthy,
   useOneStackItem,
 } from '../../common/common.js';
 
@@ -86,23 +87,6 @@ export const pushToControlStackChipLoops = <
   return state;
 };
 
-export const useOneBoolean = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
->(
-  state: State,
-  operation: (nextState: State, [value]: [boolean]) => State
-) =>
-  useOneStackItem(state, (nextState, [item]) => {
-    if (item.length === 0) {
-      return operation(nextState, [false]);
-    }
-    if (item.length === 1 && item[0] === 1) {
-      return operation(nextState, [true]);
-    }
-    return applyError(state, AuthenticationErrorBCHCHIPs.invalidBoolean);
-  });
-
 export const opIfChipLoops = <
   State extends AuthenticationProgramStateControlStackCHIPs &
     AuthenticationProgramStateError &
@@ -111,8 +95,8 @@ export const opIfChipLoops = <
   state: State
 ) => {
   if (executionIsActive(state)) {
-    return useOneBoolean(state, (nextState, [bool]) =>
-      pushToControlStackChipLoops(nextState, bool)
+    return useOneStackItem(state, (nextState, [item]) =>
+      pushToControlStackChipLoops(nextState, stackItemIsTruthy(item))
     );
   }
   return pushToControlStackChipLoops(state, false);
@@ -126,8 +110,8 @@ export const opNotIfChipLoops = <
   state: State
 ) => {
   if (executionIsActive(state)) {
-    return useOneBoolean(state, (nextState, [bool]) =>
-      pushToControlStackChipLoops(nextState, !bool)
+    return useOneStackItem(state, (nextState, [item]) =>
+      pushToControlStackChipLoops(nextState, !stackItemIsTruthy(item))
     );
   }
   return pushToControlStackChipLoops(state, false);

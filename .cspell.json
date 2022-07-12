@@ -85,7 +85,6 @@
     "malleation",
     "malloc",
     "minification",
-    "MINIMALBOOL",
     "MINIMALIF",
     "monospace",
     "multisig",
@@ -184,9 +183,5 @@
       "pattern": "/:[qpzry9x8gf2tvdw0s3jn54khce6mua7l]+/g"
     }
   ],
-  "ignoreRegExpList": [
-    "Base64",
-    "HexValues",
-    "cash-address-format"
-  ]
+  "ignoreRegExpList": ["Base64", "HexValues", "cash-address-format"]
 }

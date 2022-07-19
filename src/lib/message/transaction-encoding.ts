@@ -1,13 +1,13 @@
 import { hash256, sha256 as internalSha256 } from '../crypto/crypto.js';
 import {
-  bigIntToVarInt,
+  bigIntToCompactSize,
   binToHex,
   binToNumberUint32LE,
   binToValueSatoshis,
+  compactSizeToBigInt,
   flattenBinArray,
   numberToBinUint32LE,
   valueSatoshisToBin,
-  varIntToBigInt,
 } from '../format/format.js';
 import type { Input, Output, Sha256, TransactionCommon } from '../lib';
 
@@ -20,7 +20,7 @@ export const encodeTransactionInput = (input: Input) =>
   flattenBinArray([
     input.outpointTransactionHash.slice().reverse(),
     numberToBinUint32LE(input.outpointIndex),
-    bigIntToVarInt(BigInt(input.unlockingBytecode.length)),
+    bigIntToCompactSize(BigInt(input.unlockingBytecode.length)),
     input.unlockingBytecode,
     numberToBinUint32LE(input.sequenceNumber),
   ]);
@@ -48,7 +48,7 @@ export const decodeTransactionInputUnsafe = (
     bin.subarray(indexAfterTxHash, indexAfterOutpointIndex)
   );
   const { nextIndex: indexAfterBytecodeLength, value: bytecodeLength } =
-    varIntToBigInt(bin, indexAfterOutpointIndex);
+    compactSizeToBigInt(bin, indexAfterOutpointIndex);
   const indexAfterBytecode = indexAfterBytecodeLength + Number(bytecodeLength);
   const unlockingBytecode = bin.slice(
     indexAfterBytecodeLength,
@@ -73,27 +73,28 @@ export const decodeTransactionInputUnsafe = (
  * Encode a set of {@link Input}s for inclusion in an encoded transaction
  * including the prefixed number of inputs.
  *
- * Format: [VarInt: input count] [encoded inputs]
+ * Format: [CompactSize: input count] [encoded inputs]
  *
  * @param inputs - the set of inputs to encode
  */
 export const encodeTransactionInputs = (inputs: readonly Input[]) =>
   flattenBinArray([
-    bigIntToVarInt(BigInt(inputs.length)),
+    bigIntToCompactSize(BigInt(inputs.length)),
     ...inputs.map(encodeTransactionInput),
   ]);
 
 /**
- * Decode an array of items following a VarInt (see {@link varIntToBigInt}). A
- * VarInt will be read beginning at `index`, and then the encoded number of
- * items will be decoded using `itemDecoder`.
+ * Decode an array of items following a CompactSize (see
+ * {@link compactSizeToBigInt}). A CompactSize will be read beginning at
+ * `index`, and then the encoded number of items will be decoded
+ * using `itemDecoder`.
  *
  * Note: the decoder produced by this method throws runtime errors when
  * attempting to decode improperly-encoded items.
  *
  * @param itemDecoder - a function used to decode each encoded item
  */
-export const createVarIntItemUnsafeDecoder =
+export const createCompactSizeItemUnsafeDecoder =
   <Item, Key extends string, KeyPlural extends string>(
     key: Key,
     itemDecoder: (
@@ -103,10 +104,8 @@ export const createVarIntItemUnsafeDecoder =
     keyPlural: KeyPlural
   ) =>
   (bin: Uint8Array, index = 0) => {
-    const { nextIndex: indexAfterItemCount, value: itemCount } = varIntToBigInt(
-      bin,
-      index
-    );
+    const { nextIndex: indexAfterItemCount, value: itemCount } =
+      compactSizeToBigInt(bin, index);
     // eslint-disable-next-line functional/no-let
     let cursor = indexAfterItemCount;
     const items = [];
@@ -127,16 +126,16 @@ export const createVarIntItemUnsafeDecoder =
 
 /**
  * Decode a set of transaction {@link Input}s from a Uint8Array beginning at
- * `index`. A VarInt will be read beginning at `index`, and then the encoded
- * number of transaction inputs will be decoded and returned.
+ * `index`. A CompactSize will be read beginning at `index`, and then the
+ * encoded number of transaction inputs will be decoded and returned.
  *
  * Note: this method throws runtime errors when attempting to decode
  * improperly-encoded sets of inputs.
  *
  * @param bin - the raw transaction from which to read the inputs
- * @param index - the index at which the VarInt count begins
+ * @param index - the index at which the CompactSize count begins
  */
-export const decodeTransactionInputsUnsafe = createVarIntItemUnsafeDecoder(
+export const decodeTransactionInputsUnsafe = createCompactSizeItemUnsafeDecoder(
   'input',
   decodeTransactionInputUnsafe,
   'inputs'
@@ -172,7 +171,7 @@ export const decodeTransactionOutputUnsafe = (
   const valueSatoshis = binToValueSatoshis(
     bin.slice(index, indexAfterSatoshis)
   );
-  const { nextIndex: indexAfterScriptLength, value } = varIntToBigInt(
+  const { nextIndex: indexAfterScriptLength, value } = compactSizeToBigInt(
     bin,
     indexAfterSatoshis
   );
@@ -200,48 +199,49 @@ export const decodeTransactionOutputUnsafe = (
 export const encodeTransactionOutput = (output: Output) =>
   flattenBinArray([
     valueSatoshisToBin(output.valueSatoshis),
-    bigIntToVarInt(BigInt(output.lockingBytecode.length)),
+    bigIntToCompactSize(BigInt(output.lockingBytecode.length)),
     output.lockingBytecode,
   ]);
 
 /**
  * Decode a set of transaction {@link Output}s from a Uint8Array beginning at
- * `index`. A VarInt will be read beginning at `index`, and then the encoded
- * number of transaction outputs will be decoded and returned.
+ * `index`. A CompactSize will be read beginning at `index`, and then the
+ * encoded number of transaction outputs will be decoded and returned.
  *
  * Note: this method throws runtime errors when attempting to decode
  * improperly-encoded sets of outputs.
  *
  * @param bin - the raw transaction from which to read the outputs
- * @param index - the index at which the VarInt count begins
+ * @param index - the index at which the CompactSize count begins
  */
-export const decodeTransactionOutputsUnsafe = createVarIntItemUnsafeDecoder(
-  'output',
-  decodeTransactionOutputUnsafe,
-  'outputs'
-) as (
-  bin: Uint8Array,
-  index?: number
-) => {
-  outputs: {
-    lockingBytecode: Uint8Array;
-    valueSatoshis: bigint;
-  }[];
-  nextIndex: number;
-};
+export const decodeTransactionOutputsUnsafe =
+  createCompactSizeItemUnsafeDecoder(
+    'output',
+    decodeTransactionOutputUnsafe,
+    'outputs'
+  ) as (
+    bin: Uint8Array,
+    index?: number
+  ) => {
+    outputs: {
+      lockingBytecode: Uint8Array;
+      valueSatoshis: bigint;
+    }[];
+    nextIndex: number;
+  };
 
 /**
  * Encode a set of {@link Output}s for inclusion in an encoded transaction
  * including the prefixed number of outputs. Note, this encoding differs from
  * {@link encodeTransactionOutputsForSigning} (used for signing serializations).
  *
- * Format: [VarInt: output count] [encoded outputs]
+ * Format: [CompactSize: output count] [encoded outputs]
  *
  * @param outputs - the set of outputs to encode
  */
 export const encodeTransactionOutputs = (outputs: readonly Output[]) =>
   flattenBinArray([
-    bigIntToVarInt(BigInt(outputs.length)),
+    bigIntToCompactSize(BigInt(outputs.length)),
     ...outputs.map(encodeTransactionOutput),
   ]);
 

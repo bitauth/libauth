@@ -14,8 +14,8 @@ import {
 } from '../../common/common.js';
 
 const enum CashTokens {
-  mintingCapabilityByte = 0xff,
-  mutableCapabilityByte = 0xfe,
+  mintingCapabilityByte = 0x01,
+  mutableCapabilityByte = 0x02,
 }
 
 export const pushTokenExtendedCategory = <

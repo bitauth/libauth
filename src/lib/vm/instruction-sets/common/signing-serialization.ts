@@ -1,6 +1,6 @@
 import { hash256, sha256 as internalSha256 } from '../../../crypto/crypto.js';
 import {
-  bigIntToVarInt,
+  bigIntToCompactSize,
   flattenBinArray,
   numberToBinUint32LE,
   valueSatoshisToBin,
@@ -260,7 +260,7 @@ export const encodeSigningSerializationBCH = (
     ),
     outpointTransactionHash.slice().reverse(),
     numberToBinUint32LE(outpointIndex),
-    bigIntToVarInt(BigInt(coveredBytecode.length)),
+    bigIntToCompactSize(BigInt(coveredBytecode.length)),
     coveredBytecode,
     outputValue,
     numberToBinUint32LE(sequenceNumber),

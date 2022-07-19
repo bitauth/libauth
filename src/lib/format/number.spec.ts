@@ -6,7 +6,7 @@ import {
   bigIntToBinUint64LE,
   bigIntToBinUint64LEClamped,
   bigIntToBinUintLE,
-  bigIntToVarInt,
+  bigIntToCompactSize,
   binToBigIntUint256BE,
   binToBigIntUint64LE,
   binToBigIntUintBE,
@@ -28,8 +28,8 @@ import {
   numberToBinUint32LE,
   numberToBinUint32LEClamped,
   numberToBinUintLE,
-  varIntPrefixToSize,
-  varIntToBigInt,
+  compactSizePrefixToSize,
+  compactSizeToBigInt,
 } from '../lib.js';
 
 test('numberToBinUint16LE', (t) => {
@@ -206,9 +206,9 @@ test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on negative n
   );
 });
 
-test('bigIntToVarInt: larger values return modulo result after opcode', (t) => {
+test('bigIntToCompactSize: larger values return modulo result after opcode', (t) => {
   t.deepEqual(
-    bigIntToVarInt(0x010000000000000001n),
+    bigIntToCompactSize(0x010000000000000001n),
     Uint8Array.from([0xff, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
   );
 });
@@ -433,69 +433,71 @@ test('binToBigIntUint64LE', (t) => {
   );
 });
 
-test('varIntToBigInt: index is optional', (t) => {
-  t.deepEqual(varIntToBigInt(hexToBin('00')), {
+test('compactSizeToBigInt: index is optional', (t) => {
+  t.deepEqual(compactSizeToBigInt(hexToBin('00')), {
     nextIndex: 1,
     value: 0x00n,
   });
 });
 
-const varIntVector = test.macro<[string, bigint, number, number?, string?]>({
+const compactSizeVector = test.macro<
+  [string, bigint, number, number?, string?]
+>({
   // eslint-disable-next-line max-params
   exec: (t, hex, value, nextIndex, start = 0, expected = hex) => {
-    t.deepEqual(varIntToBigInt(hexToBin(hex), start), {
+    t.deepEqual(compactSizeToBigInt(hexToBin(hex), start), {
       nextIndex,
       value,
     });
-    t.deepEqual(bigIntToVarInt(value), hexToBin(expected));
+    t.deepEqual(bigIntToCompactSize(value), hexToBin(expected));
   },
-  title: (_, string) => `varIntToBigInt/bigIntToVarInt: ${string}`,
+  title: (_, string) => `compactSizeToBigInt/bigIntToCompactSize: ${string}`,
 });
 
 /* spell-checker: disable */
-test(varIntVector, '00', 0x00n, 1);
-test(varIntVector, '01', 0x01n, 1);
-test(varIntVector, '12', 0x12n, 1);
-test(varIntVector, '6a', 0x6an, 1);
-test(varIntVector, '00006a', 0x6an, 3, 2, '6a');
-test(varIntVector, 'fc', 0xfcn, 1);
-test(varIntVector, 'fdfd00', 0x00fdn, 3);
-test(varIntVector, '000000fdfd00', 0xfdn, 6, 3, 'fdfd00');
-test(varIntVector, 'fdfe00', 0x00fen, 3);
-test(varIntVector, 'fdff00', 0x00ffn, 3);
-test(varIntVector, 'fd1111', 0x1111n, 3);
-test(varIntVector, 'fd1234', 0x3412n, 3);
-test(varIntVector, 'fdfeff', 0xfffen, 3);
-test(varIntVector, 'fdffff', 0xffffn, 3);
-test(varIntVector, 'fe00000100', 0x010000n, 5);
-test(varIntVector, '00fe00000100', 0x010000n, 6, 1, 'fe00000100');
-test(varIntVector, 'fe01000100', 0x010001n, 5);
-test(varIntVector, 'fe11111111', 0x11111111n, 5);
-test(varIntVector, 'fe12345678', 0x78563412n, 5);
-test(varIntVector, 'feffffffff', 0xffffffffn, 5);
-test(varIntVector, 'ff0000000001000000', 0x0100000000n, 9);
+test(compactSizeVector, '00', 0x00n, 1);
+test(compactSizeVector, '01', 0x01n, 1);
+test(compactSizeVector, '12', 0x12n, 1);
+test(compactSizeVector, '6a', 0x6an, 1);
+test(compactSizeVector, '00006a', 0x6an, 3, 2, '6a');
+test(compactSizeVector, 'fc', 0xfcn, 1);
+test(compactSizeVector, 'fdfd00', 0x00fdn, 3);
+test(compactSizeVector, '000000fdfd00', 0xfdn, 6, 3, 'fdfd00');
+test(compactSizeVector, 'fdfe00', 0x00fen, 3);
+test(compactSizeVector, 'fdff00', 0x00ffn, 3);
+test(compactSizeVector, 'fd1111', 0x1111n, 3);
+test(compactSizeVector, 'fd1234', 0x3412n, 3);
+test(compactSizeVector, 'fdfeff', 0xfffen, 3);
+test(compactSizeVector, 'fdffff', 0xffffn, 3);
+test(compactSizeVector, 'fe00000100', 0x010000n, 5);
+test(compactSizeVector, '00fe00000100', 0x010000n, 6, 1, 'fe00000100');
+test(compactSizeVector, 'fe01000100', 0x010001n, 5);
+test(compactSizeVector, 'fe11111111', 0x11111111n, 5);
+test(compactSizeVector, 'fe12345678', 0x78563412n, 5);
+test(compactSizeVector, 'feffffffff', 0xffffffffn, 5);
+test(compactSizeVector, 'ff0000000001000000', 0x0100000000n, 9);
 /* spell-checker: enable */
 
 test(
-  varIntVector,
+  compactSizeVector,
   '0000ff0000000001000000',
   0x0100000000n,
   11,
   2,
   'ff0000000001000000'
 );
-test(varIntVector, 'ff0100000001000000', 0x0100000001n, 9);
-test(varIntVector, 'ff1111111111111111', 0x1111111111111111n, 9);
-test(varIntVector, 'ff1234567890abcdef', 0xefcdab9078563412n, 9);
+test(compactSizeVector, 'ff0100000001000000', 0x0100000001n, 9);
+test(compactSizeVector, 'ff1111111111111111', 0x1111111111111111n, 9);
+test(compactSizeVector, 'ff1234567890abcdef', 0xefcdab9078563412n, 9);
 
 testProp(
-  '[fast-check] bigIntToVarInt <-> varIntToBigInt',
+  '[fast-check] bigIntToCompactSize <-> compactSizeToBigInt',
   [fc.bigUintN(64)],
   (t, uint64) => {
-    const varInt = bigIntToVarInt(uint64);
+    const compactSize = bigIntToCompactSize(uint64);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const expectedIndex = varIntPrefixToSize(varInt[0]!);
-    const result = varIntToBigInt(varInt);
+    const expectedIndex = compactSizePrefixToSize(compactSize[0]!);
+    const result = compactSizeToBigInt(compactSize);
     t.deepEqual(result, { nextIndex: expectedIndex, value: uint64 });
   }
 );

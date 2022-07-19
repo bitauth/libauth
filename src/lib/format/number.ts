@@ -450,7 +450,7 @@ export const binToValueSatoshis = binToBigIntUint64LE;
  */
 export const valueSatoshisToBin = bigIntToBinUint64LE;
 
-const enum VarInt {
+const enum CompactSize {
   uint8MaxValue = 0xfc,
   uint16Prefix = 0xfd,
   uint16MaxValue = 0xffff,
@@ -464,35 +464,36 @@ const enum VarInt {
 }
 
 /**
- * Get the expected byte length of a Bitcoin VarInt given a first byte.
+ * Get the expected byte length of a Bitcoin CompactSize given a first byte.
  *
- * @param firstByte - the first byte of the VarInt
+ * @param firstByte - the first byte of the CompactSize
  */
-export const varIntPrefixToSize = (firstByte: number) => {
+export const compactSizePrefixToSize = (firstByte: number) => {
   switch (firstByte) {
-    case VarInt.uint16Prefix:
-      return VarInt.uint16 + 1;
-    case VarInt.uint32Prefix:
-      return VarInt.uint32 + 1;
-    case VarInt.uint64Prefix:
-      return VarInt.uint64 + 1;
+    case CompactSize.uint16Prefix:
+      return CompactSize.uint16 + 1;
+    case CompactSize.uint32Prefix:
+      return CompactSize.uint32 + 1;
+    case CompactSize.uint64Prefix:
+      return CompactSize.uint64 + 1;
     default:
-      return VarInt.uint8;
+      return CompactSize.uint8;
   }
 };
 
 /**
- * Decode a VarInt (Satoshi's Variable-length integer format) from a Uint8Array,
- * returning the `nextIndex` after the VarInt and the value as a BigInt.
+ * Decode a `CompactSize` (Satoshi's variable-length, positive integer format)
+ * from a Uint8Array, returning the `nextIndex` after the CompactSize and the
+ * value as a BigInt.
  *
  * Note: throws a runtime error if `bin` has a length of `0`.
  *
- * @param bin - the Uint8Array from which to read the VarInt
- * @param index - the index at which the VarInt begins
+ * @param bin - the Uint8Array from which to read the CompactSize
+ * @param index - the index at which the CompactSize begins
  */
-export const varIntToBigInt = (bin: Uint8Array, index = 0) => {
+export const compactSizeToBigInt = (bin: Uint8Array, index = 0) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const bytes = varIntPrefixToSize(bin[index]!);
+  const bytes = compactSizePrefixToSize(bin[index]!);
   const hasPrefix = bytes !== 1;
   return {
     nextIndex: index + bytes,
@@ -503,9 +504,10 @@ export const varIntToBigInt = (bin: Uint8Array, index = 0) => {
 };
 
 /**
- * Encode a positive BigInt as a VarInt (Satoshi's Variable-length integer).
+ * Encode a positive BigInt as a `CompactSize` (Satoshi's variable-length,
+ * positive integer format).
  *
- * Note: the maximum value of a VarInt is `0xffff_ffff_ffff_ffff`
+ * Note: the maximum value of a CompactSize is `0xffff_ffff_ffff_ffff`
  * (`18446744073709551615`). This method will return an incorrect result for
  * values outside of the range `0` to `0xffff_ffff_ffff_ffff`. If applicable,
  * applications should handle such cases prior to calling this method.
@@ -513,20 +515,23 @@ export const varIntToBigInt = (bin: Uint8Array, index = 0) => {
  * @param value - the BigInt to encode (must be no larger than
  * `0xffff_ffff_ffff_ffff`)
  */
-export const bigIntToVarInt = (value: bigint) =>
-  value <= BigInt(VarInt.uint8MaxValue)
+export const bigIntToCompactSize = (value: bigint) =>
+  value <= BigInt(CompactSize.uint8MaxValue)
     ? Uint8Array.of(Number(value))
-    : value <= BigInt(VarInt.uint16MaxValue)
+    : value <= BigInt(CompactSize.uint16MaxValue)
     ? Uint8Array.from([
-        VarInt.uint16Prefix,
+        CompactSize.uint16Prefix,
         ...numberToBinUint16LE(Number(value)),
       ])
-    : value <= BigInt(VarInt.uint32MaxValue)
+    : value <= BigInt(CompactSize.uint32MaxValue)
     ? Uint8Array.from([
-        VarInt.uint32Prefix,
+        CompactSize.uint32Prefix,
         ...numberToBinUint32LE(Number(value)),
       ])
-    : Uint8Array.from([VarInt.uint64Prefix, ...bigIntToBinUint64LE(value)]);
+    : Uint8Array.from([
+        CompactSize.uint64Prefix,
+        ...bigIntToBinUint64LE(value),
+      ]);
 
 export const int32SignedToUnsigned = (int32: number) =>
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

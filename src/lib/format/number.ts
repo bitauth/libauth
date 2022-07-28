@@ -1,3 +1,7 @@
+import type { MaybeReadResult, ReadPosition } from '../lib';
+
+import { formatError } from './error.js';
+
 /**
  * Encode a positive integer as a little-endian Uint8Array. For values exceeding
  * `Number.MAX_SAFE_INTEGER` (`9007199254740991`), use `bigIntToBinUintLE`.
@@ -464,7 +468,7 @@ const enum CompactSize {
 }
 
 /**
- * Get the expected byte length of a Bitcoin CompactSize given a first byte.
+ * Get the expected byte length of a CompactSize given a first byte.
  *
  * @param firstByte - the first byte of the CompactSize
  */
@@ -481,25 +485,50 @@ export const compactSizePrefixToSize = (firstByte: number) => {
   }
 };
 
+export enum CompactSizeError {
+  noPrefix = 'Error reading CompactSize: requires at least one byte.',
+  insufficientBytes = 'Error reading CompactSize: insufficient bytes.',
+  nonMinimal = 'Error reading CompactSize: CompactSize is not minimally encoded.',
+  excessiveBytes = 'Error decoding CompactSize: unexpected bytes after CompactSize.',
+}
+
 /**
- * Decode a `CompactSize` (Satoshi's variable-length, positive integer format)
- * from a Uint8Array, returning the `nextIndex` after the CompactSize and the
- * value as a BigInt.
+ * Read a non-minimally-encoded `CompactSize` (see {@link bigIntToCompactSize})
+ * from the provided {@link ReadPosition}, returning either an error message (as
+ * a string) or an object containing the value and the
+ * next {@link ReadPosition}.
  *
- * Note: throws a runtime error if `bin` has a length of `0`.
+ * Rather than this function, most applications should
+ * use {@link readCompactSizeMinimal}.
  *
- * @param bin - the Uint8Array from which to read the CompactSize
- * @param index - the index at which the CompactSize begins
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * `CompactSize`
  */
-export const compactSizeToBigInt = (bin: Uint8Array, index = 0) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const bytes = compactSizePrefixToSize(bin[index]!);
+export const readCompactSize = (
+  position: ReadPosition
+): MaybeReadResult<bigint> => {
+  const { bin, index } = position;
+  const prefix = bin[index];
+  if (prefix === undefined) {
+    return formatError(CompactSizeError.noPrefix);
+  }
+  const bytes = compactSizePrefixToSize(prefix);
+  if (bin.length - index < bytes) {
+    return formatError(
+      CompactSizeError.insufficientBytes,
+      `CompactSize prefix ${prefix} requires at least ${bytes} bytes. Remaining bytes: ${
+        bin.length - index
+      }`
+    );
+  }
   const hasPrefix = bytes !== 1;
+  const contents = hasPrefix
+    ? bin.subarray(index + 1, index + bytes)
+    : bin.subarray(index, index + bytes);
+
   return {
-    nextIndex: index + bytes,
-    value: hasPrefix
-      ? binToBigIntUintLE(bin.subarray(index + 1, index + bytes), bytes - 1)
-      : binToBigIntUintLE(bin.subarray(index, index + bytes), 1),
+    position: { bin, index: index + bytes },
+    result: binToBigIntUintLE(contents),
   };
 };
 
@@ -533,10 +562,71 @@ export const bigIntToCompactSize = (value: bigint) =>
         ...bigIntToBinUint64LE(value),
       ]);
 
+/**
+ * Read a minimally-encoded `CompactSize` from the provided
+ * {@link ReadPosition}, returning either an error message (as a string) or an
+ * object containing the value and the next {@link ReadPosition}.
+ *
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * `CompactSize`
+ */
+export const readCompactSizeMinimal = (
+  position: ReadPosition
+): MaybeReadResult<bigint> => {
+  const read = readCompactSize(position);
+  if (typeof read === 'string') {
+    return read;
+  }
+  const readLength = read.position.index - position.index;
+  const canonicalEncoding = bigIntToCompactSize(read.result);
+  if (readLength !== canonicalEncoding.length) {
+    return formatError(
+      CompactSizeError.nonMinimal,
+      `Value: ${read.result.toString()}, encoded length: ${readLength}, canonical length: ${
+        canonicalEncoding.length
+      }`
+    );
+  }
+  return read;
+};
+
+/**
+ * Decode a minimally-encoded `CompactSize` (Satoshi's variable-length, positive
+ * integer format) from a Uint8Array, returning the value as a BigInt. This
+ * function returns an error if the entire input is not consumed – to read a
+ * `CompactSize` from a position within a larger `Uint8Array`,
+ * use {@link readCompactSizeMinimal} or {@link readCompactSize}.
+ *
+ * @param bin - the Uint8Array from which to read the CompactSize
+ */
+export const compactSizeToBigInt = (bin: Uint8Array) => {
+  const read = readCompactSizeMinimal({ bin, index: 0 });
+  if (typeof read === 'string') {
+    return read;
+  }
+  if (read.position.index !== bin.length) {
+    return formatError(
+      CompactSizeError.excessiveBytes,
+      `CompactSize ends at index ${read.position.index}, but input includes ${bin.length} bytes.`
+    );
+  }
+  return read.result;
+};
+
+/**
+ * Convert a signed integer into it's two's compliment unsigned equivalent, e.g.
+ * `0b11111111111111111111111111111110` is `-2` as a signed integer or
+ * `4294967294` as an unsigned integer.
+ */
 export const int32SignedToUnsigned = (int32: number) =>
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   Uint32Array.from(Int32Array.of(int32))[0]!;
 
+/**
+ * Convert an unsigned integer into it's two's compliment signed equivalent,
+ * e.g. `0b11111111111111111111111111111110` is `4294967294` as an unsigned
+ * integer or `-2` as a signed integer.
+ */
 export const int32UnsignedToSigned = (int32: number) =>
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   Int32Array.from(Uint32Array.of(int32))[0]!;

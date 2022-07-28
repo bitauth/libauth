@@ -4,13 +4,15 @@ import type {
   AuthenticationProgramStateCommon,
   AuthenticationVirtualMachineBCH,
   AuthenticationVirtualMachineBCHCHIPs,
+  Output,
+  ReadResult,
   VmbTest,
 } from '../lib';
 import {
   createVirtualMachineBCH2022,
-  decodeTransactionOutputsUnsafe,
   decodeTransactionUnsafeBCH,
   hexToBin,
+  readTransactionOutputs,
   stringify,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
@@ -86,9 +88,11 @@ const testVm = ({
       ] = testCase;
       const testedIndex = inputIndex ?? 0;
       const transaction = decodeTransactionUnsafeBCH(hexToBin(txHex));
-      const { outputs: sourceOutputs } = decodeTransactionOutputsUnsafe(
-        hexToBin(sourceOutputsHex)
-      );
+
+      const { result: sourceOutputs } = readTransactionOutputs({
+        bin: hexToBin(sourceOutputsHex),
+        index: 0,
+      }) as ReadResult<Output[]>;
       const result = vm.verify({ sourceOutputs, transaction });
       const moreDetails = `For more detailed debugging information, run: "yarn test:unit:vmb_test ${vmName} ${shortId} -v"`;
       const logDebugInfo = () => {

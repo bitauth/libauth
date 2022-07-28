@@ -326,16 +326,30 @@ export const addressContentsToLockingBytecode = ({
  * @param prefix - the network prefix to use, e.g. `bitcoincash`, `bchtest`, or
  * `bchreg`
  */
+// eslint-disable-next-line complexity
 export const lockingBytecodeToCashAddress = (
   bytecode: Uint8Array,
-  prefix: `${CashAddressNetworkPrefix}`
+  prefix: `${CashAddressNetworkPrefix}`,
+  options = { tokenSupport: false }
 ) => {
   const contents = lockingBytecodeToAddressContents(bytecode);
   if (contents.type === LockingBytecodeType.p2pkh) {
-    return encodeCashAddress(prefix, CashAddressType.p2pkh, contents.payload);
+    return options.tokenSupport
+      ? encodeCashAddress(
+          prefix,
+          CashAddressType.p2pkhWithTokens,
+          contents.payload
+        )
+      : encodeCashAddress(prefix, CashAddressType.p2pkh, contents.payload);
   }
   if (contents.type === LockingBytecodeType.p2sh20) {
-    return encodeCashAddress(prefix, CashAddressType.p2sh, contents.payload);
+    return options.tokenSupport
+      ? encodeCashAddress(
+          prefix,
+          CashAddressType.p2shWithTokens,
+          contents.payload
+        )
+      : encodeCashAddress(prefix, CashAddressType.p2sh, contents.payload);
   }
   if (contents.type === 'P2PK') {
     return { error: CashAddressEncodingError.noTypeBitStandardizedForP2pk };

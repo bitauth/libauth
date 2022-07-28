@@ -20,15 +20,17 @@ export enum CashAddressNetworkPrefix {
  *
  * Two Address Type values are currently standardized:
  * - 0 (`0b0000`): P2PKH
- * - 1 (`0b0001`): P2SH20
+ * - 1 (`0b0001`): P2SH
  *
  * And two are proposed by `CHIP-2022-02-CashTokens`:
- * - 2 (`0b0010`): P2PKH + Token Support
- * - 3 (`0b0011`): P2SH20 + Token Support
+ * - 8 (`0b1000`): P2PKH + Token Support
+ * - 9 (`0b1001`): P2SH + Token Support
  *
- * While both P2PKH and P2SH20 addresses always use 160 bit hashes, the
- * CashAddress specification standardizes other sizes for future use (or use by
- * other systems), see `CashAddressSizeBit`.
+ * The CashAddress specification standardizes expected payload size using
+ * {@link CashAddressSizeBits}. Currently, two size bit values are in use by
+ * standard CashAddress types:
+ * - `0` (`0b000`): 20 bytes (in use by `p2pkh` and `p2sh20`)
+ * - `3` (`0b011`): 32 bytes (in use by `p2sh32`)
  */
 export enum CashAddressVersionByte {
   /**
@@ -36,32 +38,47 @@ export enum CashAddressVersionByte {
    *
    * - Most significant bit: `0` (reserved)
    * - Address Type bits: `0000` (P2PKH)
-   * - Size bits: `000` (160 bits)
+   * - Size bits: `000` (20 bytes)
    */
   p2pkh = 0b00000000,
   /**
    * 20-byte Pay to Script Hash (P2SH20): `0b00001000`
    *
    * - Most significant bit: `0` (reserved)
-   * - Address Type bits: `0001` (P2SH20)
-   * - Size bits: `000` (160 bits)
+   * - Address Type bits: `0001` (P2SH)
+   * - Size bits: `000` (20 bytes)
    */
   p2sh20 = 0b00001000,
+  /**
+   * 32-byte Pay to Script Hash (P2SH20): `0b00001000`
+   *
+   * - Most significant bit: `0` (reserved)
+   * - Address Type bits: `0001` (P2SH)
+   * - Size bits: `011` (32 bytes)
+   */
+  p2sh32 = 0b00001011,
   /**
    * Pay to Public Key Hash (P2PKH) with token support: `0b00010000`
    *
    * - Most significant bit: `0` (reserved)
-   * - Address Type bits: `0010` (P2PKH + Tokens)
-   * - Size bits: `000` (160 bits)
+   * - Address Type bits: `1000` (P2PKH + Tokens)
+   * - Size bits: `000` (20 bytes)
    */
-  p2pkhWithTokens = 0b00010000,
+  p2pkhWithTokens = 0b01000000,
   /**
-   * 20-byte Pay to Script Hash (P2SH20) with token support: `0b00011000`
+   * 20-byte Pay to Script Hash (P2SH20) with token support: `0b01001000`
    * - Most significant bit: `0` (reserved)
-   * - Address Type bits: `0011` (P2SH20 + Tokens)
-   * - Size bits: `000` (160 bits)
+   * - Address Type bits: `1001` (P2SH + Tokens)
+   * - Size bits: `000` (20 bytes)
    */
-  p2sh20WithTokens = 0b00011000,
+  p2sh20WithTokens = 0b01001000,
+  /**
+   * 32-byte Pay to Script Hash (P2SH32) with token support: `0b01001011`
+   * - Most significant bit: `0` (reserved)
+   * - Address Type bits: `1001` (P2SH + Tokens)
+   * - Size bits: `011` (32 bytes)
+   */
+  p2sh32WithTokens = 0b01001011,
 }
 
 /**
@@ -78,11 +95,11 @@ export enum CashAddressType {
    */
   p2sh = 'p2sh',
   /**
-   * Pay to Public Key Hash (P2PKH) with token support: `0b0010`
+   * Pay to Public Key Hash (P2PKH) with token support: `0b1000`
    */
   p2pkhWithTokens = 'p2pkhWithTokens',
   /**
-   * Pay to Script Hash (P2SH) with token support: `0b0011`
+   * Pay to Script Hash (P2SH) with token support: `0b1001`
    */
   p2shWithTokens = 'p2shWithTokens',
 }
@@ -91,7 +108,7 @@ export enum CashAddressType {
  * The address type bits currently defined in the CashAddress specification.
  * These map to: {@link CashAddressType}.
  */
-export enum CashAddressTypeBit {
+export enum CashAddressTypeBits {
   /**
    * Pay to Public Key Hash (P2PKH)
    */
@@ -103,33 +120,33 @@ export enum CashAddressTypeBit {
   /**
    * Pay to Public Key Hash (P2PKH) with token support
    */
-  p2pkhWithTokens = 2,
+  p2pkhWithTokens = 8,
   /**
    * Pay to Script Hash (P2SH) with token support
    */
-  p2sh20WithTokens = 3,
+  p2shWithTokens = 9,
 }
 
-export const cashAddressTypeToTypeBit: {
-  [key in CashAddressType]: CashAddressTypeBit;
+export const cashAddressTypeToTypeBits: {
+  [key in CashAddressType]: CashAddressTypeBits;
 } = {
-  [CashAddressType.p2pkh]: CashAddressTypeBit.p2pkh,
-  [CashAddressType.p2sh]: CashAddressTypeBit.p2sh,
-  [CashAddressType.p2pkhWithTokens]: CashAddressTypeBit.p2pkhWithTokens,
-  [CashAddressType.p2shWithTokens]: CashAddressTypeBit.p2sh20WithTokens,
+  [CashAddressType.p2pkh]: CashAddressTypeBits.p2pkh,
+  [CashAddressType.p2sh]: CashAddressTypeBits.p2sh,
+  [CashAddressType.p2pkhWithTokens]: CashAddressTypeBits.p2pkhWithTokens,
+  [CashAddressType.p2shWithTokens]: CashAddressTypeBits.p2shWithTokens,
 };
 
-export const cashAddressTypeBitToType: {
-  [key in CashAddressTypeBit]: CashAddressType;
+export const cashAddressTypeBitsToType: {
+  [key in CashAddressTypeBits]: CashAddressType;
 } = {
-  [CashAddressTypeBit.p2pkh]: CashAddressType.p2pkh,
-  [CashAddressTypeBit.p2sh]: CashAddressType.p2sh,
-  [CashAddressTypeBit.p2pkhWithTokens]: CashAddressType.p2pkhWithTokens,
-  [CashAddressTypeBit.p2sh20WithTokens]: CashAddressType.p2shWithTokens,
+  [CashAddressTypeBits.p2pkh]: CashAddressType.p2pkh,
+  [CashAddressTypeBits.p2sh]: CashAddressType.p2sh,
+  [CashAddressTypeBits.p2pkhWithTokens]: CashAddressType.p2pkhWithTokens,
+  [CashAddressTypeBits.p2shWithTokens]: CashAddressType.p2shWithTokens,
 };
 
 /* eslint-disable @typescript-eslint/naming-convention */
-export const cashAddressSizeBitToLength = {
+export const cashAddressSizeBitsToLength = {
   0: 20,
   1: 24,
   2: 28,
@@ -140,7 +157,7 @@ export const cashAddressSizeBitToLength = {
   7: 64,
 } as const;
 
-export const cashAddressLengthToSizeBit = {
+export const cashAddressLengthToSizeBits = {
   20: 0,
   24: 1,
   28: 2,
@@ -152,13 +169,13 @@ export const cashAddressLengthToSizeBit = {
 } as const;
 /* eslint-enable @typescript-eslint/naming-convention */
 
-export type CashAddressAvailableTypeBit =
+export type CashAddressAvailableTypeBits =
   // prettier-ignore
   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
 
 export type CashAddressSupportedLength =
-  keyof typeof cashAddressLengthToSizeBit;
-export type CashAddressSizeBit = keyof typeof cashAddressSizeBitToLength;
+  keyof typeof cashAddressLengthToSizeBits;
+export type CashAddressSizeBits = keyof typeof cashAddressSizeBitsToLength;
 
 const enum Constants {
   cashAddressTypeBitShift = 3,
@@ -167,6 +184,9 @@ const enum Constants {
   payloadSeparator = 0,
   asciiLowerCaseStart = 96,
   finiteFieldOrder = 32,
+  cashAddressReservedBitMask = 0b10000000,
+  cashAddressTypeBits = 0b1111,
+  cashAddressSizeBits = 0b111,
   /**
    * In ASCII, each pair of upper and lower case characters share the same 5 least
    * significant bits.
@@ -191,17 +211,12 @@ const enum Constants {
  * @param length - the length of the hash being encoded
  */
 export const encodeCashAddressVersionByte = (
-  typeBit: CashAddressAvailableTypeBit,
+  typeBit: CashAddressAvailableTypeBits,
   length: CashAddressSupportedLength
 ) =>
   // eslint-disable-next-line no-bitwise
   (typeBit << Constants.cashAddressTypeBitShift) |
-  cashAddressLengthToSizeBit[length];
-
-const cashAddressReservedBitMask = 0b10000000;
-const cashAddressTypeBits = 0b1111;
-const cashAddressSizeBits = 0b111;
-const empty = 0;
+  cashAddressLengthToSizeBits[length];
 
 export enum CashAddressVersionByteDecodingError {
   reservedBitSet = 'Reserved bit is set.',
@@ -215,18 +230,19 @@ export enum CashAddressVersionByteDecodingError {
  */
 export const decodeCashAddressVersionByte = (version: number) =>
   // eslint-disable-next-line no-negated-condition, no-bitwise
-  (version & cashAddressReservedBitMask) !== empty
+  (version & Constants.cashAddressReservedBitMask) !== 0
     ? CashAddressVersionByteDecodingError.reservedBitSet
     : {
         length:
-          cashAddressSizeBitToLength[
+          cashAddressSizeBitsToLength[
             // eslint-disable-next-line no-bitwise
             (version &
-              cashAddressSizeBits) as keyof typeof cashAddressSizeBitToLength
+              Constants.cashAddressSizeBits) as keyof typeof cashAddressSizeBitsToLength
           ],
         typeBit:
           // eslint-disable-next-line no-bitwise
-          (version >>> Constants.cashAddressTypeBitShift) & cashAddressTypeBits,
+          (version >>> Constants.cashAddressTypeBitShift) &
+          Constants.cashAddressTypeBits,
       };
 
 /**
@@ -398,8 +414,8 @@ export enum CashAddressEncodingError {
 export const isValidCashAddressHashLength = (
   length: number
 ): length is CashAddressSupportedLength =>
-  (cashAddressLengthToSizeBit[length as CashAddressSupportedLength] as
-    | CashAddressSizeBit
+  (cashAddressLengthToSizeBits[length as CashAddressSupportedLength] as
+    | CashAddressSizeBits
     | undefined) !== undefined;
 
 /**
@@ -425,7 +441,7 @@ export const isValidCashAddressHashLength = (
  */
 export const encodeCashAddressNonStandard = (
   prefix: string,
-  typeBit: CashAddressAvailableTypeBit,
+  typeBit: CashAddressAvailableTypeBits,
   hash: Uint8Array
 ) => {
   const { length } = hash;
@@ -465,7 +481,8 @@ export const encodeCashAddress = (
   prefix: `${CashAddressNetworkPrefix}`,
   type: `${CashAddressType}`,
   hash: Uint8Array
-) => encodeCashAddressNonStandard(prefix, cashAddressTypeToTypeBit[type], hash);
+) =>
+  encodeCashAddressNonStandard(prefix, cashAddressTypeToTypeBits[type], hash);
 
 export enum CashAddressDecodingError {
   improperPadding = 'Error decoding CashAddress: the payload is improperly padded.',
@@ -591,8 +608,8 @@ export const decodeCashAddress = (address: string) => {
   if (typeof decoded === 'string') {
     return decoded;
   }
-  const type = cashAddressTypeBitToType[
-    decoded.typeBit as keyof typeof cashAddressTypeBitToType
+  const type = cashAddressTypeBitsToType[
+    decoded.typeBit as keyof typeof cashAddressTypeBitsToType
   ] as CashAddressType | undefined;
   if (type === undefined) {
     return `${CashAddressDecodingError.unknownAddressType} Type bit value: ${decoded.typeBit}.`;

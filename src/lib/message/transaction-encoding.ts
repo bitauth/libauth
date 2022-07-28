@@ -2,14 +2,35 @@ import { hash256, sha256 as internalSha256 } from '../crypto/crypto.js';
 import {
   bigIntToCompactSize,
   binToHex,
-  binToNumberUint32LE,
-  binToValueSatoshis,
-  compactSizeToBigInt,
   flattenBinArray,
+  formatError,
   numberToBinUint32LE,
+  readCompactSizeMinimal,
+  readItemCount,
+  readMultiple,
   valueSatoshisToBin,
 } from '../format/format.js';
-import type { Input, Output, Sha256, TransactionCommon } from '../lib';
+import type {
+  Input,
+  MaybeReadResult,
+  Output,
+  ReadPosition,
+  Sha256,
+  TransactionCommon,
+} from '../lib';
+
+import {
+  readBytes,
+  readCompactSizePrefixedBin,
+  readRemainingBytes,
+  readUint32LE,
+  readUint64LE,
+} from './read-components.js';
+import { NonFungibleTokenCapability } from './transaction-types.js';
+
+const enum TransactionConstants {
+  outpointTransactionHashLength = 32,
+}
 
 /**
  * Encode a single input for inclusion in an encoded transaction.
@@ -25,47 +46,52 @@ export const encodeTransactionInput = (input: Input) =>
     numberToBinUint32LE(input.sequenceNumber),
   ]);
 
+export enum TransactionDecodingError {
+  transaction = 'Error reading transaction.',
+  endsWithUnexpectedBytes = 'Error decoding transaction: the provided input includes unexpected bytes after the encoded transaction.',
+  input = 'Error reading transaction input.',
+  inputs = 'Error reading transaction inputs.',
+  output = 'Error reading transaction output.',
+  outputs = 'Error reading transaction outputs.',
+  lockingBytecodeLength = 'Error reading locking bytecode length.',
+}
+
 /**
- * Decode a transaction {@link Input} from a Uint8Array containing the encoded
- * transaction input beginning at `index`.
- *
- * Note: this method throws runtime errors when attempting to decode an
- * improperly-encoded input.
- *
- * @param bin - the raw transaction from which to read the input
- * @param index - the index at which the input begins
+ * Read a transaction {@link Input} from the provided {@link ReadPosition},
+ * returning either an error message (as a string) or an object containing the
+ * {@link Input} and the next {@link ReadPosition}.
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * transaction output
  */
-export const decodeTransactionInputUnsafe = (
-  bin: Uint8Array,
-  index: number
-) => {
-  const sha256HashBytes = 32;
-  const uint32Bytes = 4;
-  const indexAfterTxHash = index + sha256HashBytes;
-  const outpointTransactionHash = bin.slice(index, indexAfterTxHash).reverse();
-  const indexAfterOutpointIndex = indexAfterTxHash + uint32Bytes;
-  const outpointIndex = binToNumberUint32LE(
-    bin.subarray(indexAfterTxHash, indexAfterOutpointIndex)
-  );
-  const { nextIndex: indexAfterBytecodeLength, value: bytecodeLength } =
-    compactSizeToBigInt(bin, indexAfterOutpointIndex);
-  const indexAfterBytecode = indexAfterBytecodeLength + Number(bytecodeLength);
-  const unlockingBytecode = bin.slice(
-    indexAfterBytecodeLength,
-    indexAfterBytecode
-  );
-  const nextIndex = indexAfterBytecode + uint32Bytes;
-  const sequenceNumber = binToNumberUint32LE(
-    bin.subarray(indexAfterBytecode, nextIndex)
-  );
-  return {
-    input: {
-      outpointIndex,
+export const readTransactionInput = (
+  position: ReadPosition
+): MaybeReadResult<Input> => {
+  const inputRead = readMultiple(position, [
+    readBytes(TransactionConstants.outpointTransactionHashLength),
+    readUint32LE,
+    readCompactSizePrefixedBin,
+    readUint32LE,
+  ]);
+  if (typeof inputRead === 'string') {
+    return formatError(TransactionDecodingError.input, inputRead);
+  }
+  const {
+    position: nextPosition,
+    result: [
       outpointTransactionHash,
+      outpointIndex,
+      unlockingBytecode,
+      sequenceNumber,
+    ],
+  } = inputRead;
+  return {
+    position: nextPosition,
+    result: {
+      outpointIndex,
+      outpointTransactionHash: outpointTransactionHash.reverse(),
       sequenceNumber,
       unlockingBytecode,
     },
-    nextIndex,
   };
 };
 
@@ -84,111 +110,328 @@ export const encodeTransactionInputs = (inputs: readonly Input[]) =>
   ]);
 
 /**
- * Decode an array of items following a CompactSize (see
- * {@link compactSizeToBigInt}). A CompactSize will be read beginning at
- * `index`, and then the encoded number of items will be decoded
- * using `itemDecoder`.
+ * Read a set of transaction {@link Input}s beginning at {@link ReadPosition}.
+ * A CompactSize will be read to determine the number of inputs, and that
+ * number of transaction inputs will be read and returned. Returns either an
+ * error message (as a string) or an object containing the array of inputs and
+ * the next {@link ReadPosition}.
  *
- * Note: the decoder produced by this method throws runtime errors when
- * attempting to decode improperly-encoded items.
- *
- * @param itemDecoder - a function used to decode each encoded item
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * transaction inputs
  */
-export const createCompactSizeItemUnsafeDecoder =
-  <Item, Key extends string, KeyPlural extends string>(
-    key: Key,
-    itemDecoder: (
-      bin: Uint8Array,
-      index: number
-    ) => { [key in Key]: Item } & { nextIndex: number },
-    keyPlural: KeyPlural
-  ) =>
-  (bin: Uint8Array, index = 0) => {
-    const { nextIndex: indexAfterItemCount, value: itemCount } =
-      compactSizeToBigInt(bin, index);
-    // eslint-disable-next-line functional/no-let
-    let cursor = indexAfterItemCount;
-    const items = [];
-    // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
-    for (let i = 0; i < Number(itemCount); i++) {
-      // const { [key]: item, nextIndex } = itemDecoder(bin, cursor);
-      const result = itemDecoder(bin, cursor);
-      const item = result[key];
-      // eslint-disable-next-line functional/no-expression-statement
-      cursor = result.nextIndex;
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
-      items.push(item);
-    }
-    return { [keyPlural]: items, nextIndex: cursor } as {
-      [key in KeyPlural]: Item[];
-    } & { nextIndex: number };
-  };
+export const readTransactionInputs = (
+  position: ReadPosition
+): MaybeReadResult<Input[]> => {
+  const inputsRead = readItemCount(position, readTransactionInput);
+  if (typeof inputsRead === 'string') {
+    return formatError(TransactionDecodingError.inputs, inputsRead);
+  }
+  return inputsRead;
+};
+
+const enum CashTokens {
+  PREFIX_TOKEN = 0xef,
+  HAS_AMOUNT = 0b00010000,
+  HAS_NFT = 0b00100000,
+  HAS_COMMITMENT_LENGTH = 0b01000000,
+  RESERVED_BIT = 0b10000000,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+  categoryLength = 32,
+  tokenBitfieldIndex = 33,
+  minimumPrefixLength = 34,
+  tokenFormatMask = 0xf0,
+  nftCapabilityMask = 0x0f,
+  maximumCapability = 2,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+  useBinaryOutput = 2,
+}
+
+const maximumTokenAmount = 9223372036854775807n;
+
+export const nftCapabilityNumberToLabel = [
+  NonFungibleTokenCapability.none,
+  NonFungibleTokenCapability.mutable,
+  NonFungibleTokenCapability.minting,
+] as const;
+export const nftCapabilityLabelToNumber: {
+  [key in NonFungibleTokenCapability]: number;
+} = {
+  [NonFungibleTokenCapability.none]: 0,
+  [NonFungibleTokenCapability.mutable]: 1,
+  [NonFungibleTokenCapability.minting]: 2,
+} as const;
+
+export enum CashTokenDecodingError {
+  invalidPrefix = 'Error reading token prefix.',
+  insufficientLength = 'Invalid token prefix: insufficient length.',
+  reservedBit = 'Invalid token prefix: reserved bit is set.',
+  invalidCapability = 'Invalid token prefix: capability must be none (0), mutable (1), or minting (2).',
+  commitmentWithoutNft = 'Invalid token prefix: commitment requires an NFT.',
+  capabilityWithoutNft = 'Invalid token prefix: capability requires an NFT.',
+  commitmentLengthZero = 'Invalid token prefix: if encoded, commitment length must be greater than 0.',
+  invalidCommitment = 'Invalid token prefix: invalid non-fungible token commitment.',
+  invalidAmountEncoding = 'Invalid token prefix: invalid fungible token amount encoding.',
+  zeroAmount = 'Invalid token prefix: if encoded, fungible token amount must be greater than 0.',
+  excessiveAmount = 'Invalid token prefix: exceeds maximum fungible token amount of 9223372036854775807.',
+  noTokens = 'Invalid token prefix: must encode at least one token.',
+}
 
 /**
- * Decode a set of transaction {@link Input}s from a Uint8Array beginning at
- * `index`. A CompactSize will be read beginning at `index`, and then the
- * encoded number of transaction inputs will be decoded and returned.
+ * Read a token amount from the provided {@link ReadPosition}, returning either
+ * an error message (as a string) or an object containing the value and the next
+ * {@link ReadPosition}.
  *
- * Note: this method throws runtime errors when attempting to decode
- * improperly-encoded sets of inputs.
- *
- * @param bin - the raw transaction from which to read the inputs
- * @param index - the index at which the CompactSize count begins
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * token amount.
  */
-export const decodeTransactionInputsUnsafe = createCompactSizeItemUnsafeDecoder(
-  'input',
-  decodeTransactionInputUnsafe,
-  'inputs'
-) as (
-  bin: Uint8Array,
-  index?: number
-) => {
-  inputs: {
-    outpointIndex: number;
-    outpointTransactionHash: Uint8Array;
-    sequenceNumber: number;
-    unlockingBytecode: Uint8Array;
-  }[];
-  nextIndex: number;
+export const readTokenAmount = (
+  position: ReadPosition
+): MaybeReadResult<bigint> => {
+  const amountRead = readCompactSizeMinimal(position);
+  if (typeof amountRead === 'string') {
+    return formatError(
+      CashTokenDecodingError.invalidAmountEncoding,
+      amountRead
+    );
+  }
+  if (amountRead.result > maximumTokenAmount) {
+    return formatError(
+      CashTokenDecodingError.excessiveAmount,
+      `Encoded amount: ${amountRead.result}`
+    );
+  }
+  if (amountRead.result === 0n) {
+    return formatError(CashTokenDecodingError.zeroAmount);
+  }
+  return amountRead;
 };
 
 /**
- * Decode a transaction {@link Output} from a Uint8Array containing the encoded
- * transaction output beginning at `index`.
+ * Attempt to read a transaction {@link Output}'s token prefix from the provided
+ * {@link ReadPosition}, returning either an error message (as a string) or an
+ * object containing the (optional) token information and the
+ * next {@link ReadPosition}.
  *
- * Note: this method throws runtime errors when attempting to decode an
- * improperly-encoded output.
+ * Rather than using this function directly, most applications
+ * should use {@link readLockingBytecodeWithPrefix}.
  *
- * @param bin - the raw transaction from which to read the output
- * @param index - the index at which the output begins
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * token prefix
  */
-export const decodeTransactionOutputUnsafe = (
-  bin: Uint8Array,
-  index: number
-) => {
-  const uint64Bytes = 8;
-  const indexAfterSatoshis = index + uint64Bytes;
-  const valueSatoshis = binToValueSatoshis(
-    bin.slice(index, indexAfterSatoshis)
-  );
-  const { nextIndex: indexAfterScriptLength, value } = compactSizeToBigInt(
+// eslint-disable-next-line complexity
+export const readTokenPrefix = (
+  position: ReadPosition
+): MaybeReadResult<{ token?: NonNullable<Output['token']> }> => {
+  const { bin, index } = position;
+  if (bin[index] !== CashTokens.PREFIX_TOKEN) {
+    return { position, result: {} };
+  }
+  if (bin.length < index + CashTokens.minimumPrefixLength) {
+    return formatError(
+      CashTokenDecodingError.insufficientLength,
+      `The minimum possible length is ${
+        CashTokens.minimumPrefixLength
+      }. Missing bytes: ${
+        CashTokens.minimumPrefixLength - (bin.length - index)
+      }`
+    );
+  }
+  const category = bin
+    .slice(index + 1, index + CashTokens.tokenBitfieldIndex)
+    .reverse();
+  const tokenBitfield = bin[index + CashTokens.tokenBitfieldIndex]!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  /* eslint-disable no-bitwise */
+  const prefixStructure = tokenBitfield & CashTokens.tokenFormatMask;
+  if ((prefixStructure & CashTokens.RESERVED_BIT) !== 0) {
+    return formatError(
+      CashTokenDecodingError.reservedBit,
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+    );
+  }
+  const nftCapabilityInt = tokenBitfield & CashTokens.nftCapabilityMask;
+  if (nftCapabilityInt > CashTokens.maximumCapability) {
+    return formatError(
+      CashTokenDecodingError.invalidCapability,
+      `Capability value: ${nftCapabilityInt}`
+    );
+  }
+  const capability = nftCapabilityNumberToLabel[nftCapabilityInt]!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  const hasNft = (prefixStructure & CashTokens.HAS_NFT) !== 0;
+  const hasCommitmentLength =
+    (prefixStructure & CashTokens.HAS_COMMITMENT_LENGTH) !== 0;
+  if (hasCommitmentLength && !hasNft) {
+    return formatError(
+      CashTokenDecodingError.commitmentWithoutNft,
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+    );
+  }
+  const hasAmount = (prefixStructure & CashTokens.HAS_AMOUNT) !== 0;
+  /* eslint-enable no-bitwise */
+  const nextPosition = {
     bin,
-    indexAfterSatoshis
-  );
-  const bytecodeLength = Number(value);
-  const nextIndex = indexAfterScriptLength + bytecodeLength;
-  const lockingBytecode =
-    bytecodeLength === 0
-      ? new Uint8Array()
-      : bin.slice(indexAfterScriptLength, nextIndex);
-
+    index: index + CashTokens.tokenBitfieldIndex + 1,
+  };
+  if (hasNft) {
+    const commitmentRead = hasCommitmentLength
+      ? readCompactSizePrefixedBin(nextPosition)
+      : { position: nextPosition, result: Uint8Array.of() };
+    if (typeof commitmentRead === 'string') {
+      return formatError(
+        CashTokenDecodingError.invalidCommitment,
+        commitmentRead
+      );
+    }
+    if (hasCommitmentLength && commitmentRead.result.length === 0) {
+      return formatError(CashTokenDecodingError.commitmentLengthZero);
+    }
+    const amountRead = hasAmount
+      ? readTokenAmount(commitmentRead.position)
+      : { position: commitmentRead.position, result: 0n };
+    if (typeof amountRead === 'string') {
+      return amountRead;
+    }
+    return {
+      position: amountRead.position,
+      result: {
+        token: {
+          amount: amountRead.result,
+          category,
+          nft: { capability, commitment: commitmentRead.result },
+        },
+      },
+    };
+  }
+  if (capability !== NonFungibleTokenCapability.none) {
+    return formatError(
+      CashTokenDecodingError.capabilityWithoutNft,
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+    );
+  }
+  if (!hasAmount) {
+    return formatError(
+      CashTokenDecodingError.noTokens,
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+    );
+  }
+  const amountRead = readTokenAmount(nextPosition);
+  if (typeof amountRead === 'string') {
+    return amountRead;
+  }
   return {
-    nextIndex,
-    output: {
+    position: amountRead.position,
+    result: { token: { amount: amountRead.result, category } },
+  };
+};
+
+/**
+ * Read the locking bytecode and token prefix (if present) of a transaction
+ * {@link Output}, beginning at the `CompactSize` indicating the
+ * combined length.
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * optional token prefix and locking bytecode
+ */
+export const readLockingBytecodeWithPrefix = (
+  position: ReadPosition
+): MaybeReadResult<{
+  lockingBytecode: Uint8Array;
+  token?: NonNullable<Output['token']>;
+}> => {
+  const bytecodeRead = readCompactSizePrefixedBin(position);
+  if (typeof bytecodeRead === 'string') {
+    return formatError(
+      TransactionDecodingError.lockingBytecodeLength,
+      bytecodeRead
+    );
+  }
+  const { result: contents, position: nextPosition } = bytecodeRead;
+  const contentsRead = readMultiple({ bin: contents, index: 0 }, [
+    readTokenPrefix,
+    readRemainingBytes,
+  ]);
+  if (typeof contentsRead === 'string') {
+    return formatError(CashTokenDecodingError.invalidPrefix, contentsRead);
+  }
+  const {
+    result: [{ token }, lockingBytecode],
+  } = contentsRead;
+  return {
+    position: nextPosition,
+    result: { lockingBytecode, ...(token === undefined ? {} : { token }) },
+  };
+};
+
+/**
+ * Read a transaction {@link Output} from the provided {@link ReadPosition},
+ * returning either an error message (as a string) or an object containing the
+ * {@link Output} and the next {@link ReadPosition}.
+ *
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * transaction output
+ */
+export const readTransactionOutput = (
+  position: ReadPosition
+): MaybeReadResult<Output> => {
+  const outputRead = readMultiple(position, [
+    readUint64LE,
+    readLockingBytecodeWithPrefix,
+  ]);
+  if (typeof outputRead === 'string') {
+    return formatError(TransactionDecodingError.output, outputRead);
+  }
+  const {
+    position: nextPosition,
+    result: [valueSatoshis, { lockingBytecode, token }],
+  } = outputRead;
+  return {
+    position: nextPosition,
+    result: {
       lockingBytecode,
+      ...(token === undefined ? {} : { token }),
       valueSatoshis,
     },
   };
+};
+
+/**
+ * Given {@link Output.token} data, encode a token prefix.
+ *
+ * This function does not fail, but returns an empty Uint8Array if the token
+ * data does not encode any tokens (even if `token.category` is set).
+ *
+ * @param token - the token data to encode
+ */
+// eslint-disable-next-line complexity
+export const encodeTokenPrefix = (token: Output['token']) => {
+  if (token === undefined || (token.nft === undefined && token.amount < 1n)) {
+    return Uint8Array.of();
+  }
+  const hasNft = token.nft === undefined ? 0 : CashTokens.HAS_NFT;
+  const capabilityInt =
+    token.nft === undefined
+      ? 0
+      : nftCapabilityLabelToNumber[token.nft.capability];
+  const hasCommitmentLength =
+    token.nft !== undefined && token.nft.commitment.length > 0
+      ? CashTokens.HAS_COMMITMENT_LENGTH
+      : 0;
+  const hasAmount = token.amount > 0n ? CashTokens.HAS_AMOUNT : 0;
+  const tokenBitfield =
+    // eslint-disable-next-line no-bitwise
+    hasNft | hasCommitmentLength | hasAmount | capabilityInt;
+  return flattenBinArray([
+    Uint8Array.of(CashTokens.PREFIX_TOKEN),
+    token.category.slice().reverse(),
+    Uint8Array.of(tokenBitfield),
+    ...(hasCommitmentLength === 0
+      ? []
+      : [
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          bigIntToCompactSize(BigInt(token.nft!.commitment.length)),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          token.nft!.commitment,
+        ]),
+    ...(hasAmount === 0 ? [] : [bigIntToCompactSize(token.amount)]),
+  ]);
 };
 
 /**
@@ -196,39 +439,37 @@ export const decodeTransactionOutputUnsafe = (
  *
  * @param output - the output to encode
  */
-export const encodeTransactionOutput = (output: Output) =>
-  flattenBinArray([
-    valueSatoshisToBin(output.valueSatoshis),
-    bigIntToCompactSize(BigInt(output.lockingBytecode.length)),
+export const encodeTransactionOutput = (output: Output) => {
+  const lockingBytecodeField = flattenBinArray([
+    encodeTokenPrefix(output.token),
     output.lockingBytecode,
   ]);
+  return flattenBinArray([
+    valueSatoshisToBin(output.valueSatoshis),
+    bigIntToCompactSize(BigInt(lockingBytecodeField.length)),
+    lockingBytecodeField,
+  ]);
+};
 
 /**
- * Decode a set of transaction {@link Output}s from a Uint8Array beginning at
- * `index`. A CompactSize will be read beginning at `index`, and then the
- * encoded number of transaction outputs will be decoded and returned.
+ * Read a set of transaction {@link Output}s beginning at {@link ReadPosition}.
+ * A CompactSize will be read to determine the number of outputs, and that
+ * number of transaction outputs will be read and returned. Returns either an
+ * error message (as a string) or an object containing the array of outputs and
+ * the next {@link ReadPosition}.
  *
- * Note: this method throws runtime errors when attempting to decode
- * improperly-encoded sets of outputs.
- *
- * @param bin - the raw transaction from which to read the outputs
- * @param index - the index at which the CompactSize count begins
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * transaction outputs
  */
-export const decodeTransactionOutputsUnsafe =
-  createCompactSizeItemUnsafeDecoder(
-    'output',
-    decodeTransactionOutputUnsafe,
-    'outputs'
-  ) as (
-    bin: Uint8Array,
-    index?: number
-  ) => {
-    outputs: {
-      lockingBytecode: Uint8Array;
-      valueSatoshis: bigint;
-    }[];
-    nextIndex: number;
-  };
+export const readTransactionOutputs = (
+  position: ReadPosition
+): MaybeReadResult<Output[]> => {
+  const outputsRead = readItemCount(position, readTransactionOutput);
+  if (typeof outputsRead === 'string') {
+    return formatError(TransactionDecodingError.outputs, outputsRead);
+  }
+  return outputsRead;
+};
 
 /**
  * Encode a set of {@link Output}s for inclusion in an encoded transaction
@@ -246,58 +487,91 @@ export const encodeTransactionOutputs = (outputs: readonly Output[]) =>
   ]);
 
 /**
- * Decode a `Uint8Array` using the version 1 or 2 raw transaction format.
+ * Read a version 1 or 2 transaction beginning at {@link ReadPosition},
+ * returning either an error message (as a string) or an object containing the
+ * {@link Transaction} and the next {@link ReadPosition}. Rather than using this
+ * function directly, most applications should
+ * use {@link decodeTransactionCommon}.
+ *
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * {@link TransactionCommon}
+ */
+export const readTransactionCommon = (
+  position: ReadPosition
+): MaybeReadResult<TransactionCommon> => {
+  const transactionRead = readMultiple(position, [
+    readUint32LE,
+    readTransactionInputs,
+    readTransactionOutputs,
+    readUint32LE,
+  ]);
+  if (typeof transactionRead === 'string') {
+    return formatError(TransactionDecodingError.transaction, transactionRead);
+  }
+  const {
+    position: nextPosition,
+    result: [version, inputs, outputs, locktime],
+  } = transactionRead;
+  return {
+    position: nextPosition,
+    result: { inputs, locktime, outputs, version },
+  };
+};
+
+/**
+ * Decode a {@link TransactionCommon} according to the version 1/2 P2P network
+ * transaction format.
+ *
+ * This function verifies that the provided `bin` contains only one transaction
+ * and no additional data. To read a transaction from a specific location within
+ * a `Uint8Array`, use {@link readTransactionCommon}.
+ *
+ * @param bin - the encoded transaction to decode
+ */
+export const decodeTransactionCommon = (
+  bin: Uint8Array
+): TransactionCommon | string => {
+  const transactionRead = readTransactionCommon({ bin, index: 0 });
+  if (typeof transactionRead === 'string') {
+    return transactionRead;
+  }
+  if (transactionRead.position.index !== bin.length) {
+    return formatError(
+      TransactionDecodingError.endsWithUnexpectedBytes,
+      `Encoded transaction ends at index ${
+        transactionRead.position.index - 1
+      }, leaving ${
+        bin.length - transactionRead.position.index
+      } remaining bytes.`
+    );
+  }
+  return transactionRead.result;
+};
+export const decodeTransactionBCH = decodeTransactionCommon;
+export const decodeTransaction = decodeTransactionBCH;
+
+/**
+ * Decode a {@link TransactionCommon} from a trusted source according to the
+ * version 1/2 P2P network transaction format.
  *
  * Note: this method throws runtime errors when attempting to decode messages
  * which do not properly follow the transaction format. If the input is
- * untrusted, use {@link decodeTransaction}.
+ * untrusted, use {@link decodeTransactionCommon}.
  *
  * @param bin - the raw message to decode
  */
 export const decodeTransactionUnsafeCommon = (
   bin: Uint8Array
 ): TransactionCommon => {
-  const uint32Bytes = 4;
-  const version = binToNumberUint32LE(bin.subarray(0, uint32Bytes));
-  const indexAfterVersion = uint32Bytes;
-  const { inputs, nextIndex: indexAfterInputs } = decodeTransactionInputsUnsafe(
-    bin,
-    indexAfterVersion
-  );
-  const { outputs, nextIndex: indexAfterOutputs } =
-    decodeTransactionOutputsUnsafe(bin, indexAfterInputs);
-  const locktime = binToNumberUint32LE(
-    bin.subarray(indexAfterOutputs, indexAfterOutputs + uint32Bytes)
-  );
-  return {
-    inputs,
-    locktime,
-    outputs,
-    version,
-  };
+  const result = decodeTransactionCommon(bin);
+  if (typeof result === 'string') {
+    // eslint-disable-next-line functional/no-throw-statement
+    throw new Error(result);
+  }
+  return result;
 };
 export const decodeTransactionUnsafeBCH = decodeTransactionUnsafeCommon;
 export const decodeTransactionUnsafe = decodeTransactionUnsafeBCH;
-
-export enum TransactionDecodingError {
-  invalidFormat = 'Transaction decoding error: message does not follow the version 1 or version 2 transaction format.',
-}
-
-/**
- * Decode a `Uint8Array` using the version 1 or 2 raw transaction format.
- *
- * @param bin - the raw message to decode
- */
-export const decodeTransactionCommon = (bin: Uint8Array) => {
-  // eslint-disable-next-line functional/no-try-statement
-  try {
-    return decodeTransactionUnsafeCommon(bin);
-  } catch {
-    return TransactionDecodingError.invalidFormat;
-  }
-};
-export const decodeTransactionBCH = decodeTransactionCommon;
-export const decodeTransaction = decodeTransactionBCH;
 
 /**
  * Encode a {@link Transaction} using the standard P2P network format. This

@@ -1,16 +1,22 @@
 import test from 'ava';
 
-import type { TransactionCommon } from '../lib';
+import type { Output, TransactionCommon } from '../lib';
 import {
   decodeTransactionCommon,
+  encodeTokenPrefix,
   encodeTransactionCommon,
   hashTransaction,
   hashTransactionP2pOrder,
   hashTransactionUiOrder,
   hexToBin,
+  readTokenPrefix,
   sha256,
-  TransactionDecodingError,
 } from '../lib.js';
+
+// eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
+import tokenPrefixInvalidJson from './fixtures/token-prefix-invalid.json' assert { type: 'json' };
+// eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
+import tokenPrefixValidJson from './fixtures/token-prefix-valid.json' assert { type: 'json' };
 
 test('decodeTransaction', (t) => {
   /**
@@ -211,7 +217,7 @@ test('decode and encode transaction', (t) => {
 test('decodeTransaction: invalid', (t) => {
   t.deepEqual(
     decodeTransactionCommon(hexToBin('00')),
-    TransactionDecodingError.invalidFormat
+    'Error reading transaction. Error reading Uint32LE: requires 4 bytes. Provided length: 1'
   );
 });
 
@@ -248,4 +254,65 @@ test('hashTransaction, hashTransactionUiOrder, hashTransactionP2pOrder', (t) => 
     hashTransactionP2pOrder(hexToBin(halTx), sha256),
     hexToBin(halTxId).reverse()
   );
+});
+
+test('CashTokens: token-prefix-valid.json', (t) => {
+  Object.values(tokenPrefixValidJson)
+    .filter((item) => !Array.isArray(item))
+    .forEach((vector, index) => {
+      const { prefix: prefixHex, data } = vector as {
+        prefix: string;
+        data: {
+          amount: string;
+          category: string;
+          nft?: {
+            capability: 'minting' | 'mutable' | 'none';
+            commitment: string;
+          };
+        };
+      };
+      const failMessage = `Failure on test vector #${index}: "${prefixHex}"`;
+      const token: NonNullable<Output['token']> = {
+        amount: BigInt(data.amount),
+        category: hexToBin(data.category),
+        ...(data.nft === undefined
+          ? {}
+          : {
+              nft: {
+                capability: data.nft.capability,
+                commitment: hexToBin(data.nft.commitment),
+              },
+            }),
+      };
+      const expectedPrefix = hexToBin(prefixHex);
+      t.deepEqual(expectedPrefix, encodeTokenPrefix(token), failMessage);
+
+      const decoded = readTokenPrefix({ bin: expectedPrefix, index: 0 });
+      if (typeof decoded === 'string') {
+        return t.fail(decoded);
+      }
+      if (decoded.position.bin.length !== decoded.position.index) {
+        return t.fail(
+          `${failMessage} Prefix "${prefixHex}" includes unexpected bytes. Bytes remaining after read: ${
+            decoded.position.bin.length - decoded.position.index
+          }, `
+        );
+      }
+      return t.deepEqual(decoded.result.token, token);
+    });
+});
+
+test('CashTokens: token-prefix-invalid.json', (t) => {
+  Object.values(tokenPrefixInvalidJson)
+    .filter((item) => !Array.isArray(item))
+    .forEach((vector, index) => {
+      const { prefix: prefixHex, error } = vector as {
+        prefix: string;
+        error: string;
+      };
+      const failMessage = `Failure on test vector #${index}: "${prefixHex}"`;
+      const expectedPrefix = hexToBin(prefixHex);
+      const decoded = readTokenPrefix({ bin: expectedPrefix, index: 0 });
+      return t.deepEqual(decoded, error, failMessage);
+    });
 });

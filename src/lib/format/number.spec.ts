@@ -17,7 +17,12 @@ import {
   binToNumberUint16LE,
   binToNumberUint32LE,
   binToNumberUintLE,
+  CompactSizeError,
+  compactSizePrefixToSize,
+  compactSizeToBigInt,
   hexToBin,
+  int32SignedToUnsigned,
+  int32UnsignedToSigned,
   numberToBinInt16LE,
   numberToBinInt32LE,
   numberToBinInt32TwosCompliment,
@@ -28,8 +33,8 @@ import {
   numberToBinUint32LE,
   numberToBinUint32LEClamped,
   numberToBinUintLE,
-  compactSizePrefixToSize,
-  compactSizeToBigInt,
+  readCompactSize,
+  readCompactSizeMinimal,
 } from '../lib.js';
 
 test('numberToBinUint16LE', (t) => {
@@ -433,11 +438,82 @@ test('binToBigIntUint64LE', (t) => {
   );
 });
 
-test('compactSizeToBigInt: index is optional', (t) => {
-  t.deepEqual(compactSizeToBigInt(hexToBin('00')), {
-    nextIndex: 1,
-    value: 0x00n,
+test('compactSizePrefixToSize', (t) => {
+  t.deepEqual(compactSizePrefixToSize(0), 1);
+  t.deepEqual(compactSizePrefixToSize(252), 1);
+  t.deepEqual(compactSizePrefixToSize(253), 3);
+  t.deepEqual(compactSizePrefixToSize(254), 5);
+  t.deepEqual(compactSizePrefixToSize(255), 9);
+});
+
+test('readCompactSize', (t) => {
+  t.deepEqual(readCompactSize({ bin: Uint8Array.from([252]), index: 0 }), {
+    position: { bin: Uint8Array.from([252]), index: 1 },
+    result: 252n,
   });
+  t.deepEqual(readCompactSize({ bin: Uint8Array.from([0]), index: 0 }), {
+    position: { bin: Uint8Array.from([0]), index: 1 },
+    result: 0n,
+  });
+  t.deepEqual(
+    readCompactSize({ bin: Uint8Array.from([253, 0, 0]), index: 0 }),
+    { position: { bin: Uint8Array.from([253, 0, 0]), index: 3 }, result: 0n }
+  );
+  t.deepEqual(
+    readCompactSize({ bin: Uint8Array.from([254, 0, 0, 0, 0]), index: 0 }),
+    {
+      position: { bin: Uint8Array.from([254, 0, 0, 0, 0]), index: 5 },
+      result: 0n,
+    }
+  );
+  t.deepEqual(
+    readCompactSize({
+      bin: Uint8Array.from([255, 0, 0, 0, 0, 0, 0, 0, 0]),
+      index: 0,
+    }),
+    {
+      position: {
+        bin: Uint8Array.from([255, 0, 0, 0, 0, 0, 0, 0, 0]),
+        index: 9,
+      },
+      result: 0n,
+    }
+  );
+  t.deepEqual(
+    readCompactSize({ bin: Uint8Array.from([253, 253, 0]), index: 0 }),
+    {
+      position: { bin: Uint8Array.from([253, 253, 0]), index: 3 },
+      result: 253n,
+    }
+  );
+  t.deepEqual(
+    readCompactSize({ bin: Uint8Array.from([]), index: 0 }),
+    CompactSizeError.noPrefix
+  );
+});
+
+test('readCompactSizeMinimal', (t) => {
+  t.deepEqual(readCompactSizeMinimal({ bin: Uint8Array.from([1]), index: 0 }), {
+    position: { bin: Uint8Array.from([1]), index: 1 },
+    result: 1n,
+  });
+  t.deepEqual(
+    readCompactSizeMinimal({ bin: Uint8Array.from([253, 1, 0]), index: 0 }),
+    `${CompactSizeError.nonMinimal} Value: 1, encoded length: 3, canonical length: 1`
+  );
+});
+
+test('compactSizeToBigInt', (t) => {
+  t.deepEqual(compactSizeToBigInt(Uint8Array.from([252])), 252n);
+  t.deepEqual(compactSizeToBigInt(Uint8Array.from([253, 253, 0])), 253n);
+  t.deepEqual(
+    compactSizeToBigInt(Uint8Array.from([253])),
+    'Error reading CompactSize: insufficient bytes. CompactSize prefix 253 requires at least 3 bytes. Remaining bytes: 1'
+  );
+  t.deepEqual(
+    compactSizeToBigInt(Uint8Array.from([253, 0, 254, 0])),
+    'Error decoding CompactSize: unexpected bytes after CompactSize. CompactSize ends at index 3, but input includes 4 bytes.'
+  );
 });
 
 const compactSizeVector = test.macro<
@@ -445,9 +521,9 @@ const compactSizeVector = test.macro<
 >({
   // eslint-disable-next-line max-params
   exec: (t, hex, value, nextIndex, start = 0, expected = hex) => {
-    t.deepEqual(compactSizeToBigInt(hexToBin(hex), start), {
-      nextIndex,
-      value,
+    t.deepEqual(readCompactSize({ bin: hexToBin(hex), index: start }), {
+      position: { bin: hexToBin(hex), index: nextIndex },
+      result: value,
     });
     t.deepEqual(bigIntToCompactSize(value), hexToBin(expected));
   },
@@ -495,9 +571,26 @@ testProp(
   [fc.bigUintN(64)],
   (t, uint64) => {
     const compactSize = bigIntToCompactSize(uint64);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const expectedIndex = compactSizePrefixToSize(compactSize[0]!);
     const result = compactSizeToBigInt(compactSize);
-    t.deepEqual(result, { nextIndex: expectedIndex, value: uint64 });
+    t.deepEqual(result, uint64);
+  }
+);
+
+test('int32SignedToUnsigned/int32UnsignedToSigned', (t) => {
+  t.deepEqual(int32SignedToUnsigned(1), 1);
+  t.deepEqual(int32SignedToUnsigned(-1), 4294967295);
+  t.deepEqual(int32SignedToUnsigned(-2), 4294967294);
+  t.deepEqual(int32UnsignedToSigned(4294967294), -2);
+  t.deepEqual(int32UnsignedToSigned(4294967295), -1);
+  t.deepEqual(int32UnsignedToSigned(1), 1);
+});
+
+testProp(
+  '[fast-check] int32UnsignedToSigned <-> int32SignedToUnsigned',
+  [fc.integer({ max: 2 ** 32 - 1, min: 0 })],
+  (t, uint32) => {
+    const signed = int32UnsignedToSigned(uint32);
+    const unsigned = int32SignedToUnsigned(signed);
+    t.deepEqual(unsigned, uint32);
   }
 );

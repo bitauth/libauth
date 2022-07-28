@@ -1,11 +1,12 @@
 /* eslint-disable no-console, functional/no-expression-statement, @typescript-eslint/no-non-null-assertion */
+import type { Output, ReadResult } from '../lib.js';
 import {
   createVirtualMachineBCH2022,
   createVirtualMachineBCHCHIPs,
-  decodeTransactionOutputsUnsafe,
   decodeTransactionUnsafeBCH,
   hexToBin,
   isPayToScriptHash20,
+  readTransactionOutputs,
   stringify,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
@@ -78,10 +79,10 @@ const [
 
 const testedIndex = inputIndex ?? 0;
 const transaction = decodeTransactionUnsafeBCH(hexToBin(txHex));
-const { outputs: sourceOutputs } = decodeTransactionOutputsUnsafe(
-  hexToBin(sourceOutputsHex),
-  0
-);
+const { result: sourceOutputs } = readTransactionOutputs({
+  bin: hexToBin(sourceOutputsHex),
+  index: 0,
+}) as ReadResult<Output[]>;
 const result = vm.verify({ sourceOutputs, transaction });
 
 const program = {

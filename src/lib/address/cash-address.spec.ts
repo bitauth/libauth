@@ -2,7 +2,7 @@ import test from 'ava';
 import fc from 'fast-check';
 
 import type {
-  CashAddressAvailableTypeBit,
+  CashAddressAvailableTypeBits,
   CashAddressSupportedLength,
 } from '../lib';
 import {
@@ -11,6 +11,7 @@ import {
   CashAddressDecodingError,
   CashAddressNetworkPrefix,
   CashAddressType,
+  CashAddressTypeBits,
   CashAddressVersionByte,
   CashAddressVersionByteDecodingError,
   decodeBase58AddressFormat,
@@ -46,12 +47,28 @@ test('maskCashAddressPrefix', (t) => {
 
 test('encodeCashAddressVersionByte', (t) => {
   t.deepEqual(
-    encodeCashAddressVersionByte(0, 20),
+    encodeCashAddressVersionByte(CashAddressTypeBits.p2pkh, 20),
     CashAddressVersionByte.p2pkh
   );
   t.deepEqual(
-    encodeCashAddressVersionByte(1, 20),
+    encodeCashAddressVersionByte(CashAddressTypeBits.p2sh, 20),
     CashAddressVersionByte.p2sh20
+  );
+  t.deepEqual(
+    encodeCashAddressVersionByte(CashAddressTypeBits.p2sh, 32),
+    CashAddressVersionByte.p2sh32
+  );
+  t.deepEqual(
+    encodeCashAddressVersionByte(CashAddressTypeBits.p2pkhWithTokens, 20),
+    CashAddressVersionByte.p2pkhWithTokens
+  );
+  t.deepEqual(
+    encodeCashAddressVersionByte(CashAddressTypeBits.p2shWithTokens, 20),
+    CashAddressVersionByte.p2sh20WithTokens
+  );
+  t.deepEqual(
+    encodeCashAddressVersionByte(CashAddressTypeBits.p2shWithTokens, 32),
+    CashAddressVersionByte.p2sh32WithTokens
   );
 });
 
@@ -230,7 +247,7 @@ test('CashAddress test vectors', (t) => {
     const { cashaddr } = vector;
     const [prefix] = cashaddr.split(':') as [string];
     const payload = hexToBin(vector.payload);
-    const typeBit = vector.type as CashAddressAvailableTypeBit;
+    const typeBit = vector.type as CashAddressAvailableTypeBits;
     const version = encodeCashAddressVersionByte(
       typeBit,
       payload.length as CashAddressSupportedLength
@@ -342,7 +359,7 @@ test('[fast-check] encodeCashAddressNonStandard <-> decodeCashAddressNonStandard
           decodeCashAddressNonStandard(
             encodeCashAddressNonStandard(
               prefix,
-              typeBit as CashAddressAvailableTypeBit,
+              typeBit as CashAddressAvailableTypeBits,
               hash
             )
           ),
@@ -445,7 +462,7 @@ test('[fast-check] attemptCashAddressErrorCorrection', (t) => {
       (prefix, typeBit, hash, randomErrors) => {
         const address = encodeCashAddressNonStandard(
           prefix,
-          typeBit as CashAddressAvailableTypeBit,
+          typeBit as CashAddressAvailableTypeBits,
           hash
         );
         const addressChars = splitEvery(address, 1);

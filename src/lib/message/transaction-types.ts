@@ -115,6 +115,24 @@ export interface Input<
 }
 
 /**
+ * The capability assigned to a particular non-fungible token.
+ */
+export enum NonFungibleTokenCapability {
+  /**
+   * No capability, i.e. the token is an **immutable token**.
+   */
+  none = 'none',
+  /**
+   * The mutable capability (`0x01`), i.e. the token is a **mutable token**.
+   */
+  mutable = 'mutable',
+  /**
+   * The minting capability (`0x02`), i.e. the token is a **minting token**.
+   */
+  minting = 'minting',
+}
+
+/**
  * Data type representing a Transaction Output.
  *
  * @typeParam Bytecode - the type of `lockingBytecode` - this can be configured
@@ -135,14 +153,14 @@ export interface Output<
    *
    * A.K.A. `scriptPubKey` or "locking script"
    */
-  readonly lockingBytecode: Bytecode;
+  lockingBytecode: Bytecode;
 
   /**
    * The CashToken contents of this output.
    *
    * TODO: expand TSDocs for tokens
    */
-  readonly token?: {
+  token?: {
     /**
      * The number of fungible tokens (of `category`) held in this output.
      *
@@ -150,26 +168,26 @@ export interface Output<
      * maximum token amount (`9223372036854775807`), this value is encoded as
      * a `BigInt`.
      */
-    readonly amount: bigint;
+    amount: bigint;
     /**
      * The 32-byte token category ID to which the token(s) in this output belong.
      */
-    readonly category: ByteStringRepresentation;
+    category: ByteStringRepresentation;
     /**
      * If present, the non-fungible token (NFT) held by this output. If the
      * output does not include a non-fungible token, `undefined`.
      */
     nft?: {
       /**
-       * The capability of this non-fungible token.
+       * The {@link NonFungibleTokenCapability} of this non-fungible token.
        */
-      readonly capability: 'minting' | 'mutable' | 'none';
+      capability: `${NonFungibleTokenCapability}`;
 
       /**
        * The commitment message included in the non-fungible token (of
        * `category`) held in this output.
        */
-      readonly commitment: ByteStringRepresentation;
+      commitment: ByteStringRepresentation;
     };
   };
 
@@ -203,7 +221,7 @@ export interface Output<
    * {@link valueSatoshisToBin} and {@link binToValueSatoshis},
    * respectively.
    */
-  readonly valueSatoshis: bigint;
+  valueSatoshis: bigint;
 }
 
 /**

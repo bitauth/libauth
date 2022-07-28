@@ -86,12 +86,3 @@ type Equals<Expected, Actual> = InvariantComparisonEquals<
 export type AssertTypesEqual<T1, T2> = Equals<T1, T2> extends true
   ? true
   : never;
-
-export const unknownValue = (value: never) => {
-  // eslint-disable-next-line functional/no-throw-statement
-  throw new Error(
-    `Received an unknown value: ${String(
-      value
-    )}. This should have been caught by TypeScript – are your types correct?`
-  );
-};

@@ -117,19 +117,21 @@ test('lockingBytecode <-> AddressContents: unknown', (t) => {
     payload: simpleMath,
     type: 'unknown',
   });
-  t.deepEqual(
-    addressContentsToLockingBytecode({
-      payload: simpleMath,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      type: 'unknown',
-    }),
-    undefined
+  t.throws(
+    () =>
+      addressContentsToLockingBytecode({
+        payload: simpleMath,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        type: 'unknown',
+      }),
+    { message: 'Unrecognized addressContents type: unknown' }
   );
 
   const almostP2pk = hexToBin('0100ac');
   const almostP2pkh = hexToBin('76a9010088ac');
   const almostP2sh20 = hexToBin('a9010087');
+  const almostP2sh32 = hexToBin('aa010087');
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2pk), {
     payload: almostP2pk,
@@ -143,6 +145,11 @@ test('lockingBytecode <-> AddressContents: unknown', (t) => {
 
   t.deepEqual(lockingBytecodeToAddressContents(almostP2sh20), {
     payload: almostP2sh20,
+    type: 'unknown',
+  });
+
+  t.deepEqual(lockingBytecodeToAddressContents(almostP2sh32), {
+    payload: almostP2sh32,
     type: 'unknown',
   });
 });
@@ -174,6 +181,7 @@ const cashVectors = test.macro<[string, string]>({
       cashAddressToLockingBytecode(cashAddress),
       {
         bytecode: hexToBin(bytecode),
+        options: { tokenSupport: false },
         prefix: 'bitcoincash',
       },
       'cashAddressToLockingBytecode'
@@ -230,7 +238,7 @@ test('lockingBytecodeToCashAddress: P2PK', (t) => {
   );
 
   t.deepEqual(lockingBytecodeToCashAddress(genesisCoinbase, 'bitcoincash'), {
-    error: CashAddressEncodingError.noTypeBitStandardizedForP2pk,
+    error: CashAddressEncodingError.noTypeBitsValueStandardizedForP2pk,
   });
 
   const genesisCoinbaseCompressed = hexToBin(
@@ -242,17 +250,74 @@ test('lockingBytecodeToCashAddress: P2PK', (t) => {
       CashAddressNetworkPrefix.mainnet
     ),
     {
-      error: CashAddressEncodingError.noTypeBitStandardizedForP2pk,
+      error: CashAddressEncodingError.noTypeBitsValueStandardizedForP2pk,
     }
   );
+});
+
+test('cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: P2PKH', (t) => {
+  const p2pkh = hexToBin('76a914fc916f213a3d7f1369313d5fa30f6168f9446a2d88ac');
+  const address = 'bitcoincash:qr7fzmep8g7h7ymfxy74lgc0v950j3r2959lhtxxsl';
+  const tokenAddress = 'bitcoincash:zr7fzmep8g7h7ymfxy74lgc0v950j3r295z4y4gq0v';
+  t.deepEqual(lockingBytecodeToCashAddress(p2pkh, 'bitcoincash'), address);
+  t.deepEqual(
+    lockingBytecodeToCashAddress(p2pkh, 'bitcoincash', { tokenSupport: true }),
+    tokenAddress
+  );
+  t.deepEqual(cashAddressToLockingBytecode(address), {
+    bytecode: p2pkh,
+    options: { tokenSupport: false },
+    prefix: 'bitcoincash',
+  });
+  t.deepEqual(cashAddressToLockingBytecode(tokenAddress), {
+    bytecode: p2pkh,
+    options: { tokenSupport: true },
+    prefix: 'bitcoincash',
+  });
 });
 
 test('cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: P2SH20', (t) => {
   const p2sh20 = hexToBin('a91474f209f6ea907e2ea48f74fae05782ae8a66525787');
   const address = 'bitcoincash:pp60yz0ka2g8ut4y3a604czhs2hg5ejj2ugn82jfsr';
+  const tokenAddress = 'bitcoincash:rp60yz0ka2g8ut4y3a604czhs2hg5ejj2u0e55u00s';
   t.deepEqual(lockingBytecodeToCashAddress(p2sh20, 'bitcoincash'), address);
+  t.deepEqual(
+    lockingBytecodeToCashAddress(p2sh20, 'bitcoincash', { tokenSupport: true }),
+    tokenAddress
+  );
   t.deepEqual(cashAddressToLockingBytecode(address), {
     bytecode: p2sh20,
+    options: { tokenSupport: false },
+    prefix: 'bitcoincash',
+  });
+  t.deepEqual(cashAddressToLockingBytecode(tokenAddress), {
+    bytecode: p2sh20,
+    options: { tokenSupport: true },
+    prefix: 'bitcoincash',
+  });
+});
+
+test('cashAddressToLockingBytecode <-> lockingBytecodeToCashAddress: P2SH32', (t) => {
+  const p2sh32 = hexToBin(
+    'aa20000000000000000000000000000012345678900000000000000000000000000087'
+  );
+  const address =
+    'bitcoincash:pvqqqqqqqqqqqqqqqqqqqqqqzg69v7ysqqqqqqqqqqqqqqqqqqqqqpkp7fqn0';
+  const tokenAddress =
+    'bitcoincash:rvqqqqqqqqqqqqqqqqqqqqqqzg69v7ysqqqqqqqqqqqqqqqqqqqqqn9alsp2y';
+  t.deepEqual(lockingBytecodeToCashAddress(p2sh32, 'bitcoincash'), address);
+  t.deepEqual(
+    lockingBytecodeToCashAddress(p2sh32, 'bitcoincash', { tokenSupport: true }),
+    tokenAddress
+  );
+  t.deepEqual(cashAddressToLockingBytecode(address), {
+    bytecode: p2sh32,
+    options: { tokenSupport: false },
+    prefix: 'bitcoincash',
+  });
+  t.deepEqual(cashAddressToLockingBytecode(tokenAddress), {
+    bytecode: p2sh32,
+    options: { tokenSupport: true },
     prefix: 'bitcoincash',
   });
 });
@@ -267,7 +332,7 @@ test('lockingBytecodeToCashAddress: error', (t) => {
     '4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac'
   );
   t.deepEqual(lockingBytecodeToCashAddress(genesisCoinbase, 'bitcoincash'), {
-    error: CashAddressEncodingError.noTypeBitStandardizedForP2pk,
+    error: CashAddressEncodingError.noTypeBitsValueStandardizedForP2pk,
   });
 });
 

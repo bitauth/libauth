@@ -36,8 +36,8 @@ These functions include:
 - **Time**:
   - `locktimeToDate` (`decodeLocktime`)/`dateToLocktime` (`dateToLocktimeBin`)
 - Miscellaneous mappings (not functions):
-  - `cashAddressTypeToTypeBit`/`cashAddressTypeBitToType`
-  - `cashAddressSizeBitToLength`/`cashAddressLengthToSizeBit`
+  - `cashAddressTypeToTypeBits`/`cashAddressTypeBitsToType`
+  - `cashAddressSizeBitsToLength`/`cashAddressLengthToSizeBits`
   - `nftCapabilityNumberToLabel`/`nftCapabilityLabelToNumber`
 
 # Encoding

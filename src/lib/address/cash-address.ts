@@ -1,3 +1,4 @@
+import { formatError } from '../format/format.js';
 import type { Immutable } from '../lib';
 
 import {
@@ -16,15 +17,15 @@ export enum CashAddressNetworkPrefix {
  * The CashAddress specification standardizes the format of the version byte:
  * - Most significant bit: reserved, must be `0`
  * - next 4 bits: Address Type
- * - 3 least significant bits: Hash Size
+ * - 3 least significant bits: Payload Size
  *
  * Two Address Type values are currently standardized:
  * - 0 (`0b0000`): P2PKH
  * - 1 (`0b0001`): P2SH
  *
  * And two are proposed by `CHIP-2022-02-CashTokens`:
- * - 8 (`0b1000`): P2PKH + Token Support
- * - 9 (`0b1001`): P2SH + Token Support
+ * - 2 (`0b0010`): P2PKH + Token Support
+ * - 3 (`0b0011`): P2SH + Token Support
  *
  * The CashAddress specification standardizes expected payload size using
  * {@link CashAddressSizeBits}. Currently, two size bit values are in use by
@@ -61,24 +62,24 @@ export enum CashAddressVersionByte {
    * Pay to Public Key Hash (P2PKH) with token support: `0b00010000`
    *
    * - Most significant bit: `0` (reserved)
-   * - Address Type bits: `1000` (P2PKH + Tokens)
+   * - Address Type bits: `0010` (P2PKH + Tokens)
    * - Size bits: `000` (20 bytes)
    */
-  p2pkhWithTokens = 0b01000000,
+  p2pkhWithTokens = 0b00010000,
   /**
-   * 20-byte Pay to Script Hash (P2SH20) with token support: `0b01001000`
+   * 20-byte Pay to Script Hash (P2SH20) with token support: `0b00011000`
    * - Most significant bit: `0` (reserved)
-   * - Address Type bits: `1001` (P2SH + Tokens)
+   * - Address Type bits: `0011` (P2SH + Tokens)
    * - Size bits: `000` (20 bytes)
    */
-  p2sh20WithTokens = 0b01001000,
+  p2sh20WithTokens = 0b00011000,
   /**
-   * 32-byte Pay to Script Hash (P2SH32) with token support: `0b01001011`
+   * 32-byte Pay to Script Hash (P2SH32) with token support: `0b00011011`
    * - Most significant bit: `0` (reserved)
-   * - Address Type bits: `1001` (P2SH + Tokens)
+   * - Address Type bits: `0011` (P2SH + Tokens)
    * - Size bits: `011` (32 bytes)
    */
-  p2sh32WithTokens = 0b01001011,
+  p2sh32WithTokens = 0b00011011,
 }
 
 /**
@@ -95,11 +96,11 @@ export enum CashAddressType {
    */
   p2sh = 'p2sh',
   /**
-   * Pay to Public Key Hash (P2PKH) with token support: `0b1000`
+   * Pay to Public Key Hash (P2PKH) with token support: `0b0010`
    */
   p2pkhWithTokens = 'p2pkhWithTokens',
   /**
-   * Pay to Script Hash (P2SH) with token support: `0b1001`
+   * Pay to Script Hash (P2SH) with token support: `0b0011`
    */
   p2shWithTokens = 'p2shWithTokens',
 }
@@ -120,11 +121,11 @@ export enum CashAddressTypeBits {
   /**
    * Pay to Public Key Hash (P2PKH) with token support
    */
-  p2pkhWithTokens = 8,
+  p2pkhWithTokens = 2,
   /**
    * Pay to Script Hash (P2SH) with token support
    */
-  p2shWithTokens = 9,
+  p2shWithTokens = 3,
 }
 
 export const cashAddressTypeToTypeBits: {
@@ -178,7 +179,7 @@ export type CashAddressSupportedLength =
 export type CashAddressSizeBits = keyof typeof cashAddressSizeBitsToLength;
 
 const enum Constants {
-  cashAddressTypeBitShift = 3,
+  cashAddressTypeBitsShift = 3,
   base32WordLength = 5,
   base256WordLength = 8,
   payloadSeparator = 0,
@@ -195,8 +196,8 @@ const enum Constants {
 }
 
 /**
- * Encode a CashAddress version byte for the given address type and hash length.
- * See {@link CashAddressVersionByte} for more information.
+ * Encode a CashAddress version byte for the given address type and payload
+ * length. See {@link CashAddressVersionByte} for more information.
  *
  * The `type` parameter must be a number between `0` and `15`, and `bitLength`
  * must be one of the standardized lengths. To use the contents of a variable,
@@ -207,15 +208,15 @@ const enum Constants {
  * const size = 160 as CashAddressSize;
  * getCashAddressVersionByte(type, size);
  * ```
- * @param typeBit - the address type bit of the hash being encoded
- * @param length - the length of the hash being encoded
+ * @param typeBits - the address type bit of the payload being encoded
+ * @param length - the length of the payload being encoded
  */
 export const encodeCashAddressVersionByte = (
-  typeBit: CashAddressAvailableTypeBits,
+  typeBits: CashAddressAvailableTypeBits,
   length: CashAddressSupportedLength
 ) =>
   // eslint-disable-next-line no-bitwise
-  (typeBit << Constants.cashAddressTypeBitShift) |
+  (typeBits << Constants.cashAddressTypeBitsShift) |
   cashAddressLengthToSizeBits[length];
 
 export enum CashAddressVersionByteDecodingError {
@@ -239,9 +240,9 @@ export const decodeCashAddressVersionByte = (version: number) =>
             (version &
               Constants.cashAddressSizeBits) as keyof typeof cashAddressSizeBitsToLength
           ],
-        typeBit:
+        typeBits:
           // eslint-disable-next-line no-bitwise
-          (version >>> Constants.cashAddressTypeBitShift) &
+          (version >>> Constants.cashAddressTypeBitsShift) &
           Constants.cashAddressTypeBits,
       };
 
@@ -369,7 +370,7 @@ export const cashAddressChecksumToUint5Array = (checksum: number) => {
 };
 
 /**
- * Encode a hash as a CashAddress-like string using the CashAddress format.
+ * Encode a payload as a CashAddress-like string using the CashAddress format.
  *
  * To encode a standard CashAddress, use {@link encodeCashAddress}.
  *
@@ -378,16 +379,16 @@ export const cashAddressChecksumToUint5Array = (checksum: number) => {
  * see {@link CashAddressNetworkPrefix})
  * @param version - a single byte indicating the version of this address (for
  * standard CashAddress versions, see {@link CashAddressVersionByte})
- * @param hash - the hash to encode
+ * @param payload - the payload to encode
  */
 export const encodeCashAddressFormat = (
   prefix: string,
   version: number,
-  hash: Immutable<Uint8Array>
+  payload: Immutable<Uint8Array>
 ) => {
   const checksum40BitPlaceholder = [0, 0, 0, 0, 0, 0, 0, 0];
   const payloadContents = regroupBits({
-    bin: Uint8Array.from([version, ...hash]),
+    bin: Uint8Array.from([version, ...payload]),
     resultWordLength: Constants.base32WordLength,
     sourceWordLength: Constants.base256WordLength,
   }) as number[];
@@ -398,20 +399,20 @@ export const encodeCashAddressFormat = (
     ...checksum40BitPlaceholder,
   ];
   const checksum = cashAddressPolynomialModulo(checksumContents);
-  const payload = [
+  const encoded = [
     ...payloadContents,
     ...cashAddressChecksumToUint5Array(checksum),
   ];
-  return `${prefix}:${encodeBech32(payload)}`;
+  return `${prefix}:${encodeBech32(encoded)}`;
 };
 
 export enum CashAddressEncodingError {
-  unsupportedHashLength = 'Error encoding CashAddress: a hash of this length can not be encoded as a valid CashAddress.',
-  noTypeBitStandardizedForP2pk = 'Error encoding CashAddress: no CashAddress type bit has been standardized for P2PK locking bytecode.',
+  unsupportedPayloadLength = 'Error encoding CashAddress: a payload of this length can not be encoded as a valid CashAddress.',
+  noTypeBitsValueStandardizedForP2pk = 'Error encoding CashAddress: no CashAddress type bit has been standardized for P2PK locking bytecode.',
   unknownLockingBytecodeType = 'Error encoding CashAddress: unknown locking bytecode type.',
 }
 
-export const isValidCashAddressHashLength = (
+export const isValidCashAddressPayloadLength = (
   length: number
 ): length is CashAddressSupportedLength =>
   (cashAddressLengthToSizeBits[length as CashAddressSupportedLength] as
@@ -419,11 +420,11 @@ export const isValidCashAddressHashLength = (
     | undefined) !== undefined;
 
 /**
- * Encode a hash as a CashAddress. This function is similar to
+ * Encode a payload as a CashAddress. This function is similar to
  * {@link encodeCashAddress} but supports non-standard `prefix`es and `type`s.
  *
  * **Note: this function cannot prevent all implementation errors via types.**
- * The function will throw if `hash` is not a valid
+ * The function will throw if `payload` is not a valid
  * {@link CashAddressSupportedLength}. Confirm the length of untrusted inputs
  * before providing them to this function.
  *
@@ -434,35 +435,38 @@ export const isValidCashAddressHashLength = (
  * @param prefix - a valid prefix indicating the network for which to encode the
  * address (usually a {@link CashAddressNetworkPrefix}) – must be only lowercase
  * letters
- * @param typeBit - the type bit to encode in the version byte – must be a
+ * @param typeBits - the type bit to encode in the version byte – must be a
  * number between `0` and `15`
- * @param hash - the hash to encode (for P2PKH, the public key hash; for P2SH,
- * the redeem bytecode hash)
+ * @param payload - the payload to encode (for P2PKH, the public key hash; for
+ * P2SH, the redeem bytecode hash)
  */
 export const encodeCashAddressNonStandard = (
   prefix: string,
-  typeBit: CashAddressAvailableTypeBits,
-  hash: Uint8Array
+  typeBits: CashAddressAvailableTypeBits,
+  payload: Uint8Array
 ) => {
-  const { length } = hash;
-  if (!isValidCashAddressHashLength(length)) {
+  const { length } = payload;
+  if (!isValidCashAddressPayloadLength(length)) {
     // eslint-disable-next-line functional/no-throw-statement
     throw new Error(
-      `${CashAddressEncodingError.unsupportedHashLength} Hash length: ${length}.`
+      formatError(
+        CashAddressEncodingError.unsupportedPayloadLength,
+        `Payload length: ${length}.`
+      )
     );
   }
   return encodeCashAddressFormat(
     prefix,
-    encodeCashAddressVersionByte(typeBit, length),
-    hash
+    encodeCashAddressVersionByte(typeBits, length),
+    payload
   );
 };
 
 /**
- * Encode a hash as a CashAddress.
+ * Encode a payload as a CashAddress.
  *
  * **Note: this function cannot prevent all implementation errors via types.**
- * The function will throw if `hash` is not a valid
+ * The function will throw if `payload` is not a valid
  * {@link CashAddressSupportedLength}. Confirm the length of untrusted inputs
  * before providing them to this function.
  *
@@ -474,22 +478,26 @@ export const encodeCashAddressNonStandard = (
  * @param prefix - the network for which to encode the address
  * (a {@link CashAddressNetworkPrefix})
  * @param type - the address type (a {@link CashAddressType})
- * @param hash - the hash to encode (for P2PKH, the public key hash; for P2SH,
- * the redeem bytecode hash)
+ * @param payload - the payload to encode – for P2PKH, the public key hash; for
+ * P2SH, the redeem bytecode hash
  */
 export const encodeCashAddress = (
   prefix: `${CashAddressNetworkPrefix}`,
   type: `${CashAddressType}`,
-  hash: Uint8Array
+  payload: Uint8Array
 ) =>
-  encodeCashAddressNonStandard(prefix, cashAddressTypeToTypeBits[type], hash);
+  encodeCashAddressNonStandard(
+    prefix,
+    cashAddressTypeToTypeBits[type],
+    payload
+  );
 
 export enum CashAddressDecodingError {
   improperPadding = 'Error decoding CashAddress: the payload is improperly padded.',
   invalidCharacters = 'Error decoding CashAddress: the payload contains non-bech32 characters.',
   invalidChecksum = 'Error decoding CashAddress: invalid checksum - please review the address for errors.',
   invalidFormat = 'Error decoding CashAddress: CashAddresses should be of the form "prefix:payload".',
-  mismatchedHashLength = 'Error decoding CashAddress: mismatched hash length for specified address version.',
+  mismatchedPayloadLength = 'Error decoding CashAddress: mismatched payload length for specified address version.',
   reservedByte = 'Error decoding CashAddress: unknown CashAddress version, reserved byte set.',
   unknownAddressType = 'Error decoding CashAddress: unknown CashAddress type.',
 }
@@ -539,10 +547,10 @@ export const decodeCashAddressFormat = (address: string) => {
     return CashAddressDecodingError.improperPadding;
   }
 
-  const [version, ...hashContents] = payloadContents as [number, ...number[]];
-  const hash = Uint8Array.from(hashContents);
+  const [version, ...contents] = payloadContents as [number, ...number[]];
+  const result = Uint8Array.from(contents);
 
-  return { hash, prefix, version };
+  return { payload: result, prefix, version };
 };
 
 /**
@@ -574,14 +582,14 @@ export const decodeCashAddressNonStandard = (address: string) => {
     return CashAddressDecodingError.reservedByte;
   }
 
-  if (decoded.hash.length !== info.length) {
-    return CashAddressDecodingError.mismatchedHashLength;
+  if (decoded.payload.length !== info.length) {
+    return CashAddressDecodingError.mismatchedPayloadLength;
   }
 
   return {
-    hash: decoded.hash,
+    payload: decoded.payload,
     prefix: decoded.prefix,
-    typeBit: info.typeBit,
+    typeBits: info.typeBits,
   };
 };
 
@@ -609,13 +617,13 @@ export const decodeCashAddress = (address: string) => {
     return decoded;
   }
   const type = cashAddressTypeBitsToType[
-    decoded.typeBit as keyof typeof cashAddressTypeBitsToType
+    decoded.typeBits as keyof typeof cashAddressTypeBitsToType
   ] as CashAddressType | undefined;
   if (type === undefined) {
-    return `${CashAddressDecodingError.unknownAddressType} Type bit value: ${decoded.typeBit}.`;
+    return `${CashAddressDecodingError.unknownAddressType} Type bit value: ${decoded.typeBits}.`;
   }
   return {
-    hash: decoded.hash,
+    payload: decoded.payload,
     prefix: decoded.prefix,
     type,
   };

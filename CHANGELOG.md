@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.6](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2022-08-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* Several decoding methods have been renamed and refactored to use the new
+ReadPosition API.
+
+### Features
+
+* support CashTokens ([8e99139](https://github.com/bitauth/libauth/commit/8e99139accb973f1df82b4cbcc92eeb81af77e0c))
+* support decoding error messages, support token prefixes ([fd9b4d2](https://github.com/bitauth/libauth/commit/fd9b4d22c4581e12dfc6a0950501149481ec0b0f))
+* support token-aware CashAddresses ([5ee0fff](https://github.com/bitauth/libauth/commit/5ee0fffb3ce8aa92ac593d13c0b0e24ecb1a50e6))
+
 ## [2.0.0-alpha.5](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2022-06-27)
 
 

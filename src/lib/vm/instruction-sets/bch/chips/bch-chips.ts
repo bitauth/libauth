@@ -3,7 +3,6 @@ export * from './bch-chips-descriptions.js';
 export * from './bch-chips-errors.js';
 export * from './bch-chips-instruction-set.js';
 export * from './bch-chips-loops.js';
-export * from './bch-chips-tokens.js';
 export * from './bch-chips-opcodes.js';
 export * from './bch-chips-types.js';
 export * from './bch-chips-vm.js';

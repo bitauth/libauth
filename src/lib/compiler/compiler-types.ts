@@ -291,7 +291,7 @@ export interface CompilerConfiguration<
    * By default, all scripts are assumed to have the type `standard`.
    */
   lockingScriptTypes?:
-    | { [lockingScriptId: string]: 'p2sh20' | 'standard' }
+    | { [lockingScriptId: string]: 'p2sh20' | 'p2sh32' | 'standard' }
     | undefined;
 
   /**

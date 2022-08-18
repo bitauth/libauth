@@ -372,6 +372,37 @@
           "$ref": "#/definitions/AuthenticationTemplateScenarioBytecode",
           "description": "The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `[\"slot\"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario's `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)"
         },
+        "token": {
+          "additionalProperties": false,
+          "description": "The CashToken contents of this output. This property is only defined if the output contains one or more tokens. For details, see `CHIP-2022-02-CashTokens`.",
+          "properties": {
+            "amount": {
+              "description": "The number of fungible tokens (of `category`) held in this output.\n\nBecause `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the maximum token amount (`9223372036854775807`), this value may also be provided as a string, e.g. `\"9223372036854775807\"`.\n\nIf undefined, this defaults to: `0`.",
+              "type": ["number", "string"]
+            },
+            "category": {
+              "description": "The 32-byte, hexadecimal-encoded token category ID to which the token(s) in this output belong in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000002`",
+              "type": "string"
+            },
+            "nft": {
+              "additionalProperties": false,
+              "description": "If present, the non-fungible token (NFT) held by this output. If the output does not include a non-fungible token, `undefined`.",
+              "properties": {
+                "capability": {
+                  "description": "The capability of this non-fungible token, must be either `minting`, `mutable`, or `none`.\n\nIf undefined, this defaults to: `none`.",
+                  "enum": ["minting", "mutable", "none"],
+                  "type": "string"
+                },
+                "commitment": {
+                  "description": "The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `\"\"` (a zero-length commitment).",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
         "valueSatoshis": {
           "description": "The value of the output in satoshis, the smallest unit of bitcoin.\n\nIn a valid transaction, this is a positive integer, from `0` to the maximum number of satoshis available to the transaction.\n\nThe maximum number of satoshis in existence is about 1/4 of `Number.MAX_SAFE_INTEGER` (`9007199254740991`), so typically, this value is defined using a `number`. However, this value may also be defined using a 16-character, hexadecimal-encoded `string`, to allow for the full range of the 64-bit unsigned, little-endian integer used to encode `valueSatoshis` in the encoded output format, e.g. `\"ffffffffffffffff\"`. This is useful for representing scenarios where intentionally excessive values are provided (to ensure an otherwise properly-signed transaction can never be included in the blockchain), e.g. transaction size estimations or off-chain Bitauth signatures.\n\nIf undefined, this defaults to: `0`.",
           "type": ["number", "string"]
@@ -399,6 +430,37 @@
             }
           ],
           "description": "The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `[\"slot\"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario's `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)"
+        },
+        "token": {
+          "additionalProperties": false,
+          "description": "The CashToken contents of this output. This property is only defined if the output contains one or more tokens. For details, see `CHIP-2022-02-CashTokens`.",
+          "properties": {
+            "amount": {
+              "description": "The number of fungible tokens (of `category`) held in this output.\n\nBecause `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the maximum token amount (`9223372036854775807`), this value may also be provided as a string, e.g. `\"9223372036854775807\"`.\n\nIf undefined, this defaults to: `0`.",
+              "type": ["number", "string"]
+            },
+            "category": {
+              "description": "The 32-byte, hexadecimal-encoded token category ID to which the token(s) in this output belong in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000002`",
+              "type": "string"
+            },
+            "nft": {
+              "additionalProperties": false,
+              "description": "If present, the non-fungible token (NFT) held by this output. If the output does not include a non-fungible token, `undefined`.",
+              "properties": {
+                "capability": {
+                  "description": "The capability of this non-fungible token, must be either `minting`, `mutable`, or `none`.\n\nIf undefined, this defaults to: `none`.",
+                  "enum": ["minting", "mutable", "none"],
+                  "type": "string"
+                },
+                "commitment": {
+                  "description": "The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `\"\"` (a zero-length commitment).",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
         },
         "valueSatoshis": {
           "description": "The value of the output in satoshis, the smallest unit of bitcoin.\n\nIn a valid transaction, this is a positive integer, from `0` to the maximum number of satoshis available to the transaction.\n\nThe maximum number of satoshis in existence is about 1/4 of `Number.MAX_SAFE_INTEGER` (`9007199254740991`), so typically, this value is defined using a `number`. However, this value may also be defined using a 16-character, hexadecimal-encoded `string`, to allow for the full range of the 64-bit unsigned, little-endian integer used to encode `valueSatoshis` in the encoded output format, e.g. `\"ffffffffffffffff\"`. This is useful for representing scenarios where intentionally excessive values are provided (to ensure an otherwise properly-signed transaction can never be included in the blockchain), e.g. transaction size estimations or off-chain Bitauth signatures.\n\nIf undefined, this defaults to: `0`.",
@@ -436,7 +498,7 @@
       "properties": {
         "lockingType": {
           "description": "Indicates if P2SH20 infrastructure should be used when producing bytecode related to this script. For more information on P2SH20, see BIP16.\n\nWhen compiling locking scripts of type `p2sh20`, the result will be placed in a P2SH20 \"redeem script\" format: `OP_HASH160 <$(<lockingBytecode> OP_HASH160)> OP_EQUAL`\n\nWhen compiling unlocking scripts that unlock locking scripts of type `p2sh20`, the result will be transformed into the P2SH20 unlocking format: `unlockingBytecode <lockingBytecode>` (where `lockingBytecode` is the compiled bytecode of the locking script, without the \"redeem script\" transformation.)\n\nThe presence of the `lockingType` property indicates that this script is a locking script. It must be present on any script referenced by the `unlocks` property of another script.",
-          "enum": ["p2sh20", "standard"],
+          "enum": ["p2sh20", "p2sh32", "standard"],
           "type": "string"
         },
         "name": {
@@ -612,6 +674,7 @@
         "BCH_2020_05",
         "BCH_2021_05",
         "BCH_2022_05",
+        "BCH_2023_05",
         "BCH_SPEC",
         "BSV_2020_02",
         "BSV_SPEC",

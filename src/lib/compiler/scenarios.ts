@@ -20,6 +20,7 @@ import type {
   CompilationResult,
   CompilationResultSuccess,
   Compiler,
+  Output,
   Scenario,
   ScenarioGenerationDebuggingResult,
 } from '../lib';
@@ -625,6 +626,35 @@ export const compileAuthenticationTemplateScenarioBytecode = <
 };
 
 /**
+ * Compile a {@link AuthenticationTemplateScenarioOutput.token},
+ * returning the {@link Output.token} result.
+ */
+// eslint-disable-next-line complexity
+export const compileScenarioOutputTokenData = (
+  output: AuthenticationTemplateScenarioOutput<boolean>
+): Pick<Output, 'token'> =>
+  output.token === undefined
+    ? {}
+    : {
+        token: {
+          amount: BigInt(output.token.amount ?? 0),
+          // TODO: doesn't verify length
+          category: hexToBin(
+            output.token.category ??
+              CompilerDefaults.defaultScenarioOutputTokenCategory
+          ),
+          ...(output.token.nft === undefined
+            ? {}
+            : {
+                nft: {
+                  capability: output.token.nft.capability ?? 'none',
+                  commitment: hexToBin(output.token.nft.commitment ?? ''),
+                },
+              }),
+        },
+      };
+
+/**
  * Generate a scenario given a compiler configuration. If neither `scenarioId`
  * or `unlockingScriptId` are provided, the default scenario for the compiler
  * configuration will be generated.
@@ -795,6 +825,7 @@ export const generateScenarioBCH = <
           valueSatoshis: compileAuthenticationTemplateScenarioValueSatoshis(
             sourceOutput.valueSatoshis
           ),
+          ...compileScenarioOutputTokenData(sourceOutput),
         },
         index,
         slot,
@@ -823,6 +854,7 @@ export const generateScenarioBCH = <
           valueSatoshis: compileAuthenticationTemplateScenarioValueSatoshis(
             transactionOutput.valueSatoshis
           ),
+          ...compileScenarioOutputTokenData(transactionOutput),
         },
         index,
         type: 'transaction output' as const,
@@ -868,6 +900,7 @@ export const generateScenarioBCH = <
     compiled: {
       lockingBytecode: CompilationResultSuccess<ProgramState> | Uint8Array;
       valueSatoshis: bigint;
+      token?: Output['token'];
     };
     index: number;
     slot?: boolean;
@@ -877,13 +910,14 @@ export const generateScenarioBCH = <
   const extractOutput = (
     compilation: AuthenticationTemplateScenarioOutputSuccessfulCompilation
   ) => {
-    const { lockingBytecode, valueSatoshis } = compilation.compiled;
+    const { lockingBytecode, valueSatoshis, token } = compilation.compiled;
     return {
       lockingBytecode:
         'bytecode' in lockingBytecode
           ? lockingBytecode.bytecode
           : lockingBytecode,
       valueSatoshis,
+      ...(token === undefined ? {} : { token }),
     };
   };
 
@@ -893,6 +927,7 @@ export const generateScenarioBCH = <
   const inputsContext = extendedScenario.transaction.inputs.map(
     (input, inputIndex) => ({
       outpointIndex: input.outpointIndex ?? inputIndex,
+      // TODO: doesn't verify length
       outpointTransactionHash: hexToBin(
         input.outpointTransactionHash ??
           CompilerDefaults.defaultScenarioInputOutpointTransactionHash

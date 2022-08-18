@@ -1,18 +1,27 @@
+/**
+ * To debug an individual vmb tests, set the `debug` variable below. All other
+ * tests will be skipped.
+ *
+ * Considering using the `Debug Active Spec` launch configuration with Visual
+ * Studio Code.
+ */
+
 import test from 'ava';
 
 import type {
   AuthenticationProgramStateCommon,
   AuthenticationVirtualMachineBCH,
   AuthenticationVirtualMachineBCHCHIPs,
-  Output,
-  ReadResult,
   VmbTest,
 } from '../lib';
 import {
   createVirtualMachineBCH2022,
-  decodeTransactionUnsafeBCH,
+  createVirtualMachineBCH2023,
   hexToBin,
+  readTransactionCommon,
+  readTransactionNonTokenAware,
   readTransactionOutputs,
+  readTransactionOutputsNonTokenAware,
   stringify,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
@@ -21,14 +30,37 @@ import { createVirtualMachineBCHCHIPs } from '../vm/instruction-sets/bch/chips/b
 
 import { vmbTestsBCH } from './bch-vmb-tests.js';
 /* eslint-disable import/no-restricted-paths, import/no-internal-modules */
+import vmbTestsBCHBeforeChipCashtokensInvalidJson from './generated/bch/CHIPs/bch_vmb_tests_before_chip_cashtokens_invalid.json' assert { type: 'json' };
+import vmbTestsBCHBeforeChipCashtokensNonstandardJson from './generated/bch/CHIPs/bch_vmb_tests_before_chip_cashtokens_nonstandard.json' assert { type: 'json' };
+import vmbTestsBCHBeforeChipCashtokensStandardJson from './generated/bch/CHIPs/bch_vmb_tests_before_chip_cashtokens_standard.json' assert { type: 'json' };
+import vmbTestsBCHChipCashtokensInvalidJson from './generated/bch/CHIPs/bch_vmb_tests_chip_cashtokens_invalid.json' assert { type: 'json' };
+import vmbTestsBCHChipCashtokensNonstandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_cashtokens_nonstandard.json' assert { type: 'json' };
+import vmbTestsBCHChipCashtokensStandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_cashtokens_standard.json' assert { type: 'json' };
+import vmbTestsBCHChipLoopsInvalidJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_invalid.json' assert { type: 'json' };
+import vmbTestsBCHChipLoopsNonstandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_nonstandard.json' assert { type: 'json' };
+import vmbTestsBCHChipLoopsStandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_standard.json' assert { type: 'json' };
 import vmbTestsBCHJson from './generated/bch/bch_vmb_tests.json' assert { type: 'json' };
 import vmbTestsBCH2022InvalidJson from './generated/bch/bch_vmb_tests_2022_invalid.json' assert { type: 'json' };
 import vmbTestsBCH2022NonstandardJson from './generated/bch/bch_vmb_tests_2022_nonstandard.json' assert { type: 'json' };
 import vmbTestsBCH2022StandardJson from './generated/bch/bch_vmb_tests_2022_standard.json' assert { type: 'json' };
-import vmbTestsBCHChipLoopsInvalidJson from './generated/bch/bch_vmb_tests_chip_loops_invalid.json' assert { type: 'json' };
-import vmbTestsBCHChipLoopsNonstandardJson from './generated/bch/bch_vmb_tests_chip_loops_nonstandard.json' assert { type: 'json' };
-import vmbTestsBCHChipLoopsStandardJson from './generated/bch/bch_vmb_tests_chip_loops_standard.json' assert { type: 'json' };
 /* eslint-enable import/no-restricted-paths, import/no-internal-modules */
+
+/**
+ * =========== Debugging Info ===========
+ */
+const debug = undefined as DebugInfo;
+/* spell-checker:disable-next-line */
+// const debug = { testId: 'kprq7', vmName: 'bch_2023_standard' } as DebugInfo;
+
+type VmName =
+  | 'bch_2022_nonstandard'
+  | 'bch_2022_standard'
+  | 'bch_2023_nonstandard'
+  | 'bch_2023_standard'
+  | 'bch_chips_nonstandard'
+  | 'bch_chips_standard';
+
+type DebugInfo = { testId: string; vmName: VmName } | undefined;
 
 test('bch_vmb_tests.json is up to date and contains no test ID collisions', (t) => {
   const testGroupsAndTypes = 2;
@@ -50,14 +82,22 @@ test('bch_vmb_tests.json is up to date and contains no test ID collisions', (t) 
 
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
   if (idDup !== -1) {
+    const lastCollisionId = testCaseIds.lastIndexOf(testCaseIds[idDup]!);
     return t.fail(`Multiple VMB test vectors share a short ID. Either increase the short ID length, or tweak one of the test definitions to eliminate the collision.
 
-    Collision: ${allTestCases[idDup]![0]}: ${allTestCases[idDup]![1]}`);
+    Collision:
+    ${allTestCases[idDup]![0]}: ${allTestCases[idDup]![1]}
+    ${allTestCases[lastCollisionId]![0]}: ${allTestCases[lastCollisionId]![1]}
+    `);
   }
   if (descDup !== -1) {
+    const lastCollisionId = descriptions.lastIndexOf(descriptions[descDup]!);
     return t.fail(`Multiple VMB test vectors share a description. Please either include additional detail or remove the unnecessary test.
 
-    Collision: ${allTestCases[descDup]![0]}: ${allTestCases[descDup]![1]}`);
+    Collision:
+    ${allTestCases[descDup]![0]}: ${allTestCases[descDup]![1]}
+    ${allTestCases[lastCollisionId]![0]}: ${allTestCases[lastCollisionId]![1]}
+    `);
   }
   /* eslint-enable @typescript-eslint/no-non-null-assertion */
   return t.pass();
@@ -68,11 +108,13 @@ const testVm = ({
   succeeds,
   vm,
   vmName,
+  vmOptions,
 }: {
-  vmName: string;
+  vmName: VmName;
   succeeds: VmbTest[][];
   fails: VmbTest[][];
   vm: AuthenticationVirtualMachineBCH | AuthenticationVirtualMachineBCHCHIPs;
+  vmOptions?: { canParseTokens: boolean };
 }) => {
   const runCase = test.macro({
     // eslint-disable-next-line complexity
@@ -87,12 +129,26 @@ const testVm = ({
         inputIndex,
       ] = testCase;
       const testedIndex = inputIndex ?? 0;
-      const transaction = decodeTransactionUnsafeBCH(hexToBin(txHex));
-
-      const { result: sourceOutputs } = readTransactionOutputs({
-        bin: hexToBin(sourceOutputsHex),
-        index: 0,
-      }) as ReadResult<Output[]>;
+      const supportsTokens = vmOptions?.canParseTokens !== false;
+      const sourceOutputsRead = (
+        supportsTokens
+          ? readTransactionOutputs
+          : readTransactionOutputsNonTokenAware
+      )({ bin: hexToBin(sourceOutputsHex), index: 0 });
+      const transactionRead = (
+        supportsTokens ? readTransactionCommon : readTransactionNonTokenAware
+      )({ bin: hexToBin(txHex), index: 0 });
+      if (typeof sourceOutputsRead === 'string') {
+        expectedToSucceed ? t.fail(sourceOutputsRead) : t.pass();
+        return;
+      }
+      if (typeof transactionRead === 'string') {
+        expectedToSucceed ? t.fail(transactionRead) : t.pass();
+        return;
+      }
+      const sourceOutputs = sourceOutputsRead.result;
+      const transaction = transactionRead.result;
+      if (debug !== undefined) debugger; // eslint-disable-line functional/no-conditional-statement, no-debugger
       const result = vm.verify({ sourceOutputs, transaction });
       const moreDetails = `For more detailed debugging information, run: "yarn test:unit:vmb_test ${vmName} ${shortId} -v"`;
       const logDebugInfo = () => {
@@ -167,18 +223,26 @@ const testVm = ({
   const expectedPass = succeeds.flat(1);
   const expectedFail = fails.flat(1);
   expectedPass.forEach((testCase, index) => {
-    test(
-      `(${index + 1}/${expectedPass.length + expectedFail.length} S)`,
+    (debug === undefined
+      ? test
+      : vmName === debug.vmName && debug.testId === testCase[0]
+      ? test
+      : test.skip)(
+      `(${index + 1}/${expectedPass.length + expectedFail.length} valid)`,
       runCase,
       testCase,
       true
     );
   });
   expectedFail.forEach((testCase, index) => {
-    test(
+    (debug === undefined
+      ? test
+      : vmName === debug.vmName && debug.testId === testCase[0]
+      ? test
+      : test.skip)(
       `(${expectedPass.length + index + 1}/${
         expectedPass.length + expectedFail.length
-      } F)`,
+      } invalid)`,
       runCase,
       testCase,
       false
@@ -190,20 +254,52 @@ testVm({
   fails: [
     vmbTestsBCH2022InvalidJson as VmbTest[],
     vmbTestsBCH2022NonstandardJson as VmbTest[],
+    vmbTestsBCHBeforeChipCashtokensInvalidJson as VmbTest[],
+    vmbTestsBCHBeforeChipCashtokensNonstandardJson as VmbTest[],
   ],
-  succeeds: [vmbTestsBCH2022StandardJson as VmbTest[]],
+  succeeds: [
+    vmbTestsBCH2022StandardJson as VmbTest[],
+    vmbTestsBCHBeforeChipCashtokensStandardJson as VmbTest[],
+  ],
   vm: createVirtualMachineBCH2022(true),
   vmName: 'bch_2022_standard',
+  vmOptions: { canParseTokens: false },
 });
 
 testVm({
-  fails: [vmbTestsBCH2022InvalidJson as VmbTest[]],
+  fails: [
+    vmbTestsBCH2022InvalidJson as VmbTest[],
+    vmbTestsBCHBeforeChipCashtokensInvalidJson as VmbTest[],
+  ],
   succeeds: [
     vmbTestsBCH2022StandardJson as VmbTest[],
     vmbTestsBCH2022NonstandardJson as VmbTest[],
+    vmbTestsBCHBeforeChipCashtokensStandardJson as VmbTest[],
+    vmbTestsBCHBeforeChipCashtokensNonstandardJson as VmbTest[],
   ],
   vm: createVirtualMachineBCH2022(false),
   vmName: 'bch_2022_nonstandard',
+  vmOptions: { canParseTokens: false },
+});
+
+testVm({
+  fails: [
+    vmbTestsBCHChipCashtokensInvalidJson as VmbTest[],
+    vmbTestsBCHChipCashtokensNonstandardJson as VmbTest[],
+  ],
+  succeeds: [vmbTestsBCHChipCashtokensStandardJson as VmbTest[]],
+  vm: createVirtualMachineBCH2023(true),
+  vmName: 'bch_2023_standard',
+});
+
+testVm({
+  fails: [vmbTestsBCHChipCashtokensInvalidJson as VmbTest[]],
+  succeeds: [
+    vmbTestsBCHChipCashtokensStandardJson as VmbTest[],
+    vmbTestsBCHChipCashtokensNonstandardJson as VmbTest[],
+  ],
+  vm: createVirtualMachineBCH2023(false),
+  vmName: 'bch_2023_nonstandard',
 });
 
 testVm({

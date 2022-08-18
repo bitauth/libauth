@@ -518,6 +518,73 @@ export const readTransactionCommon = (
   };
 };
 
+export const readTransaction = readTransactionCommon;
+
+export const readTransactionOutputNonTokenAware = (
+  pos: ReadPosition
+): MaybeReadResult<Output> => {
+  const outputRead = readMultiple(pos, [
+    readUint64LE,
+    readCompactSizePrefixedBin,
+  ]);
+  if (typeof outputRead === 'string') {
+    return formatError(TransactionDecodingError.output, outputRead);
+  }
+  const {
+    position: nextPosition,
+    result: [valueSatoshis, lockingBytecode],
+  } = outputRead;
+  return {
+    position: nextPosition,
+    result: { lockingBytecode, valueSatoshis },
+  };
+};
+
+export const readTransactionOutputsNonTokenAware = (
+  pos: ReadPosition
+): MaybeReadResult<Output[]> => {
+  const outputsRead = readItemCount(pos, readTransactionOutputNonTokenAware);
+  if (typeof outputsRead === 'string') {
+    return formatError(TransactionDecodingError.outputs, outputsRead);
+  }
+  return outputsRead;
+};
+
+/**
+ * Read a version 1 or 2 transaction beginning at a {@link ReadPosition} as if
+ * CHIP-2022-02-CashTokens were not deployed, returning either an error message
+ * (as a string) or an object containing the {@link Transaction} and the next
+ * {@link ReadPosition}.
+ *
+ * This function emulates legacy transaction parsing to test behavior prior to
+ * deployment of CHIP-2022-02-CashTokens; most applications should instead
+ * use {@link readTransactionCommon}.
+ *
+ * @param position - the {@link ReadPosition} at which to start reading the
+ * {@link TransactionCommon}
+ */
+export const readTransactionNonTokenAware = (
+  position: ReadPosition
+): MaybeReadResult<TransactionCommon> => {
+  const transactionRead = readMultiple(position, [
+    readUint32LE,
+    readTransactionInputs,
+    readTransactionOutputsNonTokenAware,
+    readUint32LE,
+  ]);
+  if (typeof transactionRead === 'string') {
+    return formatError(TransactionDecodingError.transaction, transactionRead);
+  }
+  const {
+    position: nextPosition,
+    result: [version, inputs, outputs, locktime],
+  } = transactionRead;
+  return {
+    position: nextPosition,
+    result: { inputs, locktime, outputs, version },
+  };
+};
+
 /**
  * Decode a {@link TransactionCommon} according to the version 1/2 P2P network
  * transaction format.
@@ -607,6 +674,22 @@ export const cloneTransactionOutputsCommon = <
 ) =>
   outputs.map((output) => ({
     lockingBytecode: output.lockingBytecode.slice(),
+    ...(output.token === undefined
+      ? {}
+      : {
+          token: {
+            amount: output.token.amount,
+            category: output.token.category.slice(),
+            ...(output.token.nft === undefined
+              ? {}
+              : {
+                  nft: {
+                    capability: output.token.nft.capability,
+                    commitment: output.token.nft.commitment.slice(),
+                  },
+                }),
+          },
+        }),
     valueSatoshis: output.valueSatoshis,
   }));
 

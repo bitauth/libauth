@@ -113,6 +113,14 @@ import {
   reservedOperation,
   stackItemIsTruthy,
 } from '../../common/common.js';
+import {
+  opOutputTokenAmount,
+  opOutputTokenCategory,
+  opOutputTokenCommitment,
+  opUtxoTokenAmount,
+  opUtxoTokenCategory,
+  opUtxoTokenCommitment,
+} from '../2023/bch-2023.js';
 
 import {
   opCheckMultiSigChipLimits,
@@ -132,14 +140,6 @@ import {
   undefinedOperationChipLoops,
 } from './bch-chips-loops.js';
 import { OpcodesBCHCHIPs } from './bch-chips-opcodes.js';
-import {
-  opOutputTokenAmount,
-  opOutputTokenCategory,
-  opOutputTokenCommitment,
-  opUtxoTokenAmount,
-  opUtxoTokenCategory,
-  opUtxoTokenCommitment,
-} from './bch-chips-tokens.js';
 import {
   cloneAuthenticationProgramStateBCHCHIPs,
   createAuthenticationProgramStateBCHCHIPs,

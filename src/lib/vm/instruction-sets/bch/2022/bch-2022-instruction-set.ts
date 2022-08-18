@@ -128,8 +128,7 @@ import {
   stackItemIsTruthy,
   undefinedOperation,
 } from '../../common/common.js';
-
-import { OpcodesBCH } from './bch-2022-opcodes.js';
+import { OpcodesBCH } from '../2023/bch-2023.js';
 
 /**
  * create an instance of the BCH 2022 virtual machine instruction set.
@@ -651,5 +650,3 @@ export const createInstructionSetBCH2022 = (
     },
   };
 };
-
-export const createInstructionSetBCH = createInstructionSetBCH2022;

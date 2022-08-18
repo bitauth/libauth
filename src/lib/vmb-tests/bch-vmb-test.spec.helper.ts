@@ -1,12 +1,15 @@
 /* eslint-disable no-console, functional/no-expression-statement, @typescript-eslint/no-non-null-assertion */
-import type { Output, ReadResult } from '../lib.js';
+import type { Output, ReadResult, Transaction } from '../lib.js';
 import {
   createVirtualMachineBCH2022,
+  createVirtualMachineBCH2023,
   createVirtualMachineBCHCHIPs,
-  decodeTransactionUnsafeBCH,
   hexToBin,
   isPayToScriptHash20,
+  readTransaction,
+  readTransactionNonTokenAware,
   readTransactionOutputs,
+  readTransactionOutputsNonTokenAware,
   stringify,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
@@ -19,6 +22,8 @@ const vms = {
   /* eslint-disable @typescript-eslint/naming-convention, camelcase */
   bch_2022_nonstandard: createVirtualMachineBCH2022(false),
   bch_2022_standard: createVirtualMachineBCH2022(true),
+  bch_2023_nonstandard: createVirtualMachineBCH2023(false),
+  bch_2023_standard: createVirtualMachineBCH2023(true),
   bch_chips_nonstandard: createVirtualMachineBCHCHIPs(false),
   bch_chips_standard: createVirtualMachineBCHCHIPs(true),
   /* eslint-enable @typescript-eslint/naming-convention, camelcase */
@@ -47,6 +52,8 @@ if (!isVm(vmId)) {
 }
 
 const vm = vms[vmId];
+const nonTokenAware =
+  vmId === 'bch_2022_nonstandard' || vmId === 'bch_2022_standard';
 
 const testDefinition = (
   vmbTestsBCHJson as [
@@ -78,11 +85,12 @@ const [
 ] = testDefinition;
 
 const testedIndex = inputIndex ?? 0;
-const transaction = decodeTransactionUnsafeBCH(hexToBin(txHex));
-const { result: sourceOutputs } = readTransactionOutputs({
-  bin: hexToBin(sourceOutputsHex),
-  index: 0,
-}) as ReadResult<Output[]>;
+const { result: transaction } = (
+  nonTokenAware ? readTransactionNonTokenAware : readTransaction
+)({ bin: hexToBin(txHex), index: 0 }) as ReadResult<Transaction>;
+const { result: sourceOutputs } = (
+  nonTokenAware ? readTransactionOutputsNonTokenAware : readTransactionOutputs
+)({ bin: hexToBin(sourceOutputsHex), index: 0 }) as ReadResult<Output[]>;
 const result = vm.verify({ sourceOutputs, transaction });
 
 const program = {

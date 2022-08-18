@@ -1,4 +1,4 @@
-export enum OpcodeDescriptionsBCHCHIPs {
+export enum OpcodeDescriptionsBCH2023 {
   OP_0 = 'Push the VM Number 0 onto the stack.',
   OP_PUSHBYTES_1 = 'Push the next byte onto the stack.',
   OP_PUSHBYTES_2 = 'Push the next 2 bytes onto the stack.',
@@ -100,8 +100,8 @@ export enum OpcodeDescriptionsBCHCHIPs {
   OP_VER = 'Error unless found in an unexecuted conditional branch. Note: OP_VER counts toward the opcode limit. (Historically, this pushed a protocol version number to the stack.)',
   OP_IF = 'Pop the top item from the stack. If it is not "truthy", skip evaluation until a matching OP_ELSE or OP_ENDIF.',
   OP_NOTIF = 'Pop the top item from the stack. If it is "truthy", skip evaluation until a matching OP_ELSE or OP_ENDIF.',
-  OP_BEGIN = 'Push the current instruction pointer index to the control stack as an integer (to be read by OP_UNTIL).',
-  OP_UNTIL = 'Pop the top item from the control stack (if the control value is not an integer, error). Add the difference between the control value and the current instruction pointer index to the repeated bytes counter, if the sum of the repeated bytes counter and the active bytecode length is greater than the maximum bytecode length, error. Pop the top item from the stack, if the value is a 0 (VM Number), move the instruction pointer to the control value (and re-evaluate the OP_BEGIN).',
+  OP_VERIF = 'Error, even when found in an unexecuted conditional branch. (Historically, this was a combination of OP_VER and OP_IF.)',
+  OP_VERNOTIF = 'Error, even when found in an unexecuted conditional branch. (Historically, this was a combination of OP_VER and OP_NOTIF.)',
   OP_ELSE = 'Invert conditional evaluation within the current OP_IF ... OP_ENDIF block. (If evaluation is enabled, disable it, if it is disabled, enable it.)',
   OP_ENDIF = 'End the current OP_IF/OP_NOTIF ... OP_ENDIF block.',
   OP_VERIFY = 'Pop the top item from the stack and error if it isn\'t "truthy".',
@@ -209,3 +209,8 @@ export enum OpcodeDescriptionsBCHCHIPs {
   OP_OUTPUTTOKENCOMMITMENT = 'Pop the top item from the stack as an output index (VM Number). Push the token commitment of the output at that index to the stack. If the output does not include a non-fungible token, or if it includes a non-fungible token with a zero-length commitment, push a 0 (VM Number).',
   OP_OUTPUTTOKENAMOUNT = 'Pop the top item from the stack as an output index (VM Number). Push the fungible token amount of the output at that index to the stack as a VM Number. If the output includes no fungible tokens, push a 0 (VM Number).',
 }
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const OpcodeDescriptionsBCH = OpcodeDescriptionsBCH2023;
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const OpcodeDescriptions = OpcodeDescriptionsBCH;

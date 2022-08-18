@@ -460,7 +460,11 @@ export interface CompilationResultSuccess<ProgramState>
    *
    * This property is not defined if the result was not transformed.
    */
-  transformed?: 'p2sh20-locking' | 'p2sh20-unlocking';
+  transformed?:
+    | 'p2sh20-locking'
+    | 'p2sh20-unlocking'
+    | 'p2sh32-locking'
+    | 'p2sh32-unlocking';
 }
 
 export type CompilationResult<

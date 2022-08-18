@@ -26,7 +26,9 @@ import { slot1Scenario } from './bch-vmb-test-mixins.js';
  */
 const vmVersionsBCH = [
   '2022',
+  '2023',
   'chip_cashtokens',
+  'before_chip_cashtokens',
   'chip_limits',
   'chip_loops',
   'chip_p2sh32',
@@ -36,17 +38,19 @@ const vmVersionsBCH = [
 /**
  * These are the VM "modes" for which tests can be generated.
  */
-const vmModes = ['nop2sh', 'p2sh20', 'p2sh32'] as const;
-
+const vmModes = ['nop2sh', 'p2sh', 'p2sh20', 'p2sh32'] as const;
 type TestSetType = 'invalid' | 'nonstandard' | 'standard';
 type TestSetOverrideType = TestSetType | 'ignore';
 type VmVersionBCH = typeof vmVersionsBCH[number];
 type VmMode = typeof vmModes[number];
 type TestSetOverrideLabelBCH =
+  | 'default'
   | `${TestSetOverrideType}`
   | `${VmMode}_${TestSetOverrideType}`
+  | `${VmMode}`
   | `${VmVersionBCH}_${TestSetOverrideType}`
-  | `${VmVersionBCH}_${VmMode}_${TestSetOverrideType}`;
+  | `${VmVersionBCH}_${VmMode}_${TestSetOverrideType}`
+  | `${VmVersionBCH}`;
 
 export type TestSetIdBCH = `${VmVersionBCH}_${TestSetType}`;
 
@@ -98,22 +102,42 @@ export const vmbTestDefinitionDefaultBehaviorBCH: TestSetOverrideLabelBCH[] = [
  * For now, this implementation simplifies VMB test generation – we just
  * `join()` the provided overrides and look up resulting modes/test sets here.
  */
-type TestSetOverrideListBCH =
-  | ['chip_loops_invalid']
-  | ['chip_loops']
-  | ['invalid', '2022_nonP2sh_nonstandard']
-  | ['invalid', '2022_p2sh_standard']
-  | ['invalid', 'nonP2sh_nonstandard']
-  | ['invalid', 'p2sh_ignore']
-  | ['invalid']
-  | ['nonP2sh_invalid']
-  | ['nonP2sh20_invalid']
-  | ['nonstandard', 'p2sh_ignore']
-  | ['nonstandard', 'p2sh_invalid']
-  | ['nonstandard']
-  | ['p2sh_ignore']
-  | ['p2sh_invalid']
-  | [];
+const testSetOverrideListBCH = [
+  ['chip_cashtokens_invalid'],
+  ['chip_cashtokens_invalid', '2022_p2sh32_nonstandard'],
+  ['default', 'chip_cashtokens'],
+  ['chip_cashtokens'],
+  ['chip_cashtokens', '2022_p2sh32_nonstandard'],
+  ['chip_loops_invalid'],
+  ['chip_loops'],
+  ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_invalid'],
+  ['invalid', 'chip_cashtokens_invalid'],
+  ['invalid', 'chip_cashtokens', 'nop2sh_invalid'],
+  ['invalid', 'chip_cashtokens'],
+  ['invalid', 'nop2sh_nonstandard'],
+  ['invalid', 'nop2sh_nonstandard'],
+  ['invalid', 'p2sh_ignore'],
+  ['invalid', 'p2sh_nonstandard', 'chip_cashtokens_invalid'],
+  ['invalid', 'p2sh_nonstandard', 'chip_cashtokens'],
+  ['invalid', 'p2sh_standard'],
+  ['invalid', 'p2sh20_standard'],
+  ['invalid'],
+  ['nop2sh_invalid'],
+  ['nonstandard', 'chip_cashtokens_invalid'],
+  ['nonstandard', 'chip_cashtokens'],
+  ['nonstandard', 'p2sh_ignore'],
+  ['nonstandard', 'p2sh_invalid'],
+  ['nonstandard'],
+  ['p2sh_ignore'],
+  ['p2sh_invalid'],
+  [],
+] as const;
+
+type TestSetOverrideListBCH = typeof testSetOverrideListBCH[number];
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const testList = (_list: Readonly<Readonly<TestSetOverrideLabelBCH[]>[]>) => 0;
+// eslint-disable-next-line functional/no-expression-statement
+testList(testSetOverrideListBCH);
 
 type TestPlan = {
   mode: 'nonP2SH' | 'P2SH20' | 'P2SH32';
@@ -135,6 +159,62 @@ export const supportedTestSetOverridesBCH: {
    * `chip_*` values exclude the marked test from
    * {@link vmbTestDefinitionDefaultBehaviorBCH}.
    */
+  chip_cashtokens: [
+    {
+      mode: 'nonP2SH',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_standard'],
+    },
+  ],
+  'chip_cashtokens,2022_p2sh32_nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['before_chip_cashtokens_nonstandard', 'chip_cashtokens_standard'],
+    },
+  ],
+  chip_cashtokens_invalid: [
+    {
+      mode: 'nonP2SH',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+    },
+  ],
+  'chip_cashtokens_invalid,2022_p2sh32_nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['before_chip_cashtokens_nonstandard', 'chip_cashtokens_invalid'],
+    },
+  ],
   chip_loops: [
     { mode: 'nonP2SH', sets: ['chip_loops_nonstandard'] },
     { mode: 'P2SH20', sets: ['chip_loops_standard'] },
@@ -143,28 +223,198 @@ export const supportedTestSetOverridesBCH: {
     { mode: 'nonP2SH', sets: ['chip_loops_invalid'] },
     { mode: 'P2SH20', sets: ['chip_loops_invalid'] },
   ],
+  'default,chip_cashtokens': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_standard',
+        'before_chip_cashtokens_standard',
+        'chip_cashtokens_standard',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_cashtokens_standard'],
+    },
+  ],
   invalid: [
     { mode: 'nonP2SH', sets: ['2022_invalid'] },
     { mode: 'P2SH20', sets: ['2022_invalid'] },
   ],
-  'invalid,2022_nonP2sh_nonstandard': [
+  'invalid,2022_p2sh32_nonstandard,chip_cashtokens_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_invalid',
+      ],
+    },
+  ],
+  'invalid,chip_cashtokens': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_standard',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_standard',
+      ],
+    },
+  ],
+  'invalid,chip_cashtokens,nop2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_standard',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_standard',
+      ],
+    },
+  ],
+  'invalid,chip_cashtokens_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+  ],
+  'invalid,nop2sh_nonstandard': [
     { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2022_invalid'] },
   ],
-  'invalid,2022_p2sh_standard': [
+  'invalid,p2sh20_standard': [
     { mode: 'nonP2SH', sets: ['2022_invalid'] },
     { mode: 'P2SH20', sets: ['2022_standard'] },
-  ],
-  'invalid,nonP2sh_nonstandard': [
-    { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2022_invalid'] },
   ],
   'invalid,p2sh_ignore': [{ mode: 'nonP2SH', sets: ['2022_invalid'] }],
-  nonP2sh20_invalid: [
-    { mode: 'nonP2SH', sets: ['2022_invalid'] },
-    { mode: 'P2SH20', sets: ['2022_standard'] },
+  'invalid,p2sh_nonstandard,chip_cashtokens': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_standard',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_standard',
+      ],
+    },
   ],
-  nonP2sh_invalid: [
+  'invalid,p2sh_nonstandard,chip_cashtokens_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_invalid',
+      ],
+    },
+  ],
+  'invalid,p2sh_standard': [
     { mode: 'nonP2SH', sets: ['2022_invalid'] },
     { mode: 'P2SH20', sets: ['2022_standard'] },
   ],
@@ -172,10 +422,66 @@ export const supportedTestSetOverridesBCH: {
     { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2022_nonstandard'] },
   ],
+  'nonstandard,chip_cashtokens': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_standard',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_standard',
+      ],
+    },
+  ],
+  'nonstandard,chip_cashtokens_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_invalid',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_invalid',
+      ],
+    },
+  ],
   'nonstandard,p2sh_ignore': [{ mode: 'nonP2SH', sets: ['2022_nonstandard'] }],
   'nonstandard,p2sh_invalid': [
     { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
     { mode: 'P2SH20', sets: ['2022_invalid'] },
+  ],
+  nop2sh_invalid: [
+    { mode: 'nonP2SH', sets: ['2022_invalid'] },
+    { mode: 'P2SH20', sets: ['2022_standard'] },
   ],
   p2sh_ignore: [{ mode: 'nonP2SH', sets: ['2022_nonstandard'] }],
   p2sh_invalid: [
@@ -232,7 +538,7 @@ export type VmbTestDefinitionGroup = [
 const defaultShortIdLength = 5;
 
 const planTestsBCH = (
-  labels?: string[]
+  labels?: readonly string[]
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ) => supportedTestSetOverridesBCH[(labels ?? []).join(',')]!;
 
@@ -275,6 +581,7 @@ export const vmbTestDefinitionToVmbTests = (
           'OP_DUP OP_HASH160 <$(<key1.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
       },
       lockP2sh20: { lockingType: 'p2sh20', script: redeemOrLockingScript },
+      lockP2sh32: { lockingType: 'p2sh32', script: redeemOrLockingScript },
       lockStandard: { lockingType: 'standard', script: redeemOrLockingScript },
       unlockEmptyP2sh20: { script: '<1>', unlocks: 'lockEmptyP2sh20' },
       unlockP2pkh: {
@@ -287,6 +594,7 @@ export const vmbTestDefinitionToVmbTests = (
         unlocks: 'lockP2pkh',
       },
       unlockP2sh20: { script: unlockingScript, unlocks: 'lockP2sh20' },
+      unlockP2sh32: { script: unlockingScript, unlocks: 'lockP2sh32' },
       unlockStandard: { script: unlockingScript, unlocks: 'lockStandard' },
       vmbTestNullData: {
         lockingType: 'standard',

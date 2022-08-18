@@ -2,6 +2,7 @@ import {
   isPayToPublicKey,
   isPayToPublicKeyHash,
   isPayToScriptHash20,
+  isPayToScriptHash32,
 } from '../../../address/address.js';
 import {
   binToHex,
@@ -19,7 +20,7 @@ import type {
   AuthenticationInstructionsMalformed,
   AuthenticationInstructionsMaybeMalformed,
 } from '../../../lib';
-import { OpcodesBCH } from '../bch/2022/bch-2022-opcodes.js';
+import { OpcodesBCH } from '../bch/2023/bch-2023-opcodes.js';
 import { OpcodesBTC } from '../btc/btc-opcodes.js';
 
 /**
@@ -785,6 +786,15 @@ export const isStandardMultisig = (lockingBytecode: Uint8Array) => {
 export const isStandardOutputBytecode = (lockingBytecode: Uint8Array) =>
   isPayToPublicKeyHash(lockingBytecode) ||
   isPayToScriptHash20(lockingBytecode) ||
+  isPayToPublicKey(lockingBytecode) ||
+  isArbitraryDataOutput(lockingBytecode) ||
+  isStandardMultisig(lockingBytecode);
+
+// eslint-disable-next-line complexity
+export const isStandardOutputBytecode2023 = (lockingBytecode: Uint8Array) =>
+  isPayToPublicKeyHash(lockingBytecode) ||
+  isPayToScriptHash20(lockingBytecode) ||
+  isPayToScriptHash32(lockingBytecode) ||
   isPayToPublicKey(lockingBytecode) ||
   isArbitraryDataOutput(lockingBytecode) ||
   isStandardMultisig(lockingBytecode);

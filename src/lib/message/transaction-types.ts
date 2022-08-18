@@ -156,9 +156,9 @@ export interface Output<
   lockingBytecode: Bytecode;
 
   /**
-   * The CashToken contents of this output.
-   *
-   * TODO: expand TSDocs for tokens
+   * The CashToken contents of this output. This property is only defined if the
+   * output contains one or more tokens. For details, see
+   * `CHIP-2022-02-CashTokens`.
    */
   token?: {
     /**
@@ -170,7 +170,10 @@ export interface Output<
      */
     amount: bigint;
     /**
-     * The 32-byte token category ID to which the token(s) in this output belong.
+     * The 32-byte token category ID to which the token(s) in this output belong
+     * in big-endian byte order. This is the byte order typically seen in block
+     * explorers and user interfaces (as opposed to little-endian byte order,
+     * which is used in standard P2P network messages).
      */
     category: ByteStringRepresentation;
     /**

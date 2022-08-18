@@ -9,7 +9,7 @@ import { hexToBin } from '../../lib.js';
 import { expectCompilationResult } from './compiler-bch.e2e.spec.helper.js';
 
 test(
-  '[BCH compiler] transformation – unlocking script – standard locking type',
+  '[BCH compiler] transformation - unlocking script - standard locking type',
   expectCompilationResult,
   '',
   {},
@@ -33,7 +33,7 @@ test(
 );
 
 test(
-  '[BCH compiler] transformation – unlocking script – p2sh20 locking type',
+  '[BCH compiler] transformation - unlocking script - p2sh20 locking type',
   expectCompilationResult,
   '',
   {},
@@ -57,7 +57,7 @@ test(
 );
 
 test(
-  '[BCH compiler] transformation – locking script – standard locking type',
+  '[BCH compiler] transformation - locking script - standard locking type',
   expectCompilationResult,
   '',
   {},
@@ -81,7 +81,7 @@ test(
 );
 
 test(
-  '[BCH compiler] transformation – locking script – p2sh20 locking type',
+  '[BCH compiler] transformation - locking script - p2sh20 locking type',
   expectCompilationResult,
   '',
   {},
@@ -105,7 +105,33 @@ test(
 );
 
 test(
-  '[BCH compiler] transformation – unlocking script – p2sh20 locking type - failed locking bytecode compilation',
+  '[BCH compiler] transformation - locking script - p2sh32 locking type',
+  expectCompilationResult,
+  '',
+  {},
+  {
+    bytecode: hexToBin(
+      'aa20cc2cfe8f87c6f8dc5a518c06c7c939a2f91d0294a59cd8d0b97a3d68700b95b287'
+    ),
+    success: true,
+  },
+  {},
+  {
+    lockingScriptTypes: {
+      test: 'p2sh32',
+    },
+    scripts: {
+      test: 'OP_DROP OP_1',
+      unlock: 'OP_1',
+    },
+    unlockingScripts: {
+      unlock: 'test',
+    },
+  }
+);
+
+test(
+  '[BCH compiler] transformation - unlocking script - p2sh20 locking type - failed locking bytecode compilation',
   expectCompilationResult,
   '',
   {},
@@ -140,7 +166,7 @@ test(
 );
 
 test(
-  '[BCH compiler] transformation – locking script – p2sh20 locking type - failed raw compilation',
+  '[BCH compiler] transformation - locking script - p2sh20 locking type - failed raw compilation',
   expectCompilationResult,
   'unknown',
   {},
@@ -168,7 +194,7 @@ test(
 );
 
 test(
-  '[BCH compiler] transformation – locking script – p2sh20 locking type - failed hash160 (bad vm)',
+  '[BCH compiler] transformation - locking script - p2sh20 locking type - failed hash160 (bad vm)',
   expectCompilationResult,
   '',
   {},

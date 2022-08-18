@@ -35,7 +35,7 @@ import type {
 } from './lib';
 import {
   AuthenticationErrorBCH,
-  AuthenticationErrorBCH2022,
+  AuthenticationErrorBCH2023,
   cloneAuthenticationProgramState,
   cloneAuthenticationProgramStateBCH,
   cloneAuthenticationProgramStateCommon,
@@ -46,9 +46,9 @@ import {
   createCompiler,
   createCompilerBCH,
   createInstructionSetBCH,
-  createInstructionSetBCH2022,
+  createInstructionSetBCH2023,
   createVirtualMachineBCH,
-  createVirtualMachineBCH2022,
+  createVirtualMachineBCH2023,
   decodeTransaction,
   decodeTransactionBCH,
   decodeTransactionCommon,
@@ -60,10 +60,10 @@ import {
   encodeTransactionCommon,
   OpcodeDescriptions,
   OpcodeDescriptionsBCH,
-  OpcodeDescriptionsBCH2022,
+  OpcodeDescriptionsBCH2023,
   Opcodes,
   OpcodesBCH,
-  OpcodesBCH2022,
+  OpcodesBCH2023,
 } from './lib.js';
 
 type TypeTests =
@@ -85,7 +85,7 @@ type TypeTests =
 test('Libauth exposes all expected mappings', (t) => {
   const testTypes: TypeTests = true;
   t.true(testTypes);
-  t.deepEqual(AuthenticationErrorBCH2022, AuthenticationErrorBCH);
+  t.deepEqual(AuthenticationErrorBCH2023, AuthenticationErrorBCH);
   t.deepEqual(
     cloneAuthenticationProgramStateCommon,
     cloneAuthenticationProgramStateBCH
@@ -98,8 +98,8 @@ test('Libauth exposes all expected mappings', (t) => {
     compilerConfigurationToCompilerBCH,
     compilerConfigurationToCompiler
   );
-  t.deepEqual(createInstructionSetBCH2022, createInstructionSetBCH);
-  t.deepEqual(createVirtualMachineBCH2022, createVirtualMachineBCH);
+  t.deepEqual(createInstructionSetBCH2023, createInstructionSetBCH);
+  t.deepEqual(createVirtualMachineBCH2023, createVirtualMachineBCH);
   t.deepEqual(ConsensusCommon, ConsensusBCH);
   t.deepEqual(createCompilerBCH, createCompiler);
   t.deepEqual(decodeTransactionCommon, decodeTransactionBCH);
@@ -108,8 +108,8 @@ test('Libauth exposes all expected mappings', (t) => {
   t.deepEqual(decodeTransactionUnsafe, decodeTransactionUnsafeBCH);
   t.deepEqual(encodeTransactionCommon, encodeTransactionBCH);
   t.deepEqual(encodeTransaction, encodeTransactionBCH);
-  t.deepEqual(OpcodeDescriptionsBCH2022, OpcodeDescriptionsBCH);
+  t.deepEqual(OpcodeDescriptionsBCH2023, OpcodeDescriptionsBCH);
   t.deepEqual(OpcodeDescriptionsBCH, OpcodeDescriptions);
-  t.deepEqual(OpcodesBCH2022, OpcodesBCH);
+  t.deepEqual(OpcodesBCH2023, OpcodesBCH);
   t.deepEqual(Opcodes, OpcodesBCH);
 });

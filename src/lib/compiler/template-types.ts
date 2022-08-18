@@ -102,6 +102,7 @@ export type AuthenticationVirtualMachineIdentifier =
   | 'BCH_2020_05'
   | 'BCH_2021_05'
   | 'BCH_2022_05'
+  | 'BCH_2023_05'
   | 'BCH_SPEC'
   | 'BSV_2020_02'
   | 'BSV_SPEC'
@@ -439,6 +440,55 @@ export interface AuthenticationTemplateScenarioOutput<
    * If undefined, this defaults to: `0`.
    */
   readonly valueSatoshis?: number | string;
+
+  /**
+   * The CashToken contents of this output. This property is only defined if the
+   * output contains one or more tokens. For details, see
+   * `CHIP-2022-02-CashTokens`.
+   */
+  token?: {
+    /**
+     * The number of fungible tokens (of `category`) held in this output.
+     *
+     * Because `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the
+     * maximum token amount (`9223372036854775807`), this value may also be
+     * provided as a string, e.g. `"9223372036854775807"`.
+     *
+     * If undefined, this defaults to: `0`.
+     */
+    amount?: number | string;
+    /**
+     * The 32-byte, hexadecimal-encoded token category ID to which the token(s)
+     * in this output belong in big-endian byte order. This is the byte order
+     * typically seen in block explorers and user interfaces (as opposed to
+     * little-endian byte order, which is used in standard P2P
+     * network messages).
+     *
+     * If undefined, this defaults to the value:
+     * `0000000000000000000000000000000000000000000000000000000000000002`
+     */
+    category?: string;
+    /**
+     * If present, the non-fungible token (NFT) held by this output. If the
+     * output does not include a non-fungible token, `undefined`.
+     */
+    nft?: {
+      /**
+       * The capability of this non-fungible token, must be either `minting`,
+       * `mutable`, or `none`.
+       *
+       * If undefined, this defaults to: `none`.
+       */
+      capability?: 'minting' | 'mutable' | 'none';
+      /**
+       * The commitment message included in the non-fungible token (of
+       * `category`) held in this output.
+       *
+       * If undefined, this defaults to: `""` (a zero-length commitment).
+       */
+      commitment?: string;
+    };
+  };
 }
 
 /**
@@ -782,7 +832,7 @@ export interface AuthenticationTemplateScriptLocking
    * locking script. It must be present on any script referenced by the
    * `unlocks` property of another script.
    */
-  lockingType: 'p2sh20' | 'standard';
+  lockingType: 'p2sh20' | 'p2sh32' | 'standard';
 }
 
 export interface AuthenticationTemplateScriptTested

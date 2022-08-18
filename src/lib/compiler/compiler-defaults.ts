@@ -32,6 +32,10 @@ export enum CompilerDefaults {
    */
   defaultScenarioInputOutpointTransactionHash = '0000000000000000000000000000000000000000000000000000000000000001',
   /**
+   * The default `category` of tokens in scenarios.
+   */
+  defaultScenarioOutputTokenCategory = '0000000000000000000000000000000000000000000000000000000000000002',
+  /**
    * The default `sequenceNumber` of inputs in scenarios.
    */
   defaultScenarioInputSequenceNumber = 0,

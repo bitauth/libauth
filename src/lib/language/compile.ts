@@ -106,12 +106,12 @@ export const compileScript = <
     unlocks === undefined
       ? undefined
       : configuration.lockingScriptTypes?.[unlocks];
-  const isP2sh20UnlockingScript = unlockingScriptType === 'p2sh20';
-
+  const isP2shUnlock =
+    unlockingScriptType === 'p2sh20' || unlockingScriptType === 'p2sh32';
   const lockingScriptType = configuration.lockingScriptTypes?.[scriptId];
-  const isP2sh20LockingScript = lockingScriptType === 'p2sh20';
-
-  if (isP2sh20LockingScript) {
+  const isP2shLock =
+    lockingScriptType === 'p2sh20' || lockingScriptType === 'p2sh32';
+  if (isP2shLock) {
     const transformedResult = compileScriptRaw<
       ProgramState,
       CompilationContext
@@ -121,11 +121,14 @@ export const compileScript = <
         scripts: {
           p2sh20Locking:
             'OP_HASH160 <$(<lockingBytecode> OP_HASH160)> OP_EQUAL',
+          p2sh32Locking:
+            'OP_HASH256 <$(<lockingBytecode> OP_HASH256)> OP_EQUAL',
         },
         variables: { lockingBytecode: { type: 'AddressData' } },
       },
       data: { bytecode: { lockingBytecode: rawResult.bytecode } },
-      scriptId: 'p2sh20Locking',
+      scriptId:
+        lockingScriptType === 'p2sh20' ? 'p2sh20Locking' : 'p2sh32Locking',
     });
 
     if (!transformedResult.success) {
@@ -134,11 +137,12 @@ export const compileScript = <
     return {
       ...rawResult,
       bytecode: transformedResult.bytecode,
-      transformed: 'p2sh20-locking',
+      transformed:
+        lockingScriptType === 'p2sh20' ? 'p2sh20-locking' : 'p2sh32-locking',
     };
   }
 
-  if (isP2sh20UnlockingScript) {
+  if (isP2shUnlock) {
     const lockingBytecodeResult = compileScriptRaw<
       ProgramState,
       CompilationContext
@@ -157,7 +161,9 @@ export const compileScript = <
     >({
       configuration: {
         ...configuration,
-        scripts: { p2sh20Unlocking: 'unlockingBytecode <lockingBytecode>' },
+        scripts: {
+          p2shUnlocking: 'unlockingBytecode <lockingBytecode>',
+        },
         variables: {
           lockingBytecode: { type: 'AddressData' },
           unlockingBytecode: { type: 'AddressData' },
@@ -169,13 +175,16 @@ export const compileScript = <
           unlockingBytecode: rawResult.bytecode,
         },
       },
-      scriptId: 'p2sh20Unlocking',
+      scriptId: 'p2shUnlocking',
     }) as CompilationResultSuccess<ProgramState>;
 
     return {
       ...rawResult,
       bytecode: transformedResult.bytecode,
-      transformed: 'p2sh20-unlocking',
+      transformed:
+        unlockingScriptType === 'p2sh20'
+          ? 'p2sh20-unlocking'
+          : 'p2sh32-unlocking',
     };
   }
 

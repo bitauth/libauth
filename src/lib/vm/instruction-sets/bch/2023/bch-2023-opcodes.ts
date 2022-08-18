@@ -1,8 +1,8 @@
 /**
- * The `BCH_2022_05` instruction set.
+ * The `BCH_2023_05` instruction set.
  */
 
-export enum OpcodesBCH2022 {
+export enum OpcodesBCH2023 {
   /**
    * A.K.A. `OP_FALSE` or `OP_PUSHBYTES_0`
    */
@@ -221,18 +221,12 @@ export enum OpcodesBCH2022 {
   OP_INPUTSEQUENCENUMBER = 0xcb,
   OP_OUTPUTVALUE = 0xcc,
   OP_OUTPUTBYTECODE = 0xcd,
-  /**
-   * Reserved for unary introspection operations.
-   */
-  OP_RESERVED3 = 0xce,
-  /**
-   * Reserved for unary introspection operations.
-   */
-  OP_RESERVED4 = 0xcf,
-  OP_UNKNOWN208 = 0xd0,
-  OP_UNKNOWN209 = 0xd1,
-  OP_UNKNOWN210 = 0xd2,
-  OP_UNKNOWN211 = 0xd3,
+  OP_UTXOTOKENCATEGORY = 0xce,
+  OP_UTXOTOKENCOMMITMENT = 0xcf,
+  OP_UTXOTOKENAMOUNT = 0xd0,
+  OP_OUTPUTTOKENCATEGORY = 0xd1,
+  OP_OUTPUTTOKENCOMMITMENT = 0xd2,
+  OP_OUTPUTTOKENAMOUNT = 0xd3,
   OP_UNKNOWN212 = 0xd4,
   OP_UNKNOWN213 = 0xd5,
   OP_UNKNOWN214 = 0xd6,
@@ -284,3 +278,8 @@ export enum OpcodesBCH2022 {
   OP_UNKNOWN254 = 0xfe,
   OP_UNKNOWN255 = 0xff,
 }
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const OpcodesBCH = OpcodesBCH2023;
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const Opcodes = OpcodesBCH;

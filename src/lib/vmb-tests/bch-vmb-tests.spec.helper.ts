@@ -31,7 +31,7 @@ const partitionedTestCases = vmbTestPartitionMasterTestList(allTestCases);
 
 // eslint-disable-next-line functional/no-return-void
 Object.entries(partitionedTestCases).forEach(([testSetName, testSet]) => {
-  const filepath = testSetName.startsWith('CHIP')
+  const filepath = testSetName.includes('chip')
     ? `${outputAbsolutePath}/CHIPs/bch_vmb_tests_${testSetName}.json`
     : `${outputAbsolutePath}/bch_vmb_tests_${testSetName}.json`;
   writeFileSync(filepath, JSON.stringify(testSet), { encoding: 'utf8' });

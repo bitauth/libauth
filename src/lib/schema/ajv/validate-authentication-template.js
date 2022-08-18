@@ -401,6 +401,43 @@ const schema22 = {
           description:
             'The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `["slot"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario\'s `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)',
         },
+        token: {
+          additionalProperties: false,
+          description:
+            'The CashToken contents of this output. This property is only defined if the output contains one or more tokens. For details, see `CHIP-2022-02-CashTokens`.',
+          properties: {
+            amount: {
+              description:
+                'The number of fungible tokens (of `category`) held in this output.\n\nBecause `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the maximum token amount (`9223372036854775807`), this value may also be provided as a string, e.g. `"9223372036854775807"`.\n\nIf undefined, this defaults to: `0`.',
+              type: ['number', 'string'],
+            },
+            category: {
+              description:
+                'The 32-byte, hexadecimal-encoded token category ID to which the token(s) in this output belong in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000002`',
+              type: 'string',
+            },
+            nft: {
+              additionalProperties: false,
+              description:
+                'If present, the non-fungible token (NFT) held by this output. If the output does not include a non-fungible token, `undefined`.',
+              properties: {
+                capability: {
+                  description:
+                    'The capability of this non-fungible token, must be either `minting`, `mutable`, or `none`.\n\nIf undefined, this defaults to: `none`.',
+                  enum: ['minting', 'mutable', 'none'],
+                  type: 'string',
+                },
+                commitment: {
+                  description:
+                    'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+                  type: 'string',
+                },
+              },
+              type: 'object',
+            },
+          },
+          type: 'object',
+        },
         valueSatoshis: {
           description:
             'The value of the output in satoshis, the smallest unit of bitcoin.\n\nIn a valid transaction, this is a positive integer, from `0` to the maximum number of satoshis available to the transaction.\n\nThe maximum number of satoshis in existence is about 1/4 of `Number.MAX_SAFE_INTEGER` (`9007199254740991`), so typically, this value is defined using a `number`. However, this value may also be defined using a 16-character, hexadecimal-encoded `string`, to allow for the full range of the 64-bit unsigned, little-endian integer used to encode `valueSatoshis` in the encoded output format, e.g. `"ffffffffffffffff"`. This is useful for representing scenarios where intentionally excessive values are provided (to ensure an otherwise properly-signed transaction can never be included in the blockchain), e.g. transaction size estimations or off-chain Bitauth signatures.\n\nIf undefined, this defaults to: `0`.',
@@ -426,6 +463,43 @@ const schema22 = {
           ],
           description:
             'The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `["slot"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario\'s `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)',
+        },
+        token: {
+          additionalProperties: false,
+          description:
+            'The CashToken contents of this output. This property is only defined if the output contains one or more tokens. For details, see `CHIP-2022-02-CashTokens`.',
+          properties: {
+            amount: {
+              description:
+                'The number of fungible tokens (of `category`) held in this output.\n\nBecause `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the maximum token amount (`9223372036854775807`), this value may also be provided as a string, e.g. `"9223372036854775807"`.\n\nIf undefined, this defaults to: `0`.',
+              type: ['number', 'string'],
+            },
+            category: {
+              description:
+                'The 32-byte, hexadecimal-encoded token category ID to which the token(s) in this output belong in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000002`',
+              type: 'string',
+            },
+            nft: {
+              additionalProperties: false,
+              description:
+                'If present, the non-fungible token (NFT) held by this output. If the output does not include a non-fungible token, `undefined`.',
+              properties: {
+                capability: {
+                  description:
+                    'The capability of this non-fungible token, must be either `minting`, `mutable`, or `none`.\n\nIf undefined, this defaults to: `none`.',
+                  enum: ['minting', 'mutable', 'none'],
+                  type: 'string',
+                },
+                commitment: {
+                  description:
+                    'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+                  type: 'string',
+                },
+              },
+              type: 'object',
+            },
+          },
+          type: 'object',
         },
         valueSatoshis: {
           description:
@@ -469,7 +543,7 @@ const schema22 = {
         lockingType: {
           description:
             'Indicates if P2SH20 infrastructure should be used when producing bytecode related to this script. For more information on P2SH20, see BIP16.\n\nWhen compiling locking scripts of type `p2sh20`, the result will be placed in a P2SH20 "redeem script" format: `OP_HASH160 <$(<lockingBytecode> OP_HASH160)> OP_EQUAL`\n\nWhen compiling unlocking scripts that unlock locking scripts of type `p2sh20`, the result will be transformed into the P2SH20 unlocking format: `unlockingBytecode <lockingBytecode>` (where `lockingBytecode` is the compiled bytecode of the locking script, without the "redeem script" transformation.)\n\nThe presence of the `lockingType` property indicates that this script is a locking script. It must be present on any script referenced by the `unlocks` property of another script.',
-          enum: ['p2sh20', 'standard'],
+          enum: ['p2sh20', 'p2sh32', 'standard'],
           type: 'string',
         },
         name: {
@@ -647,6 +721,7 @@ const schema22 = {
         'BCH_2020_05',
         'BCH_2021_05',
         'BCH_2022_05',
+        'BCH_2023_05',
         'BCH_SPEC',
         'BSV_2020_02',
         'BSV_SPEC',
@@ -748,7 +823,7 @@ const schema38 = {
     lockingType: {
       description:
         'Indicates if P2SH20 infrastructure should be used when producing bytecode related to this script. For more information on P2SH20, see BIP16.\n\nWhen compiling locking scripts of type `p2sh20`, the result will be placed in a P2SH20 "redeem script" format: `OP_HASH160 <$(<lockingBytecode> OP_HASH160)> OP_EQUAL`\n\nWhen compiling unlocking scripts that unlock locking scripts of type `p2sh20`, the result will be transformed into the P2SH20 unlocking format: `unlockingBytecode <lockingBytecode>` (where `lockingBytecode` is the compiled bytecode of the locking script, without the "redeem script" transformation.)\n\nThe presence of the `lockingType` property indicates that this script is a locking script. It must be present on any script referenced by the `unlocks` property of another script.',
-      enum: ['p2sh20', 'standard'],
+      enum: ['p2sh20', 'p2sh32', 'standard'],
       type: 'string',
     },
     name: {
@@ -826,6 +901,7 @@ const schema42 = {
     'BCH_2020_05',
     'BCH_2021_05',
     'BCH_2022_05',
+    'BCH_2023_05',
     'BCH_SPEC',
     'BSV_2020_02',
     'BSV_SPEC',
@@ -2071,6 +2147,43 @@ const schema32 = {
       description:
         'The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `["slot"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario\'s `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)',
     },
+    token: {
+      additionalProperties: false,
+      description:
+        'The CashToken contents of this output. This property is only defined if the output contains one or more tokens. For details, see `CHIP-2022-02-CashTokens`.',
+      properties: {
+        amount: {
+          description:
+            'The number of fungible tokens (of `category`) held in this output.\n\nBecause `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the maximum token amount (`9223372036854775807`), this value may also be provided as a string, e.g. `"9223372036854775807"`.\n\nIf undefined, this defaults to: `0`.',
+          type: ['number', 'string'],
+        },
+        category: {
+          description:
+            'The 32-byte, hexadecimal-encoded token category ID to which the token(s) in this output belong in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000002`',
+          type: 'string',
+        },
+        nft: {
+          additionalProperties: false,
+          description:
+            'If present, the non-fungible token (NFT) held by this output. If the output does not include a non-fungible token, `undefined`.',
+          properties: {
+            capability: {
+              description:
+                'The capability of this non-fungible token, must be either `minting`, `mutable`, or `none`.\n\nIf undefined, this defaults to: `none`.',
+              enum: ['minting', 'mutable', 'none'],
+              type: 'string',
+            },
+            commitment: {
+              description:
+                'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+              type: 'string',
+            },
+          },
+          type: 'object',
+        },
+      },
+      type: 'object',
+    },
     valueSatoshis: {
       description:
         'The value of the output in satoshis, the smallest unit of bitcoin.\n\nIn a valid transaction, this is a positive integer, from `0` to the maximum number of satoshis available to the transaction.\n\nThe maximum number of satoshis in existence is about 1/4 of `Number.MAX_SAFE_INTEGER` (`9007199254740991`), so typically, this value is defined using a `number`. However, this value may also be defined using a 16-character, hexadecimal-encoded `string`, to allow for the full range of the 64-bit unsigned, little-endian integer used to encode `valueSatoshis` in the encoded output format, e.g. `"ffffffffffffffff"`. This is useful for representing scenarios where intentionally excessive values are provided (to ensure an otherwise properly-signed transaction can never be included in the blockchain), e.g. transaction size estimations or off-chain Bitauth signatures.\n\nIf undefined, this defaults to: `0`.',
@@ -2871,7 +2984,13 @@ function validate27(
     if (data && typeof data == 'object' && !Array.isArray(data)) {
       const _errs1 = errors;
       for (const key0 in data) {
-        if (!(key0 === 'lockingBytecode' || key0 === 'valueSatoshis')) {
+        if (
+          !(
+            key0 === 'lockingBytecode' ||
+            key0 === 'token' ||
+            key0 === 'valueSatoshis'
+          )
+        ) {
           validate27.errors = [
             {
               instancePath,
@@ -3037,27 +3156,244 @@ function validate27(
           var valid0 = true;
         }
         if (valid0) {
-          if (data.valueSatoshis !== undefined) {
-            let data2 = data.valueSatoshis;
+          if (data.token !== undefined) {
+            let data2 = data.token;
             const _errs9 = errors;
-            if (
-              !(typeof data2 == 'number' && isFinite(data2)) &&
-              typeof data2 !== 'string'
-            ) {
-              validate27.errors = [
-                {
-                  instancePath: instancePath + '/valueSatoshis',
-                  schemaPath: '#/properties/valueSatoshis/type',
-                  keyword: 'type',
-                  params: { type: schema32.properties.valueSatoshis.type },
-                  message: 'must be number,string',
-                },
-              ];
-              return false;
+            if (errors === _errs9) {
+              if (data2 && typeof data2 == 'object' && !Array.isArray(data2)) {
+                const _errs11 = errors;
+                for (const key1 in data2) {
+                  if (
+                    !(
+                      key1 === 'amount' ||
+                      key1 === 'category' ||
+                      key1 === 'nft'
+                    )
+                  ) {
+                    validate27.errors = [
+                      {
+                        instancePath: instancePath + '/token',
+                        schemaPath: '#/properties/token/additionalProperties',
+                        keyword: 'additionalProperties',
+                        params: { additionalProperty: key1 },
+                        message: 'must NOT have additional properties',
+                      },
+                    ];
+                    return false;
+                    break;
+                  }
+                }
+                if (_errs11 === errors) {
+                  if (data2.amount !== undefined) {
+                    let data3 = data2.amount;
+                    const _errs12 = errors;
+                    if (
+                      !(typeof data3 == 'number' && isFinite(data3)) &&
+                      typeof data3 !== 'string'
+                    ) {
+                      validate27.errors = [
+                        {
+                          instancePath: instancePath + '/token/amount',
+                          schemaPath:
+                            '#/properties/token/properties/amount/type',
+                          keyword: 'type',
+                          params: {
+                            type: schema32.properties.token.properties.amount
+                              .type,
+                          },
+                          message: 'must be number,string',
+                        },
+                      ];
+                      return false;
+                    }
+                    var valid3 = _errs12 === errors;
+                  } else {
+                    var valid3 = true;
+                  }
+                  if (valid3) {
+                    if (data2.category !== undefined) {
+                      const _errs14 = errors;
+                      if (typeof data2.category !== 'string') {
+                        validate27.errors = [
+                          {
+                            instancePath: instancePath + '/token/category',
+                            schemaPath:
+                              '#/properties/token/properties/category/type',
+                            keyword: 'type',
+                            params: { type: 'string' },
+                            message: 'must be string',
+                          },
+                        ];
+                        return false;
+                      }
+                      var valid3 = _errs14 === errors;
+                    } else {
+                      var valid3 = true;
+                    }
+                    if (valid3) {
+                      if (data2.nft !== undefined) {
+                        let data5 = data2.nft;
+                        const _errs16 = errors;
+                        if (errors === _errs16) {
+                          if (
+                            data5 &&
+                            typeof data5 == 'object' &&
+                            !Array.isArray(data5)
+                          ) {
+                            const _errs18 = errors;
+                            for (const key2 in data5) {
+                              if (
+                                !(
+                                  key2 === 'capability' || key2 === 'commitment'
+                                )
+                              ) {
+                                validate27.errors = [
+                                  {
+                                    instancePath: instancePath + '/token/nft',
+                                    schemaPath:
+                                      '#/properties/token/properties/nft/additionalProperties',
+                                    keyword: 'additionalProperties',
+                                    params: { additionalProperty: key2 },
+                                    message:
+                                      'must NOT have additional properties',
+                                  },
+                                ];
+                                return false;
+                                break;
+                              }
+                            }
+                            if (_errs18 === errors) {
+                              if (data5.capability !== undefined) {
+                                let data6 = data5.capability;
+                                const _errs19 = errors;
+                                if (typeof data6 !== 'string') {
+                                  validate27.errors = [
+                                    {
+                                      instancePath:
+                                        instancePath + '/token/nft/capability',
+                                      schemaPath:
+                                        '#/properties/token/properties/nft/properties/capability/type',
+                                      keyword: 'type',
+                                      params: { type: 'string' },
+                                      message: 'must be string',
+                                    },
+                                  ];
+                                  return false;
+                                }
+                                if (
+                                  !(
+                                    data6 === 'minting' ||
+                                    data6 === 'mutable' ||
+                                    data6 === 'none'
+                                  )
+                                ) {
+                                  validate27.errors = [
+                                    {
+                                      instancePath:
+                                        instancePath + '/token/nft/capability',
+                                      schemaPath:
+                                        '#/properties/token/properties/nft/properties/capability/enum',
+                                      keyword: 'enum',
+                                      params: {
+                                        allowedValues:
+                                          schema32.properties.token.properties
+                                            .nft.properties.capability.enum,
+                                      },
+                                      message:
+                                        'must be equal to one of the allowed values',
+                                    },
+                                  ];
+                                  return false;
+                                }
+                                var valid4 = _errs19 === errors;
+                              } else {
+                                var valid4 = true;
+                              }
+                              if (valid4) {
+                                if (data5.commitment !== undefined) {
+                                  const _errs21 = errors;
+                                  if (typeof data5.commitment !== 'string') {
+                                    validate27.errors = [
+                                      {
+                                        instancePath:
+                                          instancePath +
+                                          '/token/nft/commitment',
+                                        schemaPath:
+                                          '#/properties/token/properties/nft/properties/commitment/type',
+                                        keyword: 'type',
+                                        params: { type: 'string' },
+                                        message: 'must be string',
+                                      },
+                                    ];
+                                    return false;
+                                  }
+                                  var valid4 = _errs21 === errors;
+                                } else {
+                                  var valid4 = true;
+                                }
+                              }
+                            }
+                          } else {
+                            validate27.errors = [
+                              {
+                                instancePath: instancePath + '/token/nft',
+                                schemaPath:
+                                  '#/properties/token/properties/nft/type',
+                                keyword: 'type',
+                                params: { type: 'object' },
+                                message: 'must be object',
+                              },
+                            ];
+                            return false;
+                          }
+                        }
+                        var valid3 = _errs16 === errors;
+                      } else {
+                        var valid3 = true;
+                      }
+                    }
+                  }
+                }
+              } else {
+                validate27.errors = [
+                  {
+                    instancePath: instancePath + '/token',
+                    schemaPath: '#/properties/token/type',
+                    keyword: 'type',
+                    params: { type: 'object' },
+                    message: 'must be object',
+                  },
+                ];
+                return false;
+              }
             }
             var valid0 = _errs9 === errors;
           } else {
             var valid0 = true;
+          }
+          if (valid0) {
+            if (data.valueSatoshis !== undefined) {
+              let data8 = data.valueSatoshis;
+              const _errs23 = errors;
+              if (
+                !(typeof data8 == 'number' && isFinite(data8)) &&
+                typeof data8 !== 'string'
+              ) {
+                validate27.errors = [
+                  {
+                    instancePath: instancePath + '/valueSatoshis',
+                    schemaPath: '#/properties/valueSatoshis/type',
+                    keyword: 'type',
+                    params: { type: schema32.properties.valueSatoshis.type },
+                    message: 'must be number,string',
+                  },
+                ];
+                return false;
+              }
+              var valid0 = _errs23 === errors;
+            } else {
+              var valid0 = true;
+            }
           }
         }
       }
@@ -3388,6 +3724,43 @@ const schema36 = {
       description:
         'The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `["slot"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario\'s `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)',
     },
+    token: {
+      additionalProperties: false,
+      description:
+        'The CashToken contents of this output. This property is only defined if the output contains one or more tokens. For details, see `CHIP-2022-02-CashTokens`.',
+      properties: {
+        amount: {
+          description:
+            'The number of fungible tokens (of `category`) held in this output.\n\nBecause `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the maximum token amount (`9223372036854775807`), this value may also be provided as a string, e.g. `"9223372036854775807"`.\n\nIf undefined, this defaults to: `0`.',
+          type: ['number', 'string'],
+        },
+        category: {
+          description:
+            'The 32-byte, hexadecimal-encoded token category ID to which the token(s) in this output belong in big-endian byte order. This is the byte order typically seen in block explorers and user interfaces (as opposed to little-endian byte order, which is used in standard P2P network messages).\n\nIf undefined, this defaults to the value: `0000000000000000000000000000000000000000000000000000000000000002`',
+          type: 'string',
+        },
+        nft: {
+          additionalProperties: false,
+          description:
+            'If present, the non-fungible token (NFT) held by this output. If the output does not include a non-fungible token, `undefined`.',
+          properties: {
+            capability: {
+              description:
+                'The capability of this non-fungible token, must be either `minting`, `mutable`, or `none`.\n\nIf undefined, this defaults to: `none`.',
+              enum: ['minting', 'mutable', 'none'],
+              type: 'string',
+            },
+            commitment: {
+              description:
+                'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+              type: 'string',
+            },
+          },
+          type: 'object',
+        },
+      },
+      type: 'object',
+    },
     valueSatoshis: {
       description:
         'The value of the output in satoshis, the smallest unit of bitcoin.\n\nIn a valid transaction, this is a positive integer, from `0` to the maximum number of satoshis available to the transaction.\n\nThe maximum number of satoshis in existence is about 1/4 of `Number.MAX_SAFE_INTEGER` (`9007199254740991`), so typically, this value is defined using a `number`. However, this value may also be defined using a 16-character, hexadecimal-encoded `string`, to allow for the full range of the 64-bit unsigned, little-endian integer used to encode `valueSatoshis` in the encoded output format, e.g. `"ffffffffffffffff"`. This is useful for representing scenarios where intentionally excessive values are provided (to ensure an otherwise properly-signed transaction can never be included in the blockchain), e.g. transaction size estimations or off-chain Bitauth signatures.\n\nIf undefined, this defaults to: `0`.',
@@ -3406,7 +3779,13 @@ function validate34(
     if (data && typeof data == 'object' && !Array.isArray(data)) {
       const _errs1 = errors;
       for (const key0 in data) {
-        if (!(key0 === 'lockingBytecode' || key0 === 'valueSatoshis')) {
+        if (
+          !(
+            key0 === 'lockingBytecode' ||
+            key0 === 'token' ||
+            key0 === 'valueSatoshis'
+          )
+        ) {
           validate34.errors = [
             {
               instancePath,
@@ -3442,27 +3821,244 @@ function validate34(
           var valid0 = true;
         }
         if (valid0) {
-          if (data.valueSatoshis !== undefined) {
-            let data1 = data.valueSatoshis;
+          if (data.token !== undefined) {
+            let data1 = data.token;
             const _errs3 = errors;
-            if (
-              !(typeof data1 == 'number' && isFinite(data1)) &&
-              typeof data1 !== 'string'
-            ) {
-              validate34.errors = [
-                {
-                  instancePath: instancePath + '/valueSatoshis',
-                  schemaPath: '#/properties/valueSatoshis/type',
-                  keyword: 'type',
-                  params: { type: schema36.properties.valueSatoshis.type },
-                  message: 'must be number,string',
-                },
-              ];
-              return false;
+            if (errors === _errs3) {
+              if (data1 && typeof data1 == 'object' && !Array.isArray(data1)) {
+                const _errs5 = errors;
+                for (const key1 in data1) {
+                  if (
+                    !(
+                      key1 === 'amount' ||
+                      key1 === 'category' ||
+                      key1 === 'nft'
+                    )
+                  ) {
+                    validate34.errors = [
+                      {
+                        instancePath: instancePath + '/token',
+                        schemaPath: '#/properties/token/additionalProperties',
+                        keyword: 'additionalProperties',
+                        params: { additionalProperty: key1 },
+                        message: 'must NOT have additional properties',
+                      },
+                    ];
+                    return false;
+                    break;
+                  }
+                }
+                if (_errs5 === errors) {
+                  if (data1.amount !== undefined) {
+                    let data2 = data1.amount;
+                    const _errs6 = errors;
+                    if (
+                      !(typeof data2 == 'number' && isFinite(data2)) &&
+                      typeof data2 !== 'string'
+                    ) {
+                      validate34.errors = [
+                        {
+                          instancePath: instancePath + '/token/amount',
+                          schemaPath:
+                            '#/properties/token/properties/amount/type',
+                          keyword: 'type',
+                          params: {
+                            type: schema36.properties.token.properties.amount
+                              .type,
+                          },
+                          message: 'must be number,string',
+                        },
+                      ];
+                      return false;
+                    }
+                    var valid1 = _errs6 === errors;
+                  } else {
+                    var valid1 = true;
+                  }
+                  if (valid1) {
+                    if (data1.category !== undefined) {
+                      const _errs8 = errors;
+                      if (typeof data1.category !== 'string') {
+                        validate34.errors = [
+                          {
+                            instancePath: instancePath + '/token/category',
+                            schemaPath:
+                              '#/properties/token/properties/category/type',
+                            keyword: 'type',
+                            params: { type: 'string' },
+                            message: 'must be string',
+                          },
+                        ];
+                        return false;
+                      }
+                      var valid1 = _errs8 === errors;
+                    } else {
+                      var valid1 = true;
+                    }
+                    if (valid1) {
+                      if (data1.nft !== undefined) {
+                        let data4 = data1.nft;
+                        const _errs10 = errors;
+                        if (errors === _errs10) {
+                          if (
+                            data4 &&
+                            typeof data4 == 'object' &&
+                            !Array.isArray(data4)
+                          ) {
+                            const _errs12 = errors;
+                            for (const key2 in data4) {
+                              if (
+                                !(
+                                  key2 === 'capability' || key2 === 'commitment'
+                                )
+                              ) {
+                                validate34.errors = [
+                                  {
+                                    instancePath: instancePath + '/token/nft',
+                                    schemaPath:
+                                      '#/properties/token/properties/nft/additionalProperties',
+                                    keyword: 'additionalProperties',
+                                    params: { additionalProperty: key2 },
+                                    message:
+                                      'must NOT have additional properties',
+                                  },
+                                ];
+                                return false;
+                                break;
+                              }
+                            }
+                            if (_errs12 === errors) {
+                              if (data4.capability !== undefined) {
+                                let data5 = data4.capability;
+                                const _errs13 = errors;
+                                if (typeof data5 !== 'string') {
+                                  validate34.errors = [
+                                    {
+                                      instancePath:
+                                        instancePath + '/token/nft/capability',
+                                      schemaPath:
+                                        '#/properties/token/properties/nft/properties/capability/type',
+                                      keyword: 'type',
+                                      params: { type: 'string' },
+                                      message: 'must be string',
+                                    },
+                                  ];
+                                  return false;
+                                }
+                                if (
+                                  !(
+                                    data5 === 'minting' ||
+                                    data5 === 'mutable' ||
+                                    data5 === 'none'
+                                  )
+                                ) {
+                                  validate34.errors = [
+                                    {
+                                      instancePath:
+                                        instancePath + '/token/nft/capability',
+                                      schemaPath:
+                                        '#/properties/token/properties/nft/properties/capability/enum',
+                                      keyword: 'enum',
+                                      params: {
+                                        allowedValues:
+                                          schema36.properties.token.properties
+                                            .nft.properties.capability.enum,
+                                      },
+                                      message:
+                                        'must be equal to one of the allowed values',
+                                    },
+                                  ];
+                                  return false;
+                                }
+                                var valid2 = _errs13 === errors;
+                              } else {
+                                var valid2 = true;
+                              }
+                              if (valid2) {
+                                if (data4.commitment !== undefined) {
+                                  const _errs15 = errors;
+                                  if (typeof data4.commitment !== 'string') {
+                                    validate34.errors = [
+                                      {
+                                        instancePath:
+                                          instancePath +
+                                          '/token/nft/commitment',
+                                        schemaPath:
+                                          '#/properties/token/properties/nft/properties/commitment/type',
+                                        keyword: 'type',
+                                        params: { type: 'string' },
+                                        message: 'must be string',
+                                      },
+                                    ];
+                                    return false;
+                                  }
+                                  var valid2 = _errs15 === errors;
+                                } else {
+                                  var valid2 = true;
+                                }
+                              }
+                            }
+                          } else {
+                            validate34.errors = [
+                              {
+                                instancePath: instancePath + '/token/nft',
+                                schemaPath:
+                                  '#/properties/token/properties/nft/type',
+                                keyword: 'type',
+                                params: { type: 'object' },
+                                message: 'must be object',
+                              },
+                            ];
+                            return false;
+                          }
+                        }
+                        var valid1 = _errs10 === errors;
+                      } else {
+                        var valid1 = true;
+                      }
+                    }
+                  }
+                }
+              } else {
+                validate34.errors = [
+                  {
+                    instancePath: instancePath + '/token',
+                    schemaPath: '#/properties/token/type',
+                    keyword: 'type',
+                    params: { type: 'object' },
+                    message: 'must be object',
+                  },
+                ];
+                return false;
+              }
             }
             var valid0 = _errs3 === errors;
           } else {
             var valid0 = true;
+          }
+          if (valid0) {
+            if (data.valueSatoshis !== undefined) {
+              let data7 = data.valueSatoshis;
+              const _errs17 = errors;
+              if (
+                !(typeof data7 == 'number' && isFinite(data7)) &&
+                typeof data7 !== 'string'
+              ) {
+                validate34.errors = [
+                  {
+                    instancePath: instancePath + '/valueSatoshis',
+                    schemaPath: '#/properties/valueSatoshis/type',
+                    keyword: 'type',
+                    params: { type: schema36.properties.valueSatoshis.type },
+                    message: 'must be number,string',
+                  },
+                ];
+                return false;
+              }
+              var valid0 = _errs17 === errors;
+            } else {
+              var valid0 = true;
+            }
           }
         }
       }
@@ -5349,6 +5945,7 @@ function validate21(
                                         if (
                                           !(
                                             data11 === 'p2sh20' ||
+                                            data11 === 'p2sh32' ||
                                             data11 === 'standard'
                                           )
                                         ) {
@@ -6274,6 +6871,7 @@ function validate21(
                                   data27 === 'BCH_2020_05' ||
                                   data27 === 'BCH_2021_05' ||
                                   data27 === 'BCH_2022_05' ||
+                                  data27 === 'BCH_2023_05' ||
                                   data27 === 'BCH_SPEC' ||
                                   data27 === 'BSV_2020_02' ||
                                   data27 === 'BSV_SPEC' ||

@@ -203,8 +203,3 @@ export enum OpcodeDescriptionsBCH2022 {
   OP_OUTPUTVALUE = 'Pop the top item from the stack as an output index (VM Number). Push the value (in satoshis) of the output at that index to the stack as a VM Number.',
   OP_OUTPUTBYTECODE = 'Pop the top item from the stack as an output index (VM Number). Push the locking bytecode of the output at that index to the stack.',
 }
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptionsBCH = OpcodeDescriptionsBCH2022;
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptions = OpcodeDescriptionsBCH;

@@ -3,7 +3,7 @@
  * See the [Libauth VMB Tests Readme](./readme.md) for background information on
  * VMB tests.
  *
- * Below is the source data structure used to generate the Libauth Bitcoin Cash
+ * Below is the source data structure used to generate Libauth's Bitcoin Cash
  * (BCH) Virtual Machine Bytecode (VMB) tests (`bch_vmb_tests.json` and all
  * `bch_vmb_tests_*.json` files). Compiling from this file allows us to easily
  * 1) validate the data structure, and 2) reproducibly generate artifacts like
@@ -12,8 +12,8 @@
  * To add tests to this file:
  *  1. Clone the Libauth repo and install dependencies using `yarn install`.
  *  2. Add the new tests below.
- *  3. Run `yarn gen:tests` to regenerate all test vectors.
- *  5. Run `yarn test` to ensure everything is working, then send your PR.
+ *  3. Run `yarn dev:vmb_tests` to quickly regenerate and run all vmb tests.
+ *  5. Ensure everything is working, then send your PR.
  *
  * Note: for performance reasons, this file is not exported by the library, but
  * it can still be directly imported.
@@ -24,6 +24,7 @@ import { bigIntToBinUint64LE, binToHex, cashAssemblyToBin, hashTransactionUiOrde
 
 import { slot0Scenario, slot2Scenario, slot9Scenario } from './bch-vmb-test-mixins.js';
 import { vmbTestGroupToVmbTests } from './bch-vmb-test-utils.js';
+import { cashTokenTestDefinitionsBCH } from './bch-vmb-tests.cashtokens.js';
 
 /**
  * The source data structure used to generate the Libauth BCH VMB test
@@ -218,10 +219,16 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<0> OP_IF OP_RESERVED OP_ENDIF', '<1>', 'OP_RESERVED is invalid in unlocking bytecode (even if not executed)', ['invalid']],
       ['OP_NOP', '<1>', 'OP_NOP is invalid in unlocking bytecode', ['invalid']],
       // TODO: ensure all non-push opcodes are invalid when found in unlocking bytecode
+      ['<0> OP_UTXOTOKENCATEGORY', '<0> OP_EQUAL', 'OP_UTXOTOKENCATEGORY is invalid in unlocking bytecode', ['invalid', 'chip_cashtokens_invalid']],
+      ['<0> OP_OUTPUTTOKENCATEGORY', '<0> OP_EQUAL', 'OP_OUTPUTTOKENCATEGORY is invalid in unlocking bytecode', ['invalid', 'chip_cashtokens_invalid']],
+      ['<0> OP_UTXOTOKENCOMMITMENT', '<0> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT is invalid in unlocking bytecode', ['invalid', 'chip_cashtokens_invalid']],
+      ['<0> OP_OUTPUTTOKENCOMMITMENT', '<0> OP_EQUAL', 'OP_OUTPUTTOKENCOMMITMENT is invalid in unlocking bytecode', ['invalid', 'chip_cashtokens_invalid']],
+      ['<0> OP_UTXOTOKENAMOUNT', '<0> OP_EQUAL', 'OP_UTXOTOKENAMOUNT is invalid in unlocking bytecode', ['invalid', 'chip_cashtokens_invalid']],
+      ['<0> OP_OUTPUTTOKENAMOUNT', '<0> OP_EQUAL', 'OP_OUTPUTTOKENAMOUNT is invalid in unlocking bytecode', ['invalid', 'chip_cashtokens_invalid']],
     ],
   ],
   [
-    'Disabled/failing operations',
+    'Disabled/failing/unknown/new operations',
     [
       // TODO: all OP_UNKNOWNs
       ['<0>', 'OP_IF OP_RESERVED OP_ENDIF <1>', 'OP_RESERVED is standard if not executed'],
@@ -241,6 +248,19 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<0>', 'OP_IF OP_2DIV OP_ENDIF <1>', 'OP_2DIV fails evaluation even if not executed', ['invalid']],
       ['<0>', 'OP_IF OP_LSHIFT OP_ENDIF <1>', 'OP_LSHIFT fails evaluation even if not executed', ['invalid']],
       ['<0>', 'OP_IF OP_RSHIFT OP_ENDIF <1>', 'OP_RSHIFT fails evaluation even if not executed', ['invalid']],
+      // CHIPs:
+      ['<0>', 'OP_IF <0> OP_UTXOTOKENCATEGORY OP_DROP OP_ENDIF <1>', 'OP_UTXOTOKENCATEGORY not executed', ['default', 'chip_cashtokens']],
+      ['<1>', 'OP_IF <0> OP_UTXOTOKENCATEGORY OP_DROP OP_ENDIF <1>', 'OP_UTXOTOKENCATEGORY executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_OUTPUTTOKENCATEGORY OP_DROP OP_ENDIF <1>', 'OP_OUTPUTTOKENCATEGORY not executed', ['default', 'chip_cashtokens']],
+      ['<1>', 'OP_IF <0> OP_OUTPUTTOKENCATEGORY OP_DROP OP_ENDIF <1>', 'OP_OUTPUTTOKENCATEGORY executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_UTXOTOKENCOMMITMENT OP_DROP OP_ENDIF <1>', 'OP_UTXOTOKENCOMMITMENT not executed', ['default', 'chip_cashtokens']],
+      ['<1>', 'OP_IF <0> OP_UTXOTOKENCOMMITMENT OP_DROP OP_ENDIF <1>', 'OP_UTXOTOKENCOMMITMENT executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_OUTPUTTOKENCOMMITMENT OP_DROP OP_ENDIF <1>', 'OP_OUTPUTTOKENCOMMITMENT not executed', ['default', 'chip_cashtokens']],
+      ['<1>', 'OP_IF <0> OP_OUTPUTTOKENCOMMITMENT OP_DROP OP_ENDIF <1>', 'OP_OUTPUTTOKENCOMMITMENT executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_UTXOTOKENAMOUNT OP_DROP OP_ENDIF <1>', 'OP_UTXOTOKENAMOUNT not executed', ['default', 'chip_cashtokens']],
+      ['<1>', 'OP_IF <0> OP_UTXOTOKENAMOUNT OP_DROP OP_ENDIF <1>', 'OP_UTXOTOKENAMOUNT executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_OUTPUTTOKENAMOUNT OP_DROP OP_ENDIF <1>', 'OP_OUTPUTTOKENAMOUNT not executed', ['default', 'chip_cashtokens']],
+      ['<1>', 'OP_IF <0> OP_OUTPUTTOKENAMOUNT OP_DROP OP_ENDIF <1>', 'OP_OUTPUTTOKENAMOUNT executed', ['chip_cashtokens']],
     ],
   ],
   [
@@ -289,26 +309,76 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['<0>', 'OP_IF <0> OP_INPUTSEQUENCENUMBER OP_ENDIF <0> OP_INPUTSEQUENCENUMBER <0> OP_INPUTSEQUENCENUMBER OP_EQUAL', 'OP_INPUTSEQUENCENUMBER is conditionally executed'],
       ['<0>', 'OP_IF <0> OP_OUTPUTVALUE OP_ENDIF <0> OP_OUTPUTVALUE <0> OP_OUTPUTVALUE OP_EQUAL', 'OP_OUTPUTVALUE is conditionally executed'],
       ['<0>', 'OP_IF <0> OP_OUTPUTBYTECODE OP_ENDIF <0> OP_OUTPUTBYTECODE <0> OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE is conditionally executed'],
+      // CHIPS:
+      ['<0>', 'OP_IF <0> OP_UTXOTOKENCATEGORY OP_ENDIF <0> OP_UTXOTOKENCATEGORY <0> OP_UTXOTOKENCATEGORY OP_EQUAL', 'OP_UTXOTOKENCATEGORY is conditionally executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_OUTPUTTOKENCATEGORY OP_ENDIF <0> OP_OUTPUTTOKENCATEGORY <0> OP_OUTPUTTOKENCATEGORY OP_EQUAL', 'OP_OUTPUTTOKENCATEGORY is conditionally executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_UTXOTOKENCOMMITMENT OP_ENDIF <0> OP_UTXOTOKENCOMMITMENT <0> OP_UTXOTOKENCOMMITMENT OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT is conditionally executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_OUTPUTTOKENCOMMITMENT OP_ENDIF <0> OP_OUTPUTTOKENCOMMITMENT <0> OP_OUTPUTTOKENCOMMITMENT OP_EQUAL', 'OP_OUTPUTTOKENCOMMITMENT is conditionally executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_UTXOTOKENAMOUNT OP_ENDIF <0> OP_UTXOTOKENAMOUNT <0> OP_UTXOTOKENAMOUNT OP_EQUAL', 'OP_UTXOTOKENAMOUNT is conditionally executed', ['chip_cashtokens']],
+      ['<0>', 'OP_IF <0> OP_OUTPUTTOKENAMOUNT OP_ENDIF <0> OP_OUTPUTTOKENAMOUNT <0> OP_OUTPUTTOKENAMOUNT OP_EQUAL', 'OP_OUTPUTTOKENAMOUNT is conditionally executed', ['chip_cashtokens']],
     ],
   ],
   [
     'Operations copy by value',
     [
       // TODO: all other operations that push
-      ['<1>', 'OP_INPUTINDEX OP_INPUTINDEX OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_INPUTINDEX pushes an independent stack item'],
-      ['<1>', 'OP_ACTIVEBYTECODE OP_ACTIVEBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT OP_VERIFY', 'each OP_ACTIVEBYTECODE pushes an independent stack item'],
-      ['<1>', 'OP_TXVERSION OP_TXVERSION OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_TXVERSION pushes an independent stack item'],
-      ['<1>', 'OP_TXINPUTCOUNT OP_TXINPUTCOUNT OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_TXINPUTCOUNT pushes an independent stack item'],
-      ['<1>', 'OP_TXOUTPUTCOUNT OP_TXOUTPUTCOUNT OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_TXOUTPUTCOUNT pushes an independent stack item'],
-      ['<1>', 'OP_TXLOCKTIME OP_TXLOCKTIME OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_TXLOCKTIME pushes an independent stack item'],
-      ['<1>', '<1> OP_UTXOVALUE <1> OP_UTXOVALUE OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_UTXOVALUE pushes an independent stack item'],
-      ['<1>', '<1> OP_UTXOBYTECODE <1> OP_UTXOBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT OP_VERIFY', 'each OP_UTXOBYTECODE pushes an independent stack item'],
-      ['<1>', '<1> OP_OUTPOINTTXHASH <1> OP_OUTPOINTTXHASH <0xf000000000000000000000000000000000000000000000000000000000000001> OP_XOR OP_EQUAL OP_NOT OP_VERIFY', 'each OP_OUTPOINTTXHASH pushes an independent stack item'],
-      ['<1>', '<1> OP_OUTPOINTINDEX <1> OP_OUTPOINTINDEX OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_OUTPOINTINDEX pushes an independent stack item'],
-      ['<1>', '<0> OP_INPUTBYTECODE <0> OP_INPUTBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT OP_VERIFY', 'each OP_INPUTBYTECODE pushes an independent stack item'],
-      ['<1>', '<1> OP_INPUTSEQUENCENUMBER <1> OP_INPUTSEQUENCENUMBER OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_INPUTSEQUENCENUMBER pushes an independent stack item'],
-      ['<1>', '<0> OP_OUTPUTVALUE <0> OP_OUTPUTVALUE OP_1ADD OP_EQUAL OP_NOT OP_VERIFY', 'each OP_OUTPUTVALUE pushes an independent stack item'],
-      ['<1>', '<0> OP_OUTPUTBYTECODE <0> OP_OUTPUTBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT OP_VERIFY', 'each OP_OUTPUTBYTECODE pushes an independent stack item'],
+      ['', 'OP_INPUTINDEX OP_INPUTINDEX OP_1ADD OP_EQUAL OP_NOT', 'each OP_INPUTINDEX pushes an independent stack item'],
+      ['', 'OP_ACTIVEBYTECODE OP_ACTIVEBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT', 'each OP_ACTIVEBYTECODE pushes an independent stack item'],
+      ['', 'OP_TXVERSION OP_TXVERSION OP_1ADD OP_EQUAL OP_NOT', 'each OP_TXVERSION pushes an independent stack item'],
+      ['', 'OP_TXINPUTCOUNT OP_TXINPUTCOUNT OP_1ADD OP_EQUAL OP_NOT', 'each OP_TXINPUTCOUNT pushes an independent stack item'],
+      ['', 'OP_TXOUTPUTCOUNT OP_TXOUTPUTCOUNT OP_1ADD OP_EQUAL OP_NOT', 'each OP_TXOUTPUTCOUNT pushes an independent stack item'],
+      ['', 'OP_TXLOCKTIME OP_TXLOCKTIME OP_1ADD OP_EQUAL OP_NOT', 'each OP_TXLOCKTIME pushes an independent stack item'],
+      ['', '<1> OP_UTXOVALUE <1> OP_UTXOVALUE OP_1ADD OP_EQUAL OP_NOT', 'each OP_UTXOVALUE pushes an independent stack item'],
+      ['', '<1> OP_UTXOBYTECODE <1> OP_UTXOBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT', 'each OP_UTXOBYTECODE pushes an independent stack item'],
+      ['', '<1> OP_OUTPOINTTXHASH <1> OP_OUTPOINTTXHASH <0xf000000000000000000000000000000000000000000000000000000000000001> OP_XOR OP_EQUAL OP_NOT', 'each OP_OUTPOINTTXHASH pushes an independent stack item'],
+      ['', '<1> OP_OUTPOINTINDEX <1> OP_OUTPOINTINDEX OP_1ADD OP_EQUAL OP_NOT', 'each OP_OUTPOINTINDEX pushes an independent stack item'],
+      ['', '<0> OP_INPUTBYTECODE <0> OP_INPUTBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT', 'each OP_INPUTBYTECODE pushes an independent stack item'],
+      ['', '<1> OP_INPUTSEQUENCENUMBER <1> OP_INPUTSEQUENCENUMBER OP_1ADD OP_EQUAL OP_NOT', 'each OP_INPUTSEQUENCENUMBER pushes an independent stack item'],
+      ['', '<0> OP_OUTPUTVALUE <0> OP_OUTPUTVALUE OP_1ADD OP_EQUAL OP_NOT', 'each OP_OUTPUTVALUE pushes an independent stack item'],
+      ['', '<0> OP_OUTPUTBYTECODE <0> OP_OUTPUTBYTECODE OP_REVERSEBYTES OP_EQUAL OP_NOT', 'each OP_OUTPUTBYTECODE pushes an independent stack item'],
+      // CHIPS:
+      [
+        '',
+        '<0> OP_UTXOTOKENCATEGORY <0> OP_UTXOTOKENCATEGORY OP_REVERSEBYTES OP_EQUAL OP_NOT',
+        'each OP_UTXOTOKENCATEGORY pushes an independent stack item',
+        ['chip_cashtokens'],
+        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '',
+        '<0> OP_OUTPUTTOKENCATEGORY <0> OP_OUTPUTTOKENCATEGORY OP_REVERSEBYTES OP_EQUAL OP_NOT',
+        'each OP_OUTPUTTOKENCATEGORY pushes an independent stack item',
+        ['chip_cashtokens'],
+        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '',
+        '<0> OP_UTXOTOKENCOMMITMENT <0> OP_UTXOTOKENCOMMITMENT OP_REVERSEBYTES OP_EQUAL OP_NOT',
+        'each OP_UTXOTOKENCOMMITMENT pushes an independent stack item',
+        ['chip_cashtokens'],
+        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '',
+        '<0> OP_OUTPUTTOKENCOMMITMENT <0> OP_OUTPUTTOKENCOMMITMENT OP_REVERSEBYTES OP_EQUAL OP_NOT',
+        'each OP_OUTPUTTOKENCOMMITMENT pushes an independent stack item',
+        ['chip_cashtokens'],
+        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '',
+        '<0> OP_UTXOTOKENAMOUNT <0> OP_UTXOTOKENAMOUNT OP_1ADD OP_EQUAL OP_NOT',
+        'each OP_UTXOTOKENAMOUNT pushes an independent stack item',
+        ['chip_cashtokens'],
+        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '',
+        '<0> OP_OUTPUTTOKENAMOUNT <0> OP_OUTPUTTOKENAMOUNT OP_1ADD OP_EQUAL OP_NOT',
+        'each OP_OUTPUTTOKENAMOUNT pushes an independent stack item',
+        ['chip_cashtokens'],
+        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1, nft: { commitment: '010203' } }, valueSatoshis: 1_000 }] } },
+      ],
     ],
   ],
   [
@@ -323,6 +393,29 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ['', 'OP_DROP <1>', 'Drop non-existent item', ['invalid']],
       ['OP_PUSHDATA_2 520 $(<0> <520> OP_NUM2BIN)', 'OP_SIZE <520> OP_EQUAL OP_NIP', 'Allow 520 byte push'],
       ['OP_PUSHDATA_2 521 $(<0> <520> OP_NUM2BIN) 0xff', 'OP_SIZE <521> OP_EQUAL OP_NIP', 'Disallow 521 byte push', ['invalid']],
+      [
+        '',
+        'OP_NOP <1> OP_IF OP_ELSE OP_ENDIF <0> OP_NOTIF <1> OP_ENDIF OP_VERIFY <1> OP_TOALTSTACK OP_FROMALTSTACK <2> OP_2DUP OP_2DROP <3> OP_3DUP OP_2OVER OP_2DROP OP_2ROT OP_2SWAP OP_IFDUP OP_DEPTH <7> OP_EQUALVERIFY OP_DROP OP_DUP OP_EQUALVERIFY OP_NIP OP_OVER <4> OP_PICK <5> OP_ROLL OP_EQUAL OP_ROT OP_NUMNOTEQUAL OP_TUCK OP_CAT OP_SWAP OP_SPLIT OP_EQUAL OP_NUM2BIN OP_BIN2NUM OP_SIZE <0x80> OP_OR <0x0f> OP_AND <0b11> OP_XOR OP_1ADD OP_1SUB OP_NEGATE OP_ABS OP_NOT OP_0NOTEQUAL OP_ADD OP_SUB OP_DUP OP_MUL <1> OP_DIV <1> OP_MOD <1> OP_BOOLAND <1> OP_BOOLOR <2> OP_NUMEQUAL <0> OP_NUMEQUALVERIFY <1> <2> OP_LESSTHAN <1> OP_GREATERTHAN <1> OP_LESSTHANOREQUAL <1> OP_GREATERTHANOREQUAL <2> OP_MIN <2> OP_MAX <4> <3> OP_WITHIN OP_RIPEMD160 OP_SHA1 OP_SHA256 OP_HASH160 OP_HASH256 OP_REVERSEBYTES OP_CODESEPARATOR <0> OP_CHECKLOCKTIMEVERIFY OP_CHECKSEQUENCEVERIFY OP_2DROP OP_INPUTINDEX OP_ACTIVEBYTECODE OP_2DROP OP_TXVERSION OP_TXINPUTCOUNT OP_TXOUTPUTCOUNT OP_TXLOCKTIME OP_OUTPOINTINDEX OP_INPUTSEQUENCENUMBER OP_UTXOVALUE <0> OP_OUTPUTVALUE <0> OP_UTXOBYTECODE <0> OP_OUTPOINTTXHASH <0> OP_OUTPUTBYTECODE OP_2DROP OP_2DROP OP_2DROP OP_2DROP /* 91 operations here */ <$(<201> <91> OP_SUB <1> OP_ADD)> OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB /* 201 operations here */',
+        'Allows up to 201 operations (non-signature operations)',
+      ],
+      [
+        '',
+        'OP_NOP <1> OP_IF OP_ELSE OP_ENDIF <0> OP_NOTIF <1> OP_ENDIF OP_VERIFY <1> OP_TOALTSTACK OP_FROMALTSTACK <2> OP_2DUP OP_2DROP <3> OP_3DUP OP_2OVER OP_2DROP OP_2ROT OP_2SWAP OP_IFDUP OP_DEPTH <7> OP_EQUALVERIFY OP_DROP OP_DUP OP_EQUALVERIFY OP_NIP OP_OVER <4> OP_PICK <5> OP_ROLL OP_EQUAL OP_ROT OP_NUMNOTEQUAL OP_TUCK OP_CAT OP_SWAP OP_SPLIT OP_EQUAL OP_NUM2BIN OP_BIN2NUM OP_SIZE <0x80> OP_OR <0x0f> OP_AND <0b11> OP_XOR OP_1ADD OP_1SUB OP_NEGATE OP_ABS OP_NOT OP_0NOTEQUAL OP_ADD OP_SUB OP_DUP OP_MUL <1> OP_DIV <1> OP_MOD <1> OP_BOOLAND <1> OP_BOOLOR <2> OP_NUMEQUAL <0> OP_NUMEQUALVERIFY <1> <2> OP_LESSTHAN <1> OP_GREATERTHAN <1> OP_LESSTHANOREQUAL <1> OP_GREATERTHANOREQUAL <2> OP_MIN <2> OP_MAX <4> <3> OP_WITHIN OP_RIPEMD160 OP_SHA1 OP_SHA256 OP_HASH160 OP_HASH256 OP_REVERSEBYTES OP_CODESEPARATOR <0> OP_CHECKLOCKTIMEVERIFY OP_CHECKSEQUENCEVERIFY OP_2DROP OP_INPUTINDEX OP_ACTIVEBYTECODE OP_2DROP OP_TXVERSION OP_TXINPUTCOUNT OP_TXOUTPUTCOUNT OP_TXLOCKTIME OP_OUTPOINTINDEX OP_INPUTSEQUENCENUMBER OP_UTXOVALUE <0> OP_OUTPUTVALUE <0> OP_UTXOBYTECODE <0> OP_OUTPOINTTXHASH <0> OP_OUTPUTBYTECODE OP_2DROP OP_2DROP OP_2DROP OP_2DROP /* 91 operations here */ <$(<201> <91> OP_SUB <1> OP_ADD)> OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB /* 201 operations here */ OP_NOP',
+        'Fails at 202 operations (non-signature operations)',
+        ['invalid'],
+      ],
+      [
+        '',
+        'OP_NOP <1> OP_IF OP_ELSE OP_ENDIF <0> OP_NOTIF <1> OP_ENDIF OP_VERIFY <1> OP_TOALTSTACK OP_FROMALTSTACK <2> OP_2DUP OP_2DROP <3> OP_3DUP OP_2OVER OP_2DROP OP_2ROT OP_2SWAP OP_IFDUP OP_DEPTH <7> OP_EQUALVERIFY OP_DROP OP_DUP OP_EQUALVERIFY OP_NIP OP_OVER <4> OP_PICK <5> OP_ROLL OP_EQUAL OP_ROT OP_NUMNOTEQUAL OP_TUCK OP_CAT OP_SWAP OP_SPLIT OP_EQUAL OP_NUM2BIN OP_BIN2NUM OP_SIZE <0x80> OP_OR <0x0f> OP_AND <0b11> OP_XOR OP_1ADD OP_1SUB OP_NEGATE OP_ABS OP_NOT OP_0NOTEQUAL OP_ADD OP_SUB OP_DUP OP_MUL <1> OP_DIV <1> OP_MOD <1> OP_BOOLAND <1> OP_BOOLOR <2> OP_NUMEQUAL <0> OP_NUMEQUALVERIFY <1> <2> OP_LESSTHAN <1> OP_GREATERTHAN <1> OP_LESSTHANOREQUAL <1> OP_GREATERTHANOREQUAL <2> OP_MIN <2> OP_MAX <4> <3> OP_WITHIN OP_RIPEMD160 OP_SHA1 OP_SHA256 OP_HASH160 OP_HASH256 OP_REVERSEBYTES OP_CODESEPARATOR <0> OP_CHECKLOCKTIMEVERIFY OP_CHECKSEQUENCEVERIFY OP_2DROP OP_INPUTINDEX OP_ACTIVEBYTECODE OP_2DROP OP_TXVERSION OP_TXINPUTCOUNT OP_TXOUTPUTCOUNT OP_TXLOCKTIME OP_OUTPOINTINDEX OP_INPUTSEQUENCENUMBER OP_UTXOTOKENCATEGORY OP_OUTPUTTOKENCATEGORY OP_UTXOTOKENCOMMITMENT OP_OUTPUTTOKENCOMMITMENT OP_UTXOTOKENAMOUNT OP_UTXOTOKENAMOUNT OP_UTXOVALUE <0> OP_OUTPUTVALUE <0> OP_UTXOBYTECODE <0> OP_OUTPOINTTXHASH <0> OP_OUTPUTBYTECODE OP_2DROP OP_2DROP OP_2DROP OP_2DROP /* 97 operations here */ <$(<201> <97> OP_SUB <1> OP_ADD)> OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB /* 201 operations here */',
+        'Allows up to 201 operations (non-signature operations, CashToken operations)',
+        ['chip_cashtokens', '2022_p2sh32_nonstandard'],
+      ],
+      [
+        '',
+        'OP_NOP <1> OP_IF OP_ELSE OP_ENDIF <0> OP_NOTIF <1> OP_ENDIF OP_VERIFY <1> OP_TOALTSTACK OP_FROMALTSTACK <2> OP_2DUP OP_2DROP <3> OP_3DUP OP_2OVER OP_2DROP OP_2ROT OP_2SWAP OP_IFDUP OP_DEPTH <7> OP_EQUALVERIFY OP_DROP OP_DUP OP_EQUALVERIFY OP_NIP OP_OVER <4> OP_PICK <5> OP_ROLL OP_EQUAL OP_ROT OP_NUMNOTEQUAL OP_TUCK OP_CAT OP_SWAP OP_SPLIT OP_EQUAL OP_NUM2BIN OP_BIN2NUM OP_SIZE <0x80> OP_OR <0x0f> OP_AND <0b11> OP_XOR OP_1ADD OP_1SUB OP_NEGATE OP_ABS OP_NOT OP_0NOTEQUAL OP_ADD OP_SUB OP_DUP OP_MUL <1> OP_DIV <1> OP_MOD <1> OP_BOOLAND <1> OP_BOOLOR <2> OP_NUMEQUAL <0> OP_NUMEQUALVERIFY <1> <2> OP_LESSTHAN <1> OP_GREATERTHAN <1> OP_LESSTHANOREQUAL <1> OP_GREATERTHANOREQUAL <2> OP_MIN <2> OP_MAX <4> <3> OP_WITHIN OP_RIPEMD160 OP_SHA1 OP_SHA256 OP_HASH160 OP_HASH256 OP_REVERSEBYTES OP_CODESEPARATOR <0> OP_CHECKLOCKTIMEVERIFY OP_CHECKSEQUENCEVERIFY OP_2DROP OP_INPUTINDEX OP_ACTIVEBYTECODE OP_2DROP OP_TXVERSION OP_TXINPUTCOUNT OP_TXOUTPUTCOUNT OP_TXLOCKTIME OP_OUTPOINTINDEX OP_INPUTSEQUENCENUMBER OP_UTXOTOKENCATEGORY OP_OUTPUTTOKENCATEGORY OP_UTXOTOKENCOMMITMENT OP_OUTPUTTOKENCOMMITMENT OP_UTXOTOKENAMOUNT OP_UTXOTOKENAMOUNT OP_UTXOVALUE <0> OP_OUTPUTVALUE <0> OP_UTXOBYTECODE <0> OP_OUTPOINTTXHASH <0> OP_OUTPUTBYTECODE OP_2DROP OP_2DROP OP_2DROP OP_2DROP /* 97 operations here */ <$(<201> <97> OP_SUB <1> OP_ADD)> OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB OP_1SUB /* 201 operations here */ OP_NOP',
+        'Fails at 202 operations (non-signature operations, CashToken operations)',
+        ['chip_cashtokens_invalid', '2022_p2sh32_nonstandard'],
+      ],
     ],
   ],
   [
@@ -351,7 +444,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         'OP_ACTIVEBYTECODE works before and after multiple OP_CODESEPARATORs',
       ],
       ['<1>', 'OP_INPUTINDEX OP_UTXOBYTECODE OP_ACTIVEBYTECODE OP_EQUALVERIFY', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working nonP2SH)', ['p2sh_invalid']],
-      ['<OP_HASH160 OP_PUSHBYTES_20>', 'OP_ACTIVEBYTECODE OP_HASH160 <OP_EQUAL> OP_CAT OP_CAT OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working P2SH)', ['nonP2sh_invalid']],
+      ['<OP_HASH160 OP_PUSHBYTES_20>', 'OP_ACTIVEBYTECODE OP_HASH160 <OP_EQUAL> OP_CAT OP_CAT OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working P2SH)', ['nop2sh_invalid']],
       ['<0>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 0); only versions 1 and 2 are standard', ['nonstandard'], { transaction: { version: 0 } }],
       ['<1>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 1)', [], { transaction: { version: 1 } }],
       ['<2>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 2)'],
@@ -412,7 +505,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: binToHex(bigIntToBinUint64LE(9223372036854775808n)) }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN <"100-byte tx size minimum 123">') as Uint8Array) }] } },
       ],
       ['<<1> OP_UTXOBYTECODE OP_EQUAL>', '<1> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<<1> OP_UTXOBYTECODE OP_EQUAL>; nonP2SH)', ['p2sh_invalid']],
-      ['<0xa914baae9f614b7d4cde00a5c2ea454f59b5a3f91a2d87>', '<1> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<<1> OP_UTXOBYTECODE OP_EQUAL>; P2SH20)', ['nonP2sh20_invalid']],
+      ['<0xa914baae9f614b7d4cde00a5c2ea454f59b5a3f91a2d87>', '<1> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<<1> OP_UTXOBYTECODE OP_EQUAL>; P2SH20)', ['invalid', 'p2sh20_standard']],
       ['<0x76a91460011c6bf3f1dd98cff576437b9d85de780f497488ac>', '<0> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<simple p2pkh output>; input 0)'],
       ['<1>', '<0> OP_UTXOBYTECODE OP_DROP', 'OP_UTXOBYTECODE (ignore result, input 0)'],
       ['<1>', '<1> OP_UTXOBYTECODE OP_DROP', 'OP_UTXOBYTECODE (ignore result, input 1)'],
@@ -449,7 +542,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         '<<0x00 42> OP_EQUAL> <<0x00 13> OP_EQUAL> <<0x00 7> OP_EQUAL> <<0x00 3> OP_EQUAL> <<0x00 2> OP_EQUAL> <<0x00 1> OP_EQUAL> <<0> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_CODESEPARATOR OP_UTXOBYTECODE OP_EQUALVERIFY <2> OP_UTXOBYTECODE OP_EQUALVERIFY <3> OP_UTXOBYTECODE OP_CODESEPARATOR OP_EQUALVERIFY <7> OP_UTXOBYTECODE OP_EQUALVERIFY <13> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <42> OP_UTXOBYTECODE OP_EQUAL>',
         '<0> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_CODESEPARATOR OP_UTXOBYTECODE OP_EQUALVERIFY <2> OP_UTXOBYTECODE OP_EQUALVERIFY <3> OP_UTXOBYTECODE OP_CODESEPARATOR OP_EQUALVERIFY <7> OP_UTXOBYTECODE OP_EQUALVERIFY <13> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <42> OP_UTXOBYTECODE OP_EQUAL',
         'multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs)',
-        ['invalid', '2022_nonP2sh_nonstandard'],
+        ['invalid', 'nop2sh_nonstandard'],
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ lockingBytecode: { script: `lock${i}` }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ unlockingBytecode: { script: `unlock${i}` } }))] } },
         range(49, 1).reduce((agg, i) => ({ ...agg, [`unlock${i}`]: { script: `<0x00 ${i}>`, unlocks: `lock${i}` }, [`lock${i}`]: { lockingType: 'standard', script: `<0x00 ${i}> OP_EQUAL` } }), {}),
       ],
@@ -457,7 +550,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         '<OP_HASH160 <$(<<0x00 3> OP_EQUAL> OP_HASH160)> OP_EQUAL> <OP_HASH160 <$(<<0x00 2> OP_EQUAL> OP_HASH160)> OP_EQUAL> <OP_HASH160 <$(<<0x00 1> OP_EQUAL> OP_HASH160)> OP_EQUAL> <OP_HASH160 <$(<<0> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <1> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <2> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <3> OP_UTXOBYTECODE OP_EQUAL> OP_HASH160)> OP_EQUAL>',
         '<0> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <1> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <2> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <3> OP_UTXOBYTECODE OP_EQUAL',
         'multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs, standard transaction)',
-        ['invalid', '2022_p2sh_standard'],
+        ['invalid', 'p2sh_standard'],
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ lockingBytecode: { script: `lock${i}` }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ unlockingBytecode: { script: `unlock${i}` } }))] } },
         range(49, 1).reduce((agg, i) => ({ ...agg, [`unlock${i}`]: { script: `<0x00 ${i}>`, unlocks: `lock${i}` }, [`lock${i}`]: { lockingType: 'p2sh20', script: `<0x00 ${i}> OP_EQUAL` } }), {}),
       ],
@@ -515,9 +608,10 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map(() => ({ lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ outpointIndex: i, unlockingBytecode: { script: 'unlockEmptyP2sh20' } }))] } },
       ],
       ['<0>', 'OP_INPUTBYTECODE <<0x7dfb529d352908ee0a88a0074c216b09793d6aa8c94c7640bb4ced51eaefc75d0aef61f7685d0307491e2628da3d4f91e86329265a4a58ca27a41ec0b8910779c3> <0x03a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785>> OP_EQUAL', 'OP_INPUTBYTECODE (input 0)'],
-      ['<1>', 'OP_INPUTBYTECODE <<1>> OP_EQUAL', 'OP_INPUTBYTECODE (self, nonP2SH)', ['invalid', '2022_nonP2sh_nonstandard']],
-      ['<OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>>', 'OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20)', ['invalid', '2022_p2sh_standard']],
-      ['<1>', 'OP_INPUTBYTECODE <2> OP_SPLIT OP_CODESEPARATOR OP_HASH160 <OP_HASH160 OP_PUSHBYTES_20> OP_SWAP OP_CAT <OP_EQUAL> OP_CAT OP_CODESEPARATOR <1> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_SPLIT OP_DROP <<1>> OP_EQUAL', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20, compare OP_UTXOBYTECODE)', ['invalid', '2022_p2sh_standard']],
+      ['<1>', 'OP_INPUTBYTECODE <<1>> OP_EQUAL', 'OP_INPUTBYTECODE (self, nonP2SH)', ['invalid', 'nop2sh_nonstandard']],
+      ['', '<1> OP_INPUTBYTECODE <0> OP_EQUAL', 'OP_INPUTBYTECODE (self, empty input bytecode, nonP2SH)', ['invalid', 'nop2sh_nonstandard']],
+      ['<OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>>', 'OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20)', ['invalid', 'p2sh_standard']],
+      ['<1>', 'OP_INPUTBYTECODE <2> OP_SPLIT OP_CODESEPARATOR OP_HASH160 <OP_HASH160 OP_PUSHBYTES_20> OP_SWAP OP_CAT <OP_EQUAL> OP_CAT OP_CODESEPARATOR <1> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_SPLIT OP_DROP <<1>> OP_EQUAL', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20, compare OP_UTXOBYTECODE)', ['invalid', 'p2sh_standard']],
       ['<1>', 'OP_INPUTBYTECODE <1> OP_EQUAL', 'OP_INPUTBYTECODE (input 1, expected missing OP_PUSHBYTES_1)', ['invalid']],
       ['<1>', '<0> OP_INPUTBYTECODE OP_DROP', 'OP_INPUTBYTECODE (ignore result, input 0)'],
       ['<1>', '<1> OP_INPUTBYTECODE OP_DROP', 'OP_INPUTBYTECODE (ignore result, input 1)'],
@@ -758,6 +852,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
       ],
     ],
   ],
+  cashTokenTestDefinitionsBCH,
   [
     'CHIP-2021-05-loops',
     [

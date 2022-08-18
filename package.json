@@ -45,8 +45,10 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint . --ext .ts --fix",
-    "gen:vmb-tests": "run-s build gen:vmb-tests:*",
-    "gen:vmb-tests:bch": "node 'build/lib/vmb-tests/bch-vmb-tests.spec.helper.js' 'src/lib/vmb-tests/generated/bch' && prettier 'src/lib/vmb-tests/generated/bch/*.json' --write",
+    "gen:vmb-tests": "run-s build gen:vmb-tests:* gen:vmb-tests-prettier",
+    "gen:vmb-tests-prettier": "prettier 'src/lib/vmb-tests/generated/**/*.json' --write",
+    "gen:vmb-tests:bch": "node 'build/lib/vmb-tests/bch-vmb-tests.spec.helper.js' 'src/lib/vmb-tests/generated/bch' && yarn run gen:vmb-tests:bch:reasons",
+    "gen:vmb-tests:bch:reasons": "node 'build/lib/vmb-tests/bch-vmb-tests-invalid.spec.helper.js'",
     "wallet": "node 'build/lib/vmb-tests/bch-vmb-tests.live.spec.helper.js'",
     "gen:schema": "run-p gen:schema:*",
     "gen:schema:authentication-template": "ts-json-schema-generator --no-ref-encode --path 'src/lib/compiler/template-types.ts' --type 'AuthenticationTemplate' > src/lib/schema/authentication-template.schema.json && prettier 'src/lib/schema/authentication-template.schema.json' --write && ajv compile -s src/lib/schema/authentication-template.schema.json --allowUnionTypes -o src/lib/schema/ajv/validate-authentication-template.js && prettier 'src/lib/schema/ajv/validate-authentication-template.js' --write && node -e \"const fs = require('fs'), path = 'src/lib/schema/ajv/validate-authentication-template.js'; fs.writeFileSync(path, fs.readFileSync(path, 'utf8').replace(/'use strict'[\\s\\S]*module.exports.default =/, 'export default'), 'utf8')\"",
@@ -65,6 +67,7 @@
     "test:unit:script_tests": "c8 ava --match='*[script_tests]*' --serial",
     "test:unit:vmb_tests": "c8 ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
     "test:unit:vmb_test": "node 'build/lib/vmb-tests/bch-vmb-test.spec.helper.js'",
+    "dev:vmb_tests": "yarn gen:vmb-tests && yarn build:tsc && ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial --fail-fast",
     "bench": "run-s build bench:browser-deps bench:test",
     "bench:test": "ava --config .ava.bench.config.js --serial --timeout=2m 2>&1 | tee bench.log",
     "bench:browser-deps": "browserify node_modules/chuhai/index.js --standalone chuhai -o build/bench/chuhai.js && browserify node_modules/hash.js/lib/hash.js --standalone hash -o build/bench/hash.js",
@@ -189,8 +192,7 @@
     "overrides": [
       {
         "files": [
-          "src/lib/vmb-tests/bch-vmb-tests.ts",
-          "src/lib/schema/generated/*.js"
+          "src/lib/vmb-tests/*bch-vmb-tests*.ts"
         ],
         "options": {
           "printWidth": 400
@@ -198,7 +200,15 @@
       },
       {
         "files": [
-          "src/lib/vmb-tests/generated/bch/*.json"
+          "src/lib/vmb-tests/*bch-vmb-tests*.spec.*ts"
+        ],
+        "options": {
+          "printWidth": 80
+        }
+      },
+      {
+        "files": [
+          "src/lib/vmb-tests/generated/**/*.json"
         ],
         "options": {
           "printWidth": 10000

@@ -45,7 +45,7 @@ const m1PublicPush = hexToBin(
 );
 
 test.failing(
-  '[BCH compiler] HdKey – ECDSA: use an HD private key, addressIndex (`0`)',
+  '[BCH compiler] HdKey - ECDSA: use an HD private key, addressIndex (`0`)',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
@@ -61,7 +61,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] HdKey – schnorr: use a private key',
+  '[BCH compiler] HdKey - schnorr: use a private key',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   {
@@ -77,7 +77,7 @@ test.failing(
 );
 
 test(
-  '[BCH compiler] HdKey – schnorr: use a private key (no address index)',
+  '[BCH compiler] HdKey - schnorr: use a private key (no address index)',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { hdKeys: { hdPrivateKeys: { ownerEntityId: hdPrivateKey } } },
@@ -101,7 +101,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – derive a public key from an HD private key',
+  '[BCH compiler] HdKey - derive a public key from an HD private key',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -112,7 +112,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – derive a public key from an HD public key',
+  '[BCH compiler] HdKey - derive a public key from an HD public key',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -123,7 +123,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – derive m/1 from an HD public key with addressIndex of 0, addressOffset of 1',
+  '[BCH compiler] HdKey - derive m/1 from an HD public key with addressIndex of 0, addressOffset of 1',
   expectCompilationResult,
   '<owner.public_key>',
   { hdKeys: { addressIndex: 0, hdPublicKeys: { ownerEntityId: hdPublicKey } } },
@@ -133,7 +133,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – derive a public key from an HD private key (no address index)',
+  '[BCH compiler] HdKey - derive a public key from an HD private key (no address index)',
   expectCompilationResult,
   '<owner.public_key>',
   { hdKeys: { hdPrivateKeys: { ownerEntityId: hdPrivateKey } } },
@@ -159,7 +159,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – derive a public key: no secp256k1',
+  '[BCH compiler] HdKey - derive a public key: no secp256k1',
   expectCompilationResult,
   '<owner.public_key>',
   {},
@@ -168,7 +168,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.public_key" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.public_key" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -184,7 +184,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – use a provided derived public key (without secp256k1)',
+  '[BCH compiler] HdKey - use a provided derived public key (without secp256k1)',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -200,7 +200,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – ECDSA: use a provided signature',
+  '[BCH compiler] HdKey - ECDSA: use a provided signature',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
@@ -221,7 +221,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – schnorr: use a provided signature',
+  '[BCH compiler] HdKey - schnorr: use a provided signature',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   {
@@ -242,7 +242,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – malformed identifier',
+  '[BCH compiler] HdKey - malformed identifier',
   expectCompilationResult,
   '<owner.signature>',
   {
@@ -268,7 +268,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – ECDSA: wrong private key',
+  '[BCH compiler] HdKey - ECDSA: wrong private key',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   { hdKeys: { addressIndex: 0, hdPrivateKeys: { wrong: hdPrivateKey } } },
@@ -294,7 +294,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – schnorr: wrong private key',
+  '[BCH compiler] HdKey - schnorr: wrong private key',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { hdKeys: { addressIndex: 0, hdPrivateKeys: { wrong: hdPrivateKey } } },
@@ -320,7 +320,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – schnorr: no "hdPrivateKeys"',
+  '[BCH compiler] HdKey - schnorr: no "hdPrivateKeys"',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { hdKeys: { addressIndex: 0 } },
@@ -346,7 +346,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – ECDSA: unknown signing serialization algorithm',
+  '[BCH compiler] HdKey - ECDSA: unknown signing serialization algorithm',
   expectCompilationResult,
   '<owner.signature.another>',
   {
@@ -371,7 +371,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – schnorr: unknown signing serialization algorithm',
+  '[BCH compiler] HdKey - schnorr: unknown signing serialization algorithm',
   expectCompilationResult,
   '<owner.schnorr_signature.another>',
   {
@@ -396,7 +396,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – ECDSA: no secp256k1',
+  '[BCH compiler] HdKey - ECDSA: no secp256k1',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
@@ -407,7 +407,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.signature.all_outputs" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.signature.all_outputs" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -423,7 +423,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – schnorr: no secp256k1',
+  '[BCH compiler] HdKey - schnorr: no secp256k1',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   {
@@ -434,7 +434,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.schnorr_signature.all_outputs" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.schnorr_signature.all_outputs" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -450,7 +450,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – ECDSA: no sha256',
+  '[BCH compiler] HdKey - ECDSA: no sha256',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
@@ -461,7 +461,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.signature.all_outputs" – the "sha256" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.signature.all_outputs" - the "sha256" property was not provided in the compiler configuration.',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -477,7 +477,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – schnorr: no sha256',
+  '[BCH compiler] HdKey - schnorr: no sha256',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   {
@@ -488,7 +488,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.schnorr_signature.all_outputs" – the "sha256" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.schnorr_signature.all_outputs" - the "sha256" property was not provided in the compiler configuration.',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -504,7 +504,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – m/0 via addressIndex of 1, addressOffset of -1',
+  '[BCH compiler] HdKey - m/0 via addressIndex of 1, addressOffset of -1',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -516,7 +516,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – m/1 via addressIndex of 1, default addressOffset (0)',
+  '[BCH compiler] HdKey - m/1 via addressIndex of 1, default addressOffset (0)',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -527,7 +527,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – m/1 via addressIndex of 0, addressOffset of 1',
+  '[BCH compiler] HdKey - m/1 via addressIndex of 0, addressOffset of 1',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -539,7 +539,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – m/1 via addressIndex of 2, addressOffset of -1',
+  '[BCH compiler] HdKey - m/1 via addressIndex of 2, addressOffset of -1',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -551,7 +551,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – invalid HD private key',
+  '[BCH compiler] HdKey - invalid HD private key',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -565,7 +565,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate owner.public_key – the HD private key provided for ownerEntityId could not be decoded: HD key decoding error: length is incorrect (must encode 82 bytes).',
+          'Could not generate owner.public_key - the HD private key provided for ownerEntityId could not be decoded: HD key decoding error: length is incorrect (must encode 82 bytes).',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -580,7 +580,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – bad privateDerivationPath',
+  '[BCH compiler] HdKey - bad privateDerivationPath',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -591,7 +591,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate owner.public_key – the path "m/-1" could not be derived for entity "ownerEntityId": HD key derivation error: invalid derivation path – paths must begin with "m" or "M" and contain only forward slashes ("/"), apostrophes ("\'"), or positive child index numbers.',
+          'Could not generate owner.public_key - the path "m/-1" could not be derived for entity "ownerEntityId": HD key derivation error: invalid derivation path - paths must begin with "m" or "M" and contain only forward slashes ("/"), apostrophes ("\'"), or positive child index numbers.',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -609,7 +609,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – error in coveredBytecode compilation',
+  '[BCH compiler] HdKey - error in coveredBytecode compilation',
   expectCompilationResult,
   '',
   {
@@ -643,7 +643,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – signature no "entityOwnership"',
+  '[BCH compiler] HdKey - signature no "entityOwnership"',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
@@ -654,7 +654,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.signature.all_outputs" – the "entityOwnership" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.signature.all_outputs" - the "entityOwnership" property was not provided in the compiler configuration.',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -674,7 +674,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – signature unknown entity',
+  '[BCH compiler] HdKey - signature unknown entity',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
@@ -701,7 +701,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – public_key no "entityOwnership"',
+  '[BCH compiler] HdKey - public_key no "entityOwnership"',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -712,7 +712,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.public_key" – the "entityOwnership" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.public_key" - the "entityOwnership" property was not provided in the compiler configuration.',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -728,7 +728,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – HD key not included in "entityOwnership"',
+  '[BCH compiler] HdKey - HD key not included in "entityOwnership"',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -755,7 +755,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – no "hdPrivateKeys"',
+  '[BCH compiler] HdKey - no "hdPrivateKeys"',
   expectCompilationResult,
   '<owner.public_key>',
   { hdKeys: { addressIndex: 0 } },
@@ -781,7 +781,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – invalid HD public key',
+  '[BCH compiler] HdKey - invalid HD public key',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -795,7 +795,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate "owner.public_key" – the HD public key provided for "ownerEntityId" could not be decoded: HD key decoding error: length is incorrect (must encode 82 bytes).',
+          'Could not generate "owner.public_key" - the HD public key provided for "ownerEntityId" could not be decoded: HD key decoding error: length is incorrect (must encode 82 bytes).',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -810,7 +810,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – public_key at m/0/0 using HD public key',
+  '[BCH compiler] HdKey - public_key at m/0/0 using HD public key',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -832,7 +832,7 @@ test(
 );
 
 test(
-  "[BCH compiler] HdKey – attempt public_key at m/0'/1 using HD public key",
+  "[BCH compiler] HdKey - attempt public_key at m/0'/1 using HD public key",
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -846,7 +846,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate owner.public_key – the path "M/0\'/i" is not a valid "publicDerivationPath".',
+          'Could not generate owner.public_key - the path "M/0\'/i" is not a valid "publicDerivationPath".',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -869,7 +869,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – public_key derivation failure using HD public key',
+  '[BCH compiler] HdKey - public_key derivation failure using HD public key',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -883,7 +883,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate "owner.public_key" – the path "M/2147483649/0" could not be derived for entity "ownerEntityId": HD key derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
+          'Could not generate "owner.public_key" - the path "M/2147483649/0" could not be derived for entity "ownerEntityId": HD key derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -906,7 +906,7 @@ test(
 );
 
 test(
-  '[BCH compiler] HdKey – attempt public_key at invalid path using HD private key',
+  '[BCH compiler] HdKey - attempt public_key at invalid path using HD private key',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -920,7 +920,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate owner.public_key – the path "bad/i" is not a valid "privateDerivationPath".',
+          'Could not generate owner.public_key - the path "bad/i" is not a valid "privateDerivationPath".',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -943,7 +943,7 @@ test(
 );
 
 test(
-  "[BCH compiler] HdKey – public_key at m/0'/1 using HD private key",
+  "[BCH compiler] HdKey - public_key at m/0'/1 using HD private key",
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -965,7 +965,7 @@ test(
 );
 
 test(
-  "[BCH compiler] HdKey – public_key at m/0'/1 using custom publicDerivationPath (and testnet HD public key)",
+  "[BCH compiler] HdKey - public_key at m/0'/1 using custom publicDerivationPath (and testnet HD public key)",
   expectCompilationResult,
   '<owner.public_key>',
   {

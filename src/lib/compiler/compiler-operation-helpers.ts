@@ -101,7 +101,7 @@ export const compilerOperationRequires =
           canBeSkipped
             ? { status: 'skip' }
             : {
-                error: `Cannot resolve "${identifier}" – the "${property}" property was not provided in the compiler configuration.`,
+                error: `Cannot resolve "${identifier}" - the "${property}" property was not provided in the compiler configuration.`,
                 status: 'error',
               }
         ) as CanBeSkipped extends true
@@ -118,7 +118,7 @@ export const compilerOperationRequires =
           canBeSkipped
             ? { status: 'skip' }
             : {
-                error: `Cannot resolve "${identifier}" – the "${property}" property was not provided in the compilation data.`,
+                error: `Cannot resolve "${identifier}" - the "${property}" property was not provided in the compilation data.`,
                 status: 'error',
               }
         ) as CanBeSkipped extends true
@@ -185,7 +185,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
   const validPrivatePathWithIndex = /^m(?:\/(?:[0-9]+|i)'?)*$/u;
   if (!validPrivatePathWithIndex.test(privateDerivationPath)) {
     return {
-      error: `Could not generate ${identifier} – the path "${privateDerivationPath}" is not a valid "privateDerivationPath".`,
+      error: `Could not generate ${identifier} - the path "${privateDerivationPath}" is not a valid "privateDerivationPath".`,
       status: 'error',
     };
   }
@@ -195,7 +195,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
   const masterContents = decodeHdPrivateKey(entityHdPrivateKey, configuration);
   if (typeof masterContents === 'string') {
     return {
-      error: `Could not generate ${identifier} – the HD private key provided for ${entityId} could not be decoded: ${masterContents}`,
+      error: `Could not generate ${identifier} - the HD private key provided for ${entityId} could not be decoded: ${masterContents}`,
       status: 'error',
     };
   }
@@ -208,7 +208,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
 
   if (typeof instanceNode === 'string') {
     return {
-      error: `Could not generate ${identifier} – the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
+      error: `Could not generate ${identifier} - the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
       status: 'error',
     };
   }

@@ -442,7 +442,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
         const validPublicPathWithIndex = /^M(?:\/(?:[0-9]+|i))*$/u;
         if (!validPublicPathWithIndex.test(publicDerivationPath)) {
           return {
-            error: `Could not generate ${identifier} – the path "${publicDerivationPath}" is not a valid "publicDerivationPath".`,
+            error: `Could not generate ${identifier} - the path "${publicDerivationPath}" is not a valid "publicDerivationPath".`,
             status: 'error',
           };
         }
@@ -456,7 +456,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
         );
         if (typeof masterContents === 'string') {
           return {
-            error: `Could not generate "${identifier}" – the HD public key provided for "${entityId}" could not be decoded: ${masterContents}`,
+            error: `Could not generate "${identifier}" - the HD public key provided for "${entityId}" could not be decoded: ${masterContents}`,
             status: 'error',
           };
         }
@@ -469,7 +469,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
 
         if (typeof instanceNode === 'string') {
           return {
-            error: `Could not generate "${identifier}" – the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
+            error: `Could not generate "${identifier}" - the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
             status: 'error',
           };
         }

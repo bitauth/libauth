@@ -26,7 +26,7 @@ const base2Vector = test.macro<[string, Uint8Array]>({
     t.deepEqual(base2.decode(string), bin);
     t.deepEqual(base2.encode(bin), string);
   },
-  title: (_, string) => `createBaseConverter – base2: ${string}`,
+  title: (_, string) => `createBaseConverter - base2: ${string}`,
 });
 
 test(base2Vector, '', Uint8Array.of());
@@ -50,7 +50,7 @@ const base16Vector = test.macro<[string, Uint8Array]>({
     t.deepEqual(base16.decode(string), bin);
     t.deepEqual(base16.encode(bin), string);
   },
-  title: (_, string) => `createBaseConverter – base16: ${string}`,
+  title: (_, string) => `createBaseConverter - base16: ${string}`,
 });
 
 test(base16Vector, '', Uint8Array.of());
@@ -64,7 +64,7 @@ const base58Vector = test.macro<[string, Uint8Array]>({
     t.deepEqual(base58ToBin(string), bin);
     t.deepEqual(binToBase58(bin), string);
   },
-  title: (_, string) => `base58ToBin – binToBase58: ${string}`,
+  title: (_, string) => `base58ToBin - binToBase58: ${string}`,
 });
 
 test(base58Vector, '', Uint8Array.of());

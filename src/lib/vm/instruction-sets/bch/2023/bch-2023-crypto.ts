@@ -1,151 +1,36 @@
 import {
   hash256,
-  ripemd160 as internalRipemd160,
   secp256k1 as internalSecp256k1,
-  sha1 as internalSha1,
   sha256 as internalSha256,
-} from '../../../crypto/crypto.js';
-import { binToHex } from '../../../format/format.js';
+} from '../../../../crypto/crypto.js';
+import { binToHex } from '../../../../format/format.js';
 import type {
   AuthenticationProgramStateCommon,
-  AuthenticationProgramStateError,
-  AuthenticationProgramStateMinimum,
-  AuthenticationProgramStateSignatureAnalysis,
-  AuthenticationProgramStateStack,
   Operation,
-  Ripemd160,
   Secp256k1,
-  Sha1,
   Sha256,
-} from '../../../lib';
-
+} from '../../../../lib';
 import {
+  applyError,
+  AuthenticationErrorCommon,
+  booleanToVmNumber,
   combineOperations,
+  ConsensusCommon,
+  decodeBitcoinSignature,
+  encodeAuthenticationInstructions,
+  generateSigningSerializationBCH,
+  isValidPublicKeyEncoding,
+  isValidSignatureEncodingBCHTransaction,
+  opVerify,
   pushToStack,
   useOneStackItem,
   useOneVmNumber,
-  useThreeStackItems,
   useTwoStackItems,
-} from './combinators.js';
-import { ConsensusCommon, SigningSerializationTypesBCH } from './consensus.js';
-import {
-  decodeBitcoinSignature,
-  isValidSignatureEncodingBCHTransaction,
-  isValidSignatureEncodingDER,
-} from './encoding.js';
-import { applyError, AuthenticationErrorCommon } from './errors.js';
-import { opVerify } from './flow-control.js';
-import {
-  booleanToVmNumber,
-  encodeAuthenticationInstructions,
-  isValidPublicKeyEncoding,
-} from './instruction-sets-utils.js';
-import { generateSigningSerializationBCH } from './signing-serialization.js';
+} from '../../common/common.js';
 
-export const opRipemd160 =
-  <
-    State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
-  >(
-    {
-      ripemd160,
-    }: {
-      ripemd160: { hash: Ripemd160['hash'] };
-    } = { ripemd160: internalRipemd160 }
-  ): Operation<State> =>
-  (state: State) =>
-    useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, ripemd160.hash(value))
-    );
+import { SigningSerializationTypesBCH2023 } from './bch-2023-consensus.js';
 
-export const opSha1 =
-  <
-    State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
-  >(
-    {
-      sha1,
-    }: {
-      sha1: { hash: Sha1['hash'] };
-    } = { sha1: internalSha1 }
-  ): Operation<State> =>
-  (state: State) =>
-    useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, sha1.hash(value))
-    );
-
-export const opSha256 =
-  <
-    State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
-  >(
-    {
-      sha256,
-    }: {
-      sha256: {
-        hash: Sha256['hash'];
-      };
-    } = { sha256: internalSha256 }
-  ): Operation<State> =>
-  (state: State) =>
-    useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, sha256.hash(value))
-    );
-
-export const opHash160 =
-  <
-    State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
-  >(
-    {
-      ripemd160,
-      sha256,
-    }: {
-      sha256: { hash: Sha256['hash'] };
-      ripemd160: { hash: Ripemd160['hash'] };
-    } = { ripemd160: internalRipemd160, sha256: internalSha256 }
-  ): Operation<State> =>
-  (state: State) =>
-    useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, ripemd160.hash(sha256.hash(value)))
-    );
-
-export const opHash256 =
-  <
-    State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
-  >(
-    {
-      sha256,
-    }: {
-      sha256: {
-        hash: Sha256['hash'];
-      };
-    } = { sha256: internalSha256 }
-  ): Operation<State> =>
-  (state: State) =>
-    useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, hash256(value, sha256))
-    );
-
-export const opCodeSeparator = <
-  State extends AuthenticationProgramStateMinimum & {
-    lastCodeSeparator: number;
-  }
->(
-  state: State
-) => {
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
-  state.lastCodeSeparator = state.ip;
-  return state;
-};
-
-export const opCheckSig =
+export const opCheckSigBCH2023 =
   <State extends AuthenticationProgramStateCommon>(
     {
       secp256k1,
@@ -170,7 +55,7 @@ export const opCheckSig =
       if (
         !isValidSignatureEncodingBCHTransaction(
           bitcoinEncodedSignature,
-          SigningSerializationTypesBCH
+          SigningSerializationTypesBCH2023
         )
       ) {
         return applyError(
@@ -214,7 +99,7 @@ const enum Multisig {
 }
 
 // TODO: implement schnorr multisig https://gitlab.com/bitcoin-cash-node/bchn-sw/bitcoincash-upgrade-specifications/-/blob/master/spec/2019-11-15-schnorrmultisig.md
-export const opCheckMultiSig =
+export const opCheckMultiSigBCH2023 =
   <State extends AuthenticationProgramStateCommon>(
     {
       secp256k1,
@@ -322,7 +207,7 @@ export const opCheckMultiSig =
                     if (
                       !isValidSignatureEncodingBCHTransaction(
                         bitcoinEncodedSignature,
-                        SigningSerializationTypesBCH
+                        SigningSerializationTypesBCH2023
                       )
                     ) {
                       return applyError(
@@ -391,7 +276,7 @@ export const opCheckMultiSig =
           );
     });
 
-export const opCheckSigVerify = <
+export const opCheckSigVerifyBCH2023 = <
   State extends AuthenticationProgramStateCommon
 >(
   {
@@ -405,9 +290,9 @@ export const opCheckSigVerify = <
     };
   } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
 ): Operation<State> =>
-  combineOperations(opCheckSig<State>({ secp256k1, sha256 }), opVerify);
+  combineOperations(opCheckSigBCH2023<State>({ secp256k1, sha256 }), opVerify);
 
-export const opCheckMultiSigVerify = <
+export const opCheckMultiSigVerifyBCH2023 = <
   State extends AuthenticationProgramStateCommon
 >({
   secp256k1,
@@ -418,89 +303,7 @@ export const opCheckMultiSigVerify = <
     verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
   };
 }): Operation<State> =>
-  combineOperations(opCheckMultiSig<State>({ secp256k1, sha256 }), opVerify);
-
-/**
- * Validate the encoding of a raw signature – a signature without a signing
- * serialization type byte (A.K.A. "sighash" byte).
- *
- * @param signature - the raw signature
- */
-export const isValidSignatureEncodingBCHRaw = (signature: Uint8Array) =>
-  signature.length === 0 ||
-  signature.length === ConsensusCommon.schnorrSignatureLength ||
-  isValidSignatureEncodingDER(signature);
-
-export const opCheckDataSig =
-  <
-    State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateSignatureAnalysis &
-      AuthenticationProgramStateStack
-  >({
-    secp256k1,
-    sha256,
-  }: {
-    sha256: { hash: Sha256['hash'] };
-    secp256k1: {
-      verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
-      verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
-    };
-  }) =>
-  (state: State) =>
-    // eslint-disable-next-line complexity
-    useThreeStackItems(state, (nextState, [signature, message, publicKey]) => {
-      if (!isValidSignatureEncodingBCHRaw(signature)) {
-        return applyError(
-          nextState,
-          AuthenticationErrorCommon.invalidSignatureEncoding,
-          `Data signature: ${binToHex(signature)}`
-        );
-      }
-      if (!isValidPublicKeyEncoding(publicKey)) {
-        return applyError(
-          nextState,
-          AuthenticationErrorCommon.invalidPublicKeyEncoding
-        );
-      }
-      const digest = sha256.hash(message);
-
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
-      nextState.signedMessages.push({ digest, message });
-
-      const useSchnorr =
-        signature.length === ConsensusCommon.schnorrSignatureLength;
-      const success = useSchnorr
-        ? secp256k1.verifySignatureSchnorr(signature, publicKey, digest)
-        : secp256k1.verifySignatureDERLowS(signature, publicKey, digest);
-
-      return !success && signature.length !== 0
-        ? applyError(
-            nextState,
-            AuthenticationErrorCommon.nonNullSignatureFailure
-          )
-        : pushToStack(nextState, booleanToVmNumber(success));
-    });
-
-export const opCheckDataSigVerify = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateSignatureAnalysis &
-    AuthenticationProgramStateStack
->(
-  {
-    secp256k1,
-    sha256,
-  }: {
-    sha256: { hash: Sha256['hash'] };
-    secp256k1: {
-      verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
-      verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
-    };
-  } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
-) => combineOperations(opCheckDataSig<State>({ secp256k1, sha256 }), opVerify);
-
-export const opReverseBytes = <State extends AuthenticationProgramStateStack>(
-  state: State
-) =>
-  useOneStackItem(state, (nextState, [item]) =>
-    pushToStack(nextState, item.slice().reverse())
+  combineOperations(
+    opCheckMultiSigBCH2023<State>({ secp256k1, sha256 }),
+    opVerify
   );

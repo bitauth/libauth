@@ -24,7 +24,7 @@ import {
 } from './compiler-bch.e2e.spec.helper.js';
 
 test(
-  '[BCH compiler] built-in variables – current_block_time - error',
+  '[BCH compiler] built-in variables - current_block_time - error',
   expectCompilationResult,
   '<current_block_time>',
   {},
@@ -33,7 +33,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "current_block_time" – the "currentBlockTime" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_time" - the "currentBlockTime" property was not provided in the compilation data.',
         range: {
           endColumn: 20,
           endLineNumber: 1,
@@ -47,7 +47,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – current_block_time',
+  '[BCH compiler] built-in variables - current_block_time',
   expectCompilationResult,
   '<current_block_time>',
   {
@@ -59,7 +59,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – current_block_height - error',
+  '[BCH compiler] built-in variables - current_block_height - error',
   expectCompilationResult,
   '<current_block_height>',
   {},
@@ -68,7 +68,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "current_block_height" – the "currentBlockHeight" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_height" - the "currentBlockHeight" property was not provided in the compilation data.',
         range: {
           endColumn: 22,
           endLineNumber: 1,
@@ -82,7 +82,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – current_block_height',
+  '[BCH compiler] built-in variables - current_block_height',
   expectCompilationResult,
   '<current_block_height>',
   { currentBlockHeight: 1 },
@@ -90,7 +90,7 @@ test(
 );
 
 test(
-  '[BCH compiler] timeLockType – requires a height-based locktime',
+  '[BCH compiler] timeLockType - requires a height-based locktime',
   expectCompilationResult,
   '',
   {
@@ -119,7 +119,7 @@ test(
 );
 
 test(
-  '[BCH compiler] timeLockType – requires a timestamp-based locktime',
+  '[BCH compiler] timeLockType - requires a timestamp-based locktime',
   expectCompilationResult,
   '',
   {
@@ -148,7 +148,7 @@ test(
 );
 
 test(
-  '[BCH compiler] timeLockType – locktime disabled by sequenceNumber',
+  '[BCH compiler] timeLockType - locktime disabled by sequenceNumber',
   expectCompilationResult,
   '',
   {
@@ -186,7 +186,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.full_all_outputs - error',
+  '[BCH compiler] built-in variables - signing_serialization.full_all_outputs - error',
   expectCompilationResult,
   '<signing_serialization.full_all_outputs>',
   { compilationContext: undefined },
@@ -195,7 +195,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "signing_serialization.full_all_outputs" – the "compilationContext" property was not provided in the compilation data.',
+          'Cannot resolve "signing_serialization.full_all_outputs" - the "compilationContext" property was not provided in the compilation data.',
         range: {
           endColumn: 40,
           endLineNumber: 1,
@@ -209,7 +209,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization - no component or algorithm',
+  '[BCH compiler] built-in variables - signing_serialization - no component or algorithm',
   expectCompilationResult,
   '<signing_serialization>',
   { compilationContext: undefined },
@@ -238,7 +238,7 @@ test(
  * such as attestation (for data signatures).
  */
 test(
-  '[BCH compiler] built-in variables – current_block_height and current_block_time',
+  '[BCH compiler] built-in variables - current_block_height and current_block_time',
   expectCompilationResult,
   '<current_block_height> <current_block_time>',
   {
@@ -251,7 +251,7 @@ test(
 );
 
 test(
-  '[BCH compiler] errors – multiple reduction errors',
+  '[BCH compiler] errors - multiple reduction errors',
   expectCompilationResult,
   '<current_block_height> <current_block_time>',
   {},
@@ -260,7 +260,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "current_block_height" – the "currentBlockHeight" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_height" - the "currentBlockHeight" property was not provided in the compilation data.',
         range: {
           endColumn: 22,
           endLineNumber: 1,
@@ -270,7 +270,7 @@ test(
       },
       {
         error:
-          'Cannot resolve "current_block_time" – the "currentBlockTime" property was not provided in the compilation data.',
+          'Cannot resolve "current_block_time" - the "currentBlockTime" property was not provided in the compilation data.',
         range: {
           endColumn: 43,
           endLineNumber: 1,
@@ -284,7 +284,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization - error',
+  '[BCH compiler] built-in variables - signing_serialization - error',
   expectCompilationResult,
   '<signing_serialization>',
   { compilationContext: undefined },
@@ -307,7 +307,7 @@ test(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.full_all_outputs',
+  '[BCH compiler] built-in variables - signing_serialization.full_all_outputs',
   expectCompilationResult,
   '<signing_serialization.full_all_outputs>',
   {},
@@ -320,7 +320,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.full_all_outputs_single_input',
+  '[BCH compiler] built-in variables - signing_serialization.full_all_outputs_single_input',
   expectCompilationResult,
   '<signing_serialization.full_all_outputs_single_input>',
   {},
@@ -333,7 +333,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.full_corresponding_output',
+  '[BCH compiler] built-in variables - signing_serialization.full_corresponding_output',
   expectCompilationResult,
   '<signing_serialization.full_corresponding_output>',
   {},
@@ -346,7 +346,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.full_corresponding_output_single_input',
+  '[BCH compiler] built-in variables - signing_serialization.full_corresponding_output_single_input',
   expectCompilationResult,
   '<signing_serialization.full_corresponding_output_single_input>',
   {},
@@ -359,7 +359,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.full_no_outputs',
+  '[BCH compiler] built-in variables - signing_serialization.full_no_outputs',
   expectCompilationResult,
   '<signing_serialization.full_no_outputs>',
   {},
@@ -372,7 +372,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.full_no_outputs_single_input',
+  '[BCH compiler] built-in variables - signing_serialization.full_no_outputs_single_input',
   expectCompilationResult,
   '<signing_serialization.full_no_outputs_single_input>',
   {},
@@ -385,7 +385,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.corresponding_output',
+  '[BCH compiler] built-in variables - signing_serialization.corresponding_output',
   expectCompilationResult,
   '<signing_serialization.corresponding_output>',
   {},
@@ -396,7 +396,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.corresponding_output_hash',
+  '[BCH compiler] built-in variables - signing_serialization.corresponding_output_hash',
   expectCompilationResult,
   '<signing_serialization.corresponding_output_hash>',
   {},
@@ -409,7 +409,7 @@ test.failing(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode_length',
+  '[BCH compiler] built-in variables - signing_serialization.covered_bytecode_length',
   expectCompilationResult,
   '<signing_serialization.covered_bytecode_length>',
   {},
@@ -420,7 +420,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode',
+  '[BCH compiler] built-in variables - signing_serialization.covered_bytecode',
   expectCompilationResult,
   '<signing_serialization.covered_bytecode>',
   {},
@@ -431,7 +431,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.locktime',
+  '[BCH compiler] built-in variables - signing_serialization.locktime',
   expectCompilationResult,
   '<signing_serialization.locktime>',
   {},
@@ -442,7 +442,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.outpoint_index',
+  '[BCH compiler] built-in variables - signing_serialization.outpoint_index',
   expectCompilationResult,
   '<signing_serialization.outpoint_index>',
   {},
@@ -453,7 +453,7 @@ test(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.outpoint_transaction_hash',
+  '[BCH compiler] built-in variables - signing_serialization.outpoint_transaction_hash',
   expectCompilationResult,
   '<signing_serialization.outpoint_transaction_hash>',
   {},
@@ -466,7 +466,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.output_value',
+  '[BCH compiler] built-in variables - signing_serialization.output_value',
   expectCompilationResult,
   '<signing_serialization.output_value>',
   {},
@@ -477,7 +477,7 @@ test.failing(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.sequence_number',
+  '[BCH compiler] built-in variables - signing_serialization.sequence_number',
   expectCompilationResult,
   '<signing_serialization.sequence_number>',
   {},
@@ -488,7 +488,7 @@ test(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.transaction_outpoints',
+  '[BCH compiler] built-in variables - signing_serialization.transaction_outpoints',
   expectCompilationResult,
   '<signing_serialization.transaction_outpoints>',
   {},
@@ -499,7 +499,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.transaction_outpoints_hash',
+  '[BCH compiler] built-in variables - signing_serialization.transaction_outpoints_hash',
   expectCompilationResult,
   '<signing_serialization.transaction_outpoints_hash>',
   {},
@@ -512,7 +512,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.transaction_outputs',
+  '[BCH compiler] built-in variables - signing_serialization.transaction_outputs',
   expectCompilationResult,
   '<signing_serialization.transaction_outputs>',
   {},
@@ -523,7 +523,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.transaction_outputs_hash',
+  '[BCH compiler] built-in variables - signing_serialization.transaction_outputs_hash',
   expectCompilationResult,
   '<signing_serialization.transaction_outputs_hash>',
   {},
@@ -536,7 +536,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.transaction_sequence_numbers',
+  '[BCH compiler] built-in variables - signing_serialization.transaction_sequence_numbers',
   expectCompilationResult,
   '<signing_serialization.transaction_sequence_numbers>',
   {},
@@ -547,7 +547,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] built-in variables – signing_serialization.transaction_sequence_numbers_hash',
+  '[BCH compiler] built-in variables - signing_serialization.transaction_sequence_numbers_hash',
   expectCompilationResult,
   '<signing_serialization.transaction_sequence_numbers_hash>',
   {},
@@ -560,7 +560,7 @@ test.failing(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.version',
+  '[BCH compiler] built-in variables - signing_serialization.version',
   expectCompilationResult,
   '<signing_serialization.version>',
   {},
@@ -571,7 +571,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode - unlocking script not in unlockingScripts',
+  '[BCH compiler] built-in variables - signing_serialization.covered_bytecode - unlocking script not in unlockingScripts',
   expectCompilationResult,
   '<signing_serialization.covered_bytecode>',
   {},
@@ -598,7 +598,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode - unknown covered script',
+  '[BCH compiler] built-in variables - signing_serialization.covered_bytecode - unknown covered script',
   expectCompilationResult,
   '<signing_serialization.covered_bytecode>',
   {},
@@ -627,7 +627,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.covered_bytecode - error in coveredBytecode compilation',
+  '[BCH compiler] built-in variables - signing_serialization.covered_bytecode - error in coveredBytecode compilation',
   expectCompilationResult,
   '',
   {},
@@ -657,7 +657,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization.unknown',
+  '[BCH compiler] built-in variables - signing_serialization.unknown',
   expectCompilationResult,
   '<signing_serialization.unknown>',
   {},
@@ -680,7 +680,7 @@ test(
 );
 
 test(
-  '[BCH compiler] built-in variables – signing_serialization: unrecognized identifier fragment',
+  '[BCH compiler] built-in variables - signing_serialization: unrecognized identifier fragment',
   expectCompilationResult,
   '<signing_serialization.full_all_outputs.future_operation.with_more_levels>',
   {},
@@ -689,7 +689,7 @@ test(
     errors: [
       {
         error:
-          'Unknown component in "signing_serialization.full_all_outputs.future_operation.with_more_levels" – the fragment "future_operation" is not recognized.',
+          'Unknown component in "signing_serialization.full_all_outputs.future_operation.with_more_levels" - the fragment "future_operation" is not recognized.',
         range: {
           endColumn: 74,
           endLineNumber: 1,
@@ -703,7 +703,7 @@ test(
 );
 
 test.failing(
-  '[BCH compiler] signing_serialization.corresponding_output and signing_serialization.corresponding_output_hash – returns empty bytecode if no corresponding output',
+  '[BCH compiler] signing_serialization.corresponding_output and signing_serialization.corresponding_output_hash - returns empty bytecode if no corresponding output',
   (t) => {
     const compiler = compilerConfigurationToCompilerBCH<
       CompilerConfigurationBCH,

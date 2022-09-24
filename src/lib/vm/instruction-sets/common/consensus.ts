@@ -1,3 +1,5 @@
+import { SigningSerializationTypeBCH } from './signing-serialization.js';
+
 /**
  * Consensus settings for the `BCH_2022_05` instruction set.
  */
@@ -50,6 +52,19 @@ export enum ConsensusCommon {
   maxVmNumber = '9223372036854775807',
   schnorrSignatureLength = 64,
 }
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SigningSerializationTypesCommon = [
+  SigningSerializationTypeBCH.allOutputs,
+  SigningSerializationTypeBCH.allOutputsSingleInput,
+  SigningSerializationTypeBCH.correspondingOutput,
+  SigningSerializationTypeBCH.correspondingOutputSingleInput,
+  SigningSerializationTypeBCH.noOutputs,
+  SigningSerializationTypeBCH.noOutputsSingleInput,
+];
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SigningSerializationTypesBCH = SigningSerializationTypesCommon;
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const ConsensusBCH = ConsensusCommon;

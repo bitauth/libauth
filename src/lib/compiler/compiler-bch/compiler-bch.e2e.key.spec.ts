@@ -12,7 +12,7 @@ import {
 } from './compiler-bch.e2e.spec.helper.js';
 
 test.failing(
-  '[BCH compiler] Key – ECDSA: use a private key',
+  '[BCH compiler] Key - ECDSA: use a private key',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -28,7 +28,7 @@ test.failing(
 );
 
 test.failing(
-  '[BCH compiler] Key – schnorr: use a private key',
+  '[BCH compiler] Key - schnorr: use a private key',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -44,7 +44,7 @@ test.failing(
 );
 
 test(
-  '[BCH compiler] Key – derive a public key from a private key',
+  '[BCH compiler] Key - derive a public key from a private key',
   expectCompilationResult,
   '<owner.public_key>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -60,7 +60,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – derive a public key: no secp256k1',
+  '[BCH compiler] Key - derive a public key: no secp256k1',
   expectCompilationResult,
   '<owner.public_key>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -69,7 +69,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.public_key" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.public_key" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 18,
           endLineNumber: 1,
@@ -87,7 +87,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – use a provided public key (without secp256k1)',
+  '[BCH compiler] Key - use a provided public key (without secp256k1)',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -110,7 +110,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – public_key: no matching public or private keys',
+  '[BCH compiler] Key - public_key: no matching public or private keys',
   expectCompilationResult,
   '<owner.public_key>',
   {
@@ -143,7 +143,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – ECDSA: use a provided signature (without secp256k1)',
+  '[BCH compiler] Key - ECDSA: use a provided signature (without secp256k1)',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   {
@@ -167,7 +167,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – schnorr: use a provided signature',
+  '[BCH compiler] Key - schnorr: use a provided signature',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   {
@@ -189,7 +189,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – malformed identifier',
+  '[BCH compiler] Key - malformed identifier',
   expectCompilationResult,
   '<owner.signature>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -215,7 +215,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – ECDSA: wrong private key',
+  '[BCH compiler] Key - ECDSA: wrong private key',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   { keys: { privateKeys: { wrong: privkey } } },
@@ -243,7 +243,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – schnorr: wrong private key',
+  '[BCH compiler] Key - schnorr: wrong private key',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { keys: { privateKeys: { wrong: privkey } } },
@@ -271,7 +271,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – signature with no "privateKeys"',
+  '[BCH compiler] Key - signature with no "privateKeys"',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { keys: {} },
@@ -299,7 +299,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – ECDSA: unknown signing serialization algorithm',
+  '[BCH compiler] Key - ECDSA: unknown signing serialization algorithm',
   expectCompilationResult,
   '<owner.signature.another>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -324,7 +324,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – schnorr: unknown signing serialization algorithm',
+  '[BCH compiler] Key - schnorr: unknown signing serialization algorithm',
   expectCompilationResult,
   '<owner.schnorr_signature.another>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -349,7 +349,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – unrecognized identifier fragment',
+  '[BCH compiler] Key - unrecognized identifier fragment',
   expectCompilationResult,
   '<owner.signature.some.future_operation.with_more_levels>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -358,7 +358,7 @@ test(
     errors: [
       {
         error:
-          'Unknown component in "owner.signature.some.future_operation.with_more_levels" – the fragment "future_operation" is not recognized.',
+          'Unknown component in "owner.signature.some.future_operation.with_more_levels" - the fragment "future_operation" is not recognized.',
         range: {
           endColumn: 56,
           endLineNumber: 1,
@@ -375,7 +375,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – ECDSA: no secp256k1',
+  '[BCH compiler] Key - ECDSA: no secp256k1',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -384,7 +384,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.signature.all_outputs" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.signature.all_outputs" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -402,7 +402,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – schnorr: no secp256k1',
+  '[BCH compiler] Key - schnorr: no secp256k1',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -411,7 +411,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.schnorr_signature.all_outputs" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.schnorr_signature.all_outputs" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -429,7 +429,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – ECDSA: no sha256',
+  '[BCH compiler] Key - ECDSA: no sha256',
   expectCompilationResult,
   '<owner.signature.all_outputs>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -438,7 +438,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.signature.all_outputs" – the "sha256" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.signature.all_outputs" - the "sha256" property was not provided in the compiler configuration.',
         range: {
           endColumn: 29,
           endLineNumber: 1,
@@ -456,7 +456,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – schnorr: no sha256',
+  '[BCH compiler] Key - schnorr: no sha256',
   expectCompilationResult,
   '<owner.schnorr_signature.all_outputs>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -465,7 +465,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.schnorr_signature.all_outputs" – the "sha256" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.schnorr_signature.all_outputs" - the "sha256" property was not provided in the compiler configuration.',
         range: {
           endColumn: 37,
           endLineNumber: 1,
@@ -483,7 +483,7 @@ test(
 );
 
 test(
-  '[BCH compiler] Key – error in coveredBytecode compilation',
+  '[BCH compiler] Key - error in coveredBytecode compilation',
   expectCompilationResult,
   '',
   { keys: { privateKeys: { owner: privkey } } },

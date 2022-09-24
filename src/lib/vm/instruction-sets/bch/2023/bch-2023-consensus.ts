@@ -1,3 +1,8 @@
+import {
+  SigningSerializationTypeBCH,
+  SigningSerializationTypesBCH,
+} from '../../common/common.js';
+
 /**
  * Consensus settings for the `BCH_2023_05` instruction set.
  */
@@ -55,3 +60,11 @@ export enum ConsensusBCH2023 {
   schnorrSignatureLength = 64,
   maximumCommitmentLength = 40,
 }
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SigningSerializationTypesBCH2023 = [
+  ...SigningSerializationTypesBCH,
+  SigningSerializationTypeBCH.allOutputsAllUtxos,
+  SigningSerializationTypeBCH.correspondingOutputAllUtxos,
+  SigningSerializationTypeBCH.noOutputsAllUtxos,
+];

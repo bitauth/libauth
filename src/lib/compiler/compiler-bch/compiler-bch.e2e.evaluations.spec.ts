@@ -8,7 +8,7 @@ import type {
 import { expectCompilationResult } from './compiler-bch.e2e.spec.helper.js';
 
 test(
-  '[BCH compiler] evaluations – simple evaluation',
+  '[BCH compiler] evaluations - simple evaluation',
   expectCompilationResult,
   '$(<1> <2> OP_ADD)',
   {},
@@ -19,7 +19,7 @@ test(
 );
 
 test.only(
-  '[BCH compiler] evaluations – nested evaluations',
+  '[BCH compiler] evaluations - nested evaluations',
   expectCompilationResult,
   '$( $(<1> <2> OP_ADD) 0xaabbcc )',
   {},
@@ -30,7 +30,7 @@ test.only(
 );
 
 test(
-  '[BCH compiler] evaluations – empty results are erased',
+  '[BCH compiler] evaluations - empty results are erased',
   expectCompilationResult,
   '$( OP_0 )',
   {},
@@ -41,7 +41,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – error if evaluation completes with more than one stack item',
+  '[BCH compiler] evaluations - error if evaluation completes with more than one stack item',
   expectCompilationResult,
   '$( OP_1 OP_2 )',
   {},
@@ -64,7 +64,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – requires vm',
+  '[BCH compiler] evaluations - requires vm',
   expectCompilationResult,
   '$( OP_1 OP_2 )',
   {},
@@ -89,7 +89,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – requires createState',
+  '[BCH compiler] evaluations - requires createState',
   expectCompilationResult,
   '$( OP_1 OP_2 )',
   {},
@@ -114,7 +114,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – error if evaluation completes with no stack items',
+  '[BCH compiler] evaluations - error if evaluation completes with no stack items',
   expectCompilationResult,
   '$( OP_1 OP_2 OP_2DROP )',
   {},
@@ -137,7 +137,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – error if evaluation ends with an error',
+  '[BCH compiler] evaluations - error if evaluation ends with an error',
   expectCompilationResult,
   '$( OP_1 OP_RETURN )',
   {},
@@ -160,7 +160,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – error if nested evaluation begins with an error',
+  '[BCH compiler] evaluations - error if nested evaluation begins with an error',
   expectCompilationResult,
   '$( $( OP_RETURN ) )',
   {},
@@ -183,7 +183,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – nested error within first sample',
+  '[BCH compiler] evaluations - nested error within first sample',
   expectCompilationResult,
   '$( $( 0x6a0000 ) )',
   {},
@@ -206,7 +206,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – malformed first sample',
+  '[BCH compiler] evaluations - malformed first sample',
   expectCompilationResult,
   '$( $( 0x01 ) )',
   {},
@@ -229,7 +229,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – malformed later sample',
+  '[BCH compiler] evaluations - malformed later sample',
   expectCompilationResult,
   '$( $( OP_1 0x01 ) )',
   {},
@@ -252,7 +252,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – nested erasure',
+  '[BCH compiler] evaluations - nested erasure',
   expectCompilationResult,
   '$( < $( "" <""> ) $(OP_0) > )',
   {},
@@ -263,7 +263,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – ignore empty instruction aggregations',
+  '[BCH compiler] evaluations - ignore empty instruction aggregations',
   expectCompilationResult,
   '$( "" ""  OP_1 OP_2 "" OP_ADD )',
   {},
@@ -274,7 +274,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – error in the middle of an evaluation',
+  '[BCH compiler] evaluations - error in the middle of an evaluation',
   expectCompilationResult,
   '$( OP_1 OP_2 OP_ADD OP_DUP OP_RETURN OP_DROP )',
   {},
@@ -297,7 +297,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – evaluation with non-empty execution stack',
+  '[BCH compiler] evaluations - evaluation with non-empty execution stack',
   expectCompilationResult,
   '$( OP_1 OP_IF <"abc"> )',
   {},
@@ -320,7 +320,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – multiple evaluation errors',
+  '[BCH compiler] evaluations - multiple evaluation errors',
   expectCompilationResult,
   '$( $( OP_RETURN ) $( OP_RETURN ) OP_1 )',
   {},
@@ -353,7 +353,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations – push an evaluation with an error',
+  '[BCH compiler] evaluations - push an evaluation with an error',
   expectCompilationResult,
   '<$()>',
   {},

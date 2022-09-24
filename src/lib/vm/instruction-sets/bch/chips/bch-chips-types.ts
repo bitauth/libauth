@@ -75,7 +75,12 @@ export const cloneAuthenticationProgramStateBCHCHIPs = <
   lastCodeSeparator: state.lastCodeSeparator,
   program: cloneAuthenticationProgramCommon(state.program),
   repeatedBytes: state.repeatedBytes,
-  signedMessages: cloneStack(state.signedMessages),
+  signedMessages: state.signedMessages.map((item) => ({
+    digest: item.digest.slice(),
+    ...('serialization' in item
+      ? { serialization: item.serialization.slice() }
+      : { message: item.message.slice() }),
+  })),
   stack: cloneStack(state.stack),
 });
 

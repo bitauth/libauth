@@ -55,11 +55,7 @@ import {
   opCheckDataSig,
   opCheckDataSigVerify,
   opCheckLockTimeVerify,
-  opCheckMultiSig,
-  opCheckMultiSigVerify,
   opCheckSequenceVerify,
-  opCheckSig,
-  opCheckSigVerify,
   opCodeSeparator,
   opDepth,
   opDiv,
@@ -131,6 +127,13 @@ import {
   undefinedOperation,
 } from '../../common/common.js';
 
+import { ConsensusBCH2023 } from './bch-2023-consensus.js';
+import {
+  opCheckMultiSigBCH2023,
+  opCheckMultiSigVerifyBCH2023,
+  opCheckSigBCH2023,
+  opCheckSigVerifyBCH2023,
+} from './bch-2023-crypto.js';
 import { OpcodesBCH2023 } from './bch-2023-opcodes.js';
 import {
   opOutputTokenAmount,
@@ -141,7 +144,6 @@ import {
   opUtxoTokenCommitment,
   verifyTransactionTokens,
 } from './bch-2023-tokens.js';
-import { ConsensusBCH2023 } from './consensus.js';
 
 /**
  * create an instance of the BCH 2023 virtual machine instruction set.
@@ -493,16 +495,16 @@ export const createInstructionSetBCH2023 = (
           [OpcodesBCH2023.OP_CODESEPARATOR]:
             conditionallyEvaluate(opCodeSeparator),
           [OpcodesBCH2023.OP_CHECKSIG]: conditionallyEvaluate(
-            opCheckSig({ secp256k1, sha256 })
+            opCheckSigBCH2023({ secp256k1, sha256 })
           ),
           [OpcodesBCH2023.OP_CHECKSIGVERIFY]: conditionallyEvaluate(
-            opCheckSigVerify({ secp256k1, sha256 })
+            opCheckSigVerifyBCH2023({ secp256k1, sha256 })
           ),
           [OpcodesBCH2023.OP_CHECKMULTISIG]: conditionallyEvaluate(
-            opCheckMultiSig({ secp256k1, sha256 })
+            opCheckMultiSigBCH2023({ secp256k1, sha256 })
           ),
           [OpcodesBCH2023.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
-            opCheckMultiSigVerify({ secp256k1, sha256 })
+            opCheckMultiSigVerifyBCH2023({ secp256k1, sha256 })
           ),
           ...(standard
             ? {

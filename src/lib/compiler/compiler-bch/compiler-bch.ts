@@ -21,6 +21,7 @@ import {
   generateSigningSerializationBCH,
   OpcodesBCHCHIPs,
   SigningSerializationFlag,
+  SigningSerializationTypeBCH,
 } from '../../vm/vm.js';
 import {
   attemptCompilerOperations,
@@ -46,29 +47,63 @@ export type CompilerOperationsKeyBCH =
 
 export enum SigningSerializationAlgorithmIdentifier {
   /**
-   * A.K.A. `SIGHASH_ALL`
+   * A.K.A. `SIGHASH_ALL|SIGHASH_FORKID`
    */
   allOutputs = 'all_outputs',
   /**
-   * A.K.A. `SIGHASH_ALL|ANYONE_CAN_PAY`
+   * A.K.A. `SIGHASH_ALL|SIGHASH_UTXOS|SIGHASH_FORKID`
+   */
+  allOutputsAllUtxos = 'all_outputs_all_utxos',
+  /**
+   * A.K.A. `SIGHASH_ALL|SIGHASH_FORKID|ANYONECANPAY`
    */
   allOutputsSingleInput = 'all_outputs_single_input',
   /**
-   * A.K.A. `SIGHASH_SINGLE`
+   * A.K.A. `SIGHASH_ALL|SIGHASH_UTXOS|SIGHASH_FORKID|ANYONECANPAY`
+   */
+  allOutputsSingleInputInvalidAllUtxos = 'all_outputs_single_input_INVALID_all_utxos',
+  /**
+   * A.K.A. `SIGHASH_SINGLE|SIGHASH_FORKID`
    */
   correspondingOutput = 'corresponding_output',
   /**
-   * A.K.A. `SIGHASH_SINGLE|ANYONE_CAN_PAY`
+   * A.K.A. `SIGHASH_SINGLE|SIGHASH_UTXOS|SIGHASH_FORKID`
+   */
+  correspondingOutputAllUtxos = 'corresponding_output_all_utxos',
+  /**
+   * A.K.A. `SIGHASH_SINGLE|SIGHASH_FORKID|ANYONECANPAY`
    */
   correspondingOutputSingleInput = 'corresponding_output_single_input',
   /**
-   * A.K.A `SIGHASH_NONE`
+   * A.K.A. `SIGHASH_SINGLE|SIGHASH_UTXOS|SIGHASH_FORKID|ANYONECANPAY`
+   */
+  correspondingOutputSingleInputInvalidAllUtxos = 'corresponding_output_single_input_INVALID_all_utxos',
+  /**
+   * An alias for `all_outputs_all_utxos`
+   * (A.K.A. `SIGHASH_ALL|SIGHASH_UTXOS|SIGHASH_FORKID`),
+   * the most secure signing serialization algorithm.
+   *
+   * Note that as of 2022, `all_outputs` (A.K.A. `SIGHASH_ALL|SIGHASH_FORKID`)
+   * is more commonly used and is therefore a better choice for privacy in
+   * common, existing contract types.
+   */
+  default = 'default',
+  /**
+   * A.K.A `SIGHASH_NONE|SIGHASH_FORKID`
    */
   noOutputs = 'no_outputs',
   /**
-   * A.K.A `SIGHASH_NONE|ANYONE_CAN_PAY`
+   * A.K.A `SIGHASH_NONE|SIGHASH_UTXOS|SIGHASH_FORKID`
+   */
+  noOutputsAllUtxos = 'no_outputs_all_utxos',
+  /**
+   * A.K.A `SIGHASH_NONE|SIGHASH_FORKID|ANYONECANPAY`
    */
   noOutputsSingleInput = 'no_outputs_single_input',
+  /**
+   * A.K.A. `SIGHASH_NONE|SIGHASH_UTXOS|SIGHASH_FORKID|ANYONECANPAY`
+   */
+  noOutputsSingleInputInvalidAllUtxos = 'no_outputs_single_input_INVALID_all_utxos',
 }
 
 // eslint-disable-next-line complexity
@@ -78,40 +113,50 @@ const getSigningSerializationType = (
 ) => {
   switch (algorithmIdentifier) {
     case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputs}`:
-      return Uint8Array.of(
-        // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.allOutputs | SigningSerializationFlag.forkId
-      );
+      return Uint8Array.of(SigningSerializationTypeBCH.allOutputs);
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputsAllUtxos}`:
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.default}`:
+      return Uint8Array.of(SigningSerializationTypeBCH.allOutputsAllUtxos);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputsSingleInput}`:
+      return Uint8Array.of(SigningSerializationTypeBCH.allOutputsSingleInput);
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputsSingleInputInvalidAllUtxos}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.allOutputs |
           SigningSerializationFlag.singleInput |
+          SigningSerializationFlag.utxos |
           SigningSerializationFlag.forkId
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutput}`:
+      return Uint8Array.of(SigningSerializationTypeBCH.correspondingOutput);
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutputAllUtxos}`:
       return Uint8Array.of(
-        // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.correspondingOutput |
-          SigningSerializationFlag.forkId
+        SigningSerializationTypeBCH.correspondingOutputAllUtxos
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutputSingleInput}`:
+      return Uint8Array.of(
+        SigningSerializationTypeBCH.correspondingOutputSingleInput
+      );
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutputSingleInputInvalidAllUtxos}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.correspondingOutput |
           SigningSerializationFlag.singleInput |
+          SigningSerializationFlag.utxos |
           SigningSerializationFlag.forkId
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputs}`:
-      return Uint8Array.of(
-        // eslint-disable-next-line no-bitwise
-        SigningSerializationFlag.noOutputs | SigningSerializationFlag.forkId
-      );
+      return Uint8Array.of(SigningSerializationTypeBCH.noOutputs);
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputsAllUtxos}`:
+      return Uint8Array.of(SigningSerializationTypeBCH.noOutputsAllUtxos);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputsSingleInput}`:
+      return Uint8Array.of(SigningSerializationTypeBCH.noOutputsSingleInput);
+    case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputsSingleInputInvalidAllUtxos}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
         SigningSerializationFlag.noOutputs |
           SigningSerializationFlag.singleInput |
+          SigningSerializationFlag.utxos |
           SigningSerializationFlag.forkId
       );
     default:
@@ -145,7 +190,7 @@ export const compilerOperationHelperComputeSignatureBCH = ({
   )[];
   if (unknown !== undefined) {
     return {
-      error: `Unknown component in "${identifier}" – the fragment "${unknown}" is not recognized.`,
+      error: `Unknown component in "${identifier}" - the fragment "${unknown}" is not recognized.`,
       status: 'error',
     };
   }
@@ -355,7 +400,7 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
 
   if (unknown !== undefined) {
     return {
-      error: `Unknown component in "${identifier}" – the fragment "${unknown}" is not recognized.`,
+      error: `Unknown component in "${identifier}" - the fragment "${unknown}" is not recognized.`,
       status: 'error',
     };
   }
@@ -387,7 +432,7 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
   const digest = sha256.hash(result);
   return {
     bytecode: sign(privateKey, digest) as Uint8Array,
-    signature: { message: result },
+    signature: { digest, message: result },
     status: 'success',
   };
 };
@@ -527,7 +572,7 @@ export const compilerOperationSigningSerializationFullBCH =
 
       if (unknownPart !== undefined) {
         return {
-          error: `Unknown component in "${identifier}" – the fragment "${unknownPart}" is not recognized.`,
+          error: `Unknown component in "${identifier}" - the fragment "${unknownPart}" is not recognized.`,
           status: 'error',
         };
       }
@@ -591,12 +636,23 @@ export const compilerOperationsBCH = {
   signingSerialization: {
     ...compilerOperationsCommon.signingSerialization,
     full_all_outputs: compilerOperationSigningSerializationFullBCH,
+    full_all_outputs_all_utxos: compilerOperationSigningSerializationFullBCH,
     full_all_outputs_single_input: compilerOperationSigningSerializationFullBCH,
+    full_all_outputs_single_input_INVALID_all_utxos:
+      compilerOperationSigningSerializationFullBCH,
     full_corresponding_output: compilerOperationSigningSerializationFullBCH,
+    full_corresponding_output_all_utxos:
+      compilerOperationSigningSerializationFullBCH,
     full_corresponding_output_single_input:
       compilerOperationSigningSerializationFullBCH,
+    full_corresponding_output_single_input_INVALID_all_utxos:
+      compilerOperationSigningSerializationFullBCH,
+    full_default: compilerOperationSigningSerializationFullBCH,
     full_no_outputs: compilerOperationSigningSerializationFullBCH,
+    full_no_outputs_all_utxos: compilerOperationSigningSerializationFullBCH,
     full_no_outputs_single_input: compilerOperationSigningSerializationFullBCH,
+    full_no_outputs_single_input_INVALID_all_utxos:
+      compilerOperationSigningSerializationFullBCH,
   },
 };
 /* eslint-enable camelcase, @typescript-eslint/naming-convention */

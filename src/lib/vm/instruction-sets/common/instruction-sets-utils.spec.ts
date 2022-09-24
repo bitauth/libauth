@@ -44,14 +44,14 @@ test('Each Opcodes enum contains a single instruction for 0-255', (t) => {
 
 /**
  * `scriptHex` - the hex-encoded script prepended with `0x`
- * `asm` – the proper ASM result from disassembling the script
- * `parse` – an array representing the parsed authentication instructions:
- *  - element 0 – `opcode`
- *  - element 1 – `data`, hex-encoded (if present)
+ * `asm` - the proper ASM result from disassembling the script
+ * `parse` - an array representing the parsed authentication instructions:
+ *  - element 0 - `opcode`
+ *  - element 1 - `data`, hex-encoded (if present)
  *    - if the array is longer than this, `malformed` is `true`
- *  - element 2 – `expectedDataBytes`, (if present)
- *  - element 3 – `length`, hex-encoded (if present)
- *  - element 4 – `expectedLengthBytes`, hex-encoded (if present)
+ *  - element 2 - `expectedDataBytes`, (if present)
+ *  - element 3 - `length`, hex-encoded (if present)
+ *  - element 4 - `expectedLengthBytes`, hex-encoded (if present)
  */
 type CommonScriptParseAndAsmTests = Readonly<{
   [scriptHex: string]: {

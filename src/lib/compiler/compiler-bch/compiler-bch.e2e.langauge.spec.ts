@@ -9,7 +9,7 @@ import { hexToBin } from '../../lib.js';
 import { expectCompilationResult } from './compiler-bch.e2e.spec.helper.js';
 
 test(
-  '[BCH compiler] language – empty script',
+  '[BCH compiler] language - empty script',
   expectCompilationResult,
   '',
   {},
@@ -17,7 +17,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – compile BigIntLiterals to VM numbers',
+  '[BCH compiler] language - compile BigIntLiterals to VM numbers',
   expectCompilationResult,
   '42 -42 2_147_483_647 -2_147_483_647',
   {},
@@ -25,7 +25,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – compile BinaryLiterals to VM numbers',
+  '[BCH compiler] language - compile BinaryLiterals to VM numbers',
   expectCompilationResult,
   '0b1 0b1111_1111 0b111 0b1111_1111__1111_1111__1111_1111__1111_1111____1111_1111__1111_1111__1111_1111__1111_1111_1',
   {},
@@ -33,7 +33,7 @@ test(
 );
 
 test(
-  "[BCH compiler] language – compile UTF8Literal (')",
+  "[BCH compiler] language - compile UTF8Literal (')",
   expectCompilationResult,
   "'abc\"`👍'",
   {},
@@ -41,7 +41,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – compile UTF8Literal (")',
+  '[BCH compiler] language - compile UTF8Literal (")',
   expectCompilationResult,
   '"abc\'`👍"',
   {},
@@ -49,7 +49,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – compile HexLiteral',
+  '[BCH compiler] language - compile HexLiteral',
   expectCompilationResult,
   '0xdead__beef',
   {},
@@ -57,7 +57,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – compile opcodes',
+  '[BCH compiler] language - compile opcodes',
   expectCompilationResult,
   'OP_0 OP_1 OP_ADD',
   {},
@@ -65,7 +65,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – comments',
+  '[BCH compiler] language - comments',
   expectCompilationResult,
   `// a comment
   0xab
@@ -82,7 +82,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – empty push (push an empty byte array, i.e. OP_0)',
+  '[BCH compiler] language - empty push (push an empty byte array, i.e. OP_0)',
   expectCompilationResult,
   '<>',
   {},
@@ -90,7 +90,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – minimize BigIntLiteral pushes',
+  '[BCH compiler] language - minimize BigIntLiteral pushes',
   expectCompilationResult,
   '< -1 > <0> <1> <2> <3> <4> <5> <6> <7> <8> <9> <10> <11> <12> <13> <14> <15> <16> <17>',
   {},
@@ -101,7 +101,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – minimize HexLiteral pushes',
+  '[BCH compiler] language - minimize HexLiteral pushes',
   expectCompilationResult,
   '<0x81> <> <0x01> <0x02> <0x03> <0x04> <0x05> <0x06> <0x07> <0x08> <0x09> <0x0a> <0x0b> <0x0c> <0x0d> <0x0e> <0x0f> <0x10> <0x11>',
   {},
@@ -112,7 +112,7 @@ test(
 );
 
 test(
-  "[BCH compiler] language – don't minimize <0x00>",
+  "[BCH compiler] language - don't minimize <0x00>",
   expectCompilationResult,
   '<0x00>',
   {},
@@ -123,7 +123,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – push UTF8Literal',
+  '[BCH compiler] language - push UTF8Literal',
   expectCompilationResult,
   '<"abc">',
   {},
@@ -134,7 +134,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – push opcodes',
+  '[BCH compiler] language - push opcodes',
   expectCompilationResult,
   '<OP_0> <OP_1> <OP_2>',
   {},
@@ -145,7 +145,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – nested pushes (center minimized to OP_1)',
+  '[BCH compiler] language - nested pushes (center minimized to OP_1)',
   expectCompilationResult,
   '<<<<1>>>>',
   {},
@@ -156,7 +156,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – complex script',
+  '[BCH compiler] language - complex script',
   expectCompilationResult,
   `
 // there are plenty of ways to push 0/call OP_0
@@ -176,7 +176,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – compiles internal scripts',
+  '[BCH compiler] language - compiles internal scripts',
   expectCompilationResult,
   '',
   {},
@@ -196,7 +196,7 @@ test(
 );
 
 test(
-  '[BCH compiler] language – error on cyclical compilations',
+  '[BCH compiler] language - error on cyclical compilations',
   expectCompilationResult,
   '',
   {},

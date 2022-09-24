@@ -50,7 +50,7 @@ import vmbTestsBCH2022StandardJson from './generated/bch/bch_vmb_tests_2022_stan
  */
 const debug = undefined as DebugInfo;
 /* spell-checker:disable-next-line */
-// const debug = { testId: 'kprq7', vmName: 'bch_2023_standard' } as DebugInfo;
+// const debug = { testId: 'mn8qr', vmName: 'bch_2022_standard' } as DebugInfo;
 
 type VmName =
   | 'bch_2022_nonstandard'
@@ -200,14 +200,14 @@ const testVm = ({
         }
         logDebugInfo();
         t.fail(
-          `VMB test "${shortId}" – "${description}" – for ${vmName} is expected to succeed but failed. Error: ${result}`
+          `VMB test "${shortId}" - "${description}" - for ${vmName} is expected to succeed but failed. Error: ${result}`
         );
         return;
       }
       if (!expectedToSucceed && typeof result !== 'string') {
         logDebugInfo();
         t.fail(
-          `VMB test "${shortId}" – "${description}" – for ${vmName} is expected to fail but succeeded.`
+          `VMB test "${shortId}" - "${description}" - for ${vmName} is expected to fail but succeeded.`
         );
         return;
       }

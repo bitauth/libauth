@@ -25,6 +25,7 @@ import { bigIntToBinUint64LE, binToHex, cashAssemblyToBin, hashTransactionUiOrde
 import { slot0Scenario, slot2Scenario, slot9Scenario } from './bch-vmb-test-mixins.js';
 import { vmbTestGroupToVmbTests } from './bch-vmb-test-utils.js';
 import { cashTokenTestDefinitionsBCH } from './bch-vmb-tests.cashtokens.js';
+import { signingSerializationTestDefinitionsBCH } from './bch-vmb-tests.signing-serialization.js';
 
 /**
  * The source data structure used to generate the Libauth BCH VMB test
@@ -853,6 +854,7 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
     ],
   ],
   cashTokenTestDefinitionsBCH,
+  signingSerializationTestDefinitionsBCH,
   [
     'CHIP-2021-05-loops',
     [

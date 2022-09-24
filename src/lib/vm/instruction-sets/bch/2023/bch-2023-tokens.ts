@@ -15,7 +15,7 @@ import {
   useTransactionUtxo,
 } from '../../common/common.js';
 
-import { ConsensusBCH2023 } from './consensus.js';
+import { ConsensusBCH2023 } from './bch-2023-consensus.js';
 
 /**
  * Given a list of transaction inputs, extract a hex-encoded list of all

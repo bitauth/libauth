@@ -37,6 +37,7 @@ import {
   useThreeStackItems,
   useTwoStackItems,
 } from '../../common/common.js';
+import { SigningSerializationTypesBCH2023 } from '../2023/bch-2023.js';
 
 import { AuthenticationErrorBCHCHIPs } from './bch-chips-errors.js';
 import type { AuthenticationProgramStateBCHCHIPs } from './bch-chips-types.js';
@@ -207,7 +208,12 @@ export const opCheckSigChipLimits =
           AuthenticationErrorCommon.invalidPublicKeyEncoding
         );
       }
-      if (!isValidSignatureEncodingBCHTransaction(bitcoinEncodedSignature)) {
+      if (
+        !isValidSignatureEncodingBCHTransaction(
+          bitcoinEncodedSignature,
+          SigningSerializationTypesBCH2023
+        )
+      ) {
         return applyError(
           state,
           AuthenticationErrorCommon.invalidSignatureEncoding,
@@ -242,7 +248,7 @@ export const opCheckSigChipLimits =
       const digest = hash256(serialization, sha256);
 
       // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
-      state.signedMessages.push(serialization);
+      state.signedMessages.push({ digest, serialization });
 
       const useSchnorr =
         signature.length === ConsensusCommon.schnorrSignatureLength;
@@ -359,7 +365,8 @@ export const opCheckMultiSigChipLimits =
 
                 if (
                   !isValidSignatureEncodingBCHTransaction(
-                    bitcoinEncodedSignature
+                    bitcoinEncodedSignature,
+                    SigningSerializationTypesBCH2023
                   )
                 ) {
                   return applyError(
@@ -395,7 +402,7 @@ export const opCheckMultiSigChipLimits =
                 const digest = hash256(serialization, sha256);
 
                 // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
-                finalState.signedMessages.push(serialization);
+                finalState.signedMessages.push({ digest, serialization });
 
                 if (
                   signature.length === ConsensusCommon.schnorrSignatureLength
@@ -521,7 +528,7 @@ export const opCheckDataSigChipLimits =
       const digest = sha256.hash(message);
 
       // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
-      nextState.signedMessages.push(message);
+      nextState.signedMessages.push({ digest, message });
 
       const useSchnorr =
         signature.length === ConsensusCommon.schnorrSignatureLength;

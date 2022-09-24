@@ -104,7 +104,7 @@ export const expectCompilationResult = test.macro<
     return t.deepEqual(
       resultUnlock,
       expectedResult,
-      `– \nResult: ${stringifyTestVector(
+      `- \nResult: ${stringifyTestVector(
         resultUnlock
       )}\n\nExpected:\n ${stringifyTestVector(expectedResult)}\n`
     );

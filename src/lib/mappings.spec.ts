@@ -64,6 +64,8 @@ import {
   Opcodes,
   OpcodesBCH,
   OpcodesBCH2023,
+  SigningSerializationType,
+  SigningSerializationTypeBCH,
 } from './lib.js';
 
 type TypeTests =
@@ -112,4 +114,5 @@ test('Libauth exposes all expected mappings', (t) => {
   t.deepEqual(OpcodeDescriptionsBCH, OpcodeDescriptions);
   t.deepEqual(OpcodesBCH2023, OpcodesBCH);
   t.deepEqual(Opcodes, OpcodesBCH);
+  t.deepEqual(SigningSerializationType, SigningSerializationTypeBCH);
 });

@@ -1,5 +1,4 @@
 import { ConsensusCommon } from './consensus.js';
-import { isDefinedSigningSerializationType } from './signing-serialization.js';
 
 const enum ASN1 {
   sequenceTagType = 0x30,
@@ -133,16 +132,19 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
  * @param transactionSignature - the full transaction signature
  */
 export const isValidSignatureEncodingBCHTransaction = (
-  transactionSignature: Uint8Array
+  transactionSignature: Uint8Array,
+  validSigningSerializationTypes: number[]
 ) =>
   transactionSignature.length === 0 ||
-  transactionSignature.length === ConsensusCommon.schnorrSignatureLength + 1 ||
-  (isDefinedSigningSerializationType(
-    transactionSignature[transactionSignature.length - 1]
+  (validSigningSerializationTypes.includes(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    transactionSignature[transactionSignature.length - 1]!
   ) &&
-    isValidSignatureEncodingDER(
-      transactionSignature.slice(0, transactionSignature.length - 1)
-    ));
+    (transactionSignature.length ===
+      ConsensusCommon.schnorrSignatureLength + 1 ||
+      isValidSignatureEncodingDER(
+        transactionSignature.slice(0, transactionSignature.length - 1)
+      )));
 
 /**
  * Split a bitcoin-encoded signature into a signature and signing serialization

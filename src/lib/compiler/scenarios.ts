@@ -594,7 +594,7 @@ export const compileAuthenticationTemplateScenarioBytecode = <
    * The script ID to compile. If `undefined`, we are attempting to "copy" the
    * script ID in a scenario generation that does not define a locking or
    * unlocking script under test (e.g. the scenario is only used for debugging
-   * values in an editor) – in these cases, simply return an empty `Uint8Array`.
+   * values in an editor) - in these cases, simply return an empty `Uint8Array`.
    */
   if (scriptId === undefined) {
     return hexToBin('');
@@ -757,14 +757,14 @@ export const generateScenarioBCH = <
     extendedScenario.transaction.inputs.length !==
     extendedScenario.sourceOutputs.length
   ) {
-    return `Cannot generate ${scenarioName}: could not match source outputs with inputs – "sourceOutputs" must be the same length as "transaction.inputs".`;
+    return `Cannot generate ${scenarioName}: could not match source outputs with inputs - "sourceOutputs" must be the same length as "transaction.inputs".`;
   }
 
   const testedInputs = extendedScenario.transaction.inputs.filter((input) =>
     Array.isArray(input.unlockingBytecode)
   );
   if (testedInputs.length !== 1) {
-    return `Cannot generate ${scenarioName}: the specific input under test in this scenario is ambiguous – "transaction.inputs" must include exactly one input that has "unlockingBytecode" set to ["slot"].`;
+    return `Cannot generate ${scenarioName}: the specific input under test in this scenario is ambiguous - "transaction.inputs" must include exactly one input that has "unlockingBytecode" set to ["slot"].`;
   }
   const testedInputIndex = extendedScenario.transaction.inputs.findIndex(
     (input) => Array.isArray(input.unlockingBytecode)
@@ -774,7 +774,7 @@ export const generateScenarioBCH = <
     Array.isArray(output.lockingBytecode)
   );
   if (testedSourceOutputs.length !== 1) {
-    return `Cannot generate ${scenarioName}: the source output unlocked by the input under test in this scenario is ambiguous – "sourceOutputs" must include exactly one output that has "lockingBytecode" set to ["slot"].`;
+    return `Cannot generate ${scenarioName}: the source output unlocked by the input under test in this scenario is ambiguous - "sourceOutputs" must include exactly one output that has "lockingBytecode" set to ["slot"].`;
   }
 
   if (
@@ -782,7 +782,7 @@ export const generateScenarioBCH = <
       extendedScenario.sourceOutputs[testedInputIndex]?.lockingBytecode
     )
   ) {
-    return `Cannot generate ${scenarioName}: the source output unlocked by the input under test in this scenario is ambiguous – the ["slot"] in "transaction.inputs" and "sourceOutputs" must be at the same index.`;
+    return `Cannot generate ${scenarioName}: the source output unlocked by the input under test in this scenario is ambiguous - the ["slot"] in "transaction.inputs" and "sourceOutputs" must be at the same index.`;
   }
 
   if (

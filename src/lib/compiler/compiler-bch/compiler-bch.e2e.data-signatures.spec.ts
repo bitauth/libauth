@@ -13,7 +13,7 @@ import {
 } from './compiler-bch.e2e.spec.helper.js';
 
 test(
-  '[BCH compiler] data signatures – use a private key',
+  '[BCH compiler] data signatures - use a private key',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -27,7 +27,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – use a provided signature',
+  '[BCH compiler] data signatures - use a provided signature',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   {
@@ -47,7 +47,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – require a script ID',
+  '[BCH compiler] data signatures - require a script ID',
   expectCompilationResult,
   '<owner.data_signature>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -71,7 +71,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – error on unknown script ID',
+  '[BCH compiler] data signatures - error on unknown script ID',
   expectCompilationResult,
   '<owner.data_signature.wrong>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -95,7 +95,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – error on script ID of broken script',
+  '[BCH compiler] data signatures - error on script ID of broken script',
   expectCompilationResult,
   '<owner.data_signature.broken>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -119,7 +119,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – no private keys',
+  '[BCH compiler] data signatures - no private keys',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   { keys: {} },
@@ -145,7 +145,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – necessary private key not provided',
+  '[BCH compiler] data signatures - necessary private key not provided',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   { keys: { privateKeys: { wrong: privkey } } },
@@ -154,7 +154,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.data_signature.another" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.data_signature.another" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 30,
           endLineNumber: 1,
@@ -170,7 +170,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – no secp256k1',
+  '[BCH compiler] data signatures - no secp256k1',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -179,7 +179,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.data_signature.another" – the "secp256k1" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.data_signature.another" - the "secp256k1" property was not provided in the compiler configuration.',
         range: {
           endColumn: 30,
           endLineNumber: 1,
@@ -195,7 +195,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – no sha256',
+  '[BCH compiler] data signatures - no sha256',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -204,7 +204,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "owner.data_signature.another" – the "sha256" property was not provided in the compiler configuration.',
+          'Cannot resolve "owner.data_signature.another" - the "sha256" property was not provided in the compiler configuration.',
         range: {
           endColumn: 30,
           endLineNumber: 1,
@@ -220,7 +220,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – unrecognized identifier fragment',
+  '[BCH compiler] data signatures - unrecognized identifier fragment',
   expectCompilationResult,
   '<owner.data_signature.some.future_operation.with_more_levels>',
   { keys: { privateKeys: { owner: privkey } } },
@@ -229,7 +229,7 @@ test(
     errors: [
       {
         error:
-          'Unknown component in "owner.data_signature.some.future_operation.with_more_levels" – the fragment "future_operation" is not recognized.',
+          'Unknown component in "owner.data_signature.some.future_operation.with_more_levels" - the fragment "future_operation" is not recognized.',
         range: {
           endColumn: 61,
           endLineNumber: 1,
@@ -244,7 +244,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – use an HD private key',
+  '[BCH compiler] data signatures - use an HD private key',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   {
@@ -260,7 +260,7 @@ test(
 );
 
 test(
-  '[BCH compiler] data signatures – HD private key derivation error',
+  '[BCH compiler] data signatures - HD private key derivation error',
   expectCompilationResult,
   '<owner.data_signature.another> <another>',
   { hdKeys: { addressIndex: 0, hdPrivateKeys: { ownerEntityId: 'xBad' } } },
@@ -269,7 +269,7 @@ test(
     errors: [
       {
         error:
-          'Could not generate owner.data_signature.another – the HD private key provided for ownerEntityId could not be decoded: HD key decoding error: length is incorrect (must encode 82 bytes).',
+          'Could not generate owner.data_signature.another - the HD private key provided for ownerEntityId could not be decoded: HD key decoding error: length is incorrect (must encode 82 bytes).',
         range: {
           endColumn: 30,
           endLineNumber: 1,

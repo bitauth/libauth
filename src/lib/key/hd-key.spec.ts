@@ -628,7 +628,7 @@ const bip32Vector = test.macro<[string, string, string, string]>({
     });
     t.deepEqual(vectorXpub, hdPublicKey);
   },
-  title: (title, _, path) => `[crypto] BIP32 Vector – ${title ?? ''}: ${path}`,
+  title: (title, _, path) => `[crypto] BIP32 Vector - ${title ?? ''}: ${path}`,
 });
 
 test(

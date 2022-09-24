@@ -95,6 +95,10 @@ export interface CompilerOperationSuccessDataSignature
   extends CompilerOperationSuccessGeneric {
   signature: {
     /**
+     * The digest of the raw message signed by a data signature.
+     */
+    digest: Uint8Array;
+    /**
      * The raw message signed by a data signature. This message is hashed once
      * with `sha256`, and the digest is signed.
      */
@@ -154,10 +158,17 @@ export type CompilerOperationsKeysCommon = 'public_key' | 'signature';
  * signed.
  */
 export type CompilerOperationsSigningSerializationFull =
+  | 'full_all_outputs_all_utxos'
+  | 'full_all_outputs_single_input_INVALID_all_utxos'
   | 'full_all_outputs_single_input'
   | 'full_all_outputs'
+  | 'full_corresponding_output_all_utxos'
+  | 'full_corresponding_output_single_input_INVALID_all_utxos'
   | 'full_corresponding_output_single_input'
   | 'full_corresponding_output'
+  | 'full_default'
+  | 'full_no_outputs_all_utxos'
+  | 'full_no_outputs_single_input_INVALID_all_utxos'
   | 'full_no_outputs_single_input'
   | 'full_no_outputs';
 
@@ -628,7 +639,7 @@ export interface Scenario {
  *
  * Note, scenarios can also include compilations for source outputs, inputs, and
  * outputs that are not under test – while debugging information is not
- * provided for these other compilations, and errors will result in `scenario`
+ * provided for these other compilations, any errors will result in `scenario`
  * being set to an error message (`string`).
  */
 export interface ScenarioGenerationDebuggingResult<ProgramState> {

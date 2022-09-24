@@ -9,7 +9,7 @@ import { hexToBin } from '../../lib.js';
 import { expectCompilationResult } from './compiler-bch.e2e.spec.helper.js';
 
 test(
-  '[BCH compiler] variables – AddressData',
+  '[BCH compiler] variables - AddressData',
   expectCompilationResult,
   '<data>',
   {
@@ -28,7 +28,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – multiple AddressData',
+  '[BCH compiler] variables - multiple AddressData',
   expectCompilationResult,
   '<one> <two>',
   {
@@ -51,7 +51,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing AddressData',
+  '[BCH compiler] variables - missing AddressData',
   expectCompilationResult,
   '<one> <two>',
   {},
@@ -60,7 +60,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "one" – the "bytecode" property was not provided in the compilation data.',
+          'Cannot resolve "one" - the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -70,7 +70,7 @@ test(
       },
       {
         error:
-          'Cannot resolve "two" – the "bytecode" property was not provided in the compilation data.',
+          'Cannot resolve "two" - the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -88,7 +88,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – incomplete bytecode',
+  '[BCH compiler] variables - incomplete bytecode',
   expectCompilationResult,
   '<one> <two>',
   {
@@ -131,7 +131,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – WalletData',
+  '[BCH compiler] variables - WalletData',
   expectCompilationResult,
   '<data>',
   {
@@ -150,7 +150,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – multiple WalletData',
+  '[BCH compiler] variables - multiple WalletData',
   expectCompilationResult,
   '<one> <two>',
   {
@@ -173,7 +173,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing WalletData',
+  '[BCH compiler] variables - missing WalletData',
   expectCompilationResult,
   '<one> <two>',
   {},
@@ -182,7 +182,7 @@ test(
     errors: [
       {
         error:
-          'Cannot resolve "one" – the "bytecode" property was not provided in the compilation data.',
+          'Cannot resolve "one" - the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 5,
           endLineNumber: 1,
@@ -192,7 +192,7 @@ test(
       },
       {
         error:
-          'Cannot resolve "two" – the "bytecode" property was not provided in the compilation data.',
+          'Cannot resolve "two" - the "bytecode" property was not provided in the compilation data.',
         range: {
           endColumn: 11,
           endLineNumber: 1,
@@ -210,7 +210,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – incomplete WalletData',
+  '[BCH compiler] variables - incomplete WalletData',
   expectCompilationResult,
   '<one> <two>',
   {
@@ -253,7 +253,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing operation: currentBlockHeight',
+  '[BCH compiler] variables - missing operation: currentBlockHeight',
   expectCompilationResult,
   '<current_block_height>',
   {},
@@ -278,7 +278,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing operation: currentBlockTime',
+  '[BCH compiler] variables - missing operation: currentBlockTime',
   expectCompilationResult,
   '<current_block_time>',
   {},
@@ -303,7 +303,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing operation: signingSerialization',
+  '[BCH compiler] variables - missing operation: signingSerialization',
   expectCompilationResult,
   '<signing_serialization.version>',
   {},
@@ -328,7 +328,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing operation: addressData',
+  '[BCH compiler] variables - missing operation: addressData',
   expectCompilationResult,
   '<a>',
   {},
@@ -355,7 +355,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing operation: hdKey',
+  '[BCH compiler] variables - missing operation: hdKey',
   expectCompilationResult,
   '<a>',
   {},
@@ -382,7 +382,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing operation: key',
+  '[BCH compiler] variables - missing operation: key',
   expectCompilationResult,
   '<a>',
   {},
@@ -409,7 +409,7 @@ test(
 );
 
 test(
-  '[BCH compiler] variables – missing operation: walletData',
+  '[BCH compiler] variables - missing operation: walletData',
   expectCompilationResult,
   '<a>',
   {},

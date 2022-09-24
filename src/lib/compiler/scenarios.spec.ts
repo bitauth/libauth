@@ -465,7 +465,7 @@ export const expectScenarioGenerationResult = test.macro<
     t.deepEqual(
       scenario,
       expectedResult,
-      `– \nResult: ${stringifyTestVector(
+      `- \nResult: ${stringifyTestVector(
         scenario
       )}\n\nExpected:\n ${stringifyTestVector(expectedResult)}\n`
     );
@@ -732,7 +732,7 @@ test(
       a: { transaction: { inputs: [{}, {}] } },
     },
   },
-  'Cannot generate scenario "a": could not match source outputs with inputs – "sourceOutputs" must be the same length as "transaction.inputs".'
+  'Cannot generate scenario "a": could not match source outputs with inputs - "sourceOutputs" must be the same length as "transaction.inputs".'
 );
 
 test(
@@ -747,7 +747,7 @@ test(
       },
     },
   },
-  'Cannot generate scenario "a": Failed compilation of source output at index 0: Cannot resolve "var1" – the "bytecode" property was not provided in the compilation data. Failed compilation of transaction output at index 0: No script with an ID of "unknown" was provided in the compiler configuration.'
+  'Cannot generate scenario "a": Failed compilation of source output at index 0: Cannot resolve "var1" - the "bytecode" property was not provided in the compilation data. Failed compilation of transaction output at index 0: No script with an ID of "unknown" was provided in the compiler configuration.'
 );
 
 test(
@@ -1021,7 +1021,7 @@ test.failing(
   'Cannot generate scenario "a": Cannot generate locking bytecode for output 0: Compilation error while generating bytecode for "var1": [1, 1] Unknown identifier "broken".'
 );
 
-test.failing('generateScenario: cash-channels – after_payment_time', (t) => {
+test.failing('generateScenario: cash-channels - after_payment_time', (t) => {
   const template = importAuthenticationTemplate(cashChannelsJson);
   if (typeof template === 'string') {
     t.fail(template);

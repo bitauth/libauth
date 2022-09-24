@@ -102,7 +102,12 @@ export const cloneAuthenticationProgramStateCommon = <
   operationCount: state.operationCount,
   program: cloneAuthenticationProgramCommon(state.program),
   signatureOperationsCount: state.signatureOperationsCount,
-  signedMessages: cloneStack(state.signedMessages),
+  signedMessages: state.signedMessages.map((item) => ({
+    digest: item.digest.slice(),
+    ...('serialization' in item
+      ? { serialization: item.serialization.slice() }
+      : { message: item.message.slice() }),
+  })),
   stack: cloneStack(state.stack),
 });
 

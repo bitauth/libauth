@@ -7,6 +7,7 @@ import {
 } from '../../../format/format.js';
 import type { CompilationContextBCH, Sha256 } from '../../../lib';
 import {
+  encodeTokenPrefix,
   encodeTransactionInputSequenceNumbersForSigning,
   encodeTransactionOutpoints,
   encodeTransactionOutput,
@@ -29,29 +30,53 @@ export enum SigningSerializationFlag {
    * A.K.A. `SIGHASH_SINGLE`
    */
   correspondingOutput = 0x03,
+  /**
+   * A.K.A. `SIGHASH_UTXOS`
+   */
+  utxos = 0x20,
   forkId = 0x40,
   /**
-   * A.K.A `ANYONE_CAN_PAY`
+   * A.K.A `ANYONE_CAN_PAY`/`SIGHASH_ANYONECANPAY`
    */
   singleInput = 0x80,
 }
+
+/* eslint-disable no-bitwise, @typescript-eslint/prefer-literal-enum-member */
+export enum SigningSerializationType {
+  allOutputs = SigningSerializationFlag.allOutputs |
+    SigningSerializationFlag.forkId,
+  allOutputsAllUtxos = SigningSerializationFlag.allOutputs |
+    SigningSerializationFlag.utxos |
+    SigningSerializationFlag.forkId,
+  allOutputsSingleInput = SigningSerializationFlag.allOutputs |
+    SigningSerializationFlag.singleInput |
+    SigningSerializationFlag.forkId,
+  correspondingOutput = SigningSerializationFlag.correspondingOutput |
+    SigningSerializationFlag.forkId,
+  correspondingOutputAllUtxos = SigningSerializationFlag.correspondingOutput |
+    SigningSerializationFlag.utxos |
+    SigningSerializationFlag.forkId,
+  correspondingOutputSingleInput = SigningSerializationFlag.correspondingOutput |
+    SigningSerializationFlag.singleInput |
+    SigningSerializationFlag.forkId,
+  noOutputs = SigningSerializationFlag.noOutputs |
+    SigningSerializationFlag.forkId,
+  noOutputsAllUtxos = SigningSerializationFlag.noOutputs |
+    SigningSerializationFlag.utxos |
+    SigningSerializationFlag.forkId,
+  noOutputsSingleInput = SigningSerializationFlag.noOutputs |
+    SigningSerializationFlag.singleInput |
+    SigningSerializationFlag.forkId,
+}
+/* eslint-enable no-bitwise, @typescript-eslint/prefer-literal-enum-member */
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SigningSerializationTypeBCH = SigningSerializationType;
 
 const enum Internal {
   mask5Bits = 0b11111,
   sha256HashByteLength = 32,
 }
-
-export const isDefinedSigningSerializationType = (byte: number | undefined) => {
-  const baseType =
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
-    byte! &
-    // eslint-disable-next-line no-bitwise
-    ~(SigningSerializationFlag.forkId | SigningSerializationFlag.singleInput);
-  return (
-    baseType >= SigningSerializationFlag.allOutputs &&
-    baseType <= SigningSerializationFlag.correspondingOutput
-  );
-};
 
 const match = (type: Uint8Array, flag: SigningSerializationFlag) =>
   // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
@@ -72,6 +97,9 @@ const shouldSerializeCorrespondingOutput = (type: Uint8Array) =>
 const shouldSerializeNoOutputs = (type: Uint8Array) =>
   equals(type, SigningSerializationFlag.noOutputs);
 
+const shouldSerializeUtxos = (type: Uint8Array) =>
+  match(type, SigningSerializationFlag.utxos);
+
 const emptyHash = () => new Uint8Array(Internal.sha256HashByteLength).fill(0);
 
 /**
@@ -88,7 +116,7 @@ export const hashPrevouts = (
      */
     signingSerializationType: Uint8Array;
     /**
-     * See {@link generateSigningSerializationBCH}
+     * See {@link generateSigningSerializationComponentsBCH}
      */
     transactionOutpoints: Uint8Array;
   },
@@ -97,6 +125,30 @@ export const hashPrevouts = (
   shouldSerializeSingleInput(signingSerializationType)
     ? emptyHash()
     : hash256(transactionOutpoints, sha256);
+
+/**
+ * Return the proper `hashUtxos` value for a given a signing serialization
+ * type.
+ */
+export const hashUtxos = (
+  {
+    signingSerializationType,
+    transactionUtxos,
+  }: {
+    /**
+     * The signing serialization type to test
+     */
+    signingSerializationType: Uint8Array;
+    /**
+     * See {@link generateSigningSerializationComponentsBCH}
+     */
+    transactionUtxos: Uint8Array;
+  },
+  sha256: { hash: Sha256['hash'] } = internalSha256
+) =>
+  shouldSerializeUtxos(signingSerializationType)
+    ? hash256(transactionUtxos, sha256)
+    : Uint8Array.of();
 
 /**
  * Return the proper `hashSequence` value for a given a signing serialization
@@ -112,7 +164,7 @@ export const hashSequence = (
      */
     signingSerializationType: Uint8Array;
     /**
-     * See {@link generateSigningSerializationBCH}
+     * See {@link generateSigningSerializationComponentsBCH}
      */
     transactionSequenceNumbers: Uint8Array;
   },
@@ -139,11 +191,11 @@ export const hashOutputs = (
      */
     signingSerializationType: Uint8Array;
     /**
-     * See {@link generateSigningSerializationBCH}
+     * See {@link generateSigningSerializationComponentsBCH}
      */
     transactionOutputs: Uint8Array;
     /**
-     * See {@link generateSigningSerializationBCH}
+     * See {@link generateSigningSerializationComponentsBCH}
      */
     correspondingOutput: Uint8Array | undefined;
   },
@@ -174,12 +226,14 @@ export const encodeSigningSerializationBCH = (
     locktime,
     outpointIndex,
     outpointTransactionHash,
+    outputTokenPrefix,
     outputValue,
     sequenceNumber,
     signingSerializationType,
     transactionOutpoints,
     transactionOutputs,
     transactionSequenceNumbers,
+    transactionUtxos,
     version,
   }: {
     /**
@@ -211,6 +265,13 @@ export const encodeSigningSerializationBCH = (
      */
     coveredBytecode: Uint8Array;
     /**
+     * The encoded token prefix of the output being spent
+     * (see {@link encodeTokenPrefix}).
+     *
+     * If the output includes no tokens, a zero-length Uint8Array.
+     */
+    outputTokenPrefix: Uint8Array;
+    /**
      * The 8-byte `Uint64LE`-encoded value of the outpoint in satoshis (see
      * {@link bigIntToBinUint64LE}).
      */
@@ -230,6 +291,11 @@ export const encodeSigningSerializationBCH = (
      * {@link hashOutputs} with `SIGHASH_ALL`) – only used if `ALL` is set.
      */
     transactionOutputs: Uint8Array;
+    /**
+     * The signing serialization of all UTXOs spent by the transaction's inputs
+     * (concatenated in input order).
+     */
+    transactionUtxos: Uint8Array;
     /**
      * The locktime of the transaction.
      */
@@ -251,6 +317,7 @@ export const encodeSigningSerializationBCH = (
   flattenBinArray([
     numberToBinUint32LE(version),
     hashPrevouts({ signingSerializationType, transactionOutpoints }, sha256),
+    hashUtxos({ signingSerializationType, transactionUtxos }, sha256),
     hashSequence(
       {
         signingSerializationType,
@@ -260,6 +327,7 @@ export const encodeSigningSerializationBCH = (
     ),
     outpointTransactionHash.slice().reverse(),
     numberToBinUint32LE(outpointIndex),
+    outputTokenPrefix,
     bigIntToCompactSize(BigInt(coveredBytecode.length)),
     coveredBytecode,
     outputValue,
@@ -309,6 +377,16 @@ export interface SigningSerializationTransactionComponentsBCH {
    * Bitcoin Cash's Replay Protected Sighash spec for details.)
    */
   readonly transactionSequenceNumbers: Uint8Array;
+  /**
+   * A.K.A. the serialization for {@link hashUtxos}
+   *
+   * The signing serialization of all UTXOs spent by the transaction's inputs
+   * (concatenated in input order).
+   */
+  readonly transactionUtxos: Uint8Array;
+  /**
+   * The transaction's version.
+   */
   readonly version: number;
 }
 
@@ -337,10 +415,17 @@ export interface SigningSerializationComponentsBCH
    */
   readonly outpointTransactionHash: Uint8Array;
   /**
-   * The 8-byte `Uint64LE`-encoded value of the outpoint in satoshis (see
-   * {@link bigIntToBinUint64LE}).
+   * The 8-byte `Uint64LE`-encoded value of the output being spent in satoshis
+   * (see {@link bigIntToBinUint64LE}).
    */
   readonly outputValue: Uint8Array;
+  /**
+   * The encoded token prefix of the output being spent
+   * (see {@link encodeTokenPrefix}).
+   *
+   * If the output includes no tokens, a zero-length Uint8Array.
+   */
+  readonly outputTokenPrefix: Uint8Array;
   /**
    * The `sequenceNumber` associated with the input being validated. See
    * {@link Input.sequenceNumber} for details.
@@ -368,6 +453,10 @@ export const generateSigningSerializationComponentsBCH = (
   outpointTransactionHash:
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     context.transaction.inputs[context.inputIndex]!.outpointTransactionHash,
+  outputTokenPrefix: encodeTokenPrefix(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    context.sourceOutputs[context.inputIndex]!.token
+  ),
   outputValue: valueSatoshisToBin(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     context.sourceOutputs[context.inputIndex]!.valueSatoshis
@@ -382,6 +471,7 @@ export const generateSigningSerializationComponentsBCH = (
   transactionSequenceNumbers: encodeTransactionInputSequenceNumbersForSigning(
     context.transaction.inputs
   ),
+  transactionUtxos: encodeTransactionOutputsForSigning(context.sourceOutputs),
   version: context.transaction.version,
 });
 

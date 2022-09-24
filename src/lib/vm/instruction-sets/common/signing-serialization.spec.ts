@@ -67,12 +67,14 @@ pendingTests.map((expectation, currentTest) => {
       locktime: components.locktime,
       outpointIndex: components.outpointIndex,
       outpointTransactionHash: components.outpointTransactionHash,
+      outputTokenPrefix: components.outputTokenPrefix,
       outputValue: components.outputValue,
       sequenceNumber: components.sequenceNumber,
       signingSerializationType: signingSerializationType.slice(0, 1),
       transactionOutpoints: components.transactionOutpoints,
       transactionOutputs: components.transactionOutputs,
       transactionSequenceNumbers: components.transactionSequenceNumbers,
+      transactionUtxos: components.transactionUtxos,
       version: components.version,
     });
     const digest = hash256(serialization);

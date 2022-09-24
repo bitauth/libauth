@@ -1691,7 +1691,7 @@ test('extractEvaluationSamples: node that closes an open sample with an error', 
   });
 });
 
-test('extractEvaluationSamples: error3 – error occurs, so final state is dropped', (t) => {
+test('extractEvaluationSamples: error3 - error occurs, so final state is dropped', (t) => {
   const result = compiler.generateBytecode({
     data: {},
     debug: true,

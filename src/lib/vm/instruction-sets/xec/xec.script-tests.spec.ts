@@ -101,7 +101,7 @@ const vmStandard = createVirtualMachineXEC(true);
 pendingTests.map((expectation) => {
   const description = `[script_tests] ${expectation.testIndex}/${
     pendingTests.length
-  } – "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
+  } - "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
     expectation.lockingBytecodeText,
     100
   )}" ${

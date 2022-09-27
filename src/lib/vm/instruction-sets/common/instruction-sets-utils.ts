@@ -19,7 +19,9 @@ import type {
   AuthenticationInstructions,
   AuthenticationInstructionsMalformed,
   AuthenticationInstructionsMaybeMalformed,
+  Output,
 } from '../../../lib';
+import { encodeTransactionOutput } from '../../../message/message.js';
 import { OpcodesBCH } from '../bch/2023/bch-2023-opcodes.js';
 import { OpcodesBTC } from '../btc/btc-opcodes.js';
 
@@ -662,13 +664,105 @@ export const isPushOnlyAccurate = (bytecode: Uint8Array) => {
 };
 
 /**
+ * Test if the provided locking bytecode is an arbitrary data output.
  * A.K.A. `TX_NULL_DATA`, "data carrier", OP_RETURN output
- * @param lockingBytecode -
+ * @param lockingBytecode - the locking bytecode to test
  */
 export const isArbitraryDataOutput = (lockingBytecode: Uint8Array) =>
   lockingBytecode.length >= 1 &&
   lockingBytecode[0] === Opcodes.OP_RETURN &&
   isPushOnly(lockingBytecode.slice(1));
+
+const enum Dust {
+  /**
+   * The standard dust limit relies on a hard-coded expectation of a typical
+   * P2PKH-spending input (spent using a 72-byte ECDSA signature).
+   *
+   * This value includes:
+   * - Outpoint transaction hash: 32 bytes
+   * - Outpoint index: 4 bytes
+   * - Unlocking bytecode length: 1 byte
+   * - Push of 72-byte ECDSA signature: 72 + 1 byte
+   * - Push of public key: 33 + 1 byte
+   * - Sequence number: 4 bytes
+   */
+  p2pkhInputLength = 148,
+  minimumFeeMultiple = 3,
+  standardDustRelayFee = 1000,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+  bytesPerKb = 1000,
+}
+
+/**
+ * Given a number of bytes and a fee rate in satoshis-per-kilobyte, return the
+ * minimum required fee. This calculation in important for standardness in dust
+ * threshold calculation.
+ *
+ * @param length - the number of bytes for which the fee is to be paid
+ * @param feeRateSatsPerKb - the fee rate in satoshis per 1000 bytes
+ */
+export const getMinimumFee = (length: bigint, feeRateSatsPerKb: bigint) => {
+  if (length < 1n) return 0n;
+  const truncated = (length * feeRateSatsPerKb) / BigInt(Dust.bytesPerKb);
+  return truncated === 0n ? 1n : truncated;
+};
+
+/**
+ * Given an {@link Output} and (optionally) a dust relay fee in
+ * satoshis-per-kilobyte, return the minimum satoshi value for this output to
+ * not be considered a "dust output". **For nodes to relay or mine a transaction
+ * with this output, the output must have a satoshi value greater than or equal
+ * to this threshold.**
+ *
+ * By standardness, if an output is expected to cost more than 1/3 of it's value
+ * in fees to spend, it is considered dust. When calculating the expected fee,
+ * the input size is assumed to be (at least) the size of a typical P2PKH input
+ * spent using a 72-byte ECDSA signature, 148 bytes:
+ * - Outpoint transaction hash: 32 bytes
+ * - Outpoint index: 4 bytes
+ * - Unlocking bytecode length: 1 byte
+ * - Push of 72-byte ECDSA signature: 72 + 1 byte
+ * - Push of public key: 33 + 1 byte
+ * - Sequence number: 4 bytes
+ *
+ * The encoded length of the serialized output is added to 148 bytes, and the
+ * dust threshold for the output is 3 times the minimum fee for the total bytes.
+ * For a P2PKH output (34 bytes) and the standard 1000 sat/Kb dust relay fee,
+ * this results in a dust limit of `546` satoshis (`(34+148)*3*1000/1000`).
+ *
+ * Note, arbitrary data outputs are not required to meet the dust limit as
+ * they are provably unspendable and can be pruned from the UTXO set.
+ *
+ * @param output - the output to test
+ * @param dustRelayFeeSatPerKb - the "dust relay fee", defaults to `1000n`
+ */
+export const getDustThreshold = (
+  output: Output,
+  dustRelayFeeSatPerKb = BigInt(Dust.standardDustRelayFee)
+) => {
+  if (isArbitraryDataOutput(output.lockingBytecode)) {
+    return 0n;
+  }
+  const encodedOutputLength = encodeTransactionOutput(output).length;
+  const expectedTotalLength = encodedOutputLength + Dust.p2pkhInputLength;
+  return (
+    BigInt(Dust.minimumFeeMultiple) *
+    getMinimumFee(BigInt(expectedTotalLength), dustRelayFeeSatPerKb)
+  );
+};
+
+/**
+ * Given an {@link Output} and (optionally) a dust relay fee in
+ * satoshis-per-kilobyte, return `true` if the provided output is considered
+ * a "dust output", or `false` otherwise.
+ *
+ * @param output - the output to test
+ * @param dustRelayFeeSatPerKb - the "dust relay fee", defaults to `1000n`
+ */
+export const isDustOutput = (
+  output: Output,
+  dustRelayFeeSatPerKb = BigInt(Dust.standardDustRelayFee)
+) => output.valueSatoshis < getDustThreshold(output, dustRelayFeeSatPerKb);
 
 const enum PublicKey {
   uncompressedByteLength = 65,

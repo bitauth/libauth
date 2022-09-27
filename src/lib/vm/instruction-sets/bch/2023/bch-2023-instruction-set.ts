@@ -8,6 +8,7 @@ import {
   sha1 as internalSha1,
   sha256 as internalSha256,
 } from '../../../../crypto/crypto.js';
+import { binToHex } from '../../../../format/format.js';
 import type {
   AuthenticationProgramBCH,
   AuthenticationProgramStateBCH,
@@ -29,8 +30,10 @@ import {
   createAuthenticationProgramStateCommon,
   decodeAuthenticationInstructions,
   disabledOperation,
+  getDustThreshold,
   incrementOperationCount,
   isArbitraryDataOutput,
+  isDustOutput,
   isPushOnly,
   isStandardOutputBytecode2023,
   isWitnessProgram,
@@ -627,11 +630,41 @@ export const createInstructionSetBCH2023 = (
       }
 
       const transactionSize = encodeTransactionBCH(transaction).length;
-      if (transactionSize === ConsensusBCH2023.forbiddenTransactionSize) {
-        return `Invalid transaction size: the transaction is ${ConsensusBCH2023.forbiddenTransactionSize} bytes, but ${ConsensusBCH2023.forbiddenTransactionSize} byte transactions are forbidden. This prevents an exploit of the transaction Merkle tree design.`;
+      if (transactionSize < ConsensusBCH2023.minimumTransactionSize) {
+        return `Invalid transaction size: the transaction is ${transactionSize} bytes, but transactions must be no smaller than ${ConsensusBCH2023.minimumTransactionSize} bytes to prevent an exploit of the transaction Merkle tree design.`;
       }
       if (transactionSize > ConsensusBCH2023.maximumTransactionSize) {
         return `Transaction exceeds maximum size: the transaction is ${transactionSize} bytes, but the maximum transaction size is ${ConsensusBCH2023.maximumTransactionSize} bytes.`;
+      }
+
+      const inputValue = sourceOutputs.reduce(
+        (sum, utxo) => sum + utxo.valueSatoshis,
+        0n
+      );
+      const outputValue = transaction.outputs.reduce(
+        (sum, output) => sum + output.valueSatoshis,
+        0n
+      );
+      if (outputValue > inputValue) {
+        return `Unable to verify transaction: the sum of transaction outputs exceeds the sum of transaction inputs. Input value: ${inputValue}, output value: ${outputValue}`;
+      }
+
+      const outpointList = transaction.inputs.map(
+        (input) =>
+          `outpointTransactionHash: ${binToHex(
+            input.outpointTransactionHash
+          )}, outpointIndex: ${input.outpointIndex}`
+      );
+      const firstDuplicate = outpointList.find(
+        (outpoint, index) => outpointList.lastIndexOf(outpoint) !== index
+      );
+      /**
+       * This check isn't strictly necessary to perform in the VM (assuming the
+       * provider of `sourceOutputs` is checking for double spends), but it's
+       * included here for debugging purposes.
+       */
+      if (firstDuplicate !== undefined) {
+        return `Unable to verify transaction: the transaction attempts to spend the same outpoint in multiple inputs. ${firstDuplicate}`;
       }
 
       if (standard) {
@@ -656,20 +689,18 @@ export const createInstructionSetBCH2023 = (
         let totalArbitraryDataBytes = 0;
         // eslint-disable-next-line functional/no-loop-statement
         for (const [index, output] of transaction.outputs.entries()) {
-          /*
-           * TODO: disallow dust outputs
-           * if(IsDustOutput(output)) {
-           *   return ``;
-           * }
-           */
           if (!isStandardOutputBytecode2023(output.lockingBytecode)) {
             return `Standard transactions may only create standard output types, but transaction output ${index} is non-standard.`;
           }
-
           // eslint-disable-next-line functional/no-conditional-statement
           if (isArbitraryDataOutput(output.lockingBytecode)) {
             // eslint-disable-next-line functional/no-expression-statement
             totalArbitraryDataBytes += output.lockingBytecode.length + 1;
+          }
+          if (isDustOutput(output)) {
+            return `Standard transactions may not have dust outputs, but transaction output ${index} is a dust output. Output ${index} must have a value of at least ${getDustThreshold(
+              output
+            )} satoshis. Current value: ${output.valueSatoshis}`;
           }
         }
         if (

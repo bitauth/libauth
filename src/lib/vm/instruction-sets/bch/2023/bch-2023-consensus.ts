@@ -36,12 +36,12 @@ export enum ConsensusBCH2023 {
    */
   maximumStandardUnlockingBytecodeLength = 1650,
   /**
-   * Transactions of this size are forbidden to prevent exploits of the
-   * transaction Merkle tree design. This constant replaces
-   * `minimumTransactionSize` (A.K.A. `MIN_TX_SIZE`) in the
-   * `BCH_2023_05` upgrade.
+   * Transactions smaller than 65 bytes are forbidden to prevent exploits of the
+   * transaction Merkle tree design.
+   *
+   * A.K.A. `MIN_TX_SIZE`
    */
-  forbiddenTransactionSize = 64,
+  minimumTransactionSize = 65,
   /**
    * A.K.A. `MAX_STANDARD_TX_SIZE`
    */
@@ -56,7 +56,6 @@ export enum ConsensusBCH2023 {
   maximumVmNumberLength = 8,
   minVmNumber = '-9223372036854775807',
   maxVmNumber = '9223372036854775807',
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   schnorrSignatureLength = 64,
   maximumCommitmentLength = 40,
 }

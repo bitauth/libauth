@@ -1186,6 +1186,11 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
       ['invalid', 'chip_cashtokens_invalid'],
       { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1000, category: '0000000000000000000000000000000000000000000000000000000000000001' }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: 'ef010000000000000000000000000000000000000000000000000000000000000010006a', valueSatoshis: 1_000 }] } },
     ],
+    ['', '<1>', 'send fungible token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1 }, valueSatoshis: 1_000 }] } }],
+    ['', '<1>', 'attempt to overspend fungible token amount (1 to 2)', ['invalid', 'chip_cashtokens_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 2 }, valueSatoshis: 1_000 }] } }],
+    ['', '<1>', 'attempt to overspend fungible token amount (253 to 254)', ['invalid', 'chip_cashtokens_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 253 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 254 }, valueSatoshis: 1_000 }] } }],
+    ['', '<1>', 'attempt to overspend fungible token amount (65535 to 65536)', ['invalid', 'chip_cashtokens_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 65535 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 65536 }, valueSatoshis: 1_000 }] } }],
+    ['', '<1>', 'attempt to overspend fungible token amount (4294967295 to 4294967296)', ['invalid', 'chip_cashtokens_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 4294967295 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 4294967296 }, valueSatoshis: 1_000 }] } }],
     [
       '',
       '<1>',
@@ -1635,6 +1640,43 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
     ],
     // test minting tokens
     ['', '<1>', 'implicitly destroy minting token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'minting' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }, { valueSatoshis: 1_000 }] } }],
+    ['', '<1>', 'move minting token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'minting' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { capability: 'minting' } }, valueSatoshis: 1_000 }] } }],
+    [
+      '',
+      '<1>',
+      'duplicate minting token',
+      ['invalid', 'chip_cashtokens'],
+      {
+        sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'minting' } }, valueSatoshis: 10_000 }],
+        transaction: {
+          inputs: [{ unlockingBytecode: ['slot'] }],
+          outputs: [
+            { token: { nft: { capability: 'minting' } }, valueSatoshis: 1_000 },
+            { token: { nft: { capability: 'minting' } }, valueSatoshis: 1_000 },
+          ],
+        },
+      },
+    ],
+    [
+      '',
+      '<1>',
+      'duplicate minting token (from 2 to 3)',
+      ['invalid', 'chip_cashtokens'],
+      {
+        sourceOutputs: [
+          { lockingBytecode: ['slot'], token: { nft: { capability: 'minting' } }, valueSatoshis: 10_000 },
+          { lockingBytecode: { script: 'lockEmptyP2sh20' }, token: { nft: { capability: 'minting' } }, valueSatoshis: 10_000 },
+        ],
+        transaction: {
+          inputs: [{ unlockingBytecode: ['slot'] }, { unlockingBytecode: { script: 'unlockEmptyP2sh20' } }],
+          outputs: [
+            { token: { nft: { capability: 'minting' } }, valueSatoshis: 1_000 },
+            { token: { nft: { capability: 'minting' } }, valueSatoshis: 1_000 },
+            { token: { nft: { capability: 'minting' } }, valueSatoshis: 1_000 },
+          ],
+        },
+      },
+    ],
     [
       '',
       '<1>',
@@ -1939,6 +1981,43 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
     ],
     // test mutable tokens
     ['', '<1>', 'implicitly destroy mutable token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }, { valueSatoshis: 1_000 }] } }],
+    ['', '<1>', 'move mutable token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { capability: 'mutable' } }, valueSatoshis: 1_000 }] } }],
+    [
+      '',
+      '<1>',
+      'attempt to duplicate mutable token',
+      ['invalid', 'chip_cashtokens_invalid'],
+      {
+        sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 }],
+        transaction: {
+          inputs: [{ unlockingBytecode: ['slot'] }],
+          outputs: [
+            { token: { nft: { capability: 'mutable' } }, valueSatoshis: 1_000 },
+            { token: { nft: { capability: 'mutable' } }, valueSatoshis: 1_000 },
+          ],
+        },
+      },
+    ],
+    [
+      '',
+      '<1>',
+      'attempt to duplicate mutable token (from 2 to 3)',
+      ['invalid', 'chip_cashtokens_invalid'],
+      {
+        sourceOutputs: [
+          { lockingBytecode: ['slot'], token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 },
+          { lockingBytecode: { script: 'lockEmptyP2sh20' }, token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 },
+        ],
+        transaction: {
+          inputs: [{ unlockingBytecode: ['slot'] }, { unlockingBytecode: { script: 'unlockEmptyP2sh20' } }],
+          outputs: [
+            { token: { nft: { capability: 'mutable' } }, valueSatoshis: 1_000 },
+            { token: { nft: { capability: 'mutable' } }, valueSatoshis: 1_000 },
+            { token: { nft: { capability: 'mutable' } }, valueSatoshis: 1_000 },
+          ],
+        },
+      },
+    ],
     ['', '<1>', 'modify mutable token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { capability: 'mutable', commitment: '01' } }, valueSatoshis: 1_000 }] } }],
     ['', '<1>', 'downgrade mutable token to immutable token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: {} }, valueSatoshis: 1_000 }] } }],
     ['', '<1>', 'modify and downgrade mutable token to immutable token', ['invalid', 'chip_cashtokens'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '01' } }, valueSatoshis: 1_000 }] } }],
@@ -2242,6 +2321,42 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
     ],
     ['', '<1>', 'move immutable token (P2SH32 dust, 657)', ['invalid', 'chip_cashtokens', 'chip_cashtokens_p2sh32_nonstandard'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff' } }, valueSatoshis: 657 }] } }],
     ['', '<1>', 'move immutable token (P2SH32 dust, 692)', ['invalid', 'chip_cashtokens', 'chip_cashtokens_p2sh32_nonstandard'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff' } }, valueSatoshis: 692 }] } }],
+    [
+      '',
+      '<1>',
+      'attempt to duplicate immutable token',
+      ['invalid', 'chip_cashtokens_invalid'],
+      {
+        sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: {} }, valueSatoshis: 10_000 }],
+        transaction: {
+          inputs: [{ unlockingBytecode: ['slot'] }],
+          outputs: [
+            { token: { nft: {} }, valueSatoshis: 1_000 },
+            { token: { nft: {} }, valueSatoshis: 1_000 },
+          ],
+        },
+      },
+    ],
+    [
+      '',
+      '<1>',
+      'attempt to duplicate immutable token (from 2 to 3)',
+      ['invalid', 'chip_cashtokens_invalid'],
+      {
+        sourceOutputs: [
+          { lockingBytecode: ['slot'], token: { nft: {} }, valueSatoshis: 10_000 },
+          { lockingBytecode: { script: 'lockEmptyP2sh20' }, token: { nft: {} }, valueSatoshis: 10_000 },
+        ],
+        transaction: {
+          inputs: [{ unlockingBytecode: ['slot'] }, { unlockingBytecode: { script: 'unlockEmptyP2sh20' } }],
+          outputs: [
+            { token: { nft: {} }, valueSatoshis: 1_000 },
+            { token: { nft: {} }, valueSatoshis: 1_000 },
+            { token: { nft: {} }, valueSatoshis: 1_000 },
+          ],
+        },
+      },
+    ],
     ['', '<1>', 'attempt to modify immutable token (slice off byte)', ['invalid', 'chip_cashtokens_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } } }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203' } } }] } }],
     ['', '<1>', 'attempt to modify immutable token (append byte)', ['invalid', 'chip_cashtokens_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } } }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff00' } } }] } }],
     ['', '<1>', 'attempt to upgrade immutable token to mutable', ['invalid', 'chip_cashtokens_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } } }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { capability: 'mutable', commitment: '010203ff' } } }] } }],

@@ -121,6 +121,8 @@ const testSetOverrideListBCH = [
     'chip_cashtokens_p2sh32_nonstandard',
   ],
   ['invalid', 'chip_cashtokens', 'chip_cashtokens_p2sh32_nonstandard'],
+  ['invalid', 'chip_cashtokens', 'p2sh_ignore'],
+  ['invalid', 'chip_cashtokens_invalid', 'p2sh_ignore'],
   ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'p2sh_ignore'],
@@ -394,6 +396,16 @@ export const supportedTestSetOverridesBCH: {
       ],
     },
   ],
+  'invalid,chip_cashtokens,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+  ],
   'invalid,chip_cashtokens_invalid': [
     {
       mode: 'nonP2SH',
@@ -413,6 +425,16 @@ export const supportedTestSetOverridesBCH: {
     },
     {
       mode: 'P2SH32',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_invalid',
+      ],
+    },
+  ],
+  'invalid,chip_cashtokens_invalid,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
       sets: [
         '2022_invalid',
         'before_chip_cashtokens_invalid',

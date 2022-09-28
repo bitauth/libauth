@@ -12,6 +12,14 @@ export const simpleP2pkhOutput: AuthenticationTemplateScenarioSourceOutput = {
 export const simpleP2pkhInput: AuthenticationTemplateScenarioInput = {
   unlockingBytecode: { script: 'unlockP2pkh' },
 };
+export const emptyP2sh20Output: AuthenticationTemplateScenarioSourceOutput = {
+  lockingBytecode: { script: 'lockEmptyP2sh20' },
+  valueSatoshis: 10_000,
+};
+export const emptyP2sh20Input: AuthenticationTemplateScenarioInput = {
+  unlockingBytecode: { script: 'unlockEmptyP2sh20' },
+};
+
 export const vmbTestOutput: AuthenticationTemplateScenarioTransactionOutput = {
   lockingBytecode: { script: 'vmbTestNullData' },
   valueSatoshis: 0,

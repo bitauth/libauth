@@ -331,7 +331,7 @@ export interface Secp256k1 {
 
   /**
    * Verify that a private key is valid for secp256k1. Note, this library
-   * requires all public keys to be provided as 32-byte Uint8Arrays (an array
+   * requires all private keys to be provided as 32-byte Uint8Arrays (an array
    * length of 32).
    *
    * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,

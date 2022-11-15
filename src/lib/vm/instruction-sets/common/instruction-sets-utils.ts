@@ -821,7 +821,7 @@ export const isSimpleMultisig = (lockingBytecode: Uint8Array) => {
   if (
     instructions.length < Multisig.minimumInstructions ||
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    instructions[lastIndex]!.opcode === Opcodes.OP_CHECKMULTISIG
+    instructions[lastIndex]!.opcode !== Opcodes.OP_CHECKMULTISIG
   ) {
     return false;
   }

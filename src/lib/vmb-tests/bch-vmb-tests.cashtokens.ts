@@ -5336,5 +5336,133 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
       ['invalid', 'chip_cashtokens'],
       { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: {} }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN <"vmb_test">') as Uint8Array), token: { nft: {} }, valueSatoshis: 1_000 }] } },
     ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <47> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 47)',
+      ['nonstandard', 'chip_cashtokens_invalid'],
+      { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN <"vmb_test">') as Uint8Array), token: { amount: 253 }, valueSatoshis: 1_000 }] } },
+    ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <46> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 46)',
+      ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_invalid'],
+      { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN <"vmb_test">') as Uint8Array), token: { amount: 253 }, valueSatoshis: 1_000 }] } },
+    ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <520> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE includes token prefix before upgrade (length 520, expect 520)',
+      ['nonstandard', 'chip_cashtokens_invalid'],
+      {
+        sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+        transaction: {
+          inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+          outputs: [
+            {
+              lockingBytecode: binToHex(
+                cashAssemblyToBin(
+                  `OP_RETURN <0x${range(479)
+                    .map((i) => binToHex(Uint8Array.of(i)))
+                    .join('')}>`
+                ) as Uint8Array
+              ),
+              token: { amount: 253 },
+              valueSatoshis: 1_000,
+            },
+          ],
+        },
+      },
+    ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <521> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE includes token prefix before upgrade (length 521, expect 521)',
+      ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_invalid'],
+      {
+        sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+        transaction: {
+          inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+          outputs: [
+            {
+              lockingBytecode: binToHex(
+                cashAssemblyToBin(
+                  `OP_RETURN <0x${range(480)
+                    .map((i) => binToHex(Uint8Array.of(i)))
+                    .join('')}>`
+                ) as Uint8Array
+              ),
+              token: { amount: 253 },
+              valueSatoshis: 1_000,
+            },
+          ],
+        },
+      },
+    ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <10> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 10)',
+      ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens'],
+      { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN <"vmb_test">') as Uint8Array), token: { amount: 253 }, valueSatoshis: 1_000 }] } },
+    ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <11> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 11)',
+      ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_invalid'],
+      { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN <"vmb_test">') as Uint8Array), token: { amount: 253 }, valueSatoshis: 1_000 }] } },
+    ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <520> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520)',
+      ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_nonstandard'],
+      {
+        sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+        transaction: {
+          inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+          outputs: [
+            {
+              lockingBytecode: binToHex(
+                cashAssemblyToBin(
+                  `OP_RETURN <0x${range(516)
+                    .map((i) => binToHex(Uint8Array.of(i)))
+                    .join('')}>`
+                ) as Uint8Array
+              ),
+              token: { amount: 253 },
+              valueSatoshis: 1_000,
+            },
+          ],
+        },
+      },
+    ],
+    [
+      '',
+      '<0> OP_OUTPUTBYTECODE OP_SIZE <521> OP_EQUAL OP_NIP',
+      'OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521)',
+      ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_invalid'],
+      {
+        sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+        transaction: {
+          inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+          outputs: [
+            {
+              lockingBytecode: binToHex(
+                cashAssemblyToBin(
+                  `OP_RETURN <0x${range(517)
+                    .map((i) => binToHex(Uint8Array.of(i)))
+                    .join('')}>`
+                ) as Uint8Array
+              ),
+              token: { amount: 253 },
+              valueSatoshis: 1_000,
+            },
+          ],
+        },
+      },
+    ],
   ],
 ];

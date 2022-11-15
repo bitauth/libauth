@@ -724,6 +724,8 @@ export const hashTransactionP2pOrder = (
  * encoded transaction in user interface byte order. This is the byte order
  * typically used by block explorers, wallets, and other user interfaces.
  *
+ * To return this result as a `string`, use {@link hashTransaction}.
+ *
  * @returns the transaction hash in User Interface byte order
  *
  * @param transaction - the encoded transaction
@@ -737,6 +739,8 @@ export const hashTransactionUiOrder = (
 /**
  * Return an encoded {@link Transaction}'s hash/ID as a string in user interface
  * byte order (typically used by wallets and block explorers).
+ *
+ * To return this result as a `Uint8Array`, use {@link hashTransactionUiOrder}.
  *
  * @param transaction - the encoded transaction
  */

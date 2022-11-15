@@ -166,14 +166,14 @@ export interface Output<
      *
      * Because `Number.MAX_SAFE_INTEGER` (`9007199254740991`) is less than the
      * maximum token amount (`9223372036854775807`), this value is encoded as
-     * a `BigInt`.
+     * a `bigint`.
      */
     amount: bigint;
     /**
-     * The 32-byte token category ID to which the token(s) in this output belong
-     * in big-endian byte order. This is the byte order typically seen in block
-     * explorers and user interfaces (as opposed to little-endian byte order,
-     * which is used in standard P2P network messages).
+     * The 32-byte ID of the token category to which the token(s) in this output
+     * belong in big-endian byte order. This is the byte order typically seen in
+     * block explorers and user interfaces (as opposed to little-endian byte
+     * order, which is used in standard P2P network messages).
      */
     category: ByteStringRepresentation;
     /**
@@ -187,7 +187,7 @@ export interface Output<
       capability: `${NonFungibleTokenCapability}`;
 
       /**
-       * The commitment message included in the non-fungible token (of
+       * The commitment contents included in the non-fungible token (of
        * `category`) held in this output.
        */
       commitment: ByteStringRepresentation;

@@ -481,8 +481,8 @@ export interface AuthenticationTemplateScenarioOutput<
        */
       capability?: 'minting' | 'mutable' | 'none';
       /**
-       * The commitment message included in the non-fungible token (of
-       * `category`) held in this output.
+       * The hex-encoded commitment contents included in the non-fungible token
+       * held in this output.
        *
        * If undefined, this defaults to: `""` (a zero-length commitment).
        */

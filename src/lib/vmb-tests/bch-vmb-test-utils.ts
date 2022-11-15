@@ -110,7 +110,9 @@ const testSetOverrideListBCH = [
   ['chip_cashtokens', '2022_p2sh32_nonstandard'],
   ['chip_loops_invalid'],
   ['chip_loops'],
+  ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens'],
   ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_invalid'],
+  ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_nonstandard'],
   ['invalid', 'chip_cashtokens_invalid'],
   ['invalid', 'chip_cashtokens', 'nop2sh_invalid'],
   ['invalid', 'chip_cashtokens'],
@@ -265,6 +267,32 @@ export const supportedTestSetOverridesBCH: {
     { mode: 'nonP2SH', sets: ['2022_invalid'] },
     { mode: 'P2SH20', sets: ['2022_invalid'] },
   ],
+  'invalid,2022_p2sh32_nonstandard,chip_cashtokens': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_standard',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_standard',
+      ],
+    },
+  ],
   'invalid,2022_p2sh32_nonstandard,chip_cashtokens_invalid': [
     {
       mode: 'nonP2SH',
@@ -288,6 +316,32 @@ export const supportedTestSetOverridesBCH: {
         '2022_nonstandard',
         'before_chip_cashtokens_nonstandard',
         'chip_cashtokens_invalid',
+      ],
+    },
+  ],
+  'invalid,2022_p2sh32_nonstandard,chip_cashtokens_nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: [
+        '2022_invalid',
+        'before_chip_cashtokens_invalid',
+        'chip_cashtokens_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH32',
+      sets: [
+        '2022_nonstandard',
+        'before_chip_cashtokens_nonstandard',
+        'chip_cashtokens_nonstandard',
       ],
     },
   ],

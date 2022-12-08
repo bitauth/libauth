@@ -73,12 +73,14 @@ export const compileOutputTemplate = <
       ? {
           lockingBytecode: result.bytecode,
           valueSatoshis: outputTemplate.valueSatoshis,
+          token: outputTemplate.token,
         }
       : returnFailedCompilationDirective({ index, result, type: 'locking' });
   }
   return {
     lockingBytecode: outputTemplate.lockingBytecode.slice(),
     valueSatoshis: outputTemplate.valueSatoshis,
+    token: outputTemplate.token,
   };
 };
 
@@ -108,6 +110,7 @@ export const compileInputTemplate = <
     sourceOutputs[index] = {
       lockingBytecode: Uint8Array.of(),
       valueSatoshis: inputTemplate.unlockingBytecode.valueSatoshis,
+      token: inputTemplate.unlockingBytecode.token,
     };
     const result = directive.compiler.generateBytecode({
       data: {

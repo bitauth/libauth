@@ -328,6 +328,13 @@ export interface CompilationDirectiveUnlocking<
    * Required for use in signing serializations.
    */
   valueSatoshis: Output['valueSatoshis'];
+
+  /**
+   * The CashToken contents of this input. This property is only defined if the
+   * input contains one or more tokens. For details, see
+   * `CHIP-2022-02-CashTokens`.
+   */
+  token?: Output['token'];
 }
 
 export interface CompilationDirectiveUnlockingEstimate<

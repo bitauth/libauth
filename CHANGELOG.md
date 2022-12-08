@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.7](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2022-12-08)
+
+
+### Features
+
+* add dust and duplicate outpoint validation, vmb tests to BCH_2023 VM ([01587f7](https://github.com/bitauth/libauth/commit/01587f7955a2ba66e0254a1f473778c6e18d6482))
+* token signing serialization support (compiler, VM, tests) ([9dfa6cc](https://github.com/bitauth/libauth/commit/9dfa6cc0b8710dedfe007b47bd018f5a47079df5))
+
+
+### Bug Fixes
+
+* add token support to legacy transaction generation API ([#104](https://github.com/bitauth/libauth/issues/104)) ([e718430](https://github.com/bitauth/libauth/commit/e71843064580a6ff2e44ac1cd81cf5f9c649a623))
+* update schemas ([5742b12](https://github.com/bitauth/libauth/commit/5742b121291f2bc0092bc825a11545e61d02821c))
+
 ## [2.0.0-alpha.6](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2022-08-18)
 
 

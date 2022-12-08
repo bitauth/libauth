@@ -429,7 +429,7 @@ const schema22 = {
                 },
                 commitment: {
                   description:
-                    'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+                    'The hex-encoded commitment contents included in the non-fungible token held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
                   type: 'string',
                 },
               },
@@ -492,7 +492,7 @@ const schema22 = {
                 },
                 commitment: {
                   description:
-                    'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+                    'The hex-encoded commitment contents included in the non-fungible token held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
                   type: 'string',
                 },
               },
@@ -2175,7 +2175,7 @@ const schema32 = {
             },
             commitment: {
               description:
-                'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+                'The hex-encoded commitment contents included in the non-fungible token held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
               type: 'string',
             },
           },
@@ -3752,7 +3752,7 @@ const schema36 = {
             },
             commitment: {
               description:
-                'The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
+                'The hex-encoded commitment contents included in the non-fungible token held in this output.\n\nIf undefined, this defaults to: `""` (a zero-length commitment).',
               type: 'string',
             },
           },

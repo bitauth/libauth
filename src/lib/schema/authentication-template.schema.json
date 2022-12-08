@@ -394,7 +394,7 @@
                   "type": "string"
                 },
                 "commitment": {
-                  "description": "The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `\"\"` (a zero-length commitment).",
+                  "description": "The hex-encoded commitment contents included in the non-fungible token held in this output.\n\nIf undefined, this defaults to: `\"\"` (a zero-length commitment).",
                   "type": "string"
                 }
               },
@@ -453,7 +453,7 @@
                   "type": "string"
                 },
                 "commitment": {
-                  "description": "The commitment message included in the non-fungible token (of `category`) held in this output.\n\nIf undefined, this defaults to: `\"\"` (a zero-length commitment).",
+                  "description": "The hex-encoded commitment contents included in the non-fungible token held in this output.\n\nIf undefined, this defaults to: `\"\"` (a zero-length commitment).",
                   "type": "string"
                 }
               },

@@ -48,6 +48,7 @@ const returnFailedCompilationDirective = <
   type,
 });
 
+// eslint-disable-next-line complexity
 export const compileOutputTemplate = <
   CompilerType extends Compiler<
     unknown,
@@ -72,15 +73,19 @@ export const compileOutputTemplate = <
     return result.success
       ? {
           lockingBytecode: result.bytecode,
+          ...(outputTemplate.token === undefined
+            ? {}
+            : { token: outputTemplate.token }),
           valueSatoshis: outputTemplate.valueSatoshis,
-          token: outputTemplate.token,
         }
       : returnFailedCompilationDirective({ index, result, type: 'locking' });
   }
   return {
     lockingBytecode: outputTemplate.lockingBytecode.slice(),
+    ...(outputTemplate.token === undefined
+      ? {}
+      : { token: outputTemplate.token }),
     valueSatoshis: outputTemplate.valueSatoshis,
-    token: outputTemplate.token,
   };
 };
 
@@ -109,8 +114,10 @@ export const compileInputTemplate = <
     // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
     sourceOutputs[index] = {
       lockingBytecode: Uint8Array.of(),
+      ...(inputTemplate.unlockingBytecode.token === undefined
+        ? {}
+        : { token: inputTemplate.unlockingBytecode.token }),
       valueSatoshis: inputTemplate.unlockingBytecode.valueSatoshis,
-      token: inputTemplate.unlockingBytecode.token,
     };
     const result = directive.compiler.generateBytecode({
       data: {

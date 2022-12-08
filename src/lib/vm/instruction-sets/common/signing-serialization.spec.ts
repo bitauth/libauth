@@ -40,7 +40,7 @@ const tests = Object.values(sighashTests)
 const pendingTests = tests;
 
 pendingTests.map((expectation, currentTest) => {
-  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, (t) => {
+  test.skip(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, (t) => {
     const tx = decodeTransactionUnsafeCommon(
       hexToBin(expectation.transactionHex)
     );

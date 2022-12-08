@@ -330,8 +330,8 @@ export interface CompilationDirectiveUnlocking<
   valueSatoshis: Output['valueSatoshis'];
 
   /**
-   * The CashToken contents of this output. This property is only defined if the
-   * output contains one or more tokens. For details, see
+   * The CashToken contents of this input. This property is only defined if the
+   * input contains one or more tokens. For details, see
    * `CHIP-2022-02-CashTokens`.
    */
   token?: Output['token'];

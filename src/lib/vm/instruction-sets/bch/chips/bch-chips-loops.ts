@@ -6,7 +6,7 @@ import type {
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
   Operation,
-} from '../../../../lib';
+} from '../../../../lib.js';
 import {
   applyError,
   AuthenticationErrorCommon,

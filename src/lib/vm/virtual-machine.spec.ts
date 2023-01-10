@@ -5,7 +5,7 @@ import type {
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
   InstructionSet,
-} from '../lib';
+} from '../lib.js';
 import { createAuthenticationVirtualMachine } from '../lib.js';
 
 import { applyError } from './vm.js';

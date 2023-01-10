@@ -10,7 +10,7 @@ import type {
   CompilerOperationErrorFatal,
   CompilerOperationResult,
   CompilerOperationSkip,
-} from '../lib';
+} from '../lib.js';
 
 import { CompilerDefaults } from './compiler-defaults.js';
 
@@ -111,7 +111,7 @@ export const compilerOperationRequires =
     // eslint-disable-next-line functional/no-loop-statement
     for (const property of dataProperties) {
       if (
-        (data[property] as typeof data[typeof property] | undefined) ===
+        (data[property] as (typeof data)[typeof property] | undefined) ===
         undefined
       )
         return (

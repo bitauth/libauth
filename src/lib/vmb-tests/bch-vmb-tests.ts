@@ -19,7 +19,7 @@
  * it can still be directly imported.
  */
 
-import type { VmbTestDefinitionGroup } from '../lib';
+import type { VmbTestDefinitionGroup } from '../lib.js';
 import { bigIntToBinUint64LE, binToHex, cashAssemblyToBin, hashTransactionUiOrder, hexToBin, range } from '../lib.js';
 
 import { slot0Scenario, slot2Scenario, slot9Scenario } from './bch-vmb-test-mixins.js';

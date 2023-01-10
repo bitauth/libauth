@@ -2,7 +2,7 @@ import type {
   AuthenticationInstruction,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
-} from '../lib';
+} from '../lib.js';
 
 export interface Range {
   endColumn: number;

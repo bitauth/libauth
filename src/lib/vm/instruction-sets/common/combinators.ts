@@ -4,7 +4,7 @@ import type {
   AuthenticationProgramStateStack,
   InstructionSetOperationMapping,
   Operation,
-} from '../../../lib';
+} from '../../../lib.js';
 
 import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';

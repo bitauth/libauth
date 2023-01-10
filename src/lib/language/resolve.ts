@@ -16,7 +16,7 @@ import type {
   Range,
   ResolvedScript,
   ResolvedSegment,
-} from '../lib';
+} from '../lib.js';
 import { bigIntToVmNumber } from '../vm/vm.js';
 
 import type { CompilationResult } from './language-types.js';

@@ -1,5 +1,5 @@
+import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
-import { fc, testProp } from 'ava-fast-check';
 import bitcoreLibCash from 'bitcore-lib-cash';
 
 import type {
@@ -9,7 +9,7 @@ import type {
   HdPrivateNodeKnownParent,
   HdPrivateNodeValid,
   HdPublicNode,
-} from '../lib';
+} from '../lib.js';
 import {
   crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode,
   decodeHdKey,

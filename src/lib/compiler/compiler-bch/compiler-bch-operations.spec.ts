@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import type { CompilationContextBCH } from '../../lib';
+import type { CompilationContextBCH } from '../../lib.js';
 import { compilerOperationSigningSerializationFullBCH } from '../../lib.js';
 
 test('compilerOperationSigningSerializationFullBCH: requires an algorithm', (t) => {

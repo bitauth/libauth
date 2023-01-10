@@ -16,7 +16,7 @@ import type {
   ResolvedSegmentLiteralType,
   ScriptReductionTraceChildNode,
   ScriptReductionTraceScriptNode,
-} from '../lib';
+} from '../lib.js';
 import {
   authenticationInstructionIsMalformed,
   decodeAuthenticationInstructions,

@@ -14,7 +14,7 @@ import type {
   CompilerConfiguration,
   CompilerOperationResult,
   Sha256,
-} from '../../lib';
+} from '../../lib.js';
 import {
   createVirtualMachineBCH,
   generateBytecodeMap,

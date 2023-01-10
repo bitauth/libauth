@@ -17,7 +17,7 @@ import type {
   ReadPosition,
   Sha256,
   TransactionCommon,
-} from '../lib';
+} from '../lib.js';
 
 import {
   readBytes,

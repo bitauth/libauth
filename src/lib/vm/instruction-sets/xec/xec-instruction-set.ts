@@ -3,7 +3,7 @@ import type {
   AuthenticationProgramStateBCH,
   InstructionSet,
   ResolvedTransactionBCH,
-} from '../../../lib';
+} from '../../../lib.js';
 import { createInstructionSetBCH2022 } from '../bch/2022/bch-2022-instruction-set.js';
 import { OpcodesBCH2022 } from '../bch/2022/bch-2022-opcodes.js';
 import {

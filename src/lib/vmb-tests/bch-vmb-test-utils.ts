@@ -9,7 +9,7 @@ import { binToHex, flattenBinArray } from '../format/format.js';
 import type {
   AuthenticationTemplate,
   AuthenticationTemplateScenario,
-} from '../lib';
+} from '../lib.js';
 import {
   encodeTransaction,
   encodeTransactionOutputs,
@@ -41,8 +41,8 @@ const vmVersionsBCH = [
 const vmModes = ['nop2sh', 'p2sh', 'p2sh20', 'p2sh32'] as const;
 type TestSetType = 'invalid' | 'nonstandard' | 'standard';
 type TestSetOverrideType = TestSetType | 'ignore';
-type VmVersionBCH = typeof vmVersionsBCH[number];
-type VmMode = typeof vmModes[number];
+type VmVersionBCH = (typeof vmVersionsBCH)[number];
+type VmMode = (typeof vmModes)[number];
 type TestSetOverrideLabelBCH =
   | 'default'
   | `${TestSetOverrideType}`
@@ -151,7 +151,7 @@ const testSetOverrideListBCH = [
   [],
 ] as const;
 
-type TestSetOverrideListBCH = typeof testSetOverrideListBCH[number];
+type TestSetOverrideListBCH = (typeof testSetOverrideListBCH)[number];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testList = (_list: Readonly<Readonly<TestSetOverrideLabelBCH[]>[]>) => 0;
 // eslint-disable-next-line functional/no-expression-statement

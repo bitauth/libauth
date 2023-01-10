@@ -6,7 +6,7 @@ import type {
   ExtendedScenarioDefinition,
   PartialExactOptional,
   Scenario,
-} from '../lib';
+} from '../lib.js';
 import {
   authenticationTemplateP2pkh,
   authenticationTemplateP2pkhNonHd,

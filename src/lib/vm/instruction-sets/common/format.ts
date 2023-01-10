@@ -2,7 +2,7 @@ import { flattenBinArray } from '../../../format/format.js';
 import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
-} from '../../../lib';
+} from '../../../lib.js';
 
 import {
   pushToStack,

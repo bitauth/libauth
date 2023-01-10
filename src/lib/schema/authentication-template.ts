@@ -1,4 +1,4 @@
-import type { AuthenticationTemplate } from '../lib';
+import type { AuthenticationTemplate } from '../lib.js';
 
 import { ajvStandaloneJsonParse } from './ajv/ajv-utils.js';
 // eslint-disable-next-line import/no-internal-modules
@@ -29,7 +29,7 @@ export const importAuthenticationTemplate = (
   untrustedJsonOrObject: unknown
 ): AuthenticationTemplate | string => {
   const errorPrefix = `Authentication template import failed:`;
-  const template = ajvStandaloneJsonParse(
+  const template = ajvStandaloneJsonParse<AuthenticationTemplate>(
     untrustedJsonOrObject,
     AuthenticationTemplateValidator
   );

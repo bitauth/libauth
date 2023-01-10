@@ -1,4 +1,4 @@
-import type { Sha1 } from '../lib';
+import type { Sha1 } from '../lib.js';
 import {
   getEmbeddedSha1Binary,
   instantiateSha1,

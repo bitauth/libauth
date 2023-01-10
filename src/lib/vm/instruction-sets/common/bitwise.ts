@@ -3,7 +3,7 @@ import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
   Operation,
-} from '../../../lib';
+} from '../../../lib.js';
 
 import {
   combineOperations,

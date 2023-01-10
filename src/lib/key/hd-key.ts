@@ -15,7 +15,7 @@ import {
   flattenBinArray,
   numberToBinUint32BE,
 } from '../format/format.js';
-import type { Ripemd160, Secp256k1, Sha256, Sha512 } from '../lib';
+import type { Ripemd160, Secp256k1, Sha256, Sha512 } from '../lib.js';
 
 import { validateSecp256k1PrivateKey } from './key-utils.js';
 

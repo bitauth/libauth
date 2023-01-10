@@ -6,7 +6,7 @@ import type {
   AuthenticationProgramStateTransactionContext,
   Input,
   Output,
-} from '../../../lib';
+} from '../../../lib.js';
 import type { AuthenticationProgramStateCodeSeparator } from '../../vm-types.js';
 
 import {

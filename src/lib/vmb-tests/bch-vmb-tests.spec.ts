@@ -13,7 +13,7 @@ import type {
   AuthenticationVirtualMachineBCH,
   AuthenticationVirtualMachineBCHCHIPs,
   VmbTest,
-} from '../lib';
+} from '../lib.js';
 import {
   createVirtualMachineBCH2022,
   createVirtualMachineBCH2023,
@@ -116,9 +116,9 @@ const testVm = ({
   vm: AuthenticationVirtualMachineBCH | AuthenticationVirtualMachineBCHCHIPs;
   vmOptions?: { canParseTokens: boolean };
 }) => {
-  const runCase = test.macro({
+  const runCase = test.macro<[VmbTest, boolean]>({
     // eslint-disable-next-line complexity
-    exec: (t, testCase: VmbTest, expectedToSucceed: boolean) => {
+    exec: (t, testCase, expectedToSucceed) => {
       const [
         shortId,
         description,

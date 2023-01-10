@@ -1,4 +1,4 @@
-import type { ParseResult } from '../lib';
+import type { ParseResult } from '../lib.js';
 
 import { P } from './parsimmon.js';
 

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import test from 'ava';
 
-import type { AuthenticationTemplate } from '../lib';
+import type { AuthenticationTemplate } from '../lib.js';
 import {
   authenticationTemplateP2pkh,
   authenticationTemplateP2pkhNonHd,

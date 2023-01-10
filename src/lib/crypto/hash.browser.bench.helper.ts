@@ -4,7 +4,7 @@ import * as asmCrypto from 'asmcrypto.js';
 import suite from 'chuhai';
 import hashJs from 'hash.js';
 
-import type { HashFunction } from '../lib';
+import type { HashFunction } from '../lib.js';
 
 import {
   instantiateRipemd160,

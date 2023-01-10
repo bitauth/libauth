@@ -4,7 +4,7 @@ import fc from 'fast-check';
 import type {
   CashAddressAvailableTypeBits,
   CashAddressSupportedLength,
-} from '../lib';
+} from '../lib.js';
 import {
   attemptCashAddressFormatErrorCorrection,
   CashAddressCorrectionError,

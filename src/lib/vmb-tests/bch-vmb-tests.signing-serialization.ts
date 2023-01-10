@@ -2,7 +2,7 @@
  * See `bch-vmb-tests.ts` for details about modifying this file.
  */
 
-import type { AuthenticationTemplateScenario, VmbTestDefinition, VmbTestDefinitionGroup } from '../lib';
+import type { AuthenticationTemplateScenario, VmbTestDefinition, VmbTestDefinitionGroup } from '../lib.js';
 
 import { emptyP2sh20Input, emptyP2sh20Output, simpleP2pkhInput, simpleP2pkhOutput } from './bch-vmb-test-mixins.js';
 
@@ -22,7 +22,7 @@ const algorithms = [
 ] as const;
 
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
-const akaMap: { [key in typeof algorithms[number]]: string } = {
+const akaMap: { [key in (typeof algorithms)[number]]: string } = {
   all_outputs: 'SIGHASH_ALL|SIGHASH_FORKID',
   all_outputs_all_utxos: 'SIGHASH_ALL|SIGHASH_UTXOS|SIGHASH_FORKID',
   all_outputs_single_input: 'SIGHASH_ALL|SIGHASH_FORKID|ANYONECANPAY',

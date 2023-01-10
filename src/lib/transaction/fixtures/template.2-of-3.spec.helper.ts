@@ -2,7 +2,7 @@
 import type {
   AuthenticationTemplate,
   AuthenticationTemplateEntity,
-} from '../../lib';
+} from '../../lib.js';
 
 const createSigner = (
   name: string,

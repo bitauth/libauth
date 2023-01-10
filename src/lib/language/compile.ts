@@ -8,7 +8,7 @@ import type {
   CompilationResult,
   CompilationResultSuccess,
   CompilerConfiguration,
-} from '../lib';
+} from '../lib.js';
 
 import { compileScriptRaw, createEmptyRange } from './resolve.js';
 

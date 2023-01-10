@@ -1,5 +1,5 @@
+import { testProp } from '@fast-check/ava';
 import test from 'ava';
-import { testProp } from 'ava-fast-check';
 import fc from 'fast-check';
 
 import { binToUtf8, hexToBin, utf8ToBin } from '../lib.js';

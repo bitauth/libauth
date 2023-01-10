@@ -1,4 +1,4 @@
-import type { Sha512 } from '../lib';
+import type { Sha512 } from '../lib.js';
 import {
   getEmbeddedSha512Binary,
   instantiateSha512,

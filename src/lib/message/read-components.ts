@@ -4,7 +4,7 @@ import {
   formatError,
   readCompactSizeMinimal,
 } from '../format/format.js';
-import type { MaybeReadResult, ReadPosition } from '../lib';
+import type { MaybeReadResult, ReadPosition } from '../lib.js';
 
 const enum ReadConstants {
   bytesPerUint32 = 4,

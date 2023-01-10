@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import test from 'ava';
 
-import type { AuthenticationProgramStateBCH } from '../../../lib';
+import type { AuthenticationProgramStateBCH } from '../../../lib.js';
 import {
   assembleBitcoinSatoshiScript,
   createTestAuthenticationProgramBCH,

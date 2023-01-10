@@ -1,5 +1,5 @@
 import { formatError } from '../../../format/format.js';
-import type { AuthenticationProgramStateError } from '../../../lib';
+import type { AuthenticationProgramStateError } from '../../../lib.js';
 
 export enum AuthenticationErrorCommon {
   calledReserved = 'Program called an unassigned, reserved operation.',

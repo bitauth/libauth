@@ -1,4 +1,4 @@
-import type { Ripemd160, Sha256 } from '../lib';
+import type { Ripemd160, Sha256 } from '../lib.js';
 
 import {
   ripemd160 as internalRipemd160,

@@ -9,7 +9,7 @@ import type {
   Operation,
   Secp256k1,
   Sha256,
-} from '../../../../lib';
+} from '../../../../lib.js';
 import {
   applyError,
   AuthenticationErrorCommon,

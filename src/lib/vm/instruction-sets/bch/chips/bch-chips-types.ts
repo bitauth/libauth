@@ -12,7 +12,7 @@ import type {
   AuthenticationProgramStateTransactionContext,
   AuthenticationVirtualMachine,
   ResolvedTransactionBCH,
-} from '../../../../lib';
+} from '../../../../lib.js';
 import {
   cloneAuthenticationInstruction,
   cloneAuthenticationProgramCommon,

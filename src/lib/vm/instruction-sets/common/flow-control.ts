@@ -2,7 +2,7 @@ import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
-} from '../../../lib';
+} from '../../../lib.js';
 
 import { useOneStackItem } from './combinators.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';

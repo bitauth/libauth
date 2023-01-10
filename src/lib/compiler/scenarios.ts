@@ -23,7 +23,7 @@ import type {
   Output,
   Scenario,
   ScenarioGenerationDebuggingResult,
-} from '../lib';
+} from '../lib.js';
 
 import { CompilerDefaults } from './compiler-defaults.js';
 

@@ -10,7 +10,7 @@ import type {
   AuthenticationVirtualMachineBCH,
   AuthenticationVirtualMachineBCHCHIPs,
   VmbTest,
-} from '../lib';
+} from '../lib.js';
 import {
   createVirtualMachineBCH2022,
   createVirtualMachineBCH2023,

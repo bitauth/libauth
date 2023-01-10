@@ -10,7 +10,7 @@ import type {
   Output,
   ResolvedTransactionCommon,
   TransactionCommon,
-} from '../../../../lib';
+} from '../../../../lib.js';
 import {
   encodeTransactionCommon,
   hashTransactionP2pOrder,

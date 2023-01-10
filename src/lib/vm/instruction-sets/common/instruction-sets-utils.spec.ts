@@ -1,11 +1,11 @@
+import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
-import { fc, testProp } from 'ava-fast-check';
 
 import type {
   AuthenticationInstruction,
   AuthenticationInstructionPush,
   AuthenticationInstructionsMaybeMalformed,
-} from '../../../lib';
+} from '../../../lib.js';
 import {
   assembleBytecode,
   assembleBytecodeBCH,

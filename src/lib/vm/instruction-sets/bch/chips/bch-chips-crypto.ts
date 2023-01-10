@@ -17,7 +17,7 @@ import type {
   Secp256k1,
   Sha1,
   Sha256,
-} from '../../../../lib';
+} from '../../../../lib.js';
 import {
   applyError,
   AuthenticationErrorCommon,

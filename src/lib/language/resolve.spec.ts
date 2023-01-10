@@ -4,7 +4,7 @@ import type {
   CashAssemblyScriptSegment,
   IdentifierResolutionFunction,
   ResolvedScript,
-} from '../lib';
+} from '../lib.js';
 import {
   IdentifierResolutionType,
   parseScript,

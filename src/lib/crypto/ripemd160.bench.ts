@@ -1,4 +1,4 @@
-import type { Ripemd160 } from '../lib';
+import type { Ripemd160 } from '../lib.js';
 import { instantiateRipemd160 } from '../lib.js';
 
 import { benchmarkHashingFunction } from './hash.bench.helper.js';

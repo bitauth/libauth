@@ -3,7 +3,7 @@ import {
   sha512 as internalSha512,
 } from '../crypto/default-crypto-instances.js';
 import { flattenBinArray } from '../format/format.js';
-import type { Sha256, Sha512 } from '../lib';
+import type { Sha256, Sha512 } from '../lib.js';
 
 /**
  * Instantiate a hash-based message authentication code (HMAC) function as

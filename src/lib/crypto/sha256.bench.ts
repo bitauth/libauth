@@ -1,4 +1,4 @@
-import type { Sha256 } from '../lib';
+import type { Sha256 } from '../lib.js';
 import { instantiateSha256 } from '../lib.js';
 
 import { benchmarkHashingFunction } from './hash.bench.helper.js';

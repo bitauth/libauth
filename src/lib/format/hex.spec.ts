@@ -1,5 +1,5 @@
+import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
-import { fc, testProp } from 'ava-fast-check';
 
 import {
   binToHex,

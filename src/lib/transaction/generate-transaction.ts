@@ -23,7 +23,7 @@ import type {
   TransactionGenerationAttempt,
   TransactionGenerationError,
   TransactionTemplateFixed,
-} from '../lib';
+} from '../lib.js';
 
 const returnFailedCompilationDirective = <
   Type extends 'locking' | 'unlocking'

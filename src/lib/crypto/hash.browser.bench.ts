@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
-import nodeResolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import test from 'ava';
 import puppeteer from 'puppeteer';
 import { rollup } from 'rollup';

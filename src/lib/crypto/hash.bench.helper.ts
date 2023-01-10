@@ -8,7 +8,7 @@ import bcrypto from 'bcrypto';
 import suite from 'chuhai';
 import hashJs from 'hash.js';
 
-import type { HashFunction } from '../lib';
+import type { HashFunction } from '../lib.js';
 
 export const benchmarkHashingFunction = <T extends HashFunction>(
   hashFunctionName: string,

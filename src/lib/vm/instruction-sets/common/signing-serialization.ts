@@ -5,7 +5,7 @@ import {
   numberToBinUint32LE,
   valueSatoshisToBin,
 } from '../../../format/format.js';
-import type { CompilationContextBCH, Sha256 } from '../../../lib';
+import type { CompilationContextBCH, Sha256 } from '../../../lib.js';
 import {
   encodeTokenPrefix,
   encodeTransactionInputSequenceNumbersForSigning,

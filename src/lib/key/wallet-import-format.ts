@@ -4,7 +4,7 @@ import {
   encodeBase58AddressFormat,
 } from '../address/address.js';
 import { sha256 as internalSha256 } from '../crypto/crypto.js';
-import type { Sha256 } from '../lib';
+import type { Sha256 } from '../lib.js';
 
 export enum WalletImportFormatError {
   incorrectLength = 'The WIF private key payload is not the correct length.',

@@ -3,7 +3,7 @@ import type {
   AuthenticationTemplateScenarioInput,
   AuthenticationTemplateScenarioSourceOutput,
   AuthenticationTemplateScenarioTransactionOutput,
-} from '../lib';
+} from '../lib.js';
 
 export const simpleP2pkhOutput: AuthenticationTemplateScenarioSourceOutput = {
   lockingBytecode: { script: 'lockP2pkh' },

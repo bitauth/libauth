@@ -2,7 +2,7 @@
 // cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../format/format.js';
 
-import type { Secp256k1Wasm } from './secp256k1-wasm-types';
+import type { Secp256k1Wasm } from './secp256k1-wasm-types.js';
 import { CompressionFlag, ContextFlag } from './secp256k1-wasm-types.js';
 import { secp256k1Base64Bytes } from './secp256k1.base64.js';
 

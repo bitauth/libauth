@@ -1,4 +1,8 @@
-import type { CompilationData, CompilationError, ResolvedScript } from '../lib';
+import type {
+  CompilationData,
+  CompilationError,
+  ResolvedScript,
+} from '../lib.js';
 
 /**
  * Data type representing a Transaction Input.

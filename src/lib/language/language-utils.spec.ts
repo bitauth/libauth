@@ -2,7 +2,7 @@
 /* eslint-disable max-lines */
 import test from 'ava';
 
-import type { Range } from '../lib';
+import type { Range } from '../lib.js';
 import {
   AuthenticationErrorCommon,
   compileCashAssembly,

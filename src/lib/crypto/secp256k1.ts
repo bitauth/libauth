@@ -1,5 +1,5 @@
 /* eslint-disable functional/no-conditional-statement, functional/no-expression-statement, functional/no-return-void */
-import type { RecoveryId, Secp256k1, Secp256k1Wasm } from '../lib';
+import type { RecoveryId, Secp256k1, Secp256k1Wasm } from '../lib.js';
 
 import {
   CompressionFlag,

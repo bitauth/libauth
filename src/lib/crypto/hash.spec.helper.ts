@@ -9,7 +9,7 @@ import bcrypto from 'bcrypto';
 import fc from 'fast-check';
 import hashJs from 'hash.js';
 
-import type { HashFunction } from '../lib';
+import type { HashFunction } from '../lib.js';
 import { utf8ToBin } from '../lib.js';
 
 const testLength = 10000;

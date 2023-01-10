@@ -10,7 +10,7 @@ import type {
   Operation,
   Output,
   TransactionCommon,
-} from '../../../lib';
+} from '../../../lib.js';
 import {
   cloneTransactionCommon,
   cloneTransactionOutputsCommon,

@@ -133,13 +133,9 @@ This library requires [Yarn](https://yarnpkg.com/) for development. If you don't
 git clone --recursive https://github.com/bitauth/libauth.git && cd libauth
 ```
 
-Install the development dependencies:
+Note that it is not necessary to run `yarn install` – all of [Libauth's dependencies are tracked in an independent git repository](https://github.com/bitauth/libauth-dependencies), and the dependency repo is automatically shallow-cloned into the `.yarn` directory.
 
-```
-yarn
-```
-
-Then try running the test suite:
+Try running the test suite:
 
 ```
 yarn test

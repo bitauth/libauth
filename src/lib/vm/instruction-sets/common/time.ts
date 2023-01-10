@@ -2,7 +2,7 @@ import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
   AuthenticationProgramStateTransactionContext,
-} from '../../../lib';
+} from '../../../lib.js';
 
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { isVmNumberError, vmNumberToBigInt } from './instruction-sets-utils.js';

@@ -10,7 +10,7 @@ import type {
   Secp256k1,
   Sha256,
   Sha512,
-} from '../lib';
+} from '../lib.js';
 
 export interface CompilerOperationDebug {
   /**

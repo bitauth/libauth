@@ -19,7 +19,7 @@ import type {
   CompilationResult,
   Compiler,
   CompilerConfiguration,
-} from '../lib';
+} from '../lib.js';
 import {
   generateBytecodeMap,
   Opcodes,

@@ -1,4 +1,4 @@
-import type { AuthenticationProgramStateCommon } from '../../../lib';
+import type { AuthenticationProgramStateCommon } from '../../../lib.js';
 
 export interface SegWitState {
   readonly witnessBytecode: Uint8Array;

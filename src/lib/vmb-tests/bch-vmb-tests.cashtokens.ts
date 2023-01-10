@@ -3,7 +3,7 @@
  * See `bch-vmb-tests.ts` for details about modifying this file.
  */
 
-import type { VmbTestDefinitionGroup } from '../lib';
+import type { VmbTestDefinitionGroup } from '../lib.js';
 import { binToHex, cashAssemblyToBin, range } from '../lib.js';
 
 export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [

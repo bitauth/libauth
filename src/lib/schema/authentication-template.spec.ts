@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import test from 'ava';
 
-import type { AuthenticationTemplate } from '../lib';
+import type { AuthenticationTemplate } from '../lib.js';
 import {
   BuiltInVariables,
   importAuthenticationTemplate,

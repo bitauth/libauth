@@ -3,7 +3,7 @@ import type {
   Compiler,
   TransactionGenerationAttempt,
   TransactionTemplateEstimated,
-} from '../lib';
+} from '../lib.js';
 
 /**
  * Generate an "estimated" transaction – an invalid transaction that matches

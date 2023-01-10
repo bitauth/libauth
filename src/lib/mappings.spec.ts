@@ -32,7 +32,7 @@ import type {
   Transaction,
   TransactionBCH,
   TransactionCommon,
-} from './lib';
+} from './lib.js';
 import {
   AuthenticationErrorBCH,
   AuthenticationErrorBCH2023,

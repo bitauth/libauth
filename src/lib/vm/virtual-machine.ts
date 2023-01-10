@@ -4,7 +4,7 @@ import type {
   AuthenticationProgramStateCommon,
   AuthenticationProgramStateMinimum,
   ResolvedTransactionCommon,
-} from '../lib';
+} from '../lib.js';
 
 /**
  * Operations define the behavior of an opcode in an {@link InstructionSet}.
@@ -362,7 +362,7 @@ export const createAuthenticationVirtualMachine = <
     return state;
   };
 
-  const stateClone = (state: ProgramState) => instructionSet.clone(state);
+  const stateClone = instructionSet.clone;
   const { success } = instructionSet;
 
   const stateEvaluate = (state: ProgramState) =>

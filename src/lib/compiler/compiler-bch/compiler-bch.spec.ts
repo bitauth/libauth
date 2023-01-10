@@ -3,7 +3,7 @@ import test from 'ava';
 import type {
   AuthenticationInstruction,
   AuthenticationProgramBCH,
-} from '../../lib';
+} from '../../lib.js';
 import {
   createAuthenticationProgramStateCommon,
   createCompilationContextCommonTesting,

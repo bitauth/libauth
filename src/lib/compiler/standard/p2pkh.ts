@@ -1,4 +1,4 @@
-import type { AuthenticationTemplate } from '../../lib';
+import type { AuthenticationTemplate } from '../../lib.js';
 
 /**
  * A standard single-factor authentication template that uses

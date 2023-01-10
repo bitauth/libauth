@@ -2,3 +2,7 @@
 	path = wasm/secp256k1
 	url = https://github.com/bitauth/libauth-secp256k1.git
 	branch = libauth
+[submodule ".yarn"]
+	path = .yarn
+	url = https://github.com/bitauth/libauth-dependencies.git
+	shallow = true

@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import type { AuthenticationProgramBCH, Output } from '../../../lib';
+import type { AuthenticationProgramBCH, Output } from '../../../lib.js';
 import {
   createAuthenticationProgramStateCommon,
   createCompilationContextCommonTesting,

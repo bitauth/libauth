@@ -4,7 +4,7 @@ import type {
   Base58AddressNetwork,
   CashAddressNetworkPrefix,
   Sha256,
-} from '../lib';
+} from '../lib.js';
 
 import {
   Base58AddressFormatVersion,

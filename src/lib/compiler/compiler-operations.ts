@@ -7,7 +7,7 @@ import { decodeHdPublicKey, deriveHdPath } from '../key/key.js';
 import type {
   AuthenticationTemplateHdKey,
   CompilerOperationResult,
-} from '../lib';
+} from '../lib.js';
 import {
   encodeTransactionInputSequenceNumbersForSigning,
   encodeTransactionOutpoints,

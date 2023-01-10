@@ -9,7 +9,7 @@ import type {
   ResolvedScript,
   ScriptReductionTraceChildNode,
   ScriptReductionTraceScriptNode,
-} from '../lib';
+} from '../lib.js';
 import { AuthenticationErrorCommon, encodeDataPush } from '../vm/vm.js';
 
 import { mergeRanges } from './language-utils.js';

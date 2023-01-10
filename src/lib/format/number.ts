@@ -1,4 +1,4 @@
-import type { MaybeReadResult, ReadPosition } from '../lib';
+import type { MaybeReadResult, ReadPosition } from '../lib.js';
 
 import { formatError } from './error.js';
 

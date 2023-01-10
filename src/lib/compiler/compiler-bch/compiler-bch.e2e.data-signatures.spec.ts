@@ -3,7 +3,7 @@ import test from 'ava';
 import type {
   AuthenticationProgramStateBCH,
   BytecodeGenerationResult,
-} from '../../lib';
+} from '../../lib.js';
 import { hexToBin } from '../../lib.js';
 
 import {

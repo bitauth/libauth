@@ -9,7 +9,7 @@ import type {
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
   Operation,
-} from '../../../lib';
+} from '../../../lib.js';
 
 import { pushToStack } from './combinators.js';
 import { ConsensusCommon } from './consensus.js';

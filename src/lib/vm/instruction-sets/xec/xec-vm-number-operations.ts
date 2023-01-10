@@ -1,7 +1,7 @@
 import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
-} from '../../../lib';
+} from '../../../lib.js';
 import {
   applyError,
   AuthenticationErrorCommon,

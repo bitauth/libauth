@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import type { CompilationData, TransactionCommon } from '../lib';
+import type { CompilationData, TransactionCommon } from '../lib.js';
 import {
   authenticationTemplateToCompilerBCH,
   CashAddressNetworkPrefix,

@@ -2,7 +2,7 @@ import type {
   AuthenticationInstruction,
   Output,
   TransactionCommon,
-} from '../lib';
+} from '../lib.js';
 
 export interface AuthenticationProgramStateMinimum {
   /**

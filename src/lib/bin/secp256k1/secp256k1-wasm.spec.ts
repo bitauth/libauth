@@ -5,7 +5,7 @@ import { join } from 'path';
 import type { ExecutionContext } from 'ava';
 import test from 'ava';
 
-import type { Secp256k1Wasm } from '../../lib';
+import type { Secp256k1Wasm } from '../../lib.js';
 import {
   CompressionFlag,
   ContextFlag,

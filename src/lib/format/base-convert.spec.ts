@@ -1,7 +1,7 @@
+import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
-import { fc, testProp } from 'ava-fast-check';
 
-import type { BaseConverter } from '../lib';
+import type { BaseConverter } from '../lib.js';
 import {
   base58ToBin,
   BaseConversionError,

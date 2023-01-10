@@ -1,5 +1,5 @@
 import { formatError } from '../format/format.js';
-import type { Immutable } from '../lib';
+import type { Immutable } from '../lib.js';
 
 import {
   decodeBech32,

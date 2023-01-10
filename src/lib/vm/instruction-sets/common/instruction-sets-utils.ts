@@ -20,7 +20,7 @@ import type {
   AuthenticationInstructionsMalformed,
   AuthenticationInstructionsMaybeMalformed,
   Output,
-} from '../../../lib';
+} from '../../../lib.js';
 import { encodeTransactionOutput } from '../../../message/message.js';
 import { OpcodesBCH } from '../bch/2023/bch-2023-opcodes.js';
 import { OpcodesBTC } from '../btc/btc-opcodes.js';

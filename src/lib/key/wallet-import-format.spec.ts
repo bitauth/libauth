@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import type { WalletImportFormatType } from '../lib';
+import type { WalletImportFormatType } from '../lib.js';
 import {
   Base58AddressError,
   decodePrivateKeyWif,

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import type { AuthenticationTemplate } from '../../lib';
+import type { AuthenticationTemplate } from '../../lib.js';
 import { CompilerDefaults } from '../../lib.js';
 
 const secondsIn30Days = 2592000;

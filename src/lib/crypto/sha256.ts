@@ -1,4 +1,4 @@
-import type { HashFunction } from '../lib';
+import type { HashFunction } from '../lib.js';
 
 import {
   base64ToBin,

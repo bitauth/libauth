@@ -5,7 +5,7 @@ import {
   binToBase58,
   flattenBinArray,
 } from '../format/format.js';
-import type { Sha256 } from '../lib';
+import type { Sha256 } from '../lib.js';
 
 /**
  * Base58 version byte values for common Base58Address format versions.

@@ -8,7 +8,7 @@ import type {
   CompilationData,
   CompilerConfiguration,
   CompilerConfigurationBCH,
-} from '../../lib';
+} from '../../lib.js';
 import {
   compilerConfigurationToCompilerBCH,
   compilerOperationsBCH,

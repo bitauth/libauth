@@ -1,5 +1,5 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import type { AuthenticationTemplate } from '../../lib';
+import type { AuthenticationTemplate } from '../../lib.js';
 
 export const cashChannels: AuthenticationTemplate = {
   $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',

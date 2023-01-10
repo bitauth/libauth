@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import type { Output, TransactionCommon } from '../lib';
+import type { Output, TransactionCommon } from '../lib.js';
 import {
   decodeTransactionCommon,
   encodeTokenPrefix,

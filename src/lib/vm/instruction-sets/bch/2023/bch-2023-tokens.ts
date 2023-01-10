@@ -6,7 +6,7 @@ import type {
   Input,
   Output,
   Transaction,
-} from '../../../../lib';
+} from '../../../../lib.js';
 import {
   pushToStackChecked,
   pushToStackVmNumber,

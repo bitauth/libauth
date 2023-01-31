@@ -126,14 +126,16 @@ Libauth also exports new, potentially unstable APIs. As these APIs stabilize, th
 
 Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) for details.
 
-This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed (ships with `npm`), then run `npm install -g yarn`. Once Yarn is installed:
+This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed, then run `npm install -g yarn`. Once Yarn is installed:
 
 ```sh
-# use --recursive to clone the secp256k1 submodule
-git clone --recursive https://github.com/bitauth/libauth.git && cd libauth
+# note the use of --recursive to clone submodules
+git clone --recursive https://github.com/bitauth/libauth.git
+cd libauth
+yarn
 ```
 
-Note that it is not necessary to run `yarn install` – all of [Libauth's dependencies are tracked in an independent git repository](https://github.com/bitauth/libauth-dependencies), and the dependency repo is automatically shallow-cloned into the `.yarn` directory.
+Libauth uses [Yarn's Zero-Installs strategy](https://yarnpkg.com/features/zero-installs) – all of [Libauth's dependencies are tracked in an independent git repository](https://github.com/bitauth/libauth-dependencies), and the dependency repo is automatically shallow-cloned into the `.yarn` directory.
 
 Try running the test suite:
 

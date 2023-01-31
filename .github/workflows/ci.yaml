@@ -11,15 +11,16 @@ jobs:
     name: Test Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          cache: 'yarn'
-      - run: yarn --frozen-lockfile --ignore-engines
+      - run: yarn install --immutable --immutable-cache
       - run: yarn test
 
-  build-and-test-node18:
+  build-and-test-with-coverage:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,12 +28,26 @@ jobs:
     name: Test Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          cache: 'yarn'
-      - run: yarn --frozen-lockfile --ignore-engines
-      - run: yarn test-node18
+      - run: yarn install --immutable --immutable-cache
+      - run: yarn test
       - name: Upload test coverage
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
+
+  check-yarn-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: yarn install --immutable --immutable-cache --check-cache

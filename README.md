@@ -19,7 +19,7 @@
     <img src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg" alt="Codecov" />
   </a>
   <a href="https://github.com/bitauth/libauth/actions/workflows/ci.yaml">
-    <img src="https://img.shields.io/github/workflow/status/bitauth/libauth/Lint,%20Build,%20and%20Test%20Libauth?logo=github" alt="CI" />
+    <img src="https://img.shields.io/github/actions/workflow/status/bitauth/libauth/ci.yaml?branch=v2" alt="CI" />
   </a>
   <a href="https://twitter.com/bitauth">
     <img alt="Follow Bitauth on Twitter" src="https://img.shields.io/badge/follow-@bitauth-1DA1F2?logo=twitter">

@@ -1,9 +1,10 @@
+import type { HashFunction } from '../lib.js';
+
 import {
-  HashFunction,
+  base64ToBin,
   instantiateRustWasm,
   sha256Base64Bytes,
-} from '../bin/bin';
-import { base64ToBin } from '../format/format';
+} from './dependencies.js';
 
 export interface Sha256 extends HashFunction {
   /**
@@ -58,7 +59,7 @@ export interface Sha256 extends HashFunction {
 
 /**
  * The most performant way to instantiate sha256 functionality. To avoid
- * using Node.js or DOM-specific APIs, you can use `instantiateSha256`.
+ * using Node.js or DOM-specific APIs, you can use {@link instantiateSha256}.
  *
  * @param webassemblyBytes - A buffer containing the sha256 binary.
  */
@@ -84,19 +85,10 @@ export const instantiateSha256Bytes = async (
 export const getEmbeddedSha256Binary = () =>
   base64ToBin(sha256Base64Bytes).buffer;
 
-const cachedSha256: { cache?: Promise<Sha256> } = {};
-
 /**
  * An ultimately-portable (but possibly slower) version of
- * `instantiateSha256Bytes` which does not require the consumer to provide the
- * sha256 binary buffer.
+ * {@link instantiateSha256Bytes} which does not require the consumer to provide
+ * the sha256 binary buffer.
  */
-export const instantiateSha256 = async (): Promise<Sha256> => {
-  if (cachedSha256.cache !== undefined) {
-    return cachedSha256.cache;
-  }
-  const result = instantiateSha256Bytes(getEmbeddedSha256Binary());
-  // eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
-  cachedSha256.cache = result;
-  return result;
-};
+export const instantiateSha256 = async (): Promise<Sha256> =>
+  instantiateSha256Bytes(getEmbeddedSha256Binary());

@@ -1,16 +1,14 @@
-/* eslint-disable functional/no-conditional-statement, functional/no-expression-statement, functional/no-throw-statement */
+/* eslint-disable functional/no-conditional-statement, functional/no-expression-statement, functional/no-return-void */
+import type { RecoveryId, Secp256k1, Secp256k1Wasm } from '../lib.js';
+
 import {
   CompressionFlag,
   ContextFlag,
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
-  Secp256k1Wasm,
-} from '../bin/bin';
+} from './dependencies.js';
 
-import { RecoverableSignature, RecoveryId, Secp256k1 } from './secp256k1-types';
-
-export { RecoverableSignature, RecoveryId, Secp256k1 };
-
+/* eslint-disable @typescript-eslint/no-duplicate-enum-values */
 const enum ByteLength {
   compactSig = 64,
   compressedPublicKey = 33,
@@ -24,6 +22,20 @@ const enum ByteLength {
   recoverableSig = 65,
   schnorrSig = 64,
   uncompressedPublicKey = 65,
+}
+/* eslint-enable @typescript-eslint/no-duplicate-enum-values */
+
+export enum Secp256k1Error {
+  unparsableSignature = 'Failed to parse signature.',
+  unparsablePublicKey = 'Failed to parse public key.',
+  derivePublicKeyFromInvalidPrivateKey = 'Cannot derive public key from invalid private key.',
+  signWithInvalidPrivateKey = 'Failed to sign message hash. The private key is not valid.',
+  recoverPublicKeyWithUnparsableSignature = 'Failed to recover public key. Could not parse signature.',
+  recoverPublicKeyInvalidMaterial = 'Failed to recover public key. The compact signature, recovery, or message hash is invalid.',
+  addTweakPrivateKey = 'Private key is invalid or adding failed.',
+  mulTweakPrivateKey = 'Private key is invalid or multiplying failed.',
+  addTweakPublicKey = 'Failed to tweak public key (by addition).',
+  mulTweakPublicKey = 'Failed to tweak public key (by multiplication).',
 }
 
 /**
@@ -100,7 +112,8 @@ const wrapSecp256k1Wasm = (
     secp256k1Wasm.heapU32.set([value], lengthPtrView32);
   };
 
-  const getLengthPtr = () => secp256k1Wasm.heapU32[lengthPtrView32];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const getLengthPtr = () => secp256k1Wasm.heapU32[lengthPtrView32]!;
 
   const serializePublicKey = (length: number, flag: number) => {
     setLengthPtr(length);
@@ -125,11 +138,9 @@ const wrapSecp256k1Wasm = (
           CompressionFlag.UNCOMPRESSED
         );
 
-  const convertPublicKey = (
-    compressed: boolean
-  ): ((publicKey: Uint8Array) => Uint8Array) => (publicKey) => {
+  const convertPublicKey = (compressed: boolean) => (publicKey: Uint8Array) => {
     if (!parsePublicKey(publicKey)) {
-      throw new Error('Failed to parse public key.');
+      return Secp256k1Error.unparsablePublicKey;
     }
     return getSerializedPublicKey(compressed);
   };
@@ -149,12 +160,6 @@ const wrapSecp256k1Wasm = (
           internalSigPtr,
           sigScratch
         ) === 1;
-  };
-
-  const parseOrThrow = (signature: Uint8Array, isDer: boolean) => {
-    if (!parseSignature(signature, isDer)) {
-      throw new Error('Failed to parse signature.');
-    }
   };
 
   const getCompactSig = () => {
@@ -177,10 +182,10 @@ const wrapSecp256k1Wasm = (
     return secp256k1Wasm.readHeapU8(sigScratch, getLengthPtr()).slice();
   };
 
-  const convertSignature = (
-    wasDER: boolean
-  ): ((signature: Uint8Array) => Uint8Array) => (signature) => {
-    parseOrThrow(signature, wasDER);
+  const convertSignature = (wasDER: boolean) => (signature: Uint8Array) => {
+    if (!parseSignature(signature, wasDER)) {
+      return Secp256k1Error.unparsableSignature;
+    }
     return wasDER ? getCompactSig() : getDERSig();
   };
 
@@ -207,9 +212,7 @@ const wrapSecp256k1Wasm = (
     return ret;
   };
 
-  const derivePublicKey = (
-    compressed: boolean
-  ): ((privateKey: Uint8Array) => Uint8Array) => (privateKey) => {
+  const derivePublicKey = (compressed: boolean) => (privateKey: Uint8Array) => {
     const invalid = withPrivateKey<boolean>(
       privateKey,
       () =>
@@ -221,7 +224,7 @@ const wrapSecp256k1Wasm = (
     );
 
     if (invalid) {
-      throw new Error('Cannot derive public key from invalid private key.');
+      return Secp256k1Error.derivePublicKeyFromInvalidPrivateKey;
     }
 
     return getSerializedPublicKey(compressed);
@@ -240,22 +243,22 @@ const wrapSecp256k1Wasm = (
     );
   };
 
-  const modifySignature = (
-    isDer: boolean,
-    normalize: boolean
-  ): ((signature: Uint8Array) => Uint8Array) => (signature) => {
-    parseOrThrow(signature, isDer);
-    if (normalize) {
-      normalizeSignature();
-    } else {
-      secp256k1Wasm.signatureMalleate(
-        contextPtr,
-        internalSigPtr,
-        internalSigPtr
-      );
-    }
-    return isDer ? getDERSig() : getCompactSig();
-  };
+  const modifySignature =
+    (isDer: boolean, normalize: boolean) => (signature: Uint8Array) => {
+      if (!parseSignature(signature, isDer)) {
+        return Secp256k1Error.unparsableSignature;
+      }
+      if (normalize) {
+        normalizeSignature();
+      } else {
+        secp256k1Wasm.signatureMalleate(
+          contextPtr,
+          internalSigPtr,
+          internalSigPtr
+        );
+      }
+      return isDer ? getDERSig() : getCompactSig();
+    };
 
   const parseAndNormalizeSignature = (
     signature: Uint8Array,
@@ -269,72 +272,64 @@ const wrapSecp256k1Wasm = (
     return ret;
   };
 
-  const signMessageHash = (isDer: boolean) => (
-    privateKey: Uint8Array,
-    messageHash: Uint8Array
-  ) => {
-    fillMessageHashScratch(messageHash);
-    return withPrivateKey<Uint8Array>(privateKey, () => {
-      const failed =
-        secp256k1Wasm.sign(
-          contextPtr,
-          internalSigPtr,
-          messageHashScratch,
-          privateKeyPtr
-        ) !== 1;
+  const signMessageHash =
+    (isDer: boolean) => (privateKey: Uint8Array, messageHash: Uint8Array) => {
+      fillMessageHashScratch(messageHash);
+      return withPrivateKey(privateKey, () => {
+        const failed =
+          secp256k1Wasm.sign(
+            contextPtr,
+            internalSigPtr,
+            messageHashScratch,
+            privateKeyPtr
+          ) !== 1;
 
-      if (failed) {
-        throw new Error(
-          'Failed to sign message hash. The private key is not valid.'
-        );
-      }
+        if (failed) {
+          return Secp256k1Error.signWithInvalidPrivateKey;
+        }
 
-      if (isDer) {
-        setLengthPtr(ByteLength.maxECDSASig);
-        secp256k1Wasm.signatureSerializeDER(
+        if (isDer) {
+          setLengthPtr(ByteLength.maxECDSASig);
+          secp256k1Wasm.signatureSerializeDER(
+            contextPtr,
+            sigScratch,
+            lengthPtr,
+            internalSigPtr
+          );
+          return secp256k1Wasm.readHeapU8(sigScratch, getLengthPtr()).slice();
+        }
+        secp256k1Wasm.signatureSerializeCompact(
           contextPtr,
           sigScratch,
-          lengthPtr,
           internalSigPtr
         );
-        return secp256k1Wasm.readHeapU8(sigScratch, getLengthPtr()).slice();
-      }
-      secp256k1Wasm.signatureSerializeCompact(
-        contextPtr,
-        sigScratch,
-        internalSigPtr
-      );
-      return secp256k1Wasm
-        .readHeapU8(sigScratch, ByteLength.compactSig)
-        .slice();
-    });
-  };
+        return secp256k1Wasm
+          .readHeapU8(sigScratch, ByteLength.compactSig)
+          .slice();
+      });
+    };
 
-  const signMessageHashSchnorr = () => (
-    privateKey: Uint8Array,
-    messageHash: Uint8Array
-  ) => {
-    fillMessageHashScratch(messageHash);
-    return withPrivateKey<Uint8Array>(privateKey, () => {
-      const failed =
-        secp256k1Wasm.schnorrSign(
-          contextPtr,
-          schnorrSigPtr,
-          messageHashScratch,
-          privateKeyPtr
-        ) !== 1;
+  const signMessageHashSchnorr =
+    () => (privateKey: Uint8Array, messageHash: Uint8Array) => {
+      fillMessageHashScratch(messageHash);
+      return withPrivateKey(privateKey, () => {
+        const failed =
+          secp256k1Wasm.schnorrSign(
+            contextPtr,
+            schnorrSigPtr,
+            messageHashScratch,
+            privateKeyPtr
+          ) !== 1;
 
-      if (failed) {
-        throw new Error(
-          'Failed to sign message hash. The private key is not valid.'
-        );
-      }
+        if (failed) {
+          return Secp256k1Error.signWithInvalidPrivateKey;
+        }
 
-      return secp256k1Wasm
-        .readHeapU8(schnorrSigPtr, ByteLength.schnorrSig)
-        .slice();
-    });
-  };
+        return secp256k1Wasm
+          .readHeapU8(schnorrSigPtr, ByteLength.schnorrSig)
+          .slice();
+      });
+    };
 
   const verifyMessage = (messageHash: Uint8Array) => {
     fillMessageHashScratch(messageHash);
@@ -348,14 +343,12 @@ const wrapSecp256k1Wasm = (
     );
   };
 
-  const verifySignature = (isDer: boolean, normalize: boolean) => (
-    signature: Uint8Array,
-    publicKey: Uint8Array,
-    messageHash: Uint8Array
-  ) =>
-    parsePublicKey(publicKey) &&
-    parseAndNormalizeSignature(signature, isDer, normalize) &&
-    verifyMessage(messageHash);
+  const verifySignature =
+    (isDer: boolean, normalize: boolean) =>
+    (signature: Uint8Array, publicKey: Uint8Array, messageHash: Uint8Array) =>
+      parsePublicKey(publicKey) &&
+      parseAndNormalizeSignature(signature, isDer, normalize) &&
+      verifyMessage(messageHash);
 
   const verifyMessageSchnorr = (
     messageHash: Uint8Array,
@@ -374,21 +367,19 @@ const wrapSecp256k1Wasm = (
     );
   };
 
-  const verifySignatureSchnorr = () => (
-    signature: Uint8Array,
-    publicKey: Uint8Array,
-    messageHash: Uint8Array
-  ) =>
-    parsePublicKey(publicKey)
-      ? verifyMessageSchnorr(messageHash, signature)
-      : false;
+  const verifySignatureSchnorr =
+    () =>
+    (signature: Uint8Array, publicKey: Uint8Array, messageHash: Uint8Array) =>
+      parsePublicKey(publicKey)
+        ? verifyMessageSchnorr(messageHash, signature)
+        : false;
 
   const signMessageHashRecoverable = (
     privateKey: Uint8Array,
     messageHash: Uint8Array
-  ): RecoverableSignature => {
+  ) => {
     fillMessageHashScratch(messageHash);
-    return withPrivateKey<RecoverableSignature>(privateKey, () => {
+    return withPrivateKey(privateKey, () => {
       if (
         secp256k1Wasm.signRecoverable(
           contextPtr,
@@ -397,9 +388,7 @@ const wrapSecp256k1Wasm = (
           privateKeyPtr
         ) !== 1
       ) {
-        throw new Error(
-          'Failed to sign message hash. The private key is not valid.'
-        );
+        return Secp256k1Error.signWithInvalidPrivateKey;
       }
       secp256k1Wasm.recoverableSignatureSerialize(
         contextPtr,
@@ -417,47 +406,45 @@ const wrapSecp256k1Wasm = (
     });
   };
 
-  const recoverPublicKey = (compressed: boolean) => (
-    signature: Uint8Array,
-    recoveryId: RecoveryId,
-    messageHash: Uint8Array
-  ) => {
-    fillMessageHashScratch(messageHash);
-    const paddedSignature = cloneAndPad(signature, ByteLength.maxECDSASig);
-    secp256k1Wasm.heapU8.set(paddedSignature, sigScratch);
-    if (
-      secp256k1Wasm.recoverableSignatureParse(
-        contextPtr,
-        internalRSigPtr,
-        sigScratch,
-        recoveryId
-      ) !== 1
-    ) {
-      throw new Error(
-        'Failed to recover public key. Could not parse signature.'
-      );
-    }
-    if (
-      secp256k1Wasm.recover(
-        contextPtr,
-        internalPublicKeyPtr,
-        internalRSigPtr,
-        messageHashScratch
-      ) !== 1
-    ) {
-      throw new Error(
-        'Failed to recover public key. The compact signature, recovery, or message hash is invalid.'
-      );
-    }
-    return getSerializedPublicKey(compressed);
-  };
+  const recoverPublicKey =
+    (compressed: boolean) =>
+    (
+      signature: Uint8Array,
+      recoveryId: RecoveryId,
+      messageHash: Uint8Array
+    ) => {
+      fillMessageHashScratch(messageHash);
+      const paddedSignature = cloneAndPad(signature, ByteLength.maxECDSASig);
+      secp256k1Wasm.heapU8.set(paddedSignature, sigScratch);
+      if (
+        secp256k1Wasm.recoverableSignatureParse(
+          contextPtr,
+          internalRSigPtr,
+          sigScratch,
+          recoveryId
+        ) !== 1
+      ) {
+        return Secp256k1Error.recoverPublicKeyWithUnparsableSignature;
+      }
+      if (
+        secp256k1Wasm.recover(
+          contextPtr,
+          internalPublicKeyPtr,
+          internalRSigPtr,
+          messageHashScratch
+        ) !== 1
+      ) {
+        return Secp256k1Error.recoverPublicKeyInvalidMaterial;
+      }
+      return getSerializedPublicKey(compressed);
+    };
 
   const addTweakPrivateKey = (
     privateKey: Uint8Array,
     tweakValue: Uint8Array
-  ): Uint8Array => {
+  ) => {
     fillMessageHashScratch(tweakValue);
-    return withPrivateKey<Uint8Array>(privateKey, () => {
+    return withPrivateKey(privateKey, () => {
       if (
         secp256k1Wasm.privkeyTweakAdd(
           contextPtr,
@@ -465,7 +452,7 @@ const wrapSecp256k1Wasm = (
           messageHashScratch
         ) !== 1
       ) {
-        throw new Error('Private key is invalid or adding failed.');
+        return Secp256k1Error.addTweakPrivateKey;
       }
       return secp256k1Wasm
         .readHeapU8(privateKeyPtr, ByteLength.privateKey)
@@ -476,9 +463,9 @@ const wrapSecp256k1Wasm = (
   const mulTweakPrivateKey = (
     privateKey: Uint8Array,
     tweakValue: Uint8Array
-  ): Uint8Array => {
+  ) => {
     fillMessageHashScratch(tweakValue);
-    return withPrivateKey<Uint8Array>(privateKey, () => {
+    return withPrivateKey(privateKey, () => {
       if (
         secp256k1Wasm.privkeyTweakMul(
           contextPtr,
@@ -486,7 +473,7 @@ const wrapSecp256k1Wasm = (
           messageHashScratch
         ) !== 1
       ) {
-        throw new Error('Private key is invalid or multiplying failed.');
+        return Secp256k1Error.mulTweakPrivateKey;
       }
       return secp256k1Wasm
         .readHeapU8(privateKeyPtr, ByteLength.privateKey)
@@ -494,64 +481,44 @@ const wrapSecp256k1Wasm = (
     });
   };
 
-  const addTweakPublicKey = (compressed: boolean) => (
-    publicKey: Uint8Array,
-    tweakValue: Uint8Array
-  ) => {
-    if (!parsePublicKey(publicKey)) {
-      throw new Error('Failed to parse public key.');
-    }
-    fillMessageHashScratch(tweakValue);
-    if (
-      secp256k1Wasm.pubkeyTweakAdd(
-        contextPtr,
-        internalPublicKeyPtr,
-        messageHashScratch
-      ) !== 1
-    ) {
-      throw new Error('Adding failed');
-    }
-    return getSerializedPublicKey(compressed);
-  };
+  const addTweakPublicKey =
+    (compressed: boolean) =>
+    (publicKey: Uint8Array, tweakValue: Uint8Array) => {
+      if (!parsePublicKey(publicKey)) {
+        return Secp256k1Error.unparsablePublicKey;
+      }
+      fillMessageHashScratch(tweakValue);
+      if (
+        secp256k1Wasm.pubkeyTweakAdd(
+          contextPtr,
+          internalPublicKeyPtr,
+          messageHashScratch
+        ) !== 1
+      ) {
+        return Secp256k1Error.addTweakPublicKey;
+      }
+      return getSerializedPublicKey(compressed);
+    };
 
-  const mulTweakPublicKey = (compressed: boolean) => (
-    publicKey: Uint8Array,
-    tweakValue: Uint8Array
-  ) => {
-    if (!parsePublicKey(publicKey)) {
-      throw new Error('Failed to parse public key.');
-    }
-    fillMessageHashScratch(tweakValue);
-    if (
-      secp256k1Wasm.pubkeyTweakMul(
-        contextPtr,
-        internalPublicKeyPtr,
-        messageHashScratch
-      ) !== 1
-    ) {
-      throw new Error('Multiplying failed');
-    }
-    return getSerializedPublicKey(compressed);
-  };
+  const mulTweakPublicKey =
+    (compressed: boolean) =>
+    (publicKey: Uint8Array, tweakValue: Uint8Array) => {
+      if (!parsePublicKey(publicKey)) {
+        return Secp256k1Error.unparsablePublicKey;
+      }
+      fillMessageHashScratch(tweakValue);
+      if (
+        secp256k1Wasm.pubkeyTweakMul(
+          contextPtr,
+          internalPublicKeyPtr,
+          messageHashScratch
+        ) !== 1
+      ) {
+        return Secp256k1Error.mulTweakPublicKey;
+      }
+      return getSerializedPublicKey(compressed);
+    };
 
-  /**
-   * The value of this precaution is debatable, especially in the context of
-   * javascript and WebAssembly.
-   *
-   * In the secp256k1 C library, context randomization is an additional layer of
-   * security from side-channel attacks which attempt to extract private key
-   * information by analyzing things like a CPU's emitted radio frequencies or
-   * power usage.
-   *
-   * In this library, these attacks seem even less likely, since the "platform"
-   * on which this code will be executed (e.g. V8) is likely to obscure any
-   * such signals.
-   *
-   * Still, out of an abundance of caution (and because no one has produced a
-   * definitive proof indicating that this is not helpful), this library exposes
-   * the ability to randomize the context like the C library. Depending on the
-   * intended application, consumers can decide whether or not to randomize.
-   */
   if (randomSeed !== undefined) {
     const randomSeedPtr = messageHashScratch;
     const paddedRandomSeed = cloneAndPad(randomSeed, ByteLength.randomSeed);
@@ -598,35 +565,28 @@ const wrapSecp256k1Wasm = (
 };
 
 /**
- * This method is like `instantiateSecp256k1`, but requires the consumer to
- * `Window.fetch` or `fs.readFile` the `secp256k1.wasm` binary and provide it to
- * this method as `webassemblyBytes`. This skips a base64 decoding of an
+ * This method is like {@link instantiateSecp256k1}, but requires the consumer
+ * to `Window.fetch` or `fs.readFile` the `secp256k1.wasm` binary and provide it
+ * to this method as `webassemblyBytes`. This skips a base64 decoding of an
  * embedded binary.
  *
  * ### Randomizing the Context with `randomSeed`
  * This method also accepts an optional, 32-byte `randomSeed`, which is passed
  * to the `contextRandomize` method in the underlying WebAssembly.
  *
- * The value of this precaution is debatable, especially in the context of
- * javascript and WebAssembly.
- *
  * In the secp256k1 C library, context randomization is an additional layer of
- * security from side-channel attacks which attempt to extract private key
+ * security from side-channel attacks that attempt to extract private key
  * information by analyzing things like a CPU's emitted radio frequencies or
  * power usage.
  *
- * In this library, these attacks seem even less likely, since the "platform"
- * on which this code will be executed (e.g. V8) is likely to obscure any
- * such signals.
- *
- * Still, out of an abundance of caution (and because no one has produced a
- * definitive proof indicating that this is not helpful), this library exposes
- * the ability to randomize the context like the C library. Depending on the
- * intended application, consumers can decide whether or not to randomize.
+ * As most applications also benefit from deterministic, reproducible behavior,
+ * context is not randomized by default in Libauth. To randomize the context,
+ * provide a 32-byte Uint8Array of cryptographically strong random values
+ * (e.g. `Crypto.getRandomValues()`).
  *
  * @param webassemblyBytes - an ArrayBuffer containing the bytes from Libauth's
  * `secp256k1.wasm` binary. Providing this buffer manually may be faster than
- * the internal base64 decode which happens in `instantiateSecp256k1`.
+ * the internal base64 decode that happens in {@link instantiateSecp256k1}.
  * @param randomSeed - a 32-byte random seed used to randomize the secp256k1
  * context after creation. See above for details.
  */
@@ -639,27 +599,16 @@ export const instantiateSecp256k1Bytes = async (
     randomSeed
   );
 
-const cachedSecp256k1: { cache?: Promise<Secp256k1> } = {};
-
 /**
  * Create and wrap a Secp256k1 WebAssembly instance to expose a set of
  * purely-functional Secp256k1 methods. For slightly faster initialization, use
- * `instantiateSecp256k1Bytes`.
+ * {@link instantiateSecp256k1Bytes}.
  *
  * @param randomSeed - a 32-byte random seed used to randomize the secp256k1
- * context after creation. See the description in `instantiateSecp256k1Bytes`
- * for details.
+ * context after creation. See the description in
+ * {@link instantiateSecp256k1Bytes} for details.
  */
 export const instantiateSecp256k1 = async (
   randomSeed?: Uint8Array
-): Promise<Secp256k1> => {
-  if (cachedSecp256k1.cache !== undefined) {
-    return cachedSecp256k1.cache;
-  }
-  const result = Promise.resolve(
-    wrapSecp256k1Wasm(await instantiateSecp256k1Wasm(), randomSeed)
-  );
-  // eslint-disable-next-line require-atomic-updates, functional/immutable-data
-  cachedSecp256k1.cache = result;
-  return result;
-};
+): Promise<Secp256k1> =>
+  wrapSecp256k1Wasm(await instantiateSecp256k1Wasm(), randomSeed);

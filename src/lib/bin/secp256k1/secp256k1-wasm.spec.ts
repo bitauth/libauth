@@ -1,18 +1,18 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-import test, { ExecutionContext } from 'ava';
+import type { ExecutionContext } from 'ava';
+import test from 'ava';
 
+import type { Secp256k1Wasm } from '../../lib.js';
 import {
   CompressionFlag,
   ContextFlag,
   getEmbeddedSecp256k1Binary,
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
-  Secp256k1Wasm,
-} from '../../lib';
+} from '../../lib.js';
 
 // test vectors from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong` (`xprv9s21ZrQH143K2PfMvkNViFc1fgumGqBew45JD8SxA59Jc5M66n3diqb92JjvaR61zT9P89Grys12kdtV4EFVo6tMwER7U2hcUmZ9VfMYPLC`), m/0 and m/1:
 
@@ -263,8 +263,8 @@ const testSecp256k1Wasm = (
     rawRSigPtr
   );
   const compactRSig = secp256k1Wasm.readHeapU8(compactRSigPtr, 64);
-  // eslint-disable-next-line no-bitwise
-  const rID = secp256k1Wasm.heapU32[rIDPtr >> 2];
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+  const rID = secp256k1Wasm.heapU32[rIDPtr >> 2]!;
 
   t.deepEqual(compactRSig, sigCompact);
   t.is(rID, 1);
@@ -319,9 +319,8 @@ const testSecp256k1Wasm = (
   const privkeyTweakedAddPtr = secp256k1Wasm.malloc(32);
   const rawPubkeyDerivedTweakedAddPtr = secp256k1Wasm.malloc(64);
   const pubkeyDerivedTweakedAddCompressedPtr = secp256k1Wasm.malloc(33);
-  const pubkeyDerivedTweakedAddCompressedLengthPtr = secp256k1Wasm.mallocSizeT(
-    33
-  );
+  const pubkeyDerivedTweakedAddCompressedLengthPtr =
+    secp256k1Wasm.mallocSizeT(33);
   const rawPubkeyTweakedAddPtr = secp256k1Wasm.malloc(64);
   const pubkeyTweakedAddCompressedPtr = secp256k1Wasm.malloc(33);
   const pubkeyTweakedAddCompressedLengthPtr = secp256k1Wasm.mallocSizeT(33);
@@ -329,9 +328,8 @@ const testSecp256k1Wasm = (
   const privkeyTweakedMulPtr = secp256k1Wasm.malloc(32);
   const rawPubkeyDerivedTweakedMulPtr = secp256k1Wasm.malloc(64);
   const pubkeyDerivedTweakedMulCompressedPtr = secp256k1Wasm.malloc(33);
-  const pubkeyDerivedTweakedMulCompressedLengthPtr = secp256k1Wasm.mallocSizeT(
-    33
-  );
+  const pubkeyDerivedTweakedMulCompressedLengthPtr =
+    secp256k1Wasm.mallocSizeT(33);
   const rawPubkeyTweakedMulPtr = secp256k1Wasm.malloc(64);
   const pubkeyTweakedMulCompressedPtr = secp256k1Wasm.malloc(33);
   const pubkeyTweakedMulCompressedLengthPtr = secp256k1Wasm.mallocSizeT(33);
@@ -494,7 +492,7 @@ const testSecp256k1Wasm = (
 const binary = getEmbeddedSecp256k1Binary();
 
 test('[crypto] getEmbeddedSecp256k1Binary returns the proper binary', (t) => {
-  const path = join(__dirname, 'secp256k1.wasm');
+  const path = join(new URL('.', import.meta.url).pathname, 'secp256k1.wasm');
   const binaryFromDisk = readFileSync(path).buffer;
   t.deepEqual(binary, binaryFromDisk);
 });

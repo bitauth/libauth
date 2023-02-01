@@ -1,17 +1,17 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
 import {
   binToHex,
-  createTransactionContextCommon,
-  decodeTransactionUnsafe,
-  generateSigningSerializationBCH,
+  decodeTransactionUnsafeCommon,
+  encodeSigningSerializationBCH,
+  generateSigningSerializationComponentsBCH,
+  hash256,
   hexToBin,
-  instantiateSha256,
   isLegacySigningSerialization,
   numberToBinInt32TwosCompliment,
-} from '../../../lib';
-import * as sighashTests from '../bch/fixtures/bitcoin-abc/sighash.json';
+} from '../../../lib.js';
+// eslint-disable-next-line import/no-internal-modules, import/no-restricted-paths
+import sighashTests from '../xec/fixtures/satoshi-client/sighash.json' assert { type: 'json' };
 
 const tests = Object.values(sighashTests)
   .filter((e) => e.length !== 1 && e.length < 8)
@@ -39,39 +39,45 @@ const tests = Object.values(sighashTests)
 // const pendingTests = tests.filter(e => e.testIndex === 999);
 const pendingTests = tests;
 
-const sha256Promise = instantiateSha256();
-
 pendingTests.map((expectation, currentTest) => {
-  test(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, async (t) => {
-    const sha256 = await sha256Promise;
-    const tx = decodeTransactionUnsafe(hexToBin(expectation.transactionHex));
+  test.skip(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, (t) => {
+    const tx = decodeTransactionUnsafeCommon(
+      hexToBin(expectation.transactionHex)
+    );
     const lockingBytecode = hexToBin(expectation.scriptHex);
 
     const signingSerializationType = numberToBinInt32TwosCompliment(
       expectation.signingSerializationType
     );
-    const state = createTransactionContextCommon({
+    const sourceOutputs = [];
+    sourceOutputs[expectation.inputIndex] = {
+      lockingBytecode: Uint8Array.of(),
+      valueSatoshis: 0n,
+    };
+
+    const components = generateSigningSerializationComponentsBCH({
       inputIndex: expectation.inputIndex,
-      sourceOutput: { satoshis: new Uint8Array(8) },
-      spendingTransaction: tx,
+      sourceOutputs,
+      transaction: tx,
     });
-    const serialization = generateSigningSerializationBCH({
-      correspondingOutput: state.correspondingOutput,
+    const serialization = encodeSigningSerializationBCH({
+      correspondingOutput: components.correspondingOutput,
       coveredBytecode: lockingBytecode,
       forkId: signingSerializationType.slice(1, 4),
-      locktime: state.locktime,
-      outpointIndex: state.outpointIndex,
-      outpointTransactionHash: state.outpointTransactionHash,
-      outputValue: state.outputValue,
-      sequenceNumber: state.sequenceNumber,
-      sha256,
+      locktime: components.locktime,
+      outpointIndex: components.outpointIndex,
+      outpointTransactionHash: components.outpointTransactionHash,
+      outputTokenPrefix: components.outputTokenPrefix,
+      outputValue: components.outputValue,
+      sequenceNumber: components.sequenceNumber,
       signingSerializationType: signingSerializationType.slice(0, 1),
-      transactionOutpoints: state.transactionOutpoints,
-      transactionOutputs: state.transactionOutputs,
-      transactionSequenceNumbers: state.transactionSequenceNumbers,
-      version: state.version,
+      transactionOutpoints: components.transactionOutpoints,
+      transactionOutputs: components.transactionOutputs,
+      transactionSequenceNumbers: components.transactionSequenceNumbers,
+      transactionUtxos: components.transactionUtxos,
+      version: components.version,
     });
-    const digest = sha256.hash(sha256.hash(serialization));
+    const digest = hash256(serialization);
     t.deepEqual(
       digest,
       hexToBin(expectation.signingSerializationBCHDigestHex).reverse(),

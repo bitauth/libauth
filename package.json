@@ -1,10 +1,10 @@
 {
   "name": "@bitauth/libauth",
-  "version": "1.19.1",
-  "description": "ultra-lightweight library for Bitcoin, Bitcoin Cash, and Bitauth",
-  "main": "build/main/index.js",
-  "typings": "build/module/index.d.ts",
-  "module": "build/module/index.js",
+  "version": "2.0.0-alpha.8",
+  "description": "ultra-lightweight library for Bitcoin Cash, Bitcoin, and Bitauth",
+  "type": "module",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "repository": "https://github.com/bitauth/libauth",
   "homepage": "https://libauth.org/",
   "license": "MIT",
@@ -30,139 +30,120 @@
     "BTC"
   ],
   "scripts": {
-    "info": "npm-scripts-info",
     "compile:secp256k1": "docker build -f wasm/docker/secp256k1.Dockerfile . -t libauth-secp256k1 && docker run -it --mount type=bind,src=$(pwd)/src/lib,dst=/libauth/out,consistency=delegated libauth-secp256k1",
     "compile:hashes": "docker build -f wasm/docker/hashes.Dockerfile . -t libauth-hashes && docker run -it --mount type=bind,src=$(pwd)/src/lib,dst=/libauth/out,consistency=delegated libauth-hashes",
-    "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p config/tsconfig.module.json",
-    "build:wasm": "run-p copy:wasm:secp256k1 copy:wasm:sha1 copy:wasm:sha256 copy:wasm:sha512 copy:wasm:ripemd160",
-    "copy:wasm:secp256k1": "cpy src/lib/bin/secp256k1/secp256k1.wasm build/main/lib/bin/secp256k1 && cpy src/lib/bin/secp256k1/secp256k1.wasm build/module/lib/bin/secp256k1",
-    "copy:wasm:sha1": "cpy src/lib/bin/sha1/sha1.wasm build/main/lib/bin/sha1 && cpy src/lib/bin/sha1/sha1.wasm build/module/lib/bin/sha1",
-    "copy:wasm:sha256": "cpy src/lib/bin/sha256/sha256.wasm build/main/lib/bin/sha256 && cpy src/lib/bin/sha256/sha256.wasm build/module/lib/bin/sha256",
-    "copy:wasm:sha512": "cpy src/lib/bin/sha512/sha512.wasm build/main/lib/bin/sha512 && cpy src/lib/bin/sha512/sha512.wasm build/module/lib/bin/sha512",
-    "copy:wasm:ripemd160": "cpy src/lib/bin/ripemd160/ripemd160.wasm build/main/lib/bin/ripemd160 && cpy src/lib/bin/ripemd160/ripemd160.wasm build/module/lib/bin/ripemd160",
+    "build": "yarn build:wasm && yarn build:tsc",
+    "build:tsc": "tsc -p tsconfig.json",
+    "build:wasm": "cpy --flat src/lib/bin/secp256k1/secp256k1.wasm build/lib/bin/secp256k1 && cpy --flat src/lib/bin/sha1/sha1.wasm build/lib/bin/sha1 && cpy --flat src/lib/bin/sha256/sha256.wasm build/lib/bin/sha256 && cpy --flat src/lib/bin/sha512/sha512.wasm build/lib/bin/sha512 && cpy --flat src/lib/bin/ripemd160/ripemd160.wasm build/lib/bin/ripemd160",
     "compile:debug:secp256k1": "docker run -it libauth-secp256k1 bash",
     "compile:debug:hashes": "docker run -it libauth-hashes bash",
-    "fix": "run-s fix:*",
+    "fix": "yarn fix:prettier && yarn fix:lint",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:lint": "eslint . --ext .ts --fix",
-    "test": "run-s build test:*",
-    "test:deps": "node -e \"if(Object.keys(require('./package.json').dependencies).length > 0) { console.error('Dependencies are not allowed.'); process.exit(1); }\"",
+    "gen:vmb-tests": "yarn build && yarn gen:vmb-tests:bch && yarn gen:vmb-tests-prettier",
+    "gen:vmb-tests-prettier": "prettier 'src/lib/vmb-tests/generated/**/*.json' --write",
+    "gen:vmb-tests:bch": "node 'build/lib/vmb-tests/bch-vmb-tests.spec.helper.js' 'src/lib/vmb-tests/generated/bch' && yarn run gen:vmb-tests:bch:reasons",
+    "gen:vmb-tests:bch:reasons": "node 'build/lib/vmb-tests/bch-vmb-tests-invalid.spec.helper.js'",
+    "wallet": "node 'build/lib/vmb-tests/bch-vmb-tests.live.spec.helper.js'",
+    "gen:schema": "yarn gen:schema:authentication-template",
+    "gen:schema:authentication-template": "ts-json-schema-generator --no-ref-encode --path 'src/lib/compiler/template-types.ts' --type 'AuthenticationTemplate' > src/lib/schema/authentication-template.schema.json && prettier 'src/lib/schema/authentication-template.schema.json' --write && ajv compile -s src/lib/schema/authentication-template.schema.json --allowUnionTypes -o src/lib/schema/ajv/validate-authentication-template.js && prettier 'src/lib/schema/ajv/validate-authentication-template.js' --write && node -e \"const fs = require('fs'), path = 'src/lib/schema/ajv/validate-authentication-template.js'; fs.writeFileSync(path, fs.readFileSync(path, 'utf8').replace(/'use strict'[\\s\\S]*module.exports.default =/, 'export default'), 'utf8')\"",
+    "gen:schema-TODO": "//TODO: use ajv compile --code-esm option after merge: https://github.com/ajv-validator/ajv-cli/pull/200",
+    "gen:templates": "yarn build && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'p2pkh' > src/lib/transaction/fixtures/templates/p2pkh.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-3' > src/lib/transaction/fixtures/templates/2-of-3.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-2-recoverable' > src/lib/transaction/fixtures/templates/2-of-2-recoverable.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'sig-of-sig' > src/lib/transaction/fixtures/templates/sig-of-sig.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'cash-channels' > src/lib/transaction/fixtures/templates/cash-channels.json && prettier 'src/lib/transaction/fixtures/templates/*.json' --write",
+    "gen:graph": "mkdir -p temp && madge --image temp/deps-$(date +\"%FT%H%M\").svg build/index.js",
+    "test": "yarn build && yarn test:deps && yarn test:schemas && yarn test:lint && yarn test:prettier && yarn test:spelling && yarn test:cycles && yarn test:unit",
+    "test:deps": "node -e \"import('./package.json', { assert: { type: 'json' } }).then(p => typeof p.dependencies === 'undefined' ? console.log('No dependencies found.') : (console.error('Dependencies are not allowed.') && process.exit(1)));\"",
+    "test:schemas:unchanged": "yarn gen:schema && node -e \"child_process.exec('git status src/lib/schema --porcelain | head -c1 | wc -c', (err, stdout) => stdout.trim() === '0' ? process.exit(0) : process.exit(1) )\"",
+    "test:schemas": "yarn test:schemas:unchanged && echo \"Schemas are up to date.\" || echo \"Error: one or more schemas are outdated. Please review and commit the changes in src/lib/schema.\"",
     "test:lint": "eslint . --ext .ts",
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
-    "test:unit": "nyc --silent ava",
-    "test:unit:fast": "nyc --silent ava --match='!*[fast-check]*' --match='!*[crypto]*' --match='!*[script_tests]*' --match='!*[signing-serialization tests]*' --match='!*[BCH compiler]*' --match='!*[BCH VM]*'",
-    "test:unit:fast-check": "nyc --silent ava --match='*[fast-check]*",
-    "test:unit:script_tests": "nyc --silent ava --match='*[script_tests]*' --verbose --serial",
-    "bench": "run-s build bench:browser-deps bench:test",
-    "bench:test": "ava --config .ava.bench.config.js --serial --timeout=2m",
-    "bench:browser-deps": "browserify node_modules/chuhai/index.js --standalone chuhai -o build/bench/chuhai.js && browserify node_modules/hash.js/lib/hash.js --standalone hash -o build/bench/hash.js",
-    "watch": "run-s clean build:main build:wasm && yarn build:main -- -w",
-    "watch:module": "run-s clean build:main build:wasm && yarn build:module -- -w",
+    "test:cycles": "madge --circular build/index.js",
+    "test:unit": "c8 ava",
+    "test:unit:script_tests": "c8 ava --match='*[script_tests]*' --serial",
+    "test:unit:vmb_tests": "c8 ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
+    "test:unit:vmb_test": "node 'build/lib/vmb-tests/bch-vmb-test.spec.helper.js'",
+    "dev:vmb_tests": "yarn gen:vmb-tests && yarn build:tsc && ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial --fail-fast",
+    "bench": "yarn build && yarn bench:browser-deps && yarn bench:test",
+    "bench:test": "ava --config .ava.bench.config.js --serial --timeout=2m 2>&1 | tee bench.log",
+    "bench:browser-deps": "cpy '.yarn/artifacts/*.js' build/bench",
+    "watch": "yarn build -w",
     "watch:single": "echo 'Usage: yarn watch:single --match=\"*pattern*\"' && ava -v --watch",
     "watch:test": "yarn test:unit:fast -- --watch -v",
     "watch:test-slow": "yarn test:unit -- --watch -v",
-    "cov": "run-s build test:unit cov:html cov:lcov && open-cli coverage/index.html",
-    "cov:html": "nyc report --reporter=html",
-    "cov:lcov": "nyc report --reporter=lcov",
-    "cov:send": "run-s cov:lcov && codecov",
-    "cov:check": "nyc report && nyc check-coverage --lines 85 --functions 80 --branches 65",
-    "doc": "run-s doc:html && open-cli build/docs/index.html",
+    "cov": "yarn build && yarn test:unit && yarn cov:html && yarn cov:lcov && open-cli coverage/index.html",
+    "cov:html": "c8 report --reporter=html",
+    "cov:lcov": "c8 report --reporter=lcov",
+    "cov:check": "c8 report && c8 check-coverage --lines 90 --functions 90 --branches 90",
+    "doc": "yarn doc:html && open-cli build/docs/index.html",
     "doc:logo": "cpy assets/libauth.svg build/docs",
     "doc:cname": "node -e \"console.log('libauth.org')\" > build/docs/CNAME",
     "doc:html": "typedoc src/index.ts --target ES6 --mode file --excludeNotExported --out build/docs",
     "doc:json": "typedoc src/index.ts --target ES6 --mode file --excludeNotExported --json build/docs/typedoc.json",
-    "doc:next": "run-s build doc:extract doc:generate",
+    "doc:next": "yarn build && yarn doc:extract && yarn doc:generate",
     "doc:extract": "api-extractor run --local --typescript-compiler-folder node_modules/typescript",
     "doc:generate": "api-documenter markdown -i temp -o docs/markdown",
     "doc:check-api": "api-extractor run --typescript-compiler-folder node_modules/typescript",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
-    "doc:generate-json-schema": "ts-json-schema-generator --path 'src/lib/template/template-types.ts' --type 'AuthenticationTemplate' > src/lib/template/bitauth-authentication-template.schema.json",
-    "doc:generate-templates": "node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' 'p2pkh' > src/lib/transaction/fixtures/templates/p2pkh.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-3' > src/lib/transaction/fixtures/templates/2-of-3.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-2-recoverable' > src/lib/transaction/fixtures/templates/2-of-2-recoverable.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' '1-of-8-tree' > src/lib/transaction/fixtures/templates/1-of-8-tree.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' 'sig-of-sig' > src/lib/transaction/fixtures/templates/sig-of-sig.json && node 'build/main/lib/transaction/fixtures/generate-templates.spec.helper.js' 'cash-channels' > src/lib/transaction/fixtures/templates/cash-channels.json && prettier 'src/lib/transaction/fixtures/templates/*.json' --write",
     "version": "standard-version",
+    "version:alpha": "standard-version --prerelease alpha",
     "reset": "git clean -dfx && git reset --hard && yarn",
-    "clean": "trash build test",
-    "prepare-release": "run-s reset test cov:check doc:html doc:logo doc:cname version doc:publish"
-  },
-  "scripts-info": {
-    "info": "Display information about the package scripts",
-    "build": "Clean and rebuild the project",
-    "fix": "Try to automatically fix any linting problems",
-    "test": "Lint and unit test the project",
-    "bench": "Build the project and run the benchmarks",
-    "watch": "Watch and rebuild the project on save, then rerun relevant tests",
-    "watch:with-crypto": "Like 'watch', but also including tests for the crypto APIs",
-    "cov": "Rebuild, run tests, then create and open the coverage report",
-    "doc": "Generate HTML API documentation and open it in a browser",
-    "doc:json": "Generate API documentation in typedoc JSON format",
-    "compile": "Compile the WebAssembly binaries and integrate them into src",
-    "compile:debug:secp256k1": "Run the compile:secp256k1 Docker container in interactive mode",
-    "compile:inspect:secp256k1": "Format the compile:secp256k1 output for easier review",
-    "version": "Bump package.json version, update CHANGELOG.md, tag release",
-    "reset": "Delete all untracked files and reset the repo to the last commit",
-    "prepare-release": "One-step: clean, build, test, publish docs, and prep a release"
+    "prepare-release": "yarn reset && yarn test && yarn cov:check && yarn doc:html && yarn doc:logo && yarn doc:cname && yarn version && yarn doc:publish",
+    "prepare-release:alpha": "yarn reset && yarn test && yarn cov:check && yarn version:alpha"
   },
   "engines": {
-    "node": ">=8.9"
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@ava/typescript": "^1.1.1",
-    "@bitjson/npm-scripts-info": "^1.0.0",
-    "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@microsoft/api-documenter": "^7.8.22",
-    "@microsoft/api-extractor": "^7.9.3",
-    "@rollup/plugin-alias": "^3.1.1",
-    "@rollup/plugin-commonjs": "^14.0.0",
-    "@rollup/plugin-node-resolve": "^8.4.0",
-    "@types/browserify": "^12.0.33",
-    "@types/elliptic": "^6.4.12",
-    "@types/express": "^4.17.7",
-    "@types/puppeteer": "^3.0.1",
-    "@typescript-eslint/parser": "^3.8.0",
+    "@ava/typescript": "^3.0.1",
+    "@fast-check/ava": "^1.1.3",
+    "@microsoft/api-documenter": "^7.19.27",
+    "@microsoft/api-extractor": "^7.33.7",
+    "@rollup/plugin-alias": "^4.0.2",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@types/elliptic": "^6.4.14",
+    "@types/express": "^4.17.15",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "ajv-cli": "^5.0.0",
     "asmcrypto.js": "^2.3.2",
-    "ava": "^3.11.1",
-    "ava-fast-check": "^2.0.0",
-    "bcrypto": "^5.2.0",
-    "bitcore-lib-cash": "^8.22.0",
-    "browserify": "16.5.1",
+    "ava": "^5.1.0",
+    "bcrypto": "^5.4.0",
+    "bitcore-lib-cash": "^8.25.40",
+    "c8": "^7.12.0",
     "chuhai": "^1.2.0",
-    "codecov": "^3.7.2",
-    "cpy-cli": "^3.1.1",
-    "cspell": "^4.0.63",
-    "cz-conventional-changelog": "^3.2.0",
-    "elliptic": "^6.5.3",
-    "eslint": "^7.6.0",
-    "eslint-config-bitauth": "^2.0.0",
-    "eslint-config-prettier": "^6.11.0",
+    "cpy-cli": "^4.2.0",
+    "cspell": "^6.18.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "elliptic": "^6.5.4",
+    "eslint": "8.31.0",
+    "eslint-config-bitauth": "^3.1.2",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-functional": "^3.0.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-tsdoc": "^0.2.6",
-    "express": "^4.17.1",
-    "fast-check": "^2.1.0",
-    "gh-pages": "^3.1.0",
-    "hash.js": "^1.1.5",
-    "npm-run-all": "^4.1.5",
-    "nyc": "^15.1.0",
-    "open-cli": "^6.0.1",
-    "prettier": "^2.0.5",
-    "puppeteer": "^5.2.1",
-    "rollup": "^2.23.1",
-    "secp256k1": "^4.0.2",
-    "source-map-support": "^0.5.19",
-    "standard-version": "^8.0.2",
-    "trash-cli": "^3.1.0",
-    "ts-json-schema-generator": "^0.70.2",
-    "ts-node": "^8.10.2",
-    "typedoc": "^0.17.8",
-    "typescript": "^3.9.7"
+    "eslint-plugin-functional": "^4.4.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-tsdoc": "^0.2.17",
+    "express": "^4.18.2",
+    "fast-check": "^3.5.0",
+    "gh-pages": "^4.0.0",
+    "hash.js": "^1.1.7",
+    "madge": "^5.0.1",
+    "open-cli": "^7.1.0",
+    "prettier": "^2.8.2",
+    "puppeteer": "^19.5.0",
+    "rollup": "^2.79.1",
+    "secp256k1": "^4.0.3",
+    "source-map-support": "^0.5.21",
+    "standard-version": "^9.5.0",
+    "ts-json-schema-generator": "^1.2.0",
+    "typedoc": "^0.23.24",
+    "typescript": "^4.9.4"
   },
   "files": [
-    "build/main",
-    "build/module",
+    "build",
+    "!build/.tsbuildinfo",
+    "!build/**/*.map",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
@@ -174,13 +155,15 @@
     "failFast": true,
     "timeout": "20s",
     "typescript": {
+      "compile": false,
       "rewritePaths": {
-        "src/": "build/main/"
+        "src/": "build/"
       }
     },
-    "files": [
-      "!build/module/**"
-    ]
+    "nodeArguments": [
+      "--experimental-json-modules"
+    ],
+    "workerThreads": false
   },
   "config": {
     "commitizen": {
@@ -193,16 +176,41 @@
     ]
   },
   "prettier": {
-    "singleQuote": true
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": [
+          "src/lib/vmb-tests/*bch-vmb-tests*.ts"
+        ],
+        "options": {
+          "printWidth": 400
+        }
+      },
+      {
+        "files": [
+          "src/lib/vmb-tests/*bch-vmb-tests*.spec.*ts"
+        ],
+        "options": {
+          "printWidth": 80
+        }
+      },
+      {
+        "files": [
+          "src/lib/vmb-tests/generated/**/*.json"
+        ],
+        "options": {
+          "printWidth": 10000
+        }
+      }
+    ]
   },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
+  "c8": {
     "exclude": [
       "**/*.bench.js",
       "**/*.spec.js",
-      "**/*.spec.helper.js",
-      "**/*.spec.debug.js"
+      "**/*.spec.helper.js"
     ]
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "packageManager": "yarn@3.3.1"
 }

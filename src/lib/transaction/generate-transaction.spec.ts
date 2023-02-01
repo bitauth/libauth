@@ -1,18 +1,15 @@
-/* eslint-disable functional/no-expression-statement */
-
 import test from 'ava';
 
+import { privkey } from '../compiler/compiler-bch/compiler-bch.e2e.spec.helper.js';
 import {
   authenticationTemplateToCompilerBCH,
-  bigIntToBinUint64LE,
   CashAddressNetworkPrefix,
   decodeTransaction,
   generateTransaction,
   hexToBin,
+  importAuthenticationTemplate,
   lockingBytecodeToCashAddress,
-  validateAuthenticationTemplate,
-} from '../lib';
-import { privkey } from '../template/compiler-bch/compiler-bch.e2e.spec.helper';
+} from '../lib.js';
 
 const maybeP2pkhTemplate: unknown = {
   entities: {
@@ -21,7 +18,7 @@ const maybeP2pkhTemplate: unknown = {
       scripts: ['lock', 'unlock'],
       variables: {
         owner: {
-          description: 'The private key which controls this wallet.',
+          description: 'The private key that controls this wallet.',
           name: "Owner's Key",
           type: 'Key',
         },
@@ -44,21 +41,22 @@ const maybeP2pkhTemplate: unknown = {
       unlocks: 'lock',
     },
   },
-  supported: ['BCH_2019_05', 'BCH_2019_11'],
+  supported: ['BCH_2022_05'],
   version: 0,
 };
 
-test('createCompilerBCH: generateTransaction', async (t) => {
-  const p2pkhTemplate = validateAuthenticationTemplate(maybeP2pkhTemplate);
+test('createCompilerBCH: generateTransaction', (t) => {
+  const p2pkhTemplate = importAuthenticationTemplate(maybeP2pkhTemplate);
 
   if (typeof p2pkhTemplate === 'string') {
     t.fail(p2pkhTemplate);
     return;
   }
 
-  const p2pkh = await authenticationTemplateToCompilerBCH(p2pkhTemplate);
-  const lockingBytecode = p2pkh.generateBytecode('lock', {
-    keys: { privateKeys: { owner: privkey } },
+  const p2pkh = authenticationTemplateToCompilerBCH(p2pkhTemplate);
+  const lockingBytecode = p2pkh.generateBytecode({
+    data: { keys: { privateKeys: { owner: privkey } } },
+    scriptId: 'lock',
   });
 
   if (!lockingBytecode.success) {
@@ -79,7 +77,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
     '68127de83d2ab77d7f5fd8d2ac6181d94473c0cbb2d0776084bf28884f6ecd77'
   );
 
-  const satoshis = 1000000;
+  const valueSatoshis = 1000000;
   const result = generateTransaction({
     inputs: [
       {
@@ -91,8 +89,8 @@ test('createCompilerBCH: generateTransaction', async (t) => {
           data: {
             keys: { privateKeys: { owner: privkey } },
           },
-          satoshis: bigIntToBinUint64LE(BigInt(satoshis)),
           script: 'unlock',
+          valueSatoshis: BigInt(valueSatoshis),
         },
       },
     ],
@@ -103,7 +101,7 @@ test('createCompilerBCH: generateTransaction', async (t) => {
           compiler: p2pkh,
           script: 'celebrate',
         },
-        satoshis: bigIntToBinUint64LE(BigInt(0)),
+        valueSatoshis: 0n,
       },
     ],
     version: 2,

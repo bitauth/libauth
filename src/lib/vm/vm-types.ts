@@ -1,20 +1,16 @@
-import {
-  Input,
+import type {
+  AuthenticationInstruction,
   Output,
-  Transaction,
-  TransactionContextCommon,
-} from '../transaction/transaction-types';
+  TransactionCommon,
+} from '../lib.js';
 
-import { AuthenticationErrorCommon } from './instruction-sets/common/errors';
-import { AuthenticationInstruction } from './instruction-sets/instruction-sets-types';
-
-export interface AuthenticationProgramStateMinimum<Opcodes = number> {
+export interface AuthenticationProgramStateMinimum {
   /**
    * The full list of instructions to be evaluated by the virtual machine.
    */
-  readonly instructions: readonly AuthenticationInstruction<Opcodes>[];
+  readonly instructions: readonly AuthenticationInstruction[];
   /**
-   * Instruction Pointer – the array index of `instructions` which will be read
+   * Instruction Pointer – the array index of `instructions` that will be read
    * to identify the next instruction. Once `ip` exceeds the last index of
    * `instructions` (`ip === instructions.length`), evaluation is complete.
    */
@@ -40,54 +36,60 @@ export interface AuthenticationProgramStateAlternateStack<
   alternateStack: StackType[];
 }
 
-export interface AuthenticationProgramStateExecutionStack {
+export interface AuthenticationProgramStateControlStack<ItemType = boolean> {
   /**
    * An array of boolean values representing the current execution status of the
    * program. This allows the state to track nested conditional branches.
    *
    * The `OP_IF` and `OP_NOTIF` operations push a new boolean onto the
-   * `executionStack`, `OP_ELSE` flips the top boolean, and `OP_ENDIF` removes
-   * the top boolean from the `executionStack`.
+   * `controlStack`, `OP_ELSE` flips the top boolean, and `OP_ENDIF` removes
+   * the top boolean from the `controlStack`.
    *
-   * Other instructions are only evaluated if `executionStack` contains no
+   * Other instructions are only evaluated if `controlStack` contains no
    * `false` items.
    *
    * A.K.A. `vfExec` in the C++ implementation.
    */
-  executionStack: boolean[];
+  controlStack: ItemType[];
 }
 
-export interface AuthenticationProgramStateError<
-  InstructionSetError,
-  CommonError = AuthenticationErrorCommon
-> {
+export interface AuthenticationProgramStateError {
   /**
    * If present, the error returned by the most recent virtual machine
    * operation.
    */
-  error?: CommonError | InstructionSetError;
-}
-
-type MakeOptional<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>;
-
-/**
- * A reduced version of `AuthenticationProgramCommon` including only the
- * information required to generate a `TransactionContextCommon`.
- */
-export interface AuthenticationProgramTransactionContextCommon {
-  inputIndex: number;
-  sourceOutput: Pick<Output, 'satoshis'>;
-  spendingTransaction: Transaction<MakeOptional<Input, 'unlockingBytecode'>>;
+  error?: string;
 }
 
 /**
- * A complete view of the information necessary to validate a specified input on
- * the provided transaction.
+ * A complete view of the information necessary to validate a transaction.
  */
-export interface AuthenticationProgramCommon {
+export interface ResolvedTransactionCommon {
+  sourceOutputs: Output[];
+  transaction: TransactionCommon;
+}
+
+/**
+ * A complete view of the information necessary to validate a specified input in
+ * a transaction.
+ */
+export interface AuthenticationProgramCommon extends ResolvedTransactionCommon {
   inputIndex: number;
-  sourceOutput: Output;
-  spendingTransaction: Transaction;
+}
+
+export interface AuthenticationProgramStateCodeSeparator {
+  /**
+   * The `lastCodeSeparator` indicates the index of the most recently executed
+   * `OP_CODESEPARATOR` instruction. In each of the signing serialization
+   * algorithms, the `instructions` are sliced at `lastCodeSeparator`, and the
+   * subarray is re-encoded. The resulting bytecode is called the
+   * `coveredBytecode` (A.K.A. `scriptCode`), and is part of the data hashed to
+   * create the signing serialization digest.
+   *
+   * By default, this is `-1`, which indicates that the whole `instructions`
+   * array is included in the signing serialization.
+   */
+  lastCodeSeparator: number;
 }
 
 export interface AuthenticationProgramStateSignatureAnalysis {
@@ -96,41 +98,57 @@ export interface AuthenticationProgramStateSignatureAnalysis {
    * course of this program. Each raw signing serialization and data signature
    * message should be pushed to this array in the order it was computed.
    *
-   * This property is not used within any `AuthenticationVirtualMachine`, but it
-   * is provided in the program state to assist with analysis. Because these
-   * messages must always be computed and hashed during evaluation, recording
-   * them in the state does not meaningfully affect performance.
+   * This property is not used within any {@link AuthenticationVirtualMachine},
+   * but it is provided in the program state to assist with analysis. Because
+   * these messages must always be computed and hashed during evaluation,
+   * recording them in the state does not meaningfully affect performance.
    */
-  signedMessages: Uint8Array[];
+  signedMessages: (
+    | {
+        /**
+         * The final digest signed by the signature. Because this is a
+         * transaction signature, the provided `serialization` is hashed using
+         * two rounds of sha256 to produce this digest.
+         */
+        digest: Uint8Array;
+        /**
+         * The transaction signing serialization generated by the `OP_CHECKSIG`
+         * or `OP_CHECKSIGVERIFY` operation.
+         */
+        serialization: Uint8Array;
+      }
+    | {
+        /**
+         * The final digest signed by the signature. Because this is a data
+         * signature, the provided `message` is hashed using one round of sha256
+         * to produce this digest.
+         */
+        digest: Uint8Array;
+        /**
+         * The message provided to the `OP_CHECKDATASIG` or
+         * `OP_CHECKDATASIGVERIFY` operation.
+         */
+        message: Uint8Array;
+      }
+  )[];
 }
 
-export interface AuthenticationProgramStateInternalCommon<
-  Opcodes,
-  InstructionSetError,
-  StackType = Uint8Array
->
-  extends AuthenticationProgramStateMinimum<Opcodes>,
-    AuthenticationProgramStateStack<StackType>,
-    AuthenticationProgramStateAlternateStack<StackType>,
-    AuthenticationProgramStateExecutionStack,
-    AuthenticationProgramStateError<InstructionSetError>,
-    AuthenticationProgramStateSignatureAnalysis {
-  /**
-   * The `lastCodeSeparator` indicates the index of the most recently executed
-   * `OP_CODESEPARATOR` instruction. In each of the signing serialization
-   * algorithms, the `instructions` are sliced at `lastCodeSeparator`, and the
-   * subarray is re-serialized. The resulting bytecode is called the
-   * `coveredBytecode` (A.K.A. `scriptCode`), and is part of the data hashed to
-   * create the signing serialization digest.
-   *
-   * By default, this is `-1`, which indicates that the whole `instructions`
-   * array is included in the signing serialization.
-   */
-  lastCodeSeparator: number;
+export interface AuthenticationProgramStateResourceLimits {
   operationCount: number;
   signatureOperationsCount: number;
 }
 
-export interface AuthenticationProgramStateCommon<Opcodes, Errors>
-  extends AuthenticationProgramStateInternalCommon<Opcodes, Errors>,
-    TransactionContextCommon {}
+export interface AuthenticationProgramStateTransactionContext {
+  program: Readonly<AuthenticationProgramCommon>;
+}
+
+export interface AuthenticationProgramStateCommon
+  extends AuthenticationProgramStateMinimum,
+    AuthenticationProgramStateStack,
+    AuthenticationProgramStateAlternateStack,
+    AuthenticationProgramStateControlStack,
+    AuthenticationProgramStateError,
+    AuthenticationProgramStateCodeSeparator,
+    AuthenticationProgramStateSignatureAnalysis,
+    AuthenticationProgramStateResourceLimits,
+    AuthenticationProgramStateTransactionContext {}

@@ -1,14 +1,7 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
+import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
-import { fc, testProp } from 'ava-fast-check';
 
-import { binStringToBin, binToBinString, isBinString } from '../lib';
-
-const maxUint8Number = 255;
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
+import { binStringToBin, binToBinString, isBinString } from '../lib.js';
 
 test('isBinString', (t) => {
   t.deepEqual(isBinString('0'), false);
@@ -31,7 +24,7 @@ test('binToBinString', (t) => {
 
 testProp(
   '[fast-check] binStringToBin <-> binToBinString',
-  [fcUint8Array(0, 100)],
+  [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
     t.deepEqual(
       binToBinString(binStringToBin(binToBinString(input))),

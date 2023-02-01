@@ -1,3 +1,3 @@
-export * from './instruction-sets/instruction-sets';
-export * from './vm-types';
-export * from './virtual-machine';
+export * from './instruction-sets/instruction-sets.js';
+export * from './virtual-machine.js';
+export * from './vm-types.js';

@@ -1,4 +1,4 @@
-import { Immutable } from '../format/format';
+import type { Immutable } from '../lib.js';
 
 /**
  * The list of 32 symbols used in Bech32 encoding.
@@ -10,7 +10,7 @@ export const bech32CharacterSet = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l';
  * An object mapping each of the 32 symbols used in Bech32 encoding to their respective index in the character set.
  */
 // prettier-ignore
-export const bech32CharacterSetIndex = { q: 0, p: 1, z: 2, r: 3, y: 4, '9': 5, x: 6, '8': 7, g: 8, f: 9, '2': 10, t: 11, v: 12, d: 13, w: 14, '0': 15, s: 16, '3': 17, j: 18, n: 19, '5': 20, '4': 21, k: 22, h: 23, c: 24, e: 25, '6': 26, m: 27, u: 28, a: 29, '7': 30, l: 31 } as const; // eslint-disable-line sort-keys
+export const bech32CharacterSetIndex = { q: 0, p: 1, z: 2, r: 3, y: 4, '9': 5, x: 6, '8': 7, g: 8, f: 9, '2': 10, t: 11, v: 12, d: 13, w: 14, '0': 15, s: 16, '3': 17, j: 18, n: 19, '5': 20, '4': 21, k: 22, h: 23, c: 24, e: 25, '6': 26, m: 27, u: 28, a: 29, '7': 30, l: 31 } as const; // eslint-disable-line sort-keys, @typescript-eslint/naming-convention
 
 export enum BitRegroupingError {
   integerOutOfRange = 'An integer provided in the source array is out of the range of the specified source word length.',
@@ -28,29 +28,34 @@ export enum BitRegroupingError {
  * `true`, this method will never error.
  *
  * A.K.A. `convertbits`
- *
- * @param bin - an array of numbers representing the bits to regroup. Each item
- * must be a number within the range of `sourceWordLength`
- * @param sourceWordLength - the bit-length of each number in `bin`, e.g. to
- * regroup bits from a `Uint8Array`, use `8` (must be a positive integer)
- * @param resultWordLength - the bit-length of each number in the desired result
- * array, e.g. to regroup bits into 4-bit numbers, use `4` (must be a positive
- * integer)
- * @param allowPadding - whether to allow the use of padding for `bin` values
- * where the provided number of bits cannot be directly mapped to an equivalent
- * result array (remaining bits are filled with `0`), defaults to `true`
- * @privateRemarks
- * Derived from: https://github.com/sipa/bech32
  */
+// Derived from: https://github.com/sipa/bech32
 export const regroupBits = ({
   bin,
   sourceWordLength,
   resultWordLength,
   allowPadding = true,
 }: {
+  /**
+   * An array of numbers representing the bits to regroup. Each item must be a
+   * number within the range of `sourceWordLength`.
+   */
   bin: Immutable<Uint8Array> | readonly number[];
+  /**
+   * The bit-length of each number in `bin`, e.g. to regroup bits from a
+   * `Uint8Array`, use `8` (must be a positive integer)
+   */
   sourceWordLength: number;
+  /**
+   * The bit-length of each number in the desired result array, e.g. to regroup
+   * bits into 4-bit numbers, use `4` (must be a positive integer)
+   */
   resultWordLength: number;
+  /**
+   * Whether to allow the use of padding for `bin` values where the provided
+   * number of bits cannot be directly mapped to an equivalent result array
+   * (remaining bits are filled with `0`), defaults to `true`
+   */
   allowPadding?: boolean;
 }) => {
   let accumulator = 0;
@@ -59,7 +64,8 @@ export const regroupBits = ({
   const maxResultInt = (1 << resultWordLength) - 1;
   // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of, no-plusplus
   for (let p = 0; p < bin.length; ++p) {
-    const value = bin[p];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const value = bin[p]!;
     if (value < 0 || value >> sourceWordLength !== 0) {
       return BitRegroupingError.integerOutOfRange;
     }
@@ -91,7 +97,8 @@ export const regroupBits = ({
  * Encode an array of numbers as a base32 string using the Bech32 character set.
  *
  * Note, this method always completes. For a valid result, all items in
- * `base32IntegerArray` must be between `0` and `32`.
+ * `base32IntegerArray` must be between `0` and `32`. To prepare another array
+ * type for encoding, see {@link regroupBits}.
  *
  * @param base32IntegerArray - the array of 5-bit integers to encode
  */
@@ -100,8 +107,8 @@ export const encodeBech32 = (base32IntegerArray: readonly number[]) => {
   let result = '';
   // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < base32IntegerArray.length; i++) {
-    // eslint-disable-next-line functional/no-expression-statement
-    result += bech32CharacterSet[base32IntegerArray[i]];
+    // eslint-disable-next-line functional/no-expression-statement, @typescript-eslint/no-non-null-assertion
+    result += bech32CharacterSet[base32IntegerArray[i]!];
   }
   return result;
 };
@@ -111,12 +118,14 @@ export const encodeBech32 = (base32IntegerArray: readonly number[]) => {
  *
  * Note, this method always completes. If `validBech32` is not valid bech32,
  * an incorrect result will be returned. If `validBech32` is potentially
- * malformed, check it with `isBech32` before calling this method.
+ * malformed, check it with {@link isBech32CharacterSet} before calling
+ * this method.
  *
  * @param validBech32 - the bech32-encoded string to decode
  */
 export const decodeBech32 = (validBech32: string) => {
-  const result: typeof bech32CharacterSetIndex[keyof typeof bech32CharacterSetIndex][] = [];
+  const result: (typeof bech32CharacterSetIndex)[keyof typeof bech32CharacterSetIndex][] =
+    [];
   // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement, no-plusplus
   for (let i = 0; i < validBech32.length; i++) {
     // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
@@ -151,7 +160,7 @@ export enum Bech32DecodingError {
  * 5-bit integers would require padding to be regrouped into 8-bit bytes, this
  * method returns an error message.
  *
- * This method is the reverse of `binToBech32Padded`.
+ * This method is the reverse of {@link binToBech32Padded}.
  *
  * @param bech32Padded - the padded bech32-encoded string to decode
  */
@@ -171,7 +180,7 @@ export const bech32PaddedToBin = (bech32Padded: string) => {
  * Convert a Uint8Array to a padded bech32-encoded string (without a checksum),
  * adding padding bits as necessary to convert all bytes to 5-bit integers.
  *
- * This method is the reverse of `bech32PaddedToBin`.
+ * This method is the reverse of {@link bech32PaddedToBin}.
  *
  * @param bytes - the Uint8Array to bech32 encode
  */

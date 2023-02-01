@@ -1,6 +1,6 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import { CompilerDefaults } from '../../template/compiler-defaults';
-import { AuthenticationTemplate } from '../../template/template-types';
+import type { AuthenticationTemplate } from '../../lib.js';
+import { CompilerDefaults } from '../../lib.js';
 
 const secondsIn30Days = 2592000;
 
@@ -67,7 +67,7 @@ export const twoOfTwoRecoverable: AuthenticationTemplate = {
   },
   scripts: {
     lock: {
-      lockingType: 'p2sh',
+      lockingType: 'p2sh20',
       name: '2-of-2 Recoverable Vault',
       script:
         'OP_IF\n  <$(\n    <current_block_time> <delay_seconds>\n    OP_ADD\n  )>\n  OP_CHECKLOCKTIMEVERIFY OP_DROP\n  <trusted.public_key>\n  OP_CHECKSIGVERIFY\n  <1>\nOP_ELSE\n  <2>\nOP_ENDIF\n<first.public_key> <second.public_key> <2>\nOP_CHECKMULTISIG',
@@ -101,6 +101,6 @@ export const twoOfTwoRecoverable: AuthenticationTemplate = {
       unlocks: 'lock',
     },
   },
-  supported: ['BCH_2019_11'],
+  supported: ['BCH_2021_05', 'BCH_2022_05'],
   version: 0,
 };

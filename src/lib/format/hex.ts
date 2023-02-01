@@ -1,5 +1,6 @@
 /**
- * Returns an array of incrementing values starting at `begin` and incrementing by one for `length`.
+ * Returns an array of incrementing values starting at `begin` and incrementing
+ * by one for `length`.
  *
  * E.g.: `range(3)` → `[0, 1, 2]` and `range(3, 1)` → `[1, 2, 3]`
  *
@@ -10,7 +11,8 @@ export const range = (length: number, begin = 0) =>
   Array.from({ length }, (_, index) => begin + index);
 
 /**
- * Split a string into an array of `chunkLength` strings. The final string may have a length between 1 and `chunkLength`.
+ * Split a string into an array of `chunkLength` strings. The final string may
+ * have a length between 1 and `chunkLength`.
  *
  * E.g.: `splitEvery('abcde', 2)` → `['ab', 'cd', 'e']`
  */
@@ -30,7 +32,7 @@ const hexadecimal = 16;
  * Note, this method always completes. If `validHex` is not divisible by 2,
  * the final byte will be parsed as if it were prepended with a `0` (e.g. `aaa`
  * is interpreted as `aa0a`). If `validHex` is potentially malformed, check
- * it with `isHex` before calling this method.
+ * it with {@link isHex} before calling this method.
  *
  * @param validHex - a string of valid, hexadecimal-encoded data
  */
@@ -42,7 +44,7 @@ export const hexToBin = (validHex: string) =>
   );
 
 /**
- * For use before `hexToBin`. Returns true if the provided string is valid
+ * For use before {@link hexToBin}. Returns true if the provided string is valid
  * hexadecimal (length is divisible by 2, only uses hexadecimal characters).
  * @param maybeHex - a string to test
  */
@@ -66,7 +68,7 @@ export const binToHex = (bytes: Uint8Array) =>
  * Decode a hexadecimal-encoded string into bytes, reverse it, then re-encode.
  *
  * @param validHex - a string of valid, hexadecimal-encoded data. See
- * `hexToBin` for more information.
+ * {@link hexToBin} for more information.
  */
 export const swapEndianness = (validHex: string) =>
   binToHex(hexToBin(validHex).reverse());
@@ -85,4 +87,23 @@ export const flattenBinArray = (array: readonly Uint8Array[]) => {
     return index + bin.length;
   }, 0);
   return flattened;
+};
+
+/**
+ * Compare to `Uint8Array`s, return true if their contents are exactly the same,
+ * otherwise return false.
+ * @param a - the first Uint8Array
+ * @param b - the second Uint8Array
+ */
+export const binsAreEqual = (a: Uint8Array, b: Uint8Array) => {
+  if (a.length !== b.length) {
+    return false;
+  }
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
 };

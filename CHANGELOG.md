@@ -2,38 +2,110 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.19.1](https://github.com/bitauth/libauth/compare/v1.19.0...v1.19.1) (2022-02-01)
+## [2.0.0-alpha.8](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2023-01-10)
 
+## [2.0.0-alpha.7](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2022-12-08)
+
+### Features
+
+- add dust and duplicate outpoint validation, vmb tests to BCH_2023 VM ([01587f7](https://github.com/bitauth/libauth/commit/01587f7955a2ba66e0254a1f473778c6e18d6482))
+- token signing serialization support (compiler, VM, tests) ([9dfa6cc](https://github.com/bitauth/libauth/commit/9dfa6cc0b8710dedfe007b47bd018f5a47079df5))
 
 ### Bug Fixes
 
-* **secp256k1:** prevent vulnerabilities in consumers which don't validate input lengths ([7fc75c9](https://github.com/bitauth/libauth/commit/7fc75c90be441cf22f3bb7946363e78fa0a61b17))
+- add token support to legacy transaction generation API ([#104](https://github.com/bitauth/libauth/issues/104)) ([e718430](https://github.com/bitauth/libauth/commit/e71843064580a6ff2e44ac1cd81cf5f9c649a623))
+- update schemas ([5742b12](https://github.com/bitauth/libauth/commit/5742b121291f2bc0092bc825a11545e61d02821c))
+
+## [2.0.0-alpha.6](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2022-08-18)
+
+### ⚠ BREAKING CHANGES
+
+- Several decoding methods have been renamed and refactored to use the new
+  ReadPosition API.
+
+### Features
+
+- support CashTokens ([8e99139](https://github.com/bitauth/libauth/commit/8e99139accb973f1df82b4cbcc92eeb81af77e0c))
+- support decoding error messages, support token prefixes ([fd9b4d2](https://github.com/bitauth/libauth/commit/fd9b4d22c4581e12dfc6a0950501149481ec0b0f))
+- support token-aware CashAddresses ([5ee0fff](https://github.com/bitauth/libauth/commit/5ee0fffb3ce8aa92ac593d13c0b0e24ecb1a50e6))
+
+## [2.0.0-alpha.5](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2022-06-27)
+
+### ⚠ BREAKING CHANGES
+
+- Binary literals are now compiled as bytes rather than numbers.
+
+### Features
+
+- improve VM errors, correct binary literals, add vmb_tests ([e146a94](https://github.com/bitauth/libauth/commit/e146a9467194aa23b35e7f900b509d70e08e20ad))
+
+## [2.0.0-alpha.4](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.2...v2.0.0-alpha.4) (2022-06-16)
+
+### ⚠ BREAKING CHANGES
+
+- cash address utilities no longer require enums, hash lengths are measured in bytes
+  rather than bits, and type is distinguished from typeBit
+
+### Features
+
+- add hash160, hash256, and encodeLockingBytecode\* utils ([c2a787c](https://github.com/bitauth/libauth/commit/c2a787cbdd96354edc4245601e23051ef4ee8e5e))
+
+- simplify cash address utilities ([be45abd](https://github.com/bitauth/libauth/commit/be45abdaca451fa1b80746b1b8979fd90a0bc663))
+
+## [2.0.0-alpha.3](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2022-05-20)
+
+### Features
+
+- add hash160, hash256, and encodeLockingBytecode\* utils ([c2a787c](https://github.com/bitauth/libauth/commit/c2a787cbdd96354edc4245601e23051ef4ee8e5e))
+
+## [2.0.0-alpha.2](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2022-05-19)
+
+## [2.0.0-alpha.1](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2022-05-19)
+
+### Features
+
+- improve BCH VMB tests, add basic P2PKH utils, export more aliases ([087de5a](https://github.com/bitauth/libauth/commit/087de5a91af12fa62fc438ce88a256d0ee83238b))
+
+### Bug Fixes
+
+- rename format utils for consistency, improve vmb_tests, fix issues in BCH vm ([6f2e782](https://github.com/bitauth/libauth/commit/6f2e782752234625c646a70318f74132afbbaa42))
+
+## [2.0.0-alpha.0](https://github.com/bitauth/libauth/compare/v1.19.0...v2.0.0-alpha.0) (2022-05-14)
+
+### ⚠ BREAKING CHANGES
+
+- requires esm, modifies some crypto interfaces, renames many exports for
+  consistency, expands the program state available to vms and compilers
+
+### Features
+
+- switch to pure esm, simplify types, simplify crypto, update vms and compiler ([c80044f](https://github.com/bitauth/libauth/commit/c80044f003b31e88b9d526242ecfcac02add6971)), closes [#31](https://github.com/bitauth/libauth/issues/31) [#53](https://github.com/bitauth/libauth/issues/53) [#72](https://github.com/bitauth/libauth/issues/72)
+
+### Bug Fixes
+
+- clarify endianness of outpointTransactionHash around library ([04c8c52](https://github.com/bitauth/libauth/commit/04c8c52ac555954d5e40775ded758df84993759b))
 
 ## [1.19.0](https://github.com/bitauth/libauth/compare/v1.18.1...v1.19.0) (2021-12-08)
 
-
 ### Features
 
-* expose validatePublicKey method on secp256k1 ([#83](https://github.com/bitauth/libauth/issues/83)) ([0f84420](https://github.com/bitauth/libauth/commit/0f84420483ca0d8782e49bd97d503066f95b0dbe))
+- expose validatePublicKey method on secp256k1 ([#83](https://github.com/bitauth/libauth/issues/83)) ([0f84420](https://github.com/bitauth/libauth/commit/0f84420483ca0d8782e49bd97d503066f95b0dbe))
 
 ### [1.18.1](https://github.com/bitauth/libauth/compare/v1.18.0...v1.18.1) (2021-02-26)
 
-
 ### Bug Fixes
 
-* refactor binToBigIntUint64LE to support safari ([#71](https://github.com/bitauth/libauth/issues/71)) ([d41f3cc](https://github.com/bitauth/libauth/commit/d41f3cc7dfcbefe8a8bd04ce855122836eb47417))
+- refactor binToBigIntUint64LE to support safari ([#71](https://github.com/bitauth/libauth/issues/71)) ([d41f3cc](https://github.com/bitauth/libauth/commit/d41f3cc7dfcbefe8a8bd04ce855122836eb47417))
 
 ## [1.18.0](https://github.com/bitauth/libauth/compare/v1.17.3...v1.18.0) (2021-02-11)
 
-
 ### Features
 
-* add Int16LE and Int32LE bin <-> Number utilities ([60c6580](https://github.com/bitauth/libauth/commit/60c6580f2be517545555940c3f71b389afd35eed)), closes [#66](https://github.com/bitauth/libauth/issues/66)
-
+- add Int16LE and Int32LE bin <-> Number utilities ([60c6580](https://github.com/bitauth/libauth/commit/60c6580f2be517545555940c3f71b389afd35eed)), closes [#66](https://github.com/bitauth/libauth/issues/66)
 
 ### Bug Fixes
 
-* make bigIntToBinUint64LE compatible with Safari ([a884702](https://github.com/bitauth/libauth/commit/a88470284684a1a21709f78a067ab529cb01ca42)), closes [#70](https://github.com/bitauth/libauth/issues/70) [#69](https://github.com/bitauth/libauth/issues/69)
+- make bigIntToBinUint64LE compatible with Safari ([a884702](https://github.com/bitauth/libauth/commit/a88470284684a1a21709f78a067ab529cb01ca42)), closes [#70](https://github.com/bitauth/libauth/issues/70) [#69](https://github.com/bitauth/libauth/issues/69)
 
 ### [1.17.3](https://github.com/bitauth/libauth/compare/v1.17.2...v1.17.3) (2020-10-23)
 
@@ -41,29 +113,25 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.17.1](https://github.com/bitauth/libauth/compare/v1.17.0...v1.17.1) (2020-08-08)
 
-
 ### Bug Fixes
 
-* **OP_REVERSEBYTES:** clone stack item before reversing ([071f9cd](https://github.com/bitauth/libauth/commit/071f9cddfdba7e326eb69886cf4ddefd985b0f24))
+- **OP_REVERSEBYTES:** clone stack item before reversing ([071f9cd](https://github.com/bitauth/libauth/commit/071f9cddfdba7e326eb69886cf4ddefd985b0f24))
 
 ## [1.17.0](https://github.com/bitauth/libauth/compare/v1.16.0...v1.17.0) (2020-08-07)
 
-
 ### Features
 
-* add support for OP_REVERSEBYTES to BCH VM ([965bd6f](https://github.com/bitauth/libauth/commit/965bd6f9680c20015ff18a3d29348a2fdce8bc56)), closes [#56](https://github.com/bitauth/libauth/issues/56)
-
+- add support for OP_REVERSEBYTES to BCH VM ([965bd6f](https://github.com/bitauth/libauth/commit/965bd6f9680c20015ff18a3d29348a2fdce8bc56)), closes [#56](https://github.com/bitauth/libauth/issues/56)
 
 ### Bug Fixes
 
-* update current BCH instruction set ([d0bff0c](https://github.com/bitauth/libauth/commit/d0bff0c68e543f62abadd81b01d0f69ebd3b2841))
+- update current BCH instruction set ([d0bff0c](https://github.com/bitauth/libauth/commit/d0bff0c68e543f62abadd81b01d0f69ebd3b2841))
 
 ## [1.16.0](https://github.com/bitauth/libauth/compare/v1.15.4...v1.16.0) (2020-07-21)
 
-
 ### Features
 
-* **scenarios:** support "pushed" and "invalid" properties ([a38544a](https://github.com/bitauth/libauth/commit/a38544a797711175d0cc18cd967fb9f1fc88c827))
+- **scenarios:** support "pushed" and "invalid" properties ([a38544a](https://github.com/bitauth/libauth/commit/a38544a797711175d0cc18cd967fb9f1fc88c827))
 
 ### [1.15.4](https://github.com/bitauth/libauth/compare/v1.15.3...v1.15.4) (2020-07-14)
 

@@ -2,8 +2,9 @@ import {
   Base58AddressFormatVersion,
   decodeBase58AddressFormat,
   encodeBase58AddressFormat,
-} from '../address/address';
-import { Sha256 } from '../crypto/crypto';
+} from '../address/address.js';
+import { sha256 as internalSha256 } from '../crypto/crypto.js';
+import type { Sha256 } from '../lib.js';
 
 export enum WalletImportFormatError {
   incorrectLength = 'The WIF private key payload is not the correct length.',
@@ -13,7 +14,7 @@ export enum WalletImportFormatError {
  * The network and address format in which a WIF-encoded private key is expected
  * to be used.
  *
- * WIF-encoding is generally used to serialize private keys for Pay to Public
+ * WIF-encoding is generally used to encode private keys for Pay to Public
  * Key (P2PKH) addresses – each WIF-encoded private key specifies the
  * compression of the public key to use in the P2PKH address:
  *
@@ -26,68 +27,66 @@ export enum WalletImportFormatError {
  */
 export type WalletImportFormatType =
   | 'mainnet'
+  | 'mainnetUncompressed'
   | 'testnet'
-  | 'mainnet-uncompressed'
-  | 'testnet-uncompressed';
+  | 'testnetUncompressed';
 
 /**
  * Encode a private key using Wallet Import Format (WIF).
  *
  * WIF encodes the 32-byte private key, a 4-byte checksum, and a `type`
  * indicating the intended usage for the private key. See
- * `WalletImportFormatType` for details.
+ * {@link WalletImportFormatType} for details.
  *
  * @remarks
  * WIF-encoding uses the Base58Address format with version
- * `Base58AddressFormatVersion.wif` (`128`/`0x80`) or
- * `Base58AddressFormatVersion.wifTestnet` (`239`/`0xef`), respectively.
+ * {@link Base58AddressFormatVersion.wif} (`128`/`0x80`) or
+ * {@link Base58AddressFormatVersion.wifTestnet} (`239`/`0xef`), respectively.
  *
  * To indicate that the private key is intended for use in a P2PKH address using
  * the compressed form of its derived public key, a `0x01` is appended to the
  * payload prior to encoding. For the uncompressed construction, the extra byte
  * is omitted.
  *
- * @param sha256 - an implementation of sha256 (a universal implementation is
- * available via `instantiateSha256`)
  * @param privateKey - a 32-byte Secp256k1 ECDSA private key
  * @param type - the intended usage of the private key (e.g. `mainnet` or
  * `testnet`)
+ * @param sha256 - an implementation of sha256
  */
 export const encodePrivateKeyWif = (
-  sha256: { hash: Sha256['hash'] },
   privateKey: Uint8Array,
-  type: WalletImportFormatType
+  type: WalletImportFormatType,
+  sha256: { hash: Sha256['hash'] } = internalSha256
 ) => {
   const compressedByte = 0x01;
-  const mainnet = type === 'mainnet' || type === 'mainnet-uncompressed';
+  const mainnet = type === 'mainnet' || type === 'mainnetUncompressed';
   const compressed = type === 'mainnet' || type === 'testnet';
   const payload = compressed
     ? Uint8Array.from([...privateKey, compressedByte])
     : privateKey;
   return encodeBase58AddressFormat(
-    sha256,
     mainnet
       ? Base58AddressFormatVersion.wif
       : Base58AddressFormatVersion.wifTestnet,
-    payload
+    payload,
+    sha256
   );
 };
 
 /**
  * Decode a private key using Wallet Import Format (WIF). See
- * `encodePrivateKeyWif` for details.
+ * {@link encodePrivateKeyWif} for details.
  *
- * @param sha256 - an implementation of sha256 (a universal implementation is
- * available via `instantiateSha256`)
  * @param wifKey - the private key to decode (in Wallet Import Format)
+ * @param sha256 - an implementation of sha256
  */
 // eslint-disable-next-line complexity
 export const decodePrivateKeyWif = (
-  sha256: { hash: Sha256['hash'] },
-  wifKey: string
+  wifKey: string,
+  sha256: { hash: Sha256['hash'] } = internalSha256
 ) => {
   const compressedPayloadLength = 33;
-  const decoded = decodeBase58AddressFormat(sha256, wifKey);
+  const decoded = decodeBase58AddressFormat(wifKey, sha256);
   if (typeof decoded === 'string') return decoded;
   const mainnet = decoded.version === Base58AddressFormatVersion.wif;
   const compressed = decoded.payload.length === compressedPayloadLength;
@@ -98,10 +97,10 @@ export const decodePrivateKeyWif = (
   const type: WalletImportFormatType = mainnet
     ? compressed
       ? 'mainnet'
-      : 'mainnet-uncompressed'
+      : 'mainnetUncompressed'
     : compressed
     ? 'testnet'
-    : 'testnet-uncompressed';
+    : 'testnetUncompressed';
 
   return { privateKey, type };
 };

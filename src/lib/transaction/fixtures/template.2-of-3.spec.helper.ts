@@ -1,8 +1,8 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import {
+import type {
   AuthenticationTemplate,
   AuthenticationTemplateEntity,
-} from '../../template/template-types';
+} from '../../lib.js';
 
 const createSigner = (
   name: string,
@@ -46,12 +46,12 @@ export const twoOfThree: AuthenticationTemplate = {
       unlocks: 'lock',
     },
     lock: {
-      lockingType: 'p2sh',
+      lockingType: 'p2sh20',
       name: '2-of-3 Vault',
       script:
         'OP_2\n<key1.public_key>\n<key2.public_key>\n<key3.public_key>\nOP_3\nOP_CHECKMULTISIG',
     },
   },
-  supported: ['BCH_2019_11'],
+  supported: ['BCH_2021_05', 'BCH_2022_05'],
   version: 0,
 };

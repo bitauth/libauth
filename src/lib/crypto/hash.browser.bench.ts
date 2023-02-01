@@ -1,11 +1,10 @@
-/* eslint-disable functional/no-expression-statement */
 import { join } from 'path';
 
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
-import nodeResolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import test from 'ava';
-import { launch } from 'puppeteer';
+import puppeteer from 'puppeteer';
 import { rollup } from 'rollup';
 
 const prepareCode = async () => {
@@ -15,23 +14,26 @@ const prepareCode = async () => {
    * Suppress Rollup warning:
    * `Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification`
    */
-  // eslint-disable-next-line no-console, functional/immutable-data
+  // eslint-disable-next-line no-console
   console.warn = (suppress: string) => suppress;
 
   const bundle = await rollup({
-    input: join(__dirname, 'hash.browser.bench.helper.js'),
+    input: join(
+      new URL('.', import.meta.url).pathname,
+      'hash.browser.bench.helper.js'
+    ),
     plugins: [
       alias({
         entries: {
-          chuhai: './../../../bench/chuhai.js',
-          'hash.js': './../../../bench/hash.js',
+          chuhai: './../../bench/chuhai.js',
+          'hash.js': './../../bench/hash.js',
         },
       }),
       commonjs(),
       nodeResolve(),
     ],
   });
-  // eslint-disable-next-line no-console, require-atomic-updates, functional/immutable-data
+  // eslint-disable-next-line no-console, require-atomic-updates
   console.warn = realConsoleWarn;
 
   const result = await bundle.generate({
@@ -41,7 +43,7 @@ const prepareCode = async () => {
 };
 
 const preparePage = async () => {
-  const browser = await launch({
+  const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
     // devtools: true
   });

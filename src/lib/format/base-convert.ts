@@ -5,12 +5,12 @@ export enum BaseConversionError {
 }
 
 export interface BaseConverter {
-  decode: (source: string) => Uint8Array | BaseConversionError.unknownCharacter;
+  decode: (source: string) => BaseConversionError.unknownCharacter | Uint8Array;
   encode: (input: Uint8Array) => string;
 }
 
 /**
- * Create a `BaseConverter`, which exposes methods for encoding and decoding
+ * Create a {@link BaseConverter}, exposing methods for encoding and decoding
  * `Uint8Array`s using bitcoin-style padding: each leading zero in the input is
  * replaced with the zero-index character of the `alphabet`, then the remainder
  * of the input is encoded as a large number in the specified alphabet.
@@ -25,12 +25,10 @@ export interface BaseConverter {
  *
  * If the alphabet is malformed, this method returns the error as a `string`.
  *
- * @param alphabet - an ordered string which maps each index to a character,
+ * @param alphabet - an ordered string that maps each index to a character,
  * e.g. `0123456789`.
- * @privateRemarks
- * Algorithm from the `base-x` implementation (which is derived from the
- * original Satoshi implementation): https://github.com/cryptocoinjs/base-x
  */
+// Algorithm from the `base-x` implementation (derived from the original Satoshi implementation): https://github.com/cryptocoinjs/base-x
 export const createBaseConverter = (
   alphabet: string
 ): BaseConversionError | BaseConverter => {
@@ -78,8 +76,9 @@ export const createBaseConverter = (
       let remainingBytes = 0;
 
       // eslint-disable-next-line functional/no-loop-statement
-      while ((input[nextByte] as string | undefined) !== undefined) {
-        let carry = alphabetMap[input.charCodeAt(nextByte)];
+      while (input[nextByte] !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        let carry = alphabetMap[input.charCodeAt(nextByte)]!;
         if (carry === undefinedValue)
           return BaseConversionError.unknownCharacter;
 
@@ -91,7 +90,8 @@ export const createBaseConverter = (
           // eslint-disable-next-line no-plusplus
           steps--, digit++
         ) {
-          carry += Math.floor(base * decoded[steps]);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          carry += Math.floor(base * decoded[steps]!);
           // eslint-disable-next-line functional/immutable-data
           decoded[steps] = Math.floor(carry % uint8ArrayBase);
           carry = Math.floor(carry / uint8ArrayBase);
@@ -131,7 +131,8 @@ export const createBaseConverter = (
       let remainingBytes = 0;
       // eslint-disable-next-line functional/no-loop-statement
       while (nextByte !== input.length) {
-        let carry = input[nextByte];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        let carry = input[nextByte]!;
         let digit = 0;
         // eslint-disable-next-line functional/no-loop-statement
         for (
@@ -140,7 +141,8 @@ export const createBaseConverter = (
           // eslint-disable-next-line no-plusplus
           steps--, digit++
         ) {
-          carry += Math.floor(uint8ArrayBase * encoded[steps]);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          carry += Math.floor(uint8ArrayBase * encoded[steps]!);
           // eslint-disable-next-line functional/immutable-data
           encoded[steps] = Math.floor(carry % base);
           carry = Math.floor(carry / base);
@@ -169,7 +171,7 @@ const base58 = createBaseConverter(bitcoinBase58Alphabet) as BaseConverter;
 /**
  * Convert a bitcoin-style base58-encoded string to a Uint8Array.
  *
- * See `createBaseConverter` for format details.
+ * See {@link createBaseConverter} for format details.
  * @param input - a valid base58-encoded string to decode
  */
 export const base58ToBin = base58.decode;
@@ -177,7 +179,7 @@ export const base58ToBin = base58.decode;
 /**
  * Convert a Uint8Array to a bitcoin-style base58-encoded string.
  *
- * See `createBaseConverter` for format details.
+ * See {@link createBaseConverter} for format details.
  * @param input - the Uint8Array to base58 encode
  */
 export const binToBase58 = base58.encode;

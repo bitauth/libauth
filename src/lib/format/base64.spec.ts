@@ -1,7 +1,6 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { base64ToBin, binToBase64, isBase64 } from '../lib';
+import { base64ToBin, binToBase64, isBase64 } from '../lib.js';
 
 test('isBase64', (t) => {
   t.deepEqual(isBase64('YWJj'), true);

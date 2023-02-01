@@ -1,38 +1,32 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import { createHmac } from 'crypto';
 
-import test, { Macro } from 'ava';
-import { fc, testProp } from 'ava-fast-check';
+import { fc, testProp } from '@fast-check/ava';
+import test from 'ava';
 
 import {
   binToHex,
   hexToBin,
   hmacSha256,
   hmacSha512,
-  instantiateSha256,
-  instantiateSha512,
-} from '../lib';
+  sha256,
+  sha512,
+} from '../lib.js';
 
-const sha256Promise = instantiateSha256();
-const sha512Promise = instantiateSha512();
-
-const vectors: Macro<[
-  { secret: string; message: string; sha256: string; sha512: string }
-]> = async (t, vector) => {
-  const sha256 = await sha256Promise;
-  const sha512 = await sha512Promise;
-  t.deepEqual(
-    hmacSha256(sha256, hexToBin(vector.secret), hexToBin(vector.message)),
-    hexToBin(vector.sha256)
-  );
-  t.deepEqual(
-    hmacSha512(sha512, hexToBin(vector.secret), hexToBin(vector.message)),
-    hexToBin(vector.sha512)
-  );
-};
-// eslint-disable-next-line functional/immutable-data
-vectors.title = (title) =>
-  `[crypto] HMAC Test Vector #${title ?? '?'} (RFC 4231)`;
+const vectors = test.macro<
+  [{ secret: string; message: string; sha256: string; sha512: string }]
+>({
+  exec: (t, vector) => {
+    t.deepEqual(
+      hmacSha256(hexToBin(vector.secret), hexToBin(vector.message), sha256),
+      hexToBin(vector.sha256)
+    );
+    t.deepEqual(
+      hmacSha512(hexToBin(vector.secret), hexToBin(vector.message), sha512),
+      hexToBin(vector.sha512)
+    );
+  },
+  title: (title) => `[crypto] HMAC Test Vector #${title ?? '?'} (RFC 4231)`,
+});
 
 test('1', vectors, {
   message: '4869205468657265',
@@ -95,18 +89,15 @@ test('7', vectors, {
     'e37b6a775dc87dbaa4dfa9f96e5e3ffddebd71f8867289865df5a32d20cdc944b6022cac3c4982b10d5eeb55c3e4de15134676fb6de0446065c97440fa8c6a58',
 });
 
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, 255), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
-
 testProp(
   '[fast-check] [crypto] hmacSha256 is equivalent to Node.js native HMAC-SHA256',
-  [fcUint8Array(1, 100), fcUint8Array(1, 100)],
-  async (t, secret, message) => {
-    const sha256 = await sha256Promise;
+  [
+    fc.uint8Array({ maxLength: 100, minLength: 1 }),
+    fc.uint8Array({ maxLength: 100, minLength: 1 }),
+  ],
+  (t, secret, message) => {
     t.deepEqual(
-      binToHex(hmacSha256(sha256, secret, message)),
+      binToHex(hmacSha256(secret, message)),
       createHmac('sha256', secret).update(message).digest('hex')
     );
   }
@@ -114,11 +105,13 @@ testProp(
 
 testProp(
   '[fast-check] [crypto] hmacSha512 is equivalent to Node.js native HMAC-SHA512',
-  [fcUint8Array(0, 100), fcUint8Array(0, 100)],
-  async (t, secret, message) => {
-    const sha512 = await sha512Promise;
+  [
+    fc.uint8Array({ maxLength: 100, minLength: 0 }),
+    fc.uint8Array({ maxLength: 100, minLength: 0 }),
+  ],
+  (t, secret, message) => {
     t.deepEqual(
-      binToHex(hmacSha512(sha512, secret, message)),
+      binToHex(hmacSha512(secret, message)),
       createHmac('sha512', secret).update(message).digest('hex')
     );
   }

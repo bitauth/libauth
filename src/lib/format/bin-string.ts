@@ -1,4 +1,4 @@
-import { splitEvery } from './hex';
+import { splitEvery } from './hex.js';
 
 const binaryByteWidth = 8;
 const binary = 2;
@@ -13,7 +13,7 @@ const binary = 2;
  * is interpreted as `00000001`). If `binaryDigits` is potentially malformed,
  * check it with `isBinString` before calling this method.
  *
- * @param validHex - a string of valid, hexadecimal-encoded data
+ * @param binaryDigits - a string of `0`s and `1`s with a length divisible by 8
  */
 export const binStringToBin = (binaryDigits: string) =>
   Uint8Array.from(
@@ -36,8 +36,8 @@ export const binToBinString = (bytes: Uint8Array) =>
   );
 
 /**
- * For use before `binStringToBin`. Returns true if the provided string is a
- * valid binary string (length is divisible by 8 and only uses the characters
+ * For use before {@link binStringToBin}. Returns true if the provided string is
+ * a valid binary string (length is divisible by 8 and only uses the characters
  * `0` and `1`).
  * @param maybeBinString - a string to test
  */

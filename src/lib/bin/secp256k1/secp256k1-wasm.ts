@@ -1,15 +1,13 @@
 /* eslint-disable no-underscore-dangle, max-params, @typescript-eslint/naming-convention */
 // cSpell:ignore memcpy, anyfunc
-import { base64ToBin } from '../../format/format';
+import { base64ToBin } from '../../format/format.js';
 
-import {
-  CompressionFlag,
-  ContextFlag,
-  Secp256k1Wasm,
-} from './secp256k1-wasm-types';
-import { secp256k1Base64Bytes } from './secp256k1.base64';
+import type { Secp256k1Wasm } from './secp256k1-wasm-types.js';
+import { CompressionFlag, ContextFlag } from './secp256k1-wasm-types.js';
+import { secp256k1Base64Bytes } from './secp256k1.base64.js';
 
-export { ContextFlag, CompressionFlag, Secp256k1Wasm };
+export type { Secp256k1Wasm };
+export { ContextFlag, CompressionFlag };
 
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 const wrapSecp256k1Wasm = (
@@ -37,7 +35,7 @@ const wrapSecp256k1Wasm = (
     return pointer;
   },
   mallocUint8Array: (array) => {
-    const pointer = (instance.exports as any)._malloc(array.length);
+    const pointer = (instance.exports as any)._malloc(array.length) as number;
     // eslint-disable-next-line functional/no-expression-statement
     heapU8.set(array, pointer);
     return pointer;
@@ -102,7 +100,8 @@ const wrapSecp256k1Wasm = (
   readSizeT: (pointer) => {
     // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
     const pointerView32 = pointer >> 2;
-    return heapU32[pointerView32];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return heapU32[pointerView32]!;
   },
   recover: (contextPtr, outputPubkeyPointer, rSigPtr, msg32Ptr) =>
     (instance.exports as any)._secp256k1_ecdsa_recover(
@@ -112,7 +111,9 @@ const wrapSecp256k1Wasm = (
       msg32Ptr
     ),
   recoverableSignatureParse: (contextPtr, outputRSigPtr, inputSigPtr, rid) =>
-    (instance.exports as any)._secp256k1_ecdsa_recoverable_signature_parse_compact(
+    (
+      instance.exports as any
+    )._secp256k1_ecdsa_recoverable_signature_parse_compact(
       contextPtr,
       outputRSigPtr,
       inputSigPtr,
@@ -124,7 +125,9 @@ const wrapSecp256k1Wasm = (
     recIDOutPtr,
     rSigPtr
   ) =>
-    (instance.exports as any)._secp256k1_ecdsa_recoverable_signature_serialize_compact(
+    (
+      instance.exports as any
+    )._secp256k1_ecdsa_recoverable_signature_serialize_compact(
       contextPtr,
       sigOutPtr,
       recIDOutPtr,
@@ -241,7 +244,7 @@ const alignMemory = (factor: number, size: number) =>
 
 /**
  * The most performant way to instantiate secp256k1 functionality. To avoid
- * using Node.js or DOM-specific APIs, you can use `instantiateSecp256k1`.
+ * using Node.js or DOM-specific APIs, you can use {@link instantiateSecp256k1}.
  *
  * Note, most of this method is translated and boiled-down from Emscripten's
  * preamble.js. Significant changes to the WASM build or breaking updates to
@@ -352,8 +355,7 @@ export const instantiateSecp256k1WasmBytes = async (
 
   return WebAssembly.instantiate(webassemblyBytes, info).then((result) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-    getErrNoLocation = result.instance.exports.___errno_location as any;
-
+    getErrNoLocation = result.instance.exports['___errno_location'] as any;
     return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);
   });
 };
@@ -363,8 +365,9 @@ export const getEmbeddedSecp256k1Binary = () =>
   base64ToBin(secp256k1Base64Bytes).buffer;
 
 /**
- * An ultimately-portable (but slower) version of `instantiateSecp256k1Bytes`
- * which does not require the consumer to provide the secp256k1 binary buffer.
+ * An ultimately-portable (but slower) version of
+ * {@link instantiateSecp256k1Bytes} that does not require the consumer to
+ * provide the secp256k1 binary buffer.
  */
 export const instantiateSecp256k1Wasm = async (): Promise<Secp256k1Wasm> =>
   instantiateSecp256k1WasmBytes(getEmbeddedSecp256k1Binary());

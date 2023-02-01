@@ -1,52 +1,55 @@
-import {
+import type {
+  AuthenticationProgramStateControlStack,
+  AuthenticationProgramStateError,
+  AuthenticationProgramStateStack,
   InstructionSetOperationMapping,
   Operation,
-} from '../../virtual-machine';
+} from '../../../lib.js';
+
+import { ConsensusCommon } from './consensus.js';
+import { applyError, AuthenticationErrorCommon } from './errors.js';
 import {
-  AuthenticationProgramStateError,
-  AuthenticationProgramStateExecutionStack,
-  AuthenticationProgramStateStack,
-} from '../../vm-types';
+  bigIntToVmNumber,
+  isVmNumberError,
+  vmNumberToBigInt,
+} from './instruction-sets-utils.js';
 
-import { isScriptNumberError, parseBytesAsScriptNumber } from './common';
-import { applyError, AuthenticationErrorCommon } from './errors';
+export const incrementOperationCount =
+  <State extends { operationCount: number }>(
+    operation: Operation<State>
+  ): Operation<State> =>
+  (state: State) => {
+    const nextState = operation(state);
+    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    nextState.operationCount += 1;
+    return nextState;
+  };
 
-export const incrementOperationCount = <
-  State extends { operationCount: number }
->(
-  operation: Operation<State>
-): Operation<State> => (state: State) => {
-  const nextState = operation(state);
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
-  nextState.operationCount += 1;
-  return nextState;
-};
-
-export const conditionallyEvaluate = <
-  State extends AuthenticationProgramStateExecutionStack
->(
-  operation: Operation<State>
-): Operation<State> => (state: State) =>
-  state.executionStack.every((item) => item) ? operation(state) : state;
+export const conditionallyEvaluate =
+  <State extends AuthenticationProgramStateControlStack>(
+    operation: Operation<State>
+  ): Operation<State> =>
+  (state: State) =>
+    state.controlStack.every((item) => item) ? operation(state) : state;
 
 /**
- * Map a function over each operation in an `InstructionSet.operations` object,
- * assigning the result to the same `opcode` in the resulting object.
- * @param operations - an operations map from an `InstructionSet`
- * @param combinator - a function to apply to each operation
+ * Map a function over each operation in an {@link InstructionSet.operations}
+ * object, assigning the result to the same `opcode` in the resulting object.
+ * @param operationMap - an operations map from an {@link InstructionSet}
+ * @param combinators - a list of functions to apply (in order) to
+ * each operation
  */
 export const mapOverOperations = <State>(
-  operations: InstructionSetOperationMapping<State>,
-  ...combinators: ((operation: Operation<State>) => Operation<State>)[]
+  combinators: ((operation: Operation<State>) => Operation<State>)[],
+  operationMap: InstructionSetOperationMapping<State>
 ) =>
-  Object.keys(operations).reduce<{
-    [opcode: number]: Operation<State>;
-  }>(
-    (result, operation) => ({
+  Object.keys(operationMap).reduce<InstructionSetOperationMapping<State>>(
+    (result, opcode) => ({
       ...result,
-      [operation]: combinators.reduce(
+      [opcode]: combinators.reduce<Operation<State>>(
         (op, combinator) => combinator(op),
-        operations[parseInt(operation, 10)]
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        operationMap[Number(opcode)]!
       ),
     }),
     {}
@@ -56,9 +59,8 @@ export const mapOverOperations = <State>(
  * Pop one stack item off of `state.stack` and provide that item to `operation`.
  */
 export const useOneStackItem = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (nextState: State, [value]: [Uint8Array]) => State
@@ -66,18 +68,14 @@ export const useOneStackItem = <
   // eslint-disable-next-line functional/immutable-data
   const item = state.stack.pop();
   if (item === undefined) {
-    return applyError<State, Errors>(
-      AuthenticationErrorCommon.emptyStack,
-      state
-    );
+    return applyError(state, AuthenticationErrorCommon.emptyStack);
   }
   return operation(state, [item]);
 };
 
 export const useTwoStackItems = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (
@@ -92,9 +90,8 @@ export const useTwoStackItems = <
   );
 
 export const useThreeStackItems = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (
@@ -109,9 +106,8 @@ export const useThreeStackItems = <
   );
 
 export const useFourStackItems = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (
@@ -131,9 +127,8 @@ export const useFourStackItems = <
   );
 
 export const useSixStackItems = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (
@@ -163,38 +158,39 @@ export const useSixStackItems = <
       )
   );
 
-const normalMaximumScriptNumberByteLength = 4;
+const typicalMaximumVmNumberByteLength = 8;
 
-export const useOneScriptNumber = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+export const useOneVmNumber = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (nextState: State, [value]: [bigint]) => State,
   {
-    requireMinimalEncoding,
-    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength,
-  }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
+    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    requireMinimalEncoding = true,
+  }: {
+    maximumVmNumberByteLength?: number;
+    requireMinimalEncoding?: boolean;
+  } = {
+    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    requireMinimalEncoding: true,
+  }
 ) =>
   useOneStackItem(state, (nextState, [item]) => {
-    const value = parseBytesAsScriptNumber(item, {
-      maximumScriptNumberByteLength,
+    const value = vmNumberToBigInt(item, {
+      maximumVmNumberByteLength,
       requireMinimalEncoding,
     });
-    if (isScriptNumberError(value)) {
-      return applyError<State, Errors>(
-        AuthenticationErrorCommon.invalidScriptNumber,
-        state
-      );
+    if (isVmNumberError(value)) {
+      return applyError(state, AuthenticationErrorCommon.invalidVmNumber);
     }
     return operation(nextState, [value]);
   });
 
-export const useTwoScriptNumbers = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+export const useTwoVmNumbers = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (
@@ -202,26 +198,37 @@ export const useTwoScriptNumbers = <
     [firstValue, secondValue]: [bigint, bigint]
   ) => State,
   {
-    requireMinimalEncoding,
-    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength,
-  }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
+    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    requireMinimalEncoding = true,
+  }: {
+    maximumVmNumberByteLength?: number;
+    requireMinimalEncoding?: boolean;
+  } = {
+    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    requireMinimalEncoding: true,
+  }
 ) =>
-  useOneScriptNumber(
+  useOneVmNumber(
     state,
     (nextState, [secondValue]) =>
-      useOneScriptNumber(
+      useOneVmNumber(
         nextState,
         (lastState, [firstValue]) =>
           operation(lastState, [firstValue, secondValue]),
-        { maximumScriptNumberByteLength, requireMinimalEncoding }
+        {
+          maximumVmNumberByteLength,
+          requireMinimalEncoding,
+        }
       ),
-    { maximumScriptNumberByteLength, requireMinimalEncoding }
+    {
+      maximumVmNumberByteLength,
+      requireMinimalEncoding,
+    }
   );
 
-export const useThreeScriptNumbers = <
-  State extends AuthenticationProgramStateStack &
-    AuthenticationProgramStateError<Errors>,
-  Errors
+export const useThreeVmNumbers = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
 >(
   state: State,
   operation: (
@@ -229,20 +236,32 @@ export const useThreeScriptNumbers = <
     [firstValue, secondValue, thirdValue]: [bigint, bigint, bigint]
   ) => State,
   {
-    requireMinimalEncoding,
-    maximumScriptNumberByteLength = normalMaximumScriptNumberByteLength,
-  }: { requireMinimalEncoding: boolean; maximumScriptNumberByteLength?: number }
+    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    requireMinimalEncoding = true,
+  }: {
+    maximumVmNumberByteLength?: number;
+    requireMinimalEncoding?: boolean;
+  } = {
+    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    requireMinimalEncoding: true,
+  }
 ) =>
-  useTwoScriptNumbers(
+  useTwoVmNumbers(
     state,
     (nextState, [secondValue, thirdValue]) =>
-      useOneScriptNumber(
+      useOneVmNumber(
         nextState,
         (lastState, [firstValue]) =>
           operation(lastState, [firstValue, secondValue, thirdValue]),
-        { maximumScriptNumberByteLength, requireMinimalEncoding }
+        {
+          maximumVmNumberByteLength,
+          requireMinimalEncoding,
+        }
       ),
-    { maximumScriptNumberByteLength, requireMinimalEncoding }
+    {
+      maximumVmNumberByteLength,
+      requireMinimalEncoding,
+    }
   );
 
 /**
@@ -259,8 +278,70 @@ export const pushToStack = <State extends AuthenticationProgramStateStack>(
   return state;
 };
 
-// TODO: if firstOperation errors, secondOperation might overwrite the error
-export const combineOperations = <State>(
-  firstOperation: Operation<State>,
-  secondOperation: Operation<State>
-) => (state: State) => secondOperation(firstOperation(state));
+/**
+ * If the provided item exceeds the maximum stack item length, apply an error.
+ * Otherwise, return the provided state with the item pushed to its stack.
+ * @param state - the state to update and return
+ * @param item - the value to push to the stack
+ */
+export const pushToStackChecked = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
+>(
+  state: State,
+  item: Uint8Array,
+  maximumLength = ConsensusCommon.maximumStackItemLength
+) => {
+  if (item.length > maximumLength) {
+    return applyError(
+      state,
+      `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${item.length} bytes.`
+    );
+  }
+  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  state.stack.push(item);
+  return state;
+};
+
+/**
+ * Return the provided state with the VM number pushed to its stack.
+ * @param state - the state to update and return
+ * @param vmNumber - the number to push to the stack
+ */
+export const pushToStackVmNumber = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
+>(
+  state: State,
+  vmNumber: bigint
+) => pushToStack(state, bigIntToVmNumber(vmNumber));
+
+/**
+ * If the provided number is outside the VM number range, apply an error.
+ * Otherwise, return the provided state with the VM number pushed to its stack.
+ * @param state - the state to update and return
+ * @param vmNumber - the VM number to push to the stack
+ */
+export const pushToStackVmNumberChecked = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack
+>(
+  state: State,
+  vmNumber: bigint,
+  minVmNumber = BigInt(ConsensusCommon.minVmNumber),
+  maxVmNumber = BigInt(ConsensusCommon.maxVmNumber)
+  // eslint-disable-next-line max-params
+) => {
+  if (vmNumber > maxVmNumber || vmNumber < minVmNumber) {
+    return applyError(state, AuthenticationErrorCommon.overflowsVmNumberRange);
+  }
+  return pushToStackVmNumber(state, vmNumber);
+};
+
+export const combineOperations =
+  <State>(
+    firstOperation: Operation<State>,
+    secondOperation: Operation<State>
+  ) =>
+  (state: State) =>
+    secondOperation(firstOperation(state));

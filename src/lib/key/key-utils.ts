@@ -5,12 +5,11 @@
  * Private keys are 256-bit numbers encoded as a 32-byte, big-endian Uint8Array.
  * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,
  * any 256-bit number greater than `0x01` and less than
- * `0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140`
+ * `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140`
  * is a valid private key. This range is part of the definition of the
  * secp256k1 elliptic curve parameters.
  *
- * This method does not require the `Secp256k1` WASM implementation (available
- * via `instantiateSecp256k1`).
+ * This method does not require a `Secp256k1` implementation.
  */
 export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
   const privateKeyLength = 32;
@@ -34,7 +33,8 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
 
   if (
     firstDifference === -1 ||
-    privateKey[firstDifference] < maximumSecp256k1PrivateKey[firstDifference]
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    privateKey[firstDifference]! < maximumSecp256k1PrivateKey[firstDifference]!
   ) {
     return true;
   }
@@ -51,20 +51,19 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
  * import { randomBytes } from 'crypto';
  * import { generatePrivateKey } from '@bitauth/libauth';
  *
- * const key = generatePrivateKey(secp256k1, () => randomBytes(32));
+ * const key = generatePrivateKey(() => randomBytes(32));
  * ```
  *
  * **Browser Usage**
  * ```ts
  * import { generatePrivateKey } from '@bitauth/libauth';
  *
- * const key = generatePrivateKey(secp256k1, () =>
+ * const key = generatePrivateKey(() =>
  *   window.crypto.getRandomValues(new Uint8Array(32))
  * );
  * ```
  *
- * @param secp256k1 - an implementation of Secp256k1
- * @param secureRandom - a method which returns a securely-random 32-byte
+ * @param secureRandom - a method that returns a securely-random 32-byte
  * Uint8Array
  */
 export const generatePrivateKey = (secureRandom: () => Uint8Array) => {

@@ -6,36 +6,25 @@ export interface RecoverableSignature {
 }
 
 /**
- * An object which exposes a set of purely-functional Secp256k1 methods.
- *
- * Under the hood, this object uses a [[Secp256k1Wasm]] instance to provide it's
- * functionality. Because WebAssembly modules are dynamically-instantiated at
- * runtime, this object must be created and awaited from `instantiateSecp256k1`
- * or `instantiateSecp256k1Bytes`.
- *
- * **These methods do not check the length of provided parameters. Calling them
- * with improperly-sized parameters will likely cause incorrect behavior or
- * runtime errors.**
+ * An object that exposes a set of purely-functional Secp256k1 methods.
  *
  * ## Example
  *
  * ```typescript
- * import { instantiateSecp256k1 } from '@bitauth/libauth';
+ * import { secp256k1 } from '@bitauth/libauth';
  * import { msgHash, pubkey, sig } from './somewhere';
  *
- * (async () => {
- *   const secp256k1 = await instantiateSecp256k1();
- *   secp256k1.verifySignatureDERLowS(sig, pubkey, msgHash)
- *     ? console.log('🚀 Signature valid')
- *     : console.log('❌ Signature invalid');
- * })();
+ * secp256k1.verifySignatureDERLowS(sig, pubkey, msgHash)
+ *   ? console.log('🚀 Signature valid')
+ *   : console.log('❌ Signature invalid');
  * ```
  */
 export interface Secp256k1 {
   /**
    * Tweak a privateKey by adding `tweakValue` to it.
    *
-   * Throws if the private key is invalid or if the addition failed.
+   * Returns an error message if the private key is invalid or if the addition
+   * fails.
    *
    * @param privateKey - a valid secp256k1 private key
    * @param tweakValue - 256 bit value to tweak by (BE)
@@ -43,13 +32,13 @@ export interface Secp256k1 {
   readonly addTweakPrivateKey: (
     privateKey: Uint8Array,
     tweakValue: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Tweak a `publicKey` by adding `tweakValue` times the generator to it.
    *
-   * Throws if the provided public key could not be parsed, is not valid or if
-   * the addition failed.
+   * Returns an error message if the provided public key could not be parsed or
+   * is not valid, or if the addition failed.
    *
    * The returned public key will be in compressed format.
    *
@@ -59,13 +48,13 @@ export interface Secp256k1 {
   readonly addTweakPublicKeyCompressed: (
     publicKey: Uint8Array,
     tweakValue: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Tweak a `publicKey` by adding `tweakValue` times the generator to it.
    *
-   * Throws if the provided public key could not be parsed, is not valid or if
-   * the addition failed.
+   * Returns an error message if the provided public key could not be parsed or
+   * is not valid, or if the addition failed.
    *
    * The returned public key will be in uncompressed format.
    *
@@ -75,7 +64,7 @@ export interface Secp256k1 {
   readonly addTweakPublicKeyUncompressed: (
     publicKey: Uint8Array,
     tweakValue: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Compress a valid ECDSA public key. Returns a public key in compressed
@@ -85,59 +74,71 @@ export interface Secp256k1 {
    * 0x03), uncompressed (65 bytes, header byte 0x04), or hybrid (65 bytes,
    * header byte 0x06 or 0x07) format public keys.
    *
-   * Throws if the provided public key could not be parsed or is not valid.
+   * Returns an error message if the provided public key could not be parsed or
+   * is not valid.
    *
    * @param privateKey - a public key to compress
    */
-  readonly compressPublicKey: (publicKey: Uint8Array) => Uint8Array;
+  readonly compressPublicKey: (publicKey: Uint8Array) => Uint8Array | string;
 
   /**
    * Derive a compressed public key from a valid secp256k1 private key.
    *
-   * Throws if the provided private key is too large (see `validatePrivateKey`).
+   * Returns an error message if the provided private key is too large (see
+   * `validatePrivateKey`).
    *
    * @param privateKey - a valid secp256k1, 32-byte private key
    */
-  readonly derivePublicKeyCompressed: (privateKey: Uint8Array) => Uint8Array;
+  readonly derivePublicKeyCompressed: (
+    privateKey: Uint8Array
+  ) => Uint8Array | string;
 
   /**
    * Derive an uncompressed public key from a valid secp256k1 private key.
    *
-   * Throws if the provided private key is too large (see `validatePrivateKey`).
+   * Returns an error message if the provided private key is too large (see
+   * `validatePrivateKey`).
    *
    * @param privateKey - a valid secp256k1, 32-byte private key
    */
-  readonly derivePublicKeyUncompressed: (privateKey: Uint8Array) => Uint8Array;
+  readonly derivePublicKeyUncompressed: (
+    privateKey: Uint8Array
+  ) => Uint8Array | string;
 
   /**
    * Malleate a compact-encoded ECDSA signature.
    *
    * This is done by negating the S value modulo the order of the curve,
-   * "flipping" the sign of the random point R which is not included in the
+   * "flipping" the sign of the random point R that is not included in the
    * signature.
    *
-   * Throws if compact-signature parsing fails.
+   * Returns an error message if compact-signature parsing fails.
    *
    * @param signature - a compact-encoded ECDSA signature to malleate, max 72
    * bytes
    */
-  readonly malleateSignatureCompact: (signature: Uint8Array) => Uint8Array;
+  readonly malleateSignatureCompact: (
+    signature: Uint8Array
+  ) => Uint8Array | string;
 
   /**
    * Malleate a DER-encoded ECDSA signature.
    *
    * This is done by negating the S value modulo the order of the curve,
-   * "flipping" the sign of the random point R which is not included in the
+   * "flipping" the sign of the random point R that is not included in the
    * signature.
    *
-   * Throws if DER-signature parsing fails.
+   * Returns an error message if DER-signature parsing fails.
    *
    * @param signature - a DER-encoded ECDSA signature to malleate, max 72 bytes
    */
-  readonly malleateSignatureDER: (signature: Uint8Array) => Uint8Array;
+  readonly malleateSignatureDER: (signature: Uint8Array) => Uint8Array | string;
 
   /**
    * Tweak a privateKey by multiplying it by a `tweakValue`.
+   *
+   * Returns an error message if the private key is invalid or if the
+   * multiplication fails.
    *
    * @param privateKey - a valid secp256k1 private key
    * @param tweakValue - 256 bit value to tweak by (BE)
@@ -146,13 +147,14 @@ export interface Secp256k1 {
   readonly mulTweakPrivateKey: (
     privateKey: Uint8Array,
     tweakValue: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Tweak a `publicKey` by multiplying `tweakValue` to it.
    *
-   * Throws if the provided public key could not be parsed, is not valid or if
-   * the multiplication failed.
+   * Returns an error message if the provided public key could not be parsed or
+   * is not valid, or if the multiplication failed.
+   *
    * The returned public key will be in compressed format.
    *
    * @param publicKey - a public key.
@@ -161,13 +163,14 @@ export interface Secp256k1 {
   readonly mulTweakPublicKeyCompressed: (
     publicKey: Uint8Array,
     tweakValue: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Tweak a `publicKey` by multiplying `tweakValue` to it.
    *
-   * Throws if the provided public key could not be parsed, is not valid or if
-   * the multiplication failed.
+   * Returns an error message if the provided public key could not be parsed or
+   * is not valid, or if the multiplication failed.
+   *
    * The returned public key will be in uncompressed format.
    *
    * @param publicKey - a public key.
@@ -177,33 +180,37 @@ export interface Secp256k1 {
   readonly mulTweakPublicKeyUncompressed: (
     publicKey: Uint8Array,
     tweakValue: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Normalize a compact-encoded ECDSA signature to lower-S form.
    *
-   * Throws if compact-signature parsing fails.
+   * Returns an error message if compact-signature parsing fails.
    *
    * @param signature - a compact-encoded ECDSA signature to normalize to
    * lower-S form, max 72 bytes
    */
-  readonly normalizeSignatureCompact: (signature: Uint8Array) => Uint8Array;
+  readonly normalizeSignatureCompact: (
+    signature: Uint8Array
+  ) => Uint8Array | string;
 
   /**
    * Normalize a DER-encoded ECDSA signature to lower-S form.
    *
-   * Throws if DER-signature parsing fails.
+   * Returns an error message if DER-signature parsing fails.
    *
    * @param signature - a DER-encoded ECDSA signature to normalize to lower-S
    * form, max 72 bytes
    */
-  readonly normalizeSignatureDER: (signature: Uint8Array) => Uint8Array;
+  readonly normalizeSignatureDER: (
+    signature: Uint8Array
+  ) => Uint8Array | string;
 
   /**
    * Compute a compressed public key from a valid signature, recovery number,
    * and the `messageHash` used to generate them.
    *
-   * Throws if the provided arguments are mismatched.
+   * Returns an error message if the provided arguments are mismatched.
    *
    * @param signature - an ECDSA signature in compact format
    * @param recovery - the recovery number
@@ -214,13 +221,13 @@ export interface Secp256k1 {
     signature: Uint8Array,
     recoveryId: RecoveryId,
     messageHash: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Compute an uncompressed public key from a valid signature, recovery
    * number, and the `messageHash` used to generate them.
    *
-   * Throws if the provided arguments are mismatched.
+   * Returns an error message if the provided arguments are mismatched.
    *
    * @param signature - an ECDSA signature in compact format
    * @param recovery - the recovery number
@@ -231,31 +238,36 @@ export interface Secp256k1 {
     signature: Uint8Array,
     recoveryId: RecoveryId,
     messageHash: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Convert a compact-encoded ECDSA signature to DER encoding.
    *
-   * Throws if parsing of compact-encoded signature fails.
+   * Returns an error message if parsing of compact-encoded signature fails.
    *
    * @param signature - a compact-encoded ECDSA signature to convert
    */
-  readonly signatureCompactToDER: (signature: Uint8Array) => Uint8Array;
+  readonly signatureCompactToDER: (
+    signature: Uint8Array
+  ) => Uint8Array | string;
 
   /**
    * Convert a DER-encoded ECDSA signature to compact encoding.
    *
-   * Throws if parsing of DER-encoded signature fails.
+   * Returns an error message if parsing of DER-encoded signature fails.
    *
    * @param signature - a DER-encoded ECDSA signature to convert
    */
-  readonly signatureDERToCompact: (signature: Uint8Array) => Uint8Array;
+  readonly signatureDERToCompact: (
+    signature: Uint8Array
+  ) => Uint8Array | string;
 
   /**
    * Create an ECDSA signature in compact format. The created signature is
    * always in lower-S form and follows RFC 6979.
    *
-   * Throws if the provided private key is too large (see `validatePrivateKey`).
+   * Returns an error message if the provided private key is too large (see
+   * `validatePrivateKey`).
    *
    * @param privateKey - a valid secp256k1 private key
    * @param messageHash - the 32-byte message hash to be signed
@@ -263,13 +275,14 @@ export interface Secp256k1 {
   readonly signMessageHashCompact: (
     privateKey: Uint8Array,
     messageHash: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Create an ECDSA signature in DER format. The created signature is always in
    * lower-S form and follows RFC 6979.
    *
-   * Throws if the provided private key is too large (see `validatePrivateKey`).
+   * Returns an error message if the provided private key is too large (see
+   * `validatePrivateKey`).
    *
    * @param privateKey - a valid secp256k1, 32-byte private key
    * @param messageHash - the 32-byte message hash to be signed
@@ -277,7 +290,7 @@ export interface Secp256k1 {
   readonly signMessageHashDER: (
     privateKey: Uint8Array,
     messageHash: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Create an ECDSA signature in compact format. The created signature is
@@ -286,7 +299,8 @@ export interface Secp256k1 {
    * Also returns a recovery number for use in the `recoverPublicKey*`
    * functions
    *
-   * Throws if the provided private key is too large (see `validatePrivateKey`).
+   * Returns an error message if the provided private key is too large (see
+   * `validatePrivateKey`).
    *
    * @param privateKey - a valid secp256k1, 32-byte private key
    * @param messageHash - the 32-byte message hash to be signed
@@ -294,10 +308,10 @@ export interface Secp256k1 {
   readonly signMessageHashRecoverableCompact: (
     privateKey: Uint8Array,
     messageHash: Uint8Array
-  ) => RecoverableSignature;
+  ) => RecoverableSignature | string;
 
   /**
-   * Create a Secp256k1 EC-Schnorr-SHA256 signature (BCH construction).
+   * Create a Secp256k1 EC-Schnorr-SHA256 signature (Bitcoin Cash construction).
    *
    * Signatures are 64-bytes, non-malleable, and support both batch validation
    * and multiparty signing. Nonces are generated using RFC6979, where the
@@ -305,7 +319,8 @@ export interface Secp256k1 {
    * This avoids leaking a private key by inadvertently creating both an ECDSA
    * signature and a Schnorr signature using the same nonce.
    *
-   * Throws if the provided private key is too large (see `validatePrivateKey`).
+   * Returns an error message if the provided private key is too large (see
+   * `validatePrivateKey`).
    *
    * @param privateKey - a valid secp256k1, 32-byte private key
    * @param messageHash - the 32-byte message hash to be signed
@@ -313,7 +328,7 @@ export interface Secp256k1 {
   readonly signMessageHashSchnorr: (
     privateKey: Uint8Array,
     messageHash: Uint8Array
-  ) => Uint8Array;
+  ) => Uint8Array | string;
 
   /**
    * Uncompress a valid ECDSA public key. Returns a public key in uncompressed
@@ -323,11 +338,12 @@ export interface Secp256k1 {
    * 0x03), uncompressed (65 bytes, header byte 0x04), or hybrid (65 bytes,
    * header byte 0x06 or 0x07) format public keys.
    *
-   * Throws if the provided public key could not be parsed or is not valid.
+   * Returns an error message if the provided public key could not be parsed or
+   * is not valid.
    *
    * @param publicKey - a public key to uncompress
    */
-  readonly uncompressPublicKey: (publicKey: Uint8Array) => Uint8Array;
+  readonly uncompressPublicKey: (publicKey: Uint8Array) => Uint8Array | string;
 
   /**
    * Verify that a private key is valid for secp256k1. Note, this library
@@ -336,7 +352,7 @@ export interface Secp256k1 {
    *
    * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,
    * any 256-bit number greater than or equal to `0x01` and less than
-   * `0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C D036 4140`
+   * `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140`
    * is a valid private key. This range is part of the definition of the
    * secp256k1 elliptic curve parameters.
    *
@@ -416,7 +432,7 @@ export interface Secp256k1 {
   ) => boolean;
 
   /**
-   * Verify a Secp256k1 EC-Schnorr-SHA256 signature (BCH construction).
+   * Verify a Secp256k1 EC-Schnorr-SHA256 signature (Bitcoin Cash construction).
    *
    * @param signature - a 64-byte schnorr signature to verify
    * @param publicKey - a public key, in either compressed (33-byte) or

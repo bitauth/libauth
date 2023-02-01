@@ -1,6 +1,5 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
+import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
-import { fc, testProp } from 'ava-fast-check';
 
 import {
   binToHex,
@@ -9,13 +8,7 @@ import {
   range,
   splitEvery,
   swapEndianness,
-} from '../lib';
-
-const maxUint8Number = 255;
-const fcUint8Array = (minLength: number, maxLength: number) =>
-  fc
-    .array(fc.integer(0, maxUint8Number), minLength, maxLength)
-    .map((a) => Uint8Array.from(a));
+} from '../lib.js';
 
 test('range', (t) => {
   t.deepEqual(range(3), [0, 1, 2]);
@@ -55,7 +48,7 @@ test('binToHex', (t) => {
 
 testProp(
   '[fast-check] hexToBin <-> binToHex',
-  [fcUint8Array(0, 100)],
+  [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
     t.deepEqual(binToHex(hexToBin(binToHex(input))), binToHex(input))
 );

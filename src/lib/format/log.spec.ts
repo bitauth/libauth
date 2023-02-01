@@ -1,11 +1,10 @@
-/* eslint-disable functional/no-expression-statement, @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
-import { sortObjectKeys, stringify, stringifyTestVector } from '../lib';
+import { sortObjectKeys, stringify, stringifyTestVector } from '../lib.js';
 
 test('stringify', (t) => {
-  t.deepEqual(stringify(BigInt(0)), '"<bigint: 0n>"');
-  t.deepEqual(stringify({ a: BigInt(0) }), '{\n  "a": "<bigint: 0n>"\n}');
+  t.deepEqual(stringify(0n), '"<bigint: 0n>"');
+  t.deepEqual(stringify({ a: 0n }), '{\n  "a": "<bigint: 0n>"\n}');
   t.deepEqual(stringify(Uint8Array.of(32, 32)), '"<Uint8Array: 0x2020>"');
   t.deepEqual(
     stringify({ b: Uint8Array.of(32, 32) }),
@@ -27,7 +26,7 @@ test('stringify', (t) => {
 });
 
 test('sortObjectKeys', (t) => {
-  t.deepEqual(sortObjectKeys(BigInt(0)), BigInt(0));
+  t.deepEqual(sortObjectKeys(0n), 0n);
   t.deepEqual(sortObjectKeys(Uint8Array.of(32, 32)), Uint8Array.of(32, 32));
   t.deepEqual(
     sortObjectKeys({
@@ -54,7 +53,7 @@ test('sortObjectKeys', (t) => {
 test('stringifyTestVector', (t) => {
   const one = stringifyTestVector({
     ...{ b: [1, 2, { a: 1, ...{ c: Uint8Array.of(2) }, b: 3 }] },
-    a: { a: 1, ...{ c: BigInt(2) }, b: 3 },
+    a: { a: 1, ...{ c: 2n }, b: 3 },
   });
   t.deepEqual(
     one,
@@ -62,7 +61,7 @@ test('stringifyTestVector', (t) => {
   "a": {
     "a": 1,
     "b": 3,
-    "c": BigInt('2')
+    "c": 2n
   },
   "b": [
     1,

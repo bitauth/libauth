@@ -27,7 +27,7 @@ These functions include:
   - `binToUtf8`/`utf8ToBin`
   - `binToValueSatoshis`/`valueSatoshisToBin`
 - **Number Formats**:
-  - `bigIntToCompactSize`/`compactSizeToBigInt`
+  - `bigIntToCompactUint`/`compactUintToBigInt`
   - `bigIntToVmNumber`/`vmNumberToBigInt`
 - **Locking Bytecode**:
   - `lockingBytecodeToAddressContents`/`addressContentsToLockingBytecode`
@@ -119,9 +119,9 @@ For lower-level control of decoding behavior, Libauth includes a variety of `rea
 The `read*` utility functions include:
 
 - `readBytes`
-- `readCompactSize`
-- `readCompactSizeMinimal`
-- `readCompactSizePrefixedBin`
+- `readCompactUint`
+- `readCompactUintMinimal`
+- `readCompactUintPrefixedBin`
 - `readItemCount`
 - `readLockingBytecodeWithPrefix`
 - `readMultiple`

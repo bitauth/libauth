@@ -63,7 +63,7 @@ test('readItemCount', (t) => {
   );
   t.deepEqual(
     readItemCount({ bin: Uint8Array.from([0xfd, 1]), index: 0 }, readBytes(2)),
-    'Error reading item count. Error reading CompactSize: insufficient bytes. CompactSize prefix 253 requires at least 3 bytes. Remaining bytes: 2'
+    'Error reading item count. Error reading CompactUint: insufficient bytes. CompactUint prefix 253 requires at least 3 bytes. Remaining bytes: 2'
   );
   t.deepEqual(
     readItemCount({ bin: Uint8Array.from([1, 1]), index: 0 }, readBytes(2)),

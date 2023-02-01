@@ -454,7 +454,7 @@ export const binToValueSatoshis = binToBigIntUint64LE;
  */
 export const valueSatoshisToBin = bigIntToBinUint64LE;
 
-const enum CompactSize {
+const enum CompactUint {
   uint8MaxValue = 0xfc,
   uint16Prefix = 0xfd,
   uint16MaxValue = 0xffff,
@@ -468,55 +468,55 @@ const enum CompactSize {
 }
 
 /**
- * Get the expected byte length of a CompactSize given a first byte.
+ * Get the expected byte length of a CompactUint given a first byte.
  *
- * @param firstByte - the first byte of the CompactSize
+ * @param firstByte - the first byte of the CompactUint
  */
-export const compactSizePrefixToSize = (firstByte: number) => {
+export const compactUintPrefixToSize = (firstByte: number) => {
   switch (firstByte) {
-    case CompactSize.uint16Prefix:
-      return CompactSize.uint16 + 1;
-    case CompactSize.uint32Prefix:
-      return CompactSize.uint32 + 1;
-    case CompactSize.uint64Prefix:
-      return CompactSize.uint64 + 1;
+    case CompactUint.uint16Prefix:
+      return CompactUint.uint16 + 1;
+    case CompactUint.uint32Prefix:
+      return CompactUint.uint32 + 1;
+    case CompactUint.uint64Prefix:
+      return CompactUint.uint64 + 1;
     default:
-      return CompactSize.uint8;
+      return CompactUint.uint8;
   }
 };
 
-export enum CompactSizeError {
-  noPrefix = 'Error reading CompactSize: requires at least one byte.',
-  insufficientBytes = 'Error reading CompactSize: insufficient bytes.',
-  nonMinimal = 'Error reading CompactSize: CompactSize is not minimally encoded.',
-  excessiveBytes = 'Error decoding CompactSize: unexpected bytes after CompactSize.',
+export enum CompactUintError {
+  noPrefix = 'Error reading CompactUint: requires at least one byte.',
+  insufficientBytes = 'Error reading CompactUint: insufficient bytes.',
+  nonMinimal = 'Error reading CompactUint: CompactUint is not minimally encoded.',
+  excessiveBytes = 'Error decoding CompactUint: unexpected bytes after CompactUint.',
 }
 
 /**
- * Read a non-minimally-encoded `CompactSize` (see {@link bigIntToCompactSize})
+ * Read a non-minimally-encoded `CompactUint` (see {@link bigIntToCompactUint})
  * from the provided {@link ReadPosition}, returning either an error message (as
  * a string) or an object containing the value and the
  * next {@link ReadPosition}.
  *
  * Rather than this function, most applications should
- * use {@link readCompactSizeMinimal}.
+ * use {@link readCompactUintMinimal}.
  *
  * @param position - the {@link ReadPosition} at which to start reading the
- * `CompactSize`
+ * `CompactUint`
  */
-export const readCompactSize = (
+export const readCompactUint = (
   position: ReadPosition
 ): MaybeReadResult<bigint> => {
   const { bin, index } = position;
   const prefix = bin[index];
   if (prefix === undefined) {
-    return formatError(CompactSizeError.noPrefix);
+    return formatError(CompactUintError.noPrefix);
   }
-  const bytes = compactSizePrefixToSize(prefix);
+  const bytes = compactUintPrefixToSize(prefix);
   if (bin.length - index < bytes) {
     return formatError(
-      CompactSizeError.insufficientBytes,
-      `CompactSize prefix ${prefix} requires at least ${bytes} bytes. Remaining bytes: ${
+      CompactUintError.insufficientBytes,
+      `CompactUint prefix ${prefix} requires at least ${bytes} bytes. Remaining bytes: ${
         bin.length - index
       }`
     );
@@ -533,10 +533,10 @@ export const readCompactSize = (
 };
 
 /**
- * Encode a positive BigInt as a `CompactSize` (Satoshi's variable-length,
+ * Encode a positive BigInt as a `CompactUint` (Satoshi's variable-length,
  * positive integer format).
  *
- * Note: the maximum value of a CompactSize is `0xffff_ffff_ffff_ffff`
+ * Note: the maximum value of a CompactUint is `0xffff_ffff_ffff_ffff`
  * (`18446744073709551615`). This method will return an incorrect result for
  * values outside of the range `0` to `0xffff_ffff_ffff_ffff`. If applicable,
  * applications should handle such cases prior to calling this method.
@@ -544,44 +544,44 @@ export const readCompactSize = (
  * @param value - the BigInt to encode (must be no larger than
  * `0xffff_ffff_ffff_ffff`)
  */
-export const bigIntToCompactSize = (value: bigint) =>
-  value <= BigInt(CompactSize.uint8MaxValue)
+export const bigIntToCompactUint = (value: bigint) =>
+  value <= BigInt(CompactUint.uint8MaxValue)
     ? Uint8Array.of(Number(value))
-    : value <= BigInt(CompactSize.uint16MaxValue)
+    : value <= BigInt(CompactUint.uint16MaxValue)
     ? Uint8Array.from([
-        CompactSize.uint16Prefix,
+        CompactUint.uint16Prefix,
         ...numberToBinUint16LE(Number(value)),
       ])
-    : value <= BigInt(CompactSize.uint32MaxValue)
+    : value <= BigInt(CompactUint.uint32MaxValue)
     ? Uint8Array.from([
-        CompactSize.uint32Prefix,
+        CompactUint.uint32Prefix,
         ...numberToBinUint32LE(Number(value)),
       ])
     : Uint8Array.from([
-        CompactSize.uint64Prefix,
+        CompactUint.uint64Prefix,
         ...bigIntToBinUint64LE(value),
       ]);
 
 /**
- * Read a minimally-encoded `CompactSize` from the provided
+ * Read a minimally-encoded `CompactUint` from the provided
  * {@link ReadPosition}, returning either an error message (as a string) or an
  * object containing the value and the next {@link ReadPosition}.
  *
  * @param position - the {@link ReadPosition} at which to start reading the
- * `CompactSize`
+ * `CompactUint`
  */
-export const readCompactSizeMinimal = (
+export const readCompactUintMinimal = (
   position: ReadPosition
 ): MaybeReadResult<bigint> => {
-  const read = readCompactSize(position);
+  const read = readCompactUint(position);
   if (typeof read === 'string') {
     return read;
   }
   const readLength = read.position.index - position.index;
-  const canonicalEncoding = bigIntToCompactSize(read.result);
+  const canonicalEncoding = bigIntToCompactUint(read.result);
   if (readLength !== canonicalEncoding.length) {
     return formatError(
-      CompactSizeError.nonMinimal,
+      CompactUintError.nonMinimal,
       `Value: ${read.result.toString()}, encoded length: ${readLength}, canonical length: ${
         canonicalEncoding.length
       }`
@@ -591,23 +591,23 @@ export const readCompactSizeMinimal = (
 };
 
 /**
- * Decode a minimally-encoded `CompactSize` (Satoshi's variable-length, positive
+ * Decode a minimally-encoded `CompactUint` (Satoshi's variable-length, positive
  * integer format) from a Uint8Array, returning the value as a BigInt. This
  * function returns an error if the entire input is not consumed – to read a
- * `CompactSize` from a position within a larger `Uint8Array`,
- * use {@link readCompactSizeMinimal} or {@link readCompactSize}.
+ * `CompactUint` from a position within a larger `Uint8Array`,
+ * use {@link readCompactUintMinimal} or {@link readCompactUint}.
  *
- * @param bin - the Uint8Array from which to read the CompactSize
+ * @param bin - the Uint8Array from which to read the CompactUint
  */
-export const compactSizeToBigInt = (bin: Uint8Array) => {
-  const read = readCompactSizeMinimal({ bin, index: 0 });
+export const compactUintToBigInt = (bin: Uint8Array) => {
+  const read = readCompactUintMinimal({ bin, index: 0 });
   if (typeof read === 'string') {
     return read;
   }
   if (read.position.index !== bin.length) {
     return formatError(
-      CompactSizeError.excessiveBytes,
-      `CompactSize ends at index ${read.position.index}, but input includes ${bin.length} bytes.`
+      CompactUintError.excessiveBytes,
+      `CompactUint ends at index ${read.position.index}, but input includes ${bin.length} bytes.`
     );
   }
   return read.result;

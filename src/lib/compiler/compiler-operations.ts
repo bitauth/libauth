@@ -1,5 +1,5 @@
 import {
-  bigIntToCompactSize,
+  bigIntToCompactUint,
   numberToBinUint32LE,
   valueSatoshisToBin,
 } from '../format/format.js';
@@ -144,7 +144,7 @@ const compilerOperationHelperSigningSerializationCoveredBytecode = (
 
       return {
         bytecode: returnLength
-          ? bigIntToCompactSize(BigInt(result.length))
+          ? bigIntToCompactUint(BigInt(result.length))
           : result,
         status: 'success',
       };

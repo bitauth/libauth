@@ -97,27 +97,27 @@
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb60",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: invalid CompactSize. Error reading CompactSize: requires at least one byte."
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: invalid CompactUint. Error reading CompactUint: requires at least one byte."
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb61",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: invalid CompactSize. Error reading CompactSize: requires at least one byte."
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: invalid CompactUint. Error reading CompactUint: requires at least one byte."
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb62",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: invalid CompactSize. Error reading CompactSize: requires at least one byte."
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: invalid CompactUint. Error reading CompactUint: requires at least one byte."
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb60fd0100cc",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: invalid CompactSize. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 3, canonical length: 1"
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: invalid CompactUint. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 3, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb60fe01000000cc",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: invalid CompactSize. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 5, canonical length: 1"
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: invalid CompactUint. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 5, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb60ff0100000000000000cc",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: invalid CompactSize. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 9, canonical length: 1"
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: invalid CompactUint. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 9, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb6000",
@@ -129,55 +129,55 @@
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb6001",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: insufficient bytes. Required bytes: 1, remaining bytes: 0"
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: insufficient bytes. Required bytes: 1, remaining bytes: 0"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb6101",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: insufficient bytes. Required bytes: 1, remaining bytes: 0"
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: insufficient bytes. Required bytes: 1, remaining bytes: 0"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb6102cc",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: insufficient bytes. Required bytes: 2, remaining bytes: 1"
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: insufficient bytes. Required bytes: 2, remaining bytes: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb6202cc",
-    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactSize-prefixed bin: insufficient bytes. Required bytes: 2, remaining bytes: 1"
+    "error": "Invalid token prefix: invalid non-fungible token commitment. Error reading CompactUint-prefixed bin: insufficient bytes. Required bytes: 2, remaining bytes: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: requires at least one byte."
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: requires at least one byte."
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10fd00",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: insufficient bytes. CompactSize prefix 253 requires at least 3 bytes. Remaining bytes: 2"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: insufficient bytes. CompactUint prefix 253 requires at least 3 bytes. Remaining bytes: 2"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10fe000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: insufficient bytes. CompactSize prefix 254 requires at least 5 bytes. Remaining bytes: 4"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: insufficient bytes. CompactUint prefix 254 requires at least 5 bytes. Remaining bytes: 4"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10ff00000000000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: insufficient bytes. CompactSize prefix 255 requires at least 9 bytes. Remaining bytes: 8"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: insufficient bytes. CompactUint prefix 255 requires at least 9 bytes. Remaining bytes: 8"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb7001cc",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: requires at least one byte."
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: requires at least one byte."
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb7001ccfd00",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: insufficient bytes. CompactSize prefix 253 requires at least 3 bytes. Remaining bytes: 2"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: insufficient bytes. CompactUint prefix 253 requires at least 3 bytes. Remaining bytes: 2"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb7001ccfe000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: insufficient bytes. CompactSize prefix 254 requires at least 5 bytes. Remaining bytes: 4"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: insufficient bytes. CompactUint prefix 254 requires at least 5 bytes. Remaining bytes: 4"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb7001ccff00000000000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: insufficient bytes. CompactSize prefix 255 requires at least 9 bytes. Remaining bytes: 8"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: insufficient bytes. CompactUint prefix 255 requires at least 9 bytes. Remaining bytes: 8"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb30",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: requires at least one byte."
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: requires at least one byte."
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1000",
@@ -189,27 +189,27 @@
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10fd0100",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 3, canonical length: 1"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 3, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10fe01000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 5, canonical length: 1"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 5, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10ff0100000000000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 9, canonical length: 1"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 9, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb30fd0100",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 3, canonical length: 1"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 3, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb30fe01000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 5, canonical length: 1"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 5, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb30ff0100000000000000",
-    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactSize: CompactSize is not minimally encoded. Value: 1, encoded length: 9, canonical length: 1"
+    "error": "Invalid token prefix: invalid fungible token amount encoding. Error reading CompactUint: CompactUint is not minimally encoded. Value: 1, encoded length: 9, canonical length: 1"
   },
   {
     "prefix": "efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb10ff0000000000000080",

@@ -29,7 +29,7 @@ test('decodeTransaction', (t) => {
    * Input 1 outpointTransactionHash (reverse byte order):
    * 2d16f9469b0080a3c1fe8de0feae345200beef8b1e0d7c62501ae0df899dca1e
    * 03000000 ← outpointIndex (BinUint32LE)
-   * 06 ← bytecodeLength (Bitcoin CompactSize)
+   * 06 ← bytecodeLength (CompactUint)
    * 6a0065525365 ← bytecode
    * ffffffff ← sequence number (BinUint32LE)
    *
@@ -58,7 +58,7 @@ test('decodeTransaction', (t) => {
    *
    * Output 1:
    * 21f25b0400000000 ← satoshis (BinUint64LE)
-   * 02 ← bytecodeLength (Bitcoin CompactSize)
+   * 02 ← bytecodeLength (CompactUint)
    * 6552 ← lockingBytecode
    *
    * Output 2:

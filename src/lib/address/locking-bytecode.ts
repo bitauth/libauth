@@ -19,7 +19,7 @@ import {
 } from './cash-address.js';
 
 /**
- * The most common address types used on bitcoin and bitcoin-like networks. Each
+ * The most common address types used on Bitcoin Cash and similar networks. Each
  * address type represents a commonly used locking bytecode pattern.
  *
  * @remarks

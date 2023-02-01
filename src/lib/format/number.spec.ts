@@ -6,7 +6,7 @@ import {
   bigIntToBinUint64LE,
   bigIntToBinUint64LEClamped,
   bigIntToBinUintLE,
-  bigIntToCompactSize,
+  bigIntToCompactUint,
   binToBigIntUint256BE,
   binToBigIntUint64LE,
   binToBigIntUintBE,
@@ -17,9 +17,9 @@ import {
   binToNumberUint16LE,
   binToNumberUint32LE,
   binToNumberUintLE,
-  CompactSizeError,
-  compactSizePrefixToSize,
-  compactSizeToBigInt,
+  CompactUintError,
+  compactUintPrefixToSize,
+  compactUintToBigInt,
   hexToBin,
   int32SignedToUnsigned,
   int32UnsignedToSigned,
@@ -33,8 +33,8 @@ import {
   numberToBinUint32LE,
   numberToBinUint32LEClamped,
   numberToBinUintLE,
-  readCompactSize,
-  readCompactSizeMinimal,
+  readCompactUint,
+  readCompactUintMinimal,
 } from '../lib.js';
 
 test('numberToBinUint16LE', (t) => {
@@ -211,9 +211,9 @@ test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on negative n
   );
 });
 
-test('bigIntToCompactSize: larger values return modulo result after opcode', (t) => {
+test('bigIntToCompactUint: larger values return modulo result after opcode', (t) => {
   t.deepEqual(
-    bigIntToCompactSize(0x010000000000000001n),
+    bigIntToCompactUint(0x010000000000000001n),
     Uint8Array.from([0xff, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
   );
 });
@@ -438,36 +438,36 @@ test('binToBigIntUint64LE', (t) => {
   );
 });
 
-test('compactSizePrefixToSize', (t) => {
-  t.deepEqual(compactSizePrefixToSize(0), 1);
-  t.deepEqual(compactSizePrefixToSize(252), 1);
-  t.deepEqual(compactSizePrefixToSize(253), 3);
-  t.deepEqual(compactSizePrefixToSize(254), 5);
-  t.deepEqual(compactSizePrefixToSize(255), 9);
+test('compactUintPrefixToSize', (t) => {
+  t.deepEqual(compactUintPrefixToSize(0), 1);
+  t.deepEqual(compactUintPrefixToSize(252), 1);
+  t.deepEqual(compactUintPrefixToSize(253), 3);
+  t.deepEqual(compactUintPrefixToSize(254), 5);
+  t.deepEqual(compactUintPrefixToSize(255), 9);
 });
 
-test('readCompactSize', (t) => {
-  t.deepEqual(readCompactSize({ bin: Uint8Array.from([252]), index: 0 }), {
+test('readCompactUint', (t) => {
+  t.deepEqual(readCompactUint({ bin: Uint8Array.from([252]), index: 0 }), {
     position: { bin: Uint8Array.from([252]), index: 1 },
     result: 252n,
   });
-  t.deepEqual(readCompactSize({ bin: Uint8Array.from([0]), index: 0 }), {
+  t.deepEqual(readCompactUint({ bin: Uint8Array.from([0]), index: 0 }), {
     position: { bin: Uint8Array.from([0]), index: 1 },
     result: 0n,
   });
   t.deepEqual(
-    readCompactSize({ bin: Uint8Array.from([253, 0, 0]), index: 0 }),
+    readCompactUint({ bin: Uint8Array.from([253, 0, 0]), index: 0 }),
     { position: { bin: Uint8Array.from([253, 0, 0]), index: 3 }, result: 0n }
   );
   t.deepEqual(
-    readCompactSize({ bin: Uint8Array.from([254, 0, 0, 0, 0]), index: 0 }),
+    readCompactUint({ bin: Uint8Array.from([254, 0, 0, 0, 0]), index: 0 }),
     {
       position: { bin: Uint8Array.from([254, 0, 0, 0, 0]), index: 5 },
       result: 0n,
     }
   );
   t.deepEqual(
-    readCompactSize({
+    readCompactUint({
       bin: Uint8Array.from([255, 0, 0, 0, 0, 0, 0, 0, 0]),
       index: 0,
     }),
@@ -480,98 +480,98 @@ test('readCompactSize', (t) => {
     }
   );
   t.deepEqual(
-    readCompactSize({ bin: Uint8Array.from([253, 253, 0]), index: 0 }),
+    readCompactUint({ bin: Uint8Array.from([253, 253, 0]), index: 0 }),
     {
       position: { bin: Uint8Array.from([253, 253, 0]), index: 3 },
       result: 253n,
     }
   );
   t.deepEqual(
-    readCompactSize({ bin: Uint8Array.from([]), index: 0 }),
-    CompactSizeError.noPrefix
+    readCompactUint({ bin: Uint8Array.from([]), index: 0 }),
+    CompactUintError.noPrefix
   );
 });
 
-test('readCompactSizeMinimal', (t) => {
-  t.deepEqual(readCompactSizeMinimal({ bin: Uint8Array.from([1]), index: 0 }), {
+test('readCompactUintMinimal', (t) => {
+  t.deepEqual(readCompactUintMinimal({ bin: Uint8Array.from([1]), index: 0 }), {
     position: { bin: Uint8Array.from([1]), index: 1 },
     result: 1n,
   });
   t.deepEqual(
-    readCompactSizeMinimal({ bin: Uint8Array.from([253, 1, 0]), index: 0 }),
-    `${CompactSizeError.nonMinimal} Value: 1, encoded length: 3, canonical length: 1`
+    readCompactUintMinimal({ bin: Uint8Array.from([253, 1, 0]), index: 0 }),
+    `${CompactUintError.nonMinimal} Value: 1, encoded length: 3, canonical length: 1`
   );
 });
 
-test('compactSizeToBigInt', (t) => {
-  t.deepEqual(compactSizeToBigInt(Uint8Array.from([252])), 252n);
-  t.deepEqual(compactSizeToBigInt(Uint8Array.from([253, 253, 0])), 253n);
+test('compactUintToBigInt', (t) => {
+  t.deepEqual(compactUintToBigInt(Uint8Array.from([252])), 252n);
+  t.deepEqual(compactUintToBigInt(Uint8Array.from([253, 253, 0])), 253n);
   t.deepEqual(
-    compactSizeToBigInt(Uint8Array.from([253])),
-    'Error reading CompactSize: insufficient bytes. CompactSize prefix 253 requires at least 3 bytes. Remaining bytes: 1'
+    compactUintToBigInt(Uint8Array.from([253])),
+    'Error reading CompactUint: insufficient bytes. CompactUint prefix 253 requires at least 3 bytes. Remaining bytes: 1'
   );
   t.deepEqual(
-    compactSizeToBigInt(Uint8Array.from([253, 0, 254, 0])),
-    'Error decoding CompactSize: unexpected bytes after CompactSize. CompactSize ends at index 3, but input includes 4 bytes.'
+    compactUintToBigInt(Uint8Array.from([253, 0, 254, 0])),
+    'Error decoding CompactUint: unexpected bytes after CompactUint. CompactUint ends at index 3, but input includes 4 bytes.'
   );
 });
 
-const compactSizeVector = test.macro<
+const compactUintVector = test.macro<
   [string, bigint, number, number?, string?]
 >({
   // eslint-disable-next-line max-params
   exec: (t, hex, value, nextIndex, start = 0, expected = hex) => {
-    t.deepEqual(readCompactSize({ bin: hexToBin(hex), index: start }), {
+    t.deepEqual(readCompactUint({ bin: hexToBin(hex), index: start }), {
       position: { bin: hexToBin(hex), index: nextIndex },
       result: value,
     });
-    t.deepEqual(bigIntToCompactSize(value), hexToBin(expected));
+    t.deepEqual(bigIntToCompactUint(value), hexToBin(expected));
   },
-  title: (_, string) => `compactSizeToBigInt/bigIntToCompactSize: ${string}`,
+  title: (_, string) => `compactUintToBigInt/bigIntToCompactUint: ${string}`,
 });
 
 /* spell-checker: disable */
-test(compactSizeVector, '00', 0x00n, 1);
-test(compactSizeVector, '01', 0x01n, 1);
-test(compactSizeVector, '12', 0x12n, 1);
-test(compactSizeVector, '6a', 0x6an, 1);
-test(compactSizeVector, '00006a', 0x6an, 3, 2, '6a');
-test(compactSizeVector, 'fc', 0xfcn, 1);
-test(compactSizeVector, 'fdfd00', 0x00fdn, 3);
-test(compactSizeVector, '000000fdfd00', 0xfdn, 6, 3, 'fdfd00');
-test(compactSizeVector, 'fdfe00', 0x00fen, 3);
-test(compactSizeVector, 'fdff00', 0x00ffn, 3);
-test(compactSizeVector, 'fd1111', 0x1111n, 3);
-test(compactSizeVector, 'fd1234', 0x3412n, 3);
-test(compactSizeVector, 'fdfeff', 0xfffen, 3);
-test(compactSizeVector, 'fdffff', 0xffffn, 3);
-test(compactSizeVector, 'fe00000100', 0x010000n, 5);
-test(compactSizeVector, '00fe00000100', 0x010000n, 6, 1, 'fe00000100');
-test(compactSizeVector, 'fe01000100', 0x010001n, 5);
-test(compactSizeVector, 'fe11111111', 0x11111111n, 5);
-test(compactSizeVector, 'fe12345678', 0x78563412n, 5);
-test(compactSizeVector, 'feffffffff', 0xffffffffn, 5);
-test(compactSizeVector, 'ff0000000001000000', 0x0100000000n, 9);
+test(compactUintVector, '00', 0x00n, 1);
+test(compactUintVector, '01', 0x01n, 1);
+test(compactUintVector, '12', 0x12n, 1);
+test(compactUintVector, '6a', 0x6an, 1);
+test(compactUintVector, '00006a', 0x6an, 3, 2, '6a');
+test(compactUintVector, 'fc', 0xfcn, 1);
+test(compactUintVector, 'fdfd00', 0x00fdn, 3);
+test(compactUintVector, '000000fdfd00', 0xfdn, 6, 3, 'fdfd00');
+test(compactUintVector, 'fdfe00', 0x00fen, 3);
+test(compactUintVector, 'fdff00', 0x00ffn, 3);
+test(compactUintVector, 'fd1111', 0x1111n, 3);
+test(compactUintVector, 'fd1234', 0x3412n, 3);
+test(compactUintVector, 'fdfeff', 0xfffen, 3);
+test(compactUintVector, 'fdffff', 0xffffn, 3);
+test(compactUintVector, 'fe00000100', 0x010000n, 5);
+test(compactUintVector, '00fe00000100', 0x010000n, 6, 1, 'fe00000100');
+test(compactUintVector, 'fe01000100', 0x010001n, 5);
+test(compactUintVector, 'fe11111111', 0x11111111n, 5);
+test(compactUintVector, 'fe12345678', 0x78563412n, 5);
+test(compactUintVector, 'feffffffff', 0xffffffffn, 5);
+test(compactUintVector, 'ff0000000001000000', 0x0100000000n, 9);
 /* spell-checker: enable */
 
 test(
-  compactSizeVector,
+  compactUintVector,
   '0000ff0000000001000000',
   0x0100000000n,
   11,
   2,
   'ff0000000001000000'
 );
-test(compactSizeVector, 'ff0100000001000000', 0x0100000001n, 9);
-test(compactSizeVector, 'ff1111111111111111', 0x1111111111111111n, 9);
-test(compactSizeVector, 'ff1234567890abcdef', 0xefcdab9078563412n, 9);
+test(compactUintVector, 'ff0100000001000000', 0x0100000001n, 9);
+test(compactUintVector, 'ff1111111111111111', 0x1111111111111111n, 9);
+test(compactUintVector, 'ff1234567890abcdef', 0xefcdab9078563412n, 9);
 
 testProp(
-  '[fast-check] bigIntToCompactSize <-> compactSizeToBigInt',
+  '[fast-check] bigIntToCompactUint <-> compactUintToBigInt',
   [fc.bigUintN(64)],
   (t, uint64) => {
-    const compactSize = bigIntToCompactSize(uint64);
-    const result = compactSizeToBigInt(compactSize);
+    const compactUint = bigIntToCompactUint(uint64);
+    const result = compactUintToBigInt(compactUint);
     t.deepEqual(result, uint64);
   }
 );

@@ -2,7 +2,7 @@ import {
   binToBigIntUint64LE,
   binToNumberUint32LE,
   formatError,
-  readCompactSizeMinimal,
+  readCompactUintMinimal,
 } from '../format/format.js';
 import type { MaybeReadResult, ReadPosition } from '../lib.js';
 
@@ -102,28 +102,28 @@ export const readUint64LE = (
   return { position: nextPosition, result };
 };
 
-export enum CompactSizePrefixedBinError {
-  invalidCompactSize = 'Error reading CompactSize-prefixed bin: invalid CompactSize.',
-  insufficientBytes = 'Error reading CompactSize-prefixed bin: insufficient bytes.',
+export enum CompactUintPrefixedBinError {
+  invalidCompactUint = 'Error reading CompactUint-prefixed bin: invalid CompactUint.',
+  insufficientBytes = 'Error reading CompactUint-prefixed bin: insufficient bytes.',
 }
 
 /**
  * Read a bin (`Uint8Array`) that is prefixed by a minimally-encoded
- * `CompactSize` starting at the provided {@link ReadPosition}, returning either
+ * `CompactUint` starting at the provided {@link ReadPosition}, returning either
  * an error message (as a string) or an object containing the `Uint8Array` and
  * the next {@link ReadPosition}. (In the transaction format,
- * `CompactSize`-prefixes are used to indicate the length of unlocking bytecode,
+ * `CompactUint`-prefixes are used to indicate the length of unlocking bytecode,
  * locking bytecode, and non-fungible token commitments.)
  *
  * @param position - the {@link ReadPosition} at which to start reading the
- * `CompactSize`-prefixed bin (`Uint8Array`)
+ * `CompactUint`-prefixed bin (`Uint8Array`)
  */
-export const readCompactSizePrefixedBin = (
+export const readCompactUintPrefixedBin = (
   position: ReadPosition
 ): MaybeReadResult<Uint8Array> => {
-  const read = readCompactSizeMinimal(position);
+  const read = readCompactUintMinimal(position);
   if (typeof read === 'string') {
-    return formatError(CompactSizePrefixedBinError.invalidCompactSize, read);
+    return formatError(CompactUintPrefixedBinError.invalidCompactUint, read);
   }
   const { result, position: p2 } = read;
   const length = Number(result);
@@ -131,7 +131,7 @@ export const readCompactSizePrefixedBin = (
   const contents = position.bin.slice(p2.index, nextPosition.index);
   if (contents.length !== length) {
     return formatError(
-      CompactSizePrefixedBinError.insufficientBytes,
+      CompactUintPrefixedBinError.insufficientBytes,
       `Required bytes: ${length}, remaining bytes: ${contents.length}`
     );
   }

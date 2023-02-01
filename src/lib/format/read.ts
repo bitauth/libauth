@@ -1,5 +1,5 @@
 import { formatError } from './error.js';
-import { readCompactSizeMinimal } from './number.js';
+import { readCompactUintMinimal } from './number.js';
 
 /**
  * A reference to a particular position within a referenced `Uint8Array`.
@@ -90,8 +90,8 @@ export enum ReadItemCountError {
 }
 
 /**
- * Read a count of items indicated by the CompactSize at {@link ReadPosition}.
- * The CompactSize will be read to determine the number of items, and the read
+ * Read a count of items indicated by the CompactUint at {@link ReadPosition}.
+ * The CompactUint will be read to determine the number of items, and the read
  * function will be applied in series, aggregated each result and passing the
  * next {@link ReadPosition} into each iteration. If an error occurs,
  * immediately return the error message (`string`), otherwise, return the array
@@ -101,7 +101,7 @@ export const readItemCount = <Type>(
   position: ReadPosition,
   readFunction: ReadFunction<Type>
 ): MaybeReadResult<Type[]> => {
-  const countRead = readCompactSizeMinimal(position);
+  const countRead = readCompactUintMinimal(position);
   if (typeof countRead === 'string') {
     return formatError(ReadItemCountError.itemCount, countRead);
   }

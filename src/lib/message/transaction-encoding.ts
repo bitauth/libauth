@@ -1,11 +1,11 @@
 import { hash256, sha256 as internalSha256 } from '../crypto/crypto.js';
 import {
-  bigIntToCompactSize,
+  bigIntToCompactUint,
   binToHex,
   flattenBinArray,
   formatError,
   numberToBinUint32LE,
-  readCompactSizeMinimal,
+  readCompactUintMinimal,
   readItemCount,
   readMultiple,
   valueSatoshisToBin,
@@ -21,7 +21,7 @@ import type {
 
 import {
   readBytes,
-  readCompactSizePrefixedBin,
+  readCompactUintPrefixedBin,
   readRemainingBytes,
   readUint32LE,
   readUint64LE,
@@ -41,7 +41,7 @@ export const encodeTransactionInput = (input: Input) =>
   flattenBinArray([
     input.outpointTransactionHash.slice().reverse(),
     numberToBinUint32LE(input.outpointIndex),
-    bigIntToCompactSize(BigInt(input.unlockingBytecode.length)),
+    bigIntToCompactUint(BigInt(input.unlockingBytecode.length)),
     input.unlockingBytecode,
     numberToBinUint32LE(input.sequenceNumber),
   ]);
@@ -69,7 +69,7 @@ export const readTransactionInput = (
   const inputRead = readMultiple(position, [
     readBytes(TransactionConstants.outpointTransactionHashLength),
     readUint32LE,
-    readCompactSizePrefixedBin,
+    readCompactUintPrefixedBin,
     readUint32LE,
   ]);
   if (typeof inputRead === 'string') {
@@ -99,19 +99,19 @@ export const readTransactionInput = (
  * Encode a set of {@link Input}s for inclusion in an encoded transaction
  * including the prefixed number of inputs.
  *
- * Format: [CompactSize: input count] [encoded inputs]
+ * Format: [CompactUint: input count] [encoded inputs]
  *
  * @param inputs - the set of inputs to encode
  */
 export const encodeTransactionInputs = (inputs: readonly Input[]) =>
   flattenBinArray([
-    bigIntToCompactSize(BigInt(inputs.length)),
+    bigIntToCompactUint(BigInt(inputs.length)),
     ...inputs.map(encodeTransactionInput),
   ]);
 
 /**
  * Read a set of transaction {@link Input}s beginning at {@link ReadPosition}.
- * A CompactSize will be read to determine the number of inputs, and that
+ * A CompactUint will be read to determine the number of inputs, and that
  * number of transaction inputs will be read and returned. Returns either an
  * error message (as a string) or an object containing the array of inputs and
  * the next {@link ReadPosition}.
@@ -187,7 +187,7 @@ export enum CashTokenDecodingError {
 export const readTokenAmount = (
   position: ReadPosition
 ): MaybeReadResult<bigint> => {
-  const amountRead = readCompactSizeMinimal(position);
+  const amountRead = readCompactUintMinimal(position);
   if (typeof amountRead === 'string') {
     return formatError(
       CashTokenDecodingError.invalidAmountEncoding,
@@ -273,7 +273,7 @@ export const readTokenPrefix = (
   };
   if (hasNft) {
     const commitmentRead = hasCommitmentLength
-      ? readCompactSizePrefixedBin(nextPosition)
+      ? readCompactUintPrefixedBin(nextPosition)
       : { position: nextPosition, result: Uint8Array.of() };
     if (typeof commitmentRead === 'string') {
       return formatError(
@@ -325,7 +325,7 @@ export const readTokenPrefix = (
 
 /**
  * Read the locking bytecode and token prefix (if present) of a transaction
- * {@link Output}, beginning at the `CompactSize` indicating the
+ * {@link Output}, beginning at the `CompactUint` indicating the
  * combined length.
  * @param position - the {@link ReadPosition} at which to start reading the
  * optional token prefix and locking bytecode
@@ -336,7 +336,7 @@ export const readLockingBytecodeWithPrefix = (
   lockingBytecode: Uint8Array;
   token?: NonNullable<Output['token']>;
 }> => {
-  const bytecodeRead = readCompactSizePrefixedBin(position);
+  const bytecodeRead = readCompactUintPrefixedBin(position);
   if (typeof bytecodeRead === 'string') {
     return formatError(
       TransactionDecodingError.lockingBytecodeLength,
@@ -426,11 +426,11 @@ export const encodeTokenPrefix = (token: Output['token']) => {
       ? []
       : [
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          bigIntToCompactSize(BigInt(token.nft!.commitment.length)),
+          bigIntToCompactUint(BigInt(token.nft!.commitment.length)),
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           token.nft!.commitment,
         ]),
-    ...(hasAmount === 0 ? [] : [bigIntToCompactSize(token.amount)]),
+    ...(hasAmount === 0 ? [] : [bigIntToCompactUint(token.amount)]),
   ]);
 };
 
@@ -446,14 +446,14 @@ export const encodeTransactionOutput = (output: Output) => {
   ]);
   return flattenBinArray([
     valueSatoshisToBin(output.valueSatoshis),
-    bigIntToCompactSize(BigInt(lockingBytecodeField.length)),
+    bigIntToCompactUint(BigInt(lockingBytecodeField.length)),
     lockingBytecodeField,
   ]);
 };
 
 /**
  * Read a set of transaction {@link Output}s beginning at {@link ReadPosition}.
- * A CompactSize will be read to determine the number of outputs, and that
+ * A CompactUint will be read to determine the number of outputs, and that
  * number of transaction outputs will be read and returned. Returns either an
  * error message (as a string) or an object containing the array of outputs and
  * the next {@link ReadPosition}.
@@ -476,13 +476,13 @@ export const readTransactionOutputs = (
  * including the prefixed number of outputs. Note, this encoding differs from
  * {@link encodeTransactionOutputsForSigning} (used for signing serializations).
  *
- * Format: [CompactSize: output count] [encoded outputs]
+ * Format: [CompactUint: output count] [encoded outputs]
  *
  * @param outputs - the set of outputs to encode
  */
 export const encodeTransactionOutputs = (outputs: readonly Output[]) =>
   flattenBinArray([
-    bigIntToCompactSize(BigInt(outputs.length)),
+    bigIntToCompactUint(BigInt(outputs.length)),
     ...outputs.map(encodeTransactionOutput),
   ]);
 
@@ -525,7 +525,7 @@ export const readTransactionOutputNonTokenAware = (
 ): MaybeReadResult<Output> => {
   const outputRead = readMultiple(pos, [
     readUint64LE,
-    readCompactSizePrefixedBin,
+    readCompactUintPrefixedBin,
   ]);
   if (typeof outputRead === 'string') {
     return formatError(TransactionDecodingError.output, outputRead);

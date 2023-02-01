@@ -93,36 +93,7 @@ console.log(hexToBin('beef'));
 
 Libauth uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt), [`WebAssembly`](https://developer.mozilla.org/en-US/docs/WebAssembly), and `es2017` features for some functionality. To type-check this library in you application (without [`skipLibCheck`](https://www.typescriptlang.org/tsconfig#skipLibCheck)), your `tsconfig.json` will need a minimum `target` of `es2020` or `lib` must include `es2017` and `esnext.bigint`. If your application is not already importing types for `WebAssembly`, you may also need to add `dom` to `lib`.
 
-## Stable API
-
-The following APIs are considered stable, and will only include breaking changes in major version upgrades.
-
-### WebAssembly ECDSA & Schnorr
-
-- [instantiateSecp256k1](https://libauth.org/globals.html#instantiatesecp256k1)
-- [Secp256k1 Interface](https://libauth.org/interfaces/secp256k1.html)
-
-### WebAssembly Hashing Functions
-
-- [instantiateRipemd160](https://libauth.org/globals.html#instantiateripemd160)
-- [Ripemd160 Interface](https://libauth.org/interfaces/ripemd160.html)
-- [instantiateSha1](https://libauth.org/globals.html#instantiatesha1)
-- [Sha1 Interface](https://libauth.org/interfaces/sha1.html)
-- [instantiateSha256](https://libauth.org/globals.html#instantiatesha256)
-- [Sha256 Interface](https://libauth.org/interfaces/sha256.html)
-- [instantiateSha512](https://libauth.org/globals.html#instantiatesha512)
-- [Sha512 Interface](https://libauth.org/interfaces/sha512.html)
-
-### Unstable APIs
-
-Libauth also exports new, potentially unstable APIs. As these APIs stabilize, they will be included in the above reference.
-
-[**Full API Documentation →**](https://libauth.org/)
-
----
-
-<details>
-<summary><strong>Contributing</strong></summary>
+## Contributing
 
 Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) for details.
 
@@ -149,18 +120,11 @@ You can also run the benchmarks (this will take a while):
 yarn bench
 ```
 
-During development, you may find it helpful to use the testing `watch` tasks:
+During development, you may find it helpful to use the `watch` tasks:
 
 ```sh
-yarn watch # rebuild everything on save
-yarn watch:test # run only the fast tests
-yarn watch:test-slow # test everything
+# rebuild everything on save:
+yarn watch
+# run a subset of tests:
+yarn watch:test --match='*encode*' --match='*decode*' --match='!*[script_tests]*' --match='!*[vmb_tests]*'
 ```
-
-For more information about the available package scripts, run:
-
-```sh
-yarn run info
-```
-
-</details>

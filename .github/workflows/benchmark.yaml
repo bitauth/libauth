@@ -22,16 +22,19 @@ jobs:
           node-version: 16
       - name: Run benchmark
         run: yarn && yarn bench
-      - name: Push benchmark result to gh-pages
-        uses: benchmark-action/github-action-benchmark@3d3bca03e83647895ef4f911fa57de3c7a391aaf
-        with:
-          name: Benchmark.js Benchmark
-          tool: 'benchmarkjs'
-          output-file-path: bench.log
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          auto-push: true
-          # Show alert with commit comment on detecting possible performance regression
-          alert-threshold: '200%'
-          comment-on-alert: true
-          fail-on-alert: true
-          alert-comment-cc-users: '@bitjson'
+      
+      # TODO: Libauth-only benchmarks: test for performance regressions in Libauth functionality, format results to work with the below configuration 
+
+      # - name: Push benchmark result to gh-pages
+      #   uses: benchmark-action/github-action-benchmark@3d3bca03e83647895ef4f911fa57de3c7a391aaf
+      #   with:
+      #     name: Benchmark.js Benchmark
+      #     tool: 'benchmarkjs'
+      #     output-file-path: bench.log
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     auto-push: true
+      #     # Show alert with commit comment on detecting possible performance regression
+      #     alert-threshold: '200%'
+      #     comment-on-alert: true
+      #     fail-on-alert: true
+      #     alert-comment-cc-users: '@bitjson'

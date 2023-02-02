@@ -1,0 +1,39 @@
+name: Generate API Docs
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  doc:
+    name: Generate API Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            submodules: 'true'
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Generate Docs
+        run: yarn && yarn doc:html && yarn doc:logo && yarn doc:cname
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'build/docs'
+      - name: Deploy to GitHub Pages
+        id: github-pages
+        uses: actions/deploy-pages@v1

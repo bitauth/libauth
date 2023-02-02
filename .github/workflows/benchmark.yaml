@@ -2,11 +2,15 @@ name: Libauth Benchmarks
 on:
   push:
     branches:
-      - v2
+      - master
 
 permissions:
   contents: write
   deployments: write
+
+concurrency:
+  group: "benchmarks"
+  cancel-in-progress: true
 
 jobs:
   benchmark:

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://libauth.org/">
-    <img src="https://libauth.org/libauth.svg" alt="Libauth logo" width="200">
+    <img src="https://libauth.org/assets/libauth.svg" alt="Libauth logo" width="200">
   </a>
 </p>
 
@@ -21,8 +21,8 @@
   <a href="https://github.com/bitauth/libauth/actions/workflows/ci.yaml">
     <img src="https://img.shields.io/github/actions/workflow/status/bitauth/libauth/ci.yaml?branch=master" alt="CI" />
   </a>
-  <a href="https://twitter.com/bitauth">
-    <img alt="Follow Bitauth on Twitter" src="https://img.shields.io/badge/follow-@bitauth-1DA1F2?logo=twitter">
+  <a href="https://twitter.com/libauth">
+    <img alt="Follow Libauth on Twitter" src="https://img.shields.io/badge/follow-@libauth-1DA1F2?logo=twitter">
   </a>
   <a href="https://t.me/libauth_dev">
     <img alt="Join Chat on Telegram" src="https://img.shields.io/badge/chat-Libauth%20Devs-0088CC?logo=telegram">

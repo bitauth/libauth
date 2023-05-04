@@ -1,4 +1,4 @@
-import { binToHex } from './hex.js';
+import { binToHex, hexToBin } from './hex.js';
 
 const defaultStringifySpacing = 2;
 
@@ -49,6 +49,35 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
     },
     spacing
   );
+
+/**
+ * An extended json parser compatible with `stringify` from libauth
+ *
+ * @remarks
+ * Currently supported extended types are Uint8Array and bigint
+ *
+ * @param json - json string to parse
+ *
+ * @returns {any} reconstructed entity serialized with `stringify`
+ */
+export const parse = (json: string): any => {
+  const uint8ArrayRegex = /^<Uint8Array: 0x(?<hex>[0-9a-f]*)>$/u;
+  const bigIntRegex = /^<bigint: (?<bigint>[0-9]*)n>$/;
+
+  return JSON.parse(json, (_key, value) => {
+    if (typeof value === "string") {
+      const bigintMatch = value.match(bigIntRegex);
+      if (bigintMatch) {
+        return BigInt(bigintMatch[1]!);
+      }
+      const uint8ArrayMatch = value.match(uint8ArrayRegex);
+      if (uint8ArrayMatch) {
+        return hexToBin(uint8ArrayMatch[1]!);
+      }
+    }
+    return value;
+  });
+}
 
 /**
  * Given a value, recursively sort the keys of all objects it references

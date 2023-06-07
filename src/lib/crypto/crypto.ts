@@ -1,6 +1,7 @@
 export * from './combinations.js';
 export * from './default-crypto-instances.js';
 export * from './hmac.js';
+export * from './pbkdf2.js';
 export * from './ripemd160.js';
 export * from './secp256k1.js';
 export * from './secp256k1-types.js';

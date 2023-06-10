@@ -156,20 +156,3 @@ test('9', vectors, {
     salt: utf8ToBin('sa\0lt'),
   },
 });
-
-/*
- *test('[crypto] pbkdf2 - 1 iteration, 20 byte key length', (t) => {
- *  const parameters = {
- *    password: utf8ToBin('password'),
- *    salt: utf8ToBin('salt'),
- *    iterations: 1,
- *    derivedKeyLength: 20,
- *  };
- *
- *  const expectedSha256 = hexToBin('120fb6cffcf8b32c43e7225256c4f837a86548c9');
- *  const expectedSha512 = hexToBin('867f70cf1ade02cff3752599a3a53dc4af34c7a6');
- *
- *  t.deepEqual(pbkdf2(parameters, pbkdf2HmacSha256), expectedSha256);
- *  t.deepEqual(pbkdf2(parameters, pbkdf2HmacSha512), expectedSha512);
- *});
- */

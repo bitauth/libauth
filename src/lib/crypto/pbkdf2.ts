@@ -33,22 +33,26 @@ export interface Pbkdf2Hmac {
  */
 export const pbkdf2 = (
   parameters: Pbkdf2Parameters,
-  hmac: Pbkdf2Hmac,
-): Pbkdf2Errors.invalidDerivedKeyLengthError | Pbkdf2Errors.invalidHmacLength | Pbkdf2Errors.invalidIterationsError | Uint8Array => {
+  hmac: Pbkdf2Hmac
+):
+  | Pbkdf2Errors.invalidDerivedKeyLengthError
+  | Pbkdf2Errors.invalidHmacLength
+  | Pbkdf2Errors.invalidIterationsError
+  | Uint8Array => {
   /* eslint-disable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
   const { password, salt, iterations, derivedKeyLength } = parameters;
   const { hmacFunction, hmacLength } = hmac;
 
-  if(!Number.isInteger(iterations) || iterations <= 0) {
-    return Pbkdf2Errors.invalidIterationsError
+  if (!Number.isInteger(iterations) || iterations <= 0) {
+    return Pbkdf2Errors.invalidIterationsError;
   }
 
-  if(!Number.isInteger(derivedKeyLength) || derivedKeyLength <= 0) {
-    return Pbkdf2Errors.invalidDerivedKeyLengthError
+  if (!Number.isInteger(derivedKeyLength) || derivedKeyLength <= 0) {
+    return Pbkdf2Errors.invalidDerivedKeyLengthError;
   }
 
-  if(!Number.isInteger(hmacLength) || hmacLength <= 0) {
-    return Pbkdf2Errors.invalidHmacLength
+  if (!Number.isInteger(hmacLength) || hmacLength <= 0) {
+    return Pbkdf2Errors.invalidHmacLength;
   }
 
   const iterationCountByteSize = 4;

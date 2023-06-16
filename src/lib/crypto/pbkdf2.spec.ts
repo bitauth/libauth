@@ -1,17 +1,7 @@
 import test from 'ava';
 
-import { hexToBin, hmacSha256, hmacSha512, pbkdf2, utf8ToBin } from '../lib.js';
+import { hexToBin, pbkdf2HmacSha256, pbkdf2HmacSha512, utf8ToBin } from '../lib.js';
 import type { Pbkdf2Parameters } from '../lib.js';
-
-const pbkdf2HmacSha256 = {
-  hmacFunction: hmacSha256,
-  hmacLength: 32,
-};
-
-const pbkdf2HmacSha512 = {
-  hmacFunction: hmacSha512,
-  hmacLength: 64,
-};
 
 const vectors = test.macro<
   [
@@ -24,11 +14,11 @@ const vectors = test.macro<
 >({
   exec: (t, vector) => {
     t.deepEqual(
-      pbkdf2(vector.parameters, pbkdf2HmacSha256),
+      pbkdf2HmacSha256(vector.parameters),
       vector.expectedSha256
     );
     t.deepEqual(
-      pbkdf2(vector.parameters, pbkdf2HmacSha512),
+      pbkdf2HmacSha512(vector.parameters),
       vector.expectedSha512
     );
   },

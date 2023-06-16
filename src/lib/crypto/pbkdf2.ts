@@ -1,4 +1,6 @@
 import { numberToBinUint32BE } from '../format/format.js';
+
+import type { HmacFunction} from './crypto.js';
 import { hmacSha256, hmacSha512 } from './crypto.js';
 
 export enum Pbkdf2Errors {
@@ -19,7 +21,7 @@ export interface Pbkdf2Parameters {
 }
 
 export const instantiatePbkdf2Function =
-  (hmacFunction: (secret: Uint8Array, message: Uint8Array) => Uint8Array, hmacLength: number) =>
+  (hmacFunction: HmacFunction, hmacByteLength: number) =>
   (parameters: Pbkdf2Parameters) => {
     /* eslint-disable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
     const { password, salt, iterations, derivedKeyLength } = parameters;
@@ -32,18 +34,18 @@ export const instantiatePbkdf2Function =
       return Pbkdf2Errors.invalidDerivedKeyLengthError;
     }
 
-    if (!Number.isInteger(hmacLength) || hmacLength <= 0) {
+    if (!Number.isInteger(hmacByteLength) || hmacByteLength <= 0) {
       return Pbkdf2Errors.invalidHmacLength;
     }
 
-    const iterationCountByteSize = 4;
+    const iterationCountByteLength = 4;
 
     const derivedKey = new Uint8Array(derivedKeyLength);
-    const block = new Uint8Array(salt.length + iterationCountByteSize);
+    const block = new Uint8Array(salt.length + iterationCountByteLength);
     block.set(salt, 0);
 
     let destPos = 0;
-    const length = Math.ceil(derivedKeyLength / hmacLength);
+    const length = Math.ceil(derivedKeyLength / hmacByteLength);
 
     for (let i = 1; i <= length; i++) {
       const iterationUint32BEEncoded = numberToBinUint32BE(i);
@@ -55,7 +57,7 @@ export const instantiatePbkdf2Function =
       for (let j = 1; j < iterations; j++) {
         U = hmacFunction(password, U);
 
-        for (let k = 0; k < hmacLength; k++) {
+        for (let k = 0; k < hmacByteLength; k++) {
           // @ts-expect-error-next-line
           T[k] ^= U[k];
         }
@@ -65,23 +67,29 @@ export const instantiatePbkdf2Function =
       const truncated = T.subarray(0, derivedKeyLength);
 
       derivedKey.set(truncated, destPos);
-      destPos += hmacLength;
+      destPos += hmacByteLength;
     }
 
     return derivedKey;
     /* eslint-enable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
-  }
+  };
+
+const hmacSha256ByteLength = 32;
 
 export const pbkdf2HmacSha256 = (
   parameters: Pbkdf2Parameters,
-  sha256Hmac: (secret: Uint8Array, message: Uint8Array) => Uint8Array = hmacSha256
-) => {
-  return instantiatePbkdf2Function(sha256Hmac, 32)(parameters);
-}
+  sha256Hmac: HmacFunction = hmacSha256
+) => instantiatePbkdf2Function(
+    sha256Hmac,
+    hmacSha256ByteLength
+  )(parameters);
+
+const hmacSha512ByteLength = 64;
 
 export const pbkdf2HmacSha512 = (
   parameters: Pbkdf2Parameters,
-  sha512Hmac: (secret: Uint8Array, message: Uint8Array) => Uint8Array = hmacSha512
-) => {
-  return instantiatePbkdf2Function(sha512Hmac, 64)(parameters);
-}
+  sha512Hmac: HmacFunction = hmacSha512
+) => instantiatePbkdf2Function(
+    sha512Hmac,
+    hmacSha512ByteLength
+  )(parameters);

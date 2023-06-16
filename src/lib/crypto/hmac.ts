@@ -5,6 +5,11 @@ import {
 import { flattenBinArray } from '../format/format.js';
 import type { Sha256, Sha512 } from '../lib.js';
 
+export type HmacFunction = (
+  secret: Uint8Array,
+  message: Uint8Array
+) => Uint8Array;
+
 /**
  * Instantiate a hash-based message authentication code (HMAC) function as
  * specified by RFC 2104.
@@ -14,8 +19,11 @@ import type { Sha256, Sha512 } from '../lib.js';
  * @param blockByteLength - the byte-length of blocks used in `hashFunction`
  */
 export const instantiateHmacFunction =
-  (hashFunction: (input: Uint8Array) => Uint8Array, blockByteLength: number) =>
-  (secret: Uint8Array, message: Uint8Array) => {
+  (
+    hashFunction: (input: Uint8Array) => Uint8Array,
+    blockByteLength: number
+  ): HmacFunction =>
+  (secret, message) => {
     const key = new Uint8Array(blockByteLength).fill(0);
     // eslint-disable-next-line functional/no-expression-statement
     key.set(secret.length > blockByteLength ? hashFunction(secret) : secret, 0);

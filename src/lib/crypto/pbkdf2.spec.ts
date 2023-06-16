@@ -1,6 +1,11 @@
 import test from 'ava';
 
-import { hexToBin, pbkdf2HmacSha256, pbkdf2HmacSha512, utf8ToBin } from '../lib.js';
+import {
+  hexToBin,
+  pbkdf2HmacSha256,
+  pbkdf2HmacSha512,
+  utf8ToBin,
+} from '../lib.js';
 import type { Pbkdf2Parameters } from '../lib.js';
 
 const vectors = test.macro<
@@ -13,14 +18,8 @@ const vectors = test.macro<
   ]
 >({
   exec: (t, vector) => {
-    t.deepEqual(
-      pbkdf2HmacSha256(vector.parameters),
-      vector.expectedSha256
-    );
-    t.deepEqual(
-      pbkdf2HmacSha512(vector.parameters),
-      vector.expectedSha512
-    );
+    t.deepEqual(pbkdf2HmacSha256(vector.parameters), vector.expectedSha256);
+    t.deepEqual(pbkdf2HmacSha512(vector.parameters), vector.expectedSha512);
   },
   title: (title) => `[crypto] PBKDF2 Test Vector #${title ?? '?'} (RFC 2898)`,
 });

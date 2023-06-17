@@ -1,6 +1,6 @@
 import { numberToBinUint32BE } from '../format/format.js';
 
-import type { HmacFunction} from './crypto.js';
+import type { HmacFunction } from './crypto.js';
 import { hmacSha256, hmacSha512 } from './crypto.js';
 
 export enum Pbkdf2Errors {
@@ -20,10 +20,16 @@ export interface Pbkdf2Parameters {
   salt: Uint8Array;
 }
 
+/**
+ * Instantiate a PBKDF2 function as specified by RFC 2898.
+ *
+ * @param hmacFunction - the HMAC function to use
+ * @param hmacByteLength - the byte-length of the HMAC function
+ */
 export const instantiatePbkdf2Function =
   (hmacFunction: HmacFunction, hmacByteLength: number) =>
   (parameters: Pbkdf2Parameters) => {
-    /* eslint-disable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
+    /* eslint-disable functional/immutable-data, functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
     const { password, salt, iterations, derivedKeyLength } = parameters;
 
     if (!Number.isInteger(iterations) || iterations <= 0) {
@@ -71,25 +77,31 @@ export const instantiatePbkdf2Function =
     }
 
     return derivedKey;
-    /* eslint-enable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
+    /* eslint-enable functional/immutable-data, functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
   };
 
 const hmacSha256ByteLength = 32;
 
+/**
+ * Derive a key using PBKDF2 and the HMAC SHA256 function as specified in RFC 2898.
+ *
+ * @param parameters - the PBKDF2 parameters to use
+ * @param sha256Hmac - the SHA256 HMAC implementation to use
+ */
 export const pbkdf2HmacSha256 = (
   parameters: Pbkdf2Parameters,
   sha256Hmac: HmacFunction = hmacSha256
-) => instantiatePbkdf2Function(
-    sha256Hmac,
-    hmacSha256ByteLength
-  )(parameters);
+) => instantiatePbkdf2Function(sha256Hmac, hmacSha256ByteLength)(parameters);
 
 const hmacSha512ByteLength = 64;
 
+/**
+ * Derive a key using PBKDF2 and the HMAC SHA512 function as specified in RFC 2898.
+ *
+ * @param parameters - the PBKDF2 parameters to use
+ * @param sha512Hmac - the SHA512 HMAC implementation to use
+ */
 export const pbkdf2HmacSha512 = (
   parameters: Pbkdf2Parameters,
   sha512Hmac: HmacFunction = hmacSha512
-) => instantiatePbkdf2Function(
-    sha512Hmac,
-    hmacSha512ByteLength
-  )(parameters);
+) => instantiatePbkdf2Function(sha512Hmac, hmacSha512ByteLength)(parameters);

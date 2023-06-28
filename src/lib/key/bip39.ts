@@ -6,8 +6,8 @@ import { binToBinString, utf8ToBin } from '../format/format.js';
 export { bip39WordListEnglish };
 
 export enum MnemonicErrors {
-  invalidEntropyError = 'Invalid Entropy: TODO',
-  invalidWordList = 'Invalid Word List: Word list must contain 2048 words',
+  invalidEntropyError = 'Invalid Entropy: Must be between 16 and 32 bytes and divisible by 4',
+  invalidWordList = 'Invalid Word List Length: Word list must contain exactly 2048 words',
   invalidWordIndex = 'Invalid Word Index: TODO',
 }
 

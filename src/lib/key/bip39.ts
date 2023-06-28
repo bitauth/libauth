@@ -7,6 +7,7 @@ export { bip39WordListEnglish };
 
 export enum MnemonicErrors {
   invalidEntropyError = 'Invalid Entropy: TODO',
+  invalidWordList = 'Invalid Word List: Word list must contain 2048 words',
   invalidWordIndex = 'Invalid Word Index: TODO',
 }
 
@@ -39,14 +40,12 @@ export const deriveBip39MnemonicFromEntropy = (
   wordlist: string[]
 ) => {
   // 128 <= ENT <= 256
-  if (entropy.length < 16) {
+  if (entropy.length < 16 || entropy.length > 32 || entropy.length % 4 !== 0) {
     return MnemonicErrors.invalidEntropyError;
   }
-  if (entropy.length > 32) {
-    return MnemonicErrors.invalidEntropyError;
-  }
-  if (entropy.length % 4 !== 0) {
-    return MnemonicErrors.invalidEntropyError;
+
+  if (wordlist.length !== 2048) {
+    return MnemonicErrors.invalidWordList;
   }
 
   const entropyBits = binToBinString(entropy);
@@ -95,5 +94,15 @@ export function generateBip39Mnemonic(
   wordlist: string[] = bip39WordListEnglish,
   secureRandom: () => Uint8Array
 ): string {
-  return deriveBip39MnemonicFromEntropy(secureRandom(), wordlist);
+  if (wordlist.length !== 2048) {
+    return MnemonicErrors.invalidWordList;
+  }
+
+  const entropy = secureRandom();
+
+  if (entropy.length < 16 || entropy.length > 32 || entropy.length % 4 !== 0) {
+    return MnemonicErrors.invalidEntropyError;
+  }
+
+  return deriveBip39MnemonicFromEntropy(entropy, wordlist);
 }

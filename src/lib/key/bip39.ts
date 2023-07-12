@@ -1,22 +1,22 @@
 import { bip39WordListEnglish } from './bip39.english.js';
 
 import { pbkdf2HmacSha512, sha256 } from '../crypto/crypto.js';
-import { binToBinString, utf8ToBin } from '../format/format.js';
+import { binStringToBin, binToBinString, utf8ToBin } from '../format/format.js';
 
 export { bip39WordListEnglish };
 
 export enum MnemonicErrors {
   invalidEntropyError = 'Invalid Entropy: Must be between 16 and 32 bytes and divisible by 4',
+  invalidMnemonic = 'Invalid Mnemonic: Word count must be divisible by 3',
   invalidWordList = 'Invalid Word List Length: Word list must contain exactly 2048 words',
   invalidWordIndex = 'Invalid Word Index: TODO',
+  invalidChecksum = 'Invalid Checksum: TODO',
 }
 
-/*
-interface Mnemonic {
-  type: 'BIP39';
+interface Bip39Mnemonic {
+  success: true;
   phrase: string;
 }
-*/
 
 // TODO: Just inline if only used once (think will be used in deriveEntropyFromMnemonic though)
 export const deriveBip39ChecksumBits = (entropyBuffer: Uint8Array) => {
@@ -26,14 +26,54 @@ export const deriveBip39ChecksumBits = (entropyBuffer: Uint8Array) => {
   return binToBinString(hash).slice(0, CS);
 };
 
-/*
 export const deriveBip39EntropyFromMnemonic = (
   mnemonic: string,
   wordlist: string[]
 ) => {
-  // TODO
+  if (wordlist.length !== 2048) {
+    return MnemonicErrors.invalidWordList;
+  }
+
+  const words = mnemonic.normalize('NFKD').split(' ');
+
+  if (words.length % 3 !== 0) {
+    return MnemonicErrors.invalidMnemonic;
+  }
+
+  // convert word indices to 11 bit binary strings
+  const bits = words
+    .map((word: string): string => {
+      const index = wordlist!.indexOf(word);
+
+      if (index === -1) {
+        return MnemonicErrors.invalidWordIndex;
+      }
+
+      return index.toString(2).padStart(11, '0');
+    })
+    .join('');
+
+  // split the binary string into ENT/CS
+  const dividerIndex = Math.floor(bits.length / 33) * 32;
+  const entropyBits = bits.slice(0, dividerIndex);
+  const checksumBits = bits.slice(dividerIndex);
+
+  // calculate the checksum and compare
+  const entropy = new Uint8Array(
+    entropyBits.match(/(.{1,8})/g)!.map((bin) => parseInt(bin, 2))
+  );
+
+  if (entropy.length < 16 || entropy.length > 32 || entropy.length % 4 !== 0) {
+    return MnemonicErrors.invalidEntropyError;
+  }
+
+  const newChecksum = deriveBip39ChecksumBits(entropy);
+  if (newChecksum !== checksumBits) {
+    return MnemonicErrors.invalidChecksum;
+  }
+
+  return entropy;
 };
-*/
 
 export const deriveBip39MnemonicFromEntropy = (
   entropy: Uint8Array,

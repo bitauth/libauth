@@ -1,4 +1,4 @@
-export const bip39WordListEnglish = [
+[
     "abandon",
     "ability",
     "able",

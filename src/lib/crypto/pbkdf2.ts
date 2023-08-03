@@ -28,6 +28,7 @@ export interface Pbkdf2Parameters {
  */
 export const instantiatePbkdf2Function =
   (hmacFunction: HmacFunction, hmacByteLength: number) =>
+  // eslint-disable-next-line complexity
   (parameters: Pbkdf2Parameters) => {
     /* eslint-disable functional/immutable-data, functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, no-plusplus */
     const { password, salt, iterations, derivedKeyLength } = parameters;

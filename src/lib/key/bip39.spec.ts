@@ -1,117 +1,98 @@
 import test from 'ava';
 
 import {
-  bip39WordListEnglish,
+  bip39ChineseSimplified,
+  bip39ChineseTraditional,
+  bip39Czech,
+  bip39English,
+  bip39French,
+  bip39Italian,
+  bip39Japanese,
+  bip39Korean,
+  bip39Portuguese,
+  bip39Spanish,
   deriveBip39EntropyFromMnemonic,
   deriveBip39MnemonicFromEntropy,
   deriveBip39SeedFromMnemonic,
   hexToBin,
 } from '../lib.js';
 
-// Fixtures are taken from: https://github.com/trezor/python-mnemonic/blob/master/vectors.json
+// The below fixtures are converted from: https://github.com/trezor/python-mnemonic/blob/master/vectors.json
+// eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
+import bip39Trezor from './fixtures/bip39.trezor.json' assert { type: 'json' };
 
-const fixture = [
-  {
-    entropy: hexToBin('00000000000000000000000000000000'),
-    mnemonic:
-      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
-    passphrase: 'TREZOR',
-    seed: hexToBin(
-      'c55257c360c07c72029aebc1b53c05ed0362ada38ead3e3e9efa3708e53495531f09a6987599d18264c1e1c92f2cf141630c7a3c4ab7c81b2f001698e7463b04'
-    ),
-  },
-  {
-    entropy: hexToBin('7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f'),
-    mnemonic:
-      'legal winner thank year wave sausage worth useful legal winner thank yellow',
-    passphrase: 'TREZOR',
-    seed: hexToBin(
-      '2e8905819b8723fe2c1d161860e5ee1830318dbf49a83bd451cfb8440c28bd6fa457fe1296106559a3c80937a1c1069be3a3a5bd381ee6260e8d9739fce1f607'
-    ),
-  },
-  {
-    entropy: hexToBin(
-      '80808080808080808080808080808080'
-    ),
-    mnemonic:
-      'letter advice cage absurd amount doctor acoustic avoid letter advice cage above',
-    passphrase: 'TREZOR',
-    seed: hexToBin(
-      'd71de856f81a8acc65e6fc851a38d4d7ec216fd0796d0a6827a3ad6ed5511a30fa280f12eb2e47ed2ac03b5c462a0358d18d69fe4f985ec81778c1b370b652a8'
-    ),
-  },
-  {
-    entropy: hexToBin(
-      'ffffffffffffffffffffffffffffffff'
-    ),
-    mnemonic:
-      'zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong',
-    passphrase: 'TREZOR',
-    seed: hexToBin(
-      'ac27495480225222079d7be181583751e86f571027b0497b5b5d11218e0a8a13332572917f0f8e5a589620c6f15b11c61dee327651a14c34e18231052e48c069'
-    ),
-  },
-  {
-    entropy: hexToBin(
-      '000000000000000000000000000000000000000000000000'
-    ),
-    mnemonic:
-      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon agent',
-    passphrase: 'TREZOR',
-    seed: hexToBin(
-      '035895f2f481b1b0f01fcf8c289c794660b289981a78f8106447707fdd9666ca06da5a9a565181599b79f53b844d8a71dd9f439c52a3d7b3e8a79c906ac845fa'
-    ),
-  },
-  {
-    entropy: hexToBin(
-      '7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f'
-    ),
-    mnemonic:
-      'legal winner thank year wave sausage worth useful legal winner thank year wave sausage worth useful legal winner thank year wave sausage worth title',
-    passphrase: 'TREZOR',
-    seed: hexToBin(
-      'bc09fca1804f7e69da93c2f2028eb238c227f2e9dda30cd63699232578480a4021b146ad717fbb7e451ce9eb835f43620bf5c514db0f8add49f5d121449d3e87'
-    ),
-  },
-]
+const getWordListForLanguage = (language: string) => {
+  switch (language) {
+    case 'chinese_simplified':
+      return bip39ChineseSimplified;
+    case 'chinese_traditional':
+      return bip39ChineseTraditional;
+    case 'czech':
+      return bip39Czech;
+    case 'english':
+      return bip39English;
+    case 'french':
+      return bip39French;
+    case 'italian':
+      return bip39Italian;
+    case 'japanese':
+      return bip39Japanese;
+    case 'korean':
+      return bip39Korean;
+    case 'portuguese':
+      return bip39Portuguese;
+    case 'spanish':
+      return bip39Spanish;
+  }
 
-// TODO: Split each function into own test.
+  return 'No matching word list for given language';
+};
+
 const vectors = test.macro<
   [
     {
-      entropy: Uint8Array;
+      entropy: string;
       mnemonic: string;
-      seed: Uint8Array;
+      passphrase: string;
+      seed: string;
+      wordList: string;
     }[]
   ]
 >({
   exec: (t, vectors) => {
     for (const vector of vectors) {
+      const wordList = getWordListForLanguage(vector.wordList);
+
+      if (typeof wordList === 'string') {
+        t.fail(`Failed to find wordlist for language ${vector.wordList}`);
+
+        return;
+      }
+
       const mnemonic = deriveBip39MnemonicFromEntropy(
-        vector.entropy,
-        bip39WordListEnglish
+        hexToBin(vector.entropy),
+        wordList
       );
 
-      const seed = deriveBip39SeedFromMnemonic(mnemonic, 'TREZOR');
+      if (typeof mnemonic === 'string') {
+        t.fail('Failed to derive mnemonic from entropy');
 
-      const entropy = deriveBip39EntropyFromMnemonic(vector.mnemonic, bip39WordListEnglish);
+        return;
+      }
 
-      t.deepEqual(mnemonic, vector.mnemonic);
-      t.deepEqual(seed, vector.seed);
-      t.deepEqual(entropy, vector.entropy);
+      const entropy = deriveBip39EntropyFromMnemonic(vector.mnemonic, wordList);
 
-      console.log(entropy);
-      console.log(vector.entropy);
+      const seed = deriveBip39SeedFromMnemonic(
+        mnemonic.phrase,
+        vector.passphrase
+      );
+
+      t.deepEqual(mnemonic.phrase, vector.mnemonic);
+      t.deepEqual(seed, hexToBin(vector.seed));
+      t.deepEqual(entropy, hexToBin(vector.entropy));
     }
   },
   title: (title) => `[crypto] BIP39 Test Vector - ${title ?? '?'}`,
 });
 
-test('English', vectors, fixture);
-
-
-/*
-test.todo('bip39 word lists include 2048 words', (t) => {
-  const expectedLength = 2048;
-  t.deepEqual(bip39WordListEnglish.length, expectedLength);
-});*/
+test('Trezor Vectors', vectors, bip39Trezor);

@@ -77,7 +77,7 @@ Note, Libauth is a [pure ESM package](https://gist.github.com/sindresorhus/a3978
 
 For web projects, a bundler with [dead-code elimination](https://rollupjs.org/guide/en/#tree-shaking) (A.K.A. "tree shaking") is **strongly recommended** – Libauth is designed to minimize application code size, and dead-code elimination will improve load performance in nearly all applications.
 
-Consider [Parcel](https://parceljs.org/), [Rollup](https://rollupjs.org/), [Webpack](https://webpack.js.org/), or a bundler designed for your web framework.
+Consider [Vite](https://vitejs.dev/), [Parcel](https://parceljs.org/), [Rollup](https://rollupjs.org/), [Webpack](https://webpack.js.org/), or a bundler designed for your web framework.
 
 ### Deno Usage
 

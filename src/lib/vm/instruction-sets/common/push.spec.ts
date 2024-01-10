@@ -53,39 +53,39 @@ test('prefixDataPush', (t) => {
   });
   t.deepEqual(
     encodeDataPush(
-      Uint8Array.from(range(PushOperationConstants.maximumPushData1Size))
+      Uint8Array.from(range(PushOperationConstants.maximumPushData1Size)),
     ),
     Uint8Array.from([
       PushOperationConstants.OP_PUSHDATA_1,
       0xff,
       ...range(PushOperationConstants.maximumPushData1Size),
-    ])
+    ]),
   );
   t.deepEqual(
     encodeDataPush(
-      Uint8Array.from(range(PushOperationConstants.maximumPushData1Size + 1))
+      Uint8Array.from(range(PushOperationConstants.maximumPushData1Size + 1)),
     ),
     Uint8Array.from([
       PushOperationConstants.OP_PUSHDATA_2,
       0,
       1,
       ...range(PushOperationConstants.maximumPushData1Size + 1),
-    ])
+    ]),
   );
   t.deepEqual(
     encodeDataPush(
-      Uint8Array.from(range(PushOperationConstants.maximumPushData2Size))
+      Uint8Array.from(range(PushOperationConstants.maximumPushData2Size)),
     ),
     Uint8Array.from([
       PushOperationConstants.OP_PUSHDATA_2,
       0xff,
       0xff,
       ...range(PushOperationConstants.maximumPushData2Size),
-    ])
+    ]),
   );
   t.deepEqual(
     encodeDataPush(
-      Uint8Array.from(range(PushOperationConstants.maximumPushData2Size + 1))
+      Uint8Array.from(range(PushOperationConstants.maximumPushData2Size + 1)),
     ),
     Uint8Array.from([
       PushOperationConstants.OP_PUSHDATA_4,
@@ -94,6 +94,6 @@ test('prefixDataPush', (t) => {
       1,
       0,
       ...range(PushOperationConstants.maximumPushData2Size + 1),
-    ])
+    ]),
   );
 });

@@ -20,9 +20,9 @@ export type Operation<ProgramState> = (state: ProgramState) => ProgramState;
  * Test a program state, returning an error message.
  */
 export type TestState<ProgramState> = (state: ProgramState) => string | true;
-export interface InstructionSetOperationMapping<ProgramState> {
+export type InstructionSetOperationMapping<ProgramState> = {
   [opcode: number]: Operation<ProgramState>;
-}
+};
 
 /**
  * An {@link InstructionSet} is a mapping of methods that define the operation
@@ -37,11 +37,11 @@ export interface InstructionSetOperationMapping<ProgramState> {
  * based on its opcode. Any opcodes that are unassigned by the instruction set
  * will use the `undefined` operation.
  */
-export interface InstructionSet<
+export type InstructionSet<
   ResolvedTransaction,
   AuthenticationProgram,
-  ProgramState
-> {
+  ProgramState,
+> = {
   /**
    * Take a `ProgramState` and return a new copy of that `ProgramState`.
    *
@@ -49,6 +49,8 @@ export interface InstructionSet<
    * This method is used internally by `stateEvaluate`, `stateStep`, and
    * `stateDebug` to prevent the {@link AuthenticationVirtualMachine} from
    * mutating an input when mutation is not desirable.
+   *
+   * @deprecated use `structuredClone` instead
    */
   clone: Operation<ProgramState>;
 
@@ -97,7 +99,7 @@ export interface InstructionSet<
    */
   evaluate: (
     program: AuthenticationProgram,
-    stateEvaluate: (state: Readonly<ProgramState>) => ProgramState
+    stateEvaluate: (state: ProgramState) => ProgramState,
   ) => ProgramState;
 
   /**
@@ -151,20 +153,20 @@ export interface InstructionSet<
    */
   verify: (
     resolvedTransaction: ResolvedTransaction,
-    evaluate: (program: Readonly<AuthenticationProgram>) => ProgramState,
-    success: (state: ProgramState) => string | true
+    evaluate: (program: AuthenticationProgram) => ProgramState,
+    success: (state: ProgramState) => string | true,
   ) => string | true;
-}
+};
 
 /**
  * A set of pure-functions allowing transactions and their authentication
  * programs to be evaluated and inspected.
  */
-export interface AuthenticationVirtualMachine<
+export type AuthenticationVirtualMachine<
   ResolvedTransaction,
   AuthenticationProgram,
-  ProgramState
-> {
+  ProgramState,
+> = {
   /**
    * Debug a program by fully evaluating it, cloning and adding each
    * intermediate `ProgramState` to the returned array. The first `ProgramState`
@@ -195,24 +197,26 @@ export interface AuthenticationVirtualMachine<
    *
    * @param state - the {@link AuthenticationProgram} to debug
    */
-  debug: (program: Readonly<AuthenticationProgram>) => ProgramState[];
+  debug: (program: AuthenticationProgram) => ProgramState[];
 
   /**
    * Fully evaluate a program, returning the resulting `ProgramState`.
    *
    * @param state - the {@link AuthenticationProgram} to evaluate
    */
-  evaluate: (program: Readonly<AuthenticationProgram>) => ProgramState;
+  evaluate: (program: AuthenticationProgram) => ProgramState;
 
   /**
    * Clone the provided ProgramState.
+   *
+   * @deprecated use `structuredClone` instead
    */
-  stateClone: (state: Readonly<ProgramState>) => ProgramState;
+  stateClone: (state: ProgramState) => ProgramState;
 
   /**
    * Test the ProgramState to determine if execution should continue.
    */
-  stateContinue: (state: Readonly<ProgramState>) => boolean;
+  stateContinue: (state: ProgramState) => boolean;
 
   /**
    * Return an array of program states by fully evaluating `state`, cloning and
@@ -225,7 +229,7 @@ export interface AuthenticationVirtualMachine<
    * machine and cannot produce a final result. In most cases, `debug` is the
    * proper method to debug a program.
    */
-  stateDebug: (state: Readonly<ProgramState>) => ProgramState[];
+  stateDebug: (state: ProgramState) => ProgramState[];
 
   /**
    * Return a new program state by cloning and fully evaluating `state`.
@@ -240,14 +244,14 @@ export interface AuthenticationVirtualMachine<
    *
    * @param state - the program state to evaluate
    */
-  stateEvaluate: (state: Readonly<ProgramState>) => ProgramState;
+  stateEvaluate: (state: ProgramState) => ProgramState;
 
   /**
    * Clones and return a new program state advanced by one step.
    *
    * @param state - the program state to advance
    */
-  stateStep: (state: Readonly<ProgramState>) => ProgramState;
+  stateStep: (state: ProgramState) => ProgramState;
 
   /**
    * A faster, less-safe version of `step` that directly modifies the provided
@@ -294,7 +298,7 @@ export interface AuthenticationVirtualMachine<
    * and BIP112 for details.)
    */
   verify: (resolvedTransaction: ResolvedTransaction) => string | true;
-}
+};
 
 /**
  * Create an {@link AuthenticationVirtualMachine} to evaluate authentication
@@ -304,30 +308,30 @@ export interface AuthenticationVirtualMachine<
 export const createAuthenticationVirtualMachine = <
   ResolvedTransaction = ResolvedTransactionCommon,
   AuthenticationProgram = AuthenticationProgramCommon,
-  ProgramState extends AuthenticationProgramStateMinimum = AuthenticationProgramStateCommon
+  ProgramState extends
+    AuthenticationProgramStateMinimum = AuthenticationProgramStateCommon,
 >(
   instructionSet: InstructionSet<
     ResolvedTransaction,
     AuthenticationProgram,
     ProgramState
-  >
+  >,
 ): AuthenticationVirtualMachine<
   ResolvedTransaction,
   AuthenticationProgram,
   ProgramState
 > => {
   const availableOpcodes = 256;
-  const operators = range(availableOpcodes).map((codepoint) =>
-    instructionSet.operations[codepoint] === undefined
-      ? instructionSet.undefined
-      : instructionSet.operations[codepoint]
+  const operators = range(availableOpcodes).map(
+    (codepoint) =>
+      instructionSet.operations[codepoint] ?? instructionSet.undefined,
   );
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const getCodepoint = (state: ProgramState) => state.instructions[state.ip]!;
 
   const after = (state: ProgramState) => {
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     state.ip += 1;
     return state;
   };
@@ -352,11 +356,11 @@ export const createAuthenticationVirtualMachine = <
    */
   const untilComplete = (
     state: ProgramState,
-    stepFunction: (state: ProgramState) => ProgramState
+    stepFunction: (state: ProgramState) => ProgramState,
   ) => {
-    // eslint-disable-next-line functional/no-loop-statement
+    // eslint-disable-next-line functional/no-loop-statements
     while (stateContinue(state)) {
-      // eslint-disable-next-line functional/no-expression-statement, no-param-reassign
+      // eslint-disable-next-line functional/no-expression-statements, no-param-reassign
       state = stepFunction(state);
     }
     return state;
@@ -375,12 +379,12 @@ export const createAuthenticationVirtualMachine = <
 
   const stateDebug = (state: ProgramState) => {
     const trace: ProgramState[] = [];
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     trace.push(state);
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     untilComplete(state, (currentState: ProgramState) => {
       const nextState = stateDebugStep(currentState);
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       trace.push(nextState);
       return nextState;
     });
@@ -396,7 +400,7 @@ export const createAuthenticationVirtualMachine = <
     const results: ProgramState[] = [];
     const proxyDebug = (state: ProgramState) => {
       const debugResult = stateDebug(state);
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       results.push(...debugResult);
       return debugResult[debugResult.length - 1] ?? state;
     };

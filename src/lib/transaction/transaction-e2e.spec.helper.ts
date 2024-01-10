@@ -1,7 +1,7 @@
 /* eslint-disable import/no-internal-modules */
 import twoOfTwoRecoverableJson from './fixtures/templates/2-of-2-recoverable.json' assert { type: 'json' };
 import twoOfThreeJson from './fixtures/templates/2-of-3.json' assert { type: 'json' };
-import cashChannelsJson from './fixtures/templates/cash-channels.json' assert { type: 'json' };
+import cashChannelsJson from './fixtures/templates/cash-channels-v1.json' assert { type: 'json' };
 import p2pkhJson from './fixtures/templates/p2pkh.json' assert { type: 'json' };
 import sigOfSigJson from './fixtures/templates/sig-of-sig.json' assert { type: 'json' };
 

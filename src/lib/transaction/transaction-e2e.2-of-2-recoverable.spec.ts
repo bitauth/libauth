@@ -8,7 +8,6 @@ import type {
   TransactionCommon,
 } from '../lib.js';
 import {
-  authenticationTemplateToCompilerBCH,
   CashAddressNetworkPrefix,
   compileCashAssembly,
   createVirtualMachineBCH,
@@ -18,9 +17,10 @@ import {
   extractMissingVariables,
   generateTransaction,
   hexToBin,
-  importAuthenticationTemplate,
+  importWalletTemplate,
   lockingBytecodeToCashAddress,
   stringify,
+  walletTemplateToCompilerBCH,
 } from '../lib.js';
 
 import {
@@ -37,7 +37,7 @@ const vm = createVirtualMachineBCH();
 
 // eslint-disable-next-line complexity
 test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
-  const template = importAuthenticationTemplate(twoOfTwoRecoverableJson);
+  const template = importWalletTemplate(twoOfTwoRecoverableJson);
   if (typeof template === 'string') {
     t.fail(template);
     return;
@@ -53,12 +53,12 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   };
 
   const creationDate = dateToLocktime(
-    new Date('2020-01-01T00:00:00.000Z')
+    new Date('2020-01-01T00:00:00.000Z'),
   ) as number;
 
   const threeMonths = 60 * 60 * 24 * 90;
   const locktimeFourMonthsLater = dateToLocktime(
-    new Date('2020-04-01T00:00:00.000Z')
+    new Date('2020-04-01T00:00:00.000Z'),
   ) as number;
 
   const lockingData: CompilationData<never> = {
@@ -70,7 +70,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   };
 
   const lockingScript = 'lock';
-  const compiler = authenticationTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBCH(template);
   const lockingBytecode = compiler.generateBytecode({
     data: lockingData,
     scriptId: lockingScript,
@@ -84,7 +84,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
 
   const address = lockingBytecodeToCashAddress(
     lockingBytecode.bytecode,
-    CashAddressNetworkPrefix.testnet
+    CashAddressNetworkPrefix.testnet,
   );
 
   t.deepEqual(address, 'bchtest:pz8p649zg3a492hxy86sh0ccvc7sptrlx5cp3eapah');
@@ -106,7 +106,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   const input1 = {
     outpointIndex: 0,
     outpointTransactionHash: hexToBin(
-      '6168cbf5d24784df4fef46e1e5cfacaee14cda4c29dd8114b9cfc44972aea46a'
+      '6168cbf5d24784df4fef46e1e5cfacaee14cda4c29dd8114b9cfc44972aea46a',
     ),
     sequenceNumber: 0,
     unlockingBytecode: {
@@ -122,7 +122,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   const input2 = {
     outpointIndex: 1,
     outpointTransactionHash: hexToBin(
-      '0ce50e17e71dadd8ba59e89a291cf3082862b32b229c5fbfc8dee3288165d97c'
+      '0ce50e17e71dadd8ba59e89a291cf3082862b32b229c5fbfc8dee3288165d97c',
     ),
     sequenceNumber: 0,
     unlockingBytecode: {
@@ -189,10 +189,10 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   t.deepEqual(signer1Attempt.completions, []);
 
   const expectedSigner1SignatureInput1 = hexToBin(
-    '304402200a34f3387a8aa3d7ed55506fbddb6957e27cc42063410306ac82e7a77f4d7030022065b08d5a07fac82d1cd6c90ff126f1af965e541525676538eab088b99daa897b41'
+    '304402200a34f3387a8aa3d7ed55506fbddb6957e27cc42063410306ac82e7a77f4d7030022065b08d5a07fac82d1cd6c90ff126f1af965e541525676538eab088b99daa897b41',
   );
   const expectedSigner1SignatureInput2 = hexToBin(
-    '3044022028141930f622819de84cf1a1b42fc2ea15c56bafd45e768c72fd84b4d0fe5b7e022066f659c79e6d8b6c53561be0b472bbeb355ffa443828fd8fb083148ffd26e8c841'
+    '3044022028141930f622819de84cf1a1b42fc2ea15c56bafd45e768c72fd84b4d0fe5b7e022066f659c79e6d8b6c53561be0b472bbeb355ffa443828fd8fb083148ffd26e8c841',
   );
 
   /**
@@ -288,13 +288,13 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
         input: {
           ...input1,
           unlockingBytecode: hexToBin(
-            '0047304402200a34f3387a8aa3d7ed55506fbddb6957e27cc42063410306ac82e7a77f4d7030022065b08d5a07fac82d1cd6c90ff126f1af965e541525676538eab088b99daa897b4147304402207d987a4d736fb6abb5f90109da05411e515c212c3b2c8527d15e8d863fe83957022004ad83f50e7b1ae87665c211717caca4b9e9714cd2d27bc4759cf6482394c9f641004c7563040088825eb1752103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7dead51675268210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b846954552ae'
+            '0047304402200a34f3387a8aa3d7ed55506fbddb6957e27cc42063410306ac82e7a77f4d7030022065b08d5a07fac82d1cd6c90ff126f1af965e541525676538eab088b99daa897b4147304402207d987a4d736fb6abb5f90109da05411e515c212c3b2c8527d15e8d863fe83957022004ad83f50e7b1ae87665c211717caca4b9e9714cd2d27bc4759cf6482394c9f641004c7563040088825eb1752103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7dead51675268210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b846954552ae',
           ),
         },
         type: 'input',
       },
     ],
-    stringify(signer2Attempt2.completions)
+    stringify(signer2Attempt2.completions),
   );
 
   const completedInput1 = (
@@ -377,12 +377,12 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
          * tx: e6c808adcb3cfc06461e962373659554bf6c447ea7b25ac503ff429e21050755
          */
         hexToBin(
-          '02000000026aa4ae7249c4cfb91481dd294cda4ce1aeaccfe5e146ef4fdf8447d2f5cb686100000000fd09010047304402200a34f3387a8aa3d7ed55506fbddb6957e27cc42063410306ac82e7a77f4d7030022065b08d5a07fac82d1cd6c90ff126f1af965e541525676538eab088b99daa897b4147304402207d987a4d736fb6abb5f90109da05411e515c212c3b2c8527d15e8d863fe83957022004ad83f50e7b1ae87665c211717caca4b9e9714cd2d27bc4759cf6482394c9f641004c7563040088825eb1752103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7dead51675268210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b846954552ae000000007cd9658128e3dec8bf5f9c222bb3622808f31c299ae859bad8ad1de7170ee50c01000000fd0a0100473044022028141930f622819de84cf1a1b42fc2ea15c56bafd45e768c72fd84b4d0fe5b7e022066f659c79e6d8b6c53561be0b472bbeb355ffa443828fd8fb083148ffd26e8c841483045022100d62f54380b58b99677467a4016fceffd1cd85adabe6d2ffffab61a7e599dc5d302207a43e7809e5afae5069cef08d5f4960adcb9d245d295bbdf6bb8ab9a9056d11441514c7563040088825eb1752103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7dead51675268210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b846954552ae000000000100000000000000000d6a0b68656c6c6f20776f726c6480d9835e'
-        )
+          '02000000026aa4ae7249c4cfb91481dd294cda4ce1aeaccfe5e146ef4fdf8447d2f5cb686100000000fd09010047304402200a34f3387a8aa3d7ed55506fbddb6957e27cc42063410306ac82e7a77f4d7030022065b08d5a07fac82d1cd6c90ff126f1af965e541525676538eab088b99daa897b4147304402207d987a4d736fb6abb5f90109da05411e515c212c3b2c8527d15e8d863fe83957022004ad83f50e7b1ae87665c211717caca4b9e9714cd2d27bc4759cf6482394c9f641004c7563040088825eb1752103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7dead51675268210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b846954552ae000000007cd9658128e3dec8bf5f9c222bb3622808f31c299ae859bad8ad1de7170ee50c01000000fd0a0100473044022028141930f622819de84cf1a1b42fc2ea15c56bafd45e768c72fd84b4d0fe5b7e022066f659c79e6d8b6c53561be0b472bbeb355ffa443828fd8fb083148ffd26e8c841483045022100d62f54380b58b99677467a4016fceffd1cd85adabe6d2ffffab61a7e599dc5d302207a43e7809e5afae5069cef08d5f4960adcb9d245d295bbdf6bb8ab9a9056d11441514c7563040088825eb1752103d9fffac162e9e15aecbe4f937b951815ccb4f940c850fff9ee52fa70805ae7dead51675268210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e465882102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b846954552ae000000000100000000000000000d6a0b68656c6c6f20776f726c6480d9835e',
+        ),
       ) as TransactionCommon,
     },
     `${stringify(successfulCompilation)} - ${stringify(
-      encodeTransactionCommon(successfulCompilation.transaction)
-    )}`
+      encodeTransactionCommon(successfulCompilation.transaction),
+    )}`,
   );
 });

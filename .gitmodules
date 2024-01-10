@@ -2,7 +2,12 @@
 	path = wasm/secp256k1
 	url = https://github.com/bitauth/libauth-secp256k1.git
 	branch = libauth
+	shallow = true
 [submodule ".yarn"]
 	path = .yarn
 	url = https://github.com/bitauth/libauth-dependencies.git
+	shallow = true
+[submodule "config/eslint-config-bitauth"]
+	path = config/eslint-config-bitauth
+	url = https://github.com/bitauth/eslint-config-bitauth/
 	shallow = true

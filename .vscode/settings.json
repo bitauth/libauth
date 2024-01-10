@@ -1,11 +1,16 @@
 {
   "cSpell.userWords": [], // only use words from .cspell.json
-  "debug.javascript.usePreview": false,
   "deno.enable": false,
   "editor.formatOnSave": true,
   "editor.semanticHighlighting.enabled": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "cSpell.enabled": true,
-  "typescript.preferences.importModuleSpecifierEnding": "js"
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "eslint.nodePath": ".yarn/sdks",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.js"
 }

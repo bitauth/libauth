@@ -58,7 +58,7 @@ test('resolveScriptSegment: error on unrecognized parse results', (t) => {
         type: 'error',
         value: 'Unrecognized segment: Unknown',
       },
-    ]
+    ],
   );
 });
 
@@ -68,7 +68,7 @@ test('resolveScriptSegment: marks unknown identifier types', (t) => {
     t.fail('Parse failed.');
     return;
   }
-  const malformedResolver: IdentifierResolutionFunction = () => ({
+  const malformedResolver: IdentifierResolutionFunction<unknown> = () => ({
     bytecode: Uint8Array.of(),
     status: true,
     type: 'unknown-type' as IdentifierResolutionType.variable,
@@ -86,5 +86,5 @@ test('resolveScriptSegment: marks unknown identifier types', (t) => {
       unknown: 'some_identifier',
       value: Uint8Array.of(),
     },
-  ] as unknown as ResolvedScript);
+  ] as unknown as ResolvedScript<unknown>);
 });

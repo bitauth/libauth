@@ -1,4 +1,4 @@
-/* eslint-disable no-console, functional/no-expression-statement */
+/* eslint-disable no-console, functional/no-expression-statements */
 
 // TODO: finish this simple wallet CLI
 
@@ -7,7 +7,6 @@ import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import {
-  authenticationTemplateToCompilerConfiguration,
   binsAreEqual,
   binToHex,
   cashAddressToLockingBytecode,
@@ -25,6 +24,7 @@ import {
   lockingBytecodeToBase58Address,
   lockingBytecodeToCashAddress,
   stringify,
+  walletTemplateToCompilerConfiguration,
 } from '../lib.js';
 
 const usageInfo = `
@@ -66,7 +66,7 @@ const fundingAddressIndex = 0;
 if (arg1 === 'private') {
   if (arg2 !== undefined && !isHex(arg2)) {
     console.log(
-      'Seed must be hex encoded. To use a random seed, omit this option.'
+      'Seed must be hex encoded. To use a random seed, omit this option.',
     );
     process.exit(1);
   }
@@ -76,7 +76,7 @@ if (arg1 === 'private') {
   const node = deriveHdPrivateNodeFromSeed(seed);
   if (!node.valid) {
     console.log(
-      `Tell everyone you found an invalid HD seed 🤯: ${binToHex(seed)}`
+      `Tell everyone you found an invalid HD seed 🤯: ${binToHex(seed)}`,
     );
     process.exit(1);
   }
@@ -120,11 +120,11 @@ if (arg1 === 'address') {
   };
   const legacyAddress = lockingBytecodeToBase58Address(
     bytecode,
-    'mainnet'
+    'mainnet',
   ) as string;
   const copayAddress = lockingBytecodeToBase58Address(
     bytecode,
-    'copayBCH'
+    'copayBCH',
   ) as string;
   console.log(`
 Derived address index ${fundingAddressIndex} from key ID: ${binToHex(keyId)}.
@@ -149,7 +149,7 @@ if (arg1 !== 'generate') {
 }
 if (arg2 === undefined || arg3 === undefined) {
   console.log(
-    'Required arguments for "generate": <hd_private_key> <transaction_hex>'
+    'Required arguments for "generate": <hd_private_key> <transaction_hex>',
   );
   console.log(usageInfo);
   process.exit(1);
@@ -168,10 +168,10 @@ const fundingLockingBytecode = hdPrivateKeyToP2pkhLockingBytecode({
 });
 const fundingAddress = lockingBytecodeToCashAddress(
   fundingLockingBytecode,
-  'bitcoincash'
+  'bitcoincash',
 ) as string;
 const fundingUtxoIndex = fundingTransaction.outputs.findIndex((output) =>
-  binsAreEqual(output.lockingBytecode, fundingLockingBytecode)
+  binsAreEqual(output.lockingBytecode, fundingLockingBytecode),
 );
 
 if (fundingUtxoIndex === -1) {
@@ -179,7 +179,7 @@ if (fundingUtxoIndex === -1) {
     `The provided funding transaction does not have an output which pays to address index ${fundingAddressIndex} of the provided HD private key. Is this the correct transaction?
 Expected locking bytecode: ${binToHex(fundingLockingBytecode)}
 CashAddress: ${fundingAddress}
-`
+`,
   );
   process.exit(1);
 }
@@ -192,7 +192,7 @@ const outputAddress = 'bitcoincash:qq2pq6z974lrdq8s0zkrl79efs3xap98fqvz9f30fl';
 const outputLockingBytecode = cashAddressToLockingBytecode(outputAddress);
 if (typeof outputLockingBytecode === 'string') {
   console.log(
-    `The output address "${outputAddress}" is invalid: ${outputLockingBytecode}`
+    `The output address "${outputAddress}" is invalid: ${outputLockingBytecode}`,
   );
   process.exit(1);
 }
@@ -201,7 +201,7 @@ const fundingUtxoValue = Number(fundingUtxo.valueSatoshis);
 const expectedInputTransactionSizeBytes = 1000;
 const setupOutputValue = fundingUtxoValue - expectedInputTransactionSizeBytes;
 const finalOutputValue = setupOutputValue - expectedInputTransactionSizeBytes;
-const configuration = authenticationTemplateToCompilerConfiguration({
+const configuration = walletTemplateToCompilerConfiguration({
   entities: { owner: { variables: { key: { type: 'HdKey' } } } },
   scenarios: {
     setupTx: {
@@ -266,7 +266,7 @@ if (typeof setupTx === 'string') {
 }
 if (typeof setupTx.scenario === 'string') {
   console.log(
-    `Error while generating setupTransaction.scenario - ${setupTx.scenario}`
+    `Error while generating setupTransaction.scenario - ${setupTx.scenario}`,
   );
   process.exit(1);
 }

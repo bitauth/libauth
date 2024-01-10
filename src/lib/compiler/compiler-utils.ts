@@ -12,13 +12,13 @@ import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
-  AuthenticationTemplate,
   BytecodeGenerationResult,
   CompilationContextBCH,
   CompilationData,
   CompilationResult,
   Compiler,
   CompilerConfiguration,
+  WalletTemplate,
 } from '../lib.js';
 import {
   generateBytecodeMap,
@@ -40,9 +40,9 @@ export const createCompilerGenerateBytecodeFunction =
     Configuration extends AnyCompilerConfiguration<CompilationContext>,
     ProgramState extends AuthenticationProgramStateControlStack &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
-    compilerConfiguration: Configuration
+    compilerConfiguration: Configuration,
   ) =>
   <Debug extends boolean>({
     data,
@@ -56,18 +56,18 @@ export const createCompilerGenerateBytecodeFunction =
     const result = compileScript<ProgramState, CompilationContext>(
       scriptId,
       data,
-      compilerConfiguration
+      compilerConfiguration,
     );
     return (
       debug === true
         ? result
         : result.success
-        ? { bytecode: result.bytecode, success: true }
-        : {
-            errorType: result.errorType,
-            errors: result.errors,
-            success: false,
-          }
+          ? { bytecode: result.bytecode, success: true }
+          : {
+              errorType: result.errorType,
+              errors: result.errors,
+              success: false,
+            }
     ) as Debug extends true
       ? CompilationResult<ProgramState>
       : BytecodeGenerationResult<ProgramState>;
@@ -84,9 +84,9 @@ export const compilerConfigurationToCompilerBCH = <
   Configuration extends AnyCompilerConfiguration<CompilationContextBCH>,
   ProgramState extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateMinimum &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  configuration: Configuration
+  configuration: Configuration,
 ): Compiler<CompilationContextBCH, Configuration, ProgramState> => {
   const generateBytecode =
     createCompilerGenerateBytecodeFunction(configuration);
@@ -107,7 +107,7 @@ export const compilerConfigurationToCompilerBCH = <
           scenarioId,
           unlockingScriptId,
         },
-        debug
+        debug,
       ),
   };
 };
@@ -134,7 +134,7 @@ const nullHashLength = 32;
  * created authentication program
  */
 export const createAuthenticationProgramEvaluationCommon = (
-  evaluationBytecode: Uint8Array
+  evaluationBytecode: Uint8Array,
 ): AuthenticationProgramCommon => ({
   inputIndex: 0,
   sourceOutputs: [
@@ -172,10 +172,10 @@ export const createAuthenticationProgramEvaluationCommon = (
  * configuration – must include the `scripts` property
  */
 export const createCompilerCommon = <
-  Configuration extends AnyCompilerConfiguration<CompilationContextBCH>,
-  ProgramState extends AuthenticationProgramStateCommon
+  Configuration extends CompilerConfiguration<CompilationContextBCH>,
+  ProgramState extends AuthenticationProgramStateCommon,
 >(
-  scriptsAndOverrides: Configuration
+  scriptsAndOverrides: Configuration,
 ): Compiler<CompilationContextBCH, Configuration, ProgramState> =>
   compilerConfigurationToCompilerBCH<Configuration, ProgramState>({
     ...{
@@ -216,7 +216,7 @@ export const compileCashAssembly = (script: string) => {
   return `CashAssembly compilation error:${result.errors.reduce(
     (all, { error, range }) =>
       `${all} [${range.startLineNumber}, ${range.startColumn}]: ${error}`,
-    ''
+    '',
   )}`;
 };
 
@@ -229,8 +229,8 @@ export const compileCashAssembly = (script: string) => {
  * @param disassembledBytecode - the disassembled bytecode to re-assemble
  */
 export const assembleBytecode = (
-  opcodes: Readonly<{ [opcode: string]: Uint8Array }>,
-  disassembledBytecode: string
+  opcodes: { [opcode: string]: Uint8Array },
+  disassembledBytecode: string,
 ) => {
   const configuration = {
     opcodes,
@@ -280,17 +280,17 @@ export const assembleBytecodeBTC = (disassembledBytecode: string) =>
 
 /**
  * Create a partial {@link CompilerConfiguration} from an
- * {@link AuthenticationTemplate} by extracting and formatting the `scripts` and
+ * {@link WalletTemplate} by extracting and formatting the `scripts` and
  * `variables` properties.
  *
- * Note, if this {@link AuthenticationTemplate} might be malformed, first
- * validate it with {@link importAuthenticationTemplate}.
+ * Note, if this {@link WalletTemplate} might be malformed, first
+ * validate it with {@link importWalletTemplate}.
  *
- * @param template - the {@link AuthenticationTemplate} from which to extract
+ * @param template - the {@link WalletTemplate} from which to extract
  * the compiler configuration
  */
-export const authenticationTemplateToCompilerConfiguration = (
-  template: AuthenticationTemplate
+export const walletTemplateToCompilerConfiguration = (
+  template: WalletTemplate,
 ): Pick<
   CompilerConfiguration,
   | 'entityOwnership'
@@ -304,33 +304,35 @@ export const authenticationTemplateToCompilerConfiguration = (
   /**
    * Template scripts including virtualized test scripts.
    */
-  const virtualizedScripts: AuthenticationTemplate['scripts'] = Object.entries(
-    template.scripts
-  ).reduce<AuthenticationTemplate['scripts']>((all, [scriptId, script]) => {
+  const virtualizedScripts: WalletTemplate['scripts'] = Object.entries(
+    template.scripts,
+  ).reduce<WalletTemplate['scripts']>((all, [scriptId, script]) => {
     if ('tests' in script) {
       return {
         ...all,
-        ...Object.entries(script.tests).reduce<
-          AuthenticationTemplate['scripts']
-        >((tests, [testId, test]) => {
-          const pushTestedScript = script.pushed === true;
-          const checkScriptId = `${scriptId}.${testId}.check`;
-          const virtualizedLockingScriptId = `${scriptId}.${testId}.lock`;
-          const virtualizedUnlockingScriptId = `${scriptId}.${testId}.unlock`;
-          return {
-            ...tests,
-            [checkScriptId]: { script: test.check },
-            [virtualizedLockingScriptId]: {
-              script: pushTestedScript
-                ? `<${scriptId}> ${checkScriptId}`
-                : `${scriptId} ${checkScriptId}`,
-            },
-            [virtualizedUnlockingScriptId]: {
-              script: test.setup ?? '',
-              unlocks: virtualizedLockingScriptId,
-            },
-          };
-        }, {}),
+        ...Object.entries(script.tests).reduce<WalletTemplate['scripts']>(
+          (tests, [testId, test]) => {
+            const pushTestedScript = script.pushed === true;
+            const checkScriptId = `${scriptId}.${testId}.check`;
+            const virtualizedLockingScriptId = `${scriptId}.${testId}.lock`;
+            const virtualizedUnlockingScriptId = `${scriptId}.${testId}.unlock`;
+            return {
+              ...tests,
+              [checkScriptId]: { script: test.check },
+              [virtualizedLockingScriptId]: {
+                lockingType: 'p2sh20',
+                script: pushTestedScript
+                  ? `<${scriptId}> ${checkScriptId}`
+                  : `${scriptId} ${checkScriptId}`,
+              },
+              [virtualizedUnlockingScriptId]: {
+                script: test.setup ?? '',
+                unlocks: virtualizedLockingScriptId,
+              },
+            };
+          },
+          {},
+        ),
       };
     }
     return all;
@@ -355,10 +357,10 @@ export const authenticationTemplateToCompilerConfiguration = (
           ...entityVariables,
           [variableId]: entityId,
         }),
-        {}
+        {},
       ),
     }),
-    {}
+    {},
   );
   const unlockingScripts = Object.entries(allScripts).reduce<
     CompilerConfiguration['unlockingScripts']
@@ -367,7 +369,7 @@ export const authenticationTemplateToCompilerConfiguration = (
       'unlocks' in def && (def.unlocks as string | undefined) !== undefined
         ? { ...all, [id]: def.unlocks }
         : all,
-    {}
+    {},
   );
   const unlockingScriptTimeLockTypes = Object.entries(allScripts).reduce<
     CompilerConfiguration['unlockingScriptTimeLockTypes']
@@ -376,7 +378,7 @@ export const authenticationTemplateToCompilerConfiguration = (
       'timeLockType' in def && def.timeLockType !== undefined
         ? { ...all, [id]: def.timeLockType }
         : all,
-    {}
+    {},
   );
   const lockingScriptTypes = Object.entries(allScripts).reduce<
     CompilerConfiguration['lockingScriptTypes']
@@ -386,7 +388,7 @@ export const authenticationTemplateToCompilerConfiguration = (
       (def.lockingType as string | undefined) !== undefined
         ? { ...all, [id]: def.lockingType }
         : all,
-    {}
+    {},
   );
   const scenarios =
     template.scenarios === undefined

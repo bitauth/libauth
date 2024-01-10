@@ -1,2 +1,7 @@
-# package.json is formatted by package managers, so we ignore it here
+config/eslint-config-bitauth
+wasm
+.yarn
+.pnp.*
 package.json
+src/lib/address/fixtures/key_io_*.json
+src/lib/vm/instruction-sets/xec/fixtures/satoshi-client/*.json

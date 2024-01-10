@@ -1,6 +1,5 @@
 import { createHmac } from 'crypto';
 
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import {
@@ -12,17 +11,19 @@ import {
   sha512,
 } from '../lib.js';
 
+import { fc, testProp } from '@fast-check/ava';
+
 const vectors = test.macro<
   [{ secret: string; message: string; sha256: string; sha512: string }]
 >({
   exec: (t, vector) => {
     t.deepEqual(
       hmacSha256(hexToBin(vector.secret), hexToBin(vector.message), sha256),
-      hexToBin(vector.sha256)
+      hexToBin(vector.sha256),
     );
     t.deepEqual(
       hmacSha512(hexToBin(vector.secret), hexToBin(vector.message), sha512),
-      hexToBin(vector.sha512)
+      hexToBin(vector.sha512),
     );
   },
   title: (title) => `[crypto] HMAC Test Vector #${title ?? '?'} (RFC 4231)`,
@@ -98,9 +99,9 @@ testProp(
   (t, secret, message) => {
     t.deepEqual(
       binToHex(hmacSha256(secret, message)),
-      createHmac('sha256', secret).update(message).digest('hex')
+      createHmac('sha256', secret).update(message).digest('hex'),
     );
-  }
+  },
 );
 
 testProp(
@@ -112,7 +113,7 @@ testProp(
   (t, secret, message) => {
     t.deepEqual(
       binToHex(hmacSha512(secret, message)),
-      createHmac('sha512', secret).update(message).digest('hex')
+      createHmac('sha512', secret).update(message).digest('hex'),
     );
-  }
+  },
 );

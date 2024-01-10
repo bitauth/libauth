@@ -24,19 +24,19 @@ import { cloneAuthenticationInstruction } from './instruction-sets-utils.js';
 export const undefinedOperation = conditionallyEvaluate(
   <
     State extends AuthenticationProgramStateControlStack &
-      AuthenticationProgramStateError
+      AuthenticationProgramStateError,
   >(
-    state: State
-  ) => applyError(state, AuthenticationErrorCommon.unknownOpcode)
+    state: State,
+  ) => applyError(state, AuthenticationErrorCommon.unknownOpcode),
 );
 
 export const checkLimitsCommon =
   <
     State extends AuthenticationProgramStateAlternateStack &
       AuthenticationProgramStateError &
-      AuthenticationProgramStateStack & { operationCount: number }
+      AuthenticationProgramStateStack & { operationCount: number },
   >(
-    operation: Operation<State>
+    operation: Operation<State>,
   ): Operation<State> =>
   (state: State) => {
     const nextState = operation(state);
@@ -44,17 +44,20 @@ export const checkLimitsCommon =
       ConsensusCommon.maximumStackDepth
       ? applyError(
           nextState,
-          AuthenticationErrorCommon.exceededMaximumStackDepth
+          AuthenticationErrorCommon.exceededMaximumStackDepth,
         )
       : nextState.operationCount > ConsensusCommon.maximumOperationCount
-      ? applyError(
-          nextState,
-          AuthenticationErrorCommon.exceededMaximumOperationCount
-        )
-      : nextState;
+        ? applyError(
+            nextState,
+            AuthenticationErrorCommon.exceededMaximumOperationCount,
+          )
+        : nextState;
   };
 
-export const cloneStack = (stack: readonly Readonly<Uint8Array>[]) =>
+/**
+ * @deprecated use `structuredClone` instead
+ */
+export const cloneStack = (stack: Uint8Array[]) =>
   stack.map((item) => item.slice());
 
 export const createAuthenticationProgramStateCommon = ({
@@ -62,8 +65,8 @@ export const createAuthenticationProgramStateCommon = ({
   instructions,
   stack,
 }: {
-  program: Readonly<AuthenticationProgramCommon>;
-  instructions: readonly AuthenticationInstruction[];
+  program: AuthenticationProgramCommon;
+  instructions: AuthenticationInstruction[];
   stack: Uint8Array[];
 }): AuthenticationProgramStateCommon => ({
   alternateStack: [],
@@ -78,20 +81,26 @@ export const createAuthenticationProgramStateCommon = ({
   stack,
 });
 
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneAuthenticationProgramCommon = <
-  Program extends AuthenticationProgramCommon
+  Program extends AuthenticationProgramCommon,
 >(
-  program: Readonly<Program>
+  program: Program,
 ) => ({
   inputIndex: program.inputIndex,
   sourceOutputs: cloneTransactionOutputsCommon(program.sourceOutputs),
   transaction: cloneTransactionCommon(program.transaction),
 });
 
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneAuthenticationProgramStateCommon = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateCommon,
 >(
-  state: Readonly<State>
+  state: State,
 ) => ({
   ...(state.error === undefined ? {} : { error: state.error }),
   alternateStack: cloneStack(state.alternateStack),
@@ -111,8 +120,14 @@ export const cloneAuthenticationProgramStateCommon = <
   stack: cloneStack(state.stack),
 });
 
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneAuthenticationProgramStateBCH =
   cloneAuthenticationProgramStateCommon;
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneAuthenticationProgramState =
   cloneAuthenticationProgramStateBCH;
 
@@ -126,13 +141,13 @@ export const cloneAuthenticationProgramState =
  * provided in anticipation of a future signing serialization algorithm that
  * supports committing to UTXO bytecode values.
  */
-export interface CompilationContext<
-  TransactionType extends TransactionCommon<Input<Uint8Array | undefined>>
-> {
+export type CompilationContext<
+  TransactionType extends TransactionCommon<Input<Uint8Array | undefined>>,
+> = {
   inputIndex: number;
   sourceOutputs: Output[];
   transaction: TransactionType;
-}
+};
 
 export type CompilationContextCommon = CompilationContext<
   TransactionCommon<Input<Uint8Array | undefined>>
@@ -178,16 +193,13 @@ export const createCompilationContextCommonTesting = ({
             unlockingBytecode: undefined,
           },
         ],
-    locktime: locktime === undefined ? 0 : locktime,
-    outputs:
-      outputs === undefined
-        ? [
-            {
-              lockingBytecode: Uint8Array.from([]),
-              valueSatoshis: 0xffffffffffffffffn,
-            },
-          ]
-        : outputs,
-    version: version === undefined ? 0 : version,
+    locktime: locktime ?? 0,
+    outputs: outputs ?? [
+      {
+        lockingBytecode: Uint8Array.from([]),
+        valueSatoshis: 0xffffffffffffffffn,
+      },
+    ],
+    version: version ?? 0,
   },
 });

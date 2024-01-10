@@ -34,9 +34,9 @@ export const formatError = (errorType: string, errorDetails?: string) =>
 export const unknownValue = (
   value: never,
   message = `Received an unknown value: ${String(
-    value
-  )}. This should have been caught by TypeScript - are your types correct?`
+    value,
+  )}. This should have been caught by TypeScript - are your types correct?`,
 ) => {
-  // eslint-disable-next-line functional/no-throw-statement
+  // eslint-disable-next-line functional/no-throw-statements
   throw new Error(message);
 };

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "esnext",
+    "target": "es2022",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": "src",
     "outDir": "build",
@@ -20,7 +20,7 @@
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
     // "exactOptionalPropertyTypes": true /* Enforce difference between `undefined` and optional properties */, // TODO: enable exactOptionalPropertyTypes, possibly waiting on https://github.com/microsoft/TypeScript/issues/46969#issuecomment-984083995 (or a `RequiredExactOptional` to match `PartialExactOptional`)
-    "noUncheckedIndexedAccess": true /* Require checking that an indexed access is not undefined */, // TODO: enable noUncheckedIndexedAccess
+    "noUncheckedIndexedAccess": true /* Require checking that an indexed access is not undefined */,
     "noPropertyAccessFromIndexSignature": true /* Disallow dot syntax for fields which are not defined */,
     /* Debugging Options */
     "traceResolution": false /* Report module resolution log messages. */,

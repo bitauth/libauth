@@ -4,11 +4,9 @@ import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
-  AuthenticationTemplateVariable,
   CashAssemblyScriptSegment,
   CompilationData,
   CompilationResultSuccess,
-  CompilerConfiguration,
   CompilerOperation,
   CompilerOperationResult,
   IdentifierResolutionFunction,
@@ -16,6 +14,7 @@ import type {
   Range,
   ResolvedScript,
   ResolvedSegment,
+  WalletTemplateVariable,
 } from '../lib.js';
 import { bigIntToVmNumber } from '../vm/vm.js';
 
@@ -38,12 +37,12 @@ const pluckRange = (node: MarkedNode): Range => ({
 const removeNumericSeparators = (numericLiteral: string) =>
   numericLiteral.replace(/_/gu, '');
 
-export const resolveScriptSegment = (
+export const resolveScriptSegment = <ProgramState>(
   segment: CashAssemblyScriptSegment,
-  resolveIdentifiers: IdentifierResolutionFunction
-): ResolvedScript => {
+  resolveIdentifiers: IdentifierResolutionFunction<ProgramState>,
+): ResolvedScript<ProgramState> => {
   // eslint-disable-next-line complexity
-  const resolved = segment.value.map<ResolvedSegment>((child) => {
+  const resolved = segment.value.map<ResolvedSegment<ProgramState>>((child) => {
     const range = pluckRange(child);
     switch (child.name) {
       case 'Identifier': {
@@ -59,17 +58,17 @@ export const resolveScriptSegment = (
                     opcode: identifier,
                   }
                 : result.type === IdentifierResolutionType.variable
-                ? {
-                    ...('debug' in result ? { debug: result.debug } : {}),
-                    ...('signature' in result
-                      ? { signature: result.signature }
-                      : {}),
-                    variable: identifier,
-                  }
-                : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                result.type === IdentifierResolutionType.script
-                ? { script: identifier, source: result.source }
-                : ({ unknown: identifier } as never)),
+                  ? {
+                      ...('debug' in result ? { debug: result.debug } : {}),
+                      ...('signature' in result
+                        ? { signature: result.signature }
+                        : {}),
+                      variable: identifier,
+                    }
+                  : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                    result.type === IdentifierResolutionType.script
+                    ? { script: identifier, source: result.source }
+                    : ({ unknown: identifier } as never)),
             }
           : {
               ...('debug' in result ? { debug: result.debug } : {}),
@@ -157,7 +156,7 @@ export enum BuiltInVariables {
 
 const attemptCompilerOperation = <
   CompilationContext,
-  Configuration extends AnyCompilerConfiguration<CompilationContext>
+  Configuration extends AnyCompilerConfiguration<CompilationContext>,
 >({
   data,
   configuration,
@@ -182,7 +181,7 @@ const attemptCompilerOperation = <
 }): CompilerOperationResult<true> => {
   if (matchingOperations === undefined) {
     return {
-      error: `The "${variableId}" variable type can not be resolved because the "${variableType}" operation has not been included in this compiler's CompilationEnvironment.`,
+      error: `The "${variableId}" variable type can not be resolved because the "${variableType}" operation has not been included in this compiler's configuration.`,
       status: 'error',
     };
   }
@@ -221,19 +220,19 @@ const attemptCompilerOperation = <
  */
 export const resolveVariableIdentifier = <
   CompilationContext,
-  Environment extends AnyCompilerConfiguration<CompilationContext>
+  Configuration extends AnyCompilerConfiguration<CompilationContext>,
 >({
   data,
   configuration,
   identifier,
 }: {
   data: CompilationData<CompilationContext>;
-  configuration: Environment;
+  configuration: Configuration;
   identifier: string;
 }): CompilerOperationResult<true> => {
   const [variableId, operationId] = identifier.split('.') as [
     string,
-    string | undefined
+    string | undefined,
   ];
 
   switch (variableId) {
@@ -269,7 +268,7 @@ export const resolveVariableIdentifier = <
         variableType: 'signingSerialization',
       });
     default: {
-      const expectedVariable: AuthenticationTemplateVariable | undefined =
+      const expectedVariable: WalletTemplateVariable | undefined =
         configuration.variables?.[variableId];
 
       if (expectedVariable === undefined) {
@@ -323,9 +322,9 @@ export const describeExpectedInput = (expectedArray: string[]) => {
    */
   const EOF = 'EOF';
   const newArray = expectedArray.filter((value) => value !== EOF);
-  // eslint-disable-next-line functional/no-conditional-statement
+  // eslint-disable-next-line functional/no-conditional-statements
   if (newArray.length !== expectedArray.length) {
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     newArray.push('the end of the script');
   }
   const withoutLastElement = newArray.slice(0, newArray.length - 1);
@@ -337,8 +336,8 @@ export const describeExpectedInput = (expectedArray: string[]) => {
     newArray.length >= arrayRequiresCommas
       ? withoutLastElement.join(', ').concat(`, or ${lastElement}`)
       : newArray.length === arrayRequiresOr
-      ? newArray.join(' or ')
-      : lastElement
+        ? newArray.join(' or ')
+        : lastElement
   }.`;
 };
 
@@ -359,14 +358,14 @@ export const compileScriptRaw = <
     AuthenticationProgramStateStack = AuthenticationProgramStateControlStack &
     AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
-  CompilationContext = unknown
+  CompilationContext = unknown,
 >({
   data,
   configuration,
   scriptId,
 }: {
   data: CompilationData<CompilationContext>;
-  configuration: CompilerConfiguration<CompilationContext>;
+  configuration: AnyCompilerConfiguration<CompilationContext>;
   scriptId: string;
 }): CompilationResult<ProgramState> => {
   const script = configuration.scripts[scriptId];
@@ -389,7 +388,7 @@ export const compileScriptRaw = <
       errors: [
         {
           error: `A circular dependency was encountered: script "${scriptId}" relies on itself to be generated. (Source scripts: ${configuration.sourceScriptIds.join(
-            ' → '
+            ' → ',
           )})`,
           range: createEmptyRange(),
         },
@@ -437,7 +436,7 @@ export const resolveScriptIdentifier = <CompilationContext, ProgramState>({
   /**
    * the provided {@link CompilerConfiguration}
    */
-  configuration: CompilerConfiguration<CompilationContext>;
+  configuration: AnyCompilerConfiguration<CompilationContext>;
 }): CompilationResultSuccess<ProgramState> | string | false => {
   if (configuration.scripts[identifier] === undefined) {
     return false;
@@ -453,7 +452,7 @@ export const resolveScriptIdentifier = <CompilationContext, ProgramState>({
   }
 
   return `Compilation error in resolved script "${identifier}": ${stringifyErrors(
-    result.errors
+    result.errors,
   )}`;
 };
 
@@ -465,7 +464,7 @@ export const resolveScriptIdentifier = <CompilationContext, ProgramState>({
  * `IdentifierResolutionFunction` will be used.
  */
 export const createIdentifierResolver =
-  <CompilationContext>({
+  <CompilationContext, ProgramState>({
     data,
     configuration,
   }: {
@@ -478,10 +477,12 @@ export const createIdentifierResolver =
      * A snapshot of the configuration around `scriptId`, see
      * {@link CompilerConfiguration} for details
      */
-    configuration: CompilerConfiguration<CompilationContext>;
-  }): IdentifierResolutionFunction =>
+    configuration: AnyCompilerConfiguration<CompilationContext>;
+  }): IdentifierResolutionFunction<ProgramState> =>
   // eslint-disable-next-line complexity
-  (identifier: string): ReturnType<IdentifierResolutionFunction> => {
+  (
+    identifier: string,
+  ): ReturnType<IdentifierResolutionFunction<ProgramState>> => {
     const opcodeResult: Uint8Array | undefined =
       configuration.opcodes?.[identifier];
     if (opcodeResult !== undefined) {
@@ -543,7 +544,7 @@ export const createIdentifierResolver =
           }
         : {
             bytecode: scriptResult.bytecode,
-            source: scriptResult.resolve,
+            source: scriptResult,
             status: true,
             type: IdentifierResolutionType.script,
           };
@@ -563,7 +564,7 @@ export const compileScriptContents = <
   ProgramState extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateStack = AuthenticationProgramStateControlStack &
     AuthenticationProgramStateStack,
-  CompilationContext = unknown
+  CompilationContext = unknown,
 >({
   data,
   configuration,
@@ -571,7 +572,7 @@ export const compileScriptContents = <
 }: {
   script: string;
   data: CompilationData<CompilationContext>;
-  configuration: CompilerConfiguration<CompilationContext>;
+  configuration: AnyCompilerConfiguration<CompilationContext>;
 }): CompilationResult<ProgramState> => {
   const parseResult = parseScript(script);
   if (!parseResult.status) {
@@ -606,7 +607,7 @@ export const compileScriptContents = <
   const reduction = reduceScript<ProgramState, unknown, unknown>(
     resolvedScript,
     configuration.vm,
-    configuration.createAuthenticationProgram
+    configuration.createAuthenticationProgram,
   );
   return {
     ...(reduction.errors === undefined

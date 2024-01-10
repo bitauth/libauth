@@ -66,11 +66,8 @@ export enum AuthenticationErrorCommon {
 export const applyError = <State extends AuthenticationProgramStateError>(
   state: State,
   errorType: string,
-  errorDetails?: string
+  errorDetails?: string,
 ): State => ({
   ...state,
-  error:
-    state.error === undefined
-      ? formatError(errorType, errorDetails)
-      : state.error,
+  error: state.error ?? formatError(errorType, errorDetails),
 });

@@ -1,12 +1,12 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import type { AuthenticationTemplate } from '../../lib.js';
+import type { WalletTemplate } from '../../lib.js';
 import { CompilerDefaults } from '../../lib.js';
 
 const secondsIn30Days = 2592000;
 
-export const twoOfTwoRecoverable: AuthenticationTemplate = {
+export const twoOfTwoRecoverable: WalletTemplate = {
   ...{ name: '2-of-2 Recoverable Vault' },
-  $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
+  $schema: 'https://libauth.org/schemas/wallet-template-v0.schema.json',
   description:
     'A 2-of-2 wallet, which after a specified delay, can be recovered by either of the original two keys and a signature from a trusted user (e.g. an attorney).\n\nIn this implementation, all wallet addresses become recoverable at the same time. To "bump" the recovery time to a later date, create a new wallet and transfer the funds.\n\nThis scheme is described in more detail in BIP-65.',
   entities: {

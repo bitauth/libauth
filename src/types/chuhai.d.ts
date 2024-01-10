@@ -3,31 +3,31 @@ declare module 'chuhai' {
   function suite(implementation: (s: Helper) => void): Promise<void>;
   function suite(
     name: string,
-    implementation: (s: Helper) => void
+    implementation: (s: Helper) => void,
   ): Promise<void>;
   // eslint-disable-next-line import/no-default-export
   export default suite;
 }
 
-interface Helper {
+type Helper = {
   cycle: (implementation: () => void) => void;
   bench: (
     name: string,
     implementation: Benchmark,
-    opts?: BenchmarkOptions
+    opts?: BenchmarkOptions,
   ) => void;
   burn: (
     name: string,
     implementation: Benchmark,
-    opts?: BenchmarkOptions
+    opts?: BenchmarkOptions,
   ) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   set: (key: string, value: any) => void;
-}
+};
 
 type Benchmark = (deferred: { resolve: () => void }) => void;
 
-interface BenchmarkOptions {
+type BenchmarkOptions = {
   async?: boolean;
   defer?: boolean;
-}
+};

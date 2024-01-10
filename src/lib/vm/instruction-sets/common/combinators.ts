@@ -16,18 +16,18 @@ import {
 
 export const incrementOperationCount =
   <State extends { operationCount: number }>(
-    operation: Operation<State>
+    operation: Operation<State>,
   ): Operation<State> =>
   (state: State) => {
     const nextState = operation(state);
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     nextState.operationCount += 1;
     return nextState;
   };
 
 export const conditionallyEvaluate =
   <State extends AuthenticationProgramStateControlStack>(
-    operation: Operation<State>
+    operation: Operation<State>,
   ): Operation<State> =>
   (state: State) =>
     state.controlStack.every((item) => item) ? operation(state) : state;
@@ -41,7 +41,7 @@ export const conditionallyEvaluate =
  */
 export const mapOverOperations = <State>(
   combinators: ((operation: Operation<State>) => Operation<State>)[],
-  operationMap: InstructionSetOperationMapping<State>
+  operationMap: InstructionSetOperationMapping<State>,
 ) =>
   Object.keys(operationMap).reduce<InstructionSetOperationMapping<State>>(
     (result, opcode) => ({
@@ -49,10 +49,10 @@ export const mapOverOperations = <State>(
       [opcode]: combinators.reduce<Operation<State>>(
         (op, combinator) => combinator(op),
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        operationMap[Number(opcode)]!
+        operationMap[Number(opcode)]!,
       ),
     }),
-    {}
+    {},
   );
 
 /**
@@ -60,10 +60,10 @@ export const mapOverOperations = <State>(
  */
 export const useOneStackItem = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
-  operation: (nextState: State, [value]: [Uint8Array]) => State
+  operation: (nextState: State, [value]: [Uint8Array]) => State,
 ) => {
   // eslint-disable-next-line functional/immutable-data
   const item = state.stack.pop();
@@ -75,39 +75,39 @@ export const useOneStackItem = <
 
 export const useTwoStackItems = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   operation: (
     nextState: State,
-    [valueTop, valueTwo]: [Uint8Array, Uint8Array]
-  ) => State
+    [valueTop, valueTwo]: [Uint8Array, Uint8Array],
+  ) => State,
 ) =>
   useOneStackItem(state, (nextState, [valueTwo]) =>
     useOneStackItem(nextState, (lastState, [valueTop]) =>
-      operation(lastState, [valueTop, valueTwo])
-    )
+      operation(lastState, [valueTop, valueTwo]),
+    ),
   );
 
 export const useThreeStackItems = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   operation: (
     nextState: State,
-    [valueTop, valueTwo, valueThree]: [Uint8Array, Uint8Array, Uint8Array]
-  ) => State
+    [valueTop, valueTwo, valueThree]: [Uint8Array, Uint8Array, Uint8Array],
+  ) => State,
 ) =>
   useOneStackItem(state, (nextState, [valueThree]) =>
     useTwoStackItems(nextState, (lastState, [valueTop, valueTwo]) =>
-      operation(lastState, [valueTop, valueTwo, valueThree])
-    )
+      operation(lastState, [valueTop, valueTwo, valueThree]),
+    ),
   );
 
 export const useFourStackItems = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   operation: (
@@ -116,19 +116,19 @@ export const useFourStackItems = <
       Uint8Array,
       Uint8Array,
       Uint8Array,
-      Uint8Array
-    ]
-  ) => State
+      Uint8Array,
+    ],
+  ) => State,
 ) =>
   useTwoStackItems(state, (nextState, [valueThree, valueFour]) =>
     useTwoStackItems(nextState, (lastState, [valueTop, valueTwo]) =>
-      operation(lastState, [valueTop, valueTwo, valueThree, valueFour])
-    )
+      operation(lastState, [valueTop, valueTwo, valueThree, valueFour]),
+    ),
   );
 
 export const useSixStackItems = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   operation: (
@@ -139,9 +139,9 @@ export const useSixStackItems = <
       Uint8Array,
       Uint8Array,
       Uint8Array,
-      Uint8Array
-    ]
-  ) => State
+      Uint8Array,
+    ],
+  ) => State,
 ) =>
   useFourStackItems(
     state,
@@ -154,15 +154,15 @@ export const useSixStackItems = <
           valueFour,
           valueFive,
           valueSix,
-        ])
-      )
+        ]),
+      ),
   );
 
 const typicalMaximumVmNumberByteLength = 8;
 
 export const useOneVmNumber = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   operation: (nextState: State, [value]: [bigint]) => State,
@@ -175,7 +175,7 @@ export const useOneVmNumber = <
   } = {
     maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
     requireMinimalEncoding: true,
-  }
+  },
 ) =>
   useOneStackItem(state, (nextState, [item]) => {
     const value = vmNumberToBigInt(item, {
@@ -190,12 +190,12 @@ export const useOneVmNumber = <
 
 export const useTwoVmNumbers = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   operation: (
     nextState: State,
-    [firstValue, secondValue]: [bigint, bigint]
+    [firstValue, secondValue]: [bigint, bigint],
   ) => State,
   {
     maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
@@ -206,7 +206,7 @@ export const useTwoVmNumbers = <
   } = {
     maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
     requireMinimalEncoding: true,
-  }
+  },
 ) =>
   useOneVmNumber(
     state,
@@ -218,22 +218,22 @@ export const useTwoVmNumbers = <
         {
           maximumVmNumberByteLength,
           requireMinimalEncoding,
-        }
+        },
       ),
     {
       maximumVmNumberByteLength,
       requireMinimalEncoding,
-    }
+    },
   );
 
 export const useThreeVmNumbers = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   operation: (
     nextState: State,
-    [firstValue, secondValue, thirdValue]: [bigint, bigint, bigint]
+    [firstValue, secondValue, thirdValue]: [bigint, bigint, bigint],
   ) => State,
   {
     maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
@@ -244,7 +244,7 @@ export const useThreeVmNumbers = <
   } = {
     maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
     requireMinimalEncoding: true,
-  }
+  },
 ) =>
   useTwoVmNumbers(
     state,
@@ -256,12 +256,12 @@ export const useThreeVmNumbers = <
         {
           maximumVmNumberByteLength,
           requireMinimalEncoding,
-        }
+        },
       ),
     {
       maximumVmNumberByteLength,
       requireMinimalEncoding,
-    }
+    },
   );
 
 /**
@@ -271,9 +271,10 @@ export const useThreeVmNumbers = <
  */
 export const pushToStack = <State extends AuthenticationProgramStateStack>(
   state: State,
+  // eslint-disable-next-line functional/functional-parameters
   ...data: Uint8Array[]
 ) => {
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.stack.push(...data);
   return state;
 };
@@ -286,19 +287,19 @@ export const pushToStack = <State extends AuthenticationProgramStateStack>(
  */
 export const pushToStackChecked = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   item: Uint8Array,
-  maximumLength = ConsensusCommon.maximumStackItemLength
+  maximumLength = ConsensusCommon.maximumStackItemLength as number,
 ) => {
   if (item.length > maximumLength) {
     return applyError(
       state,
-      `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${item.length} bytes.`
+      `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${item.length} bytes.`,
     );
   }
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.stack.push(item);
   return state;
 };
@@ -310,10 +311,10 @@ export const pushToStackChecked = <
  */
 export const pushToStackVmNumber = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
-  vmNumber: bigint
+  vmNumber: bigint,
 ) => pushToStack(state, bigIntToVmNumber(vmNumber));
 
 /**
@@ -324,13 +325,13 @@ export const pushToStackVmNumber = <
  */
 export const pushToStackVmNumberChecked = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
   vmNumber: bigint,
   minVmNumber = BigInt(ConsensusCommon.minVmNumber),
-  maxVmNumber = BigInt(ConsensusCommon.maxVmNumber)
-  // eslint-disable-next-line max-params
+  maxVmNumber = BigInt(ConsensusCommon.maxVmNumber),
+  // eslint-disable-next-line @typescript-eslint/max-params
 ) => {
   if (vmNumber > maxVmNumber || vmNumber < minVmNumber) {
     return applyError(state, AuthenticationErrorCommon.overflowsVmNumberRange);
@@ -341,7 +342,7 @@ export const pushToStackVmNumberChecked = <
 export const combineOperations =
   <State>(
     firstOperation: Operation<State>,
-    secondOperation: Operation<State>
+    secondOperation: Operation<State>,
   ) =>
   (state: State) =>
     secondOperation(firstOperation(state));

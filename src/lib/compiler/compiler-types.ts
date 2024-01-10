@@ -1,7 +1,5 @@
 import type {
   AuthenticationProgramCommon,
-  AuthenticationTemplateScenario,
-  AuthenticationTemplateVariable,
   AuthenticationVirtualMachine,
   CompilationContextBCH,
   CompilationResult,
@@ -10,39 +8,40 @@ import type {
   Secp256k1,
   Sha256,
   Sha512,
+  WalletTemplateScenario,
+  WalletTemplateVariable,
 } from '../lib.js';
 
-export interface CompilerOperationDebug {
+export type CompilerOperationDebug = {
   /**
    * An additional, complex property that may be returned by custom compiler
    * operations. For use in extending the compiler to support additional return
    * information like {@link CompilerOperationSuccessSignature}.
    */
   debug?: unknown;
-}
+};
 
 /**
  * A non-recoverable error in a compiler operation. This is any error that
  * cannot be resolved by simply providing a missing variable.
  */
-export interface CompilerOperationErrorFatal extends CompilerOperationDebug {
+export type CompilerOperationErrorFatal = CompilerOperationDebug & {
   status: 'error';
   error: string;
-}
+};
 
 /**
  * A recoverable error in a compiler operation. This occurs when a required
  * variable was not provided.
  */
-export interface CompilerOperationErrorRecoverable
-  extends CompilerOperationErrorFatal {
+export type CompilerOperationErrorRecoverable = CompilerOperationErrorFatal & {
   /**
    * The full identifier (including any compilation operations) of the variable
    * missing from compilation, e.g. `my_key.signature.all_outputs` or
    * `my_key.public_key`.
    */
   recoverable: true;
-}
+};
 
 /**
  * An unsuccessful compiler operation result.
@@ -58,11 +57,10 @@ export type CompilerOperationSuccess =
   | CompilerOperationSuccessGeneric
   | CompilerOperationSuccessSignatureType;
 
-export interface CompilerOperationSuccessGeneric
-  extends CompilerOperationDebug {
+export type CompilerOperationSuccessGeneric = CompilerOperationDebug & {
   status: 'success';
   bytecode: Uint8Array;
-}
+};
 
 /**
  * A successful signature-generation compiler operation. This provides slightly
@@ -77,42 +75,42 @@ export type CompilerOperationSuccessSignatureType =
 /**
  * The result of a successful `signature` compiler operation.
  */
-export interface CompilerOperationSuccessSignature
-  extends CompilerOperationSuccessGeneric {
-  signature: {
-    /**
-     * The transaction signing serialization signed by a signature. This signing
-     * serialization is hashed twice with `sha256`, and the digest is signed.
-     */
-    serialization: Uint8Array;
+export type CompilerOperationSuccessSignature =
+  CompilerOperationSuccessGeneric & {
+    signature: {
+      /**
+       * The transaction signing serialization signed by a signature. This signing
+       * serialization is hashed twice with `sha256`, and the digest is signed.
+       */
+      serialization: Uint8Array;
+    };
   };
-}
 
 /**
  * The result of a successful `data_signature` compiler operation.
  */
-export interface CompilerOperationSuccessDataSignature
-  extends CompilerOperationSuccessGeneric {
-  signature: {
-    /**
-     * The digest of the raw message signed by a data signature.
-     */
-    digest: Uint8Array;
-    /**
-     * The raw message signed by a data signature. This message is hashed once
-     * with `sha256`, and the digest is signed.
-     */
-    message: Uint8Array;
+export type CompilerOperationSuccessDataSignature =
+  CompilerOperationSuccessGeneric & {
+    signature: {
+      /**
+       * The digest of the raw message signed by a data signature.
+       */
+      digest: Uint8Array;
+      /**
+       * The raw message signed by a data signature. This message is hashed once
+       * with `sha256`, and the digest is signed.
+       */
+      message: Uint8Array;
+    };
   };
-}
 
 /**
  * An unsuccessful compiler operation result that should be skipped by the
  * compiler. See {@link attemptCompilerOperations} for details.
  */
-export interface CompilerOperationSkip {
+export type CompilerOperationSkip = {
   status: 'skip';
-}
+};
 
 export type CompilerOperationResult<CanBeSkipped extends boolean = false> =
   CanBeSkipped extends true
@@ -142,12 +140,14 @@ export type CompilerOperationResult<CanBeSkipped extends boolean = false> =
 export type CompilerOperation<
   CompilationContext = unknown,
   CanBeSkipped extends boolean = false,
-  Data extends CompilationData<CompilationContext> = CompilationData<CompilationContext>,
-  Configuration extends AnyCompilerConfiguration<CompilationContext> = CompilerConfiguration<CompilationContext>
+  Data extends
+    CompilationData<CompilationContext> = CompilationData<CompilationContext>,
+  Configuration extends
+    AnyCompilerConfiguration<CompilationContext> = AnyCompilerConfiguration<CompilationContext>,
 > = (
   identifier: string,
   data: Data,
-  configuration: Configuration
+  configuration: Configuration,
 ) => CompilerOperationResult<CanBeSkipped>;
 
 export type CompilerOperationsKeysCommon = 'public_key' | 'signature';
@@ -211,7 +211,7 @@ export type CompilerOperationsSigningSerializationCommon =
  *
  * @remarks
  * A {@link CompilerConfiguration} must include a subset of the script's
- * {@link AuthenticationTemplate} – all the variables and scripts referenced
+ * {@link WalletTemplate} – all the variables and scripts referenced
  * (including children of children) by the script in question.
  *
  * The context must also include an object mapping of opcode identifiers to the
@@ -243,7 +243,7 @@ export type CompilerOperationsSigningSerializationCommon =
  * operations for `current_block_time` variables or `false` if only a single
  * compiler operation is used for all instances (default: `false`)
  */
-export interface CompilerConfiguration<
+export type CompilerConfiguration<
   CompilationContext = unknown,
   CompilerKeyOperations extends string | false = CompilerOperationsKeysCommon,
   CompilerSigningSerializationOperations extends
@@ -252,8 +252,8 @@ export interface CompilerConfiguration<
   CompilerAddressDataOperations extends string | false = false,
   CompilerWalletDataOperations extends string | false = false,
   CompilerCurrentBlockHeightOperations extends string | false = false,
-  CompilerCurrentBlockTimeOperations extends string | false = false
-> {
+  CompilerCurrentBlockTimeOperations extends string | false = false,
+> = {
   /**
    * A method that accepts the compiled bytecode contents of a CashAssembly
    * evaluation and produces the equivalent {@link AuthenticationProgram} to be
@@ -263,7 +263,7 @@ export interface CompilerConfiguration<
    */
   createAuthenticationProgram?:
     | ((
-        evaluationBytecode: Uint8Array
+        evaluationBytecode: Uint8Array,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ) => any)
     | undefined;
@@ -378,11 +378,9 @@ export interface CompilerConfiguration<
   ripemd160?: { hash: Ripemd160['hash'] } | undefined;
   /**
    * An object mapping scenario identifiers to the
-   * {@link AuthenticationTemplateScenario}s they represent.
+   * {@link WalletTemplateScenario}s they represent.
    */
-  scenarios?:
-    | { [scriptId: string]: AuthenticationTemplateScenario }
-    | undefined;
+  scenarios?: { [scriptId: string]: WalletTemplateScenario } | undefined;
   /**
    * An object mapping script identifiers to the text of script in CashAssembly.
    *
@@ -447,7 +445,7 @@ export interface CompilerConfiguration<
    * The `height` type indicates that the transaction's locktime is provided as
    * a block height (the `locktime` value is less than `500000000`).
    *
-   * See {@link AuthenticationTemplateScript.timeLockType} for details.
+   * See {@link WalletTemplateScript.timeLockType} for details.
    */
   unlockingScriptTimeLockTypes?:
     | {
@@ -457,27 +455,25 @@ export interface CompilerConfiguration<
 
   /**
    * An object mapping template variable identifiers to the
-   * {@link AuthenticationTemplateVariable} describing them.
+   * {@link WalletTemplateVariable} describing them.
    *
    * To avoid compilation errors, this object must contain all variables
    * referenced by the script being compiled (including in child scripts).
    */
-  variables?:
-    | { [variableId: string]: AuthenticationTemplateVariable }
-    | undefined;
+  variables?: { [variableId: string]: WalletTemplateVariable } | undefined;
   /**
    * The {@link AuthenticationVirtualMachine} on which CashAssembly `evaluation`
    * results will be computed.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   vm?: AuthenticationVirtualMachine<any, any, any> | undefined;
-}
+};
 
 /**
  * Data required at compilation time to generate the bytecode for a particular
  * CashAssembly Template script.
  */
-export interface CompilationData<CompilationContext = CompilationContextBCH> {
+export type CompilationData<CompilationContext = CompilationContextBCH> = {
   /**
    * A map of full identifiers to pre-computed bytecode for this compilation.
    *
@@ -590,7 +586,7 @@ export interface CompilationData<CompilationContext = CompilationContextBCH> {
    * operations used in the compilation.
    */
   compilationContext?: CompilationContext;
-}
+};
 
 /**
  * Any compiler configuration, where each data type may use either a single or
@@ -612,7 +608,7 @@ export type AnyCompilerConfiguration<CompilationContext> =
  * irrelevant.
  */
 export type AnyCompilerConfigurationIgnoreOperations<
-  CompilationContext = CompilationContextBCH
+  CompilationContext = CompilationContextBCH,
 > = Omit<AnyCompilerConfiguration<CompilationContext>, 'operations'>;
 
 export type BytecodeGenerationResult<ProgramState> =
@@ -623,26 +619,26 @@ export type BytecodeGenerationResult<ProgramState> =
     };
 
 /**
- * A fully-generated authentication template scenario. Useful for estimating
- * transactions and testing/debugging authentication templates. See
- * {@link AuthenticationTemplateScenario} for details.
+ * A fully-generated wallet template scenario. Useful for estimating
+ * transactions and testing/debugging wallet templates. See
+ * {@link WalletTemplateScenario} for details.
  */
-export interface Scenario {
+export type Scenario = {
   data: CompilationData;
   program: AuthenticationProgramCommon;
-}
+};
 
 /**
  * A scenario generation result that includes all compilation information for
  * the scripts under test (in the scenario's "slot"s). This allows
- * authentication template editors to display debugging information in context.
+ * wallet template editors to display debugging information in context.
  *
  * Note, scenarios can also include compilations for source outputs, inputs, and
  * outputs that are not under test – while debugging information is not
  * provided for these other compilations, any errors will result in `scenario`
  * being set to an error message (`string`).
  */
-export interface ScenarioGenerationDebuggingResult<ProgramState> {
+export type ScenarioGenerationDebuggingResult<ProgramState> = {
   /**
    * Either the compiled scenario or an error message describing the scenario
    * generation failure.
@@ -660,18 +656,18 @@ export interface ScenarioGenerationDebuggingResult<ProgramState> {
    * compilation).
    */
   unlockingCompilation?: CompilationResult<ProgramState>;
-}
+};
 
 /**
  * A {@link Compiler} is a wrapper around a specific
  * {@link CompilerConfiguration} that exposes a purely-functional interface and
  * allows for stronger type checking.
  */
-export interface Compiler<
+export type Compiler<
   CompilationContext,
   Configuration extends AnyCompilerConfiguration<CompilationContext>,
-  ProgramState
-> {
+  ProgramState,
+> = {
   configuration: Configuration;
   /**
    * Generate the bytecode for the given script and compilation data.
@@ -735,4 +731,4 @@ export interface Compiler<
     | (Debug extends true
         ? ScenarioGenerationDebuggingResult<ProgramState>
         : Scenario);
-}
+};

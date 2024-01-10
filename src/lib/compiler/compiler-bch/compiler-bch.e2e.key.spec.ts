@@ -18,13 +18,13 @@ test.failing(
   { keys: { privateKeys: { owner: privkey } } },
   {
     bytecode: hexToBin(
-      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
+      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241',
     ),
     success: true,
   },
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test.failing(
@@ -34,13 +34,13 @@ test.failing(
   { keys: { privateKeys: { owner: privkey } } },
   {
     bytecode: hexToBin(
-      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
+      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41',
     ),
     success: true,
   },
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -50,13 +50,13 @@ test(
   { keys: { privateKeys: { owner: privkey } } },
   {
     bytecode: hexToBin(
-      '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+      '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
     ),
     success: true,
   },
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -83,7 +83,7 @@ test(
   {
     owner: { type: 'Key' },
   },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -93,20 +93,20 @@ test(
   {
     bytecode: {
       'owner.public_key': hexToBin(
-        '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
       ),
     },
   },
   {
     bytecode: hexToBin(
-      '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+      '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
     ),
     success: true,
   },
   {
     owner: { type: 'Key' },
   },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -139,7 +139,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -149,21 +149,21 @@ test(
   {
     bytecode: {
       'owner.signature.all_outputs': hexToBin(
-        '3044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
+        '3044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241',
       ),
     },
     keys: {},
   },
   {
     bytecode: hexToBin(
-      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
+      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241',
     ),
     success: true,
   },
   {
     owner: { type: 'Key' },
   },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -173,19 +173,19 @@ test(
   {
     bytecode: {
       'owner.schnorr_signature.all_outputs': hexToBin(
-        '313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
+        '313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41',
       ),
     },
   },
   {
     bytecode: hexToBin(
-      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
+      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41',
     ),
     success: true,
   },
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -211,7 +211,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -239,7 +239,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -267,7 +267,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -295,7 +295,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -320,7 +320,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -345,7 +345,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -371,7 +371,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'Key' },
-  }
+  },
 );
 
 test(
@@ -398,7 +398,7 @@ test(
   {
     owner: { type: 'Key' },
   },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -425,7 +425,7 @@ test(
   {
     owner: { type: 'Key' },
   },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -452,7 +452,7 @@ test(
   {
     owner: { type: 'Key' },
   },
-  { sha256: undefined }
+  { sha256: undefined },
 );
 
 test(
@@ -479,7 +479,7 @@ test(
   {
     owner: { type: 'Key' },
   },
-  { sha256: undefined }
+  { sha256: undefined },
 );
 
 test(
@@ -511,5 +511,5 @@ test(
       lock: 'invalid',
       test: '<owner.signature.all_outputs>',
     },
-  }
+  },
 );

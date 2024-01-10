@@ -17,7 +17,7 @@ export const instantiateHmacFunction =
   (hashFunction: (input: Uint8Array) => Uint8Array, blockByteLength: number) =>
   (secret: Uint8Array, message: Uint8Array) => {
     const key = new Uint8Array(blockByteLength).fill(0);
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     key.set(secret.length > blockByteLength ? hashFunction(secret) : secret, 0);
 
     const innerPaddingFill = 0x36;
@@ -51,7 +51,7 @@ const sha256BlockByteLength = 64;
 export const hmacSha256 = (
   secret: Uint8Array,
   message: Uint8Array,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) =>
   instantiateHmacFunction(sha256.hash, sha256BlockByteLength)(secret, message);
 
@@ -72,6 +72,6 @@ const sha512BlockByteLength = 128;
 export const hmacSha512 = (
   secret: Uint8Array,
   message: Uint8Array,
-  sha512: { hash: Sha512['hash'] } = internalSha512
+  sha512: { hash: Sha512['hash'] } = internalSha512,
 ) =>
   instantiateHmacFunction(sha512.hash, sha512BlockByteLength)(secret, message);

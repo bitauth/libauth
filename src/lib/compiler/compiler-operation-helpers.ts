@@ -2,7 +2,6 @@ import { decodeHdPrivateKey, deriveHdPath } from '../key/key.js';
 import { resolveScriptIdentifier } from '../language/language.js';
 import type {
   AnyCompilerConfiguration,
-  AuthenticationTemplateHdKey,
   CompilationContextBCH,
   CompilationData,
   CompilerConfiguration,
@@ -10,6 +9,7 @@ import type {
   CompilerOperationErrorFatal,
   CompilerOperationResult,
   CompilerOperationSkip,
+  WalletTemplateHdKey,
 } from '../lib.js';
 
 import { CompilerDefaults } from './compiler-defaults.js';
@@ -27,10 +27,10 @@ import { CompilerDefaults } from './compiler-defaults.js';
 export const attemptCompilerOperations =
   <CompilationContext = CompilationContextBCH>(
     operations: CompilerOperation<CompilationContext, true>[],
-    finalOperation: CompilerOperation<CompilationContext>
+    finalOperation: CompilerOperation<CompilationContext>,
   ): CompilerOperation<CompilationContext> =>
   (identifier, data, configuration) => {
-    // eslint-disable-next-line functional/no-loop-statement
+    // eslint-disable-next-line functional/no-loop-statements
     for (const operation of operations) {
       const result = operation(identifier, data, configuration);
       if (result.status !== 'skip') return result;
@@ -51,7 +51,7 @@ export const compilerOperationRequires =
     CanBeSkipped extends boolean,
     RequiredDataProperties extends keyof CompilationData<unknown>,
     RequiredConfigurationProperties extends keyof CompilerConfiguration,
-    CompilationContext = CompilationContextBCH
+    CompilationContext = CompilationContextBCH,
   >({
     /**
      * If `true`, the accepted operation may return `false`, and any missing
@@ -89,12 +89,12 @@ export const compilerOperationRequires =
             CompilerConfiguration<CompilationContext>,
             RequiredConfigurationProperties
           >
-        >
+        >,
     ) => CompilerOperationResult<CanBeSkipped>;
   }): CompilerOperation<CompilationContext, CanBeSkipped> =>
   // eslint-disable-next-line complexity
   (identifier, data, configuration) => {
-    // eslint-disable-next-line functional/no-loop-statement
+    // eslint-disable-next-line functional/no-loop-statements
     for (const property of configurationProperties) {
       if (configuration[property] === undefined)
         return (
@@ -108,7 +108,7 @@ export const compilerOperationRequires =
           ? CompilerOperationSkip
           : CompilerOperationErrorFatal;
     }
-    // eslint-disable-next-line functional/no-loop-statement
+    // eslint-disable-next-line functional/no-loop-statements
     for (const property of dataProperties) {
       if (
         (data[property] as (typeof data)[typeof property] | undefined) ===
@@ -137,7 +137,7 @@ export const compilerOperationRequires =
             CompilerConfiguration<CompilationContext>,
             RequiredConfigurationProperties
           >
-        >
+        >,
     );
   };
 
@@ -173,7 +173,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
     sha256: NonNullable<CompilerConfiguration['sha256']>;
     sha512: NonNullable<CompilerConfiguration['sha512']>;
   };
-  hdKey: AuthenticationTemplateHdKey;
+  hdKey: WalletTemplateHdKey;
   identifier: string;
 }): CompilerOperationResult => {
   const addressOffset =
@@ -203,7 +203,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
   const instanceNode = deriveHdPath(
     masterContents.node,
     instancePath,
-    configuration
+    configuration,
   );
 
   if (typeof instanceNode === 'string') {
@@ -221,7 +221,7 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
 
 export const compilerOperationHelperUnknownEntity = (
   identifier: string,
-  variableId: string
+  variableId: string,
 ) => ({
   error: `Identifier "${identifier}" refers to an HdKey, but the "entityOwnership" for "${variableId}" is not available in this compiler configuration.`,
   status: 'error' as const,
@@ -274,9 +274,7 @@ export const compilerOperationHelperDeriveHdKeyPrivate = ({
   /**
    * Guaranteed to be an `HdKey` if this method is reached in the compiler.
    */
-  const hdKey = configuration.variables[
-    variableId
-  ] as AuthenticationTemplateHdKey;
+  const hdKey = configuration.variables[variableId] as WalletTemplateHdKey;
 
   return compilerOperationHelperDeriveHdPrivateNode({
     addressIndex,
@@ -331,7 +329,7 @@ export const compilerOperationHelperCompileScript = <CompilationContext>({
  * {@link CompilerOperationErrorFatal}.
  */
 export const compilerOperationHelperGenerateCoveredBytecode = <
-  CompilationContext
+  CompilationContext,
 >({
   data,
   configuration,

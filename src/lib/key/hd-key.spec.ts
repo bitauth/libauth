@@ -1,6 +1,4 @@
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
-import bitcoreLibCash from 'bitcore-lib-cash';
 
 import type {
   HdKeyParameters,
@@ -36,6 +34,9 @@ import {
   validateSecp256k1PrivateKey,
 } from '../lib.js';
 
+import { fc, testProp } from '@fast-check/ava';
+import bitcoreLibCash from 'bitcore-lib-cash';
+
 const seed = Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
 const xprv =
@@ -61,24 +62,24 @@ const crypto = { ripemd160, secp256k1, sha256, sha512 };
 test('[crypto] deriveHdPrivateNodeFromSeed', (t) => {
   const valid = {
     chainCode: hexToBin(
-      '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+      '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
     ),
     childIndex: 0,
     depth: 0,
     parentFingerprint: hexToBin('00000000'),
     privateKey: hexToBin(
-      '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
+      '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4',
     ),
     valid: true,
   } as HdPrivateNodeValid;
   const invalid = {
     chainCode: hexToBin(
-      '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+      '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
     ),
     childIndex: 0,
     depth: 0,
     invalidPrivateKey: hexToBin(
-      '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
+      '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4',
     ),
     parentFingerprint: hexToBin('00000000'),
     valid: false,
@@ -94,15 +95,15 @@ test('[crypto] deriveHdPrivateNodeFromSeed', (t) => {
 
 test('[crypto] deriveHdPrivateNodeIdentifier', (t) => {
   const { node } = decodeHdPrivateKey(
-    xprv
+    xprv,
   ) as HdKeyParameters<HdPrivateNodeValid>;
   t.deepEqual(
     deriveHdPrivateNodeIdentifier(node),
-    hexToBin('15c918d389673c6cd0660050f268a843361e1111')
+    hexToBin('15c918d389673c6cd0660050f268a843361e1111'),
   );
   t.deepEqual(
     deriveHdPrivateNodeIdentifier(node, crypto),
-    hexToBin('15c918d389673c6cd0660050f268a843361e1111')
+    hexToBin('15c918d389673c6cd0660050f268a843361e1111'),
   );
 });
 
@@ -110,11 +111,11 @@ test('[crypto] deriveHdPublicNodeIdentifier', (t) => {
   const { node } = decodeHdPublicKey(xpub) as HdKeyParameters<HdPublicNode>;
   t.deepEqual(
     deriveHdPublicNodeIdentifier(node),
-    hexToBin('15c918d389673c6cd0660050f268a843361e1111')
+    hexToBin('15c918d389673c6cd0660050f268a843361e1111'),
   );
   t.deepEqual(
     deriveHdPublicNodeIdentifier(node, crypto),
-    hexToBin('15c918d389673c6cd0660050f268a843361e1111')
+    hexToBin('15c918d389673c6cd0660050f268a843361e1111'),
   );
 });
 
@@ -122,13 +123,13 @@ test('[crypto] decodeHdKey', (t) => {
   t.deepEqual(decodeHdKey(xprv), {
     node: {
       chainCode: hexToBin(
-        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
       ),
       childIndex: 0,
       depth: 0,
       parentFingerprint: hexToBin('00000000'),
       privateKey: hexToBin(
-        '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
+        '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4',
       ),
       valid: true,
     },
@@ -137,13 +138,13 @@ test('[crypto] decodeHdKey', (t) => {
   t.deepEqual(decodeHdKey(xpub, crypto), {
     node: {
       chainCode: hexToBin(
-        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
       ),
       childIndex: 0,
       depth: 0,
       parentFingerprint: hexToBin('00000000'),
       publicKey: hexToBin(
-        '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
+        '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746',
       ),
     },
     version: HdKeyVersion.mainnetPublicKey,
@@ -156,9 +157,9 @@ test('[crypto] decodeHdKey: errors', (t) => {
   t.deepEqual(
     decodeHdKey(
       'xpub661MyMwAqRbcEngHLkoUWCKMBMGeqdqCGkqtzrHaTZub9ALw2oRfHA6fQP5n5X9VHStaNTBYomkSb8BFhUGavwD3RG1qvMkEKceTavTp2Ta',
-      crypto
+      crypto,
     ),
-    HdKeyDecodingError.invalidChecksum
+    HdKeyDecodingError.invalidChecksum,
   );
 });
 
@@ -167,13 +168,13 @@ test('[crypto] decodeHdPrivateKey', (t) => {
     network: 'mainnet',
     node: {
       chainCode: hexToBin(
-        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
       ),
       childIndex: 0,
       depth: 0,
       parentFingerprint: hexToBin('00000000'),
       privateKey: hexToBin(
-        '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
+        '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4',
       ),
       valid: true,
     },
@@ -182,13 +183,13 @@ test('[crypto] decodeHdPrivateKey', (t) => {
     network: 'testnet',
     node: {
       chainCode: hexToBin(
-        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
       ),
       childIndex: 0,
       depth: 0,
       parentFingerprint: hexToBin('00000000'),
       privateKey: hexToBin(
-        '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
+        '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4',
       ),
       valid: true,
     },
@@ -199,28 +200,28 @@ test('[crypto] decodeHdPrivateKey: errors', (t) => {
   t.deepEqual(decodeHdPrivateKey(xpub), HdKeyDecodingError.privateKeyExpected);
   t.deepEqual(
     decodeHdPrivateKey(
-      '1111111111111FF9QeH94hg7KAjgjUqkHUqbrw5wWQLoRNfRhB4cHUDCJxx2HfNb5qDiAjpbKjXeLJSknuzDmja42174H9Es1XbY24sZts9'
+      '1111111111111FF9QeH94hg7KAjgjUqkHUqbrw5wWQLoRNfRhB4cHUDCJxx2HfNb5qDiAjpbKjXeLJSknuzDmja42174H9Es1XbY24sZts9',
     ),
-    HdKeyDecodingError.unknownVersion
+    HdKeyDecodingError.unknownVersion,
   );
   const xprvWith0FilledKey =
     'xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ6c54tCKNErugtr5mi7oyGaDVrYe4SE5u1GnzYHmjDKuKg4vuNm';
   t.deepEqual(
     decodeHdPrivateKey(xprvWith0FilledKey),
-    HdKeyDecodingError.invalidPrivateNode
+    HdKeyDecodingError.invalidPrivateNode,
   );
   const xprvWith255FilledKey =
     'xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ8YpF7eMDfY8piRngHjovbAzQyAMi94xgeLuEgyfisLHpC7G5ST';
 
   t.deepEqual(
     decodeHdPrivateKey(xprvWith255FilledKey),
-    HdKeyDecodingError.invalidPrivateNode
+    HdKeyDecodingError.invalidPrivateNode,
   );
   t.deepEqual(
     decodeHdPrivateKey(
-      'xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBhegPMjkj1oGSFcmBkMX3xdwcMy6NSgrHvmqJptpUW5xGjg7kifZ'
+      'xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBhegPMjkj1oGSFcmBkMX3xdwcMy6NSgrHvmqJptpUW5xGjg7kifZ',
     ),
-    HdKeyDecodingError.missingPrivateKeyPaddingByte
+    HdKeyDecodingError.missingPrivateKeyPaddingByte,
   );
 });
 
@@ -229,13 +230,13 @@ test('[crypto] decodeHdPublicKey', (t) => {
     network: 'mainnet',
     node: {
       chainCode: hexToBin(
-        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
       ),
       childIndex: 0,
       depth: 0,
       parentFingerprint: hexToBin('00000000'),
       publicKey: hexToBin(
-        '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
+        '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746',
       ),
     },
   });
@@ -243,13 +244,13 @@ test('[crypto] decodeHdPublicKey', (t) => {
     network: 'testnet',
     node: {
       chainCode: hexToBin(
-        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+        '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
       ),
       childIndex: 0,
       depth: 0,
       parentFingerprint: hexToBin('00000000'),
       publicKey: hexToBin(
-        '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
+        '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746',
       ),
     },
   });
@@ -259,9 +260,9 @@ test('[crypto] decodeHdPublicKey: errors', (t) => {
   t.deepEqual(decodeHdPublicKey(xprv), HdKeyDecodingError.publicKeyExpected);
   t.deepEqual(
     decodeHdPublicKey(
-      '1111111111111FF9QeH94hg7KAjgjUqkHUqbrw5wWQLoRNfRhB4cHUDCJxx2HfNb5qDiAjpbKjXeLJSknuzDmja42174H9Es1XbY24sZts9'
+      '1111111111111FF9QeH94hg7KAjgjUqkHUqbrw5wWQLoRNfRhB4cHUDCJxx2HfNb5qDiAjpbKjXeLJSknuzDmja42174H9Es1XbY24sZts9',
     ),
-    HdKeyDecodingError.unknownVersion
+    HdKeyDecodingError.unknownVersion,
   );
 });
 
@@ -271,18 +272,18 @@ test('[crypto] encodeHdPrivateKey', (t) => {
       network: 'mainnet',
       node: {
         chainCode: hexToBin(
-          '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+          '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
         ),
         childIndex: 0,
         depth: 0,
         parentFingerprint: hexToBin('00000000'),
         privateKey: hexToBin(
-          '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
+          '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4',
         ),
         valid: true,
       },
     }),
-    xprv
+    xprv,
   );
 
   t.deepEqual(
@@ -291,20 +292,20 @@ test('[crypto] encodeHdPrivateKey', (t) => {
         network: 'testnet',
         node: {
           chainCode: hexToBin(
-            '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+            '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
           ),
           childIndex: 0,
           depth: 0,
           parentFingerprint: hexToBin('00000000'),
           privateKey: hexToBin(
-            '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4'
+            '330fd355e141910d33bbe84c369b87a209dd18b81095912be766b2b5a9d72bc4',
           ),
           valid: true,
         },
       },
-      crypto
+      crypto,
     ),
-    tprv
+    tprv,
   );
 });
 
@@ -314,17 +315,17 @@ test('[crypto] encodeHdPublicKey', (t) => {
       network: 'mainnet',
       node: {
         chainCode: hexToBin(
-          '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+          '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
         ),
         childIndex: 0,
         depth: 0,
         parentFingerprint: hexToBin('00000000'),
         publicKey: hexToBin(
-          '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
+          '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746',
         ),
       },
     }),
-    xpub
+    xpub,
   );
   t.deepEqual(
     encodeHdPublicKey(
@@ -332,19 +333,19 @@ test('[crypto] encodeHdPublicKey', (t) => {
         network: 'testnet',
         node: {
           chainCode: hexToBin(
-            '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+            '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
           ),
           childIndex: 0,
           depth: 0,
           parentFingerprint: hexToBin('00000000'),
           publicKey: hexToBin(
-            '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
+            '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746',
           ),
         },
       },
-      crypto
+      crypto,
     ),
-    tpub
+    tpub,
   );
 });
 
@@ -356,13 +357,13 @@ test('[crypto] deriveHdPublicNode', (t) => {
   }
   t.deepEqual(deriveHdPublicNode(privateParams.node), {
     chainCode: hexToBin(
-      '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9'
+      '18aab7e9ef169f3029d93651d0c85303cbcc2ac559ccd04c324a2e678ef26dc9',
     ),
     childIndex: 0,
     depth: 0,
     parentFingerprint: hexToBin('00000000'),
     publicKey: hexToBin(
-      '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746'
+      '02be99138b48b430a8ee40bf8b56c8ebc584c363774010a9bfe549a87126e61746',
     ),
   });
 });
@@ -371,11 +372,11 @@ test('[crypto] deriveHdPrivateNodeChild', (t) => {
   const master = decodeHdPrivateKey(xprv);
 
   const hardenedIndex0Child = decodeHdPrivateKey(
-    'xprv9u4S6TaiPQaF7FS24QFpRP6hjff4jXNwwYTkVNC6f6YzHj2a6G28aRN1D6Az82SxMeBivpVS3gDDXyQiu3RANTqWy34Zxi9JN76zSwkjqPF'
+    'xprv9u4S6TaiPQaF7FS24QFpRP6hjff4jXNwwYTkVNC6f6YzHj2a6G28aRN1D6Az82SxMeBivpVS3gDDXyQiu3RANTqWy34Zxi9JN76zSwkjqPF',
   );
 
   const index1GrandChild = decodeHdPrivateKey(
-    'xprv9w8PdihBAeR4xgGYWWqBnmDTrpWEW1QjuYAUkR7A6X48q1iQVgN433aSFxQGgtureVz7cCyi5zfuMTtBF3AkanjtvNs9m8u2JobxNfphSi3'
+    'xprv9w8PdihBAeR4xgGYWWqBnmDTrpWEW1QjuYAUkR7A6X48q1iQVgN433aSFxQGgtureVz7cCyi5zfuMTtBF3AkanjtvNs9m8u2JobxNfphSi3',
   );
 
   if (
@@ -390,7 +391,7 @@ test('[crypto] deriveHdPrivateNodeChild', (t) => {
   const hardenedIndex0 = 0x80000000;
   const result0 = deriveHdPrivateNodeChild(
     master.node,
-    hardenedIndex0
+    hardenedIndex0,
   ) as HdPrivateNodeValid;
 
   const result1 = deriveHdPrivateNodeChild(result0, 1, crypto);
@@ -407,19 +408,19 @@ test('[crypto] deriveHdPrivateNodeChild', (t) => {
 
 test('[crypto] deriveHdPrivateNodeChild: errors', (t) => {
   const { node } = decodeHdPrivateKey(
-    xprv
+    xprv,
   ) as HdKeyParameters<HdPrivateNodeValid>;
 
   const max = 0xffffffff;
   t.deepEqual(
     deriveHdPrivateNodeChild(node, max + 1),
-    HdNodeDerivationError.childIndexExceedsMaximum
+    HdNodeDerivationError.childIndexExceedsMaximum,
   );
 });
 
 test('[crypto] deriveHdPublicNodeChild', (t) => {
   const { node } = decodeHdPrivateKey(
-    xprv
+    xprv,
   ) as HdKeyParameters<HdPrivateNodeValid>;
 
   const parentPublic = deriveHdPublicNode(node);
@@ -428,19 +429,19 @@ test('[crypto] deriveHdPublicNodeChild', (t) => {
 
   const child = deriveHdPrivateNodeChild(
     node,
-    derivationIndex
+    derivationIndex,
   ) as HdPrivateNodeKnownParent;
 
   const expectedPublic = deriveHdPublicNode(child);
 
   t.deepEqual(
     deriveHdPublicNodeChild(parentPublic, derivationIndex),
-    expectedPublic
+    expectedPublic,
   );
 
   t.deepEqual(
     deriveHdPublicNodeChild(parentPublic, derivationIndex, crypto),
-    expectedPublic
+    expectedPublic,
   );
 });
 
@@ -449,27 +450,27 @@ test('[crypto] deriveHdPublicNodeChild: errors', (t) => {
   const hardened0 = 0x80000000;
   t.deepEqual(
     deriveHdPublicNodeChild(node, hardened0),
-    HdNodeDerivationError.hardenedDerivationRequiresPrivateNode
+    HdNodeDerivationError.hardenedDerivationRequiresPrivateNode,
   );
 });
 
 test('[crypto] deriveHdPath', (t) => {
   const { node: privateNode } = decodeHdPrivateKey(
-    xprv
+    xprv,
   ) as HdKeyParameters<HdPrivateNodeValid>;
   const publicNode = deriveHdPublicNode(privateNode);
   t.deepEqual(
     deriveHdPath(privateNode, 'm') as HdPrivateNodeValid,
-    privateNode
+    privateNode,
   );
   t.deepEqual(
     deriveHdPath(publicNode, 'M', crypto) as HdPublicNode,
-    publicNode
+    publicNode,
   );
   t.deepEqual(deriveHdPath(privateNode, "m/0'/1"), {
     ...(
       decodeHdPrivateKey(
-        'xprv9w8PdihBAeR4xgGYWWqBnmDTrpWEW1QjuYAUkR7A6X48q1iQVgN433aSFxQGgtureVz7cCyi5zfuMTtBF3AkanjtvNs9m8u2JobxNfphSi3'
+        'xprv9w8PdihBAeR4xgGYWWqBnmDTrpWEW1QjuYAUkR7A6X48q1iQVgN433aSFxQGgtureVz7cCyi5zfuMTtBF3AkanjtvNs9m8u2JobxNfphSi3',
       ) as HdKeyParameters<HdPrivateNodeValid>
     ).node,
     parentIdentifier: hexToBin('2f2bc501c943dd7f17904b612c090dd88270cc59'),
@@ -477,98 +478,98 @@ test('[crypto] deriveHdPath', (t) => {
   t.deepEqual(
     deriveHdPath(publicNode, 'M/0/1/2/3'),
     deriveHdPublicNode(
-      deriveHdPath(privateNode, 'm/0/1/2/3') as HdPrivateNodeKnownParent
-    )
+      deriveHdPath(privateNode, 'm/0/1/2/3') as HdPrivateNodeKnownParent,
+    ),
   );
   t.deepEqual(
     deriveHdPath(privateNode, "m/0'/1'/2'/3'"),
-    deriveHdPath(privateNode, 'm/2147483648/2147483649/2147483650/2147483651')
+    deriveHdPath(privateNode, 'm/2147483648/2147483649/2147483650/2147483651'),
   );
 });
 
 test('[crypto] deriveHdPath: errors', (t) => {
   const { node: privateNode } = decodeHdPrivateKey(
-    xprv
+    xprv,
   ) as HdKeyParameters<HdPrivateNodeValid>;
   const publicNode = deriveHdPublicNode(privateNode);
 
   t.deepEqual(
     deriveHdPath(privateNode, 'm/bad/1'),
-    HdNodeDerivationError.invalidDerivationPath
+    HdNodeDerivationError.invalidDerivationPath,
   );
   t.deepEqual(
     deriveHdPath(privateNode, 'M'),
-    HdNodeDerivationError.invalidPrivateDerivationPrefix
+    HdNodeDerivationError.invalidPrivateDerivationPrefix,
   );
   t.deepEqual(
     deriveHdPath(publicNode, 'm'),
-    HdNodeDerivationError.invalidPublicDerivationPrefix
+    HdNodeDerivationError.invalidPublicDerivationPrefix,
   );
   t.deepEqual(
     deriveHdPath(privateNode, 'm/0/4294967296/0'),
-    HdNodeDerivationError.childIndexExceedsMaximum
+    HdNodeDerivationError.childIndexExceedsMaximum,
   );
   t.deepEqual(
     deriveHdPath(publicNode, "M/0/0'/0"),
-    HdNodeDerivationError.hardenedDerivationRequiresPrivateNode
+    HdNodeDerivationError.hardenedDerivationRequiresPrivateNode,
   );
   t.deepEqual(
     deriveHdPath(publicNode, 'M/0/2147483648/0'),
-    HdNodeDerivationError.hardenedDerivationRequiresPrivateNode
+    HdNodeDerivationError.hardenedDerivationRequiresPrivateNode,
   );
 });
 
 test('[crypto] crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode', (t) => {
   const { node: parentPrivateNode } = decodeHdPrivateKey(
-    xprv
+    xprv,
   ) as HdKeyParameters<HdPrivateNodeValid>;
   const parentPublicNode = deriveHdPublicNode(parentPrivateNode);
 
   const nonHardenedChildNode = deriveHdPath(
     parentPrivateNode,
-    'm/1234'
+    'm/1234',
   ) as HdPrivateNodeKnownParent;
 
   const hardenedChildNode = deriveHdPath(
     parentPrivateNode,
-    "m/1234'"
+    "m/1234'",
   ) as HdPrivateNodeKnownParent;
 
   const hardenedChildPublicNode = deriveHdPublicNode(hardenedChildNode);
 
   const nonHardenedGrandchildNode = deriveHdPath(
     hardenedChildNode,
-    'm/1234'
+    'm/1234',
   ) as HdPrivateNodeKnownParent;
 
   t.deepEqual(
     crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode(
       parentPublicNode,
-      nonHardenedChildNode
+      nonHardenedChildNode,
     ),
-    parentPrivateNode
+    parentPrivateNode,
   );
 
   t.deepEqual(
     crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode(
       hardenedChildPublicNode,
       nonHardenedGrandchildNode,
-      crypto
+      crypto,
     ),
-    hardenedChildNode
+    hardenedChildNode,
   );
 
   t.deepEqual(
     crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode(
       parentPublicNode,
-      hardenedChildNode
+      hardenedChildNode,
     ),
-    HdNodeCrackingError.cannotCrackHardenedDerivation
+    HdNodeCrackingError.cannotCrackHardenedDerivation,
   );
 });
 
 const bip32Vector = test.macro<[string, string, string, string]>({
-  // eslint-disable-next-line complexity, max-params
+  // eslint-disable-next-line complexity, @typescript-eslint/max-params
   exec: (t, seedHex, path, hdPrivateKey, hdPublicKey) => {
     const master = deriveHdPrivateNodeFromSeed(hexToBin(seedHex));
 
@@ -598,7 +599,7 @@ const bip32Vector = test.macro<[string, string, string, string]>({
     }
     t.deepEqual(
       childNode.parentIdentifier?.slice(0, fingerprintLength),
-      path === 'm' ? undefined : decodedPrivate.node.parentFingerprint
+      path === 'm' ? undefined : decodedPrivate.node.parentFingerprint,
     );
     t.deepEqual(childNode, {
       ...decodedPrivate.node,
@@ -613,7 +614,7 @@ const bip32Vector = test.macro<[string, string, string, string]>({
     const publicNode = deriveHdPublicNode(childNode);
     t.deepEqual(
       publicNode.parentIdentifier?.slice(0, fingerprintLength),
-      path === 'm' ? undefined : decodedPublic.node.parentFingerprint
+      path === 'm' ? undefined : decodedPublic.node.parentFingerprint,
     );
     t.deepEqual(publicNode, {
       ...decodedPublic.node,
@@ -637,7 +638,7 @@ test(
   '000102030405060708090a0b0c0d0e0f',
   'm',
   'xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi',
-  'xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8'
+  'xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8',
 );
 
 test(
@@ -646,7 +647,7 @@ test(
   '000102030405060708090a0b0c0d0e0f',
   "m/0'",
   'xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7',
-  'xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw'
+  'xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw',
 );
 
 test(
@@ -655,7 +656,7 @@ test(
   '000102030405060708090a0b0c0d0e0f',
   "m/0'/1",
   'xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs',
-  'xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ'
+  'xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ',
 );
 
 test(
@@ -664,7 +665,7 @@ test(
   '000102030405060708090a0b0c0d0e0f',
   "m/0'/1/2'",
   'xprv9z4pot5VBttmtdRTWfWQmoH1taj2axGVzFqSb8C9xaxKymcFzXBDptWmT7FwuEzG3ryjH4ktypQSAewRiNMjANTtpgP4mLTj34bhnZX7UiM',
-  'xpub6D4BDPcP2GT577Vvch3R8wDkScZWzQzMMUm3PWbmWvVJrZwQY4VUNgqFJPMM3No2dFDFGTsxxpG5uJh7n7epu4trkrX7x7DogT5Uv6fcLW5'
+  'xpub6D4BDPcP2GT577Vvch3R8wDkScZWzQzMMUm3PWbmWvVJrZwQY4VUNgqFJPMM3No2dFDFGTsxxpG5uJh7n7epu4trkrX7x7DogT5Uv6fcLW5',
 );
 
 test(
@@ -673,7 +674,7 @@ test(
   '000102030405060708090a0b0c0d0e0f',
   "m/0'/1/2'/2",
   'xprvA2JDeKCSNNZky6uBCviVfJSKyQ1mDYahRjijr5idH2WwLsEd4Hsb2Tyh8RfQMuPh7f7RtyzTtdrbdqqsunu5Mm3wDvUAKRHSC34sJ7in334',
-  'xpub6FHa3pjLCk84BayeJxFW2SP4XRrFd1JYnxeLeU8EqN3vDfZmbqBqaGJAyiLjTAwm6ZLRQUMv1ZACTj37sR62cfN7fe5JnJ7dh8zL4fiyLHV'
+  'xpub6FHa3pjLCk84BayeJxFW2SP4XRrFd1JYnxeLeU8EqN3vDfZmbqBqaGJAyiLjTAwm6ZLRQUMv1ZACTj37sR62cfN7fe5JnJ7dh8zL4fiyLHV',
 );
 
 test(
@@ -682,7 +683,7 @@ test(
   '000102030405060708090a0b0c0d0e0f',
   "m/0'/1/2'/2/1000000000",
   'xprvA41z7zogVVwxVSgdKUHDy1SKmdb533PjDz7J6N6mV6uS3ze1ai8FHa8kmHScGpWmj4WggLyQjgPie1rFSruoUihUZREPSL39UNdE3BBDu76',
-  'xpub6H1LXWLaKsWFhvm6RVpEL9P4KfRZSW7abD2ttkWP3SSQvnyA8FSVqNTEcYFgJS2UaFcxupHiYkro49S8yGasTvXEYBVPamhGW6cFJodrTHy'
+  'xpub6H1LXWLaKsWFhvm6RVpEL9P4KfRZSW7abD2ttkWP3SSQvnyA8FSVqNTEcYFgJS2UaFcxupHiYkro49S8yGasTvXEYBVPamhGW6cFJodrTHy',
 );
 
 test(
@@ -691,7 +692,7 @@ test(
   'fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542',
   'm',
   'xprv9s21ZrQH143K31xYSDQpPDxsXRTUcvj2iNHm5NUtrGiGG5e2DtALGdso3pGz6ssrdK4PFmM8NSpSBHNqPqm55Qn3LqFtT2emdEXVYsCzC2U',
-  'xpub661MyMwAqRbcFW31YEwpkMuc5THy2PSt5bDMsktWQcFF8syAmRUapSCGu8ED9W6oDMSgv6Zz8idoc4a6mr8BDzTJY47LJhkJ8UB7WEGuduB'
+  'xpub661MyMwAqRbcFW31YEwpkMuc5THy2PSt5bDMsktWQcFF8syAmRUapSCGu8ED9W6oDMSgv6Zz8idoc4a6mr8BDzTJY47LJhkJ8UB7WEGuduB',
 );
 
 test(
@@ -700,7 +701,7 @@ test(
   'fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542',
   'm/0',
   'xprv9vHkqa6EV4sPZHYqZznhT2NPtPCjKuDKGY38FBWLvgaDx45zo9WQRUT3dKYnjwih2yJD9mkrocEZXo1ex8G81dwSM1fwqWpWkeS3v86pgKt',
-  'xpub69H7F5d8KSRgmmdJg2KhpAK8SR3DjMwAdkxj3ZuxV27CprR9LgpeyGmXUbC6wb7ERfvrnKZjXoUmmDznezpbZb7ap6r1D3tgFxHmwMkQTPH'
+  'xpub69H7F5d8KSRgmmdJg2KhpAK8SR3DjMwAdkxj3ZuxV27CprR9LgpeyGmXUbC6wb7ERfvrnKZjXoUmmDznezpbZb7ap6r1D3tgFxHmwMkQTPH',
 );
 
 test(
@@ -709,7 +710,7 @@ test(
   'fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542',
   "m/0/2147483647'",
   'xprv9wSp6B7kry3Vj9m1zSnLvN3xH8RdsPP1Mh7fAaR7aRLcQMKTR2vidYEeEg2mUCTAwCd6vnxVrcjfy2kRgVsFawNzmjuHc2YmYRmagcEPdU9',
-  'xpub6ASAVgeehLbnwdqV6UKMHVzgqAG8Gr6riv3Fxxpj8ksbH9ebxaEyBLZ85ySDhKiLDBrQSARLq1uNRts8RuJiHjaDMBU4Zn9h8LZNnBC5y4a'
+  'xpub6ASAVgeehLbnwdqV6UKMHVzgqAG8Gr6riv3Fxxpj8ksbH9ebxaEyBLZ85ySDhKiLDBrQSARLq1uNRts8RuJiHjaDMBU4Zn9h8LZNnBC5y4a',
 );
 
 test(
@@ -718,7 +719,7 @@ test(
   'fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542',
   "m/0/2147483647'/1",
   'xprv9zFnWC6h2cLgpmSA46vutJzBcfJ8yaJGg8cX1e5StJh45BBciYTRXSd25UEPVuesF9yog62tGAQtHjXajPPdbRCHuWS6T8XA2ECKADdw4Ef',
-  'xpub6DF8uhdarytz3FWdA8TvFSvvAh8dP3283MY7p2V4SeE2wyWmG5mg5EwVvmdMVCQcoNJxGoWaU9DCWh89LojfZ537wTfunKau47EL2dhHKon'
+  'xpub6DF8uhdarytz3FWdA8TvFSvvAh8dP3283MY7p2V4SeE2wyWmG5mg5EwVvmdMVCQcoNJxGoWaU9DCWh89LojfZ537wTfunKau47EL2dhHKon',
 );
 
 test(
@@ -727,7 +728,7 @@ test(
   'fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542',
   "m/0/2147483647'/1/2147483646'",
   'xprvA1RpRA33e1JQ7ifknakTFpgNXPmW2YvmhqLQYMmrj4xJXXWYpDPS3xz7iAxn8L39njGVyuoseXzU6rcxFLJ8HFsTjSyQbLYnMpCqE2VbFWc',
-  'xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL'
+  'xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL',
 );
 
 test(
@@ -736,7 +737,7 @@ test(
   'fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542',
   "m/0/2147483647'/1/2147483646'/2",
   'xprvA2nrNbFZABcdryreWet9Ea4LvTJcGsqrMzxHx98MMrotbir7yrKCEXw7nadnHM8Dq38EGfSh6dqA9QWTyefMLEcBYJUuekgW4BYPJcr9E7j',
-  'xpub6FnCn6nSzZAw5Tw7cgR9bi15UV96gLZhjDstkXXxvCLsUXBGXPdSnLFbdpq8p9HmGsApME5hQTZ3emM2rnY5agb9rXpVGyy3bdW6EEgAtqt'
+  'xpub6FnCn6nSzZAw5Tw7cgR9bi15UV96gLZhjDstkXXxvCLsUXBGXPdSnLFbdpq8p9HmGsApME5hQTZ3emM2rnY5agb9rXpVGyy3bdW6EEgAtqt',
 );
 
 test(
@@ -745,7 +746,7 @@ test(
   '4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be',
   'm',
   'xprv9s21ZrQH143K25QhxbucbDDuQ4naNntJRi4KUfWT7xo4EKsHt2QJDu7KXp1A3u7Bi1j8ph3EGsZ9Xvz9dGuVrtHHs7pXeTzjuxBrCmmhgC6',
-  'xpub661MyMwAqRbcEZVB4dScxMAdx6d4nFc9nvyvH3v4gJL378CSRZiYmhRoP7mBy6gSPSCYk6SzXPTf3ND1cZAceL7SfJ1Z3GC8vBgp2epUt13'
+  'xpub661MyMwAqRbcEZVB4dScxMAdx6d4nFc9nvyvH3v4gJL378CSRZiYmhRoP7mBy6gSPSCYk6SzXPTf3ND1cZAceL7SfJ1Z3GC8vBgp2epUt13',
 );
 
 test(
@@ -754,7 +755,7 @@ test(
   '4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be',
   "m/0'",
   'xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L',
-  'xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y'
+  'xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y',
 );
 
 const fcBip32Path = () =>
@@ -767,9 +768,9 @@ const fcBip32Path = () =>
       (array) =>
         `m/${array
           .map((i) =>
-            i > hardenedIndexOffset ? `${i - hardenedIndexOffset}'` : `${i}`
+            i > hardenedIndexOffset ? `${i - hardenedIndexOffset}'` : `${i}`,
           )
-          .join('/')}`
+          .join('/')}`,
     );
 
 testProp(
@@ -797,7 +798,7 @@ testProp(
     t.deepEqual(resultPrv, bitcorePrv);
     t.deepEqual(resultPub, bitcorePub);
   },
-  { numRuns: 10 }
+  { numRuns: 10 },
 );
 
 testProp(
@@ -820,8 +821,8 @@ testProp(
     childIndex: number,
     parentFingerprint: Uint8Array,
     chainCode: Uint8Array,
-    publicKey: Uint8Array
-    // eslint-disable-next-line max-params
+    publicKey: Uint8Array,
+    // eslint-disable-next-line @typescript-eslint/max-params
   ) => {
     const encoded = encodeHdPublicKey({
       network: mainnet ? 'mainnet' : 'testnet',
@@ -836,10 +837,10 @@ testProp(
     t.deepEqual(
       encoded,
       encodeHdPublicKey(
-        decodeHdPublicKey(encoded) as HdKeyParameters<HdPublicNode>
-      )
+        decodeHdPublicKey(encoded) as HdKeyParameters<HdPublicNode>,
+      ),
     );
-  }
+  },
 );
 
 testProp(
@@ -863,8 +864,8 @@ testProp(
     childIndex: number,
     parentFingerprint: Uint8Array,
     chainCode: Uint8Array,
-    privateKey: Uint8Array
-    // eslint-disable-next-line max-params
+    privateKey: Uint8Array,
+    // eslint-disable-next-line @typescript-eslint/max-params
   ) => {
     if (!validateSecp256k1PrivateKey(privateKey)) {
       t.pass();
@@ -884,10 +885,10 @@ testProp(
     t.deepEqual(
       encoded,
       encodeHdPrivateKey(
-        decodeHdPrivateKey(encoded) as HdKeyParameters<HdPrivateNodeValid>
-      )
+        decodeHdPrivateKey(encoded) as HdKeyParameters<HdPrivateNodeValid>,
+      ),
     );
-  }
+  },
 );
 
 testProp(
@@ -908,8 +909,8 @@ testProp(
     childIndexes: number,
     parentFingerprint: Uint8Array,
     chainCode: Uint8Array,
-    privateKey: Uint8Array
-    // eslint-disable-next-line max-params
+    privateKey: Uint8Array,
+    // eslint-disable-next-line @typescript-eslint/max-params
   ) => {
     if (!validateSecp256k1PrivateKey(privateKey)) {
       t.pass();
@@ -928,19 +929,19 @@ testProp(
     });
 
     const { node: parentPrivateNode } = decodeHdPrivateKey(
-      parentXprv
+      parentXprv,
     ) as HdKeyParameters<HdPrivateNodeValid>;
     const parentPublicNode = deriveHdPublicNode(parentPrivateNode);
 
     const nonHardenedChildNode = deriveHdPrivateNodeChild(
       parentPrivateNode,
-      childIndexes
+      childIndexes,
     ) as HdPrivateNodeValid;
 
     const crackedParentNode =
       crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode(
         parentPublicNode,
-        nonHardenedChildNode
+        nonHardenedChildNode,
       ) as HdPrivateNodeValid;
     const crackedXprv = encodeHdPrivateKey({
       network: 'mainnet',
@@ -948,5 +949,5 @@ testProp(
     });
 
     t.deepEqual(parentXprv, crackedXprv);
-  }
+  },
 );

@@ -1,4 +1,3 @@
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import {
@@ -37,6 +36,8 @@ import {
   readCompactUintMinimal,
 } from '../lib.js';
 
+import { fc, testProp } from '@fast-check/ava';
+
 test('numberToBinUint16LE', (t) => {
   t.deepEqual(numberToBinUint16LE(0), Uint8Array.from([0, 0]));
   t.deepEqual(numberToBinUint16LE(1), Uint8Array.from([1, 0]));
@@ -52,11 +53,11 @@ test('numberToBinUint16BE', (t) => {
 test('numberToBinUint16LE vs. numberToBinUint16LEClamped: behavior on overflow', (t) => {
   t.deepEqual(
     numberToBinUint16LE(0x01_0000),
-    numberToBinUint16LE(0x01_0000 % (0xffff + 1))
+    numberToBinUint16LE(0x01_0000 % (0xffff + 1)),
   );
   t.deepEqual(
     numberToBinUint16LEClamped(0x01_0000),
-    Uint8Array.from([0xff, 0xff])
+    Uint8Array.from([0xff, 0xff]),
   );
 });
 
@@ -71,7 +72,7 @@ test('numberToBinUint32LE', (t) => {
   t.deepEqual(numberToBinUint32LE(0x1234), Uint8Array.from([0x34, 0x12, 0, 0]));
   t.deepEqual(
     numberToBinUint32LE(0x12345678),
-    Uint8Array.from([0x78, 0x56, 0x34, 0x12])
+    Uint8Array.from([0x78, 0x56, 0x34, 0x12]),
   );
 });
 
@@ -81,18 +82,18 @@ test('numberToBinUint32BE', (t) => {
   t.deepEqual(numberToBinUint32BE(0x1234), Uint8Array.from([0, 0, 0x12, 0x34]));
   t.deepEqual(
     numberToBinUint32BE(0x12345678),
-    Uint8Array.from([0x12, 0x34, 0x56, 0x78])
+    Uint8Array.from([0x12, 0x34, 0x56, 0x78]),
   );
 });
 
 test('numberToBinUint32LE vs. numberToBinUint32LEClamped: behavior on overflow', (t) => {
   t.deepEqual(
     numberToBinUint32LE(0x01_0000_0000),
-    numberToBinUint32LE(0x01_0000_0000 % (0xffffffff + 1))
+    numberToBinUint32LE(0x01_0000_0000 % (0xffffffff + 1)),
   );
   t.deepEqual(
     numberToBinUint32LEClamped(0x01_0000_0000),
-    Uint8Array.from([0xff, 0xff, 0xff, 0xff])
+    Uint8Array.from([0xff, 0xff, 0xff, 0xff]),
   );
 });
 
@@ -104,7 +105,7 @@ test('numberToBinUint32LE: behavior on negative numbers', (t) => {
 test('numberToBinUintLE', (t) => {
   t.deepEqual(
     numberToBinUintLE(Number.MAX_SAFE_INTEGER),
-    Uint8Array.from([255, 255, 255, 255, 255, 255, 31])
+    Uint8Array.from([255, 255, 255, 255, 255, 255, 31]),
   );
 });
 
@@ -121,15 +122,15 @@ test('numberToBinInt32LE', (t) => {
   t.deepEqual(numberToBinInt32LE(0x1234), Uint8Array.from([0x34, 0x12, 0, 0]));
   t.deepEqual(
     numberToBinInt32LE(-0x1234),
-    Uint8Array.from([0xcc, 0xed, 0xff, 0xff])
+    Uint8Array.from([0xcc, 0xed, 0xff, 0xff]),
   );
   t.deepEqual(
     numberToBinUint32LE(0x12345678),
-    Uint8Array.from([0x78, 0x56, 0x34, 0x12])
+    Uint8Array.from([0x78, 0x56, 0x34, 0x12]),
   );
   t.deepEqual(
     numberToBinInt32LE(-0x12345678),
-    Uint8Array.from([0x88, 0xa9, 0xcb, 0xed])
+    Uint8Array.from([0x88, 0xa9, 0xcb, 0xed]),
   );
 });
 
@@ -138,83 +139,83 @@ test('numberToBinInt32TwosCompliment', (t) => {
   t.deepEqual(numberToBinInt32TwosCompliment(1), Uint8Array.from([1, 0, 0, 0]));
   t.deepEqual(
     numberToBinInt32TwosCompliment(-0xffffffff),
-    Uint8Array.from([1, 0, 0, 0])
+    Uint8Array.from([1, 0, 0, 0]),
   );
   t.deepEqual(
     numberToBinInt32TwosCompliment(0xffffffff),
-    Uint8Array.from([255, 255, 255, 255])
+    Uint8Array.from([255, 255, 255, 255]),
   );
   t.deepEqual(
     numberToBinInt32TwosCompliment(-1),
-    Uint8Array.from([255, 255, 255, 255])
+    Uint8Array.from([255, 255, 255, 255]),
   );
   t.deepEqual(
     numberToBinInt32TwosCompliment(0xffff),
-    Uint8Array.from([255, 255, 0, 0])
+    Uint8Array.from([255, 255, 0, 0]),
   );
   t.deepEqual(
     numberToBinInt32TwosCompliment(-0xffff),
-    Uint8Array.from([1, 0, 255, 255])
+    Uint8Array.from([1, 0, 255, 255]),
   );
   t.deepEqual(
     numberToBinInt32TwosCompliment(1234567890),
-    Uint8Array.from([210, 2, 150, 73])
+    Uint8Array.from([210, 2, 150, 73]),
   );
   t.deepEqual(
     numberToBinInt32TwosCompliment(-1234567890),
-    Uint8Array.from([46, 253, 105, 182])
+    Uint8Array.from([46, 253, 105, 182]),
   );
 });
 
 test('bigIntToBinUint64LE', (t) => {
   t.deepEqual(
     bigIntToBinUint64LE(0n),
-    Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0])
+    Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
   );
   t.deepEqual(
     bigIntToBinUint64LE(0x01n),
-    Uint8Array.from([0x01, 0, 0, 0, 0, 0, 0, 0])
+    Uint8Array.from([0x01, 0, 0, 0, 0, 0, 0, 0]),
   );
   t.deepEqual(
     bigIntToBinUint64LE(0x12345678n),
-    Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0])
+    Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0]),
   );
   t.deepEqual(
     bigIntToBinUint64LE(BigInt(Number.MAX_SAFE_INTEGER)),
-    Uint8Array.from([255, 255, 255, 255, 255, 255, 31, 0])
+    Uint8Array.from([255, 255, 255, 255, 255, 255, 31, 0]),
   );
   t.deepEqual(
     bigIntToBinUint64LE(0xffffffffffffffffn),
-    Uint8Array.from([255, 255, 255, 255, 255, 255, 255, 255])
+    Uint8Array.from([255, 255, 255, 255, 255, 255, 255, 255]),
   );
 });
 
 test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on overflow', (t) => {
   t.deepEqual(
     bigIntToBinUint64LE(0x010000000000000000n),
-    bigIntToBinUint64LE(0x010000000000000000n % (0xffffffffffffffffn + 1n))
+    bigIntToBinUint64LE(0x010000000000000000n % (0xffffffffffffffffn + 1n)),
   );
   t.deepEqual(
     bigIntToBinUint64LEClamped(0x010000000000000000n),
-    Uint8Array.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])
+    Uint8Array.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
   );
 });
 
 test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on negative numbers', (t) => {
   t.deepEqual(
     bigIntToBinUint64LE(-1n),
-    Uint8Array.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff])
+    Uint8Array.from([0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]),
   );
   t.deepEqual(
     bigIntToBinUint64LEClamped(-1n),
-    Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0])
+    Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
   );
 });
 
 test('bigIntToCompactUint: larger values return modulo result after opcode', (t) => {
   t.deepEqual(
     bigIntToCompactUint(0x010000000000000001n),
-    Uint8Array.from([0xff, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+    Uint8Array.from([0xff, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
   );
 });
 
@@ -223,15 +224,15 @@ test('binToNumberUintLE', (t) => {
   t.deepEqual(binToNumberUintLE(Uint8Array.from([0x34, 0x12])), 0x1234);
   t.deepEqual(
     binToNumberUintLE(Uint8Array.from([0x78, 0x56, 0x34, 0x12])),
-    0x12345678
+    0x12345678,
   );
   t.deepEqual(
     binToNumberUintLE(Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12])),
-    0x1234567890
+    0x1234567890,
   );
   t.deepEqual(
     binToNumberUintLE(Uint8Array.from([255, 255, 255, 255, 255, 255, 31])),
-    Number.MAX_SAFE_INTEGER
+    Number.MAX_SAFE_INTEGER,
   );
   t.deepEqual(binToNumberUintLE(Uint8Array.from([0x56, 0x34, 0x12])), 0x123456);
   const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12]);
@@ -246,7 +247,7 @@ testProp(
   '[fast-check] numberToBinUintLE <-> binToNumberUintLE',
   [fc.integer({ max: Number.MAX_SAFE_INTEGER, min: 0 })],
   (t, maxSafeInt) =>
-    t.deepEqual(binToNumberUintLE(numberToBinUintLE(maxSafeInt)), maxSafeInt)
+    t.deepEqual(binToNumberUintLE(numberToBinUintLE(maxSafeInt)), maxSafeInt),
 );
 
 test('binToNumberUint16LE', (t) => {
@@ -264,26 +265,26 @@ test('binToNumberInt16LE', (t) => {
 test('binToNumberInt32LE', (t) => {
   t.deepEqual(
     binToNumberInt32LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12])),
-    0x12345678
+    0x12345678,
   );
 
   t.deepEqual(
     binToNumberInt32LE(Uint8Array.from([0x88, 0xa9, 0xcb, 0xed])),
-    -0x12345678
+    -0x12345678,
   );
 });
 
 test('binToNumberUint16LE: ignores bytes after the 2nd', (t) => {
   t.deepEqual(
     binToNumberUint16LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0xff])),
-    0x5678
+    0x5678,
   );
 });
 
 test('binToNumberUint32LE', (t) => {
   t.deepEqual(
     binToNumberUint32LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12])),
-    0x12345678
+    0x12345678,
   );
   const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12, 0x00]);
   const view = data.subarray(2);
@@ -293,7 +294,7 @@ test('binToNumberUint32LE', (t) => {
 test('binToNumberUint32LE: ignores bytes after the 4th', (t) => {
   t.deepEqual(
     binToNumberUint32LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0xff])),
-    0x12345678
+    0x12345678,
   );
 });
 
@@ -302,25 +303,25 @@ test('binToBigIntUintBE', (t) => {
   t.deepEqual(binToBigIntUintBE(Uint8Array.from([0x12, 0x34])), 0x1234n);
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x12, 0x34, 0x56])),
-    0x123456n
+    0x123456n,
   );
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x12, 0x34, 0x56, 0x78])),
-    0x12345678n
+    0x12345678n,
   );
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90])),
-    0x1234567890n
+    0x1234567890n,
   );
   t.deepEqual(
     binToBigIntUintBE(
-      Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef])
+      Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]),
     ),
-    0x1234567890abcdefn
+    0x1234567890abcdefn,
   );
   t.deepEqual(
     binToBigIntUintBE(Uint8Array.from([0x56, 0x78, 0x90, 0xab, 0xcd, 0xef])),
-    0x567890abcdefn
+    0x567890abcdefn,
   );
   const d = Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]);
   const view = d.subarray(2);
@@ -347,7 +348,7 @@ test('binToBigIntUint256BE and bigIntToBinUint256BEClamped', (t) => {
   overMax[0] = 255;
   t.deepEqual(
     bigIntToBinUint256BEClamped(BigInt(`0x${binToHex(overMax)}`)),
-    max
+    max,
   );
 });
 
@@ -357,8 +358,8 @@ testProp(
   (t, uint256) =>
     t.deepEqual(
       binToBigIntUint256BE(bigIntToBinUint256BEClamped(uint256)),
-      uint256
-    )
+      uint256,
+    ),
 );
 
 test('binToBigIntUintLE', (t) => {
@@ -366,25 +367,25 @@ test('binToBigIntUintLE', (t) => {
   t.deepEqual(binToBigIntUintLE(Uint8Array.from([0x34, 0x12])), 0x1234n);
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0x56, 0x34, 0x12])),
-    0x123456n
+    0x123456n,
   );
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0x78, 0x56, 0x34, 0x12])),
-    0x12345678n
+    0x12345678n,
   );
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12])),
-    0x1234567890n
+    0x1234567890n,
   );
   t.deepEqual(
     binToBigIntUintLE(
-      Uint8Array.from([0xef, 0xcd, 0xab, 0x90, 0x78, 0x56, 0x34, 0x12])
+      Uint8Array.from([0xef, 0xcd, 0xab, 0x90, 0x78, 0x56, 0x34, 0x12]),
     ),
-    0x1234567890abcdefn
+    0x1234567890abcdefn,
   );
   t.deepEqual(
     binToBigIntUintLE(Uint8Array.from([0xab, 0x90, 0x78, 0x56, 0x34, 0x12])),
-    0x1234567890abn
+    0x1234567890abn,
   );
   const d = Uint8Array.from([0xef, 0xcd, 0xab, 0x90, 0x78, 0x56, 0x34, 0x12]);
   const view = d.subarray(2);
@@ -401,40 +402,40 @@ testProp(
     const bin = bigIntToBinUintLE(uint256);
     const binReverse = bin.slice().reverse();
     t.deepEqual(binToBigIntUintBE(binReverse), binToBigIntUintLE(bin));
-  }
+  },
 );
 
 testProp(
   '[fast-check] bigIntToBinUintLE <-> binToBigIntUintLE',
   [fc.bigUintN(65)],
   (t, uint65) =>
-    t.deepEqual(binToBigIntUintLE(bigIntToBinUintLE(uint65)), uint65)
+    t.deepEqual(binToBigIntUintLE(bigIntToBinUintLE(uint65)), uint65),
 );
 
 test('binToBigIntUint64LE', (t) => {
   t.deepEqual(
     binToBigIntUint64LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0])),
-    0x12345678n
+    0x12345678n,
   );
   t.deepEqual(
     binToBigIntUint64LE(
-      Uint8Array.from([0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01])
+      Uint8Array.from([0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01]),
     ),
-    0x0123456789abcdefn
+    0x0123456789abcdefn,
   );
   t.deepEqual(
     binToBigIntUint64LE(
       Uint8Array.from([
         0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01, 0x00, 0x00,
-      ])
+      ]),
     ),
-    0x0123456789abcdefn
+    0x0123456789abcdefn,
   );
   const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0, 0]);
   const view = data.subarray(2);
   t.deepEqual(binToBigIntUint64LE(view), 0x123456n);
   t.throws(() =>
-    binToBigIntUint64LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12]))
+    binToBigIntUint64LE(Uint8Array.from([0x78, 0x56, 0x34, 0x12])),
   );
 });
 
@@ -457,14 +458,14 @@ test('readCompactUint', (t) => {
   });
   t.deepEqual(
     readCompactUint({ bin: Uint8Array.from([253, 0, 0]), index: 0 }),
-    { position: { bin: Uint8Array.from([253, 0, 0]), index: 3 }, result: 0n }
+    { position: { bin: Uint8Array.from([253, 0, 0]), index: 3 }, result: 0n },
   );
   t.deepEqual(
     readCompactUint({ bin: Uint8Array.from([254, 0, 0, 0, 0]), index: 0 }),
     {
       position: { bin: Uint8Array.from([254, 0, 0, 0, 0]), index: 5 },
       result: 0n,
-    }
+    },
   );
   t.deepEqual(
     readCompactUint({
@@ -477,18 +478,18 @@ test('readCompactUint', (t) => {
         index: 9,
       },
       result: 0n,
-    }
+    },
   );
   t.deepEqual(
     readCompactUint({ bin: Uint8Array.from([253, 253, 0]), index: 0 }),
     {
       position: { bin: Uint8Array.from([253, 253, 0]), index: 3 },
       result: 253n,
-    }
+    },
   );
   t.deepEqual(
     readCompactUint({ bin: Uint8Array.from([]), index: 0 }),
-    CompactUintError.noPrefix
+    CompactUintError.noPrefix,
   );
 });
 
@@ -499,7 +500,7 @@ test('readCompactUintMinimal', (t) => {
   });
   t.deepEqual(
     readCompactUintMinimal({ bin: Uint8Array.from([253, 1, 0]), index: 0 }),
-    `${CompactUintError.nonMinimal} Value: 1, encoded length: 3, canonical length: 1`
+    `${CompactUintError.nonMinimal} Value: 1, encoded length: 3, canonical length: 1`,
   );
 });
 
@@ -508,18 +509,18 @@ test('compactUintToBigInt', (t) => {
   t.deepEqual(compactUintToBigInt(Uint8Array.from([253, 253, 0])), 253n);
   t.deepEqual(
     compactUintToBigInt(Uint8Array.from([253])),
-    'Error reading CompactUint: insufficient bytes. CompactUint prefix 253 requires at least 3 bytes. Remaining bytes: 1'
+    'Error reading CompactUint: insufficient bytes. CompactUint prefix 253 requires at least 3 bytes. Remaining bytes: 1',
   );
   t.deepEqual(
     compactUintToBigInt(Uint8Array.from([253, 0, 254, 0])),
-    'Error decoding CompactUint: unexpected bytes after CompactUint. CompactUint ends at index 3, but input includes 4 bytes.'
+    'Error decoding CompactUint: unexpected bytes after CompactUint. CompactUint ends at index 3, but input includes 4 bytes.',
   );
 });
 
 const compactUintVector = test.macro<
   [string, bigint, number, number?, string?]
 >({
-  // eslint-disable-next-line max-params
+  // eslint-disable-next-line @typescript-eslint/max-params
   exec: (t, hex, value, nextIndex, start = 0, expected = hex) => {
     t.deepEqual(readCompactUint({ bin: hexToBin(hex), index: start }), {
       position: { bin: hexToBin(hex), index: nextIndex },
@@ -560,7 +561,7 @@ test(
   0x0100000000n,
   11,
   2,
-  'ff0000000001000000'
+  'ff0000000001000000',
 );
 test(compactUintVector, 'ff0100000001000000', 0x0100000001n, 9);
 test(compactUintVector, 'ff1111111111111111', 0x1111111111111111n, 9);
@@ -573,7 +574,7 @@ testProp(
     const compactUint = bigIntToCompactUint(uint64);
     const result = compactUintToBigInt(compactUint);
     t.deepEqual(result, uint64);
-  }
+  },
 );
 
 test('int32SignedToUnsigned/int32UnsignedToSigned', (t) => {
@@ -592,5 +593,5 @@ testProp(
     const signed = int32UnsignedToSigned(uint32);
     const unsigned = int32SignedToUnsigned(signed);
     t.deepEqual(unsigned, uint32);
-  }
+  },
 );

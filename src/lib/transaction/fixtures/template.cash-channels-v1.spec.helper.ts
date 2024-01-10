@@ -1,8 +1,8 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import type { AuthenticationTemplate } from '../../lib.js';
+import type { WalletTemplate } from '../../lib.js';
 
-export const cashChannels: AuthenticationTemplate = {
-  $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
+export const cashChannels: WalletTemplate = {
+  $schema: 'https://libauth.org/schemas/wallet-template-v0.schema.json',
   description:
     '**Noncustodial, Privacy-Preserving, Flexibly-Denominated, Recurring Payments for Bitcoin Cash**\n\nA single-key channel that allows the owner to preauthorize any number of future payments to a receiver.\n\nEach authorization specifies a payment value, payment time, channel and payment identification information, and maximum satoshi value. When the payment time for an authorization is reached, the receiver can create a single transaction to withdraw the authorized amount to their own wallet, sending the change back to the channel. Beyond initially signing authorizations, the owner does not need to participate in executing authorized payments.\n\nThe channel does not need to hold a balance to preauthorize transactions – much like a debit account, the owner only needs to ensure that the wallet contains adequate funds to satisfy upcoming payments.\n\nChannel payments can be denominated in any asset. If the channel is denominated in an asset other than BCH, the precise payment amount is determined by a Rate Oracle, an entity partially-trusted with determining the current value of the denominating asset. (If the value of the denominating asset rises dramatically in terms of BCH, the Owner must sign a new authorization with a larger maximum authorized satoshi value.)\n \nThis wallet is entirely noncustodial: at any time, the owner can withdraw their funds to end the arrangement.\n\nIn normal use, the owner should create a unique channel for each Receiver. This provides better privacy (receivers can not determine the payment amounts or frequency of payments to other receivers) and better security (misbehaving receivers can not disrupt upcoming payments to other receivers).\n\nImplementation note: a single authorization can be used to withdraw from any channel UTXO. In most cases, authorizations are meant to be used only once, so wallets should never hold more than one unspent UTXO per channel. To “top up” the wallet, the existing UTXO should be spent back to itself, adding funds as necessary.',
   entities: {
@@ -29,14 +29,10 @@ export const cashChannels: AuthenticationTemplate = {
           name: 'Maximum Authorized Satoshis',
           type: 'AddressData',
         },
-        owner: {
-          description: '',
-          name: "Owner's Key",
-          type: 'Key',
-        },
+        owner: { description: '', name: "Owner's Key", type: 'Key' },
         payment_number: {
           description:
-            'The sequence number of this payment, used as an identifier for an authorization. Authorizations must be used in order, and this number should be incremented by one for each authorization signed.\n\nEncoded as a VM Number between 0 and 65534, e.g. `42`.',
+            'The sequence number of this payment, used as an identifier for an authorization. Authorizations must be used in order, and this number should be incremented by one for each authorization signed.\n\nEncoded as a VM Number between 0 and 32767, e.g. `42`.',
           name: 'Payment Number',
           type: 'AddressData',
         },
@@ -85,9 +81,7 @@ export const cashChannels: AuthenticationTemplate = {
       description: 'An example of successful payment authorization execution.',
       extends: 'before_payment_time',
       name: '$10.00 USD – After Payment Time',
-      transaction: {
-        locktime: 1580515200,
-      },
+      transaction: { locktime: 1580515200 },
     },
     before_payment_time: {
       data: {
@@ -99,26 +93,20 @@ export const cashChannels: AuthenticationTemplate = {
           payment_satoshis: '10000',
           payment_time: '1580515200',
         },
-        hdKeys: {
-          addressIndex: 0,
-        },
+        hdKeys: { addressIndex: 0 },
       },
       description:
         'An example attempting to execute a payment authorization before the payment time authorized by the owner. The authorization is for "1000" in asset "USD" (described in cents, so $10.00 USD), and it authorizes a payment of a maximum of 10500 satoshis. The hypothetical UTXO being spent has a value of 20000 satoshis.',
       name: '$10.00 USD – Before Payment Time',
-      sourceOutputs: [{ valueSatoshis: 20000 }],
+      sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 20000 }],
       transaction: {
         locktime: 1577836800,
         outputs: [
           {
             lockingBytecode: {
               overrides: {
-                bytecode: {
-                  payment_number: '3',
-                },
-                hdKeys: {
-                  addressIndex: 0,
-                },
+                bytecode: { payment_number: '3' },
+                hdKeys: { addressIndex: 0 },
               },
             },
             valueSatoshis: 10000,
@@ -127,11 +115,7 @@ export const cashChannels: AuthenticationTemplate = {
       },
     },
     exceeds_maximum_payment_number: {
-      data: {
-        bytecode: {
-          payment_number: '65536',
-        },
-      },
+      data: { bytecode: { payment_number: '32768' } },
       description:
         'An example scenario where the payment number exceeds the maximum uint16 value.',
       name: 'Payment Number Exceeds Maximum',
@@ -141,13 +125,7 @@ export const cashChannels: AuthenticationTemplate = {
         "A scenario for testing all bytecode values. Because this scenario doesn't require compiling the script under test for its outputs, errors are a little easier to debug.",
       extends: 'after_payment_time',
       name: 'Test Bytecode Values',
-      transaction: {
-        outputs: [
-          {
-            lockingBytecode: '',
-          },
-        ],
-      },
+      transaction: { outputs: [{ lockingBytecode: '' }] },
     },
   },
   scripts: {
@@ -243,12 +221,13 @@ export const cashChannels: AuthenticationTemplate = {
       name: 'Payment Number Padded',
       pushed: true,
       script:
-        '$(\n    <payment_number>\n    OP_DUP <65534> OP_LESSTHANOREQUAL OP_VERIFY\n    <2> OP_NUM2BIN\n)\n\n\n<1>',
+        '$(\n    <payment_number>\n    OP_DUP <0> OP_GREATERTHAN OP_VERIFY OP_DUP <0xff7f> OP_LESSTHANOREQUAL OP_VERIFY\n    <2> OP_NUM2BIN\n)',
       tests: {
-        requires_uint16: {
-          check: '<0x0200>\nOP_EQUAL',
-          fails: ['exceeds_maximum_payment_number'],
-          name: 'Requires Uint16',
+        is_2_bytes: {
+          check:
+            'OP_SIZE <2> OP_EQUALVERIFY\nOP_BIN2NUM <payment_number>\nOP_EQUAL',
+          invalid: ['exceeds_maximum_payment_number'],
+          name: 'Is 2 Bytes',
           passes: ['before_payment_time'],
         },
       },

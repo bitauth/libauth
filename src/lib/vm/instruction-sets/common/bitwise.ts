@@ -16,12 +16,12 @@ import { booleanToVmNumber } from './instruction-sets-utils.js';
 
 export const opEqual = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoStackItems(state, (nextState, [element1, element2]) =>
-    pushToStack(nextState, booleanToVmNumber(binsAreEqual(element1, element2)))
+    pushToStack(nextState, booleanToVmNumber(binsAreEqual(element1, element2))),
   );
 
 export const opEqualVerify = combineOperations(opEqual, opVerify);
@@ -29,9 +29,9 @@ export const opEqualVerify = combineOperations(opEqual, opVerify);
 export const bitwiseOperation =
   <
     State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
-    combine: (a: Uint8Array, b: Uint8Array) => Uint8Array
+    combine: (a: Uint8Array, b: Uint8Array) => Uint8Array,
   ): Operation<State> =>
   (state: State) =>
     useTwoStackItems(state, (nextState, [a, b]) =>
@@ -39,30 +39,30 @@ export const bitwiseOperation =
         ? pushToStack(nextState, combine(a, b))
         : applyError(
             nextState,
-            AuthenticationErrorCommon.mismatchedBitwiseOperandLength
-          )
+            AuthenticationErrorCommon.mismatchedBitwiseOperandLength,
+          ),
     );
 
 // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
 export const opAnd = bitwiseOperation((a, b) => a.map((v, i) => v & b[i]!)) as <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => State;
 
 // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
 export const opOr = bitwiseOperation((a, b) => a.map((v, i) => v | b[i]!)) as <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => State;
 
 // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
 export const opXor = bitwiseOperation((a, b) => a.map((v, i) => v ^ b[i]!)) as <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => State;

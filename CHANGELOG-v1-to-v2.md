@@ -1,4 +1,4 @@
-### Draft v2 Notes
+# Migrating from v1 to v2
 
 Libauth is now a [pure ESM package](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c), simplifying the developer experience by allowing WASM crypto to be instantiated internally/automatically by default 🎉. This refactor also simplifies the usage of and types surrounding Libauth virtual machines and compilers, and several other APIs have been improved.
 
@@ -34,3 +34,6 @@ Several other improvements have been made:
 - **Expanded state available to VMs and compilers** – VM and compiler operations can now access all raw contents of transactions and source outputs.
 - **Expanded capabilities of template scenarios** – scenarios can now represent any transaction shape and generate full, serializable transactions.
 - **New VM bytecode test vector generation** – Libauth includes a new `vmb_tests` test vector generation system to produce sets of cross-implementation test vectors as serialized transactions; this allows for sets of test vectors that fully test all transaction validation infrastructure without making assumptions about implementation internals.
+- **Improved CashAddress utilities** – cash address utilities no longer require enums, hash lengths are measured in bytes rather than bits, and `type` is distinguished from `typeBit`.
+- **More consistent [encoding/decoding utilities](./docs/encodings-and-formats.md)** – Several decoding methods have been renamed and refactored to use the new ReadPosition API.
+- **More consistent [error handling](./docs/errors.md)** – all possible errors are surfaced in type signatures as `string`s.

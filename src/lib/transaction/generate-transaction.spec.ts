@@ -2,13 +2,13 @@ import test from 'ava';
 
 import { privkey } from '../compiler/compiler-bch/compiler-bch.e2e.spec.helper.js';
 import {
-  authenticationTemplateToCompilerBCH,
   CashAddressNetworkPrefix,
   decodeTransaction,
   generateTransaction,
   hexToBin,
-  importAuthenticationTemplate,
+  importWalletTemplate,
   lockingBytecodeToCashAddress,
+  walletTemplateToCompilerBCH,
 } from '../lib.js';
 
 const maybeP2pkhTemplate: unknown = {
@@ -46,14 +46,14 @@ const maybeP2pkhTemplate: unknown = {
 };
 
 test('createCompilerBCH: generateTransaction', (t) => {
-  const p2pkhTemplate = importAuthenticationTemplate(maybeP2pkhTemplate);
+  const p2pkhTemplate = importWalletTemplate(maybeP2pkhTemplate);
 
   if (typeof p2pkhTemplate === 'string') {
     t.fail(p2pkhTemplate);
     return;
   }
 
-  const p2pkh = authenticationTemplateToCompilerBCH(p2pkhTemplate);
+  const p2pkh = walletTemplateToCompilerBCH(p2pkhTemplate);
   const lockingBytecode = p2pkh.generateBytecode({
     data: { keys: { privateKeys: { owner: privkey } } },
     scriptId: 'lock',
@@ -68,13 +68,13 @@ test('createCompilerBCH: generateTransaction', (t) => {
   t.deepEqual(
     lockingBytecodeToCashAddress(
       lockingBytecode.bytecode,
-      CashAddressNetworkPrefix.testnet
+      CashAddressNetworkPrefix.testnet,
     ),
-    'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x'
+    'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x',
   );
 
   const utxoOutpointTransactionHash = hexToBin(
-    '68127de83d2ab77d7f5fd8d2ac6181d94473c0cbb2d0776084bf28884f6ecd77'
+    '68127de83d2ab77d7f5fd8d2ac6181d94473c0cbb2d0776084bf28884f6ecd77',
   );
 
   const valueSatoshis = 1000000;
@@ -117,8 +117,8 @@ test('createCompilerBCH: generateTransaction', (t) => {
     success: true,
     transaction: decodeTransaction(
       hexToBin(
-        '020000000177cd6e4f8828bf846077d0b2cbc07344d98161acd2d85f7f7db72a3de87d1268010000006441f87a1dc0fb4a30443fdfcc678e713d99cffb963bd52b497377e81abe2cc2b5ac6e9837fab0a23f4d05fd06b80e7673a68bfa8d2f66b7ec5537e88696d7bae1b841210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000'
-      )
+        '020000000177cd6e4f8828bf846077d0b2cbc07344d98161acd2d85f7f7db72a3de87d1268010000006441f87a1dc0fb4a30443fdfcc678e713d99cffb963bd52b497377e81abe2cc2b5ac6e9837fab0a23f4d05fd06b80e7673a68bfa8d2f66b7ec5537e88696d7bae1b841210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000',
+      ),
     ),
   });
 });

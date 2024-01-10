@@ -2,44 +2,44 @@
  * This file is derived from https://github.com/jneen/parsimmon and
  * https://github.com/DefinitelyTyped/DefinitelyTyped.
  */
-/* eslint-disable @typescript-eslint/unified-signatures, functional/no-method-signature, functional/no-throw-statement, functional/no-conditional-statement, @typescript-eslint/no-this-alias, consistent-this, @typescript-eslint/ban-ts-comment, prefer-spread, @typescript-eslint/restrict-template-expressions, func-names, @typescript-eslint/init-declarations, new-cap, @typescript-eslint/require-array-sort-compare, guard-for-in, no-plusplus, functional/no-let, functional/no-loop-statement, @typescript-eslint/prefer-for-of, @typescript-eslint/restrict-plus-operands, functional/immutable-data, @typescript-eslint/no-use-before-define, @typescript-eslint/strict-boolean-expressions, no-param-reassign, functional/no-expression-statement, functional/no-this-expression, @typescript-eslint/no-explicit-any, func-style, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/naming-convention, @typescript-eslint/method-signature-style, @typescript-eslint/no-confusing-void-expression, prefer-arrow-callback, functional/no-return-void, @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/unified-signatures, functional/prefer-property-signatures, functional/no-throw-statements, functional/no-conditional-statements, @typescript-eslint/no-this-alias, consistent-this, @typescript-eslint/ban-ts-comment, prefer-spread, func-names, @typescript-eslint/init-declarations, new-cap, guard-for-in, no-plusplus, functional/no-let, functional/no-loop-statements, @typescript-eslint/prefer-for-of, functional/immutable-data, @typescript-eslint/no-use-before-define, @typescript-eslint/strict-boolean-expressions, no-param-reassign, functional/no-expression-statements, functional/no-this-expressions, @typescript-eslint/no-explicit-any, func-style, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return, @typescript-eslint/naming-convention, @typescript-eslint/method-signature-style, @typescript-eslint/no-confusing-void-expression, prefer-arrow-callback, functional/no-return-void, @typescript-eslint/no-unsafe-argument, functional/functional-parameters */
 // cspell: ignore accum
 
-interface Index {
+type Index = {
   /** zero-based character offset */
   offset: number;
   /** one-based line offset */
   line: number;
   /** one-based column offset */
   column: number;
-}
+};
 
-interface Mark<T> {
+type Mark<T> = {
   start: Index;
   end: Index;
   value: T;
-}
+};
 
-interface Node<Name extends string, T> extends Mark<T> {
+type Node<Name extends string, T> = Mark<T> & {
   name: Name;
-}
+};
 
 type Result<T> = Failure | Success<T>;
 
-interface Success<T> {
+type Success<T> = {
   status: true;
   value: T;
-}
+};
 
-interface Failure {
+type Failure = {
   status: false;
   expected: string[];
   index: Index;
-}
+};
 
 type TypedRule<TLanguageSpec> = {
   [P in keyof TLanguageSpec]: (
-    r: TypedLanguage<TLanguageSpec>
+    r: TypedLanguage<TLanguageSpec>,
   ) => Parser<TLanguageSpec[P]>;
 };
 
@@ -47,7 +47,7 @@ type TypedLanguage<TLanguageSpec> = {
   [P in keyof TLanguageSpec]: Parser<TLanguageSpec[P]>;
 };
 
-interface Parser<T> {
+type Parser<T> = {
   parse(input: string): Result<T>;
   or<U>(otherParser: Parser<U>): Parser<T | U>;
   then<U>(call: (result: T) => Parser<U>): Parser<U>;
@@ -59,7 +59,7 @@ interface Parser<T> {
   node<Name extends string>(name: Name): Parser<Node<Name, T>>;
   desc(description: string[] | string): Parser<T>;
   sepBy<U>(separator: Parser<U>): Parser<T[]>;
-}
+};
 
 function Parsimmon(action: any) {
   // @ts-expect-error
@@ -185,20 +185,20 @@ function seqMap<T, U>(p1: Parser<T>, cb: (a1: T) => U): Parser<U>;
 function seqMap<T, U, V>(
   p1: Parser<T>,
   p2: Parser<U>,
-  cb: (a1: T, a2: U) => V
+  cb: (a1: T, a2: U) => V,
 ): Parser<V>;
 function seqMap<T, U, V, W>(
   p1: Parser<T>,
   p2: Parser<U>,
   p3: Parser<V>,
-  cb: (a1: T, a2: U, a3: V) => W
+  cb: (a1: T, a2: U, a3: V) => W,
 ): Parser<W>;
 function seqMap<T, U, V, W, X>(
   p1: Parser<T>,
   p2: Parser<U>,
   p3: Parser<V>,
   p4: Parser<W>,
-  cb: (a1: T, a2: U, a3: V, a4: W) => X
+  cb: (a1: T, a2: U, a3: V, a4: W) => X,
 ): Parser<X>;
 function seqMap<T, U, V, W, X, Y>(
   p1: Parser<T>,
@@ -206,7 +206,7 @@ function seqMap<T, U, V, W, X, Y>(
   p3: Parser<V>,
   p4: Parser<W>,
   p5: Parser<X>,
-  cb: (a1: T, a2: U, a3: V, a4: W, a5: X) => Y
+  cb: (a1: T, a2: U, a3: V, a4: W, a5: X) => Y,
 ): Parser<Y>;
 function seqMap(...params: any[]) {
   const args = [].slice.call(params);
@@ -299,7 +299,7 @@ _.many = function () {
         /* istanbul ignore if */ if (i === result.index) {
           throw new Error(
             'infinite loop detected in .many() parser --- calling .many() on ' +
-              'a parser that can accept zero characters is usually the cause'
+              'a parser that can accept zero characters is usually the cause',
           );
         }
         i = result.index;
@@ -340,7 +340,7 @@ _.node = function (name: any) {
         start,
         value,
       };
-    }
+    },
   );
 };
 

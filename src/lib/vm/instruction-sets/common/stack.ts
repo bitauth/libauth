@@ -21,12 +21,12 @@ import {
 
 export const opToAltStack = <
   State extends AuthenticationProgramStateAlternateStack &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneStackItem(state, (nextState, [item]) => {
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     nextState.alternateStack.push(item);
     return nextState;
   });
@@ -34,9 +34,9 @@ export const opToAltStack = <
 export const opFromAltStack = <
   State extends AuthenticationProgramStateAlternateStack &
     AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => {
   // eslint-disable-next-line functional/immutable-data
   const item = state.alternateStack.pop();
@@ -47,85 +47,85 @@ export const opFromAltStack = <
 };
 
 export const op2Drop = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) => useTwoStackItems(state, (nextState) => nextState);
 
 export const op2Dup = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
-    pushToStack(nextState, a, b, a.slice(), b.slice())
+    pushToStack(nextState, a, b, a.slice(), b.slice()),
   );
 
 export const op3Dup = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useThreeStackItems(state, (nextState, [a, b, c]) =>
-    pushToStack(nextState, a, b, c, a.slice(), b.slice(), c.slice())
+    pushToStack(nextState, a, b, c, a.slice(), b.slice(), c.slice()),
   );
 
 export const op2Over = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useFourStackItems(state, (nextState, [a, b, c, d]) =>
-    pushToStack(nextState, a, b, c, d, a.slice(), b.slice())
+    pushToStack(nextState, a, b, c, d, a.slice(), b.slice()),
   );
 
 export const op2Rot = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useSixStackItems(state, (nextState, [a, b, c, d, e, f]) =>
-    pushToStack(nextState, c, d, e, f, a, b)
+    pushToStack(nextState, c, d, e, f, a, b),
   );
 
 export const op2Swap = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useFourStackItems(state, (nextState, [a, b, c, d]) =>
-    pushToStack(nextState, c, d, a, b)
+    pushToStack(nextState, c, d, a, b),
   );
 
 export const opIfDup = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useOneStackItem(state, (nextState, [item]) =>
     pushToStack(
       nextState,
-      ...(stackItemIsTruthy(item) ? [item, item.slice()] : [item])
-    )
+      ...(stackItemIsTruthy(item) ? [item, item.slice()] : [item]),
+    ),
   );
 
 export const opDepth = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) => pushToStack(state, bigIntToVmNumber(BigInt(state.stack.length)));
 
 export const opDrop = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) => useOneStackItem(state, (nextState) => nextState);
 
 export const opDup = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useOneStackItem(state, (nextState, [item]) =>
-    pushToStack(nextState, item, item.slice())
+    pushToStack(nextState, item, item.slice()),
   );
 
 export const opNip = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) => useTwoStackItems(state, (nextState, [, b]) => pushToStack(nextState, b));
 
 export const opOver = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
-    pushToStack(nextState, a, b, a.slice())
+    pushToStack(nextState, a, b, a.slice()),
   );
 
 export const opPick = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(state, (nextState, depth) => {
     const item = nextState.stack[nextState.stack.length - 1 - Number(depth)];
@@ -137,9 +137,9 @@ export const opPick = <
 
 export const opRoll = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(state, (nextState, depth) => {
     const index = nextState.stack.length - 1 - Number(depth);
@@ -152,27 +152,27 @@ export const opRoll = <
   });
 
 export const opRot = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useThreeStackItems(state, (nextState, [a, b, c]) =>
-    pushToStack(nextState, b, c, a)
+    pushToStack(nextState, b, c, a),
   );
 
 export const opSwap = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useTwoStackItems(state, (nextState, [a, b]) => pushToStack(nextState, b, a));
 
 export const opTuck = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useTwoStackItems(state, (nextState, [a, b]) =>
-    pushToStack(nextState, b.slice(), a, b)
+    pushToStack(nextState, b.slice(), a, b),
   );
 
 export const opSize = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useOneStackItem(state, (nextState, [item]) =>
-    pushToStack(nextState, item, bigIntToVmNumber(BigInt(item.length)))
+    pushToStack(nextState, item, bigIntToVmNumber(BigInt(item.length))),
   );

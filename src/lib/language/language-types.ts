@@ -4,23 +4,23 @@ import type {
   AuthenticationProgramStateStack,
 } from '../lib.js';
 
-export interface Range {
+export type Range = {
   endColumn: number;
   endLineNumber: number;
   startColumn: number;
   startLineNumber: number;
-}
+};
 
-export interface SourcePosition {
+export type SourcePosition = {
   column: number;
   line: number;
   offset: number;
-}
+};
 
-export interface MarkedNode {
+export type MarkedNode = {
   end: SourcePosition;
   start: SourcePosition;
-}
+};
 
 type StringSegmentType =
   | 'BigIntLiteral'
@@ -32,80 +32,80 @@ type StringSegmentType =
 
 type RecursiveSegmentType = 'Evaluation' | 'Push';
 
-interface CashAssemblyLanguageSegment extends MarkedNode {
+type CashAssemblyLanguageSegment = MarkedNode & {
   name: string;
-}
+};
 
-interface CashAssemblyStringSegment extends CashAssemblyLanguageSegment {
+type CashAssemblyStringSegment = CashAssemblyLanguageSegment & {
   name: StringSegmentType;
   value: string;
-}
+};
 
-interface CashAssemblyRecursiveSegment extends CashAssemblyLanguageSegment {
+type CashAssemblyRecursiveSegment = CashAssemblyLanguageSegment & {
   name: RecursiveSegmentType;
   value: CashAssemblyScriptSegment;
-}
+};
 
-export interface CashAssemblyScriptSegment extends CashAssemblyLanguageSegment {
+export type CashAssemblyScriptSegment = CashAssemblyLanguageSegment & {
   name: 'Script';
   value: (CashAssemblyRecursiveSegment | CashAssemblyStringSegment)[];
-}
+};
 
 export type ParseResult =
   | { expected: string[]; index: SourcePosition; status: false }
   | { status: true; value: CashAssemblyScriptSegment };
 
-interface ResolvedSegmentBase {
+type ResolvedSegmentBase = {
   range: Range;
   type: string;
-}
+};
 
-export interface ResolvedSegmentPush<T> extends ResolvedSegmentBase {
+export type ResolvedSegmentPush<T> = ResolvedSegmentBase & {
   type: 'push';
   value: T;
-}
+};
 
-export interface ResolvedSegmentEvaluation<T> extends ResolvedSegmentBase {
+export type ResolvedSegmentEvaluation<T> = ResolvedSegmentBase & {
   type: 'evaluation';
   value: T;
-}
+};
 
-export interface ResolvedSegmentVariableBytecode
-  extends ResolvedSegmentBase,
-    ResolutionDebug,
-    ResolutionSignature {
-  type: 'bytecode';
-  value: Uint8Array;
-  /**
-   * The full identifier (including any compilation operations) of the variable
-   * that resolved to this `value`, e.g. `my_key.signature.all_outputs` or
-   * `my_key.public_key`.
-   */
-  variable: string;
-}
+export type ResolvedSegmentVariableBytecode = ResolutionDebug &
+  ResolutionSignature &
+  ResolvedSegmentBase & {
+    type: 'bytecode';
+    value: Uint8Array;
+    /**
+     * The full identifier (including any compilation operations) of the variable
+     * that resolved to this `value`, e.g. `my_key.signature.all_outputs` or
+     * `my_key.public_key`.
+     */
+    variable: string;
+  };
 
-export interface ResolvedSegmentScriptBytecode extends ResolvedSegmentBase {
-  /**
-   * The full identifier of the script that resolved to this `value`.
-   */
-  script: string;
-  /**
-   * The source {@link ResolvedScript} that was compiled to produce
-   * this `value`.
-   */
-  source: ResolvedScript;
-  type: 'bytecode';
-  value: Uint8Array;
-}
+export type ResolvedSegmentScriptBytecode<ProgramState> =
+  ResolvedSegmentBase & {
+    /**
+     * The full identifier of the script that resolved to this `value`.
+     */
+    script: string;
+    /**
+     * The source {@link ResolvedScript} that was compiled to produce
+     * this `value`.
+     */
+    source: CompilationResultSuccess<ProgramState>;
+    type: 'bytecode';
+    value: Uint8Array;
+  };
 
-export interface ResolvedSegmentOpcodeBytecode extends ResolvedSegmentBase {
+export type ResolvedSegmentOpcodeBytecode = ResolvedSegmentBase & {
   /**
    * The identifier for this opcode, e.g. `OP_1` or `OP_CHECKSIG`.
    */
   opcode: string;
   type: 'bytecode';
   value: Uint8Array;
-}
+};
 
 export type ResolvedSegmentLiteralType =
   | 'BigIntLiteral'
@@ -113,25 +113,25 @@ export type ResolvedSegmentLiteralType =
   | 'HexLiteral'
   | 'UTF8Literal';
 
-export interface ResolvedSegmentLiteralBytecode extends ResolvedSegmentBase {
+export type ResolvedSegmentLiteralBytecode = ResolvedSegmentBase & {
   literal: string;
   literalType: ResolvedSegmentLiteralType;
   type: 'bytecode';
   value: Uint8Array;
-}
+};
 
-export type ResolvedSegmentBytecode =
+export type ResolvedSegmentBytecode<ProgramState> =
   | ResolvedSegmentLiteralBytecode
   | ResolvedSegmentOpcodeBytecode
-  | ResolvedSegmentScriptBytecode
+  | ResolvedSegmentScriptBytecode<ProgramState>
   | ResolvedSegmentVariableBytecode;
 
-export interface ResolvedSegmentComment extends ResolvedSegmentBase {
+export type ResolvedSegmentComment = ResolvedSegmentBase & {
   type: 'comment';
   value: string;
-}
+};
 
-export interface ResolvedSegmentError extends ResolvedSegmentBase {
+export type ResolvedSegmentError = ResolvedSegmentBase & {
   type: 'error';
   value: string;
   /**
@@ -147,17 +147,16 @@ export interface ResolvedSegmentError extends ResolvedSegmentBase {
    * for the referenced variable is available in the compilation data.
    */
   owningEntity?: string;
-}
+};
 
-export type ResolvedSegment =
-  | ResolvedSegmentBytecode
+export type ResolvedSegment<ProgramState> =
+  | ResolvedSegmentBytecode<ProgramState>
   | ResolvedSegmentComment
   | ResolvedSegmentError
-  | ResolvedSegmentEvaluation<ResolvedScript>
-  | ResolvedSegmentPush<ResolvedScript>;
+  | ResolvedSegmentEvaluation<ResolvedScript<ProgramState>>
+  | ResolvedSegmentPush<ResolvedScript<ProgramState>>;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ResolvedScript extends Array<ResolvedSegment> {}
+export type ResolvedScript<ProgramState> = ResolvedSegment<ProgramState>[];
 
 export enum IdentifierResolutionType {
   opcode = 'opcode',
@@ -171,7 +170,7 @@ export enum IdentifierResolutionErrorType {
   script = 'script',
 }
 
-export interface ResolutionDebug {
+export type ResolutionDebug = {
   /**
    * An additional, complex property that may be returned by custom
    * compiler operations. For use in extending the compiler to support
@@ -179,9 +178,9 @@ export interface ResolutionDebug {
    * {@link CompilerOperationSuccessSignature}.
    */
   debug?: unknown;
-}
+};
 
-export interface ResolutionSignature {
+export type ResolutionSignature = {
   signature?:
     | {
         /**
@@ -198,17 +197,19 @@ export interface ResolutionSignature {
          */
         serialization: Uint8Array;
       };
-}
+};
 
 /**
  * A method that accepts a string and returns either the successfully resolved
  * bytecode or an error. The string will never be empty (`''`), so resolution
  * can skip checking the string's length.
  */
-export type IdentifierResolutionFunction = (identifier: string) =>
+export type IdentifierResolutionFunction<ProgramState> = (
+  identifier: string,
+) =>
   | {
       bytecode: Uint8Array;
-      source: ResolvedScript;
+      source: CompilationResultSuccess<ProgramState>;
       status: true;
       type: IdentifierResolutionType.script;
     }
@@ -249,30 +250,30 @@ export type IdentifierResolutionFunction = (identifier: string) =>
 /**
  * The result of reducing a single CashAssembly script node.
  */
-export interface ScriptReductionTraceNode {
+export type ScriptReductionTraceNode = {
   bytecode: Uint8Array;
   errors?: CompilationError[] | undefined;
   range: Range;
-}
-interface ScriptReductionTraceErrorNode extends ScriptReductionTraceNode {
+};
+type ScriptReductionTraceErrorNode = ScriptReductionTraceNode & {
   errors: CompilationError[];
-}
+};
 
-export interface ScriptReductionTraceScriptNode<ProgramState>
-  extends ScriptReductionTraceNode {
-  script: ScriptReductionTraceChildNode<ProgramState>[];
-}
+export type ScriptReductionTraceScriptNode<ProgramState> =
+  ScriptReductionTraceNode & {
+    script: ScriptReductionTraceChildNode<ProgramState>[];
+  };
 
-export interface ScriptReductionTracePushNode<ProgramState>
-  extends ScriptReductionTraceNode {
-  push: ScriptReductionTraceScriptNode<ProgramState>;
-}
+export type ScriptReductionTracePushNode<ProgramState> =
+  ScriptReductionTraceNode & {
+    push: ScriptReductionTraceScriptNode<ProgramState>;
+  };
 
-export interface ScriptReductionTraceEvaluationNode<ProgramState>
-  extends ScriptReductionTraceNode {
-  trace: ProgramState[];
-  source: ScriptReductionTraceScriptNode<ProgramState>;
-}
+export type ScriptReductionTraceEvaluationNode<ProgramState> =
+  ScriptReductionTraceNode & {
+    trace: ProgramState[];
+    source: ScriptReductionTraceScriptNode<ProgramState>;
+  };
 
 export type ScriptReductionTraceChildNode<ProgramState> =
   | ScriptReductionTraceErrorNode
@@ -283,10 +284,10 @@ export type ScriptReductionTraceChildNode<ProgramState> =
 /**
  * The ProgramState at a particular point in a sampled evaluation.
  */
-export interface TraceSample<ProgramState> {
+export type TraceSample<ProgramState> = {
   range: Range;
   state: ProgramState;
-}
+};
 
 /**
  * A group of instructions that when read together are not malformed (contain
@@ -294,23 +295,23 @@ export interface TraceSample<ProgramState> {
  * `0x03 'a' 'b' 'c'` would be malformed if not evaluated together, since the
  * `0x03` becomes `OP_PUSHBYTES_3`, and the UTF8 literals compile to `0x616263`.
  */
-export interface InstructionAggregation {
+export type InstructionAggregation = {
   instructions: AuthenticationInstruction[];
   lastIp: number;
   range: Range;
-}
+};
 
-export interface InstructionAggregationSuccess {
+export type InstructionAggregationSuccess = {
   aggregations: InstructionAggregation[];
   success: true;
-}
+};
 
-export interface InstructionAggregationError {
+export type InstructionAggregationError = {
   aggregations: InstructionAggregation[];
   remainingBytecode: Uint8Array;
   remainingRange: Range;
   success: false;
-}
+};
 
 /**
  * An evaluation sample extracted from a script reduction trace – includes the
@@ -318,7 +319,7 @@ export interface InstructionAggregationError {
  * that was evaluated, the range in the source script over which the
  * instruction was defined, and the resulting program state.
  */
-export interface EvaluationSample<ProgramState> {
+export type EvaluationSample<ProgramState> = {
   /**
    * The range of the evaluation node in which this sample was generated.
    *
@@ -357,23 +358,23 @@ export interface EvaluationSample<ProgramState> {
    * The program state after the evaluation of this sample's `instruction`.
    */
   state: ProgramState;
-}
+};
 
-export interface CompilationResultResolve {
+export type CompilationResultResolve<ProgramState> = {
   parse: CashAssemblyScriptSegment;
-  resolve: ResolvedScript;
-}
+  resolve: ResolvedScript<ProgramState>;
+};
 
-export interface CompilationResultReduce<ProgramState>
-  extends CompilationResultResolve {
-  reduce: ScriptReductionTraceScriptNode<ProgramState>;
-}
+export type CompilationResultReduce<ProgramState> =
+  CompilationResultResolve<ProgramState> & {
+    reduce: ScriptReductionTraceScriptNode<ProgramState>;
+  };
 
-export interface CompilationResultErrorBase {
+export type CompilationResultErrorBase = {
   errors: CompilationError[];
   errorType: 'parse' | 'reduce' | 'resolve';
   success: false;
-}
+};
 
 export type CompilationError =
   | CompilationErrorFatal
@@ -381,11 +382,11 @@ export type CompilationError =
 
 /**
  * A compilation error from which it is not possible to recover. This includes
- * problems with the authentication template, missing dependencies in the
- * compiler configuration, and other errors that likely require meaningful
+ * problems with the wallet template, missing dependencies in the compiler
+ * configuration, and other errors that likely require meaningful
  * software changes.
  */
-export interface CompilationErrorFatal {
+export type CompilationErrorFatal = {
   /**
    * A message describing the compilation error.
    */
@@ -395,7 +396,7 @@ export interface CompilationErrorFatal {
    * useful for highlighting/underlining the cause of the error in development.
    */
   range: Range;
-}
+};
 
 /**
  * A compilation error from which recovery can happen without template or
@@ -407,7 +408,7 @@ export interface CompilationErrorFatal {
  * variables can be extracted and used to request action by the user or another
  * system.
  */
-export interface CompilationErrorRecoverable extends CompilationErrorFatal {
+export type CompilationErrorRecoverable = CompilationErrorFatal & {
   /**
    * The variable ID of the variable that – if provided in the compilation data
    * – would resolve this error.
@@ -418,58 +419,57 @@ export interface CompilationErrorRecoverable extends CompilationErrorFatal {
    * `missingIdentifier`.
    */
   owningEntity: string;
-}
+};
 
-export interface CompilationResultParseError
-  extends CompilationResultErrorBase {
+export type CompilationResultParseError = CompilationResultErrorBase & {
   /**
    * The `parse` stage produces only a single parse error at a time.
    */
   errors: [CompilationError];
   errorType: 'parse';
-}
-export interface CompilationResultResolveError
-  extends CompilationResultResolve,
-    CompilationResultErrorBase {
-  errorType: 'resolve';
-}
+};
+export type CompilationResultResolveError<ProgramState> =
+  CompilationResultErrorBase &
+    CompilationResultResolve<ProgramState> & {
+      errorType: 'resolve';
+    };
 
-export interface CompilationResultReduceError<ProgramState>
-  extends CompilationResultReduce<ProgramState>,
-    CompilationResultErrorBase {
-  errorType: 'reduce';
-}
+export type CompilationResultReduceError<ProgramState> =
+  CompilationResultErrorBase &
+    CompilationResultReduce<ProgramState> & {
+      errorType: 'reduce';
+    };
 
 export type CompilationResultError<ProgramState> =
   | CompilationResultParseError
   | CompilationResultReduceError<ProgramState>
-  | CompilationResultResolveError;
+  | CompilationResultResolveError<ProgramState>;
 
-export interface CompilationResultSuccess<ProgramState>
-  extends CompilationResultReduce<ProgramState> {
-  bytecode: Uint8Array;
-  success: true;
-  /**
-   * The transformation type of the resulting bytecode.
-   *
-   * Set to `p2sh20-locking` if the resulting bytecode was transformed into a
-   * P2SH20 locking script (`OP_HASH160 <$(<result> OP_HASH160)> OP_EQUAL`).
-   *
-   * Set to `p2sh20-unlocking` if the resulting bytecode was transformed into a
-   * P2SH20 unlocking script (`result <locking_script>`).
-   *
-   * This property is not defined if the result was not transformed.
-   */
-  transformed?:
-    | 'p2sh20-locking'
-    | 'p2sh20-unlocking'
-    | 'p2sh32-locking'
-    | 'p2sh32-unlocking';
-}
+export type CompilationResultSuccess<ProgramState> =
+  CompilationResultReduce<ProgramState> & {
+    bytecode: Uint8Array;
+    success: true;
+    /**
+     * The transformation type of the resulting bytecode.
+     *
+     * Set to `p2sh20-locking` if the resulting bytecode was transformed into a
+     * P2SH20 locking script (`OP_HASH160 <$(<result> OP_HASH160)> OP_EQUAL`).
+     *
+     * Set to `p2sh20-unlocking` if the resulting bytecode was transformed into a
+     * P2SH20 unlocking script (`result <locking_script>`).
+     *
+     * This property is not defined if the result was not transformed.
+     */
+    transformed?:
+      | 'p2sh20-locking'
+      | 'p2sh20-unlocking'
+      | 'p2sh32-locking'
+      | 'p2sh32-unlocking';
+  };
 
 export type CompilationResult<
   ProgramState = AuthenticationProgramStateMinimum &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 > =
   | CompilationResultError<ProgramState>
   | CompilationResultSuccess<ProgramState>;

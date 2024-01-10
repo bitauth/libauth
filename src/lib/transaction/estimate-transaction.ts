@@ -35,10 +35,11 @@ export const estimateTransaction = <
     unknown,
     AnyCompilerConfiguration<unknown>,
     unknown
-  >
+  >,
+  ProgramState,
 >(
-  template: Readonly<TransactionTemplateEstimated<CompilerType>>
-): TransactionGenerationAttempt =>
+  template: TransactionTemplateEstimated<CompilerType>,
+): TransactionGenerationAttempt<ProgramState> =>
   // TODO: estimateTransaction
   typeof template === 'object'
     ? { completions: [], errors: [], stage: 'inputs', success: false }

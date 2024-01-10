@@ -1,12 +1,9 @@
 import { lockingBytecodeToCashAddress } from '../address/address.js';
-import type {
-  AuthenticationTemplate,
-  CashAddressNetworkPrefix,
-} from '../lib.js';
-import { importAuthenticationTemplate } from '../schema/schema.js';
+import type { CashAddressNetworkPrefix, WalletTemplate } from '../lib.js';
+import { importWalletTemplate } from '../schema/schema.js';
 
-import { authenticationTemplateToCompilerBCH } from './compiler-bch/compiler-bch.js';
-import { authenticationTemplateP2pkh } from './standard/standard.js';
+import { walletTemplateToCompilerBCH } from './compiler-bch/compiler-bch.js';
+import { walletTemplateP2pkh } from './standard/standard.js';
 
 /**
  * Derive the P2PKH locking bytecode at the provided index of the provided HD
@@ -29,10 +26,8 @@ export const hdPrivateKeyToP2pkhLockingBytecode = ({
    */
   addressIndex: number;
 }) => {
-  const compiler = authenticationTemplateToCompilerBCH(
-    importAuthenticationTemplate(
-      authenticationTemplateP2pkh
-    ) as AuthenticationTemplate
+  const compiler = walletTemplateToCompilerBCH(
+    importWalletTemplate(walletTemplateP2pkh) as WalletTemplate,
   );
   const lockingBytecode = compiler.generateBytecode({
     data: { hdKeys: { addressIndex, hdPrivateKeys: { owner: hdKey } } },
@@ -70,5 +65,5 @@ export const hdPrivateKeyToP2pkhAddress = ({
 }) =>
   lockingBytecodeToCashAddress(
     hdPrivateKeyToP2pkhLockingBytecode({ addressIndex, hdKey }),
-    prefix
+    prefix,
   ) as string;

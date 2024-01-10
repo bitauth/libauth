@@ -19,7 +19,7 @@ export const hash160 = (
   crypto: {
     ripemd160: { hash: Ripemd160['hash'] };
     sha256: { hash: Sha256['hash'] };
-  } = { ripemd160: internalRipemd160, sha256: internalSha256 }
+  } = { ripemd160: internalRipemd160, sha256: internalSha256 },
 ) => crypto.ripemd160.hash(crypto.sha256.hash(payload));
 
 /**
@@ -33,5 +33,5 @@ export const hash160 = (
  */
 export const hash256 = (
   payload: Uint8Array,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => sha256.hash(sha256.hash(payload));

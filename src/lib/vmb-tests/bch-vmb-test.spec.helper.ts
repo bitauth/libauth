@@ -1,4 +1,4 @@
-/* eslint-disable no-console, functional/no-expression-statement, @typescript-eslint/no-non-null-assertion */
+/* eslint-disable no-console, functional/no-expression-statements, @typescript-eslint/no-non-null-assertion */
 import type { Output, ReadResult, Transaction } from '../lib.js';
 import {
   createVirtualMachineBCH2022,
@@ -31,13 +31,14 @@ const vms = {
 const isVm = (vmId: string): vmId is keyof typeof vms =>
   Object.keys(vms).includes(vmId);
 
+// cspell:ignore crzlx
 const usageInfo = `
 This script runs a single VMB test on the requested VM, logging the results and debugging information. Use the "-v" flag to output the full debug trace.
 
 Available VMs: ${Object.keys(vms).join(', ')}
 
 Usage: yarn test:unit:vmb_test <vm> <test_id> [-v]
-E.g.: yarn test:unit:vmb_test bch_2022_standard 9046t
+E.g.: yarn test:unit:vmb_test bch_2023_standard crzlx
 `;
 
 const [, , vmId, testId, useVerbose] = process.argv;
@@ -64,7 +65,7 @@ const testDefinition = (
     testTransactionHex: string,
     sourceOutputsHex: string,
     testSets: string[],
-    inputIndex?: number
+    inputIndex?: number,
   ][]
 ).find(([shortId]) => shortId === testId);
 
@@ -114,7 +115,7 @@ const unexpectedFailingIndexDebugTrace =
     : undefined;
 
 const isP2sh20 = isPayToScriptHash20(
-  sourceOutputs[testedIndex]!.lockingBytecode
+  sourceOutputs[testedIndex]!.lockingBytecode,
 );
 
 const verbose = `
@@ -168,7 +169,7 @@ Note: an unexpected index is failing; the input index under test is ${testedInde
 
 Evaluation at failing index (${failingIndex!}):
 ${stringifyDebugTraceSummary(
-  summarizeDebugTrace(unexpectedFailingIndexDebugTrace)
+  summarizeDebugTrace(unexpectedFailingIndexDebugTrace),
 )}
 `
 }

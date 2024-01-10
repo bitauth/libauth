@@ -1,7 +1,6 @@
 # Libauth Errors
 
-In Libauth, expected errors use the type `string` rather than `Error` (or other objects that inherit from `Error`) to simplify the resulting function types and
-typechecking requirements.
+In Libauth, expected errors use the type `string` rather than `Error` (or other objects that inherit from `Error`) to simplify the resulting function types and typechecking requirements.
 
 This convention ensures consistency of returned errors in all environments, avoids exposing internal details like stack traces and line numbers, and allows error messages to be recorded or displayed as text without an explicit or implicit `toString()` method call (e.g. for cleaner compatibility with [`restrict-template-expressions`](https://typescript-eslint.io/rules/restrict-template-expressions/)).
 

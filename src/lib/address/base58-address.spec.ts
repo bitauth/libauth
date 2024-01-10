@@ -1,4 +1,3 @@
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import {
@@ -19,12 +18,14 @@ import keyIoInvalid from './fixtures/key_io_invalid.json' assert { type: 'json' 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
 import keyIoValid from './fixtures/key_io_valid.json' assert { type: 'json' };
 
+import { fc, testProp } from '@fast-check/ava';
+
 const invalidVectors = Object.values(keyIoInvalid).filter(
-  (item) => Array.isArray(item) && item.every((x) => typeof x === 'string')
+  (item) => Array.isArray(item) && item.every((x) => typeof x === 'string'),
 );
 
 const validVectors = Object.values(keyIoValid).filter((item) =>
-  item.every((x) => !Array.isArray(x))
+  item.every((x) => !Array.isArray(x)),
 );
 
 test('encodeBase58AddressFormat', (t) => {
@@ -32,16 +33,16 @@ test('encodeBase58AddressFormat', (t) => {
   t.deepEqual(
     encodeBase58AddressFormat(Base58AddressFormatVersion.p2pkh, payload),
     // cspell: disable-next-line
-    '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i'
+    '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i',
   );
   t.deepEqual(
     encodeBase58AddressFormat(
       Base58AddressFormatVersion.p2pkh,
       payload,
-      sha256
+      sha256,
     ),
     // cspell: disable-next-line
-    '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i'
+    '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i',
   );
 });
 
@@ -50,32 +51,32 @@ test('encodeBase58Address', (t) => {
   t.deepEqual(
     encodeBase58Address('p2pkh', payload, sha256),
     // cspell: disable-next-line
-    '1BpEi6DfDAUFd7GtittLSdBeYJvcoaVggu'
+    '1BpEi6DfDAUFd7GtittLSdBeYJvcoaVggu',
   );
   t.deepEqual(
     encodeBase58Address('p2pkhTestnet', payload, sha256),
     // cspell: disable-next-line
-    'mrLC19Je2BuWQDkWSTriGYPyQJXKkkBmCx'
+    'mrLC19Je2BuWQDkWSTriGYPyQJXKkkBmCx',
   );
   t.deepEqual(
     encodeBase58Address('p2pkhCopayBCH', payload),
     // cspell: disable-next-line
-    'CTH8H8Zj6DSnXFBKQeDG28ogAS92iS16Bp'
+    'CTH8H8Zj6DSnXFBKQeDG28ogAS92iS16Bp',
   );
   t.deepEqual(
     encodeBase58Address('p2sh20', payload, sha256),
     // cspell: disable-next-line
-    '3CWFddi6m4ndiGyKqzYvsFYagqDLPVMTzC'
+    '3CWFddi6m4ndiGyKqzYvsFYagqDLPVMTzC',
   );
   t.deepEqual(
     encodeBase58Address('p2sh20Testnet', payload),
     // cspell: disable-next-line
-    '2N44ThNe8NXHyv4bsX8AoVCXquBRW94Ls7W'
+    '2N44ThNe8NXHyv4bsX8AoVCXquBRW94Ls7W',
   );
   t.deepEqual(
     encodeBase58Address('p2sh20CopayBCH', payload, sha256),
     // cspell: disable-next-line
-    'HHLN6S9BcP1JLSrMhgD5qe57iVEMFMLCBT'
+    'HHLN6S9BcP1JLSrMhgD5qe57iVEMFMLCBT',
   );
 });
 
@@ -84,12 +85,12 @@ test('decodeBase58AddressFormat', (t) => {
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58AddressFormat('1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i'),
-    { payload, version: Base58AddressFormatVersion.p2pkh }
+    { payload, version: Base58AddressFormatVersion.p2pkh },
   );
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58AddressFormat('1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', sha256),
-    { payload, version: Base58AddressFormatVersion.p2pkh }
+    { payload, version: Base58AddressFormatVersion.p2pkh },
   );
 });
 
@@ -98,12 +99,12 @@ test('decodeBase58Address', (t) => {
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58Address('1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i'),
-    { payload, version: Base58AddressFormatVersion.p2pkh }
+    { payload, version: Base58AddressFormatVersion.p2pkh },
   );
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58Address('1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', sha256),
-    { payload, version: Base58AddressFormatVersion.p2pkh }
+    { payload, version: Base58AddressFormatVersion.p2pkh },
   );
 });
 
@@ -126,33 +127,33 @@ testProp(
       payload,
       version,
     });
-  }
+  },
 );
 
 test('decodeBase58AddressFormat: errors', (t) => {
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58AddressFormat('1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62a'),
-    Base58AddressError.invalidChecksum
+    Base58AddressError.invalidChecksum,
   );
   t.deepEqual(decodeBase58AddressFormat('1234'), Base58AddressError.tooShort);
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58AddressFormat('1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62I'),
-    Base58AddressError.unknownCharacter
+    Base58AddressError.unknownCharacter,
   );
 });
 test('decodeBase58Address: errors', (t) => {
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58Address('6PfDNQxJdsBx7K4r9kMrRBZSa2NZKVNUZn'),
-    Base58AddressError.unknownAddressVersion
+    Base58AddressError.unknownAddressVersion,
   );
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58Address('2DqXtydYdu9pq6uXcy3Tbw3pUscCiPC6F'),
     // Base58AddressError.incorrectLength
-    Base58AddressError.unknownAddressVersion
+    Base58AddressError.unknownAddressVersion,
   );
 });
 
@@ -186,11 +187,10 @@ test('Base58Address Valid Vectors (from C++ implementation – includes WIF vect
         isCompressed?: boolean;
         isPrivkey: boolean;
         chain: 'main' | 'regtest' | 'test';
-      }
+      },
     ];
 
     const testnet = meta.chain !== 'main';
-    // eslint-disable-next-line functional/no-conditional-statement
     if (meta.isPrivkey) {
       const wifKey = base58Address;
       const compressed = Boolean(meta.isCompressed);
@@ -200,20 +200,18 @@ test('Base58Address Valid Vectors (from C++ implementation – includes WIF vect
           ? 'testnet'
           : 'testnetUncompressed'
         : compressed
-        ? 'mainnet'
-        : 'mainnetUncompressed';
+          ? 'mainnet'
+          : 'mainnetUncompressed';
       t.deepEqual(decodePrivateKeyWif(wifKey), { privateKey, type });
-
-      // eslint-disable-next-line functional/no-conditional-statement
     } else {
       const lockingBytecode = data;
       t.deepEqual(
         lockingBytecodeToBase58Address(
           hexToBin(lockingBytecode),
           testnet ? 'testnet' : 'mainnet',
-          sha256
+          sha256,
         ),
-        base58Address
+        base58Address,
       );
     }
   });

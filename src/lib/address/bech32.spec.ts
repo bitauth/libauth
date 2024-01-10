@@ -1,6 +1,4 @@
-import { testProp } from '@fast-check/ava';
 import test from 'ava';
-import fc from 'fast-check';
 
 import {
   Bech32DecodingError,
@@ -14,6 +12,9 @@ import {
   regroupBits,
 } from '../lib.js';
 
+import { testProp } from '@fast-check/ava';
+import fc from 'fast-check';
+
 test('regroupBits', (t) => {
   t.deepEqual(
     regroupBits({
@@ -21,7 +22,7 @@ test('regroupBits', (t) => {
       resultWordLength: 1,
       sourceWordLength: 8,
     }),
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   );
   t.deepEqual(
     regroupBits({
@@ -29,7 +30,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 1,
     }),
-    [0b11111111, 0b11111111]
+    [0b11111111, 0b11111111],
   );
   t.deepEqual(
     regroupBits({
@@ -37,7 +38,7 @@ test('regroupBits', (t) => {
       resultWordLength: 2,
       sourceWordLength: 8,
     }),
-    [0b11, 0b11, 0b11, 0b11, 0b11, 0b11, 0b11, 0b11]
+    [0b11, 0b11, 0b11, 0b11, 0b11, 0b11, 0b11, 0b11],
   );
   t.deepEqual(
     regroupBits({
@@ -45,7 +46,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 2,
     }),
-    [0b11111111, 0b11111111]
+    [0b11111111, 0b11111111],
   );
   t.deepEqual(
     regroupBits({
@@ -53,7 +54,7 @@ test('regroupBits', (t) => {
       resultWordLength: 3,
       sourceWordLength: 8,
     }),
-    [0b111, 0b111, 0b111, 0b111, 0b111, 0b100]
+    [0b111, 0b111, 0b111, 0b111, 0b111, 0b100],
   );
   t.deepEqual(
     regroupBits({
@@ -65,7 +66,7 @@ test('regroupBits', (t) => {
      * The 2 padding bit are now considered significant, so we have to add
      * padding to encode them.
      */
-    [0b11111111, 0b11111111, 0b00]
+    [0b11111111, 0b11111111, 0b00],
   );
   t.deepEqual(
     regroupBits({
@@ -73,7 +74,7 @@ test('regroupBits', (t) => {
       resultWordLength: 4,
       sourceWordLength: 8,
     }),
-    [0b1111, 0b1111, 0b1111, 0b1111]
+    [0b1111, 0b1111, 0b1111, 0b1111],
   );
   t.deepEqual(
     regroupBits({
@@ -81,7 +82,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 4,
     }),
-    [0b11111111, 0b11111111]
+    [0b11111111, 0b11111111],
   );
   t.deepEqual(
     regroupBits({
@@ -89,7 +90,7 @@ test('regroupBits', (t) => {
       resultWordLength: 5,
       sourceWordLength: 8,
     }),
-    [0b11111, 0b11111, 0b11111, 0b10000]
+    [0b11111, 0b11111, 0b11111, 0b10000],
   );
   t.deepEqual(
     regroupBits({
@@ -97,7 +98,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 5,
     }),
-    [0b11111111, 0b11111111, 0b0000]
+    [0b11111111, 0b11111111, 0b0000],
   );
   t.deepEqual(
     regroupBits({
@@ -105,7 +106,7 @@ test('regroupBits', (t) => {
       resultWordLength: 6,
       sourceWordLength: 8,
     }),
-    [0b111111, 0b111111, 0b111100]
+    [0b111111, 0b111111, 0b111100],
   );
   t.deepEqual(
     regroupBits({
@@ -113,7 +114,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 6,
     }),
-    [0b11111111, 0b11111111, 0b00]
+    [0b11111111, 0b11111111, 0b00],
   );
   t.deepEqual(
     regroupBits({
@@ -121,7 +122,7 @@ test('regroupBits', (t) => {
       resultWordLength: 7,
       sourceWordLength: 8,
     }),
-    [0b1111111, 0b1111111, 0b1100000]
+    [0b1111111, 0b1111111, 0b1100000],
   );
   t.deepEqual(
     regroupBits({
@@ -129,7 +130,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 7,
     }),
-    [0b11111111, 0b11111111, 0b00000]
+    [0b11111111, 0b11111111, 0b00000],
   );
   t.deepEqual(
     regroupBits({
@@ -137,7 +138,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 8,
     }),
-    [0b11111111, 0b11111111]
+    [0b11111111, 0b11111111],
   );
   t.deepEqual(
     regroupBits({
@@ -145,11 +146,11 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 8,
     }),
-    [0b11111111, 0b11111111]
+    [0b11111111, 0b11111111],
   );
   t.deepEqual(
     regroupBits({ bin: [256], resultWordLength: 5, sourceWordLength: 8 }),
-    BitRegroupingError.integerOutOfRange
+    BitRegroupingError.integerOutOfRange,
   );
   t.deepEqual(
     regroupBits({
@@ -158,7 +159,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 5,
     }),
-    BitRegroupingError.requiresDisallowedPadding
+    BitRegroupingError.requiresDisallowedPadding,
   );
   t.deepEqual(
     regroupBits({
@@ -170,7 +171,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 5,
     }),
-    BitRegroupingError.requiresDisallowedPadding
+    BitRegroupingError.requiresDisallowedPadding,
   );
   t.deepEqual(
     regroupBits({
@@ -179,7 +180,7 @@ test('regroupBits', (t) => {
       resultWordLength: 8,
       sourceWordLength: 5,
     }),
-    BitRegroupingError.hasDisallowedPadding
+    BitRegroupingError.hasDisallowedPadding,
   );
 });
 
@@ -202,7 +203,7 @@ test('decodeBech32', (t) => {
     // cspell: disable-next-line
     decodeBech32('qpzry9x8gf2tvdw0s3jn54khce6mua7l'),
     // prettier-ignore
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
   );
 });
 
@@ -215,7 +216,7 @@ test('encodeBech32', (t) => {
     // prettier-ignore
     encodeBech32([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]),
     // cspell: disable-next-line
-    'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
+    'qpzry9x8gf2tvdw0s3jn54khce6mua7l',
   );
 });
 
@@ -229,19 +230,19 @@ test('binToBech32Padded', (t) => {
 test('bech32PaddedToBin', (t) => {
   t.deepEqual(
     bech32PaddedToBin('qqq'),
-    BitRegroupingError.hasDisallowedPadding
+    BitRegroupingError.hasDisallowedPadding,
   );
   t.deepEqual(bech32PaddedToBin('qq'), Uint8Array.of(0));
   t.deepEqual(
     bech32PaddedToBin('tf'),
-    BitRegroupingError.requiresDisallowedPadding
+    BitRegroupingError.requiresDisallowedPadding,
   );
   t.deepEqual(bech32PaddedToBin('lu'), Uint8Array.of(255));
   // cspell: disable-next-line
   t.deepEqual(bech32PaddedToBin('qqqsyqc'), Uint8Array.of(0, 1, 2, 3));
   t.deepEqual(
     bech32PaddedToBin('qqq1'),
-    Bech32DecodingError.notBech32CharacterSet
+    Bech32DecodingError.notBech32CharacterSet,
   );
 });
 
@@ -267,9 +268,9 @@ testProp(
   (t, input) => {
     t.deepEqual(
       decodeBech32(encodeBech32(input)),
-      input as ReturnType<typeof decodeBech32>
+      input as ReturnType<typeof decodeBech32>,
     );
-  }
+  },
 );
 
 testProp(
@@ -278,17 +279,17 @@ testProp(
   (t, input) => {
     t.deepEqual(
       binToBech32Padded(
-        bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array
+        bech32PaddedToBin(binToBech32Padded(input)) as Uint8Array,
       ),
-      binToBech32Padded(input)
+      binToBech32Padded(input),
     );
-  }
+  },
 );
 
 testProp(
   '[fast-check] binToBech32Padded -> isBech32',
   [fcUint8Array(0, maxBinLength)],
-  (t, input) => t.true(isBech32CharacterSet(binToBech32Padded(input)))
+  (t, input) => t.true(isBech32CharacterSet(binToBech32Padded(input))),
 );
 
 testProp(
@@ -303,5 +304,5 @@ testProp(
       return;
     }
     t.deepEqual(binToBech32Padded(tryBin), maybeBech32);
-  }
+  },
 );

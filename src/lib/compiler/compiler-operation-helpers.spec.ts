@@ -14,7 +14,7 @@ test('attemptCompilerOperations: can skip configuration property check', (t) => 
       dataProperties: [],
       operation: () => ({ error: 'test failed', status: 'error' }),
     })('', {}, { scripts: {} }),
-    { status: 'skip' }
+    { status: 'skip' },
   );
 });
 
@@ -33,6 +33,6 @@ test('compilerOperationHelperGenerateCoveredBytecode: empty sourceScriptIds', (t
         'Identifier "test" requires a signing serialization, but "coveredBytecode" cannot be determined because the compiler configuration\'s "sourceScriptIds" is empty.',
       status: 'error',
     },
-    stringifyTestVector(result)
+    stringifyTestVector(result),
   );
 });

@@ -68,6 +68,7 @@ import {
   SigningSerializationTypeBCH,
 } from './lib.js';
 
+/* eslint-disable @typescript-eslint/no-duplicate-type-constituents */
 type TypeTests =
   | AssertTypesEqual<
       AuthenticationProgramStateBCH,
@@ -83,6 +84,7 @@ type TypeTests =
   | AssertTypesEqual<typeof OpcodeDescriptionsBCH, typeof OpcodeDescriptions>
   | AssertTypesEqual<typeof OpcodesBCH, typeof Opcodes>;
 // TODO: AssertTypesEqual<AuthenticationProgramStateBCH, AuthenticationProgramState>`
+/* eslint-enable @typescript-eslint/no-duplicate-type-constituents */
 
 test('Libauth exposes all expected mappings', (t) => {
   const testTypes: TypeTests = true;
@@ -90,15 +92,15 @@ test('Libauth exposes all expected mappings', (t) => {
   t.deepEqual(AuthenticationErrorBCH2023, AuthenticationErrorBCH);
   t.deepEqual(
     cloneAuthenticationProgramStateCommon,
-    cloneAuthenticationProgramStateBCH
+    cloneAuthenticationProgramStateBCH,
   );
   t.deepEqual(
     cloneAuthenticationProgramState,
-    cloneAuthenticationProgramStateBCH
+    cloneAuthenticationProgramStateBCH,
   );
   t.deepEqual(
     compilerConfigurationToCompilerBCH,
-    compilerConfigurationToCompiler
+    compilerConfigurationToCompiler,
   );
   t.deepEqual(createInstructionSetBCH2023, createInstructionSetBCH);
   t.deepEqual(createVirtualMachineBCH2023, createVirtualMachineBCH);

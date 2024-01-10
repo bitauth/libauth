@@ -27,10 +27,10 @@ const enum Constants {
 
 export const useLocktime = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   state: State,
-  operation: (nextState: State, locktime: number) => State
+  operation: (nextState: State, locktime: number) => State,
 ) => {
   const item = state.stack[state.stack.length - 1];
   if (item === undefined) {
@@ -52,7 +52,7 @@ export const useLocktime = <
 
 const locktimeTypesAreCompatible = (
   locktime: number,
-  requiredLocktime: number
+  requiredLocktime: number,
 ) =>
   (locktime < Constants.locktimeThreshold &&
     requiredLocktime < Constants.locktimeThreshold) ||
@@ -62,26 +62,26 @@ const locktimeTypesAreCompatible = (
 export const opCheckLockTimeVerify = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useLocktime(state, (nextState, requiredLocktime) => {
     if (
       !locktimeTypesAreCompatible(
         nextState.program.transaction.locktime,
-        requiredLocktime
+        requiredLocktime,
       )
     ) {
       return applyError(
         nextState,
-        AuthenticationErrorCommon.incompatibleLocktimeType
+        AuthenticationErrorCommon.incompatibleLocktimeType,
       );
     }
     if (requiredLocktime > nextState.program.transaction.locktime) {
       return applyError(
         nextState,
-        AuthenticationErrorCommon.unsatisfiedLocktime
+        AuthenticationErrorCommon.unsatisfiedLocktime,
       );
     }
     const { sequenceNumber } =
@@ -99,9 +99,9 @@ const includesFlag = (value: number, flag: number) => (value & flag) !== 0;
 export const opCheckSequenceVerify = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useLocktime(
     state,
@@ -112,7 +112,7 @@ export const opCheckSequenceVerify = <
         nextState.program.transaction.inputs[nextState.program.inputIndex]!;
       const sequenceLocktimeDisabled = includesFlag(
         requiredSequence,
-        Constants.sequenceLocktimeDisableFlag
+        Constants.sequenceLocktimeDisableFlag,
       );
       if (sequenceLocktimeDisabled) {
         return nextState;
@@ -124,14 +124,14 @@ export const opCheckSequenceVerify = <
       ) {
         return applyError(
           nextState,
-          AuthenticationErrorCommon.checkSequenceUnavailable
+          AuthenticationErrorCommon.checkSequenceUnavailable,
         );
       }
 
       if (includesFlag(sequenceNumber, Constants.sequenceLocktimeDisableFlag)) {
         return applyError(
           nextState,
-          AuthenticationErrorCommon.unmatchedSequenceDisable
+          AuthenticationErrorCommon.unmatchedSequenceDisable,
         );
       }
 
@@ -141,7 +141,7 @@ export const opCheckSequenceVerify = <
       ) {
         return applyError(
           nextState,
-          AuthenticationErrorCommon.incompatibleSequenceType
+          AuthenticationErrorCommon.incompatibleSequenceType,
         );
       }
 
@@ -153,10 +153,10 @@ export const opCheckSequenceVerify = <
       ) {
         return applyError(
           nextState,
-          AuthenticationErrorCommon.unsatisfiedSequenceNumber
+          AuthenticationErrorCommon.unsatisfiedSequenceNumber,
         );
       }
 
       return nextState;
-    }
+    },
   );

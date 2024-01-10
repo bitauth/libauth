@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/no-expression-statements */
 /**
  * This script produces a `*reasons.json` file for every VMB test that is
  * expected to fail. Run it with: `yarn gen:vmb-tests`.
@@ -32,10 +32,10 @@ const writeReasonsFile = (
   }: {
     supportsTokens: boolean;
     vm: AuthenticationVirtualMachineBCH | AuthenticationVirtualMachineBCHCHIPs;
-  }
+  },
 ) => {
   const vmbTests = JSON.parse(
-    readFileSync(invalidJsonPath, { encoding: 'utf8' })
+    readFileSync(invalidJsonPath, { encoding: 'utf8' }),
   ) as VmbTest[];
   const getReason = ({
     sourceOutputsHex,
@@ -66,7 +66,7 @@ const writeReasonsFile = (
         [shortId]: getReason({ sourceOutputsHex, txHex }),
       };
     },
-    {}
+    {},
   );
   writeFileSync(reasonsPath, JSON.stringify(reasons), { encoding: 'utf8' });
 };
@@ -77,40 +77,40 @@ const rel = (path: string) => resolve(basePath, path);
 writeReasonsFile(
   rel('./bch_vmb_tests_2022_invalid.json'),
   rel('./bch_vmb_tests_2022_invalid_reasons.json'),
-  { supportsTokens: false, vm: createVirtualMachineBCH2022(false) }
+  { supportsTokens: false, vm: createVirtualMachineBCH2022(false) },
 );
 writeReasonsFile(
   rel('./bch_vmb_tests_2022_nonstandard.json'),
   rel('./bch_vmb_tests_2022_nonstandard_reasons.json'),
-  { supportsTokens: false, vm: createVirtualMachineBCH2022(true) }
+  { supportsTokens: false, vm: createVirtualMachineBCH2022(true) },
 );
 writeReasonsFile(
   rel('./CHIPs/bch_vmb_tests_before_chip_cashtokens_invalid.json'),
   rel('./CHIPs/bch_vmb_tests_before_chip_cashtokens_invalid_reasons.json'),
-  { supportsTokens: false, vm: createVirtualMachineBCH2022(false) }
+  { supportsTokens: false, vm: createVirtualMachineBCH2022(false) },
 );
 writeReasonsFile(
   rel('./CHIPs/bch_vmb_tests_before_chip_cashtokens_nonstandard.json'),
   rel('./CHIPs/bch_vmb_tests_before_chip_cashtokens_nonstandard_reasons.json'),
-  { supportsTokens: false, vm: createVirtualMachineBCH2022(true) }
+  { supportsTokens: false, vm: createVirtualMachineBCH2022(true) },
 );
 writeReasonsFile(
   rel('./CHIPs/bch_vmb_tests_chip_cashtokens_invalid.json'),
   rel('./CHIPs/bch_vmb_tests_chip_cashtokens_invalid_reasons.json'),
-  { supportsTokens: true, vm: createVirtualMachineBCH2023(false) }
+  { supportsTokens: true, vm: createVirtualMachineBCH2023(false) },
 );
 writeReasonsFile(
   rel('./CHIPs/bch_vmb_tests_chip_cashtokens_nonstandard.json'),
   rel('./CHIPs/bch_vmb_tests_chip_cashtokens_nonstandard_reasons.json'),
-  { supportsTokens: true, vm: createVirtualMachineBCH2023(true) }
+  { supportsTokens: true, vm: createVirtualMachineBCH2023(true) },
 );
 writeReasonsFile(
   rel('./CHIPs/bch_vmb_tests_chip_loops_invalid.json'),
   rel('./CHIPs/bch_vmb_tests_chip_loops_invalid_reasons.json'),
-  { supportsTokens: true, vm: createVirtualMachineBCHCHIPs(false) }
+  { supportsTokens: true, vm: createVirtualMachineBCHCHIPs(false) },
 );
 writeReasonsFile(
   rel('./CHIPs/bch_vmb_tests_chip_loops_nonstandard.json'),
   rel('./CHIPs/bch_vmb_tests_chip_loops_nonstandard_reasons.json'),
-  { supportsTokens: true, vm: createVirtualMachineBCHCHIPs(true) }
+  { supportsTokens: true, vm: createVirtualMachineBCHCHIPs(true) },
 );

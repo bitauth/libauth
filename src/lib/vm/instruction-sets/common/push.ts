@@ -87,33 +87,33 @@ export const encodeDataPush = (data: Uint8Array) =>
     ? data.length === 0
       ? Uint8Array.of(0)
       : data.length === 1
-      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        data[0] !== 0 && data[0]! <= PushOperationConstants.pushNumberOpcodes
-        ? Uint8Array.of(
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            data[0]! + PushOperationConstants.pushNumberOpcodesOffset
-          )
-        : data[0] === PushOperationConstants.negativeOne
-        ? Uint8Array.of(PushOperationConstants.OP_1NEGATE)
-        : Uint8Array.from([1, ...data])
-      : Uint8Array.from([data.length, ...data])
+        ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          data[0] !== 0 && data[0]! <= PushOperationConstants.pushNumberOpcodes
+          ? Uint8Array.of(
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              data[0]! + PushOperationConstants.pushNumberOpcodesOffset,
+            )
+          : data[0] === PushOperationConstants.negativeOne
+            ? Uint8Array.of(PushOperationConstants.OP_1NEGATE)
+            : Uint8Array.from([1, ...data])
+        : Uint8Array.from([data.length, ...data])
     : data.length <= PushOperationConstants.maximumPushData1Size
-    ? Uint8Array.from([
-        PushOperationConstants.OP_PUSHDATA_1,
-        data.length,
-        ...data,
-      ])
-    : data.length <= PushOperationConstants.maximumPushData2Size
-    ? Uint8Array.from([
-        PushOperationConstants.OP_PUSHDATA_2,
-        ...numberToBinUint16LE(data.length),
-        ...data,
-      ])
-    : Uint8Array.from([
-        PushOperationConstants.OP_PUSHDATA_4,
-        ...numberToBinUint32LE(data.length),
-        ...data,
-      ]);
+      ? Uint8Array.from([
+          PushOperationConstants.OP_PUSHDATA_1,
+          data.length,
+          ...data,
+        ])
+      : data.length <= PushOperationConstants.maximumPushData2Size
+        ? Uint8Array.from([
+            PushOperationConstants.OP_PUSHDATA_2,
+            ...numberToBinUint16LE(data.length),
+            ...data,
+          ])
+        : Uint8Array.from([
+            PushOperationConstants.OP_PUSHDATA_4,
+            ...numberToBinUint32LE(data.length),
+            ...data,
+          ]);
 
 /**
  * Returns true if the provided `data` is minimally-encoded by the provided
@@ -155,9 +155,9 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) => {
 };
 
 const executionIsActive = <
-  State extends AuthenticationProgramStateControlStack
+  State extends AuthenticationProgramStateControlStack,
 >(
-  state: State
+  state: State,
 ) => state.controlStack.every((item) => item);
 
 // TODO: add tests that verify the order of operations below (are non-minimal pushes OK inside unexecuted conditionals?)
@@ -167,9 +167,9 @@ export const pushOperation =
     State extends AuthenticationProgramStateControlStack &
       AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
-    maximumPushSize = ConsensusCommon.maximumStackItemLength
+    maximumPushSize = ConsensusCommon.maximumStackItemLength as number,
   ): Operation<State> =>
   (state: State) => {
     const instruction = state.instructions[
@@ -178,13 +178,13 @@ export const pushOperation =
     return instruction.data.length > maximumPushSize
       ? applyError(
           state,
-          `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${instruction.data.length} bytes.`
+          `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${instruction.data.length} bytes.`,
         )
       : executionIsActive(state)
-      ? isMinimalDataPush(instruction.opcode, instruction.data)
-        ? pushToStack(state, instruction.data)
-        : applyError(state, AuthenticationErrorCommon.nonMinimalPush)
-      : state;
+        ? isMinimalDataPush(instruction.opcode, instruction.data)
+          ? pushToStack(state, instruction.data)
+          : applyError(state, AuthenticationErrorCommon.nonMinimalPush)
+        : state;
   };
 
 /**
@@ -193,9 +193,9 @@ export const pushOperation =
  */
 export const pushNumberOperation = <
   ProgramState extends AuthenticationProgramStateMinimum &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  number: number
+  number: number,
 ) => {
   const value = bigIntToVmNumber(BigInt(number));
   return (state: ProgramState) => pushToStack(state, value);

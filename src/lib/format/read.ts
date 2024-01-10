@@ -6,7 +6,7 @@ import { readCompactUintMinimal } from './number.js';
  * `ReadPosition`s are the only input of Libauth's read functions, and each read
  * function returns a new `ReadPosition` after a successful result.
  */
-export interface ReadPosition {
+export type ReadPosition = {
   /**
    * The `Uint8Array` from which bytes are being read.
    */
@@ -15,13 +15,13 @@ export interface ReadPosition {
    * The index at which the next byte should be read.
    */
   index: number;
-}
+};
 
 /**
  * The successful result of a read function, includes the result and the next
  * {@link ReadPosition}.
  */
-export interface ReadResult<Type> {
+export type ReadResult<Type> = {
   /**
    * The new read position after the successfully-read bytes.
    */
@@ -30,7 +30,7 @@ export interface ReadResult<Type> {
    * The successfully-read value.
    */
   result: Type;
-}
+};
 
 /**
  * The return type of a read function that may fail. May be a {@link ReadResult}
@@ -42,10 +42,10 @@ export type MaybeReadResult<Type> = ReadResult<Type> | string;
  * A function that reads some data beginning at a {@link ReadPosition}.
  */
 export type ReadFunction<Type> = (
-  position: ReadPosition
+  position: ReadPosition,
 ) => MaybeReadResult<Type>;
 
-type ExtractReadFunctionResults<T extends readonly ReadFunction<unknown>[]> = {
+type ExtractReadFunctionResults<T extends ReadFunction<unknown>[]> = {
   [K in keyof T]: T[K] extends ReadFunction<infer V> ? V : never;
 };
 
@@ -62,20 +62,20 @@ type ExtractReadFunctionResults<T extends readonly ReadFunction<unknown>[]> = {
  */
 export const readMultiple = <ReadFunctionList extends ReadFunction<unknown>[]>(
   position: ReadPosition,
-  readFunctions: [...ReadFunctionList]
+  readFunctions: [...ReadFunctionList],
 ): MaybeReadResult<ExtractReadFunctionResults<ReadFunctionList>> => {
   // eslint-disable-next-line functional/no-let
   let nextPosition = position;
   const results = [];
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   for (const readFunction of readFunctions) {
     const out = readFunction(nextPosition);
     if (typeof out === 'string') {
       return out;
     }
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     results.push(out.result);
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     nextPosition = out.position;
   }
   return {
@@ -99,7 +99,7 @@ export enum ReadItemCountError {
  */
 export const readItemCount = <Type>(
   position: ReadPosition,
-  readFunction: ReadFunction<Type>
+  readFunction: ReadFunction<Type>,
 ): MaybeReadResult<Type[]> => {
   const countRead = readCompactUintMinimal(position);
   if (typeof countRead === 'string') {
@@ -108,15 +108,15 @@ export const readItemCount = <Type>(
   // eslint-disable-next-line functional/no-let
   let nextPosition = countRead.position;
   const result: Type[] = [];
-  // eslint-disable-next-line functional/no-loop-statement, functional/no-let, no-plusplus
+  // eslint-disable-next-line functional/no-loop-statements, functional/no-let, no-plusplus
   for (let remaining = Number(countRead.result); remaining > 0; remaining--) {
     const read = readFunction(nextPosition);
     if (typeof read === 'string') {
       return formatError(ReadItemCountError.item, read);
     }
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     result.push(read.result);
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     nextPosition = read.position;
   }
   return { position: nextPosition, result };

@@ -26,7 +26,7 @@ import type {
 } from '../lib.js';
 
 const returnFailedCompilationDirective = <
-  Type extends 'locking' | 'unlocking'
+  Type extends 'locking' | 'unlocking',
 >({
   index,
   result,
@@ -36,7 +36,7 @@ const returnFailedCompilationDirective = <
   result:
     | CompilationResultParseError
     | CompilationResultReduceError<unknown>
-    | CompilationResultResolveError;
+    | CompilationResultResolveError<unknown>;
   type: Type;
 }) => ({
   errors: result.errors.map((error) => ({
@@ -54,17 +54,18 @@ export const compileOutputTemplate = <
     unknown,
     AnyCompilerConfiguration<unknown>,
     unknown
-  >
+  >,
+  ProgramState,
 >({
   outputTemplate,
   index,
 }: {
   outputTemplate: OutputTemplate<CompilerType>;
   index: number;
-}): BytecodeGenerationErrorLocking | Output => {
+}): BytecodeGenerationErrorLocking<ProgramState> | Output => {
   if ('script' in outputTemplate.lockingBytecode) {
     const directive = outputTemplate.lockingBytecode;
-    const data = directive.data === undefined ? {} : directive.data;
+    const data = directive.data ?? {};
     const result = directive.compiler.generateBytecode({
       data,
       debug: true,
@@ -95,7 +96,8 @@ export const compileInputTemplate = <
     AnyCompilerConfiguration<CompilationContext>,
     unknown
   >,
-  CompilationContext extends CompilationContextBCH = CompilationContextBCH
+  ProgramState,
+  CompilationContext extends CompilationContextBCH = CompilationContextBCH,
 >({
   inputTemplate,
   index,
@@ -105,13 +107,13 @@ export const compileInputTemplate = <
   inputTemplate: InputTemplate<CompilerType>;
   index: number;
   outputs: Output[];
-  template: Readonly<TransactionTemplateFixed<CompilerType>>;
-}): BytecodeGenerationErrorUnlocking | Input => {
+  template: TransactionTemplateFixed<CompilerType>;
+}): BytecodeGenerationErrorUnlocking<ProgramState> | Input => {
   if ('script' in inputTemplate.unlockingBytecode) {
     const directive = inputTemplate.unlockingBytecode;
     // TODO: workaround, replace by migrating to PST format
     const sourceOutputs = [];
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     sourceOutputs[index] = {
       lockingBytecode: Uint8Array.of(),
       ...(inputTemplate.unlockingBytecode.token === undefined
@@ -169,31 +171,35 @@ export const compileInputTemplate = <
  */
 export const generateTransaction = <
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  CompilerType extends Compiler<any, AnyCompilerConfiguration<any>, any>
+  CompilerType extends Compiler<any, AnyCompilerConfiguration<any>, any>,
+  ProgramState,
 >(
-  template: Readonly<TransactionTemplateFixed<CompilerType>>
-): TransactionGenerationAttempt => {
+  template: TransactionTemplateFixed<CompilerType>,
+): TransactionGenerationAttempt<ProgramState> => {
   const outputResults = template.outputs.map((outputTemplate, index) =>
     compileOutputTemplate({
       index,
       outputTemplate,
-    })
+    }),
   );
 
   const outputCompilationErrors = outputResults.filter(
-    (result): result is BytecodeGenerationErrorLocking => 'errors' in result
+    (result): result is BytecodeGenerationErrorLocking<ProgramState> =>
+      'errors' in result,
   );
   if (outputCompilationErrors.length > 0) {
     const outputCompletions = outputResults
-      .map<BytecodeGenerationCompletionOutput | BytecodeGenerationErrorLocking>(
-        (result, index) =>
-          'lockingBytecode' in result
-            ? { index, output: result, type: 'output' }
-            : result
+      .map<
+        | BytecodeGenerationCompletionOutput
+        | BytecodeGenerationErrorLocking<ProgramState>
+      >((result, index) =>
+        'lockingBytecode' in result
+          ? { index, output: result, type: 'output' }
+          : result,
       )
       .filter(
         (result): result is BytecodeGenerationCompletionOutput =>
-          'output' in result
+          'output' in result,
       );
     return {
       completions: outputCompletions,
@@ -210,24 +216,26 @@ export const generateTransaction = <
       inputTemplate,
       outputs,
       template,
-    })
+    }),
   );
 
   const inputCompilationErrors = inputResults.filter(
-    (result): result is BytecodeGenerationErrorUnlocking => 'errors' in result
+    (result): result is BytecodeGenerationErrorUnlocking<ProgramState> =>
+      'errors' in result,
   );
   if (inputCompilationErrors.length > 0) {
     const inputCompletions = inputResults
       .map<
-        BytecodeGenerationCompletionInput | BytecodeGenerationErrorUnlocking
+        | BytecodeGenerationCompletionInput
+        | BytecodeGenerationErrorUnlocking<ProgramState>
       >((result, index) =>
         'unlockingBytecode' in result
           ? { index, input: result, type: 'input' }
-          : result
+          : result,
       )
       .filter(
         (result): result is BytecodeGenerationCompletionInput =>
-          'input' in result
+          'input' in result,
       );
     return {
       completions: inputCompletions,
@@ -257,17 +265,19 @@ export const generateTransaction = <
  * @param transactionGenerationError - a transaction generation attempt where
  * `success` is `false`
  */
-export const extractResolvedVariables = (
-  transactionGenerationError: TransactionGenerationError
+export const extractResolvedVariables = <ProgramState>(
+  transactionGenerationError: TransactionGenerationError<ProgramState>,
 ) =>
-  (transactionGenerationError.errors as BytecodeGenerationErrorBase[]).reduce<{
+  (
+    transactionGenerationError.errors as BytecodeGenerationErrorBase<ProgramState>[]
+  ).reduce<{
     [fullIdentifier: string]: Uint8Array;
   }>(
     (all, error) =>
       error.resolved === undefined
         ? all
         : { ...all, ...extractResolvedVariableBytecodeMap(error.resolved) },
-    {}
+    {},
   );
 
 /**
@@ -284,11 +294,11 @@ export const extractResolvedVariables = (
  * @param transactionGenerationError - a transaction generation result where
  * `success` is `false`
  */
-export const extractMissingVariables = (
-  transactionGenerationError: TransactionGenerationError
+export const extractMissingVariables = <ProgramState>(
+  transactionGenerationError: TransactionGenerationError<ProgramState>,
 ) => {
   const allErrors = (
-    transactionGenerationError.errors as BytecodeGenerationErrorBase[]
+    transactionGenerationError.errors as BytecodeGenerationErrorBase<ProgramState>[]
   ).reduce<CompilationError[]>((all, error) => [...all, ...error.errors], []);
 
   if (!allErrorsAreRecoverable(allErrors)) {
@@ -300,7 +310,7 @@ export const extractMissingVariables = (
       ...all,
       [error.missingIdentifier]: error.owningEntity,
     }),
-    {}
+    {},
   );
 };
 
@@ -331,13 +341,14 @@ export const extractMissingVariables = (
  * The first compilation must use only trusted compilation data
  */
 export const safelyExtendCompilationData = <
-  CompilationContext = CompilationContextBCH
+  ProgramState,
+  CompilationContext = CompilationContextBCH,
 >(
-  transactionGenerationError: TransactionGenerationError,
+  transactionGenerationError: TransactionGenerationError<ProgramState>,
   trustedCompilationData: CompilationData<CompilationContext>,
   untrustedResolutions: {
     [providedByEntityId: string]: ReturnType<typeof extractResolvedVariables>;
-  }
+  },
 ): CompilationData<CompilationContext> | false => {
   const missing = extractMissingVariables(transactionGenerationError);
   if (missing === false) return false;

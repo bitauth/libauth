@@ -4,7 +4,6 @@ import test from 'ava';
 
 import type { CompilationData, TransactionCommon } from '../lib.js';
 import {
-  authenticationTemplateToCompilerBCH,
   CashAddressNetworkPrefix,
   createVirtualMachineBCH,
   decodeTransactionCommon,
@@ -13,9 +12,10 @@ import {
   extractResolvedVariables,
   generateTransaction,
   hexToBin,
-  importAuthenticationTemplate,
+  importWalletTemplate,
   lockingBytecodeToCashAddress,
   stringify,
+  walletTemplateToCompilerBCH,
 } from '../lib.js';
 
 import {
@@ -30,7 +30,7 @@ const vm = createVirtualMachineBCH();
 
 // eslint-disable-next-line complexity
 test('transaction e2e tests: Sig-of-Sig Example', (t) => {
-  const template = importAuthenticationTemplate(sigOfSigJson);
+  const template = importWalletTemplate(sigOfSigJson);
   if (typeof template === 'string') {
     t.fail(stringify(template));
     return;
@@ -49,7 +49,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   };
 
   const lockingScript = 'lock';
-  const compiler = authenticationTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBCH(template);
   const lockingBytecode = compiler.generateBytecode({
     data: lockingData,
     scriptId: lockingScript,
@@ -63,7 +63,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
 
   const address = lockingBytecodeToCashAddress(
     lockingBytecode.bytecode,
-    CashAddressNetworkPrefix.testnet
+    CashAddressNetworkPrefix.testnet,
   );
 
   t.deepEqual(address, 'bchtest:ppcvyjuqwhuz06np4us443l26dzck305psl0dw6as9');
@@ -77,7 +77,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   const input = {
     outpointIndex: 1,
     outpointTransactionHash: hexToBin(
-      '1a3c3f950738c23de2461f04b2acd4dfb6b6eb80daeb457f24a6084c45c7da01'
+      '1a3c3f950738c23de2461f04b2acd4dfb6b6eb80daeb457f24a6084c45c7da01',
     ),
     sequenceNumber: 0,
     unlockingBytecode: {
@@ -136,24 +136,24 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
     {
       'second.data_signature.first_signature': 'signer_2',
     },
-    stringify(signer1MissingVariables)
+    stringify(signer1MissingVariables),
   );
 
   const signer1ResolvedVariables = extractResolvedVariables(signer1Attempt);
 
   const expectedSigner1Signature = hexToBin(
-    '30440220097cf5732181c1b398909993b4e7794d6f1dc2d40fa803e4e92665e929ce75d40220208df3ba16d67f20f3063bde3234a131845f21a724ef29dad5086d75d76385ec41'
+    '30440220097cf5732181c1b398909993b4e7794d6f1dc2d40fa803e4e92665e929ce75d40220208df3ba16d67f20f3063bde3234a131845f21a724ef29dad5086d75d76385ec41',
   );
 
   t.deepEqual(
     signer1ResolvedVariables,
     {
       'first.public_key': hexToBin(
-        '0349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e46588'
+        '0349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e46588',
       ),
       'first.signature.all_outputs': expectedSigner1Signature,
     },
-    stringify(signer1ResolvedVariables)
+    stringify(signer1ResolvedVariables),
   );
 
   /**
@@ -227,12 +227,12 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
        */
       transaction: decodeTransactionCommon(
         hexToBin(
-          '020000000101dac7454c08a6247f45ebda80ebb6b6dfd4acb2041f46e23dc23807953f3c1a01000000f04730440220097cf5732181c1b398909993b4e7794d6f1dc2d40fa803e4e92665e929ce75d40220208df3ba16d67f20f3063bde3234a131845f21a724ef29dad5086d75d76385ec41210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e4658846304402201673c0f6e8741bf2fd259411c212a2d7e326fe4c238118c0dbcab662ef439de10220259d9cf3414f662b83f5d7210e5b5890cdb64ee7e36f2187e6377c9e88a484613e52792102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b8469545bb76a91433c4f1d1e60cbe8eda7cf976752bbb313780c7db88ac000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000'
-        )
+          '020000000101dac7454c08a6247f45ebda80ebb6b6dfd4acb2041f46e23dc23807953f3c1a01000000f04730440220097cf5732181c1b398909993b4e7794d6f1dc2d40fa803e4e92665e929ce75d40220208df3ba16d67f20f3063bde3234a131845f21a724ef29dad5086d75d76385ec41210349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e4658846304402201673c0f6e8741bf2fd259411c212a2d7e326fe4c238118c0dbcab662ef439de10220259d9cf3414f662b83f5d7210e5b5890cdb64ee7e36f2187e6377c9e88a484613e52792102a438b1662aec9c35f85794600e1d2d3683a43cbb66307cf825fc4486b8469545bb76a91433c4f1d1e60cbe8eda7cf976752bbb313780c7db88ac000000000100000000000000000d6a0b68656c6c6f20776f726c6400000000',
+        ),
       ) as TransactionCommon,
     },
     `${stringify(successfulCompilation)} - ${stringify(
-      encodeTransactionCommon(successfulCompilation.transaction)
-    )}`
+      encodeTransactionCommon(successfulCompilation.transaction),
+    )}`,
   );
 });

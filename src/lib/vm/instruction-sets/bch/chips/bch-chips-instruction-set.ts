@@ -187,7 +187,7 @@ export const createInstructionSetBCHCHIPs = (
     secp256k1: internalSecp256k1,
     sha1: internalSha1,
     sha256: internalSha256,
-  }
+  },
 ): InstructionSet<
   ResolvedTransactionBCH,
   AuthenticationProgramBCH,
@@ -219,31 +219,31 @@ export const createInstructionSetBCHCHIPs = (
       if (unlockingBytecode.length > ConsensusBCH.maximumBytecodeLength) {
         return applyError(
           initialState,
-          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBCH.maximumBytecodeLength} bytes).`
+          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBCH.maximumBytecodeLength} bytes).`,
         );
       }
       if (authenticationInstructionsAreMalformed(unlockingInstructions)) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.malformedUnlockingBytecode
+          AuthenticationErrorCommon.malformedUnlockingBytecode,
         );
       }
       if (!isPushOnly(unlockingBytecode)) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.requiresPushOnly
+          AuthenticationErrorCommon.requiresPushOnly,
         );
       }
       if (lockingBytecode.length > ConsensusBCH.maximumBytecodeLength) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking
+          AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking,
         );
       }
       if (authenticationInstructionsAreMalformed(lockingInstructions)) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.malformedLockingBytecode
+          AuthenticationErrorCommon.malformedLockingBytecode,
         );
       }
       const unlockingResult = stateEvaluate(initialState);
@@ -253,7 +253,7 @@ export const createInstructionSetBCHCHIPs = (
       if (unlockingResult.controlStack.length !== 0) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.nonEmptyControlStack
+          AuthenticationErrorCommon.nonEmptyControlStack,
         );
       }
       const lockingResult = stateEvaluate(
@@ -261,7 +261,7 @@ export const createInstructionSetBCHCHIPs = (
           instructions: lockingInstructions,
           program,
           stack: unlockingResult.stack,
-        })
+        }),
       );
       if (!isPayToScriptHash20(lockingBytecode)) {
         return lockingResult;
@@ -285,7 +285,7 @@ export const createInstructionSetBCHCHIPs = (
               instructions: p2shInstructions,
               program,
               stack: p2shStack,
-            })
+            }),
           );
     },
     every: (state) => {
@@ -295,7 +295,7 @@ export const createInstructionSetBCHCHIPs = (
       ) {
         return applyError(
           state,
-          AuthenticationErrorCommon.exceededMaximumStackDepth
+          AuthenticationErrorCommon.exceededMaximumStackDepth,
         );
       }
       return state;
@@ -381,58 +381,58 @@ export const createInstructionSetBCHCHIPs = (
       [OpcodesBCHCHIPs.OP_PUSHDATA_2]: conditionallyPush,
       [OpcodesBCHCHIPs.OP_PUSHDATA_4]: conditionallyPush,
       [OpcodesBCHCHIPs.OP_1NEGATE]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(-1)
+        pushNumberOperation(-1),
       ),
       [OpcodesBCHCHIPs.OP_RESERVED]:
         conditionallyEvaluateChipLoops(reservedOperation),
       [OpcodesBCHCHIPs.OP_1]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(1)
+        pushNumberOperation(1),
       ),
       /* eslint-disable @typescript-eslint/no-magic-numbers */
       [OpcodesBCHCHIPs.OP_2]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(2)
+        pushNumberOperation(2),
       ),
       [OpcodesBCHCHIPs.OP_3]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(3)
+        pushNumberOperation(3),
       ),
       [OpcodesBCHCHIPs.OP_4]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(4)
+        pushNumberOperation(4),
       ),
       [OpcodesBCHCHIPs.OP_5]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(5)
+        pushNumberOperation(5),
       ),
       [OpcodesBCHCHIPs.OP_6]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(6)
+        pushNumberOperation(6),
       ),
       [OpcodesBCHCHIPs.OP_7]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(7)
+        pushNumberOperation(7),
       ),
       [OpcodesBCHCHIPs.OP_8]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(8)
+        pushNumberOperation(8),
       ),
       [OpcodesBCHCHIPs.OP_9]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(9)
+        pushNumberOperation(9),
       ),
       [OpcodesBCHCHIPs.OP_10]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(10)
+        pushNumberOperation(10),
       ),
       [OpcodesBCHCHIPs.OP_11]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(11)
+        pushNumberOperation(11),
       ),
       [OpcodesBCHCHIPs.OP_12]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(12)
+        pushNumberOperation(12),
       ),
       [OpcodesBCHCHIPs.OP_13]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(13)
+        pushNumberOperation(13),
       ),
       [OpcodesBCHCHIPs.OP_14]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(14)
+        pushNumberOperation(14),
       ),
       [OpcodesBCHCHIPs.OP_15]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(15)
+        pushNumberOperation(15),
       ),
       [OpcodesBCHCHIPs.OP_16]: conditionallyEvaluateChipLoops(
-        pushNumberOperation(16)
+        pushNumberOperation(16),
       ),
       /* eslint-enable @typescript-eslint/no-magic-numbers */
 
@@ -518,33 +518,33 @@ export const createInstructionSetBCHCHIPs = (
       [OpcodesBCHCHIPs.OP_MAX]: conditionallyEvaluateChipLoops(opMax),
       [OpcodesBCHCHIPs.OP_WITHIN]: conditionallyEvaluateChipLoops(opWithin),
       [OpcodesBCHCHIPs.OP_RIPEMD160]: conditionallyEvaluateChipLoops(
-        opRipemd160({ ripemd160 })
+        opRipemd160({ ripemd160 }),
       ),
       [OpcodesBCHCHIPs.OP_SHA1]: conditionallyEvaluateChipLoops(
-        opSha1({ sha1 })
+        opSha1({ sha1 }),
       ),
       [OpcodesBCHCHIPs.OP_SHA256]: conditionallyEvaluateChipLoops(
-        opSha256({ sha256 })
+        opSha256({ sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_HASH160]: conditionallyEvaluateChipLoops(
-        opHash160({ ripemd160, sha256 })
+        opHash160({ ripemd160, sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_HASH256]: conditionallyEvaluateChipLoops(
-        opHash256({ sha256 })
+        opHash256({ sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_CODESEPARATOR]:
         conditionallyEvaluateChipLoops(opCodeSeparator),
       [OpcodesBCHCHIPs.OP_CHECKSIG]: conditionallyEvaluateChipLoops(
-        opCheckSigChipLimits({ secp256k1, sha256 })
+        opCheckSigChipLimits({ secp256k1, sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_CHECKSIGVERIFY]: conditionallyEvaluateChipLoops(
-        opCheckSigVerifyChipLimits({ secp256k1, sha256 })
+        opCheckSigVerifyChipLimits({ secp256k1, sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_CHECKMULTISIG]: conditionallyEvaluateChipLoops(
-        opCheckMultiSigChipLimits({ secp256k1, sha256 })
+        opCheckMultiSigChipLimits({ secp256k1, sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluateChipLoops(
-        opCheckMultiSigVerifyChipLimits({ secp256k1, sha256 })
+        opCheckMultiSigVerifyChipLimits({ secp256k1, sha256 }),
       ),
       ...(standard
         ? {
@@ -584,10 +584,10 @@ export const createInstructionSetBCHCHIPs = (
             [OpcodesBCHCHIPs.OP_NOP10]: conditionallyEvaluateChipLoops(opNop),
           }),
       [OpcodesBCHCHIPs.OP_CHECKDATASIG]: conditionallyEvaluateChipLoops(
-        opCheckDataSig({ secp256k1, sha256 })
+        opCheckDataSig({ secp256k1, sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_CHECKDATASIGVERIFY]: conditionallyEvaluateChipLoops(
-        opCheckDataSigVerify({ secp256k1, sha256 })
+        opCheckDataSigVerify({ secp256k1, sha256 }),
       ),
       [OpcodesBCHCHIPs.OP_REVERSEBYTES]:
         conditionallyEvaluateChipLoops(opReverseBytes),
@@ -614,7 +614,7 @@ export const createInstructionSetBCHCHIPs = (
       [OpcodesBCHCHIPs.OP_INPUTBYTECODE]:
         conditionallyEvaluateChipLoops(opInputBytecode),
       [OpcodesBCHCHIPs.OP_INPUTSEQUENCENUMBER]: conditionallyEvaluateChipLoops(
-        opInputSequenceNumber
+        opInputSequenceNumber,
       ),
       [OpcodesBCHCHIPs.OP_OUTPUTVALUE]:
         conditionallyEvaluateChipLoops(opOutputValue),
@@ -623,12 +623,12 @@ export const createInstructionSetBCHCHIPs = (
       [OpcodesBCHCHIPs.OP_UTXOTOKENCATEGORY]:
         conditionallyEvaluateChipLoops(opUtxoTokenCategory),
       [OpcodesBCHCHIPs.OP_UTXOTOKENCOMMITMENT]: conditionallyEvaluateChipLoops(
-        opUtxoTokenCommitment
+        opUtxoTokenCommitment,
       ),
       [OpcodesBCHCHIPs.OP_UTXOTOKENAMOUNT]:
         conditionallyEvaluateChipLoops(opUtxoTokenAmount),
       [OpcodesBCHCHIPs.OP_OUTPUTTOKENCATEGORY]: conditionallyEvaluateChipLoops(
-        opOutputTokenCategory
+        opOutputTokenCategory,
       ),
       [OpcodesBCHCHIPs.OP_OUTPUTTOKENCOMMITMENT]:
         conditionallyEvaluateChipLoops(opOutputTokenCommitment),
@@ -683,7 +683,7 @@ export const createInstructionSetBCHCHIPs = (
           return `Transaction exceeds maximum standard size: this transaction is ${transactionSize} bytes, but the maximum standard transaction size is ${ConsensusBCH.maximumStandardTransactionSize} bytes.`;
         }
 
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
           if (!isStandardOutputBytecode(output.lockingBytecode)) {
             return `Standard transactions may only spend standard output types, but source output ${index} is non-standard.`;
@@ -692,15 +692,15 @@ export const createInstructionSetBCHCHIPs = (
 
         // eslint-disable-next-line functional/no-let
         let totalArbitraryDataBytes = 0;
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of transaction.outputs.entries()) {
           if (!isStandardOutputBytecode(output.lockingBytecode)) {
             return `Standard transactions may only create standard output types, but transaction output ${index} is non-standard.`;
           }
 
-          // eslint-disable-next-line functional/no-conditional-statement
+          // eslint-disable-next-line functional/no-conditional-statements
           if (isArbitraryDataOutput(output.lockingBytecode)) {
-            // eslint-disable-next-line functional/no-expression-statement
+            // eslint-disable-next-line functional/no-expression-statements
             totalArbitraryDataBytes += output.lockingBytecode.length + 1;
           }
           /*
@@ -714,7 +714,7 @@ export const createInstructionSetBCHCHIPs = (
           return `Standard transactions may carry no more than ${ConsensusBCH.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
         }
 
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (const [index, input] of transaction.inputs.entries()) {
           if (
             input.unlockingBytecode.length >
@@ -728,7 +728,7 @@ export const createInstructionSetBCHCHIPs = (
         }
       }
 
-      // eslint-disable-next-line functional/no-loop-statement
+      // eslint-disable-next-line functional/no-loop-statements
       for (const index of transaction.inputs.keys()) {
         const state = evaluate({
           inputIndex: index,

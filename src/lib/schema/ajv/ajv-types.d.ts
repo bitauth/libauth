@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface AjvError<
+export type AjvError<
   Keyword = string,
-  Params = { [paramName: string]: number | string }
-> {
+  Params = { [paramName: string]: number | string },
+> = {
   keyword: Keyword;
   instancePath: string;
   schemaPath: string;
   params: Params;
   message: string;
-}
+};
 
 export type LibauthAjvError =
   | AjvError<'additionalProperties', { additionalProperty: string }>
@@ -19,8 +19,8 @@ export type LibauthAjvError =
  * Note: these types cover only Libauth use cases; other `ajv` error types are
  * possible using other settings.
  */
-// eslint-disable-next-line functional/no-mixed-type
-export interface AjvValidator<T = unknown> {
+// eslint-disable-next-line functional/no-mixed-types
+export type AjvValidator<T = unknown> = {
   (
     data: unknown,
     dataCxt?: {
@@ -28,7 +28,7 @@ export interface AjvValidator<T = unknown> {
       parentData: any;
       parentDataProperty: any;
       rootData?: any;
-    }
+    },
   ): data is T;
   errors?: LibauthAjvError[] | null;
-}
+};

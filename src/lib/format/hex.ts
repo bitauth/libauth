@@ -39,8 +39,8 @@ const hexadecimal = 16;
 export const hexToBin = (validHex: string) =>
   Uint8Array.from(
     splitEvery(validHex, hexByteWidth).map((byte) =>
-      parseInt(byte, hexadecimal)
-    )
+      parseInt(byte, hexadecimal),
+    ),
   );
 
 /**
@@ -61,7 +61,7 @@ export const isHex = (maybeHex: string) =>
 export const binToHex = (bytes: Uint8Array) =>
   bytes.reduce(
     (str, byte) => str + byte.toString(hexadecimal).padStart(hexByteWidth, '0'),
-    ''
+    '',
   );
 
 /**
@@ -77,12 +77,12 @@ export const swapEndianness = (validHex: string) =>
  * Reduce an array of `Uint8Array`s into a single `Uint8Array`.
  * @param array - the array of `Uint8Array`s to flatten
  */
-export const flattenBinArray = (array: readonly Uint8Array[]) => {
+export const flattenBinArray = (array: Uint8Array[]) => {
   const totalLength = array.reduce((total, bin) => total + bin.length, 0);
   const flattened = new Uint8Array(totalLength);
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements
   array.reduce((index, bin) => {
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     flattened.set(bin, index);
     return index + bin.length;
   }, 0);
@@ -99,7 +99,7 @@ export const binsAreEqual = (a: Uint8Array, b: Uint8Array) => {
   if (a.length !== b.length) {
     return false;
   }
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements, no-plusplus
   for (let i = 0; i < a.length; i++) {
     if (a[i] !== b[i]) {
       return false;

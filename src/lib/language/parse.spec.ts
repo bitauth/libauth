@@ -193,7 +193,7 @@ test('parseScript: BigIntLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(allowed)
+    stringifyTestVector(allowed),
   );
 
   const maybeUnexpected = parseScript('_1 1_');
@@ -259,7 +259,7 @@ test('parseScript: BigIntLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(maybeUnexpected)
+    stringifyTestVector(maybeUnexpected),
   );
 
   const errors = parseScript('-_1');
@@ -286,7 +286,7 @@ test('parseScript: BigIntLiteral', (t) => {
       },
       status: false,
     },
-    stringifyTestVector(errors)
+    stringifyTestVector(errors),
   );
 });
 
@@ -390,6 +390,44 @@ test('parseScript: UTF8Literal', (t) => {
       ],
     },
   });
+});
+
+test('parseScript: always lossy-normalizes unicode characters before parsing', (t) => {
+  const normalized = parseScript('"fit"');
+  const ligature = parseScript('"ﬁt"');
+  t.deepEqual(normalized, {
+    status: true,
+    value: {
+      end: {
+        column: 6,
+        line: 1,
+        offset: 5,
+      },
+      name: 'Script',
+      start: {
+        column: 1,
+        line: 1,
+        offset: 0,
+      },
+      value: [
+        {
+          end: {
+            column: 6,
+            line: 1,
+            offset: 5,
+          },
+          name: 'UTF8Literal',
+          start: {
+            column: 1,
+            line: 1,
+            offset: 0,
+          },
+          value: 'fit',
+        },
+      ],
+    },
+  });
+  t.deepEqual(ligature, normalized);
 });
 
 test('parseScript: HexLiteral', (t) => {
@@ -502,7 +540,7 @@ test('parseScript: HexLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(allowed)
+    stringifyTestVector(allowed),
   );
   const maybeUnexpected = parseScript('0x 0x0_ 0x0_11 0x0_1_ 0x_01');
   t.deepEqual(
@@ -665,7 +703,7 @@ test('parseScript: HexLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(maybeUnexpected)
+    stringifyTestVector(maybeUnexpected),
   );
 });
 
@@ -705,7 +743,7 @@ test('parseScript: BinaryLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(b1)
+    stringifyTestVector(b1),
   );
   const b010101 = parseScript('0b010101');
   t.deepEqual(
@@ -742,7 +780,7 @@ test('parseScript: BinaryLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(b010101)
+    stringifyTestVector(b010101),
   );
   const allowed = parseScript('0b0 0b1 0b111 0b0_0 0b0000_0000__0000_0000');
   t.deepEqual(
@@ -835,7 +873,7 @@ test('parseScript: BinaryLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(allowed)
+    stringifyTestVector(allowed),
   );
   const maybeUnexpected = parseScript('0b 0b_ 0b_1 0b1_');
   t.deepEqual(
@@ -970,7 +1008,7 @@ test('parseScript: BinaryLiteral', (t) => {
         ],
       },
     },
-    stringifyTestVector(maybeUnexpected)
+    stringifyTestVector(maybeUnexpected),
   );
 });
 
@@ -1010,7 +1048,7 @@ test('parseScript: comments', (t) => {
         ],
       },
     },
-    stringifyTestVector(single)
+    stringifyTestVector(single),
   );
   const multi = parseScript(`/* \nmulti-line\n comment\n */`);
   t.deepEqual(
@@ -1047,7 +1085,7 @@ test('parseScript: comments', (t) => {
         ],
       },
     },
-    stringifyTestVector(multi)
+    stringifyTestVector(multi),
   );
   const multiple = parseScript(`/* comment before */ OP_1 /* comment after */`);
   t.deepEqual(
@@ -1112,7 +1150,7 @@ test('parseScript: comments', (t) => {
         ],
       },
     },
-    stringifyTestVector(multiple)
+    stringifyTestVector(multiple),
   );
 });
 
@@ -2117,6 +2155,6 @@ test('parseScript: complex script', (t) => {
         ],
       },
     },
-    stringifyTestVector(result)
+    stringifyTestVector(result),
   );
 });

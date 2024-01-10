@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import type { AuthenticationTemplate } from '../../lib.js';
+import type { WalletTemplate } from '../../lib.js';
 
-export const sigOfSig: AuthenticationTemplate = {
+export const sigOfSig: WalletTemplate = {
   ...{
     name: 'Sig-of-Sig Vault (2-of-2)',
   },

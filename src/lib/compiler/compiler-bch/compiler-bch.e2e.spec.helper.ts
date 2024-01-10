@@ -52,7 +52,7 @@ export const expectCompilationResult = test.macro<
     CompilationData,
     BytecodeGenerationResult<AuthenticationProgramStateBCH>,
     CompilerConfiguration['variables']?,
-    Partial<CompilerConfiguration<CompilationContextBCH>>?
+    Partial<CompilerConfiguration<CompilationContextBCH>>?,
   ]
 >(
   (
@@ -61,8 +61,8 @@ export const expectCompilationResult = test.macro<
     otherData,
     expectedResult,
     variables,
-    configurationOverrides
-    // eslint-disable-next-line max-params
+    configurationOverrides,
+    // eslint-disable-next-line @typescript-eslint/max-params
   ) => {
     const compiler = compilerConfigurationToCompilerBCH<
       CompilerConfigurationBCH,
@@ -105,8 +105,8 @@ export const expectCompilationResult = test.macro<
       resultUnlock,
       expectedResult,
       `- \nResult: ${stringifyTestVector(
-        resultUnlock
-      )}\n\nExpected:\n ${stringifyTestVector(expectedResult)}\n`
+        resultUnlock,
+      )}\n\nExpected:\n ${stringifyTestVector(expectedResult)}\n`,
     );
-  }
+  },
 );

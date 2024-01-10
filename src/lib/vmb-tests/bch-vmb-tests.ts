@@ -778,8 +778,8 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
                   cashAssemblyToBin(
                     `OP_RETURN <0x${range(516)
                       .map((i) => binToHex(Uint8Array.of(i)))
-                      .join('')}>`
-                  ) as Uint8Array
+                      .join('')}>`,
+                  ) as Uint8Array,
                 ),
               },
             ],
@@ -801,8 +801,8 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
                   cashAssemblyToBin(
                     `OP_RETURN <0x${range(517)
                       .map((i) => binToHex(Uint8Array.of(i)))
-                      .join('')}>`
-                  ) as Uint8Array
+                      .join('')}>`,
+                  ) as Uint8Array,
                 ),
               },
             ],
@@ -822,8 +822,8 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
                   cashAssemblyToBin(
                     `OP_RETURN <0x${range(516)
                       .map((i) => binToHex(Uint8Array.of(i)))
-                      .join('')}>`
-                  ) as Uint8Array
+                      .join('')}>`,
+                  ) as Uint8Array,
                 ),
               },
             ],
@@ -843,8 +843,8 @@ export const vmbTestDefinitionsBCH: VmbTestDefinitionGroup[] = [
                   cashAssemblyToBin(
                     `OP_RETURN <0x${range(517)
                       .map((i) => binToHex(Uint8Array.of(i)))
-                      .join('')}>`
-                  ) as Uint8Array
+                      .join('')}>`,
+                  ) as Uint8Array,
                 ),
               },
             ],

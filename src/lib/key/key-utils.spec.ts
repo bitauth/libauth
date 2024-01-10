@@ -1,6 +1,5 @@
 import { randomBytes } from 'crypto';
 
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import {
@@ -9,6 +8,8 @@ import {
   secp256k1,
   validateSecp256k1PrivateKey,
 } from '../lib.js';
+
+import { fc, testProp } from '@fast-check/ava';
 
 const privateKeyLength = 32;
 const maximumUint8Value = 255;
@@ -21,44 +22,44 @@ test('validateSecp256k1PrivateKey', (t) => {
   t.false(
     validateSecp256k1PrivateKey(
       hexToBin(
-        '0000000000000000000000000000000000000000000000000000000000000000'
-      )
-    )
+        '0000000000000000000000000000000000000000000000000000000000000000',
+      ),
+    ),
   );
   t.true(
     validateSecp256k1PrivateKey(
       hexToBin(
-        '0000000000000000000000000000000000000000000000000000000000000001'
-      )
-    )
+        '0000000000000000000000000000000000000000000000000000000000000001',
+      ),
+    ),
   );
   t.true(
     validateSecp256k1PrivateKey(
       hexToBin(
-        '00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-      )
-    )
+        '00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+      ),
+    ),
   );
   t.true(
     validateSecp256k1PrivateKey(
       hexToBin(
-        'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413f'
-      )
-    )
+        'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd036413f',
+      ),
+    ),
   );
   t.false(
     validateSecp256k1PrivateKey(
       hexToBin(
-        'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140'
-      )
-    )
+        'fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364140',
+      ),
+    ),
   );
 });
 
 const secp256k1OrderNFFBytes = 15;
 
 const almostInvalid = Array(secp256k1OrderNFFBytes).fill(
-  maximumUint8Value
+  maximumUint8Value,
 ) as number[];
 const theRest = privateKeyLength - almostInvalid.length;
 
@@ -75,9 +76,9 @@ testProp(
   (t, input) => {
     t.deepEqual(
       validateSecp256k1PrivateKey(input),
-      secp256k1.validatePrivateKey(input)
+      secp256k1.validatePrivateKey(input),
     );
-  }
+  },
 );
 
 test('generatePrivateKey: works', (t) => {

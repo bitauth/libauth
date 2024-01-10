@@ -25,20 +25,19 @@ const enum SimpleError {
   FAIL = 'The top stack item must be a 1.',
 }
 
-interface SimpleResolvedTransaction {
-  transaction: { instructions: readonly AuthenticationInstruction[] };
-}
+type SimpleResolvedTransaction = {
+  transaction: { instructions: AuthenticationInstruction[] };
+};
 
-interface SimpleProgram {
-  instructions: readonly AuthenticationInstruction[];
-}
+type SimpleProgram = {
+  instructions: AuthenticationInstruction[];
+};
 
-interface SimpleProgramState
-  extends AuthenticationProgramStateMinimum,
-    AuthenticationProgramStateStack<number> {
-  repeated?: true;
-  error?: string;
-}
+type SimpleProgramState = AuthenticationProgramStateMinimum &
+  AuthenticationProgramStateStack<number> & {
+    repeated?: true;
+    error?: string;
+  };
 
 const simpleInstructionSet: InstructionSet<
   SimpleResolvedTransaction,
@@ -105,11 +104,8 @@ const simpleInstructionSet: InstructionSet<
     },
   },
   success: (state) =>
-    state.error === undefined
-      ? state.stack[state.stack.length - 1] === 1
-        ? true
-        : SimpleError.FAIL
-      : state.error,
+    state.error ??
+    (state.stack[state.stack.length - 1] === 1 || SimpleError.FAIL),
   undefined: (state) => {
     state.error = SimpleError.UNDEFINED;
     return state;
@@ -118,7 +114,7 @@ const simpleInstructionSet: InstructionSet<
     const result = success(
       evaluate({
         instructions: resolvedTransaction.transaction.instructions,
-      })
+      }),
     );
     return typeof result === 'string' ? result : true;
   },
@@ -126,7 +122,7 @@ const simpleInstructionSet: InstructionSet<
 
 const vm = createAuthenticationVirtualMachine(simpleInstructionSet);
 
-const instructions: readonly AuthenticationInstruction[] = [
+const instructions: AuthenticationInstruction[] = [
   { opcode: SimpleOps.OP_0 },
   { opcode: SimpleOps.OP_INCREMENT },
   { opcode: SimpleOps.OP_INCREMENT },
@@ -135,12 +131,12 @@ const instructions: readonly AuthenticationInstruction[] = [
   { opcode: SimpleOps.OP_ADD },
 ];
 
-const instructionsFail1: readonly AuthenticationInstruction[] = [
+const instructionsFail1: AuthenticationInstruction[] = [
   { opcode: SimpleOps.OP_0 },
   { opcode: SimpleOps.OP_DECREMENT },
 ];
 
-const instructionsFail2: readonly AuthenticationInstruction[] = [
+const instructionsFail2: AuthenticationInstruction[] = [
   { opcode: SimpleOps.OP_0 },
   { opcode: SimpleOps.OP_INCREMENT },
   { opcode: SimpleOps.OP_INCREMENT },
@@ -207,14 +203,14 @@ test('vm.verify with a simple instruction set (success)', (t) => {
 test('vm.verify with a simple instruction set (failure 1)', (t) => {
   t.deepEqual(
     vm.verify({ transaction: { instructions: instructionsFail1 } }),
-    SimpleError.FAIL
+    SimpleError.FAIL,
   );
 });
 
 test('vm.verify with a simple instruction set (failure 2)', (t) => {
   t.deepEqual(
     vm.verify({ transaction: { instructions: instructionsFail2 } }),
-    SimpleError.EXCESSIVE
+    SimpleError.EXCESSIVE,
   );
 });
 
@@ -251,7 +247,7 @@ test('vm.stateStepMutate does not clone (mutating the original state)', (t) => {
 test('vm.stateSuccess is available', (t) => {
   t.deepEqual(
     vm.stateSuccess({ instructions: instructionsFail1, ip: 0, stack: [2] }),
-    SimpleError.FAIL
+    SimpleError.FAIL,
   );
 });
 
@@ -266,12 +262,12 @@ test('vm.stateClone is available', (t) => {
       instructions,
       ip: 0,
       stack: [1, 2, 3],
-    }
+    },
   );
 });
 
 test('vm can control the instruction pointer', (t) => {
-  const repeated: readonly AuthenticationInstruction[] = [
+  const repeated: AuthenticationInstruction[] = [
     { opcode: SimpleOps.OP_0 },
     { opcode: SimpleOps.OP_INCREMENT },
     { opcode: SimpleOps.OP_REPEAT },

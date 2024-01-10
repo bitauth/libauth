@@ -61,7 +61,7 @@ export enum CompressionFlag {
  * **It's very unlikely that consumers will need to use this interface directly.
  * See [[Secp256k1]] for a more purely-functional API.**
  */
-export interface Secp256k1Wasm {
+export type Secp256k1Wasm = {
   /**
    * Create a Secp256k1 context object.
    *
@@ -74,7 +74,7 @@ export interface Secp256k1Wasm {
    * verification).
    * @param context - a `Context` flag representing the capabilities needed
    */
-  readonly contextCreate: (context: ContextFlag) => number;
+  contextCreate: (context: ContextFlag) => number;
 
   /**
    * Updates the context randomization to protect against side-channel leakage.
@@ -97,24 +97,24 @@ export interface Secp256k1Wasm {
    * @param contextPtr - pointer to a context object
    * @param seedPtr - pointer to a 32-byte random seed
    */
-  readonly contextRandomize: (contextPtr: number, seedPtr: number) => 0 | 1;
+  contextRandomize: (contextPtr: number, seedPtr: number) => 0 | 1;
 
   /**
    * Frees a pointer allocated by the `malloc` method.
    * @param pointer - the pointer to be freed
    */
-  readonly free: (pointer: number) => number;
+  free: (pointer: number) => number;
 
-  readonly heapU32: Uint32Array;
-  readonly heapU8: Uint8Array;
-  readonly instance: WebAssembly.Instance;
+  heapU32: Uint32Array;
+  heapU8: Uint8Array;
+  instance: WebAssembly.Instance;
 
   /**
    * Allocates the given number of bytes in WebAssembly memory.
    * @param malloc - the number of bytes to allocate
    */
 
-  readonly malloc: (bytes: number) => number;
+  malloc: (bytes: number) => number;
 
   /**
    * The Secp256k1 library accepts a pointer to a `size_t outputlen` for both
@@ -123,14 +123,14 @@ export interface Secp256k1Wasm {
    * This is a convenience method to create and set the value of those pointers.
    * @param value - the value of the `size_t` (e.g. the buffer length)
    */
-  readonly mallocSizeT: (value: number) => number;
+  mallocSizeT: (value: number) => number;
 
   /**
    * Allocates space for the provided array, and assigns the array to the space.
    *
    * @param array - a Uint8Array to allocate in WebAssembly memory
    */
-  readonly mallocUint8Array: (array: Uint8Array) => number;
+  mallocUint8Array: (array: Uint8Array) => number;
 
   /**
    * Tweak a _privateKey_ by adding _tweak_ to it.
@@ -140,10 +140,10 @@ export interface Secp256k1Wasm {
    * @param secretKeyPtr - pointer to a 32 byte private key
    * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
-  readonly privkeyTweakAdd: (
+  privkeyTweakAdd: (
     contextPtr: number,
     secretKeyPtr: number,
-    tweakNum256Ptr: number
+    tweakNum256Ptr: number,
   ) => 0 | 1;
 
   /**
@@ -154,10 +154,10 @@ export interface Secp256k1Wasm {
    * @param secretKeyPtr - pointer to a 32 byte private key
    * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
-  readonly privkeyTweakMul: (
+  privkeyTweakMul: (
     contextPtr: number,
     secretKeyPtr: number,
-    tweakNum256Ptr: number
+    tweakNum256Ptr: number,
   ) => 0 | 1;
 
   /**
@@ -170,10 +170,10 @@ export interface Secp256k1Wasm {
    * internal representation, and must be serialized for outside use)
    * @param secretKeyPtr - pointer to a 32-byte private key
    */
-  readonly pubkeyCreate: (
+  pubkeyCreate: (
     contextPtr: number,
     publicKeyPtr: number,
-    secretKeyPtr: number
+    secretKeyPtr: number,
   ) => 0 | 1;
 
   /**
@@ -194,12 +194,12 @@ export interface Secp256k1Wasm {
    * (Note, this should be a simple integer, rather than a `size_t` pointer as
    * is required by the serialization methods.)
    */
-  readonly pubkeyParse: (
+  pubkeyParse: (
     contextPtr: number,
     publicKeyOutPtr: number,
     publicKeyInPtr: number,
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-    publicKeyInLength: 33 | 65
+    publicKeyInLength: 33 | 65,
   ) => 0 | 1;
 
   /**
@@ -216,12 +216,12 @@ export interface Secp256k1Wasm {
    * @param compression - a CompressionFlag indicating compressed
    * or uncompressed
    */
-  readonly pubkeySerialize: (
+  pubkeySerialize: (
     contextPtr: number,
     outputPtr: number,
     outputLengthPtr: number,
     publicKeyPtr: number,
-    compression: CompressionFlag
+    compression: CompressionFlag,
   ) => 1;
 
   /**
@@ -234,10 +234,10 @@ export interface Secp256k1Wasm {
    * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
 
-  readonly pubkeyTweakAdd: (
+  pubkeyTweakAdd: (
     contextPtr: number,
     publicKeyPtr: number,
-    tweakNum256Ptr: number
+    tweakNum256Ptr: number,
   ) => 0 | 1;
 
   /**
@@ -250,10 +250,10 @@ export interface Secp256k1Wasm {
    * @param tweakNum256Ptr - pointer to a 256 bit int representing the tweak value
    */
 
-  readonly pubkeyTweakMul: (
+  pubkeyTweakMul: (
     contextPtr: number,
     publicKeyPtr: number,
-    tweakNum256Ptr: number
+    tweakNum256Ptr: number,
   ) => 0 | 1;
 
   /**
@@ -263,14 +263,14 @@ export interface Secp256k1Wasm {
    * @param pointer - a pointer to the beginning of the Uint8Array element
    * @param bytes - the number of bytes to copy
    */
-  readonly readHeapU8: (pointer: number, bytes: number) => Uint8Array;
+  readHeapU8: (pointer: number, bytes: number) => Uint8Array;
 
   /**
    * Read a `size_t` from WebAssembly memory.
    *
    * @param pointer - a pointer to the `size_t` variable to read
    */
-  readonly readSizeT: (pointer: number) => number;
+  readSizeT: (pointer: number) => number;
 
   /**
    * Compute the public key given a recoverable signature and message hash.
@@ -284,11 +284,11 @@ export interface Secp256k1Wasm {
    * @param msg32Ptr - pointer to the 32-byte message hash the signed by this
    * signature
    */
-  readonly recover: (
+  recover: (
     contextPtr: number,
     publicKeyPtr: number,
     rSigPtr: number,
-    msg32Ptr: number
+    msg32Ptr: number,
   ) => 0 | 1;
 
   /**
@@ -309,11 +309,11 @@ export interface Secp256k1Wasm {
    * @param inputSigPtr - pointer to a serialized signature in compact format
    * @param rid - the recovery number, as an int. (Not a pointer)
    */
-  readonly recoverableSignatureParse: (
+  recoverableSignatureParse: (
     contextPtr: number,
     outputRSigPtr: number,
     inputSigPtr: number,
-    rid: number
+    rid: number,
   ) => 0 | 1;
 
   /**
@@ -329,11 +329,11 @@ export interface Secp256k1Wasm {
    * @param rSigPtr - pointer to the 65-byte signature to be serialized
    * (internal format)
    */
-  readonly recoverableSignatureSerialize: (
+  recoverableSignatureSerialize: (
     contextPtr: number,
     sigOutPtr: number,
     recIDOutPtr: number,
-    rSigPtr: number
+    rSigPtr: number,
   ) => 1;
 
   /**
@@ -359,11 +359,11 @@ export interface Secp256k1Wasm {
    * @param msg32Ptr - pointer to the 32-byte message hash being signed
    * @param secretKeyPtr - pointer to a 32-byte secret key
    */
-  readonly schnorrSign: (
+  schnorrSign: (
     contextPtr: number,
     outputSigPtr: number,
     msg32Ptr: number,
-    secretKeyPtr: number
+    secretKeyPtr: number,
   ) => 0 | 1;
 
   /**
@@ -378,11 +378,11 @@ export interface Secp256k1Wasm {
    * @param pubkeyPtr - pointer to the parsed pubkey with which to verify
    * (internal format)
    */
-  readonly schnorrVerify: (
+  schnorrVerify: (
     contextPtr: number,
     sigPtr: number,
     msg32Ptr: number,
-    publicKeyPtr: number
+    publicKeyPtr: number,
   ) => 0 | 1;
 
   /**
@@ -393,7 +393,7 @@ export interface Secp256k1Wasm {
    * @param contextPtr - pointer to a context object
    * @param secretKeyPtr - pointer to a 32-byte secret key
    */
-  readonly seckeyVerify: (contextPtr: number, secretKeyPtr: number) => 0 | 1;
+  seckeyVerify: (contextPtr: number, secretKeyPtr: number) => 0 | 1;
 
   /**
    * Create an ECDSA signature. The created signature is always in lower-S form.
@@ -412,11 +412,11 @@ export interface Secp256k1Wasm {
    * @param msg32Ptr - pointer to the 32-byte message hash being signed
    * @param secretKeyPtr - pointer to a 32-byte secret key
    */
-  readonly sign: (
+  sign: (
     contextPtr: number,
     outputSigPtr: number,
     msg32Ptr: number,
-    secretKeyPtr: number
+    secretKeyPtr: number,
   ) => 0 | 1;
 
   /**
@@ -434,10 +434,10 @@ export interface Secp256k1Wasm {
    * signature will be written (internal format)
    * @param inputSigPtr - pointer to a signature to malleate
    */
-  readonly signatureMalleate: (
+  signatureMalleate: (
     contextPtr: number,
     outputSigPtr: number,
-    inputSigPtr: number
+    inputSigPtr: number,
   ) => 1;
 
   /**
@@ -483,10 +483,10 @@ export interface Secp256k1Wasm {
    * @param inputSigPtr - pointer to a signature to check/normalize (internal
    * format)
    */
-  readonly signatureNormalize: (
+  signatureNormalize: (
     contextPtr: number,
     outputSigPtr: number,
-    inputSigPtr: number
+    inputSigPtr: number,
   ) => 0 | 1;
 
   /**
@@ -506,10 +506,10 @@ export interface Secp256k1Wasm {
    * will be written. (internal format)
    * @param compactSigInPtr - pointer to a serialized signature in compact format
    */
-  readonly signatureParseCompact: (
+  signatureParseCompact: (
     contextPtr: number,
     sigOutPtr: number,
-    compactSigInPtr: number
+    compactSigInPtr: number,
   ) => 0 | 1;
 
   /**
@@ -532,11 +532,11 @@ export interface Secp256k1Wasm {
    * this should be a simple integer, rather than a `size_t` pointer as is
    * required by the serialization methods.)
    */
-  readonly signatureParseDER: (
+  signatureParseDER: (
     contextPtr: number,
     sigOutPtr: number,
     sigDERInPtr: number,
-    sigDERInLength: number
+    sigDERInLength: number,
   ) => 0 | 1;
 
   /**
@@ -550,10 +550,10 @@ export interface Secp256k1Wasm {
    * @param inputSigPtr - pointer to the 64-byte signature to be serialized
    * (internal format)
    */
-  readonly signatureSerializeCompact: (
+  signatureSerializeCompact: (
     contextPtr: number,
     outputCompactSigPtr: number,
-    inputSigPtr: number
+    inputSigPtr: number,
   ) => 1;
 
   /**
@@ -570,11 +570,11 @@ export interface Secp256k1Wasm {
    * @param inputSigPtr - pointer to the 64-byte signature to be serialized
    * (internal format)
    */
-  readonly signatureSerializeDER: (
+  signatureSerializeDER: (
     contextPtr: number,
     outputDERSigPtr: number,
     outputDERSigLengthPtr: number,
-    inputSigPtr: number
+    inputSigPtr: number,
   ) => 0 | 1;
 
   /**
@@ -595,11 +595,11 @@ export interface Secp256k1Wasm {
    * @param msg32Ptr - pointer to the 32-byte message hash being signed
    * @param secretKeyPtr - pointer to a 32-byte secret key
    */
-  readonly signRecoverable: (
+  signRecoverable: (
     contextPtr: number,
     outputRSigPtr: number,
     msg32Ptr: number,
-    secretKeyPtr: number
+    secretKeyPtr: number,
   ) => 0 | 1;
 
   /**
@@ -623,10 +623,10 @@ export interface Secp256k1Wasm {
    * @param pubkeyPtr - pointer to the parsed pubkey with which to verify
    * (internal format)
    */
-  readonly verify: (
+  verify: (
     contextPtr: number,
     sigPtr: number,
     msg32Ptr: number,
-    pubkeyPtr: number
+    pubkeyPtr: number,
   ) => 0 | 1;
-}
+};

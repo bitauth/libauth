@@ -3,13 +3,10 @@
  */
 import { encodeBech32, regroupBits } from '../address/address.js';
 import { createCompilerBCH } from '../compiler/compiler-bch/compiler-bch.js';
-import { authenticationTemplateToCompilerConfiguration } from '../compiler/compiler-utils.js';
+import { walletTemplateToCompilerConfiguration } from '../compiler/compiler-utils.js';
 import { sha256 } from '../crypto/crypto.js';
 import { binToHex, flattenBinArray } from '../format/format.js';
-import type {
-  AuthenticationTemplate,
-  AuthenticationTemplateScenario,
-} from '../lib.js';
+import type { WalletTemplate, WalletTemplateScenario } from '../lib.js';
 import {
   encodeTransaction,
   encodeTransactionOutputs,
@@ -71,7 +68,7 @@ export type VmbTestMasterBCH = [
    *
    * This field is left undefined for `inputIndex`s of `0` (the default).
    */
-  inputIndex?: number
+  inputIndex?: number,
 ];
 
 export type VmbTest = [
@@ -81,7 +78,7 @@ export type VmbTest = [
   redeemOrLockingScriptAsm: string,
   testTransactionHex: string,
   sourceOutputsHex: string,
-  inputIndex?: number
+  inputIndex?: number,
 ];
 
 /**
@@ -152,9 +149,8 @@ const testSetOverrideListBCH = [
 ] as const;
 
 type TestSetOverrideListBCH = (typeof testSetOverrideListBCH)[number];
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const testList = (_list: Readonly<Readonly<TestSetOverrideLabelBCH[]>[]>) => 0;
-// eslint-disable-next-line functional/no-expression-statement
+// eslint-disable-next-line functional/no-expression-statements
 testList(testSetOverrideListBCH);
 
 type TestPlan = {
@@ -715,16 +711,16 @@ export type VmbTestDefinition = [
   /**
    * A scenario that extends the default scenario for use with this test.
    */
-  scenario?: AuthenticationTemplateScenario,
+  scenario?: WalletTemplateScenario,
   /**
    * An additional mapping of scripts to make available during scenario
    * generation.
    */
-  additionalScripts?: AuthenticationTemplate['scripts']
+  additionalScripts?: WalletTemplate['scripts'],
 ];
 export type VmbTestDefinitionGroup = [
   groupDescription: string,
-  tests: VmbTestDefinition[]
+  tests: VmbTestDefinition[],
 ];
 
 /**
@@ -734,7 +730,7 @@ export type VmbTestDefinitionGroup = [
 const defaultShortIdLength = 5;
 
 const planTestsBCH = (
-  labels?: readonly string[]
+  labels?: readonly string[],
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ) => supportedTestSetOverridesBCH[(labels ?? []).join(',')]!;
 
@@ -745,7 +741,7 @@ const planTestsBCH = (
 export const vmbTestDefinitionToVmbTests = (
   testDefinition: VmbTestDefinition,
   groupName = '',
-  shortIdLength = defaultShortIdLength
+  shortIdLength = defaultShortIdLength,
 ): VmbTestMasterBCH[] => {
   const [
     unlockingScript,
@@ -761,7 +757,7 @@ export const vmbTestDefinitionToVmbTests = (
 
   const scenarioDefinition = { extends: 'vmb_default', ...scenarioOverride };
 
-  const configuration = authenticationTemplateToCompilerConfiguration({
+  const configuration = walletTemplateToCompilerConfiguration({
     entities: { tester: { variables: { key1: { type: 'HdKey' } } } },
     scenarios: {
       [scenarioId]: scenarioDefinition,
@@ -816,25 +812,25 @@ export const vmbTestDefinitionToVmbTests = (
       }[planItem.mode],
     });
     if (typeof result === 'string') {
-      // eslint-disable-next-line functional/no-throw-statement
+      // eslint-disable-next-line functional/no-throw-statements
       throw new Error(`Error while generating "${description}" - ${result}`);
     }
     if (typeof result.scenario === 'string') {
-      // eslint-disable-next-line functional/no-throw-statement
+      // eslint-disable-next-line functional/no-throw-statements
       throw new Error(
-        `Error while generating "${description}" - ${result.scenario}`
+        `Error while generating "${description}" - ${result.scenario}`,
       );
     }
     const encodedTx = encodeTransaction(result.scenario.program.transaction);
     const encodedSourceOutputs = encodeTransactionOutputs(
-      result.scenario.program.sourceOutputs
+      result.scenario.program.sourceOutputs,
     );
     const shortId = encodeBech32(
       regroupBits({
         bin: sha256.hash(flattenBinArray([encodedTx, encodedSourceOutputs])),
         resultWordLength: 5,
         sourceWordLength: 8,
-      }) as number[]
+      }) as number[],
     ).slice(0, shortIdLength);
 
     const testCase = [
@@ -859,7 +855,7 @@ export const vmbTestDefinitionToVmbTests = (
 
 export const vmbTestGroupToVmbTests = (testGroup: VmbTestDefinitionGroup) =>
   testGroup[1].map((testDefinition) =>
-    vmbTestDefinitionToVmbTests(testDefinition, testGroup[0])
+    vmbTestDefinitionToVmbTests(testDefinition, testGroup[0]),
   );
 
 /**
@@ -883,7 +879,7 @@ export const vmbTestGroupToVmbTests = (testGroup: VmbTestDefinitionGroup) =>
  * separate files).
  */
 export const vmbTestPartitionMasterTestList = (
-  masterTestList: VmbTestMasterBCH[]
+  masterTestList: VmbTestMasterBCH[],
 ) =>
   masterTestList.reduce<{
     [key in TestSetIdBCH]?: VmbTest[];
@@ -909,9 +905,9 @@ export const vmbTestPartitionMasterTestList = (
       ...(inputIndex === undefined ? [] : [inputIndex]),
     ] as VmbTest;
 
-    // eslint-disable-next-line functional/no-return-void, functional/no-expression-statement
+    // eslint-disable-next-line functional/no-return-void, functional/no-expression-statements
     testSets.forEach((testSet) => {
-      // eslint-disable-next-line functional/immutable-data, functional/no-expression-statement
+      // eslint-disable-next-line functional/immutable-data, functional/no-expression-statements
       accumulatedTestSets[testSet] = [
         ...(accumulatedTestSets[testSet] ?? []),
         withoutSets,

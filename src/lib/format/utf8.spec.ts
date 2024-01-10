@@ -1,8 +1,9 @@
-import { testProp } from '@fast-check/ava';
 import test from 'ava';
-import fc from 'fast-check';
 
 import { binToUtf8, hexToBin, utf8ToBin } from '../lib.js';
+
+import { testProp } from '@fast-check/ava';
+import fc from 'fast-check';
 
 const maxUint8Number = 255;
 const fcUint8Array = (minLength: number, maxLength: number) =>
@@ -26,5 +27,5 @@ testProp(
   '[fast-check] utf8ToBin <-> binToUtf8',
   [fcUint8Array(0, testBinLength)],
   (t, input) =>
-    t.deepEqual(binToUtf8(utf8ToBin(binToUtf8(input))), binToUtf8(input))
+    t.deepEqual(binToUtf8(utf8ToBin(binToUtf8(input))), binToUtf8(input)),
 );

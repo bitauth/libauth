@@ -1,5 +1,4 @@
 import { formatError } from '../format/format.js';
-import type { Immutable } from '../lib.js';
 
 import {
   decodeBech32,
@@ -213,7 +212,7 @@ const enum Constants {
  */
 export const encodeCashAddressVersionByte = (
   typeBits: CashAddressAvailableTypeBits,
-  length: CashAddressSupportedLength
+  length: CashAddressSupportedLength,
 ) =>
   // eslint-disable-next-line no-bitwise
   (typeBits << Constants.cashAddressTypeBitsShift) |
@@ -253,9 +252,9 @@ export const decodeCashAddressVersionByte = (version: number) =>
  */
 export const maskCashAddressPrefix = (prefix: string) => {
   const result = [];
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements, no-plusplus
   for (let i = 0; i < prefix.length; i++) {
-    // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
     result.push(prefix.charCodeAt(i) & Constants.asciiCaseInsensitiveBits);
   }
   return result;
@@ -314,8 +313,8 @@ const bech32GeneratorRemainingBytes = [0xf2bc8e61, 0xb76d99e2, 0x3e5fb3c4, 0x2ea
  * @param v - Array of 5-bit integers over which the checksum is to be computed
  */
 // Derived from the `bitcore-lib-cash` implementation (does not require BigInt): https://github.com/bitpay/bitcore
-export const cashAddressPolynomialModulo = (v: readonly number[]) => {
-  /* eslint-disable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, @typescript-eslint/no-magic-numbers */
+export const cashAddressPolynomialModulo = (v: number[]) => {
+  /* eslint-disable functional/no-let, functional/no-loop-statements, functional/no-expression-statements, no-bitwise, @typescript-eslint/no-magic-numbers */
   let mostSignificantByte = 0;
   let lowerBytes = 1;
   let c = 0;
@@ -331,7 +330,7 @@ export const cashAddressPolynomialModulo = (v: readonly number[]) => {
     lowerBytes ^= v[j]!;
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < bech32GeneratorMostSignificantByte.length; ++i) {
-      // eslint-disable-next-line functional/no-conditional-statement
+      // eslint-disable-next-line functional/no-conditional-statements
       if (c & (1 << i)) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         mostSignificantByte ^= bech32GeneratorMostSignificantByte[i]!;
@@ -341,13 +340,13 @@ export const cashAddressPolynomialModulo = (v: readonly number[]) => {
     }
   }
   lowerBytes ^= 1;
-  // eslint-disable-next-line functional/no-conditional-statement
+  // eslint-disable-next-line functional/no-conditional-statements
   if (lowerBytes < 0) {
     lowerBytes ^= 1 << 31;
     lowerBytes += (1 << 30) * 2;
   }
   return mostSignificantByte * (1 << 30) * 4 + lowerBytes;
-  /* eslint-enable functional/no-let, functional/no-loop-statement, functional/no-expression-statement, no-bitwise, @typescript-eslint/no-magic-numbers */
+  /* eslint-enable functional/no-let, functional/no-loop-statements, functional/no-expression-statements, no-bitwise, @typescript-eslint/no-magic-numbers */
 };
 
 /**
@@ -358,11 +357,11 @@ export const cashAddressPolynomialModulo = (v: readonly number[]) => {
  */
 export const cashAddressChecksumToUint5Array = (checksum: number) => {
   const result = [];
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements, no-plusplus
   for (let i = 0; i < Constants.base256WordLength; ++i) {
-    // eslint-disable-next-line functional/no-expression-statement, no-bitwise, @typescript-eslint/no-magic-numbers, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-magic-numbers, functional/immutable-data
     result.push(checksum & 31);
-    // eslint-disable-next-line functional/no-expression-statement, @typescript-eslint/no-magic-numbers, no-param-reassign
+    // eslint-disable-next-line functional/no-expression-statements, @typescript-eslint/no-magic-numbers, no-param-reassign
     checksum /= 32;
   }
   // eslint-disable-next-line functional/immutable-data
@@ -384,7 +383,7 @@ export const cashAddressChecksumToUint5Array = (checksum: number) => {
 export const encodeCashAddressFormat = (
   prefix: string,
   version: number,
-  payload: Immutable<Uint8Array>
+  payload: Uint8Array,
 ) => {
   const checksum40BitPlaceholder = [0, 0, 0, 0, 0, 0, 0, 0];
   const payloadContents = regroupBits({
@@ -413,7 +412,7 @@ export enum CashAddressEncodingError {
 }
 
 export const isValidCashAddressPayloadLength = (
-  length: number
+  length: number,
 ): length is CashAddressSupportedLength =>
   (cashAddressLengthToSizeBits[length as CashAddressSupportedLength] as
     | CashAddressSizeBits
@@ -443,22 +442,22 @@ export const isValidCashAddressPayloadLength = (
 export const encodeCashAddressNonStandard = (
   prefix: string,
   typeBits: CashAddressAvailableTypeBits,
-  payload: Uint8Array
+  payload: Uint8Array,
 ) => {
   const { length } = payload;
   if (!isValidCashAddressPayloadLength(length)) {
-    // eslint-disable-next-line functional/no-throw-statement
+    // eslint-disable-next-line functional/no-throw-statements
     throw new Error(
       formatError(
         CashAddressEncodingError.unsupportedPayloadLength,
-        `Payload length: ${length}.`
-      )
+        `Payload length: ${length}.`,
+      ),
     );
   }
   return encodeCashAddressFormat(
     prefix,
     encodeCashAddressVersionByte(typeBits, length),
-    payload
+    payload,
   );
 };
 
@@ -484,12 +483,12 @@ export const encodeCashAddressNonStandard = (
 export const encodeCashAddress = (
   prefix: `${CashAddressNetworkPrefix}`,
   type: `${CashAddressType}`,
-  payload: Uint8Array
+  payload: Uint8Array,
 ) =>
   encodeCashAddressNonStandard(
     prefix,
     cashAddressTypeToTypeBits[type],
-    payload
+    payload,
   );
 
 export enum CashAddressDecodingError {
@@ -639,13 +638,13 @@ export const decodeCashAddress = (address: string) => {
 // decodeCashAddressWithoutPrefix
 export const decodeCashAddressFormatWithoutPrefix = (
   address: string,
-  possiblePrefixes: readonly string[] = [
+  possiblePrefixes: string[] = [
     CashAddressNetworkPrefix.mainnet,
     CashAddressNetworkPrefix.testnet,
     CashAddressNetworkPrefix.regtest,
-  ]
+  ],
 ) => {
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   for (const prefix of possiblePrefixes) {
     const attempt = decodeCashAddressFormat(`${prefix}:${address}`);
     if (attempt !== CashAddressDecodingError.invalidChecksum) {
@@ -670,14 +669,12 @@ export const decodeCashAddressFormatWithoutPrefix = (
  * @param polynomial - an array of 5-bit integers representing the terms of a
  * CashAddress polynomial
  */
-export const cashAddressPolynomialToCashAddress = (
-  polynomial: readonly number[]
-) => {
+export const cashAddressPolynomialToCashAddress = (polynomial: number[]) => {
   const separatorPosition = polynomial.indexOf(0);
   const prefix = polynomial
     .slice(0, separatorPosition)
     .map((integer) =>
-      String.fromCharCode(Constants.asciiLowerCaseStart + integer)
+      String.fromCharCode(Constants.asciiLowerCaseStart + integer),
     )
     .join('');
   const contents = encodeBech32(polynomial.slice(separatorPosition + 1));
@@ -737,9 +734,9 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
   }
 
   const syndromes: { [index: string]: number } = {};
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements, no-plusplus
   for (let term = 0; term < polynomial.length; term++) {
-    // eslint-disable-next-line functional/no-loop-statement
+    // eslint-disable-next-line functional/no-loop-statements
     for (
       // eslint-disable-next-line functional/no-let
       let errorVector = 1;
@@ -747,7 +744,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       // eslint-disable-next-line no-plusplus
       errorVector++
     ) {
-      // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
       polynomial[term] ^= errorVector;
 
       const correct = cashAddressPolynomialModulo(polynomial);
@@ -759,14 +756,14 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       }
       // eslint-disable-next-line no-bitwise
       const s0 = (BigInt(correct) ^ BigInt(originalChecksum)).toString();
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       syndromes[s0] = term * Constants.finiteFieldOrder + errorVector;
-      // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
       polynomial[term] ^= errorVector;
     }
   }
 
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   for (const [s0, pe] of Object.entries(syndromes)) {
     // eslint-disable-next-line no-bitwise
     const s1Location = (BigInt(s0) ^ BigInt(originalChecksum)).toString();
@@ -774,9 +771,9 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
     if (s1 !== undefined) {
       const correctionIndex1 = Math.trunc(pe / Constants.finiteFieldOrder);
       const correctionIndex2 = Math.trunc(s1 / Constants.finiteFieldOrder);
-      // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
       polynomial[correctionIndex1] ^= pe % Constants.finiteFieldOrder;
-      // eslint-disable-next-line functional/no-expression-statement, no-bitwise, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
       polynomial[correctionIndex2] ^= s1 % Constants.finiteFieldOrder;
       return {
         address: cashAddressPolynomialToCashAddress(polynomial),

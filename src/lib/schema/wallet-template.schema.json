@@ -1,24 +1,41 @@
 {
-  "$ref": "#/definitions/AuthenticationTemplate",
+  "$ref": "#/definitions/WalletTemplate",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "AuthenticationTemplate": {
+    "AuthenticationVirtualMachineIdentifier": {
+      "description": "Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `XEC` prefix identifies the eCash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin Core network. VM versions are named according to the date they were deployed on the indicated network.\n\nFor each network prefix, a `_SPEC` VM version is reserved to indicate that the template requires a custom, not-yet-deployed VM version (e.g. one or more CHIPs). By convention, templates marked for `_SPEC` VMs should indicate their requirements in the template description. After deployment of the `_SPEC` VM, when template compatibility is verified, the template's `supported` array should be updated to indicate compatibility with the live VM version.",
+      "enum": [
+        "BCH_2020_05",
+        "BCH_2021_05",
+        "BCH_2022_05",
+        "BCH_2023_05",
+        "BCH_SPEC",
+        "BSV_2020_02",
+        "BSV_SPEC",
+        "BTC_2017_08",
+        "BTC_SPEC",
+        "XEC_2020_05",
+        "XEC_SPEC"
+      ],
+      "type": "string"
+    },
+    "WalletTemplate": {
       "additionalProperties": false,
-      "description": "An `AuthenticationTemplate` (A.K.A. `CashAssembly Template`) specifies a set of locking scripts, unlocking scripts, and other information required to use a certain authentication scheme. Templates fully describe wallets and protocols in a way that can be shared between software clients.",
+      "description": "A `WalletTemplate` specifies a set of locking scripts, unlocking scripts, and other information required to use a certain wallet protocol. Templates fully describe wallet protocols in a way that can be shared between software clients.",
       "properties": {
         "$schema": {
-          "description": "The URI that identifies the JSON Schema used by this template. Try: `https://libauth.org/schemas/authentication-template-v0.schema.json` to enable documentation, autocompletion, and validation in JSON documents.",
+          "description": "The URI that identifies the JSON Schema used by this template. Try: `https://libauth.org/schemas/wallet-template-v0.schema.json` to enable documentation, autocompletion, and validation in JSON documents.",
           "type": "string"
         },
         "description": {
-          "description": "An optionally multi-line, free-form, human-readable description for this authentication template (for use in user interfaces). If displayed, this description should use a monospace font to properly render ASCII diagrams.",
+          "description": "An optionally multi-line, free-form, human-readable description for this wallet template (for use in user interfaces). If displayed, this description should use a monospace font to properly render ASCII diagrams.\n\nDescriptions have no length limit, but in user interfaces with limited space, they should be hidden beyond the first newline character or `140` characters until revealed by the user (e.g. by hiding the remaining description until the user activates a \"show more\" link).",
           "type": "string"
         },
         "entities": {
           "additionalProperties": {
-            "$ref": "#/definitions/AuthenticationTemplateEntity"
+            "$ref": "#/definitions/WalletTemplateEntity"
           },
-          "description": "A map of entities defined in this authentication template.\n\nObject keys are used as entity identifiers, and by convention, should use `snake_case`.",
+          "description": "A map of entities defined in this wallet template.\n\nObject keys are used as entity identifiers, and by convention, should use `snake_case`.",
           "type": "object"
         },
         "name": {
@@ -27,29 +44,29 @@
         },
         "scenarios": {
           "additionalProperties": {
-            "$ref": "#/definitions/AuthenticationTemplateScenario"
+            "$ref": "#/definitions/WalletTemplateScenario"
           },
-          "description": "A scenario describes a context in which one or more scripts might be used. Scenarios are used for transaction estimation and as an integrated testing system for authentication templates.\n\nObject keys are used as scenario identifiers, and by convention, should use `snake_case`.",
+          "description": "A scenario describes a context in which one or more scripts might be used. Scenarios are used for transaction estimation and as an integrated testing system for wallet templates.\n\nObject keys are used as scenario identifiers, and by convention, should use `snake_case`.",
           "type": "object"
         },
         "scripts": {
           "additionalProperties": {
             "anyOf": [
               {
-                "$ref": "#/definitions/AuthenticationTemplateScript"
+                "$ref": "#/definitions/WalletTemplateScript"
               },
               {
-                "$ref": "#/definitions/AuthenticationTemplateScriptLocking"
+                "$ref": "#/definitions/WalletTemplateScriptLocking"
               },
               {
-                "$ref": "#/definitions/AuthenticationTemplateScriptTested"
+                "$ref": "#/definitions/WalletTemplateScriptTested"
               },
               {
-                "$ref": "#/definitions/AuthenticationTemplateScriptUnlocking"
+                "$ref": "#/definitions/WalletTemplateScriptUnlocking"
               }
             ]
           },
-          "description": "A map of scripts used in this authentication template.\n\nObject keys are used as script identifiers, and by convention, should use `snake_case`.",
+          "description": "A map of scripts used in this wallet template.\n\nObject keys are used as script identifiers, and by convention, should use `snake_case`.",
           "type": "object"
         },
         "supported": {
@@ -61,36 +78,35 @@
         },
         "version": {
           "const": 0,
-          "description": "A number identifying the format of this AuthenticationTemplate. Currently, this implementation requires `version` be set to `0`.",
+          "description": "A number identifying the format of this WalletTemplate. Currently, this implementation requires `version` be set to `0`.",
           "type": "number"
         }
       },
       "required": ["entities", "scripts", "supported", "version"],
       "type": "object"
     },
-    "AuthenticationTemplateAddressData": {
+    "WalletTemplateAddressData": {
       "additionalProperties": false,
       "properties": {
         "description": {
-          "description": "A single-line, human readable description for this address data.",
+          "description": "A single-line, human readable description for this variable (for use in user interfaces).",
           "type": "string"
         },
         "name": {
-          "description": "A single-line, Title Case, human-readable name for this address data.",
+          "description": "A single-line, Title Case, human-readable name for this variable (for use in user interfaces).",
           "type": "string"
         },
         "type": {
           "const": "AddressData",
-          "description": "`AddressData` is the most low-level variable type. It must be collected and stored each time a script is generated (usually, a locking script). `AddressData` can include any type of data, and can be used in any way.\n\nFor more persistent data, use `WalletData`.",
           "type": "string"
         }
       },
       "required": ["type"],
       "type": "object"
     },
-    "AuthenticationTemplateEntity": {
+    "WalletTemplateEntity": {
       "additionalProperties": false,
-      "description": "An object describing the configuration for a particular entity within an authentication template.",
+      "description": "An object describing the configuration for a particular entity within an wallet template.",
       "properties": {
         "description": {
           "description": "An optionally multi-line, free-form, human-readable description for this entity (for use in user interfaces). If displayed, this description should use a monospace font to properly render ASCII diagrams.",
@@ -109,7 +125,7 @@
         },
         "variables": {
           "additionalProperties": {
-            "$ref": "#/definitions/AuthenticationTemplateVariable"
+            "$ref": "#/definitions/WalletTemplateVariable"
           },
           "description": "A map of variables that must be provided by this entity for use in the template's scripts. Some variables are required before locking script generation, while some variables can or must be resolved only before unlocking script generation.\n\nObject keys are used as variable identifiers, and by convention, should use `snake_case`.",
           "type": "object"
@@ -117,7 +133,7 @@
       },
       "type": "object"
     },
-    "AuthenticationTemplateHdKey": {
+    "WalletTemplateHdKey": {
       "additionalProperties": false,
       "properties": {
         "addressOffset": {
@@ -125,7 +141,7 @@
           "type": "number"
         },
         "description": {
-          "description": "A single-line, human readable description for this HD key.",
+          "description": "A single-line, human readable description for this variable (for use in user interfaces).",
           "type": "string"
         },
         "hdPublicKeyDerivationPath": {
@@ -133,8 +149,12 @@
           "type": "string"
         },
         "name": {
-          "description": "A single-line, Title Case, human-readable name for this HD key.",
+          "description": "A single-line, Title Case, human-readable name for this variable (for use in user interfaces).",
           "type": "string"
+        },
+        "neverSignTwice": {
+          "description": "If set to `true`, indicates that this key should never be used to sign two different messages.\n\nThis is useful for contracts that use zero-confirmation escrow systems to guarantee against double-spend attempts. By indicating that the user could be subjected to losses if a key were used in multiple signatures, templates can ensure that wallet implementations apply appropriate safeguards around use of the key.\n\nDefaults to `false`.",
+          "type": "boolean"
         },
         "privateDerivationPath": {
           "description": "The derivation path used to derive this `HdKey` from the owning entity's HD private key. By default, `m/i`.\n\nThis path uses the notation specified in BIP32 and the `i` character to represent the location of the `addressIndex`:\n\nThe first character must be `m` (private derivation), followed by sets of `/` and a number representing the child index used in the derivation at that depth. Hardened derivation is represented by a trailing `'`, and hardened child indexes are represented with the hardened index offset (`2147483648`) subtracted. The `i` character is replaced with the value of `addressIndex` plus this `HdKey`'s `addressOffset`. If the `i` character is followed by `'`, the hardened index offset is added (`2147483648`) and hardened derivation is used.\n\nFor example, `m/0/1'/i'` uses 3 levels of derivation, with child indexes in the following order:\n\n`derive(derive(derive(node, 0), 2147483648 + 1), 2147483648 + addressIndex + addressOffset)`\n\nBecause hardened derivation requires knowledge of the private key, `HdKey` variables with `derivationPath`s that include hardened derivation cannot use HD public derivation (the `hdPublicKeys` property in `CompilationData`). Instead, compilation requires the respective HD private key (`CompilationData.hdKeys.hdPrivateKeys`) or the fully-derived public key (`CompilationData.hdKeys.derivedPublicKeys`).",
@@ -146,39 +166,41 @@
         },
         "type": {
           "const": "HdKey",
-          "description": "The `HdKey` (Hierarchical-Deterministic Key) type automatically manages key generation and mapping in a standard way. For greater control, use `Key`.",
           "type": "string"
         }
       },
       "required": ["type"],
       "type": "object"
     },
-    "AuthenticationTemplateKey": {
+    "WalletTemplateKey": {
       "additionalProperties": false,
       "properties": {
         "description": {
-          "description": "A single-line, human readable description for this key.",
+          "description": "A single-line, human readable description for this variable (for use in user interfaces).",
           "type": "string"
         },
         "name": {
-          "description": "A single-line, Title Case, human-readable name for this key.",
+          "description": "A single-line, Title Case, human-readable name for this variable (for use in user interfaces).",
           "type": "string"
+        },
+        "neverSignTwice": {
+          "description": "If set to `true`, indicates that this key should never be used to sign two different messages.\n\nThis is useful for contracts that use zero-confirmation escrow systems to guarantee against double-spend attempts. By indicating that the user could be subjected to losses if a key were used in multiple signatures, templates can ensure that wallet implementations apply appropriate safeguards around use of the key.\n\nDefaults to `false`.",
+          "type": "boolean"
         },
         "type": {
           "const": "Key",
-          "description": "The `Key` type provides fine-grained control over key generation and mapping. Most templates should instead use `HdKey`.\n\nAny HD (Hierarchical-Deterministic) derivation must be completed outside of the templating system and provided at the time of use.",
           "type": "string"
         }
       },
       "required": ["type"],
       "type": "object"
     },
-    "AuthenticationTemplateScenario": {
+    "WalletTemplateScenario": {
       "additionalProperties": false,
-      "description": "An object describing the configuration for a particular scenario within an authentication template.",
+      "description": "An object describing the configuration for a particular scenario within an wallet template.",
       "properties": {
         "data": {
-          "$ref": "#/definitions/AuthenticationTemplateScenarioData",
+          "$ref": "#/definitions/WalletTemplateScenarioData",
           "description": "An object defining the data to use while compiling this scenario. The properties specified here are used to extend the existing scenario data based on this scenario's `extends` property.\n\nEach property is extended individually – to unset a previously-set property, the property must be individually overridden in this object."
         },
         "description": {
@@ -196,7 +218,7 @@
         "sourceOutputs": {
           "description": "The list of source outputs (a.k.a. UTXOs) to use when generating the compilation context for this scenario.\n\nThe `sourceOutputs` property must have the same length as `transaction.inputs`, and each source output must be ordered to match the index of the input that spends it.\n\nTo be valid the `sourceOutputs` property must have exactly one source output with `lockingBytecode` set to `[\"slot\"]` – the output at the same index as the `[\"slot\"]` input in `transaction.inputs`.\n\nIf undefined, defaults to `[{ \"lockingBytecode\": [\"slot\"] }]`.",
           "items": {
-            "$ref": "#/definitions/AuthenticationTemplateScenarioSourceOutput"
+            "$ref": "#/definitions/WalletTemplateScenarioSourceOutput"
           },
           "type": "array"
         },
@@ -207,7 +229,7 @@
             "inputs": {
               "description": "The list of inputs to use when generating the transaction for this scenario.\n\nTo be valid the `inputs` property must have exactly one input with `unlockingBytecode` set to `[\"slot\"]`. This is the input in which the unlocking script under test will be placed.\n\nIf undefined, inherits the default scenario `inputs` value: `[{ \"unlockingBytecode\": [\"slot\"] }]`.",
               "items": {
-                "$ref": "#/definitions/AuthenticationTemplateScenarioInput"
+                "$ref": "#/definitions/WalletTemplateScenarioInput"
               },
               "type": "array"
             },
@@ -218,7 +240,7 @@
             "outputs": {
               "description": "The list of outputs to use when generating the transaction for this scenario.\n\nIf undefined, defaults to `[{ \"lockingBytecode\": {} }]`.",
               "items": {
-                "$ref": "#/definitions/AuthenticationTemplateScenarioTransactionOutput"
+                "$ref": "#/definitions/WalletTemplateScenarioTransactionOutput"
               },
               "type": "array"
             },
@@ -232,7 +254,7 @@
       },
       "type": "object"
     },
-    "AuthenticationTemplateScenarioBytecode": {
+    "WalletTemplateScenarioBytecode": {
       "anyOf": [
         {
           "type": "string"
@@ -241,7 +263,7 @@
           "additionalProperties": false,
           "properties": {
             "overrides": {
-              "$ref": "#/definitions/AuthenticationTemplateScenarioData",
+              "$ref": "#/definitions/WalletTemplateScenarioData",
               "description": "Scenario data that extends the scenario's top-level `data` during script compilation.\n\nEach property is extended individually – to modify a property set by the top-level scenario `data`, the new value must be listed here.\n\nDefaults to `{}` for `sourceOutputs` and `transaction.inputs`; defaults to `{ \"hdKeys\": { \"addressIndex\": 1 } }` for `transaction.outputs`."
             },
             "script": {
@@ -265,9 +287,9 @@
           "type": "object"
         }
       ],
-      "description": "A type that describes the configuration for a particular locking or unlocking bytecode within an authentication template scenario.\n\nBytecode may be specified as either a hexadecimal-encoded string or an object describing the required compilation.\n\nFor `sourceOutputs` and `transaction.inputs`, defaults to `{ script: [\"copy\"], overrides: {} }`. For `transaction.outputs`, defaults to `{ script: [\"copy\"], overrides: { \"hdKeys\": { \"addressIndex\": 1 } } }`."
+      "description": "A type that describes the configuration for a particular locking or unlocking bytecode within a wallet template scenario.\n\nBytecode may be specified as either a hexadecimal-encoded string or an object describing the required compilation.\n\nFor `sourceOutputs` and `transaction.inputs`, defaults to `{ script: [\"copy\"], overrides: {} }`. For `transaction.outputs`, defaults to `{ script: [\"copy\"], overrides: { \"hdKeys\": { \"addressIndex\": 1 } } }`."
     },
-    "AuthenticationTemplateScenarioData": {
+    "WalletTemplateScenarioData": {
       "additionalProperties": false,
       "description": "An object defining the data to use while compiling a scenario.",
       "properties": {
@@ -328,9 +350,9 @@
       },
       "type": "object"
     },
-    "AuthenticationTemplateScenarioInput": {
+    "WalletTemplateScenarioInput": {
       "additionalProperties": false,
-      "description": "An example input used to define a scenario for an authentication template.",
+      "description": "An example input used to define a scenario for a wallet template.",
       "properties": {
         "outpointIndex": {
           "description": "The index of the output in the transaction from which this input is spent.\n\nIf undefined, this defaults to the same index as the input itself (so that by default, every outpoint in the produced transaction is different, even if an empty `outpointTransactionHash` is used for each transaction).",
@@ -347,7 +369,7 @@
         "unlockingBytecode": {
           "anyOf": [
             {
-              "$ref": "#/definitions/AuthenticationTemplateScenarioBytecode"
+              "$ref": "#/definitions/WalletTemplateScenarioBytecode"
             },
             {
               "items": {
@@ -359,17 +381,17 @@
               "type": "array"
             }
           ],
-          "description": "The `unlockingBytecode` value of this input for this scenario. This must be either `[\"slot\"]`, indicating that this input contains the `unlockingBytecode` under test by the scenario, or an `AuthenticationTemplateScenarioBytecode`.\n\nFor a scenario to be valid, `unlockingBytecode` must be `[\"slot\"]` for exactly one input in the scenario.\n\nDefaults to `[\"slot\"]`."
+          "description": "The `unlockingBytecode` value of this input for this scenario. This must be either `[\"slot\"]`, indicating that this input contains the `unlockingBytecode` under test by the scenario, or an `WalletTemplateScenarioBytecode`.\n\nFor a scenario to be valid, `unlockingBytecode` must be `[\"slot\"]` for exactly one input in the scenario.\n\nDefaults to `[\"slot\"]`."
         }
       },
       "type": "object"
     },
-    "AuthenticationTemplateScenarioOutput<false>": {
+    "WalletTemplateScenarioOutput<false>": {
       "additionalProperties": false,
-      "description": "An example output used to define a scenario for an authentication template.",
+      "description": "An example output used to define a scenario for a wallet template.",
       "properties": {
         "lockingBytecode": {
-          "$ref": "#/definitions/AuthenticationTemplateScenarioBytecode",
+          "$ref": "#/definitions/WalletTemplateScenarioBytecode",
           "description": "The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `[\"slot\"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario's `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)"
         },
         "token": {
@@ -410,14 +432,14 @@
       },
       "type": "object"
     },
-    "AuthenticationTemplateScenarioOutput<true>": {
+    "WalletTemplateScenarioOutput<true>": {
       "additionalProperties": false,
-      "description": "An example output used to define a scenario for an authentication template.",
+      "description": "An example output used to define a scenario for a wallet template.",
       "properties": {
         "lockingBytecode": {
           "anyOf": [
             {
-              "$ref": "#/definitions/AuthenticationTemplateScenarioBytecode"
+              "$ref": "#/definitions/WalletTemplateScenarioBytecode"
             },
             {
               "items": {
@@ -469,17 +491,17 @@
       },
       "type": "object"
     },
-    "AuthenticationTemplateScenarioSourceOutput": {
-      "$ref": "#/definitions/AuthenticationTemplateScenarioOutput<true>",
-      "description": "A source output used by an authentication template scenario."
+    "WalletTemplateScenarioSourceOutput": {
+      "$ref": "#/definitions/WalletTemplateScenarioOutput<true>",
+      "description": "A source output used by a wallet template scenario."
     },
-    "AuthenticationTemplateScenarioTransactionOutput": {
-      "$ref": "#/definitions/AuthenticationTemplateScenarioOutput<false>",
-      "description": "A transaction output used to define an authentication template scenario transaction."
+    "WalletTemplateScenarioTransactionOutput": {
+      "$ref": "#/definitions/WalletTemplateScenarioOutput<false>",
+      "description": "A transaction output used to define a wallet template scenario transaction."
     },
-    "AuthenticationTemplateScript": {
+    "WalletTemplateScript": {
       "additionalProperties": false,
-      "description": "An object describing the configuration for a particular script within an authentication template.",
+      "description": "An object describing the configuration for a particular script within an wallet template.",
       "properties": {
         "name": {
           "description": "A single-line, human-readable name for this script (for use in user interfaces).",
@@ -493,7 +515,7 @@
       "required": ["script"],
       "type": "object"
     },
-    "AuthenticationTemplateScriptLocking": {
+    "WalletTemplateScriptLocking": {
       "additionalProperties": false,
       "properties": {
         "lockingType": {
@@ -513,7 +535,7 @@
       "required": ["lockingType", "script"],
       "type": "object"
     },
-    "AuthenticationTemplateScriptTest": {
+    "WalletTemplateScriptTest": {
       "additionalProperties": false,
       "properties": {
         "check": {
@@ -553,7 +575,7 @@
       "required": ["check"],
       "type": "object"
     },
-    "AuthenticationTemplateScriptTested": {
+    "WalletTemplateScriptTested": {
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -570,7 +592,7 @@
         },
         "tests": {
           "additionalProperties": {
-            "$ref": "#/definitions/AuthenticationTemplateScriptTest"
+            "$ref": "#/definitions/WalletTemplateScriptTest"
           },
           "description": "One or more tests that can be used during development and during template validation to confirm the correctness of this tested script.",
           "type": "object"
@@ -579,7 +601,7 @@
       "required": ["script", "tests"],
       "type": "object"
     },
-    "AuthenticationTemplateScriptUnlocking": {
+    "WalletTemplateScriptUnlocking": {
       "additionalProperties": false,
       "properties": {
         "ageLock": {
@@ -587,7 +609,7 @@
           "type": "string"
         },
         "estimate": {
-          "description": "The identifier of the scenario to use for this unlocking script when compiling an estimated transaction.\n\nUsing estimate scenarios, it's possible for wallet software to compute an \"estimated transaction\", an invalid transaction that is guaranteed to be the same byte length as the final transaction. This length can be used to calculate the required transaction fee and assign values to the transaction's change output(s). Because estimate scenarios provide \"estimated\" values for all variables, this estimation can be done by a single entity without input from other entities.\n\nIf not provided, the default scenario will be used for estimation. The default scenario only provides values for each `Key` and `HdKey` variable, so compilations requiring other variables will produce errors. See `AuthenticationTemplateScenario.extends` for details.",
+          "description": "The identifier of the scenario to use for this unlocking script when compiling an estimated transaction.\n\nUsing estimate scenarios, it's possible for wallet software to compute an \"estimated transaction\", an invalid transaction that is guaranteed to be the same byte length as the final transaction. This length can be used to calculate the required transaction fee and assign values to the transaction's change output(s). Because estimate scenarios provide \"estimated\" values for all variables, this estimation can be done by a single entity without input from other entities.\n\nIf not provided, the default scenario will be used for estimation. The default scenario only provides values for each `Key` and `HdKey` variable, so compilations requiring other variables will produce errors. See `WalletTemplateScenario.extends` for details.",
           "type": "string"
         },
         "fails": {
@@ -632,58 +654,40 @@
       "required": ["script", "unlocks"],
       "type": "object"
     },
-    "AuthenticationTemplateVariable": {
+    "WalletTemplateVariable": {
       "anyOf": [
         {
-          "$ref": "#/definitions/AuthenticationTemplateAddressData"
+          "$ref": "#/definitions/WalletTemplateAddressData"
         },
         {
-          "$ref": "#/definitions/AuthenticationTemplateHdKey"
+          "$ref": "#/definitions/WalletTemplateHdKey"
         },
         {
-          "$ref": "#/definitions/AuthenticationTemplateKey"
+          "$ref": "#/definitions/WalletTemplateKey"
         },
         {
-          "$ref": "#/definitions/AuthenticationTemplateWalletData"
+          "$ref": "#/definitions/WalletTemplateWalletData"
         }
       ]
     },
-    "AuthenticationTemplateWalletData": {
+    "WalletTemplateWalletData": {
       "additionalProperties": false,
       "properties": {
         "description": {
-          "description": "A single-line, human readable description for this wallet data.",
+          "description": "A single-line, human readable description for this variable (for use in user interfaces).",
           "type": "string"
         },
         "name": {
-          "description": "A single-line, Title Case, human-readable name for this wallet data.",
+          "description": "A single-line, Title Case, human-readable name for this variable (for use in user interfaces).",
           "type": "string"
         },
         "type": {
           "const": "WalletData",
-          "description": "The `WalletData` type provides a static piece of data that should be collected once and stored at the time of wallet creation. `WalletData` should be persistent for the life of the wallet, rather than changing from locking script to locking script.\n\nFor address-specific data, use `AddressData`.",
           "type": "string"
         }
       },
       "required": ["type"],
       "type": "object"
-    },
-    "AuthenticationVirtualMachineIdentifier": {
-      "description": "Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `XEC` prefix identifies the eCash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin Core network. VM versions are named according to the date they were deployed on the indicated network.\n\nFor each network prefix, a `_SPEC` VM version is reserved to indicate that the template requires a custom, not-yet-deployed VM version (e.g. one or more CHIPs). By convention, templates marked for `_SPEC` VMs should indicate their requirements in the template description. After deployment of the `_SPEC` VM, when template compatibility is verified, the template's `supported` array should be updated to indicate compatibility with the live VM version.",
-      "enum": [
-        "BCH_2020_05",
-        "BCH_2021_05",
-        "BCH_2022_05",
-        "BCH_2023_05",
-        "BCH_SPEC",
-        "BSV_2020_02",
-        "BSV_SPEC",
-        "BTC_2017_08",
-        "BTC_SPEC",
-        "XEC_2020_05",
-        "XEC_SPEC"
-      ],
-      "type": "string"
     }
   }
 }

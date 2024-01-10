@@ -11,7 +11,7 @@ import {
 } from '../../../lib.js';
 
 // Derived from https://github.com/bitcoinjs/bitcoinjs-lib
-const minimallyEncodedVmNumbers: readonly [string, bigint][] = [
+const minimallyEncodedVmNumbers: [string, bigint][] = [
   /* spell-checker:disable */
   ['', 0n],
   ['01', 1n],
@@ -63,7 +63,7 @@ const minimallyEncodedVmNumbers: readonly [string, bigint][] = [
   /* spell-checker:enable */
 ];
 
-const nonMinimallyEncodedVmNumbers: readonly [string, bigint][] = [
+const nonMinimallyEncodedVmNumbers: [string, bigint][] = [
   ['00', 0n],
   ['0000', 0n],
   ['80', 0n],
@@ -75,7 +75,7 @@ const nonMinimallyEncodedVmNumbers: readonly [string, bigint][] = [
   ['abcdef4280', -1123012011n],
 ];
 
-const equivalentVmNumbers: readonly [string, string][] = [
+const equivalentVmNumbers: [string, string][] = [
   ['01020380', '010283'],
   ['0102030480', '01020384'],
   ['abcdef4280', 'abcdefc2'],
@@ -88,14 +88,14 @@ test('decodeVmNumber', (t) => {
       vmNumberToBigInt(hexToBin(pair[0]), {
         requireMinimalEncoding: true,
       }),
-      pair[1]
+      pair[1],
     );
     t.deepEqual(
       vmNumberToBigInt(hexToBin(pair[0]), {
         maximumVmNumberByteLength: 4,
         requireMinimalEncoding: true,
       }),
-      pair[1]
+      pair[1],
     );
     return undefined;
   });
@@ -106,24 +106,24 @@ test('decodeVmNumber', (t) => {
           maximumVmNumberByteLength: 5,
           requireMinimalEncoding: false,
         }),
-        pair[1]
+        pair[1],
       );
       return undefined;
-    }
+    },
   );
   nonMinimallyEncodedVmNumbers.map((pair) => {
     t.deepEqual(
       vmNumberToBigInt(hexToBin(pair[0]), {
         maximumVmNumberByteLength: 5,
       }),
-      VmNumberError.requiresMinimal
+      VmNumberError.requiresMinimal,
     );
     t.deepEqual(
       vmNumberToBigInt(hexToBin(pair[0]), {
         maximumVmNumberByteLength: 5,
         requireMinimalEncoding: true,
       }),
-      VmNumberError.requiresMinimal
+      VmNumberError.requiresMinimal,
     );
     return undefined;
   });
@@ -136,7 +136,7 @@ test('decodeVmNumber', (t) => {
       vmNumberToBigInt(hexToBin(pair[1]), {
         maximumVmNumberByteLength: 5,
         requireMinimalEncoding: true,
-      })
+      }),
     );
     return undefined;
   });
@@ -144,13 +144,13 @@ test('decodeVmNumber', (t) => {
     vmNumberToBigInt(hexToBin('abcdef1234'), {
       maximumVmNumberByteLength: 4,
     }),
-    VmNumberError.outOfRange
+    VmNumberError.outOfRange,
   );
   t.deepEqual(
     vmNumberToBigInt(hexToBin('abcdef1234'), {
       maximumVmNumberByteLength: 5,
     }),
-    223656005035n
+    223656005035n,
   );
 });
 

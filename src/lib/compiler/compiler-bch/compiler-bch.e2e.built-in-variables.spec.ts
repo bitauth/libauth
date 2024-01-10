@@ -43,7 +43,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -52,10 +52,10 @@ test(
   '<current_block_time>',
   {
     currentBlockTime: dateToLocktime(
-      new Date('2019-10-13T00:00:00.000Z')
+      new Date('2019-10-13T00:00:00.000Z'),
     ) as number,
   },
-  { bytecode: hexToBin('040069a25d'), success: true }
+  { bytecode: hexToBin('040069a25d'), success: true },
 );
 
 test(
@@ -78,7 +78,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -86,7 +86,7 @@ test(
   expectCompilationResult,
   '<current_block_height>',
   { currentBlockHeight: 1 },
-  { bytecode: hexToBin('51'), success: true }
+  { bytecode: hexToBin('51'), success: true },
 );
 
 test(
@@ -115,7 +115,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { unlockingScriptTimeLockTypes: { test: 'height' } }
+  { unlockingScriptTimeLockTypes: { test: 'height' } },
 );
 
 test(
@@ -144,7 +144,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { unlockingScriptTimeLockTypes: { test: 'timestamp' } }
+  { unlockingScriptTimeLockTypes: { test: 'timestamp' } },
 );
 
 test(
@@ -182,7 +182,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { unlockingScriptTimeLockTypes: { test: 'height' } }
+  { unlockingScriptTimeLockTypes: { test: 'height' } },
 );
 
 test(
@@ -205,7 +205,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -228,7 +228,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 /**
@@ -244,10 +244,10 @@ test(
   {
     currentBlockHeight: 1,
     currentBlockTime: dateToLocktime(
-      new Date('2019-10-13T00:00:00.000Z')
+      new Date('2019-10-13T00:00:00.000Z'),
     ) as number,
   },
-  { bytecode: hexToBin('51040069a25d'), success: true }
+  { bytecode: hexToBin('51040069a25d'), success: true },
 );
 
 test(
@@ -280,7 +280,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -303,7 +303,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test.failing(
@@ -313,10 +313,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a705050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000'
+      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a705050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -326,10 +326,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa4500000000c1000000'
+      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa4500000000c1000000',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -339,10 +339,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba0000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f700000000043000000'
+      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba0000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f700000000043000000',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -352,10 +352,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '4c9d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f7000000000c3000000'
+      '4c9d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f7000000000c3000000',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -365,10 +365,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba00000000000000000000000000000000000000000000000000000000000000000505050505050505050505050505050505050505050505050505050505050505000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000042000000'
+      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba00000000000000000000000000000000000000000000000000000000000000000505050505050505050505050505050505050505050505050505050505050505000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000042000000',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -378,10 +378,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c2000000'
+      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c2000000',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -392,7 +392,7 @@ test.failing(
   {
     bytecode: hexToBin('51'),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -402,10 +402,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '209c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f70'
+      '209c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f70',
     ),
     success: true,
-  }
+  },
 );
 
 test(
@@ -416,7 +416,7 @@ test(
   {
     bytecode: hexToBin('0100'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -427,7 +427,7 @@ test(
   {
     bytecode: hexToBin('00'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -438,7 +438,7 @@ test(
   {
     bytecode: hexToBin('0400000000'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -449,7 +449,7 @@ test(
   {
     bytecode: hexToBin('0400000000'),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -459,10 +459,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '200505050505050505050505050505050505050505050505050505050505050505'
+      '200505050505050505050505050505050505050505050505050505050505050505',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -473,7 +473,7 @@ test.failing(
   {
     bytecode: hexToBin('080000000000000000'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -484,7 +484,7 @@ test(
   {
     bytecode: hexToBin('0400000000'),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -495,7 +495,7 @@ test.failing(
   {
     bytecode: hexToBin('52'),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -505,10 +505,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '201cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba'
+      '201cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -519,7 +519,7 @@ test.failing(
   {
     bytecode: hexToBin('53'),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -529,10 +529,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '20c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa45'
+      '20c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa45',
     ),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -543,7 +543,7 @@ test.failing(
   {
     bytecode: hexToBin('54'),
     success: true,
-  }
+  },
 );
 
 test.failing(
@@ -553,10 +553,10 @@ test.failing(
   {},
   {
     bytecode: hexToBin(
-      '20214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a7'
+      '20214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a7',
     ),
     success: true,
-  }
+  },
 );
 
 test(
@@ -567,7 +567,7 @@ test(
   {
     bytecode: hexToBin('0400000000'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -594,7 +594,7 @@ test(
   {},
   {
     unlockingScripts: {},
-  }
+  },
 );
 
 test(
@@ -623,7 +623,7 @@ test(
     unlockingScripts: {
       test: 'some_unknown_script',
     },
-  }
+  },
 );
 
 test(
@@ -653,7 +653,7 @@ test(
       lock: 'invalid',
       test: '<signing_serialization.full_all_outputs>',
     },
-  }
+  },
 );
 
 test(
@@ -676,7 +676,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -699,7 +699,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test.failing(
@@ -742,7 +742,7 @@ test.failing(
       {
         bytecode: hexToBin('510052'),
         success: true,
-      }
+      },
     );
 
     t.deepEqual(
@@ -753,7 +753,7 @@ test.failing(
       {
         bytecode: hexToBin('510052'),
         success: true,
-      }
+      },
     );
-  }
+  },
 );

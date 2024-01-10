@@ -56,7 +56,7 @@ export type WalletImportFormatType =
 export const encodePrivateKeyWif = (
   privateKey: Uint8Array,
   type: WalletImportFormatType,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
   const compressedByte = 0x01;
   const mainnet = type === 'mainnet' || type === 'mainnetUncompressed';
@@ -69,7 +69,7 @@ export const encodePrivateKeyWif = (
       ? Base58AddressFormatVersion.wif
       : Base58AddressFormatVersion.wifTestnet,
     payload,
-    sha256
+    sha256,
   );
 };
 
@@ -83,7 +83,7 @@ export const encodePrivateKeyWif = (
 // eslint-disable-next-line complexity
 export const decodePrivateKeyWif = (
   wifKey: string,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
   const compressedPayloadLength = 33;
   const decoded = decodeBase58AddressFormat(wifKey, sha256);
@@ -99,8 +99,8 @@ export const decodePrivateKeyWif = (
       ? 'mainnet'
       : 'mainnetUncompressed'
     : compressed
-    ? 'testnet'
-    : 'testnetUncompressed';
+      ? 'testnet'
+      : 'testnetUncompressed';
 
   return { privateKey, type };
 };

@@ -1,38 +1,27 @@
 import test from 'ava';
 
 import {
-  authenticationTemplateP2pkh,
-  authenticationTemplateP2pkhNonHd,
-  importAuthenticationTemplate,
+  importWalletTemplate,
+  walletTemplateP2pkh,
+  walletTemplateP2pkhNonHd,
 } from '../../lib.js';
 
-test('authenticationTemplateP2pkh is valid', (t) => {
-  const template = importAuthenticationTemplate(
-    authenticationTemplateP2pkhNonHd
-  );
+test('walletTemplateP2pkh is valid', (t) => {
+  const template = importWalletTemplate(walletTemplateP2pkhNonHd);
   t.true(typeof template !== 'string');
 });
 
-test('authenticationTemplateP2pkh is mostly equivalent to authenticationTemplateP2pkhHd', (t) => {
+test('walletTemplateP2pkh is mostly equivalent to walletTemplateP2pkhHd', (t) => {
+  t.deepEqual(walletTemplateP2pkhNonHd.$schema, walletTemplateP2pkh.$schema);
+  t.deepEqual(walletTemplateP2pkhNonHd.scripts, walletTemplateP2pkh.scripts);
   t.deepEqual(
-    authenticationTemplateP2pkhNonHd.$schema,
-    authenticationTemplateP2pkh.$schema
+    walletTemplateP2pkhNonHd.supported,
+    walletTemplateP2pkh.supported,
   );
-  t.deepEqual(
-    authenticationTemplateP2pkhNonHd.scripts,
-    authenticationTemplateP2pkh.scripts
-  );
-  t.deepEqual(
-    authenticationTemplateP2pkhNonHd.supported,
-    authenticationTemplateP2pkh.supported
-  );
-  t.deepEqual(
-    authenticationTemplateP2pkhNonHd.version,
-    authenticationTemplateP2pkh.version
-  );
+  t.deepEqual(walletTemplateP2pkhNonHd.version, walletTemplateP2pkh.version);
 });
 
-test('authenticationTemplateP2pkhHd is valid', (t) => {
-  const template = importAuthenticationTemplate(authenticationTemplateP2pkh);
+test('walletTemplateP2pkhHd is valid', (t) => {
+  const template = importWalletTemplate(walletTemplateP2pkh);
   t.true(typeof template !== 'string');
 });

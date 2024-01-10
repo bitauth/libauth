@@ -30,7 +30,7 @@ const tests = Object.values(sighashTests)
        * algorithm. If the legacy algorithm is implemented, we can re-enable the
        * rest of these tests.
        */
-      !isLegacySigningSerialization(expectation.signingSerializationType)
+      !isLegacySigningSerialization(expectation.signingSerializationType),
   );
 
 /**
@@ -42,12 +42,12 @@ const pendingTests = tests;
 pendingTests.map((expectation, currentTest) => {
   test.skip(`[signing-serialization tests] sighash.json ${currentTest}/${pendingTests.length} (#${expectation.testIndex})`, (t) => {
     const tx = decodeTransactionUnsafeCommon(
-      hexToBin(expectation.transactionHex)
+      hexToBin(expectation.transactionHex),
     );
     const lockingBytecode = hexToBin(expectation.scriptHex);
 
     const signingSerializationType = numberToBinInt32TwosCompliment(
-      expectation.signingSerializationType
+      expectation.signingSerializationType,
     );
     const sourceOutputs = [];
     sourceOutputs[expectation.inputIndex] = {
@@ -81,7 +81,7 @@ pendingTests.map((expectation, currentTest) => {
     t.deepEqual(
       digest,
       hexToBin(expectation.signingSerializationBCHDigestHex).reverse(),
-      `failed serialization: ${binToHex(serialization)}`
+      `failed serialization: ${binToHex(serialization)}`,
     );
   });
   return undefined;

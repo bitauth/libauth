@@ -13,7 +13,7 @@ test(
   expectCompilationResult,
   '',
   {},
-  { bytecode: hexToBin(''), success: true }
+  { bytecode: hexToBin(''), success: true },
 );
 
 test(
@@ -21,7 +21,7 @@ test(
   expectCompilationResult,
   '42 -42 2_147_483_647 -2_147_483_647',
   {},
-  { bytecode: hexToBin('2aaaffffff7fffffffff'), success: true }
+  { bytecode: hexToBin('2aaaffffff7fffffffff'), success: true },
 );
 
 test(
@@ -29,7 +29,7 @@ test(
   expectCompilationResult,
   '0b1 0b1111_1111 0b111 0b1111_1111__1111_1111__1111_1111__1111_1111____1111_1111__1111_1111__1111_1111__1111_1111_1',
   {},
-  { bytecode: hexToBin('01ff07ffffffffffffffff01'), success: true }
+  { bytecode: hexToBin('01ff07ffffffffffffffff01'), success: true },
 );
 
 test(
@@ -37,7 +37,7 @@ test(
   expectCompilationResult,
   "'abc\"`👍'",
   {},
-  { bytecode: hexToBin('6162632260f09f918d'), success: true }
+  { bytecode: hexToBin('6162632260f09f918d'), success: true },
 );
 
 test(
@@ -45,7 +45,7 @@ test(
   expectCompilationResult,
   '"abc\'`👍"',
   {},
-  { bytecode: hexToBin('6162632760f09f918d'), success: true }
+  { bytecode: hexToBin('6162632760f09f918d'), success: true },
 );
 
 test(
@@ -53,7 +53,7 @@ test(
   expectCompilationResult,
   '0xdead__beef',
   {},
-  { bytecode: hexToBin('deadbeef'), success: true }
+  { bytecode: hexToBin('deadbeef'), success: true },
 );
 
 test(
@@ -61,7 +61,7 @@ test(
   expectCompilationResult,
   'OP_0 OP_1 OP_ADD',
   {},
-  { bytecode: hexToBin('005193'), success: true }
+  { bytecode: hexToBin('005193'), success: true },
 );
 
 test(
@@ -78,7 +78,7 @@ test(
   0xef
   `,
   {},
-  { bytecode: hexToBin('abcdef'), success: true }
+  { bytecode: hexToBin('abcdef'), success: true },
 );
 
 test(
@@ -86,7 +86,7 @@ test(
   expectCompilationResult,
   '<>',
   {},
-  { bytecode: hexToBin('00'), success: true }
+  { bytecode: hexToBin('00'), success: true },
 );
 
 test(
@@ -97,7 +97,7 @@ test(
   {
     bytecode: hexToBin('4f005152535455565758595a5b5c5d5e5f600111'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -108,7 +108,7 @@ test(
   {
     bytecode: hexToBin('4f005152535455565758595a5b5c5d5e5f600111'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -119,7 +119,7 @@ test(
   {
     bytecode: hexToBin('0100'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -130,7 +130,7 @@ test(
   {
     bytecode: hexToBin('03616263'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -141,7 +141,7 @@ test(
   {
     bytecode: hexToBin('010001510152'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -152,7 +152,7 @@ test(
   {
     bytecode: hexToBin('03020151'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -172,7 +172,7 @@ test(
   {
     bytecode: hexToBin('00000000000061626327f09fa79927'),
     success: true,
-  }
+  },
 );
 
 test(
@@ -192,7 +192,7 @@ test(
       c: '0x123456',
       test: 'a',
     },
-  }
+  },
 );
 
 test(
@@ -224,5 +224,5 @@ test(
       c: '   \n   a',
       test: '\na',
     },
-  }
+  },
 );

@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle, max-params, @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle, @typescript-eslint/max-params, @typescript-eslint/naming-convention */
 // cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../format/format.js';
 
@@ -13,7 +13,7 @@ export { ContextFlag, CompressionFlag };
 const wrapSecp256k1Wasm = (
   instance: WebAssembly.Instance,
   heapU8: Uint8Array,
-  heapU32: Uint32Array
+  heapU32: Uint32Array,
 ): Secp256k1Wasm => ({
   contextCreate: (context) =>
     (instance.exports as any)._secp256k1_context_create(context),
@@ -30,13 +30,13 @@ const wrapSecp256k1Wasm = (
     const pointer = (instance.exports as any)._malloc(4);
     // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
     const pointerView32 = pointer >> 2;
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     heapU32.set([num], pointerView32);
     return pointer;
   },
   mallocUint8Array: (array) => {
     const pointer = (instance.exports as any)._malloc(array.length) as number;
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     heapU8.set(array, pointer);
     return pointer;
   },
@@ -44,57 +44,57 @@ const wrapSecp256k1Wasm = (
     (instance.exports as any)._secp256k1_ec_privkey_tweak_add(
       contextPtr,
       secretKeyPtr,
-      tweakNum256Ptr
+      tweakNum256Ptr,
     ),
   privkeyTweakMul: (contextPtr, secretKeyPtr, tweakNum256Ptr) =>
     (instance.exports as any)._secp256k1_ec_privkey_tweak_mul(
       contextPtr,
       secretKeyPtr,
-      tweakNum256Ptr
+      tweakNum256Ptr,
     ),
   pubkeyCreate: (contextPtr, publicKeyPtr, secretKeyPtr) =>
     (instance.exports as any)._secp256k1_ec_pubkey_create(
       contextPtr,
       publicKeyPtr,
-      secretKeyPtr
+      secretKeyPtr,
     ),
   pubkeyParse: (
     contextPtr,
     publicKeyOutPtr,
     publicKeyInPtr,
-    publicKeyInLength
+    publicKeyInLength,
   ) =>
     (instance.exports as any)._secp256k1_ec_pubkey_parse(
       contextPtr,
       publicKeyOutPtr,
       publicKeyInPtr,
-      publicKeyInLength
+      publicKeyInLength,
     ),
   pubkeySerialize: (
     contextPtr,
     outputPtr,
     outputLengthPtr,
     publicKeyPtr,
-    compression
+    compression,
   ) =>
     (instance.exports as any)._secp256k1_ec_pubkey_serialize(
       contextPtr,
       outputPtr,
       outputLengthPtr,
       publicKeyPtr,
-      compression
+      compression,
     ),
   pubkeyTweakAdd: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
     (instance.exports as any)._secp256k1_ec_pubkey_tweak_add(
       contextPtr,
       publicKeyPtr,
-      tweakNum256Ptr
+      tweakNum256Ptr,
     ),
   pubkeyTweakMul: (contextPtr, publicKeyPtr, tweakNum256Ptr) =>
     (instance.exports as any)._secp256k1_ec_pubkey_tweak_mul(
       contextPtr,
       publicKeyPtr,
-      tweakNum256Ptr
+      tweakNum256Ptr,
     ),
   readHeapU8: (pointer, bytes) => new Uint8Array(heapU8.buffer, pointer, bytes),
   readSizeT: (pointer) => {
@@ -108,7 +108,7 @@ const wrapSecp256k1Wasm = (
       contextPtr,
       outputPubkeyPointer,
       rSigPtr,
-      msg32Ptr
+      msg32Ptr,
     ),
   recoverableSignatureParse: (contextPtr, outputRSigPtr, inputSigPtr, rid) =>
     (
@@ -117,13 +117,13 @@ const wrapSecp256k1Wasm = (
       contextPtr,
       outputRSigPtr,
       inputSigPtr,
-      rid
+      rid,
     ),
   recoverableSignatureSerialize: (
     contextPtr,
     sigOutPtr,
     recIDOutPtr,
-    rSigPtr
+    rSigPtr,
   ) =>
     (
       instance.exports as any
@@ -131,95 +131,95 @@ const wrapSecp256k1Wasm = (
       contextPtr,
       sigOutPtr,
       recIDOutPtr,
-      rSigPtr
+      rSigPtr,
     ),
   schnorrSign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
     (instance.exports as any)._secp256k1_schnorr_sign(
       contextPtr,
       outputSigPtr,
       msg32Ptr,
-      secretKeyPtr
+      secretKeyPtr,
     ),
   schnorrVerify: (contextPtr, sigPtr, msg32Ptr, publicKeyPtr) =>
     (instance.exports as any)._secp256k1_schnorr_verify(
       contextPtr,
       sigPtr,
       msg32Ptr,
-      publicKeyPtr
+      publicKeyPtr,
     ),
   seckeyVerify: (contextPtr, secretKeyPtr) =>
     (instance.exports as any)._secp256k1_ec_seckey_verify(
       contextPtr,
-      secretKeyPtr
+      secretKeyPtr,
     ),
   sign: (contextPtr, outputSigPtr, msg32Ptr, secretKeyPtr) =>
     (instance.exports as any)._secp256k1_ecdsa_sign(
       contextPtr,
       outputSigPtr,
       msg32Ptr,
-      secretKeyPtr
+      secretKeyPtr,
     ),
   signRecoverable: (contextPtr, outputRSigPtr, msg32Ptr, secretKeyPtr) =>
     (instance.exports as any)._secp256k1_ecdsa_sign_recoverable(
       contextPtr,
       outputRSigPtr,
       msg32Ptr,
-      secretKeyPtr
+      secretKeyPtr,
     ),
   signatureMalleate: (contextPtr, outputSigPtr, inputSigPtr) =>
     (instance.exports as any)._secp256k1_ecdsa_signature_malleate(
       contextPtr,
       outputSigPtr,
-      inputSigPtr
+      inputSigPtr,
     ),
   signatureNormalize: (contextPtr, outputSigPtr, inputSigPtr) =>
     (instance.exports as any)._secp256k1_ecdsa_signature_normalize(
       contextPtr,
       outputSigPtr,
-      inputSigPtr
+      inputSigPtr,
     ),
   signatureParseCompact: (contextPtr, sigOutPtr, compactSigInPtr) =>
     (instance.exports as any)._secp256k1_ecdsa_signature_parse_compact(
       contextPtr,
       sigOutPtr,
-      compactSigInPtr
+      compactSigInPtr,
     ),
   signatureParseDER: (contextPtr, sigOutPtr, sigDERInPtr, sigDERInLength) =>
     (instance.exports as any)._secp256k1_ecdsa_signature_parse_der(
       contextPtr,
       sigOutPtr,
       sigDERInPtr,
-      sigDERInLength
+      sigDERInLength,
     ),
   signatureSerializeCompact: (contextPtr, outputCompactSigPtr, inputSigPtr) =>
     (instance.exports as any)._secp256k1_ecdsa_signature_serialize_compact(
       contextPtr,
       outputCompactSigPtr,
-      inputSigPtr
+      inputSigPtr,
     ),
   signatureSerializeDER: (
     contextPtr,
     outputDERSigPtr,
     outputDERSigLengthPtr,
-    inputSigPtr
+    inputSigPtr,
   ) =>
     (instance.exports as any)._secp256k1_ecdsa_signature_serialize_der(
       contextPtr,
       outputDERSigPtr,
       outputDERSigLengthPtr,
-      inputSigPtr
+      inputSigPtr,
     ),
   verify: (contextPtr, sigPtr, msg32Ptr, pubkeyPtr) =>
     (instance.exports as any)._secp256k1_ecdsa_verify(
       contextPtr,
       sigPtr,
       msg32Ptr,
-      pubkeyPtr
+      pubkeyPtr,
     ),
 });
 /* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
 
-/* eslint-disable functional/immutable-data, functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/no-conditional-statement, no-bitwise, functional/no-throw-statement */
+/* eslint-disable functional/immutable-data, functional/no-expression-statements, @typescript-eslint/no-magic-numbers, functional/no-conditional-statements, no-bitwise, functional/no-throw-statements */
 /**
  * Method extracted from Emscripten's preamble.js
  */
@@ -253,7 +253,7 @@ const alignMemory = (factor: number, size: number) =>
  * @param webassemblyBytes - A buffer containing the secp256k1 binary.
  */
 export const instantiateSecp256k1WasmBytes = async (
-  webassemblyBytes: ArrayBuffer
+  webassemblyBytes: ArrayBuffer,
 ): Promise<Secp256k1Wasm> => {
   const STACK_ALIGN = 16;
   const GLOBAL_BASE = 1024;
@@ -321,7 +321,7 @@ export const instantiateSecp256k1WasmBytes = async (
     _emscripten_memcpy_big: /* istanbul ignore next */ (
       dest: number,
       src: number,
-      num: number
+      num: number,
     ) => {
       heapU8.set(heapU8.subarray(src, src + num), dest);
       return dest;
@@ -359,7 +359,7 @@ export const instantiateSecp256k1WasmBytes = async (
     return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);
   });
 };
-/* eslint-enable functional/immutable-data, functional/no-expression-statement, @typescript-eslint/no-magic-numbers, functional/no-conditional-statement, no-bitwise, functional/no-throw-statement */
+/* eslint-enable functional/immutable-data, functional/no-expression-statements, @typescript-eslint/no-magic-numbers, functional/no-conditional-statements, no-bitwise, functional/no-throw-statements */
 
 export const getEmbeddedSecp256k1Binary = () =>
   base64ToBin(secp256k1Base64Bytes).buffer;

@@ -10,31 +10,36 @@
  */
 
 /**
- * An `AuthenticationTemplate` (A.K.A. `CashAssembly Template`) specifies a set
- * of locking scripts, unlocking scripts, and other information required to use
- * a certain authentication scheme. Templates fully describe wallets and
- * protocols in a way that can be shared between software clients.
+ * A `WalletTemplate` specifies a set of locking scripts, unlocking scripts, and
+ * other information required to use a certain wallet protocol. Templates
+ * fully describe wallet protocols in a way that can be shared between
+ * software clients.
  */
-export interface AuthenticationTemplate {
+export type WalletTemplate = {
   /**
    * The URI that identifies the JSON Schema used by this template. Try:
-   * `https://libauth.org/schemas/authentication-template-v0.schema.json`
+   * `https://libauth.org/schemas/wallet-template-v0.schema.json`
    * to enable documentation, autocompletion, and validation in JSON documents.
    */
   $schema?: string;
   /**
    * An optionally multi-line, free-form, human-readable description for this
-   * authentication template (for use in user interfaces). If displayed, this
+   * wallet template (for use in user interfaces). If displayed, this
    * description should use a monospace font to properly render ASCII diagrams.
+   *
+   * Descriptions have no length limit, but in user interfaces with limited
+   * space, they should be hidden beyond the first newline character or `140`
+   * characters until revealed by the user (e.g. by hiding the remaining
+   * description until the user activates a "show more" link).
    */
   description?: string;
   /**
-   * A map of entities defined in this authentication template.
+   * A map of entities defined in this wallet template.
    *
    * Object keys are used as entity identifiers, and by convention, should use
    * `snake_case`.
    */
-  entities: { [entityId: string]: AuthenticationTemplateEntity };
+  entities: { [entityId: string]: WalletTemplateEntity };
   /**
    * A single-line, Title Case, human-readable name for this authentication
    * template (for use in user interfaces).
@@ -43,24 +48,24 @@ export interface AuthenticationTemplate {
   /**
    * A scenario describes a context in which one or more scripts might be used.
    * Scenarios are used for transaction estimation and as an integrated testing
-   * system for authentication templates.
+   * system for wallet templates.
    *
    * Object keys are used as scenario identifiers, and by convention, should use
    * `snake_case`.
    */
-  scenarios?: { [scenarioId: string]: AuthenticationTemplateScenario };
+  scenarios?: { [scenarioId: string]: WalletTemplateScenario };
   /**
-   * A map of scripts used in this authentication template.
+   * A map of scripts used in this wallet template.
    *
    * Object keys are used as script identifiers, and by convention, should use
    * `snake_case`.
    */
   scripts: {
     [scriptId: string]:
-      | AuthenticationTemplateScript
-      | AuthenticationTemplateScriptLocking
-      | AuthenticationTemplateScriptTested
-      | AuthenticationTemplateScriptUnlocking;
+      | WalletTemplateScript
+      | WalletTemplateScriptLocking
+      | WalletTemplateScriptTested
+      | WalletTemplateScriptUnlocking;
   };
   /**
    * A list of authentication virtual machine versions supported by this
@@ -78,11 +83,11 @@ export interface AuthenticationTemplate {
    */
   supported: AuthenticationVirtualMachineIdentifier[];
   /**
-   * A number identifying the format of this AuthenticationTemplate.
+   * A number identifying the format of this WalletTemplate.
    * Currently, this implementation requires `version` be set to `0`.
    */
   version: 0;
-}
+};
 
 /**
  * Allowable identifiers for authentication virtual machine versions. The `BCH`
@@ -113,9 +118,9 @@ export type AuthenticationVirtualMachineIdentifier =
 
 /**
  * An object describing the configuration for a particular entity within an
- * authentication template.
+ * wallet template.
  */
-export interface AuthenticationTemplateEntity {
+export type WalletTemplateEntity = {
   /**
    * An optionally multi-line, free-form, human-readable description for this
    * entity (for use in user interfaces). If displayed, this description
@@ -149,13 +154,13 @@ export interface AuthenticationTemplateEntity {
    * Object keys are used as variable identifiers, and by convention, should use
    * `snake_case`.
    */
-  variables?: { [variableId: string]: AuthenticationTemplateVariable };
-}
+  variables?: { [variableId: string]: WalletTemplateVariable };
+};
 
 /**
  * An object defining the data to use while compiling a scenario.
  */
-export interface AuthenticationTemplateScenarioData {
+export type WalletTemplateScenarioData = {
   /**
    * A map of full identifiers to CashAssembly scripts that compile to each
    * identifier's value for this scenario. Allowing `bytecode` to be specified
@@ -255,11 +260,11 @@ export interface AuthenticationTemplateScenarioData {
      */
     privateKeys?: { [variableId: string]: string };
   };
-}
+};
 
 /**
  * A type that describes the configuration for a particular locking or
- * unlocking bytecode within an authentication template scenario.
+ * unlocking bytecode within a wallet template scenario.
  *
  * Bytecode may be specified as either a hexadecimal-encoded string or an object
  * describing the required compilation.
@@ -268,7 +273,7 @@ export interface AuthenticationTemplateScenarioData {
  * `{ script: ["copy"], overrides: {} }`. For `transaction.outputs`, defaults to
  * `{ script: ["copy"], overrides: { "hdKeys": { "addressIndex": 1 } } }`.
  */
-export type AuthenticationTemplateScenarioBytecode =
+export type WalletTemplateScenarioBytecode =
   | string
   | {
       /**
@@ -289,13 +294,13 @@ export type AuthenticationTemplateScenarioBytecode =
        * Defaults to `{}` for `sourceOutputs` and `transaction.inputs`; defaults
        * to `{ "hdKeys": { "addressIndex": 1 } }` for `transaction.outputs`.
        */
-      overrides?: AuthenticationTemplateScenarioData;
+      overrides?: WalletTemplateScenarioData;
     };
 
 /**
- * An example input used to define a scenario for an authentication template.
+ * An example input used to define a scenario for a wallet template.
  */
-export interface AuthenticationTemplateScenarioInput {
+export type WalletTemplateScenarioInput = {
   /**
    * The index of the output in the transaction from which this input is spent.
    *
@@ -388,22 +393,20 @@ export interface AuthenticationTemplateScenarioInput {
    * The `unlockingBytecode` value of this input for this scenario. This must be
    * either `["slot"]`, indicating that this input contains the
    * `unlockingBytecode` under test by the scenario, or an
-   * `AuthenticationTemplateScenarioBytecode`.
+   * `WalletTemplateScenarioBytecode`.
    *
    * For a scenario to be valid, `unlockingBytecode` must be `["slot"]` for
    * exactly one input in the scenario.
    *
    * Defaults to `["slot"]`.
    */
-  unlockingBytecode?: AuthenticationTemplateScenarioBytecode | ['slot'];
-}
+  unlockingBytecode?: WalletTemplateScenarioBytecode | ['slot'];
+};
 
 /**
- * An example output used to define a scenario for an authentication template.
+ * An example output used to define a scenario for a wallet template.
  */
-export interface AuthenticationTemplateScenarioOutput<
-  IsSourceOutput extends boolean
-> {
+export type WalletTemplateScenarioOutput<IsSourceOutput extends boolean> = {
   /**
    * The locking bytecode used to encumber this output.
    *
@@ -418,8 +421,8 @@ export interface AuthenticationTemplateScenarioOutput<
    * exactly one source output slot and one input slot at the same index.)
    */
   readonly lockingBytecode?: IsSourceOutput extends true
-    ? AuthenticationTemplateScenarioBytecode | ['slot']
-    : AuthenticationTemplateScenarioBytecode;
+    ? WalletTemplateScenarioBytecode | ['slot']
+    : WalletTemplateScenarioBytecode;
   /**
    * The value of the output in satoshis, the smallest unit of bitcoin.
    *
@@ -439,7 +442,7 @@ export interface AuthenticationTemplateScenarioOutput<
    *
    * If undefined, this defaults to: `0`.
    */
-  readonly valueSatoshis?: number | string;
+  valueSatoshis?: number | string;
 
   /**
    * The CashToken contents of this output. This property is only defined if the
@@ -489,26 +492,26 @@ export interface AuthenticationTemplateScenarioOutput<
       commitment?: string;
     };
   };
-}
+};
 
 /**
- * A transaction output used to define an authentication template scenario
+ * A transaction output used to define a wallet template scenario
  * transaction.
  */
-export type AuthenticationTemplateScenarioTransactionOutput =
-  AuthenticationTemplateScenarioOutput<false>;
+export type WalletTemplateScenarioTransactionOutput =
+  WalletTemplateScenarioOutput<false>;
 
 /**
- * A source output used by an authentication template scenario.
+ * A source output used by a wallet template scenario.
  */
-export type AuthenticationTemplateScenarioSourceOutput =
-  AuthenticationTemplateScenarioOutput<true>;
+export type WalletTemplateScenarioSourceOutput =
+  WalletTemplateScenarioOutput<true>;
 
 /**
  * An object describing the configuration for a particular scenario within an
- * authentication template.
+ * wallet template.
  */
-export interface AuthenticationTemplateScenario {
+export type WalletTemplateScenario = {
   /**
    * An object defining the data to use while compiling this scenario. The
    * properties specified here are used to extend the existing scenario data
@@ -517,7 +520,7 @@ export interface AuthenticationTemplateScenario {
    * Each property is extended individually – to unset a previously-set
    * property, the property must be individually overridden in this object.
    */
-  data?: AuthenticationTemplateScenarioData;
+  data?: WalletTemplateScenarioData;
 
   /**
    * An optionally multi-line, free-form, human-readable description for this
@@ -620,7 +623,7 @@ export interface AuthenticationTemplateScenario {
      * If undefined, inherits the default scenario `inputs` value:
      * `[{ "unlockingBytecode": ["slot"] }]`.
      */
-    inputs?: AuthenticationTemplateScenarioInput[];
+    inputs?: WalletTemplateScenarioInput[];
     /**
      * The locktime to use when generating the transaction for this scenario. A
      * positive integer from `0` to a maximum of `4294967295` – if undefined,
@@ -671,7 +674,7 @@ export interface AuthenticationTemplateScenario {
      *
      * If undefined, defaults to `[{ "lockingBytecode": {} }]`.
      */
-    outputs?: AuthenticationTemplateScenarioTransactionOutput[];
+    outputs?: WalletTemplateScenarioTransactionOutput[];
     /**
      * The version to use when generating the transaction for this scenario. A
      * positive integer from `0` to a maximum of `4294967295` – if undefined,
@@ -693,14 +696,14 @@ export interface AuthenticationTemplateScenario {
    *
    * If undefined, defaults to `[{ "lockingBytecode": ["slot"] }]`.
    */
-  sourceOutputs?: AuthenticationTemplateScenarioSourceOutput[];
-}
+  sourceOutputs?: WalletTemplateScenarioSourceOutput[];
+};
 
 /**
  * An object describing the configuration for a particular script within an
- * authentication template.
+ * wallet template.
  */
-export interface AuthenticationTemplateScript {
+export type WalletTemplateScript = {
   /**
    * A single-line, human-readable name for this script (for use in user
    * interfaces).
@@ -710,10 +713,9 @@ export interface AuthenticationTemplateScript {
    * The script definition in CashAssembly.
    */
   script: string;
-}
+};
 
-export interface AuthenticationTemplateScriptUnlocking
-  extends AuthenticationTemplateScript {
+export type WalletTemplateScriptUnlocking = WalletTemplateScript & {
   /**
    * TODO: not yet implemented
    *
@@ -755,7 +757,7 @@ export interface AuthenticationTemplateScriptUnlocking
    * If not provided, the default scenario will be used for estimation. The
    * default scenario only provides values for each `Key` and `HdKey` variable,
    * so compilations requiring other variables will produce errors. See
-   * `AuthenticationTemplateScenario.extends` for details.
+   * `WalletTemplateScenario.extends` for details.
    */
   estimate?: string;
   /**
@@ -810,10 +812,9 @@ export interface AuthenticationTemplateScriptUnlocking
    * unlocking script, and the script it unlocks must be a locking script.
    */
   unlocks: string;
-}
+};
 
-export interface AuthenticationTemplateScriptLocking
-  extends AuthenticationTemplateScript {
+export type WalletTemplateScriptLocking = WalletTemplateScript & {
   /**
    * Indicates if P2SH20 infrastructure should be used when producing bytecode
    * related to this script. For more information on P2SH20, see BIP16.
@@ -833,10 +834,9 @@ export interface AuthenticationTemplateScriptLocking
    * `unlocks` property of another script.
    */
   lockingType: 'p2sh20' | 'p2sh32' | 'standard';
-}
+};
 
-export interface AuthenticationTemplateScriptTested
-  extends AuthenticationTemplateScript {
+export type WalletTemplateScriptTested = WalletTemplateScript & {
   /**
    * If set to `true`, indicates that this script should be wrapped in a push
    * statement for testing.
@@ -853,10 +853,10 @@ export interface AuthenticationTemplateScriptTested
    * One or more tests that can be used during development and during template
    * validation to confirm the correctness of this tested script.
    */
-  tests: { [testId: string]: AuthenticationTemplateScriptTest };
-}
+  tests: { [testId: string]: WalletTemplateScriptTest };
+};
 
-export interface AuthenticationTemplateScriptTest {
+export type WalletTemplateScriptTest = {
   /**
    * The script to evaluate after the script being tested. This can be used to
    * check that the tested script leaves the expected results on the stack. For
@@ -913,9 +913,9 @@ export interface AuthenticationTemplateScriptTest {
    * In scenario testing, this script is treated as the unlocking script.
    */
   setup?: string;
-}
+};
 
-export interface AuthenticationTemplateVariableBase {
+export type WalletTemplateVariableBase = {
   /**
    * A single-line, human readable description for this variable (for use in
    * user interfaces).
@@ -927,133 +927,148 @@ export interface AuthenticationTemplateVariableBase {
    */
   name?: string;
   type: string;
-}
+};
 
-export interface AuthenticationTemplateHdKey
-  extends AuthenticationTemplateVariableBase {
+export type WalletTemplateKeyBase = {
   /**
-   * A single-line, human readable description for this HD key.
+   * If set to `true`, indicates that this key should never be used to sign two
+   * different messages.
+   *
+   * This is useful for contracts that use zero-confirmation escrow systems to
+   * guarantee against double-spend attempts. By indicating that the user could
+   * be subjected to losses if a key were used in multiple signatures, templates
+   * can ensure that wallet implementations apply appropriate safeguards around
+   * use of the key.
+   *
+   * Defaults to `false`.
    */
-  description?: string;
-  /**
-   * A single-line, Title Case, human-readable name for this HD key.
-   */
-  name?: string;
-  /**
-   * The offset by which to increment the `addressIndex` provided in the
-   * compilation data when deriving this `HdKey`. (Default: 0)
-   *
-   * This is useful for deriving the "next" (`1`) or "previous" (`-1`) address
-   * to be used in the current compiler configuration.
-   */
-  addressOffset?: number;
-  /**
-   * The path to derive the entity's HD public key from the entity's master HD
-   * private key. By default, `m` (i.e. the entity's HD public key represents
-   * the same node in the HD tree as its HD private key).
-   *
-   * This can be used to specify another derivation path from which the
-   * `publicDerivationPath` begins, e.g. `m/0'/1'/2'`. See
-   * `publicDerivationPath` for details.
-   *
-   * This path must begin with an `m` (private derivation) and be fixed – it
-   * cannot contain an `i` character to represent the address index, as a
-   * dynamic hardened path would require a new HD public key for each address.
-   */
-  hdPublicKeyDerivationPath?: string;
-  /**
-   * The derivation path used to derive this `HdKey` from the owning entity's HD
-   * private key. By default, `m/i`.
-   *
-   * This path uses the notation specified in BIP32 and the `i` character to
-   * represent the location of the `addressIndex`:
-   *
-   * The first character must be `m` (private derivation), followed by sets of
-   * `/` and a number representing the child index used in the derivation at
-   * that depth. Hardened derivation is represented by a trailing `'`, and
-   * hardened child indexes are represented with the hardened index offset
-   * (`2147483648`) subtracted. The `i` character is replaced with the value of
-   * `addressIndex` plus this `HdKey`'s `addressOffset`. If the `i` character is
-   * followed by `'`, the hardened index offset is added (`2147483648`) and
-   * hardened derivation is used.
-   *
-   * For example, `m/0/1'/i'` uses 3 levels of derivation, with child indexes in
-   * the following order:
-   *
-   * `derive(derive(derive(node, 0), 2147483648 + 1), 2147483648 + addressIndex + addressOffset)`
-   *
-   * Because hardened derivation requires knowledge of the private key, `HdKey`
-   * variables with `derivationPath`s that include hardened derivation cannot
-   * use HD public derivation (the `hdPublicKeys` property in
-   * `CompilationData`). Instead, compilation requires the respective HD private
-   * key (`CompilationData.hdKeys.hdPrivateKeys`) or the fully-derived public
-   * key (`CompilationData.hdKeys.derivedPublicKeys`).
-   */
-  privateDerivationPath?: string;
-  /**
-   * The derivation path used to derive this `HdKey`'s public key from the
-   * owning entity's HD public key. If not set, the public equivalent of
-   * `privateDerivationPath` is used. For the `privateDerivationPath` default of
-   * `m/i`, this is `M/i`.
-   *
-   * If `privateDerivationPath` uses hardened derivation for some levels, but
-   * later derivation levels use non-hardened derivation, `publicDerivationPath`
-   * can be used to specify a public derivation path beginning from
-   * `hdPublicKeyDerivationPath` (i.e. `publicDerivationPath` should always be a
-   * non-hardened segment of `privateDerivationPath` that follows
-   * `hdPublicKeyDerivationPath`).
-   *
-   * The first character must be `M` (public derivation), followed by sets of
-   * `/` and a number representing the child index used in the non-hardened
-   * derivation at that depth.
-   *
-   * For example, if `privateDerivationPath` is `m/0'/i`, it is not possible to
-   * derive the equivalent public key with only the HD public key `M`. (The path
-   * "`M/0'/i`" is impossible.) However, given the HD public key for `m/0'`, it
-   * is possible to derive the public key of `m/0'/i` for any `i`. In this case,
-   * `hdPublicKeyDerivationPath` would be `m/0'` and `publicDerivationPath`
-   * would be the remaining `M/i`.
-   *
-   * @remarks
-   * Non-hardened derivation paths are more useful for some templates, e.g. to
-   * allow for new locking scripts to be generated without communicating new
-   * public keys between entities for each. **However, using a non-hardened key
-   * has critical security implications.** If an attacker gains possession of
-   * both a parent HD *public key* and any child private key, the attacker can
-   * easily derive the parent HD *private key*, and with it, all hardened and
-   * non-hardened child keys. See BIP32 or
-   * `crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode` for details.
-   */
-  publicDerivationPath?: string;
-  /**
-   * The `HdKey` (Hierarchical-Deterministic Key) type automatically manages key
-   * generation and mapping in a standard way. For greater control, use `Key`.
-   */
-  type: 'HdKey';
-}
+  neverSignTwice?: boolean;
+};
 
-export interface AuthenticationTemplateKey
-  extends AuthenticationTemplateVariableBase {
-  /**
-   * A single-line, human readable description for this key.
-   */
-  description?: string;
-  /**
-   * A single-line, Title Case, human-readable name for this key.
-   */
-  name?: string;
-  /**
-   * The `Key` type provides fine-grained control over key generation and
-   * mapping. Most templates should instead use `HdKey`.
-   *
-   * Any HD (Hierarchical-Deterministic) derivation must be completed outside of
-   * the templating system and provided at the time of use.
-   */
-  type: 'Key';
-}
+export type WalletTemplateHdKey = WalletTemplateKeyBase &
+  WalletTemplateVariableBase & {
+    /**
+     * A single-line, human readable description for this HD key.
+     */
+    description?: string;
+    /**
+     * A single-line, Title Case, human-readable name for this HD key.
+     */
+    name?: string;
+    /**
+     * The offset by which to increment the `addressIndex` provided in the
+     * compilation data when deriving this `HdKey`. (Default: 0)
+     *
+     * This is useful for deriving the "next" (`1`) or "previous" (`-1`) address
+     * to be used in the current compiler configuration.
+     */
+    addressOffset?: number;
+    /**
+     * The path to derive the entity's HD public key from the entity's master HD
+     * private key. By default, `m` (i.e. the entity's HD public key represents
+     * the same node in the HD tree as its HD private key).
+     *
+     * This can be used to specify another derivation path from which the
+     * `publicDerivationPath` begins, e.g. `m/0'/1'/2'`. See
+     * `publicDerivationPath` for details.
+     *
+     * This path must begin with an `m` (private derivation) and be fixed – it
+     * cannot contain an `i` character to represent the address index, as a
+     * dynamic hardened path would require a new HD public key for each address.
+     */
+    hdPublicKeyDerivationPath?: string;
+    /**
+     * The derivation path used to derive this `HdKey` from the owning entity's HD
+     * private key. By default, `m/i`.
+     *
+     * This path uses the notation specified in BIP32 and the `i` character to
+     * represent the location of the `addressIndex`:
+     *
+     * The first character must be `m` (private derivation), followed by sets of
+     * `/` and a number representing the child index used in the derivation at
+     * that depth. Hardened derivation is represented by a trailing `'`, and
+     * hardened child indexes are represented with the hardened index offset
+     * (`2147483648`) subtracted. The `i` character is replaced with the value of
+     * `addressIndex` plus this `HdKey`'s `addressOffset`. If the `i` character is
+     * followed by `'`, the hardened index offset is added (`2147483648`) and
+     * hardened derivation is used.
+     *
+     * For example, `m/0/1'/i'` uses 3 levels of derivation, with child indexes in
+     * the following order:
+     *
+     * `derive(derive(derive(node, 0), 2147483648 + 1), 2147483648 + addressIndex + addressOffset)`
+     *
+     * Because hardened derivation requires knowledge of the private key, `HdKey`
+     * variables with `derivationPath`s that include hardened derivation cannot
+     * use HD public derivation (the `hdPublicKeys` property in
+     * `CompilationData`). Instead, compilation requires the respective HD private
+     * key (`CompilationData.hdKeys.hdPrivateKeys`) or the fully-derived public
+     * key (`CompilationData.hdKeys.derivedPublicKeys`).
+     */
+    privateDerivationPath?: string;
+    /**
+     * The derivation path used to derive this `HdKey`'s public key from the
+     * owning entity's HD public key. If not set, the public equivalent of
+     * `privateDerivationPath` is used. For the `privateDerivationPath` default of
+     * `m/i`, this is `M/i`.
+     *
+     * If `privateDerivationPath` uses hardened derivation for some levels, but
+     * later derivation levels use non-hardened derivation, `publicDerivationPath`
+     * can be used to specify a public derivation path beginning from
+     * `hdPublicKeyDerivationPath` (i.e. `publicDerivationPath` should always be a
+     * non-hardened segment of `privateDerivationPath` that follows
+     * `hdPublicKeyDerivationPath`).
+     *
+     * The first character must be `M` (public derivation), followed by sets of
+     * `/` and a number representing the child index used in the non-hardened
+     * derivation at that depth.
+     *
+     * For example, if `privateDerivationPath` is `m/0'/i`, it is not possible to
+     * derive the equivalent public key with only the HD public key `M`. (The path
+     * "`M/0'/i`" is impossible.) However, given the HD public key for `m/0'`, it
+     * is possible to derive the public key of `m/0'/i` for any `i`. In this case,
+     * `hdPublicKeyDerivationPath` would be `m/0'` and `publicDerivationPath`
+     * would be the remaining `M/i`.
+     *
+     * @remarks
+     * Non-hardened derivation paths are more useful for some templates, e.g. to
+     * allow for new locking scripts to be generated without communicating new
+     * public keys between entities for each. **However, using a non-hardened key
+     * has critical security implications.** If an attacker gains possession of
+     * both a parent HD *public key* and any child private key, the attacker can
+     * easily derive the parent HD *private key*, and with it, all hardened and
+     * non-hardened child keys. See BIP32 or
+     * `crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode` for details.
+     */
+    publicDerivationPath?: string;
+    /**
+     * The `HdKey` (Hierarchical-Deterministic Key) type automatically manages key
+     * generation and mapping in a standard way. For greater control, use `Key`.
+     */
+    type: 'HdKey';
+  };
 
-export interface AuthenticationTemplateWalletData
-  extends AuthenticationTemplateVariableBase {
+export type WalletTemplateKey = WalletTemplateKeyBase &
+  WalletTemplateVariableBase & {
+    /**
+     * A single-line, human readable description for this key.
+     */
+    description?: string;
+    /**
+     * A single-line, Title Case, human-readable name for this key.
+     */
+    name?: string;
+    /**
+     * The `Key` type provides fine-grained control over key generation and
+     * mapping. Most templates should instead use `HdKey`.
+     *
+     * Any HD (Hierarchical-Deterministic) derivation must be completed outside of
+     * the templating system and provided at the time of use.
+     */
+    type: 'Key';
+  };
+
+export type WalletTemplateWalletData = WalletTemplateVariableBase & {
   /**
    * A single-line, human readable description for this wallet data.
    */
@@ -1071,10 +1086,9 @@ export interface AuthenticationTemplateWalletData
    * For address-specific data, use `AddressData`.
    */
   type: 'WalletData';
-}
+};
 
-export interface AuthenticationTemplateAddressData
-  extends AuthenticationTemplateVariableBase {
+export type WalletTemplateAddressData = WalletTemplateVariableBase & {
   /**
    * A single-line, human readable description for this address data.
    */
@@ -1091,10 +1105,10 @@ export interface AuthenticationTemplateAddressData
    * For more persistent data, use `WalletData`.
    */
   type: 'AddressData';
-}
+};
 
-export type AuthenticationTemplateVariable =
-  | AuthenticationTemplateAddressData
-  | AuthenticationTemplateHdKey
-  | AuthenticationTemplateKey
-  | AuthenticationTemplateWalletData;
+export type WalletTemplateVariable =
+  | WalletTemplateAddressData
+  | WalletTemplateHdKey
+  | WalletTemplateKey
+  | WalletTemplateWalletData;

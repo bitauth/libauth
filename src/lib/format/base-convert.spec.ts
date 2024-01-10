@@ -1,4 +1,3 @@
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import type { BaseConverter } from '../lib.js';
@@ -15,8 +14,10 @@ import {
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
 import base58Json from './fixtures/base58_encode_decode.json' assert { type: 'json' };
 
+import { fc, testProp } from '@fast-check/ava';
+
 const base58Vectors = Object.values(base58Json).filter(
-  (item) => Array.isArray(item) && item.every((x) => typeof x === 'string')
+  (item) => Array.isArray(item) && item.every((x) => typeof x === 'string'),
 );
 
 const base2 = createBaseConverter('01') as BaseConverter;
@@ -40,7 +41,7 @@ test(base2Vector, '111111111111', Uint8Array.of(15, 255));
 test(
   base2Vector,
   '11111111000000001111111100000000',
-  Uint8Array.of(255, 0, 255, 0)
+  Uint8Array.of(255, 0, 255, 0),
 );
 
 const base16 = createBaseConverter('0123456789abcdef') as BaseConverter;
@@ -76,7 +77,7 @@ test(base58Vector, 'aPEr', utf8ToBin('ccc'));
 test(
   base58Vector,
   '1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L',
-  hexToBin('00eb15231dfceb60925886b67d065299925915aeb172c06647')
+  hexToBin('00eb15231dfceb60925886b67d065299925915aeb172c06647'),
 );
 
 test('createBaseConverter: alphabet too long', (t) => {
@@ -84,16 +85,16 @@ test('createBaseConverter: alphabet too long', (t) => {
     createBaseConverter(
       range(255)
         .map((i) => String.fromCharCode(i))
-        .join('')
+        .join(''),
     ),
-    BaseConversionError.tooLong
+    BaseConversionError.tooLong,
   );
 });
 
 test('createBaseConverter: ambiguous character in alphabet', (t) => {
   t.deepEqual(
     createBaseConverter('00'),
-    BaseConversionError.ambiguousCharacter
+    BaseConversionError.ambiguousCharacter,
   );
 });
 
@@ -107,8 +108,8 @@ testProp(
   (t, input) =>
     t.deepEqual(
       base2.encode(base2.decode(base2.encode(input)) as Uint8Array),
-      base2.encode(input)
-    )
+      base2.encode(input),
+    ),
 );
 
 testProp(
@@ -117,13 +118,13 @@ testProp(
   (t, input) =>
     t.deepEqual(
       base16.encode(base16.decode(base16.encode(input)) as Uint8Array),
-      base16.encode(input)
-    )
+      base16.encode(input),
+    ),
 );
 
 const base26 = createBaseConverter(
   // cspell: disable-next-line
-  'abcdefghijklmnopqrstuvwxyz'
+  'abcdefghijklmnopqrstuvwxyz',
 ) as BaseConverter;
 
 testProp(
@@ -132,12 +133,12 @@ testProp(
   (t, input) =>
     t.deepEqual(
       base26.encode(base26.decode(base26.encode(input)) as Uint8Array),
-      base26.encode(input)
-    )
+      base26.encode(input),
+    ),
 );
 
 const base42 = createBaseConverter(
-  '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghi'
+  '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghi',
 ) as BaseConverter;
 
 testProp(
@@ -146,8 +147,8 @@ testProp(
   (t, input) =>
     t.deepEqual(
       base42.encode(base42.decode(base42.encode(input)) as Uint8Array),
-      base42.encode(input)
-    )
+      base42.encode(input),
+    ),
 );
 
 testProp(
@@ -156,13 +157,13 @@ testProp(
   (t, input) =>
     t.deepEqual(
       binToBase58(base58ToBin(binToBase58(input)) as Uint8Array),
-      binToBase58(input)
-    )
+      binToBase58(input),
+    ),
 );
 
 test('base58 Test Vectors', (t) => {
   t.truthy(base58Vectors);
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   for (const [binHex, base58] of base58Vectors) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     t.deepEqual(base58ToBin(base58!) as Uint8Array, hexToBin(binHex!));

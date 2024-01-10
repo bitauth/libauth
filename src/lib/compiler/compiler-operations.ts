@@ -4,10 +4,7 @@ import {
   valueSatoshisToBin,
 } from '../format/format.js';
 import { decodeHdPublicKey, deriveHdPath } from '../key/key.js';
-import type {
-  AuthenticationTemplateHdKey,
-  CompilerOperationResult,
-} from '../lib.js';
+import type { CompilerOperationResult, WalletTemplateHdKey } from '../lib.js';
 import {
   encodeTransactionInputSequenceNumbersForSigning,
   encodeTransactionOutpoints,
@@ -90,7 +87,7 @@ export const compilerOperationSigningSerializationCorrespondingOutput =
     dataProperties: ['compilationContext'],
     operation: (_, data) => {
       const { correspondingOutput } = generateSigningSerializationComponentsBCH(
-        data.compilationContext
+        data.compilationContext,
       );
       return correspondingOutput === undefined
         ? { bytecode: Uint8Array.of(), status: 'success' }
@@ -108,13 +105,13 @@ export const compilerOperationSigningSerializationCorrespondingOutputHash =
     dataProperties: ['compilationContext'],
     operation: (_, data, configuration) => {
       const { correspondingOutput } = generateSigningSerializationComponentsBCH(
-        data.compilationContext
+        data.compilationContext,
       );
       return correspondingOutput === undefined
         ? { bytecode: Uint8Array.of(), status: 'success' }
         : {
             bytecode: configuration.sha256.hash(
-              configuration.sha256.hash(correspondingOutput)
+              configuration.sha256.hash(correspondingOutput),
             ),
             status: 'success',
           };
@@ -122,7 +119,7 @@ export const compilerOperationSigningSerializationCorrespondingOutputHash =
   });
 
 const compilerOperationHelperSigningSerializationCoveredBytecode = (
-  returnLength: boolean
+  returnLength: boolean,
 ) =>
   compilerOperationRequires({
     canBeSkipped: false,
@@ -163,7 +160,7 @@ export const compilerOperationSigningSerializationLocktime =
     dataProperties: ['compilationContext'],
     operation: (_, data) => ({
       bytecode: numberToBinUint32LE(
-        data.compilationContext.transaction.locktime
+        data.compilationContext.transaction.locktime,
       ),
       status: 'success',
     }),
@@ -179,7 +176,7 @@ export const compilerOperationSigningSerializationOutpointIndex =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         data.compilationContext.transaction.inputs[
           data.compilationContext.inputIndex
-        ]!.outpointIndex
+        ]!.outpointIndex,
       ),
       status: 'success',
     }),
@@ -210,7 +207,7 @@ export const compilerOperationSigningSerializationOutputValue =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         data.compilationContext.sourceOutputs[
           data.compilationContext.inputIndex
-        ]!.valueSatoshis
+        ]!.valueSatoshis,
       ),
       status: 'success',
     }),
@@ -226,7 +223,7 @@ export const compilerOperationSigningSerializationSequenceNumber =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         data.compilationContext.transaction.inputs[
           data.compilationContext.inputIndex
-        ]!.sequenceNumber
+        ]!.sequenceNumber,
       ),
       status: 'success',
     }),
@@ -239,7 +236,7 @@ export const compilerOperationSigningSerializationTransactionOutpoints =
     dataProperties: ['compilationContext'],
     operation: (_, data) => ({
       bytecode: encodeTransactionOutpoints(
-        data.compilationContext.transaction.inputs
+        data.compilationContext.transaction.inputs,
       ),
       status: 'success',
     }),
@@ -253,8 +250,10 @@ export const compilerOperationSigningSerializationTransactionOutpointsHash =
     operation: (_, data, configuration) => ({
       bytecode: configuration.sha256.hash(
         configuration.sha256.hash(
-          encodeTransactionOutpoints(data.compilationContext.transaction.inputs)
-        )
+          encodeTransactionOutpoints(
+            data.compilationContext.transaction.inputs,
+          ),
+        ),
       ),
       status: 'success',
     }),
@@ -267,7 +266,7 @@ export const compilerOperationSigningSerializationTransactionOutputs =
     dataProperties: ['compilationContext'],
     operation: (_, data) => ({
       bytecode: encodeTransactionOutputsForSigning(
-        data.compilationContext.transaction.outputs
+        data.compilationContext.transaction.outputs,
       ),
       status: 'success',
     }),
@@ -282,9 +281,9 @@ export const compilerOperationSigningSerializationTransactionOutputsHash =
       bytecode: configuration.sha256.hash(
         configuration.sha256.hash(
           encodeTransactionOutputsForSigning(
-            data.compilationContext.transaction.outputs
-          )
-        )
+            data.compilationContext.transaction.outputs,
+          ),
+        ),
       ),
       status: 'success',
     }),
@@ -297,7 +296,7 @@ export const compilerOperationSigningSerializationTransactionSequenceNumbers =
     dataProperties: ['compilationContext'],
     operation: (_, data) => ({
       bytecode: encodeTransactionInputSequenceNumbersForSigning(
-        data.compilationContext.transaction.inputs
+        data.compilationContext.transaction.inputs,
       ),
       status: 'success',
     }),
@@ -312,9 +311,9 @@ export const compilerOperationSigningSerializationTransactionSequenceNumbersHash
       bytecode: configuration.sha256.hash(
         configuration.sha256.hash(
           encodeTransactionInputSequenceNumbersForSigning(
-            data.compilationContext.transaction.inputs
-          )
-        )
+            data.compilationContext.transaction.inputs,
+          ),
+        ),
       ),
       status: 'success',
     }),
@@ -327,7 +326,7 @@ export const compilerOperationSigningSerializationVersion =
     dataProperties: ['compilationContext'],
     operation: (_, data) => ({
       bytecode: numberToBinUint32LE(
-        data.compilationContext.transaction.version
+        data.compilationContext.transaction.version,
       ),
       status: 'success',
     }),
@@ -349,7 +348,7 @@ export const compilerOperationKeyPublicKeyCommon = attemptCompilerOperations(
         return {
           bytecode: secp256k1.derivePublicKeyCompressed(
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            privateKeys[variableId]!
+            privateKeys[variableId]!,
           ) as Uint8Array,
           status: 'success',
         };
@@ -360,7 +359,7 @@ export const compilerOperationKeyPublicKeyCommon = attemptCompilerOperations(
         status: 'error',
       };
     },
-  })
+  }),
 );
 
 export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
@@ -400,7 +399,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
          */
         const hdKey = configuration.variables[
           variableId
-        ] as AuthenticationTemplateHdKey;
+        ] as WalletTemplateHdKey;
 
         if (entityHdPrivateKey !== undefined) {
           const privateResult = compilerOperationHelperDeriveHdPrivateNode({
@@ -414,7 +413,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
           if (privateResult.status === 'error') return privateResult;
           return {
             bytecode: configuration.secp256k1.derivePublicKeyCompressed(
-              privateResult.bytecode
+              privateResult.bytecode,
             ) as Uint8Array,
             status: 'success',
           };
@@ -452,7 +451,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
 
         const masterContents = decodeHdPublicKey(
           entityHdPublicKey,
-          configuration
+          configuration,
         );
         if (typeof masterContents === 'string') {
           return {
@@ -464,7 +463,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
         const instanceNode = deriveHdPath(
           masterContents.node,
           instancePath,
-          configuration
+          configuration,
         );
 
         if (typeof instanceNode === 'string') {
@@ -476,7 +475,7 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
 
         return { bytecode: instanceNode.publicKey, status: 'success' };
       },
-  })
+  }),
 );
 
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */

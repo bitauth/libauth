@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.8...v2.0.0) (2024-01-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* exposes script source compilations in ResolvedScript and renames
+authenticationTemplate -> walletTemplate
+
+### Features
+
+* key generation utilities, utf8 normalization, API improvements ([5ad6520](https://github.com/bitauth/libauth/commit/5ad6520abcc03b8f3775e374d271f3a25622f7ff))
+
+### [1.19.1](https://github.com/bitauth/libauth/compare/v1.19.0...v1.19.1) (2022-02-01)
+
+
+### Bug Fixes
+
+* **secp256k1:** prevent vulnerabilities in consumers which don't validate input lengths ([7fc75c9](https://github.com/bitauth/libauth/commit/7fc75c90be441cf22f3bb7946363e78fa0a61b17))
+
 ## [2.0.0-alpha.8](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2023-01-10)
 
 ## [2.0.0-alpha.7](https://github.com/bitauth/libauth/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2022-12-08)

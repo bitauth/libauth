@@ -1,6 +1,6 @@
 {
   "name": "@bitauth/libauth",
-  "version": "2.0.0-alpha.8",
+  "version": "2.0.0",
   "description": "ultra-lightweight library for Bitcoin Cash, Bitcoin, and Bitauth",
   "type": "module",
   "main": "./build/index.js",
@@ -84,8 +84,8 @@
     "version": "standard-version",
     "version:alpha": "standard-version --prerelease alpha",
     "reset": "git clean -dfx && git reset --hard && yarn",
-    "prepare-release": "yarn reset && yarn test && yarn cov:check && yarn version",
-    "prepare-release:alpha": "yarn reset && yarn test && yarn cov:check && yarn version:alpha"
+    "prepare-release": "yarn reset && yarn test && yarn cov:check && yarn run version",
+    "prepare-release:alpha": "yarn reset && yarn test && yarn cov:check && yarn run version:alpha"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"

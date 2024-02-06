@@ -63,7 +63,7 @@ test('compileScript: clean errors on unexpected input', (t) => {
         },
       ],
       success: false,
-    }
+    },
   );
   t.deepEqual(compileScript('t', {}, { scripts: { t: '"incomplete' } }), {
     errorType: 'parse',
@@ -192,7 +192,7 @@ test('compileScriptContents: empty string', (t) => {
         },
       ],
       success: true,
-    }
+    },
   );
 });
 
@@ -252,14 +252,14 @@ test('compileScriptContents: empty script (script with space)', (t) => {
 test('describeExpectedInput: handles EOF', (t) => {
   t.deepEqual(
     describeExpectedInput(['one thing', 'EOF']),
-    'Encountered unexpected input while parsing script. Expected one thing or the end of the script.'
+    'Encountered unexpected input while parsing script. Expected one thing or the end of the script.',
   );
 });
 
 test('describeExpectedInput: handles 2 options', (t) => {
   t.deepEqual(
     describeExpectedInput(['one thing', 'another thing']),
-    'Encountered unexpected input while parsing script. Expected one thing or another thing.'
+    'Encountered unexpected input while parsing script. Expected one thing or another thing.',
   );
 });
 
@@ -353,7 +353,7 @@ test('compileScript: 0x51', (t) => {
       ],
       success: true,
     },
-    stringifyTestVector(result)
+    stringifyTestVector(result),
   );
 });
 
@@ -487,7 +487,7 @@ test('compileScript: <1>', (t) => {
       ],
       success: true,
     },
-    stringifyTestVector(result)
+    stringifyTestVector(result),
   );
 });
 
@@ -621,7 +621,7 @@ test('compileScript: <0xabcdef>', (t) => {
       ],
       success: true,
     },
-    stringifyTestVector(result)
+    stringifyTestVector(result),
   );
 });
 
@@ -755,7 +755,7 @@ test('compileScript: <"abc 👍">', (t) => {
       ],
       success: true,
     },
-    stringifyTestVector(result)
+    stringifyTestVector(result),
   );
 });
 
@@ -831,7 +831,7 @@ test('compileScript: OP_1 OP_2 OP_ADD', (t) => {
           OP_ADD: Uint8Array.of(0x93),
         },
         scripts: { t: 'OP_1 OP_2 OP_ADD' },
-      }
+      },
     ),
     {
       bytecode: Uint8Array.of(0x51, 0x52, 0x93),
@@ -966,7 +966,7 @@ test('compileScript: OP_1 OP_2 OP_ADD', (t) => {
         },
       ],
       success: true,
-    }
+    },
   );
 });
 
@@ -994,132 +994,212 @@ test('compileScript: variable and script inclusion', (t) => {
           type: 'AddressData',
         },
       },
-    }
-  );
-  t.deepEqual(comp, {
-    bytecode: Uint8Array.of(0x51, 0x52, 0x93),
-    parse: {
-      end: {
-        column: 19,
-        line: 1,
-        offset: 18,
-      },
-      name: 'Script',
-      start: {
-        column: 1,
-        line: 1,
-        offset: 0,
-      },
-      value: [
-        {
-          end: {
-            column: 12,
-            line: 1,
-            offset: 11,
-          },
-          name: 'Identifier',
-          start: {
-            column: 1,
-            line: 1,
-            offset: 0,
-          },
-          value: 'pushNumbers',
-        },
-        {
-          end: {
-            column: 19,
-            line: 1,
-            offset: 18,
-          },
-          name: 'Identifier',
-          start: {
-            column: 13,
-            line: 1,
-            offset: 12,
-          },
-          value: 'OP_ADD',
-        },
-      ],
     },
-    reduce: {
+  );
+  t.deepEqual(
+    comp,
+    {
       bytecode: Uint8Array.of(0x51, 0x52, 0x93),
-      range: {
-        endColumn: 19,
-        endLineNumber: 1,
-        startColumn: 1,
-        startLineNumber: 1,
+      parse: {
+        end: {
+          column: 19,
+          line: 1,
+          offset: 18,
+        },
+        name: 'Script',
+        start: {
+          column: 1,
+          line: 1,
+          offset: 0,
+        },
+        value: [
+          {
+            end: {
+              column: 12,
+              line: 1,
+              offset: 11,
+            },
+            name: 'Identifier',
+            start: {
+              column: 1,
+              line: 1,
+              offset: 0,
+            },
+            value: 'pushNumbers',
+          },
+          {
+            end: {
+              column: 19,
+              line: 1,
+              offset: 18,
+            },
+            name: 'Identifier',
+            start: {
+              column: 13,
+              line: 1,
+              offset: 12,
+            },
+            value: 'OP_ADD',
+          },
+        ],
       },
-      script: [
+      reduce: {
+        bytecode: Uint8Array.of(0x51, 0x52, 0x93),
+        range: {
+          endColumn: 19,
+          endLineNumber: 1,
+          startColumn: 1,
+          startLineNumber: 1,
+        },
+        script: [
+          {
+            bytecode: Uint8Array.of(0x51, 0x52),
+            range: {
+              endColumn: 12,
+              endLineNumber: 1,
+              startColumn: 1,
+              startLineNumber: 1,
+            },
+          },
+          {
+            bytecode: Uint8Array.of(0x93),
+            range: {
+              endColumn: 19,
+              endLineNumber: 1,
+              startColumn: 13,
+              startLineNumber: 1,
+            },
+          },
+        ],
+      },
+      resolve: [
         {
-          bytecode: Uint8Array.of(0x51, 0x52),
           range: {
             endColumn: 12,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1,
           },
+          script: 'pushNumbers',
+          source: {
+            bytecode: hexToBin('5152'),
+            parse: {
+              end: {
+                column: 12,
+                line: 1,
+                offset: 11,
+              },
+              name: 'Script',
+              start: {
+                column: 1,
+                line: 1,
+                offset: 0,
+              },
+              value: [
+                {
+                  end: {
+                    column: 5,
+                    line: 1,
+                    offset: 4,
+                  },
+                  name: 'Identifier',
+                  start: {
+                    column: 1,
+                    line: 1,
+                    offset: 0,
+                  },
+                  value: 'OP_1',
+                },
+                {
+                  end: {
+                    column: 12,
+                    line: 1,
+                    offset: 11,
+                  },
+                  name: 'Identifier',
+                  start: {
+                    column: 6,
+                    line: 1,
+                    offset: 5,
+                  },
+                  value: 'varOp2',
+                },
+              ],
+            },
+            reduce: {
+              bytecode: hexToBin('5152'),
+              range: {
+                endColumn: 12,
+                endLineNumber: 1,
+                startColumn: 1,
+                startLineNumber: 1,
+              },
+              script: [
+                {
+                  bytecode: hexToBin('51'),
+                  range: {
+                    endColumn: 5,
+                    endLineNumber: 1,
+                    startColumn: 1,
+                    startLineNumber: 1,
+                  },
+                },
+                {
+                  bytecode: hexToBin('52'),
+                  range: {
+                    endColumn: 12,
+                    endLineNumber: 1,
+                    startColumn: 6,
+                    startLineNumber: 1,
+                  },
+                },
+              ],
+            },
+            resolve: [
+              {
+                opcode: 'OP_1',
+                range: {
+                  endColumn: 5,
+                  endLineNumber: 1,
+                  startColumn: 1,
+                  startLineNumber: 1,
+                },
+                type: 'bytecode',
+                value: hexToBin('51'),
+              },
+              {
+                range: {
+                  endColumn: 12,
+                  endLineNumber: 1,
+                  startColumn: 6,
+                  startLineNumber: 1,
+                },
+                type: 'bytecode',
+                value: hexToBin('52'),
+                variable: 'varOp2',
+              },
+            ],
+            success: true,
+          },
+          type: 'bytecode',
+          value: Uint8Array.of(0x51, 0x52),
         },
         {
-          bytecode: Uint8Array.of(0x93),
+          opcode: 'OP_ADD',
           range: {
             endColumn: 19,
             endLineNumber: 1,
             startColumn: 13,
             startLineNumber: 1,
           },
+          type: 'bytecode',
+          value: Uint8Array.of(0x93),
         },
       ],
+      success: true,
     },
-    resolve: [
-      {
-        range: {
-          endColumn: 12,
-          endLineNumber: 1,
-          startColumn: 1,
-          startLineNumber: 1,
-        },
-        script: 'pushNumbers',
-        source: [
-          {
-            opcode: 'OP_1',
-            range: {
-              endColumn: 5,
-              endLineNumber: 1,
-              startColumn: 1,
-              startLineNumber: 1,
-            },
-            type: 'bytecode',
-            value: Uint8Array.of(0x51),
-          },
-          {
-            range: {
-              endColumn: 12,
-              endLineNumber: 1,
-              startColumn: 6,
-              startLineNumber: 1,
-            },
-            type: 'bytecode',
-            value: Uint8Array.of(0x52),
-            variable: 'varOp2',
-          },
-        ],
-        type: 'bytecode',
-        value: Uint8Array.of(0x51, 0x52),
-      },
-      {
-        opcode: 'OP_ADD',
-        range: {
-          endColumn: 19,
-          endLineNumber: 1,
-          startColumn: 13,
-          startLineNumber: 1,
-        },
-        type: 'bytecode',
-        value: Uint8Array.of(0x93),
-      },
-    ],
-    success: true,
-  });
+    stringifyTestVector(comp),
+  );
 });
 
 test('compileScript: comments', (t) => {
@@ -1127,7 +1207,7 @@ test('compileScript: comments', (t) => {
     compileScript(
       't',
       {},
-      { scripts: { t: '// single-line\n  /* multi-\nline */' } }
+      { scripts: { t: '// single-line\n  /* multi-\nline */' } },
     ),
     {
       bytecode: Uint8Array.of(),
@@ -1226,6 +1306,6 @@ test('compileScript: comments', (t) => {
         },
       ],
       success: true,
-    }
+    },
   );
 });

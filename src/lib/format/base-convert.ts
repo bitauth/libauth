@@ -4,10 +4,10 @@ export enum BaseConversionError {
   unknownCharacter = 'Encountered an unknown character for this alphabet.',
 }
 
-export interface BaseConverter {
+export type BaseConverter = {
   decode: (source: string) => BaseConversionError.unknownCharacter | Uint8Array;
   encode: (input: Uint8Array) => string;
-}
+};
 
 /**
  * Create a {@link BaseConverter}, exposing methods for encoding and decoding
@@ -30,7 +30,7 @@ export interface BaseConverter {
  */
 // Algorithm from the `base-x` implementation (derived from the original Satoshi implementation): https://github.com/cryptocoinjs/base-x
 export const createBaseConverter = (
-  alphabet: string
+  alphabet: string,
 ): BaseConversionError | BaseConverter => {
   const undefinedValue = 255;
   const uint8ArrayBase = 256;
@@ -39,13 +39,13 @@ export const createBaseConverter = (
 
   const alphabetMap = new Uint8Array(uint8ArrayBase).fill(undefinedValue);
 
-  // eslint-disable-next-line functional/no-loop-statement, functional/no-let, no-plusplus
+  // eslint-disable-next-line functional/no-loop-statements, functional/no-let, no-plusplus
   for (let index = 0; index < alphabet.length; index++) {
     const characterCode = alphabet.charCodeAt(index);
     if (alphabetMap[characterCode] !== undefinedValue) {
       return BaseConversionError.ambiguousCharacter;
     }
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     alphabetMap[characterCode] = index;
   }
 
@@ -67,15 +67,15 @@ export const createBaseConverter = (
       }
 
       const requiredLength = Math.floor(
-        (input.length - firstNonZeroIndex) * factor + 1
+        (input.length - firstNonZeroIndex) * factor + 1,
       );
       const decoded = new Uint8Array(requiredLength);
 
-      /* eslint-disable functional/no-let, functional/no-expression-statement */
+      /* eslint-disable functional/no-let, functional/no-expression-statements */
       let nextByte = firstNonZeroIndex;
       let remainingBytes = 0;
 
-      // eslint-disable-next-line functional/no-loop-statement
+      // eslint-disable-next-line functional/no-loop-statements
       while (input[nextByte] !== undefined) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         let carry = alphabetMap[input.charCodeAt(nextByte)]!;
@@ -83,7 +83,7 @@ export const createBaseConverter = (
           return BaseConversionError.unknownCharacter;
 
         let digit = 0;
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (
           let steps = requiredLength - 1;
           (carry !== 0 || digit < remainingBytes) && steps !== -1;
@@ -101,14 +101,14 @@ export const createBaseConverter = (
         // eslint-disable-next-line no-plusplus
         nextByte++;
       }
-      /* eslint-enable functional/no-let, functional/no-expression-statement */
+      /* eslint-enable functional/no-let, functional/no-expression-statements */
 
       const firstNonZeroResultDigit = decoded.findIndex((value) => value !== 0);
 
       const bin = new Uint8Array(
-        firstNonZeroIndex + (requiredLength - firstNonZeroResultDigit)
+        firstNonZeroIndex + (requiredLength - firstNonZeroResultDigit),
       );
-      // eslint-disable-next-line functional/no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statements
       bin.set(decoded.slice(firstNonZeroResultDigit), firstNonZeroIndex);
       return bin;
     },
@@ -122,19 +122,19 @@ export const createBaseConverter = (
       }
 
       const requiredLength = Math.floor(
-        (input.length - firstNonZeroIndex) * inverseFactor + 1
+        (input.length - firstNonZeroIndex) * inverseFactor + 1,
       );
       const encoded = new Uint8Array(requiredLength);
 
-      /* eslint-disable functional/no-let, functional/no-expression-statement */
+      /* eslint-disable functional/no-let, functional/no-expression-statements */
       let nextByte = firstNonZeroIndex;
       let remainingBytes = 0;
-      // eslint-disable-next-line functional/no-loop-statement
+      // eslint-disable-next-line functional/no-loop-statements
       while (nextByte !== input.length) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         let carry = input[nextByte]!;
         let digit = 0;
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (
           let steps = requiredLength - 1;
           (carry !== 0 || digit < remainingBytes) && steps !== -1;
@@ -151,7 +151,7 @@ export const createBaseConverter = (
         // eslint-disable-next-line no-plusplus
         nextByte++;
       }
-      /* eslint-enable functional/no-let, functional/no-expression-statement */
+      /* eslint-enable functional/no-let, functional/no-expression-statements */
 
       const firstNonZeroResultDigit = encoded.findIndex((value) => value !== 0);
 

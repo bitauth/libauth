@@ -15,7 +15,7 @@ test(
   {
     bytecode: Uint8Array.of(0x03),
     success: true,
-  }
+  },
 );
 
 test.only(
@@ -26,7 +26,7 @@ test.only(
   {
     bytecode: Uint8Array.from([0xaa, 0xbb, 0xcc]),
     success: true,
-  }
+  },
 );
 
 test(
@@ -37,7 +37,7 @@ test(
   {
     bytecode: Uint8Array.of(),
     success: true,
-  }
+  },
 );
 
 test(
@@ -60,7 +60,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -85,7 +85,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { vm: undefined }
+  { vm: undefined },
 );
 
 test(
@@ -110,7 +110,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { createAuthenticationProgram: undefined }
+  { createAuthenticationProgram: undefined },
 );
 
 test(
@@ -133,7 +133,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -156,7 +156,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -179,7 +179,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -202,7 +202,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -225,7 +225,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -248,7 +248,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -259,7 +259,7 @@ test(
   {
     bytecode: Uint8Array.of(),
     success: true,
-  }
+  },
 );
 
 test(
@@ -270,7 +270,7 @@ test(
   {
     bytecode: Uint8Array.of(0x03),
     success: true,
-  }
+  },
 );
 
 test(
@@ -293,7 +293,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -316,7 +316,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -349,7 +349,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
 test(
@@ -372,5 +372,5 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>
+  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );

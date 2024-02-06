@@ -1,7 +1,8 @@
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import { binStringToBin, binToBinString, isBinString } from '../lib.js';
+
+import { fc, testProp } from '@fast-check/ava';
 
 test('isBinString', (t) => {
   t.deepEqual(isBinString('0'), false);
@@ -28,6 +29,6 @@ testProp(
   (t, input) =>
     t.deepEqual(
       binToBinString(binStringToBin(binToBinString(input))),
-      binToBinString(input)
-    )
+      binToBinString(input),
+    ),
 );

@@ -59,6 +59,6 @@ test('vmbTestGroupToVmbTests', (t) => {
       ],
     ],
 
-    `Stringified test vector:\n${stringifyTestVector(result)}`
+    `Stringified test vector:\n${stringifyTestVector(result)}`,
   );
 });

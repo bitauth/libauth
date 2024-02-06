@@ -23,9 +23,9 @@ const maximumVmNumberByteLength = ConsensusXEC.maximumVmNumberLength;
 
 export const opPick4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(state, (nextState, depth) => {
     const item = nextState.stack[nextState.stack.length - 1 - Number(depth)];
@@ -37,9 +37,9 @@ export const opPick4Byte = <
 
 export const opRoll4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(state, (nextState, depth) => {
     const index = nextState.stack.length - 1 - Number(depth);
@@ -52,9 +52,9 @@ export const opRoll4Byte = <
 
 export const opSplit4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
@@ -63,24 +63,24 @@ export const opSplit4Byte = <
       return useOneStackItem(nextState, (finalState, [item]) =>
         index < 0 || index > item.length
           ? applyError(finalState, AuthenticationErrorCommon.invalidSplitIndex)
-          : pushToStack(finalState, item.slice(0, index), item.slice(index))
+          : pushToStack(finalState, item.slice(0, index), item.slice(index)),
       );
     },
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opNum2Bin4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(state, (nextState, value) => {
     const targetLength = Number(value);
     return targetLength > ConsensusXEC.maximumStackItemLength
       ? applyError(
           nextState,
-          AuthenticationErrorCommon.exceededMaximumStackItemLength
+          AuthenticationErrorCommon.exceededMaximumStackItemLength,
         )
       : useOneVmNumber(
           nextState,
@@ -89,27 +89,27 @@ export const opNum2Bin4Byte = <
             return minimallyEncoded.length > targetLength
               ? applyError(
                   finalState,
-                  AuthenticationErrorCommon.insufficientLength
+                  AuthenticationErrorCommon.insufficientLength,
                 )
               : minimallyEncoded.length === targetLength
-              ? pushToStack(finalState, minimallyEncoded)
-              : pushToStack(
-                  finalState,
-                  padMinimallyEncodedVmNumber(minimallyEncoded, targetLength)
-                );
+                ? pushToStack(finalState, minimallyEncoded)
+                : pushToStack(
+                    finalState,
+                    padMinimallyEncodedVmNumber(minimallyEncoded, targetLength),
+                  );
           },
           {
             maximumVmNumberByteLength: ConsensusXEC.maximumStackItemLength,
             requireMinimalEncoding: false,
-          }
+          },
         );
   });
 
 export const opBin2Num4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
@@ -118,130 +118,130 @@ export const opBin2Num4Byte = <
       return minimallyEncoded.length > ConsensusXEC.maximumVmNumberLength
         ? applyError(
             nextState,
-            AuthenticationErrorCommon.exceededMaximumVmNumberLength
+            AuthenticationErrorCommon.exceededMaximumVmNumberLength,
           )
         : pushToStack(nextState, minimallyEncoded);
     },
     {
       maximumVmNumberByteLength: ConsensusXEC.maximumStackItemLength,
       requireMinimalEncoding: false,
-    }
+    },
   );
 
 export const op1Add4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
     (nextState, [value]) =>
       pushToStack(nextState, bigIntToVmNumber(value + 1n)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const op1Sub4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
     (nextState, [value]) =>
       pushToStack(nextState, bigIntToVmNumber(value - 1n)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opNegate4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
     (nextState, [value]) => pushToStack(nextState, bigIntToVmNumber(-value)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opAbs4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
     (nextState, [value]) =>
       pushToStack(nextState, bigIntToVmNumber(value < 0 ? -value : value)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opNot4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
     (nextState, [value]) =>
       pushToStack(
         nextState,
-        value === 0n ? bigIntToVmNumber(1n) : bigIntToVmNumber(0n)
+        value === 0n ? bigIntToVmNumber(1n) : bigIntToVmNumber(0n),
       ),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const op0NotEqual4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneVmNumber(
     state,
     (nextState, [value]) =>
       pushToStack(
         nextState,
-        value === 0n ? bigIntToVmNumber(0n) : bigIntToVmNumber(1n)
+        value === 0n ? bigIntToVmNumber(0n) : bigIntToVmNumber(1n),
       ),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opAdd4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, bigIntToVmNumber(firstValue + secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opSub4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, bigIntToVmNumber(firstValue - secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opDiv4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
@@ -249,14 +249,14 @@ export const opDiv4Byte = <
       b === 0n
         ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
         : pushToStack(nextState, bigIntToVmNumber(a / b)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opMod4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
@@ -264,168 +264,168 @@ export const opMod4Byte = <
       b === 0n
         ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
         : pushToStack(nextState, bigIntToVmNumber(a % b)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opBoolAnd4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
-        booleanToVmNumber(firstValue !== 0n && secondValue !== 0n)
+        booleanToVmNumber(firstValue !== 0n && secondValue !== 0n),
       ),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opBoolOr4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
-        booleanToVmNumber(firstValue !== 0n || secondValue !== 0n)
+        booleanToVmNumber(firstValue !== 0n || secondValue !== 0n),
       ),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opNumEqual4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToVmNumber(firstValue === secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opNumEqualVerify4Byte = combineOperations(
   opNumEqual4Byte,
-  opVerify
+  opVerify,
 );
 
 export const opNumNotEqual4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToVmNumber(firstValue !== secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opLessThan4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToVmNumber(firstValue < secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opLessThanOrEqual4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToVmNumber(firstValue <= secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opGreaterThan4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToVmNumber(firstValue > secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opGreaterThanOrEqual4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(nextState, booleanToVmNumber(firstValue >= secondValue)),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opMin4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
-        bigIntToVmNumber(firstValue < secondValue ? firstValue : secondValue)
+        bigIntToVmNumber(firstValue < secondValue ? firstValue : secondValue),
       ),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opMax4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useTwoVmNumbers(
     state,
     (nextState, [firstValue, secondValue]) =>
       pushToStack(
         nextState,
-        bigIntToVmNumber(firstValue > secondValue ? firstValue : secondValue)
+        bigIntToVmNumber(firstValue > secondValue ? firstValue : secondValue),
       ),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );
 
 export const opWithin4Byte = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useThreeVmNumbers(
     state,
     (nextState, [firstValue, secondValue, thirdValue]) =>
       pushToStack(
         nextState,
-        booleanToVmNumber(secondValue <= firstValue && firstValue < thirdValue)
+        booleanToVmNumber(secondValue <= firstValue && firstValue < thirdValue),
       ),
-    { maximumVmNumberByteLength }
+    { maximumVmNumberByteLength },
   );

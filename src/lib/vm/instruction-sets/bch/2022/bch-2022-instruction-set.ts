@@ -170,7 +170,7 @@ export const createInstructionSetBCH2022 = (
     secp256k1: internalSecp256k1,
     sha1: internalSha1,
     sha256: internalSha256,
-  }
+  },
 ): InstructionSet<
   ResolvedTransactionBCH,
   AuthenticationProgramBCH,
@@ -201,31 +201,31 @@ export const createInstructionSetBCH2022 = (
       if (unlockingBytecode.length > ConsensusBCH.maximumBytecodeLength) {
         return applyError(
           initialState,
-          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBCH.maximumBytecodeLength} bytes).`
+          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBCH.maximumBytecodeLength} bytes).`,
         );
       }
       if (authenticationInstructionsAreMalformed(unlockingInstructions)) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.malformedUnlockingBytecode
+          AuthenticationErrorCommon.malformedUnlockingBytecode,
         );
       }
       if (!isPushOnly(unlockingBytecode)) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.requiresPushOnly
+          AuthenticationErrorCommon.requiresPushOnly,
         );
       }
       if (lockingBytecode.length > ConsensusBCH.maximumBytecodeLength) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking
+          AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking,
         );
       }
       if (authenticationInstructionsAreMalformed(lockingInstructions)) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.malformedLockingBytecode
+          AuthenticationErrorCommon.malformedLockingBytecode,
         );
       }
       const unlockingResult = stateEvaluate(initialState);
@@ -235,7 +235,7 @@ export const createInstructionSetBCH2022 = (
       if (unlockingResult.controlStack.length !== 0) {
         return applyError(
           initialState,
-          AuthenticationErrorCommon.nonEmptyControlStack
+          AuthenticationErrorCommon.nonEmptyControlStack,
         );
       }
       const lockingResult = stateEvaluate(
@@ -243,7 +243,7 @@ export const createInstructionSetBCH2022 = (
           instructions: lockingInstructions,
           program,
           stack: unlockingResult.stack,
-        })
+        }),
       );
       if (!isPayToScriptHash20(lockingBytecode)) {
         return lockingResult;
@@ -267,7 +267,7 @@ export const createInstructionSetBCH2022 = (
               instructions: p2shInstructions,
               program,
               stack: p2shStack,
-            })
+            }),
           );
     },
     every: (state) =>
@@ -276,11 +276,11 @@ export const createInstructionSetBCH2022 = (
       ConsensusBCH.maximumStackDepth
         ? applyError(state, AuthenticationErrorCommon.exceededMaximumStackDepth)
         : state.operationCount > ConsensusBCH.maximumOperationCount
-        ? applyError(
-            state,
-            AuthenticationErrorCommon.exceededMaximumOperationCount
-          )
-        : state,
+          ? applyError(
+              state,
+              AuthenticationErrorCommon.exceededMaximumOperationCount,
+            )
+          : state,
     operations: {
       [OpcodesBCH.OP_0]: conditionallyPush,
       [OpcodesBCH.OP_PUSHBYTES_1]: conditionallyPush,
@@ -457,35 +457,35 @@ export const createInstructionSetBCH2022 = (
           [OpcodesBCH.OP_MAX]: conditionallyEvaluate(opMax),
           [OpcodesBCH.OP_WITHIN]: conditionallyEvaluate(opWithin),
           [OpcodesBCH.OP_RIPEMD160]: conditionallyEvaluate(
-            opRipemd160({ ripemd160 })
+            opRipemd160({ ripemd160 }),
           ),
           [OpcodesBCH.OP_SHA1]: conditionallyEvaluate(opSha1({ sha1 })),
           [OpcodesBCH.OP_SHA256]: conditionallyEvaluate(opSha256({ sha256 })),
           [OpcodesBCH.OP_HASH160]: conditionallyEvaluate(
-            opHash160({ ripemd160, sha256 })
+            opHash160({ ripemd160, sha256 }),
           ),
           [OpcodesBCH.OP_HASH256]: conditionallyEvaluate(opHash256({ sha256 })),
           [OpcodesBCH.OP_CODESEPARATOR]: conditionallyEvaluate(opCodeSeparator),
           [OpcodesBCH.OP_CHECKSIG]: conditionallyEvaluate(
-            opCheckSig({ secp256k1, sha256 })
+            opCheckSig({ secp256k1, sha256 }),
           ),
           [OpcodesBCH.OP_CHECKSIGVERIFY]: conditionallyEvaluate(
-            opCheckSigVerify({ secp256k1, sha256 })
+            opCheckSigVerify({ secp256k1, sha256 }),
           ),
           [OpcodesBCH.OP_CHECKMULTISIG]: conditionallyEvaluate(
-            opCheckMultiSig({ secp256k1, sha256 })
+            opCheckMultiSig({ secp256k1, sha256 }),
           ),
           [OpcodesBCH.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
-            opCheckMultiSigVerify({ secp256k1, sha256 })
+            opCheckMultiSigVerify({ secp256k1, sha256 }),
           ),
           ...(standard
             ? {
                 [OpcodesBCH.OP_NOP1]: conditionallyEvaluate(opNopDisallowed),
                 [OpcodesBCH.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
-                  opCheckLockTimeVerify
+                  opCheckLockTimeVerify,
                 ),
                 [OpcodesBCH.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
-                  opCheckSequenceVerify
+                  opCheckSequenceVerify,
                 ),
                 [OpcodesBCH.OP_NOP4]: conditionallyEvaluate(opNopDisallowed),
                 [OpcodesBCH.OP_NOP5]: conditionallyEvaluate(opNopDisallowed),
@@ -498,10 +498,10 @@ export const createInstructionSetBCH2022 = (
             : {
                 [OpcodesBCH.OP_NOP1]: conditionallyEvaluate(opNop),
                 [OpcodesBCH.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
-                  opCheckLockTimeVerify
+                  opCheckLockTimeVerify,
                 ),
                 [OpcodesBCH.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
-                  opCheckSequenceVerify
+                  opCheckSequenceVerify,
                 ),
                 [OpcodesBCH.OP_NOP4]: conditionallyEvaluate(opNop),
                 [OpcodesBCH.OP_NOP5]: conditionallyEvaluate(opNop),
@@ -512,10 +512,10 @@ export const createInstructionSetBCH2022 = (
                 [OpcodesBCH.OP_NOP10]: conditionallyEvaluate(opNop),
               }),
           [OpcodesBCH.OP_CHECKDATASIG]: conditionallyEvaluate(
-            opCheckDataSig({ secp256k1, sha256 })
+            opCheckDataSig({ secp256k1, sha256 }),
           ),
           [OpcodesBCH.OP_CHECKDATASIGVERIFY]: conditionallyEvaluate(
-            opCheckDataSigVerify({ secp256k1, sha256 })
+            opCheckDataSigVerify({ secp256k1, sha256 }),
           ),
           [OpcodesBCH.OP_REVERSEBYTES]: conditionallyEvaluate(opReverseBytes),
           [OpcodesBCH.OP_INPUTINDEX]: conditionallyEvaluate(opInputIndex),
@@ -532,12 +532,12 @@ export const createInstructionSetBCH2022 = (
           [OpcodesBCH.OP_OUTPOINTINDEX]: conditionallyEvaluate(opOutpointIndex),
           [OpcodesBCH.OP_INPUTBYTECODE]: conditionallyEvaluate(opInputBytecode),
           [OpcodesBCH.OP_INPUTSEQUENCENUMBER]: conditionallyEvaluate(
-            opInputSequenceNumber
+            opInputSequenceNumber,
           ),
           [OpcodesBCH.OP_OUTPUTVALUE]: conditionallyEvaluate(opOutputValue),
           [OpcodesBCH.OP_OUTPUTBYTECODE]:
             conditionallyEvaluate(opOutputBytecode),
-        }
+        },
       ),
     },
     success: (state: AuthenticationProgramStateBCH) => {
@@ -588,7 +588,7 @@ export const createInstructionSetBCH2022 = (
           return `Transaction exceeds maximum standard size: this transaction is ${transactionSize} bytes, but the maximum standard transaction size is ${ConsensusBCH.maximumStandardTransactionSize} bytes.`;
         }
 
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
           if (!isStandardOutputBytecode(output.lockingBytecode)) {
             return `Standard transactions may only spend standard output types, but source output ${index} is non-standard.`;
@@ -597,15 +597,15 @@ export const createInstructionSetBCH2022 = (
 
         // eslint-disable-next-line functional/no-let
         let totalArbitraryDataBytes = 0;
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of transaction.outputs.entries()) {
           if (!isStandardOutputBytecode(output.lockingBytecode)) {
             return `Standard transactions may only create standard output types, but transaction output ${index} is non-standard.`;
           }
 
-          // eslint-disable-next-line functional/no-conditional-statement
+          // eslint-disable-next-line functional/no-conditional-statements
           if (isArbitraryDataOutput(output.lockingBytecode)) {
-            // eslint-disable-next-line functional/no-expression-statement
+            // eslint-disable-next-line functional/no-expression-statements
             totalArbitraryDataBytes += output.lockingBytecode.length + 1;
           }
           /*
@@ -619,7 +619,7 @@ export const createInstructionSetBCH2022 = (
           return `Standard transactions may carry no more than ${ConsensusBCH.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
         }
 
-        // eslint-disable-next-line functional/no-loop-statement
+        // eslint-disable-next-line functional/no-loop-statements
         for (const [index, input] of transaction.inputs.entries()) {
           if (
             input.unlockingBytecode.length >
@@ -633,7 +633,7 @@ export const createInstructionSetBCH2022 = (
         }
       }
 
-      // eslint-disable-next-line functional/no-loop-statement
+      // eslint-disable-next-line functional/no-loop-statements
       for (const index of transaction.inputs.keys()) {
         const state = evaluate({
           inputIndex: index,

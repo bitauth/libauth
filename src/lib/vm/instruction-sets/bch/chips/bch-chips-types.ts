@@ -31,7 +31,7 @@ export enum ConsensusBCHCHIPs {
 export type AuthenticationProgramStateControlStackCHIPs =
   AuthenticationProgramStateControlStack<boolean | number>;
 
-export interface AuthenticationProgramStateResourceLimitsBCHCHIPs {
+export type AuthenticationProgramStateResourceLimitsBCHCHIPs = {
   /**
    * An unsigned integer counter used by `OP_UNTIL` to prevent excessive use of
    * loops.
@@ -42,18 +42,18 @@ export interface AuthenticationProgramStateResourceLimitsBCHCHIPs {
    * iterations that required during this evaluation.
    */
   hashDigestIterations: number;
-}
+};
 
-export interface AuthenticationProgramStateBCHCHIPs
-  extends AuthenticationProgramStateMinimum,
-    AuthenticationProgramStateStack,
-    AuthenticationProgramStateAlternateStack,
-    AuthenticationProgramStateControlStackCHIPs,
-    AuthenticationProgramStateError,
-    AuthenticationProgramStateCodeSeparator,
-    AuthenticationProgramStateSignatureAnalysis,
-    AuthenticationProgramStateTransactionContext,
-    AuthenticationProgramStateResourceLimitsBCHCHIPs {}
+export type AuthenticationProgramStateBCHCHIPs =
+  AuthenticationProgramStateAlternateStack &
+    AuthenticationProgramStateCodeSeparator &
+    AuthenticationProgramStateControlStackCHIPs &
+    AuthenticationProgramStateError &
+    AuthenticationProgramStateMinimum &
+    AuthenticationProgramStateResourceLimitsBCHCHIPs &
+    AuthenticationProgramStateSignatureAnalysis &
+    AuthenticationProgramStateStack &
+    AuthenticationProgramStateTransactionContext;
 
 export type AuthenticationVirtualMachineBCHCHIPs = AuthenticationVirtualMachine<
   ResolvedTransactionBCH,
@@ -61,10 +61,13 @@ export type AuthenticationVirtualMachineBCHCHIPs = AuthenticationVirtualMachine<
   AuthenticationProgramStateBCHCHIPs
 >;
 
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneAuthenticationProgramStateBCHCHIPs = <
-  State extends AuthenticationProgramStateBCHCHIPs
+  State extends AuthenticationProgramStateBCHCHIPs,
 >(
-  state: Readonly<State>
+  state: State,
 ) => ({
   ...(state.error === undefined ? {} : { error: state.error }),
   alternateStack: cloneStack(state.alternateStack),
@@ -89,8 +92,8 @@ export const createAuthenticationProgramStateBCHCHIPs = ({
   instructions,
   stack,
 }: {
-  program: Readonly<AuthenticationProgramCommon>;
-  instructions: readonly AuthenticationInstruction[];
+  program: AuthenticationProgramCommon;
+  instructions: AuthenticationInstruction[];
   stack: Uint8Array[];
 }): AuthenticationProgramStateBCHCHIPs => ({
   alternateStack: [],

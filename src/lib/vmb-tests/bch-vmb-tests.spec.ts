@@ -68,16 +68,16 @@ test('bch_vmb_tests.json is up to date and contains no test ID collisions', (t) 
   t.deepEqual(
     allTestCases,
     vmbTestsBCHJson,
-    'New test definitions were added to `bch-vmb.tests.ts`, but the generated tests were not updated. Run "yarn gen:vmb-tests" to correct this issue. (Note: tsc watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc to clear this error after re-generating tests.)'
+    'New test definitions were added to `bch-vmb.tests.ts`, but the generated tests were not updated. Run "yarn gen:vmb-tests" to correct this issue. (Note: tsc watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc to clear this error after re-generating tests.)',
   );
 
   const testCaseIds = allTestCases.map((testCase) => testCase[0]);
   const descriptions = allTestCases.map((testCase) => testCase[1]);
   const idDup = testCaseIds.findIndex(
-    (id, i) => testCaseIds.lastIndexOf(id) !== i
+    (id, i) => testCaseIds.lastIndexOf(id) !== i,
   );
   const descDup = descriptions.findIndex(
-    (desc, i) => descriptions.lastIndexOf(desc) !== i
+    (desc, i) => descriptions.lastIndexOf(desc) !== i,
   );
 
   /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -139,16 +139,18 @@ const testVm = ({
         supportsTokens ? readTransactionCommon : readTransactionNonTokenAware
       )({ bin: hexToBin(txHex), index: 0 });
       if (typeof sourceOutputsRead === 'string') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expectedToSucceed ? t.fail(sourceOutputsRead) : t.pass();
         return;
       }
       if (typeof transactionRead === 'string') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expectedToSucceed ? t.fail(transactionRead) : t.pass();
         return;
       }
       const sourceOutputs = sourceOutputsRead.result;
       const transaction = transactionRead.result;
-      if (debug !== undefined) debugger; // eslint-disable-line functional/no-conditional-statement, no-debugger
+      if (debug !== undefined) debugger; // eslint-disable-line no-debugger
       const result = vm.verify({ sourceOutputs, transaction });
       const moreDetails = `For more detailed debugging information, run: "yarn test:unit:vmb_test ${vmName} ${shortId} -v"`;
       const logDebugInfo = () => {
@@ -165,10 +167,10 @@ const testVm = ({
           evaluateResult,
           debugResult[debugResult.length - 1],
           `vm.evaluate and the final result of vm.debug differ: is something being unexpectedly mutated? evaluateResult:\n\n${stringify(
-            evaluateResult
+            evaluateResult,
           )}\n\nFinal debugResult:\n\n${stringify(
-            debugResult[debugResult.length - 1]
-          )}`
+            debugResult[debugResult.length - 1],
+          )}`,
         );
         t.log(stringifyDebugTraceSummary(summarizeDebugTrace(debugResult)));
         t.log(moreDetails);
@@ -181,7 +183,7 @@ const testVm = ({
           Number(failingIndex) !== testedIndex
         ) {
           t.fail(
-            `An unexpected input index caused VMB test "${shortId}" to fail for ${vmName}: the input index under test is ${testedIndex}, but input index ${failingIndex} failed. Error: ${result}`
+            `An unexpected input index caused VMB test "${shortId}" to fail for ${vmName}: the input index under test is ${testedIndex}, but input index ${failingIndex} failed. Error: ${result}`,
           );
           t.log(
             `Failing input at index ${failingIndex}:`,
@@ -191,23 +193,23 @@ const testVm = ({
                   inputIndex: Number(failingIndex),
                   sourceOutputs,
                   transaction,
-                }) as AuthenticationProgramStateCommon[]
-              )
-            )
+                }) as AuthenticationProgramStateCommon[],
+              ),
+            ),
           );
           t.log(moreDetails);
           return;
         }
         logDebugInfo();
         t.fail(
-          `VMB test "${shortId}" - "${description}" - for ${vmName} is expected to succeed but failed. Error: ${result}`
+          `VMB test "${shortId}" - "${description}" - for ${vmName} is expected to succeed but failed. Error: ${result}`,
         );
         return;
       }
       if (!expectedToSucceed && typeof result !== 'string') {
         logDebugInfo();
         t.fail(
-          `VMB test "${shortId}" - "${description}" - for ${vmName} is expected to fail but succeeded.`
+          `VMB test "${shortId}" - "${description}" - for ${vmName} is expected to fail but succeeded.`,
         );
         return;
       }
@@ -216,7 +218,7 @@ const testVm = ({
     title: (
       // eslint-disable-next-line @typescript-eslint/default-param-last
       caseNumberOfCaseCount = '(unknown/unknown)',
-      [shortId, description]
+      [shortId, description],
     ) =>
       `[vmb_tests] [${vmName}] ${shortId} ${caseNumberOfCaseCount}: ${description}`,
   });
@@ -226,26 +228,26 @@ const testVm = ({
     (debug === undefined
       ? test
       : vmName === debug.vmName && debug.testId === testCase[0]
-      ? test
-      : test.skip)(
+        ? test
+        : test.skip)(
       `(${index + 1}/${expectedPass.length + expectedFail.length} valid)`,
       runCase,
       testCase,
-      true
+      true,
     );
   });
   expectedFail.forEach((testCase, index) => {
     (debug === undefined
       ? test
       : vmName === debug.vmName && debug.testId === testCase[0]
-      ? test
-      : test.skip)(
+        ? test
+        : test.skip)(
       `(${expectedPass.length + index + 1}/${
         expectedPass.length + expectedFail.length
       } invalid)`,
       runCase,
       testCase,
-      false
+      false,
     );
   });
 };

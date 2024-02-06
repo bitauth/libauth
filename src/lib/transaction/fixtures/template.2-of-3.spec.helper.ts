@@ -1,14 +1,11 @@
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-import type {
-  AuthenticationTemplate,
-  AuthenticationTemplateEntity,
-} from '../../lib.js';
+import type { WalletTemplate, WalletTemplateEntity } from '../../lib.js';
 
 const createSigner = (
   name: string,
   signerIndex: string,
-  scripts: string[]
-): AuthenticationTemplateEntity => ({
+  scripts: string[],
+): WalletTemplateEntity => ({
   name,
   scripts: ['lock', ...scripts],
   variables: { [`key${signerIndex}`]: { type: 'HdKey' } },
@@ -18,9 +15,9 @@ const createSigner = (
  * 2-of-3 P2SH
  * This is a mostly-hard-coded 2-of-3 example. A more general function could be written to generate m-of-n wallets
  */
-export const twoOfThree: AuthenticationTemplate = {
+export const twoOfThree: WalletTemplate = {
   ...{ name: '2-of-3 Multisig' },
-  $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
+  $schema: 'https://libauth.org/schemas/wallet-template-v0.schema.json',
   entities: {
     signer_1: createSigner('Signer 1', '1', ['1_and_2', '1_and_3']),
     signer_2: createSigner('Signer 2', '2', ['1_and_2', '2_and_3']),

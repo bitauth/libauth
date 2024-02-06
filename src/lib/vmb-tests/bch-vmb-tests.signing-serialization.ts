@@ -2,7 +2,7 @@
  * See `bch-vmb-tests.ts` for details about modifying this file.
  */
 
-import type { AuthenticationTemplateScenario, VmbTestDefinition, VmbTestDefinitionGroup } from '../lib.js';
+import type { VmbTestDefinition, VmbTestDefinitionGroup, WalletTemplateScenario } from '../lib.js';
 
 import { emptyP2sh20Input, emptyP2sh20Output, simpleP2pkhInput, simpleP2pkhOutput } from './bch-vmb-test-mixins.js';
 
@@ -46,7 +46,7 @@ const verifyAlgorithm = algorithms.map<VmbTestDefinition>((algorithm) => [
   { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: { script: 'vmbTestNullData' }, valueSatoshis: 0 }] } },
 ]);
 
-const changeScenario = (testDefinitions: VmbTestDefinition[], appendDescription: string, newScenario: AuthenticationTemplateScenario) => testDefinitions.map<VmbTestDefinition>(([unlockingScript, redeemOrLockingScript, testDescription, testSetOverrideLabels]) => [unlockingScript, redeemOrLockingScript, `${testDescription}${appendDescription}`, testSetOverrideLabels, newScenario]);
+const changeScenario = (testDefinitions: VmbTestDefinition[], appendDescription: string, newScenario: WalletTemplateScenario) => testDefinitions.map<VmbTestDefinition>(([unlockingScript, redeemOrLockingScript, testDescription, testSetOverrideLabels]) => [unlockingScript, redeemOrLockingScript, `${testDescription}${appendDescription}`, testSetOverrideLabels, newScenario]);
 
 const verifyAlgorithmWithP2pkhInput = changeScenario(verifyAlgorithm, ' (with P2PKH input)', { sourceOutputs: [simpleP2pkhOutput, { lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [simpleP2pkhInput, { unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: { script: 'vmbTestNullData' }, valueSatoshis: 0 }] } });
 

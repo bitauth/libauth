@@ -8,52 +8,18 @@ export type PartialExactOptional<T> = {
   [P in keyof T]?: T[P] | undefined;
 };
 
-export type ImmutablePrimitive =
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  Function | boolean | number | string | null | undefined;
-export type ImmutableArray<T> = readonly Immutable<T>[];
-export type ImmutableMap<K, V> = ReadonlyMap<Immutable<K>, Immutable<V>>;
-export type ImmutableSet<T> = ReadonlySet<Immutable<T>>;
-export type ImmutableObject<T> = {
-  readonly [K in keyof T]: Immutable<T[K]>;
-};
-// Derived from: https://www.growingwiththeweb.com/2020/10/typescript-readonly-typed-arrays.html
-export interface ImmutableUint8Array
-  extends Omit<Uint8Array, 'copyWithin' | 'fill' | 'reverse' | 'set' | 'sort'> {
-  readonly [n: number]: number;
-}
-
-/**
- * A deep-readonly utility type. Supports objects, `Array`s, `Uint8Array`s,
- * `Map`s, and `Set`s.
- *
- * Note: `Uint8Array` is the only supported `TypedArray`.
- */
-// Derived from: https://github.com/microsoft/TypeScript/issues/13923#issuecomment-557509399
-export type Immutable<T> = T extends ImmutablePrimitive
-  ? T
-  : T extends (infer U)[]
-  ? ImmutableArray<U>
-  : T extends Uint8Array
-  ? ImmutableUint8Array
-  : T extends Map<infer K, infer V>
-  ? ImmutableMap<K, V>
-  : T extends Set<infer M>
-  ? ImmutableSet<M>
-  : ImmutableObject<T>;
-
-type FunctionComparisonEqualsWrapped<T> = T extends ( // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-unused-vars
-  T extends {} ? infer R & {} : infer R
+type FunctionComparisonEqualsWrapped<T> = T extends ( // eslint-disable-next-line @typescript-eslint/ban-types
+  T extends Readonly<{}> ? infer R & Readonly<{}> : infer R
 )
   ? {
       [P in keyof R]: R[P];
     }
   : never;
 type FunctionComparisonEquals<A, B> = (<
-  T
+  T,
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 >() => T extends FunctionComparisonEqualsWrapped<A> ? 1 : 2) extends <
-  T
+  T,
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
 >() => T extends FunctionComparisonEqualsWrapped<B> ? 1 : 2
   ? true
@@ -61,7 +27,7 @@ type FunctionComparisonEquals<A, B> = (<
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type IsAny<T> = FunctionComparisonEquals<T, any>;
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions, functional/no-mixed-type
+// eslint-disable-next-line functional/no-mixed-types
 type InvariantComparisonEqualsWrapped<T> = {
   value: T;
   setValue: (value: T) => never;

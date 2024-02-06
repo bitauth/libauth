@@ -1,29 +1,45 @@
 export default validate20;
 const schema22 = {
-  $ref: '#/definitions/AuthenticationTemplate',
+  $ref: '#/definitions/WalletTemplate',
   $schema: 'http://json-schema.org/draft-07/schema#',
   definitions: {
-    AuthenticationTemplate: {
+    AuthenticationVirtualMachineIdentifier: {
+      description:
+        "Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `XEC` prefix identifies the eCash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin Core network. VM versions are named according to the date they were deployed on the indicated network.\n\nFor each network prefix, a `_SPEC` VM version is reserved to indicate that the template requires a custom, not-yet-deployed VM version (e.g. one or more CHIPs). By convention, templates marked for `_SPEC` VMs should indicate their requirements in the template description. After deployment of the `_SPEC` VM, when template compatibility is verified, the template's `supported` array should be updated to indicate compatibility with the live VM version.",
+      enum: [
+        'BCH_2020_05',
+        'BCH_2021_05',
+        'BCH_2022_05',
+        'BCH_2023_05',
+        'BCH_SPEC',
+        'BSV_2020_02',
+        'BSV_SPEC',
+        'BTC_2017_08',
+        'BTC_SPEC',
+        'XEC_2020_05',
+        'XEC_SPEC',
+      ],
+      type: 'string',
+    },
+    WalletTemplate: {
       additionalProperties: false,
       description:
-        'An `AuthenticationTemplate` (A.K.A. `CashAssembly Template`) specifies a set of locking scripts, unlocking scripts, and other information required to use a certain authentication scheme. Templates fully describe wallets and protocols in a way that can be shared between software clients.',
+        'A `WalletTemplate` specifies a set of locking scripts, unlocking scripts, and other information required to use a certain wallet protocol. Templates fully describe wallet protocols in a way that can be shared between software clients.',
       properties: {
         $schema: {
           description:
-            'The URI that identifies the JSON Schema used by this template. Try: `https://libauth.org/schemas/authentication-template-v0.schema.json` to enable documentation, autocompletion, and validation in JSON documents.',
+            'The URI that identifies the JSON Schema used by this template. Try: `https://libauth.org/schemas/wallet-template-v0.schema.json` to enable documentation, autocompletion, and validation in JSON documents.',
           type: 'string',
         },
         description: {
           description:
-            'An optionally multi-line, free-form, human-readable description for this authentication template (for use in user interfaces). If displayed, this description should use a monospace font to properly render ASCII diagrams.',
+            'An optionally multi-line, free-form, human-readable description for this wallet template (for use in user interfaces). If displayed, this description should use a monospace font to properly render ASCII diagrams.\n\nDescriptions have no length limit, but in user interfaces with limited space, they should be hidden beyond the first newline character or `140` characters until revealed by the user (e.g. by hiding the remaining description until the user activates a "show more" link).',
           type: 'string',
         },
         entities: {
-          additionalProperties: {
-            $ref: '#/definitions/AuthenticationTemplateEntity',
-          },
+          additionalProperties: { $ref: '#/definitions/WalletTemplateEntity' },
           description:
-            'A map of entities defined in this authentication template.\n\nObject keys are used as entity identifiers, and by convention, should use `snake_case`.',
+            'A map of entities defined in this wallet template.\n\nObject keys are used as entity identifiers, and by convention, should use `snake_case`.',
           type: 'object',
         },
         name: {
@@ -33,23 +49,23 @@ const schema22 = {
         },
         scenarios: {
           additionalProperties: {
-            $ref: '#/definitions/AuthenticationTemplateScenario',
+            $ref: '#/definitions/WalletTemplateScenario',
           },
           description:
-            'A scenario describes a context in which one or more scripts might be used. Scenarios are used for transaction estimation and as an integrated testing system for authentication templates.\n\nObject keys are used as scenario identifiers, and by convention, should use `snake_case`.',
+            'A scenario describes a context in which one or more scripts might be used. Scenarios are used for transaction estimation and as an integrated testing system for wallet templates.\n\nObject keys are used as scenario identifiers, and by convention, should use `snake_case`.',
           type: 'object',
         },
         scripts: {
           additionalProperties: {
             anyOf: [
-              { $ref: '#/definitions/AuthenticationTemplateScript' },
-              { $ref: '#/definitions/AuthenticationTemplateScriptLocking' },
-              { $ref: '#/definitions/AuthenticationTemplateScriptTested' },
-              { $ref: '#/definitions/AuthenticationTemplateScriptUnlocking' },
+              { $ref: '#/definitions/WalletTemplateScript' },
+              { $ref: '#/definitions/WalletTemplateScriptLocking' },
+              { $ref: '#/definitions/WalletTemplateScriptTested' },
+              { $ref: '#/definitions/WalletTemplateScriptUnlocking' },
             ],
           },
           description:
-            'A map of scripts used in this authentication template.\n\nObject keys are used as script identifiers, and by convention, should use `snake_case`.',
+            'A map of scripts used in this wallet template.\n\nObject keys are used as script identifiers, and by convention, should use `snake_case`.',
           type: 'object',
         },
         supported: {
@@ -63,40 +79,35 @@ const schema22 = {
         version: {
           const: 0,
           description:
-            'A number identifying the format of this AuthenticationTemplate. Currently, this implementation requires `version` be set to `0`.',
+            'A number identifying the format of this WalletTemplate. Currently, this implementation requires `version` be set to `0`.',
           type: 'number',
         },
       },
       required: ['entities', 'scripts', 'supported', 'version'],
       type: 'object',
     },
-    AuthenticationTemplateAddressData: {
+    WalletTemplateAddressData: {
       additionalProperties: false,
       properties: {
         description: {
           description:
-            'A single-line, human readable description for this address data.',
+            'A single-line, human readable description for this variable (for use in user interfaces).',
           type: 'string',
         },
         name: {
           description:
-            'A single-line, Title Case, human-readable name for this address data.',
+            'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
           type: 'string',
         },
-        type: {
-          const: 'AddressData',
-          description:
-            '`AddressData` is the most low-level variable type. It must be collected and stored each time a script is generated (usually, a locking script). `AddressData` can include any type of data, and can be used in any way.\n\nFor more persistent data, use `WalletData`.',
-          type: 'string',
-        },
+        type: { const: 'AddressData', type: 'string' },
       },
       required: ['type'],
       type: 'object',
     },
-    AuthenticationTemplateEntity: {
+    WalletTemplateEntity: {
       additionalProperties: false,
       description:
-        'An object describing the configuration for a particular entity within an authentication template.',
+        'An object describing the configuration for a particular entity within an wallet template.',
       properties: {
         description: {
           description:
@@ -116,7 +127,7 @@ const schema22 = {
         },
         variables: {
           additionalProperties: {
-            $ref: '#/definitions/AuthenticationTemplateVariable',
+            $ref: '#/definitions/WalletTemplateVariable',
           },
           description:
             "A map of variables that must be provided by this entity for use in the template's scripts. Some variables are required before locking script generation, while some variables can or must be resolved only before unlocking script generation.\n\nObject keys are used as variable identifiers, and by convention, should use `snake_case`.",
@@ -125,7 +136,7 @@ const schema22 = {
       },
       type: 'object',
     },
-    AuthenticationTemplateHdKey: {
+    WalletTemplateHdKey: {
       additionalProperties: false,
       properties: {
         addressOffset: {
@@ -135,7 +146,7 @@ const schema22 = {
         },
         description: {
           description:
-            'A single-line, human readable description for this HD key.',
+            'A single-line, human readable description for this variable (for use in user interfaces).',
           type: 'string',
         },
         hdPublicKeyDerivationPath: {
@@ -145,8 +156,13 @@ const schema22 = {
         },
         name: {
           description:
-            'A single-line, Title Case, human-readable name for this HD key.',
+            'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
           type: 'string',
+        },
+        neverSignTwice: {
+          description:
+            'If set to `true`, indicates that this key should never be used to sign two different messages.\n\nThis is useful for contracts that use zero-confirmation escrow systems to guarantee against double-spend attempts. By indicating that the user could be subjected to losses if a key were used in multiple signatures, templates can ensure that wallet implementations apply appropriate safeguards around use of the key.\n\nDefaults to `false`.',
+          type: 'boolean',
         },
         privateDerivationPath: {
           description:
@@ -158,46 +174,41 @@ const schema22 = {
             "The derivation path used to derive this `HdKey`'s public key from the owning entity's HD public key. If not set, the public equivalent of `privateDerivationPath` is used. For the `privateDerivationPath` default of `m/i`, this is `M/i`.\n\nIf `privateDerivationPath` uses hardened derivation for some levels, but later derivation levels use non-hardened derivation, `publicDerivationPath` can be used to specify a public derivation path beginning from `hdPublicKeyDerivationPath` (i.e. `publicDerivationPath` should always be a non-hardened segment of `privateDerivationPath` that follows `hdPublicKeyDerivationPath`).\n\nThe first character must be `M` (public derivation), followed by sets of `/` and a number representing the child index used in the non-hardened derivation at that depth.\n\nFor example, if `privateDerivationPath` is `m/0'/i`, it is not possible to derive the equivalent public key with only the HD public key `M`. (The path \"`M/0'/i`\" is impossible.) However, given the HD public key for `m/0'`, it is possible to derive the public key of `m/0'/i` for any `i`. In this case, `hdPublicKeyDerivationPath` would be `m/0'` and `publicDerivationPath` would be the remaining `M/i`.",
           type: 'string',
         },
-        type: {
-          const: 'HdKey',
-          description:
-            'The `HdKey` (Hierarchical-Deterministic Key) type automatically manages key generation and mapping in a standard way. For greater control, use `Key`.',
-          type: 'string',
-        },
+        type: { const: 'HdKey', type: 'string' },
       },
       required: ['type'],
       type: 'object',
     },
-    AuthenticationTemplateKey: {
+    WalletTemplateKey: {
       additionalProperties: false,
       properties: {
         description: {
           description:
-            'A single-line, human readable description for this key.',
+            'A single-line, human readable description for this variable (for use in user interfaces).',
           type: 'string',
         },
         name: {
           description:
-            'A single-line, Title Case, human-readable name for this key.',
+            'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
           type: 'string',
         },
-        type: {
-          const: 'Key',
+        neverSignTwice: {
           description:
-            'The `Key` type provides fine-grained control over key generation and mapping. Most templates should instead use `HdKey`.\n\nAny HD (Hierarchical-Deterministic) derivation must be completed outside of the templating system and provided at the time of use.',
-          type: 'string',
+            'If set to `true`, indicates that this key should never be used to sign two different messages.\n\nThis is useful for contracts that use zero-confirmation escrow systems to guarantee against double-spend attempts. By indicating that the user could be subjected to losses if a key were used in multiple signatures, templates can ensure that wallet implementations apply appropriate safeguards around use of the key.\n\nDefaults to `false`.',
+          type: 'boolean',
         },
+        type: { const: 'Key', type: 'string' },
       },
       required: ['type'],
       type: 'object',
     },
-    AuthenticationTemplateScenario: {
+    WalletTemplateScenario: {
       additionalProperties: false,
       description:
-        'An object describing the configuration for a particular scenario within an authentication template.',
+        'An object describing the configuration for a particular scenario within an wallet template.',
       properties: {
         data: {
-          $ref: '#/definitions/AuthenticationTemplateScenarioData',
+          $ref: '#/definitions/WalletTemplateScenarioData',
           description:
             "An object defining the data to use while compiling this scenario. The properties specified here are used to extend the existing scenario data based on this scenario's `extends` property.\n\nEach property is extended individually – to unset a previously-set property, the property must be individually overridden in this object.",
         },
@@ -219,9 +230,7 @@ const schema22 = {
         sourceOutputs: {
           description:
             'The list of source outputs (a.k.a. UTXOs) to use when generating the compilation context for this scenario.\n\nThe `sourceOutputs` property must have the same length as `transaction.inputs`, and each source output must be ordered to match the index of the input that spends it.\n\nTo be valid the `sourceOutputs` property must have exactly one source output with `lockingBytecode` set to `["slot"]` – the output at the same index as the `["slot"]` input in `transaction.inputs`.\n\nIf undefined, defaults to `[{ "lockingBytecode": ["slot"] }]`.',
-          items: {
-            $ref: '#/definitions/AuthenticationTemplateScenarioSourceOutput',
-          },
+          items: { $ref: '#/definitions/WalletTemplateScenarioSourceOutput' },
           type: 'array',
         },
         transaction: {
@@ -232,9 +241,7 @@ const schema22 = {
             inputs: {
               description:
                 'The list of inputs to use when generating the transaction for this scenario.\n\nTo be valid the `inputs` property must have exactly one input with `unlockingBytecode` set to `["slot"]`. This is the input in which the unlocking script under test will be placed.\n\nIf undefined, inherits the default scenario `inputs` value: `[{ "unlockingBytecode": ["slot"] }]`.',
-              items: {
-                $ref: '#/definitions/AuthenticationTemplateScenarioInput',
-              },
+              items: { $ref: '#/definitions/WalletTemplateScenarioInput' },
               type: 'array',
             },
             locktime: {
@@ -246,7 +253,7 @@ const schema22 = {
               description:
                 'The list of outputs to use when generating the transaction for this scenario.\n\nIf undefined, defaults to `[{ "lockingBytecode": {} }]`.',
               items: {
-                $ref: '#/definitions/AuthenticationTemplateScenarioTransactionOutput',
+                $ref: '#/definitions/WalletTemplateScenarioTransactionOutput',
               },
               type: 'array',
             },
@@ -261,14 +268,14 @@ const schema22 = {
       },
       type: 'object',
     },
-    AuthenticationTemplateScenarioBytecode: {
+    WalletTemplateScenarioBytecode: {
       anyOf: [
         { type: 'string' },
         {
           additionalProperties: false,
           properties: {
             overrides: {
-              $ref: '#/definitions/AuthenticationTemplateScenarioData',
+              $ref: '#/definitions/WalletTemplateScenarioData',
               description:
                 'Scenario data that extends the scenario\'s top-level `data` during script compilation.\n\nEach property is extended individually – to modify a property set by the top-level scenario `data`, the new value must be listed here.\n\nDefaults to `{}` for `sourceOutputs` and `transaction.inputs`; defaults to `{ "hdKeys": { "addressIndex": 1 } }` for `transaction.outputs`.',
             },
@@ -290,9 +297,9 @@ const schema22 = {
         },
       ],
       description:
-        'A type that describes the configuration for a particular locking or unlocking bytecode within an authentication template scenario.\n\nBytecode may be specified as either a hexadecimal-encoded string or an object describing the required compilation.\n\nFor `sourceOutputs` and `transaction.inputs`, defaults to `{ script: ["copy"], overrides: {} }`. For `transaction.outputs`, defaults to `{ script: ["copy"], overrides: { "hdKeys": { "addressIndex": 1 } } }`.',
+        'A type that describes the configuration for a particular locking or unlocking bytecode within a wallet template scenario.\n\nBytecode may be specified as either a hexadecimal-encoded string or an object describing the required compilation.\n\nFor `sourceOutputs` and `transaction.inputs`, defaults to `{ script: ["copy"], overrides: {} }`. For `transaction.outputs`, defaults to `{ script: ["copy"], overrides: { "hdKeys": { "addressIndex": 1 } } }`.',
     },
-    AuthenticationTemplateScenarioData: {
+    WalletTemplateScenarioData: {
       additionalProperties: false,
       description:
         'An object defining the data to use while compiling a scenario.',
@@ -355,10 +362,10 @@ const schema22 = {
       },
       type: 'object',
     },
-    AuthenticationTemplateScenarioInput: {
+    WalletTemplateScenarioInput: {
       additionalProperties: false,
       description:
-        'An example input used to define a scenario for an authentication template.',
+        'An example input used to define a scenario for a wallet template.',
       properties: {
         outpointIndex: {
           description:
@@ -377,7 +384,7 @@ const schema22 = {
         },
         unlockingBytecode: {
           anyOf: [
-            { $ref: '#/definitions/AuthenticationTemplateScenarioBytecode' },
+            { $ref: '#/definitions/WalletTemplateScenarioBytecode' },
             {
               items: { const: 'slot', type: 'string' },
               maxItems: 1,
@@ -386,18 +393,18 @@ const schema22 = {
             },
           ],
           description:
-            'The `unlockingBytecode` value of this input for this scenario. This must be either `["slot"]`, indicating that this input contains the `unlockingBytecode` under test by the scenario, or an `AuthenticationTemplateScenarioBytecode`.\n\nFor a scenario to be valid, `unlockingBytecode` must be `["slot"]` for exactly one input in the scenario.\n\nDefaults to `["slot"]`.',
+            'The `unlockingBytecode` value of this input for this scenario. This must be either `["slot"]`, indicating that this input contains the `unlockingBytecode` under test by the scenario, or an `WalletTemplateScenarioBytecode`.\n\nFor a scenario to be valid, `unlockingBytecode` must be `["slot"]` for exactly one input in the scenario.\n\nDefaults to `["slot"]`.',
         },
       },
       type: 'object',
     },
-    'AuthenticationTemplateScenarioOutput<false>': {
+    'WalletTemplateScenarioOutput<false>': {
       additionalProperties: false,
       description:
-        'An example output used to define a scenario for an authentication template.',
+        'An example output used to define a scenario for a wallet template.',
       properties: {
         lockingBytecode: {
-          $ref: '#/definitions/AuthenticationTemplateScenarioBytecode',
+          $ref: '#/definitions/WalletTemplateScenarioBytecode',
           description:
             'The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `["slot"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario\'s `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)',
         },
@@ -446,14 +453,14 @@ const schema22 = {
       },
       type: 'object',
     },
-    'AuthenticationTemplateScenarioOutput<true>': {
+    'WalletTemplateScenarioOutput<true>': {
       additionalProperties: false,
       description:
-        'An example output used to define a scenario for an authentication template.',
+        'An example output used to define a scenario for a wallet template.',
       properties: {
         lockingBytecode: {
           anyOf: [
-            { $ref: '#/definitions/AuthenticationTemplateScenarioBytecode' },
+            { $ref: '#/definitions/WalletTemplateScenarioBytecode' },
             {
               items: { const: 'slot', type: 'string' },
               maxItems: 1,
@@ -509,20 +516,19 @@ const schema22 = {
       },
       type: 'object',
     },
-    AuthenticationTemplateScenarioSourceOutput: {
-      $ref: '#/definitions/AuthenticationTemplateScenarioOutput<true>',
-      description:
-        'A source output used by an authentication template scenario.',
+    WalletTemplateScenarioSourceOutput: {
+      $ref: '#/definitions/WalletTemplateScenarioOutput<true>',
+      description: 'A source output used by a wallet template scenario.',
     },
-    AuthenticationTemplateScenarioTransactionOutput: {
-      $ref: '#/definitions/AuthenticationTemplateScenarioOutput<false>',
+    WalletTemplateScenarioTransactionOutput: {
+      $ref: '#/definitions/WalletTemplateScenarioOutput<false>',
       description:
-        'A transaction output used to define an authentication template scenario transaction.',
+        'A transaction output used to define a wallet template scenario transaction.',
     },
-    AuthenticationTemplateScript: {
+    WalletTemplateScript: {
       additionalProperties: false,
       description:
-        'An object describing the configuration for a particular script within an authentication template.',
+        'An object describing the configuration for a particular script within an wallet template.',
       properties: {
         name: {
           description:
@@ -537,7 +543,7 @@ const schema22 = {
       required: ['script'],
       type: 'object',
     },
-    AuthenticationTemplateScriptLocking: {
+    WalletTemplateScriptLocking: {
       additionalProperties: false,
       properties: {
         lockingType: {
@@ -559,7 +565,7 @@ const schema22 = {
       required: ['lockingType', 'script'],
       type: 'object',
     },
-    AuthenticationTemplateScriptTest: {
+    WalletTemplateScriptTest: {
       additionalProperties: false,
       properties: {
         check: {
@@ -599,7 +605,7 @@ const schema22 = {
       required: ['check'],
       type: 'object',
     },
-    AuthenticationTemplateScriptTested: {
+    WalletTemplateScriptTested: {
       additionalProperties: false,
       properties: {
         name: {
@@ -618,7 +624,7 @@ const schema22 = {
         },
         tests: {
           additionalProperties: {
-            $ref: '#/definitions/AuthenticationTemplateScriptTest',
+            $ref: '#/definitions/WalletTemplateScriptTest',
           },
           description:
             'One or more tests that can be used during development and during template validation to confirm the correctness of this tested script.',
@@ -628,7 +634,7 @@ const schema22 = {
       required: ['script', 'tests'],
       type: 'object',
     },
-    AuthenticationTemplateScriptUnlocking: {
+    WalletTemplateScriptUnlocking: {
       additionalProperties: false,
       properties: {
         ageLock: {
@@ -638,7 +644,7 @@ const schema22 = {
         },
         estimate: {
           description:
-            'The identifier of the scenario to use for this unlocking script when compiling an estimated transaction.\n\nUsing estimate scenarios, it\'s possible for wallet software to compute an "estimated transaction", an invalid transaction that is guaranteed to be the same byte length as the final transaction. This length can be used to calculate the required transaction fee and assign values to the transaction\'s change output(s). Because estimate scenarios provide "estimated" values for all variables, this estimation can be done by a single entity without input from other entities.\n\nIf not provided, the default scenario will be used for estimation. The default scenario only provides values for each `Key` and `HdKey` variable, so compilations requiring other variables will produce errors. See `AuthenticationTemplateScenario.extends` for details.',
+            'The identifier of the scenario to use for this unlocking script when compiling an estimated transaction.\n\nUsing estimate scenarios, it\'s possible for wallet software to compute an "estimated transaction", an invalid transaction that is guaranteed to be the same byte length as the final transaction. This length can be used to calculate the required transaction fee and assign values to the transaction\'s change output(s). Because estimate scenarios provide "estimated" values for all variables, this estimation can be done by a single entity without input from other entities.\n\nIf not provided, the default scenario will be used for estimation. The default scenario only provides values for each `Key` and `HdKey` variable, so compilations requiring other variables will produce errors. See `WalletTemplateScenario.extends` for details.',
           type: 'string',
         },
         fails: {
@@ -683,78 +689,53 @@ const schema22 = {
       required: ['script', 'unlocks'],
       type: 'object',
     },
-    AuthenticationTemplateVariable: {
+    WalletTemplateVariable: {
       anyOf: [
-        { $ref: '#/definitions/AuthenticationTemplateAddressData' },
-        { $ref: '#/definitions/AuthenticationTemplateHdKey' },
-        { $ref: '#/definitions/AuthenticationTemplateKey' },
-        { $ref: '#/definitions/AuthenticationTemplateWalletData' },
+        { $ref: '#/definitions/WalletTemplateAddressData' },
+        { $ref: '#/definitions/WalletTemplateHdKey' },
+        { $ref: '#/definitions/WalletTemplateKey' },
+        { $ref: '#/definitions/WalletTemplateWalletData' },
       ],
     },
-    AuthenticationTemplateWalletData: {
+    WalletTemplateWalletData: {
       additionalProperties: false,
       properties: {
         description: {
           description:
-            'A single-line, human readable description for this wallet data.',
+            'A single-line, human readable description for this variable (for use in user interfaces).',
           type: 'string',
         },
         name: {
           description:
-            'A single-line, Title Case, human-readable name for this wallet data.',
+            'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
           type: 'string',
         },
-        type: {
-          const: 'WalletData',
-          description:
-            'The `WalletData` type provides a static piece of data that should be collected once and stored at the time of wallet creation. `WalletData` should be persistent for the life of the wallet, rather than changing from locking script to locking script.\n\nFor address-specific data, use `AddressData`.',
-          type: 'string',
-        },
+        type: { const: 'WalletData', type: 'string' },
       },
       required: ['type'],
       type: 'object',
-    },
-    AuthenticationVirtualMachineIdentifier: {
-      description:
-        "Allowable identifiers for authentication virtual machine versions. The `BCH` prefix identifies the Bitcoin Cash network, the `XEC` prefix identifies the eCash network, the `BSV` prefix identifies the Bitcoin SV network, and the `BTC` prefix identifies the Bitcoin Core network. VM versions are named according to the date they were deployed on the indicated network.\n\nFor each network prefix, a `_SPEC` VM version is reserved to indicate that the template requires a custom, not-yet-deployed VM version (e.g. one or more CHIPs). By convention, templates marked for `_SPEC` VMs should indicate their requirements in the template description. After deployment of the `_SPEC` VM, when template compatibility is verified, the template's `supported` array should be updated to indicate compatibility with the live VM version.",
-      enum: [
-        'BCH_2020_05',
-        'BCH_2021_05',
-        'BCH_2022_05',
-        'BCH_2023_05',
-        'BCH_SPEC',
-        'BSV_2020_02',
-        'BSV_SPEC',
-        'BTC_2017_08',
-        'BTC_SPEC',
-        'XEC_2020_05',
-        'XEC_SPEC',
-      ],
-      type: 'string',
     },
   },
 };
 const schema23 = {
   additionalProperties: false,
   description:
-    'An `AuthenticationTemplate` (A.K.A. `CashAssembly Template`) specifies a set of locking scripts, unlocking scripts, and other information required to use a certain authentication scheme. Templates fully describe wallets and protocols in a way that can be shared between software clients.',
+    'A `WalletTemplate` specifies a set of locking scripts, unlocking scripts, and other information required to use a certain wallet protocol. Templates fully describe wallet protocols in a way that can be shared between software clients.',
   properties: {
     $schema: {
       description:
-        'The URI that identifies the JSON Schema used by this template. Try: `https://libauth.org/schemas/authentication-template-v0.schema.json` to enable documentation, autocompletion, and validation in JSON documents.',
+        'The URI that identifies the JSON Schema used by this template. Try: `https://libauth.org/schemas/wallet-template-v0.schema.json` to enable documentation, autocompletion, and validation in JSON documents.',
       type: 'string',
     },
     description: {
       description:
-        'An optionally multi-line, free-form, human-readable description for this authentication template (for use in user interfaces). If displayed, this description should use a monospace font to properly render ASCII diagrams.',
+        'An optionally multi-line, free-form, human-readable description for this wallet template (for use in user interfaces). If displayed, this description should use a monospace font to properly render ASCII diagrams.\n\nDescriptions have no length limit, but in user interfaces with limited space, they should be hidden beyond the first newline character or `140` characters until revealed by the user (e.g. by hiding the remaining description until the user activates a "show more" link).',
       type: 'string',
     },
     entities: {
-      additionalProperties: {
-        $ref: '#/definitions/AuthenticationTemplateEntity',
-      },
+      additionalProperties: { $ref: '#/definitions/WalletTemplateEntity' },
       description:
-        'A map of entities defined in this authentication template.\n\nObject keys are used as entity identifiers, and by convention, should use `snake_case`.',
+        'A map of entities defined in this wallet template.\n\nObject keys are used as entity identifiers, and by convention, should use `snake_case`.',
       type: 'object',
     },
     name: {
@@ -763,24 +744,22 @@ const schema23 = {
       type: 'string',
     },
     scenarios: {
-      additionalProperties: {
-        $ref: '#/definitions/AuthenticationTemplateScenario',
-      },
+      additionalProperties: { $ref: '#/definitions/WalletTemplateScenario' },
       description:
-        'A scenario describes a context in which one or more scripts might be used. Scenarios are used for transaction estimation and as an integrated testing system for authentication templates.\n\nObject keys are used as scenario identifiers, and by convention, should use `snake_case`.',
+        'A scenario describes a context in which one or more scripts might be used. Scenarios are used for transaction estimation and as an integrated testing system for wallet templates.\n\nObject keys are used as scenario identifiers, and by convention, should use `snake_case`.',
       type: 'object',
     },
     scripts: {
       additionalProperties: {
         anyOf: [
-          { $ref: '#/definitions/AuthenticationTemplateScript' },
-          { $ref: '#/definitions/AuthenticationTemplateScriptLocking' },
-          { $ref: '#/definitions/AuthenticationTemplateScriptTested' },
-          { $ref: '#/definitions/AuthenticationTemplateScriptUnlocking' },
+          { $ref: '#/definitions/WalletTemplateScript' },
+          { $ref: '#/definitions/WalletTemplateScriptLocking' },
+          { $ref: '#/definitions/WalletTemplateScriptTested' },
+          { $ref: '#/definitions/WalletTemplateScriptUnlocking' },
         ],
       },
       description:
-        'A map of scripts used in this authentication template.\n\nObject keys are used as script identifiers, and by convention, should use `snake_case`.',
+        'A map of scripts used in this wallet template.\n\nObject keys are used as script identifiers, and by convention, should use `snake_case`.',
       type: 'object',
     },
     supported: {
@@ -792,7 +771,7 @@ const schema23 = {
     version: {
       const: 0,
       description:
-        'A number identifying the format of this AuthenticationTemplate. Currently, this implementation requires `version` be set to `0`.',
+        'A number identifying the format of this WalletTemplate. Currently, this implementation requires `version` be set to `0`.',
       type: 'number',
     },
   },
@@ -802,7 +781,7 @@ const schema23 = {
 const schema37 = {
   additionalProperties: false,
   description:
-    'An object describing the configuration for a particular script within an authentication template.',
+    'An object describing the configuration for a particular script within an wallet template.',
   properties: {
     name: {
       description:
@@ -849,7 +828,7 @@ const schema41 = {
     },
     estimate: {
       description:
-        'The identifier of the scenario to use for this unlocking script when compiling an estimated transaction.\n\nUsing estimate scenarios, it\'s possible for wallet software to compute an "estimated transaction", an invalid transaction that is guaranteed to be the same byte length as the final transaction. This length can be used to calculate the required transaction fee and assign values to the transaction\'s change output(s). Because estimate scenarios provide "estimated" values for all variables, this estimation can be done by a single entity without input from other entities.\n\nIf not provided, the default scenario will be used for estimation. The default scenario only provides values for each `Key` and `HdKey` variable, so compilations requiring other variables will produce errors. See `AuthenticationTemplateScenario.extends` for details.',
+        'The identifier of the scenario to use for this unlocking script when compiling an estimated transaction.\n\nUsing estimate scenarios, it\'s possible for wallet software to compute an "estimated transaction", an invalid transaction that is guaranteed to be the same byte length as the final transaction. This length can be used to calculate the required transaction fee and assign values to the transaction\'s change output(s). Because estimate scenarios provide "estimated" values for all variables, this estimation can be done by a single entity without input from other entities.\n\nIf not provided, the default scenario will be used for estimation. The default scenario only provides values for each `Key` and `HdKey` variable, so compilations requiring other variables will produce errors. See `WalletTemplateScenario.extends` for details.',
       type: 'string',
     },
     fails: {
@@ -915,7 +894,7 @@ const schema42 = {
 const schema24 = {
   additionalProperties: false,
   description:
-    'An object describing the configuration for a particular entity within an authentication template.',
+    'An object describing the configuration for a particular entity within an wallet template.',
   properties: {
     description: {
       description:
@@ -934,9 +913,7 @@ const schema24 = {
       type: 'array',
     },
     variables: {
-      additionalProperties: {
-        $ref: '#/definitions/AuthenticationTemplateVariable',
-      },
+      additionalProperties: { $ref: '#/definitions/WalletTemplateVariable' },
       description:
         "A map of variables that must be provided by this entity for use in the template's scripts. Some variables are required before locking script generation, while some variables can or must be resolved only before unlocking script generation.\n\nObject keys are used as variable identifiers, and by convention, should use `snake_case`.",
       type: 'object',
@@ -946,10 +923,10 @@ const schema24 = {
 };
 const schema25 = {
   anyOf: [
-    { $ref: '#/definitions/AuthenticationTemplateAddressData' },
-    { $ref: '#/definitions/AuthenticationTemplateHdKey' },
-    { $ref: '#/definitions/AuthenticationTemplateKey' },
-    { $ref: '#/definitions/AuthenticationTemplateWalletData' },
+    { $ref: '#/definitions/WalletTemplateAddressData' },
+    { $ref: '#/definitions/WalletTemplateHdKey' },
+    { $ref: '#/definitions/WalletTemplateKey' },
+    { $ref: '#/definitions/WalletTemplateWalletData' },
   ],
 };
 const schema26 = {
@@ -957,20 +934,15 @@ const schema26 = {
   properties: {
     description: {
       description:
-        'A single-line, human readable description for this address data.',
+        'A single-line, human readable description for this variable (for use in user interfaces).',
       type: 'string',
     },
     name: {
       description:
-        'A single-line, Title Case, human-readable name for this address data.',
+        'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
       type: 'string',
     },
-    type: {
-      const: 'AddressData',
-      description:
-        '`AddressData` is the most low-level variable type. It must be collected and stored each time a script is generated (usually, a locking script). `AddressData` can include any type of data, and can be used in any way.\n\nFor more persistent data, use `WalletData`.',
-      type: 'string',
-    },
+    type: { const: 'AddressData', type: 'string' },
   },
   required: ['type'],
   type: 'object',
@@ -984,7 +956,8 @@ const schema27 = {
       type: 'number',
     },
     description: {
-      description: 'A single-line, human readable description for this HD key.',
+      description:
+        'A single-line, human readable description for this variable (for use in user interfaces).',
       type: 'string',
     },
     hdPublicKeyDerivationPath: {
@@ -994,8 +967,13 @@ const schema27 = {
     },
     name: {
       description:
-        'A single-line, Title Case, human-readable name for this HD key.',
+        'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
       type: 'string',
+    },
+    neverSignTwice: {
+      description:
+        'If set to `true`, indicates that this key should never be used to sign two different messages.\n\nThis is useful for contracts that use zero-confirmation escrow systems to guarantee against double-spend attempts. By indicating that the user could be subjected to losses if a key were used in multiple signatures, templates can ensure that wallet implementations apply appropriate safeguards around use of the key.\n\nDefaults to `false`.',
+      type: 'boolean',
     },
     privateDerivationPath: {
       description:
@@ -1007,12 +985,7 @@ const schema27 = {
         "The derivation path used to derive this `HdKey`'s public key from the owning entity's HD public key. If not set, the public equivalent of `privateDerivationPath` is used. For the `privateDerivationPath` default of `m/i`, this is `M/i`.\n\nIf `privateDerivationPath` uses hardened derivation for some levels, but later derivation levels use non-hardened derivation, `publicDerivationPath` can be used to specify a public derivation path beginning from `hdPublicKeyDerivationPath` (i.e. `publicDerivationPath` should always be a non-hardened segment of `privateDerivationPath` that follows `hdPublicKeyDerivationPath`).\n\nThe first character must be `M` (public derivation), followed by sets of `/` and a number representing the child index used in the non-hardened derivation at that depth.\n\nFor example, if `privateDerivationPath` is `m/0'/i`, it is not possible to derive the equivalent public key with only the HD public key `M`. (The path \"`M/0'/i`\" is impossible.) However, given the HD public key for `m/0'`, it is possible to derive the public key of `m/0'/i` for any `i`. In this case, `hdPublicKeyDerivationPath` would be `m/0'` and `publicDerivationPath` would be the remaining `M/i`.",
       type: 'string',
     },
-    type: {
-      const: 'HdKey',
-      description:
-        'The `HdKey` (Hierarchical-Deterministic Key) type automatically manages key generation and mapping in a standard way. For greater control, use `Key`.',
-      type: 'string',
-    },
+    type: { const: 'HdKey', type: 'string' },
   },
   required: ['type'],
   type: 'object',
@@ -1021,20 +994,21 @@ const schema28 = {
   additionalProperties: false,
   properties: {
     description: {
-      description: 'A single-line, human readable description for this key.',
+      description:
+        'A single-line, human readable description for this variable (for use in user interfaces).',
       type: 'string',
     },
     name: {
       description:
-        'A single-line, Title Case, human-readable name for this key.',
+        'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
       type: 'string',
     },
-    type: {
-      const: 'Key',
+    neverSignTwice: {
       description:
-        'The `Key` type provides fine-grained control over key generation and mapping. Most templates should instead use `HdKey`.\n\nAny HD (Hierarchical-Deterministic) derivation must be completed outside of the templating system and provided at the time of use.',
-      type: 'string',
+        'If set to `true`, indicates that this key should never be used to sign two different messages.\n\nThis is useful for contracts that use zero-confirmation escrow systems to guarantee against double-spend attempts. By indicating that the user could be subjected to losses if a key were used in multiple signatures, templates can ensure that wallet implementations apply appropriate safeguards around use of the key.\n\nDefaults to `false`.',
+      type: 'boolean',
     },
+    type: { const: 'Key', type: 'string' },
   },
   required: ['type'],
   type: 'object',
@@ -1044,27 +1018,22 @@ const schema29 = {
   properties: {
     description: {
       description:
-        'A single-line, human readable description for this wallet data.',
+        'A single-line, human readable description for this variable (for use in user interfaces).',
       type: 'string',
     },
     name: {
       description:
-        'A single-line, Title Case, human-readable name for this wallet data.',
+        'A single-line, Title Case, human-readable name for this variable (for use in user interfaces).',
       type: 'string',
     },
-    type: {
-      const: 'WalletData',
-      description:
-        'The `WalletData` type provides a static piece of data that should be collected once and stored at the time of wallet creation. `WalletData` should be persistent for the life of the wallet, rather than changing from locking script to locking script.\n\nFor address-specific data, use `AddressData`.',
-      type: 'string',
-    },
+    type: { const: 'WalletData', type: 'string' },
   },
   required: ['type'],
   type: 'object',
 };
 function validate23(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -1078,8 +1047,7 @@ function validate23(
       if (data.type === undefined && (missing0 = 'type')) {
         const err0 = {
           instancePath,
-          schemaPath:
-            '#/definitions/AuthenticationTemplateAddressData/required',
+          schemaPath: '#/definitions/WalletTemplateAddressData/required',
           keyword: 'required',
           params: { missingProperty: missing0 },
           message: "must have required property '" + missing0 + "'",
@@ -1097,7 +1065,7 @@ function validate23(
             const err1 = {
               instancePath,
               schemaPath:
-                '#/definitions/AuthenticationTemplateAddressData/additionalProperties',
+                '#/definitions/WalletTemplateAddressData/additionalProperties',
               keyword: 'additionalProperties',
               params: { additionalProperty: key0 },
               message: 'must NOT have additional properties',
@@ -1118,7 +1086,7 @@ function validate23(
               const err2 = {
                 instancePath: instancePath + '/description',
                 schemaPath:
-                  '#/definitions/AuthenticationTemplateAddressData/properties/description/type',
+                  '#/definitions/WalletTemplateAddressData/properties/description/type',
                 keyword: 'type',
                 params: { type: 'string' },
                 message: 'must be string',
@@ -1141,7 +1109,7 @@ function validate23(
                 const err3 = {
                   instancePath: instancePath + '/name',
                   schemaPath:
-                    '#/definitions/AuthenticationTemplateAddressData/properties/name/type',
+                    '#/definitions/WalletTemplateAddressData/properties/name/type',
                   keyword: 'type',
                   params: { type: 'string' },
                   message: 'must be string',
@@ -1165,7 +1133,7 @@ function validate23(
                   const err4 = {
                     instancePath: instancePath + '/type',
                     schemaPath:
-                      '#/definitions/AuthenticationTemplateAddressData/properties/type/type',
+                      '#/definitions/WalletTemplateAddressData/properties/type/type',
                     keyword: 'type',
                     params: { type: 'string' },
                     message: 'must be string',
@@ -1181,7 +1149,7 @@ function validate23(
                   const err5 = {
                     instancePath: instancePath + '/type',
                     schemaPath:
-                      '#/definitions/AuthenticationTemplateAddressData/properties/type/const',
+                      '#/definitions/WalletTemplateAddressData/properties/type/const',
                     keyword: 'const',
                     params: { allowedValue: 'AddressData' },
                     message: 'must be equal to constant',
@@ -1204,7 +1172,7 @@ function validate23(
     } else {
       const err6 = {
         instancePath,
-        schemaPath: '#/definitions/AuthenticationTemplateAddressData/type',
+        schemaPath: '#/definitions/WalletTemplateAddressData/type',
         keyword: 'type',
         params: { type: 'object' },
         message: 'must be object',
@@ -1228,7 +1196,7 @@ function validate23(
         if (data.type === undefined && (missing1 = 'type')) {
           const err7 = {
             instancePath,
-            schemaPath: '#/definitions/AuthenticationTemplateHdKey/required',
+            schemaPath: '#/definitions/WalletTemplateHdKey/required',
             keyword: 'required',
             params: { missingProperty: missing1 },
             message: "must have required property '" + missing1 + "'",
@@ -1248,6 +1216,7 @@ function validate23(
                 key1 === 'description' ||
                 key1 === 'hdPublicKeyDerivationPath' ||
                 key1 === 'name' ||
+                key1 === 'neverSignTwice' ||
                 key1 === 'privateDerivationPath' ||
                 key1 === 'publicDerivationPath' ||
                 key1 === 'type'
@@ -1256,7 +1225,7 @@ function validate23(
               const err8 = {
                 instancePath,
                 schemaPath:
-                  '#/definitions/AuthenticationTemplateHdKey/additionalProperties',
+                  '#/definitions/WalletTemplateHdKey/additionalProperties',
                 keyword: 'additionalProperties',
                 params: { additionalProperty: key1 },
                 message: 'must NOT have additional properties',
@@ -1278,7 +1247,7 @@ function validate23(
                 const err9 = {
                   instancePath: instancePath + '/addressOffset',
                   schemaPath:
-                    '#/definitions/AuthenticationTemplateHdKey/properties/addressOffset/type',
+                    '#/definitions/WalletTemplateHdKey/properties/addressOffset/type',
                   keyword: 'type',
                   params: { type: 'number' },
                   message: 'must be number',
@@ -1301,7 +1270,7 @@ function validate23(
                   const err10 = {
                     instancePath: instancePath + '/description',
                     schemaPath:
-                      '#/definitions/AuthenticationTemplateHdKey/properties/description/type',
+                      '#/definitions/WalletTemplateHdKey/properties/description/type',
                     keyword: 'type',
                     params: { type: 'string' },
                     message: 'must be string',
@@ -1324,7 +1293,7 @@ function validate23(
                     const err11 = {
                       instancePath: instancePath + '/hdPublicKeyDerivationPath',
                       schemaPath:
-                        '#/definitions/AuthenticationTemplateHdKey/properties/hdPublicKeyDerivationPath/type',
+                        '#/definitions/WalletTemplateHdKey/properties/hdPublicKeyDerivationPath/type',
                       keyword: 'type',
                       params: { type: 'string' },
                       message: 'must be string',
@@ -1347,7 +1316,7 @@ function validate23(
                       const err12 = {
                         instancePath: instancePath + '/name',
                         schemaPath:
-                          '#/definitions/AuthenticationTemplateHdKey/properties/name/type',
+                          '#/definitions/WalletTemplateHdKey/properties/name/type',
                         keyword: 'type',
                         params: { type: 'string' },
                         message: 'must be string',
@@ -1364,16 +1333,16 @@ function validate23(
                     var valid4 = true;
                   }
                   if (valid4) {
-                    if (data.privateDerivationPath !== undefined) {
+                    if (data.neverSignTwice !== undefined) {
                       const _errs23 = errors;
-                      if (typeof data.privateDerivationPath !== 'string') {
+                      if (typeof data.neverSignTwice !== 'boolean') {
                         const err13 = {
-                          instancePath: instancePath + '/privateDerivationPath',
+                          instancePath: instancePath + '/neverSignTwice',
                           schemaPath:
-                            '#/definitions/AuthenticationTemplateHdKey/properties/privateDerivationPath/type',
+                            '#/definitions/WalletTemplateHdKey/properties/neverSignTwice/type',
                           keyword: 'type',
-                          params: { type: 'string' },
-                          message: 'must be string',
+                          params: { type: 'boolean' },
+                          message: 'must be boolean',
                         };
                         if (vErrors === null) {
                           vErrors = [err13];
@@ -1387,14 +1356,14 @@ function validate23(
                       var valid4 = true;
                     }
                     if (valid4) {
-                      if (data.publicDerivationPath !== undefined) {
+                      if (data.privateDerivationPath !== undefined) {
                         const _errs25 = errors;
-                        if (typeof data.publicDerivationPath !== 'string') {
+                        if (typeof data.privateDerivationPath !== 'string') {
                           const err14 = {
                             instancePath:
-                              instancePath + '/publicDerivationPath',
+                              instancePath + '/privateDerivationPath',
                             schemaPath:
-                              '#/definitions/AuthenticationTemplateHdKey/properties/publicDerivationPath/type',
+                              '#/definitions/WalletTemplateHdKey/properties/privateDerivationPath/type',
                             keyword: 'type',
                             params: { type: 'string' },
                             message: 'must be string',
@@ -1411,14 +1380,14 @@ function validate23(
                         var valid4 = true;
                       }
                       if (valid4) {
-                        if (data.type !== undefined) {
-                          let data9 = data.type;
+                        if (data.publicDerivationPath !== undefined) {
                           const _errs27 = errors;
-                          if (typeof data9 !== 'string') {
+                          if (typeof data.publicDerivationPath !== 'string') {
                             const err15 = {
-                              instancePath: instancePath + '/type',
+                              instancePath:
+                                instancePath + '/publicDerivationPath',
                               schemaPath:
-                                '#/definitions/AuthenticationTemplateHdKey/properties/type/type',
+                                '#/definitions/WalletTemplateHdKey/properties/publicDerivationPath/type',
                               keyword: 'type',
                               params: { type: 'string' },
                               message: 'must be string',
@@ -1430,25 +1399,50 @@ function validate23(
                             }
                             errors++;
                           }
-                          if ('HdKey' !== data9) {
-                            const err16 = {
-                              instancePath: instancePath + '/type',
-                              schemaPath:
-                                '#/definitions/AuthenticationTemplateHdKey/properties/type/const',
-                              keyword: 'const',
-                              params: { allowedValue: 'HdKey' },
-                              message: 'must be equal to constant',
-                            };
-                            if (vErrors === null) {
-                              vErrors = [err16];
-                            } else {
-                              vErrors.push(err16);
-                            }
-                            errors++;
-                          }
                           var valid4 = _errs27 === errors;
                         } else {
                           var valid4 = true;
+                        }
+                        if (valid4) {
+                          if (data.type !== undefined) {
+                            let data10 = data.type;
+                            const _errs29 = errors;
+                            if (typeof data10 !== 'string') {
+                              const err16 = {
+                                instancePath: instancePath + '/type',
+                                schemaPath:
+                                  '#/definitions/WalletTemplateHdKey/properties/type/type',
+                                keyword: 'type',
+                                params: { type: 'string' },
+                                message: 'must be string',
+                              };
+                              if (vErrors === null) {
+                                vErrors = [err16];
+                              } else {
+                                vErrors.push(err16);
+                              }
+                              errors++;
+                            }
+                            if ('HdKey' !== data10) {
+                              const err17 = {
+                                instancePath: instancePath + '/type',
+                                schemaPath:
+                                  '#/definitions/WalletTemplateHdKey/properties/type/const',
+                                keyword: 'const',
+                                params: { allowedValue: 'HdKey' },
+                                message: 'must be equal to constant',
+                              };
+                              if (vErrors === null) {
+                                vErrors = [err17];
+                              } else {
+                                vErrors.push(err17);
+                              }
+                              errors++;
+                            }
+                            var valid4 = _errs29 === errors;
+                          } else {
+                            var valid4 = true;
+                          }
                         }
                       }
                     }
@@ -1459,17 +1453,17 @@ function validate23(
           }
         }
       } else {
-        const err17 = {
+        const err18 = {
           instancePath,
-          schemaPath: '#/definitions/AuthenticationTemplateHdKey/type',
+          schemaPath: '#/definitions/WalletTemplateHdKey/type',
           keyword: 'type',
           params: { type: 'object' },
           message: 'must be object',
         };
         if (vErrors === null) {
-          vErrors = [err17];
+          vErrors = [err18];
         } else {
-          vErrors.push(err17);
+          vErrors.push(err18);
         }
         errors++;
       }
@@ -1477,122 +1471,110 @@ function validate23(
     var _valid0 = _errs11 === errors;
     valid0 = valid0 || _valid0;
     if (!valid0) {
-      const _errs29 = errors;
-      const _errs30 = errors;
-      if (errors === _errs30) {
+      const _errs31 = errors;
+      const _errs32 = errors;
+      if (errors === _errs32) {
         if (data && typeof data == 'object' && !Array.isArray(data)) {
           let missing2;
           if (data.type === undefined && (missing2 = 'type')) {
-            const err18 = {
+            const err19 = {
               instancePath,
-              schemaPath: '#/definitions/AuthenticationTemplateKey/required',
+              schemaPath: '#/definitions/WalletTemplateKey/required',
               keyword: 'required',
               params: { missingProperty: missing2 },
               message: "must have required property '" + missing2 + "'",
             };
             if (vErrors === null) {
-              vErrors = [err18];
+              vErrors = [err19];
             } else {
-              vErrors.push(err18);
+              vErrors.push(err19);
             }
             errors++;
           } else {
-            const _errs32 = errors;
+            const _errs34 = errors;
             for (const key2 in data) {
               if (
-                !(key2 === 'description' || key2 === 'name' || key2 === 'type')
+                !(
+                  key2 === 'description' ||
+                  key2 === 'name' ||
+                  key2 === 'neverSignTwice' ||
+                  key2 === 'type'
+                )
               ) {
-                const err19 = {
+                const err20 = {
                   instancePath,
                   schemaPath:
-                    '#/definitions/AuthenticationTemplateKey/additionalProperties',
+                    '#/definitions/WalletTemplateKey/additionalProperties',
                   keyword: 'additionalProperties',
                   params: { additionalProperty: key2 },
                   message: 'must NOT have additional properties',
                 };
                 if (vErrors === null) {
-                  vErrors = [err19];
+                  vErrors = [err20];
                 } else {
-                  vErrors.push(err19);
+                  vErrors.push(err20);
                 }
                 errors++;
                 break;
               }
             }
-            if (_errs32 === errors) {
+            if (_errs34 === errors) {
               if (data.description !== undefined) {
-                const _errs33 = errors;
+                const _errs35 = errors;
                 if (typeof data.description !== 'string') {
-                  const err20 = {
+                  const err21 = {
                     instancePath: instancePath + '/description',
                     schemaPath:
-                      '#/definitions/AuthenticationTemplateKey/properties/description/type',
+                      '#/definitions/WalletTemplateKey/properties/description/type',
                     keyword: 'type',
                     params: { type: 'string' },
                     message: 'must be string',
                   };
                   if (vErrors === null) {
-                    vErrors = [err20];
+                    vErrors = [err21];
                   } else {
-                    vErrors.push(err20);
+                    vErrors.push(err21);
                   }
                   errors++;
                 }
-                var valid6 = _errs33 === errors;
+                var valid6 = _errs35 === errors;
               } else {
                 var valid6 = true;
               }
               if (valid6) {
                 if (data.name !== undefined) {
-                  const _errs35 = errors;
+                  const _errs37 = errors;
                   if (typeof data.name !== 'string') {
-                    const err21 = {
+                    const err22 = {
                       instancePath: instancePath + '/name',
                       schemaPath:
-                        '#/definitions/AuthenticationTemplateKey/properties/name/type',
+                        '#/definitions/WalletTemplateKey/properties/name/type',
                       keyword: 'type',
                       params: { type: 'string' },
                       message: 'must be string',
                     };
                     if (vErrors === null) {
-                      vErrors = [err21];
+                      vErrors = [err22];
                     } else {
-                      vErrors.push(err21);
+                      vErrors.push(err22);
                     }
                     errors++;
                   }
-                  var valid6 = _errs35 === errors;
+                  var valid6 = _errs37 === errors;
                 } else {
                   var valid6 = true;
                 }
                 if (valid6) {
-                  if (data.type !== undefined) {
-                    let data12 = data.type;
-                    const _errs37 = errors;
-                    if (typeof data12 !== 'string') {
-                      const err22 = {
-                        instancePath: instancePath + '/type',
-                        schemaPath:
-                          '#/definitions/AuthenticationTemplateKey/properties/type/type',
-                        keyword: 'type',
-                        params: { type: 'string' },
-                        message: 'must be string',
-                      };
-                      if (vErrors === null) {
-                        vErrors = [err22];
-                      } else {
-                        vErrors.push(err22);
-                      }
-                      errors++;
-                    }
-                    if ('Key' !== data12) {
+                  if (data.neverSignTwice !== undefined) {
+                    const _errs39 = errors;
+                    if (typeof data.neverSignTwice !== 'boolean') {
                       const err23 = {
-                        instancePath: instancePath + '/type',
+                        instancePath: instancePath + '/neverSignTwice',
                         schemaPath:
-                          '#/definitions/AuthenticationTemplateKey/properties/type/const',
-                        keyword: 'const',
-                        params: { allowedValue: 'Key' },
-                        message: 'must be equal to constant',
+                          '#/definitions/WalletTemplateKey/properties/neverSignTwice/type',
+                        keyword: 'type',
+                        params: { type: 'boolean' },
+                        message: 'must be boolean',
                       };
                       if (vErrors === null) {
                         vErrors = [err23];
@@ -1601,55 +1583,95 @@ function validate23(
                       }
                       errors++;
                     }
-                    var valid6 = _errs37 === errors;
+                    var valid6 = _errs39 === errors;
                   } else {
                     var valid6 = true;
+                  }
+                  if (valid6) {
+                    if (data.type !== undefined) {
+                      let data14 = data.type;
+                      const _errs41 = errors;
+                      if (typeof data14 !== 'string') {
+                        const err24 = {
+                          instancePath: instancePath + '/type',
+                          schemaPath:
+                            '#/definitions/WalletTemplateKey/properties/type/type',
+                          keyword: 'type',
+                          params: { type: 'string' },
+                          message: 'must be string',
+                        };
+                        if (vErrors === null) {
+                          vErrors = [err24];
+                        } else {
+                          vErrors.push(err24);
+                        }
+                        errors++;
+                      }
+                      if ('Key' !== data14) {
+                        const err25 = {
+                          instancePath: instancePath + '/type',
+                          schemaPath:
+                            '#/definitions/WalletTemplateKey/properties/type/const',
+                          keyword: 'const',
+                          params: { allowedValue: 'Key' },
+                          message: 'must be equal to constant',
+                        };
+                        if (vErrors === null) {
+                          vErrors = [err25];
+                        } else {
+                          vErrors.push(err25);
+                        }
+                        errors++;
+                      }
+                      var valid6 = _errs41 === errors;
+                    } else {
+                      var valid6 = true;
+                    }
                   }
                 }
               }
             }
           }
         } else {
-          const err24 = {
+          const err26 = {
             instancePath,
-            schemaPath: '#/definitions/AuthenticationTemplateKey/type',
+            schemaPath: '#/definitions/WalletTemplateKey/type',
             keyword: 'type',
             params: { type: 'object' },
             message: 'must be object',
           };
           if (vErrors === null) {
-            vErrors = [err24];
+            vErrors = [err26];
           } else {
-            vErrors.push(err24);
+            vErrors.push(err26);
           }
           errors++;
         }
       }
-      var _valid0 = _errs29 === errors;
+      var _valid0 = _errs31 === errors;
       valid0 = valid0 || _valid0;
       if (!valid0) {
-        const _errs39 = errors;
-        const _errs40 = errors;
-        if (errors === _errs40) {
+        const _errs43 = errors;
+        const _errs44 = errors;
+        if (errors === _errs44) {
           if (data && typeof data == 'object' && !Array.isArray(data)) {
             let missing3;
             if (data.type === undefined && (missing3 = 'type')) {
-              const err25 = {
+              const err27 = {
                 instancePath,
-                schemaPath:
-                  '#/definitions/AuthenticationTemplateWalletData/required',
+                schemaPath: '#/definitions/WalletTemplateWalletData/required',
                 keyword: 'required',
                 params: { missingProperty: missing3 },
                 message: "must have required property '" + missing3 + "'",
               };
               if (vErrors === null) {
-                vErrors = [err25];
+                vErrors = [err27];
               } else {
-                vErrors.push(err25);
+                vErrors.push(err27);
               }
               errors++;
             } else {
-              const _errs42 = errors;
+              const _errs46 = errors;
               for (const key3 in data) {
                 if (
                   !(
@@ -1658,106 +1680,106 @@ function validate23(
                     key3 === 'type'
                   )
                 ) {
-                  const err26 = {
+                  const err28 = {
                     instancePath,
                     schemaPath:
-                      '#/definitions/AuthenticationTemplateWalletData/additionalProperties',
+                      '#/definitions/WalletTemplateWalletData/additionalProperties',
                     keyword: 'additionalProperties',
                     params: { additionalProperty: key3 },
                     message: 'must NOT have additional properties',
                   };
                   if (vErrors === null) {
-                    vErrors = [err26];
+                    vErrors = [err28];
                   } else {
-                    vErrors.push(err26);
+                    vErrors.push(err28);
                   }
                   errors++;
                   break;
                 }
               }
-              if (_errs42 === errors) {
+              if (_errs46 === errors) {
                 if (data.description !== undefined) {
-                  const _errs43 = errors;
+                  const _errs47 = errors;
                   if (typeof data.description !== 'string') {
-                    const err27 = {
+                    const err29 = {
                       instancePath: instancePath + '/description',
                       schemaPath:
-                        '#/definitions/AuthenticationTemplateWalletData/properties/description/type',
+                        '#/definitions/WalletTemplateWalletData/properties/description/type',
                       keyword: 'type',
                       params: { type: 'string' },
                       message: 'must be string',
                     };
                     if (vErrors === null) {
-                      vErrors = [err27];
+                      vErrors = [err29];
                     } else {
-                      vErrors.push(err27);
+                      vErrors.push(err29);
                     }
                     errors++;
                   }
-                  var valid8 = _errs43 === errors;
+                  var valid8 = _errs47 === errors;
                 } else {
                   var valid8 = true;
                 }
                 if (valid8) {
                   if (data.name !== undefined) {
-                    const _errs45 = errors;
+                    const _errs49 = errors;
                     if (typeof data.name !== 'string') {
-                      const err28 = {
+                      const err30 = {
                         instancePath: instancePath + '/name',
                         schemaPath:
-                          '#/definitions/AuthenticationTemplateWalletData/properties/name/type',
+                          '#/definitions/WalletTemplateWalletData/properties/name/type',
                         keyword: 'type',
                         params: { type: 'string' },
                         message: 'must be string',
                       };
                       if (vErrors === null) {
-                        vErrors = [err28];
+                        vErrors = [err30];
                       } else {
-                        vErrors.push(err28);
+                        vErrors.push(err30);
                       }
                       errors++;
                     }
-                    var valid8 = _errs45 === errors;
+                    var valid8 = _errs49 === errors;
                   } else {
                     var valid8 = true;
                   }
                   if (valid8) {
                     if (data.type !== undefined) {
-                      let data15 = data.type;
-                      const _errs47 = errors;
-                      if (typeof data15 !== 'string') {
-                        const err29 = {
+                      let data17 = data.type;
+                      const _errs51 = errors;
+                      if (typeof data17 !== 'string') {
+                        const err31 = {
                           instancePath: instancePath + '/type',
                           schemaPath:
-                            '#/definitions/AuthenticationTemplateWalletData/properties/type/type',
+                            '#/definitions/WalletTemplateWalletData/properties/type/type',
                           keyword: 'type',
                           params: { type: 'string' },
                           message: 'must be string',
                         };
                         if (vErrors === null) {
-                          vErrors = [err29];
+                          vErrors = [err31];
                         } else {
-                          vErrors.push(err29);
+                          vErrors.push(err31);
                         }
                         errors++;
                       }
-                      if ('WalletData' !== data15) {
-                        const err30 = {
+                      if ('WalletData' !== data17) {
+                        const err32 = {
                           instancePath: instancePath + '/type',
                           schemaPath:
-                            '#/definitions/AuthenticationTemplateWalletData/properties/type/const',
+                            '#/definitions/WalletTemplateWalletData/properties/type/const',
                           keyword: 'const',
                           params: { allowedValue: 'WalletData' },
                           message: 'must be equal to constant',
                         };
                         if (vErrors === null) {
-                          vErrors = [err30];
+                          vErrors = [err32];
                         } else {
-                          vErrors.push(err30);
+                          vErrors.push(err32);
                         }
                         errors++;
                       }
-                      var valid8 = _errs47 === errors;
+                      var valid8 = _errs51 === errors;
                     } else {
                       var valid8 = true;
                     }
@@ -1766,28 +1788,28 @@ function validate23(
               }
             }
           } else {
-            const err31 = {
+            const err33 = {
               instancePath,
-              schemaPath: '#/definitions/AuthenticationTemplateWalletData/type',
+              schemaPath: '#/definitions/WalletTemplateWalletData/type',
               keyword: 'type',
               params: { type: 'object' },
               message: 'must be object',
             };
             if (vErrors === null) {
-              vErrors = [err31];
+              vErrors = [err33];
             } else {
-              vErrors.push(err31);
+              vErrors.push(err33);
             }
             errors++;
           }
         }
-        var _valid0 = _errs39 === errors;
+        var _valid0 = _errs43 === errors;
         valid0 = valid0 || _valid0;
       }
     }
   }
   if (!valid0) {
-    const err32 = {
+    const err34 = {
       instancePath,
       schemaPath: '#/anyOf',
       keyword: 'anyOf',
@@ -1795,9 +1817,9 @@ function validate23(
       message: 'must match a schema in anyOf',
     };
     if (vErrors === null) {
-      vErrors = [err32];
+      vErrors = [err34];
     } else {
-      vErrors.push(err32);
+      vErrors.push(err34);
     }
     errors++;
     validate23.errors = vErrors;
@@ -1817,7 +1839,7 @@ function validate23(
 }
 function validate22(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -2002,10 +2024,10 @@ function validate22(
 const schema30 = {
   additionalProperties: false,
   description:
-    'An object describing the configuration for a particular scenario within an authentication template.',
+    'An object describing the configuration for a particular scenario within an wallet template.',
   properties: {
     data: {
-      $ref: '#/definitions/AuthenticationTemplateScenarioData',
+      $ref: '#/definitions/WalletTemplateScenarioData',
       description:
         "An object defining the data to use while compiling this scenario. The properties specified here are used to extend the existing scenario data based on this scenario's `extends` property.\n\nEach property is extended individually – to unset a previously-set property, the property must be individually overridden in this object.",
     },
@@ -2027,9 +2049,7 @@ const schema30 = {
     sourceOutputs: {
       description:
         'The list of source outputs (a.k.a. UTXOs) to use when generating the compilation context for this scenario.\n\nThe `sourceOutputs` property must have the same length as `transaction.inputs`, and each source output must be ordered to match the index of the input that spends it.\n\nTo be valid the `sourceOutputs` property must have exactly one source output with `lockingBytecode` set to `["slot"]` – the output at the same index as the `["slot"]` input in `transaction.inputs`.\n\nIf undefined, defaults to `[{ "lockingBytecode": ["slot"] }]`.',
-      items: {
-        $ref: '#/definitions/AuthenticationTemplateScenarioSourceOutput',
-      },
+      items: { $ref: '#/definitions/WalletTemplateScenarioSourceOutput' },
       type: 'array',
     },
     transaction: {
@@ -2040,7 +2060,7 @@ const schema30 = {
         inputs: {
           description:
             'The list of inputs to use when generating the transaction for this scenario.\n\nTo be valid the `inputs` property must have exactly one input with `unlockingBytecode` set to `["slot"]`. This is the input in which the unlocking script under test will be placed.\n\nIf undefined, inherits the default scenario `inputs` value: `[{ "unlockingBytecode": ["slot"] }]`.',
-          items: { $ref: '#/definitions/AuthenticationTemplateScenarioInput' },
+          items: { $ref: '#/definitions/WalletTemplateScenarioInput' },
           type: 'array',
         },
         locktime: {
@@ -2052,7 +2072,7 @@ const schema30 = {
           description:
             'The list of outputs to use when generating the transaction for this scenario.\n\nIf undefined, defaults to `[{ "lockingBytecode": {} }]`.',
           items: {
-            $ref: '#/definitions/AuthenticationTemplateScenarioTransactionOutput',
+            $ref: '#/definitions/WalletTemplateScenarioTransactionOutput',
           },
           type: 'array',
         },
@@ -2132,11 +2152,11 @@ const schema31 = {
 const schema32 = {
   additionalProperties: false,
   description:
-    'An example output used to define a scenario for an authentication template.',
+    'An example output used to define a scenario for a wallet template.',
   properties: {
     lockingBytecode: {
       anyOf: [
-        { $ref: '#/definitions/AuthenticationTemplateScenarioBytecode' },
+        { $ref: '#/definitions/WalletTemplateScenarioBytecode' },
         {
           items: { const: 'slot', type: 'string' },
           maxItems: 1,
@@ -2199,7 +2219,7 @@ const schema33 = {
       additionalProperties: false,
       properties: {
         overrides: {
-          $ref: '#/definitions/AuthenticationTemplateScenarioData',
+          $ref: '#/definitions/WalletTemplateScenarioData',
           description:
             'Scenario data that extends the scenario\'s top-level `data` during script compilation.\n\nEach property is extended individually – to modify a property set by the top-level scenario `data`, the new value must be listed here.\n\nDefaults to `{}` for `sourceOutputs` and `transaction.inputs`; defaults to `{ "hdKeys": { "addressIndex": 1 } }` for `transaction.outputs`.',
         },
@@ -2221,11 +2241,11 @@ const schema33 = {
     },
   ],
   description:
-    'A type that describes the configuration for a particular locking or unlocking bytecode within an authentication template scenario.\n\nBytecode may be specified as either a hexadecimal-encoded string or an object describing the required compilation.\n\nFor `sourceOutputs` and `transaction.inputs`, defaults to `{ script: ["copy"], overrides: {} }`. For `transaction.outputs`, defaults to `{ script: ["copy"], overrides: { "hdKeys": { "addressIndex": 1 } } }`.',
+    'A type that describes the configuration for a particular locking or unlocking bytecode within a wallet template scenario.\n\nBytecode may be specified as either a hexadecimal-encoded string or an object describing the required compilation.\n\nFor `sourceOutputs` and `transaction.inputs`, defaults to `{ script: ["copy"], overrides: {} }`. For `transaction.outputs`, defaults to `{ script: ["copy"], overrides: { "hdKeys": { "addressIndex": 1 } } }`.',
 };
 function validate28(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -2293,7 +2313,7 @@ function validate28(
                     const err2 = {
                       instancePath: instancePath + '/overrides',
                       schemaPath:
-                        '#/definitions/AuthenticationTemplateScenarioData/additionalProperties',
+                        '#/definitions/WalletTemplateScenarioData/additionalProperties',
                       keyword: 'additionalProperties',
                       params: { additionalProperty: key1 },
                       message: 'must NOT have additional properties',
@@ -2326,7 +2346,7 @@ function validate28(
                                 '/overrides/bytecode/' +
                                 key2.replace(/~/g, '~0').replace(/\//g, '~1'),
                               schemaPath:
-                                '#/definitions/AuthenticationTemplateScenarioData/properties/bytecode/additionalProperties/type',
+                                '#/definitions/WalletTemplateScenarioData/properties/bytecode/additionalProperties/type',
                               keyword: 'type',
                               params: { type: 'string' },
                               message: 'must be string',
@@ -2347,7 +2367,7 @@ function validate28(
                         const err4 = {
                           instancePath: instancePath + '/overrides/bytecode',
                           schemaPath:
-                            '#/definitions/AuthenticationTemplateScenarioData/properties/bytecode/type',
+                            '#/definitions/WalletTemplateScenarioData/properties/bytecode/type',
                           keyword: 'type',
                           params: { type: 'object' },
                           message: 'must be object',
@@ -2373,7 +2393,7 @@ function validate28(
                           instancePath:
                             instancePath + '/overrides/currentBlockHeight',
                           schemaPath:
-                            '#/definitions/AuthenticationTemplateScenarioData/properties/currentBlockHeight/type',
+                            '#/definitions/WalletTemplateScenarioData/properties/currentBlockHeight/type',
                           keyword: 'type',
                           params: { type: 'number' },
                           message: 'must be number',
@@ -2398,7 +2418,7 @@ function validate28(
                             instancePath:
                               instancePath + '/overrides/currentBlockTime',
                             schemaPath:
-                              '#/definitions/AuthenticationTemplateScenarioData/properties/currentBlockTime/type',
+                              '#/definitions/WalletTemplateScenarioData/properties/currentBlockTime/type',
                             keyword: 'type',
                             params: { type: 'number' },
                             message: 'must be number',
@@ -2437,7 +2457,7 @@ function validate28(
                                     instancePath:
                                       instancePath + '/overrides/hdKeys',
                                     schemaPath:
-                                      '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/additionalProperties',
+                                      '#/definitions/WalletTemplateScenarioData/properties/hdKeys/additionalProperties',
                                     keyword: 'additionalProperties',
                                     params: { additionalProperty: key3 },
                                     message:
@@ -2467,7 +2487,7 @@ function validate28(
                                         instancePath +
                                         '/overrides/hdKeys/addressIndex',
                                       schemaPath:
-                                        '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/addressIndex/type',
+                                        '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/addressIndex/type',
                                       keyword: 'type',
                                       params: { type: 'number' },
                                       message: 'must be number',
@@ -2504,7 +2524,7 @@ function validate28(
                                                   .replace(/~/g, '~0')
                                                   .replace(/\//g, '~1'),
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/additionalProperties/type',
+                                                '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/additionalProperties/type',
                                               keyword: 'type',
                                               params: { type: 'string' },
                                               message: 'must be string',
@@ -2527,7 +2547,7 @@ function validate28(
                                             instancePath +
                                             '/overrides/hdKeys/hdPrivateKeys',
                                           schemaPath:
-                                            '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/type',
+                                            '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/type',
                                           keyword: 'type',
                                           params: { type: 'object' },
                                           message: 'must be object',
@@ -2567,7 +2587,7 @@ function validate28(
                                                     .replace(/~/g, '~0')
                                                     .replace(/\//g, '~1'),
                                                 schemaPath:
-                                                  '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/additionalProperties/type',
+                                                  '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/additionalProperties/type',
                                                 keyword: 'type',
                                                 params: { type: 'string' },
                                                 message: 'must be string',
@@ -2590,7 +2610,7 @@ function validate28(
                                               instancePath +
                                               '/overrides/hdKeys/hdPublicKeys',
                                             schemaPath:
-                                              '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/type',
+                                              '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/type',
                                             keyword: 'type',
                                             params: { type: 'object' },
                                             message: 'must be object',
@@ -2615,7 +2635,7 @@ function validate28(
                                 instancePath:
                                   instancePath + '/overrides/hdKeys',
                                 schemaPath:
-                                  '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/type',
+                                  '#/definitions/WalletTemplateScenarioData/properties/hdKeys/type',
                                 keyword: 'type',
                                 params: { type: 'object' },
                                 message: 'must be object',
@@ -2649,7 +2669,7 @@ function validate28(
                                       instancePath:
                                         instancePath + '/overrides/keys',
                                       schemaPath:
-                                        '#/definitions/AuthenticationTemplateScenarioData/properties/keys/additionalProperties',
+                                        '#/definitions/WalletTemplateScenarioData/properties/keys/additionalProperties',
                                       keyword: 'additionalProperties',
                                       params: { additionalProperty: key6 },
                                       message:
@@ -2687,7 +2707,7 @@ function validate28(
                                                   .replace(/~/g, '~0')
                                                   .replace(/\//g, '~1'),
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScenarioData/properties/keys/properties/privateKeys/additionalProperties/type',
+                                                '#/definitions/WalletTemplateScenarioData/properties/keys/properties/privateKeys/additionalProperties/type',
                                               keyword: 'type',
                                               params: { type: 'string' },
                                               message: 'must be string',
@@ -2710,7 +2730,7 @@ function validate28(
                                             instancePath +
                                             '/overrides/keys/privateKeys',
                                           schemaPath:
-                                            '#/definitions/AuthenticationTemplateScenarioData/properties/keys/properties/privateKeys/type',
+                                            '#/definitions/WalletTemplateScenarioData/properties/keys/properties/privateKeys/type',
                                           keyword: 'type',
                                           params: { type: 'object' },
                                           message: 'must be object',
@@ -2730,7 +2750,7 @@ function validate28(
                                   instancePath:
                                     instancePath + '/overrides/keys',
                                   schemaPath:
-                                    '#/definitions/AuthenticationTemplateScenarioData/properties/keys/type',
+                                    '#/definitions/WalletTemplateScenarioData/properties/keys/type',
                                   keyword: 'type',
                                   params: { type: 'object' },
                                   message: 'must be object',
@@ -2755,8 +2775,7 @@ function validate28(
               } else {
                 const err18 = {
                   instancePath: instancePath + '/overrides',
-                  schemaPath:
-                    '#/definitions/AuthenticationTemplateScenarioData/type',
+                  schemaPath: '#/definitions/WalletTemplateScenarioData/type',
                   keyword: 'type',
                   params: { type: 'object' },
                   message: 'must be object',
@@ -2976,7 +2995,7 @@ function validate28(
 }
 function validate27(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -3416,7 +3435,7 @@ function validate27(
 const schema35 = {
   additionalProperties: false,
   description:
-    'An example input used to define a scenario for an authentication template.',
+    'An example input used to define a scenario for a wallet template.',
   properties: {
     outpointIndex: {
       description:
@@ -3435,7 +3454,7 @@ const schema35 = {
     },
     unlockingBytecode: {
       anyOf: [
-        { $ref: '#/definitions/AuthenticationTemplateScenarioBytecode' },
+        { $ref: '#/definitions/WalletTemplateScenarioBytecode' },
         {
           items: { const: 'slot', type: 'string' },
           maxItems: 1,
@@ -3444,14 +3463,14 @@ const schema35 = {
         },
       ],
       description:
-        'The `unlockingBytecode` value of this input for this scenario. This must be either `["slot"]`, indicating that this input contains the `unlockingBytecode` under test by the scenario, or an `AuthenticationTemplateScenarioBytecode`.\n\nFor a scenario to be valid, `unlockingBytecode` must be `["slot"]` for exactly one input in the scenario.\n\nDefaults to `["slot"]`.',
+        'The `unlockingBytecode` value of this input for this scenario. This must be either `["slot"]`, indicating that this input contains the `unlockingBytecode` under test by the scenario, or an `WalletTemplateScenarioBytecode`.\n\nFor a scenario to be valid, `unlockingBytecode` must be `["slot"]` for exactly one input in the scenario.\n\nDefaults to `["slot"]`.',
     },
   },
   type: 'object',
 };
 function validate31(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -3717,10 +3736,10 @@ function validate31(
 const schema36 = {
   additionalProperties: false,
   description:
-    'An example output used to define a scenario for an authentication template.',
+    'An example output used to define a scenario for a wallet template.',
   properties: {
     lockingBytecode: {
-      $ref: '#/definitions/AuthenticationTemplateScenarioBytecode',
+      $ref: '#/definitions/WalletTemplateScenarioBytecode',
       description:
         'The locking bytecode used to encumber this output.\n\n`lockingBytecode` values may be provided as a hexadecimal-encoded string or as an object describing the required compilation. If undefined, defaults to  `{}`, which uses the default values for `script` and `overrides`, respectively.\n\nOnly source outputs may specify a `lockingBytecode` of `["slot"]`; this identifies the source output in which the locking script under test will be placed. (To be valid, every scenario\'s `sourceOutputs` property must have exactly one source output slot and one input slot at the same index.)',
     },
@@ -3771,7 +3790,7 @@ const schema36 = {
 };
 function validate34(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -4080,7 +4099,7 @@ function validate34(
 }
 function validate26(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -4133,7 +4152,7 @@ function validate26(
                     {
                       instancePath: instancePath + '/data',
                       schemaPath:
-                        '#/definitions/AuthenticationTemplateScenarioData/additionalProperties',
+                        '#/definitions/WalletTemplateScenarioData/additionalProperties',
                       keyword: 'additionalProperties',
                       params: { additionalProperty: key1 },
                       message: 'must NOT have additional properties',
@@ -4163,7 +4182,7 @@ function validate26(
                                 '/data/bytecode/' +
                                 key2.replace(/~/g, '~0').replace(/\//g, '~1'),
                               schemaPath:
-                                '#/definitions/AuthenticationTemplateScenarioData/properties/bytecode/additionalProperties/type',
+                                '#/definitions/WalletTemplateScenarioData/properties/bytecode/additionalProperties/type',
                               keyword: 'type',
                               params: { type: 'string' },
                               message: 'must be string',
@@ -4181,7 +4200,7 @@ function validate26(
                         {
                           instancePath: instancePath + '/data/bytecode',
                           schemaPath:
-                            '#/definitions/AuthenticationTemplateScenarioData/properties/bytecode/type',
+                            '#/definitions/WalletTemplateScenarioData/properties/bytecode/type',
                           keyword: 'type',
                           params: { type: 'object' },
                           message: 'must be object',
@@ -4204,7 +4223,7 @@ function validate26(
                           instancePath:
                             instancePath + '/data/currentBlockHeight',
                           schemaPath:
-                            '#/definitions/AuthenticationTemplateScenarioData/properties/currentBlockHeight/type',
+                            '#/definitions/WalletTemplateScenarioData/properties/currentBlockHeight/type',
                           keyword: 'type',
                           params: { type: 'number' },
                           message: 'must be number',
@@ -4226,7 +4245,7 @@ function validate26(
                             instancePath:
                               instancePath + '/data/currentBlockTime',
                             schemaPath:
-                              '#/definitions/AuthenticationTemplateScenarioData/properties/currentBlockTime/type',
+                              '#/definitions/WalletTemplateScenarioData/properties/currentBlockTime/type',
                             keyword: 'type',
                             params: { type: 'number' },
                             message: 'must be number',
@@ -4261,7 +4280,7 @@ function validate26(
                                   {
                                     instancePath: instancePath + '/data/hdKeys',
                                     schemaPath:
-                                      '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/additionalProperties',
+                                      '#/definitions/WalletTemplateScenarioData/properties/hdKeys/additionalProperties',
                                     keyword: 'additionalProperties',
                                     params: { additionalProperty: key3 },
                                     message:
@@ -4285,7 +4304,7 @@ function validate26(
                                         instancePath +
                                         '/data/hdKeys/addressIndex',
                                       schemaPath:
-                                        '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/addressIndex/type',
+                                        '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/addressIndex/type',
                                       keyword: 'type',
                                       params: { type: 'number' },
                                       message: 'must be number',
@@ -4319,7 +4338,7 @@ function validate26(
                                                   .replace(/~/g, '~0')
                                                   .replace(/\//g, '~1'),
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/additionalProperties/type',
+                                                '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/additionalProperties/type',
                                               keyword: 'type',
                                               params: { type: 'string' },
                                               message: 'must be string',
@@ -4339,7 +4358,7 @@ function validate26(
                                             instancePath +
                                             '/data/hdKeys/hdPrivateKeys',
                                           schemaPath:
-                                            '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/type',
+                                            '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPrivateKeys/type',
                                           keyword: 'type',
                                           params: { type: 'object' },
                                           message: 'must be object',
@@ -4374,7 +4393,7 @@ function validate26(
                                                     .replace(/~/g, '~0')
                                                     .replace(/\//g, '~1'),
                                                 schemaPath:
-                                                  '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/additionalProperties/type',
+                                                  '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/additionalProperties/type',
                                                 keyword: 'type',
                                                 params: { type: 'string' },
                                                 message: 'must be string',
@@ -4394,7 +4413,7 @@ function validate26(
                                               instancePath +
                                               '/data/hdKeys/hdPublicKeys',
                                             schemaPath:
-                                              '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/type',
+                                              '#/definitions/WalletTemplateScenarioData/properties/hdKeys/properties/hdPublicKeys/type',
                                             keyword: 'type',
                                             params: { type: 'object' },
                                             message: 'must be object',
@@ -4415,7 +4434,7 @@ function validate26(
                               {
                                 instancePath: instancePath + '/data/hdKeys',
                                 schemaPath:
-                                  '#/definitions/AuthenticationTemplateScenarioData/properties/hdKeys/type',
+                                  '#/definitions/WalletTemplateScenarioData/properties/hdKeys/type',
                                 keyword: 'type',
                                 params: { type: 'object' },
                                 message: 'must be object',
@@ -4445,7 +4464,7 @@ function validate26(
                                     {
                                       instancePath: instancePath + '/data/keys',
                                       schemaPath:
-                                        '#/definitions/AuthenticationTemplateScenarioData/properties/keys/additionalProperties',
+                                        '#/definitions/WalletTemplateScenarioData/properties/keys/additionalProperties',
                                       keyword: 'additionalProperties',
                                       params: { additionalProperty: key6 },
                                       message:
@@ -4478,7 +4497,7 @@ function validate26(
                                                   .replace(/~/g, '~0')
                                                   .replace(/\//g, '~1'),
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScenarioData/properties/keys/properties/privateKeys/additionalProperties/type',
+                                                '#/definitions/WalletTemplateScenarioData/properties/keys/properties/privateKeys/additionalProperties/type',
                                               keyword: 'type',
                                               params: { type: 'string' },
                                               message: 'must be string',
@@ -4498,7 +4517,7 @@ function validate26(
                                             instancePath +
                                             '/data/keys/privateKeys',
                                           schemaPath:
-                                            '#/definitions/AuthenticationTemplateScenarioData/properties/keys/properties/privateKeys/type',
+                                            '#/definitions/WalletTemplateScenarioData/properties/keys/properties/privateKeys/type',
                                           keyword: 'type',
                                           params: { type: 'object' },
                                           message: 'must be object',
@@ -4514,7 +4533,7 @@ function validate26(
                                 {
                                   instancePath: instancePath + '/data/keys',
                                   schemaPath:
-                                    '#/definitions/AuthenticationTemplateScenarioData/properties/keys/type',
+                                    '#/definitions/WalletTemplateScenarioData/properties/keys/type',
                                   keyword: 'type',
                                   params: { type: 'object' },
                                   message: 'must be object',
@@ -4536,8 +4555,7 @@ function validate26(
               validate26.errors = [
                 {
                   instancePath: instancePath + '/data',
-                  schemaPath:
-                    '#/definitions/AuthenticationTemplateScenarioData/type',
+                  schemaPath: '#/definitions/WalletTemplateScenarioData/type',
                   keyword: 'type',
                   params: { type: 'object' },
                   message: 'must be object',
@@ -4901,9 +4919,7 @@ const schema39 = {
       type: 'string',
     },
     tests: {
-      additionalProperties: {
-        $ref: '#/definitions/AuthenticationTemplateScriptTest',
-      },
+      additionalProperties: { $ref: '#/definitions/WalletTemplateScriptTest' },
       description:
         'One or more tests that can be used during development and during template validation to confirm the correctness of this tested script.',
       type: 'object',
@@ -4954,7 +4970,7 @@ const schema40 = {
 };
 function validate38(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -5090,7 +5106,7 @@ function validate38(
                                       .replace(/~/g, '~0')
                                       .replace(/\//g, '~1'),
                                   schemaPath:
-                                    '#/definitions/AuthenticationTemplateScriptTest/required',
+                                    '#/definitions/WalletTemplateScriptTest/required',
                                   keyword: 'required',
                                   params: { missingProperty: missing1 },
                                   message:
@@ -5122,7 +5138,7 @@ function validate38(
                                           .replace(/~/g, '~0')
                                           .replace(/\//g, '~1'),
                                       schemaPath:
-                                        '#/definitions/AuthenticationTemplateScriptTest/additionalProperties',
+                                        '#/definitions/WalletTemplateScriptTest/additionalProperties',
                                       keyword: 'additionalProperties',
                                       params: { additionalProperty: key2 },
                                       message:
@@ -5147,7 +5163,7 @@ function validate38(
                                             .replace(/\//g, '~1') +
                                           '/check',
                                         schemaPath:
-                                          '#/definitions/AuthenticationTemplateScriptTest/properties/check/type',
+                                          '#/definitions/WalletTemplateScriptTest/properties/check/type',
                                         keyword: 'type',
                                         params: { type: 'string' },
                                         message: 'must be string',
@@ -5181,7 +5197,7 @@ function validate38(
                                                   '/fails/' +
                                                   i0,
                                                 schemaPath:
-                                                  '#/definitions/AuthenticationTemplateScriptTest/properties/fails/items/type',
+                                                  '#/definitions/WalletTemplateScriptTest/properties/fails/items/type',
                                                 keyword: 'type',
                                                 params: { type: 'string' },
                                                 message: 'must be string',
@@ -5205,7 +5221,7 @@ function validate38(
                                                 .replace(/\//g, '~1') +
                                               '/fails',
                                             schemaPath:
-                                              '#/definitions/AuthenticationTemplateScriptTest/properties/fails/type',
+                                              '#/definitions/WalletTemplateScriptTest/properties/fails/type',
                                             keyword: 'type',
                                             params: { type: 'array' },
                                             message: 'must be array',
@@ -5240,7 +5256,7 @@ function validate38(
                                                     '/invalid/' +
                                                     i1,
                                                   schemaPath:
-                                                    '#/definitions/AuthenticationTemplateScriptTest/properties/invalid/items/type',
+                                                    '#/definitions/WalletTemplateScriptTest/properties/invalid/items/type',
                                                   keyword: 'type',
                                                   params: { type: 'string' },
                                                   message: 'must be string',
@@ -5264,7 +5280,7 @@ function validate38(
                                                   .replace(/\//g, '~1') +
                                                 '/invalid',
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScriptTest/properties/invalid/type',
+                                                '#/definitions/WalletTemplateScriptTest/properties/invalid/type',
                                               keyword: 'type',
                                               params: { type: 'array' },
                                               message: 'must be array',
@@ -5291,7 +5307,7 @@ function validate38(
                                                   .replace(/\//g, '~1') +
                                                 '/name',
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScriptTest/properties/name/type',
+                                                '#/definitions/WalletTemplateScriptTest/properties/name/type',
                                               keyword: 'type',
                                               params: { type: 'string' },
                                               message: 'must be string',
@@ -5329,12 +5345,12 @@ function validate38(
                                                           .replace(/~/g, '~0')
                                                           .replace(
                                                             /\//g,
-                                                            '~1'
+                                                            '~1',
                                                           ) +
                                                         '/passes/' +
                                                         i2,
                                                       schemaPath:
-                                                        '#/definitions/AuthenticationTemplateScriptTest/properties/passes/items/type',
+                                                        '#/definitions/WalletTemplateScriptTest/properties/passes/items/type',
                                                       keyword: 'type',
                                                       params: {
                                                         type: 'string',
@@ -5360,7 +5376,7 @@ function validate38(
                                                       .replace(/\//g, '~1') +
                                                     '/passes',
                                                   schemaPath:
-                                                    '#/definitions/AuthenticationTemplateScriptTest/properties/passes/type',
+                                                    '#/definitions/WalletTemplateScriptTest/properties/passes/type',
                                                   keyword: 'type',
                                                   params: { type: 'array' },
                                                   message: 'must be array',
@@ -5389,7 +5405,7 @@ function validate38(
                                                       .replace(/\//g, '~1') +
                                                     '/setup',
                                                   schemaPath:
-                                                    '#/definitions/AuthenticationTemplateScriptTest/properties/setup/type',
+                                                    '#/definitions/WalletTemplateScriptTest/properties/setup/type',
                                                   keyword: 'type',
                                                   params: { type: 'string' },
                                                   message: 'must be string',
@@ -5416,7 +5432,7 @@ function validate38(
                                   '/tests/' +
                                   key1.replace(/~/g, '~0').replace(/\//g, '~1'),
                                 schemaPath:
-                                  '#/definitions/AuthenticationTemplateScriptTest/type',
+                                  '#/definitions/WalletTemplateScriptTest/type',
                                 keyword: 'type',
                                 params: { type: 'object' },
                                 message: 'must be object',
@@ -5471,7 +5487,7 @@ function validate38(
 const func4 = Object.prototype.hasOwnProperty;
 function validate21(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;
@@ -5717,7 +5733,7 @@ function validate21(
                                         .replace(/~/g, '~0')
                                         .replace(/\//g, '~1'),
                                     schemaPath:
-                                      '#/definitions/AuthenticationTemplateScript/required',
+                                      '#/definitions/WalletTemplateScript/required',
                                     keyword: 'required',
                                     params: { missingProperty: missing1 },
                                     message:
@@ -5745,7 +5761,7 @@ function validate21(
                                             .replace(/~/g, '~0')
                                             .replace(/\//g, '~1'),
                                         schemaPath:
-                                          '#/definitions/AuthenticationTemplateScript/additionalProperties',
+                                          '#/definitions/WalletTemplateScript/additionalProperties',
                                         keyword: 'additionalProperties',
                                         params: { additionalProperty: key4 },
                                         message:
@@ -5773,7 +5789,7 @@ function validate21(
                                               .replace(/\//g, '~1') +
                                             '/name',
                                           schemaPath:
-                                            '#/definitions/AuthenticationTemplateScript/properties/name/type',
+                                            '#/definitions/WalletTemplateScript/properties/name/type',
                                           keyword: 'type',
                                           params: { type: 'string' },
                                           message: 'must be string',
@@ -5802,7 +5818,7 @@ function validate21(
                                                 .replace(/\//g, '~1') +
                                               '/script',
                                             schemaPath:
-                                              '#/definitions/AuthenticationTemplateScript/properties/script/type',
+                                              '#/definitions/WalletTemplateScript/properties/script/type',
                                             keyword: 'type',
                                             params: { type: 'string' },
                                             message: 'must be string',
@@ -5830,7 +5846,7 @@ function validate21(
                                       .replace(/~/g, '~0')
                                       .replace(/\//g, '~1'),
                                   schemaPath:
-                                    '#/definitions/AuthenticationTemplateScript/type',
+                                    '#/definitions/WalletTemplateScript/type',
                                   keyword: 'type',
                                   params: { type: 'object' },
                                   message: 'must be object',
@@ -5869,7 +5885,7 @@ function validate21(
                                           .replace(/~/g, '~0')
                                           .replace(/\//g, '~1'),
                                       schemaPath:
-                                        '#/definitions/AuthenticationTemplateScriptLocking/required',
+                                        '#/definitions/WalletTemplateScriptLocking/required',
                                       keyword: 'required',
                                       params: { missingProperty: missing2 },
                                       message:
@@ -5901,7 +5917,7 @@ function validate21(
                                               .replace(/~/g, '~0')
                                               .replace(/\//g, '~1'),
                                           schemaPath:
-                                            '#/definitions/AuthenticationTemplateScriptLocking/additionalProperties',
+                                            '#/definitions/WalletTemplateScriptLocking/additionalProperties',
                                           keyword: 'additionalProperties',
                                           params: { additionalProperty: key5 },
                                           message:
@@ -5930,7 +5946,7 @@ function validate21(
                                                 .replace(/\//g, '~1') +
                                               '/lockingType',
                                             schemaPath:
-                                              '#/definitions/AuthenticationTemplateScriptLocking/properties/lockingType/type',
+                                              '#/definitions/WalletTemplateScriptLocking/properties/lockingType/type',
                                             keyword: 'type',
                                             params: { type: 'string' },
                                             message: 'must be string',
@@ -5958,7 +5974,7 @@ function validate21(
                                                 .replace(/\//g, '~1') +
                                               '/lockingType',
                                             schemaPath:
-                                              '#/definitions/AuthenticationTemplateScriptLocking/properties/lockingType/enum',
+                                              '#/definitions/WalletTemplateScriptLocking/properties/lockingType/enum',
                                             keyword: 'enum',
                                             params: {
                                               allowedValues:
@@ -5992,7 +6008,7 @@ function validate21(
                                                   .replace(/\//g, '~1') +
                                                 '/name',
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScriptLocking/properties/name/type',
+                                                '#/definitions/WalletTemplateScriptLocking/properties/name/type',
                                               keyword: 'type',
                                               params: { type: 'string' },
                                               message: 'must be string',
@@ -6023,7 +6039,7 @@ function validate21(
                                                     .replace(/\//g, '~1') +
                                                   '/script',
                                                 schemaPath:
-                                                  '#/definitions/AuthenticationTemplateScriptLocking/properties/script/type',
+                                                  '#/definitions/WalletTemplateScriptLocking/properties/script/type',
                                                 keyword: 'type',
                                                 params: { type: 'string' },
                                                 message: 'must be string',
@@ -6052,7 +6068,7 @@ function validate21(
                                         .replace(/~/g, '~0')
                                         .replace(/\//g, '~1'),
                                     schemaPath:
-                                      '#/definitions/AuthenticationTemplateScriptLocking/type',
+                                      '#/definitions/WalletTemplateScriptLocking/type',
                                     keyword: 'type',
                                     params: { type: 'object' },
                                     message: 'must be object',
@@ -6114,7 +6130,7 @@ function validate21(
                                               .replace(/~/g, '~0')
                                               .replace(/\//g, '~1'),
                                           schemaPath:
-                                            '#/definitions/AuthenticationTemplateScriptUnlocking/required',
+                                            '#/definitions/WalletTemplateScriptUnlocking/required',
                                           keyword: 'required',
                                           params: { missingProperty: missing3 },
                                           message:
@@ -6134,7 +6150,7 @@ function validate21(
                                           if (
                                             !func4.call(
                                               schema41.properties,
-                                              key6
+                                              key6,
                                             )
                                           ) {
                                             const err13 = {
@@ -6145,7 +6161,7 @@ function validate21(
                                                   .replace(/~/g, '~0')
                                                   .replace(/\//g, '~1'),
                                               schemaPath:
-                                                '#/definitions/AuthenticationTemplateScriptUnlocking/additionalProperties',
+                                                '#/definitions/WalletTemplateScriptUnlocking/additionalProperties',
                                               keyword: 'additionalProperties',
                                               params: {
                                                 additionalProperty: key6,
@@ -6177,7 +6193,7 @@ function validate21(
                                                     .replace(/\//g, '~1') +
                                                   '/ageLock',
                                                 schemaPath:
-                                                  '#/definitions/AuthenticationTemplateScriptUnlocking/properties/ageLock/type',
+                                                  '#/definitions/WalletTemplateScriptUnlocking/properties/ageLock/type',
                                                 keyword: 'type',
                                                 params: { type: 'string' },
                                                 message: 'must be string',
@@ -6209,7 +6225,7 @@ function validate21(
                                                       .replace(/\//g, '~1') +
                                                     '/estimate',
                                                   schemaPath:
-                                                    '#/definitions/AuthenticationTemplateScriptUnlocking/properties/estimate/type',
+                                                    '#/definitions/WalletTemplateScriptUnlocking/properties/estimate/type',
                                                   keyword: 'type',
                                                   params: { type: 'string' },
                                                   message: 'must be string',
@@ -6250,16 +6266,16 @@ function validate21(
                                                             key3
                                                               .replace(
                                                                 /~/g,
-                                                                '~0'
+                                                                '~0',
                                                               )
                                                               .replace(
                                                                 /\//g,
-                                                                '~1'
+                                                                '~1',
                                                               ) +
                                                             '/fails/' +
                                                             i0,
                                                           schemaPath:
-                                                            '#/definitions/AuthenticationTemplateScriptUnlocking/properties/fails/items/type',
+                                                            '#/definitions/WalletTemplateScriptUnlocking/properties/fails/items/type',
                                                           keyword: 'type',
                                                           params: {
                                                             type: 'string',
@@ -6289,11 +6305,11 @@ function validate21(
                                                           .replace(/~/g, '~0')
                                                           .replace(
                                                             /\//g,
-                                                            '~1'
+                                                            '~1',
                                                           ) +
                                                         '/fails',
                                                       schemaPath:
-                                                        '#/definitions/AuthenticationTemplateScriptUnlocking/properties/fails/type',
+                                                        '#/definitions/WalletTemplateScriptUnlocking/properties/fails/type',
                                                       keyword: 'type',
                                                       params: { type: 'array' },
                                                       message: 'must be array',
@@ -6339,16 +6355,16 @@ function validate21(
                                                               key3
                                                                 .replace(
                                                                   /~/g,
-                                                                  '~0'
+                                                                  '~0',
                                                                 )
                                                                 .replace(
                                                                   /\//g,
-                                                                  '~1'
+                                                                  '~1',
                                                                 ) +
                                                               '/invalid/' +
                                                               i1,
                                                             schemaPath:
-                                                              '#/definitions/AuthenticationTemplateScriptUnlocking/properties/invalid/items/type',
+                                                              '#/definitions/WalletTemplateScriptUnlocking/properties/invalid/items/type',
                                                             keyword: 'type',
                                                             params: {
                                                               type: 'string',
@@ -6380,11 +6396,11 @@ function validate21(
                                                             .replace(/~/g, '~0')
                                                             .replace(
                                                               /\//g,
-                                                              '~1'
+                                                              '~1',
                                                             ) +
                                                           '/invalid',
                                                         schemaPath:
-                                                          '#/definitions/AuthenticationTemplateScriptUnlocking/properties/invalid/type',
+                                                          '#/definitions/WalletTemplateScriptUnlocking/properties/invalid/type',
                                                         keyword: 'type',
                                                         params: {
                                                           type: 'array',
@@ -6422,11 +6438,11 @@ function validate21(
                                                             .replace(/~/g, '~0')
                                                             .replace(
                                                               /\//g,
-                                                              '~1'
+                                                              '~1',
                                                             ) +
                                                           '/name',
                                                         schemaPath:
-                                                          '#/definitions/AuthenticationTemplateScriptUnlocking/properties/name/type',
+                                                          '#/definitions/WalletTemplateScriptUnlocking/properties/name/type',
                                                         keyword: 'type',
                                                         params: {
                                                           type: 'string',
@@ -6478,16 +6494,16 @@ function validate21(
                                                                   key3
                                                                     .replace(
                                                                       /~/g,
-                                                                      '~0'
+                                                                      '~0',
                                                                     )
                                                                     .replace(
                                                                       /\//g,
-                                                                      '~1'
+                                                                      '~1',
                                                                     ) +
                                                                   '/passes/' +
                                                                   i2,
                                                                 schemaPath:
-                                                                  '#/definitions/AuthenticationTemplateScriptUnlocking/properties/passes/items/type',
+                                                                  '#/definitions/WalletTemplateScriptUnlocking/properties/passes/items/type',
                                                                 keyword: 'type',
                                                                 params: {
                                                                   type: 'string',
@@ -6503,7 +6519,7 @@ function validate21(
                                                                 ];
                                                               } else {
                                                                 vErrors.push(
-                                                                  err21
+                                                                  err21,
                                                                 );
                                                               }
                                                               errors++;
@@ -6523,15 +6539,15 @@ function validate21(
                                                               key3
                                                                 .replace(
                                                                   /~/g,
-                                                                  '~0'
+                                                                  '~0',
                                                                 )
                                                                 .replace(
                                                                   /\//g,
-                                                                  '~1'
+                                                                  '~1',
                                                                 ) +
                                                               '/passes',
                                                             schemaPath:
-                                                              '#/definitions/AuthenticationTemplateScriptUnlocking/properties/passes/type',
+                                                              '#/definitions/WalletTemplateScriptUnlocking/properties/passes/type',
                                                             keyword: 'type',
                                                             params: {
                                                               type: 'array',
@@ -6571,15 +6587,15 @@ function validate21(
                                                               key3
                                                                 .replace(
                                                                   /~/g,
-                                                                  '~0'
+                                                                  '~0',
                                                                 )
                                                                 .replace(
                                                                   /\//g,
-                                                                  '~1'
+                                                                  '~1',
                                                                 ) +
                                                               '/script',
                                                             schemaPath:
-                                                              '#/definitions/AuthenticationTemplateScriptUnlocking/properties/script/type',
+                                                              '#/definitions/WalletTemplateScriptUnlocking/properties/script/type',
                                                             keyword: 'type',
                                                             params: {
                                                               type: 'string',
@@ -6621,15 +6637,15 @@ function validate21(
                                                                 key3
                                                                   .replace(
                                                                     /~/g,
-                                                                    '~0'
+                                                                    '~0',
                                                                   )
                                                                   .replace(
                                                                     /\//g,
-                                                                    '~1'
+                                                                    '~1',
                                                                   ) +
                                                                 '/timeLockType',
                                                               schemaPath:
-                                                                '#/definitions/AuthenticationTemplateScriptUnlocking/properties/timeLockType/type',
+                                                                '#/definitions/WalletTemplateScriptUnlocking/properties/timeLockType/type',
                                                               keyword: 'type',
                                                               params: {
                                                                 type: 'string',
@@ -6643,7 +6659,7 @@ function validate21(
                                                               vErrors = [err24];
                                                             } else {
                                                               vErrors.push(
-                                                                err24
+                                                                err24,
                                                               );
                                                             }
                                                             errors++;
@@ -6663,15 +6679,15 @@ function validate21(
                                                                 key3
                                                                   .replace(
                                                                     /~/g,
-                                                                    '~0'
+                                                                    '~0',
                                                                   )
                                                                   .replace(
                                                                     /\//g,
-                                                                    '~1'
+                                                                    '~1',
                                                                   ) +
                                                                 '/timeLockType',
                                                               schemaPath:
-                                                                '#/definitions/AuthenticationTemplateScriptUnlocking/properties/timeLockType/enum',
+                                                                '#/definitions/WalletTemplateScriptUnlocking/properties/timeLockType/enum',
                                                               keyword: 'enum',
                                                               params: {
                                                                 allowedValues:
@@ -6689,7 +6705,7 @@ function validate21(
                                                               vErrors = [err25];
                                                             } else {
                                                               vErrors.push(
-                                                                err25
+                                                                err25,
                                                               );
                                                             }
                                                             errors++;
@@ -6717,15 +6733,15 @@ function validate21(
                                                                   key3
                                                                     .replace(
                                                                       /~/g,
-                                                                      '~0'
+                                                                      '~0',
                                                                     )
                                                                     .replace(
                                                                       /\//g,
-                                                                      '~1'
+                                                                      '~1',
                                                                     ) +
                                                                   '/unlocks',
                                                                 schemaPath:
-                                                                  '#/definitions/AuthenticationTemplateScriptUnlocking/properties/unlocks/type',
+                                                                  '#/definitions/WalletTemplateScriptUnlocking/properties/unlocks/type',
                                                                 keyword: 'type',
                                                                 params: {
                                                                   type: 'string',
@@ -6741,7 +6757,7 @@ function validate21(
                                                                 ];
                                                               } else {
                                                                 vErrors.push(
-                                                                  err26
+                                                                  err26,
                                                                 );
                                                               }
                                                               errors++;
@@ -6771,7 +6787,7 @@ function validate21(
                                             .replace(/~/g, '~0')
                                             .replace(/\//g, '~1'),
                                         schemaPath:
-                                          '#/definitions/AuthenticationTemplateScriptUnlocking/type',
+                                          '#/definitions/WalletTemplateScriptUnlocking/type',
                                         keyword: 'type',
                                         params: { type: 'object' },
                                         message: 'must be object',
@@ -6978,7 +6994,7 @@ function validate21(
 }
 function validate20(
   data,
-  { instancePath = '', parentData, parentDataProperty, rootData = data } = {}
+  { instancePath = '', parentData, parentDataProperty, rootData = data } = {},
 ) {
   let vErrors = null;
   let errors = 0;

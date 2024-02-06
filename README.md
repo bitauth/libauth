@@ -12,27 +12,13 @@
   <a href="https://libauth.org/"><strong>Explore API Reference »</strong></a>
   <br />
   <br />
-  <a href="https://www.npmjs.com/package/@bitauth/libauth">
-    <img src="https://img.shields.io/npm/v/@bitauth/libauth.svg" alt="NPM version" />
-  </a>
-  <a href="https://codecov.io/gh/bitauth/libauth">
-    <img src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg" alt="Codecov" />
-  </a>
-  <a href="https://github.com/bitauth/libauth/actions/workflows/ci.yaml">
-    <img src="https://img.shields.io/github/actions/workflow/status/bitauth/libauth/ci.yaml?branch=master" alt="CI" />
-  </a>
-  <a href="https://twitter.com/libauth">
-    <img alt="Follow Libauth on Twitter" src="https://img.shields.io/badge/follow-@libauth-1DA1F2?logo=twitter">
-  </a>
-  <a href="https://t.me/libauth_dev">
-    <img alt="Join Chat on Telegram" src="https://img.shields.io/badge/chat-Libauth%20Devs-0088CC?logo=telegram">
-  </a>
-  <a href="https://www.npmjs.com/package/@bitauth/libauth">
-    <img alt="npm downloads" src="https://img.shields.io/npm/dm/@bitauth/libauth">
-  </a>
-  <a href="https://github.com/bitauth/libauth">
-    <img src="https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars" alt="GitHub stars" />
-  </a>
+  <a href="https://www.npmjs.com/package/@bitauth/libauth"><img src="https://img.shields.io/npm/v/@bitauth/libauth.svg" alt="NPM version" /></a>
+  <a href="https://codecov.io/gh/bitauth/libauth"><img src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg" alt="Codecov" /></a>
+  <a href="https://github.com/bitauth/libauth/actions/workflows/ci.yaml"><img src="https://img.shields.io/github/actions/workflow/status/bitauth/libauth/ci.yaml?branch=master" alt="CI" /></a>
+  <a href="https://twitter.com/libauth"><img alt="Follow Libauth on Twitter" src="https://img.shields.io/badge/follow-@libauth-1DA1F2?logo=twitter"></a>
+  <a href="https://t.me/libauth_dev"><img alt="Join Chat on Telegram" src="https://img.shields.io/badge/chat-Libauth%20Devs-0088CC?logo=telegram"></a>
+  <a href="https://www.npmjs.com/package/@bitauth/libauth"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@bitauth/libauth"></a>
+  <a href="https://github.com/bitauth/libauth"><img src="https://img.shields.io/github/stars/bitauth/libauth.svg?style=social&logo=github&label=Stars" alt="GitHub stars" /></a>
 </p>
 
 # Libauth
@@ -77,7 +63,7 @@ Note, Libauth is a [pure ESM package](https://gist.github.com/sindresorhus/a3978
 
 For web projects, a bundler with [dead-code elimination](https://rollupjs.org/guide/en/#tree-shaking) (A.K.A. "tree shaking") is **strongly recommended** – Libauth is designed to minimize application code size, and dead-code elimination will improve load performance in nearly all applications.
 
-Consider [Parcel](https://parceljs.org/), [Rollup](https://rollupjs.org/), [Webpack](https://webpack.js.org/), or a bundler designed for your web framework.
+Consider [Vite](https://vitejs.dev/), [Parcel](https://parceljs.org/), [Rollup](https://rollupjs.org/), [Webpack](https://webpack.js.org/), or a bundler designed for your web framework.
 
 ### Deno Usage
 
@@ -97,7 +83,7 @@ Libauth uses [`BigInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 
 Pull Requests welcome! Please see [`CONTRIBUTING.md`](.github/CONTRIBUTING.md) for details.
 
-This library requires [Yarn](https://yarnpkg.com/) for development. If you don't have Yarn, make sure you have `Node.js` installed, then run `npm install -g yarn`. Once Yarn is installed:
+This library requires [Yarn](https://yarnpkg.com/) for development. With `Node.js` installed, the `yarn` package manager can be installed by running `corepack enable`. Once `yarn` is installed:
 
 ```sh
 # note the use of --recursive to clone submodules

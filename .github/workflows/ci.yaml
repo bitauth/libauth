@@ -2,19 +2,18 @@ name: Lint, Build, and Test Libauth
 on: [push, pull_request]
 
 jobs:
-  
   build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 16 ]
+        node: [18, latest]
     name: Test Node ${{ matrix.node }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          submodules: 'true'
-      - name: Setup node
-        uses: actions/setup-node@v3
+          submodules: 'recursive'
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
       - run: yarn install --immutable --immutable-cache
@@ -24,14 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 18 ]
+        node: [20]
     name: Test Node ${{ matrix.node }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          submodules: 'true'
-      - name: Setup node
-        uses: actions/setup-node@v3
+          submodules: 'recursive'
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
       - run: yarn install --immutable --immutable-cache
@@ -43,11 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: 'recursive'
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
       - run: yarn install --immutable --immutable-cache --check-cache

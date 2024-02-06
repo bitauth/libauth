@@ -1,11 +1,11 @@
-export interface HashFunction {
-  readonly final: (rawState: Uint8Array) => Uint8Array;
-  readonly hash: (input: Uint8Array) => Uint8Array;
-  readonly init: () => Uint8Array;
-  readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-}
+export type HashFunction = {
+  final: (rawState: Uint8Array) => Uint8Array;
+  hash: (input: Uint8Array) => Uint8Array;
+  init: () => Uint8Array;
+  update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
+};
 
-/* eslint-disable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers, max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion */
+/* eslint-disable functional/no-conditional-statements, functional/no-let, functional/no-expression-statements, no-underscore-dangle, functional/no-try-statements, @typescript-eslint/no-magic-numbers, @typescript-eslint/max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion */
 /**
  * Note, most of this method is translated and boiled-down from the wasm-pack
  * workflow. Significant changes to wasm-bindgen or wasm-pack build will likely
@@ -17,7 +17,7 @@ export const instantiateRustWasm = async (
   hashExportName: string,
   initExportName: string,
   updateExportName: string,
-  finalExportName: string
+  finalExportName: string,
 ): Promise<HashFunction> => {
   const wasm = (
     await WebAssembly.instantiate(webassemblyBytes, {
@@ -30,14 +30,14 @@ export const instantiateRustWasm = async (
         // eslint-disable-next-line camelcase, @typescript-eslint/naming-convention
         __wbindgen_throw: /* istanbul ignore next */ (
           ptr: number,
-          len: number
+          len: number,
         ) => {
-          // eslint-disable-next-line functional/no-throw-statement
+          // eslint-disable-next-line functional/no-throw-statements
           throw new Error(
             // eslint-disable-next-line @typescript-eslint/no-use-before-define
             Array.from(getUint8Memory().subarray(ptr, ptr + len))
               .map((num) => String.fromCharCode(num))
-              .join('')
+              .join(''),
           );
         },
       },
@@ -158,4 +158,4 @@ export const instantiateRustWasm = async (
     update,
   };
 };
-/* eslint-enable functional/no-conditional-statement, functional/no-let, functional/no-expression-statement, no-underscore-dangle, functional/no-try-statement, @typescript-eslint/no-magic-numbers, max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion */
+/* eslint-enable functional/no-conditional-statements, functional/no-let, functional/no-expression-statements, no-underscore-dangle, functional/no-try-statements, @typescript-eslint/no-magic-numbers, @typescript-eslint/max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion */

@@ -13,13 +13,13 @@ test('compilerOperationSigningSerializationFullBCH: requires an algorithm', (t) 
         sha256: { hash: () => Uint8Array.of() },
         sourceScriptIds: ['test'],
         unlockingScripts: { test: 'lock' },
-      }
+      },
     ),
     {
       error:
         'Invalid signing serialization operation. Include the desired component or algorithm, e.g. "signing_serialization.version".',
       status: 'error',
-    }
+    },
   );
 });
 test('compilerOperationSigningSerializationFullBCH: error on unknown algorithms', (t) => {
@@ -32,12 +32,12 @@ test('compilerOperationSigningSerializationFullBCH: error on unknown algorithms'
         sha256: { hash: () => Uint8Array.of() },
         sourceScriptIds: ['test'],
         unlockingScripts: { test: 'lock' },
-      }
+      },
     ),
     {
       error:
         'Unknown signing serialization algorithm, "full_unknown_serialization".',
       status: 'error',
-    }
+    },
   );
 });

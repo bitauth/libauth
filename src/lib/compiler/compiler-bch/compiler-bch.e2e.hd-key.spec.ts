@@ -16,13 +16,13 @@ import {
  * `m/0` public key push
  */
 const m0PublicPush = hexToBin(
-  '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+  '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
 );
 /**
  * `m/0/0` public key push
  */
 const m00PublicPush = hexToBin(
-  '2102df61d0e0ca2d1f02670cd94941d1f3299e10a01f0cc008b695e73006e4b28bfc'
+  '2102df61d0e0ca2d1f02670cd94941d1f3299e10a01f0cc008b695e73006e4b28bfc',
 );
 /**
  * `m/0'` HD public key
@@ -34,14 +34,14 @@ const m0HardenedHdPublicKeyTestnet =
  * `m/0'/1` public key push
  */
 const m0H1PublicPush = hexToBin(
-  '21034f4d20bf3a18f6deb0109c20e0ab7328b22ff0d5a29ce85595344012ebca41e6'
+  '21034f4d20bf3a18f6deb0109c20e0ab7328b22ff0d5a29ce85595344012ebca41e6',
 );
 
 /**
  * `m/1` public key push
  */
 const m1PublicPush = hexToBin(
-  '21034002efc4f44014b116a986faa63b741b0b894a45ccf3f30c671e4146fb1c1954'
+  '21034002efc4f44014b116a986faa63b741b0b894a45ccf3f30c671e4146fb1c1954',
 );
 
 test.failing(
@@ -53,11 +53,11 @@ test.failing(
   },
   {
     bytecode: hexToBin(
-      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
+      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241',
     ),
     success: true,
   },
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test.failing(
@@ -69,11 +69,11 @@ test.failing(
   },
   {
     bytecode: hexToBin(
-      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
+      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41',
     ),
     success: true,
   },
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -97,7 +97,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -108,7 +108,7 @@ test(
     hdKeys: { addressIndex: 0, hdPrivateKeys: { ownerEntityId: hdPrivateKey } },
   },
   { bytecode: m0PublicPush, success: true },
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -119,7 +119,7 @@ test(
     hdKeys: { addressIndex: 0, hdPublicKeys: { ownerEntityId: hdPublicKey } },
   },
   { bytecode: m0PublicPush, success: true },
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -129,7 +129,7 @@ test(
   { hdKeys: { addressIndex: 0, hdPublicKeys: { ownerEntityId: hdPublicKey } } },
   { bytecode: m1PublicPush, success: true },
   { owner: { type: 'HdKey' } },
-  { variables: { owner: { addressOffset: 1, type: 'HdKey' } } }
+  { variables: { owner: { addressOffset: 1, type: 'HdKey' } } },
 );
 
 test(
@@ -155,7 +155,7 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {
     owner: { type: 'HdKey' },
-  }
+  },
 );
 
 test(
@@ -180,7 +180,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -190,13 +190,13 @@ test(
   {
     bytecode: {
       'owner.public_key': hexToBin(
-        '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
       ),
     },
   },
   { bytecode: m0PublicPush, success: true },
   { owner: { type: 'HdKey' } },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -206,18 +206,18 @@ test(
   {
     bytecode: {
       'owner.signature.all_outputs': hexToBin(
-        '3044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
+        '3044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241',
       ),
     },
   },
   {
     bytecode: hexToBin(
-      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241'
+      '473044022059e9ad8fabd511fa2ef6935dae6395d5d3ce93b929436c835c9c8372b353bd3d0220527c17e2e4ec12f7b8969a9bb80e58ab1a24e44c2e5512916d1bcb3fc4dc2f2241',
     ),
     success: true,
   },
   { owner: { type: 'HdKey' } },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -227,18 +227,18 @@ test(
   {
     bytecode: {
       'owner.schnorr_signature.all_outputs': hexToBin(
-        '313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
+        '313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41',
       ),
     },
   },
   {
     bytecode: hexToBin(
-      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41'
+      '41313d8a853bd82f5fe251d6b04581333800001ee7680c5e4775db3afabf4873360b3481802d8d656cc608e4625d6568bf1a8801bb1efff19a8306267681177aed41',
     ),
     success: true,
   },
   { owner: { type: 'HdKey' } },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -264,7 +264,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -290,7 +290,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -316,7 +316,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -342,7 +342,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -367,7 +367,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -392,7 +392,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -419,7 +419,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -446,7 +446,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { secp256k1: undefined }
+  { secp256k1: undefined },
 );
 
 test(
@@ -473,7 +473,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { sha256: undefined }
+  { sha256: undefined },
 );
 
 test(
@@ -500,7 +500,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { sha256: undefined }
+  { sha256: undefined },
 );
 
 test(
@@ -512,7 +512,7 @@ test(
   },
   { bytecode: m0PublicPush, success: true },
   { owner: { type: 'HdKey' } },
-  { variables: { owner: { addressOffset: -1, type: 'HdKey' } } }
+  { variables: { owner: { addressOffset: -1, type: 'HdKey' } } },
 );
 
 test(
@@ -523,7 +523,7 @@ test(
     hdKeys: { addressIndex: 1, hdPrivateKeys: { ownerEntityId: hdPrivateKey } },
   },
   { bytecode: m1PublicPush, success: true },
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -535,7 +535,7 @@ test(
   },
   { bytecode: m1PublicPush, success: true },
   { owner: { type: 'HdKey' } },
-  { variables: { owner: { addressOffset: 1, type: 'HdKey' } } }
+  { variables: { owner: { addressOffset: 1, type: 'HdKey' } } },
 );
 
 test(
@@ -547,7 +547,7 @@ test(
   },
   { bytecode: m1PublicPush, success: true },
   { owner: { type: 'HdKey' } },
-  { variables: { owner: { addressOffset: -1, type: 'HdKey' } } }
+  { variables: { owner: { addressOffset: -1, type: 'HdKey' } } },
 );
 
 test(
@@ -576,7 +576,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -605,7 +605,7 @@ test(
   {
     owner: { type: 'HdKey' },
   },
-  { variables: { owner: { addressOffset: -1, type: 'HdKey' } } }
+  { variables: { owner: { addressOffset: -1, type: 'HdKey' } } },
 );
 
 test(
@@ -639,7 +639,7 @@ test(
       lock: 'invalid',
       test: '<owner.signature.all_outputs>',
     },
-  }
+  },
 );
 
 test(
@@ -670,7 +670,7 @@ test(
   },
   {
     entityOwnership: undefined,
-  }
+  },
 );
 
 test(
@@ -697,7 +697,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { entityOwnership: {} }
+  { entityOwnership: {} },
 );
 
 test(
@@ -724,7 +724,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { entityOwnership: undefined }
+  { entityOwnership: undefined },
 );
 
 test(
@@ -751,7 +751,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   { owner: { type: 'HdKey' } },
-  { entityOwnership: {} }
+  { entityOwnership: {} },
 );
 
 test(
@@ -777,7 +777,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -806,7 +806,7 @@ test(
     ],
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
-  { owner: { type: 'HdKey' } }
+  { owner: { type: 'HdKey' } },
 );
 
 test(
@@ -828,7 +828,7 @@ test(
         type: 'HdKey',
       },
     },
-  }
+  },
 );
 
 test(
@@ -865,7 +865,7 @@ test(
         type: 'HdKey',
       },
     },
-  }
+  },
 );
 
 test(
@@ -902,7 +902,7 @@ test(
         type: 'HdKey',
       },
     },
-  }
+  },
 );
 
 test(
@@ -939,7 +939,7 @@ test(
         type: 'HdKey',
       },
     },
-  }
+  },
 );
 
 test(
@@ -961,7 +961,7 @@ test(
         type: 'HdKey',
       },
     },
-  }
+  },
 );
 
 test(
@@ -984,5 +984,5 @@ test(
         type: 'HdKey',
       },
     },
-  }
+  },
 );

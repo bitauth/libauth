@@ -1,4 +1,3 @@
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import type {
@@ -26,11 +25,12 @@ import {
   range,
 } from '../../../lib.js';
 
+import { fc, testProp } from '@fast-check/ava';
+
 test('Each Opcodes enum contains a single instruction for 0-255', (t) => {
   const expected = range(256);
-  const names = (keys: readonly string[]) =>
-    keys.filter((k) => isNaN(parseInt(k, 10)));
-  const numbers = (keys: readonly string[]) =>
+  const names = (keys: string[]) => keys.filter((k) => isNaN(parseInt(k, 10)));
+  const numbers = (keys: string[]) =>
     keys.map((k) => parseInt(k, 10)).filter((k) => !isNaN(k));
 
   const bch = Object.keys(OpcodesBCH2022);
@@ -53,10 +53,10 @@ test('Each Opcodes enum contains a single instruction for 0-255', (t) => {
  *  - element 3 - `length`, hex-encoded (if present)
  *  - element 4 - `expectedLengthBytes`, hex-encoded (if present)
  */
-type CommonScriptParseAndAsmTests = Readonly<{
+type CommonScriptParseAndAsmTests = {
   [scriptHex: string]: {
-    readonly asm: string;
-    readonly parse: (
+    asm: string;
+    parse: (
       | [number, string, number, string, number]
       | [number, string, number]
       | [number, string]
@@ -64,7 +64,7 @@ type CommonScriptParseAndAsmTests = Readonly<{
       | [number]
     )[];
   };
-}>;
+};
 
 const defToFixtures = (tests: CommonScriptParseAndAsmTests) =>
   Object.entries(tests).map((entry) => {
@@ -190,15 +190,15 @@ const disassemble = test.macro<
     t.deepEqual(
       disassembleAuthenticationInstructionsMaybeMalformed(
         OpcodesBCH2022,
-        input
+        input,
       ),
-      expected
+      expected,
     );
   },
   title: (title) => `disassemble script: ${title ?? ''}`.trim(),
 });
 
-const encode = test.macro<[readonly AuthenticationInstruction[], Uint8Array]>({
+const encode = test.macro<[AuthenticationInstruction[], Uint8Array]>({
   exec: (t, input, expected) => {
     t.deepEqual(encodeAuthenticationInstructions(input), expected);
   },
@@ -211,7 +211,7 @@ const reEncode = test.macro<
   exec: (t, input, expected) => {
     t.deepEqual(
       encodeAuthenticationInstructionsMaybeMalformed(input),
-      expected
+      expected,
     );
   },
   title: (title) => `re-encode parsed script: ${title ?? ''}`.trim(),
@@ -284,9 +284,9 @@ test('disassembleBytecode', (t) => {
   t.deepEqual(
     disassembleBytecode(
       TestOpcodes,
-      Uint8Array.from([0, 81, 82, 83, 81, 82, 83])
+      Uint8Array.from([0, 81, 82, 83, 81, 82, 83]),
     ),
-    'OP_PUSH_EMPTY OP_A OP_B OP_C OP_A OP_B OP_C'
+    'OP_PUSH_EMPTY OP_A OP_B OP_C OP_A OP_B OP_C',
   );
 });
 
@@ -294,9 +294,9 @@ test('assembleBytecode', (t) => {
   t.deepEqual(
     assembleBytecode(
       generateBytecodeMap(TestOpcodes),
-      'OP_PUSH_EMPTY OP_A OP_B OP_C OP_A OP_B OP_C'
+      'OP_PUSH_EMPTY OP_A OP_B OP_C OP_A OP_B OP_C',
     ),
-    { bytecode: Uint8Array.from([0, 81, 82, 83, 81, 82, 83]), success: true }
+    { bytecode: Uint8Array.from([0, 81, 82, 83, 81, 82, 83]), success: true },
   );
 });
 
@@ -337,16 +337,16 @@ testProp(
     ) as AuthenticationInstruction[];
     const minimalPush = instructions.map((instruction) =>
       [OpcodesBCH2022.OP_PUSHDATA_2, OpcodesBCH2022.OP_PUSHDATA_4].includes(
-        instruction.opcode
+        instruction.opcode,
       )
         ? { opcode: OpcodesBCH2022.OP_1 }
         : instruction.opcode === OpcodesBCH2022.OP_PUSHDATA_1 &&
-          (instruction as AuthenticationInstructionPush).data.length < 76
-        ? {
-            data: new Uint8Array(76),
-            opcode: OpcodesBCH2022.OP_PUSHDATA_1,
-          }
-        : instruction
+            (instruction as AuthenticationInstructionPush).data.length < 76
+          ? {
+              data: new Uint8Array(76),
+              opcode: OpcodesBCH2022.OP_PUSHDATA_1,
+            }
+          : instruction,
     );
     const encoded = encodeAuthenticationInstructions(minimalPush);
 
@@ -357,7 +357,7 @@ testProp(
       return;
     }
     t.deepEqual(encoded, reassembled.bytecode);
-  }
+  },
 );
 
 testProp(
@@ -372,16 +372,16 @@ testProp(
     ) as AuthenticationInstruction[];
     const minimalPush = instructions.map((instruction) =>
       [OpcodesBTC.OP_PUSHDATA_2, OpcodesBTC.OP_PUSHDATA_4].includes(
-        instruction.opcode
+        instruction.opcode,
       )
         ? { opcode: OpcodesBTC.OP_1 }
         : instruction.opcode === OpcodesBTC.OP_PUSHDATA_1 &&
-          (instruction as AuthenticationInstructionPush).data.length < 76
-        ? {
-            data: new Uint8Array(76),
-            opcode: OpcodesBTC.OP_PUSHDATA_1,
-          }
-        : instruction
+            (instruction as AuthenticationInstructionPush).data.length < 76
+          ? {
+              data: new Uint8Array(76),
+              opcode: OpcodesBTC.OP_PUSHDATA_1,
+            }
+          : instruction,
     );
     const encoded = encodeAuthenticationInstructions(minimalPush);
 
@@ -392,5 +392,5 @@ testProp(
       return;
     }
     t.deepEqual(encoded, reassembled.bytecode);
-  }
+  },
 );

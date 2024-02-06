@@ -1,10 +1,11 @@
 import { join } from 'path';
 
+import test from 'ava';
+
+import { chromium } from '@playwright/test';
 import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import test from 'ava';
-import puppeteer from 'puppeteer';
 import { rollup } from 'rollup';
 
 const prepareCode = async () => {
@@ -20,7 +21,7 @@ const prepareCode = async () => {
   const bundle = await rollup({
     input: join(
       new URL('.', import.meta.url).pathname,
-      'hash.browser.bench.helper.js'
+      'hash.browser.bench.helper.js',
     ),
     plugins: [
       alias({
@@ -33,7 +34,7 @@ const prepareCode = async () => {
       nodeResolve(),
     ],
   });
-  // eslint-disable-next-line no-console, require-atomic-updates
+  // eslint-disable-next-line no-console
   console.warn = realConsoleWarn;
 
   const result = await bundle.generate({
@@ -43,10 +44,7 @@ const prepareCode = async () => {
 };
 
 const preparePage = async () => {
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    // devtools: true
-  });
+  const browser = await chromium.launch();
   const page = await browser.newPage();
   // https://github.com/GoogleChrome/puppeteer/issues/2301#issuecomment-379622459
   await page.goto('file:///');
@@ -59,15 +57,12 @@ const preparePage = async () => {
     preparePage(),
   ]);
 
-  test(`# browser: ${await browser.version()}`, async (t) => {
+  test(`# browser: ${browser.version()}`, async (t) => {
     page.on('console', (msg) => {
       // eslint-disable-next-line no-console
       console.log(msg.text());
     });
-    page.on('error', (err) => {
-      // eslint-disable-next-line no-console
-      console.error(`error: ${String(err)}`);
-    });
+
     // cspell: disable-next-line
     page.on('pageerror', (err) => {
       // eslint-disable-next-line no-console

@@ -8,20 +8,20 @@ test('stringify', (t) => {
   t.deepEqual(stringify(Uint8Array.of(32, 32)), '"<Uint8Array: 0x2020>"');
   t.deepEqual(
     stringify({ b: Uint8Array.of(32, 32) }),
-    '{\n  "b": "<Uint8Array: 0x2020>"\n}'
+    '{\n  "b": "<Uint8Array: 0x2020>"\n}',
   );
   t.deepEqual(
     stringify((x: number) => x * 2),
-    '"<function: (x) => x * 2>"'
+    '"<function: (x) => x * 2>"',
   );
   t.deepEqual(
     stringify({ c: (x: number) => x * 2 }),
-    '{\n  "c": "<function: (x) => x * 2>"\n}'
+    '{\n  "c": "<function: (x) => x * 2>"\n}',
   );
   t.deepEqual(stringify(Symbol('A')), '"<symbol: Symbol(A)>"');
   t.deepEqual(
     stringify({ d: Symbol('A') }),
-    '{\n  "d": "<symbol: Symbol(A)>"\n}'
+    '{\n  "d": "<symbol: Symbol(A)>"\n}',
   );
 });
 
@@ -33,7 +33,7 @@ test('sortObjectKeys', (t) => {
       b: { ...{ c: 1 }, a: 2, b: null },
       ...{ a: Uint8Array.of(2), c: Uint8Array.of(3) },
     }),
-    { a: Uint8Array.of(2), b: { a: 2, b: null, c: 1 }, c: Uint8Array.of(3) }
+    { a: Uint8Array.of(2), b: { a: 2, b: null, c: 1 }, c: Uint8Array.of(3) },
   );
   const func = (x: number) => x * 2;
   t.deepEqual(sortObjectKeys(func), func);
@@ -46,7 +46,12 @@ test('sortObjectKeys', (t) => {
       { b: Uint8Array.of(1), ...{ a: Uint8Array.of(2), c: Uint8Array.of(3) } },
       1,
     ]),
-    [3, 2, { a: Uint8Array.of(2), b: Uint8Array.of(1), c: Uint8Array.of(3) }, 1]
+    [
+      3,
+      2,
+      { a: Uint8Array.of(2), b: Uint8Array.of(1), c: Uint8Array.of(3) },
+      1,
+    ],
   );
 });
 
@@ -73,6 +78,6 @@ test('stringifyTestVector', (t) => {
     }
   ]
 }`,
-    one
+    one,
   );
 });

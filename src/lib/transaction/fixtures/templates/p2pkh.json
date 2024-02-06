@@ -1,6 +1,6 @@
 {
-  "$schema": "https://bitauth.com/schemas/authentication-template-v0.schema.json",
-  "description": "A standard single-factor authentication template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions. Because the template uses a Hierarchical Deterministic (HD) key, it also supports watch-only clients.",
+  "$schema": "https://libauth.org/schemas/wallet-template-v0.schema.json",
+  "description": "A standard single-factor wallet template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions. Because the template uses a Hierarchical Deterministic (HD) key, it also supports watch-only clients.",
   "entities": {
     "owner": {
       "description": "The individual who can spend from this wallet.",

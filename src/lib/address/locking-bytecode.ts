@@ -63,19 +63,19 @@ export enum LockingBytecodeType {
  * An object representing the contents of an address of a known address type.
  * This can be used to encode an address or its locking bytecode.
  */
-export interface KnownAddressTypeContents {
+export type KnownAddressTypeContents = {
   type: `${LockingBytecodeType}`;
   payload: Uint8Array;
-}
+};
 
-export interface UnknownAddressTypeContents {
+export type UnknownAddressTypeContents = {
   /**
    * This address type represents an address using an unknown or uncommon
    * locking bytecode pattern for which no standardized address formats exist.
    */
   type: 'unknown';
   payload: Uint8Array;
-}
+};
 
 /**
  * An object representing the contents of an address. This can be used to encode
@@ -208,13 +208,13 @@ const enum AddressPayload {
 
 // eslint-disable-next-line complexity
 export const lockingBytecodeToAddressContents = (
-  bytecode: Uint8Array
+  bytecode: Uint8Array,
 ): AddressContents => {
   if (isPayToPublicKeyHash(bytecode)) {
     return {
       payload: bytecode.slice(
         AddressPayload.p2pkhStart,
-        AddressPayload.p2pkhEnd
+        AddressPayload.p2pkhEnd,
       ),
       type: LockingBytecodeType.p2pkh,
     };
@@ -224,7 +224,7 @@ export const lockingBytecodeToAddressContents = (
     return {
       payload: bytecode.slice(
         AddressPayload.p2sh20Start,
-        AddressPayload.p2sh20End
+        AddressPayload.p2sh20End,
       ),
       type: LockingBytecodeType.p2sh20,
     };
@@ -234,7 +234,7 @@ export const lockingBytecodeToAddressContents = (
     return {
       payload: bytecode.slice(
         AddressPayload.p2sh32Start,
-        AddressPayload.p2sh32End
+        AddressPayload.p2sh32End,
       ),
       type: LockingBytecodeType.p2sh32,
     };
@@ -244,7 +244,7 @@ export const lockingBytecodeToAddressContents = (
     return {
       payload: bytecode.slice(
         AddressPayload.p2pkUncompressedStart,
-        AddressPayload.p2pkUncompressedEnd
+        AddressPayload.p2pkUncompressedEnd,
       ),
       type: LockingBytecodeType.p2pk,
     };
@@ -254,7 +254,7 @@ export const lockingBytecodeToAddressContents = (
     return {
       payload: bytecode.slice(
         AddressPayload.p2pkCompressedStart,
-        AddressPayload.p2pkCompressedEnd
+        AddressPayload.p2pkCompressedEnd,
       ),
       type: LockingBytecodeType.p2pk,
     };
@@ -368,7 +368,7 @@ export const addressContentsToLockingBytecode = ({
   }
   return unknownValue(
     type,
-    `Unrecognized addressContents type: ${type as string}`
+    `Unrecognized addressContents type: ${type as string}`,
   );
 };
 
@@ -391,7 +391,7 @@ export const addressContentsToLockingBytecode = ({
 export const lockingBytecodeToCashAddress = (
   bytecode: Uint8Array,
   prefix: `${CashAddressNetworkPrefix}` = 'bitcoincash',
-  options = { tokenSupport: false }
+  options = { tokenSupport: false },
 ) => {
   const contents = lockingBytecodeToAddressContents(bytecode);
   if (contents.type === LockingBytecodeType.p2pkh) {
@@ -399,7 +399,7 @@ export const lockingBytecodeToCashAddress = (
       ? encodeCashAddress(
           prefix,
           CashAddressType.p2pkhWithTokens,
-          contents.payload
+          contents.payload,
         )
       : encodeCashAddress(prefix, CashAddressType.p2pkh, contents.payload);
   }
@@ -411,7 +411,7 @@ export const lockingBytecodeToCashAddress = (
       ? encodeCashAddress(
           prefix,
           CashAddressType.p2shWithTokens,
-          contents.payload
+          contents.payload,
         )
       : encodeCashAddress(prefix, CashAddressType.p2sh, contents.payload);
   }
@@ -426,7 +426,7 @@ export const lockingBytecodeToCashAddress = (
   }
   return unknownValue(
     contents.type,
-    `Unrecognized locking bytecode type: ${contents.type as string}`
+    `Unrecognized locking bytecode type: ${contents.type as string}`,
   );
 };
 
@@ -451,7 +451,7 @@ export const cashAddressToLockingBytecode = (address: string) => {
   ) {
     return formatError(
       LockingBytecodeGenerationError.unsupportedPayloadLength,
-      `Payload length: ${decoded.payload.length}`
+      `Payload length: ${decoded.payload.length}`,
     );
   }
   if (
@@ -490,7 +490,7 @@ export const cashAddressToLockingBytecode = (address: string) => {
   }
   return unknownValue(
     decoded.type,
-    `Unrecognized address type: ${decoded.type as string}`
+    `Unrecognized address type: ${decoded.type as string}`,
   );
 };
 
@@ -516,7 +516,7 @@ export const cashAddressToLockingBytecode = (address: string) => {
 export const lockingBytecodeToBase58Address = (
   bytecode: Uint8Array,
   network: `${Base58AddressNetwork}` = 'mainnet',
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
   const contents = lockingBytecodeToAddressContents(bytecode);
 
@@ -528,7 +528,7 @@ export const lockingBytecodeToBase58Address = (
         testnet: Base58AddressFormatVersion.p2pkhTestnet,
       }[network],
       contents.payload,
-      sha256
+      sha256,
     );
   }
   if (contents.type === LockingBytecodeType.p2sh20) {
@@ -539,7 +539,7 @@ export const lockingBytecodeToBase58Address = (
         testnet: Base58AddressFormatVersion.p2sh20Testnet,
       }[network],
       contents.payload,
-      sha256
+      sha256,
     );
   }
 
@@ -556,7 +556,7 @@ export const lockingBytecodeToBase58Address = (
  */
 export const base58AddressToLockingBytecode = (
   address: string,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
   const decoded = decodeBase58Address(address, sha256);
   if (typeof decoded === 'string') return decoded;

@@ -3,7 +3,6 @@
 import { randomBytes } from 'crypto';
 
 import test from 'ava';
-import suite from 'chuhai';
 
 import {
   bigIntToBinUint64LE,
@@ -18,6 +17,8 @@ import {
   numberToBinUint32LE,
   numberToBinUint32LEClamped,
 } from '../lib.js';
+
+import suite from 'chuhai';
 
 test(`node: binToBigIntUintBE vs. binToHex -> BigInt()`, async (t) => {
   await suite(t.title, (s) => {

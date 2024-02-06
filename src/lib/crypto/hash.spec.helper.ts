@@ -1,16 +1,16 @@
 /* global Buffer */
-/* eslint-disable functional/no-expression-statement, functional/no-return-void */
+/* eslint-disable functional/no-expression-statements, functional/no-return-void */
 import { createHash } from 'crypto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
 import test from 'ava';
-import bcrypto from 'bcrypto';
-import fc from 'fast-check';
-import hashJs from 'hash.js';
 
 import type { HashFunction } from '../lib.js';
 import { utf8ToBin } from '../lib.js';
+
+import fc from 'fast-check';
+import hashJs from 'hash.js';
 
 const testLength = 10000;
 
@@ -43,19 +43,13 @@ export const testHashFunction = <T extends HashFunction>({
   nodeJsAlgorithm: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
 }) => {
   const binary = getEmbeddedBinary();
-  const bcryptoAlgorithm = nodeJsAlgorithm.toUpperCase() as
-    | 'RIPEMD160'
-    | 'SHA1'
-    | 'SHA256'
-    | 'SHA512';
-
   test(`[crypto] ${hashFunctionName} getEmbeddedBinary returns the proper binary`, (t) => {
     const path = join(
       new URL('.', import.meta.url).pathname,
       '..',
       'bin',
-      `${hashFunctionName}`,
-      `${hashFunctionName}.wasm`
+      hashFunctionName,
+      `${hashFunctionName}.wasm`,
     );
     const binaryFromDisk = readFileSync(path).buffer;
     t.deepEqual(binary, binaryFromDisk);
@@ -77,21 +71,9 @@ export const testHashFunction = <T extends HashFunction>({
         const hash = createHash(nodeJsAlgorithm);
         t.deepEqual(
           new Uint8Array(hash.update(Buffer.from(message)).digest()),
-          hashFunction.hash(message)
+          hashFunction.hash(message),
         );
-      }
-    );
-
-    const equivalentToBcoin = fc.property(
-      fcUint8Array(0, testLength),
-      (message) => {
-        t.deepEqual(
-          new Uint8Array(
-            bcrypto[bcryptoAlgorithm].digest(Buffer.from(message))
-          ),
-          hashFunction.hash(message)
-        );
-      }
+      },
     );
 
     const equivalentToHashJs = fc.property(
@@ -99,13 +81,12 @@ export const testHashFunction = <T extends HashFunction>({
       (message) => {
         t.deepEqual(
           new Uint8Array(hashJs[nodeJsAlgorithm]().update(message).digest()),
-          hashFunction.hash(message)
+          hashFunction.hash(message),
         );
-      }
+      },
     );
     t.notThrows(() => {
       fc.assert(equivalentToNative);
-      fc.assert(equivalentToBcoin);
       fc.assert(equivalentToHashJs);
     });
   });
@@ -117,27 +98,27 @@ export const testHashFunction = <T extends HashFunction>({
         hashFunction.update(
           hashFunction.update(
             hashFunction.update(hashFunction.init(), utf8ToBin('a')),
-            utf8ToBin('b')
+            utf8ToBin('b'),
           ),
-          utf8ToBin('c')
-        )
+          utf8ToBin('c'),
+        ),
       ),
-      abcHash
+      abcHash,
     );
     t.deepEqual(
       hashFunction.final(
-        hashFunction.update(hashFunction.init(), utf8ToBin('test'))
+        hashFunction.update(hashFunction.init(), utf8ToBin('test')),
       ),
-      testHash
+      testHash,
     );
     t.deepEqual(
       hashFunction.final(
         hashFunction.update(
           hashFunction.update(hashFunction.init(), utf8ToBin('lib')),
-          utf8ToBin('auth')
-        )
+          utf8ToBin('auth'),
+        ),
       ),
-      libauthHash
+      libauthHash,
     );
 
     const equivalentToSinglePass = fc.property(
@@ -148,17 +129,17 @@ export const testHashFunction = <T extends HashFunction>({
         const chunks = Array.from({ length: chunkCount })
           .map((_, index) => index * chunkSize)
           .map((startIndex) =>
-            message.slice(startIndex, startIndex + chunkSize)
+            message.slice(startIndex, startIndex + chunkSize),
           );
         const incrementalResult = hashFunction.final(
           chunks.reduce(
             (state, chunk) => hashFunction.update(state, chunk),
-            hashFunction.init()
-          )
+            hashFunction.init(),
+          ),
         );
         const singlePassResult = hashFunction.hash(message);
         t.deepEqual(incrementalResult, singlePassResult);
-      }
+      },
     );
     t.notThrows(() => {
       fc.assert(equivalentToSinglePass);

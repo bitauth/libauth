@@ -38,9 +38,9 @@ const emptyReductionTraceNode = (range: Range) => ({
 export const verifyCashAssemblyEvaluationState = <
   ProgramState extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: ProgramState
+  state: ProgramState,
 ) => {
   if (state.error !== undefined) {
     return state.error;
@@ -72,15 +72,15 @@ export const reduceScript = <
     AuthenticationProgramStateError &
     AuthenticationProgramStateStack,
   AuthenticationProgram,
-  ResolvedTransaction
+  ResolvedTransaction,
 >(
-  resolvedScript: ResolvedScript,
+  resolvedScript: ResolvedScript<ProgramState>,
   vm?: AuthenticationVirtualMachine<
     ResolvedTransaction,
     AuthenticationProgram,
     ProgramState
   >,
-  createEvaluationProgram?: (instructions: Uint8Array) => AuthenticationProgram
+  createEvaluationProgram?: (instructions: Uint8Array) => AuthenticationProgram,
 ): ScriptReductionTraceScriptNode<ProgramState> => {
   const script = resolvedScript.map<
     ScriptReductionTraceChildNode<ProgramState>
@@ -118,7 +118,7 @@ export const reduceScript = <
         const reductionTrace = reduceScript(
           segment.value,
           vm,
-          createEvaluationProgram
+          createEvaluationProgram,
         );
         if (reductionTrace.errors !== undefined) {
           return {
@@ -129,7 +129,7 @@ export const reduceScript = <
           };
         }
         const trace = vm.debug(
-          createEvaluationProgram(reductionTrace.bytecode)
+          createEvaluationProgram(reductionTrace.bytecode),
         );
 
         /**
@@ -174,9 +174,11 @@ export const reduceScript = <
         };
 
       default:
-        // eslint-disable-next-line functional/no-throw-statement, @typescript-eslint/no-throw-literal
+        // eslint-disable-next-line functional/no-throw-statements, @typescript-eslint/no-throw-literal
         throw new Error(
-          `"${(segment as { type: string }).type}" is not a known segment type.`
+          `"${
+            (segment as { type: string }).type
+          }" is not a known segment type.`,
         ) as never;
     }
   });
@@ -190,14 +192,11 @@ export const reduceScript = <
       ranges: [...all.ranges, segment.range],
       ...(all.errors !== undefined || segment.errors !== undefined
         ? {
-            errors: [
-              ...(all.errors === undefined ? [] : all.errors),
-              ...(segment.errors === undefined ? [] : segment.errors),
-            ],
+            errors: [...(all.errors ?? []), ...(segment.errors ?? [])],
           }
         : undefined),
     }),
-    { bytecode: [], ranges: [] }
+    { bytecode: [], ranges: [] },
   );
 
   return {
@@ -208,7 +207,7 @@ export const reduceScript = <
     range: mergeRanges(
       reduction.ranges,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      resolvedScript.length === 0 ? undefined : resolvedScript[0]!.range
+      resolvedScript.length === 0 ? undefined : resolvedScript[0]!.range,
     ),
     script,
   };

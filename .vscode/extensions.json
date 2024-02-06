@@ -6,9 +6,9 @@
     "dtsvet.vscode-wasm",
     "gruntfuggly.todo-tree",
     "maelvalais.autoconf",
-    "bungcip.better-toml",
     "ms-vscode.cpptools",
     "streetsidesoftware.code-spell-checker",
-    "ms-azuretools.vscode-docker"
+    "ms-azuretools.vscode-docker",
+    "arcanis.vscode-zipfs"
   ]
 }

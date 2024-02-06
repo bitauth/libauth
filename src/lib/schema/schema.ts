@@ -1,1 +1,2 @@
-export * from './authentication-template.js';
+export * from './bcmr.js';
+export * from './wallet-template.js';

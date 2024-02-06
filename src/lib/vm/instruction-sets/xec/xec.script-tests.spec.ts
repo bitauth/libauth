@@ -103,11 +103,10 @@ pendingTests.map((expectation) => {
     pendingTests.length
   } - "${elide(expectation.unlockingBytecodeText, 100)}" | "${elide(
     expectation.lockingBytecodeText,
-    100
+    100,
   )}" ${
     expectation.expectedError === false ? 'passes' : expectation.expectedError
   } ${expectation.message === undefined ? '' : ` # ${expectation.message}`}`;
-  // eslint-disable-next-line functional/no-conditional-statement
   if (expectation.flags.failRequiresReview) {
     test.todo(`Review failure: ${description}`);
   }
@@ -116,10 +115,10 @@ pendingTests.map((expectation) => {
     // eslint-disable-next-line complexity
     (t) => {
       const unlockingBytecode = assembleBitcoinSatoshiScript(
-        expectation.unlockingBytecodeText
+        expectation.unlockingBytecodeText,
       );
       const lockingBytecode = assembleBitcoinSatoshiScript(
-        expectation.lockingBytecodeText
+        expectation.lockingBytecodeText,
       );
       const vm = expectation.flags.useStrict ? vmStandard : vmNonStandard;
       const program = createTestAuthenticationProgramBCH({
@@ -142,7 +141,7 @@ pendingTests.map((expectation) => {
         t.log('result:', stringify(result));
         t.log(
           'debug:',
-          stringifyDebugTraceSummary(summarizeDebugTrace(vm.debug(program)))
+          stringifyDebugTraceSummary(summarizeDebugTrace(vm.debug(program))),
         );
         if (expectation.expectedError === false) {
           t.fail('Expected a valid state, but this result is invalid.');
@@ -152,7 +151,7 @@ pendingTests.map((expectation) => {
         return;
       }
       t.pass();
-    }
+    },
   );
   return undefined;
 });

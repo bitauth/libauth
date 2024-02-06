@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 import test from 'ava';
 
-import type { AuthenticationTemplate } from '../lib.js';
+import type { WalletTemplate } from '../lib.js';
 import {
-  authenticationTemplateP2pkh,
-  authenticationTemplateP2pkhNonHd,
-  authenticationTemplateToCompilerConfiguration,
   createCompilerCommon,
   hexToBin,
   stringify,
   stringifyTestVector,
+  walletTemplateP2pkh,
+  walletTemplateP2pkhNonHd,
+  walletTemplateToCompilerConfiguration,
 } from '../lib.js';
 
 test('createCompilerCommon', (t) => {
@@ -37,9 +37,9 @@ test('createCompilerCommon', (t) => {
   });
 });
 
-test('authenticationTemplateToCompilerConfiguration: authenticationTemplateP2pkhNonHd', (t) => {
-  const configuration = authenticationTemplateToCompilerConfiguration(
-    authenticationTemplateP2pkhNonHd
+test('walletTemplateToCompilerConfiguration: walletTemplateP2pkhNonHd', (t) => {
+  const configuration = walletTemplateToCompilerConfiguration(
+    walletTemplateP2pkhNonHd,
   );
   t.deepEqual(
     configuration,
@@ -66,14 +66,13 @@ test('authenticationTemplateToCompilerConfiguration: authenticationTemplateP2pkh
         },
       },
     },
-    stringify(configuration)
+    stringify(configuration),
   );
 });
 
-test('authenticationTemplateToCompilerConfiguration: authenticationTemplateP2pkh', (t) => {
-  const configuration = authenticationTemplateToCompilerConfiguration(
-    authenticationTemplateP2pkh
-  );
+test('walletTemplateToCompilerConfiguration: walletTemplateP2pkh', (t) => {
+  const configuration =
+    walletTemplateToCompilerConfiguration(walletTemplateP2pkh);
   t.deepEqual(
     configuration,
     {
@@ -99,12 +98,12 @@ test('authenticationTemplateToCompilerConfiguration: authenticationTemplateP2pkh
         },
       },
     },
-    stringify(configuration)
+    stringify(configuration),
   );
 });
 
-test('authenticationTemplateToCompilerConfiguration: virtualized tests', (t) => {
-  const configuration = authenticationTemplateToCompilerConfiguration({
+test('walletTemplateToCompilerConfiguration: virtualized tests', (t) => {
+  const configuration = walletTemplateToCompilerConfiguration({
     entities: {},
     scripts: {
       add_two: {
@@ -129,13 +128,18 @@ test('authenticationTemplateToCompilerConfiguration: virtualized tests', (t) => 
     },
     supported: ['BCH_2022_05'],
     version: 0,
-  } as AuthenticationTemplate);
+  } as WalletTemplate);
 
   t.deepEqual(
     configuration,
     {
       entityOwnership: {},
-      lockingScriptTypes: {},
+      lockingScriptTypes: {
+        'add_two.0.lock': 'p2sh20',
+        'add_two.1.lock': 'p2sh20',
+        'message.0.lock': 'p2sh20',
+        'push_three.0.lock': 'p2sh20',
+      },
       scripts: {
         add_two: '<2> OP_ADD',
         'add_two.0.check': '<3> OP_EQUAL',
@@ -163,6 +167,6 @@ test('authenticationTemplateToCompilerConfiguration: virtualized tests', (t) => 
       },
       variables: {},
     },
-    stringifyTestVector(configuration)
+    stringifyTestVector(configuration),
   );
 });

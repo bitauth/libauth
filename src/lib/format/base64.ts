@@ -15,7 +15,7 @@ export const isBase64 = (maybeBase64: string) =>
   maybeBase64.length % base64GroupLength === 0 &&
   !nonBase64Chars.test(maybeBase64);
 
-/* eslint-disable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise, no-plusplus, @typescript-eslint/no-non-null-assertion */
+/* eslint-disable functional/no-expression-statements, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise, no-plusplus, @typescript-eslint/no-non-null-assertion */
 
 /**
  * Convert a base64-encoded string to a Uint8Array.
@@ -28,7 +28,7 @@ export const isBase64 = (maybeBase64: string) =>
  */
 export const base64ToBin = (validBase64: string) => {
   const lookup = new Uint8Array(123);
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements
   for (let i = 0; i < chars.length; i++) {
     lookup[chars.charCodeAt(i)] = i;
   }
@@ -44,7 +44,7 @@ export const base64ToBin = (validBase64: string) => {
   const bytes = new Uint8Array(buffer);
   // eslint-disable-next-line functional/no-let
   let p = 0;
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements
   for (let i = 0; i < stringLength; i += 4) {
     const encoded1 = lookup[validBase64.charCodeAt(i)]!;
     const encoded2 = lookup[validBase64.charCodeAt(i + 1)]!;
@@ -64,7 +64,7 @@ export const base64ToBin = (validBase64: string) => {
 export const binToBase64 = (bytes: Uint8Array) => {
   // eslint-disable-next-line functional/no-let
   let result = '';
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements
   for (let i = 0; i < bytes.length; i += 3) {
     result += chars[bytes[i]! >> 2];
     result += chars[((bytes[i]! & 3) << 4) | (bytes[i + 1]! >> 4)];
@@ -75,8 +75,8 @@ export const binToBase64 = (bytes: Uint8Array) => {
     bytes.length % 3 === 2
       ? `${result.substring(0, result.length - 1)}=`
       : bytes.length % 3 === 1
-      ? `${result.substring(0, result.length - 2)}==`
-      : result;
+        ? `${result.substring(0, result.length - 2)}==`
+        : result;
   return padded;
 };
-/* eslint-enable functional/no-expression-statement, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise, no-plusplus, @typescript-eslint/no-non-null-assertion */
+/* eslint-enable functional/no-expression-statements, functional/immutable-data, @typescript-eslint/no-magic-numbers, no-bitwise, no-plusplus, @typescript-eslint/no-non-null-assertion */

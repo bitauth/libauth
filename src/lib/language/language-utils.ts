@@ -48,7 +48,7 @@ export const mergeRanges = (
     endLineNumber: 0,
     startColumn: 0,
     startLineNumber: 0,
-  } as Range
+  } as Range,
 ) => {
   const minimumRangesToMerge = 2;
   const unsortedMerged =
@@ -63,18 +63,18 @@ export const mergeRanges = (
             ...(range.endLineNumber > merged.endLineNumber
               ? pluckEndPosition(range)
               : range.endLineNumber === merged.endLineNumber &&
-                range.endColumn > merged.endColumn
-              ? pluckEndPosition(range)
-              : pluckEndPosition(merged)),
+                  range.endColumn > merged.endColumn
+                ? pluckEndPosition(range)
+                : pluckEndPosition(merged)),
             ...(range.startLineNumber < merged.startLineNumber
               ? pluckStartPosition(range)
               : range.startLineNumber === merged.startLineNumber &&
-                range.startColumn < merged.startColumn
-              ? pluckStartPosition(range)
-              : pluckStartPosition(merged)),
+                  range.startColumn < merged.startColumn
+                ? pluckStartPosition(range)
+                : pluckStartPosition(merged)),
           }),
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          ranges[0]!
+          ranges[0]!,
         );
   return {
     ...pluckEndPosition(unsortedMerged),
@@ -96,24 +96,24 @@ export const mergeRanges = (
 export const containsRange = (
   outerRange: Range,
   innerRange: Range,
-  exclusive = true
+  exclusive = true,
 ) => {
   const startsAfter =
     outerRange.startLineNumber < innerRange.startLineNumber
       ? true
       : outerRange.startLineNumber === innerRange.startLineNumber
-      ? exclusive
-        ? outerRange.startColumn < innerRange.startColumn
-        : outerRange.startColumn <= innerRange.startColumn
-      : false;
+        ? exclusive
+          ? outerRange.startColumn < innerRange.startColumn
+          : outerRange.startColumn <= innerRange.startColumn
+        : false;
   const endsBefore =
     outerRange.endLineNumber > innerRange.endLineNumber
       ? true
       : outerRange.endLineNumber === innerRange.endLineNumber
-      ? exclusive
-        ? outerRange.endColumn > innerRange.endColumn
-        : outerRange.endColumn >= innerRange.endColumn
-      : false;
+        ? exclusive
+          ? outerRange.endColumn > innerRange.endColumn
+          : outerRange.endColumn >= innerRange.endColumn
+        : false;
   return startsAfter && endsBefore;
 };
 
@@ -123,8 +123,8 @@ export const containsRange = (
  * @param resolvedScript - the result of {@link resolveScript} from which to
  * extract errors
  */
-export const getResolutionErrors = (
-  resolvedScript: ResolvedScript
+export const getResolutionErrors = <ProgramState>(
+  resolvedScript: ResolvedScript<ProgramState>,
 ): CompilationError[] =>
   resolvedScript.reduce<CompilationError[]>((errors, segment) => {
     switch (segment.type) {
@@ -153,7 +153,7 @@ export const getResolutionErrors = (
 /**
  * Verify that every error in the provided array can be resolved by providing
  * additional variables in the compilation data (rather than deeper issues, like
- * problems with the authentication template or wallet implementation).
+ * problems with the wallet template or wallet implementation).
  *
  * Note, errors are only recoverable if the "entity ownership" of each missing
  * identifier is known (specified in `CompilationData`'s `entityOwnership`).
@@ -161,10 +161,10 @@ export const getResolutionErrors = (
  * @param errors - an array of compilation errors
  */
 export const allErrorsAreRecoverable = (
-  errors: CompilationError[]
+  errors: CompilationError[],
 ): errors is CompilationErrorRecoverable[] =>
   errors.every(
-    (error) => 'missingIdentifier' in error && 'owningEntity' in error
+    (error) => 'missingIdentifier' in error && 'owningEntity' in error,
   );
 
 /**
@@ -172,18 +172,18 @@ export const allErrorsAreRecoverable = (
  * or `opcode` property contains the full identifier that resolved
  * to `bytecode`.
  */
-export interface CashAssemblyResolution {
+export type CashAssemblyResolution = {
   bytecode: Uint8Array;
   type: ResolvedSegmentLiteralType | 'opcode' | 'script' | 'variable';
   text: string;
-}
+};
 
 /**
  * Get an array of all resolutions used in a {@link ResolvedScript}.
  * @param resolvedScript - the resolved script to search
  */
-export const extractBytecodeResolutions = (
-  resolvedScript: ResolvedScript
+export const extractBytecodeResolutions = <ProgramState>(
+  resolvedScript: ResolvedScript<ProgramState>,
 ): CashAssemblyResolution[] =>
   // eslint-disable-next-line complexity
   resolvedScript.reduce<CashAssemblyResolution[]>((all, segment) => {
@@ -205,7 +205,7 @@ export const extractBytecodeResolutions = (
         if ('script' in segment) {
           return [
             ...all,
-            ...extractBytecodeResolutions(segment.source),
+            ...extractBytecodeResolutions(segment.source.resolve),
             {
               bytecode: segment.value,
               text: segment.script,
@@ -242,8 +242,8 @@ export const extractBytecodeResolutions = (
  *
  * @param resolvedScript - the resolved script to search
  */
-export const extractResolvedVariableBytecodeMap = (
-  resolvedScript: ResolvedScript
+export const extractResolvedVariableBytecodeMap = <ProgramState>(
+  resolvedScript: ResolvedScript<ProgramState>,
 ) =>
   extractBytecodeResolutions(resolvedScript).reduce<{
     [fullIdentifier: string]: Uint8Array;
@@ -252,7 +252,7 @@ export const extractResolvedVariableBytecodeMap = (
       resolution.type === 'variable'
         ? { ...all, [resolution.text]: resolution.bytecode }
         : all,
-    {}
+    {},
   );
 
 /**
@@ -267,14 +267,14 @@ export const extractResolvedVariableBytecodeMap = (
  * @param separator - the characters with which to join the formatted errors.
  */
 export const stringifyErrors = (errors: CompilationError[], separator = '; ') =>
-  `${errors
+  errors
     .map(
       (error) =>
-        `[${error.range.startLineNumber}, ${error.range.startColumn}] ${error.error}`
+        `[${error.range.startLineNumber}, ${error.range.startColumn}] ${error.error}`,
     )
-    .join(separator)}`;
+    .join(separator);
 
-export interface SampleExtractionResult<ProgramState> {
+export type SampleExtractionResult<ProgramState> = {
   /**
    * The samples successfully extracted from the provided `nodes` and `trace`.
    *
@@ -299,7 +299,7 @@ export interface SampleExtractionResult<ProgramState> {
    * returned in `unmatchedStates`.
    */
   unmatchedStates: ProgramState[];
-}
+};
 
 /**
  * Extract a set of "evaluation samples" from the result of a CashAssembly
@@ -461,7 +461,7 @@ export const extractEvaluationSamples = <ProgramState>({
   let nextNode = 0;
   // eslint-disable-next-line functional/no-let, @typescript-eslint/init-declarations
   let incomplete: { bytecode: Uint8Array; range: Range } | undefined;
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   while (nextState < traceWithoutFinalState.length && nextNode < nodes.length) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const currentNode = nodes[nextNode]!;
@@ -495,7 +495,7 @@ export const extractEvaluationSamples = <ProgramState>({
       const firstUnmatchedStateIndex = nextState + validInstructions.length;
       const matchingStates = traceWithoutFinalState.slice(
         nextState,
-        firstUnmatchedStateIndex
+        firstUnmatchedStateIndex,
       );
       const pairedStates = validInstructions.map((instruction, index) => ({
         instruction,
@@ -511,9 +511,9 @@ export const extractEvaluationSamples = <ProgramState>({
       };
 
       const closesCurrentlyOpenSample = incomplete !== undefined;
-      // eslint-disable-next-line functional/no-conditional-statement
+      // eslint-disable-next-line functional/no-conditional-statements
       if (closesCurrentlyOpenSample) {
-        // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+        // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
         samples.push({
           evaluationRange,
           instruction: firstPairedState.instruction,
@@ -524,7 +524,7 @@ export const extractEvaluationSamples = <ProgramState>({
       }
 
       const firstUndefinedStateIndex = pairedStates.findIndex(
-        ({ state }) => state === undefined
+        ({ state }) => state === undefined,
       );
       const sampleHasError = firstUndefinedStateIndex !== -1;
       const sampleClosingIndex = sampleHasError
@@ -533,7 +533,7 @@ export const extractEvaluationSamples = <ProgramState>({
 
       const closesASecondSample =
         !closesCurrentlyOpenSample || sampleClosingIndex > 0;
-      // eslint-disable-next-line functional/no-conditional-statement
+      // eslint-disable-next-line functional/no-conditional-statements
       if (closesASecondSample) {
         const finalState = pairedStates[sampleClosingIndex] as {
           instruction: AuthenticationInstructionMaybeMalformed;
@@ -542,12 +542,12 @@ export const extractEvaluationSamples = <ProgramState>({
         const secondSamplePairsBegin = closesCurrentlyOpenSample ? 1 : 0;
         const internalStates = pairedStates.slice(
           secondSamplePairsBegin,
-          sampleClosingIndex
+          sampleClosingIndex,
         ) as {
           instruction: AuthenticationInstructionMaybeMalformed;
           state: ProgramState;
         }[];
-        // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+        // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
         samples.push({
           evaluationRange,
           instruction: finalState.instruction,
@@ -557,27 +557,27 @@ export const extractEvaluationSamples = <ProgramState>({
         });
       }
 
-      // eslint-disable-next-line functional/no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statements
       nextState = firstUnmatchedStateIndex;
-      // eslint-disable-next-line functional/no-conditional-statement
+      // eslint-disable-next-line functional/no-conditional-statements
       if (authenticationInstructionIsMalformed(lastInstruction)) {
-        // eslint-disable-next-line functional/no-expression-statement
+        // eslint-disable-next-line functional/no-expression-statements
         incomplete = {
           bytecode: encodeAuthenticationInstructionMalformed(lastInstruction),
           range: currentNode.range,
         };
-        // eslint-disable-next-line functional/no-conditional-statement
+        // eslint-disable-next-line functional/no-conditional-statements
       } else {
-        // eslint-disable-next-line functional/no-expression-statement
+        // eslint-disable-next-line functional/no-expression-statements
         incomplete = undefined;
       }
-      // eslint-disable-next-line functional/no-conditional-statement
+      // eslint-disable-next-line functional/no-conditional-statements
     } else {
       const lastInstruction = decoded[decoded.length - 1] as
         | AuthenticationInstructionMalformed
         | undefined;
 
-      // eslint-disable-next-line functional/no-expression-statement
+      // eslint-disable-next-line functional/no-expression-statements
       incomplete =
         lastInstruction === undefined
           ? undefined
@@ -587,7 +587,7 @@ export const extractEvaluationSamples = <ProgramState>({
               range: mergedRange,
             };
     }
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     nextNode += 1;
   }
 
@@ -642,12 +642,12 @@ export const extractEvaluationSamplesRecursive = <ProgramState>({
 }): SampleExtractionResult<ProgramState> => {
   const extractEvaluations = (
     node: ScriptReductionTraceChildNode<ProgramState>,
-    depth = 1
+    depth = 1,
   ): EvaluationSample<ProgramState>[] => {
     if ('push' in node) {
       return node.push.script.reduce<EvaluationSample<ProgramState>[]>(
         (all, childNode) => [...all, ...extractEvaluations(childNode, depth)],
-        []
+        [],
       );
     }
     if ('source' in node) {
@@ -658,7 +658,7 @@ export const extractEvaluationSamplesRecursive = <ProgramState>({
           ...all,
           ...extractEvaluations(childNode, depth + 1),
         ],
-        []
+        [],
       );
       const traceWithoutUnlockingPhase = node.trace.slice(1);
       const evaluationBeginToken = '$(';
@@ -686,7 +686,7 @@ export const extractEvaluationSamplesRecursive = <ProgramState>({
 
   const childSamples = nodes.reduce<EvaluationSample<ProgramState>[]>(
     (all, node) => [...all, ...extractEvaluations(node)],
-    []
+    [],
   );
 
   const endingOrderedSamples = [...samples, ...childSamples].sort((a, b) => {
@@ -703,7 +703,7 @@ export const extractEvaluationSamplesRecursive = <ProgramState>({
 };
 
 const stateIsExecuting = (
-  state: AuthenticationProgramStateControlStack<boolean | number>
+  state: AuthenticationProgramStateControlStack<boolean | number>,
 ) => state.controlStack.every((item) => item !== false);
 
 /**
@@ -735,10 +735,10 @@ const stateIsExecuting = (
  * executing), defaults to `1,1`
  */
 export const extractUnexecutedRanges = <
-  ProgramState extends AuthenticationProgramStateControlStack<boolean | number>
+  ProgramState extends AuthenticationProgramStateControlStack<boolean | number>,
 >(
   samples: EvaluationSample<ProgramState>[],
-  evaluationBegins = '1,1'
+  evaluationBegins = '1,1',
 ) => {
   const reduced = samples.reduce<{
     precedingStateSkipsByEvaluation: {
@@ -778,7 +778,7 @@ export const extractUnexecutedRanges = <
         [evaluationBegins]: false,
       },
       unexecutedRanges: [],
-    }
+    },
   );
 
   const canHaveContainedRanges = 2;
@@ -794,7 +794,7 @@ export const extractUnexecutedRanges = <
             return [range, ...all];
           },
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          [reduced.unexecutedRanges[reduced.unexecutedRanges.length - 1]!]
+          [reduced.unexecutedRanges[reduced.unexecutedRanges.length - 1]!],
         );
   return containedRangesExcluded;
 };
@@ -825,9 +825,9 @@ export const summarizeDebugTrace = <
     AuthenticationProgramStateControlStack<unknown> &
     AuthenticationProgramStateError &
     AuthenticationProgramStateMinimum &
-    AuthenticationProgramStateStack)[]
+    AuthenticationProgramStateStack)[],
 >(
-  trace: Trace
+  trace: Trace,
 ) =>
   trace.reduce<
     {
@@ -839,7 +839,7 @@ export const summarizeDebugTrace = <
       stack: string[];
     }[]
   >(
-    // eslint-disable-next-line max-params
+    // eslint-disable-next-line @typescript-eslint/max-params
     (steps, state, stateIndex, states) => {
       const nextState = states[stateIndex + 1];
       return nextState === undefined
@@ -859,7 +859,7 @@ export const summarizeDebugTrace = <
             },
           ];
     },
-    []
+    [],
   );
 
 /**
@@ -877,7 +877,7 @@ export const stringifyDebugTraceSummary = (
     /**
      * An opcode enum, e.g. {@link OpcodesBCH}.
      */
-    opcodes: Readonly<{ [opcode: number]: string }>;
+    opcodes: { [opcode: number]: string };
     /**
      * The width of the instruction column.
      */
@@ -885,7 +885,7 @@ export const stringifyDebugTraceSummary = (
   } = {
     opcodes: OpcodesBCHCHIPs,
     padInstruction: 23,
-  }
+  },
 ) =>
   summary
     .map(
@@ -905,6 +905,6 @@ export const stringifyDebugTraceSummary = (
                   ? ''
                   : `| alt: ${line.alternateStack.join(' ')}`
               }`
-        }`
+        }`,
     )
     .join('\n');

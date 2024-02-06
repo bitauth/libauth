@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statement */
+/* eslint-disable functional/no-expression-statements */
 
 /**
  * This script generates all bch_vmb_tests, run it with: `yarn gen:vmb-tests`.
@@ -15,7 +15,7 @@ import { vmbTestsBCH } from './bch-vmb-tests.js';
  */
 const [, , outputDir] = process.argv;
 if (outputDir === undefined) {
-  // eslint-disable-next-line functional/no-throw-statement
+  // eslint-disable-next-line functional/no-throw-statements
   throw new Error('Script requires an output directory.');
 }
 const outputAbsolutePath = resolve(outputDir);
@@ -25,7 +25,7 @@ const allTestCases = vmbTestsBCH.flat(testGroupsAndTypes);
 writeFileSync(
   `${outputAbsolutePath}/bch_vmb_tests.json`,
   JSON.stringify(allTestCases),
-  { encoding: 'utf8' }
+  { encoding: 'utf8' },
 );
 const partitionedTestCases = vmbTestPartitionMasterTestList(allTestCases);
 

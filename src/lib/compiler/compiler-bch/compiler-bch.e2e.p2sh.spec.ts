@@ -29,7 +29,7 @@ test(
     unlockingScripts: {
       test: 'lock',
     },
-  }
+  },
 );
 
 test(
@@ -53,7 +53,7 @@ test(
     unlockingScripts: {
       test: 'lock',
     },
-  }
+  },
 );
 
 test(
@@ -77,7 +77,7 @@ test(
     unlockingScripts: {
       unlock: 'test',
     },
-  }
+  },
 );
 
 test(
@@ -101,7 +101,7 @@ test(
     unlockingScripts: {
       unlock: 'test',
     },
-  }
+  },
 );
 
 test(
@@ -111,7 +111,7 @@ test(
   {},
   {
     bytecode: hexToBin(
-      'aa20cc2cfe8f87c6f8dc5a518c06c7c939a2f91d0294a59cd8d0b97a3d68700b95b287'
+      'aa20cc2cfe8f87c6f8dc5a518c06c7c939a2f91d0294a59cd8d0b97a3d68700b95b287',
     ),
     success: true,
   },
@@ -127,7 +127,7 @@ test(
     unlockingScripts: {
       unlock: 'test',
     },
-  }
+  },
 );
 
 test(
@@ -162,7 +162,7 @@ test(
     unlockingScripts: {
       test: 'lock',
     },
-  }
+  },
 );
 
 test(
@@ -190,7 +190,7 @@ test(
     lockingScriptTypes: {
       test: 'p2sh20',
     },
-  }
+  },
 );
 
 test(
@@ -227,5 +227,5 @@ test(
       unlock: 'test',
     },
     vm: undefined,
-  }
+  },
 );

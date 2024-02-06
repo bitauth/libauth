@@ -16,7 +16,7 @@ test('reduceScript: does not throw on empty array', (t) => {
       },
       script: [],
     },
-    stringify(reduced)
+    stringify(reduced),
   );
 });
 
@@ -79,7 +79,7 @@ test('reduceScript: resolution error', (t) => {
         },
       ],
     },
-    stringify(reduced)
+    stringify(reduced),
   );
 });
 
@@ -96,6 +96,6 @@ test('reduceScript: invalid ResolvedScript', (t) => {
         type: "uncaught because the consumer isn't using TypeScript" as 'error',
         value: 'Another kind of value',
       },
-    ])
+    ]),
   );
 });

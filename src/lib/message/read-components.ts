@@ -28,7 +28,7 @@ export const readBytes =
     /**
      * the {@link ReadPosition} at which to start reading the bytes.
      */
-    position: ReadPosition
+    position: ReadPosition,
   ): MaybeReadResult<Uint8Array> => {
     const nextPosition: ReadPosition = {
       bin: position.bin,
@@ -38,7 +38,7 @@ export const readBytes =
     if (result.length !== length) {
       return formatError(
         ReadBytesError.insufficientLength,
-        `Provided length: ${result.length}`
+        `Provided length: ${result.length}`,
       );
     }
     return { position: nextPosition, result };
@@ -56,7 +56,7 @@ export enum ReadUint32LEError {
  * @param position - the {@link ReadPosition} at which to start reading
  */
 export const readUint32LE = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<number> => {
   const nextPosition: ReadPosition = {
     bin: position.bin,
@@ -66,7 +66,7 @@ export const readUint32LE = (
   if (uint32LEBin.length !== ReadConstants.bytesPerUint32) {
     return formatError(
       ReadUint32LEError.insufficientBytes,
-      `Provided length: ${uint32LEBin.length}`
+      `Provided length: ${uint32LEBin.length}`,
     );
   }
   const result = binToNumberUint32LE(uint32LEBin);
@@ -85,7 +85,7 @@ export enum ReadUint64LEError {
  * {@link Output.valueSatoshis}
  */
 export const readUint64LE = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<bigint> => {
   const nextPosition: ReadPosition = {
     bin: position.bin,
@@ -95,7 +95,7 @@ export const readUint64LE = (
   if (uint64LEBin.length !== ReadConstants.bytesPerUint64) {
     return formatError(
       ReadUint64LEError.insufficientBytes,
-      `Provided length: ${uint64LEBin.length}`
+      `Provided length: ${uint64LEBin.length}`,
     );
   }
   const result = binToBigIntUint64LE(uint64LEBin);
@@ -119,7 +119,7 @@ export enum CompactUintPrefixedBinError {
  * `CompactUint`-prefixed bin (`Uint8Array`)
  */
 export const readCompactUintPrefixedBin = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<Uint8Array> => {
   const read = readCompactUintMinimal(position);
   if (typeof read === 'string') {
@@ -132,7 +132,7 @@ export const readCompactUintPrefixedBin = (
   if (contents.length !== length) {
     return formatError(
       CompactUintPrefixedBinError.insufficientBytes,
-      `Required bytes: ${length}, remaining bytes: ${contents.length}`
+      `Required bytes: ${length}, remaining bytes: ${contents.length}`,
     );
   }
   return { position: nextPosition, result: contents };

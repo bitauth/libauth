@@ -20,9 +20,9 @@ import { encodeAuthenticationInstructions } from './instruction-sets-utils.js';
 export const opInputIndex = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) => pushToStackVmNumberChecked(state, BigInt(state.program.inputIndex));
 
 export const opActiveBytecode = <
@@ -30,76 +30,76 @@ export const opActiveBytecode = <
     AuthenticationProgramStateError &
     AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   pushToStackChecked(
     state,
     encodeAuthenticationInstructions(
-      state.instructions.slice(state.lastCodeSeparator + 1)
-    )
+      state.instructions.slice(state.lastCodeSeparator + 1),
+    ),
   );
 
 export const opTxVersion = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   pushToStackVmNumberChecked(
     state,
-    BigInt(int32UnsignedToSigned(state.program.transaction.version))
+    BigInt(int32UnsignedToSigned(state.program.transaction.version)),
   );
 
 export const opTxInputCount = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   pushToStackVmNumberChecked(
     state,
-    BigInt(state.program.transaction.inputs.length)
+    BigInt(state.program.transaction.inputs.length),
   );
 
 export const opTxOutputCount = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   pushToStackVmNumberChecked(
     state,
-    BigInt(state.program.transaction.outputs.length)
+    BigInt(state.program.transaction.outputs.length),
   );
 
 export const opTxLocktime = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   pushToStackVmNumberChecked(state, BigInt(state.program.transaction.locktime));
 
 export const useTransactionUtxo = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
   state: State,
-  operation: (nextState: State, [utxo]: [Output]) => State
+  operation: (nextState: State, [utxo]: [Output]) => State,
 ) =>
   useOneVmNumber(state, (nextState, [index]) => {
     const utxo = nextState.program.sourceOutputs[Number(index)];
     if (utxo === undefined) {
       return applyError(
         nextState,
-        AuthenticationErrorCommon.invalidTransactionUtxoIndex
+        AuthenticationErrorCommon.invalidTransactionUtxoIndex,
       );
     }
     return operation(state, [utxo]);
@@ -108,39 +108,39 @@ export const useTransactionUtxo = <
 export const opUtxoValue = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushToStackVmNumberChecked(nextState, utxo.valueSatoshis)
+    pushToStackVmNumberChecked(nextState, utxo.valueSatoshis),
   );
 
 export const opUtxoBytecode = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushToStackChecked(nextState, utxo.lockingBytecode.slice())
+    pushToStackChecked(nextState, utxo.lockingBytecode.slice()),
   );
 
 export const useTransactionInput = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
   state: State,
-  operation: (nextState: State, [input]: [Input]) => State
+  operation: (nextState: State, [input]: [Input]) => State,
 ) =>
   useOneVmNumber(state, (nextState, [index]) => {
     const input = nextState.program.transaction.inputs[Number(index)];
     if (input === undefined) {
       return applyError(
         nextState,
-        AuthenticationErrorCommon.invalidTransactionInputIndex
+        AuthenticationErrorCommon.invalidTransactionInputIndex,
       );
     }
     return operation(state, [input]);
@@ -149,64 +149,64 @@ export const useTransactionInput = <
 export const opOutpointTxHash = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
     pushToStackChecked(
       nextState,
-      input.outpointTransactionHash.slice().reverse()
-    )
+      input.outpointTransactionHash.slice().reverse(),
+    ),
   );
 
 export const opOutpointIndex = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
-    pushToStackVmNumberChecked(nextState, BigInt(input.outpointIndex))
+    pushToStackVmNumberChecked(nextState, BigInt(input.outpointIndex)),
   );
 
 export const opInputBytecode = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
-    pushToStackChecked(nextState, input.unlockingBytecode.slice())
+    pushToStackChecked(nextState, input.unlockingBytecode.slice()),
   );
 
 export const opInputSequenceNumber = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
-    pushToStackVmNumberChecked(nextState, BigInt(input.sequenceNumber))
+    pushToStackVmNumberChecked(nextState, BigInt(input.sequenceNumber)),
   );
 
 export const useTransactionOutput = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
   state: State,
-  operation: (nextState: State, [output]: [Output]) => State
+  operation: (nextState: State, [output]: [Output]) => State,
 ) =>
   useOneVmNumber(state, (nextState, [index]) => {
     const input = nextState.program.transaction.outputs[Number(index)];
     if (input === undefined) {
       return applyError(
         nextState,
-        AuthenticationErrorCommon.invalidTransactionOutputIndex
+        AuthenticationErrorCommon.invalidTransactionOutputIndex,
       );
     }
     return operation(state, [input]);
@@ -215,21 +215,21 @@ export const useTransactionOutput = <
 export const opOutputValue = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionOutput(state, (nextState, [output]) =>
-    pushToStackVmNumberChecked(nextState, output.valueSatoshis)
+    pushToStackVmNumberChecked(nextState, output.valueSatoshis),
   );
 
 export const opOutputBytecode = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
-  state: State
+  state: State,
 ) =>
   useTransactionOutput(state, (nextState, [output]) =>
-    pushToStackChecked(nextState, output.lockingBytecode.slice())
+    pushToStackChecked(nextState, output.lockingBytecode.slice()),
   );

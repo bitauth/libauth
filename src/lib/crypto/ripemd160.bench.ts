@@ -6,5 +6,5 @@ import { benchmarkHashingFunction } from './hash.bench.helper.js';
 benchmarkHashingFunction<Ripemd160>(
   'ripemd160',
   instantiateRipemd160(),
-  'ripemd160'
+  'ripemd160',
 );

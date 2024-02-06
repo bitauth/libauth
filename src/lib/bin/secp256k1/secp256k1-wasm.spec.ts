@@ -57,7 +57,7 @@ const sigSchnorr = new Uint8Array([0xb5, 0x10, 0x41, 0x58, 0x7d, 0xa9, 0x46, 0xe
 
 const testSecp256k1Wasm = (
   t: ExecutionContext,
-  secp256k1Wasm: Secp256k1Wasm
+  secp256k1Wasm: Secp256k1Wasm,
 ) => {
   t.truthy(secp256k1Wasm.heapU32);
   t.truthy(secp256k1Wasm.heapU8);
@@ -66,7 +66,7 @@ const testSecp256k1Wasm = (
   const contextPtr = secp256k1Wasm.contextCreate(ContextFlag.BOTH);
   {
     const seedPtr = secp256k1Wasm.mallocUint8Array(
-      new Uint8Array(randomBytes(32))
+      new Uint8Array(randomBytes(32)),
     );
     t.is(secp256k1Wasm.contextRandomize(contextPtr, seedPtr), 1);
     secp256k1Wasm.free(seedPtr);
@@ -86,14 +86,14 @@ const testSecp256k1Wasm = (
     uncompressedOutputPtr,
     uncompressedOutputLengthPtr,
     rawPubkeyPtr,
-    CompressionFlag.UNCOMPRESSED
+    CompressionFlag.UNCOMPRESSED,
   );
   const uncompressedLength = secp256k1Wasm.readSizeT(
-    uncompressedOutputLengthPtr
+    uncompressedOutputLengthPtr,
   );
   const uncompressedPublicKey = secp256k1Wasm.readHeapU8(
     uncompressedOutputPtr,
-    uncompressedLength
+    uncompressedLength,
   );
   t.deepEqual(pubkeyUncompressed, uncompressedPublicKey);
 
@@ -105,12 +105,12 @@ const testSecp256k1Wasm = (
     compressedOutputPtr,
     compressedOutputLengthPtr,
     rawPubkeyPtr,
-    CompressionFlag.COMPRESSED
+    CompressionFlag.COMPRESSED,
   );
   const compressedLength = secp256k1Wasm.readSizeT(compressedOutputLengthPtr);
   const compressedPublicKey = secp256k1Wasm.readHeapU8(
     compressedOutputPtr,
-    compressedLength
+    compressedLength,
   );
   t.deepEqual(pubkeyCompressed, compressedPublicKey);
 
@@ -121,9 +121,9 @@ const testSecp256k1Wasm = (
       contextPtr,
       rawPubkey2Ptr,
       uncompressedOutputPtr,
-      65
+      65,
     ),
-    1
+    1,
   );
   const compressedOutput2Ptr = secp256k1Wasm.malloc(33);
   const compressedOutput2LengthPtr = secp256k1Wasm.mallocSizeT(33);
@@ -133,14 +133,14 @@ const testSecp256k1Wasm = (
       compressedOutput2Ptr,
       compressedOutput2LengthPtr,
       rawPubkey2Ptr,
-      CompressionFlag.COMPRESSED
+      CompressionFlag.COMPRESSED,
     ),
-    1
+    1,
   );
   const convertedLength = secp256k1Wasm.readSizeT(compressedOutput2LengthPtr);
   const convertedPublicKey = secp256k1Wasm.readHeapU8(
     compressedOutput2Ptr,
-    convertedLength
+    convertedLength,
   );
   t.deepEqual(convertedPublicKey, pubkeyCompressed);
   t.deepEqual(convertedPublicKey, compressedPublicKey);
@@ -158,9 +158,9 @@ const testSecp256k1Wasm = (
       contextPtr,
       sigDERPtr,
       sigDERLengthPtr,
-      rawSigPtr
+      rawSigPtr,
     ),
-    1
+    1,
   );
   const sigDERLength = secp256k1Wasm.readSizeT(sigDERLengthPtr);
   t.is(sigDERLength, 71);
@@ -174,9 +174,9 @@ const testSecp256k1Wasm = (
       contextPtr,
       rawSig2Ptr,
       sigDERPtr,
-      sigDERLength
+      sigDERLength,
     ),
-    1
+    1,
   );
 
   // serialize the signature in compact format
@@ -184,7 +184,7 @@ const testSecp256k1Wasm = (
   secp256k1Wasm.signatureSerializeCompact(
     contextPtr,
     compactSigPtr,
-    rawSig2Ptr
+    rawSig2Ptr,
   );
   const compactSig = secp256k1Wasm.readHeapU8(compactSigPtr, 64);
   t.deepEqual(compactSig, sigCompact);
@@ -193,13 +193,13 @@ const testSecp256k1Wasm = (
   const rawSig3Ptr = secp256k1Wasm.malloc(64);
   t.is(
     secp256k1Wasm.signatureParseCompact(contextPtr, rawSig3Ptr, compactSigPtr),
-    1
+    1,
   );
 
   // verify the signature
   t.is(
     secp256k1Wasm.verify(contextPtr, rawSig3Ptr, sigHashPtr, rawPubkeyPtr),
-    1
+    1,
   );
 
   // malleate, verify and fail
@@ -209,11 +209,11 @@ const testSecp256k1Wasm = (
   secp256k1Wasm.signatureMalleate(
     contextPtr,
     malleatedTwicePtr,
-    malleatedSigPtr
+    malleatedSigPtr,
   );
   t.is(
     secp256k1Wasm.verify(contextPtr, malleatedSigPtr, sigHashPtr, rawPubkeyPtr),
-    0
+    0,
   );
   const rawSig3 = secp256k1Wasm.readHeapU8(rawSig3Ptr, 64);
   const malleatedTwiceSig = secp256k1Wasm.readHeapU8(malleatedTwicePtr, 64);
@@ -225,18 +225,18 @@ const testSecp256k1Wasm = (
     secp256k1Wasm.signatureNormalize(
       contextPtr,
       normalizedSigPtr,
-      malleatedSigPtr
+      malleatedSigPtr,
     ),
-    1
+    1,
   );
   t.is(
     secp256k1Wasm.verify(
       contextPtr,
       normalizedSigPtr,
       sigHashPtr,
-      rawPubkeyPtr
+      rawPubkeyPtr,
     ),
-    1
+    1,
   );
 
   // recovery signature
@@ -247,9 +247,9 @@ const testSecp256k1Wasm = (
       contextPtr,
       rawRSigPtr,
       sigHashPtr,
-      privkeyPtr
+      privkeyPtr,
     ),
-    1
+    1,
   );
 
   // the r and s portions of the signature should match that of a non-recoverable signature
@@ -260,7 +260,7 @@ const testSecp256k1Wasm = (
     contextPtr,
     compactRSigPtr,
     rIDPtr,
-    rawRSigPtr
+    rawRSigPtr,
   );
   const compactRSig = secp256k1Wasm.readHeapU8(compactRSigPtr, 64);
   // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
@@ -276,13 +276,13 @@ const testSecp256k1Wasm = (
       contextPtr,
       rawRSig2Ptr,
       compactRSigPtr,
-      rID
+      rID,
     ),
-    1
+    1,
   );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(rawRSigPtr, 65),
-    secp256k1Wasm.readHeapU8(rawRSig2Ptr, 65)
+    secp256k1Wasm.readHeapU8(rawRSig2Ptr, 65),
   );
 
   // the recovered public key should match the derived public key
@@ -295,9 +295,9 @@ const testSecp256k1Wasm = (
       contextPtr,
       recoveredPublicKeyPtr,
       rawRSigPtr,
-      sigHashPtr
+      sigHashPtr,
     ),
-    1
+    1,
   );
 
   secp256k1Wasm.pubkeySerialize(
@@ -305,11 +305,11 @@ const testSecp256k1Wasm = (
     recoveredPublicKeyCompressedPtr,
     recoveredPublicKeyCompressedLengthPtr,
     recoveredPublicKeyPtr,
-    CompressionFlag.COMPRESSED
+    CompressionFlag.COMPRESSED,
   );
   t.deepEqual(
     pubkeyCompressed,
-    secp256k1Wasm.readHeapU8(recoveredPublicKeyCompressedPtr, 33)
+    secp256k1Wasm.readHeapU8(recoveredPublicKeyCompressedPtr, 33),
   );
 
   // skipping uncompressed checks since we already verified that parsing and serializing works.
@@ -346,14 +346,14 @@ const testSecp256k1Wasm = (
   secp256k1Wasm.heapU8.copyWithin(
     rawPubkeyTweakedAddPtr,
     rawPubkeyPtr,
-    rawPubkeyPtr + 64
+    rawPubkeyPtr + 64,
   );
 
   secp256k1Wasm.heapU8.set(privkey, privkeyTweakedMulPtr);
   secp256k1Wasm.heapU8.copyWithin(
     rawPubkeyTweakedMulPtr,
     rawPubkeyPtr,
-    rawPubkeyPtr + 64
+    rawPubkeyPtr + 64,
   );
 
   /*
@@ -364,51 +364,51 @@ const testSecp256k1Wasm = (
     secp256k1Wasm.privkeyTweakAdd(
       contextPtr,
       privkeyTweakedAddPtr,
-      keyTweakPtr
+      keyTweakPtr,
     ),
-    1
+    1,
   );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(privkeyTweakedAddPtr, 32),
-    privkeyTweakedAdd
+    privkeyTweakedAdd,
   );
   t.is(
     secp256k1Wasm.pubkeyCreate(
       contextPtr,
       rawPubkeyDerivedTweakedAddPtr,
-      privkeyTweakedAddPtr
+      privkeyTweakedAddPtr,
     ),
-    1
+    1,
   );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyDerivedTweakedAddCompressedPtr,
     pubkeyDerivedTweakedAddCompressedLengthPtr,
     rawPubkeyDerivedTweakedAddPtr,
-    CompressionFlag.COMPRESSED
+    CompressionFlag.COMPRESSED,
   );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyDerivedTweakedAddCompressedPtr, 33),
-    pubkeyTweakedAddCompressed
+    pubkeyTweakedAddCompressed,
   );
   t.is(
     secp256k1Wasm.pubkeyTweakAdd(
       contextPtr,
       rawPubkeyTweakedAddPtr,
-      keyTweakPtr
+      keyTweakPtr,
     ),
-    1
+    1,
   );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyTweakedAddCompressedPtr,
     pubkeyTweakedAddCompressedLengthPtr,
     rawPubkeyTweakedAddPtr,
-    CompressionFlag.COMPRESSED
+    CompressionFlag.COMPRESSED,
   );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyTweakedAddCompressedPtr, 33),
-    pubkeyTweakedAddCompressed
+    pubkeyTweakedAddCompressed,
   );
 
   // tweak mul
@@ -416,51 +416,51 @@ const testSecp256k1Wasm = (
     secp256k1Wasm.privkeyTweakMul(
       contextPtr,
       privkeyTweakedMulPtr,
-      keyTweakPtr
+      keyTweakPtr,
     ),
-    1
+    1,
   );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(privkeyTweakedMulPtr, 32),
-    privkeyTweakedMul
+    privkeyTweakedMul,
   );
   t.is(
     secp256k1Wasm.pubkeyCreate(
       contextPtr,
       rawPubkeyDerivedTweakedMulPtr,
-      privkeyTweakedMulPtr
+      privkeyTweakedMulPtr,
     ),
-    1
+    1,
   );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyDerivedTweakedMulCompressedPtr,
     pubkeyDerivedTweakedMulCompressedLengthPtr,
     rawPubkeyDerivedTweakedMulPtr,
-    CompressionFlag.COMPRESSED
+    CompressionFlag.COMPRESSED,
   );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyDerivedTweakedMulCompressedPtr, 33),
-    pubkeyTweakedMulCompressed
+    pubkeyTweakedMulCompressed,
   );
   t.is(
     secp256k1Wasm.pubkeyTweakMul(
       contextPtr,
       rawPubkeyTweakedMulPtr,
-      keyTweakPtr
+      keyTweakPtr,
     ),
-    1
+    1,
   );
   secp256k1Wasm.pubkeySerialize(
     contextPtr,
     pubkeyTweakedMulCompressedPtr,
     pubkeyTweakedMulCompressedLengthPtr,
     rawPubkeyTweakedMulPtr,
-    CompressionFlag.COMPRESSED
+    CompressionFlag.COMPRESSED,
   );
   t.deepEqual(
     secp256k1Wasm.readHeapU8(pubkeyTweakedMulCompressedPtr, 33),
-    pubkeyTweakedMulCompressed
+    pubkeyTweakedMulCompressed,
   );
 
   // create schnorr signature
@@ -471,9 +471,9 @@ const testSecp256k1Wasm = (
       contextPtr,
       schnorrSigPtr,
       schnorrMsgHashPtr,
-      privkeyPtr
+      privkeyPtr,
     ),
-    1
+    1,
   );
   t.deepEqual(secp256k1Wasm.readHeapU8(schnorrSigPtr, 64), sigSchnorr);
 
@@ -483,9 +483,9 @@ const testSecp256k1Wasm = (
       contextPtr,
       schnorrSigPtr,
       schnorrMsgHashPtr,
-      rawPubkeyPtr
+      rawPubkeyPtr,
     ),
-    1
+    1,
   );
 };
 

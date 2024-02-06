@@ -47,7 +47,7 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
           return item;
       }
     },
-    spacing
+    spacing,
   );
 
 /**
@@ -57,11 +57,10 @@ export const stringify = (value: any, spacing = defaultStringifySpacing) =>
  * @param objectOrArray - the object or array in which to sort object keys
  */
 export const sortObjectKeys = (
-  objectOrArray: unknown
+  objectOrArray: unknown,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any => {
   if (Array.isArray(objectOrArray)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return objectOrArray.map(sortObjectKeys);
   }
   if (
@@ -73,7 +72,7 @@ export const sortObjectKeys = (
   }
   // eslint-disable-next-line functional/immutable-data
   const keys = Object.keys(objectOrArray).sort((a, b) =>
-    a.localeCompare(b, 'en')
+    a.localeCompare(b, 'en'),
   );
   return keys.reduce(
     (all, key) => ({
@@ -81,7 +80,7 @@ export const sortObjectKeys = (
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       [key]: sortObjectKeys((objectOrArray as { [key: string]: unknown })[key]),
     }),
-    {}
+    {},
   );
 };
 
@@ -106,7 +105,7 @@ const bigIntRegex = /"<bigint: (?<bigint>[0-9]*)n>"/gu;
 export const stringifyTestVector = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any,
-  alphabetize = true
+  alphabetize = true,
 ) => {
   const stringified = alphabetize
     ? stringify(sortObjectKeys(value))

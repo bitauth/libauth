@@ -18,8 +18,8 @@ const binary = 2;
 export const binStringToBin = (binaryDigits: string) =>
   Uint8Array.from(
     splitEvery(binaryDigits, binaryByteWidth).map((byteString) =>
-      parseInt(byteString, binary)
-    )
+      parseInt(byteString, binary),
+    ),
   );
 
 /**
@@ -32,7 +32,7 @@ export const binStringToBin = (binaryDigits: string) =>
 export const binToBinString = (bytes: Uint8Array) =>
   bytes.reduce(
     (str, byte) => str + byte.toString(binary).padStart(binaryByteWidth, '0'),
-    ''
+    '',
   );
 
 /**

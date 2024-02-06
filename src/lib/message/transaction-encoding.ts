@@ -64,7 +64,7 @@ export enum TransactionDecodingError {
  * transaction output
  */
 export const readTransactionInput = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<Input> => {
   const inputRead = readMultiple(position, [
     readBytes(TransactionConstants.outpointTransactionHashLength),
@@ -103,7 +103,7 @@ export const readTransactionInput = (
  *
  * @param inputs - the set of inputs to encode
  */
-export const encodeTransactionInputs = (inputs: readonly Input[]) =>
+export const encodeTransactionInputs = (inputs: Input[]) =>
   flattenBinArray([
     bigIntToCompactUint(BigInt(inputs.length)),
     ...inputs.map(encodeTransactionInput),
@@ -120,7 +120,7 @@ export const encodeTransactionInputs = (inputs: readonly Input[]) =>
  * transaction inputs
  */
 export const readTransactionInputs = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<Input[]> => {
   const inputsRead = readItemCount(position, readTransactionInput);
   if (typeof inputsRead === 'string') {
@@ -185,19 +185,19 @@ export enum CashTokenDecodingError {
  * token amount.
  */
 export const readTokenAmount = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<bigint> => {
   const amountRead = readCompactUintMinimal(position);
   if (typeof amountRead === 'string') {
     return formatError(
       CashTokenDecodingError.invalidAmountEncoding,
-      amountRead
+      amountRead,
     );
   }
   if (amountRead.result > maximumTokenAmount) {
     return formatError(
       CashTokenDecodingError.excessiveAmount,
-      `Encoded amount: ${amountRead.result}`
+      `Encoded amount: ${amountRead.result}`,
     );
   }
   if (amountRead.result === 0n) {
@@ -220,7 +220,7 @@ export const readTokenAmount = (
  */
 // eslint-disable-next-line complexity
 export const readTokenPrefix = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<{ token?: NonNullable<Output['token']> }> => {
   const { bin, index } = position;
   if (bin[index] !== CashTokens.PREFIX_TOKEN) {
@@ -233,7 +233,7 @@ export const readTokenPrefix = (
         CashTokens.minimumPrefixLength
       }. Missing bytes: ${
         CashTokens.minimumPrefixLength - (bin.length - index)
-      }`
+      }`,
     );
   }
   const category = bin
@@ -245,14 +245,14 @@ export const readTokenPrefix = (
   if ((prefixStructure & CashTokens.RESERVED_BIT) !== 0) {
     return formatError(
       CashTokenDecodingError.reservedBit,
-      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`,
     );
   }
   const nftCapabilityInt = tokenBitfield & CashTokens.nftCapabilityMask;
   if (nftCapabilityInt > CashTokens.maximumCapability) {
     return formatError(
       CashTokenDecodingError.invalidCapability,
-      `Capability value: ${nftCapabilityInt}`
+      `Capability value: ${nftCapabilityInt}`,
     );
   }
   const capability = nftCapabilityNumberToLabel[nftCapabilityInt]!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
@@ -262,7 +262,7 @@ export const readTokenPrefix = (
   if (hasCommitmentLength && !hasNft) {
     return formatError(
       CashTokenDecodingError.commitmentWithoutNft,
-      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`,
     );
   }
   const hasAmount = (prefixStructure & CashTokens.HAS_AMOUNT) !== 0;
@@ -278,7 +278,7 @@ export const readTokenPrefix = (
     if (typeof commitmentRead === 'string') {
       return formatError(
         CashTokenDecodingError.invalidCommitment,
-        commitmentRead
+        commitmentRead,
       );
     }
     if (hasCommitmentLength && commitmentRead.result.length === 0) {
@@ -304,13 +304,13 @@ export const readTokenPrefix = (
   if (capability !== NonFungibleTokenCapability.none) {
     return formatError(
       CashTokenDecodingError.capabilityWithoutNft,
-      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`,
     );
   }
   if (!hasAmount) {
     return formatError(
       CashTokenDecodingError.noTokens,
-      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`
+      `Bitfield: 0b${tokenBitfield.toString(CashTokens.useBinaryOutput)}`,
     );
   }
   const amountRead = readTokenAmount(nextPosition);
@@ -331,7 +331,7 @@ export const readTokenPrefix = (
  * optional token prefix and locking bytecode
  */
 export const readLockingBytecodeWithPrefix = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<{
   lockingBytecode: Uint8Array;
   token?: NonNullable<Output['token']>;
@@ -340,7 +340,7 @@ export const readLockingBytecodeWithPrefix = (
   if (typeof bytecodeRead === 'string') {
     return formatError(
       TransactionDecodingError.lockingBytecodeLength,
-      bytecodeRead
+      bytecodeRead,
     );
   }
   const { result: contents, position: nextPosition } = bytecodeRead;
@@ -369,7 +369,7 @@ export const readLockingBytecodeWithPrefix = (
  * transaction output
  */
 export const readTransactionOutput = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<Output> => {
   const outputRead = readMultiple(position, [
     readUint64LE,
@@ -462,7 +462,7 @@ export const encodeTransactionOutput = (output: Output) => {
  * transaction outputs
  */
 export const readTransactionOutputs = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<Output[]> => {
   const outputsRead = readItemCount(position, readTransactionOutput);
   if (typeof outputsRead === 'string') {
@@ -480,7 +480,7 @@ export const readTransactionOutputs = (
  *
  * @param outputs - the set of outputs to encode
  */
-export const encodeTransactionOutputs = (outputs: readonly Output[]) =>
+export const encodeTransactionOutputs = (outputs: Output[]) =>
   flattenBinArray([
     bigIntToCompactUint(BigInt(outputs.length)),
     ...outputs.map(encodeTransactionOutput),
@@ -497,7 +497,7 @@ export const encodeTransactionOutputs = (outputs: readonly Output[]) =>
  * {@link TransactionCommon}
  */
 export const readTransactionCommon = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<TransactionCommon> => {
   const transactionRead = readMultiple(position, [
     readUint32LE,
@@ -521,7 +521,7 @@ export const readTransactionCommon = (
 export const readTransaction = readTransactionCommon;
 
 export const readTransactionOutputNonTokenAware = (
-  pos: ReadPosition
+  pos: ReadPosition,
 ): MaybeReadResult<Output> => {
   const outputRead = readMultiple(pos, [
     readUint64LE,
@@ -541,7 +541,7 @@ export const readTransactionOutputNonTokenAware = (
 };
 
 export const readTransactionOutputsNonTokenAware = (
-  pos: ReadPosition
+  pos: ReadPosition,
 ): MaybeReadResult<Output[]> => {
   const outputsRead = readItemCount(pos, readTransactionOutputNonTokenAware);
   if (typeof outputsRead === 'string') {
@@ -564,7 +564,7 @@ export const readTransactionOutputsNonTokenAware = (
  * {@link TransactionCommon}
  */
 export const readTransactionNonTokenAware = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<TransactionCommon> => {
   const transactionRead = readMultiple(position, [
     readUint32LE,
@@ -596,7 +596,7 @@ export const readTransactionNonTokenAware = (
  * @param bin - the encoded transaction to decode
  */
 export const decodeTransactionCommon = (
-  bin: Uint8Array
+  bin: Uint8Array,
 ): TransactionCommon | string => {
   const transactionRead = readTransactionCommon({ bin, index: 0 });
   if (typeof transactionRead === 'string') {
@@ -609,7 +609,7 @@ export const decodeTransactionCommon = (
         transactionRead.position.index - 1
       }, leaving ${
         bin.length - transactionRead.position.index
-      } remaining bytes.`
+      } remaining bytes.`,
     );
   }
   return transactionRead.result;
@@ -628,11 +628,11 @@ export const decodeTransaction = decodeTransactionBCH;
  * @param bin - the raw message to decode
  */
 export const decodeTransactionUnsafeCommon = (
-  bin: Uint8Array
+  bin: Uint8Array,
 ): TransactionCommon => {
   const result = decodeTransactionCommon(bin);
   if (typeof result === 'string') {
-    // eslint-disable-next-line functional/no-throw-statement
+    // eslint-disable-next-line functional/no-throw-statements
     throw new Error(result);
   }
   return result;
@@ -655,10 +655,13 @@ export const encodeTransactionCommon = (tx: TransactionCommon) =>
 export const encodeTransactionBCH = encodeTransactionCommon;
 export const encodeTransaction = encodeTransactionBCH;
 
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneTransactionInputsCommon = <
-  Transaction extends TransactionCommon
+  Transaction extends TransactionCommon,
 >(
-  inputs: Readonly<Transaction>['inputs']
+  inputs: Transaction['inputs'],
 ) =>
   inputs.map((input) => ({
     outpointIndex: input.outpointIndex,
@@ -667,10 +670,13 @@ export const cloneTransactionInputsCommon = <
     unlockingBytecode: input.unlockingBytecode.slice(),
   }));
 
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneTransactionOutputsCommon = <
-  Transaction extends TransactionCommon
+  Transaction extends TransactionCommon,
 >(
-  outputs: Readonly<Transaction>['outputs']
+  outputs: Transaction['outputs'],
 ) =>
   outputs.map((output) => ({
     lockingBytecode: output.lockingBytecode.slice(),
@@ -693,8 +699,11 @@ export const cloneTransactionOutputsCommon = <
     valueSatoshis: output.valueSatoshis,
   }));
 
+/**
+ * @deprecated use `structuredClone` instead
+ */
 export const cloneTransactionCommon = <Transaction extends TransactionCommon>(
-  transaction: Readonly<Transaction>
+  transaction: Transaction,
 ) => ({
   inputs: cloneTransactionInputsCommon(transaction.inputs),
   locktime: transaction.locktime,
@@ -716,7 +725,7 @@ export const cloneTransactionCommon = <Transaction extends TransactionCommon>(
  */
 export const hashTransactionP2pOrder = (
   transaction: Uint8Array,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => hash256(transaction, sha256);
 
 /**
@@ -733,7 +742,7 @@ export const hashTransactionP2pOrder = (
  */
 export const hashTransactionUiOrder = (
   transaction: Uint8Array,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => hashTransactionP2pOrder(transaction, sha256).reverse();
 
 /**
@@ -754,18 +763,18 @@ export const hashTransaction = (transaction: Uint8Array) =>
  * @param inputs - the series of inputs from which to extract the outpoints
  */
 export const encodeTransactionOutpoints = (
-  inputs: readonly {
+  inputs: {
     outpointIndex: number;
     outpointTransactionHash: Uint8Array;
-  }[]
+  }[],
 ) =>
   flattenBinArray(
     inputs.map((i) =>
       flattenBinArray([
         i.outpointTransactionHash.slice().reverse(),
         numberToBinUint32LE(i.outpointIndex),
-      ])
-    )
+      ]),
+    ),
   );
 
 /**
@@ -775,9 +784,8 @@ export const encodeTransactionOutpoints = (
  *
  * @param outputs - the array of outputs to encode
  */
-export const encodeTransactionOutputsForSigning = (
-  outputs: readonly Output[]
-) => flattenBinArray(outputs.map(encodeTransactionOutput));
+export const encodeTransactionOutputsForSigning = (outputs: Output[]) =>
+  flattenBinArray(outputs.map(encodeTransactionOutput));
 
 /**
  * Encode the sequence numbers of an array of transaction inputs for use in
@@ -787,5 +795,5 @@ export const encodeTransactionOutputsForSigning = (
  * numbers
  */
 export const encodeTransactionInputSequenceNumbersForSigning = (
-  inputs: readonly { sequenceNumber: number }[]
+  inputs: { sequenceNumber: number }[],
 ) => flattenBinArray(inputs.map((i) => numberToBinUint32LE(i.sequenceNumber)));

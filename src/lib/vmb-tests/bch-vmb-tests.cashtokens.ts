@@ -5365,8 +5365,8 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
                 cashAssemblyToBin(
                   `OP_RETURN <0x${range(479)
                     .map((i) => binToHex(Uint8Array.of(i)))
-                    .join('')}>`
-                ) as Uint8Array
+                    .join('')}>`,
+                ) as Uint8Array,
               ),
               token: { amount: 253 },
               valueSatoshis: 1_000,
@@ -5390,8 +5390,8 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
                 cashAssemblyToBin(
                   `OP_RETURN <0x${range(480)
                     .map((i) => binToHex(Uint8Array.of(i)))
-                    .join('')}>`
-                ) as Uint8Array
+                    .join('')}>`,
+                ) as Uint8Array,
               ),
               token: { amount: 253 },
               valueSatoshis: 1_000,
@@ -5429,8 +5429,8 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
                 cashAssemblyToBin(
                   `OP_RETURN <0x${range(516)
                     .map((i) => binToHex(Uint8Array.of(i)))
-                    .join('')}>`
-                ) as Uint8Array
+                    .join('')}>`,
+                ) as Uint8Array,
               ),
               token: { amount: 253 },
               valueSatoshis: 1_000,
@@ -5454,8 +5454,8 @@ export const cashTokenTestDefinitionsBCH: VmbTestDefinitionGroup = [
                 cashAssemblyToBin(
                   `OP_RETURN <0x${range(517)
                     .map((i) => binToHex(Uint8Array.of(i)))
-                    .join('')}>`
-                ) as Uint8Array
+                    .join('')}>`,
+                ) as Uint8Array,
               ),
               token: { amount: 253 },
               valueSatoshis: 1_000,

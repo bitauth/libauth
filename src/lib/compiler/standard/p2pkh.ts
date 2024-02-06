@@ -1,20 +1,20 @@
-import type { AuthenticationTemplate } from '../../lib.js';
+import type { WalletTemplate } from '../../lib.js';
 
 /**
- * A standard single-factor authentication template that uses
+ * A standard single-factor wallet template that uses
  * Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use
  * on the network.
  *
  * This P2PKH template uses BCH Schnorr signatures, reducing the size of
  * transactions.
  *
- * Note, this authentication template uses only a single `Key`. For HD key
- * support, see {@link authenticationTemplateP2pkhHd}.
+ * Note, this wallet template uses only a single `Key`. For HD key
+ * support, see {@link walletTemplateP2pkhHd}.
  */
-export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
-  $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
+export const walletTemplateP2pkhNonHd: WalletTemplate = {
+  $schema: 'https://libauth.org/schemas/wallet-template-v0.schema.json',
   description:
-    'A standard single-factor authentication template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions.',
+    'A standard single-factor wallet template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions.',
   entities: {
     owner: {
       description: 'The individual who can spend from this wallet.',
@@ -48,7 +48,7 @@ export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
 };
 
 /**
- * A standard single-factor authentication template that uses
+ * A standard single-factor wallet template that uses
  * Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use
  * on the network.
  *
@@ -58,10 +58,10 @@ export const authenticationTemplateP2pkhNonHd: AuthenticationTemplate = {
  * Because the template uses a Hierarchical Deterministic (HD) key, it also
  * supports watch-only clients.
  */
-export const authenticationTemplateP2pkh: AuthenticationTemplate = {
-  $schema: 'https://bitauth.com/schemas/authentication-template-v0.schema.json',
+export const walletTemplateP2pkh: WalletTemplate = {
+  $schema: 'https://libauth.org/schemas/wallet-template-v0.schema.json',
   description:
-    'A standard single-factor authentication template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions. Because the template uses a Hierarchical Deterministic (HD) key, it also supports watch-only clients.',
+    'A standard single-factor wallet template that uses Pay-to-Public-Key-Hash (P2PKH), the most common authentication scheme in use on the network.\n\nThis P2PKH template uses BCH Schnorr signatures, reducing the size of transactions. Because the template uses a Hierarchical Deterministic (HD) key, it also supports watch-only clients.',
   entities: {
     owner: {
       description: 'The individual who can spend from this wallet.',

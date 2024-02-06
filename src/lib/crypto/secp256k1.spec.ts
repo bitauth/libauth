@@ -1,13 +1,10 @@
-/* eslint-disable max-lines, max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
+/* eslint-disable max-lines, @typescript-eslint/max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
 // cspell:ignore recid
 /* global Buffer */
 
 import { randomBytes } from 'crypto';
 
 import test from 'ava';
-import elliptic from 'elliptic';
-import fc from 'fast-check';
-import secp256k1Node from 'secp256k1';
 
 import type { RecoverableSignature } from '../lib.js';
 import {
@@ -17,6 +14,10 @@ import {
   secp256k1 as internalSecp256k1,
   Secp256k1Error,
 } from '../lib.js';
+
+import elliptic from 'elliptic';
+import fc from 'fast-check';
+import secp256k1Node from 'secp256k1';
 
 // test vectors (from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong`, m/0 and m/1):
 
@@ -88,7 +89,7 @@ const ec = new elliptic.ec('secp256k1'); // eslint-disable-line new-cap
 const setupElliptic = (privateKey: Uint8Array) => {
   const key = ec.keyFromPrivate(privateKey);
   const pubUncompressed = new Uint8Array(
-    key.getPublic().encode('array', false)
+    key.getPublic().encode('array', false),
   );
   const pubCompressed = new Uint8Array(key.getPublic().encodeCompressed());
   return {
@@ -104,7 +105,7 @@ const ellipticCheckSignature = (
   sig: Uint8Array,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   key: any,
-  message: Uint8Array
+  message: Uint8Array,
 ): boolean => key.verify(message, sig);
 
 // fast-check helpers
@@ -114,20 +115,20 @@ const fcUint8Array = (minLength: number, maxLength: number) =>
     .map((a) => Uint8Array.from(a));
 const fcUint8Array32 = () => fcUint8Array(32, 32);
 const fcValidPrivateKey = fcUint8Array32().filter((generated) =>
-  internalSecp256k1.validatePrivateKey(generated)
+  internalSecp256k1.validatePrivateKey(generated),
 );
 
 test('[crypto] instantiateSecp256k1 with binary', async (t) => {
   const secp256k1 = await instantiateSecp256k1Bytes(binary);
   t.true(
-    secp256k1.verifySignatureDERLowS(sigDER, pubkeyCompressed, messageHash)
+    secp256k1.verifySignatureDERLowS(sigDER, pubkeyCompressed, messageHash),
   );
 });
 
 test('[crypto] instantiateSecp256k1 with randomization', async (t) => {
   const secp256k1 = await instantiateSecp256k1(randomBytes(32));
   t.true(
-    secp256k1.verifySignatureDERLowS(sigDER, pubkeyUncompressed, messageHash)
+    secp256k1.verifySignatureDERLowS(sigDER, pubkeyUncompressed, messageHash),
   );
 });
 
@@ -135,11 +136,11 @@ test('[crypto] secp256k1.addTweakPrivateKey', async (t) => {
   const secp256k1 = await secp256k1Promise;
   t.deepEqual(
     secp256k1.addTweakPrivateKey(privkey, keyTweakVal),
-    privkeyTweakedAdd
+    privkeyTweakedAdd,
   );
   t.deepEqual(
     secp256k1.addTweakPrivateKey(privkey, Buffer.alloc(32, 255)),
-    Secp256k1Error.addTweakPrivateKey
+    Secp256k1Error.addTweakPrivateKey,
   );
 });
 
@@ -151,10 +152,10 @@ test('[fast-check] [crypto] secp256k1.addTweakPrivateKey', async (t) => {
       t.deepEqual(
         secp256k1.addTweakPrivateKey(privateKey, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.privateKeyTweakAdd(privateKey, keyTweakVal)
-        )
+          secp256k1Node.privateKeyTweakAdd(privateKey, keyTweakVal),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -169,23 +170,23 @@ test('[crypto] secp256k1.addTweakPublicKeyCompressed', (t) => {
   t.deepEqual(
     internalSecp256k1.addTweakPublicKeyCompressed(
       pubkeyCompressed,
-      keyTweakVal
+      keyTweakVal,
     ),
-    pubkeyTweakedAddCompressed
+    pubkeyTweakedAddCompressed,
   );
   t.deepEqual(
     internalSecp256k1.addTweakPublicKeyCompressed(
       new Uint8Array(65),
-      keyTweakVal
+      keyTweakVal,
     ),
-    Secp256k1Error.unparsablePublicKey
+    Secp256k1Error.unparsablePublicKey,
   );
   t.deepEqual(
     internalSecp256k1.addTweakPublicKeyCompressed(
       pubkeyCompressed,
-      Buffer.alloc(32, 255)
+      Buffer.alloc(32, 255),
     ),
-    Secp256k1Error.addTweakPublicKey
+    Secp256k1Error.addTweakPublicKey,
   );
 });
 
@@ -195,15 +196,15 @@ test('[fast-check] [crypto] secp256k1.addTweakPublicKeyCompressed', async (t) =>
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyC = secp256k1.derivePublicKeyCompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       t.deepEqual(
         secp256k1.addTweakPublicKeyCompressed(pubkeyC, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakAdd(pubkeyC, keyTweakVal, true)
-        )
+          secp256k1Node.publicKeyTweakAdd(pubkeyC, keyTweakVal, true),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -218,23 +219,23 @@ test('[crypto] secp256k1.addTweakPublicKeyUncompressed', (t) => {
   t.deepEqual(
     internalSecp256k1.addTweakPublicKeyUncompressed(
       pubkeyUncompressed,
-      keyTweakVal
+      keyTweakVal,
     ),
-    pubkeyTweakedAddUncompressed
+    pubkeyTweakedAddUncompressed,
   );
   t.deepEqual(
     internalSecp256k1.addTweakPublicKeyUncompressed(
       new Uint8Array(65),
-      keyTweakVal
+      keyTweakVal,
     ),
-    Secp256k1Error.unparsablePublicKey
+    Secp256k1Error.unparsablePublicKey,
   );
   t.deepEqual(
     internalSecp256k1.addTweakPublicKeyUncompressed(
       pubkeyCompressed,
-      Buffer.alloc(32, 255)
+      Buffer.alloc(32, 255),
     ),
-    Secp256k1Error.addTweakPublicKey
+    Secp256k1Error.addTweakPublicKey,
   );
 });
 
@@ -244,15 +245,15 @@ test('[fast-check] [crypto] secp256k1.addTweakPublicKeyUncompressed', async (t) 
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyU = secp256k1.derivePublicKeyUncompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       t.deepEqual(
         secp256k1.addTweakPublicKeyUncompressed(pubkeyU, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakAdd(pubkeyU, keyTweakVal, false)
-        )
+          secp256k1Node.publicKeyTweakAdd(pubkeyU, keyTweakVal, false),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -266,11 +267,11 @@ test('[fast-check] [crypto] secp256k1.addTweakPublicKeyUncompressed', async (t) 
 test('[crypto] secp256k1.compressPublicKey', (t) => {
   t.deepEqual(
     internalSecp256k1.compressPublicKey(pubkeyUncompressed),
-    pubkeyCompressed
+    pubkeyCompressed,
   );
   t.deepEqual(
     internalSecp256k1.compressPublicKey(new Uint8Array(65)),
-    Secp256k1Error.unparsablePublicKey
+    Secp256k1Error.unparsablePublicKey,
   );
 });
 
@@ -278,13 +279,13 @@ test('[fast-check] [crypto] secp256k1.compressPublicKey', async (t) => {
   const secp256k1 = await secp256k1Promise;
   const reversesUncompress = fc.property(fcValidPrivateKey, (privateKey) => {
     const pubkeyC = secp256k1.derivePublicKeyCompressed(
-      privateKey
+      privateKey,
     ) as Uint8Array;
     t.deepEqual(
       pubkeyC,
       secp256k1.compressPublicKey(
-        secp256k1.uncompressPublicKey(pubkeyC) as Uint8Array
-      )
+        secp256k1.uncompressPublicKey(pubkeyC) as Uint8Array,
+      ),
     );
   });
 
@@ -292,22 +293,22 @@ test('[fast-check] [crypto] secp256k1.compressPublicKey', async (t) => {
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyU = secp256k1.derivePublicKeyUncompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       t.deepEqual(
         secp256k1.compressPublicKey(pubkeyU),
-        new Uint8Array(secp256k1Node.publicKeyConvert(pubkeyU, true))
+        new Uint8Array(secp256k1Node.publicKeyConvert(pubkeyU, true)),
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(fcValidPrivateKey, (privateKey) => {
     const pubkeyU = secp256k1.derivePublicKeyUncompressed(
-      privateKey
+      privateKey,
     ) as Uint8Array;
     t.deepEqual(
       secp256k1.compressPublicKey(pubkeyU),
-      new Uint8Array(ec.keyFromPublic(pubkeyU).getPublic().encodeCompressed())
+      new Uint8Array(ec.keyFromPublic(pubkeyU).getPublic().encodeCompressed()),
     );
   });
   t.notThrows(() => {
@@ -320,11 +321,11 @@ test('[fast-check] [crypto] secp256k1.compressPublicKey', async (t) => {
 test('[crypto] secp256k1.derivePublicKeyCompressed', (t) => {
   t.deepEqual(
     internalSecp256k1.derivePublicKeyCompressed(privkey),
-    pubkeyCompressed
+    pubkeyCompressed,
   );
   t.deepEqual(
     internalSecp256k1.derivePublicKeyCompressed(secp256k1OrderN),
-    Secp256k1Error.derivePublicKeyFromInvalidPrivateKey
+    Secp256k1Error.derivePublicKeyFromInvalidPrivateKey,
   );
 });
 
@@ -334,11 +335,11 @@ test('[fast-check] [crypto] secp256k1.derivePublicKeyCompressed', async (t) => {
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyU = secp256k1.derivePublicKeyUncompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       const pubkeyC = secp256k1.derivePublicKeyCompressed(privateKey);
       t.deepEqual(pubkeyC, secp256k1.compressPublicKey(pubkeyU));
-    }
+    },
   );
 
   const equivalentToSecp256k1Node = fc.property(
@@ -346,15 +347,15 @@ test('[fast-check] [crypto] secp256k1.derivePublicKeyCompressed', async (t) => {
     (privateKey) => {
       t.deepEqual(
         secp256k1.derivePublicKeyCompressed(privateKey),
-        new Uint8Array(secp256k1Node.publicKeyCreate(privateKey, true))
+        new Uint8Array(secp256k1Node.publicKeyCreate(privateKey, true)),
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(fcValidPrivateKey, (privateKey) => {
     t.deepEqual(
       secp256k1.derivePublicKeyCompressed(privateKey),
-      setupElliptic(privateKey).pubCompressed
+      setupElliptic(privateKey).pubCompressed,
     );
   });
   t.notThrows(() => {
@@ -367,11 +368,11 @@ test('[fast-check] [crypto] secp256k1.derivePublicKeyCompressed', async (t) => {
 test('[crypto] secp256k1.derivePublicKeyUncompressed', (t) => {
   t.deepEqual(
     internalSecp256k1.derivePublicKeyUncompressed(privkey),
-    pubkeyUncompressed
+    pubkeyUncompressed,
   );
   t.deepEqual(
     internalSecp256k1.derivePublicKeyUncompressed(secp256k1OrderN),
-    Secp256k1Error.derivePublicKeyFromInvalidPrivateKey
+    Secp256k1Error.derivePublicKeyFromInvalidPrivateKey,
   );
 });
 
@@ -381,11 +382,11 @@ test('[fast-check] [crypto] secp256k1.derivePublicKeyUncompressed', async (t) =>
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyC = secp256k1.derivePublicKeyCompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       const pubkeyU = secp256k1.derivePublicKeyUncompressed(privateKey);
       t.deepEqual(pubkeyU, secp256k1.uncompressPublicKey(pubkeyC));
-    }
+    },
   );
 
   const equivalentToSecp256k1Node = fc.property(
@@ -393,15 +394,15 @@ test('[fast-check] [crypto] secp256k1.derivePublicKeyUncompressed', async (t) =>
     (privateKey) => {
       t.deepEqual(
         secp256k1.derivePublicKeyUncompressed(privateKey),
-        new Uint8Array(secp256k1Node.publicKeyCreate(privateKey, false))
+        new Uint8Array(secp256k1Node.publicKeyCreate(privateKey, false)),
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(fcValidPrivateKey, (privateKey) => {
     t.deepEqual(
       secp256k1.derivePublicKeyUncompressed(privateKey),
-      setupElliptic(privateKey).pubUncompressed
+      setupElliptic(privateKey).pubUncompressed,
     );
   });
   t.notThrows(() => {
@@ -423,11 +424,11 @@ test('[fast-check] [crypto] secp256k1.malleateSignatureDER', async (t) => {
     (privateKey, message) => {
       const { key } = setupElliptic(privateKey);
       const pubkey = secp256k1.derivePublicKeyCompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       const sig = secp256k1.signMessageHashDER(
         privateKey,
-        message
+        message,
       ) as Uint8Array;
       t.true(secp256k1.verifySignatureDERLowS(sig, pubkey, message));
       t.true(ellipticCheckSignature(sig, key, message));
@@ -436,7 +437,7 @@ test('[fast-check] [crypto] secp256k1.malleateSignatureDER', async (t) => {
       t.true(ellipticCheckSignature(malleated, key, message));
       t.false(secp256k1.verifySignatureDERLowS(malleated, pubkey, message));
       t.deepEqual(sig, secp256k1.malleateSignatureDER(malleated));
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(malleationIsJustNegation);
@@ -446,7 +447,7 @@ test('[fast-check] [crypto] secp256k1.malleateSignatureDER', async (t) => {
 test('[crypto] secp256k1.malleateSignatureCompact', (t) => {
   t.deepEqual(
     internalSecp256k1.malleateSignatureCompact(sigCompact),
-    sigCompactHighS
+    sigCompactHighS,
   );
 });
 
@@ -457,11 +458,11 @@ test('[fast-check] [crypto] secp256k1.malleateSignatureCompact', async (t) => {
     fcUint8Array32(),
     (privateKey, message) => {
       const pubkey = secp256k1.derivePublicKeyCompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       const sig = secp256k1.signMessageHashCompact(
         privateKey,
-        message
+        message,
       ) as Uint8Array;
       t.true(secp256k1.verifySignatureCompactLowS(sig, pubkey, message));
       t.true(secp256k1Node.ecdsaVerify(sig, message, pubkey));
@@ -470,18 +471,18 @@ test('[fast-check] [crypto] secp256k1.malleateSignatureCompact', async (t) => {
       t.false(secp256k1.verifySignatureCompactLowS(malleated, pubkey, message));
       t.false(secp256k1Node.ecdsaVerify(malleated, message, pubkey));
       const malleatedMalleated = secp256k1.malleateSignatureCompact(
-        malleated
+        malleated,
       ) as Uint8Array;
       t.true(secp256k1Node.ecdsaVerify(malleatedMalleated, message, pubkey));
       t.true(
         secp256k1.verifySignatureCompactLowS(
           malleatedMalleated,
           pubkey,
-          message
-        )
+          message,
+        ),
       );
       t.deepEqual(sig, malleatedMalleated);
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(malleationIsJustNegation);
@@ -491,11 +492,11 @@ test('[fast-check] [crypto] secp256k1.malleateSignatureCompact', async (t) => {
 test('[crypto] secp256k1.mulTweakPrivateKey', (t) => {
   t.deepEqual(
     internalSecp256k1.mulTweakPrivateKey(privkey, keyTweakVal),
-    privkeyTweakedMul
+    privkeyTweakedMul,
   );
   t.deepEqual(
     internalSecp256k1.mulTweakPrivateKey(privkey, Buffer.alloc(32, 255)),
-    Secp256k1Error.mulTweakPrivateKey
+    Secp256k1Error.mulTweakPrivateKey,
   );
 });
 
@@ -507,10 +508,10 @@ test('[fast-check] [crypto] secp256k1.mulTweakPrivateKey', async (t) => {
       t.deepEqual(
         secp256k1.mulTweakPrivateKey(privateKey, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.privateKeyTweakMul(privateKey, keyTweakVal)
-        )
+          secp256k1Node.privateKeyTweakMul(privateKey, keyTweakVal),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -525,23 +526,23 @@ test('[crypto] secp256k1.mulTweakPublicKeyCompressed', (t) => {
   t.deepEqual(
     internalSecp256k1.mulTweakPublicKeyCompressed(
       pubkeyCompressed,
-      keyTweakVal
+      keyTweakVal,
     ),
-    pubkeyTweakedMulCompressed
+    pubkeyTweakedMulCompressed,
   );
   t.deepEqual(
     internalSecp256k1.mulTweakPublicKeyCompressed(
       new Uint8Array(65),
-      keyTweakVal
+      keyTweakVal,
     ),
-    Secp256k1Error.unparsablePublicKey
+    Secp256k1Error.unparsablePublicKey,
   );
   t.deepEqual(
     internalSecp256k1.mulTweakPublicKeyCompressed(
       pubkeyCompressed,
-      Buffer.alloc(32, 255)
+      Buffer.alloc(32, 255),
     ),
-    Secp256k1Error.mulTweakPublicKey
+    Secp256k1Error.mulTweakPublicKey,
   );
 });
 
@@ -551,15 +552,15 @@ test('[fast-check] [crypto] secp256k1.mulTweakPublicKeyCompressed', async (t) =>
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyC = secp256k1.derivePublicKeyCompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       t.deepEqual(
         secp256k1.mulTweakPublicKeyCompressed(pubkeyC, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakMul(pubkeyC, keyTweakVal, true)
-        )
+          secp256k1Node.publicKeyTweakMul(pubkeyC, keyTweakVal, true),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -574,23 +575,23 @@ test('[crypto] secp256k1.mulTweakPublicKeyUncompressed', (t) => {
   t.deepEqual(
     internalSecp256k1.mulTweakPublicKeyUncompressed(
       pubkeyUncompressed,
-      keyTweakVal
+      keyTweakVal,
     ),
-    pubkeyTweakedMulUncompressed
+    pubkeyTweakedMulUncompressed,
   );
   t.deepEqual(
     internalSecp256k1.mulTweakPublicKeyUncompressed(
       new Uint8Array(65),
-      keyTweakVal
+      keyTweakVal,
     ),
-    Secp256k1Error.unparsablePublicKey
+    Secp256k1Error.unparsablePublicKey,
   );
   t.deepEqual(
     internalSecp256k1.mulTweakPublicKeyUncompressed(
       pubkeyCompressed,
-      Buffer.alloc(32, 255)
+      Buffer.alloc(32, 255),
     ),
-    Secp256k1Error.mulTweakPublicKey
+    Secp256k1Error.mulTweakPublicKey,
   );
 });
 
@@ -600,15 +601,15 @@ test('[fast-check] [crypto] secp256k1.mulTweakPublicKeyUncompressed', async (t) 
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyU = secp256k1.derivePublicKeyUncompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       t.deepEqual(
         secp256k1.mulTweakPublicKeyUncompressed(pubkeyU, keyTweakVal),
         new Uint8Array(
-          secp256k1Node.publicKeyTweakMul(pubkeyU, keyTweakVal, false)
-        )
+          secp256k1Node.publicKeyTweakMul(pubkeyU, keyTweakVal, false),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -622,7 +623,7 @@ test('[fast-check] [crypto] secp256k1.mulTweakPublicKeyUncompressed', async (t) 
 test('[crypto] secp256k1.normalizeSignatureCompact', (t) => {
   t.deepEqual(
     internalSecp256k1.normalizeSignatureCompact(sigCompactHighS),
-    sigCompact
+    sigCompact,
   );
 });
 
@@ -634,15 +635,15 @@ test('[fast-check] [crypto] secp256k1.normalizeSignatureCompact', async (t) => {
     (privateKey, hash) => {
       const sig = secp256k1.signMessageHashCompact(
         privateKey,
-        hash
+        hash,
       ) as Uint8Array;
       t.deepEqual(
         sig,
         secp256k1.normalizeSignatureCompact(
-          secp256k1.malleateSignatureCompact(sig) as Uint8Array
-        )
+          secp256k1.malleateSignatureCompact(sig) as Uint8Array,
+        ),
       );
-    }
+    },
   );
 
   const equivalentToSecp256k1Node = fc.property(
@@ -651,14 +652,14 @@ test('[fast-check] [crypto] secp256k1.normalizeSignatureCompact', async (t) => {
     (privateKey, hash) => {
       const sig = secp256k1.signMessageHashCompact(
         privateKey,
-        hash
+        hash,
       ) as Uint8Array;
       const malleated = secp256k1.malleateSignatureCompact(sig) as Uint8Array;
       t.deepEqual(
         secp256k1.normalizeSignatureCompact(malleated),
-        new Uint8Array(secp256k1Node.signatureNormalize(malleated))
+        new Uint8Array(secp256k1Node.signatureNormalize(malleated)),
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -681,10 +682,10 @@ test('[fast-check] [crypto] secp256k1.normalizeSignatureDER', async (t) => {
       t.deepEqual(
         sig,
         secp256k1.normalizeSignatureDER(
-          secp256k1.malleateSignatureDER(sig) as Uint8Array
-        )
+          secp256k1.malleateSignatureDER(sig) as Uint8Array,
+        ),
       );
-    }
+    },
   );
 
   const equivalentToSecp256k1Node = fc.property(
@@ -698,12 +699,12 @@ test('[fast-check] [crypto] secp256k1.normalizeSignatureDER', async (t) => {
         new Uint8Array(
           secp256k1Node.signatureExport(
             secp256k1Node.signatureNormalize(
-              secp256k1Node.signatureImport(malleated)
-            )
-          )
-        )
+              secp256k1Node.signatureImport(malleated),
+            ),
+          ),
+        ),
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -717,26 +718,26 @@ test('[crypto] secp256k1.recoverPublicKeyCompressed', (t) => {
     internalSecp256k1.recoverPublicKeyCompressed(
       sigCompact,
       sigRecovery,
-      messageHash
+      messageHash,
     ),
-    pubkeyCompressed
+    pubkeyCompressed,
   );
   t.deepEqual(
     internalSecp256k1.recoverPublicKeyCompressed(
       new Uint8Array(64).fill(255),
       sigRecovery,
-      messageHash
+      messageHash,
     ),
-    Secp256k1Error.recoverPublicKeyWithUnparsableSignature
+    Secp256k1Error.recoverPublicKeyWithUnparsableSignature,
   );
   const failRecover = 2;
   t.deepEqual(
     internalSecp256k1.recoverPublicKeyCompressed(
       sigCompact,
       failRecover,
-      messageHash
+      messageHash,
     ),
-    Secp256k1Error.recoverPublicKeyInvalidMaterial
+    Secp256k1Error.recoverPublicKeyInvalidMaterial,
   );
 });
 
@@ -748,24 +749,24 @@ test('[fast-check] [crypto] secp256k1.recoverPublicKeyCompressed', async (t) => 
     (privateKey, hash) => {
       const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(
         privateKey,
-        hash
+        hash,
       ) as RecoverableSignature;
       t.deepEqual(
         secp256k1.recoverPublicKeyCompressed(
           recoverableStuff.signature,
           recoverableStuff.recoveryId,
-          hash
+          hash,
         ),
         new Uint8Array(
           secp256k1Node.ecdsaRecover(
             recoverableStuff.signature,
             recoverableStuff.recoveryId,
             hash,
-            true
-          )
-        )
+            true,
+          ),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -777,9 +778,9 @@ test('[crypto] secp256k1.recoverPublicKeyUncompressed', (t) => {
     internalSecp256k1.recoverPublicKeyUncompressed(
       sigCompact,
       sigRecovery,
-      messageHash
+      messageHash,
     ),
-    pubkeyUncompressed
+    pubkeyUncompressed,
   );
 });
 
@@ -791,24 +792,24 @@ test('[fast-check] [crypto] secp256k1.recoverPublicKeyUncompressed', async (t) =
     (privateKey, hash) => {
       const recoverableStuff = secp256k1.signMessageHashRecoverableCompact(
         privateKey,
-        hash
+        hash,
       ) as RecoverableSignature;
       t.deepEqual(
         secp256k1.recoverPublicKeyUncompressed(
           recoverableStuff.signature,
           recoverableStuff.recoveryId,
-          hash
+          hash,
         ),
         new Uint8Array(
           secp256k1Node.ecdsaRecover(
             recoverableStuff.signature,
             recoverableStuff.recoveryId,
             hash,
-            false
-          )
-        )
+            false,
+          ),
+        ),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -818,15 +819,15 @@ test('[fast-check] [crypto] secp256k1.recoverPublicKeyUncompressed', async (t) =
 test('[crypto] secp256k1.signMessageHashCompact', (t) => {
   t.deepEqual(
     internalSecp256k1.signMessageHashCompact(privkey, messageHash),
-    sigCompact
+    sigCompact,
   );
   t.notDeepEqual(
     internalSecp256k1.signMessageHashCompact(privkey, Uint8Array.of()),
-    sigCompact
+    sigCompact,
   );
   t.deepEqual(
     internalSecp256k1.signMessageHashCompact(secp256k1OrderN, messageHash),
-    Secp256k1Error.signWithInvalidPrivateKey
+    Secp256k1Error.signWithInvalidPrivateKey,
   );
 });
 
@@ -838,9 +839,9 @@ test('[fast-check] [crypto] secp256k1.signMessageHashCompact', async (t) => {
     (privateKey, hash) => {
       t.deepEqual(
         secp256k1.signMessageHashCompact(privateKey, hash),
-        new Uint8Array(secp256k1Node.ecdsaSign(hash, privateKey).signature)
+        new Uint8Array(secp256k1Node.ecdsaSign(hash, privateKey).signature),
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(
@@ -852,11 +853,11 @@ test('[fast-check] [crypto] secp256k1.signMessageHashCompact', async (t) => {
         secp256k1.signMessageHashCompact(privateKey, hash),
         secp256k1.signatureDERToCompact(
           secp256k1.normalizeSignatureDER(
-            ellipticSignMessageDER(key, hash)
-          ) as Uint8Array
-        )
+            ellipticSignMessageDER(key, hash),
+          ) as Uint8Array,
+        ),
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -868,15 +869,15 @@ test('[fast-check] [crypto] secp256k1.signMessageHashCompact', async (t) => {
 test('[crypto] secp256k1.signMessageHashDER', (t) => {
   t.deepEqual(
     internalSecp256k1.signMessageHashDER(privkey, messageHash),
-    sigDER
+    sigDER,
   );
   t.notDeepEqual(
     internalSecp256k1.signMessageHashDER(privkey, Uint8Array.of()),
-    sigDER
+    sigDER,
   );
   t.deepEqual(
     internalSecp256k1.signMessageHashDER(secp256k1OrderN, messageHash),
-    Secp256k1Error.signWithInvalidPrivateKey
+    Secp256k1Error.signWithInvalidPrivateKey,
   );
 });
 
@@ -890,11 +891,11 @@ test('[fast-check] [crypto] secp256k1.signMessageHashDER', async (t) => {
         secp256k1.signMessageHashDER(privateKey, hash),
         new Uint8Array(
           secp256k1Node.signatureExport(
-            secp256k1Node.ecdsaSign(hash, privateKey).signature
-          )
-        )
+            secp256k1Node.ecdsaSign(hash, privateKey).signature,
+          ),
+        ),
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(
@@ -904,9 +905,9 @@ test('[fast-check] [crypto] secp256k1.signMessageHashDER', async (t) => {
       const { key } = setupElliptic(privateKey);
       t.deepEqual(
         secp256k1.signMessageHashDER(privateKey, hash),
-        secp256k1.normalizeSignatureDER(ellipticSignMessageDER(key, hash))
+        secp256k1.normalizeSignatureDER(ellipticSignMessageDER(key, hash)),
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -918,16 +919,16 @@ test('[fast-check] [crypto] secp256k1.signMessageHashDER', async (t) => {
 test('[crypto] secp256k1.signMessageHashRecoverableCompact', (t) => {
   const recoverableStuff = internalSecp256k1.signMessageHashRecoverableCompact(
     privkey,
-    messageHash
+    messageHash,
   ) as RecoverableSignature;
   t.is(recoverableStuff.recoveryId, sigRecovery);
   t.deepEqual(recoverableStuff.signature, sigCompact);
   t.deepEqual(
     internalSecp256k1.signMessageHashRecoverableCompact(
       secp256k1OrderN,
-      messageHash
+      messageHash,
     ),
-    Secp256k1Error.signWithInvalidPrivateKey
+    Secp256k1Error.signWithInvalidPrivateKey,
   );
 });
 
@@ -943,9 +944,9 @@ test('[fast-check] [crypto] secp256k1.signMessageHashRecoverableCompact', async 
         {
           recoveryId: nodeRecoverableStuff.recid,
           signature: new Uint8Array(nodeRecoverableStuff.signature),
-        }
+        },
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -960,13 +961,13 @@ test('[fast-check] [crypto] secp256k1.signatureCompactToDER', async (t) => {
   const secp256k1 = await secp256k1Promise;
   const reversesCompress = fc.property(fcValidPrivateKey, (privateKey) => {
     const pubkeyU = secp256k1.derivePublicKeyUncompressed(
-      privateKey
+      privateKey,
     ) as Uint8Array;
     t.deepEqual(
       pubkeyU,
       secp256k1.uncompressPublicKey(
-        secp256k1.compressPublicKey(pubkeyU) as Uint8Array
-      )
+        secp256k1.compressPublicKey(pubkeyU) as Uint8Array,
+      ),
     );
   });
 
@@ -976,13 +977,13 @@ test('[fast-check] [crypto] secp256k1.signatureCompactToDER', async (t) => {
     (privateKey, hash) => {
       const sig = secp256k1.signMessageHashCompact(
         privateKey,
-        hash
+        hash,
       ) as Uint8Array;
       t.deepEqual(
         new Uint8Array(secp256k1Node.signatureExport(sig)),
-        secp256k1.signatureCompactToDER(sig)
+        secp256k1.signatureCompactToDER(sig),
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -996,7 +997,7 @@ test('[crypto] secp256k1.signatureDERToCompact', (t) => {
   const sigDERWithBrokenEncoding = sigDER.slice().fill(0, 0, 1);
   t.deepEqual(
     internalSecp256k1.signatureDERToCompact(sigDERWithBrokenEncoding),
-    Secp256k1Error.unparsableSignature
+    Secp256k1Error.unparsableSignature,
   );
 });
 
@@ -1009,9 +1010,9 @@ test('[fast-check] [crypto] secp256k1.signatureDERToCompact', async (t) => {
       const sig = secp256k1.signMessageHashDER(privateKey, hash) as Uint8Array;
       t.deepEqual(
         new Uint8Array(secp256k1Node.signatureImport(sig)),
-        secp256k1.signatureDERToCompact(sig)
+        secp256k1.signatureDERToCompact(sig),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -1021,11 +1022,11 @@ test('[fast-check] [crypto] secp256k1.signatureDERToCompact', async (t) => {
 test('[crypto] secp256k1.uncompressPublicKey', (t) => {
   t.deepEqual(
     internalSecp256k1.uncompressPublicKey(pubkeyCompressed),
-    pubkeyUncompressed
+    pubkeyUncompressed,
   );
   t.deepEqual(
     internalSecp256k1.uncompressPublicKey(new Uint8Array(33)),
-    Secp256k1Error.unparsablePublicKey
+    Secp256k1Error.unparsablePublicKey,
   );
 });
 
@@ -1035,13 +1036,13 @@ test('[fast-check] [crypto] secp256k1.uncompressPublicKey', async (t) => {
     fcValidPrivateKey,
     (privateKey) => {
       const pubkeyC = secp256k1.derivePublicKeyCompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       t.deepEqual(
         new Uint8Array(secp256k1Node.publicKeyConvert(pubkeyC, false)),
-        secp256k1.uncompressPublicKey(pubkeyC)
+        secp256k1.uncompressPublicKey(pubkeyC),
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -1070,7 +1071,7 @@ test('[fast-check] [crypto] secp256k1.validatePrivateKey', async (t) => {
       .map((random) => Uint8Array.from([...almostInvalid, ...random])),
     (privateKey) =>
       secp256k1.validatePrivateKey(privateKey) ===
-      secp256k1Node.privateKeyVerify(privateKey)
+      secp256k1Node.privateKeyVerify(privateKey),
   );
   t.notThrows(() => {
     fc.assert(equivalentToSecp256k1Node);
@@ -1090,29 +1091,29 @@ test('[crypto] secp256k1.verifySignatureCompact', (t) => {
     internalSecp256k1.verifySignatureCompact(
       sigCompactHighS,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureCompact(
       sigCompactHighS,
       pubkeyCompressed,
-      Uint8Array.of()
-    )
+      Uint8Array.of(),
+    ),
   );
   t.true(
     internalSecp256k1.verifySignatureCompact(
       sigCompactHighS,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureCompact(
       Uint8Array.of(),
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
 });
 
@@ -1130,13 +1131,13 @@ test('[fast-check] [crypto] secp256k1.verifySignatureCompact', async (t) => {
       const testSig = invalidate ? sig.fill(0, 6, 7) : sig;
       const pub = compressed ? pubCompressed : pubUncompressed;
       const malleated = secp256k1.malleateSignatureCompact(
-        testSig
+        testSig,
       ) as Uint8Array;
       return (
         secp256k1Node.ecdsaVerify(testSig, message, pub) ===
         secp256k1.verifySignatureCompact(malleated, pub, message)
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(
@@ -1154,7 +1155,7 @@ test('[fast-check] [crypto] secp256k1.verifySignatureCompact', async (t) => {
         ellipticCheckSignature(testSig, key, message) ===
         secp256k1.verifySignatureCompact(compactSig, pub, message)
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -1168,29 +1169,29 @@ test('[crypto] secp256k1.verifySignatureCompactLowS', (t) => {
     internalSecp256k1.verifySignatureCompactLowS(
       sigCompact,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureCompactLowS(
       Uint8Array.of(),
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.true(
     internalSecp256k1.verifySignatureCompactLowS(
       sigCompact,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureCompactLowS(
       sigCompact,
       pubkeyCompressed,
-      Uint8Array.of()
-    )
+      Uint8Array.of(),
+    ),
   );
 });
 
@@ -1211,7 +1212,7 @@ test('[fast-check] [crypto] secp256k1.verifySignatureCompactLowS', async (t) => 
         secp256k1Node.ecdsaVerify(testSig, message, pub) ===
         secp256k1.verifySignatureCompactLowS(testSig, pub, message)
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(
@@ -1222,7 +1223,7 @@ test('[fast-check] [crypto] secp256k1.verifySignatureCompactLowS', async (t) => 
     (privateKey, message, compressed, invalidate) => {
       const { key, pubUncompressed, pubCompressed } = setupElliptic(privateKey);
       const sig = secp256k1.normalizeSignatureDER(
-        ellipticSignMessageDER(key, message)
+        ellipticSignMessageDER(key, message),
       ) as Uint8Array;
       const testSig = invalidate ? sig.fill(0, 6, 20) : sig;
       const pub = compressed ? pubCompressed : pubUncompressed;
@@ -1231,7 +1232,7 @@ test('[fast-check] [crypto] secp256k1.verifySignatureCompactLowS', async (t) => 
         ellipticCheckSignature(testSig, key, message) ===
         secp256k1.verifySignatureCompactLowS(compactSig, pub, message)
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -1245,50 +1246,50 @@ test('[crypto] secp256k1.verifySignatureDER', (t) => {
     internalSecp256k1.verifySignatureDER(
       sigDERHighS,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDER(
       Uint8Array.of(),
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.true(
     internalSecp256k1.verifySignatureDER(
       sigDERHighS,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDER(
       sigDERHighS,
       pubkeyCompressed,
-      Uint8Array.of()
-    )
+      Uint8Array.of(),
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDER(
       Uint8Array.of(),
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.true(
     internalSecp256k1.verifySignatureDER(
       sigDERHighS,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDER(
       sigDERHighS,
       pubkeyCompressed,
-      Uint8Array.of()
-    )
+      Uint8Array.of(),
+    ),
   );
 });
 
@@ -1297,74 +1298,74 @@ test('[crypto] secp256k1.verifySignatureDERLowS', (t) => {
     internalSecp256k1.verifySignatureDERLowS(
       sigDER,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDERLowS(
       Uint8Array.of(),
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.true(
     internalSecp256k1.verifySignatureDERLowS(
       sigDER,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDERLowS(
       sigDER,
       pubkeyCompressed,
-      Uint8Array.of()
-    )
+      Uint8Array.of(),
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDERLowS(
       Uint8Array.of(),
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.true(
     internalSecp256k1.verifySignatureDERLowS(
       sigDER,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureDERLowS(
       sigDER,
       pubkeyCompressed,
-      Uint8Array.of()
-    )
+      Uint8Array.of(),
+    ),
   );
   const pubkeyWithBrokenEncoding = pubkeyCompressed.slice().fill(0, 0, 1);
   t.false(
     internalSecp256k1.verifySignatureDERLowS(
       sigDER,
       pubkeyWithBrokenEncoding,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   const sigDERWithBrokenEncoding = sigDER.slice().fill(0, 0, 1);
   t.false(
     internalSecp256k1.verifySignatureDERLowS(
       sigDERWithBrokenEncoding,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
   const sigDERWithBadSignature = sigDER.slice().fill(0, 6, 7);
   t.false(
     internalSecp256k1.verifySignatureDERLowS(
       sigDERWithBadSignature,
       pubkeyCompressed,
-      messageHash
-    )
+      messageHash,
+    ),
   );
 });
 
@@ -1387,7 +1388,7 @@ test('[fast-check] [crypto] secp256k1.verifySignatureDERLowS', async (t) => {
         secp256k1Node.ecdsaVerify(imported, message, pub) ===
         secp256k1.verifySignatureDERLowS(testSig, pub, message)
       );
-    }
+    },
   );
 
   const equivalentToElliptic = fc.property(
@@ -1405,10 +1406,10 @@ test('[fast-check] [crypto] secp256k1.verifySignatureDERLowS', async (t) => {
         secp256k1.verifySignatureDERLowS(
           secp256k1.normalizeSignatureDER(testSig) as Uint8Array,
           pub,
-          message
+          message,
         )
       );
-    }
+    },
   );
 
   t.notThrows(() => {
@@ -1420,15 +1421,15 @@ test('[fast-check] [crypto] secp256k1.verifySignatureDERLowS', async (t) => {
 test('[crypto] secp256k1.signMessageHashSchnorr', (t) => {
   t.deepEqual(
     internalSecp256k1.signMessageHashSchnorr(privkey, schnorrMsgHash),
-    sigSchnorr
+    sigSchnorr,
   );
   t.notDeepEqual(
     internalSecp256k1.signMessageHashSchnorr(Uint8Array.of(), schnorrMsgHash),
-    sigSchnorr
+    sigSchnorr,
   );
   t.deepEqual(
     internalSecp256k1.signMessageHashSchnorr(secp256k1OrderN, schnorrMsgHash),
-    Secp256k1Error.signWithInvalidPrivateKey
+    Secp256k1Error.signWithInvalidPrivateKey,
   );
 });
 
@@ -1440,21 +1441,21 @@ test('[fast-check] [crypto] secp256k1.signMessageHashSchnorr', async (t) => {
     fc.boolean(),
     (privateKey, hash, invalidate) => {
       const publicKey = secp256k1.derivePublicKeyCompressed(
-        privateKey
+        privateKey,
       ) as Uint8Array;
       const signature = secp256k1.signMessageHashSchnorr(
         privateKey,
-        hash
+        hash,
       ) as Uint8Array;
       t.is(
         secp256k1.verifySignatureSchnorr(
           invalidate ? signature : signature.fill(0),
           publicKey,
-          hash
+          hash,
         ),
-        invalidate
+        invalidate,
       );
-    }
+    },
   );
   t.notThrows(() => {
     fc.assert(createsValidSignatures);
@@ -1466,31 +1467,31 @@ test('[crypto] secp256k1.verifySignatureSchnorr', (t) => {
     internalSecp256k1.verifySignatureSchnorr(
       sigSchnorr,
       pubkeyCompressed,
-      schnorrMsgHash
-    )
+      schnorrMsgHash,
+    ),
   );
   t.false(
     internalSecp256k1.verifySignatureSchnorr(
       Uint8Array.of(),
       pubkeyCompressed,
-      schnorrMsgHash
-    )
+      schnorrMsgHash,
+    ),
   );
   const pubkeyWithBrokenEncoding = pubkeyCompressed.slice().fill(0, 0, 1);
   t.false(
     internalSecp256k1.verifySignatureSchnorr(
       sigSchnorr,
       pubkeyWithBrokenEncoding,
-      schnorrMsgHash
-    )
+      schnorrMsgHash,
+    ),
   );
   const sigSchnorrWithBadSignature = sigSchnorr.slice().fill(0, 6, 7);
   t.false(
     internalSecp256k1.verifySignatureSchnorr(
       sigSchnorrWithBadSignature,
       pubkeyCompressed,
-      schnorrMsgHash
-    )
+      schnorrMsgHash,
+    ),
   );
 
   // test vectors from Bitcoin ABC libsecp256k1

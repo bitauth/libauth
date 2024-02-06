@@ -8,10 +8,11 @@ export enum CompilerDefaults {
    * The value used for `["slot"]` and `["copy"]` locking or unlocking bytecode
    * when generating a scenario and no `unlockingScriptId` is provided.
    */
+  // eslint-disable-next-line @typescript-eslint/no-mixed-enums
   defaultScenarioBytecode = '',
   /**
    *
-   * The value of `currentBlockHeight` in the default authentication template
+   * The value of `currentBlockHeight` in the default wallet template
    * scenario. This is the height of the second mined block after the genesis
    * block: `000000006a625f06636b8bb6ac7b960a8d03705d1ace08b1a19da3fdcc99ddbd`.
    *
@@ -21,7 +22,7 @@ export enum CompilerDefaults {
    */
   defaultScenarioCurrentBlockHeight = 2,
   /**
-   * The value of `currentBlockTime` in the default authentication template
+   * The value of `currentBlockTime` in the default wallet template
    * scenario. This is the Median Time-Past block time (BIP113) of block `2`
    * (the block used in
    * {@link CompilerDefaults.defaultScenarioCurrentBlockHeight}).
@@ -40,16 +41,21 @@ export enum CompilerDefaults {
    */
   defaultScenarioInputSequenceNumber = 0,
   /**
+   * The default `lockingBytecode` value for scenario outputs,
+   * `OP_RETURN <"libauth">` (hex: `6a076c696261757468`).
+   */
+  defaultScenarioOutputLockingBytecode = '6a076c696261757468',
+  /**
    * The default `valueSatoshis` of outputs in scenarios.
    */
   defaultScenarioOutputValueSatoshis = 0,
   /**
-   * The value of `transaction.locktime` in the default authentication template
+   * The value of `transaction.locktime` in the default wallet template
    * scenario.
    */
   defaultScenarioTransactionLocktime = 0,
   /**
-   * The value of `transaction.version` in the default authentication template
+   * The value of `transaction.version` in the default wallet template
    * scenario. Transaction version `2` enables `OP_CHECKSEQUENCEVERIFY` as
    * described in BIP68, BIP112, and BIP113.
    */
@@ -70,7 +76,7 @@ export enum CompilerDefaults {
 
   /**
    * The prefix used to refer to other scenario bytecode scripts from within a
-   * bytecode script. See {@link AuthenticationTemplateScenarioData.bytecode}
+   * bytecode script. See {@link WalletTemplateScenarioData.bytecode}
    * for details.
    */
   scenarioBytecodeScriptPrefix = '_scenario.',

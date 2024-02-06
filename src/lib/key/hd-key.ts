@@ -14,10 +14,56 @@ import {
   binToBigIntUint256BE,
   flattenBinArray,
   numberToBinUint32BE,
+  utf8ToBin,
 } from '../format/format.js';
 import type { Ripemd160, Secp256k1, Sha256, Sha512 } from '../lib.js';
 
-import { validateSecp256k1PrivateKey } from './key-utils.js';
+const enum Secp256k1Constants {
+  privateKeyLength = 32,
+}
+
+/**
+ * Verify that a private key is valid for the Secp256k1 curve. Returns `true`
+ * for success, or `false` on failure.
+ *
+ * Private keys are 256-bit numbers encoded as a 32-byte, big-endian Uint8Array.
+ * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,
+ * any 256-bit number greater than `0x01` and less than
+ * `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140`
+ * is a valid private key. This range is part of the definition of the
+ * secp256k1 elliptic curve parameters.
+ *
+ * This method does not require a `Secp256k1` implementation.
+ */
+export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
+  if (
+    privateKey.length !== Secp256k1Constants.privateKeyLength ||
+    privateKey.every((value) => value === 0)
+  ) {
+    return false;
+  }
+
+  /**
+   * The largest possible Secp256k1 private key – equal to the order of the
+   * Secp256k1 curve minus one.
+   */
+  // prettier-ignore
+  const maximumSecp256k1PrivateKey = [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 254, 186, 174, 220, 230, 175, 72, 160, 59, 191, 210, 94, 140, 208, 54, 65, 63]; // eslint-disable-line @typescript-eslint/no-magic-numbers
+
+  const firstDifference = privateKey.findIndex(
+    (value, i) => value !== maximumSecp256k1PrivateKey[i],
+  );
+
+  if (
+    firstDifference === -1 ||
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    privateKey[firstDifference]! < maximumSecp256k1PrivateKey[firstDifference]!
+  ) {
+    return true;
+  }
+
+  return false;
+};
 
 /**
  * The networks that can be referenced by an HD public or private key.
@@ -27,14 +73,14 @@ export type HdKeyNetwork = 'mainnet' | 'testnet';
 /**
  * The decoded contents of an HD public or private key.
  */
-export interface HdKeyParameters<
-  NodeType extends HdPrivateNodeValid | HdPublicNode
-> {
+export type HdKeyParameters<
+  NodeType extends HdPrivateNodeValid | HdPublicNode,
+> = {
   node: NodeType;
   network: HdKeyNetwork;
-}
+};
 
-interface HdNodeBase {
+type HdNodeBase = {
   /**
    * 32 bytes of additional entropy that can be used to derive HD child nodes.
    */
@@ -71,20 +117,20 @@ interface HdNodeBase {
    * might be unknown.
    */
   parentIdentifier?: Uint8Array;
-}
+};
 
 /**
  * A valid private node in a Hierarchical Deterministic (HD) key tree. This node
  * can be used to derive further nodes, or the private key can be used to
  * generate a wallet address.
  */
-export interface HdPrivateNodeValid extends HdNodeBase {
+export type HdPrivateNodeValid = HdNodeBase & {
   /**
    * This {@link HdPrivateNode}'s 32-byte valid Secp256k1 private key.
    */
   privateKey: Uint8Array;
   valid: true;
-}
+};
 
 /**
  * An invalid private node in a Hierarchical Deterministic (HD) key tree. This
@@ -97,7 +143,7 @@ export interface HdPrivateNodeValid extends HdNodeBase {
  * using the next child index. I.e. the node ultimately derived at the invalid
  * child index is a duplicate of the node derived at `index + 1`.
  */
-export interface HdPrivateNodeInvalid extends HdNodeBase {
+export type HdPrivateNodeInvalid = HdNodeBase & {
   /**
    * The 32-byte derivation result that is not a valid Secp256k1 private key.
    * This is almost impossibly rare in a securely-random 32-byte Uint8Array,
@@ -107,15 +153,15 @@ export interface HdPrivateNodeInvalid extends HdNodeBase {
    */
   invalidPrivateKey: Uint8Array;
   valid: false;
-}
+};
 
 /**
  * A valid HD private node for which the parent node is known (and
  * `parentIdentifier` is guaranteed to be defined).
  */
-export interface HdPrivateNodeKnownParent extends HdPrivateNodeValid {
+export type HdPrivateNodeKnownParent = HdPrivateNodeValid & {
   parentIdentifier: Uint8Array;
-}
+};
 
 /**
  * A private node in a Hierarchical Deterministic (HD) key tree. To confirm the
@@ -132,29 +178,26 @@ export type HdPrivateNode = HdPrivateNodeInvalid | HdPrivateNodeValid;
  * Note, HD nodes are network-independent. A network is required only when
  * encoding the node as an HD key or using a derived public key in an address.
  */
-export interface HdPublicNode extends HdNodeBase {
+export type HdPublicNode = HdNodeBase & {
   /**
    * This {@link HdPublicNode}'s valid 33-byte Secp256k1 compressed public key.
    */
   publicKey: Uint8Array;
-}
+};
 
 /**
  * An HD public node for which the parent node is known (and `parentIdentifier`
  * is guaranteed to be defined).
  */
-export interface HdPublicNodeKnownParent extends HdPublicNode {
+export type HdPublicNodeKnownParent = HdPublicNode & {
   parentIdentifier: Uint8Array;
-}
+};
 
 /**
  * The HMAC SHA-512 key used by BIP32, "Bitcoin seed"
  * (`utf8ToBin('Bitcoin seed')`)
  */
-const bip32HmacSha512Key = Uint8Array.from([
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  66, 105, 116, 99, 111, 105, 110, 32, 115, 101, 101, 100,
-]);
+const bip32HmacSha512Key = utf8ToBin('Bitcoin seed');
 const halfHmacSha512Length = 32;
 /**
  * Derive an {@link HdPrivateNode} from the provided seed following the BIP32
@@ -166,16 +209,21 @@ const halfHmacSha512Length = 32;
  * for validity, and will be assumed valid if `true` or invalid if `false` (this
  * is useful for testing)
  * @param crypto - an optional object containing an implementation of sha512
- * to use
+ * @param hmacSha512Key - the HMAC SHA-512 key to use (defaults the HMAC SHA-512
+ * key used by BIP32, `utf8ToBin('Bitcoin seed')`
  */
 export const deriveHdPrivateNodeFromSeed = <
-  AssumedValidity extends boolean | undefined
+  AssumedValidity extends boolean | undefined,
 >(
   seed: Uint8Array,
   assumeValidity?: AssumedValidity,
-  crypto: { sha512: { hash: Sha512['hash'] } } = { sha512: internalSha512 }
+  crypto: { sha512: { hash: Sha512['hash'] } } = {
+    sha512: internalSha512,
+  },
+  hmacSha512Key = bip32HmacSha512Key,
+  // eslint-disable-next-line @typescript-eslint/max-params
 ) => {
-  const mac = hmacSha512(bip32HmacSha512Key, seed, crypto.sha512);
+  const mac = hmacSha512(hmacSha512Key, seed, crypto.sha512);
   const privateKey = mac.slice(0, halfHmacSha512Length);
   const chainCode = mac.slice(halfHmacSha512Length);
   const depth = 0;
@@ -196,8 +244,8 @@ export const deriveHdPrivateNodeFromSeed = <
   ) as AssumedValidity extends true
     ? HdPrivateNodeValid
     : AssumedValidity extends false
-    ? HdPrivateNodeInvalid
-    : HdPrivateNode;
+      ? HdPrivateNodeInvalid
+      : HdPrivateNode;
 };
 
 /**
@@ -222,10 +270,10 @@ export const deriveHdPrivateNodeIdentifier = (
     ripemd160: internalRipemd160,
     secp256k1: internalSecp256k1,
     sha256: internalSha256,
-  }
+  },
 ) => {
   const publicKey = crypto.secp256k1.derivePublicKeyCompressed(
-    hdPrivateNode.privateKey
+    hdPrivateNode.privateKey,
   );
   if (typeof publicKey === 'string') return publicKey;
   return crypto.ripemd160.hash(crypto.sha256.hash(publicKey));
@@ -245,7 +293,7 @@ export const deriveHdPublicNodeIdentifier = (
   crypto: {
     ripemd160: { hash: Ripemd160['hash'] };
     sha256: { hash: Sha256['hash'] };
-  } = { ripemd160: internalRipemd160, sha256: internalSha256 }
+  } = { ripemd160: internalRipemd160, sha256: internalSha256 },
 ) => crypto.ripemd160.hash(crypto.sha256.hash(node.publicKey));
 
 /**
@@ -315,7 +363,7 @@ export enum HdKeyDecodingError {
 // eslint-disable-next-line complexity
 export const decodeHdKey = (
   hdKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
 ) => {
   const decoded = base58ToBin(hdKey);
   if (decoded === BaseConversionError.unknownCharacter)
@@ -342,14 +390,14 @@ export const decodeHdKey = (
   const version = new DataView(
     decoded.buffer,
     decoded.byteOffset,
-    depthIndex
+    depthIndex,
   ).getUint32(0);
   const depth = decoded[depthIndex];
   const parentFingerprint = decoded.slice(fingerprintIndex, childIndexIndex);
   const childIndex = new DataView(
     decoded.buffer,
     decoded.byteOffset + childIndexIndex,
-    decoded.byteOffset + chainCodeIndex
+    decoded.byteOffset + chainCodeIndex,
   ).getUint32(0);
   const chainCode = decoded.slice(chainCodeIndex, keyDataIndex);
   const keyData = decoded.slice(keyDataIndex, checksumIndex);
@@ -419,7 +467,7 @@ export const decodeHdKey = (
  */
 export const decodeHdPrivateKey = (
   hdPrivateKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
 ) => {
   const decoded = decodeHdKey(hdPrivateKey, crypto);
   if (typeof decoded === 'string') return decoded;
@@ -457,7 +505,7 @@ export const decodeHdPrivateKey = (
  */
 export const decodeHdPublicKey = (
   hdPublicKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
 ) => {
   const decoded = decodeHdKey(hdPublicKey, crypto);
   if (typeof decoded === 'string') return decoded;
@@ -483,7 +531,7 @@ export const decodeHdPublicKey = (
  */
 export const hdPrivateKeyToIdentifier = (
   hdPrivateKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
 ) => {
   const privateKeyParams = decodeHdPrivateKey(hdPrivateKey, crypto);
   if (typeof privateKeyParams === 'string') {
@@ -498,7 +546,7 @@ export const hdPrivateKeyToIdentifier = (
  */
 export const hdPublicKeyToIdentifier = (
   hdPublicKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
 ) => {
   const publicKeyParams = decodeHdPublicKey(hdPublicKey, crypto);
   if (typeof publicKeyParams === 'string') {
@@ -508,22 +556,21 @@ export const hdPublicKeyToIdentifier = (
 };
 
 /**
- * Encode an HD private key (as defined by BIP32) given a valid
- * {@link HdPrivateNode} and network.
+ * Encode an HD private key (as defined by BIP32) payload (without the checksum)
+ * given a valid {@link HdPrivateNode} and network.
  *
  * @param keyParameters - a valid HD private node and the network for which to
  * encode the key
  * @param crypto - an optional object containing an implementation of sha256
  * to use
  */
-export const encodeHdPrivateKey = (
+export const encodeHdPrivateKeyPayload = (
   keyParameters: HdKeyParameters<HdPrivateNodeValid>,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
 ) => {
   const version = numberToBinUint32BE(
     keyParameters.network === 'mainnet'
       ? HdKeyVersion.mainnetPrivateKey
-      : HdKeyVersion.testnetPrivateKey
+      : HdKeyVersion.testnetPrivateKey,
   );
   const depth = Uint8Array.of(keyParameters.node.depth);
   const childIndex = numberToBinUint32BE(keyParameters.node.childIndex);
@@ -537,6 +584,23 @@ export const encodeHdPrivateKey = (
     isPrivateKey,
     keyParameters.node.privateKey,
   ]);
+  return payload;
+};
+
+/**
+ * Encode an HD private key (as defined by BIP32) given a valid
+ * {@link HdPrivateNode} and network.
+ *
+ * @param keyParameters - a valid HD private node and the network for which to
+ * encode the key
+ * @param crypto - an optional object containing an implementation of sha256
+ * to use
+ */
+export const encodeHdPrivateKey = (
+  keyParameters: HdKeyParameters<HdPrivateNodeValid>,
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
+) => {
+  const payload = encodeHdPrivateKeyPayload(keyParameters);
   const checksumLength = 4;
   const checksum = crypto.sha256
     .hash(crypto.sha256.hash(payload))
@@ -554,12 +618,12 @@ export const encodeHdPrivateKey = (
  */
 export const encodeHdPublicKey = (
   keyParameters: HdKeyParameters<HdPublicNode>,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 }
+  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
 ) => {
   const version = numberToBinUint32BE(
     keyParameters.network === 'mainnet'
       ? HdKeyVersion.mainnetPublicKey
-      : HdKeyVersion.testnetPublicKey
+      : HdKeyVersion.testnetPublicKey,
   );
   const depth = Uint8Array.of(keyParameters.node.depth);
   const childIndex = numberToBinUint32BE(keyParameters.node.childIndex);
@@ -593,14 +657,14 @@ export const encodeHdPublicKey = (
  * compressed public key derivation to use
  */
 export const deriveHdPublicNode = <
-  PrivateNode extends HdPrivateNodeValid = HdPrivateNodeValid
+  PrivateNode extends HdPrivateNodeValid = HdPrivateNodeValid,
 >(
   node: PrivateNode,
   crypto: {
     secp256k1: {
       derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
     };
-  } = { secp256k1: internalSecp256k1 }
+  } = { secp256k1: internalSecp256k1 },
 ) =>
   ({
     chainCode: node.chainCode,
@@ -611,9 +675,9 @@ export const deriveHdPublicNode = <
       ? {}
       : { parentIdentifier: node.parentIdentifier }),
     publicKey: crypto.secp256k1.derivePublicKeyCompressed(node.privateKey),
-  } as PrivateNode extends HdPrivateNodeKnownParent
+  }) as PrivateNode extends HdPrivateNodeKnownParent
     ? HdPublicNodeKnownParent
-    : HdPublicNode);
+    : HdPublicNode;
 
 /**
  * An error in the derivation of child HD public or private nodes.
@@ -666,7 +730,7 @@ export const deriveHdPrivateNodeChild = (
     secp256k1: internalSecp256k1,
     sha256: internalSha256,
     sha512: internalSha512,
-  }
+  },
 ):
   | HdNodeDerivationError.childIndexExceedsMaximum
   | HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm
@@ -682,7 +746,7 @@ export const deriveHdPrivateNodeChild = (
   const keyMaterial = useHardenedAlgorithm
     ? node.privateKey
     : (crypto.secp256k1.derivePublicKeyCompressed(
-        node.privateKey
+        node.privateKey,
       ) as Uint8Array);
 
   const serialization = Uint8Array.from([
@@ -698,7 +762,7 @@ export const deriveHdPrivateNodeChild = (
 
   const nextPrivateKey = crypto.secp256k1.addTweakPrivateKey(
     node.privateKey,
-    tweakValue
+    tweakValue,
   );
   if (typeof nextPrivateKey === 'string') {
     if (index === hardenedIndexOffset - 1) {
@@ -761,7 +825,7 @@ export const deriveHdPublicNodeChild = (
     secp256k1: internalSecp256k1,
     sha256: internalSha256,
     sha512: internalSha512,
-  }
+  },
 ):
   | HdNodeDerivationError.hardenedDerivationRequiresPrivateNode
   | HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm
@@ -783,7 +847,7 @@ export const deriveHdPublicNodeChild = (
 
   const nextPublicKey = crypto.secp256k1.addTweakPublicKeyCompressed(
     node.publicKey,
-    tweakValue
+    tweakValue,
   );
   if (typeof nextPublicKey === 'string') {
     if (index === hardenedIndexOffset - 1) {
@@ -867,7 +931,7 @@ type ReductionResults<NodeType> = NodeType extends HdPrivateNodeValid
  */
 // eslint-disable-next-line complexity
 export const deriveHdPath = <
-  NodeType extends HdPrivateNodeValid | HdPublicNode
+  NodeType extends HdPrivateNodeValid | HdPublicNode,
 >(
   node: NodeType,
   path: string,
@@ -885,7 +949,7 @@ export const deriveHdPath = <
     secp256k1: internalSecp256k1,
     sha256: internalSha256,
     sha512: internalSha512,
-  }
+  },
 ):
   | HdNodeDerivationError.invalidDerivationPath
   | HdNodeDerivationError.invalidPrivateDerivationPrefix
@@ -915,7 +979,7 @@ export const deriveHdPath = <
     .map((index) =>
       index.endsWith("'")
         ? parseInt(index.slice(0, -1), base) + hardenedIndexOffset
-        : parseInt(index, base)
+        : parseInt(index, base),
     );
 
   return (
@@ -925,14 +989,14 @@ export const deriveHdPath = <
             typeof result === 'string'
               ? result
               : deriveHdPrivateNodeChild(result, nextIndex, crypto),
-          node as PrivateResults<HdPrivateNodeValid> // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
+          node as PrivateResults<HdPrivateNodeValid>, // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
         )
       : indexes.reduce(
           (result, nextIndex) =>
             typeof result === 'string'
               ? result
               : deriveHdPublicNodeChild(result, nextIndex, crypto),
-          node as PublicResults<HdPublicNode> // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
+          node as PublicResults<HdPublicNode>, // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
         )
   ) as ReductionResults<NodeType>;
 };
@@ -968,11 +1032,11 @@ export enum HdNodeCrackingError {
  * * @param crypto - an optional object containing an implementation of sha512
  */
 export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
-  PublicNode extends HdPublicNode = HdPublicNode
+  PublicNode extends HdPublicNode = HdPublicNode,
 >(
   parentPublicNode: PublicNode,
   childPrivateNode: { childIndex: number; privateKey: Uint8Array },
-  crypto: { sha512: { hash: Sha512['hash'] } } = { sha512: internalSha512 }
+  crypto: { sha512: { hash: Sha512['hash'] } } = { sha512: internalSha512 },
 ) => {
   const hardenedIndexOffset = 0x80000000;
   if (childPrivateNode.childIndex >= hardenedIndexOffset) {
@@ -986,11 +1050,11 @@ export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
   const derivation = hmacSha512(
     parentPublicNode.chainCode,
     serialization,
-    crypto.sha512
+    crypto.sha512,
   );
   const tweakValueLength = 32;
   const tweakValue = binToBigIntUint256BE(
-    derivation.slice(0, tweakValueLength)
+    derivation.slice(0, tweakValueLength),
   );
   const childPrivateValue = binToBigIntUint256BE(childPrivateNode.privateKey);
   const secp256k1OrderN =
@@ -999,7 +1063,7 @@ export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
 
   const parentPrivateValue = trueMod(
     childPrivateValue - tweakValue,
-    secp256k1OrderN
+    secp256k1OrderN,
   );
   const privateKey = bigIntToBinUint256BEClamped(parentPrivateValue);
 

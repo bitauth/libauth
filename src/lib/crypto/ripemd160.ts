@@ -6,7 +6,7 @@ import {
   ripemd160Base64Bytes,
 } from './dependencies.js';
 
-export interface Ripemd160 extends HashFunction {
+export type Ripemd160 = HashFunction & {
   /**
    * Finish an incremental ripemd160 hashing computation.
    *
@@ -14,7 +14,7 @@ export interface Ripemd160 extends HashFunction {
    *
    * @param rawState - a raw state returned by `update`
    */
-  readonly final: (rawState: Uint8Array) => Uint8Array;
+  final: (rawState: Uint8Array) => Uint8Array;
 
   /**
    * Returns the ripemd160 hash of the provided input.
@@ -24,7 +24,7 @@ export interface Ripemd160 extends HashFunction {
    *
    * @param input - a Uint8Array to be hashed using ripemd160
    */
-  readonly hash: (input: Uint8Array) => Uint8Array;
+  hash: (input: Uint8Array) => Uint8Array;
 
   /**
    * Begin an incremental ripemd160 hashing computation.
@@ -40,7 +40,7 @@ export interface Ripemd160 extends HashFunction {
    * const hash = ripemd160.final(state3);
    * ```
    */
-  readonly init: () => Uint8Array;
+  init: () => Uint8Array;
 
   /**
    * Add input to an incremental ripemd160 hashing computation.
@@ -54,8 +54,8 @@ export interface Ripemd160 extends HashFunction {
    * @param rawState - a raw state returned by either `init` or `update`
    * @param input - a Uint8Array to be added to the ripemd160 computation
    */
-  readonly update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
-}
+  update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
+};
 
 /**
  * The most performant way to instantiate ripemd160 functionality. To avoid
@@ -64,7 +64,7 @@ export interface Ripemd160 extends HashFunction {
  * @param webassemblyBytes - A buffer containing the ripemd160 binary.
  */
 export const instantiateRipemd160Bytes = async (
-  webassemblyBytes: ArrayBuffer
+  webassemblyBytes: ArrayBuffer,
 ): Promise<Ripemd160> => {
   const wasm = await instantiateRustWasm(
     webassemblyBytes,
@@ -72,7 +72,7 @@ export const instantiateRipemd160Bytes = async (
     'ripemd160',
     'ripemd160_init',
     'ripemd160_update',
-    'ripemd160_final'
+    'ripemd160_final',
   );
   return {
     final: wasm.final,

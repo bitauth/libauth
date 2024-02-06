@@ -24,7 +24,7 @@ test(
       name: 'Data',
       type: 'AddressData',
     },
-  }
+  },
 );
 
 test(
@@ -47,7 +47,7 @@ test(
       name: 'no description',
       type: 'AddressData',
     },
-  }
+  },
 );
 
 test(
@@ -84,7 +84,7 @@ test(
   {
     one: { type: 'AddressData' },
     two: { type: 'AddressData' },
-  }
+  },
 );
 
 test(
@@ -127,7 +127,7 @@ test(
   {
     one: { type: 'AddressData' },
     two: { type: 'AddressData' },
-  }
+  },
 );
 
 test(
@@ -146,7 +146,7 @@ test(
       name: 'Data',
       type: 'WalletData',
     },
-  }
+  },
 );
 
 test(
@@ -169,7 +169,7 @@ test(
       name: 'no description',
       type: 'WalletData',
     },
-  }
+  },
 );
 
 test(
@@ -206,7 +206,7 @@ test(
   {
     one: { type: 'WalletData' },
     two: { type: 'WalletData' },
-  }
+  },
 );
 
 test(
@@ -249,7 +249,7 @@ test(
   {
     one: { type: 'WalletData' },
     two: { type: 'WalletData' },
-  }
+  },
 );
 
 test(
@@ -262,7 +262,7 @@ test(
     errors: [
       {
         error:
-          'The "current_block_height" variable type can not be resolved because the "currentBlockHeight" operation has not been included in this compiler\'s CompilationEnvironment.',
+          'The "current_block_height" variable type can not be resolved because the "currentBlockHeight" operation has not been included in this compiler\'s configuration.',
         range: {
           endColumn: 22,
           endLineNumber: 1,
@@ -274,7 +274,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { operations: undefined }
+  { operations: undefined },
 );
 
 test(
@@ -287,7 +287,7 @@ test(
     errors: [
       {
         error:
-          'The "current_block_time" variable type can not be resolved because the "currentBlockTime" operation has not been included in this compiler\'s CompilationEnvironment.',
+          'The "current_block_time" variable type can not be resolved because the "currentBlockTime" operation has not been included in this compiler\'s configuration.',
         range: {
           endColumn: 20,
           endLineNumber: 1,
@@ -299,7 +299,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { operations: undefined }
+  { operations: undefined },
 );
 
 test(
@@ -312,7 +312,7 @@ test(
     errors: [
       {
         error:
-          'The "signing_serialization" variable type can not be resolved because the "signingSerialization" operation has not been included in this compiler\'s CompilationEnvironment.',
+          'The "signing_serialization" variable type can not be resolved because the "signingSerialization" operation has not been included in this compiler\'s configuration.',
         range: {
           endColumn: 31,
           endLineNumber: 1,
@@ -324,7 +324,7 @@ test(
     success: false,
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
   {},
-  { operations: undefined }
+  { operations: undefined },
 );
 
 test(
@@ -337,7 +337,7 @@ test(
     errors: [
       {
         error:
-          'The "a" variable type can not be resolved because the "addressData" operation has not been included in this compiler\'s CompilationEnvironment.',
+          'The "a" variable type can not be resolved because the "addressData" operation has not been included in this compiler\'s configuration.',
         range: {
           endColumn: 3,
           endLineNumber: 1,
@@ -351,7 +351,7 @@ test(
   {
     a: { type: 'AddressData' },
   },
-  { operations: undefined }
+  { operations: undefined },
 );
 
 test(
@@ -364,7 +364,7 @@ test(
     errors: [
       {
         error:
-          'The "a" variable type can not be resolved because the "hdKey" operation has not been included in this compiler\'s CompilationEnvironment.',
+          'The "a" variable type can not be resolved because the "hdKey" operation has not been included in this compiler\'s configuration.',
         range: {
           endColumn: 3,
           endLineNumber: 1,
@@ -378,7 +378,7 @@ test(
   {
     a: { type: 'HdKey' },
   },
-  { operations: undefined }
+  { operations: undefined },
 );
 
 test(
@@ -391,7 +391,7 @@ test(
     errors: [
       {
         error:
-          'The "a" variable type can not be resolved because the "key" operation has not been included in this compiler\'s CompilationEnvironment.',
+          'The "a" variable type can not be resolved because the "key" operation has not been included in this compiler\'s configuration.',
         range: {
           endColumn: 3,
           endLineNumber: 1,
@@ -405,7 +405,7 @@ test(
   {
     a: { type: 'Key' },
   },
-  { operations: undefined }
+  { operations: undefined },
 );
 
 test(
@@ -418,7 +418,7 @@ test(
     errors: [
       {
         error:
-          'The "a" variable type can not be resolved because the "walletData" operation has not been included in this compiler\'s CompilationEnvironment.',
+          'The "a" variable type can not be resolved because the "walletData" operation has not been included in this compiler\'s configuration.',
         range: {
           endColumn: 3,
           endLineNumber: 1,
@@ -432,5 +432,5 @@ test(
   {
     a: { type: 'WalletData' },
   },
-  { operations: undefined }
+  { operations: undefined },
 );

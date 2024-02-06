@@ -9,7 +9,7 @@ permissions:
   deployments: write
 
 concurrency:
-  group: "benchmarks"
+  group: 'benchmarks'
   cancel-in-progress: true
 
 jobs:
@@ -19,15 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-            submodules: 'true'
+          submodules: 'true'
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - name: Run benchmark
-        run: yarn && yarn bench
-      
-      # TODO: Libauth-only benchmarks: test for performance regressions in Libauth functionality, format results to work with the below configuration 
+        run: yarn && yarn playwright install && yarn bench
+
+      # TODO: Libauth-only benchmarks: test for performance regressions in Libauth functionality, format results to work with the below configuration
 
       # - name: Push benchmark result to gh-pages
       #   uses: benchmark-action/github-action-benchmark@3d3bca03e83647895ef4f911fa57de3c7a391aaf

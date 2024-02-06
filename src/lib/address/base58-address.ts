@@ -107,11 +107,11 @@ export type Base58AddressNetwork = 'copayBCH' | 'mainnet' | 'testnet';
  * implementation)
  */
 export const encodeBase58AddressFormat = <
-  VersionType extends number = Base58AddressFormatVersion
+  VersionType extends number = Base58AddressFormatVersion,
 >(
   version: VersionType,
   payload: Uint8Array,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
   const checksumBytes = 4;
   const content = Uint8Array.from([version, ...payload]);
@@ -146,7 +146,7 @@ export const encodeBase58Address = (
     | 'p2sh20CopayBCH'
     | 'p2sh20Testnet',
   payload: Uint8Array,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) =>
   encodeBase58AddressFormat(
     {
@@ -158,7 +158,7 @@ export const encodeBase58Address = (
       p2sh20Testnet: Base58AddressFormatVersion.p2sh20Testnet,
     }[type],
     payload,
-    sha256
+    sha256,
   );
 
 export enum Base58AddressError {
@@ -181,7 +181,7 @@ export enum Base58AddressError {
  */
 export const decodeBase58AddressFormat = (
   address: string,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
   const checksumBytes = 4;
   const bin = base58ToBin(address);
@@ -232,7 +232,7 @@ export const decodeBase58AddressFormat = (
  */
 export const decodeBase58Address = (
   address: string,
-  sha256: { hash: Sha256['hash'] } = internalSha256
+  sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
   const decoded = decodeBase58AddressFormat(address, sha256);
   if (typeof decoded === 'string') return decoded;

@@ -5,7 +5,7 @@ import { applyError, AuthenticationErrorCommon } from './errors.js';
 export const opNop = <State>(state: State) => state;
 
 export const opNopDisallowed = <State extends AuthenticationProgramStateError>(
-  state: State
+  state: State,
 ) => applyError(state, AuthenticationErrorCommon.calledUpgradableNop);
 
 /**
@@ -13,7 +13,7 @@ export const opNopDisallowed = <State extends AuthenticationProgramStateError>(
  * bytecode, even within an unexecuted branch.
  */
 export const disabledOperation = <
-  State extends AuthenticationProgramStateError
+  State extends AuthenticationProgramStateError,
 >(
-  state: State
+  state: State,
 ) => applyError(state, AuthenticationErrorCommon.unknownOpcode);

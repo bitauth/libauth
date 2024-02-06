@@ -19,7 +19,7 @@ export const maximumLocktimeTimestamp = 0xffffffff;
  * `locktime`.
  */
 export const minimumLocktimeDate = new Date(
-  minimumLocktimeTimestamp * msPerLocktimeSecond
+  minimumLocktimeTimestamp * msPerLocktimeSecond,
 );
 
 /**
@@ -27,7 +27,7 @@ export const minimumLocktimeDate = new Date(
  * `locktime`.
  */
 export const maximumLocktimeDate = new Date(
-  maximumLocktimeTimestamp * msPerLocktimeSecond
+  maximumLocktimeTimestamp * msPerLocktimeSecond,
 );
 
 export enum LocktimeError {

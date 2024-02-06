@@ -1,12 +1,12 @@
-import type { AuthenticationTemplate } from '../lib.js';
+import type { WalletTemplate } from '../lib.js';
 
 import { ajvStandaloneJsonParse } from './ajv/ajv-utils.js';
 // eslint-disable-next-line import/no-internal-modules
-import AuthenticationTemplateValidator from './ajv/validate-authentication-template.js';
+import walletTemplateValidator from './ajv/validate-wallet-template.js';
 
 /**
- * Safely parse and validate an authentication template, returning either an
- * error message as a string or a valid {@link AuthenticationTemplate}. The
+ * Safely parse and validate a wallet template, returning either an
+ * error message as a string or a valid {@link WalletTemplate}. The
  * template may be provided either as an untrusted JSON string or as a
  * pre-parsed object.
  *
@@ -19,19 +19,19 @@ import AuthenticationTemplateValidator from './ajv/validate-authentication-templ
  * - The derivation paths of each HdKey are validated against each other.
  *
  * This method does not validate the CashAssembly contents of scripts (by
- * attempting compilation, evaluating {@link AuthenticationTemplateScriptTest}s,
+ * attempting compilation, evaluating {@link WalletTemplateScriptTest}s,
  * or testing scenario generation).
  *
- * @param untrustedJsonOrObject - the JSON string or object to validate as an
- * authentication template
+ * @param untrustedJsonOrObject - the JSON string or object to validate as a
+ * wallet template
  */
-export const importAuthenticationTemplate = (
-  untrustedJsonOrObject: unknown
-): AuthenticationTemplate | string => {
-  const errorPrefix = `Authentication template import failed:`;
-  const template = ajvStandaloneJsonParse<AuthenticationTemplate>(
+export const importWalletTemplate = (
+  untrustedJsonOrObject: unknown,
+): WalletTemplate | string => {
+  const errorPrefix = `Wallet template import failed:`;
+  const template = ajvStandaloneJsonParse<WalletTemplate>(
     untrustedJsonOrObject,
-    AuthenticationTemplateValidator
+    walletTemplateValidator,
   );
   if (typeof template === 'string') {
     return `${errorPrefix}${template}`;

@@ -29,11 +29,11 @@ export type AuthenticationVirtualMachineBCH = AuthenticationVirtualMachine<
 >;
 export type TransactionBCH<
   InputType = Input,
-  OutputType = Output
+  OutputType = Output,
 > = TransactionCommon<InputType, OutputType>;
 export type Transaction<
   InputType = Input,
-  OutputType = Output
+  OutputType = Output,
 > = TransactionBCH<InputType, OutputType>;
 export type CompilationContextBCH = CompilationContext<
   TransactionBCH<Input<Uint8Array | undefined>>
@@ -55,7 +55,7 @@ export const createTestAuthenticationProgramBCH = ({
       {
         outpointIndex: 0xffffffff,
         outpointTransactionHash: hexToBin(
-          '0000000000000000000000000000000000000000000000000000000000000000'
+          '0000000000000000000000000000000000000000000000000000000000000000',
         ),
         sequenceNumber: 0xffffffff,
         unlockingBytecode: Uint8Array.of(0, 0),
@@ -70,7 +70,7 @@ export const createTestAuthenticationProgramBCH = ({
       {
         outpointIndex: 0,
         outpointTransactionHash: hashTransactionP2pOrder(
-          encodeTransactionCommon(testFundingTransaction)
+          encodeTransactionCommon(testFundingTransaction),
         ),
 
         sequenceNumber: 0xffffffff,

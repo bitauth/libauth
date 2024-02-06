@@ -42,7 +42,7 @@ test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
       bytecode: hexToBin('76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'),
       success: true,
     },
-    stringifyTestVector(resultLock)
+    stringifyTestVector(resultLock),
   );
 
   const resultUnlock = compiler.generateBytecode({
@@ -56,11 +56,11 @@ test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
     resultUnlock,
     {
       bytecode: hexToBin(
-        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
       ),
       success: true,
     },
-    stringifyTestVector(resultUnlock)
+    stringifyTestVector(resultUnlock),
   );
 });
 
@@ -293,7 +293,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
       },
       reduce: {
         bytecode: hexToBin(
-          '76a91415d16c84669ab46059313bf0747e781f1d13936d88ac'
+          '76a91415d16c84669ab46059313bf0747e781f1d13936d88ac',
         ),
         range: {
           endColumn: 76,
@@ -333,7 +333,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               script: [
                 {
                   bytecode: hexToBin(
-                    '15d16c84669ab46059313bf0747e781f1d13936d'
+                    '15d16c84669ab46059313bf0747e781f1d13936d',
                   ),
                   range: {
                     endColumn: 48,
@@ -343,7 +343,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                   },
                   source: {
                     bytecode: hexToBin(
-                      '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5a9'
+                      '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5a9',
                     ),
                     range: {
                       endColumn: 47,
@@ -354,11 +354,11 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                     script: [
                       {
                         bytecode: hexToBin(
-                          '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                          '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                         ),
                         push: {
                           bytecode: hexToBin(
-                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                           ),
                           range: {
                             endColumn: 35,
@@ -369,7 +369,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                           script: [
                             {
                               bytecode: hexToBin(
-                                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                               ),
                               range: {
                                 endColumn: 35,
@@ -417,7 +417,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       instructions: [
                         {
                           data: hexToBin(
-                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                           ),
                           opcode: 33,
                         },
@@ -439,7 +439,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       instructions: [
                         {
                           data: hexToBin(
-                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                           ),
                           opcode: 33,
                         },
@@ -455,7 +455,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       signedMessages: [],
                       stack: [
                         hexToBin(
-                          '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                          '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                         ),
                       ],
                     },
@@ -465,7 +465,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       instructions: [
                         {
                           data: hexToBin(
-                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                           ),
                           opcode: 33,
                         },
@@ -489,7 +489,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       instructions: [
                         {
                           data: hexToBin(
-                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                            '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                           ),
                           opcode: 33,
                         },
@@ -597,7 +597,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       },
                       type: 'bytecode',
                       value: hexToBin(
-                        '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                        '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                       ),
                       variable: 'a.public_key',
                     },
@@ -643,7 +643,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
       ],
       success: true,
     },
-    stringifyTestVector(resultLock)
+    stringifyTestVector(resultLock),
   );
 
   const resultUnlock = compiler.generateBytecode({
@@ -658,7 +658,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
     resultUnlock,
     {
       bytecode: hexToBin(
-        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
       ),
       parse: {
         end: {
@@ -761,7 +761,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
       },
       reduce: {
         bytecode: hexToBin(
-          '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+          '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
         ),
         range: {
           endColumn: 41,
@@ -772,11 +772,11 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
         script: [
           {
             bytecode: hexToBin(
-              '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+              '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
             ),
             push: {
               bytecode: hexToBin(
-                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
               ),
               range: {
                 endColumn: 25,
@@ -787,7 +787,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               script: [
                 {
                   bytecode: hexToBin(
-                    '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+                    '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
                   ),
                   range: {
                     endColumn: 25,
@@ -807,11 +807,11 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
           },
           {
             bytecode: hexToBin(
-              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
             ),
             push: {
               bytecode: hexToBin(
-                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
               ),
               range: {
                 endColumn: 40,
@@ -822,7 +822,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               script: [
                 {
                   bytecode: hexToBin(
-                    '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                    '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                   ),
                   range: {
                     endColumn: 40,
@@ -861,12 +861,12 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               },
               signature: {
                 serialization: hexToBin(
-                  '000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a70505050505050505050505050505050505050505050505050505050505050505000000001976a91415d16c84669ab46059313bf0747e781f1d13936d88ac000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000'
+                  '000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a70505050505050505050505050505050505050505050505050505050505050505000000001976a91415d16c84669ab46059313bf0747e781f1d13936d88ac000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000',
                 ),
               },
               type: 'bytecode',
               value: hexToBin(
-                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141'
+                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
               ),
               variable: 'a.signature.all_outputs',
             },
@@ -890,7 +890,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               },
               type: 'bytecode',
               value: hexToBin(
-                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5'
+                '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
               ),
               variable: 'a.public_key',
             },
@@ -899,6 +899,6 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
       ],
       success: true,
     },
-    stringifyTestVector(resultUnlock)
+    stringifyTestVector(resultUnlock),
   );
 });

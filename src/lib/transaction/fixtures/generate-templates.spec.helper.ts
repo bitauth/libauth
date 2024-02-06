@@ -1,16 +1,16 @@
-/* eslint-disable no-console, functional/no-expression-statement */
-import { authenticationTemplateP2pkh, stringify } from '../../lib.js';
+/* eslint-disable no-console, functional/no-expression-statements */
+import { stringify, walletTemplateP2pkh } from '../../lib.js';
 
 import { twoOfTwoRecoverable } from './template.2-of-2-recoverable.spec.helper.js';
 import { twoOfThree } from './template.2-of-3.spec.helper.js';
-import { cashChannels } from './template.cash-channels.spec.helper.js';
+import { cashChannels } from './template.cash-channels-v1.spec.helper.js';
 import { sigOfSig } from './template.sig-of-sig.spec.helper.js';
 
 // eslint-disable-next-line complexity, functional/no-return-void
 const printTemplate = (template: string) => {
   switch (template) {
     case 'p2pkh':
-      console.log(stringify(authenticationTemplateP2pkh));
+      console.log(stringify(walletTemplateP2pkh));
       return;
     case '2-of-3':
       console.log(stringify(twoOfThree));
@@ -21,7 +21,7 @@ const printTemplate = (template: string) => {
     case 'sig-of-sig':
       console.log(stringify(sigOfSig));
       return;
-    case 'cash-channels':
+    case 'cash-channels-v1':
       console.log(stringify(cashChannels));
       return;
 

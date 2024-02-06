@@ -41,7 +41,7 @@ export const opCheckSigBCH2023 =
         verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
         verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
       };
-    } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
+    } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
   ): Operation<State> =>
   (s: State) =>
     // eslint-disable-next-line complexity
@@ -49,38 +49,38 @@ export const opCheckSigBCH2023 =
       if (!isValidPublicKeyEncoding(publicKey)) {
         return applyError(
           state,
-          AuthenticationErrorCommon.invalidPublicKeyEncoding
+          AuthenticationErrorCommon.invalidPublicKeyEncoding,
         );
       }
       if (
         !isValidSignatureEncodingBCHTransaction(
           bitcoinEncodedSignature,
-          SigningSerializationTypesBCH2023
+          SigningSerializationTypesBCH2023,
         )
       ) {
         return applyError(
           state,
           AuthenticationErrorCommon.invalidSignatureEncoding,
           `Transaction signature (including signing serialization): ${binToHex(
-            bitcoinEncodedSignature
-          )}`
+            bitcoinEncodedSignature,
+          )}`,
         );
       }
       const coveredBytecode = encodeAuthenticationInstructions(
-        state.instructions
+        state.instructions,
       ).subarray(state.lastCodeSeparator + 1);
       const { signingSerializationType, signature } = decodeBitcoinSignature(
-        bitcoinEncodedSignature
+        bitcoinEncodedSignature,
       );
 
       const serialization = generateSigningSerializationBCH(
         state.program,
         { coveredBytecode, signingSerializationType },
-        sha256
+        sha256,
       );
       const digest = hash256(serialization, sha256);
 
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       state.signedMessages.push({ digest, serialization });
 
       const useSchnorr =
@@ -109,7 +109,7 @@ export const opCheckMultiSigBCH2023 =
       secp256k1: {
         verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
       };
-    } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
+    } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
   ) =>
   (s: State) =>
     useOneVmNumber(s, (state, publicKeysValue) => {
@@ -118,26 +118,26 @@ export const opCheckMultiSigBCH2023 =
       if (potentialPublicKeys < 0) {
         return applyError(
           state,
-          AuthenticationErrorCommon.invalidNaturalNumber
+          AuthenticationErrorCommon.invalidNaturalNumber,
         );
       }
       if (potentialPublicKeys > Multisig.maximumPublicKeys) {
         return applyError(
           state,
-          AuthenticationErrorCommon.exceedsMaximumMultisigPublicKeyCount
+          AuthenticationErrorCommon.exceedsMaximumMultisigPublicKeyCount,
         );
       }
       const publicKeys =
         // eslint-disable-next-line functional/immutable-data
         potentialPublicKeys > 0 ? state.stack.splice(-potentialPublicKeys) : [];
 
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       state.operationCount += potentialPublicKeys;
 
       return state.operationCount > ConsensusCommon.maximumOperationCount
         ? applyError(
             state,
-            AuthenticationErrorCommon.exceededMaximumOperationCount
+            AuthenticationErrorCommon.exceededMaximumOperationCount,
           )
         : useOneVmNumber(
             state,
@@ -148,14 +148,14 @@ export const opCheckMultiSigBCH2023 =
               if (requiredApprovingPublicKeys < 0) {
                 return applyError(
                   nextState,
-                  AuthenticationErrorCommon.invalidNaturalNumber
+                  AuthenticationErrorCommon.invalidNaturalNumber,
                 );
               }
 
               if (requiredApprovingPublicKeys > potentialPublicKeys) {
                 return applyError(
                   nextState,
-                  AuthenticationErrorCommon.insufficientPublicKeys
+                  AuthenticationErrorCommon.insufficientPublicKeys,
                 );
               }
 
@@ -172,18 +172,18 @@ export const opCheckMultiSigBCH2023 =
                   if (protocolBugValue.length !== 0) {
                     return applyError(
                       finalState,
-                      AuthenticationErrorCommon.invalidProtocolBugValue
+                      AuthenticationErrorCommon.invalidProtocolBugValue,
                     );
                   }
 
                   const coveredBytecode = encodeAuthenticationInstructions(
-                    finalState.instructions
+                    finalState.instructions,
                   ).subarray(finalState.lastCodeSeparator + 1);
 
                   let approvingPublicKeys = 0; // eslint-disable-line functional/no-let
                   let remainingSignatures = signatures.length; // eslint-disable-line functional/no-let
                   let remainingPublicKeys = publicKeys.length; // eslint-disable-line functional/no-let
-                  // eslint-disable-next-line functional/no-loop-statement
+                  // eslint-disable-next-line functional/no-loop-statements
                   while (
                     remainingSignatures > 0 &&
                     remainingPublicKeys > 0 &&
@@ -200,22 +200,22 @@ export const opCheckMultiSigBCH2023 =
                     if (!isValidPublicKeyEncoding(publicKey)) {
                       return applyError(
                         finalState,
-                        AuthenticationErrorCommon.invalidPublicKeyEncoding
+                        AuthenticationErrorCommon.invalidPublicKeyEncoding,
                       );
                     }
 
                     if (
                       !isValidSignatureEncodingBCHTransaction(
                         bitcoinEncodedSignature,
-                        SigningSerializationTypesBCH2023
+                        SigningSerializationTypesBCH2023,
                       )
                     ) {
                       return applyError(
                         finalState,
                         AuthenticationErrorCommon.invalidSignatureEncoding,
                         `Transaction signature (including signing serialization type): ${binToHex(
-                          bitcoinEncodedSignature
-                        )}`
+                          bitcoinEncodedSignature,
+                        )}`,
                       );
                     }
 
@@ -225,11 +225,11 @@ export const opCheckMultiSigBCH2023 =
                     const serialization = generateSigningSerializationBCH(
                       state.program,
                       { coveredBytecode, signingSerializationType },
-                      sha256
+                      sha256,
                     );
                     const digest = hash256(serialization, sha256);
 
-                    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+                    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
                     finalState.signedMessages.push({ digest, serialization });
 
                     if (
@@ -238,22 +238,22 @@ export const opCheckMultiSigBCH2023 =
                     ) {
                       return applyError(
                         finalState,
-                        AuthenticationErrorCommon.schnorrSizedSignatureInCheckMultiSig
+                        AuthenticationErrorCommon.schnorrSizedSignatureInCheckMultiSig,
                       );
                     }
 
                     const signed = secp256k1.verifySignatureDERLowS(
                       signature,
                       publicKey,
-                      digest
+                      digest,
                     );
 
-                    // eslint-disable-next-line functional/no-conditional-statement
+                    // eslint-disable-next-line functional/no-conditional-statements
                     if (signed) {
-                      approvingPublicKeys += 1; // eslint-disable-line functional/no-expression-statement
-                      remainingSignatures -= 1; // eslint-disable-line functional/no-expression-statement
+                      approvingPublicKeys += 1; // eslint-disable-line functional/no-expression-statements
+                      remainingSignatures -= 1; // eslint-disable-line functional/no-expression-statements
                     }
-                    remainingPublicKeys -= 1; // eslint-disable-line functional/no-expression-statement
+                    remainingPublicKeys -= 1; // eslint-disable-line functional/no-expression-statements
                   }
 
                   const success =
@@ -265,19 +265,19 @@ export const opCheckMultiSigBCH2023 =
                   ) {
                     return applyError(
                       finalState,
-                      AuthenticationErrorCommon.nonNullSignatureFailure
+                      AuthenticationErrorCommon.nonNullSignatureFailure,
                     );
                   }
 
                   return pushToStack(finalState, booleanToVmNumber(success));
-                }
+                },
               );
-            }
+            },
           );
     });
 
 export const opCheckSigVerifyBCH2023 = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateCommon,
 >(
   {
     secp256k1,
@@ -288,12 +288,12 @@ export const opCheckSigVerifyBCH2023 = <
       verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
       verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
     };
-  } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
+  } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
 ): Operation<State> =>
   combineOperations(opCheckSigBCH2023<State>({ secp256k1, sha256 }), opVerify);
 
 export const opCheckMultiSigVerifyBCH2023 = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateCommon,
 >({
   secp256k1,
   sha256,
@@ -305,5 +305,5 @@ export const opCheckMultiSigVerifyBCH2023 = <
 }): Operation<State> =>
   combineOperations(
     opCheckMultiSigBCH2023<State>({ secp256k1, sha256 }),
-    opVerify
+    opVerify,
   );

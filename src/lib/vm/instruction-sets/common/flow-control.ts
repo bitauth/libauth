@@ -10,41 +10,41 @@ import { stackItemIsTruthy } from './instruction-sets-utils.js';
 
 export const opVerify = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) =>
   useOneStackItem(state, (nextState, [item]) =>
     stackItemIsTruthy(item)
       ? nextState
-      : applyError(nextState, AuthenticationErrorCommon.failedVerify)
+      : applyError(nextState, AuthenticationErrorCommon.failedVerify),
   );
 
 export const reservedOperation = <
-  State extends AuthenticationProgramStateError
+  State extends AuthenticationProgramStateError,
 >(
-  state: State
+  state: State,
 ) => applyError(state, AuthenticationErrorCommon.calledReserved);
 
 export const opReturn = <State extends AuthenticationProgramStateError>(
-  state: State
+  state: State,
 ) => applyError(state, AuthenticationErrorCommon.calledReturn);
 
 export const opIf = <
   State extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => {
   if (state.controlStack.every((item) => item)) {
     return useOneStackItem(state, (nextState, [item]) => {
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       nextState.controlStack.push(stackItemIsTruthy(item));
       return state;
     });
   }
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.controlStack.push(false);
   return state;
 };
@@ -57,27 +57,27 @@ export const opIf = <
 export const opNotIf = <
   State extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => {
   if (state.controlStack.every((item) => item)) {
     return useOneStackItem(state, (nextState, [item]) => {
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       nextState.controlStack.push(!stackItemIsTruthy(item));
       return state;
     });
   }
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.controlStack.push(false);
   return state;
 };
 
 export const opEndIf = <
   State extends AuthenticationProgramStateControlStack &
-    AuthenticationProgramStateError
+    AuthenticationProgramStateError,
 >(
-  state: State
+  state: State,
 ) => {
   // eslint-disable-next-line functional/immutable-data
   const element = state.controlStack.pop();
@@ -89,15 +89,15 @@ export const opEndIf = <
 
 export const opElse = <
   State extends AuthenticationProgramStateControlStack &
-    AuthenticationProgramStateError
+    AuthenticationProgramStateError,
 >(
-  state: State
+  state: State,
 ) => {
   const top = state.controlStack[state.controlStack.length - 1];
   if (top === undefined) {
     return applyError(state, AuthenticationErrorCommon.unexpectedElse);
   }
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.controlStack[state.controlStack.length - 1] = !top;
   return state;
 };

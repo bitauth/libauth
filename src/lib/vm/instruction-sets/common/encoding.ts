@@ -5,7 +5,7 @@ const enum ASN1 {
   integerTagType = 0x02,
 }
 
-/* eslint-disable @typescript-eslint/no-duplicate-enum-values, @typescript-eslint/prefer-literal-enum-member, @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/no-duplicate-enum-values, @typescript-eslint/prefer-literal-enum-member */
 const enum DER {
   minimumLength = 8,
   maximumLength = 72,
@@ -26,7 +26,7 @@ const enum DER {
     integerMetadataBytes +
     minimumSValueBytes,
 }
-/* eslint-enable @typescript-eslint/no-duplicate-enum-values, @typescript-eslint/prefer-literal-enum-member, @typescript-eslint/restrict-plus-operands */
+/* eslint-enable @typescript-eslint/no-duplicate-enum-values, @typescript-eslint/prefer-literal-enum-member */
 
 const enum Mask {
   negative = 0x80,
@@ -39,7 +39,7 @@ const isNegative = (value: number | undefined) =>
 const hasUnnecessaryPadding = (
   length: number | undefined,
   firstByte: number | undefined,
-  secondByte: number | undefined
+  secondByte: number | undefined,
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ) => length! > 1 && firstByte === 0 && !isNegative(secondByte);
 
@@ -47,8 +47,8 @@ const isValidInteger = (
   signature: Uint8Array,
   tagIndex: number,
   length: number,
-  valueIndex: number
-  // eslint-disable-next-line max-params
+  valueIndex: number,
+  // eslint-disable-next-line @typescript-eslint/max-params
 ) =>
   signature[tagIndex] === ASN1.integerTagType &&
   length !== 0 &&
@@ -56,7 +56,7 @@ const isValidInteger = (
   !hasUnnecessaryPadding(
     length,
     signature[valueIndex],
-    signature[valueIndex + 1]
+    signature[valueIndex + 1],
   );
 
 /**
@@ -103,9 +103,9 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
     signature,
     DER.rTagIndex,
     rLength,
-    DER.rValueIndex
+    DER.rValueIndex,
   );
-  const sTagIndex = DER.rValueIndex + rLength; // eslint-disable-line @typescript-eslint/restrict-plus-operands
+  const sTagIndex = DER.rValueIndex + rLength;
   const sLengthIndex = sTagIndex + 1;
   const sLength = signature[sLengthIndex];
   if (sLength === undefined) {
@@ -133,17 +133,17 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
  */
 export const isValidSignatureEncodingBCHTransaction = (
   transactionSignature: Uint8Array,
-  validSigningSerializationTypes: number[]
+  validSigningSerializationTypes: number[],
 ) =>
   transactionSignature.length === 0 ||
   (validSigningSerializationTypes.includes(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    transactionSignature[transactionSignature.length - 1]!
+    transactionSignature[transactionSignature.length - 1]!,
   ) &&
     (transactionSignature.length ===
       ConsensusCommon.schnorrSignatureLength + 1 ||
       isValidSignatureEncodingDER(
-        transactionSignature.slice(0, transactionSignature.length - 1)
+        transactionSignature.slice(0, transactionSignature.length - 1),
       )));
 
 /**

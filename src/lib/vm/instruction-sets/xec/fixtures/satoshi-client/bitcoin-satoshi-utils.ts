@@ -11,14 +11,14 @@ import {
 import { OpcodesXEC } from '../../xec-opcodes.js';
 
 export const bitcoinSatoshiOpcodes = Object.entries(
-  generateBytecodeMap(OpcodesXEC)
-).reduce<Readonly<{ [opcode: string]: Uint8Array }>>(
+  generateBytecodeMap(OpcodesXEC),
+).reduce<{ [opcode: string]: Uint8Array }>(
   (acc, cur) => ({ ...acc, [cur[0].slice('OP_'.length)]: cur[1] }),
   {
     PUSHDATA1: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_1), // eslint-disable-line @typescript-eslint/naming-convention
     PUSHDATA2: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_2), // eslint-disable-line @typescript-eslint/naming-convention
     PUSHDATA4: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_4), // eslint-disable-line @typescript-eslint/naming-convention
-  }
+  },
 );
 
 /**
@@ -46,9 +46,8 @@ export const assembleBitcoinSatoshiScript = (satoshiScript: string) =>
         token.startsWith('0x')
           ? hexToBin(token.slice('0x'.length))
           : token.startsWith("'")
-          ? encodeDataPush(utf8ToBin(token.slice(1, token.length - 1)))
-          : bitcoinSatoshiOpcodes[token] === undefined
-          ? encodeDataPush(bigIntToVmNumber(BigInt(token)))
-          : bitcoinSatoshiOpcodes[token]
-      ) as Uint8Array[]
+            ? encodeDataPush(utf8ToBin(token.slice(1, token.length - 1)))
+            : bitcoinSatoshiOpcodes[token] ??
+              encodeDataPush(bigIntToVmNumber(BigInt(token))),
+      ),
   );

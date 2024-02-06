@@ -1,4 +1,5 @@
 import type {
+  AnyCompilerConfiguration,
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
@@ -7,7 +8,6 @@ import type {
   CompilationData,
   CompilationResult,
   CompilationResultSuccess,
-  CompilerConfiguration,
 } from '../lib.js';
 
 import { compileScriptRaw, createEmptyRange } from './resolve.js';
@@ -26,11 +26,11 @@ export const compileScript = <
     AuthenticationProgramStateStack = AuthenticationProgramStateControlStack &
     AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
-  CompilationContext extends CompilationContextCommon = CompilationContextBCH
+  CompilationContext extends CompilationContextCommon = CompilationContextBCH,
 >(
   scriptId: string,
   data: CompilationData<CompilationContext>,
-  configuration: CompilerConfiguration<CompilationContext>
+  configuration: AnyCompilerConfiguration<CompilationContext>,
 ): CompilationResult<ProgramState> => {
   const locktimeDisablingSequenceNumber = 0xffffffff;
   const lockTimeTypeBecomesTimestamp = 500000000;

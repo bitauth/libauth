@@ -1,6 +1,6 @@
 {
   "name": "2-of-3 Multisig",
-  "$schema": "https://bitauth.com/schemas/authentication-template-v0.schema.json",
+  "$schema": "https://libauth.org/schemas/wallet-template-v0.schema.json",
   "entities": {
     "signer_1": {
       "name": "Signer 1",

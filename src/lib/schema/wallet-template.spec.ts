@@ -1,60 +1,56 @@
 /* eslint-disable max-lines */
 import test from 'ava';
 
-import type { AuthenticationTemplate } from '../lib.js';
-import {
-  BuiltInVariables,
-  importAuthenticationTemplate,
-  stringify,
-} from '../lib.js';
+import type { WalletTemplate } from '../lib.js';
+import { BuiltInVariables, importWalletTemplate, stringify } from '../lib.js';
 
-test('importAuthenticationTemplate: accepts templates as either JSON strings or pre-parsed objects', (t) => {
-  const template: AuthenticationTemplate = {
+test('importWalletTemplate: accepts templates as either JSON strings or pre-parsed objects', (t) => {
+  const template: WalletTemplate = {
     entities: {},
     scripts: { a: { script: '' } },
     supported: ['BCH_2022_05'],
     version: 0,
   };
-  t.deepEqual(template, importAuthenticationTemplate(template));
-  t.deepEqual(template, importAuthenticationTemplate(JSON.stringify(template)));
+  t.deepEqual(template, importWalletTemplate(template));
+  t.deepEqual(template, importWalletTemplate(JSON.stringify(template)));
 });
 
 const testValidation = test.macro<
-  [unknown, ReturnType<typeof importAuthenticationTemplate>]
+  [unknown, ReturnType<typeof importWalletTemplate>]
 >({
   exec: (t, input, expected) => {
-    const result = importAuthenticationTemplate(input);
+    const result = importWalletTemplate(input);
     t.deepEqual(result, expected, stringify(result));
   },
-  title: (title) => `importAuthenticationTemplate: ${title ?? '?'}`,
+  title: (title) => `importWalletTemplate: ${title ?? '?'}`,
 });
 
 test.failing(
   'must be an object',
   testValidation,
   'a string',
-  'A valid authentication template must be an object.'
+  'A valid wallet template must be an object.',
 );
 
 test.failing(
   'must be version 0',
   testValidation,
   { version: 1 },
-  'Only version 0 authentication templates are currently supported.'
+  'Only version 0 wallet templates are currently supported.',
 );
 
 test.failing(
   'must provide a "supported" property',
   testValidation,
   { supported: 42, version: 0 },
-  'Version 0 authentication templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.'
+  'Version 0 wallet templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.',
 );
 
 test.failing(
   'must use only known virtual machine identifiers in "supported"',
   testValidation,
   { supported: ['not supported'], version: 0 },
-  'Version 0 authentication templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.'
+  'Version 0 wallet templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.',
 );
 
 test.failing(
@@ -62,42 +58,42 @@ test.failing(
   testValidation,
   // eslint-disable-next-line no-sparse-arrays
   { supported: ['BCH_2020_05', , 'BCH_2020_11_SPEC'], version: 0 },
-  'Version 0 authentication templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.'
+  'Version 0 wallet templates must include a "supported" list of authentication virtual machine versions. Available identifiers are: BCH_SPEC, BCH_2022_11, BCH_2022_05_SPEC, BCH_2022_05, BCH_2021_11_SPEC, BCH_2021_11, BCH_2021_05_SPEC, BCH_2021_05, BCH_2020_11_SPEC, BCH_2020_11, BCH_2020_05, BCH_2019_11, BCH_2019_05, BSV_2018_11, BTC_2017_08.',
 );
 
 test.failing(
   '"$schema" must be a string (if present)',
   testValidation,
   { $schema: 42, supported: ['BCH_SPEC'], version: 0 },
-  'The "$schema" property of an authentication template must be a string.'
+  'The "$schema" property of a wallet template must be a string.',
 );
 
 test.failing(
   '"name" must be a string (if present)',
   testValidation,
   { name: 42, supported: ['BCH_SPEC'], version: 0 },
-  'The "name" property of an authentication template must be a string.'
+  'The "name" property of a wallet template must be a string.',
 );
 
 test.failing(
   '"description" must be a string (if present)',
   testValidation,
   { description: 42, supported: ['BCH_SPEC'], version: 0 },
-  'The "description" property of an authentication template must be a string.'
+  'The "description" property of a wallet template must be a string.',
 );
 
 test.failing(
   '"entities" must be a an object',
   testValidation,
   { entities: 42, scripts: {}, supported: ['BCH_SPEC'], version: 0 },
-  'The "entities" property of an authentication template must be an object.'
+  'The "entities" property of a wallet template must be an object.',
 );
 
 test.failing(
   '"scripts" must be a an object',
   testValidation,
   { entities: {}, scripts: 42, supported: ['BCH_SPEC'], version: 0 },
-  'The "scripts" property of an authentication template must be an object.'
+  'The "scripts" property of a wallet template must be an object.',
 );
 
 test.failing(
@@ -110,7 +106,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "scenarios" property of an authentication template must be an object.'
+  'If defined, the "scenarios" property of a wallet template must be an object.',
 );
 
 test.failing(
@@ -123,7 +119,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'All authentication template scripts must be objects, but the following scripts are not objects: "a".'
+  'All wallet template scripts must be objects, but the following scripts are not objects: "a".',
 );
 
 test.failing(
@@ -136,7 +132,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "script" property of script "a" must be a string.'
+  'The "script" property of script "a" must be a string.',
 );
 
 test.failing(
@@ -149,7 +145,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "script" property of unlocking script "a" must be a string.'
+  'The "script" property of unlocking script "a" must be a string.',
 );
 
 test.failing(
@@ -162,7 +158,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "unlocks" property of unlocking script "a" must be a string.'
+  'The "unlocks" property of unlocking script "a" must be a string.',
 );
 
 test.failing(
@@ -175,7 +171,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The following locking scripts (referenced in "unlocks" properties) were not provided: "b".'
+  'The following locking scripts (referenced in "unlocks" properties) were not provided: "b".',
 );
 
 test.failing(
@@ -191,7 +187,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "timeLockType" property of unlocking script "a" must be either "timestamp" or "height".'
+  'If defined, the "timeLockType" property of unlocking script "a" must be either "timestamp" or "height".',
 );
 
 test.failing(
@@ -207,7 +203,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" property of unlocking script "a" must be a string.'
+  'If defined, the "name" property of unlocking script "a" must be a string.',
 );
 
 test.failing(
@@ -223,7 +219,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "ageLock" property of unlocking script "a" must be a string.'
+  'If defined, the "ageLock" property of unlocking script "a" must be a string.',
 );
 
 test.failing(
@@ -239,7 +235,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "estimate" property of unlocking script "a" must be a string.'
+  'If defined, the "estimate" property of unlocking script "a" must be a string.',
 );
 
 test.failing(
@@ -255,7 +251,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "passes" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "passes" property of unlocking script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -271,7 +267,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "fails" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "fails" property of unlocking script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -287,7 +283,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "invalid" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "invalid" property of unlocking script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -304,7 +300,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "passes" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "passes" property of unlocking script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -320,7 +316,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "fails" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "fails" property of unlocking script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -336,7 +332,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "invalid" property of unlocking script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "invalid" property of unlocking script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test(
@@ -361,7 +357,7 @@ test(
     },
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -374,7 +370,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "lockingType" property of locking script "b" must be either "standard" or "p2sh20".'
+  'The "lockingType" property of locking script "b" must be either "standard" or "p2sh20".',
 );
 
 test.failing(
@@ -387,7 +383,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "script" property of locking script "b" must be a string.'
+  'The "script" property of locking script "b" must be a string.',
 );
 
 test.failing(
@@ -403,7 +399,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" property of locking script "b" must be a string.'
+  'If defined, the "name" property of locking script "b" must be a string.',
 );
 
 test.failing(
@@ -418,7 +414,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "script" property of tested script "a" must be a string.'
+  'The "script" property of tested script "a" must be a string.',
 );
 
 test.failing(
@@ -433,7 +429,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" property of tested script "a" must be a string.'
+  'If defined, the "name" property of tested script "a" must be a string.',
 );
 
 test.failing(
@@ -448,7 +444,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "tests" property of tested script "a" must be an array.'
+  'If defined, the "tests" property of tested script "a" must be an array.',
 );
 
 test.failing(
@@ -463,7 +459,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "check" properties of all tests in tested script "a" must be a strings.'
+  'The "check" properties of all tests in tested script "a" must be a strings.',
 );
 
 test.failing(
@@ -478,7 +474,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" properties of all tests in tested script "a" must be strings.'
+  'If defined, the "name" properties of all tests in tested script "a" must be strings.',
 );
 
 test.failing(
@@ -493,7 +489,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "setup" properties of all tests in tested script "a" must be strings.'
+  'If defined, the "setup" properties of all tests in tested script "a" must be strings.',
 );
 
 test.failing(
@@ -508,7 +504,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "passes" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "passes" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -523,7 +519,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "fails" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "fails" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -538,7 +534,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "invalid" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).'
+  'If defined, the "invalid" property of each test in tested script "a" must be an array containing only scenario identifiers (strings).',
 );
 
 test.failing(
@@ -553,7 +549,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "pushed" property of tested script "a" must be a boolean value.'
+  'If defined, the "pushed" property of tested script "a" must be a boolean value.',
 );
 
 test(
@@ -610,7 +606,7 @@ test(
     },
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -626,7 +622,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'Locking and unlocking scripts may not have tests, but the following scripts include a "tests" property: "a", "b"'
+  'Locking and unlocking scripts may not have tests, but the following scripts include a "tests" property: "a", "b"',
 );
 
 test.failing(
@@ -639,7 +635,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" property of script "a" must be a string.'
+  'If defined, the "name" property of script "a" must be a string.',
 );
 
 test.failing(
@@ -652,7 +648,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'All authentication template entities must be objects, but the following entities are not objects: "e".'
+  'All wallet template entities must be objects, but the following entities are not objects: "e".',
 );
 
 test.failing(
@@ -665,7 +661,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "description" property of entity "e" must be a string.'
+  'If defined, the "description" property of entity "e" must be a string.',
 );
 
 test.failing(
@@ -678,7 +674,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" property of entity "e" must be a string.'
+  'If defined, the "name" property of entity "e" must be a string.',
 );
 
 test.failing(
@@ -691,7 +687,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "scripts" property of entity "e" must be an array containing only script identifiers (strings).'
+  'If defined, the "scripts" property of entity "e" must be an array containing only script identifiers (strings).',
 );
 
 test.failing(
@@ -705,7 +701,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "scripts" property of entity "e" must be an array containing only script identifiers (strings).'
+  'If defined, the "scripts" property of entity "e" must be an array containing only script identifiers (strings).',
 );
 
 test.failing(
@@ -718,7 +714,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "variables" property of entity "e" must be an object.'
+  'If defined, the "variables" property of entity "e" must be an object.',
 );
 
 test.failing(
@@ -731,7 +727,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'All authentication template variables must be objects, but the following variables owned by entity "e" are not objects: "v".'
+  'All wallet template variables must be objects, but the following variables owned by entity "e" are not objects: "v".',
 );
 
 test.failing(
@@ -744,7 +740,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "type" property of variable "v" must be a valid authentication template variable type. Available types are: "AddressData", "HdKey", "Key", "WalletData".'
+  'The "type" property of variable "v" must be a valid wallet template variable type. Available types are: "AddressData", "HdKey", "Key", "WalletData".',
 );
 
 test.failing(
@@ -759,7 +755,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "description" property of variable "v" must be a string.'
+  'If defined, the "description" property of variable "v" must be a string.',
 );
 
 test.failing(
@@ -774,7 +770,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" property of variable "v" must be a string.'
+  'If defined, the "name" property of variable "v" must be a string.',
 );
 
 test.failing(
@@ -789,7 +785,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "addressOffset" property of HdKey "v" must be a number.'
+  'If defined, the "addressOffset" property of HdKey "v" must be a number.',
 );
 
 test.failing(
@@ -804,7 +800,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "hdPublicKeyDerivationPath" property of HdKey "v" must be a string.'
+  'If defined, the "hdPublicKeyDerivationPath" property of HdKey "v" must be a string.',
 );
 
 test.failing(
@@ -819,7 +815,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "privateDerivationPath" property of HdKey "v" must be a string.'
+  'If defined, the "privateDerivationPath" property of HdKey "v" must be a string.',
 );
 
 test.failing(
@@ -834,7 +830,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "publicDerivationPath" property of HdKey "v" must be a string.'
+  'If defined, the "publicDerivationPath" property of HdKey "v" must be a string.',
 );
 
 test.failing(
@@ -849,7 +845,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "privateDerivationPath" property of HdKey "v" must be a valid private derivation path, but the provided value is "m". A valid path must begin with "m" and include only "/", "\'", a single "i" address index character, and numbers.'
+  'If defined, the "privateDerivationPath" property of HdKey "v" must be a valid private derivation path, but the provided value is "m". A valid path must begin with "m" and include only "/", "\'", a single "i" address index character, and numbers.',
 );
 
 test.failing(
@@ -866,7 +862,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "hdPublicKeyDerivationPath" property of an HdKey must be a valid private derivation path for the HdKey\'s HD public node, but the provided value for HdKey "v" is "M/0". A valid path must begin with "m" and include only "/", "\'", and numbers (the "i" character cannot be used in "hdPublicKeyDerivationPath").'
+  'If defined, the "hdPublicKeyDerivationPath" property of an HdKey must be a valid private derivation path for the HdKey\'s HD public node, but the provided value for HdKey "v" is "M/0". A valid path must begin with "m" and include only "/", "\'", and numbers (the "i" character cannot be used in "hdPublicKeyDerivationPath").',
 );
 
 test.failing(
@@ -883,7 +879,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "publicDerivationPath" property of HdKey "v" must be a valid public derivation path, but the current value is "m/0". Public derivation paths must begin with "M" and include only "/", a single "i" address index character, and numbers. If the "privateDerivationPath" uses hardened derivation, the "publicDerivationPath" should be set to enable public derivation from the "hdPublicKeyDerivationPath".'
+  'The "publicDerivationPath" property of HdKey "v" must be a valid public derivation path, but the current value is "m/0". Public derivation paths must begin with "M" and include only "/", a single "i" address index character, and numbers. If the "privateDerivationPath" uses hardened derivation, the "publicDerivationPath" should be set to enable public derivation from the "hdPublicKeyDerivationPath".',
 );
 
 test.failing(
@@ -908,7 +904,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The "privateDerivationPath" property of HdKey "v" is "m/2\'/i", but the implied private derivation path of "hdPublicKeyDerivationPath" and "publicDerivationPath" is "m/1\'/i". The "publicDerivationPath" property must be set to allow for public derivation of the same HD node derived by "privateDerivationPath" beginning from the HD public key derived at "hdPublicKeyDerivationPath".'
+  'The "privateDerivationPath" property of HdKey "v" is "m/2\'/i", but the implied private derivation path of "hdPublicKeyDerivationPath" and "publicDerivationPath" is "m/1\'/i". The "publicDerivationPath" property must be set to allow for public derivation of the same HD node derived by "privateDerivationPath" beginning from the HD public key derived at "hdPublicKeyDerivationPath".',
 );
 
 test(
@@ -927,7 +923,7 @@ test(
     scripts: { a: { script: '' } },
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test(
@@ -970,7 +966,7 @@ test(
     scripts: { a: { script: '' } },
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -983,7 +979,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'All authentication template scenarios must be objects, but the following scenarios are not objects: "a".'
+  'All wallet template scenarios must be objects, but the following scenarios are not objects: "a".',
 );
 
 test.failing(
@@ -996,7 +992,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "name" property of scenario "a" must be a string.'
+  'If defined, the "name" property of scenario "a" must be a string.',
 );
 
 test.failing(
@@ -1009,7 +1005,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "description" property of scenario "a" must be a string.'
+  'If defined, the "description" property of scenario "a" must be a string.',
 );
 
 test.failing(
@@ -1022,7 +1018,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "extends" property of scenario "a" must be a string.'
+  'If defined, the "extends" property of scenario "a" must be a string.',
 );
 
 test.failing(
@@ -1035,7 +1031,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, each scenario ID referenced by another scenario\'s "extends" property must exist. Unknown scenario IDs: "c", "d".'
+  'If defined, each scenario ID referenced by another scenario\'s "extends" property must exist. Unknown scenario IDs: "c", "d".',
 );
 
 test.failing(
@@ -1048,7 +1044,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).',
 );
 
 test.failing(
@@ -1061,7 +1057,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).',
 );
 
 test.failing(
@@ -1074,7 +1070,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+  'If defined, the "value" property of scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).',
 );
 
 test(
@@ -1097,7 +1093,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1110,7 +1106,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data" property of scenario "a" must be an object.'
+  'If defined, the "data" property of scenario "a" must be an object.',
 );
 
 test(
@@ -1129,7 +1125,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1142,7 +1138,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.bytecode" property of scenario "a" must be an object, and each value must be a string.'
+  'If defined, the "data.bytecode" property of scenario "a" must be an object, and each value must be a string.',
 );
 
 test(
@@ -1161,7 +1157,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1174,7 +1170,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).',
 );
 
 test.failing(
@@ -1187,7 +1183,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).',
 );
 
 test.failing(
@@ -1200,7 +1196,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).',
 );
 
 test.failing(
@@ -1213,7 +1209,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).'
+  'If defined, the "currentBlockHeight" property of scenario "a" must be a positive integer from 0 to 499,999,999 (inclusive).',
 );
 
 test(
@@ -1232,7 +1228,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1245,7 +1241,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "currentBlockTime" property of scenario "a" must be a positive integer from 500,000,000 to 4,294,967,295 (inclusive).'
+  'If defined, the "currentBlockTime" property of scenario "a" must be a positive integer from 500,000,000 to 4,294,967,295 (inclusive).',
 );
 
 test(
@@ -1264,7 +1260,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1277,7 +1273,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys" property of scenario "a" must be an object.'
+  'If defined, the "data.hdKeys" property of scenario "a" must be an object.',
 );
 
 test.failing(
@@ -1290,7 +1286,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).',
 );
 
 test.failing(
@@ -1303,7 +1299,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).',
 );
 
 test.failing(
@@ -1316,7 +1312,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).',
 );
 
 test.failing(
@@ -1329,7 +1325,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).'
+  'If defined, the "data.hdKeys.addressIndex" property of scenario "a" must be a positive integer between 0 and 2,147,483,648 (inclusive).',
 );
 
 test.failing(
@@ -1342,7 +1338,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.hdPublicKeys" property of scenario "a" must be an object, and each value must be a string.'
+  'If defined, the "data.hdKeys.hdPublicKeys" property of scenario "a" must be an object, and each value must be a string.',
 );
 
 test.failing(
@@ -1355,7 +1351,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.hdPublicKeys" property of scenario "a" must be an object, and each value must be a string.'
+  'If defined, the "data.hdKeys.hdPublicKeys" property of scenario "a" must be an object, and each value must be a string.',
 );
 
 test.failing(
@@ -1368,7 +1364,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.hdPrivateKeys" property of scenario "a" must be an object, and each value must be a string.'
+  'If defined, the "data.hdKeys.hdPrivateKeys" property of scenario "a" must be an object, and each value must be a string.',
 );
 
 test.failing(
@@ -1381,7 +1377,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.hdKeys.hdPrivateKeys" property of scenario "a" must be an object, and each value must be a string.'
+  'If defined, the "data.hdKeys.hdPrivateKeys" property of scenario "a" must be an object, and each value must be a string.',
 );
 
 test(
@@ -1426,7 +1422,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1439,7 +1435,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.keys" property of scenario "a" must be an object.'
+  'If defined, the "data.keys" property of scenario "a" must be an object.',
 );
 
 test(
@@ -1458,7 +1454,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1471,7 +1467,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.keys.privateKeys" property of scenario "a" must be an object, and each value must be a 32-byte, hexadecimal-encoded private key.'
+  'If defined, the "data.keys.privateKeys" property of scenario "a" must be an object, and each value must be a 32-byte, hexadecimal-encoded private key.',
 );
 
 test.failing(
@@ -1484,7 +1480,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "data.keys.privateKeys" property of scenario "a" must be an object, and each value must be a 32-byte, hexadecimal-encoded private key.'
+  'If defined, the "data.keys.privateKeys" property of scenario "a" must be an object, and each value must be a 32-byte, hexadecimal-encoded private key.',
 );
 
 test(
@@ -1523,7 +1519,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1536,7 +1532,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "transaction" property of scenario "a" must be an object.'
+  'If defined, the "transaction" property of scenario "a" must be an object.',
 );
 
 test(
@@ -1555,7 +1551,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1568,7 +1564,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "locktime" property of scenario "a" must be an integer between 0 and 4,294,967,295 (inclusive).'
+  'If defined, the "locktime" property of scenario "a" must be an integer between 0 and 4,294,967,295 (inclusive).',
 );
 
 test(
@@ -1587,7 +1583,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1600,7 +1596,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "version" property of scenario "a" must be an integer between 0 and 4,294,967,295 (inclusive).'
+  'If defined, the "version" property of scenario "a" must be an integer between 0 and 4,294,967,295 (inclusive).',
 );
 
 test(
@@ -1619,7 +1615,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1632,7 +1628,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "transaction.inputs" array of scenario "a" must have exactly one input under test (an "unlockingBytecode" set to "null").'
+  'If defined, the "transaction.inputs" array of scenario "a" must have exactly one input under test (an "unlockingBytecode" set to "null").',
 );
 
 test.failing(
@@ -1648,7 +1644,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "transaction.inputs" property of scenario "a" must be an array of scenario input objects.'
+  'If defined, the "transaction.inputs" property of scenario "a" must be an array of scenario input objects.',
 );
 
 test.failing(
@@ -1667,7 +1663,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "outpointIndex" property of input 0 in scenario "a" must be a positive integer.'
+  'If defined, the "outpointIndex" property of input 0 in scenario "a" must be a positive integer.',
 );
 
 test.failing(
@@ -1686,7 +1682,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "outpointTransactionHash" property of input 0 in scenario "a" must be a 32-byte, hexadecimal-encoded hash (string).'
+  'If defined, the "outpointTransactionHash" property of input 0 in scenario "a" must be a 32-byte, hexadecimal-encoded hash (string).',
 );
 
 test.failing(
@@ -1707,7 +1703,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "outpointTransactionHash" property of input 0 in scenario "a" must be a 32-byte, hexadecimal-encoded hash (string).'
+  'If defined, the "outpointTransactionHash" property of input 0 in scenario "a" must be a 32-byte, hexadecimal-encoded hash (string).',
 );
 
 test.failing(
@@ -1726,7 +1722,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "sequenceNumber" property of input 0 in scenario "a" must be a number between 0 and 4294967295 (inclusive).'
+  'If defined, the "sequenceNumber" property of input 0 in scenario "a" must be a number between 0 and 4294967295 (inclusive).',
 );
 
 test.failing(
@@ -1745,7 +1741,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "unlockingBytecode" property of input 0 in scenario "a" must be either a null value or a hexadecimal-encoded string.'
+  'If defined, the "unlockingBytecode" property of input 0 in scenario "a" must be either a null value or a hexadecimal-encoded string.',
 );
 
 test(
@@ -1794,7 +1790,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1813,7 +1809,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "transaction.outputs" property of scenario "a" must be have at least one output.'
+  'If defined, the "transaction.outputs" property of scenario "a" must be have at least one output.',
 );
 
 test.failing(
@@ -1829,7 +1825,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "transaction.outputs" property of scenario "a" must be an array of scenario output objects.'
+  'If defined, the "transaction.outputs" property of scenario "a" must be an array of scenario output objects.',
 );
 
 test.failing(
@@ -1848,7 +1844,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "lockingBytecode" property of output 0 in scenario "a" must be a string or an object.'
+  'If defined, the "lockingBytecode" property of output 0 in scenario "a" must be a string or an object.',
 );
 
 test.failing(
@@ -1867,7 +1863,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If the "lockingBytecode" property of output 0 in scenario "a" is a string, it must be a valid, hexadecimal-encoded locking bytecode.'
+  'If the "lockingBytecode" property of output 0 in scenario "a" is a string, it must be a valid, hexadecimal-encoded locking bytecode.',
 );
 
 test.failing(
@@ -1886,7 +1882,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "script" property of output 0 in scenario "a" must be a hexadecimal-encoded string or "null".'
+  'If defined, the "script" property of output 0 in scenario "a" must be a hexadecimal-encoded string or "null".',
 );
 
 test.failing(
@@ -1905,7 +1901,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "overrides" property of output 0 in scenario "a" must be an object.'
+  'If defined, the "overrides" property of output 0 in scenario "a" must be an object.',
 );
 
 test.failing(
@@ -1924,7 +1920,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'If defined, the "valueSatoshis" property of output 0 in scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).'
+  'If defined, the "valueSatoshis" property of output 0 in scenario "a" must be either a number or a little-endian, unsigned 64-bit integer as a hexadecimal-encoded string (16 characters).',
 );
 
 test(
@@ -1983,7 +1979,7 @@ test(
     scripts: {},
     supported: ['BCH_SPEC'],
     version: 0,
-  }
+  },
 );
 
 test.failing(
@@ -1995,7 +1991,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'Built-in identifiers may not be re-used by any entity, variable, script, or scenario. The following built-in identifiers are re-used: "current_block_height", "signing_serialization".'
+  'Built-in identifiers may not be re-used by any entity, variable, script, or scenario. The following built-in identifiers are re-used: "current_block_height", "signing_serialization".',
 );
 
 test.failing(
@@ -2008,7 +2004,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'The ID of each entity, variable, script, and scenario in an authentication template must be unique. The following IDs are re-used: "b", "d".'
+  'The ID of each entity, variable, script, and scenario in a wallet template must be unique. The following IDs are re-used: "b", "d".',
 );
 
 test.failing(
@@ -2020,7 +2016,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'Only known scripts may be assigned to entities. The following script IDs are not provided in this template: "b", "c".'
+  'Only known scripts may be assigned to entities. The following script IDs are not provided in this template: "b", "c".',
 );
 
 test.failing(
@@ -2054,7 +2050,7 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'Only known scenarios may be referenced by scripts. The following scenario IDs are not provided in this template: "s1", "s2", "s3", "s4", "s5", "s6", "s7".'
+  'Only known scenarios may be referenced by scripts. The following scenario IDs are not provided in this template: "s1", "s2", "s3", "s4", "s5", "s6", "s7".',
 );
 
 test.failing(
@@ -2093,5 +2089,5 @@ test.failing(
     supported: ['BCH_SPEC'],
     version: 0,
   },
-  'Only known entities may be referenced by hdKeys properties within scenarios. The following entity IDs are not provided in this template: "c", "d", "e", "f".'
+  'Only known entities may be referenced by hdKeys properties within scenarios. The following entity IDs are not provided in this template: "c", "d", "e", "f".',
 );

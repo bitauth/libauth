@@ -2,26 +2,26 @@
 import test from 'ava';
 
 import type {
-  AuthenticationTemplate,
   ExtendedScenarioDefinition,
   PartialExactOptional,
   Scenario,
+  WalletTemplate,
 } from '../lib.js';
 import {
-  authenticationTemplateP2pkh,
-  authenticationTemplateP2pkhNonHd,
-  authenticationTemplateToCompilerBCH,
-  authenticationTemplateToCompilerConfiguration,
   extendedScenarioDefinitionToCompilationData,
   extendScenarioDefinition,
   extendScenarioDefinitionData,
   generateDefaultScenarioDefinition,
   generateExtendedScenario,
   hexToBin,
-  importAuthenticationTemplate,
+  importWalletTemplate,
   sha256,
   sha512,
   stringifyTestVector,
+  walletTemplateP2pkh,
+  walletTemplateP2pkhNonHd,
+  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerConfiguration,
 } from '../lib.js';
 import { cashChannelsJson } from '../transaction/transaction-e2e.spec.helper.js';
 
@@ -50,13 +50,13 @@ test('generateDefaultScenarioDefinition: empty', (t) => {
         locktime: 0,
         outputs: [
           {
-            lockingBytecode: {},
+            lockingBytecode: '6a076c696261757468',
           },
         ],
         version: 2,
       },
     },
-    stringifyTestVector(scenario)
+    stringifyTestVector(scenario),
   );
 });
 
@@ -75,7 +75,7 @@ test('generateDefaultScenarioDefinition: missing sha256', (t) => {
   t.deepEqual(
     scenario,
     'An implementations of "sha256" is required to generate defaults for HD keys, but the "sha256" property is not included in this compiler configuration.',
-    stringifyTestVector(scenario)
+    stringifyTestVector(scenario),
   );
 });
 
@@ -94,7 +94,7 @@ test('generateDefaultScenarioDefinition: missing sha512', (t) => {
   t.deepEqual(
     scenario,
     'An implementations of "sha512" is required to generate defaults for HD keys, but the "sha512" property is not included in this compiler configuration.',
-    stringifyTestVector(scenario)
+    stringifyTestVector(scenario),
   );
 });
 
@@ -106,7 +106,7 @@ test('extendScenarioDefinitionData: empty', (t) => {
 test('extendScenarioDefinitionData: 1', (t) => {
   const extended = extendScenarioDefinitionData(
     { hdKeys: { hdPublicKeys: { b: '(hd public key)' } } },
-    { bytecode: { test: '<"abc">' } }
+    { bytecode: { test: '<"abc">' } },
   );
   t.deepEqual(
     extended,
@@ -114,7 +114,7 @@ test('extendScenarioDefinitionData: 1', (t) => {
       bytecode: { test: '<"abc">' },
       hdKeys: { hdPublicKeys: { b: '(hd public key)' } },
     },
-    stringifyTestVector(extended)
+    stringifyTestVector(extended),
   );
 });
 
@@ -149,13 +149,13 @@ test('extendScenarioDefinition: default', (t) => {
         locktime: 0,
         outputs: [
           {
-            lockingBytecode: {},
+            lockingBytecode: '6a076c696261757468',
           },
         ],
         version: 2,
       },
     },
-    stringifyTestVector(extended)
+    stringifyTestVector(extended),
   );
 });
 
@@ -204,7 +204,7 @@ test('extendScenarioDefinition: complex extend', (t) => {
         },
       },
       transaction: {},
-    }
+    },
   );
   t.deepEqual(
     extended,
@@ -249,7 +249,7 @@ test('extendScenarioDefinition: complex extend', (t) => {
         version: 2,
       },
     },
-    stringifyTestVector(extended)
+    stringifyTestVector(extended),
   );
 });
 
@@ -282,7 +282,7 @@ test('extendScenarioDefinition: complex extend (2)', (t) => {
         currentBlockTime: 1231469665,
       },
       sourceOutputs: [{ valueSatoshis: 'ffffffffffffffff' }],
-    }
+    },
   );
   t.deepEqual(
     extended,
@@ -310,7 +310,7 @@ test('extendScenarioDefinition: complex extend (2)', (t) => {
       },
       sourceOutputs: [{ valueSatoshis: 'ffffffffffffffff' }],
     },
-    stringifyTestVector(extended)
+    stringifyTestVector(extended),
   );
 });
 
@@ -322,7 +322,7 @@ test('generateExtendedScenario: unknown scenario identifier', (t) => {
   t.deepEqual(
     extended,
     'Cannot extend scenario "unknown": a scenario with the identifier unknown is not included in this compiler configuration.',
-    stringifyTestVector(extended)
+    stringifyTestVector(extended),
   );
 });
 
@@ -338,9 +338,9 @@ test('extendedScenarioDefinitionToCompilationData: empty hdKeys', (t) => {
   t.deepEqual(extended, { hdKeys: {} }, stringifyTestVector(extended));
 });
 
-test('generateDefaultScenarioDefinition: authenticationTemplateP2pkhNonHd', (t) => {
-  const configuration = authenticationTemplateToCompilerConfiguration(
-    authenticationTemplateP2pkhNonHd
+test('generateDefaultScenarioDefinition: walletTemplateP2pkhNonHd', (t) => {
+  const configuration = walletTemplateToCompilerConfiguration(
+    walletTemplateP2pkhNonHd,
   );
   const scenario = generateDefaultScenarioDefinition(configuration);
 
@@ -360,19 +360,17 @@ test('generateDefaultScenarioDefinition: authenticationTemplateP2pkhNonHd', (t) 
       transaction: {
         inputs: [{ unlockingBytecode: ['slot'] }],
         locktime: 0,
-        outputs: [{ lockingBytecode: {} }],
+        outputs: [{ lockingBytecode: '6a076c696261757468' }],
         version: 2,
       },
     },
-    stringifyTestVector(scenario)
+    stringifyTestVector(scenario),
   );
 });
 
-test('generateDefaultScenarioDefinition: authenticationTemplateP2pkh', (t) => {
+test('generateDefaultScenarioDefinition: walletTemplateP2pkh', (t) => {
   const configuration = {
-    ...authenticationTemplateToCompilerConfiguration(
-      authenticationTemplateP2pkh
-    ),
+    ...walletTemplateToCompilerConfiguration(walletTemplateP2pkh),
     sha256,
     sha512,
   };
@@ -395,11 +393,11 @@ test('generateDefaultScenarioDefinition: authenticationTemplateP2pkh', (t) => {
       transaction: {
         inputs: [{ unlockingBytecode: ['slot'] }],
         locktime: 0,
-        outputs: [{ lockingBytecode: {} }],
+        outputs: [{ lockingBytecode: '6a076c696261757468' }],
         version: 2,
       },
     },
-    stringifyTestVector(scenario)
+    stringifyTestVector(scenario),
   );
 });
 
@@ -407,11 +405,11 @@ export const expectScenarioGenerationResult = test.macro<
   [
     string | undefined,
     string | undefined,
-    PartialExactOptional<AuthenticationTemplate>,
+    PartialExactOptional<WalletTemplate>,
     Scenario | string,
     PartialExactOptional<
-      ReturnType<typeof authenticationTemplateToCompilerConfiguration>
-    >?
+      ReturnType<typeof walletTemplateToCompilerConfiguration>
+    >?,
   ]
 >(
   (
@@ -420,10 +418,10 @@ export const expectScenarioGenerationResult = test.macro<
     unlockingScriptId,
     templateOverrides,
     expectedResult,
-    configurationOverrides
-    // eslint-disable-next-line max-params
+    configurationOverrides,
+    // eslint-disable-next-line @typescript-eslint/max-params
   ) => {
-    const configuration = authenticationTemplateToCompilerConfiguration({
+    const configuration = walletTemplateToCompilerConfiguration({
       ...{
         entities: {
           owner: {
@@ -435,25 +433,47 @@ export const expectScenarioGenerationResult = test.macro<
           },
         },
         scripts: {
-          lock: {
-            lockingType: 'standard',
+          compileTimeAssert: {
+            name: 'Var1 Padded',
+            pushed: true,
+            script:
+              '$(<var1> OP_DUP <0> OP_GREATERTHAN OP_VERIFY OP_DUP <0xff7f> OP_LESSTHANOREQUAL OP_VERIFY <2> OP_NUM2BIN)',
+            tests: {
+              is_within_range: {
+                check: 'OP_SIZE <2> OP_EQUALVERIFY OP_BIN2NUM <var1> OP_EQUAL',
+                invalid: ['above', 'below'],
+                name: 'Is Within Range',
+                passes: ['within'],
+              },
+            },
+          },
+          p2pkhLock: {
+            script:
+              'OP_DUP OP_HASH160 <$(<key1.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
+          },
+          p2pkhUnlock: {
+            script: '<key1.schnorr_signature.all_outputs> <key1.public_key>',
+            unlocks: 'p2pkhLock',
+          },
+          p2sh20Lock: {
+            lockingType: 'p2sh20',
             script: '<var1> OP_DROP OP_DROP OP_1',
           },
-          unlock: {
+          p2sh20Unlock: {
             script: '<key1.schnorr_signature.all_outputs>',
-            unlocks: 'lock',
+            unlocks: 'p2sh20Lock',
           },
         },
         supported: ['BCH_2020_05'],
         version: 0,
       },
       ...templateOverrides,
-    } as AuthenticationTemplate);
+    } as WalletTemplate);
 
     const compiler = createCompilerBCH({
       ...configuration,
       ...(configurationOverrides as Partial<
-        ReturnType<typeof authenticationTemplateToCompilerConfiguration>
+        ReturnType<typeof walletTemplateToCompilerConfiguration>
       >),
     });
 
@@ -466,17 +486,19 @@ export const expectScenarioGenerationResult = test.macro<
       scenario,
       expectedResult,
       `- \nResult: ${stringifyTestVector(
-        scenario
-      )}\n\nExpected:\n ${stringifyTestVector(expectedResult)}\n`
+        scenario,
+      )}\n\nExpected:\n ${stringifyTestVector(
+        expectedResult,
+      )}\n\nConfiguration: ${stringifyTestVector(configuration)}`,
     );
-  }
+  },
 );
 
 test(
   'generateScenario: deep extend',
   expectScenarioGenerationResult,
   'c',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: {
@@ -517,7 +539,7 @@ test(
       keys: {
         privateKeys: {
           another: hexToBin(
-            '00000000000000000000000000000000000000000000000000000000000000ff'
+            '00000000000000000000000000000000000000000000000000000000000000ff',
           ),
         },
       },
@@ -526,7 +548,9 @@ test(
       inputIndex: 0,
       sourceOutputs: [
         {
-          lockingBytecode: hexToBin('03010203757551'),
+          lockingBytecode: hexToBin(
+            'a9147ab197d4888698145e7a0af625f8181a95604cd887',
+          ),
           valueSatoshis: 0n,
         },
       ],
@@ -535,32 +559,32 @@ test(
           {
             outpointIndex: 0,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000001'
+              '0000000000000000000000000000000000000000000000000000000000000001',
             ),
             sequenceNumber: 0,
             unlockingBytecode: hexToBin(
-              '41d1851c0a464c5d6b5b15452327e187f5c19d0805a2ce821b00b239dcc2de2112335cf481bed0f69c780adf9eda30c3e0706b893b53e0a58fa9fad0628e30d0da41'
+              '41fd8c2293325a5e85ba2683aa41a3ad483a3917db24b512c396b696a5ccf023ffdbf3883a589271ff90589f0bcbc1ab69b966257df71c0dba78aea4e4064c5c00410703010203757551',
             ),
           },
         ],
         locktime: 0,
         outputs: [
           {
-            lockingBytecode: hexToBin('03010203757551'),
+            lockingBytecode: hexToBin('6a076c696261757468'),
             valueSatoshis: 0n,
           },
         ],
         version: 2,
       },
     },
-  }
+  },
 );
 
 test(
   'generateScenario: cyclical extend',
   expectScenarioGenerationResult,
   'c',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: { extends: 'c' },
@@ -568,47 +592,47 @@ test(
       c: { extends: 'b' },
     },
   },
-  'Cannot generate scenario "c": Cannot extend scenario "c": scenario "c" extends itself. Scenario inheritance path: c → b → a'
+  'Cannot generate scenario "c": Cannot extend scenario "c": scenario "c" extends itself. Scenario inheritance path: c → b → a',
 );
 
 test(
   'generateScenario: no scenarios',
   expectScenarioGenerationResult,
   'does_not_exist',
-  'unlock',
+  'p2sh20Unlock',
   { scenarios: undefined },
-  'Cannot generate scenario "does_not_exist": a scenario definition with the identifier does_not_exist is not included in this compiler configuration.'
+  'Cannot generate scenario "does_not_exist": a scenario definition with the identifier does_not_exist is not included in this compiler configuration.',
 );
 
 test(
   'generateScenario: unknown scenario ID',
   expectScenarioGenerationResult,
   'does_not_exist',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: { another: {} },
   },
-  'Cannot generate scenario "does_not_exist": a scenario definition with the identifier does_not_exist is not included in this compiler configuration.'
+  'Cannot generate scenario "does_not_exist": a scenario definition with the identifier does_not_exist is not included in this compiler configuration.',
 );
 
 test(
   'generateScenario: invalid bytecode value',
   expectScenarioGenerationResult,
   'a',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: { data: { bytecode: { var1: 'invalid' } } },
     },
   },
-  'Cannot generate scenario "a". Compilation error while generating bytecode for "var1": [1, 1] Unknown identifier "invalid".'
+  'Cannot generate scenario "a". Compilation error while generating bytecode for "var1": [1, 1] Unknown identifier "invalid".',
 );
 
-test.failing(
+test(
   'generateScenario: no scenario ID',
   expectScenarioGenerationResult,
   undefined,
-  'unlock',
+  'p2pkhUnlock',
   {
     scenarios: {
       a: {},
@@ -628,7 +652,7 @@ test.failing(
       keys: {
         privateKeys: {
           another: hexToBin(
-            '0000000000000000000000000000000000000000000000000000000000000001'
+            '0000000000000000000000000000000000000000000000000000000000000001',
           ),
         },
       },
@@ -637,7 +661,9 @@ test.failing(
       inputIndex: 0,
       sourceOutputs: [
         {
-          lockingBytecode: hexToBin(''),
+          lockingBytecode: hexToBin(
+            '76a9141431b2926e6c7953f3dc3f2c5c19fe2d2dc57cfc88ac',
+          ),
           valueSatoshis: 0n,
         },
       ],
@@ -646,23 +672,25 @@ test.failing(
           {
             outpointIndex: 0,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000000'
+              '0000000000000000000000000000000000000000000000000000000000000001',
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: hexToBin(
+              '4133afdb65a3c9d2b50f32bc0d6750473425b3c21b138c66596182f072cc2f49d956b71e0183f1aa5620616405ebff584a1e3d4584e9c83b3cd8cc669295db73f641210309c64e4fbc61f4ddc950eb0acff2047850b864d6fb8198070a946cda5d72e5ba',
+            ),
           },
         ],
         locktime: 0,
         outputs: [
           {
-            lockingBytecode: hexToBin(''),
+            lockingBytecode: hexToBin('6a076c696261757468'),
             valueSatoshis: 0n,
           },
         ],
         version: 2,
       },
     },
-  }
+  },
 );
 
 test(
@@ -685,7 +713,7 @@ test(
       keys: {
         privateKeys: {
           another: hexToBin(
-            '0000000000000000000000000000000000000000000000000000000000000001'
+            '0000000000000000000000000000000000000000000000000000000000000001',
           ),
         },
       },
@@ -703,7 +731,7 @@ test(
           {
             outpointIndex: 0,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000001'
+              '0000000000000000000000000000000000000000000000000000000000000001',
             ),
             sequenceNumber: 0,
             unlockingBytecode: hexToBin(''),
@@ -712,34 +740,34 @@ test(
         locktime: 0,
         outputs: [
           {
-            lockingBytecode: hexToBin(''),
+            lockingBytecode: hexToBin('6a076c696261757468'),
             valueSatoshis: 0n,
           },
         ],
         version: 2,
       },
     },
-  }
+  },
 );
 
 test(
   'generateScenario: mismatched source outputs and transaction inputs',
   expectScenarioGenerationResult,
   'a',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: { transaction: { inputs: [{}, {}] } },
     },
   },
-  'Cannot generate scenario "a": could not match source outputs with inputs - "sourceOutputs" must be the same length as "transaction.inputs".'
+  'Cannot generate scenario "a": could not match source outputs with inputs - "sourceOutputs" must be the same length as "transaction.inputs".',
 );
 
 test(
   'generateScenario: ambiguous input under test',
   expectScenarioGenerationResult,
   'a',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: {
@@ -747,14 +775,14 @@ test(
       },
     },
   },
-  'Cannot generate scenario "a": Failed compilation of source output at index 0: Cannot resolve "var1" - the "bytecode" property was not provided in the compilation data. Failed compilation of transaction output at index 0: No script with an ID of "unknown" was provided in the compiler configuration.'
+  'Cannot generate scenario "a": Failed compilation of source output at index 0: Cannot resolve "var1" - the "bytecode" property was not provided in the compilation data. Failed compilation of transaction output at index 0: No script with an ID of "unknown" was provided in the compiler configuration.',
 );
 
 test(
   'generateScenario: no locking script',
   expectScenarioGenerationResult,
   'a',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: {
@@ -762,10 +790,10 @@ test(
       },
     },
   },
-  'Cannot generate scenario "a" using unlocking script "unlock": the locking script unlocked by "unlock" is not provided in this compiler configuration.',
+  'Cannot generate scenario "a" using unlocking script "p2sh20Unlock": the locking script unlocked by "p2sh20Unlock" is not provided in this compiler configuration.',
   {
     unlockingScripts: undefined,
-  }
+  },
 );
 
 test.failing(
@@ -783,14 +811,14 @@ test.failing(
   'Cannot generate scenario "a": Cannot generate locking bytecode for output 0: this output is set to use the script unlocked by the unlocking script under test, but an unlocking script ID was not provided for scenario generation.',
   {
     unlockingScripts: undefined,
-  }
+  },
 );
 
-test.failing(
+test(
   'generateScenario: simple transaction, locking bytecode override',
   expectScenarioGenerationResult,
   'a',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: {
@@ -804,7 +832,9 @@ test.failing(
             },
           },
         },
-        sourceOutputs: [{ valueSatoshis: 'ffffffffffffffff' }],
+        sourceOutputs: [
+          { lockingBytecode: ['slot'], valueSatoshis: 'ffffffffffffffff' },
+        ],
         transaction: {
           outputs: [
             {
@@ -821,13 +851,13 @@ test.failing(
       },
     },
     scripts: {
-      lock: {
+      p2sh20Lock: {
         lockingType: 'standard',
         script: 'OP_DROP <current_block_height> OP_DROP OP_1',
       },
-      unlock: {
+      p2sh20Unlock: {
         script: '<key1.schnorr_signature.all_outputs>',
-        unlocks: 'lock',
+        unlocks: 'p2sh20Lock',
       },
     },
   },
@@ -846,7 +876,7 @@ test.failing(
       keys: {
         privateKeys: {
           another: hexToBin(
-            '00000000000000000000000000000000000000000000000000000000000000ff'
+            '00000000000000000000000000000000000000000000000000000000000000ff',
           ),
         },
       },
@@ -855,7 +885,7 @@ test.failing(
       inputIndex: 0,
       sourceOutputs: [
         {
-          lockingBytecode: hexToBin(''),
+          lockingBytecode: hexToBin('75557551'),
           valueSatoshis: 0xffffffffffffffffn,
         },
       ],
@@ -864,10 +894,12 @@ test.failing(
           {
             outpointIndex: 0,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000000'
+              '0000000000000000000000000000000000000000000000000000000000000001',
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: hexToBin(
+              '419f16a55d6a75256ed6618a12d058f13d3792a3970ea75f11f670a886341bbd9d6e48b9f0cc6ff5074a1b15dd2e398150d4dcc184af8aaecbdc26fb16d15d8b7441',
+            ),
           },
         ],
         locktime: 0,
@@ -884,18 +916,19 @@ test.failing(
         version: 3,
       },
     },
-  }
+  },
 );
 
-test.failing(
+test(
   'generateScenario: complex transaction, locking bytecode variable override',
   expectScenarioGenerationResult,
   'a',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: {
         data: { bytecode: { var1: '0x010203' } },
+        sourceOutputs: [{}, { lockingBytecode: ['slot'] }],
         transaction: {
           inputs: [
             {
@@ -947,7 +980,7 @@ test.failing(
       keys: {
         privateKeys: {
           another: hexToBin(
-            '0000000000000000000000000000000000000000000000000000000000000001'
+            '0000000000000000000000000000000000000000000000000000000000000001',
           ),
         },
       },
@@ -956,7 +989,15 @@ test.failing(
       inputIndex: 1,
       sourceOutputs: [
         {
-          lockingBytecode: hexToBin(''),
+          lockingBytecode: hexToBin(
+            'a9147ab197d4888698145e7a0af625f8181a95604cd887',
+          ),
+          valueSatoshis: 0n,
+        },
+        {
+          lockingBytecode: hexToBin(
+            'a9147ab197d4888698145e7a0af625f8181a95604cd887',
+          ),
           valueSatoshis: 0n,
         },
       ],
@@ -965,46 +1006,54 @@ test.failing(
           {
             outpointIndex: 1,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000001'
+              '0000000000000000000000000000000000000000000000000000000000000001',
             ),
             sequenceNumber: 1,
             unlockingBytecode: hexToBin('beef'),
           },
           {
-            outpointIndex: 0,
+            outpointIndex: 1,
             outpointTransactionHash: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000000'
+              '0000000000000000000000000000000000000000000000000000000000000001',
             ),
             sequenceNumber: 0,
-            unlockingBytecode: hexToBin(''),
+            unlockingBytecode: hexToBin(
+              '41ceed7320920a9b4035bc4afbb6118635113595a46bd5d64ee3651bb2e88986177b677219e864d639a405c4d0ab28a103a8b3df0cf49b6a0f1cd8d6d95dd9aa71410703010203757551',
+            ),
           },
         ],
         locktime: 4294967295,
         outputs: [
           {
-            lockingBytecode: hexToBin('03010203757551'),
+            lockingBytecode: hexToBin(
+              'a9147ab197d4888698145e7a0af625f8181a95604cd887',
+            ),
             valueSatoshis: 1000n,
           },
           {
-            lockingBytecode: hexToBin('03010203757551'),
+            lockingBytecode: hexToBin(
+              'a9147ab197d4888698145e7a0af625f8181a95604cd887',
+            ),
             valueSatoshis: 0n,
           },
           {
-            lockingBytecode: hexToBin('03030405757551'),
+            lockingBytecode: hexToBin(
+              'a9144e6f989ad736aaffd2f895768f274579722fc73b87',
+            ),
             valueSatoshis: 0xffffffffffffffffn,
           },
         ],
         version: 3,
       },
     },
-  }
+  },
 );
 
-test.failing(
+test(
   'generateScenario: locking bytecode generation failure',
   expectScenarioGenerationResult,
   'a',
-  'unlock',
+  'p2sh20Unlock',
   {
     scenarios: {
       a: {
@@ -1018,16 +1067,35 @@ test.failing(
       },
     },
   },
-  'Cannot generate scenario "a": Cannot generate locking bytecode for output 0: Compilation error while generating bytecode for "var1": [1, 1] Unknown identifier "broken".'
+  'Cannot generate scenario "a": Failed compilation of source output at index 0: Cannot resolve "var1" - the "bytecode" property was not provided in the compilation data. Failed compilation of transaction output at index 0: Could not compile scenario "data.bytecode": Compilation error while generating bytecode for "var1": [1, 1] Unknown identifier "broken".',
 );
 
-test.failing('generateScenario: cash-channels - after_payment_time', (t) => {
-  const template = importAuthenticationTemplate(cashChannelsJson);
+test(
+  'generateScenario: invalid scenario for tested script',
+  expectScenarioGenerationResult,
+  'above',
+  'compileTimeAssert.is_within_range.unlock',
+  {
+    scenarios: {
+      above: {
+        data: {
+          bytecode: {
+            var1: '32768',
+          },
+        },
+      },
+    },
+  },
+  'Cannot generate scenario "above": Failed compilation of source output at index 0: Compilation error in resolved script "compileTimeAssert": [1, 1] Failed to reduce evaluation: Program failed an OP_VERIFY operation.',
+);
+
+test('generateScenario: cash-channels-v1 - after_payment_time', (t) => {
+  const template = importWalletTemplate(cashChannelsJson);
   if (typeof template === 'string') {
     t.fail(template);
     return;
   }
-  const compiler = authenticationTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBCH(template);
   const scenario = compiler.generateScenario({
     scenarioId: 'after_payment_time',
     unlockingScriptId: 'execute_authorization',
@@ -1052,13 +1120,13 @@ test.failing('generateScenario: cash-channels - after_payment_time', (t) => {
         keys: {
           privateKeys: {
             owner: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000001'
+              '0000000000000000000000000000000000000000000000000000000000000001',
             ),
             rate_oracle: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000003'
+              '0000000000000000000000000000000000000000000000000000000000000003',
             ),
             receiver: hexToBin(
-              '0000000000000000000000000000000000000000000000000000000000000004'
+              '0000000000000000000000000000000000000000000000000000000000000005',
             ),
           },
         },
@@ -1067,8 +1135,10 @@ test.failing('generateScenario: cash-channels - after_payment_time', (t) => {
         inputIndex: 0,
         sourceOutputs: [
           {
-            lockingBytecode: undefined,
-            valueSatoshis: hexToBin('204e000000000000'),
+            lockingBytecode: hexToBin(
+              'a914582d988b353dbe4d34863606fc7fac13a026f30187',
+            ),
+            valueSatoshis: 20000n,
           },
         ],
         transaction: {
@@ -1076,25 +1146,27 @@ test.failing('generateScenario: cash-channels - after_payment_time', (t) => {
             {
               outpointIndex: 0,
               outpointTransactionHash: hexToBin(
-                '0000000000000000000000000000000000000000000000000000000000000000'
+                '0000000000000000000000000000000000000000000000000000000000000001',
               ),
               sequenceNumber: 0,
-              unlockingBytecode: undefined,
+              unlockingBytecode: hexToBin(
+                '412f8a7bef0803cf707cd971e50c3d0ecd432f361d40b22dddb548972522c49cf7d4d55c8eea3ce2e69e6db08857ebd503fc0f0bfecc1ba2fc29fd48d51b5f5a9f414c6902000000d5a45bffe65ef500725b4bc16e60ba39910d364324f702be75ed825c1c78a50c8cb9012517c817fead650287d61bdd9c68803b6bf9c64133dcab3e65b5a50cb9000000000000000000000000000000000000000000000000000000000000000100000000e24c4e210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817987c63766b56795f795779765c79a26958805779588057795880577958807e7e766b7e7e7e7cbbb16d6d5879020202004c92886c537958807e7c6c21022f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4766b7ea9882102f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9bb57795779815193528057797e7ea9011702a9147b01877e7e7e5579817b9458807c7e7c7eaa7c7e7e7e7e7e7e7ea86c7653797bad7b01407f757b7bba67ac6808204e00000000000004000000000880bf345e4100000000021027473045022100a42985db397f96f2dbec3846026c7e0d77a9de8e7a3239e6d241e1123e123e9602202bc889045417638a75ba423d567fa50a6f49ab9d23657dacdf09311db37b9be51477bf07ad61ce9c0ed3b026db9f6201a80a6afcec02042902e803035553440480bf345e473045022100f32fb0c45c9b0915455b6c8dbadb61f05f6b6e5cd74bce81e9fcadadbae466ba02207f7aa8052816478fc104d44b14161bbdc9011cadcc69b52f60337c0767e6622b514ce2210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817987c63766b56795f795779765c79a26958805779588057795880577958807e7e766b7e7e7e7cbbb16d6d5879020200886c537958807e7c6c21022f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4766b7ea9882102f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9bb57795779815193528057797e7ea9011702a9147b01877e7e7e5579817b9458807c7e7c7eaa7c7e7e7e7e7e7e7ea86c7653797bad7b01407f757b7bba67ac68',
+              ),
             },
           ],
           locktime: 1580515200,
           outputs: [
             {
               lockingBytecode: hexToBin(
-                'a9149a97dc2531b9b9af6319aab57ea369284289998987'
+                'a91456e3217f1b623d9d566ee2e648cf6c74ac6a9b1687',
               ),
-              valueSatoshis: hexToBin('1027000000000000'),
+              valueSatoshis: 10000n,
             },
           ],
           version: 2,
         },
       },
     },
-    stringifyTestVector(scenario)
+    stringifyTestVector(scenario),
   );
 });

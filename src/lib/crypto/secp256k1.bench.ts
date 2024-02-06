@@ -2,11 +2,12 @@
 import { randomBytes } from 'crypto';
 
 import test from 'ava';
+
+import { binToHex, generatePrivateKey, instantiateSecp256k1 } from '../lib.js';
+
 import suite from 'chuhai';
 import elliptic from 'elliptic';
 import secp256k1Node from 'secp256k1';
-
-import { binToHex, generatePrivateKey, instantiateSecp256k1 } from '../lib.js';
 
 const secp256k1Promise = instantiateSecp256k1();
 
@@ -38,11 +39,11 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async (t) 
       const privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       pubkeyUncompressed = secp256k1.derivePublicKeyUncompressed(
-        privKey
+        privKey,
       ) as Uint8Array;
       ellipticPublicKey = ellipticEc.keyFromPublic(
         binToHex(pubkeyUncompressed),
-        'hex'
+        'hex',
       );
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash) as Uint8Array;
       result = false;
@@ -52,7 +53,7 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async (t) 
       result = secp256k1.verifySignatureDERLowS(
         sigDER,
         pubkeyUncompressed,
-        messageHash
+        messageHash,
       );
     });
     s.bench('elliptic', () => {
@@ -64,7 +65,7 @@ test('bench: secp256k1: verify signature Low-S, uncompressed pubkey', async (t) 
       result = secp256k1Node.ecdsaVerify(
         secp256k1Node.signatureImport(sigDER),
         messageHash,
-        pubkeyUncompressed
+        pubkeyUncompressed,
       );
     });
     s.cycle(() => {
@@ -86,11 +87,11 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async (t) =>
       const privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(
-        privKey
+        privKey,
       ) as Uint8Array;
       ellipticPublicKey = ellipticEc.keyFromPublic(
         binToHex(pubkeyCompressed),
-        'hex'
+        'hex',
       );
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash) as Uint8Array;
       result = false;
@@ -100,7 +101,7 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async (t) =>
       result = secp256k1.verifySignatureDERLowS(
         sigDER,
         pubkeyCompressed,
-        messageHash
+        messageHash,
       );
     });
     s.bench('elliptic', () => {
@@ -112,7 +113,7 @@ test('bench: secp256k1: verify signature Low-S, compressed pubkey', async (t) =>
       result = secp256k1Node.ecdsaVerify(
         secp256k1Node.signatureImport(sigDER),
         messageHash,
-        pubkeyCompressed
+        pubkeyCompressed,
       );
     });
     s.cycle(() => {
@@ -131,18 +132,18 @@ test('bench: secp256k1: derive compressed pubkey', async (t) => {
     const nextCycle = () => {
       privKey = generatePrivateKey(secureRandom);
       pubkeyCompressedExpected = secp256k1.derivePublicKeyCompressed(
-        privKey
+        privKey,
       ) as Uint8Array;
     };
     nextCycle();
     s.bench('libauth', () => {
       pubkeyCompressedBenchmark = secp256k1.derivePublicKeyCompressed(
-        privKey
+        privKey,
       ) as Uint8Array;
     });
     s.bench('elliptic', () => {
       pubkeyCompressedBenchmark = Uint8Array.from(
-        ellipticEc.keyFromPrivate(privKey).getPublic().encodeCompressed()
+        ellipticEc.keyFromPrivate(privKey).getPublic().encodeCompressed(),
       );
     });
     s.bench('secp256k1-node', () => {
@@ -167,24 +168,24 @@ test('bench: secp256k1: create DER Low-S signature', async (t) => {
       messageHash = randomBytes(privateKeyLength);
       sigDERExpected = secp256k1.signMessageHashDER(
         privKey,
-        messageHash
+        messageHash,
       ) as Uint8Array;
     };
     nextCycle();
     s.bench('libauth', () => {
       sigDERBenchmark = secp256k1.signMessageHashDER(
         privKey,
-        messageHash
+        messageHash,
       ) as Uint8Array;
     });
     s.bench('elliptic', () => {
       sigDERBenchmark = Uint8Array.from(
-        ellipticEc.keyFromPrivate(privKey).sign(messageHash).toDER()
+        ellipticEc.keyFromPrivate(privKey).sign(messageHash).toDER(),
       );
     });
     s.bench('secp256k1-node', () => {
       sigDERBenchmark = secp256k1Node.signatureExport(
-        secp256k1Node.ecdsaSign(messageHash, privKey).signature
+        secp256k1Node.ecdsaSign(messageHash, privKey).signature,
       );
     });
     s.cycle(() => {
@@ -195,7 +196,7 @@ test('bench: secp256k1: create DER Low-S signature', async (t) => {
        */
       t.deepEqual(
         sigDERExpected,
-        secp256k1.normalizeSignatureDER(new Uint8Array(sigDERBenchmark))
+        secp256k1.normalizeSignatureDER(new Uint8Array(sigDERBenchmark)),
       );
       nextCycle();
     });
@@ -217,11 +218,11 @@ test('bench: secp256k1: sign: Schnorr vs. ECDSA', async (t) => {
       messageHash = randomBytes(privateKeyLength);
       sigDERExpected = secp256k1.signMessageHashDER(
         privKey,
-        messageHash
+        messageHash,
       ) as Uint8Array;
       sigSchnorrExpected = secp256k1.signMessageHashSchnorr(
         privKey,
-        messageHash
+        messageHash,
       ) as Uint8Array;
     };
     nextCycle();
@@ -229,14 +230,14 @@ test('bench: secp256k1: sign: Schnorr vs. ECDSA', async (t) => {
       isSchnorr = false;
       sigDERBenchmark = secp256k1.signMessageHashDER(
         privKey,
-        messageHash
+        messageHash,
       ) as Uint8Array;
     });
     s.bench('secp256k1.signMessageHashSchnorr', () => {
       isSchnorr = true;
       sigSchnorrBenchmark = secp256k1.signMessageHashSchnorr(
         privKey,
-        messageHash
+        messageHash,
       ) as Uint8Array;
     });
     s.cycle(() => {
@@ -263,12 +264,12 @@ test('bench: secp256k1: verify: Schnorr vs. ECDSA', async (t) => {
       const privKey = generatePrivateKey(secureRandom);
       messageHash = randomBytes(privateKeyLength);
       pubkeyCompressed = secp256k1.derivePublicKeyCompressed(
-        privKey
+        privKey,
       ) as Uint8Array;
       sigDER = secp256k1.signMessageHashDER(privKey, messageHash) as Uint8Array;
       sigSchnorr = secp256k1.signMessageHashSchnorr(
         privKey,
-        messageHash
+        messageHash,
       ) as Uint8Array;
       result = false;
     };
@@ -279,9 +280,9 @@ test('bench: secp256k1: verify: Schnorr vs. ECDSA', async (t) => {
         result = secp256k1.verifySignatureDERLowS(
           sigDER,
           pubkeyCompressed,
-          messageHash
+          messageHash,
         );
-      }
+      },
     );
     s.bench(
       'secp256k1.verifySignatureSchnorr (Schnorr, pubkey compressed)',
@@ -289,9 +290,9 @@ test('bench: secp256k1: verify: Schnorr vs. ECDSA', async (t) => {
         result = secp256k1.verifySignatureSchnorr(
           sigSchnorr,
           pubkeyCompressed,
-          messageHash
+          messageHash,
         );
-      }
+      },
     );
     s.cycle(() => {
       t.true(result);

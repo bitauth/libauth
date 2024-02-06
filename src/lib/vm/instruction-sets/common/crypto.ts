@@ -46,41 +46,41 @@ export const opRipemd160 =
   <
     State extends AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
     {
       ripemd160,
     }: {
       ripemd160: { hash: Ripemd160['hash'] };
-    } = { ripemd160: internalRipemd160 }
+    } = { ripemd160: internalRipemd160 },
   ): Operation<State> =>
   (state: State) =>
     useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, ripemd160.hash(value))
+      pushToStack(nextState, ripemd160.hash(value)),
     );
 
 export const opSha1 =
   <
     State extends AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
     {
       sha1,
     }: {
       sha1: { hash: Sha1['hash'] };
-    } = { sha1: internalSha1 }
+    } = { sha1: internalSha1 },
   ): Operation<State> =>
   (state: State) =>
     useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, sha1.hash(value))
+      pushToStack(nextState, sha1.hash(value)),
     );
 
 export const opSha256 =
   <
     State extends AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
     {
       sha256,
@@ -88,18 +88,18 @@ export const opSha256 =
       sha256: {
         hash: Sha256['hash'];
       };
-    } = { sha256: internalSha256 }
+    } = { sha256: internalSha256 },
   ): Operation<State> =>
   (state: State) =>
     useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, sha256.hash(value))
+      pushToStack(nextState, sha256.hash(value)),
     );
 
 export const opHash160 =
   <
     State extends AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
     {
       ripemd160,
@@ -107,18 +107,18 @@ export const opHash160 =
     }: {
       sha256: { hash: Sha256['hash'] };
       ripemd160: { hash: Ripemd160['hash'] };
-    } = { ripemd160: internalRipemd160, sha256: internalSha256 }
+    } = { ripemd160: internalRipemd160, sha256: internalSha256 },
   ): Operation<State> =>
   (state: State) =>
     useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, ripemd160.hash(sha256.hash(value)))
+      pushToStack(nextState, ripemd160.hash(sha256.hash(value))),
     );
 
 export const opHash256 =
   <
     State extends AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
     {
       sha256,
@@ -126,21 +126,21 @@ export const opHash256 =
       sha256: {
         hash: Sha256['hash'];
       };
-    } = { sha256: internalSha256 }
+    } = { sha256: internalSha256 },
   ): Operation<State> =>
   (state: State) =>
     useOneStackItem(state, (nextState, [value]) =>
-      pushToStack(nextState, hash256(value, sha256))
+      pushToStack(nextState, hash256(value, sha256)),
     );
 
 export const opCodeSeparator = <
   State extends AuthenticationProgramStateMinimum & {
     lastCodeSeparator: number;
-  }
+  },
 >(
-  state: State
+  state: State,
 ) => {
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.lastCodeSeparator = state.ip;
   return state;
 };
@@ -156,7 +156,7 @@ export const opCheckSig =
         verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
         verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
       };
-    } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
+    } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
   ): Operation<State> =>
   (s: State) =>
     // eslint-disable-next-line complexity
@@ -164,38 +164,38 @@ export const opCheckSig =
       if (!isValidPublicKeyEncoding(publicKey)) {
         return applyError(
           state,
-          AuthenticationErrorCommon.invalidPublicKeyEncoding
+          AuthenticationErrorCommon.invalidPublicKeyEncoding,
         );
       }
       if (
         !isValidSignatureEncodingBCHTransaction(
           bitcoinEncodedSignature,
-          SigningSerializationTypesBCH
+          SigningSerializationTypesBCH,
         )
       ) {
         return applyError(
           state,
           AuthenticationErrorCommon.invalidSignatureEncoding,
           `Transaction signature (including signing serialization): ${binToHex(
-            bitcoinEncodedSignature
-          )}`
+            bitcoinEncodedSignature,
+          )}`,
         );
       }
       const coveredBytecode = encodeAuthenticationInstructions(
-        state.instructions
+        state.instructions,
       ).subarray(state.lastCodeSeparator + 1);
       const { signingSerializationType, signature } = decodeBitcoinSignature(
-        bitcoinEncodedSignature
+        bitcoinEncodedSignature,
       );
 
       const serialization = generateSigningSerializationBCH(
         state.program,
         { coveredBytecode, signingSerializationType },
-        sha256
+        sha256,
       );
       const digest = hash256(serialization, sha256);
 
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       state.signedMessages.push({ digest, serialization });
 
       const useSchnorr =
@@ -224,7 +224,7 @@ export const opCheckMultiSig =
       secp256k1: {
         verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
       };
-    } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
+    } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
   ) =>
   (s: State) =>
     useOneVmNumber(s, (state, publicKeysValue) => {
@@ -233,26 +233,26 @@ export const opCheckMultiSig =
       if (potentialPublicKeys < 0) {
         return applyError(
           state,
-          AuthenticationErrorCommon.invalidNaturalNumber
+          AuthenticationErrorCommon.invalidNaturalNumber,
         );
       }
       if (potentialPublicKeys > Multisig.maximumPublicKeys) {
         return applyError(
           state,
-          AuthenticationErrorCommon.exceedsMaximumMultisigPublicKeyCount
+          AuthenticationErrorCommon.exceedsMaximumMultisigPublicKeyCount,
         );
       }
       const publicKeys =
         // eslint-disable-next-line functional/immutable-data
         potentialPublicKeys > 0 ? state.stack.splice(-potentialPublicKeys) : [];
 
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       state.operationCount += potentialPublicKeys;
 
       return state.operationCount > ConsensusCommon.maximumOperationCount
         ? applyError(
             state,
-            AuthenticationErrorCommon.exceededMaximumOperationCount
+            AuthenticationErrorCommon.exceededMaximumOperationCount,
           )
         : useOneVmNumber(
             state,
@@ -263,14 +263,14 @@ export const opCheckMultiSig =
               if (requiredApprovingPublicKeys < 0) {
                 return applyError(
                   nextState,
-                  AuthenticationErrorCommon.invalidNaturalNumber
+                  AuthenticationErrorCommon.invalidNaturalNumber,
                 );
               }
 
               if (requiredApprovingPublicKeys > potentialPublicKeys) {
                 return applyError(
                   nextState,
-                  AuthenticationErrorCommon.insufficientPublicKeys
+                  AuthenticationErrorCommon.insufficientPublicKeys,
                 );
               }
 
@@ -287,18 +287,18 @@ export const opCheckMultiSig =
                   if (protocolBugValue.length !== 0) {
                     return applyError(
                       finalState,
-                      AuthenticationErrorCommon.invalidProtocolBugValue
+                      AuthenticationErrorCommon.invalidProtocolBugValue,
                     );
                   }
 
                   const coveredBytecode = encodeAuthenticationInstructions(
-                    finalState.instructions
+                    finalState.instructions,
                   ).subarray(finalState.lastCodeSeparator + 1);
 
                   let approvingPublicKeys = 0; // eslint-disable-line functional/no-let
                   let remainingSignatures = signatures.length; // eslint-disable-line functional/no-let
                   let remainingPublicKeys = publicKeys.length; // eslint-disable-line functional/no-let
-                  // eslint-disable-next-line functional/no-loop-statement
+                  // eslint-disable-next-line functional/no-loop-statements
                   while (
                     remainingSignatures > 0 &&
                     remainingPublicKeys > 0 &&
@@ -315,22 +315,22 @@ export const opCheckMultiSig =
                     if (!isValidPublicKeyEncoding(publicKey)) {
                       return applyError(
                         finalState,
-                        AuthenticationErrorCommon.invalidPublicKeyEncoding
+                        AuthenticationErrorCommon.invalidPublicKeyEncoding,
                       );
                     }
 
                     if (
                       !isValidSignatureEncodingBCHTransaction(
                         bitcoinEncodedSignature,
-                        SigningSerializationTypesBCH
+                        SigningSerializationTypesBCH,
                       )
                     ) {
                       return applyError(
                         finalState,
                         AuthenticationErrorCommon.invalidSignatureEncoding,
                         `Transaction signature (including signing serialization type): ${binToHex(
-                          bitcoinEncodedSignature
-                        )}`
+                          bitcoinEncodedSignature,
+                        )}`,
                       );
                     }
 
@@ -340,11 +340,11 @@ export const opCheckMultiSig =
                     const serialization = generateSigningSerializationBCH(
                       state.program,
                       { coveredBytecode, signingSerializationType },
-                      sha256
+                      sha256,
                     );
                     const digest = hash256(serialization, sha256);
 
-                    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+                    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
                     finalState.signedMessages.push({ digest, serialization });
 
                     if (
@@ -353,22 +353,22 @@ export const opCheckMultiSig =
                     ) {
                       return applyError(
                         finalState,
-                        AuthenticationErrorCommon.schnorrSizedSignatureInCheckMultiSig
+                        AuthenticationErrorCommon.schnorrSizedSignatureInCheckMultiSig,
                       );
                     }
 
                     const signed = secp256k1.verifySignatureDERLowS(
                       signature,
                       publicKey,
-                      digest
+                      digest,
                     );
 
-                    // eslint-disable-next-line functional/no-conditional-statement
+                    // eslint-disable-next-line functional/no-conditional-statements
                     if (signed) {
-                      approvingPublicKeys += 1; // eslint-disable-line functional/no-expression-statement
-                      remainingSignatures -= 1; // eslint-disable-line functional/no-expression-statement
+                      approvingPublicKeys += 1; // eslint-disable-line functional/no-expression-statements
+                      remainingSignatures -= 1; // eslint-disable-line functional/no-expression-statements
                     }
-                    remainingPublicKeys -= 1; // eslint-disable-line functional/no-expression-statement
+                    remainingPublicKeys -= 1; // eslint-disable-line functional/no-expression-statements
                   }
 
                   const success =
@@ -380,19 +380,19 @@ export const opCheckMultiSig =
                   ) {
                     return applyError(
                       finalState,
-                      AuthenticationErrorCommon.nonNullSignatureFailure
+                      AuthenticationErrorCommon.nonNullSignatureFailure,
                     );
                   }
 
                   return pushToStack(finalState, booleanToVmNumber(success));
-                }
+                },
               );
-            }
+            },
           );
     });
 
 export const opCheckSigVerify = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateCommon,
 >(
   {
     secp256k1,
@@ -403,12 +403,12 @@ export const opCheckSigVerify = <
       verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
       verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
     };
-  } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
+  } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
 ): Operation<State> =>
   combineOperations(opCheckSig<State>({ secp256k1, sha256 }), opVerify);
 
 export const opCheckMultiSigVerify = <
-  State extends AuthenticationProgramStateCommon
+  State extends AuthenticationProgramStateCommon,
 >({
   secp256k1,
   sha256,
@@ -435,7 +435,7 @@ export const opCheckDataSig =
   <
     State extends AuthenticationProgramStateError &
       AuthenticationProgramStateSignatureAnalysis &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >({
     secp256k1,
     sha256,
@@ -453,18 +453,18 @@ export const opCheckDataSig =
         return applyError(
           nextState,
           AuthenticationErrorCommon.invalidSignatureEncoding,
-          `Data signature: ${binToHex(signature)}`
+          `Data signature: ${binToHex(signature)}`,
         );
       }
       if (!isValidPublicKeyEncoding(publicKey)) {
         return applyError(
           nextState,
-          AuthenticationErrorCommon.invalidPublicKeyEncoding
+          AuthenticationErrorCommon.invalidPublicKeyEncoding,
         );
       }
       const digest = sha256.hash(message);
 
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       nextState.signedMessages.push({ digest, message });
 
       const useSchnorr =
@@ -476,7 +476,7 @@ export const opCheckDataSig =
       return !success && signature.length !== 0
         ? applyError(
             nextState,
-            AuthenticationErrorCommon.nonNullSignatureFailure
+            AuthenticationErrorCommon.nonNullSignatureFailure,
           )
         : pushToStack(nextState, booleanToVmNumber(success));
     });
@@ -484,7 +484,7 @@ export const opCheckDataSig =
 export const opCheckDataSigVerify = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateSignatureAnalysis &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
   {
     secp256k1,
@@ -495,12 +495,12 @@ export const opCheckDataSigVerify = <
       verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
       verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
     };
-  } = { secp256k1: internalSecp256k1, sha256: internalSha256 }
+  } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
 ) => combineOperations(opCheckDataSig<State>({ secp256k1, sha256 }), opVerify);
 
 export const opReverseBytes = <State extends AuthenticationProgramStateStack>(
-  state: State
+  state: State,
 ) =>
   useOneStackItem(state, (nextState, [item]) =>
-    pushToStack(nextState, item.slice().reverse())
+    pushToStack(nextState, item.slice().reverse()),
   );

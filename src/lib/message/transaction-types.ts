@@ -13,10 +13,10 @@ import type {
  * bytes ({@link Input.outpointTransactionHash}) - this allows for
  * JSON-compatible types to be used rather than the default `Uint8Array`.
  */
-export interface Input<
+export type Input<
   Bytecode = Uint8Array,
-  ByteStringRepresentation = Uint8Array
-> {
+  ByteStringRepresentation = Uint8Array,
+> = {
   /**
    * The index of the output in the transaction from which this input is spent.
    *
@@ -116,7 +116,7 @@ export interface Input<
    * A.K.A. `scriptSig` or "unlocking script"
    */
   unlockingBytecode: Bytecode;
-}
+};
 
 /**
  * The capability assigned to a particular non-fungible token.
@@ -146,10 +146,11 @@ export enum NonFungibleTokenCapability {
  * - this allows for JSON-compatible types to be used rather than the
  * default `Uint8Array`.
  */
-export interface Output<
+export type Output<
   Bytecode = Uint8Array,
-  ByteStringRepresentation = Uint8Array
-> {
+  ByteStringRepresentation = Uint8Array,
+  NumericRepresentation = bigint,
+> = {
   /**
    * The bytecode used to encumber this transaction output. To spend the output,
    * unlocking bytecode must be included in a transaction input that – when
@@ -172,7 +173,7 @@ export interface Output<
      * maximum token amount (`9223372036854775807`), this value is encoded as
      * a `bigint`.
      */
-    amount: bigint;
+    amount: NumericRepresentation;
     /**
      * The 32-byte ID of the token category to which the token(s) in this output
      * belong in big-endian byte order. This is the byte order typically seen in
@@ -207,7 +208,7 @@ export interface Output<
    * (`9007199254740991`) is about 4 times larger than the maximum number of
    * satoshis that should ever exist. I.e. even if all satoshis were
    * consolidated into a single output, the transaction spending this output
-   * could still be defined with a numeric `satoshis` value.
+   * could still be defined with a numeric `valueSatoshis`.
    *
    * However, because the encoded output format for version 1 and 2 transactions
    * (used in both transaction encoding and signing serialization) uses a 64-bit
@@ -228,8 +229,8 @@ export interface Output<
    * {@link valueSatoshisToBin} and {@link binToValueSatoshis},
    * respectively.
    */
-  valueSatoshis: bigint;
-}
+  valueSatoshis: NumericRepresentation;
+};
 
 /**
  * The maximum uint64 value – an impossibly large, intentionally invalid value
@@ -242,7 +243,7 @@ export const excessiveSatoshis = Uint8Array.from([255, 255, 255, 255, 255, 255, 
 /**
  * Data type representing a transaction.
  */
-export interface TransactionCommon<InputType = Input, OutputType = Output> {
+export type TransactionCommon<InputType = Input, OutputType = Output> = {
   /**
    * An array of inputs included in this transaction.
    *
@@ -303,12 +304,9 @@ export interface TransactionCommon<InputType = Input, OutputType = Output> {
    * of `4294967295`. Since BIP68, most transactions use a version of `2`.
    */
   version: number;
-}
+};
 
-export interface CompilationDirectiveLocking<
-  CompilerType,
-  CompilationDataType
-> {
+export type CompilationDirectiveLocking<CompilerType, CompilationDataType> = {
   /**
    * The {@link Compiler} with which to generate bytecode.
    */
@@ -321,36 +319,34 @@ export interface CompilationDirectiveLocking<
    * The script ID to compile.
    */
   script: string;
-}
+};
 
-export interface CompilationDirectiveUnlocking<
+export type CompilationDirectiveUnlocking<CompilerType, CompilationDataType> =
+  CompilationDirectiveLocking<CompilerType, CompilationDataType> & {
+    /**
+     * The value in satoshis of the {@link Output} being spent by this input.
+     * Required for use in signing serializations.
+     */
+    valueSatoshis: Output['valueSatoshis'];
+
+    /**
+     * The CashToken contents of this input. This property is only defined if the
+     * input contains one or more tokens. For details, see
+     * `CHIP-2022-02-CashTokens`.
+     */
+    token?: Output['token'];
+  };
+
+export type CompilationDirectiveUnlockingEstimate<
   CompilerType,
-  CompilationDataType
-> extends CompilationDirectiveLocking<CompilerType, CompilationDataType> {
-  /**
-   * The `satoshis` value of the {@link Output} being spent by this input.
-   * Required for use in signing serializations.
-   */
-  valueSatoshis: Output['valueSatoshis'];
-
-  /**
-   * The CashToken contents of this input. This property is only defined if the
-   * input contains one or more tokens. For details, see
-   * `CHIP-2022-02-CashTokens`.
-   */
-  token?: Output['token'];
-}
-
-export interface CompilationDirectiveUnlockingEstimate<
-  CompilerType,
-  CompilationDataType
-> extends CompilationDirectiveUnlocking<CompilerType, CompilationDataType> {
+  CompilationDataType,
+> = CompilationDirectiveUnlocking<CompilerType, CompilationDataType> & {
   /**
    * The scenario ID that can be used to estimate the final size of this
    * unlocking script. This is required when using fee estimation.
    */
   estimate: string;
-}
+};
 
 /**
  * An input that may optionally use a {@link CompilationDirectiveUnlocking} as
@@ -363,7 +359,7 @@ export interface CompilationDirectiveUnlockingEstimate<
 export type InputTemplate<
   CompilerType,
   RequireEstimate = false,
-  CompilationDataType = CompilationData<never>
+  CompilationDataType = CompilationData<never>,
 > = Input<
   | Uint8Array
   | (RequireEstimate extends true
@@ -383,7 +379,7 @@ export type InputTemplate<
 export type OutputTemplate<
   CompilerType,
   EnableFeeEstimation = false,
-  CompilationDataType = CompilationData<never>
+  CompilationDataType = CompilationData<never>,
 > = Output<
   CompilationDirectiveLocking<CompilerType, CompilationDataType> | Uint8Array,
   EnableFeeEstimation extends true ? Uint8Array | undefined : Uint8Array
@@ -402,7 +398,7 @@ export type OutputTemplate<
 export type TransactionTemplate<
   CompilerType,
   EnableFeeEstimation = false,
-  CompilationDataType = CompilationData<never>
+  CompilationDataType = CompilationData<never>,
 > = TransactionCommon<
   InputTemplate<CompilerType, EnableFeeEstimation, CompilationDataType>,
   OutputTemplate<CompilerType, EnableFeeEstimation, CompilationDataType>
@@ -442,7 +438,7 @@ export type TransactionTemplateEstimated<CompilerType> = TransactionTemplate<
  * An error resulting from unsuccessful bytecode generation. Includes the
  * generation type (`locking` or `unlocking`), and the output or input index
  */
-export interface BytecodeGenerationErrorBase {
+export type BytecodeGenerationErrorBase<ProgramState> = {
   /**
    * The type of bytecode that was being generated when this error occurred.
    */
@@ -455,24 +451,24 @@ export interface BytecodeGenerationErrorBase {
    * If the error occurred after the `parse` stage, the resolved script is
    * provided for analysis or processing (e.g. `getResolvedBytecode`).
    */
-  resolved?: ResolvedScript;
+  resolved?: ResolvedScript<ProgramState>;
   /**
    * The compilation errors that occurred while generating this bytecode.
    */
   errors: CompilationError[];
-}
+};
 
-export interface BytecodeGenerationErrorLocking
-  extends BytecodeGenerationErrorBase {
-  type: 'locking';
-}
+export type BytecodeGenerationErrorLocking<ProgramState> =
+  BytecodeGenerationErrorBase<ProgramState> & {
+    type: 'locking';
+  };
 
-export interface BytecodeGenerationErrorUnlocking
-  extends BytecodeGenerationErrorBase {
-  type: 'unlocking';
-}
+export type BytecodeGenerationErrorUnlocking<ProgramState> =
+  BytecodeGenerationErrorBase<ProgramState> & {
+    type: 'unlocking';
+  };
 
-export interface BytecodeGenerationCompletionBase {
+export type BytecodeGenerationCompletionBase = {
   /**
    * If `output`, this bytecode was generated for the output at `index` (a
    * `lockingBytecode`). If `input`, the bytecode was generated for the input at
@@ -483,25 +479,25 @@ export interface BytecodeGenerationCompletionBase {
    * The index of the input or output for which this bytecode was generated.
    */
   index: number;
-}
+};
 
-export interface BytecodeGenerationCompletionInput
-  extends BytecodeGenerationCompletionBase {
-  type: 'input';
-  /**
-   * The successfully generated Input.
-   */
-  input: Input;
-}
+export type BytecodeGenerationCompletionInput =
+  BytecodeGenerationCompletionBase & {
+    type: 'input';
+    /**
+     * The successfully generated Input.
+     */
+    input: Input;
+  };
 
-export interface BytecodeGenerationCompletionOutput
-  extends BytecodeGenerationCompletionBase {
-  type: 'output';
-  /**
-   * The successfully generated Output.
-   */
-  output: Output;
-}
+export type BytecodeGenerationCompletionOutput =
+  BytecodeGenerationCompletionBase & {
+    type: 'output';
+    /**
+     * The successfully generated Output.
+     */
+    output: Output;
+  };
 
 /**
  * A successfully generated `lockingBytecode` (for an output) or
@@ -516,16 +512,16 @@ export type BytecodeGenerationCompletion =
   | BytecodeGenerationCompletionInput
   | BytecodeGenerationCompletionOutput;
 
-export interface TransactionGenerationSuccess {
+export type TransactionGenerationSuccess = {
   success: true;
   transaction: TransactionCommon;
-}
+};
 
-export type TransactionGenerationError =
+export type TransactionGenerationError<ProgramState> =
   | {
       success: false;
       completions: BytecodeGenerationCompletionInput[];
-      errors: BytecodeGenerationErrorUnlocking[];
+      errors: BytecodeGenerationErrorUnlocking<ProgramState>[];
       /**
        * Error(s) occurred at the `input` stage of compilation, meaning the
        * `output` stage completed successfully.
@@ -535,7 +531,7 @@ export type TransactionGenerationError =
   | {
       success: false;
       completions: BytecodeGenerationCompletionOutput[];
-      errors: BytecodeGenerationErrorLocking[];
+      errors: BytecodeGenerationErrorLocking<ProgramState>[];
       /**
        * Error(s) occurred at the `output` stage of compilation, so the `input`
        * stage never began.
@@ -543,6 +539,6 @@ export type TransactionGenerationError =
       stage: 'outputs';
     };
 
-export type TransactionGenerationAttempt =
-  | TransactionGenerationError
+export type TransactionGenerationAttempt<ProgramState> =
+  | TransactionGenerationError<ProgramState>
   | TransactionGenerationSuccess;

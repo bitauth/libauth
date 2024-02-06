@@ -6,6 +6,6 @@ declare module '@rollup/plugin-alias' {
   export default alias;
 }
 
-interface RollupPluginAliasOptions {
-  readonly entries: Readonly<{ [key: string]: string }>;
-}
+type RollupPluginAliasOptions = {
+  entries: { [key: string]: string };
+};

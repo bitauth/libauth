@@ -14,14 +14,14 @@ export const numberToBinUintLE = (value: number) => {
   const result: number[] = [];
   // eslint-disable-next-line functional/no-let
   let remaining = value;
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   while (remaining >= baseUint8Array) {
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     result.push(remaining % baseUint8Array);
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     remaining = Math.floor(remaining / baseUint8Array);
   }
-  // eslint-disable-next-line functional/no-conditional-statement, functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-conditional-statements, functional/no-expression-statements, functional/immutable-data
   if (remaining > 0) result.push(remaining);
   return Uint8Array.from(result);
 };
@@ -36,7 +36,7 @@ export const numberToBinUintLE = (value: number) => {
 export const binToFixedLength = (bin: Uint8Array, bytes: number) => {
   const fixedBytes = new Uint8Array(bytes);
   const maxValue = 255;
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements, @typescript-eslint/no-unused-expressions
   bin.length > bytes ? fixedBytes.fill(maxValue) : fixedBytes.set(bin);
   return fixedBytes;
 };
@@ -79,7 +79,7 @@ export const numberToBinUint16LE = (value: number) => {
   const bin = new Uint8Array(uint16Length);
   const writeAsLittleEndian = true;
   const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements
   view.setUint16(0, value, writeAsLittleEndian);
   return bin;
 };
@@ -98,7 +98,7 @@ export const numberToBinInt16LE = (value: number) => {
   const bin = new Uint8Array(int16Length);
   const writeAsLittleEndian = true;
   const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements
   view.setInt16(0, value, writeAsLittleEndian);
   return bin;
 };
@@ -117,7 +117,7 @@ export const numberToBinInt32LE = (value: number) => {
   const bin = new Uint8Array(int32Length);
   const writeAsLittleEndian = true;
   const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements
   view.setInt32(0, value, writeAsLittleEndian);
   return bin;
 };
@@ -162,7 +162,7 @@ export const numberToBinUint16BE = (value: number) => {
   const bin = new Uint8Array(uint16Length);
   const writeAsLittleEndian = false;
   const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements
   view.setUint16(0, value, writeAsLittleEndian);
   return bin;
 };
@@ -181,7 +181,7 @@ export const numberToBinUint32LE = (value: number) => {
   const bin = new Uint8Array(uint32Length);
   const writeAsLittleEndian = true;
   const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements
   view.setUint32(0, value, writeAsLittleEndian);
   return bin;
 };
@@ -200,7 +200,7 @@ export const numberToBinUint32BE = (value: number) => {
   const bin = new Uint8Array(uint32Length);
   const writeAsLittleEndian = false;
   const view = new DataView(bin.buffer, bin.byteOffset, bin.byteLength);
-  // eslint-disable-next-line functional/no-expression-statement
+  // eslint-disable-next-line functional/no-expression-statements
   view.setUint32(0, value, writeAsLittleEndian);
   return bin;
 };
@@ -217,14 +217,14 @@ export const bigIntToBinUintLE = (value: bigint) => {
   const result: number[] = [];
   // eslint-disable-next-line functional/no-let
   let remaining = value;
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   while (remaining >= base) {
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     result.push(Number(remaining % base));
-    // eslint-disable-next-line functional/no-expression-statement
+    // eslint-disable-next-line functional/no-expression-statements
     remaining /= base;
   }
-  // eslint-disable-next-line functional/no-conditional-statement, functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-conditional-statements, functional/no-expression-statements, functional/immutable-data
   if (remaining > 0n) result.push(Number(remaining));
 
   return Uint8Array.from(result.length > 0 ? result : [0]);
@@ -274,11 +274,11 @@ export const numberToBinInt32TwosCompliment = (value: number) => {
   const bytes = 4;
   const bitsInAByte = 8;
   const bin = new Uint8Array(bytes);
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statement, no-plusplus
+  // eslint-disable-next-line functional/no-let, functional/no-loop-statements, no-plusplus
   for (let index = 0; index < bytes; index++) {
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     bin[index] = value;
-    // eslint-disable-next-line functional/no-expression-statement, no-bitwise, no-param-reassign
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, no-param-reassign
     value >>>= bitsInAByte;
   }
   return bin;
@@ -305,12 +305,12 @@ export const binToNumberUintLE = (bin: Uint8Array, bytes = bin.length) => {
   const bitsInAByte = 8;
 
   if (bin.length !== bytes) {
-    // eslint-disable-next-line functional/no-throw-statement
+    // eslint-disable-next-line functional/no-throw-statements
     throw new TypeError(`Bin length must be ${bytes}.`);
   }
   return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduce(
     (accumulated, byte, i) => accumulated + byte * base ** (bitsInAByte * i),
-    0
+    0,
   );
 };
 
@@ -358,13 +358,13 @@ export const binToBigIntUintBE = (bin: Uint8Array, bytes = bin.length) => {
   const shift = BigInt(bitsInAByte);
 
   if (bin.length !== bytes) {
-    // eslint-disable-next-line functional/no-throw-statement
+    // eslint-disable-next-line functional/no-throw-statements
     throw new TypeError(`Bin length must be ${bytes}.`);
   }
   return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduce(
     // eslint-disable-next-line no-bitwise
     (accumulated, byte) => (accumulated << shift) | BigInt(byte),
-    0n
+    0n,
   );
 };
 
@@ -413,13 +413,13 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
   const bitsInAByte = 8;
 
   if (bin.length !== bytes) {
-    // eslint-disable-next-line functional/no-throw-statement
+    // eslint-disable-next-line functional/no-throw-statements
     throw new TypeError(`Bin length must be ${bytes}.`);
   }
   return new Uint8Array(bin.buffer, bin.byteOffset, bin.length).reduceRight(
     // eslint-disable-next-line no-bitwise
     (accumulated, byte) => (accumulated << BigInt(bitsInAByte)) | BigInt(byte),
-    0n
+    0n,
   );
 };
 
@@ -505,7 +505,7 @@ export enum CompactUintError {
  * `CompactUint`
  */
 export const readCompactUint = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<bigint> => {
   const { bin, index } = position;
   const prefix = bin[index];
@@ -518,7 +518,7 @@ export const readCompactUint = (
       CompactUintError.insufficientBytes,
       `CompactUint prefix ${prefix} requires at least ${bytes} bytes. Remaining bytes: ${
         bin.length - index
-      }`
+      }`,
     );
   }
   const hasPrefix = bytes !== 1;
@@ -548,19 +548,19 @@ export const bigIntToCompactUint = (value: bigint) =>
   value <= BigInt(CompactUint.uint8MaxValue)
     ? Uint8Array.of(Number(value))
     : value <= BigInt(CompactUint.uint16MaxValue)
-    ? Uint8Array.from([
-        CompactUint.uint16Prefix,
-        ...numberToBinUint16LE(Number(value)),
-      ])
-    : value <= BigInt(CompactUint.uint32MaxValue)
-    ? Uint8Array.from([
-        CompactUint.uint32Prefix,
-        ...numberToBinUint32LE(Number(value)),
-      ])
-    : Uint8Array.from([
-        CompactUint.uint64Prefix,
-        ...bigIntToBinUint64LE(value),
-      ]);
+      ? Uint8Array.from([
+          CompactUint.uint16Prefix,
+          ...numberToBinUint16LE(Number(value)),
+        ])
+      : value <= BigInt(CompactUint.uint32MaxValue)
+        ? Uint8Array.from([
+            CompactUint.uint32Prefix,
+            ...numberToBinUint32LE(Number(value)),
+          ])
+        : Uint8Array.from([
+            CompactUint.uint64Prefix,
+            ...bigIntToBinUint64LE(value),
+          ]);
 
 /**
  * Read a minimally-encoded `CompactUint` from the provided
@@ -571,7 +571,7 @@ export const bigIntToCompactUint = (value: bigint) =>
  * `CompactUint`
  */
 export const readCompactUintMinimal = (
-  position: ReadPosition
+  position: ReadPosition,
 ): MaybeReadResult<bigint> => {
   const read = readCompactUint(position);
   if (typeof read === 'string') {
@@ -584,7 +584,7 @@ export const readCompactUintMinimal = (
       CompactUintError.nonMinimal,
       `Value: ${read.result.toString()}, encoded length: ${readLength}, canonical length: ${
         canonicalEncoding.length
-      }`
+      }`,
     );
   }
   return read;
@@ -607,7 +607,7 @@ export const compactUintToBigInt = (bin: Uint8Array) => {
   if (read.position.index !== bin.length) {
     return formatError(
       CompactUintError.excessiveBytes,
-      `CompactUint ends at index ${read.position.index}, but input includes ${bin.length} bytes.`
+      `CompactUint ends at index ${read.position.index}, but input includes ${bin.length} bytes.`,
     );
   }
   return read.result;

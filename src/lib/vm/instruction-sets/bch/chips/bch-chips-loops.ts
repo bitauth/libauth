@@ -21,9 +21,9 @@ import {
 import { AuthenticationErrorBCHCHIPs } from './bch-chips-errors.js';
 
 const executionIsActive = <
-  State extends AuthenticationProgramStateControlStackCHIPs
+  State extends AuthenticationProgramStateControlStackCHIPs,
 >(
-  state: State
+  state: State,
 ) => state.controlStack.every((item) => item !== false);
 
 /**
@@ -32,7 +32,7 @@ const executionIsActive = <
  */
 export const conditionallyEvaluateChipLoops =
   <State extends AuthenticationProgramStateControlStackCHIPs>(
-    operation: Operation<State>
+    operation: Operation<State>,
   ): Operation<State> =>
   (state: State) =>
     executionIsActive(state) ? operation(state) : state;
@@ -40,10 +40,10 @@ export const conditionallyEvaluateChipLoops =
 export const undefinedOperationChipLoops = conditionallyEvaluateChipLoops(
   <
     State extends AuthenticationProgramStateControlStackCHIPs &
-      AuthenticationProgramStateError
+      AuthenticationProgramStateError,
   >(
-    state: State
-  ) => applyError(state, AuthenticationErrorCommon.unknownOpcode)
+    state: State,
+  ) => applyError(state, AuthenticationErrorCommon.unknownOpcode),
 );
 
 export const pushOperationChipLoops =
@@ -51,9 +51,9 @@ export const pushOperationChipLoops =
     State extends AuthenticationProgramStateControlStackCHIPs &
       AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
-      AuthenticationProgramStateStack
+      AuthenticationProgramStateStack,
   >(
-    maximumPushSize = ConsensusCommon.maximumStackItemLength
+    maximumPushSize = ConsensusCommon.maximumStackItemLength as number,
   ): Operation<State> =>
   (state: State) => {
     const instruction = state.instructions[
@@ -62,13 +62,13 @@ export const pushOperationChipLoops =
     return instruction.data.length > maximumPushSize
       ? applyError(
           state,
-          `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${instruction.data.length} bytes.`
+          `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${instruction.data.length} bytes.`,
         )
       : executionIsActive(state)
-      ? isMinimalDataPush(instruction.opcode, instruction.data)
-        ? pushToStack(state, instruction.data)
-        : applyError(state, AuthenticationErrorCommon.nonMinimalPush)
-      : state;
+        ? isMinimalDataPush(instruction.opcode, instruction.data)
+          ? pushToStack(state, instruction.data)
+          : applyError(state, AuthenticationErrorCommon.nonMinimalPush)
+        : state;
   };
 
 /**
@@ -77,12 +77,12 @@ export const pushOperationChipLoops =
  * @param data - the value to push to the stack
  */
 export const pushToControlStackChipLoops = <
-  State extends AuthenticationProgramStateControlStackCHIPs
+  State extends AuthenticationProgramStateControlStackCHIPs,
 >(
   state: State,
-  value: boolean | number
+  value: boolean | number,
 ) => {
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.controlStack.push(value);
   return state;
 };
@@ -90,13 +90,13 @@ export const pushToControlStackChipLoops = <
 export const opIfChipLoops = <
   State extends AuthenticationProgramStateControlStackCHIPs &
     AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => {
   if (executionIsActive(state)) {
     return useOneStackItem(state, (nextState, [item]) =>
-      pushToControlStackChipLoops(nextState, stackItemIsTruthy(item))
+      pushToControlStackChipLoops(nextState, stackItemIsTruthy(item)),
     );
   }
   return pushToControlStackChipLoops(state, false);
@@ -105,13 +105,13 @@ export const opIfChipLoops = <
 export const opNotIfChipLoops = <
   State extends AuthenticationProgramStateControlStackCHIPs &
     AuthenticationProgramStateError &
-    AuthenticationProgramStateStack
+    AuthenticationProgramStateStack,
 >(
-  state: State
+  state: State,
 ) => {
   if (executionIsActive(state)) {
     return useOneStackItem(state, (nextState, [item]) =>
-      pushToControlStackChipLoops(nextState, !stackItemIsTruthy(item))
+      pushToControlStackChipLoops(nextState, !stackItemIsTruthy(item)),
     );
   }
   return pushToControlStackChipLoops(state, false);
@@ -119,9 +119,9 @@ export const opNotIfChipLoops = <
 
 export const opEndIfChipLoops = <
   State extends AuthenticationProgramStateControlStackCHIPs &
-    AuthenticationProgramStateError
+    AuthenticationProgramStateError,
 >(
-  state: State
+  state: State,
 ) => {
   // eslint-disable-next-line functional/immutable-data
   const element = state.controlStack.pop();
@@ -133,37 +133,37 @@ export const opEndIfChipLoops = <
 
 export const opElseChipLoops = <
   State extends AuthenticationProgramStateControlStackCHIPs &
-    AuthenticationProgramStateError
+    AuthenticationProgramStateError,
 >(
-  state: State
+  state: State,
 ) => {
   const top = state.controlStack[state.controlStack.length - 1];
   if (typeof top !== 'boolean') {
     return applyError(state, AuthenticationErrorCommon.unexpectedElse);
   }
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.controlStack[state.controlStack.length - 1] = !top;
   return state;
 };
 
 export const opBegin = <State extends AuthenticationProgramStateBCHCHIPs>(
-  state: State
+  state: State,
 ) => pushToControlStackChipLoops(state, state.ip);
 
 export const opUntil = <State extends AuthenticationProgramStateBCHCHIPs>(
-  state: State
+  state: State,
 ) => {
   // eslint-disable-next-line functional/immutable-data
   const controlValue = state.controlStack.pop();
   if (typeof controlValue !== 'number') {
     return applyError(state, AuthenticationErrorBCHCHIPs.unexpectedUntil);
   }
-  // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.repeatedBytes += encodeAuthenticationInstructions(
-    state.instructions.slice(controlValue, state.ip)
+    state.instructions.slice(controlValue, state.ip),
   ).length;
   const activeBytecodeLength = encodeAuthenticationInstructions(
-    state.instructions
+    state.instructions,
   ).length;
   if (
     state.repeatedBytes + activeBytecodeLength >
@@ -172,14 +172,14 @@ export const opUntil = <State extends AuthenticationProgramStateBCHCHIPs>(
     return applyError(
       state,
       AuthenticationErrorBCHCHIPs.excessiveLooping,
-      `Repeated bytes: ${state.repeatedBytes}; active bytecode length: ${activeBytecodeLength}`
+      `Repeated bytes: ${state.repeatedBytes}; active bytecode length: ${activeBytecodeLength}`,
     );
   }
   return useOneStackItem(state, (nextState, [item]) => {
     if (item.length === 1 && item[0] === 1) {
       return nextState;
     }
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     nextState.ip = controlValue - 1;
     return nextState;
   });

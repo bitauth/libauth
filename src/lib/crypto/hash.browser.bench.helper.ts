@@ -1,8 +1,5 @@
 /* global window, crypto */
-/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement, functional/no-return-void */
-import * as asmCrypto from 'asmcrypto.js';
-import suite from 'chuhai';
-import hashJs from 'hash.js';
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statements, functional/no-conditional-statements, functional/no-return-void */
 
 import type { HashFunction } from '../lib.js';
 
@@ -12,6 +9,10 @@ import {
   instantiateSha256,
   instantiateSha512,
 } from './crypto.js';
+
+import * as asmCrypto from 'asmcrypto.js';
+import suite from 'chuhai';
+import hashJs from 'hash.js';
 
 declare const benchError: (error: string) => void;
 
@@ -52,7 +53,7 @@ const singlePassBrowserBenchmark = async ({
       s.cycle(() => {
         if (hash === null) {
           benchError(
-            `asmcrypto.js produced a null result given message: ${message.toString()}`
+            `asmcrypto.js produced a null result given message: ${message.toString()}`,
           );
         } else {
           compare(hash, hashFunction.hash(message));
@@ -66,7 +67,7 @@ const singlePassBrowserBenchmark = async ({
 
       s.bench('hash.js', () => {
         hash = new Uint8Array(
-          hashJs[hashFunctionName]().update(message).digest()
+          hashJs[hashFunctionName]().update(message).digest(),
         );
       });
 
@@ -84,21 +85,21 @@ const singlePassBrowserBenchmark = async ({
           },
           {
             defer: true,
-          }
+          },
         );
         // eslint-disable-next-line @typescript-eslint/naming-convention
         const Algorithm =
           subtleCryptoAlgorithmName === 'SHA-1'
             ? asmCrypto.Sha1
             : subtleCryptoAlgorithmName === 'SHA-256'
-            ? asmCrypto.Sha256
-            : asmCrypto.Sha512;
+              ? asmCrypto.Sha256
+              : asmCrypto.Sha512;
         s.bench('asmcrypto.js', () => {
           const instance = new Algorithm();
           hash = instance.process(message).finish().result;
         });
       }
-    }
+    },
   );
 
 const mb = 1_000_000;
@@ -120,8 +121,8 @@ const incrementalBrowserBenchmark = async ({
     }MB input in ${chunkSize / mb}MB chunks`,
     (s) => {
       let message: Uint8Array;
-      let messageChunks: readonly Uint8Array[];
-      let hash: ArrayBuffer | Uint8Array | readonly number[] | null;
+      let messageChunks: Uint8Array[];
+      let hash: ArrayBuffer | number[] | Uint8Array | null;
 
       const nextCycle = () => {
         /**
@@ -130,7 +131,7 @@ const incrementalBrowserBenchmark = async ({
         message = new Uint8Array(totalInput).fill(0);
         const chunkCount = Math.ceil(message.length / chunkSize);
         messageChunks = Array.from({ length: chunkCount }).map((_, index) =>
-          message.slice(index * chunkSize, index * chunkSize + chunkSize)
+          message.slice(index * chunkSize, index * chunkSize + chunkSize),
         );
       };
       nextCycle();
@@ -138,7 +139,7 @@ const incrementalBrowserBenchmark = async ({
       s.cycle(() => {
         if (hash === null) {
           benchError(
-            `asmcrypto.js produced a null result given message: ${message.toString()}`
+            `asmcrypto.js produced a null result given message: ${message.toString()}`,
           );
         } else {
           compare(new Uint8Array(hash), hashFunction.hash(message));
@@ -150,8 +151,8 @@ const incrementalBrowserBenchmark = async ({
         hash = hashFunction.final(
           messageChunks.reduce(
             (state, chunk) => hashFunction.update(state, chunk),
-            hashFunction.init()
-          )
+            hashFunction.init(),
+          ),
         );
       });
 
@@ -159,7 +160,7 @@ const incrementalBrowserBenchmark = async ({
         hash = messageChunks
           .reduce(
             (state, chunk) => state.update(chunk),
-            hashJs[hashFunctionName]()
+            hashJs[hashFunctionName](),
           )
           .digest();
       });
@@ -170,14 +171,14 @@ const incrementalBrowserBenchmark = async ({
           hashFunctionName === 'sha1'
             ? asmCrypto.Sha1
             : hashFunctionName === 'sha256'
-            ? asmCrypto.Sha256
-            : asmCrypto.Sha512;
+              ? asmCrypto.Sha256
+              : asmCrypto.Sha512;
         s.bench('asmcrypto.js', () => {
           const instance = new Algorithm();
           hash = instance.process(message).finish().result;
         });
       }
-    }
+    },
   );
 
 const browserBenchmarks = async ({

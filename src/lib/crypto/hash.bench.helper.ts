@@ -1,31 +1,26 @@
 /* global Buffer */
-/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statement, functional/no-conditional-statement, functional/no-return-void*/
+/* eslint-disable functional/no-let, @typescript-eslint/init-declarations, functional/no-expression-statements, functional/no-conditional-statements, functional/no-return-void*/
 import { createHash, randomBytes } from 'crypto';
 
-import asmCrypto from 'asmcrypto.js';
 import test from 'ava';
-import bcrypto from 'bcrypto';
-import suite from 'chuhai';
-import hashJs from 'hash.js';
 
 import type { HashFunction } from '../lib.js';
+
+import asmCrypto from 'asmcrypto.js';
+import suite from 'chuhai';
+import hashJs from 'hash.js';
 
 export const benchmarkHashingFunction = <T extends HashFunction>(
   hashFunctionName: string,
   hashFunctionPromise: Promise<T>,
-  nodeJsAlgorithm: 'ripemd160' | 'sha1' | 'sha256' | 'sha512'
+  nodeJsAlgorithm: 'ripemd160' | 'sha1' | 'sha256' | 'sha512',
 ) => {
   const singlePassNodeBenchmark = (inputLength: number) => {
-    const bcryptoAlgorithm = nodeJsAlgorithm.toUpperCase() as
-      | 'RIPEMD160'
-      | 'SHA1'
-      | 'SHA256'
-      | 'SHA512';
     test(`node: ${hashFunctionName}: hash a ${inputLength}-byte input`, async (t) => {
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, (s) => {
         let message: Uint8Array;
-        let hash: Uint8Array | readonly number[] | null;
+        let hash: number[] | Uint8Array | null;
         /*
          * we let Node.js use the message as a Node.js buffer
          * (may slightly overestimate Node.js native performance)
@@ -42,9 +37,6 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
         s.bench('hash.js', () => {
           hash = hashJs[nodeJsAlgorithm]().update(message).digest();
         });
-        s.bench('bcoin', () => {
-          hash = bcrypto[bcryptoAlgorithm].digest(Buffer.from(message));
-        });
         s.bench('node.js native', () => {
           hash = createHash(nodeJsAlgorithm).update(nodeJsBuffer).digest();
         });
@@ -54,8 +46,8 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
-              ? asmCrypto.Sha256
-              : asmCrypto.Sha512;
+                ? asmCrypto.Sha256
+                : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
             const instance = new Algorithm();
             hash = instance.process(message).finish().result;
@@ -64,7 +56,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
         s.cycle(() => {
           if (hash === null) {
             t.fail(
-              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`
+              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`,
             );
           } else {
             t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));
@@ -84,14 +76,14 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
       const hashFunction = await hashFunctionPromise;
       await suite(t.title, (s) => {
         let message: Uint8Array;
-        let messageChunks: readonly Uint8Array[];
-        let nodeJsChunks: readonly Buffer[];
-        let hash: Uint8Array | readonly number[] | null;
+        let messageChunks: Uint8Array[];
+        let nodeJsChunks: Buffer[];
+        let hash: number[] | Uint8Array | null;
         const nextCycle = () => {
           message = randomBytes(totalInput);
           const chunkCount = Math.ceil(message.length / chunkSize);
           messageChunks = Array.from({ length: chunkCount }).map((_, index) =>
-            message.slice(index * chunkSize, index * chunkSize + chunkSize)
+            message.slice(index * chunkSize, index * chunkSize + chunkSize),
           );
           nodeJsChunks = messageChunks.map((chunk) => Buffer.from(chunk));
         };
@@ -100,15 +92,15 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           hash = hashFunction.final(
             messageChunks.reduce(
               (state, chunk) => hashFunction.update(state, chunk),
-              hashFunction.init()
-            )
+              hashFunction.init(),
+            ),
           );
         });
         s.bench('hash.js', () => {
           hash = messageChunks
             .reduce(
               (state, chunk) => state.update(chunk),
-              hashJs[nodeJsAlgorithm]()
+              hashJs[nodeJsAlgorithm](),
             )
             .digest();
         });
@@ -116,7 +108,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
           hash = nodeJsChunks
             .reduce(
               (state, chunk) => state.update(chunk),
-              createHash(nodeJsAlgorithm)
+              createHash(nodeJsAlgorithm),
             )
             .digest();
         });
@@ -126,8 +118,8 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
             nodeJsAlgorithm === 'sha1'
               ? asmCrypto.Sha1
               : nodeJsAlgorithm === 'sha256'
-              ? asmCrypto.Sha256
-              : asmCrypto.Sha512;
+                ? asmCrypto.Sha256
+                : asmCrypto.Sha512;
           s.bench('asmcrypto.js', () => {
             const instance = new Algorithm();
             hash = instance.process(message).finish().result;
@@ -136,7 +128,7 @@ export const benchmarkHashingFunction = <T extends HashFunction>(
         s.cycle(() => {
           if (hash === null) {
             t.fail(
-              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`
+              `asmcrypto.js failed to produce a hash for message: ${message.toString()}`,
             );
           } else {
             t.deepEqual(new Uint8Array(hash), hashFunction.hash(message));

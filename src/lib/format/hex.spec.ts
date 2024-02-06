@@ -1,4 +1,3 @@
-import { fc, testProp } from '@fast-check/ava';
 import test from 'ava';
 
 import {
@@ -9,6 +8,8 @@ import {
   splitEvery,
   swapEndianness,
 } from '../lib.js';
+
+import { fc, testProp } from '@fast-check/ava';
 
 test('range', (t) => {
   t.deepEqual(range(3), [0, 1, 2]);
@@ -31,18 +32,18 @@ test('isHex', (t) => {
 test('hexToBin', (t) => {
   t.deepEqual(
     hexToBin('0001022a646566ff'),
-    Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255])
+    Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255]),
   );
   t.deepEqual(
     hexToBin('0001022A646566FF'),
-    Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255])
+    Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255]),
   );
 });
 
 test('binToHex', (t) => {
   t.deepEqual(
     binToHex(Uint8Array.from([0, 1, 2, 42, 100, 101, 102, 255])),
-    '0001022a646566ff'
+    '0001022a646566ff',
   );
 });
 
@@ -50,7 +51,7 @@ testProp(
   '[fast-check] hexToBin <-> binToHex',
   [fc.uint8Array({ maxLength: 100, minLength: 0 })],
   (t, input) =>
-    t.deepEqual(binToHex(hexToBin(binToHex(input))), binToHex(input))
+    t.deepEqual(binToHex(hexToBin(binToHex(input))), binToHex(input)),
 );
 
 test('swapEndianness', (t) => {

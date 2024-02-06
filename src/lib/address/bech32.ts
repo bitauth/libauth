@@ -1,5 +1,3 @@
-import type { Immutable } from '../lib.js';
-
 /**
  * The list of 32 symbols used in Bech32 encoding.
  */
@@ -18,7 +16,7 @@ export enum BitRegroupingError {
   requiresDisallowedPadding = 'Encoding requires padding while padding is disallowed.',
 }
 
-/* eslint-disable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
+/* eslint-disable functional/no-let, no-bitwise, functional/no-expression-statements, functional/no-conditional-statements, complexity */
 /**
  * Given an array of integers, regroup bits from `sourceWordLength` to
  * `resultWordLength`, returning a new array of integers between 0 and
@@ -40,7 +38,7 @@ export const regroupBits = ({
    * An array of numbers representing the bits to regroup. Each item must be a
    * number within the range of `sourceWordLength`.
    */
-  bin: Immutable<Uint8Array> | readonly number[];
+  bin: number[] | Uint8Array;
   /**
    * The bit-length of each number in `bin`, e.g. to regroup bits from a
    * `Uint8Array`, use `8` (must be a positive integer)
@@ -62,7 +60,7 @@ export const regroupBits = ({
   let bits = 0;
   const result = [];
   const maxResultInt = (1 << resultWordLength) - 1;
-  // eslint-disable-next-line functional/no-loop-statement, @typescript-eslint/prefer-for-of, no-plusplus
+  // eslint-disable-next-line functional/no-loop-statements, @typescript-eslint/prefer-for-of, no-plusplus
   for (let p = 0; p < bin.length; ++p) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const value = bin[p]!;
@@ -71,7 +69,7 @@ export const regroupBits = ({
     }
     accumulator = (accumulator << sourceWordLength) | value;
     bits += sourceWordLength;
-    // eslint-disable-next-line functional/no-loop-statement
+    // eslint-disable-next-line functional/no-loop-statements
     while (bits >= resultWordLength) {
       bits -= resultWordLength;
       // eslint-disable-next-line functional/immutable-data
@@ -91,7 +89,7 @@ export const regroupBits = ({
   }
   return result;
 };
-/* eslint-enable functional/no-let, no-bitwise, functional/no-expression-statement, functional/no-conditional-statement, complexity */
+/* eslint-enable functional/no-let, no-bitwise, functional/no-expression-statements, functional/no-conditional-statements, complexity */
 
 /**
  * Encode an array of numbers as a base32 string using the Bech32 character set.
@@ -102,12 +100,12 @@ export const regroupBits = ({
  *
  * @param base32IntegerArray - the array of 5-bit integers to encode
  */
-export const encodeBech32 = (base32IntegerArray: readonly number[]) => {
+export const encodeBech32 = (base32IntegerArray: number[]) => {
   // eslint-disable-next-line functional/no-let
   let result = '';
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement, no-plusplus
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statements, no-plusplus
   for (let i = 0; i < base32IntegerArray.length; i++) {
-    // eslint-disable-next-line functional/no-expression-statement, @typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line functional/no-expression-statements, @typescript-eslint/no-non-null-assertion
     result += bech32CharacterSet[base32IntegerArray[i]!];
   }
   return result;
@@ -126,13 +124,13 @@ export const encodeBech32 = (base32IntegerArray: readonly number[]) => {
 export const decodeBech32 = (validBech32: string) => {
   const result: (typeof bech32CharacterSetIndex)[keyof typeof bech32CharacterSetIndex][] =
     [];
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statement, no-plusplus
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of, functional/no-let, functional/no-loop-statements, no-plusplus
   for (let i = 0; i < validBech32.length; i++) {
-    // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     result.push(
       bech32CharacterSetIndex[
         validBech32[i] as keyof typeof bech32CharacterSetIndex
-      ]
+      ],
     );
   }
   return result;
@@ -184,11 +182,11 @@ export const bech32PaddedToBin = (bech32Padded: string) => {
  *
  * @param bytes - the Uint8Array to bech32 encode
  */
-export const binToBech32Padded = (bytes: Immutable<Uint8Array>) =>
+export const binToBech32Padded = (bytes: Uint8Array) =>
   encodeBech32(
     regroupBits({
       bin: bytes,
       resultWordLength: base32WordLength,
       sourceWordLength: base256WordLength,
-    }) as number[]
+    }) as number[],
   );

@@ -30,21 +30,21 @@ export const extractGenesisCategories = (inputs: Input[]) =>
       input.outpointIndex === 0
         ? [...agg, binToHex(input.outpointTransactionHash)]
         : agg,
-    []
+    [],
   );
 
-interface ImmutableToken {
+type ImmutableToken = {
   categoryHex: string;
   commitmentHex: string;
-}
+};
 
-interface FungibleTokensByCategory {
+type FungibleTokensByCategory = {
   [categoryHex: string]: bigint;
-}
+};
 
-interface MutableTokensByCategory {
+type MutableTokensByCategory = {
   [categoryHex: string]: number;
-}
+};
 
 /**
  * Given the resolved list of a transaction's source outputs – the Unspent
@@ -100,7 +100,7 @@ export const extractSourceOutputTokenData = (sourceOutputs: Output[]) =>
       availableMutableTokensByCategory: {} as MutableTokensByCategory,
       availableSumsByCategory: {} as FungibleTokensByCategory,
       inputMintingCategories: [] as string[],
-    }
+    },
   );
 
 /**
@@ -112,7 +112,7 @@ export const extractSourceOutputTokenData = (sourceOutputs: Output[]) =>
  * `outputSumsByCategory`. See CHIP-2022-02-CashTokens for details.
  */
 export const extractTransactionOutputTokenData = (
-  outputs: Transaction['outputs']
+  outputs: Transaction['outputs'],
 ) =>
   outputs.reduce(
     // eslint-disable-next-line complexity
@@ -157,7 +157,7 @@ export const extractTransactionOutputTokenData = (
       outputMintingCategories: [] as string[],
       outputMutableTokensByCategory: {} as MutableTokensByCategory,
       outputSumsByCategory: {} as FungibleTokensByCategory,
-    }
+    },
   );
 
 /**
@@ -171,13 +171,13 @@ export const extractTransactionOutputTokenData = (
 // eslint-disable-next-line complexity
 export const verifyTransactionTokens = (
   transaction: Transaction,
-  sourceOutputs: Output[]
+  sourceOutputs: Output[],
 ) => {
   const excessiveCommitment = [...sourceOutputs, ...transaction.outputs].find(
     (output) =>
       output.token?.nft?.commitment !== undefined &&
       output.token.nft.commitment.length >
-        ConsensusBCH2023.maximumCommitmentLength
+        ConsensusBCH2023.maximumCommitmentLength,
   );
   if (excessiveCommitment !== undefined) {
     return `Transaction violates token validation: a token commitment exceeds the consensus limit of ${
@@ -206,13 +206,13 @@ export const verifyTransactionTokens = (
   ];
 
   const missingMintingCategory = outputMintingCategories.find(
-    (category) => !availableMintingCategories.includes(category)
+    (category) => !availableMintingCategories.includes(category),
   );
   if (missingMintingCategory !== undefined) {
     return `Transaction violates token validation: the transaction outputs include a minting token that is not substantiated by the transaction's inputs. Invalid output minting token category: ${missingMintingCategory}`;
   }
 
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, sum] of Object.entries(outputSumsByCategory)) {
     if (sum > BigInt(ConsensusBCH2023.maxVmNumber)) {
       return `Transaction violates token validation: the transaction outputs include a sum of fungible tokens for a category exceeding the maximum supply (${
@@ -233,7 +233,7 @@ export const verifyTransactionTokens = (
   }
 
   const remainingMutableTokens = Object.entries(
-    outputMutableTokensByCategory
+    outputMutableTokensByCategory,
   ).reduce<MutableTokensByCategory>((agg, [categoryHex, sum]) => {
     if (availableMintingCategories.includes(categoryHex)) {
       return agg;
@@ -241,7 +241,7 @@ export const verifyTransactionTokens = (
     return { ...agg, [categoryHex]: (agg[categoryHex] ?? 0) - sum };
   }, availableMutableTokensByCategory);
 
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, sum] of Object.entries(remainingMutableTokens)) {
     if (sum < 0) {
       return `Transaction violates token validation: the transaction creates more mutable tokens than are available for a category without a matching minting token. Category: ${categoryHex}, excess mutable tokens: ${
@@ -259,7 +259,7 @@ export const verifyTransactionTokens = (
       const firstMatch = availableImmutableTokens.findIndex(
         (available) =>
           available.categoryHex === categoryHex &&
-          available.commitmentHex === commitmentHex
+          available.commitmentHex === commitmentHex,
       );
       if (firstMatch === -1) {
         return {
@@ -267,14 +267,14 @@ export const verifyTransactionTokens = (
           unmatchedImmutableTokens: [...agg.unmatchedImmutableTokens, token],
         };
       }
-      // eslint-disable-next-line functional/no-expression-statement, functional/immutable-data
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       agg.availableImmutableTokens.splice(firstMatch, 1);
       return agg;
     },
     {
       availableImmutableTokens,
       unmatchedImmutableTokens: [] as ImmutableToken[],
-    }
+    },
   );
   const requiredMutableTokens =
     unmatchedImmutableTokens.reduce<MutableTokensByCategory>(
@@ -282,10 +282,10 @@ export const verifyTransactionTokens = (
         ...agg,
         [token.categoryHex]: (agg[token.categoryHex] ?? 0) + 1,
       }),
-      {}
+      {},
     );
 
-  // eslint-disable-next-line functional/no-loop-statement
+  // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, required] of Object.entries(requiredMutableTokens)) {
     const available = remainingMutableTokens[categoryHex] ?? 0;
     if (available < required) {
@@ -304,10 +304,10 @@ const enum Constants {
 export const pushTokenExtendedCategory = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext
+    AuthenticationProgramStateTransactionContext,
 >(
   state: State,
-  utxo: Output
+  utxo: Output,
 ) => {
   const { token } = utxo;
   if (token === undefined) {
@@ -317,8 +317,8 @@ export const pushTokenExtendedCategory = <
     token.nft?.capability === 'minting'
       ? [Constants.mintingCapabilityByte]
       : token.nft?.capability === 'mutable'
-      ? [Constants.mutableCapabilityByte]
-      : [];
+        ? [Constants.mutableCapabilityByte]
+        : [];
   const extendedCategory = flattenBinArray([
     token.category.slice().reverse(),
     Uint8Array.from(capabilityByte),
@@ -332,10 +332,10 @@ type TokenOpState = AuthenticationProgramStateError &
 
 export const pushTokenCommitment = <State extends TokenOpState>(
   state: State,
-  utxo: Output
+  utxo: Output,
 ) => {
   const { token } = utxo;
-  if (token === undefined || token.nft === undefined) {
+  if (token?.nft === undefined) {
     return pushToStackVmNumber(state, 0n);
   }
   return pushToStackChecked(state, token.nft.commitment);
@@ -343,7 +343,7 @@ export const pushTokenCommitment = <State extends TokenOpState>(
 
 export const pushTokenAmount = <State extends TokenOpState>(
   state: State,
-  utxo: Output
+  utxo: Output,
 ) => {
   const { token } = utxo;
   if (token === undefined) {
@@ -354,36 +354,36 @@ export const pushTokenAmount = <State extends TokenOpState>(
 
 export const opUtxoTokenCategory = <State extends TokenOpState>(state: State) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushTokenExtendedCategory(nextState, utxo)
+    pushTokenExtendedCategory(nextState, utxo),
   );
 
 export const opUtxoTokenCommitment = <State extends TokenOpState>(
-  state: State
+  state: State,
 ) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushTokenCommitment(nextState, utxo)
+    pushTokenCommitment(nextState, utxo),
   );
 
 export const opUtxoTokenAmount = <State extends TokenOpState>(state: State) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushTokenAmount(nextState, utxo)
+    pushTokenAmount(nextState, utxo),
   );
 
 export const opOutputTokenCategory = <State extends TokenOpState>(
-  state: State
+  state: State,
 ) =>
   useTransactionOutput(state, (nextState, [output]) =>
-    pushTokenExtendedCategory(nextState, output)
+    pushTokenExtendedCategory(nextState, output),
   );
 
 export const opOutputTokenCommitment = <State extends TokenOpState>(
-  state: State
+  state: State,
 ) =>
   useTransactionOutput(state, (nextState, [output]) =>
-    pushTokenCommitment(nextState, output)
+    pushTokenCommitment(nextState, output),
   );
 
 export const opOutputTokenAmount = <State extends TokenOpState>(state: State) =>
   useTransactionOutput(state, (nextState, [output]) =>
-    pushTokenAmount(nextState, output)
+    pushTokenAmount(nextState, output),
   );

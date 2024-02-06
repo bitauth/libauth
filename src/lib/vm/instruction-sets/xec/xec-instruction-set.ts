@@ -53,7 +53,7 @@ import {
  * nodes will refuse to relay them. (Default: `true`)
  */
 export const createInstructionSetXEC = (
-  standard = true
+  standard = true,
 ): InstructionSet<
   ResolvedTransactionBCH,
   AuthenticationProgramBCH,
@@ -95,7 +95,7 @@ export const createInstructionSetXEC = (
           [OpcodesBCH2022.OP_MIN]: opMin4Byte,
           [OpcodesBCH2022.OP_MAX]: opMax4Byte,
           [OpcodesBCH2022.OP_WITHIN]: opWithin4Byte,
-        }
+        },
       ),
       [OpcodesBCH2022.OP_INPUTINDEX]: undefinedOperation,
       [OpcodesBCH2022.OP_ACTIVEBYTECODE]: undefinedOperation,

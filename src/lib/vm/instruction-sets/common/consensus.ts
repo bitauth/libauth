@@ -48,6 +48,7 @@ export enum ConsensusCommon {
    * A.K.A. `MAXIMUM_ELEMENT_SIZE_64_BIT`
    */
   maximumVmNumberLength = 8,
+  // eslint-disable-next-line @typescript-eslint/no-mixed-enums
   minVmNumber = '-9223372036854775807',
   maxVmNumber = '9223372036854775807',
   schnorrSignatureLength = 64,

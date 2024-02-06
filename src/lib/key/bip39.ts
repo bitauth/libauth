@@ -28,13 +28,13 @@ export {
 };
 
 export enum MnemonicErrors {
-  invalidEntropyError = 'Invalid Entropy: Must be between 16 and 32 bytes and divisible by 4',
+  invalidEntropy = 'Invalid Entropy: Must be between 16 and 32 bytes and divisible by 4',
   invalidMnemonic = 'Invalid Mnemonic: Phrase word count must be divisible by 3',
   invalidWordList = 'Invalid Word List Length: Word list must contain exactly 2048 words',
-  invalidChecksum = 'Invalid Checksum: TODO',
+  invalidChecksum = 'Invalid Checksum: Checksum failed for the given phrase',
 }
 
-interface Bip39Mnemonic {
+type Bip39Mnemonic = {
   success: true;
   phrase: string;
 }
@@ -105,11 +105,11 @@ export const deriveBip39EntropyFromMnemonic = (
 
   // calculate the checksum and compare
   const entropy = new Uint8Array(
-    entropyBits.match(/(.{1,8})/g)!.map((bin) => parseInt(bin, 2))
+    entropyBits.match(/(?:.{1,8})/gu)!.map((bin) => parseInt(bin, 2))
   );
 
   if (!isValidBip39Entropy(entropy)) {
-    return MnemonicErrors.invalidEntropyError;
+    return MnemonicErrors.invalidEntropy;
   }
 
   const newChecksum = deriveBip39ChecksumBits(entropy);
@@ -131,7 +131,7 @@ export const deriveBip39MnemonicFromEntropy = (
   wordList: string[]
 ) => {
   if (!isValidBip39Entropy(entropy)) {
-    return MnemonicErrors.invalidEntropyError;
+    return MnemonicErrors.invalidEntropy;
   }
 
   if (!isValidBip39WordList(wordList)) {
@@ -142,7 +142,7 @@ export const deriveBip39MnemonicFromEntropy = (
   const checksumBits = deriveBip39ChecksumBits(entropy);
 
   const bits = entropyBits + checksumBits;
-  const chunks = bits.match(/(.{1,11})/g)!;
+  const chunks = bits.match(/(?:.{1,11})/gu)!;
   const words = chunks.map((binary: string): string => {
     const index = parseInt(binary, 2);
     const word = wordList[index];
@@ -217,10 +217,10 @@ export const deriveBip39SeedFromMnemonic = (
  * @param wordList - an 2048 length array of words to use as the word list
  * @param secureRandom - a method that returns a securely-random 16-32-byte Uint8Array
  */
-export function generateBip39Mnemonic(
+export const generateBip39Mnemonic = (
   wordList: string[],
   secureRandom: () => Uint8Array
-) {
+) => {
   if (!isValidBip39WordList(wordList)) {
     return MnemonicErrors.invalidWordList;
   }
@@ -228,7 +228,7 @@ export function generateBip39Mnemonic(
   const entropy = secureRandom();
 
   if (!isValidBip39Entropy(entropy)) {
-    return MnemonicErrors.invalidEntropyError;
+    return MnemonicErrors.invalidEntropy;
   }
 
   return deriveBip39MnemonicFromEntropy(entropy, wordList);

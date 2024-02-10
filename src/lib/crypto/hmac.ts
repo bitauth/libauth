@@ -7,7 +7,7 @@ import type { Sha256, Sha512 } from '../lib.js';
 
 export type HmacFunction = (
   secret: Uint8Array,
-  message: Uint8Array
+  message: Uint8Array,
 ) => Uint8Array;
 
 /**
@@ -21,7 +21,7 @@ export type HmacFunction = (
 export const instantiateHmacFunction =
   (
     hashFunction: (input: Uint8Array) => Uint8Array,
-    blockByteLength: number
+    blockByteLength: number,
   ): HmacFunction =>
   (secret, message) => {
     const key = new Uint8Array(blockByteLength).fill(0);

@@ -32,18 +32,29 @@ export enum MnemonicErrors {
   invalidMnemonic = 'Invalid Mnemonic: Phrase word count must be divisible by 3',
   invalidWordList = 'Invalid Word List Length: Word list must contain exactly 2048 words',
   invalidChecksum = 'Invalid Checksum: Checksum failed for the given phrase',
+  invalidWord = 'Invalid word(s): Phrase contains word that does not exist in word list',
 }
 
 type Bip39Mnemonic = {
   success: true;
   phrase: string;
-}
+};
 
+/**
+ * Determine whether the given wordlist is valid.
+ *
+ * @param wordList - the word list
+ */
 export const isValidBip39WordList = (wordList: string[]) => {
   const validWordListLength = 2048;
   return wordList.length === validWordListLength;
 };
 
+/**
+ * Determine whether the given entropy is valid.
+ *
+ * @param entropy - the entropy bytes
+ */
 export const isValidBip39Entropy = (entropy: Uint8Array) => {
   const minEntropyBytes = 16;
   const maxEntropyBytes = 32;
@@ -62,8 +73,10 @@ export const isValidBip39Entropy = (entropy: Uint8Array) => {
  * @param entropy - the entropy bytes
  */
 export const deriveBip39ChecksumBits = (entropy: Uint8Array) => {
-  const ENT = entropy.length * 8;
-  const CS = ENT / 32;
+  const bitsPerByte = 8;
+  const checksumRatio = 32;
+  const ENT = entropy.length * bitsPerByte;
+  const CS = ENT / checksumRatio;
   const hash = sha256.hash(entropy);
   return binToBinString(hash).slice(0, CS);
 };
@@ -74,9 +87,10 @@ export const deriveBip39ChecksumBits = (entropy: Uint8Array) => {
  * @param mnemonic - the mnemonic phrase
  * @param wordList - the wordlist to use
  */
+// eslint-disable-next-line complexity
 export const deriveBip39EntropyFromMnemonic = (
   mnemonic: string,
-  wordList: string[]
+  wordList: string[],
 ) => {
   if (!isValidBip39WordList(wordList)) {
     return MnemonicErrors.invalidWordList;
@@ -85,27 +99,38 @@ export const deriveBip39EntropyFromMnemonic = (
   const words = mnemonic.normalize('NFKD').split(' ');
 
   const mnemonicPhraseDivisibility = 3;
-
   if (words.length % mnemonicPhraseDivisibility !== 0) {
     return MnemonicErrors.invalidMnemonic;
   }
 
+  // make sure each word in mnemonic exists in the given word list.
+  const wordsExist = words.every((word: string) => wordList.includes(word));
+  if (!wordsExist) {
+    return MnemonicErrors.invalidWord;
+  }
+
+  // define constants to improve legibility
+  const base2 = 2;
+  const bitStringLength = 11;
+
   // convert word indices to 11 bit binary strings
-  const bits = words
+  const bitsResult = words
     .map((word: string): string => {
       const index = wordList.indexOf(word);
-      return index.toString(2).padStart(11, '0');
+      return index.toString(base2).padStart(bitStringLength, '0');
     })
     .join('');
 
   // split the binary string into ENT/CS
-  const dividerIndex = Math.floor(bits.length / 33) * 32;
-  const entropyBits = bits.slice(0, dividerIndex);
-  const checksumBits = bits.slice(dividerIndex);
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  const dividerIndex = Math.floor(bitsResult.length / 33) * 32;
+  const entropyBits = bitsResult.slice(0, dividerIndex);
+  const checksumBits = bitsResult.slice(dividerIndex);
 
   // calculate the checksum and compare
   const entropy = new Uint8Array(
-    entropyBits.match(/(?:.{1,8})/gu)!.map((bin) => parseInt(bin, 2))
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    entropyBits.match(/(?:.{1,8})/gu)!.map((bin) => parseInt(bin, 2)),
   );
 
   if (!isValidBip39Entropy(entropy)) {
@@ -128,7 +153,7 @@ export const deriveBip39EntropyFromMnemonic = (
  */
 export const deriveBip39MnemonicFromEntropy = (
   entropy: Uint8Array,
-  wordList: string[]
+  wordList: string[],
 ) => {
   if (!isValidBip39Entropy(entropy)) {
     return MnemonicErrors.invalidEntropy;
@@ -142,6 +167,7 @@ export const deriveBip39MnemonicFromEntropy = (
   const checksumBits = deriveBip39ChecksumBits(entropy);
 
   const bits = entropyBits + checksumBits;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const chunks = bits.match(/(?:.{1,11})/gu)!;
   const words = chunks.map((binary: string): string => {
     const index = parseInt(binary, 2);
@@ -173,7 +199,7 @@ export const deriveBip39MnemonicFromEntropy = (
  */
 export const deriveBip39SeedFromMnemonic = (
   mnemonic: string,
-  passphrase?: string
+  passphrase?: string,
 ) => {
   const mnemonicNormalized = mnemonic.normalize('NFKD');
 
@@ -219,7 +245,7 @@ export const deriveBip39SeedFromMnemonic = (
  */
 export const generateBip39Mnemonic = (
   wordList: string[],
-  secureRandom: () => Uint8Array
+  secureRandom: () => Uint8Array,
 ) => {
   if (!isValidBip39WordList(wordList)) {
     return MnemonicErrors.invalidWordList;
@@ -232,4 +258,4 @@ export const generateBip39Mnemonic = (
   }
 
   return deriveBip39MnemonicFromEntropy(entropy, wordList);
-}
+};

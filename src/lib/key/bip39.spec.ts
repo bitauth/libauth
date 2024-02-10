@@ -28,25 +28,156 @@ import bip39Trezor from './fixtures/bip39.trezor.json' assert { type: 'json' };
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
 import bip39Valid from './fixtures/bip39.valid.json' assert { type: 'json' };
 
-const valid24WordEntropyFunction = () => randomBytes(32);
-const valid12WordEntropyFunction = () => randomBytes(16);
-const invalidEntropyFunction = () => randomBytes(17);
 const invalidWordList = ['wordlist', 'must', 'have', '2048', 'words'];
 
+test('deriveBip39EntropyFromMnemonic: works', (t) => {
+  // Valid mnemonic..
+  t.deepEqual(
+    deriveBip39EntropyFromMnemonic(
+      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      bip39English,
+    ),
+    hexToBin('00000000000000000000000000000000'),
+  );
+
+  // Invalid Mnemonic (not divisible by 3 - 11 words).
+  t.is(
+    deriveBip39EntropyFromMnemonic(
+      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon',
+      bip39English,
+    ),
+    MnemonicErrors.invalidMnemonic,
+  );
+
+  // Invalid Checksum (banana).
+  t.is(
+    deriveBip39EntropyFromMnemonic(
+      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon banana',
+      bip39English,
+    ),
+    MnemonicErrors.invalidChecksum,
+  );
+
+  // Invalid Word List (5 words - must be 2048).
+  t.is(
+    deriveBip39EntropyFromMnemonic(
+      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      invalidWordList,
+    ),
+    MnemonicErrors.invalidWordList,
+  );
+
+  // Invalid Word not in Word List ("fnord").
+  t.is(
+    deriveBip39EntropyFromMnemonic(
+      'fnord abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      bip39English,
+    ),
+    MnemonicErrors.invalidWord,
+  );
+});
+
+test('deriveBip39MnemonicFromEntropy: works', (t) => {
+  // 12 words/ (English).
+  t.deepEqual(
+    deriveBip39MnemonicFromEntropy(
+      hexToBin('00000000000000000000000000000000'),
+      bip39English,
+    ),
+    {
+      phrase:
+        'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      success: true,
+    },
+  );
+
+  // Invalid Entropy (15 bytes).
+  t.is(
+    deriveBip39MnemonicFromEntropy(
+      hexToBin('000000000000000000000000000000'),
+      bip39English,
+    ),
+    MnemonicErrors.invalidEntropy,
+  );
+
+  // Invalid Word List (5 words - must be 2048).
+  t.is(
+    deriveBip39MnemonicFromEntropy(
+      hexToBin('00000000000000000000000000000000'),
+      invalidWordList,
+    ),
+    MnemonicErrors.invalidWordList,
+  );
+});
+
+test('deriveBip39SeedFromMnemonic: works', (t) => {
+  // 12 words.
+  t.deepEqual(
+    deriveBip39SeedFromMnemonic(
+      'control verify parent ordinary manual talent jelly fame poverty cup that clump',
+    ),
+    hexToBin(
+      'cae92979480452578d43ed55ff17dc80877ecc48e3771bd1430a35e54584b3099258c53cbe2b76a70aac0ef27c4bbc3b32a85ce4cdddf00aa6870aeb308488af',
+    ),
+  );
+
+  // 12 words with passphrase.
+  t.deepEqual(
+    deriveBip39SeedFromMnemonic(
+      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      'TREZOR',
+    ),
+    hexToBin(
+      'c55257c360c07c72029aebc1b53c05ed0362ada38ead3e3e9efa3708e53495531f09a6987599d18264c1e1c92f2cf141630c7a3c4ab7c81b2f001698e7463b04',
+    ),
+  );
+});
+
 test('generateBip39Mnemonic: works', (t) => {
-  const valid24WordMnemonic = generateBip39Mnemonic(bip39English, valid24WordEntropyFunction);
+  // Entropy functions.
+  const valid24WordEntropyFunction = () => randomBytes(32);
+  const valid12WordEntropyFunction = () => randomBytes(16);
+  const invalidEntropyFunction = () => randomBytes(17);
+
+  // Generate a 24 word mnemonic.
+  const valid24WordMnemonic = generateBip39Mnemonic(
+    bip39English,
+    valid24WordEntropyFunction,
+  );
   if (typeof valid24WordMnemonic === 'string') {
     t.fail(valid24WordMnemonic);
+    return;
+  }
+  if (valid24WordMnemonic.phrase.split(' ').length !== 24) {
+    t.fail('Expected mnemonic of phrase of 24 words');
+    return;
   }
 
-  const valid12WordMnemonic = generateBip39Mnemonic(bip39English, valid12WordEntropyFunction);
+  // Generate a 12 word mnemonic.
+  const valid12WordMnemonic = generateBip39Mnemonic(
+    bip39English,
+    valid12WordEntropyFunction,
+  );
   if (typeof valid12WordMnemonic === 'string') {
     t.fail(valid12WordMnemonic);
+    return;
+  }
+  if (valid12WordMnemonic.phrase.split(' ').length !== 12) {
+    t.fail('Expected mnemonic of phrase of 12 words');
+    return;
   }
 
-  t.is(generateBip39Mnemonic(bip39English, invalidEntropyFunction), MnemonicErrors.invalidEntropyError);
+  // Use an invalid entropy function and expect it to fail.
+  t.is(
+    generateBip39Mnemonic(bip39English, invalidEntropyFunction),
+    MnemonicErrors.invalidEntropy,
+  );
 
-  t.is(generateBip39Mnemonic(invalidWordList, valid24WordEntropyFunction), MnemonicErrors.invalidWordList);
+  // Use an invalid word list and expect it to fail.
+  t.is(
+    generateBip39Mnemonic(invalidWordList, valid24WordEntropyFunction),
+    MnemonicErrors.invalidWordList,
+  );
 });
 
 // eslint-disable-next-line complexity
@@ -85,7 +216,7 @@ const vectors = test.macro<
       passphrase?: string;
       seed: string;
       wordList: string;
-    }[]
+    }[],
   ]
 >((t, validVectors) => {
   // eslint-disable-next-line functional/no-loop-statements
@@ -94,18 +225,16 @@ const vectors = test.macro<
 
     if (typeof wordList === 'string') {
       t.fail(`Failed to find wordlist for language ${vector.wordList}`);
-
       return;
     }
 
     const mnemonic = deriveBip39MnemonicFromEntropy(
       hexToBin(vector.entropy),
-      wordList
+      wordList,
     );
 
     if (typeof mnemonic === 'string') {
       t.fail('Failed to derive mnemonic from entropy');
-
       return;
     }
 
@@ -113,7 +242,7 @@ const vectors = test.macro<
 
     const seed = deriveBip39SeedFromMnemonic(
       mnemonic.phrase,
-      vector.passphrase
+      vector.passphrase,
     );
 
     t.deepEqual(mnemonic.phrase, vector.mnemonic);
@@ -123,4 +252,4 @@ const vectors = test.macro<
 });
 
 test('Trezor Vectors', vectors, bip39Trezor);
-test('Valid Vectors', vectors, bip39Valid);
+test('Wordlist Vectors', vectors, bip39Valid);

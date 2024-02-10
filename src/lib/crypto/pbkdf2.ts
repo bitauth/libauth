@@ -18,7 +18,7 @@ export type Pbkdf2Parameters = {
   password: Uint8Array;
   iterations: number;
   salt: Uint8Array;
-}
+};
 
 /**
  * Instantiate a PBKDF2 function as specified by RFC 2898.
@@ -91,7 +91,7 @@ const hmacSha256ByteLength = 32;
  */
 export const pbkdf2HmacSha256 = (
   parameters: Pbkdf2Parameters,
-  sha256Hmac: HmacFunction = hmacSha256
+  sha256Hmac: HmacFunction = hmacSha256,
 ) => instantiatePbkdf2Function(sha256Hmac, hmacSha256ByteLength)(parameters);
 
 const hmacSha512ByteLength = 64;
@@ -104,5 +104,5 @@ const hmacSha512ByteLength = 64;
  */
 export const pbkdf2HmacSha512 = (
   parameters: Pbkdf2Parameters,
-  sha512Hmac: HmacFunction = hmacSha512
+  sha512Hmac: HmacFunction = hmacSha512,
 ) => instantiatePbkdf2Function(sha512Hmac, hmacSha512ByteLength)(parameters);

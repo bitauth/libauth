@@ -1,0 +1,322 @@
+[
+  {
+    "entropy": "f4ed216eddcf77480241edae21a495ca",
+    "mnemonic": "visual harbor forum romance wash piano animal diet purchase artwork century nest",
+    "seed": "4c860822f696a835807d28b81accaf7dda325a6b14276fb8397c6a96af5db018e00c439de71b46d4a51a7601d26ebfc546f2279bbf4f71bfc7c2dc0dee66a950",
+    "wordList": "english",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "1a6687f50a976c3b00c626117299cf4683d54ffb4a5d923ce18a2473fa723da79dc2e8428c9472936ad353eed26be7466d06b8ace14775f9942ac6c30b0365bc"
+  },
+  {
+    "entropy": "d11ceea2e49db5cc7fd7b34dfd05f6c5",
+    "mnemonic": "speed trash post since swap tower young wait evil trial laundry member",
+    "seed": "acf6c9ed4db8f3800350ee2d7e4722b5dd084a5c9696aa749653788c663668326770c4b855503def08be5297a916372835e3df1959a1fe4c459ab84fbb6463f4",
+    "wordList": "english",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "52d6f89b42158db37acc4563420ecfb6eac93eca42d100f21bf1986893c331d3ee38b4800ff198ea36a8ed97e27c3a79b00a979fd63547ce24088aced6b46f1b"
+  },
+  {
+    "entropy": "75f171bb42863aba280d452ea47df0a4",
+    "mnemonic": "invest merit human lunar glove fringe parent post concert catalog label elite",
+    "seed": "6b79e32998c26962ee0d1956adb7efb0eb06cb7ef3978552e7dc8002345ce2890996c803c3c25579411666f5c2b97029fcbb8d5630f7ce1f458d5f4a0510714f",
+    "wordList": "english",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "066a97d2bf1b77ba4221ac126f1ddd58a43df396e3ea8d66ec141db742eac02b31a1763ee2683870bb2c521b53751b3864ddaaefd1a204e2509fd441aa50494d"
+  },
+  {
+    "entropy": "73b207d2bb4cd41cad794545d1d440f0",
+    "mnemonic": "inhale mother visa isolate snap atom remove chunk easy modify awake throw",
+    "seed": "1be163ad8eba8fc72cad48a071862b6669cf0ff569e4ecbb4a5742a9e3f05a502a9755778af94d41e8f97f38779814245a3937a229c17fa9efdf1b98f29664c2",
+    "wordList": "english",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "44ef2dee8220f257db4b5eba6f6024b31d0072235a9e9bf631f789f5f5d521288a81777e49158b0db14ad88ac44bf5dc693de68911c0a59651e0c530b047430c"
+  },
+  {
+    "entropy": "908e59dd86455b2536e2792e93139595",
+    "mnemonic": "揭 雷 跳 去 纪 谷 曼 飞 拉 庄 膨 节",
+    "seed": "8bce3c1d79edc2ec5e83ad7d350a04f0e363161864d69eef82406a22dc51dd2500753194f6b64ede28fbbff9db2de2da81923768fce50ee1f2a59caa8dd2cebe",
+    "wordList": "chinese_simplified",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "757c5bbaa63ad1ce5a4e39c6d91678d5cf5961bc5dfc0be27dc828761ed9b41d7065f9ccaeaafe6ffda572085d3e5ee53f9579a8d3f21cda8e6bc8f96393dd49"
+  },
+  {
+    "entropy": "2622eacf907288efcc893eea54260b80",
+    "mnemonic": "再 党 懂 光 务 凯 难 安 涨 郭 暗 一",
+    "seed": "35cd443de24168b68611dfe899e051d3c471dd390a6947dbeb51f8c92df6adf48867649f7a7f5263f5e406a42b0d420caafb8ec9ec8cbc00bd070e616a6a2be6",
+    "wordList": "chinese_simplified",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "12f8a2aadc3a9eed0bd70ef471710e5e35a3d9055f8d6ed50726938295c2c3b95f3000953a7cd422501a12c2a6c5d648a760f5c6a3e9d0a9cd3b0448a90c154a"
+  },
+  {
+    "entropy": "03ca39f34f2d3e607250ccbbefdfdcab",
+    "mnemonic": "就 曾 归 滚 穗 持 醒 设 页 私 罩 粉",
+    "seed": "60174ba56b45bd2834523f5190bf5a08b8dce9bab3b2aa96d4dcf1d648c88cbb90c3c191f693ce648736a1fbcdbfa53f0c5bc966faeb5b51ba0ace113410a2f4",
+    "wordList": "chinese_simplified",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "30ec55a7139d10b97b2f2711bace66da179aeb13774518cd1906c952d42a0f9130f4e0be47b3588e9112d36f9d1e4d17630800c3f609ad901a48d6d7aa661586"
+  },
+  {
+    "entropy": "c0a49b53c10a60eb1afaba31909b1c60",
+    "mnemonic": "伐 联 碗 纳 陷 屋 顺 略 非 迹 愤 吊",
+    "seed": "33caa9b7a1a29d1760d6b5da063df8dc59b09c29621c5e79d1851970658ed5b61c479e459c20f6774c50a1a073fed1d2f71da3cd2e1809b6548a88b4f2f521bd",
+    "wordList": "chinese_simplified",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "385fea1f6766074a76c3b5c25dd9b7dc18b714748d1fbac84f97135571b3046683491b487803fdf05d2968ea6f3b868d5214816bca257bd5f0f9a3d081d82d48"
+  },
+  {
+    "entropy": "23059b764ca0f0792cd1a13fd700ecc1",
+    "mnemonic": "おじぎ　かまぼこ　ほしつ　つけね　いほう　ぐたいてき　にりんしゃ　きつね　ぐんたい　ねすごす　ぐこう　たいえき",
+    "seed": "b8120c9483dc8d10266eff8bfcb772573ff31aa9bdb43d132ba46777e05df6e3096077fca37e3d0ed052687607a54c5fa8ae3a96db981a9bd5b65adb76f698ac",
+    "wordList": "japanese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "9c204e3df955798defd0efc464d99460d86904030b87a8be3a9c0625f35f41ec6d7fb42dd7794c8d23158f7c3f055fb3e6b3f978afb188a2020010ea7c05d263"
+  },
+  {
+    "entropy": "0a54a17f38cea551212baa29e59e851a",
+    "mnemonic": "いぜん　どあい　さんか　すべて　むらさき　とちゅう　たいこ　せたけ　かおり　かめれおん　てほどき　きのした",
+    "seed": "178fa8f901324ef31188f2c844726678d75885c9f0211e2f80662fedb0d78162223d80491abcef8f3ac2cfa24d22e08afde4c05c50d57dca67d748a781ed4ce0",
+    "wordList": "japanese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "70375fc4e2c452231fde85d196a50d0b204d00bba19e863a55b6b42f07067cc1795ed1c22287eb8ee89198f996a033933ae68efd223d81aa059f1dd37dbc6cd6"
+  },
+  {
+    "entropy": "cf5d48026d19f70d009dc82f8e659a4f",
+    "mnemonic": "ひらがな　むらさき　あかちゃん　べにしょうが　てそう　たいふう　あたる　ねふだ　きうん　すんぜん　しふく　ていへん",
+    "seed": "f0e82db63ef7bcfdf56cd3b8fddfe4da601bfeeb882a9ff2fd1d0e1dc5623ff81dc702d9a22b0ad5df7a1d6a783fce97980b79ed0b783623a1e82c440b42701a",
+    "wordList": "japanese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "e08a5f0782c6df29132e1b9c0966cac49e53c8fa251bffb743492229270003a65e2ea9d8597c341d536feae5cfde4e7e80a78455489bd3ea78f4450611451f49"
+  },
+  {
+    "entropy": "b62353fdf6d12d3cee01a215a1da48ca",
+    "mnemonic": "ぬすむ　えいご　わしつ　もくし　うかぶ　てうち　ねすごす　きてい　うちき　いふく　だんわ　ちぬき",
+    "seed": "9d79781ad17ffadac19ec2f5800a266a5d8b26633b324cde28691e48e7061588402c32123208df4f334176aa02f50931e94e13005b8f1489f3f63dc23774589a",
+    "wordList": "japanese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "cb39f69204b99d2bd74f97dbf2cd752ad19d8610247a985389dd3ca80f19f7ccdc0adb06ae45ade17951ea7980a1e57d026cff2e9831aa139b8de45b0b425b4e"
+  },
+  {
+    "entropy": "0859e0d1f8a8104ec29d262dfc6dab9e",
+    "mnemonic": "aldea rumbo cocción turbina lista calcio alto oral celoso tejado hecho cuneta",
+    "seed": "1a3d53b2f86cfe994100ffeb90350385a1e2da189134c4f40c3ae518538b140b69dd5f7fcc79b6c74d7f1f19bb0e8c2359efe8715103397488882e98f8764383",
+    "wordList": "spanish",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "5eb58de7b3cb38260a1cfe6c8f396cc364221839634cac6fadf02d3aedcf3b09b5cc8abab9e32ee749859404ae327feacadb46994bf038dd9d0710d37eb9a87c"
+  },
+  {
+    "entropy": "52c653c7cd8def1f9d431ec660fc1c98",
+    "mnemonic": "exigir ciprés úlcera nítido tabaco minuto jabón gimnasio reloj alba ajedrez cien",
+    "seed": "f8d916ab1a9d62766c116fb0f7d7d9ec13bbd9781bbae2276897723c059ae9ef4a063723e9ae1c9e02d8fed3ac0836f2b45c49db28cd66d2824f1925ade48034",
+    "wordList": "spanish",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "809ade8bfcb9311a6b55452400143f4e2aa90de7f0ba8bc13e6bdaf04e9b7ce2e70897215e603a99995980ab086f1789bd673e051c53f26b3e67b2967ca5c9ff"
+  },
+  {
+    "entropy": "e4ed5ecc505db510c7fa57f96ef953d1",
+    "mnemonic": "tenso hecho piedra odiar soplar manta boina elixir vibrar jungla falso opaco",
+    "seed": "e2ac050c3f36c98a7dd5c452806e0b4acd0a9b329b4bddf3cd85d3bdc15ce34118cff9bca9f1dc6ee5434f8cfbd1ffd538d78f47472c5e08533bafc449639943",
+    "wordList": "spanish",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "26f20f205c4619bb12f752fa349e1c4d2d7ace2a72fecd89224f30c9f5a956b141e7c492412cbb0b5d7b0fea2ca8f612810829af3943d95b82e952e233827a03"
+  },
+  {
+    "entropy": "7ca393383a93b61a1f9f10492ecf5da1",
+    "mnemonic": "lector bastón rubor jamón cuadro andén leyenda tarot edición joroba sidra dieta",
+    "seed": "d7752d726abfcf0488cbfe5b788cb523edcd7ef5dc0e840309668037fcfcde03272f1485b5376a3a7067e962cd9052eb2c936941546fdbc32b3c60fd605b45f5",
+    "wordList": "spanish",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "7c7007e0d7247f8965ab5070b32644bbc2b82a3b4d2f5d1b962667f56ca62665e50af2c50ab988deb0dd5e89b57b54753b0186e34a903d39fae12804040be505"
+  },
+  {
+    "entropy": "506d270002bbfcab764254c8c8a810d3",
+    "mnemonic": "fenomeno ingegno sapere aguzzo saluto formica spia espanso segnalato emiro africano prassi",
+    "seed": "7ca051ac18e4b904b31b168f21a654b2f9ad119b1ff3230680e720c6aed8e7729eae4354d60b0b489c3ac9d887cf5c14bdc909b8ac4983b9826f855de955edba",
+    "wordList": "italian",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "e4df22a4a35a93bf94dfcc7f0df04ad04bdc78c849717849722d4d85fdb97bc93be98c38f83b36dcc90398756b66ddecad6b29e2d8b52a481b09a76fe72d1c9a"
+  },
+  {
+    "entropy": "3b1811c46d39003bc6a9082b526d8b4d",
+    "mnemonic": "devoto sarcasmo lepre spruzzo omaggio bisesto bavosa broccolo chimera orrendo guaio parvenza",
+    "seed": "128fd1686174c5e8b5b9baa26486aafaccbba9ee28dcaa10c27b045111589e85cdea7082fd0db0cd660561c28badd5a26fe8de2ad85819e6ab48f5589b039136",
+    "wordList": "italian",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "f2218ab042451d8504d684eaf9e3bb760accf40006d027002d858ecba874f507285504721a9905de7c3f8797f294a07854ae1e4c64a5342aac163bf6d42664f6"
+  },
+  {
+    "entropy": "3759e2a3025e13148a41465af96e56b1",
+    "mnemonic": "danzare sguardo principe aggancio svolta nodo cefalo cedibile garanzia serraglio ottimo grigio",
+    "seed": "be5f4d6934c93cdca0492c592475d39fd0c477df1b60f0e8722b60eab07036e16aaef87918e4b85ced93076ec86060822db0ac156863e72868cbb2dbab277f74",
+    "wordList": "italian",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "b6eb354072840bc8bdfa815443ea4b7575950e79a828b6ba42321622034b679b5706521cddfa99c922c761b47d608a8c1b057982a73f89ae0820e83879cb1451"
+  },
+  {
+    "entropy": "ac848ad7f0154dfa382a6ba66b838df3",
+    "mnemonic": "qualcosa camicia rilevato svedese fondente volere svezia falco possesso gazebo taverna tinto",
+    "seed": "470e29dd442ce0fd08c2d2554dd87cd8fa786345661ee0274a0ba5d1b7d8003ba86c57bde0d6c679edc872fdaf75f241005bf3ce21a5f51218b671107b0dd784",
+    "wordList": "italian",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "ca83ecbb75791057c99cc95260a81dff49322f3859c1091475916356145f25fe9f0d23fe3231c2b1d7285061369135616479f8f4697586700ef281397aaf32e3"
+  },
+  {
+    "entropy": "8098438d270333717d49f7ec352629c8",
+    "mnemonic": "indexer prodige sublime écume client physique vaccin déborder toboggan obtenir lagune loisir",
+    "seed": "06b2135d82a8b4c4e2d12c372285d6d3ec3aa2e839ee51d19a4f8febabc5d00cb7ec2fbec39fddae2c508077d05b6042631e44f72c0884517f0527c816074d8f",
+    "wordList": "french",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "7aa9029c7667c4d9d4cf342c67dc20d2bb2462d3b50736d22cf85ca1eb9245ac56e30e64df3ce45bf55d2e53b768a30e495903770e34d0aad27a6774a8222958"
+  },
+  {
+    "entropy": "4be3905d1d36e11f6eb41e4068216724",
+    "mnemonic": "dynastie beurre avouer créditer fruit liquide plafond intense déductif dégager espadon dossier",
+    "seed": "86a8e862264aa78773eddaae7302033cd12512c0203f42a7a278c76e7607890e23c94ae4381c308ae75e07b4b7230add4216bc405398603408f510bb1a1f5bff",
+    "wordList": "french",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "c3aee22fb0faf6afa856a9de27ad75f8cb5a683fcfc0697aaeeeb1d879c678b567039267862433fa85e7fa1c659aed67ec6eddadd7bf6f94266ff2f2ce409cdd"
+  },
+  {
+    "entropy": "f1d44686f92f7580ed41e73283f6bd32",
+    "mnemonic": "turbine nappe myrtille tympan vecteur prédire pelage cultiver clairon bobard ourson femme",
+    "seed": "c3a1c76a0f45cb60dc3bbb0e8c11bfcf0e4962508cbf6393e36acd6a3d592a33662b7831b78f2205f8a1d8bb68b2c503acba84811f1914531fc3cda650dd37ee",
+    "wordList": "french",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "e74a9dd29515ae962f65a1ec385f95b1ff8f17a0ad808c7298bac5370fe908287b6e678b2fbd68301a73d21a6691c28f070a9c1440bd6be9c4db8282f0d9e001"
+  },
+  {
+    "entropy": "1ff02ac6825b6cad5d1210a3c0e8ee01",
+    "mnemonic": "boire infini pantalon actuel période envoyer goupille demeurer négliger affubler croquer accolade",
+    "seed": "821b285d2dcbcf67c7db2c8892cc1c30e507e3f33c6208b075792a12a4c1d8654b2ad948138dae9e45186f887a7aa6ff6eec6dde64b5c11ee53821c33188e553",
+    "wordList": "french",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "9962c9b042fa128b278bd5768969fb2abcdcf53c9b8a78c4e858f38eb42989358d0d39d7476b1c4921e87af192fc0b3dcb56c6b7be8c109ae8614f70eaa3e290"
+  },
+  {
+    "entropy": "08e558f2020341d8d7ebed399a56b63f",
+    "mnemonic": "검사 늑대 모니터 감소 독감 하드웨어 사진 신세 매달 처벌 일행 실장",
+    "seed": "625f676cb4f5901b1aeb411c88c7913c806fd19408d9827590faa44ce9342b3b381dfbe7e589eef91dbb6e632f44103604ad496141c6d46682d22421a01f6386",
+    "wordList": "korean",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "74ae3fafceb1a3592a780ad698bf305676bb9d641fccad75ecfe0b22be4525a8b15cb837b792f517c3e35b6761837faf1dcea5a694d210ba594d51f827fd0a22"
+  },
+  {
+    "entropy": "2b1d12acc023a1650d5c7e801561d7ca",
+    "mnemonic": "능력 평소 일곱 실패 매일 잠수함 마당 연습 실컷 인형 스웨터 예상",
+    "seed": "47ffb24c02da348b249de2163edddc2992e9542513d4c0b6a87dfbf2b6034b43f4a257aa1b8fa63a461bb8efac360e9c03c16edc7878b992036daf5f278ea3f3",
+    "wordList": "korean",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "c7832bb27b2ec6777bb56cb4c2815311ef41aa0c8715a125d98bd4c92e7f32a05c5b8b2ad3920965b03f457e42ae15321b99d734bb5cc03a258f6b071ffb5e52"
+  },
+  {
+    "entropy": "009a7d8ddad8deb0b30882f5f642dcb0",
+    "mnemonic": "가득 첫날 상추 재빨리 여전히 분위기 직장 공격 허용 잔뜩 저녁 삼월",
+    "seed": "48d5c7f11579a33b998602d6dae36070273b335c6d7762b04f10a6784cea596eae714ee0e05a5d54334b9a73d722794b17590b0599569c76456f8722ba358f6f",
+    "wordList": "korean",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "c3a2f3516978a51648e2a96dc577099db5a5e59afffad13dd67c715a2036bdc84d0b02afa79eb908610e16e2b5522052ab5452d9b2b023ba5a49c6a65271a2c6"
+  },
+  {
+    "entropy": "5a58af78b259b0cdbabaaa58de49b793",
+    "mnemonic": "비닐 주식 콘서트 생물 왼발 서클 플라스틱 부동산 불과 합격 소질 넥타이",
+    "seed": "73460ae0dc71f4f0fa69de5188d6e8487b89d24c12b5831f413fd98649fbf1d00724f94aa039ebbc661e5316f13e0eb95484f9c41364e3e2bdb98ad6191e0959",
+    "wordList": "korean",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "0de8ee2463ef7c014f7c8459ce615f0dce05d4bc97e969405b0fef45ca991148580c962c84c5a1c4145532f0333d1b7709ccdbbec8995e9125f1a95c530c4aea"
+  },
+  {
+    "entropy": "be54d85a609ee6453f015a09ba3044a8",
+    "mnemonic": "skeptik prales chvat slib vysunout dotaz znalost filozof blikat temnota cedr kostka",
+    "seed": "163f509d25f4ac55493fbfb68fe99974a4188351f3b79716e564c7c29c28c26804fe43d6a93cabc3df7403283d61710f3cf105920f9171003d8e06d4b943089e",
+    "wordList": "czech",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "5b6f1c42deb4b96874e925c1edd97b6b53e95408909ce740660f13ac15a0522a2124ad9239150653a21952a7ba9cdc3cfe79d8a1d285ccfb9a6555793a5648a4"
+  },
+  {
+    "entropy": "fce021aadddc98e8c0ea33a3f0b9f342",
+    "mnemonic": "zplodit amputace mladost sesuv stodola napnout bacil kapota potomek odvaha obarvit odvaha",
+    "seed": "ebe3af7f996f86c87eaf70fc38877c4407778c197ff699461997fc069b914461540b6ae3dedcbde014a01c05d81b39f5776f276c036ad3205736424ec5a73228",
+    "wordList": "czech",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "97d887b983411babf1c82be807b52ca29705edf4f8b56498385d0ce7f16fb6983b3b145a8cdcbcd0cb75312260f7e569802c2fa92c759a31c6cec45d93dd99c8"
+  },
+  {
+    "entropy": "a2c5cf3205c6826740d80bf15496e38d",
+    "mnemonic": "poslanec glazura svalstvo borovice metla hltat babka anekdota vztah pouzdro sazenice cyklista",
+    "seed": "71d00339cdc2e27fe600f49e5f6ad1fc7b48e61e7b9c7b4619f0f63bd64ab613ed09ec9584b07be3c439823c9842a1ddc3c662721a8f52f734213dc824b99ed0",
+    "wordList": "czech",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "9ed5d9654df48834668a6ccf823d1fb25582be58366ac8bf9ad6aabec2f559ca9b9eb7bcb9e808202b17b48d6dcec158765c70b2e4feb612374f1567480f3d11"
+  },
+  {
+    "entropy": "f348a50ac7761b0126f1cf8d745b488c",
+    "mnemonic": "zaklepat kamkoliv jizva otrok losos obvinit podhled hrobka osolit poslanec tepna cizost",
+    "seed": "7b4af6062ed2a7a56b53cb5a2c126b3fc3cec7e7eb1e5ea2448ebf86d46d295bfbdaacffc2aa67892c7587f2f8873043bce6a929f8d759a8e40f07cbd333e5fa",
+    "wordList": "czech",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "01f53bd05e9c6fe28ea023e0d9d2b5219371a68f1bb512c4f15253d1c2b6d4837ed2b1a58b80158f4dda966b8f8cc4cc736bae97706d4afc20e218820861546b"
+  },
+  {
+    "entropy": "66535996f5aac9d94ee46047cc35c0e3",
+    "mnemonic": "feijoada mastigar fator tiara ofensiva tolerar coifa laminar degustar exigente galega quimono",
+    "seed": "4c6923486e0491c22df5fac1e109df740fd09e07348e4aee51ceed107be39ff6364cbc564e2b2a8bf2a6ac1a2acf2de1a318c8c661d2a02769c883b6c347f2d1",
+    "wordList": "portuguese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "1f0cca50ddaf062fbb832e59e2e2be61d9de4f3c585d24d373f93e31953053c64c3b013310f61d67e7b2550cda592c3876ce05d2a79551761d7d3c675347560f"
+  },
+  {
+    "entropy": "3275a1e209508725bb493353c98a1f28",
+    "mnemonic": "casca ogiva grosso apagador afrontar lixeira tonel bobagem eleitor dever jardim duelar",
+    "seed": "04470d87c2194c67932956f44529e8f1b04c8d5452257b11afeb579aff010e64a97eee3cd8287f8144b3535fe383b3a30905935db7eed7a3c0b66f3e63e3d0fd",
+    "wordList": "portuguese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "a2bb35fe5e5a1c9ccb78c45a070ed431fd35b7b2fac4d13e21bfcf9795984a96035eca920784a5ad642e5b3afe8ea80ae0925737caa83e07c1feb0bc05342914"
+  },
+  {
+    "entropy": "87363cb31c0075fd8bf8b93b6aaeaafb",
+    "mnemonic": "italiano ovelha caiaque ciclone advogado xeretar cantar arterial coibir empenho nuvem vaqueiro",
+    "seed": "dedb1a0f67c7b16ed0c006790399cc2c3c2253d8c1965fb4aac4b9977661604d89fbc3c7eb54fbc7bef0b2f1e9bd31f3bf02d990d2ea0fd6bd3b7a4552b3229c",
+    "wordList": "portuguese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "a27d48c870e971c60e2b4daa570dd1796bde2ed6c34a251e0e9b9bc8faa9216470e89190f268b9843d527ae222b262042adb1ba6a12922455d35efd27c5b6e8b"
+  },
+  {
+    "entropy": "4253fac69360720421cfc2705b167c5f",
+    "mnemonic": "criada ministro outubro bochecha adverso abutre italiano vencedor galho sambar milagre polvilho",
+    "seed": "820fb68f452a02ad4a577ec1d5b2f6685894937e9c2a54bcfb8b20993ac2275d8150bb6e3665a0c16e1cd063c60a269a00910bbdc06496ef4e2029abdedc7532",
+    "wordList": "portuguese",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "109c5d192d7f5af22df2e1ac8f13af867d2d68023ea212d31119b51f37b99923b19460c3fbf5f35f9e9263faeb3cd6a1514c121e9c564b78558af2c34f537f51"
+  },
+  {
+    "entropy": "28c6a7731e79b96b81017c78296400a9",
+    "mnemonic": "萬 往 鞋 照 薩 戴 對 織 額 擊 一 錢",
+    "seed": "7033418e90f14fdeb7863fcb587646bb8816812f946090f2360376922833b1b44709ac384c78b0cec72f91d23fe2498770462f4ae2a865a959b0f538250f736e",
+    "wordList": "chinese_traditional",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "2b90dc450cf5bb343a57205909395d228e9aa36868f94f4d41fb9c31ae20e55c53a5cf515371e3a31477c56465dc6bba249c95a88771926fbe15af6f8a763e68"
+  },
+  {
+    "entropy": "aff746cead932f1db05151c0b9dd159a",
+    "mnemonic": "縫 肅 抱 皮 素 弟 撫 鬥 伐 貸 減 支",
+    "seed": "1337c42707a71a059d60a692602e9ed9b5d26d0cb0f503266da501bf928fd0b79c893cbc4ba5d9acf1da105add895b34d7f0fc024944b579198781e59a7fefde",
+    "wordList": "chinese_traditional",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "8763fa2eaadcfa9a0a45d486c6ea3d5870b1e5b9ffc3859832c4004b228113028e0b2221d78cf750293271332bf6d53a345b61edd14da1b2c32dd27c69c9675a"
+  },
+  {
+    "entropy": "7aeb0e9fab20a0b3c04aedb0929aecb1",
+    "mnemonic": "滑 測 壯 礎 二 苦 這 刻 獎 灣 杜 缺",
+    "seed": "e8f69e3b078ae32b8c065bc4dcb66cf6f9ccc20953713f6de58c6bd2086bfc974bd846df1514ae9d1b54c499982fe9d447f9aa12b1ceb3f5505be53bb38b217d",
+    "wordList": "chinese_traditional",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "990c79d020f618dcc35c17a900ca7b73b083e7c3a18d1aa19ed1f16d88f83ab8846d43a67bd4900c6008c7d383aca446160469566080b64eaf05047bef8155ff"
+  },
+  {
+    "entropy": "3b6c907b5c2b0b1452e931af7da003a9",
+    "mnemonic": "京 獲 西 遵 鋁 豬 似 再 潛 郵 和 限",
+    "seed": "3a37b3e66b036194589b679b3dd375632d3a756518ca32c9b671584207644233009ec9f4a1ead516358e65852d84f843791854eb8b389e98d2ac60112cf8979b",
+    "wordList": "chinese_traditional",
+    "passphrase": "libauth",
+    "seedUsingPassphrase": "410378d6648c162d313c6bb6c11cf2b3c41fe69b2b55e2fce9dcfd9d8f5783ac25d796b8bc198ce61670db390221e05e2c7ebcae5a863bccb0fc381f6a638351"
+  }
+]

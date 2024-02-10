@@ -133,8 +133,10 @@ export const deriveBip39EntropyFromMnemonic = (
     entropyBits.match(/(?:.{1,8})/gu)!.map((bin) => parseInt(bin, 2)),
   );
 
-  // NOTE: This is probably unnecessary, but is in the bip39 npm package.
-  //       I have left it here in case there is some edge-case I am unaware of.
+  /*
+   * NOTE: This is probably unnecessary, but is in the bip39 npm package.
+   *       I have left it here in case there is some edge-case I am unaware of.
+   */
   if (!isValidBip39Entropy(entropy)) {
     return MnemonicErrors.invalidEntropy;
   }

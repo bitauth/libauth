@@ -21,12 +21,9 @@ import {
   MnemonicErrors,
 } from '../lib.js';
 
-// The below fixtures are converted from: https://github.com/trezor/python-mnemonic/blob/master/vectors.json
-// eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import bip39Trezor from './fixtures/bip39.trezor.json' assert { type: 'json' };
 // Custom test vectors generated using the bip39 NPM library.
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import bip39Valid from './fixtures/bip39.valid.json' assert { type: 'json' };
+import bip39Vectors from './fixtures/bip39.vectors.json' assert { type: 'json' };
 
 const invalidWordList = ['wordlist', 'must', 'have', '2048', 'words'];
 
@@ -213,8 +210,9 @@ const vectors = test.macro<
     {
       entropy: string;
       mnemonic: string;
-      passphrase?: string;
+      passphrase: string;
       seed: string;
+      seedUsingPassphrase: string;
       wordList: string;
     }[],
   ]
@@ -242,14 +240,18 @@ const vectors = test.macro<
 
     const seed = deriveBip39SeedFromMnemonic(
       mnemonic.phrase,
+    );
+
+    const seedUsingPassphrase = deriveBip39SeedFromMnemonic(
+      mnemonic.phrase,
       vector.passphrase,
     );
 
     t.deepEqual(mnemonic.phrase, vector.mnemonic);
     t.deepEqual(seed, hexToBin(vector.seed));
+    t.deepEqual(seedUsingPassphrase, hexToBin(vector.seedUsingPassphrase));
     t.deepEqual(entropy, hexToBin(vector.entropy));
   }
 });
 
-test('Trezor Vectors', vectors, bip39Trezor);
-test('Wordlist Vectors', vectors, bip39Valid);
+test('Wordlist Vectors', vectors, bip39Vectors);

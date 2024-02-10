@@ -2,9 +2,12 @@ import test from 'ava';
 
 import {
   hexToBin,
+  hmacSha256,
+  instantiatePbkdf2Function,
   pbkdf2HmacSha256,
   pbkdf2HmacSha512,
   utf8ToBin,
+  Pbkdf2Errors,
 } from '../lib.js';
 import type { Pbkdf2Parameters } from '../lib.js';
 
@@ -144,4 +147,30 @@ test('9', vectors, {
     password: utf8ToBin('Password'),
     salt: utf8ToBin('sa\0lt'),
   },
+});
+
+test('returns error on invalid parameters', (t) => {
+  // Invalid HMAC length.
+  t.is(instantiatePbkdf2Function(hmacSha256, 0)({
+    derivedKeyLength: 256,
+    iterations: 4096,
+    password: utf8ToBin('password'),
+    salt: utf8ToBin('salt'),
+  }), Pbkdf2Errors.invalidHmacLength);
+
+  // Invalid derived key length.
+  t.is(instantiatePbkdf2Function(hmacSha256, 32)({
+    derivedKeyLength: 0,
+    iterations: 4096,
+    password: utf8ToBin('password'),
+    salt: utf8ToBin('salt'),
+  }), Pbkdf2Errors.invalidDerivedKeyLength);
+
+  // Invalid iterations.
+  t.is(instantiatePbkdf2Function(hmacSha256, 32)({
+    derivedKeyLength: 256,
+    iterations: 0,
+    password: utf8ToBin('password'),
+    salt: utf8ToBin('salt'),
+  }), Pbkdf2Errors.invalidIterations);
 });

@@ -4,8 +4,8 @@ import type { HmacFunction } from './crypto.js';
 import { hmacSha256, hmacSha512 } from './crypto.js';
 
 export enum Pbkdf2Errors {
-  invalidIterationsError = 'Invalid PBKDF2 Parameters: Iterations must be a positive integer',
-  invalidDerivedKeyLengthError = 'Invalid PBKDF2 Parameters: Derived Key Length must be a positive integer',
+  invalidIterations = 'Invalid PBKDF2 Parameters: Iterations must be a positive integer',
+  invalidDerivedKeyLength = 'Invalid PBKDF2 Parameters: Derived Key Length must be a positive integer',
   invalidHmacLength = 'Invalid HMAC length: HMAC length must be a positive integer',
 }
 
@@ -34,11 +34,11 @@ export const instantiatePbkdf2Function =
     const { password, salt, iterations, derivedKeyLength } = parameters;
 
     if (!Number.isInteger(iterations) || iterations <= 0) {
-      return Pbkdf2Errors.invalidIterationsError;
+      return Pbkdf2Errors.invalidIterations;
     }
 
     if (!Number.isInteger(derivedKeyLength) || derivedKeyLength <= 0) {
-      return Pbkdf2Errors.invalidDerivedKeyLengthError;
+      return Pbkdf2Errors.invalidDerivedKeyLength;
     }
 
     if (!Number.isInteger(hmacByteLength) || hmacByteLength <= 0) {

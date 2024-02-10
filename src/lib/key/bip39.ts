@@ -114,7 +114,7 @@ export const deriveBip39EntropyFromMnemonic = (
   const bitStringLength = 11;
 
   // convert word indices to 11 bit binary strings
-  const bitsResult = words
+  const bitString = words
     .map((word: string): string => {
       const index = wordList.indexOf(word);
       return index.toString(base2).padStart(bitStringLength, '0');
@@ -123,9 +123,9 @@ export const deriveBip39EntropyFromMnemonic = (
 
   // split the binary string into ENT/CS
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  const dividerIndex = Math.floor(bitsResult.length / 33) * 32;
-  const entropyBits = bitsResult.slice(0, dividerIndex);
-  const checksumBits = bitsResult.slice(dividerIndex);
+  const dividerIndex = Math.floor(bitString.length / 33) * 32;
+  const entropyBits = bitString.slice(0, dividerIndex);
+  const checksumBits = bitString.slice(dividerIndex);
 
   // calculate the checksum and compare
   const entropy = new Uint8Array(

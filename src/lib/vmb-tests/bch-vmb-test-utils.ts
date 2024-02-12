@@ -758,7 +758,15 @@ export const vmbTestDefinitionToVmbTests = (
   const scenarioDefinition = { extends: 'vmb_default', ...scenarioOverride };
 
   const configuration = walletTemplateToCompilerConfiguration({
-    entities: { tester: { variables: { key1: { type: 'HdKey' } } } },
+    entities: {
+      tester: {
+        variables: {
+          key1: { type: 'HdKey' },
+          key2: { privateDerivationPath: 'm/2/i', type: 'HdKey' },
+          key3: { privateDerivationPath: 'm/3/i', type: 'HdKey' },
+        },
+      },
+    },
     scenarios: {
       [scenarioId]: scenarioDefinition,
       // eslint-disable-next-line @typescript-eslint/naming-convention, camelcase

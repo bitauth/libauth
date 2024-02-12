@@ -21,6 +21,18 @@ const algorithms = [
   'no_outputs',
 ] as const;
 
+const signatureTypes = [
+  ['schnorr signature', 'schnorr_signature'],
+  ['ECDSA signature', 'signature'],
+] as const;
+
+const opcodePatterns = [
+  ['single sig', 'OP_2DUP OP_CHECKSIG OP_VERIFY OP_2DUP OP_CHECKSIGVERIFY'],
+  ['1-of-1 multisig', 'OP_2DUP OP_0 OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIG OP_VERIFY OP_2DUP OP_0 OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIGVERIFY'],
+  ['1-of-2 multisig (second key)', 'OP_2DUP <0> OP_ROT  OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0> OP_ROT  OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIGVERIFY'],
+  ['1-of-3 multisig (middle key)', 'OP_2DUP <0> OP_ROT  OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0> OP_ROT  OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIGVERIFY'],
+] as const;
+
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
 const akaMap: { [key in (typeof algorithms)[number]]: string } = {
   all_outputs: 'SIGHASH_ALL|SIGHASH_FORKID',
@@ -38,15 +50,22 @@ const akaMap: { [key in (typeof algorithms)[number]]: string } = {
 };
 /* eslint-enable @typescript-eslint/naming-convention, camelcase */
 
-const verifyAlgorithm = algorithms.map<VmbTestDefinition>((algorithm) => [
-  `<signing_serialization.full_${algorithm}> <key1.schnorr_signature.${algorithm}>`,
-  '<key1.public_key> OP_2DUP OP_CHECKSIGVERIFY OP_SWAP OP_SIZE <1> OP_SUB OP_SPLIT OP_DROP OP_ROT OP_SHA256 OP_ROT OP_CHECKDATASIG',
-  `verify algorithm - ${algorithm} (${akaMap[algorithm]})`,
-  algorithm.includes('all_utxos') ? (algorithm.includes('INVALID') ? ['chip_cashtokens_invalid'] : ['chip_cashtokens']) : ['default', 'chip_cashtokens'],
+// TODO: implement and verify schnorr multisig
+const combinatorial = algorithms.flatMap((algorithm) => signatureTypes.flatMap((signatureType) => opcodePatterns.flatMap((pattern) => [true, false].map((valid) => [algorithm, signatureType, pattern, valid] as const)))).filter(([_, signatureType, pattern]) => signatureType !== signatureTypes[0] || pattern === opcodePatterns[0]);
+
+// eslint-disable-next-line complexity
+const verifyAlgorithm = combinatorial.map<VmbTestDefinition>(([algorithm, signatureType, pattern, valid]) => [
+  `<signing_serialization.full_${algorithm}> <${valid ? 'key1' : 'key2'}.${signatureType[1]}.${algorithm}>`,
+  `<key1.public_key> ${pattern[1]} OP_SWAP OP_SIZE <1> OP_SUB OP_SPLIT OP_DROP OP_ROT OP_SHA256 OP_ROT OP_3DUP OP_CHECKDATASIGVERIFY OP_CHECKDATASIG`,
+  `verify algorithm - ${algorithm} (${akaMap[algorithm]}), ${signatureType[0]}, ${pattern[0]}, ${valid ? 'valid' : 'check failure'}`,
+  valid ? (algorithm.includes('all_utxos') ? (algorithm.includes('INVALID') ? ['chip_cashtokens_invalid'] : ['chip_cashtokens']) : ['default', 'chip_cashtokens']) : ['invalid'],
   { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: { script: 'vmbTestNullData' }, valueSatoshis: 0 }] } },
 ]);
 
-const changeScenario = (testDefinitions: VmbTestDefinition[], appendDescription: string, newScenario: WalletTemplateScenario) => testDefinitions.map<VmbTestDefinition>(([unlockingScript, redeemOrLockingScript, testDescription, testSetOverrideLabels]) => [unlockingScript, redeemOrLockingScript, `${testDescription}${appendDescription}`, testSetOverrideLabels, newScenario]);
+// eslint-disable-next-line @typescript-eslint/max-params
+const changeScenario = (testDefinitions: VmbTestDefinition[], appendDescription: string, newScenario: WalletTemplateScenario, labelChanger: (labels: NonNullable<VmbTestDefinition['3']>) => NonNullable<VmbTestDefinition['3']> = (labels) => labels) =>
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  testDefinitions.map<VmbTestDefinition>(([unlockingScript, redeemOrLockingScript, testDescription, testSetOverrideLabels]) => [unlockingScript, redeemOrLockingScript, `${testDescription}${appendDescription}`, labelChanger(testSetOverrideLabels!), newScenario]);
 
 const verifyAlgorithmWithP2pkhInput = changeScenario(verifyAlgorithm, ' (with P2PKH input)', { sourceOutputs: [simpleP2pkhOutput, { lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [simpleP2pkhInput, { unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: { script: 'vmbTestNullData' }, valueSatoshis: 0 }] } });
 
@@ -77,11 +96,9 @@ const verifyAlgorithmWithMultipleInputsAndOutputs = changeScenario(verifyAlgorit
   },
 });
 
-const verifyAlgorithmWithTokensInMultipleInputsAndOutputs = algorithms.map<VmbTestDefinition>((algorithm) => [
-  `<signing_serialization.full_${algorithm}> <key1.schnorr_signature.${algorithm}>`,
-  '<key1.public_key> OP_2DUP OP_CHECKSIGVERIFY OP_SWAP OP_SIZE <1> OP_SUB OP_SPLIT OP_DROP OP_ROT OP_SHA256 OP_ROT OP_CHECKDATASIG',
-  `verify algorithm - ${algorithm} (${akaMap[algorithm]}) (with all token types in multiple inputs and outputs)`,
-  algorithm.includes('all_utxos') ? (algorithm.includes('INVALID') ? ['chip_cashtokens_invalid'] : ['chip_cashtokens']) : ['invalid', 'chip_cashtokens'],
+const verifyAlgorithmWithTokensInMultipleInputsAndOutputs = changeScenario(
+  verifyAlgorithm,
+  ' (with all token types in multiple inputs and outputs)',
   {
     sourceOutputs: [
       { ...simpleP2pkhOutput, token: { category: '0000000000000000000000000000000000000000000000000000000000000003', nft: { capability: 'minting' } } },
@@ -101,7 +118,8 @@ const verifyAlgorithmWithTokensInMultipleInputsAndOutputs = algorithms.map<VmbTe
       ],
     },
   },
-]);
+  (labels) => (labels[0] === 'default' ? ['invalid', 'chip_cashtokens'] : labels),
+);
 
 export const signingSerializationTestDefinitionsBCH: VmbTestDefinitionGroup = [
   'Signing serializations',

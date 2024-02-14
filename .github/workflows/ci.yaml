@@ -35,8 +35,13 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: yarn install --immutable --immutable-cache
       - run: yarn test
+      - run: yarn cov:lcov
       - name: Upload test coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
 
   check-yarn-cache:
     runs-on: ubuntu-latest

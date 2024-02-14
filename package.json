@@ -147,7 +147,6 @@
     "SECURITY.md"
   ],
   "ava": {
-    "failFast": true,
     "timeout": "20s",
     "typescript": {
       "compile": false,

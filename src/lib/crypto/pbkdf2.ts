@@ -1,7 +1,7 @@
 import { numberToBinUint32BE } from '../format/format.js';
 
-import type { HmacFunction } from './crypto.js';
-import { hmacSha256, hmacSha512 } from './crypto.js';
+import type { HmacFunction } from './hmac.js';
+import { hmacSha256, hmacSha512 } from './hmac.js';
 
 export enum Pbkdf2Errors {
   invalidIterations = 'Invalid PBKDF2 Parameters: Iterations must be a positive integer',

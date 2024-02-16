@@ -2,16 +2,16 @@ import { pbkdf2HmacSha512, sha256 } from '../crypto/crypto.js';
 import { binToBinString, utf8ToBin } from '../format/format.js';
 
 /* eslint-disable import/no-internal-modules */
-import bip39ChineseSimplified from './wordlists/bip39.chinese-simplified.json' assert { type: 'json' };
-import bip39ChineseTraditional from './wordlists/bip39.chinese-traditional.json' assert { type: 'json' };
-import bip39Czech from './wordlists/bip39.czech.json' assert { type: 'json' };
-import bip39English from './wordlists/bip39.english.json' assert { type: 'json' };
-import bip39French from './wordlists/bip39.french.json' assert { type: 'json' };
-import bip39Italian from './wordlists/bip39.italian.json' assert { type: 'json' };
-import bip39Japanese from './wordlists/bip39.japanese.json' assert { type: 'json' };
-import bip39Korean from './wordlists/bip39.korean.json' assert { type: 'json' };
-import bip39Portuguese from './wordlists/bip39.portuguese.json' assert { type: 'json' };
-import bip39Spanish from './wordlists/bip39.spanish.json' assert { type: 'json' };
+import bip39ChineseSimplified from './word-lists/bip39.chinese-simplified.json' assert { type: 'json' };
+import bip39ChineseTraditional from './word-lists/bip39.chinese-traditional.json' assert { type: 'json' };
+import bip39Czech from './word-lists/bip39.czech.json' assert { type: 'json' };
+import bip39English from './word-lists/bip39.english.json' assert { type: 'json' };
+import bip39French from './word-lists/bip39.french.json' assert { type: 'json' };
+import bip39Italian from './word-lists/bip39.italian.json' assert { type: 'json' };
+import bip39Japanese from './word-lists/bip39.japanese.json' assert { type: 'json' };
+import bip39Korean from './word-lists/bip39.korean.json' assert { type: 'json' };
+import bip39Portuguese from './word-lists/bip39.portuguese.json' assert { type: 'json' };
+import bip39Spanish from './word-lists/bip39.spanish.json' assert { type: 'json' };
 /* eslint-enable import/no-internal-modules */
 
 export {
@@ -41,7 +41,7 @@ type Bip39Mnemonic = {
 };
 
 /**
- * Determine whether the given wordlist is valid.
+ * Determine whether the given word list is valid.
  *
  * @param wordList - the word list
  */
@@ -85,7 +85,7 @@ export const deriveBip39ChecksumBits = (entropy: Uint8Array) => {
  * Derive the entropy for the given BIP39 mnemonic phrase.
  *
  * @param mnemonic - the mnemonic phrase
- * @param wordList - the wordlist to use
+ * @param wordList - the word list to use
  */
 // eslint-disable-next-line complexity
 export const deriveBip39EntropyFromMnemonic = (
@@ -153,7 +153,7 @@ export const deriveBip39EntropyFromMnemonic = (
  * Derive a mnemonic phrase from the given entropy
  *
  * @param entropy - the entropy (must be between 16 to 32 bytes and divisible by 4)
- * @param wordList - the wordlist to use
+ * @param wordList - the word list to use
  */
 export const deriveBip39MnemonicFromEntropy = (
   entropy: Uint8Array,

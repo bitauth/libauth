@@ -25,7 +25,7 @@ import {
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
 import bip39Vectors from './fixtures/bip39.vectors.json' assert { type: 'json' };
 
-const invalidWordList = ['wordlist', 'must', 'have', '2048', 'words'];
+const invalidWordList = ['word', 'list', 'must', 'have', '2048', 'words'];
 
 test('deriveBip39EntropyFromMnemonic: works', (t) => {
   // Valid mnemonic..
@@ -64,10 +64,10 @@ test('deriveBip39EntropyFromMnemonic: works', (t) => {
     MnemonicErrors.invalidWordList,
   );
 
-  // Invalid Word not in Word List ("fnord").
+  // Invalid Word not in Word List ("missing").
   t.is(
     deriveBip39EntropyFromMnemonic(
-      'fnord abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      'missing abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
       bip39English,
     ),
     MnemonicErrors.invalidWord,
@@ -222,7 +222,7 @@ const vectors = test.macro<
     const wordList = getWordListForLanguage(vector.wordList);
 
     if (typeof wordList === 'string') {
-      t.fail(`Failed to find wordlist for language ${vector.wordList}`);
+      t.fail(`Failed to find word list for language ${vector.wordList}`);
       return;
     }
 
@@ -238,9 +238,7 @@ const vectors = test.macro<
 
     const entropy = deriveBip39EntropyFromMnemonic(vector.mnemonic, wordList);
 
-    const seed = deriveBip39SeedFromMnemonic(
-      mnemonic.phrase,
-    );
+    const seed = deriveBip39SeedFromMnemonic(mnemonic.phrase);
 
     const seedUsingPassphrase = deriveBip39SeedFromMnemonic(
       mnemonic.phrase,
@@ -254,4 +252,4 @@ const vectors = test.macro<
   }
 });
 
-test('Wordlist Vectors', vectors, bip39Vectors);
+test('Word List Vectors', vectors, bip39Vectors);

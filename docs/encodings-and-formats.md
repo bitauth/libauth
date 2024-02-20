@@ -42,7 +42,7 @@ These functions include:
 
 # Encoding
 
-All message and data formats supported by Libauth have a matching `encode*` function. Encoding functions accept the data to encode and return either the encoded data (as a `Uint8Array`) or – if encoding can fail – an error message (`string`).
+All message and data formats supported by Libauth have a matching `encode*` function. Encoding functions accept the data to encode and return either the encoded data or – if encoding can fail – an error message (`string`).
 
 These functions include:
 
@@ -54,6 +54,7 @@ These functions include:
 - `encodeBase58Address`
 - `encodeBase58AddressFormat`
 - `encodeBech32`
+- `encodeBip39Mnemonic`
 - `encodeCashAddress`
 - `encodeCashAddressFormat`
 - `encodeCashAddressNonStandard`
@@ -93,6 +94,7 @@ The `decode*` utility functions include:
 - `decodeBase58Address`
 - `decodeBase58AddressFormat`
 - `decodeBech32`
+- `decodeBip39Mnemonic`
 - `decodeBitcoinSignature`
 - `decodeCashAddress`
 - `decodeCashAddressFormat`

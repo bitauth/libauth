@@ -9,7 +9,14 @@ import {
   hashTransactionP2pOrder,
   hashTransactionUiOrder,
   hexToBin,
+  readLockingBytecodeWithPrefix,
+  readTokenAmount,
   readTokenPrefix,
+  readTransaction,
+  readTransactionCommon,
+  readTransactionNonTokenAware,
+  readTransactionOutputNonTokenAware,
+  readTransactionOutputsNonTokenAware,
   sha256,
 } from '../lib.js';
 
@@ -217,7 +224,7 @@ test('decode and encode transaction', (t) => {
 test('decodeTransaction: invalid', (t) => {
   t.deepEqual(
     decodeTransactionCommon(hexToBin('00')),
-    'Error reading transaction. Error reading Uint32LE: requires 4 bytes. Provided length: 1',
+    'Error reading transaction. Error reading Uint32LE: requires 4 bytes. Remaining bytes: 1',
   );
 });
 
@@ -316,3 +323,36 @@ test('CashTokens: token-prefix-invalid.json', (t) => {
       return t.deepEqual(decoded, error, failMessage);
     });
 });
+
+test('readTokenAmount exists', (t) => {
+  t.truthy(readTokenAmount);
+});
+test('readLockingBytecodeWithPrefix exists', (t) => {
+  t.truthy(readLockingBytecodeWithPrefix);
+});
+test('readTransactionOutputNonTokenAware exists', (t) => {
+  t.truthy(readTransactionOutputNonTokenAware);
+});
+test('readTransactionOutputsNonTokenAware exists', (t) => {
+  t.truthy(readTransactionOutputsNonTokenAware);
+});
+test('readTransactionNonTokenAware exists', (t) => {
+  t.truthy(readTransactionNonTokenAware);
+});
+test('readTransaction and readTransactionCommon are exported and equivalent', (t) => {
+  t.deepEqual(readTransaction.toString(), readTransactionCommon.toString());
+});
+test.todo('[fast-check] encodeTransactionInput <-> readTransactionInput');
+test.todo('[fast-check] encodeTransactionInputs <-> readTransactionInputs');
+test.todo('[fast-check] encodeTokenPrefix <-> readTokenPrefix');
+test.todo('[fast-check] encodeTransactionOutput <-> readTransactionOutput');
+test.todo('[fast-check] encodeTransactionOutputs <-> readTransactionOutputs');
+test.todo(
+  '[fast-check] encodeTransaction <-> decodeTransaction/decodeTransactionUnsafe; encodeTransactionBCH <-> decodeTransactionBCH/decodeTransactionUnsafeBCH, encodeTransactionCommon <-> decodeTransactionCommon/decodeTransactionUnsafeCommon',
+);
+test.todo('hashTransactionP2pOrder');
+test.todo('hashTransactionUiOrder');
+test.todo('hashTransaction');
+test.todo('encodeTransactionOutpoints');
+test.todo('encodeTransactionOutputsForSigning');
+test.todo('encodeTransactionInputSequenceNumbersForSigning');

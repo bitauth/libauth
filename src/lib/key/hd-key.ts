@@ -209,8 +209,8 @@ const halfHmacSha512Length = 32;
  * for validity, and will be assumed valid if `true` or invalid if `false` (this
  * is useful for testing)
  * @param crypto - an optional object containing an implementation of sha512
- * @param hmacSha512Key - the HMAC SHA-512 key to use (defaults the HMAC SHA-512
- * key used by BIP32, `utf8ToBin('Bitcoin seed')`
+ * @param hmacSha512Key - the HMAC SHA-512 key to use (defaults to the
+ * HMAC SHA-512 key used by BIP32, `utf8ToBin('Bitcoin seed')`
  */
 export const deriveHdPrivateNodeFromSeed = <
   AssumedValidity extends boolean | undefined,

@@ -86,6 +86,11 @@ test('generatePrivateKey: works', (t) => {
   t.true(secp256k1.validatePrivateKey(key));
 });
 
+test('generatePrivateKey: works with default entropy source', (t) => {
+  const key = generatePrivateKey();
+  t.true(validateSecp256k1PrivateKey(key));
+});
+
 test('generatePrivateKey: tries until success', (t) => {
   // eslint-disable-next-line functional/no-let
   let calls = 0;

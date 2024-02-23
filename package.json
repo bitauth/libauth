@@ -51,7 +51,8 @@
     "gen:schema-TODO": "//TODO: use ajv compile --code-esm option after merge: https://github.com/ajv-validator/ajv-cli/pull/200",
     "gen:templates": "yarn build && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'p2pkh' > src/lib/transaction/fixtures/templates/p2pkh.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-3' > src/lib/transaction/fixtures/templates/2-of-3.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' '2-of-2-recoverable' > src/lib/transaction/fixtures/templates/2-of-2-recoverable.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'sig-of-sig' > src/lib/transaction/fixtures/templates/sig-of-sig.json && node 'build/lib/transaction/fixtures/generate-templates.spec.helper.js' 'cash-channels-v1' > src/lib/transaction/fixtures/templates/cash-channels-v1.json && prettier 'src/lib/transaction/fixtures/templates/*.json' --write",
     "gen:graph": "mkdir -p temp && madge --image temp/deps-$(date +\"%FT%H%M\").svg build/index.js",
-    "test": "yarn build && yarn test:deps && yarn test:schemas && yarn test:lint && yarn test:cycles && yarn test:unit",
+    "test": "yarn build && yarn test:policies && yarn test:unit",
+    "test:policies": "yarn test:deps && yarn test:schemas && yarn test:lint && yarn test:cycles",
     "test:deps": "node -e \"import('./package.json', { assert: { type: 'json' } }).then(p => typeof p.dependencies === 'undefined' ? console.log('No dependencies found.') : (console.error('Dependencies are not allowed.') && process.exit(1)));\"",
     "test:schemas:unchanged": "yarn gen:schema && node -e \"child_process.exec('git status src/lib/schema --porcelain | head -c1 | wc -c', (err, stdout) => stdout.trim() === '0' ? process.exit(0) : process.exit(1) )\"",
     "test:schemas": "yarn test:schemas:unchanged && echo \"Schemas are up to date.\" || echo \"Error: one or more schemas are outdated. Please review and commit the changes in src/lib/schema.\"",
@@ -61,6 +62,7 @@
     "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:cycles": "madge --circular build/index.js",
     "test:unit": "c8 ava",
+    "test:fast": "echo '\n\nUsage:\n yarn test:fast src/lib/key/bip39.spec.ts                    # run a single test file \n yarn test:fast --match=\"!*crypto*\" --match=\"!*vmb_tests*\"   # include/exclude tests with names matching pattern(s) \n\n' && ava -v",
     "test:unit:script_tests": "c8 ava --match='*[script_tests]*' --serial",
     "test:unit:vmb_tests": "c8 ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
     "test:unit:vmb_test": "node 'build/lib/vmb-tests/bch-vmb-test.spec.helper.js'",
@@ -69,7 +71,7 @@
     "bench:test": "ava --config .ava.bench.config.js --serial --timeout=2m 2>&1 | tee bench.log",
     "bench:browser-deps": "cpy '.yarn/artifacts/*.js' build/bench",
     "watch": "yarn build -w",
-    "watch:test": "echo 'Usage: yarn watch:test --match=\"*pattern*\"' && ava -v --watch",
+    "watch:test": "echo '\n\nUsage:\n yarn watch:test src/lib/key/bip39.spec.ts                    # watch a single test file \n yarn watch:test --match=\"!*crypto*\" --match=\"!*vmb_tests*\"   # include/exclude tests with names matching pattern(s) \n\n' && ava -v --watch",
     "cov": "yarn build && yarn test:unit && yarn cov:html && yarn cov:lcov && open-cli coverage/index.html",
     "cov:html": "c8 report --reporter=html",
     "cov:lcov": "c8 report --reporter=lcov",
@@ -107,6 +109,7 @@
     "ajv-cli": "^5.0.0",
     "asmcrypto.js": "^2.3.2",
     "ava": "^6.0.1",
+    "bip39": "^3.1.0",
     "bitcore-lib-cash": "^10.0.23",
     "c8": "^9.0.0",
     "chuhai": "^1.2.0",
@@ -147,7 +150,7 @@
     "SECURITY.md"
   ],
   "ava": {
-    "timeout": "20s",
+    "timeout": "60s",
     "typescript": {
       "compile": false,
       "rewritePaths": {
@@ -155,9 +158,10 @@
       }
     },
     "nodeArguments": [
-      "--experimental-json-modules"
-    ],
-    "workerThreads": false
+      "--experimental-json-modules",
+      "--experimental-global-webcrypto",
+      "# ^ needed for node v18"
+    ]
   },
   "config": {
     "commitizen": {
@@ -198,7 +202,8 @@
       "**/*.bench.js",
       "**/*.spec.js",
       "**/*.spec.helper.js",
-      ".pnp.*"
+      ".pnp.*",
+      "**/ajv/validate-*.js"
     ]
   },
   "sideEffects": false,

@@ -54,7 +54,8 @@ const sha256BlockByteLength = 64;
  *
  * @param secret - the secret key (recommended length: 32-64 bytes)
  * @param message - the message to authenticate
- * @param sha256 - an implementation of Sha256
+ * @param sha256 - an implementation of Sha256 (defaults to the
+ * internal WASM implementation)
  */
 export const hmacSha256 = (
   secret: Uint8Array,
@@ -75,7 +76,8 @@ const sha512BlockByteLength = 128;
  *
  * @param secret - the secret key (recommended length: 64-128 bytes)
  * @param message - the message to authenticate
- * @param sha512 - an implementation of Sha512
+ * @param sha512 - an implementation of Sha512 (defaults to the
+ * internal WASM implementation)
  */
 export const hmacSha512 = (
   secret: Uint8Array,

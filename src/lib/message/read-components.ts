@@ -38,7 +38,7 @@ export const readBytes =
     if (result.length !== length) {
       return formatError(
         ReadBytesError.insufficientLength,
-        `Provided length: ${result.length}`,
+        `Bytes requested: ${length}; remaining bytes: ${result.length}`,
       );
     }
     return { position: nextPosition, result };
@@ -66,7 +66,7 @@ export const readUint32LE = (
   if (uint32LEBin.length !== ReadConstants.bytesPerUint32) {
     return formatError(
       ReadUint32LEError.insufficientBytes,
-      `Provided length: ${uint32LEBin.length}`,
+      `Remaining bytes: ${uint32LEBin.length}`,
     );
   }
   const result = binToNumberUint32LE(uint32LEBin);
@@ -95,7 +95,7 @@ export const readUint64LE = (
   if (uint64LEBin.length !== ReadConstants.bytesPerUint64) {
     return formatError(
       ReadUint64LEError.insufficientBytes,
-      `Provided length: ${uint64LEBin.length}`,
+      `Remaining bytes: ${uint64LEBin.length}`,
     );
   }
   const result = binToBigIntUint64LE(uint64LEBin);

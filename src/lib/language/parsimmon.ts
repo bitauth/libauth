@@ -296,7 +296,8 @@ _.many = function () {
     for (;;) {
       result = mergeReplies(self._(input, i), result);
       if (result.status) {
-        /* istanbul ignore if */ if (i === result.index) {
+        /* c8 ignore next 6 */
+        if (i === result.index) {
           throw new Error(
             'infinite loop detected in .many() parser --- calling .many() on ' +
               'a parser that can accept zero characters is usually the cause',

@@ -26,7 +26,7 @@ test('readMultiple', (t) => {
       readBytes(3),
       readBytes(2),
     ]),
-    'Error reading bytes: insufficient length. Provided length: 1',
+    'Error reading bytes: insufficient length. Bytes requested: 2; remaining bytes: 1',
   );
 });
 
@@ -67,6 +67,6 @@ test('readItemCount', (t) => {
   );
   t.deepEqual(
     readItemCount({ bin: Uint8Array.from([1, 1]), index: 0 }, readBytes(2)),
-    'Error reading item. Error reading bytes: insufficient length. Provided length: 1',
+    'Error reading item. Error reading bytes: insufficient length. Bytes requested: 2; remaining bytes: 1',
   );
 });

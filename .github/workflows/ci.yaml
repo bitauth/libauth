@@ -5,9 +5,12 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        node: [18, latest]
-    name: Test Node ${{ matrix.node }}
+        node: [18, 20, latest]
+        runner_index: [0, 1, 2, 3]
+        runners_per_version: [4]
+    name: Test Node ${{ matrix.node }} (${{ matrix.runner_index }}/${{ matrix.runners_per_version }})
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,24 +20,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: yarn install --immutable --immutable-cache
-      - run: yarn test
-
-  build-and-test-with-coverage:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [20]
-    name: Test Node ${{ matrix.node }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-      - run: yarn install --immutable --immutable-cache
-      - run: yarn test
+      - run: yarn build
+      - run: yarn test:unit
+        env:
+          CI_NODE_INDEX: ${{ matrix.runner_index }}
+          CI_NODE_TOTAL: ${{ matrix.runners_per_version }}
       - run: yarn cov:lcov
       - name: Upload test coverage
         uses: codecov/codecov-action@v4
@@ -43,8 +33,9 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
 
-  check-yarn-cache:
+  check-policies:
     runs-on: ubuntu-latest
+    name: Check Policies
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -55,3 +46,5 @@ jobs:
         with:
           node-version: '20'
       - run: yarn install --immutable --immutable-cache --check-cache
+      - run: yarn build
+      - run: yarn test:policies

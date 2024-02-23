@@ -55,6 +55,7 @@ These functions include:
 - `encodeBase58AddressFormat`
 - `encodeBech32`
 - `encodeBip39Mnemonic`
+- `encodeBip39MnemonicNonStandard`
 - `encodeCashAddress`
 - `encodeCashAddressFormat`
 - `encodeCashAddressNonStandard`
@@ -95,6 +96,7 @@ The `decode*` utility functions include:
 - `decodeBase58AddressFormat`
 - `decodeBech32`
 - `decodeBip39Mnemonic`
+- `decodeBip39MnemonicNonStandard`
 - `decodeBitcoinSignature`
 - `decodeCashAddress`
 - `decodeCashAddressFormat`

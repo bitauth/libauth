@@ -27,11 +27,9 @@ export const instantiateRustWasm = async (
          * Since `__wbindgen_malloc` isn't exposed to consumers, this error
          * can only be encountered if the code below is broken.
          */
+        /* c8 ignore next 10 */
         // eslint-disable-next-line camelcase, @typescript-eslint/naming-convention
-        __wbindgen_throw: /* istanbul ignore next */ (
-          ptr: number,
-          len: number,
-        ) => {
+        __wbindgen_throw: (ptr: number, len: number) => {
           // eslint-disable-next-line functional/no-throw-statements
           throw new Error(
             // eslint-disable-next-line @typescript-eslint/no-use-before-define

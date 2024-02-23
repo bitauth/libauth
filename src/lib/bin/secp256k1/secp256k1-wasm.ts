@@ -232,7 +232,8 @@ const isLittleEndian = (buffer: ArrayBuffer): boolean => {
   heap32[0] = 1668509029;
   heap16[1] = 25459;
   return heapU8[2] !== 115 || heapU8[3] !== 99
-    ? /* istanbul ignore next */ notLittleEndian
+    ? /* c8 ignore next */
+      notLittleEndian
     : littleEndian;
 };
 
@@ -266,7 +267,7 @@ export const instantiateSecp256k1WasmBytes = async (
     maximum: TOTAL_MEMORY / WASM_PAGE_SIZE,
   });
 
-  /* istanbul ignore if  */
+  /* c8 ignore next 9 */
   if (!isLittleEndian(wasmMemory.buffer)) {
     /*
      * note: this block is excluded from test coverage. It's A) hard to test
@@ -308,34 +309,32 @@ export const instantiateSecp256k1WasmBytes = async (
   const env = {
     DYNAMICTOP_PTR,
     STACKTOP,
-    ___setErrNo: /* istanbul ignore next */ (value: number) => {
+    /* c8 ignore start */
+    ___setErrNo: (value: number) => {
       if (getErrNoLocation !== undefined) {
         heap32[getErrNoLocation() >> 2] = value;
       }
       return value;
     },
-    _abort: /* istanbul ignore next */ (err = 'Secp256k1 Error') => {
+    _abort: (err = 'Secp256k1 Error') => {
       throw new Error(err);
     },
     // eslint-disable-next-line camelcase
-    _emscripten_memcpy_big: /* istanbul ignore next */ (
-      dest: number,
-      src: number,
-      num: number,
-    ) => {
+    _emscripten_memcpy_big: (dest: number, src: number, num: number) => {
       heapU8.set(heapU8.subarray(src, src + num), dest);
       return dest;
     },
-    abort: /* istanbul ignore next */ (err = 'Secp256k1 Error') => {
+    abort: (err = 'Secp256k1 Error') => {
       throw new Error(err);
     },
-    abortOnCannotGrowMemory: /* istanbul ignore next */ () => {
+    abortOnCannotGrowMemory: () => {
       throw new Error('Secp256k1 Error: abortOnCannotGrowMemory was called.');
     },
-    enlargeMemory: /* istanbul ignore next */ () => {
+    enlargeMemory: () => {
       throw new Error('Secp256k1 Error: enlargeMemory was called.');
     },
     getTotalMemory: () => TOTAL_MEMORY,
+    /* c8 ignore stop */
   };
 
   const info = {

@@ -80,8 +80,11 @@ const hmacSha256ByteLength = 32;
 /**
  * Derive a key using PBKDF2 and the HMAC SHA256 function as specified in RFC 2898.
  *
+ * Note, if the provided `parameters` are valid, this method will never error.
+ *
  * @param parameters - the PBKDF2 parameters to use
- * @param sha256Hmac - the SHA256 HMAC implementation to use
+ * @param sha256Hmac - the SHA256 HMAC implementation to use (defaults to the
+ * internal WASM implementation)
  */
 export const pbkdf2HmacSha256 = (
   parameters: Pbkdf2Parameters,
@@ -93,8 +96,11 @@ const hmacSha512ByteLength = 64;
 /**
  * Derive a key using PBKDF2 and the HMAC SHA512 function as specified in RFC 2898.
  *
+ * Note, if the provided `parameters` are valid, this method will never error.
+ *
  * @param parameters - the PBKDF2 parameters to use
- * @param sha512Hmac - the SHA512 HMAC implementation to use
+ * @param sha512Hmac - the SHA512 HMAC implementation to use (defaults to the
+ * internal WASM implementation)
  */
 export const pbkdf2HmacSha512 = (
   parameters: Pbkdf2Parameters,

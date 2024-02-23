@@ -685,6 +685,18 @@ export enum CashAddressCorrectionError {
   tooManyErrors = 'This address has more than 2 errors and cannot be corrected.',
 }
 
+export type CashAddressCorrection = {
+  /**
+   * The corrected address in CashAddressFormat (including the prefix).
+   */
+  address: string;
+  /**
+   * An array of up to two numbers (in ascending order) indicating the index of
+   * each corrected character within the corrected address.
+   */
+  corrections: [] | [number, number] | [number];
+};
+
 /**
  * Attempt to correct up to 2 errors in a CashAddress. The CashAddress must be
  * properly formed (include a prefix and only contain Bech32 characters).
@@ -730,7 +742,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
     return {
       address: cashAddressPolynomialToCashAddress(polynomial),
       corrections: [],
-    };
+    } as CashAddressCorrection;
   }
 
   const syndromes: { [index: string]: number } = {};
@@ -752,7 +764,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
         return {
           address: cashAddressPolynomialToCashAddress(polynomial),
           corrections: [term],
-        };
+        } as CashAddressCorrection;
       }
       // eslint-disable-next-line no-bitwise
       const s0 = (BigInt(correct) ^ BigInt(originalChecksum)).toString();
@@ -778,7 +790,7 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       return {
         address: cashAddressPolynomialToCashAddress(polynomial),
         corrections: [correctionIndex1, correctionIndex2].sort((a, b) => a - b),
-      };
+      } as CashAddressCorrection;
     }
   }
 

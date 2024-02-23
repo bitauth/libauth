@@ -42,6 +42,7 @@ const RAW_RUNTIME_STATE =
           ["ajv-cli", "virtual:5e2c2634f4a5e533cb699d8f9b1c4acc34ccf947e45d7ed30f8385999c64d0ad7826196b49f3aef89d9e3c624e9036dc9c2773fa1ea27b516851dbf6b3663df5#npm:5.0.0"],\
           ["asmcrypto.js", "npm:2.3.2"],\
           ["ava", "virtual:5e2c2634f4a5e533cb699d8f9b1c4acc34ccf947e45d7ed30f8385999c64d0ad7826196b49f3aef89d9e3c624e9036dc9c2773fa1ea27b516851dbf6b3663df5#npm:6.0.1"],\
+          ["bip39", "npm:3.1.0"],\
           ["bitcore-lib-cash", "npm:10.0.23"],\
           ["c8", "npm:9.0.0"],\
           ["chuhai", "npm:1.2.0"],\
@@ -186,6 +187,7 @@ const RAW_RUNTIME_STATE =
           ["ajv-cli", "virtual:5e2c2634f4a5e533cb699d8f9b1c4acc34ccf947e45d7ed30f8385999c64d0ad7826196b49f3aef89d9e3c624e9036dc9c2773fa1ea27b516851dbf6b3663df5#npm:5.0.0"],\
           ["asmcrypto.js", "npm:2.3.2"],\
           ["ava", "virtual:5e2c2634f4a5e533cb699d8f9b1c4acc34ccf947e45d7ed30f8385999c64d0ad7826196b49f3aef89d9e3c624e9036dc9c2773fa1ea27b516851dbf6b3663df5#npm:6.0.1"],\
+          ["bip39", "npm:3.1.0"],\
           ["bitcore-lib-cash", "npm:10.0.23"],\
           ["c8", "npm:9.0.0"],\
           ["chuhai", "npm:1.2.0"],\
@@ -1126,6 +1128,15 @@ const RAW_RUNTIME_STATE =
           ["ajv", "npm:6.12.6"],\
           ["jju", "npm:1.4.0"],\
           ["resolve", "patch:resolve@npm%3A1.19.0#optional!builtin<compat/resolve>::version=1.19.0&hash=c3c19d"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@noble/hashes", [\
+      ["npm:1.3.3", {\
+        "packageLocation": "./.yarn/cache/@noble-hashes-npm-1.3.3-f7374e6cdf-23c020b33d.zip/node_modules/@noble/hashes/",\
+        "packageDependencies": [\
+          ["@noble/hashes", "npm:1.3.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2697,6 +2708,16 @@ const RAW_RUNTIME_STATE =
           ["js-sha256", "npm:0.9.0"],\
           ["randombytes", "npm:2.1.0"],\
           ["safe-buffer", "npm:5.2.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["bip39", [\
+      ["npm:3.1.0", {\
+        "packageLocation": "./.yarn/cache/bip39-npm-3.1.0-03958ed434-68f9673a0d.zip/node_modules/bip39/",\
+        "packageDependencies": [\
+          ["bip39", "npm:3.1.0"],\
+          ["@noble/hashes", "npm:1.3.3"]\
         ],\
         "linkType": "HARD"\
       }]\

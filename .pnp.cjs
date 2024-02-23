@@ -6581,10 +6581,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ip", [\
-      ["npm:2.0.0", {\
-        "packageLocation": "./.yarn/cache/ip-npm-2.0.0-204facb3cc-8d186cc558.zip/node_modules/ip/",\
+      ["npm:2.0.1", {\
+        "packageLocation": "./.yarn/cache/ip-npm-2.0.1-ee48691f03-cab8eb3e88.zip/node_modules/ip/",\
         "packageDependencies": [\
-          ["ip", "npm:2.0.0"]\
+          ["ip", "npm:2.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -9814,7 +9814,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/socks-npm-2.7.1-17f2b53052-43f69dbc9f.zip/node_modules/socks/",\
         "packageDependencies": [\
           ["socks", "npm:2.7.1"],\
-          ["ip", "npm:2.0.0"],\
+          ["ip", "npm:2.0.1"],\
           ["smart-buffer", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\

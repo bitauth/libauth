@@ -1,11 +1,14 @@
 {
   "name": "@bitauth/libauth",
-  "version": "2.0.0",
+  "version": "2.1.0-beta.0",
   "description": "ultra-lightweight library for Bitcoin Cash, Bitcoin, and Bitauth",
   "type": "module",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
-  "repository": "https://github.com/bitauth/libauth",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitauth/libauth.git"
+  },
   "homepage": "https://libauth.org/",
   "license": "MIT",
   "keywords": [
@@ -144,6 +147,7 @@
     "!build/**/*.map",
     "!**/*.spec.*",
     "!**/*.json",
+    "src/lib/key/word-lists/*.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",

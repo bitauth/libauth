@@ -33,6 +33,7 @@
     "BTC"
   ],
   "scripts": {
+    "changeset": "changeset",
     "compile:secp256k1": "docker build -f wasm/docker/secp256k1.Dockerfile . -t libauth-secp256k1 && docker run -it --mount type=bind,src=$(pwd)/src/lib,dst=/libauth/out,consistency=delegated libauth-secp256k1",
     "compile:hashes": "docker build -f wasm/docker/hashes.Dockerfile . -t libauth-hashes && docker run -it --mount type=bind,src=$(pwd)/src/lib,dst=/libauth/out,consistency=delegated libauth-hashes",
     "build": "yarn build:wasm && yarn build:tsc",
@@ -86,8 +87,6 @@
     "doc:extract": "mkdir -p build/api && api-extractor run --local --typescript-compiler-folder node_modules/typescript",
     "doc:generate": "api-documenter markdown -i temp -o build/api/markdown",
     "doc:check-api": "api-extractor run --typescript-compiler-folder node_modules/typescript",
-    "version": "standard-version",
-    "version:alpha": "standard-version --prerelease alpha",
     "reset": "git clean -dfx && git reset --hard && yarn",
     "prepare-release": "yarn reset && yarn test && yarn cov:check && yarn run version",
     "prepare-release:alpha": "yarn reset && yarn test && yarn cov:check && yarn run version:alpha"
@@ -97,10 +96,11 @@
   },
   "devDependencies": {
     "@ava/typescript": "^4.1.0",
+    "@changesets/cli": "^2.27.1",
     "@fast-check/ava": "^1.2.1",
     "@microsoft/api-documenter": "^7.23.16",
     "@microsoft/api-extractor": "^7.39.1",
-    "@playwright/test": "^1.40.1",
+    "@playwright/test": "^1.41.2",
     "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -136,7 +136,6 @@
     "rollup": "^4.9.4",
     "secp256k1": "^5.0.0",
     "source-map-support": "^0.5.21",
-    "standard-version": "^9.5.0",
     "ts-json-schema-generator": "^1.5.0",
     "typedoc": "^0.25.7",
     "typescript": "^5.3.3"

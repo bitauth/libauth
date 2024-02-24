@@ -22,11 +22,16 @@ jobs:
           node-version: 20
       - name: Install Dependencies
         run: yarn install --immutable --immutable-cache
+      - name: Get new version string
+        run: |
+          echo NEW_VERSION=$(yarn changeset status --output=release.json && grep -o '"newVersion":\s*"[^"]*' release.json | awk -F': "' '{print $2}' && rm release.json) >> "$GITHUB_ENV"
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          version: yarn version
+          title: 'Release v${{env.NEW_VERSION}}'
+          commit: 'Release v${{env.NEW_VERSION}}'
+          version: yarn changeset:version
           publish: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

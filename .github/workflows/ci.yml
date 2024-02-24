@@ -7,10 +7,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [18, 20, latest]
+        node-version: [18, 20, latest]
         runner_index: [0, 1, 2, 3]
         runners_per_version: [4]
-    name: Test Node ${{ matrix.node }} (${{ matrix.runner_index }}/${{ matrix.runners_per_version }})
+    name: Test Node ${{ matrix.node-version }} (${{ matrix.runner_index }})
     steps:
       - uses: actions/checkout@v4
         with:
@@ -18,7 +18,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ matrix.node-version }}
       - run: yarn install --immutable --immutable-cache
       - run: yarn build
       - run: yarn test:unit
@@ -26,7 +26,9 @@ jobs:
           CI_NODE_INDEX: ${{ matrix.runner_index }}
           CI_NODE_TOTAL: ${{ matrix.runners_per_version }}
       - run: yarn cov:lcov
+        if: ${{ matrix.node-version }} == 20
       - name: Upload test coverage
+        if: ${{ matrix.node-version }} == 20
         uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: true

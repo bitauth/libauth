@@ -79,7 +79,6 @@
     "cov": "yarn build && yarn test:unit && yarn cov:html && yarn cov:lcov && open-cli coverage/index.html",
     "cov:html": "c8 report --reporter=html",
     "cov:lcov": "c8 report --reporter=lcov",
-    "cov:check": "c8 report && c8 check-coverage --lines 80 --functions 80 --branches 80",
     "doc": "yarn doc:html && yarn doc:html && open-cli build/docs/index.html",
     "doc:logo": "cpy assets/libauth.svg build/docs",
     "doc:html": "typedoc src/index.ts --out build/docs",
@@ -87,9 +86,8 @@
     "doc:extract": "mkdir -p build/api && api-extractor run --local --typescript-compiler-folder node_modules/typescript",
     "doc:generate": "api-documenter markdown -i temp -o build/api/markdown",
     "doc:check-api": "api-extractor run --typescript-compiler-folder node_modules/typescript",
-    "reset": "git clean -dfx && git reset --hard && yarn",
-    "prepare-release": "yarn reset && yarn test && yarn cov:check && yarn run version",
-    "prepare-release:alpha": "yarn reset && yarn test && yarn cov:check && yarn run version:alpha"
+    "version": "yarn changeset version && yarn fix:prettier",
+    "release": "yarn build && yarn changeset publish"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
@@ -139,6 +137,9 @@
     "ts-json-schema-generator": "^1.5.0",
     "typedoc": "^0.25.7",
     "typescript": "^5.3.3"
+  },
+  "publishConfig": {
+    "provenance": true
   },
   "files": [
     "build",

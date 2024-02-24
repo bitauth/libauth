@@ -14,7 +14,7 @@
   <br />
   <a href="https://www.npmjs.com/package/@bitauth/libauth"><img src="https://img.shields.io/npm/v/@bitauth/libauth.svg" alt="NPM version" /></a>
   <a href="https://codecov.io/gh/bitauth/libauth"><img src="https://img.shields.io/codecov/c/github/bitauth/libauth/master.svg" alt="Codecov" /></a>
-  <a href="https://github.com/bitauth/libauth/actions/workflows/ci.yaml"><img src="https://img.shields.io/github/actions/workflow/status/bitauth/libauth/ci.yaml?branch=master" alt="CI" /></a>
+  <a href="https://github.com/bitauth/libauth/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/bitauth/libauth/ci.yml?branch=master" alt="CI" /></a>
   <a href="https://twitter.com/libauth"><img alt="Follow Libauth on Twitter" src="https://img.shields.io/badge/follow-@libauth-1DA1F2?logo=twitter"></a>
   <a href="https://t.me/libauth_dev"><img alt="Join Chat on Telegram" src="https://img.shields.io/badge/chat-Libauth%20Devs-0088CC?logo=telegram"></a>
   <a href="https://www.npmjs.com/package/@bitauth/libauth"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@bitauth/libauth"></a>

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.0
+
+### Minor Changes
+
+- [#117](https://github.com/bitauth/libauth/pull/117) [`51c7ee3`](https://github.com/bitauth/libauth/commit/51c7ee36e2e8f14a1a18a54b4b8c770498c788cf) Thanks [@bitjson](https://github.com/bitjson)! - Use `@changesets/cli`, remove `standard-version`
+
+### Patch Changes
+
+- [#117](https://github.com/bitauth/libauth/pull/117) [`7ddad21`](https://github.com/bitauth/libauth/commit/7ddad21d062ab9af6407f6fb3037cf8ed19fc080) Thanks [@bitjson](https://github.com/bitjson)! - Publish with provenance via GitHub Actions
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 ## [2.1.0-beta.1](https://github.com/bitauth/libauth/compare/v2.1.0-beta.0...v2.1.0-beta.1) (2024-02-23)

@@ -1,4 +1,4 @@
-import type { MaybeReadResult, ReadPosition } from '../lib.js';
+import { type MaybeReadResult, type ReadPosition } from '../lib.js';
 
 import { formatError } from './error.js';
 
@@ -516,8 +516,7 @@ export const readCompactUint = (
   if (bin.length - index < bytes) {
     return formatError(
       CompactUintError.insufficientBytes,
-      `CompactUint prefix ${prefix} requires at least ${bytes} bytes. Remaining bytes: ${
-        bin.length - index
+      `CompactUint prefix ${prefix} requires at least ${bytes} bytes. Remaining bytes: ${bin.length - index
       }`,
     );
   }
@@ -549,18 +548,18 @@ export const bigIntToCompactUint = (value: bigint) =>
     ? Uint8Array.of(Number(value))
     : value <= BigInt(CompactUint.uint16MaxValue)
       ? Uint8Array.from([
-          CompactUint.uint16Prefix,
-          ...numberToBinUint16LE(Number(value)),
-        ])
+        CompactUint.uint16Prefix,
+        ...numberToBinUint16LE(Number(value)),
+      ])
       : value <= BigInt(CompactUint.uint32MaxValue)
         ? Uint8Array.from([
-            CompactUint.uint32Prefix,
-            ...numberToBinUint32LE(Number(value)),
-          ])
+          CompactUint.uint32Prefix,
+          ...numberToBinUint32LE(Number(value)),
+        ])
         : Uint8Array.from([
-            CompactUint.uint64Prefix,
-            ...bigIntToBinUint64LE(value),
-          ]);
+          CompactUint.uint64Prefix,
+          ...bigIntToBinUint64LE(value),
+        ]);
 
 /**
  * Read a minimally-encoded `CompactUint` from the provided
@@ -582,8 +581,7 @@ export const readCompactUintMinimal = (
   if (readLength !== canonicalEncoding.length) {
     return formatError(
       CompactUintError.nonMinimal,
-      `Value: ${read.result.toString()}, encoded length: ${readLength}, canonical length: ${
-        canonicalEncoding.length
+      `Value: ${read.result.toString()}, encoded length: ${readLength}, canonical length: ${canonicalEncoding.length
       }`,
     );
   }
@@ -630,3 +628,67 @@ export const int32SignedToUnsigned = (int32: number) =>
 export const int32UnsignedToSigned = (int32: number) =>
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   Int32Array.from(Uint32Array.of(int32))[0]!;
+/**
+ * Converts a 32-byte block difficulty target to a compact target representation.
+ *
+ * @param target - The 32-byte block difficulty target as a Uint8Array.
+ * @returns The compact uint representation as a Uint8Array.
+ */
+
+export const binToCompactTarget = (target: Uint8Array) => {
+  // Check if the input is the expected length
+  if (target.length !== 32) {
+    throw new Error("Input Uint8Array must be of length 32");
+  }
+  // Find the first non-zero byte
+  let offset = 0;
+  while (offset < target.length && target[offset] === 0) {
+    offset++;
+  }
+  let significantBytes = target.slice(offset);
+
+  if (significantBytes[0]! > 0x80) {
+    significantBytes = target.slice(offset - 1);
+  }
+  // Exponent is the offset of the first significant byte from the end (excluding leading zeros)
+  const exponent = significantBytes.length;
+
+  // Combine the first 4 bytes of significant bytes and exponent into a new Uint8Array
+  const result = new Uint8Array(4);
+  result[0] = exponent;
+  result.set(significantBytes.slice(0, 3), 1);
+
+  return result;
+};
+
+/**
+ * Converts a compact target representation (as a Uint8Array) to a 32-byte block difficulty target.
+ *
+ * @param compactTarget - The compact uint representation as a Uint8Array.
+ * @returns The 32-byte block difficulty target as a Uint8Array.
+ */
+export const compactTargetToBinUint256BE = (
+  compactTarget: Uint8Array,
+): Uint8Array => {
+  const compactUint = binToNumberInt32LE(compactTarget.reverse());
+  const exponent = (compactUint >> 24) & 0xff;
+  const coefficient = compactUint & 0xffffff;
+  const res = BigInt(coefficient) << BigInt(8 * (exponent - 3));
+  return bigIntToBinUint256BEClamped(res);
+};
+
+/**
+ * Converts a bigint representing a block difficulty target into a 32-byte Uint8Array.
+ *
+ * @param target - The block difficulty target as a bigint.
+ * @returns The 32-byte representation of the block difficulty target.
+ */
+export const bigIntToBlockDifficultyTarget = bigIntToBinUint256BEClamped;
+
+/**
+ * Converts a 32-byte Uint8Array representing a block difficulty target into a bigint.
+ *
+ * @param target - The 32-byte Uint8Array representing the block difficulty target.
+ * @returns The block difficulty target as a bigint.
+ */
+export const blockDifficultyTargetToBigInt = binToBigIntUint256BE;

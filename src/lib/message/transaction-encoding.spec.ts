@@ -285,11 +285,11 @@ test('CashTokens: token-prefix-valid.json', (t) => {
         ...(data.nft === undefined
           ? {}
           : {
-              nft: {
-                capability: data.nft.capability,
-                commitment: hexToBin(data.nft.commitment),
-              },
-            }),
+            nft: {
+              capability: data.nft.capability,
+              commitment: hexToBin(data.nft.commitment),
+            },
+          }),
       };
       const expectedPrefix = hexToBin(prefixHex);
       t.deepEqual(expectedPrefix, encodeTokenPrefix(token), failMessage);
@@ -300,8 +300,7 @@ test('CashTokens: token-prefix-valid.json', (t) => {
       }
       if (decoded.position.bin.length !== decoded.position.index) {
         return t.fail(
-          `${failMessage} Prefix "${prefixHex}" includes unexpected bytes. Bytes remaining after read: ${
-            decoded.position.bin.length - decoded.position.index
+          `${failMessage} Prefix "${prefixHex}" includes unexpected bytes. Bytes remaining after read: ${decoded.position.bin.length - decoded.position.index
           }, `,
         );
       }

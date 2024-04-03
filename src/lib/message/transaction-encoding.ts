@@ -229,10 +229,8 @@ export const readTokenPrefix = (
   if (bin.length < index + CashTokens.minimumPrefixLength) {
     return formatError(
       CashTokenDecodingError.insufficientLength,
-      `The minimum possible length is ${
-        CashTokens.minimumPrefixLength
-      }. Missing bytes: ${
-        CashTokens.minimumPrefixLength - (bin.length - index)
+      `The minimum possible length is ${CashTokens.minimumPrefixLength
+      }. Missing bytes: ${CashTokens.minimumPrefixLength - (bin.length - index)
       }`,
     );
   }
@@ -425,11 +423,11 @@ export const encodeTokenPrefix = (token: Output['token']) => {
     ...(hasCommitmentLength === 0
       ? []
       : [
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          bigIntToCompactUint(BigInt(token.nft!.commitment.length)),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          token.nft!.commitment,
-        ]),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        bigIntToCompactUint(BigInt(token.nft!.commitment.length)),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        token.nft!.commitment,
+      ]),
     ...(hasAmount === 0 ? [] : [bigIntToCompactUint(token.amount)]),
   ]);
 };
@@ -605,10 +603,8 @@ export const decodeTransactionCommon = (
   if (transactionRead.position.index !== bin.length) {
     return formatError(
       TransactionDecodingError.endsWithUnexpectedBytes,
-      `Encoded transaction ends at index ${
-        transactionRead.position.index - 1
-      }, leaving ${
-        bin.length - transactionRead.position.index
+      `Encoded transaction ends at index ${transactionRead.position.index - 1
+      }, leaving ${bin.length - transactionRead.position.index
       } remaining bytes.`,
     );
   }
@@ -683,19 +679,19 @@ export const cloneTransactionOutputsCommon = <
     ...(output.token === undefined
       ? {}
       : {
-          token: {
-            amount: output.token.amount,
-            category: output.token.category.slice(),
-            ...(output.token.nft === undefined
-              ? {}
-              : {
-                  nft: {
-                    capability: output.token.nft.capability,
-                    commitment: output.token.nft.commitment.slice(),
-                  },
-                }),
-          },
-        }),
+        token: {
+          amount: output.token.amount,
+          category: output.token.category.slice(),
+          ...(output.token.nft === undefined
+            ? {}
+            : {
+              nft: {
+                capability: output.token.nft.capability,
+                commitment: output.token.nft.commitment.slice(),
+              },
+            }),
+        },
+      }),
     valueSatoshis: output.valueSatoshis,
   }));
 

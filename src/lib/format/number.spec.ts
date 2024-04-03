@@ -10,14 +10,12 @@ import {
   binToBigIntUint64LE,
   binToBigIntUintBE,
   binToBigIntUintLE,
-  binToCompactTarget,
   binToHex,
   binToNumberInt16LE,
   binToNumberInt32LE,
   binToNumberUint16LE,
   binToNumberUint32LE,
   binToNumberUintLE,
-  compactTargetToBinUint256BE,
   CompactUintError,
   compactUintPrefixToSize,
   compactUintToBigInt,
@@ -586,38 +584,6 @@ test('int32SignedToUnsigned/int32UnsignedToSigned', (t) => {
   t.deepEqual(int32UnsignedToSigned(4294967294), -2);
   t.deepEqual(int32UnsignedToSigned(4294967295), -1);
   t.deepEqual(int32UnsignedToSigned(1), 1);
-});
-
-test("compactTargetToBinUint256", (t) => {
-  const compact = hexToBin("1d00ffff");
-  const expectedTarget = hexToBin(
-    "00000000ffff0000000000000000000000000000000000000000000000000000",
-  );
-  t.deepEqual(compactTargetToBinUint256BE(compact), expectedTarget);
-});
-
-test("compactTargetToBinUint256 Block #837153", (t) => {
-  const target = hexToBin(
-    "00000000000000000240c5000000000000000000000000000000000000000000",
-  );
-  const expectedCompact = hexToBin("180240c5");
-  t.deepEqual(compactTargetToBinUint256BE(expectedCompact), target);
-});
-
-test("binToCompactTarget", (t) => {
-  const target = hexToBin(
-    "00000000ffff0000000000000000000000000000000000000000000000000000",
-  );
-  const expectedCompact = hexToBin("1d00ffff");
-  t.deepEqual(binToCompactTarget(target), expectedCompact);
-});
-
-test("binToCompactTarget #837153", (t) => {
-  const target = hexToBin(
-    "00000000000000000240c5000000000000000000000000000000000000000000",
-  );
-  const expectedCompact = hexToBin("180240c5");
-  t.deepEqual(binToCompactTarget(target), expectedCompact);
 });
 
 testProp(

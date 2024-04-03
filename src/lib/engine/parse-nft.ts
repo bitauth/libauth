@@ -15,7 +15,7 @@ export type VMCreator = () => AuthenticationVirtualMachine<
 >;
 
 /**
- * Returns the {@link AltStack} as a result of parsing the NFT's commitment using the
+ * Returns the altstack as a result of parsing the NFT's commitment using the
  * provided bytecode.
  *
  * @param utxo - the NFT to parse

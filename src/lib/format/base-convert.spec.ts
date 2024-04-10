@@ -4,6 +4,7 @@ import type { BaseConverter } from '../lib.js';
 import {
   base58ToBin,
   BaseConversionError,
+  BaseConverterCreationError,
   binToBase58,
   createBaseConverter,
   hexToBin,
@@ -87,19 +88,22 @@ test('createBaseConverter: alphabet too long', (t) => {
         .map((i) => String.fromCharCode(i))
         .join(''),
     ),
-    BaseConversionError.tooLong,
+    `${BaseConverterCreationError.tooLong} Alphabet length: 255`,
   );
 });
 
 test('createBaseConverter: ambiguous character in alphabet', (t) => {
   t.deepEqual(
     createBaseConverter('00'),
-    BaseConversionError.ambiguousCharacter,
+    `${BaseConverterCreationError.ambiguousCharacter} Ambiguous character: 0`,
   );
 });
 
 test('base58ToBin: unknown character', (t) => {
-  t.deepEqual(base58ToBin('#'), BaseConversionError.unknownCharacter);
+  t.deepEqual(
+    base58ToBin('#'),
+    `${BaseConversionError.unknownCharacter} Unknown character: "#".`,
+  );
 });
 
 testProp(

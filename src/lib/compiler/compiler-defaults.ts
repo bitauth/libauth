@@ -68,11 +68,11 @@ export enum CompilerDefaults {
   /**
    * If unset, each `HdKey` uses this `hdPublicKeyDerivationPath`.
    */
-  hdKeyHdPublicKeyDerivationPath = 'm',
+  hdKeyHdPublicKeyDerivationPath = '',
   /**
    * If unset, each `HdKey` uses this `privateDerivationPath`.
    */
-  hdKeyPrivateDerivationPath = 'm/i',
+  hdKeyPrivateDerivationPath = 'i',
 
   /**
    * The prefix used to refer to other scenario bytecode scripts from within a

@@ -305,7 +305,7 @@ export type AuthenticationVirtualMachine<
  * programs constructed from operations in the `instructionSet`.
  * @param instructionSet - an {@link InstructionSet}
  */
-export const createAuthenticationVirtualMachine = <
+export const createVirtualMachine = <
   ResolvedTransaction = ResolvedTransactionCommon,
   AuthenticationProgram = AuthenticationProgramCommon,
   ProgramState extends
@@ -424,3 +424,5 @@ export const createAuthenticationVirtualMachine = <
     verify,
   };
 };
+
+export const createAuthenticationVirtualMachine = createVirtualMachine;

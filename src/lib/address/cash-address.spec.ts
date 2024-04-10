@@ -6,8 +6,10 @@ import type {
 } from '../lib.js';
 import {
   attemptCashAddressFormatErrorCorrection,
-  CashAddressCorrectionError,
   CashAddressDecodingError,
+  CashAddressEncodingError,
+  CashAddressFormatCorrectionError,
+  CashAddressFormatEncodingError,
   CashAddressNetworkPrefix,
   CashAddressType,
   CashAddressTypeBits,
@@ -117,60 +119,161 @@ test('decodeCashAddressVersionByte', (t) => {
   });
 });
 
-test('encodeCashAddress: works', (t) => {
-  const payload = hexToBin('15d16c84669ab46059313bf0747e781f1d13936d');
-
+test('encodeCashAddressFormat: works', (t) => {
   t.deepEqual(
-    encodeCashAddress('bchtest', CashAddressType.p2pkh, payload),
-    'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x',
-  );
-  t.deepEqual(
-    encodeCashAddress('bchtest', 'p2pkh', payload),
-    'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x',
-  );
-  t.deepEqual(
-    encodeCashAddress('bitcoincash', CashAddressType.p2pkh, payload),
-    'bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6',
-  );
-  t.deepEqual(
-    encodeCashAddress('bitcoincash', 'p2pkh', payload),
-    'bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6',
-  );
-  t.deepEqual(
-    encodeCashAddress('bitcoincash', CashAddressType.p2pkhWithTokens, payload),
-    'bitcoincash:zq2azmyyv6dtgczexyalqar70q036yund5j2mspghf',
-  );
-  t.deepEqual(
-    encodeCashAddress('bitcoincash', 'p2pkhWithTokens', payload),
-    'bitcoincash:zq2azmyyv6dtgczexyalqar70q036yund5j2mspghf',
-  );
-  t.deepEqual(
-    encodeCashAddress('bchreg', 'p2pkh', payload),
-    'bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq',
-  );
-  t.deepEqual(
-    encodeCashAddress('bchreg', 'p2pkh', payload),
-    'bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq',
-  );
-
-  t.deepEqual(
-    encodeCashAddressFormat(
-      'bitauth',
-      encodeCashAddressVersionByte(0, 32),
-      hexToBin(
+    encodeCashAddressFormat({
+      payload: hexToBin(
         '978306aa4e02fd06e251b38d2e961f78f4af2ea6524a3e4531126776276a6af1',
       ),
-    ),
-    'bitauth:qwtcxp42fcp06phz2xec6t5krau0ftew5efy50j9xyfxwa38df40zp58z6t5w',
+      prefix: 'bitauth',
+      version: encodeCashAddressVersionByte(0, 32),
+    }),
+    {
+      address:
+        'bitauth:qwtcxp42fcp06phz2xec6t5krau0ftew5efy50j9xyfxwa38df40zp58z6t5w',
+    },
   );
+  t.deepEqual(
+    encodeCashAddressFormat({
+      payload: hexToBin(
+        '978306aa4e02fd06e251b38d2e961f78f4af2ea6524a3e4531126776276a6af1',
+      ),
+      prefix: 'bitauth',
+      throwErrors: false,
+      version: encodeCashAddressVersionByte(0, 32),
+    }),
+    {
+      address:
+        'bitauth:qwtcxp42fcp06phz2xec6t5krau0ftew5efy50j9xyfxwa38df40zp58z6t5w',
+    },
+  );
+  const invalid1 = {
+    payload: hexToBin(
+      '978306aa4e02fd06e251b38d2e961f78f4af2ea6524a3e4531126776276a6af1',
+    ),
+    prefix: 'bitcoincash',
+    version: 256,
+  };
+  const versionError = `${CashAddressFormatEncodingError.excessiveVersion} Version: 256.`;
+  t.deepEqual(
+    encodeCashAddressFormat({ ...invalid1, throwErrors: false }),
+    versionError,
+  );
+  t.throws(() => encodeCashAddressFormat(invalid1), { message: versionError });
+});
 
-  t.throws(() => encodeCashAddress('bitcoincash', 'p2sh', hexToBin('97')), {
-    message:
-      'Error encoding CashAddress: a payload of this length can not be encoded as a valid CashAddress. Payload length: 1.',
+test('encodeCashAddress: works', (t) => {
+  const payload = hexToBin('15d16c84669ab46059313bf0747e781f1d13936d');
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: CashAddressNetworkPrefix.testnet,
+      type: CashAddressType.p2pkh,
+    }),
+    { address: 'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x' },
+  );
+  t.deepEqual(
+    encodeCashAddress({ payload, prefix: 'bchtest', type: 'p2pkh' }),
+    { address: 'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x' },
+  );
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: 'bchtest',
+      throwErrors: false,
+      type: 'p2pkh',
+    }),
+    { address: 'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x' },
+  );
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: CashAddressNetworkPrefix.mainnet,
+      type: CashAddressType.p2pkh,
+    }),
+    { address: 'bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6' },
+  );
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: 'bitcoincash',
+      type: 'p2pkh',
+    }),
+    { address: 'bitcoincash:qq2azmyyv6dtgczexyalqar70q036yund54qgw0wg6' },
+  );
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: CashAddressNetworkPrefix.mainnet,
+      type: CashAddressType.p2pkhWithTokens,
+    }),
+    { address: 'bitcoincash:zq2azmyyv6dtgczexyalqar70q036yund5j2mspghf' },
+  );
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: 'bitcoincash',
+      type: 'p2pkhWithTokens',
+    }),
+    { address: 'bitcoincash:zq2azmyyv6dtgczexyalqar70q036yund5j2mspghf' },
+  );
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: CashAddressNetworkPrefix.regtest,
+      type: CashAddressType.p2pkh,
+    }),
+    { address: 'bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq' },
+  );
+  t.deepEqual(
+    encodeCashAddress({
+      payload,
+      prefix: 'bchreg',
+      type: 'p2pkh',
+    }),
+    { address: 'bchreg:qq2azmyyv6dtgczexyalqar70q036yund5tw6gw2vq' },
+  );
+  const invalid = {
+    payload: hexToBin('97'),
+    prefix: 'bitcoincash',
+    type: 'p2sh',
+  } as const;
+  const message = `${CashAddressEncodingError.unsupportedPayloadLength} Payload length: 1.`;
+  t.deepEqual(encodeCashAddress({ ...invalid, throwErrors: false }), message);
+  t.throws(() => encodeCashAddress(invalid), { message });
+  t.throws(() => encodeCashAddress({ ...invalid, throwErrors: true }), {
+    message,
   });
 });
 
-test('decodeCashAddress: works', (t) => {
+test('encodeCashAddressNonStandard: works', (t) => {
+  const payload = hexToBin('15d16c84669ab46059313bf0747e781f1d13936d');
+  t.deepEqual(
+    encodeCashAddressNonStandard({
+      payload,
+      prefix: CashAddressNetworkPrefix.testnet,
+      typeBits: CashAddressTypeBits.p2pkh,
+    }),
+    { address: 'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x' },
+  );
+  t.deepEqual(
+    encodeCashAddressNonStandard({ payload, prefix: 'bchtest', typeBits: 0 }),
+    { address: 'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x' },
+  );
+  const invalid = {
+    payload: hexToBin('97'),
+    prefix: 'bchtest',
+    typeBits: 1,
+  } as const;
+  const message = `${CashAddressEncodingError.unsupportedPayloadLength} Payload length: 1.`;
+  t.deepEqual(
+    encodeCashAddressNonStandard({ ...invalid, throwErrors: false }),
+    message,
+  );
+  t.throws(() => encodeCashAddressNonStandard(invalid), { message });
+});
+
+test('decodeCashAddress, decodeCashAddressFormat: works', (t) => {
   const payload = hexToBin('15d16c84669ab46059313bf0747e781f1d13936d');
   const result = decodeCashAddress(
     'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x',
@@ -237,39 +340,39 @@ test('decodeCashAddress: works', (t) => {
     decodeCashAddressFormat(
       ':qwtcxp42fcp06phz2xec6t5krau0ftew5efy50j9xyfxwa38df40zp58z6t5w',
     ),
-    CashAddressDecodingError.invalidFormat,
+    `${CashAddressDecodingError.invalidFormat} Provided address: ":qwtcxp42fcp06phz2xec6t5krau0ftew5efy50j9xyfxwa38df40zp58z6t5w".`,
   );
 
   t.deepEqual(
     decodeCashAddress('prefix:broken'),
-    CashAddressDecodingError.invalidCharacters,
+    `${CashAddressDecodingError.invalidCharacters} Invalid characters: b, o.`,
   );
 
   t.deepEqual(
     decodeCashAddressFormat('prefix:broken'),
-    CashAddressDecodingError.invalidCharacters,
+    `${CashAddressDecodingError.invalidCharacters} Invalid characters: b, o.`,
   );
 
   t.deepEqual(
     // cspell: disable-next-line
     decodeCashAddressFormat('verybroken:lll30n6j98m5'),
-    CashAddressDecodingError.improperPadding,
+    `${CashAddressDecodingError.improperPadding} Encoding requires padding while padding is disallowed.`,
   );
 
   t.deepEqual(
     // cspell: disable-next-line
     decodeCashAddressFormat('bchtest:testnetaddress4d6njnut'),
-    CashAddressDecodingError.improperPadding,
+    `${CashAddressDecodingError.improperPadding} Encountered padding when padding was disallowed.`,
   );
   t.deepEqual(
     decodeCashAddress(
       'bchreg:555555555555555555555555555555555555555555555udxmlmrz',
     ),
-    CashAddressDecodingError.reservedByte,
+    CashAddressDecodingError.reservedBit,
   );
   t.deepEqual(
     decodeCashAddress('bitcoincash:qu2azmyyv6dtgczexyalqar70q036yund53an46hf6'),
-    CashAddressDecodingError.mismatchedPayloadLength,
+    `${CashAddressDecodingError.mismatchedPayloadLength} Version byte indicated a byte length of 64, but the payload is 20 bytes.`,
   );
 });
 
@@ -285,15 +388,15 @@ test('CashAddress test vectors', (t) => {
         typeBits,
         payload.length as CashAddressSupportedLength,
       );
-      const encodeResult = encodeCashAddressFormat(prefix, version, payload);
-      if (cashaddr !== encodeResult) {
+      const { address } = encodeCashAddressFormat({ payload, prefix, version });
+      if (cashaddr !== address) {
         t.log('expected vector', vector.cashaddr);
         t.log('typeBits', typeBits);
         t.log('prefix', prefix);
         t.log('payload', payload);
-        t.log('encodeResult', encodeResult);
+        t.log('encodeResult', address);
       }
-      t.deepEqual(vector.cashaddr, encodeResult);
+      t.deepEqual(vector.cashaddr, address);
 
       const decodeResult = decodeCashAddressNonStandard(cashaddr);
       if (typeof decodeResult === 'string') {
@@ -359,7 +462,7 @@ test('[fast-check] encodeCashAddressFormat <-> decodeCashAddressFormat', (t) => 
       (prefix, version, payload) => {
         t.deepEqual(
           decodeCashAddressFormat(
-            encodeCashAddressFormat(prefix, version, payload),
+            encodeCashAddressFormat({ payload, prefix, version }).address,
           ),
           { payload, prefix, version },
         );
@@ -383,16 +486,12 @@ test('[fast-check] encodeCashAddressNonStandard <-> decodeCashAddressNonStandard
       fc
         .array(lowercaseLetter(), { maxLength: 50, minLength: 1 })
         .map((arr) => arr.join('')),
-      fc.nat(15),
+      fc.nat(15) as fc.Arbitrary<CashAddressAvailableTypeBits>,
       fc.uint8Array({ maxLength: length, minLength: length }),
       (prefix, typeBits, payload) => {
         t.deepEqual(
           decodeCashAddressNonStandard(
-            encodeCashAddressNonStandard(
-              prefix,
-              typeBits as CashAddressAvailableTypeBits,
-              payload,
-            ),
+            encodeCashAddressNonStandard({ payload, prefix, typeBits }).address,
           ),
           { payload, prefix, typeBits },
         );
@@ -426,7 +525,9 @@ test('[fast-check] encodeCashAddress <-> decodeCashAddress', (t) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const type = types[typeIndex]!;
         t.deepEqual(
-          decodeCashAddress(encodeCashAddress(prefix, type, payload)),
+          decodeCashAddress(
+            encodeCashAddress({ payload, prefix, type }).address,
+          ),
           { payload, prefix, type },
         );
       },
@@ -446,18 +547,14 @@ test('[fast-check] encodeCashAddress <-> decodeCashAddress', (t) => {
 test('attemptCashAddressErrorCorrection', (t) => {
   t.deepEqual(
     attemptCashAddressFormatErrorCorrection(
-      // cspell: disable-next-line
       ':qq2azmyyv6dtgczexyalqar70q036yund53jvfde0c',
     ),
     CashAddressDecodingError.invalidFormat,
   );
 
   t.deepEqual(
-    attemptCashAddressFormatErrorCorrection(
-      // cspell: disable-next-line
-      'broken:broken',
-    ),
-    CashAddressDecodingError.invalidCharacters,
+    attemptCashAddressFormatErrorCorrection('broken:broken'),
+    `${CashAddressDecodingError.invalidCharacters} Invalid characters: b, o.`,
   );
 
   t.deepEqual(
@@ -475,7 +572,7 @@ test('attemptCashAddressErrorCorrection', (t) => {
       // cspell: disable-next-line
       'btcbest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x',
     ),
-    CashAddressCorrectionError.tooManyErrors,
+    CashAddressFormatCorrectionError.tooManyErrors,
   );
 });
 
@@ -485,16 +582,16 @@ test('[fast-check] attemptCashAddressErrorCorrection', (t) => {
       fc
         .array(lowercaseLetter(), { maxLength: 50, minLength: 1 })
         .map((arr) => arr.join('')),
-      fc.nat(15),
+      fc.nat(15) as fc.Arbitrary<CashAddressAvailableTypeBits>,
       fc.uint8Array({ maxLength: payloadLength, minLength: payloadLength }),
       fc.array(fc.nat(payloadLength), { maxLength: 2, minLength: 0 }),
       // eslint-disable-next-line @typescript-eslint/max-params
       (prefix, typeBits, payload, randomErrors) => {
-        const address = encodeCashAddressNonStandard(
-          prefix,
-          typeBits as CashAddressAvailableTypeBits,
+        const { address } = encodeCashAddressNonStandard({
           payload,
-        );
+          prefix,
+          typeBits,
+        });
         const addressChars = splitEvery(address, 1);
         const errors = [
           ...new Set(

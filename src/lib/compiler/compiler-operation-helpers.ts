@@ -1,4 +1,9 @@
-import { decodeHdPrivateKey, deriveHdPath } from '../key/key.js';
+import { assertSuccess } from '../format/format.js';
+import {
+  decodeHdPrivateKey,
+  deriveHdPath,
+  deriveHdPathRelative,
+} from '../key/key.js';
 import { resolveScriptIdentifier } from '../language/language.js';
 import type {
   AnyCompilerConfiguration,
@@ -182,33 +187,35 @@ export const compilerOperationHelperDeriveHdPrivateNode = ({
     hdKey.privateDerivationPath ?? CompilerDefaults.hdKeyPrivateDerivationPath;
   const i = addressIndex + addressOffset;
 
-  const validPrivatePathWithIndex = /^m(?:\/(?:[0-9]+|i)'?)*$/u;
+  const validPrivatePathWithIndex = /^(?:m|i|[0-9]+)'?(?:\/(?:[0-9]+|i)'?)*$/u;
   if (!validPrivatePathWithIndex.test(privateDerivationPath)) {
     return {
-      error: `Could not generate ${identifier} - the path "${privateDerivationPath}" is not a valid "privateDerivationPath".`,
+      error: `Could not generate "${identifier}" - the path "${privateDerivationPath}" is not a valid "privateDerivationPath".`,
       status: 'error',
     };
   }
+
+  /**
+   * Provided keys are already verified by `validateCompilationData`.
+   */
+  const masterContents = assertSuccess(
+    decodeHdPrivateKey(entityHdPrivateKey, {
+      crypto: configuration,
+    }),
+  );
 
   const instancePath = privateDerivationPath.replace('i', i.toString());
-
-  const masterContents = decodeHdPrivateKey(entityHdPrivateKey, configuration);
-  if (typeof masterContents === 'string') {
-    return {
-      error: `Could not generate ${identifier} - the HD private key provided for ${entityId} could not be decoded: ${masterContents}`,
-      status: 'error',
-    };
-  }
-
-  const instanceNode = deriveHdPath(
-    masterContents.node,
-    instancePath,
-    configuration,
-  );
+  const usesAbsoluteDerivation = instancePath.includes('m');
+  const instanceNode = (
+    usesAbsoluteDerivation ? deriveHdPath : deriveHdPathRelative
+  )(masterContents.node, instancePath, {
+    crypto: configuration,
+    throwErrors: false,
+  });
 
   if (typeof instanceNode === 'string') {
     return {
-      error: `Could not generate ${identifier} - the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
+      error: `Could not generate "${identifier}" - the path "${instancePath}" could not be derived for entity "${entityId}": ${instanceNode}`,
       status: 'error',
     };
   }

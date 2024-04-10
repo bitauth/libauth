@@ -148,7 +148,6 @@
     "!build/**/*.map",
     "!**/*.spec.*",
     "!**/*.json",
-    "build/lib/key/word-lists/*.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",

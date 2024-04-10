@@ -156,7 +156,7 @@ export type CompilationContextCommon = CompilationContext<
 const sha256HashLength = 32;
 /**
  * This is a meaningless but complete {@link CompilationContextCommon} that uses
- * a different value for each property. This is useful for testing
+ * a default value for each property. This is useful for testing
  * and debugging.
  */
 // eslint-disable-next-line complexity

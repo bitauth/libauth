@@ -27,19 +27,19 @@ export const twoOfThree: WalletTemplate = {
     '1_and_2': {
       name: 'Cosigner 1 & 2',
       script:
-        'OP_0\n<key1.signature.all_outputs>\n<key2.signature.all_outputs>',
+        'OP_0\n<key1.ecdsa_signature.all_outputs>\n<key2.ecdsa_signature.all_outputs>',
       unlocks: 'lock',
     },
     '1_and_3': {
       name: 'Cosigner 1 & 3',
       script:
-        'OP_0\n<key1.signature.all_outputs>\n<key3.signature.all_outputs>',
+        'OP_0\n<key1.ecdsa_signature.all_outputs>\n<key3.ecdsa_signature.all_outputs>',
       unlocks: 'lock',
     },
     '2_and_3': {
       name: 'Cosigner 2 & 3',
       script:
-        'OP_0\n<key2.signature.all_outputs>\n<key3.signature.all_outputs>',
+        'OP_0\n<key2.ecdsa_signature.all_outputs>\n<key3.ecdsa_signature.all_outputs>',
       unlocks: 'lock',
     },
     lock: {

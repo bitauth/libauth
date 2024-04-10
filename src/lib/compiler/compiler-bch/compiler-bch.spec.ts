@@ -19,7 +19,7 @@ test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
   const compiler = createCompilerBCH({
     scripts: {
       lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
-      unlock: '<a.signature.all_outputs> <a.public_key>',
+      unlock: '<a.ecdsa_signature.all_outputs> <a.public_key>',
     },
     unlockingScripts: {
       unlock: 'lock',
@@ -84,8 +84,8 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
   const compiler = createCompilerBCH({
     createState,
     scripts: {
-      lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
-      unlock: '<a.signature.all_outputs> <a.public_key>',
+      lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
+      unlock: '<a.ecdsa_signature.all_outputs> <a.public_key>',
     },
     unlockingScripts: {
       unlock: 'lock',
@@ -710,7 +710,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                     line: 1,
                     offset: 1,
                   },
-                  value: 'a.signature.all_outputs',
+                  value: 'a.ecdsa_signature.all_outputs',
                 },
               ],
             },
@@ -868,7 +868,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               value: hexToBin(
                 '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
               ),
-              variable: 'a.signature.all_outputs',
+              variable: 'a.ecdsa_signature.all_outputs',
             },
           ],
         },

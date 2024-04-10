@@ -53,6 +53,7 @@ export enum TransactionDecodingError {
   inputs = 'Error reading transaction inputs.',
   output = 'Error reading transaction output.',
   outputs = 'Error reading transaction outputs.',
+  outputsEndWithUnexpectedBytes = 'Error decoding transaction outputs: the provided serialization includes unexpected bytes after the encoded transaction outputs.',
   lockingBytecodeLength = 'Error reading locking bytecode length.',
 }
 
@@ -472,11 +473,44 @@ export const readTransactionOutputs = (
 };
 
 /**
+ * Decode a CompactUint-prefixed series of Transaction {@link Output}s
+ * according to the version 1/2 P2P network transaction format.
+ *
+ * This function verifies that the provided `bin` contains one `CompactUint`
+ * followed by the indicated number of serialized transaction outputs with no
+ * additional data. To read a transaction from a
+ * specific location within a `Uint8Array`, use {@link readTransactionCommon}.
+ *
+ * For the reverse, see {@link encodeTransactionOutputs}.
+ *
+ * @param bin - the encoded transaction to decode
+ */
+export const decodeTransactionOutputs = (
+  bin: Uint8Array,
+): Output[] | string => {
+  const outputsRead = readTransactionOutputs({ bin, index: 0 });
+  if (typeof outputsRead === 'string') {
+    return outputsRead;
+  }
+  if (outputsRead.position.index !== bin.length) {
+    return formatError(
+      TransactionDecodingError.outputsEndWithUnexpectedBytes,
+      `Last encoded transaction output ends at index ${
+        outputsRead.position.index - 1
+      }, leaving ${bin.length - outputsRead.position.index} remaining byte(s).`,
+    );
+  }
+  return outputsRead.result;
+};
+
+/**
  * Encode a set of {@link Output}s for inclusion in an encoded transaction
  * including the prefixed number of outputs. Note, this encoding differs from
  * {@link encodeTransactionOutputsForSigning} (used for signing serializations).
  *
- * Format: [CompactUint: output count] [encoded outputs]
+ * Format: `[CompactUint: output count] [encoded outputs]`
+ *
+ * For the reverse, see {@link decodeTransactionOutputs}.
  *
  * @param outputs - the set of outputs to encode
  */
@@ -593,6 +627,8 @@ export const readTransactionNonTokenAware = (
  * and no additional data. To read a transaction from a specific location within
  * a `Uint8Array`, use {@link readTransactionCommon}.
  *
+ * For the reverse, see {@link encodeTransactionCommon}.
+ *
  * @param bin - the encoded transaction to decode
  */
 export const decodeTransactionCommon = (
@@ -644,6 +680,8 @@ export const decodeTransactionUnsafe = decodeTransactionUnsafeBCH;
  * Encode a {@link Transaction} using the standard P2P network format. This
  * serialization is also used when computing the transaction's hash (A.K.A.
  * "transaction ID" or "TXID").
+ *
+ * For the reverse, see {@link decodeTransactionCommon}.
  */
 export const encodeTransactionCommon = (tx: TransactionCommon) =>
   flattenBinArray([

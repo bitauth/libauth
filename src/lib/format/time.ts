@@ -44,6 +44,8 @@ export enum LocktimeError {
  * Note, a locktime values greater than or equal to `500000000`
  * See {@link Transaction.locktime} for details.
  *
+ * For the reverse, see {@link locktimeToDate}.
+ *
  * @param date - the Date to convert to a locktime number
  */
 export const dateToLocktime = (date: Date) =>
@@ -56,6 +58,8 @@ export const dateToLocktime = (date: Date) =>
  * If locktime is outside the possible range (greater than or equal to
  * `500000000` and less than or equal to `4294967295`), an error message is
  * returned.
+ *
+ * For the reverse, see {@link dateToLocktime}.
  *
  * @param locktime - a positive integer between `500000000` and `4294967295`,
  * inclusive

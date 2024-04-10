@@ -56,17 +56,18 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   });
 
   if (!lockingBytecode.success) {
-    t.log('lockingBytecode', stringify(lockingBytecode));
-    t.fail();
+    t.fail(`lockingBytecode: ${stringify(lockingBytecode)}`);
     return;
   }
 
-  const address = lockingBytecodeToCashAddress(
-    lockingBytecode.bytecode,
-    CashAddressNetworkPrefix.testnet,
-  );
+  const address = lockingBytecodeToCashAddress({
+    bytecode: lockingBytecode.bytecode,
+    prefix: CashAddressNetworkPrefix.testnet,
+  });
 
-  t.deepEqual(address, 'bchtest:ppcvyjuqwhuz06np4us443l26dzck305psl0dw6as9');
+  t.deepEqual(address, {
+    address: 'bchtest:ppcvyjuqwhuz06np4us443l26dzck305psl0dw6as9',
+  });
 
   const valueSatoshis = 10000;
   const utxoOutput = {
@@ -122,8 +123,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   });
 
   if (signer1Attempt.success) {
-    t.log('signer1Attempt:', stringify(signer1Attempt));
-    t.fail();
+    t.fail(`signer1Attempt: ${stringify(signer1Attempt)}`);
     return;
   }
 
@@ -134,7 +134,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   t.deepEqual(
     signer1MissingVariables,
     {
-      'second.data_signature.first_signature': 'signer_2',
+      'second.ecdsa_data_signature.first_signature': 'signer_2',
     },
     stringify(signer1MissingVariables),
   );
@@ -148,10 +148,10 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   t.deepEqual(
     signer1ResolvedVariables,
     {
+      'first.ecdsa_signature.all_outputs': expectedSigner1Signature,
       'first.public_key': hexToBin(
         '0349c17cce8a460f013fdcd286f90f7b0330101d0f3ab4ced44a5a3db764e46588',
       ),
-      'first.signature.all_outputs': expectedSigner1Signature,
     },
     stringify(signer1ResolvedVariables),
   );
@@ -184,8 +184,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   });
 
   if (signer2Attempt.success) {
-    t.log('signer2Attempt:', stringify(signer2Attempt));
-    t.fail();
+    t.fail(`signer2Attempt: ${stringify(signer2Attempt)}`);
     return;
   }
 
@@ -200,7 +199,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
             ...signer2UnlockingData,
             bytecode: {
               ...signer2UnlockingData.bytecode,
-              'first.signature.all_outputs': expectedSigner1Signature,
+              'first.ecdsa_signature.all_outputs': expectedSigner1Signature,
             },
           },
         },
@@ -209,8 +208,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   });
 
   if (!successfulCompilation.success) {
-    t.log('successfulCompilation:', stringify(successfulCompilation));
-    t.fail();
+    t.fail(`successfulCompilation: ${stringify(successfulCompilation)}`);
     return;
   }
 

@@ -862,6 +862,8 @@ export const summarizeDebugTrace = <
     [],
   );
 
+const reasonablePaddingForInstructionSetBCH = 23;
+
 /**
  * Return a string with the result of {@link summarizeDebugTrace} including one
  * step per line.
@@ -871,21 +873,18 @@ export const summarizeDebugTrace = <
 export const stringifyDebugTraceSummary = (
   summary: ReturnType<typeof summarizeDebugTrace>,
   {
-    opcodes,
-    padInstruction,
+    opcodes = OpcodesBCHCHIPs,
+    padInstruction = reasonablePaddingForInstructionSetBCH,
   }: {
     /**
      * An opcode enum, e.g. {@link OpcodesBCH}.
      */
-    opcodes: { [opcode: number]: string };
+    opcodes?: { [opcode: number]: string };
     /**
      * The width of the instruction column.
      */
-    padInstruction: number;
-  } = {
-    opcodes: OpcodesBCHCHIPs,
-    padInstruction: 23,
-  },
+    padInstruction?: number;
+  } = {},
 ) =>
   summary
     .map(

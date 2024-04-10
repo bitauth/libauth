@@ -48,6 +48,8 @@ export type WalletImportFormatType =
  * payload prior to encoding. For the uncompressed construction, the extra byte
  * is omitted.
  *
+ * For the reverse, see {@link decodePrivateKeyWif}.
+ *
  * @param privateKey - a 32-byte Secp256k1 ECDSA private key
  * @param type - the intended usage of the private key (e.g. `mainnet` or
  * `testnet`)
@@ -76,6 +78,8 @@ export const encodePrivateKeyWif = (
 /**
  * Decode a private key using Wallet Import Format (WIF). See
  * {@link encodePrivateKeyWif} for details.
+ *
+ * For the reverse, use {@link encodePrivateKeyWif}.
  *
  * @param wifKey - the private key to decode (in Wallet Import Format)
  * @param sha256 - an implementation of sha256

@@ -18,6 +18,9 @@ import type {
   CompilationResult,
   Compiler,
   CompilerConfiguration,
+  disassembleBytecode,
+  disassembleBytecodeBCH,
+  disassembleBytecodeBTC,
   WalletTemplate,
 } from '../lib.js';
 import {

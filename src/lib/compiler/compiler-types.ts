@@ -8,6 +8,8 @@ import type {
   Secp256k1,
   Sha256,
   Sha512,
+  WalletTemplateHdKey,
+  WalletTemplateKey,
   WalletTemplateScenario,
   WalletTemplateVariable,
 } from '../lib.js';
@@ -37,7 +39,7 @@ export type CompilerOperationErrorFatal = CompilerOperationDebug & {
 export type CompilerOperationErrorRecoverable = CompilerOperationErrorFatal & {
   /**
    * The full identifier (including any compilation operations) of the variable
-   * missing from compilation, e.g. `my_key.signature.all_outputs` or
+   * missing from compilation, e.g. `my_key.schnorr_signature.all_outputs` or
    * `my_key.public_key`.
    */
   recoverable: true;
@@ -132,7 +134,7 @@ export type CompilerOperationResult<CanBeSkipped extends boolean = false> =
  * @typeParam Configuration - the type of the {@link CompilerConfiguration}
  * expected by this operation
  * @param identifier - The full identifier used to describe this operation, e.g.
- * `owner.signature.all_outputs`.
+ * `owner.schnorr_signature.all_outputs`.
  * @param data - The {@link CompilationData} provided to the compiler
  * @param configuration - The {@link CompilerConfiguration} provided to
  * the compiler
@@ -150,7 +152,7 @@ export type CompilerOperation<
   configuration: Configuration,
 ) => CompilerOperationResult<CanBeSkipped>;
 
-export type CompilerOperationsKeysCommon = 'public_key' | 'signature';
+export type CompilerOperationsKeysCommon = 'ecdsa_signature' | 'public_key';
 
 /**
  * Valid identifiers for full transaction signing serialization algorithms. Each
@@ -399,6 +401,7 @@ export type CompilerConfiguration<
         derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
         signMessageHashSchnorr: Secp256k1['signMessageHashSchnorr'];
         signMessageHashDER: Secp256k1['signMessageHashDER'];
+        validatePublicKey: Secp256k1['validatePublicKey'];
       }
     | undefined;
   /**
@@ -480,11 +483,11 @@ export type CompilationData<CompilationContext = CompilationContextBCH> = {
    * This is always used to provide bytecode for `AddressData` and `WalletData`,
    * and it can also be used to provide public keys and signatures that have
    * been pre-computed by other entities (e.g. when computing these would
-   * require access to private keys held by another entities).
+   * require access to private keys held by another entity).
    *
    * The provided `fullIdentifier` should match the complete identifier for
    * each item, e.g. `some_wallet_data`, `variable_id.public_key`, or
-   * `variable_id.signature.all_outputs`.
+   * `variable_id.schnorr_signature.all_outputs`.
    *
    * To provide `AddressData` or `WalletData` from advanced user interfaces,
    * consider parsing input with `compileCashAssembly`.
@@ -528,15 +531,17 @@ export type CompilationData<CompilationContext = CompilationContextBCH> = {
    */
   currentBlockTime?: number;
   /**
-   * An object describing the settings used for `HdKey` variables in this
-   * compilation.
+   * An object describing the settings used for {@link WalletTemplateHdKey}
+   * variables in this compilation.
    */
   hdKeys?: {
     /**
      * The current address index to be used for this compilation. The
-     * `addressIndex` gets added to each `HdKey`s `addressOffset` to calculate
-     * the dynamic index (`i`) used in each `privateDerivationPath` or
-     * `publicDerivationPath`.
+     * `addressIndex` gets added to each
+     * {@link WalletTemplateHdKey.addressOffset} to calculate
+     * the dynamic index (`i`) used in each
+     * {@link WalletTemplateHdKey.privateDerivationPath} or
+     * {@link WalletTemplateHdKey.publicDerivationPath}.
      *
      * This is required for any compiler operation that requires derivation.
      * Typically, the value is incremented by one for each address in a wallet.
@@ -546,7 +551,7 @@ export type CompilationData<CompilationContext = CompilationContextBCH> = {
      * A map of entity IDs to HD public keys. These HD public keys are used to
      * derive public keys for each `HdKey` variable assigned to that entity (as
      * specified in {@link CompilerConfiguration.entityOwnership}) according to
-     * its `publicDerivationPath`.
+     * its {@link WalletTemplateHdKey.publicDerivationPath}.
      *
      * HD public keys may be encoded for either mainnet or testnet (the network
      * information is ignored).
@@ -557,10 +562,10 @@ export type CompilationData<CompilationContext = CompilationContextBCH> = {
      */
     hdPublicKeys?: { [entityId: string]: string };
     /**
-     * A map of entity IDs to master HD private keys. These master HD private
-     * keys are used to derive each `HdKey` variable assigned to that entity (as
+     * A map of entity IDs to HD private keys. These HD private keys are used to
+     * derive each `HdKey` variable assigned to that entity (as
      * specified in {@link CompilerConfiguration.entityOwnership}) according to
-     * its `privateDerivationPath`.
+     * its {@link WalletTemplateHdKey.privateDerivationPath}.
      *
      * HD private keys may be encoded for either mainnet or testnet (the network
      * information is ignored).
@@ -572,8 +577,13 @@ export type CompilationData<CompilationContext = CompilationContextBCH> = {
     hdPrivateKeys?: { [entityId: string]: string };
   };
   /**
-   * An object describing the settings used for `Key` variables in this
-   * compilation.
+   * An object describing the settings used for {@link WalletTemplateKey}
+   * variables in this compilation.
+   *
+   * Note that public keys are not provided in this object. Instead, public keys
+   * are provided directly via the `bytecode` object; this is because – much
+   * like signatures or address data – public keys require no further processing
+   * by collaborating entities once shared by their owning entity.
    */
   keys?: {
     /**
@@ -701,7 +711,7 @@ export type Compiler<
    * isolated scripts, i.e. scripts without either tests or any corresponding
    * unlocking scripts).
    */
-  generateScenario: <Debug extends boolean>({
+  generateScenario: <Debug extends boolean = false>({
     debug,
     lockingScriptId,
     scenarioId,

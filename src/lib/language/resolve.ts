@@ -1,4 +1,9 @@
 import { binStringToBin, hexToBin, utf8ToBin } from '../format/format.js';
+import {
+  decodeHdPrivateKey,
+  decodeHdPublicKey,
+  validateSecp256k1PrivateKey,
+} from '../key/key.js';
 import type {
   AnyCompilerConfiguration,
   AuthenticationProgramStateControlStack,
@@ -18,7 +23,7 @@ import type {
 } from '../lib.js';
 import { bigIntToVmNumber } from '../vm/vm.js';
 
-import type { CompilationResult } from './language-types.js';
+import type { CompilationError, CompilationResult } from './language-types.js';
 import {
   IdentifierResolutionErrorType,
   IdentifierResolutionType,
@@ -213,7 +218,7 @@ const attemptCompilerOperation = <
  * simply returns `false`.
  *
  * @param identifier - The full identifier used to describe this operation, e.g.
- * `owner.signature.all_outputs`.
+ * `owner.schnorr_signature.all_outputs`.
  * @param data - The {@link CompilationData} provided to the compiler
  * @param configuration - The {@link CompilerConfiguration} provided to
  * the compiler
@@ -349,6 +354,101 @@ export const createEmptyRange = () => ({
 });
 
 /**
+ * Validate all compilation data (i.e. validate all public and private keys),
+ * returning an array of validation errors. If no validity issues are detected,
+ * an empty array is returned.
+ *
+ * The function ensures that compilation fails whenever invalid compilation data
+ * is provided, regardless of whether or not the offending public or private key
+ * material is used. This is intended to surface software defects (particularly
+ * in the software used by counterparties) as early as possible.
+ */
+export const validateCompilationData = <CompilationContext = unknown>({
+  configuration,
+  data,
+}: {
+  configuration: AnyCompilerConfiguration<CompilationContext>;
+  data: CompilationData<CompilationContext>;
+}): CompilationError[] =>
+  [
+    ...(data.bytecode === undefined
+      ? []
+      : Object.entries(data.bytecode)
+          .filter(([identifier]) => identifier.endsWith('.public_key'))
+          .reduce<CompilationError[]>(
+            (all, [identifier, publicKey]) =>
+              all.concat(
+                configuration.secp256k1?.validatePublicKey(publicKey) === true
+                  ? []
+                  : [
+                      configuration.secp256k1 === undefined
+                        ? {
+                            error: `Could not validate compilation data: the public key provided for "${identifier}" could not be validated because the "secp256k1" property was not provided in the compiler configuration.`,
+                            range: createEmptyRange(),
+                          }
+                        : {
+                            error: `Invalid compilation data detected: the public key provided for "${identifier}" is not a valid Secp256k1 public key.`,
+                            range: createEmptyRange(),
+                          },
+                    ],
+              ),
+            [],
+          )),
+    ...(data.keys?.privateKeys === undefined
+      ? []
+      : Object.entries(data.keys.privateKeys).reduce<CompilationError[]>(
+          (all, [variableId, privateKey]) =>
+            all.concat(
+              validateSecp256k1PrivateKey(privateKey)
+                ? []
+                : [
+                    {
+                      error: `Invalid compilation data detected: the private key provided for the "${variableId}" variable is not a valid Secp256k1 private key.`,
+                      range: createEmptyRange(),
+                    },
+                  ],
+            ),
+          [],
+        )),
+    ...(data.hdKeys?.hdPrivateKeys === undefined
+      ? []
+      : Object.entries(data.hdKeys.hdPrivateKeys).reduce<CompilationError[]>(
+          (all, [entityId, hdPrivateKey]) => {
+            const decoded = decodeHdPrivateKey(hdPrivateKey);
+            return all.concat(
+              typeof decoded === 'string'
+                ? [
+                    {
+                      error: `Invalid compilation data detected: the HD private key provided for the "${entityId}" entity is not a valid HD private key. ${decoded}`,
+                      range: createEmptyRange(),
+                    },
+                  ]
+                : [],
+            );
+          },
+          [],
+        )),
+    ...(data.hdKeys?.hdPublicKeys === undefined
+      ? []
+      : Object.entries(data.hdKeys.hdPublicKeys).reduce<CompilationError[]>(
+          (all, [entityId, hdPublicKey]) => {
+            const decoded = decodeHdPublicKey(hdPublicKey);
+            return all.concat(
+              typeof decoded === 'string'
+                ? [
+                    {
+                      error: `Invalid compilation data detected: the HD public key provided for the "${entityId}" entity is not a valid HD public key. ${decoded}`,
+                      range: createEmptyRange(),
+                    },
+                  ]
+                : [],
+            );
+          },
+          [],
+        )),
+  ] as CompilationError[];
+
+/**
  * This method is generally for internal use. The {@link compileScript} method
  * is the recommended API for direct compilation.
  */
@@ -400,6 +500,15 @@ export const compileScriptRaw = <
     configuration.sourceScriptIds === undefined
       ? [scriptId]
       : [...configuration.sourceScriptIds, scriptId];
+
+  const dataErrors = validateCompilationData({ configuration, data });
+  if (dataErrors.length !== 0) {
+    return {
+      errorType: 'parse',
+      errors: dataErrors as CompilationError[] & [CompilationError],
+      success: false,
+    };
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return compileScriptContents<ProgramState, CompilationContext>({

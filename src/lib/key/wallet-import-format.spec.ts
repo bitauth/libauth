@@ -3,6 +3,7 @@ import test from 'ava';
 import type { WalletImportFormatType } from '../lib.js';
 import {
   Base58AddressError,
+  BaseConversionError,
   decodePrivateKeyWif,
   encodePrivateKeyWif,
   hexToBin,
@@ -12,7 +13,7 @@ import {
 test('decodePrivateKeyWif: pass through errors', (t) => {
   t.deepEqual(
     decodePrivateKeyWif('not a key'),
-    Base58AddressError.unknownCharacter,
+    `${Base58AddressError.unknownCharacter} ${BaseConversionError.unknownCharacter} Unknown character: " ".`,
   );
 });
 
@@ -33,7 +34,6 @@ const wifVectors = test.macro<[WalletImportFormatType, string, string]>({
   title: (_, type, base58) =>
     `encodePrivateKeyWif <-> decodePrivateKeyWif ${type} - ${base58.slice(
       0,
-
       6,
     )}...`,
 });

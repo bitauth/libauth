@@ -1,6 +1,13 @@
 import test from 'ava';
 
-import { binToUtf8, hexToBin, utf8ToBin } from '../lib.js';
+import {
+  binToUtf8,
+  hexToBin,
+  length,
+  lossyNormalize,
+  segment,
+  utf8ToBin,
+} from '../lib.js';
 
 import { testProp } from '@fast-check/ava';
 import fc from 'fast-check';
@@ -29,3 +36,21 @@ testProp(
   (t, input) =>
     t.deepEqual(binToUtf8(utf8ToBin(binToUtf8(input))), binToUtf8(input)),
 );
+
+const nonNormal = 'ﬁt🚀👫👨‍👩‍👧‍👦';
+test('lossyNormalize', (t) => {
+  t.deepEqual(lossyNormalize(nonNormal), 'fit🚀👫👨‍👩‍👧‍👦');
+});
+
+test('segment', (t) => {
+  t.deepEqual(
+    [...nonNormal],
+    ['ﬁ', 't', '🚀', '👫', '👨', '‍', '👩', '‍', '👧', '‍', '👦'],
+  );
+  t.deepEqual(segment(nonNormal), ['ﬁ', 't', '🚀', '👫', '👨‍👩‍👧‍👦']);
+});
+
+test('length', (t) => {
+  t.deepEqual(nonNormal.length, 17);
+  t.deepEqual(length(nonNormal), 5);
+});

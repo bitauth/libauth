@@ -6,10 +6,13 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Active Spec",
-      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
-      "runtimeArgs": ["--serial", "${file}"],
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "ava"],
+      "args": ["${file}"],
+      // "args": ["--serial", "${file}"],
       "outputCapture": "std",
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
       "preLaunchTask": "npm: build"
     },
     {
@@ -17,8 +20,9 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Active Spec (no build)",
-      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
-      "runtimeArgs": ["--serial", "${file}"],
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "ava"],
+      "args": ["${file}"],
       "outputCapture": "std",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"]
     }

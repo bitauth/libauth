@@ -11,6 +11,9 @@ import {
   numberToBinUint32LE,
 } from '../../../format/format.js';
 import type {
+  assembleBytecode,
+  assembleBytecodeBCH,
+  assembleBytecodeBTC,
   AuthenticationInstruction,
   AuthenticationInstructionMalformed,
   AuthenticationInstructionMaybeMalformed,
@@ -20,6 +23,7 @@ import type {
   AuthenticationInstructionsMalformed,
   AuthenticationInstructionsMaybeMalformed,
   Output,
+  ReadPosition,
 } from '../../../lib.js';
 import { encodeTransactionOutput } from '../../../message/message.js';
 import { OpcodesBCH } from '../bch/2023/bch-2023-opcodes.js';
@@ -63,15 +67,17 @@ const uint16Bytes = 2;
 const uint32Bytes = 4;
 
 /**
- * Decode a little endian number of `length` from virtual machine `bytecode`
- * beginning at `index`.
+ * Read a little endian number of `length` from the provided
+ * {@link ReadPosition}.
+ *
+ * @param position - the {@link ReadPosition} at which to start reading
+ * @param length - the length of the little endian number to read
  */
-export const decodeLittleEndianNumber = (
-  bytecode: Uint8Array,
-  index: number,
+export const readLittleEndianNumber = (
+  position: ReadPosition,
   length: typeof uint8Bytes | typeof uint16Bytes | typeof uint32Bytes,
 ) => {
-  const view = new DataView(bytecode.buffer, index, length);
+  const view = new DataView(position.bin.buffer, position.index, length);
   const readAsLittleEndian = true;
   return length === uint8Bytes
     ? view.getUint8(0)
@@ -95,73 +101,68 @@ export const opcodeToPushLength = (
   })[opcode] ?? 0;
 
 /**
- * Decode one instruction from the provided virtual machine bytecode.
+ * Decode one virtual machine bytecode instruction from the
+ * provided {@link ReadPosition}.
  *
  * Returns an object with an `instruction` referencing a
- * {@link AuthenticationInstructionMaybeMalformed}, and a `nextIndex` indicating
- * the next index from which to read. If the next index is greater than or equal
- * to the length of the bytecode, the bytecode has been fully decoded.
+ * {@link AuthenticationInstructionMaybeMalformed} and the next position.
+ *
+ * If the next index is greater than or equal to the length of the bytecode, the
+ * bytecode has been fully decoded.
  *
  * The final {@link AuthenticationInstructionMaybeMalformed} in the bytecode may
  * be malformed if 1) the final operation is a push and 2) too few bytes remain
  * for the push operation to complete.
  *
- * @param bytecode - the virtual machine bytecode from which to read the next
- * instruction
- * @param index - the index from which to begin reading
+ * @param position - the {@link ReadPosition} at which to start reading
  */
 // eslint-disable-next-line complexity
-export const decodeAuthenticationInstruction = (
-  bytecode: Uint8Array,
-  index: number,
+export const readAuthenticationInstruction = (
+  position: ReadPosition,
 ): {
   instruction: AuthenticationInstructionMaybeMalformed;
-  nextIndex: number;
+  position: ReadPosition;
 } => {
+  const { bin, index } = position;
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const opcode = bytecode[index]!;
+  const opcode = bin[index]!;
   if (opcode > CommonPushOpcodes.OP_PUSHDATA_4) {
     return {
-      instruction: {
-        opcode,
-      },
-      nextIndex: index + 1,
+      instruction: { opcode },
+      position: { bin, index: index + 1 },
     };
   }
   const lengthBytes = opcodeToPushLength(opcode);
 
-  if (lengthBytes !== 0 && index + lengthBytes >= bytecode.length) {
+  if (lengthBytes !== 0 && index + lengthBytes >= bin.length) {
     const sliceStart = index + 1;
     const sliceEnd = sliceStart + lengthBytes;
     return {
       instruction: {
         expectedLengthBytes: lengthBytes,
-        length: bytecode.slice(sliceStart, sliceEnd),
+        length: bin.slice(sliceStart, sliceEnd),
         malformed: true,
         opcode,
       },
-      nextIndex: sliceEnd,
+      position: { bin, index: sliceEnd },
     };
   }
 
   const dataBytes =
     lengthBytes === 0
       ? opcode
-      : decodeLittleEndianNumber(bytecode, index + 1, lengthBytes);
+      : readLittleEndianNumber({ bin, index: index + 1 }, lengthBytes);
   const dataStart = index + 1 + lengthBytes;
   const dataEnd = dataStart + dataBytes;
   return {
     instruction: {
-      data: bytecode.slice(dataStart, dataEnd),
-      ...(dataEnd > bytecode.length
-        ? {
-            expectedDataBytes: dataEnd - dataStart,
-            malformed: true,
-          }
+      data: bin.slice(dataStart, dataEnd),
+      ...(dataEnd > bin.length
+        ? { expectedDataBytes: dataEnd - dataStart, malformed: true }
         : undefined),
       opcode,
     },
-    nextIndex: dataEnd,
+    position: { bin, index: dataEnd },
   };
 };
 
@@ -193,12 +194,12 @@ export const decodeAuthenticationInstructions = (bytecode: Uint8Array) => {
   let i = 0;
   // eslint-disable-next-line functional/no-loop-statements
   while (i < bytecode.length) {
-    const { instruction, nextIndex } = decodeAuthenticationInstruction(
-      bytecode,
-      i,
-    );
+    const { instruction, position } = readAuthenticationInstruction({
+      bin: bytecode,
+      index: i,
+    });
     // eslint-disable-next-line functional/no-expression-statements
-    i = nextIndex;
+    i = position.index;
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     (instructions as AuthenticationInstruction[]).push(
       instruction as AuthenticationInstruction,
@@ -308,6 +309,8 @@ export const disassembleAuthenticationInstructionsMaybeMalformed = (
  * push operations are represented with the same opcodes used in the bytecode,
  * even when non-minimally encoded.)
  *
+ * For the reverse, see {@link assembleBytecode}.
+ *
  * @param opcodes - a mapping of possible opcodes to their string representation
  * @param bytecode - the authentication bytecode to disassemble
  */
@@ -326,6 +329,8 @@ export const disassembleBytecode = (
  * Note, this method automatically uses the latest BCH instruction set. To
  * manually select an instruction set, use {@link disassembleBytecode}.
  *
+ * For the reverse, see {@link assembleBytecodeBCH}.
+ *
  * @param bytecode - the virtual machine bytecode to disassemble
  */
 export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
@@ -339,6 +344,8 @@ export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
  *
  * Note, this method automatically uses the latest BTC instruction set. To
  * manually select an instruction set, use {@link disassembleBytecode}.
+ *
+ * For the reverse, see {@link assembleBytecodeBTC}.
  *
  * @param bytecode - the virtual machine bytecode to disassemble
  */
@@ -485,6 +492,8 @@ const typicalMaximumVmNumberByteLength = 8;
  * other operations (e.g. hashing), the specific representation is consensus-
  * critical.
  *
+ * For the reverse, see {@link bigIntToVmNumber}.
+ *
  * @param bytes - a Uint8Array from the stack
  */
 // eslint-disable-next-line complexity
@@ -556,6 +565,8 @@ export const vmNumberToBigInt = (
  * Convert a BigInt into the VM Number format. See {@link vmNumberToBigInt} for
  * more information.
  *
+ * For the reverse, use {@link vmNumberToBigInt}.
+ *
  * @param integer - the BigInt to encode as a VM Number
  */
 // eslint-disable-next-line complexity
@@ -597,6 +608,9 @@ export const bigIntToVmNumber = (integer: bigint): Uint8Array => {
  *
  * The Satoshi implementation calls this method `CastToBool`.
  *
+ * To cast a boolean value to a stack item (VM number),
+ * use {@link booleanToVmNumber}.
+ *
  * @param item - the stack item to check for truthiness
  */
 export const stackItemIsTruthy = (item: Uint8Array) => {
@@ -616,6 +630,8 @@ export const stackItemIsTruthy = (item: Uint8Array) => {
 /**
  * Convert a boolean into VM Number format (the type used to express
  * boolean values emitted by several operations).
+ *
+ * For the less-strict inverse used by the VM, see {@link stackItemIsTruthy}.
  *
  * @param value - the boolean value to convert
  */
@@ -666,8 +682,8 @@ export const isPushOnlyAccurate = (bytecode: Uint8Array) => {
 };
 
 /**
- * Test if the provided locking bytecode is an arbitrary data output.
- * A.K.A. `TX_NULL_DATA`, "data carrier", OP_RETURN output
+ * Test if the provided locking bytecode is an arbitrary data output (A.K.A.
+ * `TX_NULL_DATA`, "data carrier", or OP_RETURN output).
  * @param lockingBytecode - the locking bytecode to test
  */
 export const isArbitraryDataOutput = (lockingBytecode: Uint8Array) =>
@@ -697,7 +713,7 @@ const enum Dust {
 
 /**
  * Given a number of bytes and a fee rate in satoshis-per-kilobyte, return the
- * minimum required fee. This calculation in important for standardness in dust
+ * minimum required fee. This calculation is important for standardness in dust
  * threshold calculation.
  *
  * @param length - the number of bytes for which the fee is to be paid
@@ -709,6 +725,18 @@ export const getMinimumFee = (length: bigint, feeRateSatsPerKb: bigint) => {
   return truncated === 0n ? 1n : truncated;
 };
 
+/**
+ * Given an encoded output length, return the minimum output value in satoshis
+ * required to exceed the dust threshold. See {@link getDustThreshold}
+ * for details.
+ *
+ * Most applications should instead use {@link getDustThreshold} to ensure
+ * proper encoding and proper treatment of arbitrary data outputs
+ * ({@link isArbitraryDataOutput}).
+ *
+ * @param outputLength - the length of the serialized output
+ * @param dustRelayFeeSatPerKb - the "dust relay fee", defaults to `1000n`
+ */
 export const getDustThresholdForLength = (
   outputLength: number,
   dustRelayFeeSatPerKb = BigInt(Dust.standardDustRelayFee),

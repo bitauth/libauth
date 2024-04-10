@@ -670,6 +670,10 @@ test('[fast-check] [crypto] secp256k1.normalizeSignatureCompact', async (t) => {
 
 test('[crypto] secp256k1.normalizeSignatureDER', (t) => {
   t.deepEqual(internalSecp256k1.normalizeSignatureDER(sigDERHighS), sigDER);
+  t.deepEqual(
+    internalSecp256k1.normalizeSignatureDER(sigDERHighS.slice(1)),
+    Secp256k1Error.unparsableSignature,
+  );
 });
 
 test('[fast-check] [crypto] secp256k1.normalizeSignatureDER', async (t) => {
@@ -1058,7 +1062,7 @@ test('[fast-check] [crypto] secp256k1.validatePrivateKey', async (t) => {
   const secp256k1 = await secp256k1Promise;
 
   /**
-   * Invalid values are greater than or equal to: `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140`
+   * Invalid values are greater than or equal to: `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141`
    */
   const almostInvalid = Array(15).fill(255);
   const theRest = 32 - almostInvalid.length;

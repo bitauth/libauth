@@ -8,11 +8,13 @@ import {
 } from '../crypto/crypto.js';
 import {
   base58ToBin,
-  BaseConversionError,
   bigIntToBinUint256BEClamped,
+  binsAreEqual,
   binToBase58,
   binToBigIntUint256BE,
+  binToHex,
   flattenBinArray,
+  formatError,
   numberToBinUint32BE,
   utf8ToBin,
 } from '../format/format.js';
@@ -29,11 +31,13 @@ const enum Secp256k1Constants {
  * Private keys are 256-bit numbers encoded as a 32-byte, big-endian Uint8Array.
  * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,
  * any 256-bit number greater than `0x01` and less than
- * `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140`
+ * `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141`
  * is a valid private key. This range is part of the definition of the
  * secp256k1 elliptic curve parameters.
  *
  * This method does not require a `Secp256k1` implementation.
+ *
+ * @param privateKey - The private key to validate.
  */
 export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
   if (
@@ -48,7 +52,7 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
    * Secp256k1 curve minus one.
    */
   // prettier-ignore
-  const maximumSecp256k1PrivateKey = [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 254, 186, 174, 220, 230, 175, 72, 160, 59, 191, 210, 94, 140, 208, 54, 65, 63]; // eslint-disable-line @typescript-eslint/no-magic-numbers
+  const maximumSecp256k1PrivateKey = [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 254, 186, 174, 220, 230, 175, 72, 160, 59, 191, 210, 94, 140, 208, 54, 65, 64]; // eslint-disable-line @typescript-eslint/no-magic-numbers
 
   const firstDifference = privateKey.findIndex(
     (value, i) => value !== maximumSecp256k1PrivateKey[i],
@@ -69,16 +73,6 @@ export const validateSecp256k1PrivateKey = (privateKey: Uint8Array) => {
  * The networks that can be referenced by an HD public or private key.
  */
 export type HdKeyNetwork = 'mainnet' | 'testnet';
-
-/**
- * The decoded contents of an HD public or private key.
- */
-export type HdKeyParameters<
-  NodeType extends HdPrivateNodeValid | HdPublicNode,
-> = {
-  node: NodeType;
-  network: HdKeyNetwork;
-};
 
 type HdNodeBase = {
   /**
@@ -129,13 +123,12 @@ export type HdPrivateNodeValid = HdNodeBase & {
    * This {@link HdPrivateNode}'s 32-byte valid Secp256k1 private key.
    */
   privateKey: Uint8Array;
-  valid: true;
 };
 
 /**
  * An invalid private node in a Hierarchical Deterministic (HD) key tree. This
- * is almost impossibly rare in a securely-random 32-byte Uint8Array, with a
- * probability less than 1 in 2^127.
+ * is almost impossibly rare in a securely-random 32-byte Uint8Array
+ * (probability less than 1 in 2^127).
  *
  * If this occurs during derivation from a seed, the error should be handled
  * and a different seed should be used. If this occurs during HD derivation,
@@ -145,22 +138,64 @@ export type HdPrivateNodeValid = HdNodeBase & {
  */
 export type HdPrivateNodeInvalid = HdNodeBase & {
   /**
-   * The 32-byte derivation result that is not a valid Secp256k1 private key.
-   * This is almost impossibly rare in a securely-random 32-byte Uint8Array,
-   * with a probability less than 1 in 2^127.
+   * The 32-byte derivation result that caused this node to be invalid (either
+   * an invalid Secp256k1 private key or a tweak value which causes the
+   * resulting key to be invalid). This is almost impossibly rare in a
+   * securely-random 32-byte Uint8Array (probability less than 1 in 2^127).
    *
    * See {@link validateSecp256k1PrivateKey} for details.
    */
-  invalidPrivateKey: Uint8Array;
-  valid: false;
+  invalidMaterial: Uint8Array;
 };
 
 /**
- * A valid HD private node for which the parent node is known (and
- * `parentIdentifier` is guaranteed to be defined).
+ * A private node in a Hierarchical Deterministic (HD) key tree. To confirm the
+ * validity of this node, try `if ('invalidMaterial' in node) ...`.
+ *
+ * Note, HD nodes are network-independent. A network is required only when
+ * encoding the node as an HD key or using a derived public key in an address.
  */
-export type HdPrivateNodeKnownParent = HdPrivateNodeValid & {
+export type HdPrivateNode = HdPrivateNodeInvalid | HdPrivateNodeValid;
+
+/**
+ * An HD private node for which the parent node is known (and `parentIdentifier`
+ * is guaranteed to be defined).
+ */
+export type HdPrivateNodeKnownParent<
+  HdPrivateNodeType extends HdPrivateNode = HdPrivateNodeValid,
+> = HdPrivateNodeType & {
   parentIdentifier: Uint8Array;
+};
+
+/**
+ * A public node in a Hierarchical Deterministic (HD) key tree.
+ *
+ * Note, HD nodes are network-independent. A network is required only when
+ * encoding the node as an HD key or using a derived public key in an address.
+ */
+export type HdPublicNodeValid = HdNodeBase & {
+  /**
+   * This {@link HdPublicNodeValid}'s valid 33-byte Secp256k1 compressed
+   * public key.
+   */
+  publicKey: Uint8Array;
+};
+
+/**
+ * An invalid public node in a Hierarchical Deterministic (HD) key tree. This
+ * is almost impossibly rare in a securely-random 32-byte Uint8Array
+ * (probability less than 1 in 2^127). See {@link HdPrivateNodeInvalid}
+ * for details.
+ */
+export type HdPublicNodeInvalid = HdNodeBase & {
+  /**
+   * The 32-byte derivation result that caused this node to be invalid. This is
+   * almost impossibly rare in a securely-random 32-byte Uint8Array (probability
+   * less than 1 in 2^127).
+   *
+   * See {@link validateSecp256k1PrivateKey} for details.
+   */
+  invalidMaterial: Uint8Array;
 };
 
 /**
@@ -170,82 +205,161 @@ export type HdPrivateNodeKnownParent = HdPrivateNodeValid & {
  * Note, HD nodes are network-independent. A network is required only when
  * encoding the node as an HD key or using a derived public key in an address.
  */
-export type HdPrivateNode = HdPrivateNodeInvalid | HdPrivateNodeValid;
-
-/**
- * A public node in a Hierarchical Deterministic (HD) key tree.
- *
- * Note, HD nodes are network-independent. A network is required only when
- * encoding the node as an HD key or using a derived public key in an address.
- */
-export type HdPublicNode = HdNodeBase & {
-  /**
-   * This {@link HdPublicNode}'s valid 33-byte Secp256k1 compressed public key.
-   */
-  publicKey: Uint8Array;
-};
+export type HdPublicNode = HdPublicNodeInvalid | HdPublicNodeValid;
 
 /**
  * An HD public node for which the parent node is known (and `parentIdentifier`
  * is guaranteed to be defined).
  */
-export type HdPublicNodeKnownParent = HdPublicNode & {
+export type HdPublicNodeKnownParent<
+  HdPublicNodeType extends HdPublicNode = HdPublicNodeValid,
+> = HdPublicNodeType & {
   parentIdentifier: Uint8Array;
 };
+
+/**
+ * The decoded contents of an HD public or private key.
+ */
+export type DecodedHdKey<
+  NodeType extends HdPrivateNodeValid | HdPublicNodeValid =
+    | HdPrivateNodeValid
+    | HdPublicNodeValid,
+> = {
+  node: NodeType;
+  network: HdKeyNetwork;
+};
+
+/**
+ * An error in the derivation of child HD public or private nodes.
+ */
+export enum HdNodeDerivationError {
+  childIndexExceedsMaximum = 'HD node derivation error: child index exceeds maximum (4294967295).',
+  requiresZeroDepthNode = 'HD node derivation error: absolute derivation requires an HD node with a depth of 0.',
+  hardenedDerivationRequiresPrivateNode = 'HD node derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
+  invalidAbsoluteDerivationPath = 'HD node derivation error: invalid absolute derivation path; path must begin with "m" or "M" and contain only positive child index numbers, separated by forward slashes ("/"), with zero or one apostrophe ("\'") after each child index number.',
+  invalidRelativeDerivationPath = 'HD node derivation error: invalid relative derivation path; path must contain only positive child index numbers, separated by forward slashes ("/"), with zero or one apostrophe ("\'") after each child index number.',
+  invalidDerivedKey = 'HD node derivation error: an astronomically rare HMAC-SHA512 result produced an invalid Secp256k1 key.',
+  invalidPrivateDerivationPrefix = 'HD node derivation error: private derivation paths must begin with "m".',
+  invalidPublicDerivationPrefix = 'HD node derivation error: public derivation paths must begin with "M".',
+}
+
+/**
+ * An error in the decoding of an HD public or private key.
+ */
+export enum HdKeyDecodingError {
+  incorrectLength = 'HD key decoding error: length is incorrect (must encode 82 bytes).',
+  invalidChecksum = 'HD key decoding error: checksum is invalid.',
+  invalidPublicKey = 'HD key decoding error: the public key for this HD public node is not a valid Secp256k1 public key.',
+  invalidPrivateKey = 'HD key decoding error: the key for this HD private node is not a valid Secp256k1 private key.',
+  missingPrivateKeyPaddingByte = 'HD key decoding error: version indicates a private key, but the key data is missing a padding byte.',
+  privateKeyExpected = 'HD key decoding error: expected an HD private key, but encountered an HD public key.',
+  publicKeyExpected = 'HD key decoding error: expected an HD public key, but encountered an HD private key.',
+  unknownCharacter = 'HD key decoding error: key includes a non-base58 character.',
+  unknownVersion = 'HD key decoding error: key uses an unknown version.',
+  zeroDepthWithNonZeroChildIndex = 'HD key decoding error: key encodes a depth of zero with a non-zero child index.',
+  zeroDepthWithNonZeroParentFingerprint = 'HD key decoding error: key encodes a depth of zero with a non-zero parent fingerprint.',
+}
+
+/**
+ * An error in the encoding of an HD public or private key.
+ */
+export enum HdKeyEncodingError {
+  invalidChainCodeLength = 'HD key encoding error: invalid chain code length. Chain code must be 32 bytes.',
+  invalidChildDepth = 'HD key encoding error: invalid child depth. Child depth must be between 0 and 255 (inclusive).',
+  invalidChildIndex = 'HD key encoding error: invalid child index. Child index must be between 0 and 4294967295 (inclusive).',
+  invalidParentFingerprintLength = 'HD key encoding error: invalid parent fingerprint length. Parent fingerprint must be 4 bytes.',
+  invalidPrivateKeyLength = 'HD key encoding error: invalid private key length. Secp256k1 private keys must be 32 bytes.',
+  invalidPublicKeyLength = 'HD key encoding error: invalid public key length. Public key must be 33 bytes (compressed).',
+  invalidPublicKey = 'HD key encoding error: the public key for this HD public node is not a valid Secp256k1 public key.',
+  zeroDepthWithNonZeroChildIndex = 'HD key encoding error: attempted to encode a zero depth key with a non-zero child index.',
+  zeroDepthWithNonZeroParentFingerprint = 'HD key encoding error: attempted to encode a zero depth key with a non-zero parent fingerprint.',
+}
+
+const enum Bip32Constants {
+  parentFingerprintLength = 4,
+  halfHmacSha512Length = 32,
+  publicKeyLength = 33,
+  hdKeyLength = 82,
+  hdKeyChecksumIndex = 78,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+  hdKeyChecksumLength = 4,
+  maximumEncodingDepth = 255,
+  maximumChildIndex = 4294967295,
+}
+
+const emptyParentFingerprint = Uint8Array.from([0, 0, 0, 0]);
 
 /**
  * The HMAC SHA-512 key used by BIP32, "Bitcoin seed"
  * (`utf8ToBin('Bitcoin seed')`)
  */
-const bip32HmacSha512Key = utf8ToBin('Bitcoin seed');
-const halfHmacSha512Length = 32;
+export const bip32HmacSha512Key = utf8ToBin('Bitcoin seed');
 /**
  * Derive an {@link HdPrivateNode} from the provided seed following the BIP32
  * specification. A seed should include between 16 bytes and 64 bytes of
  * entropy (recommended: 32 bytes).
  *
  * @param seed - the entropy from which to derive the {@link HdPrivateNode}
- * @param assumeValidity - if set, the derived private key will not be checked
- * for validity, and will be assumed valid if `true` or invalid if `false` (this
- * is useful for testing)
- * @param crypto - an optional object containing an implementation of sha512
- * @param hmacSha512Key - the HMAC SHA-512 key to use (defaults to the
- * HMAC SHA-512 key used by BIP32, `utf8ToBin('Bitcoin seed')`
  */
 export const deriveHdPrivateNodeFromSeed = <
-  AssumedValidity extends boolean | undefined,
+  AssumeValidity extends boolean | undefined,
+  ThrowErrors extends boolean = true,
 >(
   seed: Uint8Array,
-  assumeValidity?: AssumedValidity,
-  crypto: { sha512: { hash: Sha512['hash'] } } = {
-    sha512: internalSha512,
-  },
-  hmacSha512Key = bip32HmacSha512Key,
-  // eslint-disable-next-line @typescript-eslint/max-params
+  {
+    assumeValidity,
+    crypto = { sha512: internalSha512 },
+    hmacSha512Key = bip32HmacSha512Key,
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * If set, the derived private key will not be checked for validity, and
+     * will be assumed valid if `true` or invalid if `false` (this is useful
+     * for testing).
+     */
+    assumeValidity?: AssumeValidity;
+    /**
+     * An optional object containing an implementation of sha512.
+     */
+    crypto?: { sha512: { hash: Sha512['hash'] } };
+    /**
+     * The HMAC SHA-512 key to use (defaults to the HMAC SHA-512 key used by
+     * BIP32, `utf8ToBin('Bitcoin seed')`.
+     */
+    hmacSha512Key?: Uint8Array;
+    /**
+     * If `true`, invalid key derivations (probability less than 1 in 2^127)
+     * will throw an `Error` rather than returning an
+     * {@link HdPrivateNodeInvalid} (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
 ) => {
   const mac = hmacSha512(hmacSha512Key, seed, crypto.sha512);
-  const privateKey = mac.slice(0, halfHmacSha512Length);
-  const chainCode = mac.slice(halfHmacSha512Length);
+  const privateKey = mac.slice(0, Bip32Constants.halfHmacSha512Length);
+  const chainCode = mac.slice(Bip32Constants.halfHmacSha512Length);
   const depth = 0;
   const childIndex = 0;
-  const parentFingerprint = Uint8Array.from([0, 0, 0, 0]);
+  const parentFingerprint = emptyParentFingerprint.slice();
   const valid = assumeValidity ?? validateSecp256k1PrivateKey(privateKey);
+  if (throwErrors && !valid)
+    // eslint-disable-next-line functional/no-throw-statements
+    throw new Error(HdNodeDerivationError.invalidDerivedKey);
   return (
     valid
-      ? { chainCode, childIndex, depth, parentFingerprint, privateKey, valid }
+      ? { chainCode, childIndex, depth, parentFingerprint, privateKey }
       : {
           chainCode,
           childIndex,
           depth,
-          invalidPrivateKey: privateKey,
+          invalidMaterial: privateKey,
           parentFingerprint,
-          valid,
         }
-  ) as AssumedValidity extends true
-    ? HdPrivateNodeValid
-    : AssumedValidity extends false
-      ? HdPrivateNodeInvalid
-      : HdPrivateNode;
+  ) as AssumeValidity extends false
+    ? ThrowErrors extends false
+      ? HdPrivateNode
+      : HdPrivateNodeValid
+    : HdPrivateNodeValid;
 };
 
 /**
@@ -253,24 +367,30 @@ export const deriveHdPrivateNodeFromSeed = <
  * to uniquely identify HD nodes in software. The first 4 bytes of this
  * identifier are considered its "fingerprint".
  *
- * @param hdPrivateNode - the {@link HdPrivateNode} from which to derive the
- * public identifier (not require to be valid)
- * @param crypto - an optional object containing implementations implementations
- * of sha256, ripemd160, and secp256k1 compressed public key derivation to use
+ * @param hdPrivateNode - The {@link HdPrivateNode} from which to derive the
+ * public identifier.
  */
 export const deriveHdPrivateNodeIdentifier = (
   hdPrivateNode: HdPrivateNodeValid,
-  crypto: {
-    sha256: { hash: Sha256['hash'] };
-    ripemd160: { hash: Ripemd160['hash'] };
-    secp256k1: {
-      derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+  {
+    crypto = {
+      ripemd160: internalRipemd160,
+      secp256k1: internalSecp256k1,
+      sha256: internalSha256,
+    },
+  }: {
+    /**
+     * An optional object containing implementations of sha256 hashing,
+     * ripemd160 hashing, and secp256k1 compressed public key derivation to use.
+     */
+    crypto?: {
+      sha256: { hash: Sha256['hash'] };
+      ripemd160: { hash: Ripemd160['hash'] };
+      secp256k1: {
+        derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+      };
     };
-  } = {
-    ripemd160: internalRipemd160,
-    secp256k1: internalSecp256k1,
-    sha256: internalSha256,
-  },
+  } = {},
 ) => {
   const publicKey = crypto.secp256k1.derivePublicKeyCompressed(
     hdPrivateNode.privateKey,
@@ -280,20 +400,27 @@ export const deriveHdPrivateNodeIdentifier = (
 };
 
 /**
- * Derive the public identifier for a given {@link HdPublicNode}. This is used
- * to uniquely identify HD nodes in software. The first 4 bytes of this
+ * Derive the public identifier for a given {@link HdPublicNodeValid}. This is
+ * used to uniquely identify HD nodes in software. The first 4 bytes of this
  * identifier are considered its fingerprint.
  *
- * @param node - the {@link HdPublicNode} from which to derive the identifier
- * @param crypto - an optional object containing implementations of sha256 and
- * ripemd160 to use
+ * @param node - The {@link HdPublicNodeValid} from which to derive the
+ * public identifier.
  */
 export const deriveHdPublicNodeIdentifier = (
-  node: HdPublicNode,
-  crypto: {
-    ripemd160: { hash: Ripemd160['hash'] };
-    sha256: { hash: Sha256['hash'] };
-  } = { ripemd160: internalRipemd160, sha256: internalSha256 },
+  node: HdPublicNodeValid,
+  {
+    crypto = { ripemd160: internalRipemd160, sha256: internalSha256 },
+  }: {
+    /**
+     * An optional object containing implementations of sha256 and ripemd160
+     * to use.
+     */
+    crypto?: {
+      ripemd160: { hash: Ripemd160['hash'] };
+      sha256: { hash: Sha256['hash'] };
+    };
+  } = {},
 ) => crypto.ripemd160.hash(crypto.sha256.hash(node.publicKey));
 
 /**
@@ -335,50 +462,62 @@ export enum HdKeyVersion {
   testnetPublicKey = 0x043587cf,
 }
 
-/**
- * An error in the decoding of an HD public or private key.
- */
-export enum HdKeyDecodingError {
-  incorrectLength = 'HD key decoding error: length is incorrect (must encode 82 bytes).',
-  invalidChecksum = 'HD key decoding error: checksum is invalid.',
-  invalidPrivateNode = 'HD key decoding error: the key for this HD private node is not a valid Secp256k1 private key.',
-  missingPrivateKeyPaddingByte = 'HD key decoding error: version indicates a private key, but the key data is missing a padding byte.',
-  privateKeyExpected = 'HD key decoding error: expected an HD private key, but encountered an HD public key.',
-  publicKeyExpected = 'HD key decoding error: expected an HD public key, but encountered an HD private key.',
-  unknownCharacter = 'HD key decoding error: key includes a non-base58 character.',
-  unknownVersion = 'HD key decoding error: key uses an unknown version.',
-}
+export const hdKeyVersionIsPublicKey = (version: number) =>
+  version === HdKeyVersion.mainnetPublicKey ||
+  version === HdKeyVersion.testnetPublicKey;
+
+export const hdKeyVersionIsPrivateKey = (version: number) =>
+  version === HdKeyVersion.mainnetPrivateKey ||
+  version === HdKeyVersion.testnetPrivateKey;
 
 /**
- * Decode an HD private key as defined by BIP32, returning a `node` and a
- * `network`. Decoding errors are returned as strings.
+ * Decode a string following the HD key format as defined by BIP32, returning a
+ * `node` and a `version`. Decoding errors are returned as strings.
  *
- * If the type of the key is known, use {@link decodeHdPrivateKey} or
- * {@link decodeHdPublicKey}.
+ * This is a less strict variant of {@link decodeHdKey}; most applications
+ * should instead use {@link decodeHdKey}, or if the type of the key is known,
+ * either {@link decodeHdPrivateKey} or {@link decodeHdPublicKey}.
  *
- * @param hdKey - a BIP32 HD private key or HD public key
- * @param crypto -  an optional object containing an implementation of sha256
- * to use
+ * @param hdKey - A BIP32 HD private key or HD public key.
  */
 // eslint-disable-next-line complexity
-export const decodeHdKey = (
+export const decodeHdKeyUnchecked = (
   hdKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+  }: {
+    /**
+     * An optional object containing an implementation of sha256 and a Secp256k1
+     * `validatePublicKey` to use.
+     */
+    crypto?: {
+      secp256k1: {
+        validatePublicKey: Secp256k1['validatePublicKey'];
+      };
+      sha256: { hash: Sha256['hash'] };
+    };
+  } = {},
 ) => {
   const decoded = base58ToBin(hdKey);
-  if (decoded === BaseConversionError.unknownCharacter)
-    return HdKeyDecodingError.unknownCharacter;
+  if (typeof decoded === 'string')
+    return formatError(HdKeyDecodingError.unknownCharacter, decoded);
 
-  const expectedLength = 82;
-  if (decoded.length !== expectedLength)
-    return HdKeyDecodingError.incorrectLength;
+  if (decoded.length !== Bip32Constants.hdKeyLength)
+    return formatError(
+      HdKeyDecodingError.incorrectLength,
+      `Length: ${decoded.length}.`,
+    );
 
-  const checksumIndex = 78;
-  const payload = decoded.slice(0, checksumIndex);
-  const checksumBits = decoded.slice(checksumIndex);
+  const payload = decoded.slice(0, Bip32Constants.hdKeyChecksumIndex);
+  const checksumBits = decoded.slice(Bip32Constants.hdKeyChecksumIndex);
   const checksum = crypto.sha256.hash(crypto.sha256.hash(payload));
   if (!checksumBits.every((value, i) => value === checksum[i])) {
-    return HdKeyDecodingError.invalidChecksum;
+    return formatError(
+      HdKeyDecodingError.invalidChecksum,
+      `Encoded: ${binToHex(checksumBits)}; computed: ${binToHex(
+        checksum.slice(0, Bip32Constants.hdKeyChecksumLength),
+      )}.`,
+    );
   }
 
   const depthIndex = 4;
@@ -400,16 +539,15 @@ export const decodeHdKey = (
     decoded.byteOffset + chainCodeIndex,
   ).getUint32(0);
   const chainCode = decoded.slice(chainCodeIndex, keyDataIndex);
-  const keyData = decoded.slice(keyDataIndex, checksumIndex);
+  const keyData = decoded.slice(
+    keyDataIndex,
+    Bip32Constants.hdKeyChecksumIndex,
+  );
 
-  const isPrivateKey =
-    version === HdKeyVersion.mainnetPrivateKey ||
-    version === HdKeyVersion.testnetPrivateKey;
-
+  const isPrivateKey = hdKeyVersionIsPrivateKey(version);
   if (isPrivateKey && keyData[0] !== 0x00) {
     return HdKeyDecodingError.missingPrivateKeyPaddingByte;
   }
-
   if (isPrivateKey) {
     const privateKey = keyData.slice(1);
     const valid = validateSecp256k1PrivateKey(privateKey);
@@ -421,38 +559,113 @@ export const decodeHdKey = (
             depth,
             parentFingerprint,
             privateKey,
-            valid: true,
           } as HdPrivateNodeValid)
         : ({
             chainCode,
             childIndex,
             depth,
-            invalidPrivateKey: privateKey,
+            invalidMaterial: privateKey,
             parentFingerprint,
-            valid: false,
           } as HdPrivateNodeInvalid),
       version,
     };
   }
 
-  const isPublicKey =
-    version === HdKeyVersion.mainnetPublicKey ||
-    version === HdKeyVersion.testnetPublicKey;
-
+  const isPublicKey = hdKeyVersionIsPublicKey(version);
   if (!isPublicKey) {
-    return HdKeyDecodingError.unknownVersion;
+    return formatError(
+      HdKeyDecodingError.unknownVersion,
+      `Version: ${version}`,
+    );
   }
 
+  const publicKey = keyData;
+  const valid = crypto.secp256k1.validatePublicKey(publicKey);
   return {
-    node: {
-      chainCode,
-      childIndex,
-      depth,
-      parentFingerprint,
-      publicKey: keyData,
-    } as HdPublicNode,
+    node: valid
+      ? ({
+          chainCode,
+          childIndex,
+          depth,
+          parentFingerprint,
+          publicKey,
+        } as HdPublicNodeValid)
+      : ({
+          chainCode,
+          childIndex,
+          depth,
+          invalidMaterial: publicKey,
+          parentFingerprint,
+        } as HdPublicNodeInvalid),
     version,
   };
+};
+
+/**
+ * Decode an HD key as defined by BIP32, returning a `node` and a `network`.
+ * Decoding errors are returned as strings.
+ *
+ * If the type of the key is known, use {@link decodeHdPrivateKey} or
+ * {@link decodeHdPublicKey}. For a variant with less strict validation,
+ * use {@link decodeHdKeyUnchecked}.
+ *
+ * @param hdKey - A BIP32 HD private key or HD public key.
+ */
+// eslint-disable-next-line complexity
+export const decodeHdKey = (
+  hdKey: string,
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+  }: {
+    /**
+     * An optional object containing an implementation of sha256 and a Secp256k1
+     * `validatePublicKey` to use.
+     */
+    crypto?: {
+      secp256k1: {
+        validatePublicKey: Secp256k1['validatePublicKey'];
+      };
+      sha256: { hash: Sha256['hash'] };
+    };
+  } = {},
+): DecodedHdKey | string => {
+  const decoded = decodeHdKeyUnchecked(hdKey, { crypto });
+  if (typeof decoded === 'string') return decoded;
+  const { node, version } = decoded;
+
+  if (node.depth === 0) {
+    if (node.childIndex !== 0) {
+      return formatError(
+        HdKeyDecodingError.zeroDepthWithNonZeroChildIndex,
+        `Child index: ${node.childIndex}.`,
+      );
+    }
+    if (!binsAreEqual(node.parentFingerprint, emptyParentFingerprint)) {
+      return formatError(
+        HdKeyDecodingError.zeroDepthWithNonZeroParentFingerprint,
+        `Parent fingerprint: ${node.parentFingerprint.join(',')}.`,
+      );
+    }
+  }
+
+  const isPublicKey = hdKeyVersionIsPublicKey(version);
+
+  if ('invalidMaterial' in node) {
+    return isPublicKey
+      ? formatError(
+          HdKeyDecodingError.invalidPublicKey,
+          `Invalid public key: ${binToHex(node.invalidMaterial)}.`,
+        )
+      : formatError(HdKeyDecodingError.invalidPrivateKey);
+  }
+
+  const network: HdKeyNetwork =
+    version === HdKeyVersion.mainnetPrivateKey ||
+    version === HdKeyVersion.mainnetPublicKey
+      ? 'mainnet'
+      : 'testnet';
+
+  return { network, node };
 };
 
 /**
@@ -461,68 +674,62 @@ export const decodeHdKey = (
  * This method is similar to {@link decodeHdKey} but ensures that the result is
  * a valid HD private node. Decoding error messages are returned as strings.
  *
- * @param hdPrivateKey - a BIP32 HD private key
- * @param crypto -  an optional object containing an implementation of sha256
- * to use
+ * @param hdPrivateKey - A BIP32 HD private key.
  */
 export const decodeHdPrivateKey = (
   hdPrivateKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
-) => {
-  const decoded = decodeHdKey(hdPrivateKey, crypto);
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+  }: {
+    /**
+     * An optional object containing an implementation of sha256 and a
+     * Secp256k1 `validatePublicKey` to use.
+     */
+    crypto?: {
+      secp256k1: { validatePublicKey: Secp256k1['validatePublicKey'] };
+      sha256: { hash: Sha256['hash'] };
+    };
+  } = {},
+): DecodedHdKey<HdPrivateNodeValid> | string => {
+  const decoded = decodeHdKey(hdPrivateKey, { crypto });
   if (typeof decoded === 'string') return decoded;
-
-  if ('publicKey' in decoded.node) {
+  const { network, node } = decoded;
+  if ('publicKey' in node) {
     return HdKeyDecodingError.privateKeyExpected;
   }
-
-  if (!decoded.node.valid) {
-    return HdKeyDecodingError.invalidPrivateNode;
-  }
-
-  if (decoded.version === HdKeyVersion.mainnetPrivateKey) {
-    return {
-      network: 'mainnet',
-      node: decoded.node,
-    } as HdKeyParameters<HdPrivateNodeValid>;
-  }
-
-  return {
-    network: 'testnet',
-    node: decoded.node,
-  } as HdKeyParameters<HdPrivateNodeValid>;
+  return { network, node };
 };
 
 /**
  * Decode an HD public key as defined by BIP32.
  *
  * This method is similar to {@link decodeHdKey} but ensures that the result is
- * an HD public node. Decoding error messages are returned as strings.
+ * a valid HD public node. Decoding error messages are returned as strings.
  *
- * @param hdPublicKey - a BIP32 HD public key
- * @param crypto - an optional object containing an implementation of sha256
- * to use
+ * @param hdPublicKey - A BIP32 HD public key.
  */
 export const decodeHdPublicKey = (
   hdPublicKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
-) => {
-  const decoded = decodeHdKey(hdPublicKey, crypto);
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+  }: {
+    /**
+     * An optional object containing an implementation of sha256 and a Secp256k1
+     * `validatePublicKey` to use.
+     */
+    crypto?: {
+      secp256k1: { validatePublicKey: Secp256k1['validatePublicKey'] };
+      sha256: { hash: Sha256['hash'] };
+    };
+  } = {},
+): DecodedHdKey<HdPublicNodeValid> | string => {
+  const decoded = decodeHdKey(hdPublicKey, { crypto });
   if (typeof decoded === 'string') return decoded;
-
-  if (decoded.version === HdKeyVersion.mainnetPublicKey) {
-    return {
-      network: 'mainnet',
-      node: decoded.node,
-    } as HdKeyParameters<HdPublicNode>;
+  const { network, node } = decoded;
+  if ('privateKey' in node) {
+    return HdKeyDecodingError.publicKeyExpected;
   }
-  if (decoded.version === HdKeyVersion.testnetPublicKey) {
-    return {
-      network: 'testnet',
-      node: decoded.node,
-    } as HdKeyParameters<HdPublicNode>;
-  }
-  return HdKeyDecodingError.publicKeyExpected;
+  return { network, node };
 };
 
 /**
@@ -531,9 +738,16 @@ export const decodeHdPublicKey = (
  */
 export const hdPrivateKeyToIdentifier = (
   hdPrivateKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+  }: {
+    crypto?: {
+      secp256k1: { validatePublicKey: Secp256k1['validatePublicKey'] };
+      sha256: { hash: Sha256['hash'] };
+    };
+  } = {},
 ) => {
-  const privateKeyParams = decodeHdPrivateKey(hdPrivateKey, crypto);
+  const privateKeyParams = decodeHdPrivateKey(hdPrivateKey, { crypto });
   if (typeof privateKeyParams === 'string') {
     return privateKeyParams;
   }
@@ -546,9 +760,16 @@ export const hdPrivateKeyToIdentifier = (
  */
 export const hdPublicKeyToIdentifier = (
   hdPublicKey: string,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+  }: {
+    crypto?: {
+      secp256k1: { validatePublicKey: Secp256k1['validatePublicKey'] };
+      sha256: { hash: Sha256['hash'] };
+    };
+  } = {},
 ) => {
-  const publicKeyParams = decodeHdPublicKey(hdPublicKey, crypto);
+  const publicKeyParams = decodeHdPublicKey(hdPublicKey, { crypto });
   if (typeof publicKeyParams === 'string') {
     return publicKeyParams;
   }
@@ -556,31 +777,146 @@ export const hdPublicKeyToIdentifier = (
 };
 
 /**
- * Encode an HD private key (as defined by BIP32) payload (without the checksum)
- * given a valid {@link HdPrivateNode} and network.
- *
- * @param keyParameters - a valid HD private node and the network for which to
- * encode the key
- * @param crypto - an optional object containing an implementation of sha256
- * to use
+ * Encode the metadata portion of an HD key payload.
  */
-export const encodeHdPrivateKeyPayload = (
-  keyParameters: HdKeyParameters<HdPrivateNodeValid>,
-) => {
-  const version = numberToBinUint32BE(
-    keyParameters.network === 'mainnet'
-      ? HdKeyVersion.mainnetPrivateKey
-      : HdKeyVersion.testnetPrivateKey,
-  );
+// eslint-disable-next-line complexity
+export const encodeHdKeyPayloadMetadata = <ThrowErrors extends boolean = true>({
+  version,
+  keyParameters,
+  throwErrors = true as ThrowErrors,
+}: {
+  keyParameters: DecodedHdKey;
+  /**
+   * If `true`, this function will throw an `Error` when the provided HD node
+   * cannot be encoded using the BIP32 serialization, format rather than
+   * returning the error as a string (defaults to `true`).
+   */
+  throwErrors?: ThrowErrors;
+  version: Uint8Array;
+}): ThrowErrors extends true ? Uint8Array : Uint8Array | string => {
+  if (keyParameters.node.depth === 0) {
+    if (keyParameters.node.childIndex !== 0) {
+      return formatError(
+        HdKeyEncodingError.zeroDepthWithNonZeroChildIndex,
+        `Child index: ${keyParameters.node.childIndex}.`,
+        throwErrors,
+      );
+    }
+    if (
+      !binsAreEqual(
+        keyParameters.node.parentFingerprint,
+        emptyParentFingerprint,
+      )
+    ) {
+      return formatError(
+        HdKeyEncodingError.zeroDepthWithNonZeroParentFingerprint,
+        `Parent fingerprint: ${keyParameters.node.parentFingerprint.join(
+          ',',
+        )}.`,
+        throwErrors,
+      );
+    }
+  }
+  if (
+    keyParameters.node.chainCode.length !== Bip32Constants.halfHmacSha512Length
+  ) {
+    return formatError(
+      HdKeyEncodingError.invalidChainCodeLength,
+      `Chain code length: ${keyParameters.node.chainCode.length}.`,
+      throwErrors,
+    );
+  }
+  if (
+    keyParameters.node.parentFingerprint.length !==
+    Bip32Constants.parentFingerprintLength
+  ) {
+    return formatError(
+      HdKeyEncodingError.invalidParentFingerprintLength,
+      `Parent fingerprint length: ${keyParameters.node.parentFingerprint.length}.`,
+      throwErrors,
+    );
+  }
+  if (
+    keyParameters.node.depth < 0 ||
+    keyParameters.node.depth > Bip32Constants.maximumEncodingDepth
+  ) {
+    return formatError(
+      HdKeyEncodingError.invalidChildDepth,
+      `Depth: ${keyParameters.node.depth}.`,
+      throwErrors,
+    );
+  }
   const depth = Uint8Array.of(keyParameters.node.depth);
+  if (
+    keyParameters.node.childIndex < 0 ||
+    keyParameters.node.childIndex > Bip32Constants.maximumChildIndex
+  ) {
+    return formatError(
+      HdKeyEncodingError.invalidChildIndex,
+      `Child index: ${keyParameters.node.childIndex}.`,
+      throwErrors,
+    ) as ThrowErrors extends true ? Uint8Array : Uint8Array | string;
+  }
   const childIndex = numberToBinUint32BE(keyParameters.node.childIndex);
-  const isPrivateKey = Uint8Array.of(0x00);
   const payload = flattenBinArray([
     version,
     depth,
     keyParameters.node.parentFingerprint,
     childIndex,
     keyParameters.node.chainCode,
+  ]);
+  return payload;
+};
+
+/**
+ * Encode an HD private key (as defined by BIP32) payload (without the checksum)
+ * given a valid {@link HdPrivateNode} and network.
+ *
+ * Note that this function defaults to throwing encoding errors. To handle
+ * errors in a type-safe way, set `throwErrors` to `false`.
+ *
+ * @param keyParameters - A valid HD private node and the network for which to
+ * encode the key.
+ */
+export const encodeHdPrivateKeyPayload = <ThrowErrors extends boolean = true>(
+  keyParameters: DecodedHdKey<HdPrivateNodeValid>,
+  {
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * If `true`, this function will throw an `Error` when the provided HD node
+     * has a `depth` exceeding the maximum depth that can be encoded using the
+     * BIP32 serialization format rather than returning the error as a string
+     * (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true ? Uint8Array : Uint8Array | string => {
+  const version = numberToBinUint32BE(
+    keyParameters.network === 'mainnet'
+      ? HdKeyVersion.mainnetPrivateKey
+      : HdKeyVersion.testnetPrivateKey,
+  );
+  if (
+    keyParameters.node.privateKey.length !== Bip32Constants.halfHmacSha512Length
+  ) {
+    return formatError(
+      HdKeyEncodingError.invalidPrivateKeyLength,
+      `Private key length: ${keyParameters.node.privateKey.length}.`,
+      throwErrors,
+    );
+  }
+  const metadata = encodeHdKeyPayloadMetadata({
+    keyParameters,
+    throwErrors,
+    version,
+  });
+  if (typeof metadata === 'string') {
+    return metadata;
+  }
+  const isPrivateKey = Uint8Array.of(0x00);
+  const payload = flattenBinArray([
+    metadata,
     isPrivateKey,
     keyParameters.node.privateKey,
   ]);
@@ -588,19 +924,70 @@ export const encodeHdPrivateKeyPayload = (
 };
 
 /**
- * Encode an HD private key (as defined by BIP32) given a valid
- * {@link HdPrivateNode} and network.
+ * Encode an HD public key (as defined by BIP32) payload (without the checksum)
+ * given a valid {@link HdPublicNodeValid} and network.
  *
- * @param keyParameters - a valid HD private node and the network for which to
- * encode the key
- * @param crypto - an optional object containing an implementation of sha256
- * to use
+ * Note that this function defaults to throwing encoding errors. To handle
+ * errors in a type-safe way, set `throwErrors` to `false`.
+ *
+ * @param keyParameters - A valid HD public node and the network for which to
+ * encode the key.
  */
-export const encodeHdPrivateKey = (
-  keyParameters: HdKeyParameters<HdPrivateNodeValid>,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
+export const encodeHdPublicKeyPayload = <ThrowErrors extends boolean = true>(
+  keyParameters: DecodedHdKey<HdPublicNodeValid>,
+  {
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * If `true`, this function will throw an `Error` when the provided HD node
+     * has a `depth` exceeding the maximum depth that can be encoded using the
+     * BIP32 serialization format rather than returning the error as a string
+     * (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true ? Uint8Array : Uint8Array | string => {
+  const version = numberToBinUint32BE(
+    keyParameters.network === 'mainnet'
+      ? HdKeyVersion.mainnetPublicKey
+      : HdKeyVersion.testnetPublicKey,
+  );
+  if (keyParameters.node.publicKey.length !== Bip32Constants.publicKeyLength) {
+    return formatError(
+      HdKeyEncodingError.invalidPublicKeyLength,
+      `Public key length: ${keyParameters.node.publicKey.length}.`,
+      throwErrors,
+    );
+  }
+  const metadata = encodeHdKeyPayloadMetadata({
+    keyParameters,
+    throwErrors,
+    version,
+  });
+  if (typeof metadata === 'string') {
+    return metadata;
+  }
+  const payload = flattenBinArray([metadata, keyParameters.node.publicKey]);
+  return payload;
+};
+
+/**
+ * Encode an HD public or private key (as defined by BIP32) payload with
+ * a checksum.
+ *
+ * @param payload - the HD public or private key payload to encode
+ */
+export const encodeHdKeyPayloadWithChecksum = (
+  payload: Uint8Array,
+  {
+    crypto = { sha256: internalSha256 },
+  }: {
+    /**
+     *  An optional object containing an implementation of sha256 to use.
+     */
+    crypto?: { sha256: { hash: Sha256['hash'] } };
+  } = {},
 ) => {
-  const payload = encodeHdPrivateKeyPayload(keyParameters);
   const checksumLength = 4;
   const checksum = crypto.sha256
     .hash(crypto.sha256.hash(payload))
@@ -608,38 +995,102 @@ export const encodeHdPrivateKey = (
   return binToBase58(flattenBinArray([payload, checksum]));
 };
 
+export type HdPrivateKeyEncodeResult = {
+  /**
+   * The HD private key.
+   */
+  hdPrivateKey: string;
+};
+
 /**
- * Encode an HD public key (as defined by BIP32) given an HD public node.
+ * Encode an HD private key (as defined by BIP32) given a valid
+ * {@link HdPrivateNode} and network.
  *
- * @param keyParameters - an HD public node and the network for which to encode
- * the key
- * @param crypto - an optional object containing an implementation of sha256
- * to use
+ * Note that this function defaults to throwing encoding errors. To handle
+ * errors in a type-safe way, set `throwErrors` to `false`.
+ *
+ * @param keyParameters - A valid HD private node and the network for which to
+ * encode the key.
  */
-export const encodeHdPublicKey = (
-  keyParameters: HdKeyParameters<HdPublicNode>,
-  crypto: { sha256: { hash: Sha256['hash'] } } = { sha256: internalSha256 },
-) => {
-  const version = numberToBinUint32BE(
-    keyParameters.network === 'mainnet'
-      ? HdKeyVersion.mainnetPublicKey
-      : HdKeyVersion.testnetPublicKey,
-  );
-  const depth = Uint8Array.of(keyParameters.node.depth);
-  const childIndex = numberToBinUint32BE(keyParameters.node.childIndex);
-  const payload = flattenBinArray([
-    version,
-    depth,
-    keyParameters.node.parentFingerprint,
-    childIndex,
-    keyParameters.node.chainCode,
-    keyParameters.node.publicKey,
-  ]);
-  const checksumLength = 4;
-  const checksum = crypto.sha256
-    .hash(crypto.sha256.hash(payload))
-    .slice(0, checksumLength);
-  return binToBase58(flattenBinArray([payload, checksum]));
+export const encodeHdPrivateKey = <ThrowErrors extends boolean = true>(
+  keyParameters: DecodedHdKey<HdPrivateNodeValid>,
+  {
+    crypto = { sha256: internalSha256 },
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * An optional object containing an implementation of sha256 to use.
+     */
+    crypto?: { sha256: { hash: Sha256['hash'] } };
+    /**
+     * If `true`, this function will throw an `Error` when the provided HD node
+     * has a `depth` exceeding the maximum depth that can be encoded using the
+     * BIP32 serialization format rather than returning the error as a string
+     * (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true
+  ? HdPrivateKeyEncodeResult
+  : HdPrivateKeyEncodeResult | string => {
+  const payload = encodeHdPrivateKeyPayload(keyParameters, { throwErrors });
+  return typeof payload === 'string'
+    ? (payload as ThrowErrors extends true ? never : string)
+    : { hdPrivateKey: encodeHdKeyPayloadWithChecksum(payload, { crypto }) };
+};
+
+export type HdPublicKeyEncodeResult = {
+  /**
+   * The HD public key.
+   */
+  hdPublicKey: string;
+};
+
+/**
+ * Encode an HD public key (as defined by BIP32) given a valid
+ * {@link HdPublicNodeValid} and network.
+ *
+ * Note that this function defaults to throwing encoding errors. To handle
+ * errors in a type-safe way, set `throwErrors` to `false`.
+ *
+ * @param keyParameters - An HD public node and the network for which to encode
+ * the key.
+ */
+export const encodeHdPublicKey = <ThrowErrors extends boolean = true>(
+  keyParameters: DecodedHdKey<HdPublicNodeValid>,
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * An optional object containing an implementation of sha256 to use.
+     */
+    crypto?: {
+      secp256k1: { validatePublicKey: Secp256k1['validatePublicKey'] };
+      sha256: { hash: Sha256['hash'] };
+    };
+    /**
+     * If `true`, this function will throw an `Error` when the provided HD node
+     * has a `depth` exceeding the maximum depth that can be encoded using the
+     * BIP32 serialization format rather than returning the error as a string
+     * (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true
+  ? HdPublicKeyEncodeResult
+  : HdPublicKeyEncodeResult | string => {
+  if (!crypto.secp256k1.validatePublicKey(keyParameters.node.publicKey)) {
+    return formatError(
+      HdKeyEncodingError.invalidPublicKey,
+      `Invalid public key: "${binToHex(keyParameters.node.publicKey)}".`,
+      throwErrors,
+    );
+  }
+  const payload = encodeHdPublicKeyPayload(keyParameters, { throwErrors });
+  return typeof payload === 'string'
+    ? (payload as ThrowErrors extends true ? never : string)
+    : { hdPublicKey: encodeHdKeyPayloadWithChecksum(payload, { crypto }) };
 };
 
 /**
@@ -652,19 +1103,28 @@ export const encodeHdPublicKey = (
  * keys**. See {@link crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode} for
  * details.
  *
- * @param node - a valid HD private node
- * @param crypto - an optional object containing an implementation of secp256k1
- * compressed public key derivation to use
+ * To derive an HD public key from an encoded HD private key,
+ * use {@link deriveHdPublicKey}.
+ *
+ * @param node - A valid HD private node.
  */
 export const deriveHdPublicNode = <
   PrivateNode extends HdPrivateNodeValid = HdPrivateNodeValid,
 >(
   node: PrivateNode,
-  crypto: {
-    secp256k1: {
-      derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+  {
+    crypto = { secp256k1: internalSecp256k1 },
+  }: {
+    /**
+     * An optional object containing an implementation of secp256k1
+     * compressed public key derivation to use.
+     */
+    crypto?: {
+      secp256k1: {
+        derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+      };
     };
-  } = { secp256k1: internalSecp256k1 },
+  } = {},
 ) =>
   ({
     chainCode: node.chainCode,
@@ -677,19 +1137,65 @@ export const deriveHdPublicNode = <
     publicKey: crypto.secp256k1.derivePublicKeyCompressed(node.privateKey),
   }) as PrivateNode extends HdPrivateNodeKnownParent
     ? HdPublicNodeKnownParent
-    : HdPublicNode;
+    : HdPublicNodeValid;
 
 /**
- * An error in the derivation of child HD public or private nodes.
+ * Derive the HD public key of an HD private key.
+ *
+ * Though private keys cannot be derived from HD public keys, sharing HD public
+ * keys still carries risk. Along with allowing an attacker to associate wallet
+ * addresses together (breaking privacy), should an attacker gain knowledge of a
+ * single child private key, **it's possible to derive all parent HD private
+ * keys**. See {@link crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode} for
+ * details.
+ *
+ * To derive the HD public node of an already-decoded HD private node,
+ * use {@link deriveHdPublicNode}.
+ *
+ * Note that this function defaults to throwing errors. To handle errors in a
+ * type-safe way, set `throwErrors` to `false`.
+ *
+ * @param hdPrivateKey - A BIP32 HD private key.
  */
-export enum HdNodeDerivationError {
-  childIndexExceedsMaximum = 'HD key derivation error: child index exceeds maximum (4294967295).',
-  nextChildIndexRequiresHardenedAlgorithm = 'HD key derivation error: an incredibly rare HMAC-SHA512 result occurred, and incrementing the child index would require switching to the hardened algorithm.',
-  hardenedDerivationRequiresPrivateNode = 'HD key derivation error: derivation for hardened child indexes (indexes greater than or equal to 2147483648) requires an HD private node.',
-  invalidDerivationPath = 'HD key derivation error: invalid derivation path - paths must begin with "m" or "M" and contain only forward slashes ("/"), apostrophes ("\'"), or positive child index numbers.',
-  invalidPrivateDerivationPrefix = 'HD key derivation error: private derivation paths must begin with "m".',
-  invalidPublicDerivationPrefix = 'HD key derivation error: public derivation paths must begin with "M".',
-}
+export const deriveHdPublicKey = <ThrowErrors extends boolean = true>(
+  privateKey: string,
+  {
+    crypto = { secp256k1: internalSecp256k1, sha256: internalSha256 },
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * An optional object containing an implementation of sha256 and a Secp256k1
+     * `derivePublicKeyCompressed` and `validatePublicKey` to use.
+     */
+    crypto?: {
+      secp256k1: {
+        derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+        validatePublicKey: Secp256k1['validatePublicKey'];
+      };
+      sha256: {
+        hash: Sha256['hash'];
+      };
+    };
+    /**
+     * If `true`, this function will throw an `Error` when the provided HD
+     * private key is invalid rather than returning the error as a string
+     * (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true
+  ? HdPublicKeyEncodeResult
+  : HdPublicKeyEncodeResult | string => {
+  const decoded = decodeHdPrivateKey(privateKey, { crypto });
+  if (typeof decoded === 'string') {
+    return formatError(decoded, undefined, throwErrors);
+  }
+  const node = deriveHdPublicNode(decoded.node, { crypto });
+  return encodeHdPublicKey(
+    { network: decoded.network, node },
+    { crypto, throwErrors },
+  );
+};
 
 /**
  * Derive a child HD private node from an HD private node.
@@ -698,51 +1204,86 @@ export enum HdNodeDerivationError {
  * result of this method. If the child uses a non-hardened index, it's also
  * possible to use {@link deriveHdPublicNodeChild}.
  *
- * @privateRemarks
- * The {@link Secp256k1.addTweakPrivateKey} method throws if the tweak is out of
- * range or if the resulting private key would be invalid. The procedure to
- * handle this error is standardized by BIP32: return the HD node at the next
- * child index. (Regardless, this scenario is incredibly unlikely without a
- * weakness in HMAC-SHA512.)
+ * Note that this function defaults to throwing errors. To handle errors in a
+ * type-safe way, set `throwErrors` to `false`.
  *
- * @param node - the valid HD private node from which to derive the child node
- * @param index - the index at which to derive the child node - indexes greater
+ * This function has a less than 1 in 2^127 probability of producing
+ * an invalid result (where the resulting private key is not a valid Secp256k1
+ * private key, see {@link validateSecp256k1PrivateKey}). While this scenario is
+ * unlikely to ever occur without a weakness in HMAC-SHA512, the
+ * `returnInvalidNodes` parameter can be set to `true` to return the resulting
+ * {@link HdPrivateNodeInvalid} rather than an error (defaults to `false`).
+ *
+ * @param node - The valid HD private node from which to derive the child node.
+ * @param index - The index at which to derive the child node - indexes greater
  * than or equal to the hardened index offset (`0x80000000`/`2147483648`) are
- * derived using the "hardened" derivation algorithm
- * @param crypto - an optional object containing implementations of sha256,
- * ripemd160, secp256k1 compressed public key derivation, and secp256k1 private
- * key "tweak addition" (application of the EC group operation)
+ * derived using the "hardened" derivation algorithm.
  */
 // eslint-disable-next-line complexity
-export const deriveHdPrivateNodeChild = (
+export const deriveHdPrivateNodeChild = <
+  ThrowErrors extends boolean = true,
+  ReturnInvalidNodes extends boolean = false,
+>(
   node: HdPrivateNodeValid,
   index: number,
-  crypto: {
-    ripemd160: { hash: Ripemd160['hash'] };
-    secp256k1: {
-      addTweakPrivateKey: Secp256k1['addTweakPrivateKey'];
-      derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+  {
+    crypto = {
+      ripemd160: internalRipemd160,
+      secp256k1: internalSecp256k1,
+      sha256: internalSha256,
+      sha512: internalSha512,
+    },
+    throwErrors = true as ThrowErrors,
+    returnInvalidNodes = false as ReturnInvalidNodes,
+  }: {
+    /**
+     * An optional object containing implementations of sha256,  ripemd160,
+     * secp256k1 compressed public key derivation, and secp256k1 private key
+     * "tweak addition" (application of the EC group operation).
+     */
+    crypto?: {
+      ripemd160: { hash: Ripemd160['hash'] };
+      secp256k1: {
+        addTweakPrivateKey: Secp256k1['addTweakPrivateKey'];
+        derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+      };
+      sha256: { hash: Sha256['hash'] };
+      sha512: { hash: Sha512['hash'] };
     };
-    sha256: { hash: Sha256['hash'] };
-    sha512: { hash: Sha512['hash'] };
-  } = {
-    ripemd160: internalRipemd160,
-    secp256k1: internalSecp256k1,
-    sha256: internalSha256,
-    sha512: internalSha512,
-  },
-):
-  | HdNodeDerivationError.childIndexExceedsMaximum
-  | HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm
-  | HdPrivateNodeKnownParent => {
+    /**
+     * If `true`, this function will throw an `Error` rather than returning
+     * derivation errors as a string (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+    /**
+     * If `false`, invalid derivations (probability less than 1 in 2^127) will
+     * produce an error rather than an {@link HdPrivateNodeInvalid} (defaults
+     * to `false`). To return the invalid node rather than throwing an error,
+     * `throwErrors` must also be set to `false`.
+     */
+    returnInvalidNodes?: ReturnInvalidNodes;
+  } = {},
+): ThrowErrors extends true
+  ? HdPrivateNodeKnownParent
+  : ReturnInvalidNodes extends false
+    ? HdPrivateNodeKnownParent | string
+    : HdPrivateNodeKnownParent<HdPrivateNode> | string => {
   const maximumIndex = 0xffffffff;
   if (index > maximumIndex) {
-    return HdNodeDerivationError.childIndexExceedsMaximum;
+    return formatError(
+      HdNodeDerivationError.childIndexExceedsMaximum,
+      `Child index: ${index}.`,
+      throwErrors,
+    );
   }
-
+  const parentIdentifier = deriveHdPrivateNodeIdentifier(node, { crypto });
+  const parentFingerprint = parentIdentifier.slice(
+    0,
+    Bip32Constants.parentFingerprintLength,
+  );
+  const depth = node.depth + 1;
   const hardenedIndexOffset = 0x80000000;
   const useHardenedAlgorithm = index >= hardenedIndexOffset;
-
   const keyMaterial = useHardenedAlgorithm
     ? node.privateKey
     : (crypto.secp256k1.derivePublicKeyCompressed(
@@ -754,41 +1295,52 @@ export const deriveHdPrivateNodeChild = (
     ...keyMaterial,
     ...numberToBinUint32BE(index),
   ]);
-
   const derivation = hmacSha512(node.chainCode, serialization, crypto.sha512);
   const tweakValueLength = 32;
   const tweakValue = derivation.slice(0, tweakValueLength);
   const nextChainCode = derivation.slice(tweakValueLength);
-
   const nextPrivateKey = crypto.secp256k1.addTweakPrivateKey(
     node.privateKey,
     tweakValue,
   );
   if (typeof nextPrivateKey === 'string') {
-    if (index === hardenedIndexOffset - 1) {
-      return HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm;
+    const error = formatError(
+      HdNodeDerivationError.invalidDerivedKey,
+      `Invalid child index: ${index}.`,
+      throwErrors,
+    );
+    if (returnInvalidNodes) {
+      return {
+        chainCode: nextChainCode,
+        childIndex: index,
+        depth,
+        invalidMaterial: tweakValue,
+        parentFingerprint,
+        parentIdentifier,
+      } as ThrowErrors extends true
+        ? HdPrivateNodeKnownParent
+        : ReturnInvalidNodes extends false
+          ? HdPrivateNodeKnownParent | string
+          : HdPrivateNodeKnownParent<HdPrivateNode> | string;
     }
-    return deriveHdPrivateNodeChild(node, index + 1, crypto);
+    return error;
   }
-  const parentIdentifier = deriveHdPrivateNodeIdentifier(node, crypto);
-  const parentFingerprintLength = 4;
   return {
     chainCode: nextChainCode,
     childIndex: index,
-    depth: node.depth + 1,
-    parentFingerprint: parentIdentifier.slice(0, parentFingerprintLength),
+    depth,
+    parentFingerprint,
     parentIdentifier,
     privateKey: nextPrivateKey,
-    valid: true,
   } as HdPrivateNodeKnownParent;
 };
 
 /**
- * Derive a non-hardened child HD public node from an HD public node.
+ * Derive a non-hardened, child HD public node from an HD public node.
  *
  * Because hardened derivation also requires knowledge of the parent private
  * node, it's not possible to use an HD public node to derive a hardened child
- * HD public node.
+ * HD public node. (See {@link deriveHdPath} or {@link deriveHdPublicNode}.)
  *
  * Though private keys cannot be derived from HD public keys, sharing HD public
  * keys still carries risk. Along with allowing an attacker to associate wallet
@@ -797,114 +1349,290 @@ export const deriveHdPrivateNodeChild = (
  * keys**. See {@link crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode}
  * for details.
  *
- * @privateRemarks
- * The {@link secp256k1.addTweakPublicKeyCompressed} method returns an error as
- * a string if the tweak is out of range or if the resulting public key would be
- * invalid. The procedure to handle this error is standardized by BIP32: return
- * the HD node at the next child index. (Regardless, this scenario is incredibly
- * unlikely without a weakness in HMAC-SHA512.)
+ * This function has a less than 1 in 2^127 probability of producing
+ * an invalid result (where the resulting public key is not a valid Secp256k1
+ * public key). While this scenario is unlikely to ever occur without a weakness
+ * in HMAC-SHA512, the `returnInvalidNodes` parameter can be set to `true` to
+ * return the resulting {@link HdPrivateNodeInvalid} rather than an error
+ * (defaults to `false`).
  *
- * @param node - the HD public node from which to derive the child public node
- * @param index - the index at which to derive the child node
- * @param crypto - an optional object containing implementations of sha256,
- * sha512, ripemd160, and secp256k1 compressed public key "tweak addition"
- * (application of the EC group operation)
+ * @param node - The valid HD public node from which to derive the child
+ * public node.
+ * @param index - The index at which to derive the child node.
  */
-export const deriveHdPublicNodeChild = (
-  node: HdPublicNode,
+export const deriveHdPublicNodeChild = <
+  ThrowErrors extends boolean = true,
+  ReturnInvalidNodes extends boolean = false,
+>(
+  node: HdPublicNodeValid,
   index: number,
-  crypto: {
-    ripemd160: { hash: Ripemd160['hash'] };
-    secp256k1: {
-      addTweakPublicKeyCompressed: Secp256k1['addTweakPublicKeyCompressed'];
+  {
+    crypto = {
+      ripemd160: internalRipemd160,
+      secp256k1: internalSecp256k1,
+      sha256: internalSha256,
+      sha512: internalSha512,
+    },
+    returnInvalidNodes = false as ReturnInvalidNodes,
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * An optional object containing implementations of sha256, sha512,
+     * ripemd160, and secp256k1 compressed public key "tweak addition"
+     * (application of the EC group operation).
+     */
+    crypto?: {
+      ripemd160: { hash: Ripemd160['hash'] };
+      secp256k1: {
+        addTweakPublicKeyCompressed: Secp256k1['addTweakPublicKeyCompressed'];
+      };
+      sha256: { hash: Sha256['hash'] };
+      sha512: { hash: Sha512['hash'] };
     };
-    sha256: { hash: Sha256['hash'] };
-    sha512: { hash: Sha512['hash'] };
-  } = {
-    ripemd160: internalRipemd160,
-    secp256k1: internalSecp256k1,
-    sha256: internalSha256,
-    sha512: internalSha512,
-  },
-):
-  | HdNodeDerivationError.hardenedDerivationRequiresPrivateNode
-  | HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm
-  | HdPublicNodeKnownParent => {
+    /**
+     * If `false`, invalid derivations (probability less than 1 in 2^127) will
+     * return an error rather than an {@link HdPublicNodeInvalid} (defaults
+     * to `false`). To return the invalid node rather than throwing an error,
+     * `throwErrors` must also be set to `false`.
+     */
+    returnInvalidNodes?: ReturnInvalidNodes;
+    /**
+     * If `true`, this function will throw an `Error` rather than returning
+     * derivation errors as a string (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true
+  ? HdPublicNodeKnownParent
+  : ReturnInvalidNodes extends false
+    ? HdPublicNodeKnownParent | string
+    : HdPublicNodeKnownParent<HdPublicNode> | string => {
   const hardenedIndexOffset = 0x80000000;
   if (index >= hardenedIndexOffset) {
-    return HdNodeDerivationError.hardenedDerivationRequiresPrivateNode;
+    return formatError(
+      HdNodeDerivationError.hardenedDerivationRequiresPrivateNode,
+      `Requested index: ${index}.`,
+      throwErrors,
+    );
   }
-
+  const parentIdentifier = deriveHdPublicNodeIdentifier(node, { crypto });
+  const parentFingerprint = parentIdentifier.slice(
+    0,
+    Bip32Constants.parentFingerprintLength,
+  );
+  const depth = node.depth + 1;
   const serialization = Uint8Array.from([
     ...node.publicKey,
     ...numberToBinUint32BE(index),
   ]);
-
   const derivation = hmacSha512(node.chainCode, serialization, crypto.sha512);
   const tweakValueLength = 32;
   const tweakValue = derivation.slice(0, tweakValueLength);
   const nextChainCode = derivation.slice(tweakValueLength);
-
   const nextPublicKey = crypto.secp256k1.addTweakPublicKeyCompressed(
     node.publicKey,
     tweakValue,
   );
   if (typeof nextPublicKey === 'string') {
-    if (index === hardenedIndexOffset - 1) {
-      return HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm;
+    const error = formatError(
+      HdNodeDerivationError.invalidDerivedKey,
+      `Invalid child index: ${index}.`,
+      throwErrors,
+    );
+    if (returnInvalidNodes) {
+      return {
+        chainCode: nextChainCode,
+        childIndex: index,
+        depth,
+        invalidMaterial: tweakValue,
+        parentFingerprint,
+        parentIdentifier,
+      } as ThrowErrors extends true
+        ? HdPublicNodeKnownParent
+        : ReturnInvalidNodes extends false
+          ? HdPublicNodeKnownParent | string
+          : HdPublicNodeKnownParent<HdPublicNode> | string;
     }
-    return deriveHdPublicNodeChild(node, index + 1, crypto);
+    return error;
   }
-  const parentIdentifier = deriveHdPublicNodeIdentifier(node, crypto);
-  const parentFingerprintLength = 4;
   return {
     chainCode: nextChainCode,
     childIndex: index,
-    depth: node.depth + 1,
-    parentFingerprint: parentIdentifier.slice(0, parentFingerprintLength),
+    depth,
+    parentFingerprint,
     parentIdentifier,
     publicKey: nextPublicKey,
   } as HdPublicNodeKnownParent;
 };
 
-type PrivateResults<NodeType> = NodeType extends HdPrivateNodeKnownParent
+export type HdNodeKnownParent<
+  NodeType extends HdPrivateNodeValid | HdPublicNodeValid,
+> = NodeType extends HdPrivateNodeValid
   ? HdPrivateNodeKnownParent
-  :
-      | HdNodeDerivationError.childIndexExceedsMaximum
-      | HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm
-      | HdPrivateNodeValid;
+  : HdPublicNodeKnownParent;
 
-type PublicResults<NodeType> = NodeType extends HdPublicNodeKnownParent
-  ? HdPublicNodeKnownParent
-  :
-      | HdNodeDerivationError.hardenedDerivationRequiresPrivateNode
-      | HdNodeDerivationError.nextChildIndexRequiresHardenedAlgorithm
-      | HdPublicNode;
+type RelativeDerivation<
+  NodeType extends HdPrivateNodeValid | HdPublicNodeValid,
+  Path extends string,
+> = Path extends '' ? NodeType : HdNodeKnownParent<NodeType>;
 
 /**
- * This type is a little complex because resulting HD nodes may not have a known
- * parent (defined `parentIdentifier`) if the provided node does not have a
- * known parent and the path is either `m` or `M` (returning the provided node).
+ * Derive a child HD node from a parent node given a relative derivation path.
+ * The resulting node is the same type as the parent node – private nodes return
+ * private nodes, public nodes return public nodes. (To prevent implementation
+ * errors, this function will not internally derive a public node from any
+ * private node; for public derivation, use {@link deriveHdPublicNode} at the
+ * desired BIP32 account level and provide the HD public key to this function.)
+ *
+ * Where possible, consider instead using {@link deriveHdPath} to reduce the
+ * likelihood of implementation errors.
+ *
+ * By default, this function throws an `Error` rather than returning the error
+ * as string when the provided path is invalid or cannot be derived from the
+ * provided HD node (e.g. the path requests an excessive child index, a hardened
+ * path is requested from a public node, or an astronomically rare HMAC-SHA512
+ * result produces and invalid node).
+ *
+ * While the throwing behavior is reasonable for the common case of deriving
+ * known, fixed paths (e.g. the BCH account as standardized by SLIP44 at
+ * `m/44'/145'/0'`), **it is recommended that `throwErrors` be set to `false`
+ * for use cases where dynamic or user-specified paths might be derived**. In
+ * these cases, deliberate error handling is recommended, e.g. saving any data
+ * and safely shutting down, displaying troubleshooting information to the
+ * user, etc.
+ *
+ * The derivation path uses the notation specified in BIP32; see
+ * {@link deriveHdPath} for details.
+ *
+ * @param node - The HD node from which to begin the derivation – for private
+ * derivation, an {@link HdPrivateNodeValid}; for public derivation,
+ * an {@link HdPublicNodeValid}.
+ * @param path - The relative BIP32 derivation path, e.g. `1'/2` or `3/4/5`.
  */
-type ReductionResults<NodeType> = NodeType extends HdPrivateNodeValid
-  ? PrivateResults<NodeType>
-  : PublicResults<NodeType>;
+export const deriveHdPathRelative = <
+  NodeType extends HdPrivateNodeValid | HdPublicNodeValid,
+  Path extends string,
+  ThrowErrors extends boolean = true,
+>(
+  node: NodeType,
+  path: Path,
+  {
+    crypto = {
+      ripemd160: internalRipemd160,
+      secp256k1: internalSecp256k1,
+      sha256: internalSha256,
+      sha512: internalSha512,
+    },
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * An optional object containing implementations of sha256 hashing, sha512
+     * hashing, ripemd160 hashing, and secp256k1 derivation functions.
+     */
+    crypto?: {
+      ripemd160: { hash: Ripemd160['hash'] };
+      secp256k1: {
+        addTweakPrivateKey: Secp256k1['addTweakPrivateKey'];
+        addTweakPublicKeyCompressed: Secp256k1['addTweakPublicKeyCompressed'];
+        derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+      };
+      sha256: { hash: Sha256['hash'] };
+      sha512: { hash: Sha512['hash'] };
+    };
+    /**
+     * If `true`, this function will throw an `Error` rather than returning the
+     * error as a string when the provided path is invalid or cannot be derived
+     * from the provided HD node (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true
+  ? RelativeDerivation<NodeType, Path>
+  : RelativeDerivation<NodeType, Path> | string => {
+  if (path === '') {
+    return node as RelativeDerivation<NodeType, Path>;
+  }
+  const validRelativeDerivationPath = /^(?:[0-9]+'?)(?:\/[0-9]+'?)*$/u;
+  if (!validRelativeDerivationPath.test(path)) {
+    return formatError(
+      HdNodeDerivationError.invalidRelativeDerivationPath,
+      `Invalid path: "${path}".`,
+      throwErrors,
+    );
+  }
+  const parsed = path.split('/');
+  const isPrivateDerivation = 'privateKey' in node;
+  const base = 10;
+  const hardenedIndexOffset = 0x80000000;
+  const indexes = parsed.map((index) =>
+    index.endsWith("'")
+      ? parseInt(index.slice(0, -1), base) + hardenedIndexOffset
+      : parseInt(index, base),
+  );
+  return (
+    isPrivateDerivation
+      ? indexes.reduce<HdPrivateNodeValid | string>(
+          (result, nextIndex) =>
+            typeof result === 'string'
+              ? result
+              : deriveHdPrivateNodeChild(result, nextIndex, {
+                  crypto,
+                  throwErrors,
+                }),
+          node,
+        )
+      : indexes.reduce<HdPublicNodeValid | string>(
+          (result, nextIndex) =>
+            typeof result === 'string'
+              ? result
+              : deriveHdPublicNodeChild(result, nextIndex, {
+                  crypto,
+                  throwErrors,
+                }),
+          node,
+        )
+  ) as ThrowErrors extends true
+    ? RelativeDerivation<NodeType, Path>
+    : RelativeDerivation<NodeType, Path> | string;
+};
+
+type AbsoluteDerivation<
+  NodeType extends HdPrivateNodeValid | HdPublicNodeValid,
+  Path extends string,
+> = NodeType extends HdNodeKnownParent<HdPrivateNodeValid | HdPublicNodeValid>
+  ? /* deriveHdPath requires a master key for absolute derivation */
+    never
+  : Path extends 'M'
+    ? NodeType extends HdPublicNodeValid
+      ? NodeType
+      : /* Only public nodes can return themselves */
+        never
+    : Path extends 'm'
+      ? NodeType extends HdPrivateNodeValid
+        ? NodeType
+        : /* Only private nodes can return themselves */
+          never
+      : /**
+         * Unfortunately, paths of type `string` can still have the value `m` or
+         * `M`, so we still have to return `NodeType` in this union:
+         */
+        HdNodeKnownParent<NodeType> | NodeType;
 
 /**
- * Derive a child HD node from a parent node given a derivation path. The
- * resulting node is the same type as the parent node (private nodes return
- * private nodes, public nodes return public nodes).
+ * Derive a child HD node from a master node given an absolute derivation path.
+ * The resulting node is the same type as the parent node – private nodes return
+ * private nodes, public nodes return public nodes. (To prevent implementation
+ * errors, this function will not internally derive a public node from any
+ * private node; for public derivation, use {@link deriveHdPublicNode} at the
+ * desired BIP32 account level and provide the HD public key to this function.)
  *
- * @remarks
- * The derivation path uses the notation specified in BIP32:
- *
- * The first character must be either `m` for private derivation or `M` for
- * public derivation, followed by sets of `/` and a number representing the
- * child index used in the derivation at that depth. Hardened derivation is
- * represented by a trailing `'`, and may only appear in private derivation
- * paths (hardened derivation requires knowledge of the private key). Hardened
- * child indexes are represented with the hardened index offset (`2147483648`)
- * subtracted.
+ * The derivation path uses the notation specified in BIP32: the first character
+ * must be either `m` for private derivation or `M` for public derivation,
+ * followed by sets of `/` and a number representing the child index used in the
+ * derivation at that depth. Hardened derivation is represented by a trailing
+ * `'`, and may only appear in private derivation paths (hardened derivation
+ * requires knowledge of the private key). Hardened child indexes are
+ * represented with the hardened index offset (`2147483648`) subtracted.
  *
  * For example, `m/0/1'/2` uses private derivation (`m`), with child indexes in
  * the following order:
@@ -920,85 +1648,108 @@ type ReductionResults<NodeType> = NodeType extends HdPrivateNodeValid
  * public derivation (`M`) using hardened derivation (`'`) will return an error.
  * To derive the public node associated with a child private node that requires
  * hardened derivation, begin with private derivation, then provide the result
- * to `deriveHdPublicNode`.
+ * to {@link deriveHdPublicNode} or {@link deriveHdPathRelative}.
  *
- * @param node - the HD node from which to begin the derivation (for paths
+ * By default, this function throws an `Error` rather than returning the error
+ * as string when the provided path is invalid or cannot be derived from the
+ * provided HD node (e.g. the path requests an excessive child index, a hardened
+ * path is requested from a public node, or an astronomically rare HMAC-SHA512
+ * result produces and invalid node).
+ *
+ * While the throwing behavior is reasonable for the common case of deriving
+ * known, fixed paths (e.g. the BCH account as standardized by SLIP44 at
+ * `m/44'/145'/0'`), **it is recommended that `throwErrors` be set to `false`
+ * for use cases where dynamic or user-specified paths might be derived**. In
+ * these cases, deliberate error handling is recommended, e.g. saving any data
+ * and safely shutting down, displaying troubleshooting information to the
+ * user, etc.
+ *
+ * @param node - The HD node from which to begin the derivation – for paths
  * beginning with `m`, an {@link HdPrivateNodeValid}; for paths beginning with
- * `M`, an {@link HdPublicNode})
- * @param path - the BIP32 derivation path, e.g. `m/0/1'/2` or `M/3/4/5`
- * @param crypto - an optional object containing implementations of sha256,
- * sha512, ripemd160, and secp256k1 derivation functions
+ * `M`, an {@link HdPublicNodeValid}.
+ * @param path - The BIP32 derivation path, e.g. `m/0/1'/2` or `M/3/4/5`.
  */
 // eslint-disable-next-line complexity
 export const deriveHdPath = <
-  NodeType extends HdPrivateNodeValid | HdPublicNode,
+  NodeType extends HdPrivateNodeValid | HdPublicNodeValid,
+  Path extends string,
+  ThrowErrors extends boolean = true,
 >(
   node: NodeType,
-  path: string,
-  crypto: {
-    ripemd160: { hash: Ripemd160['hash'] };
-    secp256k1: {
-      addTweakPrivateKey: Secp256k1['addTweakPrivateKey'];
-      addTweakPublicKeyCompressed: Secp256k1['addTweakPublicKeyCompressed'];
-      derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+  path: Path,
+  {
+    crypto = {
+      ripemd160: internalRipemd160,
+      secp256k1: internalSecp256k1,
+      sha256: internalSha256,
+      sha512: internalSha512,
+    },
+    throwErrors = true as ThrowErrors,
+  }: {
+    /**
+     * An optional object containing implementations of sha256 hashing, sha512
+     * hashing, ripemd160 hashing, and secp256k1 derivation functions.
+     */
+    crypto?: {
+      ripemd160: { hash: Ripemd160['hash'] };
+      secp256k1: {
+        addTweakPrivateKey: Secp256k1['addTweakPrivateKey'];
+        addTweakPublicKeyCompressed: Secp256k1['addTweakPublicKeyCompressed'];
+        derivePublicKeyCompressed: Secp256k1['derivePublicKeyCompressed'];
+      };
+      sha256: { hash: Sha256['hash'] };
+      sha512: { hash: Sha512['hash'] };
     };
-    sha256: { hash: Sha256['hash'] };
-    sha512: { hash: Sha512['hash'] };
-  } = {
-    ripemd160: internalRipemd160,
-    secp256k1: internalSecp256k1,
-    sha256: internalSha256,
-    sha512: internalSha512,
-  },
-):
-  | HdNodeDerivationError.invalidDerivationPath
-  | HdNodeDerivationError.invalidPrivateDerivationPrefix
-  | HdNodeDerivationError.invalidPublicDerivationPrefix
-  | ReductionResults<NodeType> => {
+    /**
+     * If `true`, this function will throw an `Error` rather than returning the
+     * error as a string when the provided path is invalid or cannot be derived
+     * from the provided HD node (defaults to `true`).
+     */
+    throwErrors?: ThrowErrors;
+  } = {},
+): ThrowErrors extends true
+  ? AbsoluteDerivation<NodeType, Path>
+  : AbsoluteDerivation<NodeType, Path> | string => {
+  if (node.depth !== 0) {
+    return formatError(
+      HdNodeDerivationError.requiresZeroDepthNode,
+      `Depth of provided HD node: ${node.depth}.`,
+      throwErrors,
+    );
+  }
   const validDerivationPath = /^[mM](?:\/[0-9]+'?)*$/u;
   if (!validDerivationPath.test(path)) {
-    return HdNodeDerivationError.invalidDerivationPath;
-  }
-
-  const parsed = path.split('/');
-
-  const isPrivateDerivation = 'privateKey' in node;
-
-  if (isPrivateDerivation && parsed[0] !== 'm') {
-    return HdNodeDerivationError.invalidPrivateDerivationPrefix;
-  }
-
-  if (!isPrivateDerivation && parsed[0] !== 'M') {
-    return HdNodeDerivationError.invalidPublicDerivationPrefix;
-  }
-
-  const base = 10;
-  const hardenedIndexOffset = 0x80000000;
-  const indexes = parsed
-    .slice(1)
-    .map((index) =>
-      index.endsWith("'")
-        ? parseInt(index.slice(0, -1), base) + hardenedIndexOffset
-        : parseInt(index, base),
+    return formatError(
+      HdNodeDerivationError.invalidAbsoluteDerivationPath,
+      `Invalid path: "${path}".`,
+      throwErrors,
     );
+  }
+  const parsed = path.split('/');
+  const isPrivateDerivation = 'privateKey' in node;
+  if (isPrivateDerivation && parsed[0] !== 'm') {
+    return formatError(
+      HdNodeDerivationError.invalidPrivateDerivationPrefix,
+      `Invalid path: "${path}".`,
+      throwErrors,
+    );
+  }
+  if (!isPrivateDerivation && parsed[0] !== 'M') {
+    return formatError(
+      HdNodeDerivationError.invalidPublicDerivationPrefix,
+      `Invalid path: "${path}".`,
+      throwErrors,
+    );
+  }
+  if (parsed.length === 1) {
+    return node as AbsoluteDerivation<NodeType, Path>;
+  }
 
-  return (
-    isPrivateDerivation
-      ? indexes.reduce(
-          (result, nextIndex) =>
-            typeof result === 'string'
-              ? result
-              : deriveHdPrivateNodeChild(result, nextIndex, crypto),
-          node as PrivateResults<HdPrivateNodeValid>, // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
-        )
-      : indexes.reduce(
-          (result, nextIndex) =>
-            typeof result === 'string'
-              ? result
-              : deriveHdPublicNodeChild(result, nextIndex, crypto),
-          node as PublicResults<HdPublicNode>, // eslint-disable-line @typescript-eslint/prefer-reduce-type-parameter
-        )
-  ) as ReductionResults<NodeType>;
+  const relativePath = parsed.slice(1).join('/');
+  return deriveHdPathRelative(node, relativePath, {
+    crypto,
+    throwErrors,
+  }) as AbsoluteDerivation<NodeType, Path>;
 };
 
 export enum HdNodeCrackingError {
@@ -1009,7 +1760,6 @@ export enum HdNodeCrackingError {
  * Derive the HD private node from a HD public node, given any non-hardened
  * child private node.
  *
- * @remarks
  * This exploits the "non-hardened" BIP32 derivation algorithm. Because
  * non-hardened derivation only requires knowledge of the "chain code" (rather
  * than requiring knowledge of the parent private key) it's possible to
@@ -1026,17 +1776,23 @@ export enum HdNodeCrackingError {
  * private nodes.
  *
  * @param parentPublicNode - the parent HD public node for which to derive a
- * private node
- * @param childPrivateNode - any non-hardened child private node of the parent
- * node (only the `privateKey` and the `childIndex` are required)
- * * @param crypto - an optional object containing an implementation of sha512
+ * private node.
+ * @param childPrivateNode - Any non-hardened child private node of the parent
+ * node (only the `privateKey` and the `childIndex` are required).
  */
 export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
-  PublicNode extends HdPublicNode = HdPublicNode,
+  PublicNode extends HdPublicNodeValid = HdPublicNodeValid,
 >(
   parentPublicNode: PublicNode,
   childPrivateNode: { childIndex: number; privateKey: Uint8Array },
-  crypto: { sha512: { hash: Sha512['hash'] } } = { sha512: internalSha512 },
+  {
+    crypto = { sha512: internalSha512 },
+  }: {
+    /**
+     * An optional object containing an implementation of sha512.
+     */
+    crypto?: { sha512: { hash: Sha512['hash'] } };
+  } = {},
 ) => {
   const hardenedIndexOffset = 0x80000000;
   if (childPrivateNode.childIndex >= hardenedIndexOffset) {
@@ -1076,7 +1832,6 @@ export const crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode = <
       ? {}
       : { parentIdentifier: parentPublicNode.parentIdentifier }),
     privateKey,
-    valid: true,
   } as PublicNode extends HdPublicNodeKnownParent
     ? HdPrivateNodeKnownParent
     : HdPrivateNodeValid;

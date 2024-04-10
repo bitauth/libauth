@@ -30,7 +30,7 @@ const emptyReductionTraceNode = (range: Range) => ({
  * - the resulting execution stack must be empty (no missing `OP_ENDIF`s)
  *
  * This differs from the virtual machine's built-in `vm.verify` in that it is
- * often more lenient, for example, evaluations can succeed with an non-truthy
+ * often more lenient, for example, evaluations can succeed with a non-truthy
  * value on top of the stack.
  *
  * @param state - the final program state to verify

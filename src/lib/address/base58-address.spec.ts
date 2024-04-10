@@ -3,6 +3,7 @@ import test from 'ava';
 import {
   Base58AddressError,
   Base58AddressFormatVersion,
+  BaseConversionError,
   decodeBase58Address,
   decodeBase58AddressFormat,
   decodePrivateKeyWif,
@@ -140,7 +141,7 @@ test('decodeBase58AddressFormat: errors', (t) => {
   t.deepEqual(
     // cspell: disable-next-line
     decodeBase58AddressFormat('1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62I'),
-    Base58AddressError.unknownCharacter,
+    `${Base58AddressError.unknownCharacter} ${BaseConversionError.unknownCharacter} Unknown character: "I".`,
   );
 });
 test('decodeBase58Address: errors', (t) => {

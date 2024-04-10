@@ -23,7 +23,7 @@ const algorithms = [
 
 const signatureTypes = [
   ['schnorr signature', 'schnorr_signature'],
-  ['ECDSA signature', 'signature'],
+  ['ECDSA signature', 'ecdsa_signature'],
 ] as const;
 
 const opcodePatterns = [

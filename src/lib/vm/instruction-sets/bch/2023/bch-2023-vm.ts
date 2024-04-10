@@ -1,4 +1,4 @@
-import { createAuthenticationVirtualMachine } from '../../../virtual-machine.js';
+import { createVirtualMachine } from '../../../virtual-machine.js';
 
 import { createInstructionSetBCH2023 } from './bch-2023-instruction-set.js';
 
@@ -11,6 +11,6 @@ import { createInstructionSetBCH2023 } from './bch-2023-instruction-set.js';
  * nodes will refuse to relay them. (Default: `true`)
  */
 export const createVirtualMachineBCH2023 = (standard = true) =>
-  createAuthenticationVirtualMachine(createInstructionSetBCH2023(standard));
+  createVirtualMachine(createInstructionSetBCH2023(standard));
 
 export const createVirtualMachineBCH = createVirtualMachineBCH2023;

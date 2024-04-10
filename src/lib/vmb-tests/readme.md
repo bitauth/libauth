@@ -2,11 +2,11 @@
 
 Libauth's test suite includes a set of cross-implementation Virtual Machine Bytecode (VMB) test vectors for each supported VM. All VMB test files can be found in the [`vmb-tests/generated` directory](./generated/).
 
-Libauth aims to provide support for the Virtual Machine (VM) used by every public bitcoin-like network and for public upgrade proposals with stable technical specifications. See [Libauth Instruction Sets](../instruction-sets/readme.md) for details.
+Libauth aims to provide support for the Virtual Machine (VM) used by every public bitcoin-like network and for public upgrade proposals with stable technical specifications. See [Libauth Instruction Sets](../vm/instruction-sets/readme.md) for details.
 
 ### Comparison to `script_tests.json`
 
-Like the C++ implementation's [`script_tests.json`](./../instruction-sets/bch/2021/fixtures/bchn/script_tests.json), VMB tests are encoded in a standard JSON format. While `script_tests` generally focused on testing only the "script" (VM bytecode) system, `vmb_tests` are designed to test the entire transaction validation infrastructure of a VM implementation: each test is encoded in a complete test transaction, and the test vector includes the UTXOs for which the test transaction must be verified.
+Like the C++ implementation's [`script_tests.json`](../vm/instruction-sets/xec/fixtures/satoshi-client/script_tests.json), VMB tests are encoded in a standard JSON format. While `script_tests` generally focused on testing only the "script" (VM bytecode) system, `vmb_tests` are designed to test the entire transaction validation infrastructure of a VM implementation: each test is encoded in a complete test transaction, and the test vector includes the UTXOs for which the test transaction must be verified.
 
 ### VMB Test Contents
 

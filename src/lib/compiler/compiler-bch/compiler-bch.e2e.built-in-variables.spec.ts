@@ -20,7 +20,7 @@ import {
 
 import {
   expectCompilationResult,
-  privkey,
+  privateKeyM0,
 } from './compiler-bch.e2e.spec.helper.js';
 
 test(
@@ -306,103 +306,103 @@ test(
   } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.full_all_outputs',
   expectCompilationResult,
   '<signing_serialization.full_all_outputs>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a705050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000',
+      '4c9d000000002d6c6135bed260db00d1b9ad203fbd17ee6c8b009850fc407bfec29fc45e3d4d8cb9012517c817fead650287d61bdd9c68803b6bf9c64133dcab3e65b5a50cb901010101010101010101010101010101010101010101010101010101010101010000000000ffffffffffffffff00000000dd2aed19e2aa2ddc93b21ca9e9bb5e89016be12113ea1746ebb4e1d0417eca550000000041000000',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.full_all_outputs_single_input',
   expectCompilationResult,
   '<signing_serialization.full_all_outputs_single_input>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa4500000000c1000000',
+      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101010101010101010101010101010101010101010101010101010101010000000000ffffffffffffffff00000000dd2aed19e2aa2ddc93b21ca9e9bb5e89016be12113ea1746ebb4e1d0417eca5500000000c1000000',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.full_corresponding_output',
   expectCompilationResult,
   '<signing_serialization.full_corresponding_output>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba0000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f700000000043000000',
+      '4c9d000000002d6c6135bed260db00d1b9ad203fbd17ee6c8b009850fc407bfec29fc45e3d4d000000000000000000000000000000000000000000000000000000000000000001010101010101010101010101010101010101010101010101010101010101010000000000ffffffffffffffff00000000dd2aed19e2aa2ddc93b21ca9e9bb5e89016be12113ea1746ebb4e1d0417eca550000000043000000',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.full_corresponding_output_single_input',
   expectCompilationResult,
   '<signing_serialization.full_corresponding_output_single_input>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000050505050505050505050505050505050505050505050505050505050505050500000000000000000000000000000000009c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f7000000000c3000000',
+      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101010101010101010101010101010101010101010101010101010101010000000000ffffffffffffffff00000000dd2aed19e2aa2ddc93b21ca9e9bb5e89016be12113ea1746ebb4e1d0417eca5500000000c3000000',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.full_no_outputs',
   expectCompilationResult,
   '<signing_serialization.full_no_outputs>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba00000000000000000000000000000000000000000000000000000000000000000505050505050505050505050505050505050505050505050505050505050505000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000042000000',
+      '4c9d000000002d6c6135bed260db00d1b9ad203fbd17ee6c8b009850fc407bfec29fc45e3d4d000000000000000000000000000000000000000000000000000000000000000001010101010101010101010101010101010101010101010101010101010101010000000000ffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000042000000',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.full_no_outputs_single_input',
   expectCompilationResult,
   '<signing_serialization.full_no_outputs_single_input>',
   {},
   {
     bytecode: hexToBin(
-      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005050505050505050505050505050505050505050505050505050505050505050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c2000000',
+      '4c9d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101010101010101010101010101010101010101010101010101010101010000000000ffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000c2000000',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.corresponding_output',
   expectCompilationResult,
   '<signing_serialization.corresponding_output>',
   {},
   {
-    bytecode: hexToBin('51'),
+    bytecode: hexToBin('09ffffffffffffffff00'),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.corresponding_output_hash',
   expectCompilationResult,
   '<signing_serialization.corresponding_output_hash>',
   {},
   {
     bytecode: hexToBin(
-      '209c12cfdc04c74584d787ac3d23772132c18524bc7ab28dec4219b8fc5b425f70',
+      '20dd2aed19e2aa2ddc93b21ca9e9bb5e89016be12113ea1746ebb4e1d0417eca55',
     ),
     success: true,
   },
@@ -452,26 +452,26 @@ test(
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.outpoint_transaction_hash',
   expectCompilationResult,
   '<signing_serialization.outpoint_transaction_hash>',
   {},
   {
     bytecode: hexToBin(
-      '200505050505050505050505050505050505050505050505050505050505050505',
+      '200101010101010101010101010101010101010101010101010101010101010101',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.output_value',
   expectCompilationResult,
   '<signing_serialization.output_value>',
   {},
   {
-    bytecode: hexToBin('080000000000000000'),
+    bytecode: hexToBin('08ffffffffffffffff'),
     success: true,
   },
 );
@@ -487,73 +487,75 @@ test(
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.transaction_outpoints',
   expectCompilationResult,
   '<signing_serialization.transaction_outpoints>',
   {},
   {
-    bytecode: hexToBin('52'),
+    bytecode: hexToBin(
+      '24010101010101010101010101010101010101010101010101010101010101010100000000',
+    ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.transaction_outpoints_hash',
   expectCompilationResult,
   '<signing_serialization.transaction_outpoints_hash>',
   {},
   {
     bytecode: hexToBin(
-      '201cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba',
+      '202d6c6135bed260db00d1b9ad203fbd17ee6c8b009850fc407bfec29fc45e3d4d',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.transaction_outputs',
   expectCompilationResult,
   '<signing_serialization.transaction_outputs>',
   {},
   {
-    bytecode: hexToBin('53'),
+    bytecode: hexToBin('09ffffffffffffffff00'),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.transaction_outputs_hash',
   expectCompilationResult,
   '<signing_serialization.transaction_outputs_hash>',
   {},
   {
     bytecode: hexToBin(
-      '20c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa45',
+      '20dd2aed19e2aa2ddc93b21ca9e9bb5e89016be12113ea1746ebb4e1d0417eca55',
     ),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.transaction_sequence_numbers',
   expectCompilationResult,
   '<signing_serialization.transaction_sequence_numbers>',
   {},
   {
-    bytecode: hexToBin('54'),
+    bytecode: hexToBin('0400000000'),
     success: true,
   },
 );
 
-test.failing(
+test(
   '[BCH compiler] built-in variables - signing_serialization.transaction_sequence_numbers_hash',
   expectCompilationResult,
   '<signing_serialization.transaction_sequence_numbers_hash>',
   {},
   {
     bytecode: hexToBin(
-      '20214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a7',
+      '208cb9012517c817fead650287d61bdd9c68803b6bf9c64133dcab3e65b5a50cb9',
     ),
     success: true,
   },
@@ -566,6 +568,51 @@ test(
   {},
   {
     bytecode: hexToBin('0400000000'),
+    success: true,
+  },
+);
+
+test(
+  '[BCH compiler] built-in variables - signing_serialization.token_prefix - no token',
+  expectCompilationResult,
+  '<signing_serialization.token_prefix>',
+  {},
+  {
+    bytecode: hexToBin('00'),
+    success: true,
+  },
+);
+
+test(
+  '[BCH compiler] built-in variables - signing_serialization.token_prefix - complex token prefix',
+  expectCompilationResult,
+  '<signing_serialization.token_prefix>',
+  {
+    compilationContext: createCompilationContextCommonTesting({
+      sourceOutputs: [
+        {
+          lockingBytecode: Uint8Array.from([]),
+          token: {
+            amount: 9223372036854775807n,
+            category: hexToBin(
+              'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+            ),
+            nft: {
+              capability: 'minting',
+              commitment: hexToBin(
+                'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+              ),
+            },
+          },
+          valueSatoshis: 0xffffffffffffffffn,
+        },
+      ],
+    }),
+  },
+  {
+    bytecode: hexToBin(
+      '4c54efbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb7228ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccffffffffffffffff7f',
+    ),
     success: true,
   },
 );
@@ -734,7 +781,7 @@ test.failing(
         ...createCompilationContextCommonTesting(),
         inputIndex: 1,
       },
-      keys: { privateKeys: { a: privkey } },
+      keys: { privateKeys: { a: privateKeyM0 } },
     };
 
     t.deepEqual(

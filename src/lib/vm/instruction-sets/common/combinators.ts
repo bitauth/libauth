@@ -329,9 +329,10 @@ export const pushToStackVmNumberChecked = <
 >(
   state: State,
   vmNumber: bigint,
-  minVmNumber = BigInt(ConsensusCommon.minVmNumber),
-  maxVmNumber = BigInt(ConsensusCommon.maxVmNumber),
-  // eslint-disable-next-line @typescript-eslint/max-params
+  {
+    minVmNumber = BigInt(ConsensusCommon.minVmNumber),
+    maxVmNumber = BigInt(ConsensusCommon.maxVmNumber),
+  } = {},
 ) => {
   if (vmNumber > maxVmNumber || vmNumber < minVmNumber) {
     return applyError(state, AuthenticationErrorCommon.overflowsVmNumberRange);

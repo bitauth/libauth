@@ -4,6 +4,7 @@ import test from 'ava';
 
 import type { Range } from '../lib.js';
 import {
+  assertSuccess,
   AuthenticationErrorCommon,
   compileCashAssembly,
   containsRange,
@@ -18,8 +19,12 @@ import {
   hexToBin,
   mergeRanges,
   Opcodes,
+  OpcodesBCH,
+  stringifyDebugTraceSummary,
   stringifyErrors,
   stringifyTestVector,
+  summarizeDebugTrace,
+  walletTemplateToCompilerBCH,
 } from '../lib.js';
 
 test('mergeRanges', (t) => {
@@ -4256,3 +4261,79 @@ test(extractUnexecutedRangesMacro, 'unexecuted11', [
 ]);
 
 test(extractUnexecutedRangesMacro, 'unexecutedEmpty', []);
+
+test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
+  const { program } = assertSuccess(
+    walletTemplateToCompilerBCH({
+      entities: {},
+      scripts: {
+        lock: {
+          lockingType: 'standard',
+          script: `OP_DUP OP_TOALTSTACK OP_IF <2> OP_ELSE 0xff OP_ENDIF OP_FROMALTSTACK OP_ADD <3> OP_EQUAL`,
+        },
+        unlock: { script: '<1>', unlocks: 'lock' },
+      },
+      supported: ['BCH_2022_05'],
+      version: 0,
+    }).generateScenario({ unlockingScriptId: 'unlock' }),
+  );
+  const trace = createVirtualMachineBCH(true).debug(program);
+  const summary = summarizeDebugTrace(trace);
+  const formatted = stringifyDebugTraceSummary(summary, {
+    opcodes: {
+      ...OpcodesBCH,
+      [OpcodesBCH.OP_UNKNOWN255]: undefined as unknown as string,
+    },
+  });
+  t.deepEqual(
+    formatted,
+    `0. OP_1:                0x01(1)
+=>                      0x01(1)
+0. OP_DUP:              0x01(1) 0x01(1)
+1. OP_TOALTSTACK:       0x01(1)| alt: 0x01(1)
+2. OP_IF:               | alt: 0x01(1)
+3. OP_2:                0x02(2)| alt: 0x01(1)
+4. OP_ELSE:             0x02(2)| alt: 0x01(1)
+5. (skip)OP_UNKNOWN255: 0x02(2)| alt: 0x01(1)
+6. (skip)OP_ENDIF:      0x02(2)| alt: 0x01(1)
+7. OP_FROMALTSTACK:     0x02(2) 0x01(1)
+8. OP_ADD:              0x03(3)
+9. OP_3:                0x03(3) 0x03(3)
+10. OP_EQUAL:           0x01(1)
+=>                      0x01(1)`,
+    stringifyTestVector(formatted),
+  );
+});
+
+test('summarizeDebugTrace, stringifyDebugTraceSummary (error)', (t) => {
+  const { program } = assertSuccess(
+    walletTemplateToCompilerBCH({
+      entities: {},
+      scripts: {
+        lock: {
+          lockingType: 'standard',
+          script: `OP_DUP OP_TOALTSTACK OP_IF <2> OP_ELSE 0xff OP_ENDIF OP_FROMALTSTACK OP_ADD <3> OP_EQUAL`,
+        },
+        unlock: { script: '<0>', unlocks: 'lock' },
+      },
+      supported: ['BCH_2022_05'],
+      version: 0,
+    }).generateScenario({ unlockingScriptId: 'unlock' }),
+  );
+  const trace = createVirtualMachineBCH(true).debug(program);
+  const summary = summarizeDebugTrace(trace);
+  const formatted = stringifyDebugTraceSummary(summary);
+  t.deepEqual(
+    formatted,
+    `0. OP_0:                0x(0)
+=>                      0x(0)
+0. OP_DUP:              0x(0) 0x(0)
+1. OP_TOALTSTACK:       0x(0)| alt: 0x(0)
+2. OP_IF:               | alt: 0x(0)
+3. (skip)OP_2:          | alt: 0x(0)
+4. (skip)OP_ELSE:       | alt: 0x(0)
+5. OP_UNKNOWN255:       Called an unknown opcode.
+6. OP_ENDIF:            Called an unknown opcode.`,
+    stringifyTestVector(formatted),
+  );
+});

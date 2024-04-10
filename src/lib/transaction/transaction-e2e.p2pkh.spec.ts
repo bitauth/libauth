@@ -8,6 +8,7 @@ import {
   hexToBin,
   importWalletTemplate,
   lockingBytecodeToCashAddress,
+  stringify,
   walletTemplateToCompilerBCH,
 } from '../lib.js';
 
@@ -47,17 +48,16 @@ test('transaction e2e tests: P2PKH (walletTemplateP2pkhHd)', (t) => {
   });
 
   if (!lockingBytecode.success) {
-    t.log(lockingBytecode.errors);
-    t.fail();
+    t.fail(`lockingBytecode: ${stringify(lockingBytecode)}`);
     return;
   }
 
   t.deepEqual(
-    lockingBytecodeToCashAddress(
-      lockingBytecode.bytecode,
-      CashAddressNetworkPrefix.testnet,
-    ),
-    'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x',
+    lockingBytecodeToCashAddress({
+      bytecode: lockingBytecode.bytecode,
+      prefix: CashAddressNetworkPrefix.testnet,
+    }),
+    { address: 'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x' },
   );
 
   const utxoOutpointTransactionHash = hexToBin(
@@ -90,8 +90,7 @@ test('transaction e2e tests: P2PKH (walletTemplateP2pkhHd)', (t) => {
   });
 
   if (!result.success) {
-    t.log(result.errors);
-    t.fail();
+    t.fail(`result: ${stringify(result)}`);
     return;
   }
 

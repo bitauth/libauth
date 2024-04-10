@@ -164,7 +164,7 @@ test('encodeBip39Mnemonic: works', (t) => {
   );
   t.deepEqual(
     encodeBip39Mnemonic(hexToBin('00000000000000000000000000000000')),
-    { phrase: zeros, success: true },
+    { phrase: zeros },
   );
   t.is(
     encodeBip39Mnemonic(hexToBin('0000000000000000000000000000000000')),
@@ -172,19 +172,19 @@ test('encodeBip39Mnemonic: works', (t) => {
   );
   t.deepEqual(
     encodeBip39Mnemonic(hexToBin('0000000000000000000000000000000000000000')),
-    { phrase: zeros20Bytes, success: true },
+    { phrase: zeros20Bytes },
   );
   t.deepEqual(
     encodeBip39Mnemonic(
       hexToBin('000000000000000000000000000000000000000000000000'),
     ),
-    { phrase: zeros24Bytes, success: true },
+    { phrase: zeros24Bytes },
   );
   t.deepEqual(
     encodeBip39Mnemonic(
       hexToBin('00000000000000000000000000000000000000000000000000000000'),
     ),
-    { phrase: zeros28Bytes, success: true },
+    { phrase: zeros28Bytes },
   );
   t.deepEqual(
     encodeBip39Mnemonic(
@@ -192,7 +192,7 @@ test('encodeBip39Mnemonic: works', (t) => {
         '0000000000000000000000000000000000000000000000000000000000000000',
       ),
     ),
-    { phrase: zeros32Bytes, success: true },
+    { phrase: zeros32Bytes },
   );
 });
 test('encodeBip39MnemonicNonStandard: works', (t) => {
@@ -201,7 +201,7 @@ test('encodeBip39MnemonicNonStandard: works', (t) => {
       hexToBin('00000000000000000000000000000000'),
       bip39WordListEnglish,
     ),
-    { phrase: zeros, success: true },
+    { phrase: zeros },
   );
   t.is(
     encodeBip39MnemonicNonStandard(
@@ -330,7 +330,7 @@ test('deriveSeedFromBip39Mnemonic: works', (t) => {
     ),
   );
   t.deepEqual(
-    deriveSeedFromBip39Mnemonic(notNfkdNormalized, angstrom),
+    deriveSeedFromBip39Mnemonic(notNfkdNormalized, { passphrase: angstrom }),
     hexToBin(
       '61d33f77132f19034d761b651c6230d293cfeb1894b8e83abb63baef2e5f9f420b0c9f2256a25cb655c33ee389e4dc7121c48eb8e0921d6b8a4dbe167c7e7421',
     ),
@@ -416,10 +416,9 @@ const bip39Vector = test.macro<[Bip39TestVector]>({
     const entropy = decodeBip39MnemonicNonStandard(vector.mnemonic, wordList);
     const seed = deriveSeedFromBip39Mnemonic(mnemonic.phrase);
     const hdKey = deriveHdPrivateNodeFromSeed(seed);
-    const seedUsingPassphrase = deriveSeedFromBip39Mnemonic(
-      mnemonic.phrase,
-      vector.passphrase,
-    );
+    const seedUsingPassphrase = deriveSeedFromBip39Mnemonic(mnemonic.phrase, {
+      passphrase: vector.passphrase,
+    });
     if (typeof seedUsingPassphrase === 'string') {
       t.fail(seedUsingPassphrase);
       return;
@@ -429,7 +428,7 @@ const bip39Vector = test.macro<[Bip39TestVector]>({
     t.deepEqual(entropy, hexToBin(vector.entropy));
     const hdKeyUsingPassphrase = deriveHdPrivateNodeFromBip39Mnemonic(
       vector.mnemonic,
-      vector.passphrase,
+      { passphrase: vector.passphrase },
     );
     if (typeof hdKeyUsingPassphrase === 'string') {
       t.fail(hdKeyUsingPassphrase);
@@ -495,25 +494,16 @@ bip39ExtendedVectors.forEach((vector, i) => {
 const ourPassphrase = 'Libauth';
 const extendedVectors = convertedVectors.map((vector) => {
   const seed = deriveSeedFromBip39Mnemonic(vector.mnemonic);
-  const seedUsingPassphrase = deriveSeedFromBip39Mnemonic(
-    vector.mnemonic,
-    ourPassphrase,
-  );
+  const seedUsingPassphrase = deriveSeedFromBip39Mnemonic(vector.mnemonic, {
+    passphrase: ourPassphrase,
+  });
   const node = deriveHdPrivateNodeFromSeed(seed);
-  if (!node.valid) {
-    // eslint-disable-next-line functional/no-throw-statements
-    throw new Error(`Failure (RARE): ${vector.mnemonic}. `);
-  }
   const nodeWithPassphrase = deriveHdPrivateNodeFromSeed(seedUsingPassphrase);
-  if (!nodeWithPassphrase.valid) {
-    // eslint-disable-next-line functional/no-throw-statements
-    throw new Error(`Failure (RARE, nodeWithPassphrase): ${vector.mnemonic}. `);
-  }
-  const hdKey = encodeHdPrivateKey({ network: 'mainnet', node });
+  const hdKey = encodeHdPrivateKey({ network: 'mainnet', node }).hdPrivateKey;
   const hdKeyUsingPassphrase = encodeHdPrivateKey({
     network: 'mainnet',
     node: nodeWithPassphrase,
-  });
+  }).hdPrivateKey;
   return {
     entropy: vector.entropy,
     hdKey,
@@ -582,7 +572,7 @@ testProp(
       const libauth = deriveSeedFromBip39Mnemonic(mnemonic);
       const npmBip39 = mnemonicToSeedSync(mnemonic);
       t.deepEqual(libauth, Uint8Array.from(npmBip39));
-      const libauthPass = deriveSeedFromBip39Mnemonic(mnemonic, passphrase);
+      const libauthPass = deriveSeedFromBip39Mnemonic(mnemonic, { passphrase });
       const npmBip39Pass = mnemonicToSeedSync(mnemonic, passphrase);
       t.deepEqual(libauthPass, Uint8Array.from(npmBip39Pass));
     });

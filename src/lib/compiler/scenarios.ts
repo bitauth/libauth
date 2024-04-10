@@ -170,19 +170,16 @@ export const generateDefaultScenarioDefinition = <
      * The first 5,000,000,000 seeds have been tested, scenarios are
      * unlikely to exceed this number of entities.
      */
-    const assumeValid = true;
+    const assumeValidity = true;
     const masterNode = deriveHdPrivateNodeFromSeed(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       valueMap[entityId]!,
-      assumeValid,
-      crypto,
+
+      { assumeValidity, crypto },
     );
-    const hdPrivateKey = encodeHdPrivateKey(
-      {
-        network: 'mainnet',
-        node: masterNode,
-      },
-      crypto,
+    const { hdPrivateKey } = encodeHdPrivateKey(
+      { network: 'mainnet', node: masterNode },
+      { crypto },
     );
 
     return { ...all, [entityId]: hdPrivateKey };

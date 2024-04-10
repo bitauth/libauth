@@ -13,19 +13,17 @@ import {
 import type { Sha512 } from '../lib.js';
 
 import { deriveHdPrivateNodeFromSeed } from './hd-key.js';
-import { generateRandomBytes } from './key-utils.js';
-/* eslint-disable import/no-internal-modules */
-import bip39WordListChineseSimplified from './word-lists/bip39.chinese-simplified.json' assert { type: 'json' };
-import bip39WordListChineseTraditional from './word-lists/bip39.chinese-traditional.json' assert { type: 'json' };
-import bip39WordListCzech from './word-lists/bip39.czech.json' assert { type: 'json' };
-import bip39WordListEnglish from './word-lists/bip39.english.json' assert { type: 'json' };
-import bip39WordListFrench from './word-lists/bip39.french.json' assert { type: 'json' };
-import bip39WordListItalian from './word-lists/bip39.italian.json' assert { type: 'json' };
-import bip39WordListJapanese from './word-lists/bip39.japanese.json' assert { type: 'json' };
-import bip39WordListKorean from './word-lists/bip39.korean.json' assert { type: 'json' };
-import bip39WordListPortuguese from './word-lists/bip39.portuguese.json' assert { type: 'json' };
-import bip39WordListSpanish from './word-lists/bip39.spanish.json' assert { type: 'json' };
-/* eslint-enable import/no-internal-modules */
+import { generateRandomBytes as internalGenerateRandomBytes } from './key-utils.js';
+import { bip39WordListChineseSimplified } from './word-lists/bip39.chinese-simplified.js';
+import { bip39WordListChineseTraditional } from './word-lists/bip39.chinese-traditional.js';
+import { bip39WordListCzech } from './word-lists/bip39.czech.js';
+import { bip39WordListEnglish } from './word-lists/bip39.english.js';
+import { bip39WordListFrench } from './word-lists/bip39.french.js';
+import { bip39WordListItalian } from './word-lists/bip39.italian.js';
+import { bip39WordListJapanese } from './word-lists/bip39.japanese.js';
+import { bip39WordListKorean } from './word-lists/bip39.korean.js';
+import { bip39WordListPortuguese } from './word-lists/bip39.portuguese.js';
+import { bip39WordListSpanish } from './word-lists/bip39.spanish.js';
 
 export {
   bip39WordListChineseSimplified,
@@ -49,7 +47,6 @@ export enum Bip39Error {
 }
 
 export type Bip39MnemonicResult = {
-  success: true;
   /**
    * The BIP39 mnemonic phrase.
    */
@@ -227,7 +224,7 @@ export const encodeBip39MnemonicNonStandard = (
       ? words.join('\u3000')
       : words.join(' ');
 
-  return { phrase, success: true } as Bip39MnemonicResult;
+  return { phrase } as Bip39MnemonicResult;
 };
 
 /**
@@ -272,13 +269,16 @@ export const encodeBip39Mnemonic = (entropy: Uint8Array) =>
  */
 export const deriveSeedFromBip39Mnemonic = (
   mnemonic: string,
-  passphrase?: string,
-  crypto: { pbkdf2HmacSha512: typeof internalPbkdf2HmacSha512 } = {
-    pbkdf2HmacSha512: internalPbkdf2HmacSha512,
-  },
+  {
+    crypto = { pbkdf2HmacSha512: internalPbkdf2HmacSha512 },
+    passphrase = '',
+  }: {
+    passphrase?: string;
+    crypto?: { pbkdf2HmacSha512: typeof internalPbkdf2HmacSha512 };
+  } = {},
 ) => {
   const mnemonicNormalized = mnemonic.normalize('NFKD');
-  const salt = `mnemonic${passphrase ?? ''}`;
+  const salt = `mnemonic${passphrase}`;
   const saltNormalized = salt.normalize('NFKD');
   const mnemonicBin = utf8ToBin(mnemonicNormalized);
   const saltBin = utf8ToBin(saltNormalized);
@@ -312,22 +312,25 @@ export const deriveSeedFromBip39Mnemonic = (
  */
 export const deriveHdPrivateNodeFromBip39Mnemonic = (
   mnemonic: string,
-  passphrase?: string,
-  crypto: {
-    pbkdf2HmacSha512: typeof internalPbkdf2HmacSha512;
-    sha512: { hash: Sha512['hash'] };
-  } = {
-    pbkdf2HmacSha512: internalPbkdf2HmacSha512,
-    sha512: internalSha512,
-  },
-  hmacSha512Key?: Uint8Array,
-  // eslint-disable-next-line @typescript-eslint/max-params
+  {
+    crypto = {
+      pbkdf2HmacSha512: internalPbkdf2HmacSha512,
+      sha512: internalSha512,
+    },
+    hmacSha512Key,
+    passphrase,
+  }: {
+    crypto?: {
+      pbkdf2HmacSha512: typeof internalPbkdf2HmacSha512;
+      sha512: { hash: Sha512['hash'] };
+    };
+    hmacSha512Key?: Uint8Array;
+    passphrase?: string;
+  } = {},
 ) =>
   deriveHdPrivateNodeFromSeed(
-    deriveSeedFromBip39Mnemonic(mnemonic, passphrase, crypto),
-    undefined,
-    crypto,
-    hmacSha512Key,
+    deriveSeedFromBip39Mnemonic(mnemonic, { crypto, passphrase }),
+    { crypto, hmacSha512Key },
   );
 
 /**
@@ -342,13 +345,13 @@ export const deriveHdPrivateNodeFromBip39Mnemonic = (
  *
  * **Usage**
  * ```ts
- * import { bip39WordListSpanish, generateBip39Mnemonic } from '@bitauth/libauth';
+ * import {
+ *   assertSuccess,
+ *   bip39WordListSpanish,
+ *   generateBip39Mnemonic
+ * } from '@bitauth/libauth';
  *
- * const result = generateBip39Mnemonic(bip39WordListSpanish, 32);
- * if(typeof result === 'string') {
- *   throw new Error(result);
- * }
- * const { phrase } = result;
+ * const { phrase } = assertSuccess(generateBip39Mnemonic(bip39WordListSpanish, 32));
  * ```
  *
  * @param wordList - a 2048-word array to use as the BIP39 word list
@@ -358,6 +361,9 @@ export const deriveHdPrivateNodeFromBip39Mnemonic = (
 export const generateBip39MnemonicNonStandard = (
   wordList: string[],
   entropyLength: Bip39ValidEntropyLength = Bip39.minEntropyBytes,
+  {
+    generateRandomBytes = internalGenerateRandomBytes,
+  }: { generateRandomBytes?: typeof internalGenerateRandomBytes } = {},
 ) => {
   if (!isValidBip39WordList(wordList)) {
     return formatError(

@@ -104,7 +104,9 @@ test('walletTemplateToCompilerConfiguration: walletTemplateP2pkh', (t) => {
 
 test('walletTemplateToCompilerConfiguration: virtualized tests', (t) => {
   const configuration = walletTemplateToCompilerConfiguration({
-    entities: {},
+    entities: {
+      empty: {},
+    },
     scripts: {
       add_two: {
         script: '<2> OP_ADD',

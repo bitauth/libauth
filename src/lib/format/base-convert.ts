@@ -1,11 +1,16 @@
+import { formatError } from './error.js';
+
+export enum BaseConverterCreationError {
+  tooLong = 'Base converter creation error: an alphabet may be no longer than 254 characters.',
+  ambiguousCharacter = 'Base converter creation error: a character code may only appear once in a single alphabet.',
+}
+
 export enum BaseConversionError {
-  tooLong = 'An alphabet may be no longer than 254 characters.',
-  ambiguousCharacter = 'A character code may only appear once in a single alphabet.',
-  unknownCharacter = 'Encountered an unknown character for this alphabet.',
+  unknownCharacter = 'Base conversion error: encountered an unknown character for this alphabet.',
 }
 
 export type BaseConverter = {
-  decode: (source: string) => BaseConversionError.unknownCharacter | Uint8Array;
+  decode: (source: string) => Uint8Array | string;
   encode: (input: Uint8Array) => string;
 };
 
@@ -31,11 +36,15 @@ export type BaseConverter = {
 // Algorithm from the `base-x` implementation (derived from the original Satoshi implementation): https://github.com/cryptocoinjs/base-x
 export const createBaseConverter = (
   alphabet: string,
-): BaseConversionError | BaseConverter => {
+): BaseConverter | string => {
   const undefinedValue = 255;
   const uint8ArrayBase = 256;
 
-  if (alphabet.length >= undefinedValue) return BaseConversionError.tooLong;
+  if (alphabet.length >= undefinedValue)
+    return formatError(
+      BaseConverterCreationError.tooLong,
+      `Alphabet length: ${alphabet.length}`,
+    );
 
   const alphabetMap = new Uint8Array(uint8ArrayBase).fill(undefinedValue);
 
@@ -43,7 +52,10 @@ export const createBaseConverter = (
   for (let index = 0; index < alphabet.length; index++) {
     const characterCode = alphabet.charCodeAt(index);
     if (alphabetMap[characterCode] !== undefinedValue) {
-      return BaseConversionError.ambiguousCharacter;
+      return formatError(
+        BaseConverterCreationError.ambiguousCharacter,
+        `Ambiguous character: ${alphabetMap[characterCode]}`,
+      );
     }
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     alphabetMap[characterCode] = index;
@@ -80,7 +92,10 @@ export const createBaseConverter = (
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         let carry = alphabetMap[input.charCodeAt(nextByte)]!;
         if (carry === undefinedValue)
-          return BaseConversionError.unknownCharacter;
+          return formatError(
+            BaseConversionError.unknownCharacter,
+            `Unknown character: "${input[nextByte]}".`,
+          );
 
         let digit = 0;
         // eslint-disable-next-line functional/no-loop-statements
@@ -171,6 +186,8 @@ const base58 = createBaseConverter(bitcoinBase58Alphabet) as BaseConverter;
 /**
  * Convert a bitcoin-style base58-encoded string to a Uint8Array.
  *
+ * For the reverse, see {@link binToBase58}.
+ *
  * See {@link createBaseConverter} for format details.
  * @param input - a valid base58-encoded string to decode
  */
@@ -178,6 +195,8 @@ export const base58ToBin = base58.decode;
 
 /**
  * Convert a Uint8Array to a bitcoin-style base58-encoded string.
+ *
+ * For the reverse, see {@link base58ToBin}.
  *
  * See {@link createBaseConverter} for format details.
  * @param input - the Uint8Array to base58 encode

@@ -4,6 +4,7 @@ import {
   bigIntToBinUint256BEClamped,
   bigIntToBinUint64LE,
   bigIntToBinUint64LEClamped,
+  bigIntToBinUintBE,
   bigIntToBinUintLE,
   bigIntToCompactUint,
   binToBigIntUint256BE,
@@ -16,8 +17,9 @@ import {
   binToNumberUint16LE,
   binToNumberUint32LE,
   binToNumberUintLE,
+  binToValueSatoshis,
   CompactUintError,
-  compactUintPrefixToSize,
+  compactUintPrefixToLength,
   compactUintToBigInt,
   hexToBin,
   int32SignedToUnsigned,
@@ -34,6 +36,7 @@ import {
   numberToBinUintLE,
   readCompactUint,
   readCompactUintMinimal,
+  valueSatoshisToBin,
 } from '../lib.js';
 
 import { fc, testProp } from '@fast-check/ava';
@@ -190,6 +193,29 @@ test('bigIntToBinUint64LE', (t) => {
   );
 });
 
+test('valueSatoshisToBin', (t) => {
+  t.deepEqual(
+    valueSatoshisToBin(0n),
+    Uint8Array.from([0, 0, 0, 0, 0, 0, 0, 0]),
+  );
+  t.deepEqual(
+    valueSatoshisToBin(0x01n),
+    Uint8Array.from([0x01, 0, 0, 0, 0, 0, 0, 0]),
+  );
+  t.deepEqual(
+    valueSatoshisToBin(0x12345678n),
+    Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0]),
+  );
+  t.deepEqual(
+    valueSatoshisToBin(BigInt(Number.MAX_SAFE_INTEGER)),
+    Uint8Array.from([255, 255, 255, 255, 255, 255, 31, 0]),
+  );
+  t.deepEqual(
+    valueSatoshisToBin(0xffffffffffffffffn),
+    Uint8Array.from([255, 255, 255, 255, 255, 255, 255, 255]),
+  );
+});
+
 test('bigIntToBinUint64LE vs. bigIntToBinUint64LEClamped: behavior on overflow', (t) => {
   t.deepEqual(
     bigIntToBinUint64LE(0x010000000000000000n),
@@ -331,6 +357,33 @@ test('binToBigIntUintBE', (t) => {
   });
 });
 
+test('bigIntToBinUintBE', (t) => {
+  t.deepEqual(bigIntToBinUintBE(-1n), Uint8Array.from([0]));
+  t.deepEqual(bigIntToBinUintBE(0n), Uint8Array.from([0]));
+  t.deepEqual(bigIntToBinUintBE(0x12n), Uint8Array.from([0x12]));
+  t.deepEqual(bigIntToBinUintBE(0x1234n), Uint8Array.from([0x12, 0x34]));
+  t.deepEqual(
+    bigIntToBinUintBE(0x123456n),
+    Uint8Array.from([0x12, 0x34, 0x56]),
+  );
+  t.deepEqual(
+    bigIntToBinUintBE(0x12345678n),
+    Uint8Array.from([0x12, 0x34, 0x56, 0x78]),
+  );
+  t.deepEqual(
+    bigIntToBinUintBE(0x1234567890n),
+    Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90]),
+  );
+  t.deepEqual(
+    bigIntToBinUintBE(0x1234567890abcdefn),
+    Uint8Array.from([0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]),
+  );
+  t.deepEqual(
+    bigIntToBinUintBE(0x567890abcdefn),
+    Uint8Array.from([0x56, 0x78, 0x90, 0xab, 0xcd, 0xef]),
+  );
+});
+
 test('binToBigIntUint256BE and bigIntToBinUint256BEClamped', (t) => {
   t.deepEqual(binToBigIntUint256BE(new Uint8Array(32)), 0n);
   t.deepEqual(bigIntToBinUint256BEClamped(0n), new Uint8Array(32));
@@ -439,12 +492,37 @@ test('binToBigIntUint64LE', (t) => {
   );
 });
 
-test('compactUintPrefixToSize', (t) => {
-  t.deepEqual(compactUintPrefixToSize(0), 1);
-  t.deepEqual(compactUintPrefixToSize(252), 1);
-  t.deepEqual(compactUintPrefixToSize(253), 3);
-  t.deepEqual(compactUintPrefixToSize(254), 5);
-  t.deepEqual(compactUintPrefixToSize(255), 9);
+test('binToValueSatoshis', (t) => {
+  t.deepEqual(
+    binToValueSatoshis(Uint8Array.from([0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0])),
+    0x12345678n,
+  );
+  t.deepEqual(
+    binToValueSatoshis(
+      Uint8Array.from([0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01]),
+    ),
+    0x0123456789abcdefn,
+  );
+  t.deepEqual(
+    binToValueSatoshis(
+      Uint8Array.from([
+        0xef, 0xcd, 0xab, 0x89, 0x67, 0x45, 0x23, 0x01, 0x00, 0x00,
+      ]),
+    ),
+    0x0123456789abcdefn,
+  );
+  const data = Uint8Array.from([0x90, 0x78, 0x56, 0x34, 0x12, 0, 0, 0, 0, 0]);
+  const view = data.subarray(2);
+  t.deepEqual(binToValueSatoshis(view), 0x123456n);
+  t.throws(() => binToValueSatoshis(Uint8Array.from([0x78, 0x56, 0x34, 0x12])));
+});
+
+test('compactUintPrefixToLength', (t) => {
+  t.deepEqual(compactUintPrefixToLength(0), 1);
+  t.deepEqual(compactUintPrefixToLength(252), 1);
+  t.deepEqual(compactUintPrefixToLength(253), 3);
+  t.deepEqual(compactUintPrefixToLength(254), 5);
+  t.deepEqual(compactUintPrefixToLength(255), 9);
 });
 
 test('readCompactUint', (t) => {

@@ -77,8 +77,8 @@ export type ResolvedSegmentVariableBytecode = ResolutionDebug &
     value: Uint8Array;
     /**
      * The full identifier (including any compilation operations) of the variable
-     * that resolved to this `value`, e.g. `my_key.signature.all_outputs` or
-     * `my_key.public_key`.
+     * that resolved to this `value`, e.g.
+     * `my_key.schnorr_signature.all_outputs` or `my_key.public_key`.
      */
     variable: string;
   };
@@ -136,7 +136,7 @@ export type ResolvedSegmentError = ResolvedSegmentBase & {
   value: string;
   /**
    * The full identifier (including any compilation operations) of the variable
-   * missing from compilation, e.g. `my_key.signature.all_outputs` or
+   * missing from compilation, e.g. `my_key.schnorr_signature.all_outputs` or
    * `my_key.public_key`. Only present if the error is recoverable – the error
    * can be resolved by providing the variable in the compilation data.
    */

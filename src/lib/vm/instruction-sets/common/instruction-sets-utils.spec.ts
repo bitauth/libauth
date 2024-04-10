@@ -10,6 +10,7 @@ import {
   assembleBytecodeBCH,
   assembleBytecodeBTC,
   authenticationInstructionsAreMalformed,
+  cashAssemblyToBin,
   decodeAuthenticationInstructions,
   disassembleAuthenticationInstructionsMaybeMalformed,
   disassembleBytecode,
@@ -311,6 +312,14 @@ test('disassembleBytecodeBCH & assembleBytecodeBCH', (t) => {
     bytecode: hexToBin(zcfHex),
     success: true,
   });
+});
+
+test('cashAssemblyToBin', (t) => {
+  t.deepEqual(cashAssemblyToBin('OP_1 OP_2 OP_ADD'), hexToBin('515293'));
+  t.deepEqual(
+    cashAssemblyToBin('OP_1 OP_2 OP_ADD OP_NOPE'),
+    'CashAssembly compilation resolve error: Unknown identifier "OP_NOPE".',
+  );
 });
 
 test('disassembleBytecodeBTC & assembleBytecodeBTC', (t) => {

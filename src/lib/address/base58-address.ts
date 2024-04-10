@@ -1,14 +1,15 @@
 import { hash256, sha256 as internalSha256 } from '../crypto/crypto.js';
 import {
   base58ToBin,
-  BaseConversionError,
   binToBase58,
   flattenBinArray,
+  formatError,
 } from '../format/format.js';
 import type { Sha256 } from '../lib.js';
 
 /**
- * Base58 version byte values for common Base58Address format versions.
+ * Base58 version byte values for common Base58Address format
+ * (A.K.A. "Base58Check") versions.
  */
 export enum Base58AddressFormatVersion {
   /**
@@ -84,12 +85,14 @@ export enum Base58AddressFormatVersion {
 export type Base58AddressNetwork = 'copayBCH' | 'mainnet' | 'testnet';
 
 /**
- * Encode a payload using the Base58Address format, the original address format
- * used by the Satoshi implementation.
+ * Encode a payload using the Base58Address format (A.K.A. "Base58Check"), the
+ * original address format used by the Satoshi implementation.
  *
  * Note, this method does not enforce error handling via the type system. The
  * returned string will not be a valid Base58Address if `hash` is not exactly 20
  * bytes. If needed, validate the length of `hash` before calling this method.
+ *
+ * To decode a Base58Address-like format, use {@link decodeBase58AddressFormat}.
  *
  * @remarks
  * A Base58Address includes a 1-byte prefix to indicate the address version, a
@@ -129,6 +132,8 @@ export const encodeBase58AddressFormat = <
  *
  * For other standards that use the Base58Address format but have other version
  * or length requirements, use {@link encodeCashAddressFormat}.
+ *
+ * To decode a Base58Address, see {@link decodeBase58Address}.
  *
  * @param type - the type of address to encode: `p2pkh`, `p2sh20`,
  * `p2pkh-testnet`, or `p2sh20-testnet`
@@ -175,6 +180,8 @@ export enum Base58AddressError {
  *
  * Returns the contents of the address or an error message as a string.
  *
+ * To encode a Base58Address-like format, use {@link encodeBase58AddressFormat}.
+ *
  * @param address - the string to decode as a base58 address
  * @param sha256 - an implementation of sha256 (defaults to the internal WASM
  * implementation)
@@ -185,8 +192,8 @@ export const decodeBase58AddressFormat = (
 ) => {
   const checksumBytes = 4;
   const bin = base58ToBin(address);
-  if (bin === BaseConversionError.unknownCharacter) {
-    return Base58AddressError.unknownCharacter;
+  if (typeof bin === 'string') {
+    return formatError(Base58AddressError.unknownCharacter, bin);
   }
   const minimumBase58AddressLength = 5;
   if (bin.length < minimumBase58AddressLength) {
@@ -215,16 +222,16 @@ export const decodeBase58AddressFormat = (
  * Decode and validate a Base58Address, strictly checking the version and
  * payload length.
  *
+ * Because the Wallet Import Format (WIF) private key serialization format uses
+ * the Base58Address format, some libraries allow WIF key decoding via the same
+ * method as base58 address decoding. This method accepts only Base58Address
+ * types, but WIF keys can be decoded with {@link decodePrivateKeyWif}.
+ *
  * For other address-like standards that closely follow the Base58Address
  * format (but have alternative version byte requirements), use
  * {@link decodeBase58AddressFormat}.
  *
- * @remarks
- * Because the Wallet Import Format (WIF) private key serialization format uses
- * the Base58Address format, some libraries allow WIF key decoding via the same
- * method as base58 address decoding. This method strictly accepts only
- * Base58Address types, but WIF keys can be decoded with
- * {@link decodePrivateKeyWif}.
+ * To encode a Base58Address, see {@link encodeBase58Address}.
  *
  * @param address - the string to decode as a base58 address
  * @param sha256 - an implementation of sha256 (defaults to the internal WASM

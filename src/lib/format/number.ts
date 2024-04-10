@@ -4,8 +4,12 @@ import { formatError } from './error.js';
 
 /**
  * Encode a positive integer as a little-endian Uint8Array. For values exceeding
- * `Number.MAX_SAFE_INTEGER` (`9007199254740991`), use `bigIntToBinUintLE`.
+ * `Number.MAX_SAFE_INTEGER` (`9007199254740991`),
+ * use {@link bigIntToBinUintLE}.
+ *
  * Negative values will return the same result as `0`.
+ *
+ * For the reverse, see {@link binToNumberUintLE}.
  *
  * @param value - the number to encode
  */
@@ -46,6 +50,10 @@ export const binToFixedLength = (bin: Uint8Array, bytes: number) => {
  * results – values exceeding `0xffff` (`65535`) return the same result as
  * `0xffff`, negative values will return the same result as `0`.
  *
+ * For an alternative overflow behavior, see {@link numberToBinUint16LE}.
+ *
+ * For the reverse, see {@link binToNumberUint16LE}.
+ *
  * @param value - the number to encode
  */
 export const numberToBinUint16LEClamped = (value: number) => {
@@ -57,6 +65,10 @@ export const numberToBinUint16LEClamped = (value: number) => {
  * Encode a positive integer as a 4-byte Uint32LE Uint8Array, clamping the
  * results – values exceeding `0xffffffff` (`4294967295`) return the same result
  * as `0xffffffff`, negative values will return the same result as `0`.
+ *
+ * For an alternative overflow behavior, see {@link numberToBinUint32LE}.
+ *
+ * For the reverse, see {@link binToNumberUint32LE}.
  *
  * @param value - the number to encode
  */
@@ -71,6 +83,10 @@ export const numberToBinUint32LEClamped = (value: number) => {
  * This method will return an incorrect result for values outside of the range
  * `0` to `0xffff` (`65535`). If applicable, applications should handle such
  * cases prior to calling this method.
+ *
+ * For an alternative overflow behavior, see {@link numberToBinUint16LEClamped}.
+ *
+ * For the reverse, see {@link binToNumberUint16LE}.
  *
  * @param value - the number to encode
  */
@@ -91,6 +107,8 @@ export const numberToBinUint16LE = (value: number) => {
  * `0x0000` to `0xffff` (`65535`). If applicable, applications should handle
  * such cases prior to calling this method.
  *
+ * For the reverse, see {@link binToNumberInt16LE}.
+ *
  * @param value - the number to encode
  */
 export const numberToBinInt16LE = (value: number) => {
@@ -110,6 +128,8 @@ export const numberToBinInt16LE = (value: number) => {
  * `0x00000000` to `0xffffffff` (`4294967295`). If applicable, applications
  * should handle such cases prior to calling this method.
  *
+ * For the reverse, see {@link binToNumberInt32LE}.
+ *
  * @param value - the number to encode
  */
 export const numberToBinInt32LE = (value: number) => {
@@ -127,6 +147,8 @@ export const numberToBinInt32LE = (value: number) => {
  *
  * Throws if `bin` is shorter than 2 bytes.
  *
+ * For the reverse, see {@link numberToBinInt16LE}.
+ *
  * @param bin - the Uint8Array to decode
  */
 export const binToNumberInt16LE = (bin: Uint8Array) => {
@@ -139,6 +161,8 @@ export const binToNumberInt16LE = (bin: Uint8Array) => {
  * Decode a 4-byte Int32LE Uint8Array into a number.
  *
  * Throws if `bin` is shorter than 4 bytes.
+ *
+ * For the reverse, see {@link numberToBinInt32LE}.
  *
  * @param bin - the Uint8Array to decode
  */
@@ -154,6 +178,8 @@ export const binToNumberInt32LE = (bin: Uint8Array) => {
  * This method will return an incorrect result for values outside of the range
  * `0` to `0xffff` (`65535`). If applicable, applications should handle such
  * cases prior to calling this method.
+ *
+ * For the reverse, reverse the result of {@link binToNumberUint16LE}.
  *
  * @param value - the number to encode
  */
@@ -174,6 +200,10 @@ export const numberToBinUint16BE = (value: number) => {
  * `0` to `0xffffffff` (`4294967295`). If applicable, applications should handle
  * such cases prior to calling this method.
  *
+ * For an alternative overflow behavior, see {@link numberToBinUint32LEClamped}.
+ *
+ * For the reverse, see {@link binToNumberUint32LE}.
+ *
  * @param value - the number to encode
  */
 export const numberToBinUint32LE = (value: number) => {
@@ -193,6 +223,8 @@ export const numberToBinUint32LE = (value: number) => {
  * `0` to `0xffffffff` (`4294967295`). If applicable, applications should handle
  * such cases prior to calling this method.
  *
+ * For the reverse, reverse the result of {@link binToNumberUint32LE}.
+ *
  * @param value - the number to encode
  */
 export const numberToBinUint32BE = (value: number) => {
@@ -208,6 +240,8 @@ export const numberToBinUint32BE = (value: number) => {
 /**
  * Encode a positive BigInt as little-endian Uint8Array. Negative values will
  * return the same result as `0`.
+ *
+ * For the reverse, see {@link binToBigIntUintLE}.
  *
  * @param value - the number to encode
  */
@@ -236,6 +270,10 @@ export const bigIntToBinUintLE = (value: bigint) => {
  * return the same result as `0xffff_ffff_ffff_ffff`, negative values return the
  * same result as `0`.
  *
+ * For an alternative overflow behavior, see {@link bigIntToBinUint64LE}.
+ *
+ * For the reverse, see {@link binToBigIntUint64LE}.
+ *
  * @param value - the number to encode
  */
 export const bigIntToBinUint64LEClamped = (value: bigint) => {
@@ -248,6 +286,10 @@ export const bigIntToBinUint64LEClamped = (value: bigint) => {
  *
  * This method will return an incorrect result for values outside of the range
  * `0` to `0xffff_ffff_ffff_ffff` (`18446744073709551615`).
+ *
+ * For an alternative overflow behavior, see {@link bigIntToBinUint64LEClamped}.
+ *
+ * For the reverse, see {@link binToBigIntUint64LE}.
  *
  * @param value - the number to encode
  */
@@ -292,6 +334,8 @@ export const numberToBinInt32TwosCompliment = (value: number) => {
  * The `bytes` parameter can be set to constrain the expected length (default:
  * `bin.length`). This method throws if `bin.length` is not equal to `bytes`.
  *
+ * For the reverse, see {@link numberToBinUintLE}.
+ *
  * @privateRemarks
  * We avoid a bitwise strategy here because JavaScript uses 32-bit signed
  * integers for bitwise math, so larger numbers are converted incorrectly. E.g.
@@ -319,6 +363,8 @@ export const binToNumberUintLE = (bin: Uint8Array, bytes = bin.length) => {
  *
  * Throws if `bin` is shorter than 2 bytes.
  *
+ * For the reverse, see {@link numberToBinUint16LE}.
+ *
  * @param bin - the Uint8Array to decode
  */
 export const binToNumberUint16LE = (bin: Uint8Array) => {
@@ -331,6 +377,8 @@ export const binToNumberUint16LE = (bin: Uint8Array) => {
  * Decode a 4-byte Uint32LE Uint8Array into a number.
  *
  * Throws if `bin` is shorter than 4 bytes.
+ *
+ * For the reverse, see {@link numberToBinUint32LE}.
  *
  * @param bin - the Uint8Array to decode
  */
@@ -349,6 +397,8 @@ export const binToNumberUint32LE = (bin: Uint8Array) => {
  *
  * The `bytes` parameter can be set to constrain the expected length (default:
  * `bin.length`). This method throws if `bin.length` is not equal to `bytes`.
+ *
+ * For the reverse, see {@link bigIntToBinUintBE}.
  *
  * @param bin - the Uint8Array to decode
  * @param bytes - the number of bytes to read (default: `bin.length`)
@@ -369,6 +419,17 @@ export const binToBigIntUintBE = (bin: Uint8Array, bytes = bin.length) => {
 };
 
 /**
+ * Encode a positive BigInt as big-endian Uint8Array. Negative values will
+ * return the same result as `0`.
+ *
+ * For the reverse, see {@link binToBigIntUintBE}.
+ *
+ * @param value - the number to encode
+ */
+export const bigIntToBinUintBE = (value: bigint) =>
+  bigIntToBinUintLE(value).reverse();
+
+/**
  * Decode an unsigned, 32-byte big-endian Uint8Array into a BigInt. This can be
  * used to decode Uint8Array-encoded cryptographic primitives like private
  * keys, public keys, curve parameters, and signature points.
@@ -377,6 +438,9 @@ export const binToBigIntUintBE = (bin: Uint8Array, bytes = bin.length) => {
  * ```
  * BigInt(`0x${hex}`)
  * ```
+ *
+ * For the reverse, see {@link bigIntToBinUint256BEClamped}.
+ *
  * @param bin - the Uint8Array to decode
  */
 export const binToBigIntUint256BE = (bin: Uint8Array) => {
@@ -393,6 +457,8 @@ export const binToBigIntUint256BE = (bin: Uint8Array) => {
  * 2^256-1 will return the maximum expressible unsigned 256-bit value
  * (`0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff`).
  *
+ * For the reverse, see {@link binToBigIntUint256BE}.
+ *
  * @param value - the BigInt to encode
  */
 export const bigIntToBinUint256BEClamped = (value: bigint) => {
@@ -405,6 +471,8 @@ export const bigIntToBinUint256BEClamped = (value: bigint) => {
  *
  * The `bytes` parameter can be set to constrain the expected length (default:
  * `bin.length`). This method throws if `bin.length` is not equal to `bytes`.
+ *
+ * For the reverse, see {@link bigIntToBinUintLE}.
  *
  * @param bin - the Uint8Array to decode
  * @param bytes - the number of bytes to read (default: `bin.length`)
@@ -428,6 +496,9 @@ export const binToBigIntUintLE = (bin: Uint8Array, bytes = bin.length) => {
  *
  * Throws if `bin` is shorter than 8 bytes.
  *
+ * For the reverse, see {@link bigIntToBinUint64LE}
+ * or {@link bigIntToBinUint64LEClamped}.
+ *
  * @param bin - the Uint8Array to decode
  */
 export const binToBigIntUint64LE = (bin: Uint8Array) => {
@@ -442,6 +513,8 @@ export const binToBigIntUint64LE = (bin: Uint8Array) => {
  * {@link binToBigIntUint64LE}.
  *
  * Throws if the provided value is shorter than 8 bytes.
+ *
+ * For the reverse, see {@link valueSatoshisToBin}.
  */
 export const binToValueSatoshis = binToBigIntUint64LE;
 
@@ -451,6 +524,8 @@ export const binToValueSatoshis = binToBigIntUint64LE;
  *
  * This method will return an incorrect result for values outside of the range 0
  * to 0xffff_ffff_ffff_ffff (`18446744073709551615`).
+ *
+ * For the reverse, see {@link binToValueSatoshis}.
  */
 export const valueSatoshisToBin = bigIntToBinUint64LE;
 
@@ -472,7 +547,7 @@ const enum CompactUint {
  *
  * @param firstByte - the first byte of the CompactUint
  */
-export const compactUintPrefixToSize = (firstByte: number) => {
+export const compactUintPrefixToLength = (firstByte: number) => {
   switch (firstByte) {
     case CompactUint.uint16Prefix:
       return CompactUint.uint16 + 1;
@@ -512,7 +587,7 @@ export const readCompactUint = (
   if (prefix === undefined) {
     return formatError(CompactUintError.noPrefix);
   }
-  const bytes = compactUintPrefixToSize(prefix);
+  const bytes = compactUintPrefixToLength(prefix);
   if (bin.length - index < bytes) {
     return formatError(
       CompactUintError.insufficientBytes,
@@ -540,6 +615,8 @@ export const readCompactUint = (
  * (`18446744073709551615`). This method will return an incorrect result for
  * values outside of the range `0` to `0xffff_ffff_ffff_ffff`. If applicable,
  * applications should handle such cases prior to calling this method.
+ *
+ * For the reverse, see {@link compactUintToBigInt}.
  *
  * @param value - the BigInt to encode (must be no larger than
  * `0xffff_ffff_ffff_ffff`)
@@ -597,6 +674,8 @@ export const readCompactUintMinimal = (
  * `CompactUint` from a position within a larger `Uint8Array`,
  * use {@link readCompactUintMinimal} or {@link readCompactUint}.
  *
+ * For the reverse, see {@link bigIntToCompactUint}.
+ *
  * @param bin - the Uint8Array from which to read the CompactUint
  */
 export const compactUintToBigInt = (bin: Uint8Array) => {
@@ -617,6 +696,10 @@ export const compactUintToBigInt = (bin: Uint8Array) => {
  * Convert a signed integer into it's two's compliment unsigned equivalent, e.g.
  * `0b11111111111111111111111111111110` is `-2` as a signed integer or
  * `4294967294` as an unsigned integer.
+ *
+ * For the reverse, see {@link int32UnsignedToSigned}.
+ *
+ * @param int32 - the number to convert
  */
 export const int32SignedToUnsigned = (int32: number) =>
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -626,6 +709,10 @@ export const int32SignedToUnsigned = (int32: number) =>
  * Convert an unsigned integer into it's two's compliment signed equivalent,
  * e.g. `0b11111111111111111111111111111110` is `4294967294` as an unsigned
  * integer or `-2` as a signed integer.
+ *
+ * For the reverse, see {@link int32SignedToUnsigned}.
+ *
+ * @param int32 - the number to convert
  */
 export const int32UnsignedToSigned = (int32: number) =>
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

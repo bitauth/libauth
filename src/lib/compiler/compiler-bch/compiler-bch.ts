@@ -15,6 +15,7 @@ import type {
   Sha256,
   WalletTemplate,
 } from '../../lib.js';
+import { encodeTokenPrefix } from '../../message/message.js';
 import {
   createVirtualMachineBCH,
   generateBytecodeMap,
@@ -40,10 +41,10 @@ import {
 
 export type CompilerOperationsKeyBCH =
   | 'data_signature'
+  | 'ecdsa_signature'
   | 'public_key'
   | 'schnorr_data_signature'
-  | 'schnorr_signature'
-  | 'signature';
+  | 'schnorr_signature';
 
 export enum SigningSerializationAlgorithmIdentifier {
   /**
@@ -231,7 +232,12 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
   secp256k1Method,
 }: {
   operationName: string;
-  secp256k1Method: keyof NonNullable<CompilerConfiguration['secp256k1']>;
+  secp256k1Method:
+    | 'addTweakPrivateKey'
+    | 'addTweakPublicKeyCompressed'
+    | 'derivePublicKeyCompressed'
+    | 'signMessageHashDER'
+    | 'signMessageHashSchnorr';
 }) =>
   attemptCompilerOperations(
     [compilerOperationAttemptBytecodeResolution],
@@ -287,7 +293,7 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
 
 export const compilerOperationHdKeyEcdsaSignatureBCH =
   compilerOperationHelperHdKeySignatureBCH({
-    operationName: 'signature',
+    operationName: 'ecdsa_signature',
     secp256k1Method: 'signMessageHashDER',
   });
 export const compilerOperationHdKeySchnorrSignatureBCH =
@@ -301,7 +307,12 @@ export const compilerOperationHelperKeySignatureBCH = ({
   secp256k1Method,
 }: {
   operationName: string;
-  secp256k1Method: keyof NonNullable<CompilerConfiguration['secp256k1']>;
+  secp256k1Method:
+    | 'addTweakPrivateKey'
+    | 'addTweakPublicKeyCompressed'
+    | 'derivePublicKeyCompressed'
+    | 'signMessageHashDER'
+    | 'signMessageHashSchnorr';
 }) =>
   attemptCompilerOperations(
     [compilerOperationAttemptBytecodeResolution],
@@ -359,7 +370,7 @@ export const compilerOperationHelperKeySignatureBCH = ({
 
 export const compilerOperationKeyEcdsaSignatureBCH =
   compilerOperationHelperKeySignatureBCH({
-    operationName: 'signature',
+    operationName: 'ecdsa_signature',
     secp256k1Method: 'signMessageHashDER',
   });
 export const compilerOperationKeySchnorrSignatureBCH =
@@ -442,7 +453,12 @@ export const compilerOperationHelperKeyDataSignatureBCH = ({
   secp256k1Method,
 }: {
   operationName: string;
-  secp256k1Method: keyof NonNullable<CompilerConfiguration['secp256k1']>;
+  secp256k1Method:
+    | 'addTweakPrivateKey'
+    | 'addTweakPublicKeyCompressed'
+    | 'derivePublicKeyCompressed'
+    | 'signMessageHashDER'
+    | 'signMessageHashSchnorr';
 }) =>
   attemptCompilerOperations(
     [compilerOperationAttemptBytecodeResolution],
@@ -485,7 +501,7 @@ export const compilerOperationHelperKeyDataSignatureBCH = ({
 
 export const compilerOperationKeyEcdsaDataSignatureBCH =
   compilerOperationHelperKeyDataSignatureBCH({
-    operationName: 'data_signature',
+    operationName: 'ecdsa_data_signature',
     secp256k1Method: 'signMessageHashDER',
   });
 export const compilerOperationKeySchnorrDataSignatureBCH =
@@ -499,7 +515,12 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = ({
   secp256k1Method,
 }: {
   operationName: string;
-  secp256k1Method: keyof NonNullable<CompilerConfiguration['secp256k1']>;
+  secp256k1Method:
+    | 'addTweakPrivateKey'
+    | 'addTweakPublicKeyCompressed'
+    | 'derivePublicKeyCompressed'
+    | 'signMessageHashDER'
+    | 'signMessageHashSchnorr';
 }) =>
   attemptCompilerOperations(
     [compilerOperationAttemptBytecodeResolution],
@@ -543,7 +564,7 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = ({
 
 export const compilerOperationHdKeyEcdsaDataSignatureBCH =
   compilerOperationHelperHdKeyDataSignatureBCH({
-    operationName: 'data_signature',
+    operationName: 'ecdsa_data_signature',
     secp256k1Method: 'signMessageHashDER',
   });
 export const compilerOperationHdKeySchnorrDataSignatureBCH =
@@ -551,6 +572,38 @@ export const compilerOperationHdKeySchnorrDataSignatureBCH =
     operationName: 'schnorr_data_signature',
     secp256k1Method: 'signMessageHashSchnorr',
   });
+
+export const compilerOperationSigningSerializationTokenPrefix =
+  compilerOperationRequires({
+    canBeSkipped: false,
+    configurationProperties: [],
+    dataProperties: ['compilationContext'],
+    operation: (_, data) => ({
+      bytecode: encodeTokenPrefix(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        data.compilationContext.sourceOutputs[
+          data.compilationContext.inputIndex
+        ]!.token,
+      ),
+      status: 'success',
+    }),
+  });
+
+export const compilerOperationSignatureRenamed = (identifier: string) => ({
+  error: `The "signature" compiler operation was renamed to "ecdsa_signature". Consider fixing this error by changing "${identifier}" to "${identifier.replace(
+    'signature',
+    'schnorr_signature',
+  )}" (schnorr signatures reduce transaction sizes and enable multi-party signature aggregation).`,
+  status: 'error',
+});
+
+export const compilerOperationDataSignatureRenamed = (identifier: string) => ({
+  error: `The "data_signature" compiler operation was renamed to "ecdsa_data_signature". Consider fixing this error by changing "${identifier}" to "${identifier.replace(
+    'data_signature',
+    'schnorr_data_signature',
+  )}" (schnorr signatures reduce transaction sizes and enable multi-party signature aggregation).`,
+  status: 'error',
+});
 
 export const compilerOperationSigningSerializationFullBCH =
   compilerOperationRequires({
@@ -620,18 +673,22 @@ export const compilerOperationSigningSerializationFullBCH =
 export const compilerOperationsBCH = {
   ...compilerOperationsCommon,
   hdKey: {
-    data_signature: compilerOperationHdKeyEcdsaDataSignatureBCH,
+    data_signature: compilerOperationDataSignatureRenamed,
+    ecdsa_data_signature: compilerOperationHdKeyEcdsaDataSignatureBCH,
+    ecdsa_signature: compilerOperationHdKeyEcdsaSignatureBCH,
     public_key: compilerOperationsCommon.hdKey.public_key,
     schnorr_data_signature: compilerOperationHdKeySchnorrDataSignatureBCH,
     schnorr_signature: compilerOperationHdKeySchnorrSignatureBCH,
-    signature: compilerOperationHdKeyEcdsaSignatureBCH,
+    signature: compilerOperationSignatureRenamed,
   },
   key: {
-    data_signature: compilerOperationKeyEcdsaDataSignatureBCH,
+    data_signature: compilerOperationDataSignatureRenamed,
+    ecdsa_data_signature: compilerOperationKeyEcdsaDataSignatureBCH,
+    ecdsa_signature: compilerOperationKeyEcdsaSignatureBCH,
     public_key: compilerOperationsCommon.key.public_key,
     schnorr_data_signature: compilerOperationKeySchnorrDataSignatureBCH,
     schnorr_signature: compilerOperationKeySchnorrSignatureBCH,
-    signature: compilerOperationKeyEcdsaSignatureBCH,
+    signature: compilerOperationSignatureRenamed,
   },
   signingSerialization: {
     ...compilerOperationsCommon.signingSerialization,
@@ -653,6 +710,7 @@ export const compilerOperationsBCH = {
     full_no_outputs_single_input: compilerOperationSigningSerializationFullBCH,
     full_no_outputs_single_input_INVALID_all_utxos:
       compilerOperationSigningSerializationFullBCH,
+    token_prefix: compilerOperationSigningSerializationTokenPrefix,
   },
 };
 /* eslint-enable camelcase, @typescript-eslint/naming-convention */

@@ -10,9 +10,9 @@ export type RecoverableSignature = {
  *
  * ## Example
  *
- * ```typescript
+ * ```ts
  * import { secp256k1 } from '@bitauth/libauth';
- * import { msgHash, pubkey, sig } from './somewhere';
+ * import { msgHash, pubkey, sig } from 'somewhere';
  *
  * secp256k1.verifySignatureDERLowS(sig, pubkey, msgHash)
  *   ? console.log('🚀 Signature valid')
@@ -338,7 +338,7 @@ export type Secp256k1 = {
    *
    * Nearly every 256-bit number is a valid secp256k1 private key. Specifically,
    * any 256-bit number greater than or equal to `0x01` and less than
-   * `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140`
+   * `0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141`
    * is a valid private key. This range is part of the definition of the
    * secp256k1 elliptic curve parameters.
    *

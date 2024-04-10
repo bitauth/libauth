@@ -24,6 +24,8 @@ export const isBase64 = (maybeBase64: string) =>
  * incorrect result will be returned. If `validBase64` is potentially malformed,
  * check it with {@link isBase64} before calling this method.
  *
+ * For the reverse, see {@link binToBase64}.
+ *
  * @param validBase64 - a valid base64-encoded string to decode
  */
 export const base64ToBin = (validBase64: string) => {
@@ -59,6 +61,9 @@ export const base64ToBin = (validBase64: string) => {
 
 /**
  * Convert a Uint8Array to a base64-encoded string.
+ *
+ * For the reverse, see {@link base64ToBin}.
+ *
  * @param bytes - the Uint8Array to base64 encode
  */
 export const binToBase64 = (bytes: Uint8Array) => {

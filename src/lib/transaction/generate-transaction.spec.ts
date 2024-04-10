@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { privkey } from '../compiler/compiler-bch/compiler-bch.e2e.spec.helper.js';
+import { privateKeyM0 } from '../compiler/compiler-bch/compiler-bch.e2e.spec.helper.js';
 import {
   CashAddressNetworkPrefix,
   decodeTransaction,
@@ -55,7 +55,7 @@ test('createCompilerBCH: generateTransaction', (t) => {
 
   const p2pkh = walletTemplateToCompilerBCH(p2pkhTemplate);
   const lockingBytecode = p2pkh.generateBytecode({
-    data: { keys: { privateKeys: { owner: privkey } } },
+    data: { keys: { privateKeys: { owner: privateKeyM0 } } },
     scriptId: 'lock',
   });
 
@@ -66,11 +66,11 @@ test('createCompilerBCH: generateTransaction', (t) => {
   }
 
   t.deepEqual(
-    lockingBytecodeToCashAddress(
-      lockingBytecode.bytecode,
-      CashAddressNetworkPrefix.testnet,
-    ),
-    'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x',
+    lockingBytecodeToCashAddress({
+      bytecode: lockingBytecode.bytecode,
+      prefix: CashAddressNetworkPrefix.testnet,
+    }),
+    { address: 'bchtest:qq2azmyyv6dtgczexyalqar70q036yund53jvfde0x' },
   );
 
   const utxoOutpointTransactionHash = hexToBin(
@@ -87,7 +87,7 @@ test('createCompilerBCH: generateTransaction', (t) => {
         unlockingBytecode: {
           compiler: p2pkh,
           data: {
-            keys: { privateKeys: { owner: privkey } },
+            keys: { privateKeys: { owner: privateKeyM0 } },
           },
           script: 'unlock',
           valueSatoshis: BigInt(valueSatoshis),

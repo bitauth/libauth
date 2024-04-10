@@ -27,7 +27,7 @@ export const sigOfSig: WalletTemplate = {
   },
   scripts: {
     first_signature: {
-      script: 'first.signature.all_outputs',
+      script: 'first.ecdsa_signature.all_outputs',
     },
     lock: {
       lockingType: 'p2sh20',
@@ -37,7 +37,7 @@ export const sigOfSig: WalletTemplate = {
     },
     spend: {
       script:
-        '<first.signature.all_outputs> <first.public_key> <second.data_signature.first_signature>',
+        '<first.ecdsa_signature.all_outputs> <first.public_key> <second.ecdsa_data_signature.first_signature>',
       unlocks: 'lock',
     },
   },

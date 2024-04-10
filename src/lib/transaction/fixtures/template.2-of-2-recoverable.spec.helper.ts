@@ -78,7 +78,7 @@ export const twoOfTwoRecoverable: WalletTemplate = {
       name: 'Recover – Signer 1',
       passes: ['after_recovery_time'],
       script:
-        '<0>\n<first.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>',
+        '<0>\n<first.ecdsa_signature.all_outputs>\n<trusted.ecdsa_signature.all_outputs>\n<1>',
       timeLockType: 'timestamp',
       unlocks: 'lock',
     },
@@ -88,7 +88,7 @@ export const twoOfTwoRecoverable: WalletTemplate = {
       name: 'Recover – Signer 2',
       passes: ['after_recovery_time'],
       script:
-        '<0>\n<second.signature.all_outputs>\n<trusted.signature.all_outputs>\n<1>',
+        '<0>\n<second.ecdsa_signature.all_outputs>\n<trusted.ecdsa_signature.all_outputs>\n<1>',
       timeLockType: 'timestamp',
       unlocks: 'lock',
     },
@@ -97,7 +97,7 @@ export const twoOfTwoRecoverable: WalletTemplate = {
       name: 'Standard Spend',
       passes: ['after_recovery_time', 'before_recovery_time'],
       script:
-        '<0>\n<first.signature.all_outputs>\n<second.signature.all_outputs>\n<0>',
+        '<0>\n<first.ecdsa_signature.all_outputs>\n<second.ecdsa_signature.all_outputs>\n<0>',
       unlocks: 'lock',
     },
   },

@@ -77,17 +77,18 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   });
 
   if (!lockingBytecode.success) {
-    t.log('lockingBytecode', stringify(lockingBytecode));
-    t.fail();
+    t.fail(`lockingBytecode: ${stringify(lockingBytecode)}`);
     return;
   }
 
-  const address = lockingBytecodeToCashAddress(
-    lockingBytecode.bytecode,
-    CashAddressNetworkPrefix.testnet,
-  );
+  const address = lockingBytecodeToCashAddress({
+    bytecode: lockingBytecode.bytecode,
+    prefix: CashAddressNetworkPrefix.testnet,
+  });
 
-  t.deepEqual(address, 'bchtest:pz8p649zg3a492hxy86sh0ccvc7sptrlx5cp3eapah');
+  t.deepEqual(address, {
+    address: 'bchtest:pz8p649zg3a492hxy86sh0ccvc7sptrlx5cp3eapah',
+  });
 
   const valueSatoshis = 10000;
   const utxoOutput1 = {
@@ -174,16 +175,15 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   });
 
   if (signer1Attempt.success) {
-    t.log('signer1Attempt:', stringify(signer1Attempt));
-    t.fail();
+    t.fail(`signer1Attempt: ${stringify(signer1Attempt)}`);
     return;
   }
 
   const signer1MissingVariables = extractMissingVariables(signer1Attempt);
 
   t.deepEqual(signer1MissingVariables, {
-    'second.signature.all_outputs': 'signer_2',
-    'trusted.signature.all_outputs': 'trusted_party',
+    'second.ecdsa_signature.all_outputs': 'signer_2',
+    'trusted.ecdsa_signature.all_outputs': 'trusted_party',
   });
 
   t.deepEqual(signer1Attempt.completions, []);
@@ -230,8 +230,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   });
 
   if (signer2Attempt.success) {
-    t.log('signer2Attempt:', stringify(signer2Attempt));
-    t.fail();
+    t.fail(`signer2Attempt: ${stringify(signer2Attempt)}`);
     return;
   }
 
@@ -246,7 +245,8 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
             ...signer2UnlockingData,
             bytecode: {
               ...signer2UnlockingData.bytecode,
-              'first.signature.all_outputs': expectedSigner1SignatureInput1,
+              'first.ecdsa_signature.all_outputs':
+                expectedSigner1SignatureInput1,
             },
           },
         },
@@ -259,7 +259,8 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
             ...signer2UnlockingData,
             bytecode: {
               ...signer2UnlockingData.bytecode,
-              'first.signature.all_outputs': expectedSigner1SignatureInput2,
+              'first.ecdsa_signature.all_outputs':
+                expectedSigner1SignatureInput2,
             },
           },
         },
@@ -268,8 +269,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   });
 
   if (signer2Attempt2.success) {
-    t.log('signer2Attempt2:', stringify(signer2Attempt2));
-    t.fail();
+    t.fail(`signer2Attempt2: ${stringify(signer2Attempt2)}`);
     return;
   }
 
@@ -277,7 +277,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
     extractMissingVariables(signer2Attempt2);
 
   t.deepEqual(signer2Attempt2MissingVariables, {
-    'trusted.signature.all_outputs': 'trusted_party',
+    'trusted.ecdsa_signature.all_outputs': 'trusted_party',
   });
 
   t.deepEqual(
@@ -330,8 +330,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   });
 
   if (signer3Attempt.success) {
-    t.log('signer3Attempt:', stringify(signer3Attempt));
-    t.fail();
+    t.fail(`signer3Attempt: ${stringify(signer3Attempt)}`);
     return;
   }
 
@@ -347,7 +346,8 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
             ...signer3UnlockingData,
             bytecode: {
               ...signer3UnlockingData.bytecode,
-              'first.signature.all_outputs': expectedSigner1SignatureInput2,
+              'first.ecdsa_signature.all_outputs':
+                expectedSigner1SignatureInput2,
             },
           },
         },
@@ -356,8 +356,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   });
 
   if (!successfulCompilation.success) {
-    t.log('successfulCompilation:', stringify(successfulCompilation));
-    t.fail();
+    t.fail(`successfulCompilation: ${stringify(successfulCompilation)}`);
     return;
   }
 

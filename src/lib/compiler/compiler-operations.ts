@@ -1,9 +1,10 @@
 import {
+  assertSuccess,
   bigIntToCompactUint,
   numberToBinUint32LE,
   valueSatoshisToBin,
 } from '../format/format.js';
-import { decodeHdPublicKey, deriveHdPath } from '../key/key.js';
+import { decodeHdPublicKey, deriveHdPathRelative } from '../key/key.js';
 import type { CompilerOperationResult, WalletTemplateHdKey } from '../lib.js';
 import {
   encodeTransactionInputSequenceNumbersForSigning,
@@ -435,35 +436,62 @@ export const compilerOperationHdKeyPublicKeyCommon = attemptCompilerOperations(
         const privateDerivationPath =
           hdKey.privateDerivationPath ??
           CompilerDefaults.hdKeyPrivateDerivationPath;
+        const hdPublicKeyDerivationPath =
+          hdKey.hdPublicKeyDerivationPath ??
+          CompilerDefaults.hdKeyHdPublicKeyDerivationPath;
         const publicDerivationPath =
-          hdKey.publicDerivationPath ?? privateDerivationPath.replace('m', 'M');
+          hdKey.publicDerivationPath ?? privateDerivationPath.replace('m/', '');
 
-        const validPublicPathWithIndex = /^M(?:\/(?:[0-9]+|i))*$/u;
-        if (!validPublicPathWithIndex.test(publicDerivationPath)) {
+        const validHdPublicKeyDerivationPath =
+          /^(?:m|[0-9]+)'?(?:\/(?:[0-9]+'?))*$/u;
+        if (
+          hdPublicKeyDerivationPath !== '' &&
+          !validHdPublicKeyDerivationPath.test(hdPublicKeyDerivationPath)
+        ) {
           return {
-            error: `Could not generate ${identifier} - the path "${publicDerivationPath}" is not a valid "publicDerivationPath".`,
+            error: `Could not generate "${identifier}" - "hdPublicKeyDerivationPath" ("${hdPublicKeyDerivationPath}") must be a fixed (no "i" characters), valid absolute derivation path.`,
             status: 'error',
           };
         }
+
+        const expected =
+          hdPublicKeyDerivationPath === ''
+            ? publicDerivationPath
+            : `${hdPublicKeyDerivationPath}/${publicDerivationPath}`;
+        if (privateDerivationPath !== expected) {
+          return {
+            error: `Could not generate "${identifier}" - "privateDerivationPath" ("${privateDerivationPath}") is expected to be the combination of "hdPublicKeyDerivationPath" and "publicDerivationPath": "${expected}".`,
+            status: 'error',
+          };
+        }
+
+        /**
+         * Provided keys are already verified by `validateCompilationData`.
+         */
+        const masterContents = assertSuccess(
+          decodeHdPublicKey(entityHdPublicKey, {
+            crypto: configuration,
+          }),
+        );
 
         const i = addressIndex + addressOffset;
         const instancePath = publicDerivationPath.replace('i', i.toString());
 
-        const masterContents = decodeHdPublicKey(
-          entityHdPublicKey,
-          configuration,
-        );
-        if (typeof masterContents === 'string') {
+        const expectedDepth = hdPublicKeyDerivationPath.split('/').length - 1;
+        if (
+          hdPublicKeyDerivationPath !== '' &&
+          masterContents.node.depth !== expectedDepth
+        ) {
           return {
-            error: `Could not generate "${identifier}" - the HD public key provided for "${entityId}" could not be decoded: ${masterContents}`,
+            error: `Could not generate "${identifier}" - the HD public key derivation path ("${hdPublicKeyDerivationPath}") indicates an expected depth of ${expectedDepth}, but the provided HD public key has a depth of ${masterContents.node.depth}.`,
             status: 'error',
           };
         }
 
-        const instanceNode = deriveHdPath(
+        const instanceNode = deriveHdPathRelative(
           masterContents.node,
           instancePath,
-          configuration,
+          { crypto: configuration, throwErrors: false },
         );
 
         if (typeof instanceNode === 'string') {

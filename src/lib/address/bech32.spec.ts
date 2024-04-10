@@ -8,6 +8,7 @@ import {
   BitRegroupingError,
   decodeBech32,
   encodeBech32,
+  extractNonBech32Characters,
   isBech32CharacterSet,
   regroupBits,
 } from '../lib.js';
@@ -184,14 +185,17 @@ test('regroupBits', (t) => {
   );
 });
 
-test('isBech32CharacterSet', (t) => {
+test('isBech32CharacterSet, extractNonBech32Characters', (t) => {
   t.deepEqual(isBech32CharacterSet(''), true);
   t.deepEqual(isBech32CharacterSet('qq'), true);
   // cspell: disable-next-line
   t.deepEqual(isBech32CharacterSet('qpzry9x8gf2tvdw0s3jn54khce6mua7l'), true);
   t.deepEqual(isBech32CharacterSet('1u'), false);
+  t.deepEqual(extractNonBech32Characters('1u'), ['1']);
   // cspell: disable-next-line
   t.deepEqual(isBech32CharacterSet(':qqqsyqc'), false);
+  t.deepEqual(extractNonBech32Characters(':qqqsyqc'), [':']);
+  t.deepEqual(extractNonBech32Characters('1:qqqsyq*c'), ['1', ':', '*']);
 });
 
 test('decodeBech32', (t) => {

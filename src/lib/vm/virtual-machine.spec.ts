@@ -6,7 +6,7 @@ import type {
   AuthenticationProgramStateStack,
   InstructionSet,
 } from '../lib.js';
-import { createAuthenticationVirtualMachine } from '../lib.js';
+import { createVirtualMachine } from '../lib.js';
 
 import { applyError } from './vm.js';
 
@@ -120,7 +120,7 @@ const simpleInstructionSet: InstructionSet<
   },
 };
 
-const vm = createAuthenticationVirtualMachine(simpleInstructionSet);
+const vm = createVirtualMachine(simpleInstructionSet);
 
 const instructions: AuthenticationInstruction[] = [
   { opcode: SimpleOps.OP_0 },

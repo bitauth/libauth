@@ -84,9 +84,11 @@ export type WalletTemplate = {
   supported: AuthenticationVirtualMachineIdentifier[];
   /**
    * A number identifying the format of this WalletTemplate.
-   * Currently, this implementation requires `version` be set to `0`.
+   * Currently, this implementation allows `version` to be set to `0`.
+   *
+   * @deprecated template versions are now specified via `$schema`
    */
-  version: 0;
+  version?: 0;
 };
 
 /**
@@ -175,7 +177,7 @@ export type WalletTemplateScenarioData = {
    *
    * The provided `fullIdentifier` should match the complete identifier for
    * each item, e.g. `some_wallet_data`, `variable_id.public_key`, or
-   * `variable_id.signature.all_outputs`.
+   * `variable_id.schnorr_signature.all_outputs`.
    *
    * All `AddressData` and `WalletData` variables must be provided via
    * `bytecode` (though the default scenario automatically includes reasonable
@@ -960,90 +962,108 @@ export type WalletTemplateHdKey = WalletTemplateKeyBase &
      * compilation data when deriving this `HdKey`. (Default: 0)
      *
      * This is useful for deriving the "next" (`1`) or "previous" (`-1`) address
-     * to be used in the current compiler configuration.
+     * for use in the current compilation.
      */
     addressOffset?: number;
     /**
-     * The path to derive the entity's HD public key from the entity's master HD
-     * private key. By default, `m` (i.e. the entity's HD public key represents
-     * the same node in the HD tree as its HD private key).
+     * The path to derive the entity's HD public key from the entity's provided
+     * HD private key. By default, an empty string (`""`), i.e. the entity's HD
+     * public key represents the same node in the HD tree as the provided HD
+     * private key.
      *
-     * This can be used to specify another derivation path from which the
-     * `publicDerivationPath` begins, e.g. `m/0'/1'/2'`. See
+     * This can be used to specify another relative or absolute derivation path
+     * from which the `publicDerivationPath` begins, e.g. `m/0'/1'/2'`. See
      * `publicDerivationPath` for details.
      *
-     * This path must begin with an `m` (private derivation) and be fixed – it
-     * cannot contain an `i` character to represent the address index, as a
-     * dynamic hardened path would require a new HD public key for each address.
+     * This path may optionally begin with an `m` (for relative private
+     * derivation) and must be fixed – it cannot contain any `i` characters to
+     * represent the address index, as a dynamic hardened path would require a
+     * new HD public key for each address.
+     *
+     * Note, `hdPublicKeyDerivationPath` could be automatically determined in
+     * some cases, but it's always defined independently to improve validation
+     * and auditability.
      */
     hdPublicKeyDerivationPath?: string;
     /**
-     * The derivation path used to derive this `HdKey` from the owning entity's HD
-     * private key. By default, `m/i`.
+     * The relative or absolute derivation path used to derive this `HdKey` from
+     * the owning entity's HD private key. By default, `i`.
+     *
+     * If the first character is `m`, the path is an absolute path, otherwise,
+     * the path is a relative path. For absolute paths, the compiler will verify
+     * that the relevant entity's HD private key is a master private key
+     * (encoded with a depth of zero); `HdKey`s with relative
+     * `privateDerivationPath` may be resolved using non-master private keys
+     * (e.g. hardened accounts that have been previously derived and delegated
+     * to a sub-entity prior to compilation).
      *
      * This path uses the notation specified in BIP32 and the `i` character to
-     * represent the location of the `addressIndex`:
+     * represent the `addressIndex`:
      *
-     * The first character must be `m` (private derivation), followed by sets of
-     * `/` and a number representing the child index used in the derivation at
-     * that depth. Hardened derivation is represented by a trailing `'`, and
-     * hardened child indexes are represented with the hardened index offset
-     * (`2147483648`) subtracted. The `i` character is replaced with the value of
-     * `addressIndex` plus this `HdKey`'s `addressOffset`. If the `i` character is
-     * followed by `'`, the hardened index offset is added (`2147483648`) and
-     * hardened derivation is used.
+     * An optional `m` character (indicating an absolute, private derivation
+     * path), followed by sets of `/` and a number representing the child index
+     * used in the derivation at that depth. Hardened derivation is represented
+     * by a trailing `'`, and hardened child indexes are represented with the
+     * hardened index offset (`2147483648`) subtracted. All `i` characters are
+     * replaced with the value of `addressIndex` plus this `HdKey`'s
+     * `addressOffset`. If the `i` character is followed by `'`, the hardened
+     * index offset is added (`2147483648`) and hardened derivation is used.
      *
-     * For example, `m/0/1'/i'` uses 3 levels of derivation, with child indexes in
-     * the following order:
+     * For example, `m/0/1'/i'` has 3 levels of derivation, with child indexes
+     * in the following order:
      *
-     * `derive(derive(derive(node, 0), 2147483648 + 1), 2147483648 + addressIndex + addressOffset)`
+     * `derive(derive(derive(masterKey, 0), 2147483648 + 1), 2147483648 + addressIndex + addressOffset)`
      *
-     * Because hardened derivation requires knowledge of the private key, `HdKey`
-     * variables with `derivationPath`s that include hardened derivation cannot
-     * use HD public derivation (the `hdPublicKeys` property in
-     * `CompilationData`). Instead, compilation requires the respective HD private
-     * key (`CompilationData.hdKeys.hdPrivateKeys`) or the fully-derived public
-     * key (`CompilationData.hdKeys.derivedPublicKeys`).
+     * As the path is absolute (begins with `m`), the compiler will also verify
+     * that a zero-depth ("master") HD private key is provided for the entity
+     * owning this `HdKey`.
+     *
+     * Note, because hardened derivation requires knowledge of the private key,
+     * `HdKey` variables with `privateDerivationPath`s that include hardened
+     * derivation must configure `hdPublicKeyDerivationPath` to support HD
+     * public derivation.
      */
     privateDerivationPath?: string;
     /**
-     * The derivation path used to derive this `HdKey`'s public key from the
-     * owning entity's HD public key. If not set, the public equivalent of
-     * `privateDerivationPath` is used. For the `privateDerivationPath` default of
-     * `m/i`, this is `M/i`.
+     * The relative derivation path used to derive this `HdKey`'s public key
+     * from the owning entity's HD public key (configured via
+     * `hdPublicKeyDerivationPath`). If not set, the relative path
+     * (following the `m/` of `privateDerivationPath`) is used. For the
+     * `privateDerivationPath` default of `i`, this is `i`.
      *
      * If `privateDerivationPath` uses hardened derivation for some levels, but
-     * later derivation levels use non-hardened derivation, `publicDerivationPath`
-     * can be used to specify a public derivation path beginning from
-     * `hdPublicKeyDerivationPath` (i.e. `publicDerivationPath` should always be a
-     * non-hardened segment of `privateDerivationPath` that follows
-     * `hdPublicKeyDerivationPath`).
+     * later derivation levels use non-hardened derivation,
+     * `publicDerivationPath` can be used to specify a public derivation path
+     * beginning from `hdPublicKeyDerivationPath` (i.e. `publicDerivationPath`
+     * should always be a non-hardened segment of `privateDerivationPath` that
+     * follows `hdPublicKeyDerivationPath`).
      *
-     * The first character must be `M` (public derivation), followed by sets of
-     * `/` and a number representing the child index used in the non-hardened
-     * derivation at that depth.
+     * The `publicDerivationPath` must be a relative HD derivation path:
+     * non-hardened positive integer child indexes (between `0` and
+     * `2147483647`, without any trailing `'`s) separated by `/`s.
      *
-     * For example, if `privateDerivationPath` is `m/0'/i`, it is not possible to
-     * derive the equivalent public key with only the HD public key `M`. (The path
-     * "`M/0'/i`" is impossible.) However, given the HD public key for `m/0'`, it
-     * is possible to derive the public key of `m/0'/i` for any `i`. In this case,
-     * `hdPublicKeyDerivationPath` would be `m/0'` and `publicDerivationPath`
-     * would be the remaining `M/i`.
+     * For example, if `privateDerivationPath` is `m/0'/i`, it is not possible
+     * to derive the equivalent public key with only the HD public key `M`. (The
+     * path `M/0'/i` is impossible.) However, given the HD public key for
+     * `m/0'`, it is possible to derive the public key of `m/0'/i` for any `i`.
+     * In this case, `hdPublicKeyDerivationPath` would be `m/0'` and
+     * `publicDerivationPath` would be the remaining `i`.
      *
      * @remarks
      * Non-hardened derivation paths are more useful for some templates, e.g. to
      * allow for new locking scripts to be generated without communicating new
-     * public keys between entities for each. **However, using a non-hardened key
-     * has critical security implications.** If an attacker gains possession of
-     * both a parent HD *public key* and any child private key, the attacker can
-     * easily derive the parent HD *private key*, and with it, all hardened and
-     * non-hardened child keys. See BIP32 or
+     * public keys between entities for each. **However, using a non-hardened
+     * key has critical security implications.** If an attacker gains possession
+     * of both a parent HD *public key* and any child private key, the attacker
+     * can easily derive the parent HD *private key*, and with it, all hardened
+     * and non-hardened child keys. See Libauth's
      * `crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode` for details.
      */
     publicDerivationPath?: string;
     /**
-     * The `HdKey` (Hierarchical-Deterministic Key) type automatically manages key
-     * generation and mapping in a standard way. For greater control, use `Key`.
+     * The `HdKey` (Hierarchical-Deterministic Key) type automatically manages
+     * key generation and mapping in a standard way. For greater control,
+     * use `Key`.
      */
     type: 'HdKey';
   };
@@ -1062,8 +1082,8 @@ export type WalletTemplateKey = WalletTemplateKeyBase &
      * The `Key` type provides fine-grained control over key generation and
      * mapping. Most templates should instead use `HdKey`.
      *
-     * Any HD (Hierarchical-Deterministic) derivation must be completed outside of
-     * the templating system and provided at the time of use.
+     * Any HD (Hierarchical-Deterministic) derivation must be completed outside
+     * of the templating system and provided at the time of use.
      */
     type: 'Key';
   };

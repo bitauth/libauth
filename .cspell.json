@@ -48,12 +48,14 @@
     "CHECKSEQUENCEVERIFY",
     "CHECKSIG",
     "CHECKSIGVERIFY",
+    "checksummed",
     "chipnet",
     "chuhai",
     "codecov",
     "codepoint",
     "CODESEPARATOR",
     "coinbase",
+    "Coldcard's",
     "combinator",
     "combinators",
     "convertbits",
@@ -156,6 +158,7 @@
     "seckey",
     "secp",
     "secp256k1",
+    "secretkey",
     "sidechain",
     "sigchecks",
     "sighash",
@@ -183,6 +186,7 @@
     "Uint",
     "uncompress",
     "unintuitive",
+    "UNROT",
     "unspendable",
     "untrusted",
     "utxo",
@@ -221,7 +225,16 @@
     {
       "name": "cash-address-format",
       "pattern": "/:[qpzry9x8gf2tvdw0s3jn54khce6mua7l]+/g"
+    },
+    {
+      "name": "secret-key-format",
+      "pattern": "/secret-key:[-qpzry9x8gf2tvdw0s3jn54khce6mua7l]+/g"
     }
   ],
-  "ignoreRegExpList": ["Base64", "HexValues", "cash-address-format"]
+  "ignoreRegExpList": [
+    "Base64",
+    "HexValues",
+    "cash-address-format",
+    "secret-key-format"
+  ]
 }

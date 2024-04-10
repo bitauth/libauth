@@ -7,6 +7,7 @@ import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import {
+  assertSuccess,
   binsAreEqual,
   binToHex,
   cashAddressToLockingBytecode,
@@ -17,7 +18,7 @@ import {
   encodeHdPrivateKey,
   encodeTransaction,
   hdPrivateKeyToIdentifier,
-  hdPrivateKeyToP2pkhAddress,
+  hdPrivateKeyToP2pkhCashAddress,
   hdPrivateKeyToP2pkhLockingBytecode,
   hexToBin,
   isHex,
@@ -74,17 +75,11 @@ if (arg1 === 'private') {
     arg2 === undefined ? randomBytes(defaultSeedLength) : hexToBin(arg2);
 
   const node = deriveHdPrivateNodeFromSeed(seed);
-  if (!node.valid) {
-    console.log(
-      `Tell everyone you found an invalid HD seed 🤯: ${binToHex(seed)}`,
-    );
-    process.exit(1);
-  }
-  const privateKey = encodeHdPrivateKey({ network: 'mainnet', node });
+  const { hdPrivateKey } = encodeHdPrivateKey({ network: 'mainnet', node });
   console.log(`
 Derived a new HD private key from seed: ${binToHex(seed)}
 
-HD private key: ${privateKey}
+HD private key: ${hdPrivateKey}
 
 To use it, run: yarn wallet address <prefix> <hd_private_key> [index]
 
@@ -92,7 +87,7 @@ For <prefix> provide the CashAddress prefix to use. Typical prefixes are: bitcoi
 For [index], optionally provide an address index to use (default: 0)
 
 E.g. for a mainnet address:
-yarn wallet address bitcoincash ${privateKey}
+yarn wallet address bitcoincash ${hdPrivateKey}
   `);
 
   process.exit(0);
@@ -109,15 +104,12 @@ if (arg1 === 'address') {
     console.log('\n', keyId);
     process.exit(1);
   }
-  const address = hdPrivateKeyToP2pkhAddress({
+  const { address } = hdPrivateKeyToP2pkhCashAddress({
     addressIndex: fundingAddressIndex,
-    hdKey: arg3,
+    hdPrivateKey: arg3,
     prefix: arg2 as 'bchreg' | 'bchtest' | 'bitcoincash',
   });
-  const { bytecode } = cashAddressToLockingBytecode(address) as {
-    bytecode: Uint8Array;
-    prefix: string;
-  };
+  const { bytecode } = assertSuccess(cashAddressToLockingBytecode(address));
   const legacyAddress = lockingBytecodeToBase58Address(
     bytecode,
     'mainnet',
@@ -164,12 +156,14 @@ if (typeof keyId === 'string') {
 const fundingTransaction = decodeTransactionUnsafe(hexToBin(arg3));
 const fundingLockingBytecode = hdPrivateKeyToP2pkhLockingBytecode({
   addressIndex: fundingAddressIndex,
-  hdKey: hdPrivateKey,
+  hdPrivateKey,
 });
-const fundingAddress = lockingBytecodeToCashAddress(
-  fundingLockingBytecode,
-  'bitcoincash',
-) as string;
+const fundingAddress = assertSuccess(
+  lockingBytecodeToCashAddress({
+    bytecode: fundingLockingBytecode,
+    prefix: 'bitcoincash',
+  }),
+).address;
 const fundingUtxoIndex = fundingTransaction.outputs.findIndex((output) =>
   binsAreEqual(output.lockingBytecode, fundingLockingBytecode),
 );

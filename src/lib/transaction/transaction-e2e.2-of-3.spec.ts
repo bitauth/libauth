@@ -59,17 +59,18 @@ test('transaction e2e tests: 2-of-3 multisig', (t) => {
   });
 
   if (!lockingBytecode.success) {
-    t.log('lockingBytecode', stringify(lockingBytecode));
-    t.fail();
+    t.fail(`lockingBytecode: ${stringify(lockingBytecode)}`);
     return;
   }
 
-  const address = lockingBytecodeToCashAddress(
-    lockingBytecode.bytecode,
-    CashAddressNetworkPrefix.testnet,
-  );
+  const address = lockingBytecodeToCashAddress({
+    bytecode: lockingBytecode.bytecode,
+    prefix: CashAddressNetworkPrefix.testnet,
+  });
 
-  t.deepEqual(address, 'bchtest:pplldqjpjaj0058xma6csnpgxd9ew2vxgv26n639yk');
+  t.deepEqual(address, {
+    address: 'bchtest:pplldqjpjaj0058xma6csnpgxd9ew2vxgv26n639yk',
+  });
 
   const valueSatoshis = 10000;
   const utxoOutput = {
@@ -125,15 +126,14 @@ test('transaction e2e tests: 2-of-3 multisig', (t) => {
   });
 
   if (signer1Attempt.success) {
-    t.log('signer1Attempt:', stringify(signer1Attempt));
-    t.fail();
+    t.fail(`signer1Attempt: ${stringify(signer1Attempt)}`);
     return;
   }
 
   const signer1MissingVariables = extractMissingVariables(signer1Attempt);
 
   t.deepEqual(signer1MissingVariables, {
-    'key3.signature.all_outputs': 'signer_3',
+    'key3.ecdsa_signature.all_outputs': 'signer_3',
   });
 
   t.deepEqual(signer1Attempt.completions, []);
@@ -147,7 +147,7 @@ test('transaction e2e tests: 2-of-3 multisig', (t) => {
   t.deepEqual(
     signer1ResolvedVariables,
     {
-      'key1.signature.all_outputs': expectedSigner1Signature,
+      'key1.ecdsa_signature.all_outputs': expectedSigner1Signature,
     },
     stringify(signer1ResolvedVariables),
   );
@@ -176,8 +176,7 @@ test('transaction e2e tests: 2-of-3 multisig', (t) => {
   });
 
   if (signer3Attempt.success) {
-    t.log('signer3Attempt:', stringify(signer1Attempt));
-    t.fail();
+    t.fail(`signer3Attempt: ${stringify(signer3Attempt)}`);
     return;
   }
 
@@ -194,7 +193,7 @@ test('transaction e2e tests: 2-of-3 multisig', (t) => {
     {
       ...signer3UnlockingData,
       bytecode: {
-        'key1.signature.all_outputs': expectedSigner1Signature,
+        'key1.ecdsa_signature.all_outputs': expectedSigner1Signature,
       },
     },
     stringify(signer3UnlockingDataWithMissingVariables),
@@ -214,8 +213,7 @@ test('transaction e2e tests: 2-of-3 multisig', (t) => {
   });
 
   if (!successfulCompilation.success) {
-    t.log('successfulCompilation:', stringify(successfulCompilation));
-    t.fail();
+    t.fail(`successfulCompilation: ${stringify(successfulCompilation)}`);
     return;
   }
 

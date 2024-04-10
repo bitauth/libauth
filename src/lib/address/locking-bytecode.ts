@@ -1,8 +1,9 @@
 import { sha256 as internalSha256 } from '../crypto/crypto.js';
-import { formatError, unknownValue } from '../format/format.js';
+import { unknownValue } from '../format/format.js';
 import type {
   Base58AddressNetwork,
   CashAddressNetworkPrefix,
+  CashAddressResult,
   Sha256,
 } from '../lib.js';
 
@@ -366,78 +367,112 @@ export const addressContentsToLockingBytecode = ({
   if (type === LockingBytecodeType.p2pk) {
     return encodeLockingBytecodeP2pk(payload);
   }
-  return unknownValue(
-    type,
-    `Unrecognized addressContents type: ${type as string}`,
-  );
+  return unknownValue(type, `Unrecognized addressContents type:`);
+};
+
+export type DecodedCashAddressLockingBytecode = {
+  bytecode: Uint8Array;
+  prefix: `${CashAddressNetworkPrefix}`;
+  tokenSupport: boolean;
 };
 
 /**
- * Encode a locking bytecode as a CashAddress given a network prefix.
+ * Encode a locking bytecode as a CashAddress.
  *
  * If `bytecode` matches a standard pattern, it is encoded using the proper
- * address type and returned as a valid CashAddress (string).
+ * address type and returned as a {@link CashAddressResult}.
  *
  * If `bytecode` cannot be encoded as an address (i.e. because the pattern is
- * not standard), the resulting {@link AddressContents} is returned.
+ * not standard), an error message is returned as a `string`.
+ *
+ * For the reverse, see {@link cashAddressToLockingBytecode}.
+ *
+ * Due to the high likelihood of runtime errors in a variety of use cases (e.g.
+ * attempting to convert P2PK or arbitrary data outputs to CashAddresses for
+ * display in a transaction viewer or block explorer), this function returns
+ * encoding errors in a type-safe way (as a `string`) rather than via thrown
+ * `Error` objects.
+ *
+ * For applications in which the input to `lockingBytecodeToCashAddress` is
+ * trusted (e.g. the application is encoding an address for self-generated
+ * locking bytecode), consider using `assertSuccess` to simplify error handling:
+ *
+ * ```ts
+ * import {
+ *   assertSuccess,
+ *   lockingBytecodeToCashAddress
+ * } from '@bitauth/libauth';
+ * import { lockingBytecode, useTheAddress } from './my/app.js';
+ *
+ * const { address } = assertSuccess(
+ *   lockingBytecodeToCashAddress(lockingBytecode)
+ * );
+ *
+ * useTheAddress(address);
+ * ```
  *
  * @param bytecode - the locking bytecode to encode
  * @param prefix - the network prefix to use, e.g. `bitcoincash`, `bchtest`, or
  * `bchreg`, defaults to `bitcoincash`
- * @param options - an object describing address options, defaults to
- * `{ tokenSupport: false }`
+ * @param tokenSupport - If `true`, the address will indicate that the receiver
+ * accepts CashTokens; defaults to `false`.
  */
 // eslint-disable-next-line complexity
-export const lockingBytecodeToCashAddress = (
-  bytecode: Uint8Array,
-  prefix: `${CashAddressNetworkPrefix}` = 'bitcoincash',
-  options = { tokenSupport: false },
-) => {
-  const contents = lockingBytecodeToAddressContents(bytecode);
-  if (contents.type === LockingBytecodeType.p2pkh) {
-    return options.tokenSupport
-      ? encodeCashAddress(
+export const lockingBytecodeToCashAddress = ({
+  prefix = 'bitcoincash',
+  bytecode,
+  tokenSupport = false,
+}: Omit<DecodedCashAddressLockingBytecode, 'prefix' | 'tokenSupport'> & {
+  prefix?: `${CashAddressNetworkPrefix}`;
+  tokenSupport?: boolean;
+}): CashAddressResult | string => {
+  const { payload, type } = lockingBytecodeToAddressContents(bytecode);
+  if (type === LockingBytecodeType.p2pkh) {
+    return tokenSupport
+      ? encodeCashAddress({
+          payload,
           prefix,
-          CashAddressType.p2pkhWithTokens,
-          contents.payload,
-        )
-      : encodeCashAddress(prefix, CashAddressType.p2pkh, contents.payload);
+          throwErrors: false,
+          type: CashAddressType.p2pkhWithTokens,
+        })
+      : encodeCashAddress({
+          payload,
+          prefix,
+          throwErrors: false,
+          type: CashAddressType.p2pkh,
+        });
   }
   if (
-    contents.type === LockingBytecodeType.p2sh20 ||
-    contents.type === LockingBytecodeType.p2sh32
+    type === LockingBytecodeType.p2sh20 ||
+    type === LockingBytecodeType.p2sh32
   ) {
-    return options.tokenSupport
-      ? encodeCashAddress(
+    return tokenSupport
+      ? encodeCashAddress({
+          payload,
           prefix,
-          CashAddressType.p2shWithTokens,
-          contents.payload,
-        )
-      : encodeCashAddress(prefix, CashAddressType.p2sh, contents.payload);
+          throwErrors: false,
+          type: CashAddressType.p2shWithTokens,
+        })
+      : encodeCashAddress({
+          payload,
+          prefix,
+          throwErrors: false,
+          type: CashAddressType.p2sh,
+        });
   }
-  if (contents.type === 'P2PK') {
-    return {
-      error: CashAddressEncodingError.noTypeBitsValueStandardizedForP2pk,
-    };
+  if (type === 'P2PK') {
+    return CashAddressEncodingError.noTypeBitsValueStandardizedForP2pk;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (contents.type === 'unknown') {
-    return { error: CashAddressEncodingError.unknownLockingBytecodeType };
-  }
-  return unknownValue(
-    contents.type,
-    `Unrecognized locking bytecode type: ${contents.type as string}`,
-  );
+  return CashAddressEncodingError.unknownLockingBytecodeType;
 };
 
-export enum LockingBytecodeGenerationError {
-  unsupportedPayloadLength = 'Error generating locking bytecode: no standard locking bytecode patterns support a payload of this length.',
-}
 /**
  * Convert a CashAddress to its respective locking bytecode.
  *
  * This method returns the locking bytecode and network prefix. If an error
  * occurs, an error message is returned as a string.
+ *
+ * For the reverse, see {@link lockingBytecodeToCashAddress}.
  *
  * @param address - the CashAddress to convert
  */
@@ -445,15 +480,6 @@ export enum LockingBytecodeGenerationError {
 export const cashAddressToLockingBytecode = (address: string) => {
   const decoded = decodeCashAddress(address);
   if (typeof decoded === 'string') return decoded;
-  if (
-    decoded.payload.length !== AddressPayload.p2sh20Length &&
-    decoded.payload.length !== AddressPayload.p2sh32Length
-  ) {
-    return formatError(
-      LockingBytecodeGenerationError.unsupportedPayloadLength,
-      `Payload length: ${decoded.payload.length}`,
-    );
-  }
   if (
     decoded.type === CashAddressType.p2pkh ||
     decoded.type === CashAddressType.p2pkhWithTokens
@@ -463,11 +489,9 @@ export const cashAddressToLockingBytecode = (address: string) => {
         payload: decoded.payload,
         type: LockingBytecodeType.p2pkh,
       }),
-      options: {
-        tokenSupport: decoded.type === CashAddressType.p2pkhWithTokens,
-      },
       prefix: decoded.prefix,
-    };
+      tokenSupport: decoded.type === CashAddressType.p2pkhWithTokens,
+    } as DecodedCashAddressLockingBytecode;
   }
   if (
     decoded.type === CashAddressType.p2sh ||
@@ -482,16 +506,12 @@ export const cashAddressToLockingBytecode = (address: string) => {
             ? LockingBytecodeType.p2sh32
             : LockingBytecodeType.p2sh20,
       }),
-      options: {
-        tokenSupport: decoded.type === CashAddressType.p2shWithTokens,
-      },
       prefix: decoded.prefix,
+      tokenSupport: decoded.type === CashAddressType.p2shWithTokens,
     };
   }
-  return unknownValue(
-    decoded.type,
-    `Unrecognized address type: ${decoded.type as string}`,
-  );
+  /* c8 ignore next 2 */
+  return unknownValue(decoded.type);
 };
 
 /**
@@ -503,8 +523,10 @@ export const cashAddressToLockingBytecode = (address: string) => {
  * If `bytecode` cannot be encoded as an address (i.e. because the pattern is
  * not standard), the resulting {@link AddressContents} is returned.
  *
+ * For the reverse, see {@link base58AddressToLockingBytecode}.
+ *
  * Note, Base58Addresses cannot accept tokens; to accept tokens,
- * use {@link lockingBytecodeToCashAddress} with `options.tokenSupport` set
+ * use {@link lockingBytecodeToCashAddress} with `tokenSupport` set
  * to `true`.
  *
  * @param bytecode - the locking bytecode to encode
@@ -551,6 +573,8 @@ export const lockingBytecodeToBase58Address = (
  *
  * This method returns the locking bytecode and network version. If an error
  * occurs, an error message is returned as a string.
+ *
+ * For the reverse, see {@link lockingBytecodeToBase58Address}.
  *
  * @param address - the CashAddress to convert
  */

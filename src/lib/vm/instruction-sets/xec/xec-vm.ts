@@ -1,4 +1,4 @@
-import { createAuthenticationVirtualMachine } from '../../virtual-machine.js';
+import { createVirtualMachine } from '../../virtual-machine.js';
 
 import { createInstructionSetXEC } from './xec-instruction-set.js';
 
@@ -11,4 +11,4 @@ import { createInstructionSetXEC } from './xec-instruction-set.js';
  * nodes will refuse to relay them. (Default: `true`)
  */
 export const createVirtualMachineXEC = (standard = true) =>
-  createAuthenticationVirtualMachine(createInstructionSetXEC(standard));
+  createVirtualMachine(createInstructionSetXEC(standard));

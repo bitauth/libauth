@@ -161,7 +161,9 @@ Test sets: ${testSets.join(', ')}
 
 Unlocking ASM: ${unlockingScriptAsm}
 ${isP2sh20 ? 'Redeem (P2SH20)' : 'Locking'} ASM: ${redeemOrLockingScriptAsm}
-Result: ${result === true ? 'Success' : `Failed: ${result}`}${
+Result (VM: ${vmId}): ${
+  result === true ? 'Transaction accepted' : `Transaction rejected: ${result}`
+}${
   unexpectedFailingIndexDebugTrace === undefined
     ? ''
     : `

@@ -9,6 +9,7 @@
     "ms-vscode.cpptools",
     "streetsidesoftware.code-spell-checker",
     "ms-azuretools.vscode-docker",
-    "arcanis.vscode-zipfs"
+    "arcanis.vscode-zipfs",
+    "yzhang.markdown-all-in-one"
   ]
 }

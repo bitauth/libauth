@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-magic-numbers */
 import test from 'ava';
 
 import type {
@@ -16,6 +15,7 @@ import {
   createCompilationContextCommonTesting,
   createVirtualMachineBCH,
   generateBytecodeMap,
+  hexToBin,
   OpcodesBCH2022,
   ripemd160,
   secp256k1,
@@ -30,16 +30,29 @@ import {
 export const hdPrivateKey =
   'xprv9s21ZrQH143K2PfMvkNViFc1fgumGqBew45JD8SxA59Jc5M66n3diqb92JjvaR61zT9P89Grys12kdtV4EFVo6tMwER7U2hcUmZ9VfMYPLC';
 /**
- * `m`
+ * `M`
  */
 export const hdPublicKey =
   'xpub661MyMwAqRbcEsjq2muW5PYkDikFgHuWJGzu1WrZiQgHUsgEeKMtGducsZe1iRsGAGNGDzmWYDM69ya24LMyR7mDhtzqQsc286XEQfM2kkV';
 
 /**
+ * HD key at `m/0'`
+ */
+export const hdPrivateKeyM0H =
+  'xprv9uNAm3qC8EoibXd3mwgQ9rxF8XJdfA9V9sF25DpLtYcf1u51Rpf8tfV4n2PdChXM97miXGiJf6UL2SsathXbiVbF6tSgmAVGM3XNb6Yn2EZ';
+
+/**
+ * The public key derived from {@link hdPrivateKeyM0H}.
+ */
+export const hdPublicKeyM0H =
+  'xpub68MXAZN5xcN1p1hWsyDQWztygZ984csLX6AcscDxSt9dthQ9yMyPSToYdJ24jCS5jaVMGSiLeGuP2cWvgKKYQsNXyg988XGGQYgk1FjDv4P';
+
+/**
  * `m/0`
  */
-// prettier-ignore
-export const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
+export const privateKeyM0 = hexToBin(
+  'f85d4bd8a03ca106c9deb47b791803dac7f0333809e3f1dd04d182e0aba6e553',
+);
 
 const vm = createVirtualMachineBCH();
 

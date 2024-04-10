@@ -98,6 +98,8 @@ export const regroupBits = ({
  * `base32IntegerArray` must be between `0` and `32`. To prepare another array
  * type for encoding, see {@link regroupBits}.
  *
+ * For the reverse, see {@link decodeBech32}.
+ *
  * @param base32IntegerArray - the array of 5-bit integers to encode
  */
 export const encodeBech32 = (base32IntegerArray: number[]) => {
@@ -118,6 +120,8 @@ export const encodeBech32 = (base32IntegerArray: number[]) => {
  * an incorrect result will be returned. If `validBech32` is potentially
  * malformed, check it with {@link isBech32CharacterSet} before calling
  * this method.
+ *
+ * For the reverse, see {@link encodeBech32}.
  *
  * @param validBech32 - the bech32-encoded string to decode
  */
@@ -148,6 +152,19 @@ const base256WordLength = 8;
 export const isBech32CharacterSet = (maybeBech32: string) =>
   !nonBech32Characters.test(maybeBech32);
 
+/**
+ * Returns an array of the non-Bech32 characters in the provided string; if all
+ * characters are valid, an empty array is returned.
+ * @param maybeBech32 - the string to test
+ */
+export const extractNonBech32Characters = (maybeBech32: string) => [
+  ...new Set(
+    [...maybeBech32].filter(
+      (character) => !bech32CharacterSet.includes(character),
+    ),
+  ),
+];
+
 export enum Bech32DecodingError {
   notBech32CharacterSet = 'Bech32 decoding error: input contains characters outside of the Bech32 character set.',
 }
@@ -158,7 +175,7 @@ export enum Bech32DecodingError {
  * 5-bit integers would require padding to be regrouped into 8-bit bytes, this
  * method returns an error message.
  *
- * This method is the reverse of {@link binToBech32Padded}.
+ * For the reverse, see {@link binToBech32Padded}.
  *
  * @param bech32Padded - the padded bech32-encoded string to decode
  */
@@ -178,7 +195,7 @@ export const bech32PaddedToBin = (bech32Padded: string) => {
  * Convert a Uint8Array to a padded bech32-encoded string (without a checksum),
  * adding padding bits as necessary to convert all bytes to 5-bit integers.
  *
- * This method is the reverse of {@link bech32PaddedToBin}.
+ * For the reverse, see {@link bech32PaddedToBin}.
  *
  * @param bytes - the Uint8Array to bech32 encode
  */

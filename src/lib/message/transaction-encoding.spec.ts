@@ -3,6 +3,7 @@ import test from 'ava';
 import type { Output, TransactionCommon } from '../lib.js';
 import {
   decodeTransactionCommon,
+  decodeTransactionOutputs,
   encodeTokenPrefix,
   encodeTransactionCommon,
   hashTransaction,
@@ -18,6 +19,8 @@ import {
   readTransactionOutputNonTokenAware,
   readTransactionOutputsNonTokenAware,
   sha256,
+  stringifyTestVector,
+  TransactionDecodingError,
 } from '../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
@@ -335,6 +338,40 @@ test('readTransactionOutputNonTokenAware exists', (t) => {
 });
 test('readTransactionOutputsNonTokenAware exists', (t) => {
   t.truthy(readTransactionOutputsNonTokenAware);
+});
+test('decodeTransactionOutputs', (t) => {
+  const decoded = decodeTransactionOutputs(
+    hexToBin(
+      '0210270000000000001976a91460011c6bf3f1dd98cff576437b9d85de780f497488ac102700000000000017a91498e86c508e780cfb822bba3d5ab9b3e30450196b87',
+    ),
+  );
+  t.deepEqual(
+    decoded,
+    [
+      {
+        lockingBytecode: hexToBin(
+          '76a91460011c6bf3f1dd98cff576437b9d85de780f497488ac',
+        ),
+        valueSatoshis: 10000n,
+      },
+      {
+        lockingBytecode: hexToBin(
+          'a91498e86c508e780cfb822bba3d5ab9b3e30450196b87',
+        ),
+        valueSatoshis: 10000n,
+      },
+    ],
+    stringifyTestVector(decoded),
+  );
+
+  t.deepEqual(
+    decodeTransactionOutputs(
+      hexToBin(
+        '0210270000000000001976a91460011c6bf3f1dd98cff576437b9d85de780f497488ac102700000000000017a91498e86c508e780cfb822bba3d5ab9b3e30450196b8700',
+      ),
+    ),
+    `${TransactionDecodingError.outputsEndWithUnexpectedBytes} Last encoded transaction output ends at index 66, leaving 1 remaining byte(s).`,
+  );
 });
 test('readTransactionNonTokenAware exists', (t) => {
   t.truthy(readTransactionNonTokenAware);

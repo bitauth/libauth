@@ -13,6 +13,8 @@ const binary = 2;
  * is interpreted as `00000001`). If `binaryDigits` is potentially malformed,
  * check it with `isBinString` before calling this method.
  *
+ * For the reverse, see {@link binToBinString}.
+ *
  * @param binaryDigits - a string of `0`s and `1`s with a length divisible by 8
  */
 export const binStringToBin = (binaryDigits: string) =>
@@ -26,6 +28,8 @@ export const binStringToBin = (binaryDigits: string) =>
  * Encode a Uint8Array into a binary-encoded string.
  *
  * E.g.: `binToBinString(Uint8Array.from([42, 100]))` → `'0010101001100100'`
+ *
+ * For the reverse, see {@link binStringToBin}.
  *
  * @param bytes - a Uint8Array to encode
  */

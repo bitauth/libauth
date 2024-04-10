@@ -34,6 +34,8 @@ const hexadecimal = 16;
  * is interpreted as `aa0a`). If `validHex` is potentially malformed, check
  * it with {@link isHex} before calling this method.
  *
+ * For the reverse, see {@link binToHex}.
+ *
  * @param validHex - a string of valid, hexadecimal-encoded data
  */
 export const hexToBin = (validHex: string) =>
@@ -55,6 +57,8 @@ export const isHex = (maybeHex: string) =>
  * Encode a Uint8Array into a hexadecimal-encoded string.
  *
  * E.g.: `binToHex(new Uint8Array([42, 100, 255]))` → `'2a64ff'`
+ *
+ * For the reverse, see {@link hexToBin}.
  *
  * @param bytes - a Uint8Array to encode
  */

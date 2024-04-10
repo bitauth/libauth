@@ -119,12 +119,12 @@ const flip128 =
 
 const faces = 2;
 const events = splitEvery(flip128, 1).map(parseInt);
-// `assertSuccess` simply throws any errors
+/* `assertSuccess` simply throws any errors */
 const entropy = assertSuccess(generateDeterministicEntropy(faces, events));
-
-const { phrase } = assertSuccess(encodeBip39Mnemonic(entropy));
+/* Slice produced entropy at 16 bytes (128 bits) for 12 words: */
+const { phrase } = assertSuccess(encodeBip39Mnemonic(entropy.slice(0, 16)));
 console.log(phrase);
-// => "crawl actual tool rally crazy lab work paper fragile favorite draft initial amount lawsuit task pupil clean crater genre rotate shoulder plate prevent bone"
+// => "crawl actual tool rally crazy lab work paper fragile favorite draft income"
 ```
 
 Note that `generateDeterministicEntropy` will return an error if the provided events do not include sufficient entropy for safe key generation (configurable via [`requiredEntropyBits`](https://libauth.org/functions/generateDeterministicEntropy.html)):
@@ -164,9 +164,11 @@ const faces = 6;
 const entropy = assertSuccess(generateDeterministicEntropy(faces, events));
 console.log(binToHex(entropy));
 // => "8d270d32340c28d8708023a5becf5dd8d55da45808c2ba97cfb7c2b0dcfefad1"
-const { phrase } = assertSuccess(encodeBip39Mnemonic(entropy));
+
+/* Slice produced entropy at 16 bytes (128 bits) for 12 words: */
+const { phrase } = assertSuccess(encodeBip39Mnemonic(entropy.slice(0, 16)));
 console.log(phrase);
-// => "minor debris erode gym secret history search afford pizza wait student random fiction split gasp blue ritual salmon unknown lyrics assist legal twice cactus"
+// => "minor debris erode gym secret history search afford pizza wait student ranch"
 ```
 
 #### BIP39 Mnemonic Phrase to BCH Wallet

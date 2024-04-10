@@ -1,6 +1,6 @@
 {
   "name": "@bitauth/libauth",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "ultra-lightweight library for Bitcoin Cash, Bitcoin, and Bitauth",
   "type": "module",
   "main": "./build/index.js",

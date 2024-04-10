@@ -1,5 +1,91 @@
 # `@bitauth/libauth`
 
+## 3.0.0
+
+### Major Changes
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - Add support for relative BIP32 derivation
+
+  Relative BIP32 Hierarchical Deterministic (HD) derivation is now supported via the [`deriveHdPathRelative`](https://libauth.org/functions/deriveHdPathRelative.html) utility, and the Libauth compiler has been updated to explicitly use relative derivation by default for `HdKey`s. Absolute derivation has also been enhanced to validate the expected depth of provided HD keys.
+
+  If you application relies on relative derivation but uses [`deriveHdPath`](https://libauth.org/functions/deriveHdPath.html), you'll need to switch to using the new [`deriveHdPathRelative`](https://libauth.org/functions/deriveHdPathRelative.html), as absolute derivation will now fail if provided with a non-zero depth HD key.
+
+  Fixes [#49](https://github.com/bitauth/libauth/issues/49).
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - CashAssembly: `.signature` is now `.ecdsa_signature`
+
+  All CashAssembly scripts using the `.signature` operation should instead call `.ecdsa_signature` or switch to `.schnorr_signature`.
+
+  Additionally, `signing_serialization.token_prefix` is now available.
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - Unify object parameters and error handling across library
+
+  A number of existing Libauth utilities have been modified to adhere to Libauth's object parameter and error handling conventions:
+
+  - CashAddress utilities:
+    - [`encodeCashAddress`](https://libauth.org/functions/encodeCashAddress.html)/[`decodeCashAddress`](https://libauth.org/functions/decodeCashAddress.html)
+    - [`lockingBytecodeToCashAddress`](https://libauth.org/functions/lockingBytecodeToCashAddress.html)/[`cashAddressToLockingBytecode`](https://libauth.org/functions/cashAddressToLockingBytecode.html)
+    - [`encodeCashAddressFormat`](https://libauth.org/functions/encodeCashAddressFormat.html)/[`decodeCashAddressFormat`](https://libauth.org/functions/decodeCashAddressFormat.html)
+  - BIP32 (HD Key) utilities:
+    - [`crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode`](https://libauth.org/functions/crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode.html)
+    - [`decodeHdKey`](https://libauth.org/functions/decodeHdKey.html) ([`decodeHdKeyUnchecked`](https://libauth.org/functions/decodeHdKeyUnchecked.html))
+    - [`decodeHdPrivateKey`](https://libauth.org/functions/decodeHdPrivateKey.html)/[`encodeHdPrivateKey`](https://libauth.org/functions/encodeHdPrivateKey.html)
+    - [`decodeHdPublicKey`](https://libauth.org/functions/decodeHdPublicKey.html)/[`encodeHdPrivateKey`](https://libauth.org/functions/encodeHdPrivateKey.html)
+    - [`deriveHdPath`](https://libauth.org/functions/deriveHdPath.html)
+    - [`deriveHdPathRelative`](https://libauth.org/functions/deriveHdPathRelative.html)
+    - [`deriveHdPrivateNodeFromSeed`](https://libauth.org/functions/deriveHdPrivateNodeFromSeed.html)
+    - [`deriveHdPrivateNodeIdentifier`](https://libauth.org/functions/deriveHdPrivateNodeIdentifier.html)/[`deriveHdPublicNodeIdentifier`](https://libauth.org/functions/deriveHdPublicNodeIdentifier.html)
+    - [`deriveHdPrivateNodeChild`](https://libauth.org/functions/deriveHdPrivateNodeChild.html)/[`deriveHdPublicNodeChild`](https://libauth.org/functions/deriveHdPublicNodeChild.html)
+    - [`deriveHdPublicKey`](https://libauth.org/functions/deriveHdPublicKey.html)
+    - [`deriveHdPublicNode`](https://libauth.org/functions/deriveHdPublicNode.html)
+    - [`hdKeyVersionIsPrivateKey`](https://libauth.org/functions/hdKeyVersionIsPrivateKey.html)/[`hdKeyVersionIsPublicKey`](https://libauth.org/functions/hdKeyVersionIsPublicKey.html)
+    - [`hdPrivateKeyToIdentifier`](https://libauth.org/functions/hdPrivateKeyToIdentifier.html)/[`hdPublicKeyToIdentifier`](https://libauth.org/functions/hdPublicKeyToIdentifier.html)
+  - BIP39 (Mnemonic Phrase) Utilities:
+    - [`deriveHdPrivateNodeFromBip39Mnemonic`](https://libauth.org/functions/deriveHdPrivateNodeFromBip39Mnemonic.html)
+    - [`deriveSeedFromBip39Mnemonic`](https://libauth.org/functions/deriveSeedFromBip39Mnemonic.html)
+    - [`encodeBip39Mnemonic`](https://libauth.org/functions/encodeBip39Mnemonic.html)/[`decodeBip39Mnemonic`](https://libauth.org/functions/decodeBip39Mnemonic.html)
+    - [`generateBip39Mnemonic`](https://libauth.org/functions/generateBip39Mnemonic.html)
+  - Key Utilities:
+    - [`generateDeterministicEntropy`](https://libauth.org/functions/generateDeterministicEntropy.html)
+
+  Please see the relevant guide(s) for usage examples:
+
+  - [Handling Errors](https://github.com/bitauth/libauth/blob/master/docs/errors.md)
+  - [Keys](https://github.com/bitauth/libauth/blob/master/docs/keys.md)
+  - [Addresses](https://github.com/bitauth/libauth/blob/master/docs/addresses.md)
+  - [Wallets & Transaction Creation](https://github.com/bitauth/libauth/blob/master/docs/wallets.md)
+
+### Minor Changes
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - Add usage guides and API overview
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - Add P2PKH CashAddress utilities
+
+  The following utilities are now available:
+
+  - [`hdPrivateKeyToP2pkhLockingBytecode`](https://libauth.org/functions/hdPrivateKeyToP2pkhLockingBytecode.html)
+  - [`hdPrivateKeyToP2pkhCashAddress`](https://libauth.org/functions/hdPrivateKeyToP2pkhCashAddress.html)
+  - [`hdPublicKeyToP2pkhLockingBytecode`](https://libauth.org/functions/hdPublicKeyToP2pkhLockingBytecode.html)
+  - [`hdPublicKeyToP2pkhCashAddress`](https://libauth.org/functions/hdPublicKeyToP2pkhCashAddress.html)
+  - [`privateKeyToP2pkhLockingBytecode`](https://libauth.org/functions/privateKeyToP2pkhLockingBytecode.html)
+  - [`privateKeyToP2pkhCashAddress`](https://libauth.org/functions/privateKeyToP2pkhCashAddress.html)
+  - [`publicKeyToP2pkhLockingBytecode`](https://libauth.org/functions/publicKeyToP2pkhLockingBytecode.html)
+  - [`publicKeyToP2pkhCashAddress`](https://libauth.org/functions/publicKeyToP2pkhCashAddress.html)
+
+  For usage examples, see [`wallets.md`](https://github.com/bitauth/libauth/blob/master/docs/wallets.md).
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - Validate all keys prior to compilation, expose `validateCompilationData`
+
+  The compiler now validates all compilation data (i.e. validate all public and private keys), prior to compilation, regardless of whether or not the offending public or private key material is used. This is intended to surface software defects (particularly in the software used by counterparties) as early as possible.
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - Add support for `decodeTransactionOutputs`
+
+### Patch Changes
+
+- [`58f984e`](https://github.com/bitauth/libauth/commit/58f984e777d8e5133f3edd1a269b3462b8d0d506) Thanks [@bitjson](https://github.com/bitjson)! - `generateRandomBytes`: always verify unique results across two runs
+
+  Fixes [#119](https://github.com/bitauth/libauth/issues/119). Old behavior is available at `generateRandomBytesUnchecked`.
+
 ## 2.1.0
 
 ### Minor Changes

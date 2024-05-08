@@ -9,9 +9,9 @@ import {
   compileCashAssembly,
   containsRange,
   createAuthenticationProgramEvaluationCommon,
-  createCompilerBCH,
+  createCompilerBch,
   createCompilerCommon,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   extractBytecodeResolutions,
   extractEvaluationSamples,
   extractEvaluationSamplesRecursive,
@@ -19,12 +19,12 @@ import {
   hexToBin,
   mergeRanges,
   Opcodes,
-  OpcodesBCH,
+  OpcodesBch,
   stringifyDebugTraceSummary,
   stringifyErrors,
   stringifyTestVector,
   summarizeDebugTrace,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '../lib.js';
 
 test('mergeRanges', (t) => {
@@ -223,8 +223,8 @@ OP_ELSE
     OP_ENDIF
 OP_ENDIF`;
 
-const vm = createVirtualMachineBCH();
-const compiler = createCompilerBCH({
+const vm = createVirtualMachineBch();
+const compiler = createCompilerBch({
   scripts: {
     docs: '0x00 0x01 0xab01 0xcd9300 $(OP_3 <0x00> OP_SWAP OP_CAT) 0x010203',
     /**
@@ -4264,7 +4264,7 @@ test(extractUnexecutedRangesMacro, 'unexecutedEmpty', []);
 
 test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
   const { program } = assertSuccess(
-    walletTemplateToCompilerBCH({
+    walletTemplateToCompilerBch({
       entities: {},
       scripts: {
         lock: {
@@ -4277,12 +4277,12 @@ test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
       version: 0,
     }).generateScenario({ unlockingScriptId: 'unlock' }),
   );
-  const trace = createVirtualMachineBCH(true).debug(program);
+  const trace = createVirtualMachineBch(true).debug(program);
   const summary = summarizeDebugTrace(trace);
   const formatted = stringifyDebugTraceSummary(summary, {
     opcodes: {
-      ...OpcodesBCH,
-      [OpcodesBCH.OP_UNKNOWN255]: undefined as unknown as string,
+      ...OpcodesBch,
+      [OpcodesBch.OP_UNKNOWN255]: undefined as unknown as string,
     },
   });
   t.deepEqual(
@@ -4307,7 +4307,7 @@ test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
 
 test('summarizeDebugTrace, stringifyDebugTraceSummary (error)', (t) => {
   const { program } = assertSuccess(
-    walletTemplateToCompilerBCH({
+    walletTemplateToCompilerBch({
       entities: {},
       scripts: {
         lock: {
@@ -4320,7 +4320,7 @@ test('summarizeDebugTrace, stringifyDebugTraceSummary (error)', (t) => {
       version: 0,
     }).generateScenario({ unlockingScriptId: 'unlock' }),
   );
-  const trace = createVirtualMachineBCH(true).debug(program);
+  const trace = createVirtualMachineBch(true).debug(program);
   const summary = summarizeDebugTrace(trace);
   const formatted = stringifyDebugTraceSummary(summary);
   t.deepEqual(

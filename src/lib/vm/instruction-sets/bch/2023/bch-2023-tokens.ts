@@ -15,7 +15,7 @@ import {
   useTransactionUtxo,
 } from '../../common/common.js';
 
-import { ConsensusBCH2023 } from './bch-2023-consensus.js';
+import { ConsensusBch2023 } from './bch-2023-consensus.js';
 
 /**
  * Given a list of transaction inputs, extract a hex-encoded list of all
@@ -177,11 +177,11 @@ export const verifyTransactionTokens = (
     (output) =>
       output.token?.nft?.commitment !== undefined &&
       output.token.nft.commitment.length >
-        ConsensusBCH2023.maximumCommitmentLength,
+        ConsensusBch2023.maximumCommitmentLength,
   );
   if (excessiveCommitment !== undefined) {
     return `Transaction violates token validation: a token commitment exceeds the consensus limit of ${
-      ConsensusBCH2023.maximumCommitmentLength
+      ConsensusBch2023.maximumCommitmentLength
     } bytes. Excessive token commitment length: ${
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       excessiveCommitment.token!.nft!.commitment.length
@@ -214,9 +214,9 @@ export const verifyTransactionTokens = (
 
   // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, sum] of Object.entries(outputSumsByCategory)) {
-    if (sum > BigInt(ConsensusBCH2023.maxVmNumber)) {
+    if (sum > BigInt(ConsensusBch2023.maxVmNumber)) {
       return `Transaction violates token validation: the transaction outputs include a sum of fungible tokens for a category exceeding the maximum supply (${
-        ConsensusBCH2023.maxVmNumber
+        ConsensusBch2023.maxVmNumber
       }). Category: ${categoryHex}, total amount: ${sum.toString()}.`;
     }
     const availableSum = availableSumsByCategory[categoryHex];

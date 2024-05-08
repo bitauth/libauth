@@ -48,11 +48,10 @@ export type InstructionSet<
    * @remarks
    * This method is used internally by `stateEvaluate`, `stateStep`, and
    * `stateDebug` to prevent the {@link AuthenticationVirtualMachine} from
-   * mutating an input when mutation is not desirable.
-   *
-   * @deprecated use `structuredClone` instead
+   * mutating an input when mutation is not desirable. Defaults to
+   * `structuredClone`.
    */
-  clone: Operation<ProgramState>;
+  clone?: Operation<ProgramState>;
 
   /**
    * Test the ProgramState to determine if execution should continue.
@@ -208,8 +207,6 @@ export type AuthenticationVirtualMachine<
 
   /**
    * Clone the provided ProgramState.
-   *
-   * @deprecated use `structuredClone` instead
    */
   stateClone: (state: ProgramState) => ProgramState;
 
@@ -366,7 +363,7 @@ export const createVirtualMachine = <
     return state;
   };
 
-  const stateClone = instructionSet.clone;
+  const stateClone = instructionSet.clone ?? structuredClone;
   const { success } = instructionSet;
 
   const stateEvaluate = (state: ProgramState) =>

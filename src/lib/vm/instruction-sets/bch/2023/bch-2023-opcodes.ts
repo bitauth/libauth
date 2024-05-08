@@ -2,7 +2,7 @@
  * The `BCH_2023_05` instruction set.
  */
 
-export enum OpcodesBCH2023 {
+export enum OpcodesBch2023 {
   /**
    * A.K.A. `OP_FALSE` or `OP_PUSHBYTES_0`
    */
@@ -280,6 +280,4 @@ export enum OpcodesBCH2023 {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodesBCH = OpcodesBCH2023;
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const Opcodes = OpcodesBCH;
+export const OpcodesBch = OpcodesBch2023;

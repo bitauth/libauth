@@ -13,25 +13,25 @@ import type {
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
   BytecodeGenerationResult,
-  CompilationContextBCH,
+  CompilationContextBch,
   CompilationData,
   CompilationResult,
   Compiler,
   CompilerConfiguration,
   disassembleBytecode,
-  disassembleBytecodeBCH,
-  disassembleBytecodeBTC,
+  disassembleBytecodeBch,
+  disassembleBytecodeBtc,
   WalletTemplate,
 } from '../lib.js';
 import {
   generateBytecodeMap,
   Opcodes,
-  OpcodesBCH,
-  OpcodesBTC,
+  OpcodesBch,
+  OpcodesBtc,
 } from '../vm/vm.js';
 
 import { compilerOperationsCommon } from './compiler-operations.js';
-import { generateScenarioBCH } from './scenarios.js';
+import { generateScenarioBch } from './scenarios.js';
 
 /**
  * Create a {@link Compiler.generateBytecode} method given a compiler
@@ -39,7 +39,7 @@ import { generateScenarioBCH } from './scenarios.js';
  */
 export const createCompilerGenerateBytecodeFunction =
   <
-    CompilationContext extends CompilationContextBCH,
+    CompilationContext extends CompilationContextBch,
     Configuration extends AnyCompilerConfiguration<CompilationContext>,
     ProgramState extends AuthenticationProgramStateControlStack &
       AuthenticationProgramStateMinimum &
@@ -83,14 +83,14 @@ export const createCompilerGenerateBytecodeFunction =
  *
  * @param configuration - the configuration from which to create the compiler
  */
-export const compilerConfigurationToCompilerBCH = <
-  Configuration extends AnyCompilerConfiguration<CompilationContextBCH>,
+export const compilerConfigurationToCompilerBch = <
+  Configuration extends AnyCompilerConfiguration<CompilationContextBch>,
   ProgramState extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
 >(
   configuration: Configuration,
-): Compiler<CompilationContextBCH, Configuration, ProgramState> => {
+): Compiler<CompilationContextBch, Configuration, ProgramState> => {
   const generateBytecode =
     createCompilerGenerateBytecodeFunction(configuration);
   return {
@@ -102,7 +102,7 @@ export const compilerConfigurationToCompilerBCH = <
       scenarioId,
       debug,
     }) =>
-      generateScenarioBCH(
+      generateScenarioBch(
         {
           configuration,
           generateBytecode,
@@ -114,9 +114,13 @@ export const compilerConfigurationToCompilerBCH = <
       ),
   };
 };
-
+/**
+ * @deprecated Alias of `compilerConfigurationToCompilerBch` for backwards-compatibility.
+ */
+export const compilerConfigurationToCompilerBCH =
+  compilerConfigurationToCompilerBch;
 export const compilerConfigurationToCompiler =
-  compilerConfigurationToCompilerBCH;
+  compilerConfigurationToCompilerBch;
 
 const nullHashLength = 32;
 
@@ -175,12 +179,12 @@ export const createAuthenticationProgramEvaluationCommon = (
  * configuration – must include the `scripts` property
  */
 export const createCompilerCommon = <
-  Configuration extends CompilerConfiguration<CompilationContextBCH>,
+  Configuration extends CompilerConfiguration<CompilationContextBch>,
   ProgramState extends AuthenticationProgramStateCommon,
 >(
   scriptsAndOverrides: Configuration,
-): Compiler<CompilationContextBCH, Configuration, ProgramState> =>
-  compilerConfigurationToCompilerBCH<Configuration, ProgramState>({
+): Compiler<CompilationContextBch, Configuration, ProgramState> =>
+  compilerConfigurationToCompilerBch<Configuration, ProgramState>({
     ...{
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
       opcodes: generateBytecodeMap(Opcodes),
@@ -247,22 +251,25 @@ export const assembleBytecode = (
 
 /**
  * Re-assemble a string of disassembled BCH bytecode; see
- * {@link disassembleBytecodeBCH}.
+ * {@link disassembleBytecodeBch}.
  *
  * Note, this method performs automatic minimization of push instructions.
  *
  * @param disassembledBytecode - the disassembled BCH bytecode to re-assemble
  */
-export const assembleBytecodeBCH = (disassembledBytecode: string) =>
-  assembleBytecode(generateBytecodeMap(OpcodesBCH), disassembledBytecode);
-
+export const assembleBytecodeBch = (disassembledBytecode: string) =>
+  assembleBytecode(generateBytecodeMap(OpcodesBch), disassembledBytecode);
+/**
+ * @deprecated Alias of `assembleBytecodeBch` for backwards-compatibility.
+ */
+export const assembleBytecodeBCH = assembleBytecodeBch;
 /**
  * A convenience method to compile CashAssembly (using
- * {@link assembleBytecodeBCH}) to bytecode. If compilation fails, errors are
+ * {@link assembleBytecodeBch}) to bytecode. If compilation fails, errors are
  * returned as a string.
  */
 export const cashAssemblyToBin = (cashAssemblyScript: string) => {
-  const result = assembleBytecodeBCH(cashAssemblyScript);
+  const result = assembleBytecodeBch(cashAssemblyScript);
   return result.success
     ? result.bytecode
     : `CashAssembly compilation ${result.errorType} error: ${result.errors
@@ -272,14 +279,18 @@ export const cashAssemblyToBin = (cashAssemblyScript: string) => {
 
 /**
  * Re-assemble a string of disassembled BCH bytecode; see
- * {@link disassembleBytecodeBTC}.
+ * {@link disassembleBytecodeBtc}.
  *
  * Note, this method performs automatic minimization of push instructions.
  *
  * @param disassembledBytecode - the disassembled BTC bytecode to re-assemble
  */
-export const assembleBytecodeBTC = (disassembledBytecode: string) =>
-  assembleBytecode(generateBytecodeMap(OpcodesBTC), disassembledBytecode);
+export const assembleBytecodeBtc = (disassembledBytecode: string) =>
+  assembleBytecode(generateBytecodeMap(OpcodesBtc), disassembledBytecode);
+/**
+ * @deprecated Alias of `assembleBytecodeBtc` for backwards-compatibility.
+ */
+export const assembleBytecodeBTC = assembleBytecodeBtc;
 
 /**
  * Create a partial {@link CompilerConfiguration} from an

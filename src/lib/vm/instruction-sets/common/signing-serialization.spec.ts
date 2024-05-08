@@ -3,8 +3,8 @@ import test from 'ava';
 import {
   binToHex,
   decodeTransactionUnsafeCommon,
-  encodeSigningSerializationBCH,
-  generateSigningSerializationComponentsBCH,
+  encodeSigningSerializationBch,
+  generateSigningSerializationComponentsBch,
   hash256,
   hexToBin,
   isLegacySigningSerialization,
@@ -18,7 +18,7 @@ const tests = Object.values(sighashTests)
   .map((expectation, testIndex) => ({
     inputIndex: expectation[2] as number,
     scriptHex: expectation[1] as string,
-    signingSerializationBCHDigestHex: expectation[4] as string,
+    signingSerializationBchDigestHex: expectation[4] as string,
     signingSerializationType: expectation[3] as number,
     testIndex,
     transactionHex: expectation[0] as string,
@@ -55,12 +55,12 @@ pendingTests.map((expectation, currentTest) => {
       valueSatoshis: 0n,
     };
 
-    const components = generateSigningSerializationComponentsBCH({
+    const components = generateSigningSerializationComponentsBch({
       inputIndex: expectation.inputIndex,
       sourceOutputs,
       transaction: tx,
     });
-    const serialization = encodeSigningSerializationBCH({
+    const serialization = encodeSigningSerializationBch({
       correspondingOutput: components.correspondingOutput,
       coveredBytecode: lockingBytecode,
       forkId: signingSerializationType.slice(1, 4),
@@ -80,7 +80,7 @@ pendingTests.map((expectation, currentTest) => {
     const digest = hash256(serialization);
     t.deepEqual(
       digest,
-      hexToBin(expectation.signingSerializationBCHDigestHex).reverse(),
+      hexToBin(expectation.signingSerializationBchDigestHex).reverse(),
       `failed serialization: ${binToHex(serialization)}`,
     );
   });

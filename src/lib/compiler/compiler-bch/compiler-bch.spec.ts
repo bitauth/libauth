@@ -2,12 +2,12 @@ import test from 'ava';
 
 import type {
   AuthenticationInstruction,
-  AuthenticationProgramBCH,
+  AuthenticationProgramBch,
 } from '../../lib.js';
 import {
   createAuthenticationProgramStateCommon,
   createCompilationContextCommonTesting,
-  createCompilerBCH,
+  createCompilerBch,
   hexToBin,
   stringifyTestVector,
 } from '../../lib.js';
@@ -15,8 +15,8 @@ import {
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
 
-test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
-  const compiler = createCompilerBCH({
+test.failing('[BCH compiler] createCompilerBch: generateBytecode', (t) => {
+  const compiler = createCompilerBch({
     scripts: {
       lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
       unlock: '<a.ecdsa_signature.all_outputs> <a.public_key>',
@@ -64,7 +64,7 @@ test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
   );
 });
 
-test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
+test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
   const program = createCompilationContextCommonTesting({
     inputs: [
       {
@@ -74,14 +74,14 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
         unlockingBytecode: Uint8Array.of(),
       },
     ],
-  }) as AuthenticationProgramBCH;
+  }) as AuthenticationProgramBch;
   const createState = (instructions: AuthenticationInstruction[]) =>
     createAuthenticationProgramStateCommon({
       instructions,
       program,
       stack: [],
     });
-  const compiler = createCompilerBCH({
+  const compiler = createCompilerBch({
     createState,
     scripts: {
       lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',

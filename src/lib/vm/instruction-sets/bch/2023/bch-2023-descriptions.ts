@@ -1,4 +1,4 @@
-export enum OpcodeDescriptionsBCH2023 {
+export enum OpcodeDescriptionsBch2023 {
   OP_0 = 'Push the VM Number 0 onto the stack.',
   OP_PUSHBYTES_1 = 'Push the next byte onto the stack.',
   OP_PUSHBYTES_2 = 'Push the next 2 bytes onto the stack.',
@@ -211,6 +211,6 @@ export enum OpcodeDescriptionsBCH2023 {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptionsBCH = OpcodeDescriptionsBCH2023;
+export const OpcodeDescriptionsBch = OpcodeDescriptionsBch2023;
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptions = OpcodeDescriptionsBCH;
+export const OpcodeDescriptions = OpcodeDescriptionsBch;

@@ -44,13 +44,6 @@ const simpleInstructionSet: InstructionSet<
   SimpleProgram,
   SimpleProgramState
 > = {
-  clone: (state) => ({
-    ...(state.error === undefined ? {} : { error: state.error }),
-    instructions: state.instructions.slice(),
-    ip: state.ip,
-    ...(state.repeated === undefined ? {} : { repeated: state.repeated }),
-    stack: state.stack.slice(),
-  }),
   continue: (state) =>
     state.error === undefined && state.ip < state.instructions.length,
   evaluate: (program, stateEvaluate) => {

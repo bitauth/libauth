@@ -1,13 +1,13 @@
 import test from 'ava';
 
-import type { CompilationContextBCH } from '../../lib.js';
-import { compilerOperationSigningSerializationFullBCH } from '../../lib.js';
+import type { CompilationContextBch } from '../../lib.js';
+import { compilerOperationSigningSerializationFullBch } from '../../lib.js';
 
-test('compilerOperationSigningSerializationFullBCH: requires an algorithm', (t) => {
+test('compilerOperationSigningSerializationFullBch: requires an algorithm', (t) => {
   t.deepEqual(
-    compilerOperationSigningSerializationFullBCH(
+    compilerOperationSigningSerializationFullBch(
       '',
-      { compilationContext: {} as CompilationContextBCH },
+      { compilationContext: {} as CompilationContextBch },
       {
         scripts: { lock: '' },
         sha256: { hash: () => Uint8Array.of() },
@@ -22,11 +22,11 @@ test('compilerOperationSigningSerializationFullBCH: requires an algorithm', (t) 
     },
   );
 });
-test('compilerOperationSigningSerializationFullBCH: error on unknown algorithms', (t) => {
+test('compilerOperationSigningSerializationFullBch: error on unknown algorithms', (t) => {
   t.deepEqual(
-    compilerOperationSigningSerializationFullBCH(
+    compilerOperationSigningSerializationFullBch(
       'signing_serialization.full_unknown_serialization',
-      { compilationContext: {} as CompilationContextBCH },
+      { compilationContext: {} as CompilationContextBch },
       {
         scripts: { lock: '' },
         sha256: { hash: () => Uint8Array.of() },

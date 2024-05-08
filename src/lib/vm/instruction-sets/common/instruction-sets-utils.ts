@@ -13,7 +13,7 @@ import {
 import type {
   assembleBytecode,
   assembleBytecodeBCH,
-  assembleBytecodeBTC,
+  assembleBytecodeBtc,
   AuthenticationInstruction,
   AuthenticationInstructionMalformed,
   AuthenticationInstructionMaybeMalformed,
@@ -26,8 +26,8 @@ import type {
   ReadPosition,
 } from '../../../lib.js';
 import { encodeTransactionOutput } from '../../../message/message.js';
-import { OpcodesBCH } from '../bch/2023/bch-2023-opcodes.js';
-import { OpcodesBTC } from '../btc/btc-opcodes.js';
+import { OpcodesBch } from '../bch/2023/bch-2023-opcodes.js';
+import { OpcodesBtc } from '../btc/btc-opcodes.js';
 
 /**
  * A type-guard that checks if the provided instruction is malformed.
@@ -333,11 +333,15 @@ export const disassembleBytecode = (
  *
  * @param bytecode - the virtual machine bytecode to disassemble
  */
-export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
+export const disassembleBytecodeBch = (bytecode: Uint8Array) =>
   disassembleAuthenticationInstructionsMaybeMalformed(
-    OpcodesBCH,
+    OpcodesBch,
     decodeAuthenticationInstructions(bytecode),
   );
+/**
+ * @deprecated Alias of `disassembleBytecodeBch` for backwards-compatibility.
+ */
+export const disassembleBytecodeBCH = disassembleBytecodeBch;
 
 /**
  * Disassemble BTC authentication bytecode into its ASM representation.
@@ -345,20 +349,24 @@ export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
  * Note, this method automatically uses the latest BTC instruction set. To
  * manually select an instruction set, use {@link disassembleBytecode}.
  *
- * For the reverse, see {@link assembleBytecodeBTC}.
+ * For the reverse, see {@link assembleBytecodeBtc}.
  *
  * @param bytecode - the virtual machine bytecode to disassemble
  */
-export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
+export const disassembleBytecodeBtc = (bytecode: Uint8Array) =>
   disassembleAuthenticationInstructionsMaybeMalformed(
-    OpcodesBTC,
+    OpcodesBtc,
     decodeAuthenticationInstructions(bytecode),
   );
+/**
+ * @deprecated Alias of `disassembleBytecodeBtc` for backwards-compatibility.
+ */
+export const disassembleBytecodeBTC = disassembleBytecodeBtc;
 
 /**
  * Create an object where each key is an opcode identifier and each value is
  * the bytecode value (`Uint8Array`) it represents.
- * @param opcodes - An opcode enum, e.g. {@link OpcodesBCH}
+ * @param opcodes - An opcode enum, e.g. {@link OpcodesBch}
  */
 export const generateBytecodeMap = (opcodes: { [opcode: string]: unknown }) =>
   Object.entries(opcodes)

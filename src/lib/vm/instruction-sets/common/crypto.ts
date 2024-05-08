@@ -27,10 +27,10 @@ import {
   useThreeStackItems,
   useTwoStackItems,
 } from './combinators.js';
-import { ConsensusCommon, SigningSerializationTypesBCH } from './consensus.js';
+import { ConsensusCommon, SigningSerializationTypesBch } from './consensus.js';
 import {
   decodeBitcoinSignature,
-  isValidSignatureEncodingBCHTransaction,
+  isValidSignatureEncodingBchTransaction,
   isValidSignatureEncodingDER,
 } from './encoding.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
@@ -40,7 +40,7 @@ import {
   encodeAuthenticationInstructions,
   isValidPublicKeyEncoding,
 } from './instruction-sets-utils.js';
-import { generateSigningSerializationBCH } from './signing-serialization.js';
+import { generateSigningSerializationBch } from './signing-serialization.js';
 
 export const opRipemd160 =
   <
@@ -168,9 +168,9 @@ export const opCheckSig =
         );
       }
       if (
-        !isValidSignatureEncodingBCHTransaction(
+        !isValidSignatureEncodingBchTransaction(
           bitcoinEncodedSignature,
-          SigningSerializationTypesBCH,
+          SigningSerializationTypesBch,
         )
       ) {
         return applyError(
@@ -188,7 +188,7 @@ export const opCheckSig =
         bitcoinEncodedSignature,
       );
 
-      const serialization = generateSigningSerializationBCH(
+      const serialization = generateSigningSerializationBch(
         state.program,
         { coveredBytecode, signingSerializationType },
         sha256,
@@ -320,9 +320,9 @@ export const opCheckMultiSig =
                     }
 
                     if (
-                      !isValidSignatureEncodingBCHTransaction(
+                      !isValidSignatureEncodingBchTransaction(
                         bitcoinEncodedSignature,
-                        SigningSerializationTypesBCH,
+                        SigningSerializationTypesBch,
                       )
                     ) {
                       return applyError(
@@ -337,7 +337,7 @@ export const opCheckMultiSig =
                     const { signingSerializationType, signature } =
                       decodeBitcoinSignature(bitcoinEncodedSignature);
 
-                    const serialization = generateSigningSerializationBCH(
+                    const serialization = generateSigningSerializationBch(
                       state.program,
                       { coveredBytecode, signingSerializationType },
                       sha256,
@@ -426,7 +426,7 @@ export const opCheckMultiSigVerify = <
  *
  * @param signature - the raw signature
  */
-export const isValidSignatureEncodingBCHRaw = (signature: Uint8Array) =>
+export const isValidSignatureEncodingBchRaw = (signature: Uint8Array) =>
   signature.length === 0 ||
   signature.length === ConsensusCommon.schnorrSignatureLength ||
   isValidSignatureEncodingDER(signature);
@@ -449,7 +449,7 @@ export const opCheckDataSig =
   (state: State) =>
     // eslint-disable-next-line complexity
     useThreeStackItems(state, (nextState, [signature, message, publicKey]) => {
-      if (!isValidSignatureEncodingBCHRaw(signature)) {
+      if (!isValidSignatureEncodingBchRaw(signature)) {
         return applyError(
           nextState,
           AuthenticationErrorCommon.invalidSignatureEncoding,

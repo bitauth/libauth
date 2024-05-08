@@ -8,7 +8,7 @@ import {
   hexToBin,
   importWalletTemplate,
   lockingBytecodeToCashAddress,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '../lib.js';
 
 const maybeP2pkhTemplate: unknown = {
@@ -45,7 +45,7 @@ const maybeP2pkhTemplate: unknown = {
   version: 0,
 };
 
-test('createCompilerBCH: generateTransaction', (t) => {
+test('createCompilerBch: generateTransaction', (t) => {
   const p2pkhTemplate = importWalletTemplate(maybeP2pkhTemplate);
 
   if (typeof p2pkhTemplate === 'string') {
@@ -53,7 +53,7 @@ test('createCompilerBCH: generateTransaction', (t) => {
     return;
   }
 
-  const p2pkh = walletTemplateToCompilerBCH(p2pkhTemplate);
+  const p2pkh = walletTemplateToCompilerBch(p2pkhTemplate);
   const lockingBytecode = p2pkh.generateBytecode({
     data: { keys: { privateKeys: { owner: privateKeyM0 } } },
     scriptId: 'lock',

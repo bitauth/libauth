@@ -1,12 +1,12 @@
 import {
-  SigningSerializationTypeBCH,
-  SigningSerializationTypesBCH,
+  SigningSerializationTypeBch,
+  SigningSerializationTypesBch,
 } from '../../common/common.js';
 
 /**
  * Consensus settings for the `BCH_2023_05` instruction set.
  */
-export enum ConsensusBCH2023 {
+export enum ConsensusBch2023 {
   /**
    * A.K.A. `MAX_SCRIPT_SIZE`
    */
@@ -62,9 +62,9 @@ export enum ConsensusBCH2023 {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const SigningSerializationTypesBCH2023 = [
-  ...SigningSerializationTypesBCH,
-  SigningSerializationTypeBCH.allOutputsAllUtxos,
-  SigningSerializationTypeBCH.correspondingOutputAllUtxos,
-  SigningSerializationTypeBCH.noOutputsAllUtxos,
+export const SigningSerializationTypesBch2023 = [
+  ...SigningSerializationTypesBch,
+  SigningSerializationTypeBch.allOutputsAllUtxos,
+  SigningSerializationTypeBch.correspondingOutputAllUtxos,
+  SigningSerializationTypeBch.noOutputsAllUtxos,
 ];

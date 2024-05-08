@@ -18,9 +18,9 @@ import {
   ConsensusCommon,
   decodeBitcoinSignature,
   encodeAuthenticationInstructions,
-  generateSigningSerializationBCH,
+  generateSigningSerializationBch,
   isValidPublicKeyEncoding,
-  isValidSignatureEncodingBCHTransaction,
+  isValidSignatureEncodingBchTransaction,
   opVerify,
   pushToStack,
   useOneStackItem,
@@ -28,9 +28,9 @@ import {
   useTwoStackItems,
 } from '../../common/common.js';
 
-import { SigningSerializationTypesBCH2023 } from './bch-2023-consensus.js';
+import { SigningSerializationTypesBch2023 } from './bch-2023-consensus.js';
 
-export const opCheckSigBCH2023 =
+export const opCheckSigBch2023 =
   <State extends AuthenticationProgramStateCommon>(
     {
       secp256k1,
@@ -53,9 +53,9 @@ export const opCheckSigBCH2023 =
         );
       }
       if (
-        !isValidSignatureEncodingBCHTransaction(
+        !isValidSignatureEncodingBchTransaction(
           bitcoinEncodedSignature,
-          SigningSerializationTypesBCH2023,
+          SigningSerializationTypesBch2023,
         )
       ) {
         return applyError(
@@ -73,7 +73,7 @@ export const opCheckSigBCH2023 =
         bitcoinEncodedSignature,
       );
 
-      const serialization = generateSigningSerializationBCH(
+      const serialization = generateSigningSerializationBch(
         state.program,
         { coveredBytecode, signingSerializationType },
         sha256,
@@ -99,7 +99,7 @@ const enum Multisig {
 }
 
 // TODO: implement schnorr multisig https://gitlab.com/bitcoin-cash-node/bchn-sw/bitcoincash-upgrade-specifications/-/blob/master/spec/2019-11-15-schnorrmultisig.md
-export const opCheckMultiSigBCH2023 =
+export const opCheckMultiSigBch2023 =
   <State extends AuthenticationProgramStateCommon>(
     {
       secp256k1,
@@ -205,9 +205,9 @@ export const opCheckMultiSigBCH2023 =
                     }
 
                     if (
-                      !isValidSignatureEncodingBCHTransaction(
+                      !isValidSignatureEncodingBchTransaction(
                         bitcoinEncodedSignature,
-                        SigningSerializationTypesBCH2023,
+                        SigningSerializationTypesBch2023,
                       )
                     ) {
                       return applyError(
@@ -222,7 +222,7 @@ export const opCheckMultiSigBCH2023 =
                     const { signingSerializationType, signature } =
                       decodeBitcoinSignature(bitcoinEncodedSignature);
 
-                    const serialization = generateSigningSerializationBCH(
+                    const serialization = generateSigningSerializationBch(
                       state.program,
                       { coveredBytecode, signingSerializationType },
                       sha256,
@@ -276,7 +276,7 @@ export const opCheckMultiSigBCH2023 =
           );
     });
 
-export const opCheckSigVerifyBCH2023 = <
+export const opCheckSigVerifyBch2023 = <
   State extends AuthenticationProgramStateCommon,
 >(
   {
@@ -290,9 +290,9 @@ export const opCheckSigVerifyBCH2023 = <
     };
   } = { secp256k1: internalSecp256k1, sha256: internalSha256 },
 ): Operation<State> =>
-  combineOperations(opCheckSigBCH2023<State>({ secp256k1, sha256 }), opVerify);
+  combineOperations(opCheckSigBch2023<State>({ secp256k1, sha256 }), opVerify);
 
-export const opCheckMultiSigVerifyBCH2023 = <
+export const opCheckMultiSigVerifyBch2023 = <
   State extends AuthenticationProgramStateCommon,
 >({
   secp256k1,
@@ -304,6 +304,6 @@ export const opCheckMultiSigVerifyBCH2023 = <
   };
 }): Operation<State> =>
   combineOperations(
-    opCheckMultiSigBCH2023<State>({ secp256k1, sha256 }),
+    opCheckMultiSigBch2023<State>({ secp256k1, sha256 }),
     opVerify,
   );

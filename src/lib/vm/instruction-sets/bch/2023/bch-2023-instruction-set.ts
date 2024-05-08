@@ -10,22 +10,20 @@ import {
 } from '../../../../crypto/crypto.js';
 import { binToHex } from '../../../../format/format.js';
 import type {
-  AuthenticationProgramBCH,
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramBch,
+  AuthenticationProgramStateBch,
   InstructionSet,
-  ResolvedTransactionBCH,
+  ResolvedTransactionBch,
   Ripemd160,
   Secp256k1,
   Sha1,
   Sha256,
 } from '../../../../lib.js';
-import { encodeTransactionBCH } from '../../../../message/message.js';
+import { encodeTransactionBch } from '../../../../message/message.js';
 import {
   applyError,
   AuthenticationErrorCommon,
   authenticationInstructionsAreMalformed,
-  cloneAuthenticationProgramStateBCH,
-  cloneStack,
   conditionallyEvaluate,
   createAuthenticationProgramStateCommon,
   decodeAuthenticationInstructions,
@@ -130,14 +128,14 @@ import {
   undefinedOperation,
 } from '../../common/common.js';
 
-import { ConsensusBCH2023 } from './bch-2023-consensus.js';
+import { ConsensusBch2023 } from './bch-2023-consensus.js';
 import {
-  opCheckMultiSigBCH2023,
-  opCheckMultiSigVerifyBCH2023,
-  opCheckSigBCH2023,
-  opCheckSigVerifyBCH2023,
+  opCheckMultiSigBch2023,
+  opCheckMultiSigVerifyBch2023,
+  opCheckSigBch2023,
+  opCheckSigVerifyBch2023,
 } from './bch-2023-crypto.js';
-import { OpcodesBCH2023 } from './bch-2023-opcodes.js';
+import { OpcodesBch2023 } from './bch-2023-opcodes.js';
 import {
   opOutputTokenAmount,
   opOutputTokenCategory,
@@ -156,7 +154,7 @@ import {
  * and can technically be included by miners in valid blocks, but most network
  * nodes will refuse to relay them. (Default: `true`)
  */
-export const createInstructionSetBCH2023 = (
+export const createInstructionSetBch2023 = (
   standard = true,
   {
     ripemd160,
@@ -190,13 +188,12 @@ export const createInstructionSetBCH2023 = (
     sha256: internalSha256,
   },
 ): InstructionSet<
-  ResolvedTransactionBCH,
-  AuthenticationProgramBCH,
-  AuthenticationProgramStateBCH
+  ResolvedTransactionBch,
+  AuthenticationProgramBch,
+  AuthenticationProgramStateBch
 > => {
-  const conditionallyPush = pushOperation<AuthenticationProgramStateBCH>();
+  const conditionallyPush = pushOperation<AuthenticationProgramStateBch>();
   return {
-    clone: cloneAuthenticationProgramStateBCH,
     continue: (state) =>
       state.error === undefined && state.ip < state.instructions.length,
     // eslint-disable-next-line complexity
@@ -216,10 +213,10 @@ export const createInstructionSetBCH2023 = (
         stack: [],
       });
 
-      if (unlockingBytecode.length > ConsensusBCH2023.maximumBytecodeLength) {
+      if (unlockingBytecode.length > ConsensusBch2023.maximumBytecodeLength) {
         return applyError(
           initialState,
-          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBCH2023.maximumBytecodeLength} bytes).`,
+          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBch2023.maximumBytecodeLength} bytes).`,
         );
       }
       if (authenticationInstructionsAreMalformed(unlockingInstructions)) {
@@ -234,7 +231,7 @@ export const createInstructionSetBCH2023 = (
           AuthenticationErrorCommon.requiresPushOnly,
         );
       }
-      if (lockingBytecode.length > ConsensusBCH2023.maximumBytecodeLength) {
+      if (lockingBytecode.length > ConsensusBch2023.maximumBytecodeLength) {
         return applyError(
           initialState,
           AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking,
@@ -269,7 +266,7 @@ export const createInstructionSetBCH2023 = (
       if (!p2sh20 && !p2sh32) {
         return lockingResult;
       }
-      const p2shStack = cloneStack(unlockingResult.stack);
+      const p2shStack = structuredClone(unlockingResult.stack);
       // eslint-disable-next-line functional/immutable-data
       const p2shScript = p2shStack.pop() ?? Uint8Array.of();
 
@@ -294,313 +291,313 @@ export const createInstructionSetBCH2023 = (
     every: (state) =>
       // TODO: implement sigchecks https://gitlab.com/bitcoin-cash-node/bchn-sw/bitcoincash-upgrade-specifications/-/blob/master/spec/2020-05-15-sigchecks.md
       state.stack.length + state.alternateStack.length >
-      ConsensusBCH2023.maximumStackDepth
+      ConsensusBch2023.maximumStackDepth
         ? applyError(state, AuthenticationErrorCommon.exceededMaximumStackDepth)
-        : state.operationCount > ConsensusBCH2023.maximumOperationCount
+        : state.operationCount > ConsensusBch2023.maximumOperationCount
           ? applyError(
               state,
               AuthenticationErrorCommon.exceededMaximumOperationCount,
             )
           : state,
     operations: {
-      [OpcodesBCH2023.OP_0]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_1]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_2]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_3]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_4]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_5]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_6]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_7]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_8]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_9]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_10]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_11]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_12]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_13]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_14]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_15]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_16]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_17]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_18]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_19]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_20]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_21]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_22]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_23]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_24]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_25]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_26]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_27]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_28]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_29]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_30]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_31]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_32]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_33]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_34]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_35]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_36]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_37]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_38]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_39]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_40]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_41]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_42]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_43]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_44]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_45]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_46]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_47]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_48]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_49]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_50]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_51]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_52]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_53]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_54]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_55]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_56]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_57]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_58]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_59]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_60]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_61]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_62]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_63]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_64]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_65]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_66]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_67]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_68]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_69]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_70]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_71]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_72]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_73]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_74]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHBYTES_75]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHDATA_1]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHDATA_2]: conditionallyPush,
-      [OpcodesBCH2023.OP_PUSHDATA_4]: conditionallyPush,
-      [OpcodesBCH2023.OP_1NEGATE]: conditionallyEvaluate(
+      [OpcodesBch2023.OP_0]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_1]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_2]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_3]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_4]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_5]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_6]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_7]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_8]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_9]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_10]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_11]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_12]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_13]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_14]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_15]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_16]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_17]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_18]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_19]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_20]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_21]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_22]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_23]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_24]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_25]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_26]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_27]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_28]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_29]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_30]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_31]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_32]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_33]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_34]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_35]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_36]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_37]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_38]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_39]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_40]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_41]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_42]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_43]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_44]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_45]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_46]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_47]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_48]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_49]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_50]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_51]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_52]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_53]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_54]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_55]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_56]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_57]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_58]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_59]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_60]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_61]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_62]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_63]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_64]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_65]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_66]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_67]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_68]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_69]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_70]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_71]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_72]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_73]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_74]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHBYTES_75]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHDATA_1]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHDATA_2]: conditionallyPush,
+      [OpcodesBch2023.OP_PUSHDATA_4]: conditionallyPush,
+      [OpcodesBch2023.OP_1NEGATE]: conditionallyEvaluate(
         pushNumberOperation(-1),
       ),
-      [OpcodesBCH2023.OP_RESERVED]: conditionallyEvaluate(reservedOperation),
-      [OpcodesBCH2023.OP_1]: conditionallyEvaluate(pushNumberOperation(1)),
+      [OpcodesBch2023.OP_RESERVED]: conditionallyEvaluate(reservedOperation),
+      [OpcodesBch2023.OP_1]: conditionallyEvaluate(pushNumberOperation(1)),
       /* eslint-disable @typescript-eslint/no-magic-numbers */
-      [OpcodesBCH2023.OP_2]: conditionallyEvaluate(pushNumberOperation(2)),
-      [OpcodesBCH2023.OP_3]: conditionallyEvaluate(pushNumberOperation(3)),
-      [OpcodesBCH2023.OP_4]: conditionallyEvaluate(pushNumberOperation(4)),
-      [OpcodesBCH2023.OP_5]: conditionallyEvaluate(pushNumberOperation(5)),
-      [OpcodesBCH2023.OP_6]: conditionallyEvaluate(pushNumberOperation(6)),
-      [OpcodesBCH2023.OP_7]: conditionallyEvaluate(pushNumberOperation(7)),
-      [OpcodesBCH2023.OP_8]: conditionallyEvaluate(pushNumberOperation(8)),
-      [OpcodesBCH2023.OP_9]: conditionallyEvaluate(pushNumberOperation(9)),
-      [OpcodesBCH2023.OP_10]: conditionallyEvaluate(pushNumberOperation(10)),
-      [OpcodesBCH2023.OP_11]: conditionallyEvaluate(pushNumberOperation(11)),
-      [OpcodesBCH2023.OP_12]: conditionallyEvaluate(pushNumberOperation(12)),
-      [OpcodesBCH2023.OP_13]: conditionallyEvaluate(pushNumberOperation(13)),
-      [OpcodesBCH2023.OP_14]: conditionallyEvaluate(pushNumberOperation(14)),
-      [OpcodesBCH2023.OP_15]: conditionallyEvaluate(pushNumberOperation(15)),
-      [OpcodesBCH2023.OP_16]: conditionallyEvaluate(pushNumberOperation(16)),
+      [OpcodesBch2023.OP_2]: conditionallyEvaluate(pushNumberOperation(2)),
+      [OpcodesBch2023.OP_3]: conditionallyEvaluate(pushNumberOperation(3)),
+      [OpcodesBch2023.OP_4]: conditionallyEvaluate(pushNumberOperation(4)),
+      [OpcodesBch2023.OP_5]: conditionallyEvaluate(pushNumberOperation(5)),
+      [OpcodesBch2023.OP_6]: conditionallyEvaluate(pushNumberOperation(6)),
+      [OpcodesBch2023.OP_7]: conditionallyEvaluate(pushNumberOperation(7)),
+      [OpcodesBch2023.OP_8]: conditionallyEvaluate(pushNumberOperation(8)),
+      [OpcodesBch2023.OP_9]: conditionallyEvaluate(pushNumberOperation(9)),
+      [OpcodesBch2023.OP_10]: conditionallyEvaluate(pushNumberOperation(10)),
+      [OpcodesBch2023.OP_11]: conditionallyEvaluate(pushNumberOperation(11)),
+      [OpcodesBch2023.OP_12]: conditionallyEvaluate(pushNumberOperation(12)),
+      [OpcodesBch2023.OP_13]: conditionallyEvaluate(pushNumberOperation(13)),
+      [OpcodesBch2023.OP_14]: conditionallyEvaluate(pushNumberOperation(14)),
+      [OpcodesBch2023.OP_15]: conditionallyEvaluate(pushNumberOperation(15)),
+      [OpcodesBch2023.OP_16]: conditionallyEvaluate(pushNumberOperation(16)),
       /* eslint-enable @typescript-eslint/no-magic-numbers */
-      ...mapOverOperations<AuthenticationProgramStateBCH>(
+      ...mapOverOperations<AuthenticationProgramStateBch>(
         [incrementOperationCount],
         {
-          [OpcodesBCH2023.OP_NOP]: conditionallyEvaluate(opNop),
-          [OpcodesBCH2023.OP_VER]: conditionallyEvaluate(reservedOperation),
-          [OpcodesBCH2023.OP_IF]: opIf,
-          [OpcodesBCH2023.OP_NOTIF]: opNotIf,
-          [OpcodesBCH2023.OP_VERIF]: reservedOperation,
-          [OpcodesBCH2023.OP_VERNOTIF]: reservedOperation,
-          [OpcodesBCH2023.OP_ELSE]: opElse,
-          [OpcodesBCH2023.OP_ENDIF]: opEndIf,
-          [OpcodesBCH2023.OP_VERIFY]: conditionallyEvaluate(opVerify),
-          [OpcodesBCH2023.OP_RETURN]: conditionallyEvaluate(opReturn),
-          [OpcodesBCH2023.OP_TOALTSTACK]: conditionallyEvaluate(opToAltStack),
-          [OpcodesBCH2023.OP_FROMALTSTACK]:
+          [OpcodesBch2023.OP_NOP]: conditionallyEvaluate(opNop),
+          [OpcodesBch2023.OP_VER]: conditionallyEvaluate(reservedOperation),
+          [OpcodesBch2023.OP_IF]: opIf,
+          [OpcodesBch2023.OP_NOTIF]: opNotIf,
+          [OpcodesBch2023.OP_VERIF]: reservedOperation,
+          [OpcodesBch2023.OP_VERNOTIF]: reservedOperation,
+          [OpcodesBch2023.OP_ELSE]: opElse,
+          [OpcodesBch2023.OP_ENDIF]: opEndIf,
+          [OpcodesBch2023.OP_VERIFY]: conditionallyEvaluate(opVerify),
+          [OpcodesBch2023.OP_RETURN]: conditionallyEvaluate(opReturn),
+          [OpcodesBch2023.OP_TOALTSTACK]: conditionallyEvaluate(opToAltStack),
+          [OpcodesBch2023.OP_FROMALTSTACK]:
             conditionallyEvaluate(opFromAltStack),
-          [OpcodesBCH2023.OP_2DROP]: conditionallyEvaluate(op2Drop),
-          [OpcodesBCH2023.OP_2DUP]: conditionallyEvaluate(op2Dup),
-          [OpcodesBCH2023.OP_3DUP]: conditionallyEvaluate(op3Dup),
-          [OpcodesBCH2023.OP_2OVER]: conditionallyEvaluate(op2Over),
-          [OpcodesBCH2023.OP_2ROT]: conditionallyEvaluate(op2Rot),
-          [OpcodesBCH2023.OP_2SWAP]: conditionallyEvaluate(op2Swap),
-          [OpcodesBCH2023.OP_IFDUP]: conditionallyEvaluate(opIfDup),
-          [OpcodesBCH2023.OP_DEPTH]: conditionallyEvaluate(opDepth),
-          [OpcodesBCH2023.OP_DROP]: conditionallyEvaluate(opDrop),
-          [OpcodesBCH2023.OP_DUP]: conditionallyEvaluate(opDup),
-          [OpcodesBCH2023.OP_NIP]: conditionallyEvaluate(opNip),
-          [OpcodesBCH2023.OP_OVER]: conditionallyEvaluate(opOver),
-          [OpcodesBCH2023.OP_PICK]: conditionallyEvaluate(opPick),
-          [OpcodesBCH2023.OP_ROLL]: conditionallyEvaluate(opRoll),
-          [OpcodesBCH2023.OP_ROT]: conditionallyEvaluate(opRot),
-          [OpcodesBCH2023.OP_SWAP]: conditionallyEvaluate(opSwap),
-          [OpcodesBCH2023.OP_TUCK]: conditionallyEvaluate(opTuck),
-          [OpcodesBCH2023.OP_CAT]: conditionallyEvaluate(opCat),
-          [OpcodesBCH2023.OP_SPLIT]: conditionallyEvaluate(opSplit),
-          [OpcodesBCH2023.OP_NUM2BIN]: conditionallyEvaluate(opNum2Bin),
-          [OpcodesBCH2023.OP_BIN2NUM]: conditionallyEvaluate(opBin2Num),
-          [OpcodesBCH2023.OP_SIZE]: conditionallyEvaluate(opSize),
-          [OpcodesBCH2023.OP_INVERT]: disabledOperation,
-          [OpcodesBCH2023.OP_AND]: conditionallyEvaluate(opAnd),
-          [OpcodesBCH2023.OP_OR]: conditionallyEvaluate(opOr),
-          [OpcodesBCH2023.OP_XOR]: conditionallyEvaluate(opXor),
-          [OpcodesBCH2023.OP_EQUAL]: conditionallyEvaluate(opEqual),
-          [OpcodesBCH2023.OP_EQUALVERIFY]: conditionallyEvaluate(opEqualVerify),
-          [OpcodesBCH2023.OP_RESERVED1]:
+          [OpcodesBch2023.OP_2DROP]: conditionallyEvaluate(op2Drop),
+          [OpcodesBch2023.OP_2DUP]: conditionallyEvaluate(op2Dup),
+          [OpcodesBch2023.OP_3DUP]: conditionallyEvaluate(op3Dup),
+          [OpcodesBch2023.OP_2OVER]: conditionallyEvaluate(op2Over),
+          [OpcodesBch2023.OP_2ROT]: conditionallyEvaluate(op2Rot),
+          [OpcodesBch2023.OP_2SWAP]: conditionallyEvaluate(op2Swap),
+          [OpcodesBch2023.OP_IFDUP]: conditionallyEvaluate(opIfDup),
+          [OpcodesBch2023.OP_DEPTH]: conditionallyEvaluate(opDepth),
+          [OpcodesBch2023.OP_DROP]: conditionallyEvaluate(opDrop),
+          [OpcodesBch2023.OP_DUP]: conditionallyEvaluate(opDup),
+          [OpcodesBch2023.OP_NIP]: conditionallyEvaluate(opNip),
+          [OpcodesBch2023.OP_OVER]: conditionallyEvaluate(opOver),
+          [OpcodesBch2023.OP_PICK]: conditionallyEvaluate(opPick),
+          [OpcodesBch2023.OP_ROLL]: conditionallyEvaluate(opRoll),
+          [OpcodesBch2023.OP_ROT]: conditionallyEvaluate(opRot),
+          [OpcodesBch2023.OP_SWAP]: conditionallyEvaluate(opSwap),
+          [OpcodesBch2023.OP_TUCK]: conditionallyEvaluate(opTuck),
+          [OpcodesBch2023.OP_CAT]: conditionallyEvaluate(opCat),
+          [OpcodesBch2023.OP_SPLIT]: conditionallyEvaluate(opSplit),
+          [OpcodesBch2023.OP_NUM2BIN]: conditionallyEvaluate(opNum2Bin),
+          [OpcodesBch2023.OP_BIN2NUM]: conditionallyEvaluate(opBin2Num),
+          [OpcodesBch2023.OP_SIZE]: conditionallyEvaluate(opSize),
+          [OpcodesBch2023.OP_INVERT]: disabledOperation,
+          [OpcodesBch2023.OP_AND]: conditionallyEvaluate(opAnd),
+          [OpcodesBch2023.OP_OR]: conditionallyEvaluate(opOr),
+          [OpcodesBch2023.OP_XOR]: conditionallyEvaluate(opXor),
+          [OpcodesBch2023.OP_EQUAL]: conditionallyEvaluate(opEqual),
+          [OpcodesBch2023.OP_EQUALVERIFY]: conditionallyEvaluate(opEqualVerify),
+          [OpcodesBch2023.OP_RESERVED1]:
             conditionallyEvaluate(reservedOperation),
-          [OpcodesBCH2023.OP_RESERVED2]:
+          [OpcodesBch2023.OP_RESERVED2]:
             conditionallyEvaluate(reservedOperation),
-          [OpcodesBCH2023.OP_1ADD]: conditionallyEvaluate(op1Add),
-          [OpcodesBCH2023.OP_1SUB]: conditionallyEvaluate(op1Sub),
-          [OpcodesBCH2023.OP_2MUL]: disabledOperation,
-          [OpcodesBCH2023.OP_2DIV]: disabledOperation,
-          [OpcodesBCH2023.OP_NEGATE]: conditionallyEvaluate(opNegate),
-          [OpcodesBCH2023.OP_ABS]: conditionallyEvaluate(opAbs),
-          [OpcodesBCH2023.OP_NOT]: conditionallyEvaluate(opNot),
-          [OpcodesBCH2023.OP_0NOTEQUAL]: conditionallyEvaluate(op0NotEqual),
-          [OpcodesBCH2023.OP_ADD]: conditionallyEvaluate(opAdd),
-          [OpcodesBCH2023.OP_SUB]: conditionallyEvaluate(opSub),
-          [OpcodesBCH2023.OP_MUL]: conditionallyEvaluate(opMul),
-          [OpcodesBCH2023.OP_DIV]: conditionallyEvaluate(opDiv),
-          [OpcodesBCH2023.OP_MOD]: conditionallyEvaluate(opMod),
-          [OpcodesBCH2023.OP_LSHIFT]: disabledOperation,
-          [OpcodesBCH2023.OP_RSHIFT]: disabledOperation,
-          [OpcodesBCH2023.OP_BOOLAND]: conditionallyEvaluate(opBoolAnd),
-          [OpcodesBCH2023.OP_BOOLOR]: conditionallyEvaluate(opBoolOr),
-          [OpcodesBCH2023.OP_NUMEQUAL]: conditionallyEvaluate(opNumEqual),
-          [OpcodesBCH2023.OP_NUMEQUALVERIFY]:
+          [OpcodesBch2023.OP_1ADD]: conditionallyEvaluate(op1Add),
+          [OpcodesBch2023.OP_1SUB]: conditionallyEvaluate(op1Sub),
+          [OpcodesBch2023.OP_2MUL]: disabledOperation,
+          [OpcodesBch2023.OP_2DIV]: disabledOperation,
+          [OpcodesBch2023.OP_NEGATE]: conditionallyEvaluate(opNegate),
+          [OpcodesBch2023.OP_ABS]: conditionallyEvaluate(opAbs),
+          [OpcodesBch2023.OP_NOT]: conditionallyEvaluate(opNot),
+          [OpcodesBch2023.OP_0NOTEQUAL]: conditionallyEvaluate(op0NotEqual),
+          [OpcodesBch2023.OP_ADD]: conditionallyEvaluate(opAdd),
+          [OpcodesBch2023.OP_SUB]: conditionallyEvaluate(opSub),
+          [OpcodesBch2023.OP_MUL]: conditionallyEvaluate(opMul),
+          [OpcodesBch2023.OP_DIV]: conditionallyEvaluate(opDiv),
+          [OpcodesBch2023.OP_MOD]: conditionallyEvaluate(opMod),
+          [OpcodesBch2023.OP_LSHIFT]: disabledOperation,
+          [OpcodesBch2023.OP_RSHIFT]: disabledOperation,
+          [OpcodesBch2023.OP_BOOLAND]: conditionallyEvaluate(opBoolAnd),
+          [OpcodesBch2023.OP_BOOLOR]: conditionallyEvaluate(opBoolOr),
+          [OpcodesBch2023.OP_NUMEQUAL]: conditionallyEvaluate(opNumEqual),
+          [OpcodesBch2023.OP_NUMEQUALVERIFY]:
             conditionallyEvaluate(opNumEqualVerify),
-          [OpcodesBCH2023.OP_NUMNOTEQUAL]: conditionallyEvaluate(opNumNotEqual),
-          [OpcodesBCH2023.OP_LESSTHAN]: conditionallyEvaluate(opLessThan),
-          [OpcodesBCH2023.OP_GREATERTHAN]: conditionallyEvaluate(opGreaterThan),
-          [OpcodesBCH2023.OP_LESSTHANOREQUAL]:
+          [OpcodesBch2023.OP_NUMNOTEQUAL]: conditionallyEvaluate(opNumNotEqual),
+          [OpcodesBch2023.OP_LESSTHAN]: conditionallyEvaluate(opLessThan),
+          [OpcodesBch2023.OP_GREATERTHAN]: conditionallyEvaluate(opGreaterThan),
+          [OpcodesBch2023.OP_LESSTHANOREQUAL]:
             conditionallyEvaluate(opLessThanOrEqual),
-          [OpcodesBCH2023.OP_GREATERTHANOREQUAL]:
+          [OpcodesBch2023.OP_GREATERTHANOREQUAL]:
             conditionallyEvaluate(opGreaterThanOrEqual),
-          [OpcodesBCH2023.OP_MIN]: conditionallyEvaluate(opMin),
-          [OpcodesBCH2023.OP_MAX]: conditionallyEvaluate(opMax),
-          [OpcodesBCH2023.OP_WITHIN]: conditionallyEvaluate(opWithin),
-          [OpcodesBCH2023.OP_RIPEMD160]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_MIN]: conditionallyEvaluate(opMin),
+          [OpcodesBch2023.OP_MAX]: conditionallyEvaluate(opMax),
+          [OpcodesBch2023.OP_WITHIN]: conditionallyEvaluate(opWithin),
+          [OpcodesBch2023.OP_RIPEMD160]: conditionallyEvaluate(
             opRipemd160({ ripemd160 }),
           ),
-          [OpcodesBCH2023.OP_SHA1]: conditionallyEvaluate(opSha1({ sha1 })),
-          [OpcodesBCH2023.OP_SHA256]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_SHA1]: conditionallyEvaluate(opSha1({ sha1 })),
+          [OpcodesBch2023.OP_SHA256]: conditionallyEvaluate(
             opSha256({ sha256 }),
           ),
-          [OpcodesBCH2023.OP_HASH160]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_HASH160]: conditionallyEvaluate(
             opHash160({ ripemd160, sha256 }),
           ),
-          [OpcodesBCH2023.OP_HASH256]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_HASH256]: conditionallyEvaluate(
             opHash256({ sha256 }),
           ),
-          [OpcodesBCH2023.OP_CODESEPARATOR]:
+          [OpcodesBch2023.OP_CODESEPARATOR]:
             conditionallyEvaluate(opCodeSeparator),
-          [OpcodesBCH2023.OP_CHECKSIG]: conditionallyEvaluate(
-            opCheckSigBCH2023({ secp256k1, sha256 }),
+          [OpcodesBch2023.OP_CHECKSIG]: conditionallyEvaluate(
+            opCheckSigBch2023({ secp256k1, sha256 }),
           ),
-          [OpcodesBCH2023.OP_CHECKSIGVERIFY]: conditionallyEvaluate(
-            opCheckSigVerifyBCH2023({ secp256k1, sha256 }),
+          [OpcodesBch2023.OP_CHECKSIGVERIFY]: conditionallyEvaluate(
+            opCheckSigVerifyBch2023({ secp256k1, sha256 }),
           ),
-          [OpcodesBCH2023.OP_CHECKMULTISIG]: conditionallyEvaluate(
-            opCheckMultiSigBCH2023({ secp256k1, sha256 }),
+          [OpcodesBch2023.OP_CHECKMULTISIG]: conditionallyEvaluate(
+            opCheckMultiSigBch2023({ secp256k1, sha256 }),
           ),
-          [OpcodesBCH2023.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
-            opCheckMultiSigVerifyBCH2023({ secp256k1, sha256 }),
+          [OpcodesBch2023.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
+            opCheckMultiSigVerifyBch2023({ secp256k1, sha256 }),
           ),
           ...(standard
             ? {
-                [OpcodesBCH2023.OP_NOP1]:
+                [OpcodesBch2023.OP_NOP1]:
                   conditionallyEvaluate(opNopDisallowed),
-                [OpcodesBCH2023.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
+                [OpcodesBch2023.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
                   opCheckLockTimeVerify,
                 ),
-                [OpcodesBCH2023.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
+                [OpcodesBch2023.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
                   opCheckSequenceVerify,
                 ),
-                [OpcodesBCH2023.OP_NOP4]:
+                [OpcodesBch2023.OP_NOP4]:
                   conditionallyEvaluate(opNopDisallowed),
-                [OpcodesBCH2023.OP_NOP5]:
+                [OpcodesBch2023.OP_NOP5]:
                   conditionallyEvaluate(opNopDisallowed),
-                [OpcodesBCH2023.OP_NOP6]:
+                [OpcodesBch2023.OP_NOP6]:
                   conditionallyEvaluate(opNopDisallowed),
-                [OpcodesBCH2023.OP_NOP7]:
+                [OpcodesBch2023.OP_NOP7]:
                   conditionallyEvaluate(opNopDisallowed),
-                [OpcodesBCH2023.OP_NOP8]:
+                [OpcodesBch2023.OP_NOP8]:
                   conditionallyEvaluate(opNopDisallowed),
-                [OpcodesBCH2023.OP_NOP9]:
+                [OpcodesBch2023.OP_NOP9]:
                   conditionallyEvaluate(opNopDisallowed),
-                [OpcodesBCH2023.OP_NOP10]:
+                [OpcodesBch2023.OP_NOP10]:
                   conditionallyEvaluate(opNopDisallowed),
               }
             : {
-                [OpcodesBCH2023.OP_NOP1]: conditionallyEvaluate(opNop),
-                [OpcodesBCH2023.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
+                [OpcodesBch2023.OP_NOP1]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_CHECKLOCKTIMEVERIFY]: conditionallyEvaluate(
                   opCheckLockTimeVerify,
                 ),
-                [OpcodesBCH2023.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
+                [OpcodesBch2023.OP_CHECKSEQUENCEVERIFY]: conditionallyEvaluate(
                   opCheckSequenceVerify,
                 ),
-                [OpcodesBCH2023.OP_NOP4]: conditionallyEvaluate(opNop),
-                [OpcodesBCH2023.OP_NOP5]: conditionallyEvaluate(opNop),
-                [OpcodesBCH2023.OP_NOP6]: conditionallyEvaluate(opNop),
-                [OpcodesBCH2023.OP_NOP7]: conditionallyEvaluate(opNop),
-                [OpcodesBCH2023.OP_NOP8]: conditionallyEvaluate(opNop),
-                [OpcodesBCH2023.OP_NOP9]: conditionallyEvaluate(opNop),
-                [OpcodesBCH2023.OP_NOP10]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_NOP4]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_NOP5]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_NOP6]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_NOP7]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_NOP8]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_NOP9]: conditionallyEvaluate(opNop),
+                [OpcodesBch2023.OP_NOP10]: conditionallyEvaluate(opNop),
               }),
-          [OpcodesBCH2023.OP_CHECKDATASIG]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_CHECKDATASIG]: conditionallyEvaluate(
             opCheckDataSig({ secp256k1, sha256 }),
           ),
-          [OpcodesBCH2023.OP_CHECKDATASIGVERIFY]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_CHECKDATASIGVERIFY]: conditionallyEvaluate(
             opCheckDataSigVerify({ secp256k1, sha256 }),
           ),
-          [OpcodesBCH2023.OP_REVERSEBYTES]:
+          [OpcodesBch2023.OP_REVERSEBYTES]:
             conditionallyEvaluate(opReverseBytes),
-          [OpcodesBCH2023.OP_INPUTINDEX]: conditionallyEvaluate(opInputIndex),
-          [OpcodesBCH2023.OP_ACTIVEBYTECODE]:
+          [OpcodesBch2023.OP_INPUTINDEX]: conditionallyEvaluate(opInputIndex),
+          [OpcodesBch2023.OP_ACTIVEBYTECODE]:
             conditionallyEvaluate(opActiveBytecode),
-          [OpcodesBCH2023.OP_TXVERSION]: conditionallyEvaluate(opTxVersion),
-          [OpcodesBCH2023.OP_TXINPUTCOUNT]:
+          [OpcodesBch2023.OP_TXVERSION]: conditionallyEvaluate(opTxVersion),
+          [OpcodesBch2023.OP_TXINPUTCOUNT]:
             conditionallyEvaluate(opTxInputCount),
-          [OpcodesBCH2023.OP_TXOUTPUTCOUNT]:
+          [OpcodesBch2023.OP_TXOUTPUTCOUNT]:
             conditionallyEvaluate(opTxOutputCount),
-          [OpcodesBCH2023.OP_TXLOCKTIME]: conditionallyEvaluate(opTxLocktime),
-          [OpcodesBCH2023.OP_UTXOVALUE]: conditionallyEvaluate(opUtxoValue),
-          [OpcodesBCH2023.OP_UTXOBYTECODE]:
+          [OpcodesBch2023.OP_TXLOCKTIME]: conditionallyEvaluate(opTxLocktime),
+          [OpcodesBch2023.OP_UTXOVALUE]: conditionallyEvaluate(opUtxoValue),
+          [OpcodesBch2023.OP_UTXOBYTECODE]:
             conditionallyEvaluate(opUtxoBytecode),
-          [OpcodesBCH2023.OP_OUTPOINTTXHASH]:
+          [OpcodesBch2023.OP_OUTPOINTTXHASH]:
             conditionallyEvaluate(opOutpointTxHash),
-          [OpcodesBCH2023.OP_OUTPOINTINDEX]:
+          [OpcodesBch2023.OP_OUTPOINTINDEX]:
             conditionallyEvaluate(opOutpointIndex),
-          [OpcodesBCH2023.OP_INPUTBYTECODE]:
+          [OpcodesBch2023.OP_INPUTBYTECODE]:
             conditionallyEvaluate(opInputBytecode),
-          [OpcodesBCH2023.OP_INPUTSEQUENCENUMBER]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_INPUTSEQUENCENUMBER]: conditionallyEvaluate(
             opInputSequenceNumber,
           ),
-          [OpcodesBCH2023.OP_OUTPUTVALUE]: conditionallyEvaluate(opOutputValue),
-          [OpcodesBCH2023.OP_OUTPUTBYTECODE]:
+          [OpcodesBch2023.OP_OUTPUTVALUE]: conditionallyEvaluate(opOutputValue),
+          [OpcodesBch2023.OP_OUTPUTBYTECODE]:
             conditionallyEvaluate(opOutputBytecode),
-          [OpcodesBCH2023.OP_UTXOTOKENCATEGORY]:
+          [OpcodesBch2023.OP_UTXOTOKENCATEGORY]:
             conditionallyEvaluate(opUtxoTokenCategory),
-          [OpcodesBCH2023.OP_UTXOTOKENCOMMITMENT]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_UTXOTOKENCOMMITMENT]: conditionallyEvaluate(
             opUtxoTokenCommitment,
           ),
-          [OpcodesBCH2023.OP_UTXOTOKENAMOUNT]:
+          [OpcodesBch2023.OP_UTXOTOKENAMOUNT]:
             conditionallyEvaluate(opUtxoTokenAmount),
-          [OpcodesBCH2023.OP_OUTPUTTOKENCATEGORY]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_OUTPUTTOKENCATEGORY]: conditionallyEvaluate(
             opOutputTokenCategory,
           ),
-          [OpcodesBCH2023.OP_OUTPUTTOKENCOMMITMENT]: conditionallyEvaluate(
+          [OpcodesBch2023.OP_OUTPUTTOKENCOMMITMENT]: conditionallyEvaluate(
             opOutputTokenCommitment,
           ),
-          [OpcodesBCH2023.OP_OUTPUTTOKENAMOUNT]:
+          [OpcodesBch2023.OP_OUTPUTTOKENAMOUNT]:
             conditionallyEvaluate(opOutputTokenAmount),
         },
       ),
     },
-    success: (state: AuthenticationProgramStateBCH) => {
+    success: (state: AuthenticationProgramStateBch) => {
       if (state.error !== undefined) {
         return state.error;
       }
@@ -629,12 +626,12 @@ export const createInstructionSetBCH2023 = (
         return 'Unable to verify transaction: a single spent output must be provided for each transaction input.';
       }
 
-      const transactionSize = encodeTransactionBCH(transaction).length;
-      if (transactionSize < ConsensusBCH2023.minimumTransactionSize) {
-        return `Invalid transaction size: the transaction is ${transactionSize} bytes, but transactions must be no smaller than ${ConsensusBCH2023.minimumTransactionSize} bytes to prevent an exploit of the transaction Merkle tree design.`;
+      const transactionSize = encodeTransactionBch(transaction).length;
+      if (transactionSize < ConsensusBch2023.minimumTransactionSize) {
+        return `Invalid transaction size: the transaction is ${transactionSize} bytes, but transactions must be no smaller than ${ConsensusBch2023.minimumTransactionSize} bytes to prevent an exploit of the transaction Merkle tree design.`;
       }
-      if (transactionSize > ConsensusBCH2023.maximumTransactionSize) {
-        return `Transaction exceeds maximum size: the transaction is ${transactionSize} bytes, but the maximum transaction size is ${ConsensusBCH2023.maximumTransactionSize} bytes.`;
+      if (transactionSize > ConsensusBch2023.maximumTransactionSize) {
+        return `Transaction exceeds maximum size: the transaction is ${transactionSize} bytes, but the maximum transaction size is ${ConsensusBch2023.maximumTransactionSize} bytes.`;
       }
 
       const inputValue = sourceOutputs.reduce(
@@ -670,12 +667,12 @@ export const createInstructionSetBCH2023 = (
       if (standard) {
         if (
           transaction.version < 1 ||
-          transaction.version > ConsensusBCH2023.maximumStandardVersion
+          transaction.version > ConsensusBch2023.maximumStandardVersion
         ) {
-          return `Standard transactions must have a version no less than 1 and no greater than ${ConsensusBCH2023.maximumStandardVersion}.`;
+          return `Standard transactions must have a version no less than 1 and no greater than ${ConsensusBch2023.maximumStandardVersion}.`;
         }
-        if (transactionSize > ConsensusBCH2023.maximumStandardTransactionSize) {
-          return `Transaction exceeds maximum standard size: this transaction is ${transactionSize} bytes, but the maximum standard transaction size is ${ConsensusBCH2023.maximumStandardTransactionSize} bytes.`;
+        if (transactionSize > ConsensusBch2023.maximumStandardTransactionSize) {
+          return `Transaction exceeds maximum standard size: this transaction is ${transactionSize} bytes, but the maximum standard transaction size is ${ConsensusBch2023.maximumStandardTransactionSize} bytes.`;
         }
 
         // eslint-disable-next-line functional/no-loop-statements
@@ -704,18 +701,18 @@ export const createInstructionSetBCH2023 = (
           }
         }
         if (
-          totalArbitraryDataBytes > ConsensusBCH2023.maximumDataCarrierBytes
+          totalArbitraryDataBytes > ConsensusBch2023.maximumDataCarrierBytes
         ) {
-          return `Standard transactions may carry no more than ${ConsensusBCH2023.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
+          return `Standard transactions may carry no more than ${ConsensusBch2023.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
         }
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, input] of transaction.inputs.entries()) {
           if (
             input.unlockingBytecode.length >
-            ConsensusBCH2023.maximumStandardUnlockingBytecodeLength
+            ConsensusBch2023.maximumStandardUnlockingBytecodeLength
           ) {
-            return `Input index ${index} is non-standard: the unlocking bytecode (${input.unlockingBytecode.length} bytes) exceeds the maximum standard unlocking bytecode length (${ConsensusBCH2023.maximumStandardUnlockingBytecodeLength} bytes).`;
+            return `Input index ${index} is non-standard: the unlocking bytecode (${input.unlockingBytecode.length} bytes) exceeds the maximum standard unlocking bytecode length (${ConsensusBch2023.maximumStandardUnlockingBytecodeLength} bytes).`;
           }
           if (!isPushOnly(input.unlockingBytecode)) {
             return `Input index ${index} is non-standard: unlocking bytecode may contain only push operations.`;
@@ -749,4 +746,4 @@ export const createInstructionSetBCH2023 = (
   };
 };
 
-export const createInstructionSetBCH = createInstructionSetBCH2023;
+export const createInstructionSetBch = createInstructionSetBch2023;

@@ -7,7 +7,7 @@ import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import { vmbTestPartitionMasterTestList } from './bch-vmb-test-utils.js';
-import { vmbTestsBCH } from './bch-vmb-tests.js';
+import { vmbTestsBch } from './bch-vmb-tests.js';
 
 /**
  * Script accepts one argument: an `outputDir` to which all generated files will
@@ -21,7 +21,7 @@ if (outputDir === undefined) {
 const outputAbsolutePath = resolve(outputDir);
 
 const testGroupsAndTypes = 2;
-const allTestCases = vmbTestsBCH.flat(testGroupsAndTypes);
+const allTestCases = vmbTestsBch.flat(testGroupsAndTypes);
 writeFileSync(
   `${outputAbsolutePath}/bch_vmb_tests.json`,
   JSON.stringify(allTestCases),

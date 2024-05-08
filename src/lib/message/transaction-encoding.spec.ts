@@ -385,7 +385,7 @@ test.todo('[fast-check] encodeTokenPrefix <-> readTokenPrefix');
 test.todo('[fast-check] encodeTransactionOutput <-> readTransactionOutput');
 test.todo('[fast-check] encodeTransactionOutputs <-> readTransactionOutputs');
 test.todo(
-  '[fast-check] encodeTransaction <-> decodeTransaction/decodeTransactionUnsafe; encodeTransactionBCH <-> decodeTransactionBCH/decodeTransactionUnsafeBCH, encodeTransactionCommon <-> decodeTransactionCommon/decodeTransactionUnsafeCommon',
+  '[fast-check] encodeTransaction <-> decodeTransaction/decodeTransactionUnsafe; encodeTransactionBch <-> decodeTransactionBch/decodeTransactionUnsafeBch, encodeTransactionCommon <-> decodeTransactionCommon/decodeTransactionUnsafeCommon',
 );
 test.todo('hashTransactionP2pOrder');
 test.todo('hashTransactionUiOrder');

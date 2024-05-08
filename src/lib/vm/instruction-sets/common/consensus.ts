@@ -1,4 +1,4 @@
-import { SigningSerializationTypeBCH } from './signing-serialization.js';
+import { SigningSerializationTypeBch } from './signing-serialization.js';
 
 /**
  * Consensus settings for the `BCH_2022_05` instruction set.
@@ -56,16 +56,21 @@ export enum ConsensusCommon {
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const SigningSerializationTypesCommon = [
-  SigningSerializationTypeBCH.allOutputs,
-  SigningSerializationTypeBCH.allOutputsSingleInput,
-  SigningSerializationTypeBCH.correspondingOutput,
-  SigningSerializationTypeBCH.correspondingOutputSingleInput,
-  SigningSerializationTypeBCH.noOutputs,
-  SigningSerializationTypeBCH.noOutputsSingleInput,
+  SigningSerializationTypeBch.allOutputs,
+  SigningSerializationTypeBch.allOutputsSingleInput,
+  SigningSerializationTypeBch.correspondingOutput,
+  SigningSerializationTypeBch.correspondingOutputSingleInput,
+  SigningSerializationTypeBch.noOutputs,
+  SigningSerializationTypeBch.noOutputsSingleInput,
 ];
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const SigningSerializationTypesBCH = SigningSerializationTypesCommon;
+export const SigningSerializationTypesBch = SigningSerializationTypesCommon;
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const ConsensusBCH = ConsensusCommon;
+export const ConsensusBch = ConsensusCommon;
+/**
+ * @deprecated Alias of `ConsensusBch` for backwards-compatibility.
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const ConsensusBCH = ConsensusBch;

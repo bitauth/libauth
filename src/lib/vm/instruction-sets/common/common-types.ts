@@ -11,15 +11,10 @@ import type {
   Output,
   TransactionCommon,
 } from '../../../lib.js';
-import {
-  cloneTransactionCommon,
-  cloneTransactionOutputsCommon,
-} from '../../../message/message.js';
 
 import { conditionallyEvaluate } from './combinators.js';
 import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
-import { cloneAuthenticationInstruction } from './instruction-sets-utils.js';
 
 export const undefinedOperation = conditionallyEvaluate(
   <
@@ -54,12 +49,6 @@ export const checkLimitsCommon =
         : nextState;
   };
 
-/**
- * @deprecated use `structuredClone` instead
- */
-export const cloneStack = (stack: Uint8Array[]) =>
-  stack.map((item) => item.slice());
-
 export const createAuthenticationProgramStateCommon = ({
   program,
   instructions,
@@ -80,56 +69,6 @@ export const createAuthenticationProgramStateCommon = ({
   signedMessages: [],
   stack,
 });
-
-/**
- * @deprecated use `structuredClone` instead
- */
-export const cloneAuthenticationProgramCommon = <
-  Program extends AuthenticationProgramCommon,
->(
-  program: Program,
-) => ({
-  inputIndex: program.inputIndex,
-  sourceOutputs: cloneTransactionOutputsCommon(program.sourceOutputs),
-  transaction: cloneTransactionCommon(program.transaction),
-});
-
-/**
- * @deprecated use `structuredClone` instead
- */
-export const cloneAuthenticationProgramStateCommon = <
-  State extends AuthenticationProgramStateCommon,
->(
-  state: State,
-) => ({
-  ...(state.error === undefined ? {} : { error: state.error }),
-  alternateStack: cloneStack(state.alternateStack),
-  controlStack: state.controlStack.slice(),
-  instructions: state.instructions.map(cloneAuthenticationInstruction),
-  ip: state.ip,
-  lastCodeSeparator: state.lastCodeSeparator,
-  operationCount: state.operationCount,
-  program: cloneAuthenticationProgramCommon(state.program),
-  signatureOperationsCount: state.signatureOperationsCount,
-  signedMessages: state.signedMessages.map((item) => ({
-    digest: item.digest.slice(),
-    ...('serialization' in item
-      ? { serialization: item.serialization.slice() }
-      : { message: item.message.slice() }),
-  })),
-  stack: cloneStack(state.stack),
-});
-
-/**
- * @deprecated use `structuredClone` instead
- */
-export const cloneAuthenticationProgramStateBCH =
-  cloneAuthenticationProgramStateCommon;
-/**
- * @deprecated use `structuredClone` instead
- */
-export const cloneAuthenticationProgramState =
-  cloneAuthenticationProgramStateBCH;
 
 /**
  * A reduced version of {@link AuthenticationProgramCommon} in which some

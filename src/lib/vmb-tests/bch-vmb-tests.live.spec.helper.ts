@@ -11,8 +11,8 @@ import {
   binsAreEqual,
   binToHex,
   cashAddressToLockingBytecode,
-  createCompilerBCH,
-  createVirtualMachineBCH2022,
+  createCompilerBch,
+  createVirtualMachineBch,
   decodeTransactionUnsafe,
   deriveHdPrivateNodeFromSeed,
   encodeHdPrivateKey,
@@ -246,7 +246,7 @@ const configuration = walletTemplateToCompilerConfiguration({
   supported: ['BCH_2022_05'],
   version: 0,
 });
-const compiler = createCompilerBCH(configuration);
+const compiler = createCompilerBch(configuration);
 
 const setupTx = compiler.generateScenario({
   debug: true,
@@ -265,7 +265,7 @@ if (typeof setupTx.scenario === 'string') {
   process.exit(1);
 }
 
-const vm = createVirtualMachineBCH2022(true);
+const vm = createVirtualMachineBch(true);
 const firstProgram = {
   sourceOutputs: [fundingUtxo],
   transaction: setupTx.scenario.program.transaction,

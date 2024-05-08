@@ -9,7 +9,7 @@ import type {
   BytecodeGenerationErrorBase,
   BytecodeGenerationErrorLocking,
   BytecodeGenerationErrorUnlocking,
-  CompilationContextBCH,
+  CompilationContextBch,
   CompilationData,
   CompilationError,
   CompilationResultParseError,
@@ -97,7 +97,7 @@ export const compileInputTemplate = <
     unknown
   >,
   ProgramState,
-  CompilationContext extends CompilationContextBCH = CompilationContextBCH,
+  CompilationContext extends CompilationContextBch = CompilationContextBch,
 >({
   inputTemplate,
   index,
@@ -342,7 +342,7 @@ export const extractMissingVariables = <ProgramState>(
  */
 export const safelyExtendCompilationData = <
   ProgramState,
-  CompilationContext = CompilationContextBCH,
+  CompilationContext = CompilationContextBch,
 >(
   transactionGenerationError: TransactionGenerationError<ProgramState>,
   trustedCompilationData: CompilationData<CompilationContext>,

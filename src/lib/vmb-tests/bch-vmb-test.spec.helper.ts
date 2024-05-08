@@ -1,44 +1,42 @@
 /* eslint-disable no-console, functional/no-expression-statements, @typescript-eslint/no-non-null-assertion */
-import type { Output, ReadResult, Transaction } from '../lib.js';
 import {
-  createVirtualMachineBCH2022,
-  createVirtualMachineBCH2023,
-  createVirtualMachineBCHCHIPs,
+  assertSuccess,
+  createVirtualMachineBch2023,
+  createVirtualMachineBch2025,
+  createVirtualMachineBchSpec,
+  decodeTransaction,
+  decodeTransactionOutputs,
   hexToBin,
   isPayToScriptHash20,
-  readTransaction,
-  readTransactionNonTokenAware,
-  readTransactionOutputs,
-  readTransactionOutputsNonTokenAware,
   stringify,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
 } from '../lib.js';
 
 // eslint-disable-next-line import/no-internal-modules
-import vmbTestsBCHJson from './generated/bch/bch_vmb_tests.json' assert { type: 'json' };
+import vmbTestsBchJson from './generated/bch/bch_vmb_tests.json' assert { type: 'json' };
 
 const vms = {
   /* eslint-disable @typescript-eslint/naming-convention, camelcase */
-  bch_2022_nonstandard: createVirtualMachineBCH2022(false),
-  bch_2022_standard: createVirtualMachineBCH2022(true),
-  bch_2023_nonstandard: createVirtualMachineBCH2023(false),
-  bch_2023_standard: createVirtualMachineBCH2023(true),
-  bch_chips_nonstandard: createVirtualMachineBCHCHIPs(false),
-  bch_chips_standard: createVirtualMachineBCHCHIPs(true),
+  bch_2023_nonstandard: createVirtualMachineBch2023(false),
+  bch_2023_standard: createVirtualMachineBch2023(true),
+  bch_2025_nonstandard: createVirtualMachineBch2025(false),
+  bch_2025_standard: createVirtualMachineBch2025(true),
+  bch_spec_nonstandard: createVirtualMachineBchSpec(false),
+  bch_spec_standard: createVirtualMachineBchSpec(true),
   /* eslint-enable @typescript-eslint/naming-convention, camelcase */
 };
 const isVm = (vmId: string): vmId is keyof typeof vms =>
   Object.keys(vms).includes(vmId);
 
-// cspell:ignore crzlx
+// cspell:ignore qwfvt
 const usageInfo = `
 This script runs a single VMB test on the requested VM, logging the results and debugging information. Use the "-v" flag to output the full debug trace.
 
 Available VMs: ${Object.keys(vms).join(', ')}
 
 Usage: yarn test:unit:vmb_test <vm> <test_id> [-v]
-E.g.: yarn test:unit:vmb_test bch_2023_standard crzlx
+E.g.: yarn test:unit:vmb_test bch_2023_standard qwfvt
 `;
 
 const [, , vmId, testId, useVerbose] = process.argv;
@@ -53,11 +51,8 @@ if (!isVm(vmId)) {
 }
 
 const vm = vms[vmId];
-const nonTokenAware =
-  vmId === 'bch_2022_nonstandard' || vmId === 'bch_2022_standard';
-
 const testDefinition = (
-  vmbTestsBCHJson as [
+  vmbTestsBchJson as [
     shortId: string,
     testDescription: string,
     unlockingScriptAsm: string,
@@ -86,12 +81,10 @@ const [
 ] = testDefinition;
 
 const testedIndex = inputIndex ?? 0;
-const { result: transaction } = (
-  nonTokenAware ? readTransactionNonTokenAware : readTransaction
-)({ bin: hexToBin(txHex), index: 0 }) as ReadResult<Transaction>;
-const { result: sourceOutputs } = (
-  nonTokenAware ? readTransactionOutputsNonTokenAware : readTransactionOutputs
-)({ bin: hexToBin(sourceOutputsHex), index: 0 }) as ReadResult<Output[]>;
+const transaction = assertSuccess(decodeTransaction(hexToBin(txHex)));
+const sourceOutputs = assertSuccess(
+  decodeTransactionOutputs(hexToBin(sourceOutputsHex)),
+);
 const result = vm.verify({ sourceOutputs, transaction });
 
 const program = {

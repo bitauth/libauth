@@ -21,7 +21,7 @@ import {
   authenticationInstructionIsMalformed,
   decodeAuthenticationInstructions,
   encodeAuthenticationInstructionMalformed,
-  OpcodesBCHCHIPs,
+  OpcodesBch,
   vmNumberToBigInt,
 } from '../vm/vm.js';
 
@@ -862,7 +862,7 @@ export const summarizeDebugTrace = <
     [],
   );
 
-const reasonablePaddingForInstructionSetBCH = 23;
+const reasonablePaddingForInstructionSetBch = 23;
 
 /**
  * Return a string with the result of {@link summarizeDebugTrace} including one
@@ -873,11 +873,11 @@ const reasonablePaddingForInstructionSetBCH = 23;
 export const stringifyDebugTraceSummary = (
   summary: ReturnType<typeof summarizeDebugTrace>,
   {
-    opcodes = OpcodesBCHCHIPs,
-    padInstruction = reasonablePaddingForInstructionSetBCH,
+    opcodes = OpcodesBch,
+    padInstruction = reasonablePaddingForInstructionSetBch,
   }: {
     /**
-     * An opcode enum, e.g. {@link OpcodesBCH}.
+     * An opcode enum, e.g. {@link OpcodesBch}.
      */
     opcodes?: { [opcode: number]: string };
     /**

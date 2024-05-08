@@ -1,20 +1,20 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
-  CompilerConfigurationBCH,
+  CompilerConfigurationBch,
 } from '../../lib.js';
 import {
-  compilerConfigurationToCompilerBCH,
-  compilerOperationsBCH,
+  compilerConfigurationToCompilerBch,
+  compilerOperationsBch,
   createAuthenticationProgramEvaluationCommon,
   createCompilationContextCommonTesting,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   dateToLocktime,
   generateBytecodeMap,
   hexToBin,
-  OpcodesBCH2022,
+  OpcodesBch,
   sha256,
 } from '../../lib.js';
 
@@ -43,7 +43,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -78,7 +78,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -113,7 +113,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { unlockingScriptTimeLockTypes: { test: 'height' } },
 );
@@ -142,7 +142,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { unlockingScriptTimeLockTypes: { test: 'timestamp' } },
 );
@@ -180,7 +180,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { unlockingScriptTimeLockTypes: { test: 'height' } },
 );
@@ -205,7 +205,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -228,7 +228,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 /**
@@ -280,7 +280,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -303,7 +303,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -637,7 +637,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   {
     unlockingScripts: {},
@@ -664,7 +664,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   {
     unlockingScripts: {
@@ -693,7 +693,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   {
     scripts: {
@@ -723,7 +723,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -746,19 +746,19 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test.failing(
   '[BCH compiler] signing_serialization.corresponding_output and signing_serialization.corresponding_output_hash - returns empty bytecode if no corresponding output',
   (t) => {
-    const compiler = compilerConfigurationToCompilerBCH<
-      CompilerConfigurationBCH,
-      AuthenticationProgramStateBCH
+    const compiler = compilerConfigurationToCompilerBch<
+      CompilerConfigurationBch,
+      AuthenticationProgramStateBch
     >({
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
-      opcodes: generateBytecodeMap(OpcodesBCH2022),
-      operations: compilerOperationsBCH,
+      opcodes: generateBytecodeMap(OpcodesBch),
+      operations: compilerOperationsBch,
       scripts: {
         // eslint-disable-next-line camelcase
         corresponding_output:
@@ -773,7 +773,7 @@ test.failing(
           type: 'Key',
         },
       },
-      vm: createVirtualMachineBCH(),
+      vm: createVirtualMachineBch(),
     });
 
     const data = {

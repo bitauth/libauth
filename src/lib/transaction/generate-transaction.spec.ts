@@ -42,7 +42,6 @@ const maybeP2pkhTemplate: unknown = {
     },
   },
   supported: ['BCH_2022_05'],
-  version: 0,
 };
 
 test('createCompilerBch: generateTransaction', (t) => {

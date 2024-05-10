@@ -244,7 +244,6 @@ const configuration = walletTemplateToCompilerConfiguration({
     testUnlock: { script: '<1>', unlocks: 'testLock' },
   },
   supported: ['BCH_2022_05'],
-  version: 0,
 });
 const compiler = createCompilerBch(configuration);
 

@@ -21,6 +21,7 @@ import {
   authenticationInstructionIsMalformed,
   decodeAuthenticationInstructions,
   encodeAuthenticationInstructionMalformed,
+  executionIsActive,
   OpcodesBch,
   vmNumberToBigInt,
 } from '../vm/vm.js';
@@ -702,10 +703,6 @@ export const extractEvaluationSamplesRecursive = <ProgramState>({
   };
 };
 
-const stateIsExecuting = (
-  state: AuthenticationProgramStateControlStack<boolean | number>,
-) => state.controlStack.every((item) => item !== false);
-
 /**
  * Extract an array of ranges that were unused by an evaluation. This is useful
  * in development tooling for fading out or hiding code that is unimportant to
@@ -735,7 +732,7 @@ const stateIsExecuting = (
  * executing), defaults to `1,1`
  */
 export const extractUnexecutedRanges = <
-  ProgramState extends AuthenticationProgramStateControlStack<boolean | number>,
+  ProgramState extends AuthenticationProgramStateControlStack,
 >(
   samples: EvaluationSample<ProgramState>[],
   evaluationBegins = '1,1',
@@ -752,10 +749,10 @@ export const extractUnexecutedRanges = <
       const precedingStateSkips =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         precedingStateSkipsByEvaluation[currentEvaluationStartLineAndColumn]!;
-      const endsWithSkip = !stateIsExecuting(sample.state);
+      const endsWithSkip = !executionIsActive(sample.state);
       const sampleHasNoExecutedInstructions =
         endsWithSkip &&
-        sample.internalStates.every((group) => !stateIsExecuting(group.state));
+        sample.internalStates.every((group) => !executionIsActive(group.state));
       if (precedingStateSkips && sampleHasNoExecutedInstructions) {
         return {
           precedingStateSkipsByEvaluation: {

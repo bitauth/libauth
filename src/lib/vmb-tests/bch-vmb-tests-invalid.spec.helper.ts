@@ -8,6 +8,7 @@ import { resolve } from 'node:path';
 
 import type {
   AuthenticationVirtualMachineBch,
+  AuthenticationVirtualMachineBch2025,
   AuthenticationVirtualMachineBchSpec,
   VmbTest,
 } from '../lib.js';
@@ -27,7 +28,10 @@ const writeReasonsFile = (
   {
     vm,
   }: {
-    vm: AuthenticationVirtualMachineBch | AuthenticationVirtualMachineBchSpec;
+    vm:
+      | AuthenticationVirtualMachineBch
+      | AuthenticationVirtualMachineBch2025
+      | AuthenticationVirtualMachineBchSpec;
   },
 ) => {
   const vmbTests = JSON.parse(

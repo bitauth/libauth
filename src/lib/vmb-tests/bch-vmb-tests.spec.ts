@@ -9,8 +9,8 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateCommon,
   AuthenticationVirtualMachineBch,
+  AuthenticationVirtualMachineBch2025,
   AuthenticationVirtualMachineBchSpec,
   VmbTest,
 } from '../lib.js';
@@ -109,7 +109,10 @@ const testVm = ({
   vmName: VmName;
   succeeds: VmbTest[][];
   fails: VmbTest[][];
-  vm: AuthenticationVirtualMachineBch | AuthenticationVirtualMachineBchSpec;
+  vm:
+    | AuthenticationVirtualMachineBch
+    | AuthenticationVirtualMachineBch2025
+    | AuthenticationVirtualMachineBchSpec;
 }) => {
   const runCase = test.macro<[VmbTest, boolean]>({
     // eslint-disable-next-line complexity
@@ -189,7 +192,7 @@ const testVm = ({
                   inputIndex: Number(failingIndex),
                   sourceOutputs,
                   transaction,
-                }) as AuthenticationProgramStateCommon[],
+                }),
               ),
             ),
           );

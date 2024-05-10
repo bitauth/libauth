@@ -26,7 +26,7 @@ import type {
 import {
   generateBytecodeMap,
   Opcodes,
-  OpcodesBch,
+  OpcodesBchSpec,
   OpcodesBtc,
 } from '../vm/vm.js';
 
@@ -258,7 +258,7 @@ export const assembleBytecode = (
  * @param disassembledBytecode - the disassembled BCH bytecode to re-assemble
  */
 export const assembleBytecodeBch = (disassembledBytecode: string) =>
-  assembleBytecode(generateBytecodeMap(OpcodesBch), disassembledBytecode);
+  assembleBytecode(generateBytecodeMap(OpcodesBchSpec), disassembledBytecode);
 /**
  * @deprecated Alias of `assembleBytecodeBch` for backwards-compatibility.
  */

@@ -27,7 +27,10 @@ import {
   useThreeStackItems,
   useTwoStackItems,
 } from './combinators.js';
-import { ConsensusCommon, SigningSerializationTypesBch } from './consensus.js';
+import {
+  ConsensusCommon,
+  SigningSerializationTypesCommon,
+} from './consensus.js';
 import {
   decodeBitcoinSignature,
   isValidSignatureEncodingBchTransaction,
@@ -170,7 +173,7 @@ export const opCheckSig =
       if (
         !isValidSignatureEncodingBchTransaction(
           bitcoinEncodedSignature,
-          SigningSerializationTypesBch,
+          SigningSerializationTypesCommon,
         )
       ) {
         return applyError(
@@ -322,7 +325,7 @@ export const opCheckMultiSig =
                     if (
                       !isValidSignatureEncodingBchTransaction(
                         bitcoinEncodedSignature,
-                        SigningSerializationTypesBch,
+                        SigningSerializationTypesCommon,
                       )
                     ) {
                       return applyError(

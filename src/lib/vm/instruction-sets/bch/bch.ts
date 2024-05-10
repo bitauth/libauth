@@ -1,10 +1,11 @@
+import { ConsensusCommon } from '../common/common.js';
+
 import {
+  AuthenticationErrorBch2023,
   createInstructionSetBch,
   createInstructionSetBch2023,
   createVirtualMachineBch2023,
-  OpcodeDescriptionsBch,
   OpcodeDescriptionsBch2023,
-  OpcodesBch,
   OpcodesBch2023,
 } from './2023/bch-2023.js';
 
@@ -15,8 +16,23 @@ export * from './spec/bch-spec.js';
 export const createVirtualMachineBch = createVirtualMachineBch2023;
 
 /* eslint-disable @typescript-eslint/naming-convention */
-export const Opcodes = OpcodesBch;
+export const ConsensusBch = ConsensusCommon;
+export const OpcodesBch = OpcodesBch2023;
+export const AuthenticationErrorBch = AuthenticationErrorBch2023;
+export const OpcodeDescriptionsBch = OpcodeDescriptionsBch2023;
 
+/**
+ * @deprecated Alias of `ConsensusBch` for backwards-compatibility.
+ */
+export const ConsensusBCH = ConsensusBch;
+/**
+ * @deprecated Alias of `AuthenticationErrorBch2023` for backwards-compatibility.
+ */
+export const AuthenticationErrorBCH2023 = AuthenticationErrorBch2023;
+/**
+ * @deprecated Alias of `AuthenticationErrorBch` for backwards-compatibility.
+ */
+export const AuthenticationErrorBCH = AuthenticationErrorBch;
 /**
  * @deprecated Alias of `OpcodeDescriptionsBch2023` for backwards-compatibility.
  */

@@ -1,7 +1,7 @@
 import { SigningSerializationTypeBch } from './signing-serialization.js';
 
 /**
- * Consensus settings for the `BCH_2022_05` instruction set.
+ * Consensus settings for the `BCH_2023_05` instruction set.
  */
 export enum ConsensusCommon {
   /**
@@ -63,14 +63,3 @@ export const SigningSerializationTypesCommon = [
   SigningSerializationTypeBch.noOutputs,
   SigningSerializationTypeBch.noOutputsSingleInput,
 ];
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const SigningSerializationTypesBch = SigningSerializationTypesCommon;
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const ConsensusBch = ConsensusCommon;
-/**
- * @deprecated Alias of `ConsensusBch` for backwards-compatibility.
- */
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const ConsensusBCH = ConsensusBch;

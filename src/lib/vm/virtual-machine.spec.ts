@@ -46,14 +46,13 @@ const simpleInstructionSet: InstructionSet<
 > = {
   continue: (state) =>
     state.error === undefined && state.ip < state.instructions.length,
-  evaluate: (program, stateEvaluate) => {
-    const internalState = { ip: 0, stack: [] };
-    return stateEvaluate({ ...internalState, ...program });
-  },
+  evaluate: (program, stateEvaluate, stateInitialize) =>
+    stateEvaluate({ ...stateInitialize(), ...program } as SimpleProgramState),
   every: (state) =>
     (state.stack[state.stack.length - 1] ?? 0) > 2
       ? applyError(state, SimpleError.EXCESSIVE)
       : state,
+  initialize: () => ({ ip: 0, stack: [] }),
   operations: {
     [SimpleOps.OP_0]: (state) => {
       state.stack.push(0);

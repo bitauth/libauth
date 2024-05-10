@@ -59,9 +59,11 @@ import {
   OpcodeDescriptions,
   OpcodeDescriptionsBch,
   OpcodeDescriptionsBch2023,
+  OpcodeDescriptionsBchSpec,
   Opcodes,
   OpcodesBch,
   OpcodesBch2023,
+  OpcodesBchSpec,
   SigningSerializationType,
   SigningSerializationTypeBch,
 } from './lib.js';
@@ -80,7 +82,9 @@ type TypeTests =
   | AssertTypesEqual<TransactionBch, Transaction>
   | AssertTypesEqual<TransactionBch, TransactionCommon>
   | AssertTypesEqual<typeof ConsensusCommon, typeof ConsensusBch>
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   | AssertTypesEqual<typeof OpcodeDescriptionsBch, typeof OpcodeDescriptions>
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   | AssertTypesEqual<typeof OpcodesBch, typeof Opcodes>;
 /* eslint-enable @typescript-eslint/no-duplicate-type-constituents */
 
@@ -102,9 +106,9 @@ test('Libauth exposes all expected mappings', (t) => {
   t.deepEqual(decodeTransactionUnsafe, decodeTransactionUnsafeBch);
   t.deepEqual(encodeTransactionCommon, encodeTransactionBch);
   t.deepEqual(encodeTransaction, encodeTransactionBch);
-  t.deepEqual(OpcodeDescriptionsBch2023, OpcodeDescriptionsBch);
-  t.deepEqual(OpcodeDescriptionsBch, OpcodeDescriptions);
-  t.deepEqual(OpcodesBch2023, OpcodesBch);
-  t.deepEqual(Opcodes, OpcodesBch);
+  t.deepEqual(OpcodeDescriptionsBch, OpcodeDescriptionsBch2023);
+  t.deepEqual(OpcodeDescriptions, OpcodeDescriptionsBchSpec);
+  t.deepEqual(OpcodesBch, OpcodesBch2023);
+  t.deepEqual(Opcodes, OpcodesBchSpec);
   t.deepEqual(SigningSerializationType, SigningSerializationTypeBch);
 });

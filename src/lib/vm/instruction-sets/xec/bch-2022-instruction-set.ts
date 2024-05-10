@@ -22,8 +22,10 @@ import {
   AuthenticationErrorCommon,
   authenticationInstructionsAreMalformed,
   conditionallyEvaluate,
-  ConsensusBch,
+  ConsensusCommon,
   createAuthenticationProgramStateCommon,
+  createOpBin2Num,
+  createOpNum2Bin,
   decodeAuthenticationInstructions,
   disabledOperation,
   incrementOperationCount,
@@ -45,7 +47,6 @@ import {
   opActiveBytecode,
   opAdd,
   opAnd,
-  opBin2Num,
   opBoolAnd,
   opBoolOr,
   opCat,
@@ -88,7 +89,6 @@ import {
   opNopDisallowed,
   opNot,
   opNotIf,
-  opNum2Bin,
   opNumEqual,
   opNumEqualVerify,
   opNumNotEqual,
@@ -195,10 +195,10 @@ export const createInstructionSetBch2022 = (
         stack: [],
       });
 
-      if (unlockingBytecode.length > ConsensusBch.maximumBytecodeLength) {
+      if (unlockingBytecode.length > ConsensusCommon.maximumBytecodeLength) {
         return applyError(
           initialState,
-          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBch.maximumBytecodeLength} bytes).`,
+          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusCommon.maximumBytecodeLength} bytes).`,
         );
       }
       if (authenticationInstructionsAreMalformed(unlockingInstructions)) {
@@ -213,7 +213,7 @@ export const createInstructionSetBch2022 = (
           AuthenticationErrorCommon.requiresPushOnly,
         );
       }
-      if (lockingBytecode.length > ConsensusBch.maximumBytecodeLength) {
+      if (lockingBytecode.length > ConsensusCommon.maximumBytecodeLength) {
         return applyError(
           initialState,
           AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking,
@@ -270,9 +270,9 @@ export const createInstructionSetBch2022 = (
     every: (state) =>
       // TODO: implement sigchecks https://gitlab.com/bitcoin-cash-node/bchn-sw/bitcoincash-upgrade-specifications/-/blob/master/spec/2020-05-15-sigchecks.md
       state.stack.length + state.alternateStack.length >
-      ConsensusBch.maximumStackDepth
+      ConsensusCommon.maximumStackDepth
         ? applyError(state, AuthenticationErrorCommon.exceededMaximumStackDepth)
-        : state.operationCount > ConsensusBch.maximumOperationCount
+        : state.operationCount > ConsensusCommon.maximumOperationCount
           ? applyError(
               state,
               AuthenticationErrorCommon.exceededMaximumOperationCount,
@@ -412,8 +412,8 @@ export const createInstructionSetBch2022 = (
           [OpcodesBch.OP_TUCK]: conditionallyEvaluate(opTuck),
           [OpcodesBch.OP_CAT]: conditionallyEvaluate(opCat),
           [OpcodesBch.OP_SPLIT]: conditionallyEvaluate(opSplit),
-          [OpcodesBch.OP_NUM2BIN]: conditionallyEvaluate(opNum2Bin),
-          [OpcodesBch.OP_BIN2NUM]: conditionallyEvaluate(opBin2Num),
+          [OpcodesBch.OP_NUM2BIN]: conditionallyEvaluate(createOpNum2Bin()),
+          [OpcodesBch.OP_BIN2NUM]: conditionallyEvaluate(createOpBin2Num()),
           [OpcodesBch.OP_SIZE]: conditionallyEvaluate(opSize),
           [OpcodesBch.OP_INVERT]: disabledOperation,
           [OpcodesBch.OP_AND]: conditionallyEvaluate(opAnd),
@@ -567,22 +567,22 @@ export const createInstructionSetBch2022 = (
       }
 
       const transactionSize = encodeTransactionBch(transaction).length;
-      if (transactionSize < ConsensusBch.minimumTransactionSize) {
-        return `Transaction does not meet minimum size: the transaction is ${transactionSize} bytes, but the minimum transaction size is ${ConsensusBch.minimumTransactionSize} bytes.`;
+      if (transactionSize < ConsensusCommon.minimumTransactionSize) {
+        return `Transaction does not meet minimum size: the transaction is ${transactionSize} bytes, but the minimum transaction size is ${ConsensusCommon.minimumTransactionSize} bytes.`;
       }
-      if (transactionSize > ConsensusBch.maximumTransactionSize) {
-        return `Transaction exceeds maximum size: the transaction is ${transactionSize} bytes, but the maximum transaction size is ${ConsensusBch.maximumTransactionSize} bytes.`;
+      if (transactionSize > ConsensusCommon.maximumTransactionSize) {
+        return `Transaction exceeds maximum size: the transaction is ${transactionSize} bytes, but the maximum transaction size is ${ConsensusCommon.maximumTransactionSize} bytes.`;
       }
 
       if (standard) {
         if (
           transaction.version < 1 ||
-          transaction.version > ConsensusBch.maximumStandardVersion
+          transaction.version > ConsensusCommon.maximumStandardVersion
         ) {
-          return `Standard transactions must have a version no less than 1 and no greater than ${ConsensusBch.maximumStandardVersion}.`;
+          return `Standard transactions must have a version no less than 1 and no greater than ${ConsensusCommon.maximumStandardVersion}.`;
         }
-        if (transactionSize > ConsensusBch.maximumStandardTransactionSize) {
-          return `Transaction exceeds maximum standard size: this transaction is ${transactionSize} bytes, but the maximum standard transaction size is ${ConsensusBch.maximumStandardTransactionSize} bytes.`;
+        if (transactionSize > ConsensusCommon.maximumStandardTransactionSize) {
+          return `Transaction exceeds maximum standard size: this transaction is ${transactionSize} bytes, but the maximum standard transaction size is ${ConsensusCommon.maximumStandardTransactionSize} bytes.`;
         }
 
         // eslint-disable-next-line functional/no-loop-statements
@@ -612,17 +612,17 @@ export const createInstructionSetBch2022 = (
            * }
            */
         }
-        if (totalArbitraryDataBytes > ConsensusBch.maximumDataCarrierBytes) {
-          return `Standard transactions may carry no more than ${ConsensusBch.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
+        if (totalArbitraryDataBytes > ConsensusCommon.maximumDataCarrierBytes) {
+          return `Standard transactions may carry no more than ${ConsensusCommon.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
         }
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, input] of transaction.inputs.entries()) {
           if (
             input.unlockingBytecode.length >
-            ConsensusBch.maximumStandardUnlockingBytecodeLength
+            ConsensusCommon.maximumStandardUnlockingBytecodeLength
           ) {
-            return `Input index ${index} is non-standard: the unlocking bytecode (${input.unlockingBytecode.length} bytes) exceeds the maximum standard unlocking bytecode length (${ConsensusBch.maximumStandardUnlockingBytecodeLength} bytes).`;
+            return `Input index ${index} is non-standard: the unlocking bytecode (${input.unlockingBytecode.length} bytes) exceeds the maximum standard unlocking bytecode length (${ConsensusCommon.maximumStandardUnlockingBytecodeLength} bytes).`;
           }
           if (!isPushOnly(input.unlockingBytecode)) {
             return `Input index ${index} is non-standard: unlocking bytecode may contain only push operations.`;

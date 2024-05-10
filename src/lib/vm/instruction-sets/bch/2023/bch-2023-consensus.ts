@@ -1,6 +1,6 @@
 import {
   SigningSerializationTypeBch,
-  SigningSerializationTypesBch,
+  SigningSerializationTypesCommon,
 } from '../../common/common.js';
 
 /**
@@ -62,8 +62,8 @@ export enum ConsensusBch2023 {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const SigningSerializationTypesBch2023 = [
-  ...SigningSerializationTypesBch,
+export const SigningSerializationTypesBch = [
+  ...SigningSerializationTypesCommon,
   SigningSerializationTypeBch.allOutputsAllUtxos,
   SigningSerializationTypeBch.correspondingOutputAllUtxos,
   SigningSerializationTypeBch.noOutputsAllUtxos,

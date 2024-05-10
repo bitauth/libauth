@@ -18,7 +18,7 @@ import { applyError, AuthenticationErrorCommon } from './errors.js';
 
 export const undefinedOperation = conditionallyEvaluate(
   <
-    State extends AuthenticationProgramStateControlStack &
+    State extends AuthenticationProgramStateControlStack<unknown> &
       AuthenticationProgramStateError,
   >(
     state: State,

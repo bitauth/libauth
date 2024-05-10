@@ -278,6 +278,3 @@ export enum OpcodesBch2023 {
   OP_UNKNOWN254 = 0xfe,
   OP_UNKNOWN255 = 0xff,
 }
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodesBch = OpcodesBch2023;

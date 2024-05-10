@@ -209,8 +209,3 @@ export enum OpcodeDescriptionsBch2023 {
   OP_OUTPUTTOKENCOMMITMENT = 'Pop the top item from the stack as an output index (VM Number). Push the token commitment of the output at that index to the stack. If the output does not include a non-fungible token, or if it includes a non-fungible token with a zero-length commitment, push a 0 (VM Number).',
   OP_OUTPUTTOKENAMOUNT = 'Pop the top item from the stack as an output index (VM Number). Push the fungible token amount of the output at that index to the stack as a VM Number. If the output includes no fungible tokens, push a 0 (VM Number).',
 }
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptionsBch = OpcodeDescriptionsBch2023;
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptions = OpcodeDescriptionsBch;

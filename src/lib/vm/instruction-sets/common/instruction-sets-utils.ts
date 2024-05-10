@@ -26,7 +26,7 @@ import type {
   ReadPosition,
 } from '../../../lib.js';
 import { encodeTransactionOutput } from '../../../message/message.js';
-import { OpcodesBch } from '../bch/2023/bch-2023-opcodes.js';
+import { OpcodesBchSpec } from '../bch/spec/bch-spec-opcodes.js';
 import { OpcodesBtc } from '../btc/btc-opcodes.js';
 
 /**
@@ -335,7 +335,7 @@ export const disassembleBytecode = (
  */
 export const disassembleBytecodeBch = (bytecode: Uint8Array) =>
   disassembleAuthenticationInstructionsMaybeMalformed(
-    OpcodesBch,
+    OpcodesBchSpec,
     decodeAuthenticationInstructions(bytecode),
   );
 /**

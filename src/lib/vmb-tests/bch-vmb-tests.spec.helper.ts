@@ -9,6 +9,9 @@ import { resolve } from 'node:path';
 import { vmbTestPartitionMasterTestList } from './bch-vmb-test-utils.js';
 import { vmbTestsBch } from './bch-vmb-tests.js';
 
+// eslint-disable-next-line no-console
+console.log('Generating vmb_tests...');
+
 /**
  * Script accepts one argument: an `outputDir` to which all generated files will
  * be saved.
@@ -22,6 +25,10 @@ const outputAbsolutePath = resolve(outputDir);
 
 const testGroupsAndTypes = 2;
 const allTestCases = vmbTestsBch.flat(testGroupsAndTypes);
+
+// eslint-disable-next-line no-console
+console.log('Generated vmb_tests. Writing files...');
+
 writeFileSync(
   `${outputAbsolutePath}/bch_vmb_tests.json`,
   JSON.stringify(allTestCases),
@@ -36,3 +43,6 @@ Object.entries(partitionedTestCases).forEach(([testSetName, testSet]) => {
     : `${outputAbsolutePath}/bch_vmb_tests_${testSetName}.json`;
   writeFileSync(filepath, JSON.stringify(testSet), { encoding: 'utf8' });
 });
+
+// eslint-disable-next-line no-console
+console.log('vmb_test files written.');

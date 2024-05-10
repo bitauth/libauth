@@ -248,5 +248,4 @@ export const cashChannels: WalletTemplate = {
     },
   },
   supported: ['BCH_2022_05'],
-  version: 0,
 };

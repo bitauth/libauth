@@ -25,7 +25,8 @@ import {
   AuthenticationErrorCommon,
   authenticationInstructionsAreMalformed,
   conditionallyEvaluate,
-  createAuthenticationProgramStateCommon,
+  createOpBin2Num,
+  createOpNum2Bin,
   decodeAuthenticationInstructions,
   disabledOperation,
   getDustThreshold,
@@ -49,7 +50,6 @@ import {
   opActiveBytecode,
   opAdd,
   opAnd,
-  opBin2Num,
   opBoolAnd,
   opBoolOr,
   opCat,
@@ -88,7 +88,6 @@ import {
   opNopDisallowed,
   opNot,
   opNotIf,
-  opNum2Bin,
   opNumEqual,
   opNumEqualVerify,
   opNumNotEqual,
@@ -154,7 +153,9 @@ import {
  * and can technically be included by miners in valid blocks, but most network
  * nodes will refuse to relay them. (Default: `true`)
  */
-export const createInstructionSetBch2023 = (
+export const createInstructionSetBch2023 = <
+  AuthenticationProgramState extends AuthenticationProgramStateBch,
+>(
   standard = true,
   {
     ripemd160,
@@ -190,14 +191,14 @@ export const createInstructionSetBch2023 = (
 ): InstructionSet<
   ResolvedTransactionBch,
   AuthenticationProgramBch,
-  AuthenticationProgramStateBch
+  AuthenticationProgramState
 > => {
-  const conditionallyPush = pushOperation<AuthenticationProgramStateBch>();
+  const conditionallyPush = pushOperation<AuthenticationProgramState>();
   return {
     continue: (state) =>
       state.error === undefined && state.ip < state.instructions.length,
     // eslint-disable-next-line complexity
-    evaluate: (program, stateEvaluate) => {
+    evaluate: (program, stateEvaluate, stateInitialize) => {
       const { unlockingBytecode } =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         program.transaction.inputs[program.inputIndex]!;
@@ -207,11 +208,10 @@ export const createInstructionSetBch2023 = (
         decodeAuthenticationInstructions(unlockingBytecode);
       const lockingInstructions =
         decodeAuthenticationInstructions(lockingBytecode);
-      const initialState = createAuthenticationProgramStateCommon({
-        instructions: unlockingInstructions,
-        program,
-        stack: [],
-      });
+      const initialState = {
+        ...(stateInitialize() as AuthenticationProgramState),
+        ...{ instructions: unlockingInstructions, program, stack: [] },
+      } as AuthenticationProgramState;
 
       if (unlockingBytecode.length > ConsensusBch2023.maximumBytecodeLength) {
         return applyError(
@@ -253,13 +253,14 @@ export const createInstructionSetBch2023 = (
           AuthenticationErrorCommon.nonEmptyControlStack,
         );
       }
-      const lockingResult = stateEvaluate(
-        createAuthenticationProgramStateCommon({
+      const lockingResult = stateEvaluate({
+        ...(stateInitialize() as AuthenticationProgramState),
+        ...{
           instructions: lockingInstructions,
           program,
           stack: unlockingResult.stack,
-        }),
-      );
+        },
+      } as AuthenticationProgramState);
 
       const p2sh20 = isPayToScriptHash20(lockingBytecode);
       const p2sh32 = isPayToScriptHash32(lockingBytecode);
@@ -280,13 +281,10 @@ export const createInstructionSetBch2023 = (
             ...lockingResult,
             error: AuthenticationErrorCommon.malformedP2shBytecode,
           }
-        : stateEvaluate(
-            createAuthenticationProgramStateCommon({
-              instructions: p2shInstructions,
-              program,
-              stack: p2shStack,
-            }),
-          );
+        : stateEvaluate({
+            ...(stateInitialize() as AuthenticationProgramState),
+            ...{ instructions: p2shInstructions, program, stack: p2shStack },
+          } as AuthenticationProgramState);
     },
     every: (state) =>
       // TODO: implement sigchecks https://gitlab.com/bitcoin-cash-node/bchn-sw/bitcoincash-upgrade-specifications/-/blob/master/spec/2020-05-15-sigchecks.md
@@ -299,6 +297,17 @@ export const createInstructionSetBch2023 = (
               AuthenticationErrorCommon.exceededMaximumOperationCount,
             )
           : state,
+
+    initialize: () =>
+      ({
+        alternateStack: [],
+        controlStack: [],
+        ip: 0,
+        lastCodeSeparator: -1,
+        operationCount: 0,
+        signatureOperationsCount: 0,
+        signedMessages: [],
+      }) as Partial<AuthenticationProgramStateBch> as Partial<AuthenticationProgramState>,
     operations: {
       [OpcodesBch2023.OP_0]: conditionallyPush,
       [OpcodesBch2023.OP_PUSHBYTES_1]: conditionallyPush,
@@ -436,8 +445,8 @@ export const createInstructionSetBch2023 = (
           [OpcodesBch2023.OP_TUCK]: conditionallyEvaluate(opTuck),
           [OpcodesBch2023.OP_CAT]: conditionallyEvaluate(opCat),
           [OpcodesBch2023.OP_SPLIT]: conditionallyEvaluate(opSplit),
-          [OpcodesBch2023.OP_NUM2BIN]: conditionallyEvaluate(opNum2Bin),
-          [OpcodesBch2023.OP_BIN2NUM]: conditionallyEvaluate(opBin2Num),
+          [OpcodesBch2023.OP_NUM2BIN]: conditionallyEvaluate(createOpNum2Bin()),
+          [OpcodesBch2023.OP_BIN2NUM]: conditionallyEvaluate(createOpBin2Num()),
           [OpcodesBch2023.OP_SIZE]: conditionallyEvaluate(opSize),
           [OpcodesBch2023.OP_INVERT]: disabledOperation,
           [OpcodesBch2023.OP_AND]: conditionallyEvaluate(opAnd),

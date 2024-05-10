@@ -25,12 +25,18 @@ export const incrementOperationCount =
     return nextState;
   };
 
+export const executionIsActive = <
+  State extends AuthenticationProgramStateControlStack<unknown>,
+>(
+  state: State,
+) => state.controlStack.every((item) => item !== false);
+
 export const conditionallyEvaluate =
-  <State extends AuthenticationProgramStateControlStack>(
+  <State extends AuthenticationProgramStateControlStack<unknown>>(
     operation: Operation<State>,
   ): Operation<State> =>
   (state: State) =>
-    state.controlStack.every((item) => item) ? operation(state) : state;
+    executionIsActive(state) ? operation(state) : state;
 
 /**
  * Map a function over each operation in an {@link InstructionSet.operations}

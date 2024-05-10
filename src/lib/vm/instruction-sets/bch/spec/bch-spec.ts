@@ -1,4 +1,3 @@
-export * from './bch-spec-crypto.js';
 export * from './bch-spec-descriptions.js';
 export * from './bch-spec-errors.js';
 export * from './bch-spec-instruction-set.js';

@@ -43,8 +43,15 @@ export const walletTemplateP2pkhNonHd: WalletTemplate = {
       unlocks: 'lock',
     },
   },
-  supported: ['BCH_2020_05', 'BCH_2021_05', 'BCH_2022_05'],
-  version: 0,
+  supported: [
+    'BCH_2020_05',
+    'BCH_2021_05',
+    'BCH_2022_05',
+    'BCH_2023_05',
+    'BCH_2024_05',
+    'BCH_2025_05',
+    'BCH_SPEC',
+  ],
 };
 
 /**
@@ -90,6 +97,13 @@ export const walletTemplateP2pkh: WalletTemplate = {
       unlocks: 'lock',
     },
   },
-  supported: ['BCH_2020_05', 'BCH_2021_05', 'BCH_2022_05'],
-  version: 0,
+  supported: [
+    'BCH_2020_05',
+    'BCH_2021_05',
+    'BCH_2022_05',
+    'BCH_2023_05',
+    'BCH_2024_05',
+    'BCH_2025_05',
+    'BCH_SPEC',
+  ],
 };

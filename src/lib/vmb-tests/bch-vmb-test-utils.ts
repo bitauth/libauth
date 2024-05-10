@@ -102,9 +102,8 @@ export const vmbTestDefinitionDefaultBehaviorBch: TestSetOverrideLabelBch[] = [
  */
 const testSetOverrideListBch = [
   ['chip_loops_invalid'],
-  ['chip_loops_invalid', 'p2sh32_ignore'],
   ['chip_loops'],
-  ['chip_loops', 'p2sh32_ignore'],
+  ['invalid', '2025_p2sh_standard'],
   ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'p2sh_ignore'],
@@ -151,30 +150,25 @@ export const supportedTestSetOverridesBch: {
    * `chip_*` values exclude the marked test from
    * {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
-  // TODO: support P2SH32
   chip_loops: [
     { mode: 'nonP2SH', sets: ['chip_loops_nonstandard'] },
     { mode: 'P2SH20', sets: ['chip_loops_standard'] },
-    // { mode: 'P2SH32', sets: ['chip_loops_standard'] },
+    { mode: 'P2SH32', sets: ['chip_loops_standard'] },
   ],
-  'chip_loops,p2sh32_ignore': [
-    { mode: 'nonP2SH', sets: ['chip_loops_nonstandard'] },
-    { mode: 'P2SH20', sets: ['chip_loops_standard'] },
-  ],
-  // TODO: support P2SH32
   chip_loops_invalid: [
     { mode: 'nonP2SH', sets: ['chip_loops_invalid'] },
     { mode: 'P2SH20', sets: ['chip_loops_invalid'] },
-    // { mode: 'P2SH32', sets: ['chip_loops_invalid'] },
-  ],
-  'chip_loops_invalid,p2sh32_ignore': [
-    { mode: 'nonP2SH', sets: ['chip_loops_invalid'] },
-    { mode: 'P2SH20', sets: ['chip_loops_invalid'] },
+    { mode: 'P2SH32', sets: ['chip_loops_invalid'] },
   ],
   invalid: [
     { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid'] },
     { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid'] },
     { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid'] },
+  ],
+  'invalid,2025_p2sh_standard': [
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_nonstandard'] },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_standard'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_standard'] },
   ],
   'invalid,nop2sh_nonstandard': [
     { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
@@ -279,10 +273,16 @@ export type VmbTestDefinitionGroup = [
  */
 const defaultShortIdLength = 5;
 
-const planTestsBch = (
-  labels?: readonly string[],
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-) => supportedTestSetOverridesBch[(labels ?? []).join(',')]!;
+const planTestsBch = (labels?: readonly string[]) => {
+  const labelList = (labels ?? []).join(',');
+  const sets = supportedTestSetOverridesBch[labelList];
+  if (sets === undefined)
+    // eslint-disable-next-line functional/no-throw-statements
+    throw new Error(
+      `Missing label list: ${labelList} in 'supportedTestSetOverridesBch'.`,
+    );
+  return sets;
+};
 
 /**
  * Given a VMB test definition, generate a full VMB test vector. Note, this
@@ -352,7 +352,6 @@ export const vmbTestDefinitionToVmbTests = (
       },
     },
     supported: ['BCH_2022_05'],
-    version: 0,
   });
   const compiler = createCompilerBch(configuration);
 

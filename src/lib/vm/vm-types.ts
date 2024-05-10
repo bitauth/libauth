@@ -34,7 +34,9 @@ export type AuthenticationProgramStateAlternateStack<StackType = Uint8Array> = {
   alternateStack: StackType[];
 };
 
-export type AuthenticationProgramStateControlStack<ItemType = boolean> = {
+export type AuthenticationProgramStateControlStack<
+  ItemType = boolean | number,
+> = {
   /**
    * An array of boolean values representing the current execution status of the
    * program. This allows the state to track nested conditional branches.

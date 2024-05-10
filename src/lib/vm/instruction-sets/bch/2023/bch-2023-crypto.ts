@@ -28,7 +28,7 @@ import {
   useTwoStackItems,
 } from '../../common/common.js';
 
-import { SigningSerializationTypesBch2023 } from './bch-2023-consensus.js';
+import { SigningSerializationTypesBch } from './bch-2023-consensus.js';
 
 export const opCheckSigBch2023 =
   <State extends AuthenticationProgramStateCommon>(
@@ -55,7 +55,7 @@ export const opCheckSigBch2023 =
       if (
         !isValidSignatureEncodingBchTransaction(
           bitcoinEncodedSignature,
-          SigningSerializationTypesBch2023,
+          SigningSerializationTypesBch,
         )
       ) {
         return applyError(
@@ -207,7 +207,7 @@ export const opCheckMultiSigBch2023 =
                     if (
                       !isValidSignatureEncodingBchTransaction(
                         bitcoinEncodedSignature,
-                        SigningSerializationTypesBch2023,
+                        SigningSerializationTypesBch,
                       )
                     ) {
                       return applyError(

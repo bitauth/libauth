@@ -25,6 +25,29 @@
       "args": ["${file}"],
       "outputCapture": "std",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug VMB Test",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "test:unit:vmb_test"],
+      "args": ["bch_spec_standard", "06ty9", "-v"],
+      "outputCapture": "std",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "npm: build"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug VMB Test Generation",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "gen:vmb_tests"],
+      "outputCapture": "std",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "npm: build"
     }
   ]
 }

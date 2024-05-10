@@ -43,17 +43,6 @@ export type InstructionSet<
   ProgramState,
 > = {
   /**
-   * Take a `ProgramState` and return a new copy of that `ProgramState`.
-   *
-   * @remarks
-   * This method is used internally by `stateEvaluate`, `stateStep`, and
-   * `stateDebug` to prevent the {@link AuthenticationVirtualMachine} from
-   * mutating an input when mutation is not desirable. Defaults to
-   * `structuredClone`.
-   */
-  clone?: Operation<ProgramState>;
-
-  /**
    * Test the ProgramState to determine if execution should continue.
    *
    * @remarks
@@ -99,6 +88,7 @@ export type InstructionSet<
   evaluate: (
     program: AuthenticationProgram,
     stateEvaluate: (state: ProgramState) => ProgramState,
+    stateInitialize: () => Partial<ProgramState>,
   ) => ProgramState;
 
   /**
@@ -107,6 +97,13 @@ export type InstructionSet<
    * operations, e.g. stack depth or memory usage, operation count, etc.
    */
   every?: Operation<ProgramState>;
+
+  /**
+   * Return a a partial program state including all properties that must be
+   * initialized at the beginning of evaluation. If not set, `stateInitialize`
+   * will return an empty object.
+   */
+  initialize?: () => Partial<ProgramState>;
 
   /**
    * A mapping of `opcode` numbers (between 0 and 255) to `Operations`. When the
@@ -244,6 +241,12 @@ export type AuthenticationVirtualMachine<
   stateEvaluate: (state: ProgramState) => ProgramState;
 
   /**
+   * Return a a partial program state including all properties that must be
+   * initialized at the beginning of evaluation.
+   */
+  stateInitialize: () => Partial<ProgramState>;
+
+  /**
    * Clones and return a new program state advanced by one step.
    *
    * @param state - the program state to advance
@@ -363,7 +366,8 @@ export const createVirtualMachine = <
     return state;
   };
 
-  const stateClone = instructionSet.clone ?? structuredClone;
+  const stateInitialize = instructionSet.initialize ?? (() => ({}));
+  const stateClone = structuredClone;
   const { success } = instructionSet;
 
   const stateEvaluate = (state: ProgramState) =>
@@ -391,7 +395,7 @@ export const createVirtualMachine = <
   const stateStep = (state: ProgramState) => stateStepMutate(stateClone(state));
 
   const evaluate = (program: AuthenticationProgram) =>
-    instructionSet.evaluate(program, stateEvaluate);
+    instructionSet.evaluate(program, stateEvaluate, stateInitialize);
 
   const debug = (program: AuthenticationProgram) => {
     const results: ProgramState[] = [];
@@ -401,7 +405,11 @@ export const createVirtualMachine = <
       results.push(...debugResult);
       return debugResult[debugResult.length - 1] ?? state;
     };
-    const finalResult = instructionSet.evaluate(program, proxyDebug);
+    const finalResult = instructionSet.evaluate(
+      program,
+      proxyDebug,
+      stateInitialize,
+    );
     return [...results, finalResult];
   };
 
@@ -415,6 +423,7 @@ export const createVirtualMachine = <
     stateContinue,
     stateDebug,
     stateEvaluate,
+    stateInitialize,
     stateStep,
     stateStepMutate,
     stateSuccess: success,

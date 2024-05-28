@@ -922,21 +922,30 @@ export const isStandardMultisig = (lockingBytecode: Uint8Array) => {
   return true;
 };
 
-export const isStandardOutputBytecode = (lockingBytecode: Uint8Array) =>
+/**
+ * Test that the provided locking bytecode matches one of the standard output
+ * bytecode patterns prior to the `BCH_2023_05` upgrade (following
+ * P2SH32 activation).
+ * @param lockingBytecode - the locking bytecode to test for standardness
+ */
+export const isStandardOutputBytecodePre2023 = (lockingBytecode: Uint8Array) =>
   isPayToPublicKeyHash(lockingBytecode) ||
   isPayToScriptHash20(lockingBytecode) ||
   isPayToPublicKey(lockingBytecode) ||
   isArbitraryDataOutput(lockingBytecode) ||
   isStandardMultisig(lockingBytecode);
 
-// eslint-disable-next-line complexity
-export const isStandardOutputBytecode2023 = (lockingBytecode: Uint8Array) =>
-  isPayToPublicKeyHash(lockingBytecode) ||
-  isPayToScriptHash20(lockingBytecode) ||
-  isPayToScriptHash32(lockingBytecode) ||
-  isPayToPublicKey(lockingBytecode) ||
-  isArbitraryDataOutput(lockingBytecode) ||
-  isStandardMultisig(lockingBytecode);
+/**
+ * Test that the provided locking bytecode matches one of the standard output
+ * bytecode patterns as of the `BCH_2023_05` upgrade (following
+ * P2SH32 activation).
+ * @param lockingBytecode - the locking bytecode to test for standardness
+ */
+export const isStandardOutputBytecode = (lockingBytecode: Uint8Array) =>
+  isStandardOutputBytecodePre2023(lockingBytecode) ||
+  isPayToScriptHash32(lockingBytecode);
+
+export const isStandardOutputBytecode2023 = isStandardOutputBytecode;
 
 const enum SegWit {
   minimumLength = 4,

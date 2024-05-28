@@ -34,7 +34,7 @@ import {
   isArbitraryDataOutput,
   isDustOutput,
   isPushOnly,
-  isStandardOutputBytecode2023,
+  isStandardOutputBytecode,
   isWitnessProgram,
   mapOverOperations,
   op0NotEqual,
@@ -686,7 +686,7 @@ export const createInstructionSetBch2023 = <
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
-          if (!isStandardOutputBytecode2023(output.lockingBytecode)) {
+          if (!isStandardOutputBytecode(output.lockingBytecode)) {
             return `Standard transactions may only spend standard output types, but source output ${index} is non-standard.`;
           }
         }
@@ -695,7 +695,7 @@ export const createInstructionSetBch2023 = <
         let totalArbitraryDataBytes = 0;
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of transaction.outputs.entries()) {
-          if (!isStandardOutputBytecode2023(output.lockingBytecode)) {
+          if (!isStandardOutputBytecode(output.lockingBytecode)) {
             return `Standard transactions may only create standard output types, but transaction output ${index} is non-standard.`;
           }
           // eslint-disable-next-line functional/no-conditional-statements

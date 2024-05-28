@@ -319,7 +319,7 @@ High-level utilities are composed from lower-level utilities which are also expo
 - [`isArbitraryDataOutput`](https://libauth.org/functions/isArbitraryDataOutput.html)
 - [`isSimpleMultisig`](https://libauth.org/functions/isSimpleMultisig.html)
 - [`isStandardOutputBytecode`](https://libauth.org/functions/isStandardOutputBytecode.html)
-- [`isStandardOutputBytecode2023`](https://libauth.org/functions/isStandardOutputBytecode2023.html)
+- [`isStandardOutputBytecodePre2023`](https://libauth.org/functions/isStandardOutputBytecodePre2023.html)
 - [`isStandardMultisig`](https://libauth.org/functions/isStandardMultisig.html)
 - [`isWitnessProgram`](https://libauth.org/functions/isWitnessProgram.html)
 

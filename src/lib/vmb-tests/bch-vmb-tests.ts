@@ -21,12 +21,13 @@
 import type { VmbTestDefinitionGroup } from '../lib.js';
 
 import { vmbTestGroupToVmbTests } from './bch-vmb-test-utils.js';
-import { loopsTestDefinitionsBch } from './bch-vmb-tests.chip.loops.js';
-import { cashTokenTestDefinitionsBch } from './bch-vmb-tests.core.cashtokens.js';
-import { inspectionTestDefinitionsBch } from './bch-vmb-tests.core.inspection.js';
-import { limitsTestDefinitionsBch } from './bch-vmb-tests.core.limits.js';
-import { pushOperationsTestDefinitionsBch } from './bch-vmb-tests.core.push.js';
-import { signingSerializationTestDefinitionsBch } from './bch-vmb-tests.signing-serialization.js';
+import { loopsTestDefinitionsBch } from './sources/bch-vmb-tests.chip.loops.js';
+import { benchmarkTestDefinitionsBch } from './sources/bch-vmb-tests.core.benchmarks.js';
+import { cashTokenTestDefinitionsBch } from './sources/bch-vmb-tests.core.cashtokens.js';
+import { inspectionTestDefinitionsBch } from './sources/bch-vmb-tests.core.inspection.js';
+import { limitsTestDefinitionsBch } from './sources/bch-vmb-tests.core.limits.js';
+import { pushOperationsTestDefinitionsBch } from './sources/bch-vmb-tests.core.push.js';
+import { signingSerializationTestDefinitionsBch } from './sources/bch-vmb-tests.core.signing-serialization.js';
 
 /**
  * The source data structure used to generate the Libauth BCH VMB test
@@ -207,6 +208,7 @@ export const vmbTestDefinitionsBch: VmbTestDefinitionGroup[] = [
   inspectionTestDefinitionsBch,
   cashTokenTestDefinitionsBch,
   signingSerializationTestDefinitionsBch,
+  benchmarkTestDefinitionsBch,
   loopsTestDefinitionsBch,
 ];
 

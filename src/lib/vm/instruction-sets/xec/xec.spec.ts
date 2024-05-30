@@ -2,7 +2,7 @@ import test from 'ava';
 
 import type { AuthenticationProgramBch, Output } from '../../../lib.js';
 import {
-  createAuthenticationProgramStateCommon,
+  createAuthenticationProgramStateBch2020,
   createCompilationContextCommonTesting,
   createTestAuthenticationProgramBch,
   createVirtualMachineXec,
@@ -26,148 +26,106 @@ const program = createCompilationContextCommonTesting({
 
 test('[BCH VM] vm.stateEvaluate: OP_2 OP_2 OP_ADD', (t) => {
   const vm = createVirtualMachineXec();
-  const state = createAuthenticationProgramStateCommon({
+  const state = createAuthenticationProgramStateBch2020({
     instructions: decodeAuthenticationInstructions(
       Uint8Array.from([OpcodesXec.OP_2, OpcodesXec.OP_2, OpcodesXec.OP_ADD]),
     ),
     program,
     stack: [],
+    transactionLengthBytes: 200,
   });
   const result = vm.stateEvaluate(state);
   t.deepEqual(result, {
     alternateStack: [],
     controlStack: [],
-    instructions: [
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 147,
-      },
-    ],
+    instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
     ip: 3,
     lastCodeSeparator: -1,
+    metrics: { executedInstructionCount: 3, signatureCheckCount: 0 },
     operationCount: 1,
     program,
-    signatureOperationsCount: 0,
     signedMessages: [],
     stack: [Uint8Array.of(0x04)],
+    transactionLengthBytes: 200,
   });
 });
 
 test('[BCH VM] vm.stateDebug: OP_2 OP_2 OP_ADD', (t) => {
   const vm = createVirtualMachineXec();
-  const state = createAuthenticationProgramStateCommon({
+  const state = createAuthenticationProgramStateBch2020({
     instructions: decodeAuthenticationInstructions(
       Uint8Array.from([OpcodesXec.OP_2, OpcodesXec.OP_2, OpcodesXec.OP_ADD]),
     ),
     program,
     stack: [],
+    transactionLengthBytes: 200,
   });
   const result = vm.stateDebug(state);
   t.deepEqual(result, [
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 0,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
       operationCount: 0,
       program,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [],
+      transactionLengthBytes: 200,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 1,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 1, signatureCheckCount: 0 },
       operationCount: 0,
       program,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [Uint8Array.of(0x02)],
+      transactionLengthBytes: 200,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 2,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
       operationCount: 0,
       program,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
+      transactionLengthBytes: 200,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 3,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 3, signatureCheckCount: 0 },
       operationCount: 1,
       program,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [Uint8Array.of(0x04)],
+      transactionLengthBytes: 200,
     },
   ]);
 });
 
 test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', (t) => {
   const vm = createVirtualMachineXec();
-  const state0 = createAuthenticationProgramStateCommon({
+  const state0 = createAuthenticationProgramStateBch2020({
     instructions: decodeAuthenticationInstructions(
       Uint8Array.from([OpcodesXec.OP_2, OpcodesXec.OP_2, OpcodesXec.OP_ADD]),
     ),
     program,
     stack: [],
+    transactionLengthBytes: 200,
   });
   const state1 = vm.stateStep(state0);
   const state2 = vm.stateStep(state1);
@@ -178,90 +136,54 @@ test('[BCH VM] vm.stateStep through: OP_2 OP_2 OP_ADD', (t) => {
   t.deepEqual(state0, {
     alternateStack: [],
     controlStack: [],
-    instructions: [
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 147,
-      },
-    ],
+    instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
     ip: 0,
     lastCodeSeparator: -1,
+    metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
     operationCount: 0,
     program,
-    signatureOperationsCount: 0,
     signedMessages: [],
     stack: [],
+    transactionLengthBytes: 200,
   });
   t.deepEqual(state1, {
     alternateStack: [],
     controlStack: [],
-    instructions: [
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 147,
-      },
-    ],
+    instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
     ip: 1,
     lastCodeSeparator: -1,
+    metrics: { executedInstructionCount: 1, signatureCheckCount: 0 },
     operationCount: 0,
     program,
-    signatureOperationsCount: 0,
     signedMessages: [],
     stack: [Uint8Array.of(0x02)],
+    transactionLengthBytes: 200,
   });
   t.deepEqual(state2, {
     alternateStack: [],
     controlStack: [],
-    instructions: [
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 147,
-      },
-    ],
+    instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
     ip: 2,
     lastCodeSeparator: -1,
+    metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
     operationCount: 0,
     program,
-    signatureOperationsCount: 0,
     signedMessages: [],
     stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
+    transactionLengthBytes: 200,
   });
   t.deepEqual(state3, {
     alternateStack: [],
     controlStack: [],
-    instructions: [
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 147,
-      },
-    ],
+    instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
     ip: 3,
     lastCodeSeparator: -1,
+    metrics: { executedInstructionCount: 3, signatureCheckCount: 0 },
     operationCount: 1,
     program,
-    signatureOperationsCount: 0,
     signedMessages: [],
     stack: [Uint8Array.of(0x04)],
+    transactionLengthBytes: 200,
   });
 });
 
@@ -280,24 +202,15 @@ test('[BCH VM] vm.evaluate: only lockingBytecode: OP_2 OP_2 OP_ADD', (t) => {
   t.deepEqual(result, {
     alternateStack: [],
     controlStack: [],
-    instructions: [
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 82,
-      },
-      {
-        opcode: 147,
-      },
-    ],
+    instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
     ip: 3,
     lastCodeSeparator: -1,
+    metrics: { executedInstructionCount: 3, signatureCheckCount: 0 },
     operationCount: 1,
     program: testProgram,
-    signatureOperationsCount: 0,
     signedMessages: [],
     stack: [Uint8Array.of(0x04)],
+    transactionLengthBytes: 60,
   });
 });
 
@@ -320,121 +233,78 @@ test('[BCH VM] vm.debug: only lockingBytecode: OP_2 OP_2 OP_ADD', (t) => {
       instructions: [],
       ip: 0,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
       operationCount: 0,
       program: testProgram,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [],
+      transactionLengthBytes: 60,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 0,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
       operationCount: 0,
       program: testProgram,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [],
+      transactionLengthBytes: 60,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 1,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 1, signatureCheckCount: 0 },
       operationCount: 0,
       program: testProgram,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [Uint8Array.of(0x02)],
+      transactionLengthBytes: 60,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
+
       ip: 2,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
       operationCount: 0,
       program: testProgram,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [Uint8Array.of(0x02), Uint8Array.of(0x02)],
+      transactionLengthBytes: 60,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 3,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 3, signatureCheckCount: 0 },
       operationCount: 1,
       program: testProgram,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [Uint8Array.of(0x04)],
+      transactionLengthBytes: 60,
     },
     {
       alternateStack: [],
       controlStack: [],
-      instructions: [
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 82,
-        },
-        {
-          opcode: 147,
-        },
-      ],
+      instructions: [{ opcode: 82 }, { opcode: 82 }, { opcode: 147 }],
       ip: 3,
       lastCodeSeparator: -1,
+      metrics: { executedInstructionCount: 3, signatureCheckCount: 0 },
       operationCount: 1,
       program: testProgram,
-      signatureOperationsCount: 0,
       signedMessages: [],
       stack: [Uint8Array.of(0x04)],
+      transactionLengthBytes: 60,
     },
   ]);
 });

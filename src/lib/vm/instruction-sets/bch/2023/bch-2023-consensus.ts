@@ -41,7 +41,7 @@ export enum ConsensusBch2023 {
    *
    * A.K.A. `MIN_TX_SIZE`
    */
-  minimumTransactionSize = 65,
+  minimumTransactionLengthBytes = 65,
   /**
    * A.K.A. `MAX_STANDARD_TX_SIZE`
    */
@@ -49,7 +49,7 @@ export enum ConsensusBch2023 {
   /**
    * A.K.A. `MAX_TX_SIZE`
    */
-  maximumTransactionSize = 1_000_000,
+  maximumTransactionLengthBytes = 1_000_000,
   /**
    * A.K.A. `MAXIMUM_ELEMENT_SIZE_64_BIT`
    */

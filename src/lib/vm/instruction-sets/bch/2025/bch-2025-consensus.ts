@@ -8,7 +8,9 @@ export enum ConsensusBch2025Overrides {
    * A.K.A. `MAX_SCRIPT_ELEMENT_SIZE`
    */
   maximumStackItemLength = 10_000,
-  maximumHashDigestIterations = 1000,
+
+  standardHashDigestIterationsPerByte = 0.5,
+  nonstandardHashDigestIterationsPerByte = 5,
 }
 
 /**

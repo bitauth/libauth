@@ -2,7 +2,7 @@ import { AuthenticationErrorBch2023 } from '../2023/bch-2023-errors.js';
 
 export enum AuthenticationErrorBch2025Additions {
   exceededMaximumStackItemLength = 'Program attempted to push a stack item that exceeded the maximum stack item length (10,000 bytes).',
-  excessiveHashing = 'Program attempted a hashing operation that would exceed the hashing limit (1000 hash digest iterations).',
+  excessiveHashing = 'Program attempted a hashing operation that would exceed the hashing density limit.',
 }
 
 /**

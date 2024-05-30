@@ -19,6 +19,8 @@ import {
   conditionallyEvaluate,
   createOpBin2Num,
   createOpNum2Bin,
+  incrementOperationCount,
+  mapOverOperations,
   pushOperation,
 } from '../../common/common.js';
 import { createInstructionSetBch2023 } from '../2023/bch-2023-instruction-set.js';
@@ -105,11 +107,16 @@ export const createInstructionSetBch2025 = <
       }
       return state;
     },
-    initialize: () =>
-      ({
-        ...instructionSet.initialize?.(),
-        hashDigestIterations: 0,
-      }) as Partial<AuthenticationProgramStateBch2025> as Partial<AuthenticationProgramState>,
+    initialize: () => {
+      const initialState = instructionSet.initialize?.();
+      return {
+        ...initialState,
+        metrics: {
+          ...initialState?.metrics,
+          hashDigestIterations: 0,
+        },
+      } as Partial<AuthenticationProgramStateBch2025> as Partial<AuthenticationProgramState>;
+    },
     operations: {
       ...instructionSet.operations,
       [OpcodesBch2023.OP_0]: conditionallyPush,
@@ -191,35 +198,41 @@ export const createInstructionSetBch2025 = <
       [OpcodesBch2023.OP_PUSHDATA_1]: conditionallyPush,
       [OpcodesBch2023.OP_PUSHDATA_2]: conditionallyPush,
       [OpcodesBch2023.OP_PUSHDATA_4]: conditionallyPush,
-      [OpcodesBch2023.OP_NUM2BIN]: conditionallyEvaluate(
-        createOpNum2Bin({
-          exceededMaximumStackItemLengthError:
-            AuthenticationErrorBch2025.exceededMaximumStackItemLength,
-          maximumStackItemLength: ConsensusBch2025.maximumStackItemLength,
-        }),
-      ),
-      [OpcodesBch2023.OP_BIN2NUM]: conditionallyEvaluate(
-        createOpBin2Num({
-          maximumStackItemLength: ConsensusBch2025.maximumStackItemLength,
-        }),
-      ),
-      [OpcodesBch2023.OP_RIPEMD160]: conditionallyEvaluate(
-        opRipemd160ChipLimits({ ripemd160 }),
-      ),
-      [OpcodesBch2023.OP_SHA1]: conditionallyEvaluate(
-        opSha1ChipLimits({ sha1 }),
-      ),
-      [OpcodesBch2023.OP_SHA256]: conditionallyEvaluate(
-        opSha256ChipLimits({ sha256 }),
-      ),
-      [OpcodesBch2023.OP_HASH160]: conditionallyEvaluate(
-        opHash160ChipLimits({ ripemd160, sha256 }),
-      ),
-      [OpcodesBch2023.OP_HASH256]: conditionallyEvaluate(
-        opHash256ChipLimits({ sha256 }),
-      ),
-      [OpcodesBch2023.OP_CODESEPARATOR]: conditionallyEvaluate(
-        opCodeSeparatorChipLimits,
+
+      ...mapOverOperations<AuthenticationProgramStateBch2025>(
+        [incrementOperationCount],
+        {
+          [OpcodesBch2023.OP_NUM2BIN]: conditionallyEvaluate(
+            createOpNum2Bin({
+              exceededMaximumStackItemLengthError:
+                AuthenticationErrorBch2025.exceededMaximumStackItemLength,
+              maximumStackItemLength: ConsensusBch2025.maximumStackItemLength,
+            }),
+          ),
+          [OpcodesBch2023.OP_BIN2NUM]: conditionallyEvaluate(
+            createOpBin2Num({
+              maximumStackItemLength: ConsensusBch2025.maximumStackItemLength,
+            }),
+          ),
+          [OpcodesBch2023.OP_RIPEMD160]: conditionallyEvaluate(
+            opRipemd160ChipLimits({ ripemd160, strict: standard }),
+          ),
+          [OpcodesBch2023.OP_SHA1]: conditionallyEvaluate(
+            opSha1ChipLimits({ sha1, strict: standard }),
+          ),
+          [OpcodesBch2023.OP_SHA256]: conditionallyEvaluate(
+            opSha256ChipLimits({ sha256, strict: standard }),
+          ),
+          [OpcodesBch2023.OP_HASH160]: conditionallyEvaluate(
+            opHash160ChipLimits({ ripemd160, sha256, strict: standard }),
+          ),
+          [OpcodesBch2023.OP_HASH256]: conditionallyEvaluate(
+            opHash256ChipLimits({ sha256, strict: standard }),
+          ),
+          [OpcodesBch2023.OP_CODESEPARATOR]: conditionallyEvaluate(
+            opCodeSeparatorChipLimits,
+          ),
+        },
       ),
     },
   };

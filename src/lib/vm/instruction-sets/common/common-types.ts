@@ -1,8 +1,6 @@
 import type {
-  AuthenticationInstruction,
   AuthenticationProgramCommon,
   AuthenticationProgramStateAlternateStack,
-  AuthenticationProgramStateCommon,
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
@@ -48,27 +46,6 @@ export const checkLimitsCommon =
           )
         : nextState;
   };
-
-export const createAuthenticationProgramStateCommon = ({
-  program,
-  instructions,
-  stack,
-}: {
-  program: AuthenticationProgramCommon;
-  instructions: AuthenticationInstruction[];
-  stack: Uint8Array[];
-}): AuthenticationProgramStateCommon => ({
-  alternateStack: [],
-  controlStack: [],
-  instructions,
-  ip: 0,
-  lastCodeSeparator: -1,
-  operationCount: 0,
-  program,
-  signatureOperationsCount: 0,
-  signedMessages: [],
-  stack,
-});
 
 /**
  * A reduced version of {@link AuthenticationProgramCommon} in which some

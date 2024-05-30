@@ -15,6 +15,18 @@ export type AuthenticationProgramStateMinimum = {
    * `instructions` (`ip === instructions.length`), evaluation is complete.
    */
   ip: number;
+
+  /**
+   * An object containing metrics that persist and accumulate over the course of
+   * evaluating each input in the transaction.
+   */
+  metrics: {
+    /**
+     * A count of instructions executed over the course of verifying
+     * the transaction.
+     */
+    executedInstructionCount: number;
+  };
 };
 
 export type AuthenticationProgramStateStack<StackType = Uint8Array> = {
@@ -134,8 +146,31 @@ export type AuthenticationProgramStateSignatureAnalysis = {
 };
 
 export type AuthenticationProgramStateResourceLimits = {
+  /**
+   * A count of non-push operations (and `OP_RESERVED` operations) executed
+   * since the active bytecode began execution, i.e. this count resets to
+   * `0` prior to P2SH redeem bytecode evaluation.
+   *
+   * Prior to BCH_2025_05, operation count (A.K.A. "nOpCount") is limited to 201
+   * operations (A.K.A. "MAX_OPS_PER_SCRIPT"). Following BCH_2025_05, operation
+   * count is replaced by other limits and no longer requires tracking.
+   */
   operationCount: number;
-  signatureOperationsCount: number;
+  metrics: {
+    /**
+     * A count of signature checks (A.K.A. "SigChecks") performed over the
+     * course of the entire evaluation as defined by the BCH_2020_05 upgrade.
+     *
+     * Signature checks replaced the earlier Signature Operations (A.K.A.
+     * "SigOps") system of limits, and following BCH_2025_05, signature checks
+     * are replaced by other limits and no longer require tracking.
+     */
+    signatureCheckCount: number;
+  };
+  /**
+   * The length of the encoded spending transaction in bytes.
+   */
+  transactionLengthBytes: number;
 };
 
 export type AuthenticationProgramStateTransactionContext = {

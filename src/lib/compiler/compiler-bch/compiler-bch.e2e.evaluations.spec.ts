@@ -73,7 +73,7 @@ test(
     errors: [
       {
         error:
-          'Both a VM and a createState method are required to reduce evaluations.',
+          'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
         range: {
           endColumn: 15,
           endLineNumber: 1,
@@ -89,7 +89,7 @@ test(
 );
 
 test(
-  '[BCH compiler] evaluations - requires createState',
+  '[BCH compiler] evaluations - requires createAuthenticationProgram',
   expectCompilationResult,
   '$( OP_1 OP_2 )',
   {},
@@ -98,7 +98,7 @@ test(
     errors: [
       {
         error:
-          'Both a VM and a createState method are required to reduce evaluations.',
+          'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
         range: {
           endColumn: 15,
           endLineNumber: 1,

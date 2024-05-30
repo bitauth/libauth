@@ -8,15 +8,12 @@
 
 import test from 'ava';
 
-import type {
-  AuthenticationVirtualMachineBch,
-  AuthenticationVirtualMachineBch2025,
-  AuthenticationVirtualMachineBchSpec,
-  VmbTest,
-} from '../lib.js';
+import type { VmbTest } from '../lib.js';
 import {
   createVirtualMachineBch2023,
   createVirtualMachineBch2025,
+  createVirtualMachineBch2026,
+  createVirtualMachineBchSpec,
   hexToBin,
   readTransactionCommon,
   readTransactionOutputs,
@@ -24,38 +21,33 @@ import {
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
 } from '../lib.js';
-import { createVirtualMachineBchSpec } from '../vm/instruction-sets/bch/spec/bch-spec-vm.js';
 
 import { vmbTestsBch } from './bch-vmb-tests.js';
+import type { TestedVM, VmName } from './bch-vmb-tests.spec.helper.js';
 /* eslint-disable import/no-restricted-paths, import/no-internal-modules */
-import vmbTestsBchChipLoopsInvalidJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_invalid.json' assert { type: 'json' };
-import vmbTestsBchChipLoopsNonstandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_nonstandard.json' assert { type: 'json' };
-import vmbTestsBchChipLoopsStandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_standard.json' assert { type: 'json' };
-import vmbTestsBchJson from './generated/bch/bch_vmb_tests.json' assert { type: 'json' };
-import vmbTestsBch2023InvalidJson from './generated/bch/bch_vmb_tests_2023_invalid.json' assert { type: 'json' };
-import vmbTestsBch2023NonstandardJson from './generated/bch/bch_vmb_tests_2023_nonstandard.json' assert { type: 'json' };
-import vmbTestsBch2023StandardJson from './generated/bch/bch_vmb_tests_2023_standard.json' assert { type: 'json' };
-import vmbTestsBch2025InvalidJson from './generated/bch/bch_vmb_tests_2025_invalid.json' assert { type: 'json' };
-import vmbTestsBch2025NonstandardJson from './generated/bch/bch_vmb_tests_2025_nonstandard.json' assert { type: 'json' };
-import vmbTestsBch2025StandardJson from './generated/bch/bch_vmb_tests_2025_standard.json' assert { type: 'json' };
+import vmbTestsBchChipLoopsInvalidJson from './generated/CHIPs/bch_vmb_tests_chip_loops_invalid.json' assert { type: 'json' };
+import vmbTestsBchChipLoopsNonstandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_nonstandard.json' assert { type: 'json' };
+import vmbTestsBchChipLoopsStandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_standard.json' assert { type: 'json' };
+import vmbTestsBchJson from './generated/bch_vmb_tests.json' assert { type: 'json' };
+import vmbTestsBch2023InvalidJson from './generated/bch_vmb_tests_2023_invalid.json' assert { type: 'json' };
+import vmbTestsBch2023NonstandardJson from './generated/bch_vmb_tests_2023_nonstandard.json' assert { type: 'json' };
+import vmbTestsBch2023StandardJson from './generated/bch_vmb_tests_2023_standard.json' assert { type: 'json' };
+import vmbTestsBch2025InvalidJson from './generated/bch_vmb_tests_2025_invalid.json' assert { type: 'json' };
+import vmbTestsBch2025NonstandardJson from './generated/bch_vmb_tests_2025_nonstandard.json' assert { type: 'json' };
+import vmbTestsBch2025StandardJson from './generated/bch_vmb_tests_2025_standard.json' assert { type: 'json' };
+import vmbTestsBch2026InvalidJson from './generated/bch_vmb_tests_2026_invalid.json' assert { type: 'json' };
+import vmbTestsBch2026NonstandardJson from './generated/bch_vmb_tests_2026_nonstandard.json' assert { type: 'json' };
+import vmbTestsBch2026StandardJson from './generated/bch_vmb_tests_2026_standard.json' assert { type: 'json' };
+
 /* eslint-enable import/no-restricted-paths, import/no-internal-modules */
 
+type DebugInfo = { testId: string; vmName: VmName } | undefined;
 /**
  * =========== Debugging Info ===========
  */
 const debug = undefined as DebugInfo;
 /* spell-checker:disable-next-line */
 // const debug = { testId: 'dv5k4', vmName: 'bch_2023_standard' } as DebugInfo;
-
-type VmName =
-  | 'bch_2023_nonstandard'
-  | 'bch_2023_standard'
-  | 'bch_2025_nonstandard'
-  | 'bch_2025_standard'
-  | 'bch_spec_nonstandard'
-  | 'bch_spec_standard';
-
-type DebugInfo = { testId: string; vmName: VmName } | undefined;
 
 test('bch_vmb_tests.json is up to date and contains no test ID collisions', async (t) => {
   /* Trim any stack traces returned AVA */
@@ -109,10 +101,7 @@ const testVm = ({
   vmName: VmName;
   succeeds: VmbTest[][];
   fails: VmbTest[][];
-  vm:
-    | AuthenticationVirtualMachineBch
-    | AuthenticationVirtualMachineBch2025
-    | AuthenticationVirtualMachineBchSpec;
+  vm: TestedVM;
 }) => {
   const runCase = test.macro<[VmbTest, boolean]>({
     // eslint-disable-next-line complexity
@@ -289,6 +278,26 @@ testVm({
   ],
   vm: createVirtualMachineBch2025(false),
   vmName: 'bch_2025_nonstandard',
+});
+
+testVm({
+  fails: [
+    vmbTestsBch2026InvalidJson as VmbTest[],
+    vmbTestsBch2026NonstandardJson as VmbTest[],
+  ],
+  succeeds: [vmbTestsBch2026StandardJson as VmbTest[]],
+  vm: createVirtualMachineBch2026(true),
+  vmName: 'bch_2026_standard',
+});
+
+testVm({
+  fails: [vmbTestsBch2026InvalidJson as VmbTest[]],
+  succeeds: [
+    vmbTestsBch2026StandardJson as VmbTest[],
+    vmbTestsBch2026NonstandardJson as VmbTest[],
+  ],
+  vm: createVirtualMachineBch2026(false),
+  vmName: 'bch_2026_nonstandard',
 });
 
 testVm({

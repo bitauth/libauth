@@ -55,5 +55,6 @@ export const twoOfThree: WalletTemplate = {
     'BCH_2023_05',
     'BCH_2024_05',
     'BCH_2025_05',
+    'BCH_2026_05',
   ],
 };

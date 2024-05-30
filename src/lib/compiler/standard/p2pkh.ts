@@ -50,6 +50,7 @@ export const walletTemplateP2pkhNonHd: WalletTemplate = {
     'BCH_2023_05',
     'BCH_2024_05',
     'BCH_2025_05',
+    'BCH_2026_05',
     'BCH_SPEC',
   ],
 };
@@ -104,6 +105,7 @@ export const walletTemplateP2pkh: WalletTemplate = {
     'BCH_2023_05',
     'BCH_2024_05',
     'BCH_2025_05',
+    'BCH_2026_05',
     'BCH_SPEC',
   ],
 };

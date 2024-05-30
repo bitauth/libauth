@@ -12,7 +12,7 @@ import {
   undefinedOperation,
 } from '../common/common.js';
 
-import { createInstructionSetBch2022 } from './bch-2022-instruction-set.js';
+import { createInstructionSetBch2020 } from './bch-2020-instruction-set.js';
 import { OpcodesXec } from './xec-opcodes.js';
 import {
   op0NotEqual4Byte,
@@ -59,7 +59,7 @@ export const createInstructionSetXec = (
   AuthenticationProgramBch,
   AuthenticationProgramStateBch
 > => {
-  const instructionSet = createInstructionSetBch2022(standard);
+  const instructionSet = createInstructionSetBch2020(standard);
   return {
     ...instructionSet,
     operations: {

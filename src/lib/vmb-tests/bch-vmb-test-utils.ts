@@ -26,9 +26,9 @@ import { slot1Scenario } from './bch-vmb-test-mixins.js';
 const vmVersionsBch = [
   '2023',
   '2025',
+  '2026',
   'chip_limits',
   'chip_loops',
-  'chip_strict_checkmultisig',
   'chip_zce',
   'chip_txv5',
 ] as const;
@@ -101,9 +101,20 @@ export const vmbTestDefinitionDefaultBehaviorBch: TestSetOverrideLabelBch[] = [
  * and looking up the result in {@link supportedTestSetOverridesBch}.
  */
 const testSetOverrideListBch = [
+  ['2023_invalid'],
+  ['2023_invalid', 'nop2sh_ignore'],
   ['chip_loops_invalid'],
   ['chip_loops'],
-  ['invalid', '2025_p2sh_standard'],
+  ['invalid', '2025_nonstandard', 'p2sh_ignore'],
+  ['invalid', 'nop2sh_ignore', '2023_p2sh_standard', '2025_p2sh_nonstandard'],
+  [
+    'invalid',
+    'nop2sh_ignore',
+    'p2sh32_ignore',
+    '2023_p2sh20_standard',
+    '2025_p2sh20_nonstandard',
+  ],
+  ['invalid', 'p2sh_ignore', '2023_nop2sh_nonstandard'],
   ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'p2sh_ignore'],
@@ -111,7 +122,9 @@ const testSetOverrideListBch = [
   ['invalid', 'p2sh20_standard'],
   ['invalid', 'p2sh32_standard'],
   ['invalid'],
+  ['nop2sh_ignore'],
   ['nop2sh_invalid'],
+  ['nop2sh_standard', 'p2sh_ignore'],
   ['nonstandard', 'p2sh_ignore'],
   ['nonstandard', 'p2sh_invalid'],
   ['nonstandard'],
@@ -142,9 +155,42 @@ export const supportedTestSetOverridesBch: {
    * The "default" test sets, see {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
   '': [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2023_standard', '2025_standard'] },
-    { mode: 'P2SH32', sets: ['2023_standard', '2025_standard'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,nop2sh_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
   ],
   /**
    * `chip_*` values exclude the marked test from
@@ -161,68 +207,160 @@ export const supportedTestSetOverridesBch: {
     { mode: 'P2SH32', sets: ['chip_loops_invalid'] },
   ],
   invalid: [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
-  'invalid,2025_p2sh_standard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_standard'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_standard'] },
+  'invalid,2025_nonstandard,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_invalid'],
+    },
   ],
+  'invalid,nop2sh_ignore,2023_p2sh_standard,2025_p2sh_nonstandard': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_nonstandard', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_nonstandard', '2026_invalid'],
+    },
+  ],
+
+  'invalid,nop2sh_ignore,p2sh32_ignore,2023_p2sh20_standard,2025_p2sh20_nonstandard':
+    [
+      {
+        mode: 'P2SH20',
+        sets: ['2023_standard', '2025_nonstandard', '2026_invalid'],
+      },
+    ],
   'invalid,nop2sh_nonstandard': [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   'invalid,p2sh20_standard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH20', sets: ['2023_standard', '2025_standard'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   'invalid,p2sh32_standard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_standard', '2025_standard'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
   ],
   'invalid,p2sh_ignore': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  ],
+  'invalid,p2sh_ignore,2023_nop2sh_nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
   ],
   'invalid,p2sh_standard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH20', sets: ['2023_standard', '2025_standard'] },
-    { mode: 'P2SH32', sets: ['2023_standard', '2025_standard'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
   ],
   nonstandard: [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2023_nonstandard', '2025_nonstandard'] },
-    { mode: 'P2SH32', sets: ['2023_nonstandard', '2025_nonstandard'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
   ],
   'nonstandard,p2sh_ignore': [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
   ],
   'nonstandard,p2sh_invalid': [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  ],
+  nop2sh_ignore: [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
   ],
   nop2sh_invalid: [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH20', sets: ['2023_standard', '2025_standard'] },
-    { mode: 'P2SH32', sets: ['2023_standard', '2025_standard'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_standard,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
   ],
   p2sh32_nonstandard: [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2023_standard', '2025_standard'] },
-    { mode: 'P2SH32', sets: ['2023_nonstandard', '2025_nonstandard'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
   ],
   p2sh_ignore: [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
   ],
   p2sh_invalid: [
-    { mode: 'nonP2SH', sets: ['2023_nonstandard', '2025_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   /* eslint-enable camelcase */
 };
@@ -341,6 +479,14 @@ export const vmbTestDefinitionToVmbTests = (
          */
         script:
           '<key1.schnorr_signature.corresponding_output_single_input> <key1.public_key>',
+        unlocks: 'lockP2pkh',
+      },
+      unlockP2pkhStandardEcdsa: {
+        script: '<key1.ecdsa_signature.all_outputs> <key1.public_key>',
+        unlocks: 'lockP2pkh',
+      },
+      unlockP2pkhStandardSchnorr: {
+        script: '<key1.schnorr_signature.all_outputs> <key1.public_key>',
         unlocks: 'lockP2pkh',
       },
       unlockP2sh20: { script: unlockingScript, unlocks: 'lockP2sh20' },

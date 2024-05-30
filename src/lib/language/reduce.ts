@@ -108,7 +108,7 @@ export const reduceScript = <
             errors: [
               {
                 error:
-                  'Both a VM and a createState method are required to reduce evaluations.',
+                  'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
                 range: segment.range,
               },
             ],

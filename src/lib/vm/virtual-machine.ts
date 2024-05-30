@@ -52,7 +52,6 @@ export type InstructionSet<
    * completion. This method is exposed via the
    * {@link AuthenticationVirtualMachine}'s `stateContinue` method.
    */
-
   continue: (state: ProgramState) => boolean;
 
   /**
@@ -87,8 +86,15 @@ export type InstructionSet<
    */
   evaluate: (
     program: AuthenticationProgram,
-    stateEvaluate: (state: ProgramState) => ProgramState,
-    stateInitialize: () => Partial<ProgramState>,
+    {
+      stateEvaluate,
+      stateInitialize,
+      stateOverride,
+    }: {
+      stateEvaluate: (state: ProgramState) => ProgramState;
+      stateInitialize: () => Partial<ProgramState>;
+      stateOverride?: Partial<ProgramState>;
+    },
   ) => ProgramState;
 
   /**
@@ -101,7 +107,7 @@ export type InstructionSet<
   /**
    * Return a a partial program state including all properties that must be
    * initialized at the beginning of evaluation. If not set, `stateInitialize`
-   * will return an empty object.
+   * will return an object with an empty `metrics` object.
    */
   initialize?: () => Partial<ProgramState>;
 
@@ -144,13 +150,23 @@ export type InstructionSet<
    * etc.), as such results could not be safely cached.
    *
    * @remarks
-   * This method should return `true` if the transaction is valid, or an array
-   * of error messages on failure.
+   * This method should return `true` if the transaction is valid, or an error
+   * message (`string`) on failure.
    */
   verify: (
     resolvedTransaction: ResolvedTransaction,
-    evaluate: (program: AuthenticationProgram) => ProgramState,
-    success: (state: ProgramState) => string | true,
+    {
+      evaluate,
+      success,
+      initialize,
+    }: {
+      evaluate: (
+        program: AuthenticationProgram,
+        stateOverride?: Partial<ProgramState>,
+      ) => ProgramState;
+      success: (state: ProgramState) => string | true;
+      initialize: () => Partial<ProgramState>;
+    },
   ) => string | true;
 };
 
@@ -193,14 +209,20 @@ export type AuthenticationVirtualMachine<
    *
    * @param state - the {@link AuthenticationProgram} to debug
    */
-  debug: (program: AuthenticationProgram) => ProgramState[];
+  debug: (
+    program: AuthenticationProgram,
+    stateOverride?: Partial<ProgramState>,
+  ) => ProgramState[];
 
   /**
    * Fully evaluate a program, returning the resulting `ProgramState`.
    *
    * @param state - the {@link AuthenticationProgram} to evaluate
    */
-  evaluate: (program: AuthenticationProgram) => ProgramState;
+  evaluate: (
+    program: AuthenticationProgram,
+    stateOverride?: Partial<ProgramState>,
+  ) => ProgramState;
 
   /**
    * Clone the provided ProgramState.
@@ -333,6 +355,8 @@ export const createVirtualMachine = <
   const after = (state: ProgramState) => {
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     state.ip += 1;
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+    state.metrics.executedInstructionCount += 1;
     return state;
   };
 
@@ -366,7 +390,10 @@ export const createVirtualMachine = <
     return state;
   };
 
-  const stateInitialize = instructionSet.initialize ?? (() => ({}));
+  const initialize =
+    instructionSet.initialize ??
+    (() =>
+      ({ metrics: { executedInstructionCount: 0 } }) as Partial<ProgramState>);
   const stateClone = structuredClone;
   const { success } = instructionSet;
 
@@ -394,10 +421,20 @@ export const createVirtualMachine = <
 
   const stateStep = (state: ProgramState) => stateStepMutate(stateClone(state));
 
-  const evaluate = (program: AuthenticationProgram) =>
-    instructionSet.evaluate(program, stateEvaluate, stateInitialize);
+  const evaluate = (
+    program: AuthenticationProgram,
+    stateOverride?: Partial<ProgramState>,
+  ) =>
+    instructionSet.evaluate(program, {
+      stateEvaluate,
+      stateInitialize: initialize,
+      stateOverride,
+    });
 
-  const debug = (program: AuthenticationProgram) => {
+  const debug = (
+    program: AuthenticationProgram,
+    stateOverride?: Partial<ProgramState>,
+  ) => {
     const results: ProgramState[] = [];
     const proxyDebug = (state: ProgramState) => {
       const debugResult = stateDebug(state);
@@ -405,16 +442,20 @@ export const createVirtualMachine = <
       results.push(...debugResult);
       return debugResult[debugResult.length - 1] ?? state;
     };
-    const finalResult = instructionSet.evaluate(
-      program,
-      proxyDebug,
-      stateInitialize,
-    );
+    const finalResult = instructionSet.evaluate(program, {
+      stateEvaluate: proxyDebug,
+      stateInitialize: initialize,
+      stateOverride,
+    });
     return [...results, finalResult];
   };
 
   const verify = (resolvedTransaction: ResolvedTransaction) =>
-    instructionSet.verify(resolvedTransaction, evaluate, success);
+    instructionSet.verify(resolvedTransaction, {
+      evaluate,
+      initialize,
+      success,
+    });
 
   return {
     debug,
@@ -423,7 +464,7 @@ export const createVirtualMachine = <
     stateContinue,
     stateDebug,
     stateEvaluate,
-    stateInitialize,
+    stateInitialize: initialize,
     stateStep,
     stateStepMutate,
     stateSuccess: success,

@@ -43,22 +43,22 @@ if (typeof result === 'string') {
 }
 ```
 
-For examples of the kind of error messages that `vm.verify` might return, see [`bch_vmb_tests_2022_invalid_reasons.json`](../src/lib/vmb-tests/generated/bch/bch_vmb_tests_2022_invalid_reasons.json) and [`bch_vmb_tests_2022_nonstandard_reasons.json`](../src/lib/vmb-tests/generated/bch/bch_vmb_tests_2022_nonstandard_reasons.json)/.
+For examples of the kind of error messages that `vm.verify` might return, see [`bch_vmb_tests_2025_invalid_reasons.json`](../src/lib/vmb-tests/generated/bch_vmb_tests_2025_invalid_reasons.json) and [`bch_vmb_tests_2025_nonstandard_reasons.json`](../src/lib/vmb-tests/generated/bch_vmb_tests_2025_nonstandard_reasons.json)/.
 
 ## Debugging Evaluations
 
-A complete example of transaction verification and evaluation debugging is available in [`bch-vmb-test.spec.helper.ts`](src/lib/vmb-tests/bch-vmb-test.spec.helper.ts), which is used by the `yarn test:unit:vmb_test` CLI command. E.g.:
+A complete example of transaction verification and evaluation debugging is available in [`run-bch-vmb-test.spec.helper.ts`](src/lib/vmb-tests/run-bch-vmb-test.spec.helper.ts), which is used by the `yarn test:unit:vmb_test` CLI command. E.g.:
 
 ```sh
-❯ yarn test:unit:vmb_test bch_2023_standard dv5k4
+❯ yarn test:unit:vmb_test bch_2025_standard dv5k4
 
 VMB test ID: dv5k4
 Description: Basic push operations: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (P2SH20)
-Test sets: 2022_standard
+Test sets: 2025_standard, 2025_standard
 
 Unlocking ASM: OP_0
 Redeem (P2SH20) ASM: OP_SIZE <0> OP_EQUAL OP_NIP
-Result: Success
+Result (VM: bch_2025_standard): Transaction accepted
 Evaluation at index 1:
 
 0. OP_0:                0x(0)
@@ -76,7 +76,7 @@ Evaluation at index 1:
 
 ```
 
-For extended debugging information, try the `-v` flag, e.g. `yarn test:unit:vmb_test bch_2023_standard dv5k4 -v`.
+For extended debugging information, try the `-v` flag, e.g. `yarn test:unit:vmb_test bch_2025_standard dv5k4 -v`.
 
 For a more advanced example of transaction debugging, including mapping of evaluation results to CashAssembly source positions ([`extractEvaluationSamplesRecursive`](https://libauth.org/functions/extractEvaluationSamplesRecursive.html)), see [Bitauth IDE's `editor-state.ts`](https://github.com/bitauth/bitauth-ide/blob/master/src/editor/editor-state.ts).
 

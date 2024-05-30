@@ -1,3 +1,4 @@
+export * from './bch-2020-instruction-set.js';
 export * from './xec-descriptions.js';
 export * from './xec-instruction-set.js';
 export * from './xec-opcodes.js';

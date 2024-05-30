@@ -11,6 +11,7 @@ import {
 
 export * from './2023/bch-2023.js';
 export * from './2025/bch-2025.js';
+export * from './2026/bch-2026.js';
 export * from './spec/bch-spec.js';
 
 export const createVirtualMachineBch = createVirtualMachineBch2023;

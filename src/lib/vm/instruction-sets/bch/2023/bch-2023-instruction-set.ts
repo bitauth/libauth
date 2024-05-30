@@ -198,7 +198,7 @@ export const createInstructionSetBch2023 = <
     continue: (state) =>
       state.error === undefined && state.ip < state.instructions.length,
     // eslint-disable-next-line complexity
-    evaluate: (program, stateEvaluate, stateInitialize) => {
+    evaluate: (program, { stateEvaluate, stateInitialize, stateOverride }) => {
       const { unlockingBytecode } =
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         program.transaction.inputs[program.inputIndex]!;
@@ -208,9 +208,18 @@ export const createInstructionSetBch2023 = <
         decodeAuthenticationInstructions(unlockingBytecode);
       const lockingInstructions =
         decodeAuthenticationInstructions(lockingBytecode);
+      const transactionLengthBytes = encodeTransactionBch(
+        program.transaction,
+      ).length;
       const initialState = {
         ...(stateInitialize() as AuthenticationProgramState),
-        ...{ instructions: unlockingInstructions, program, stack: [] },
+        transactionLengthBytes,
+        ...stateOverride,
+        ...{
+          instructions: unlockingInstructions,
+          program,
+          stack: [],
+        },
       } as AuthenticationProgramState;
 
       if (unlockingBytecode.length > ConsensusBch2023.maximumBytecodeLength) {
@@ -255,8 +264,11 @@ export const createInstructionSetBch2023 = <
       }
       const lockingResult = stateEvaluate({
         ...(stateInitialize() as AuthenticationProgramState),
+        transactionLengthBytes,
+        ...stateOverride,
         ...{
           instructions: lockingInstructions,
+          metrics: unlockingResult.metrics,
           program,
           stack: unlockingResult.stack,
         },
@@ -283,11 +295,17 @@ export const createInstructionSetBch2023 = <
           }
         : stateEvaluate({
             ...(stateInitialize() as AuthenticationProgramState),
-            ...{ instructions: p2shInstructions, program, stack: p2shStack },
+            transactionLengthBytes,
+            ...stateOverride,
+            ...{
+              instructions: p2shInstructions,
+              metrics: lockingResult.metrics,
+              program,
+              stack: p2shStack,
+            },
           } as AuthenticationProgramState);
     },
     every: (state) =>
-      // TODO: implement sigchecks https://gitlab.com/bitcoin-cash-node/bchn-sw/bitcoincash-upgrade-specifications/-/blob/master/spec/2020-05-15-sigchecks.md
       state.stack.length + state.alternateStack.length >
       ConsensusBch2023.maximumStackDepth
         ? applyError(state, AuthenticationErrorCommon.exceededMaximumStackDepth)
@@ -304,8 +322,11 @@ export const createInstructionSetBch2023 = <
         controlStack: [],
         ip: 0,
         lastCodeSeparator: -1,
+        metrics: {
+          executedInstructionCount: 0,
+          signatureCheckCount: 0,
+        },
         operationCount: 0,
-        signatureOperationsCount: 0,
         signedMessages: [],
       }) as Partial<AuthenticationProgramStateBch> as Partial<AuthenticationProgramState>,
     operations: {
@@ -624,7 +645,10 @@ export const createInstructionSetBch2023 = <
     },
     undefined: undefinedOperation,
     // eslint-disable-next-line complexity
-    verify: ({ sourceOutputs, transaction }, evaluate, stateSuccess) => {
+    verify: (
+      { sourceOutputs, transaction },
+      { evaluate, success, initialize },
+    ) => {
       if (transaction.inputs.length === 0) {
         return 'Transactions must have at least one input.';
       }
@@ -635,12 +659,16 @@ export const createInstructionSetBch2023 = <
         return 'Unable to verify transaction: a single spent output must be provided for each transaction input.';
       }
 
-      const transactionSize = encodeTransactionBch(transaction).length;
-      if (transactionSize < ConsensusBch2023.minimumTransactionSize) {
-        return `Invalid transaction size: the transaction is ${transactionSize} bytes, but transactions must be no smaller than ${ConsensusBch2023.minimumTransactionSize} bytes to prevent an exploit of the transaction Merkle tree design.`;
+      const transactionLengthBytes = encodeTransactionBch(transaction).length;
+      if (
+        transactionLengthBytes < ConsensusBch2023.minimumTransactionLengthBytes
+      ) {
+        return `Invalid transaction byte length: the transaction is ${transactionLengthBytes} bytes, but transactions must be no smaller than ${ConsensusBch2023.minimumTransactionLengthBytes} bytes to prevent an exploit of the transaction Merkle tree design.`;
       }
-      if (transactionSize > ConsensusBch2023.maximumTransactionSize) {
-        return `Transaction exceeds maximum size: the transaction is ${transactionSize} bytes, but the maximum transaction size is ${ConsensusBch2023.maximumTransactionSize} bytes.`;
+      if (
+        transactionLengthBytes > ConsensusBch2023.maximumTransactionLengthBytes
+      ) {
+        return `Transaction exceeds maximum byte length: the transaction is ${transactionLengthBytes} bytes, but the maximum transaction size is ${ConsensusBch2023.maximumTransactionLengthBytes} bytes.`;
       }
 
       const inputValue = sourceOutputs.reduce(
@@ -680,14 +708,17 @@ export const createInstructionSetBch2023 = <
         ) {
           return `Standard transactions must have a version no less than 1 and no greater than ${ConsensusBch2023.maximumStandardVersion}.`;
         }
-        if (transactionSize > ConsensusBch2023.maximumStandardTransactionSize) {
-          return `Transaction exceeds maximum standard size: this transaction is ${transactionSize} bytes, but the maximum standard transaction size is ${ConsensusBch2023.maximumStandardTransactionSize} bytes.`;
+        if (
+          transactionLengthBytes >
+          ConsensusBch2023.maximumStandardTransactionSize
+        ) {
+          return `Transaction exceeds maximum standard size: this transaction is ${transactionLengthBytes} bytes, but the maximum standard transaction size is ${ConsensusBch2023.maximumStandardTransactionSize} bytes.`;
         }
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
           if (!isStandardOutputBytecode(output.lockingBytecode)) {
-            return `Standard transactions may only spend standard output types, but source output ${index} is non-standard.`;
+            return `Standard transactions may only spend standard output types, but source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`;
           }
         }
 
@@ -696,7 +727,7 @@ export const createInstructionSetBch2023 = <
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of transaction.outputs.entries()) {
           if (!isStandardOutputBytecode(output.lockingBytecode)) {
-            return `Standard transactions may only create standard output types, but transaction output ${index} is non-standard.`;
+            return `Standard transactions may only create standard output types, but transaction output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`;
           }
           // eslint-disable-next-line functional/no-conditional-statements
           if (isArbitraryDataOutput(output.lockingBytecode)) {
@@ -737,19 +768,26 @@ export const createInstructionSetBch2023 = <
         return tokenValidationResult;
       }
 
+      const initialState: Partial<AuthenticationProgramState> = initialize();
+      // eslint-disable-next-line functional/no-let
+      let stateOverride = {
+        metrics: initialState.metrics,
+      } as Partial<AuthenticationProgramState>;
       // eslint-disable-next-line functional/no-loop-statements
       for (const index of transaction.inputs.keys()) {
-        const state = evaluate({
-          inputIndex: index,
-          sourceOutputs,
-          transaction,
-        });
-        const result = stateSuccess(state);
+        const state = evaluate(
+          { inputIndex: index, sourceOutputs, transaction },
+          stateOverride,
+        );
+        const result = success(state);
         if (typeof result === 'string') {
           return `Error in evaluating input index ${index}: ${result}`;
         }
+        // eslint-disable-next-line functional/no-expression-statements
+        stateOverride = {
+          metrics: state.metrics,
+        } as Partial<AuthenticationProgramState>;
       }
-
       return true;
     },
   };

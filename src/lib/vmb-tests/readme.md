@@ -19,7 +19,7 @@ Each VMB test is an array including:
 - The full, encoded test transaction
 - An encoded list of unspent transaction outputs (UTXOs) with which to verify the test transaction (ordered to match the input order of the test transaction)
 
-Every test vector in each VM's master test file (e.g. [`bch_vmb_tests.json`](./generated/bch/bch_vmb_tests.json)) also includes a list of labels indicating the VM configurations for which the test vector applies. This master test file is automatically broken up into a variety of smaller, single-configuration test files for easier use (e.g. [`bch_vmb_tests_2022_standard.json`](./generated/bch/bch_vmb_tests_2022_standard.json)).
+Every test vector in each VM's master test file (e.g. [`bch_vmb_tests.json`](./generated/bch_vmb_tests.json)) also includes a list of labels indicating the VM configurations for which the test vector applies. This master test file is automatically broken up into a variety of smaller, single-configuration test files for easier use (e.g. [`bch_vmb_tests_2025_standard.json`](./generated/bch_vmb_tests_2025_standard.json)).
 
 ## Testing with `vmb_tests`
 
@@ -41,7 +41,7 @@ By maintaining this standard/non-standard distinction, the BCH ecosystem retains
 
 ### Single-Implementation VMB Test Files
 
-For ease of use, VMB tests are divided into files by expected testing "mode", e.g. [`bch_vmb_tests_2022_standard.json`](./generated/bch/bch_vmb_tests_2022_standard.json). This is the recommended way to use VMB tests (rather than the VM's "master" test file, e.g. [`bch_vmb_tests.json`](./generated/bch/bch_vmb_tests.json), that requires more parsing).
+For ease of use, VMB tests are divided into files by expected testing "mode", e.g. [`bch_vmb_tests_2025_standard.json`](./generated/bch_vmb_tests_2025_standard.json). This is the recommended way to use VMB tests (rather than the VM's "master" test file, e.g. [`bch_vmb_tests.json`](./generated/bch_vmb_tests.json), that requires more parsing).
 
 Three files are available for each VM corresponding with the modes in which the contained tests should be run:
 

@@ -203,7 +203,7 @@ test(
     errors: [
       {
         error:
-          'Both a VM and a createState method are required to reduce evaluations.',
+          'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
         range: {
           endColumn: 44,
           endLineNumber: 1,

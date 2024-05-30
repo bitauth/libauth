@@ -14,9 +14,9 @@ import {
 } from '../../../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import scriptTestsAddendum from './fixtures/satoshi-client/script-tests-addendum.json' assert { type: 'json' };
+import scriptTestsAddendum from './fixtures/satoshi-client/script-tests-addendum.json' with { type: 'json' };
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import scriptTests from './fixtures/satoshi-client/script_tests.json' assert { type: 'json' };
+import scriptTests from './fixtures/satoshi-client/script_tests.json' with { type: 'json' };
 
 const tests = Object.values(scriptTests)
   .filter((e) => e.length !== 1 && e.length < 7)

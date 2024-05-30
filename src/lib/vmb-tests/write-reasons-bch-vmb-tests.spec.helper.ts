@@ -1,7 +1,7 @@
 /* eslint-disable functional/no-expression-statements */
 /**
  * This script produces a `*reasons.json` file for every VMB test that is
- * expected to fail. Run it with: `yarn gen:vmb-tests`.
+ * expected to fail. Run it with: `yarn gen:vmb_tests`.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';

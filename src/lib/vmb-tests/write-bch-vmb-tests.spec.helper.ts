@@ -1,7 +1,7 @@
 /* eslint-disable functional/no-expression-statements */
 
 /**
- * This script generates all bch_vmb_tests, run it with: `yarn gen:vmb-tests`.
+ * This script generates all bch_vmb_tests, run it with: `yarn gen:vmb_tests`.
  */
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';

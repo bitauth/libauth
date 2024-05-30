@@ -12,7 +12,7 @@ import {
 
 import { baselineBenchmarkId, isVm, vms } from './bch-vmb-tests.spec.helper.js';
 // eslint-disable-next-line import/no-internal-modules
-import vmbTestsBchJson from './generated/bch_vmb_tests.json' assert { type: 'json' };
+import vmbTestsBchJson from './generated/bch_vmb_tests.json' with { type: 'json' };
 
 import { Bench } from 'tinybench';
 

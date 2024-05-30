@@ -16,7 +16,7 @@ import {
   vms,
 } from './bch-vmb-tests.spec.helper.js';
 /* eslint-disable import/no-restricted-paths, import/no-internal-modules */
-import vmbTestsBchJson from './generated/bch_vmb_tests.json' assert { type: 'json' };
+import vmbTestsBchJson from './generated/bch_vmb_tests.json' with { type: 'json' };
 /* eslint-enable import/no-restricted-paths, import/no-internal-modules */
 
 import { Bench } from 'tinybench';
@@ -46,8 +46,8 @@ test('Baseline benchmark has expected VMB test ID', (t) => {
 });
 
 test('Run VMB tests marked with "[benchmark]"', async (t) => {
-  const twentyMinutes = 1_200_000;
-  t.timeout(twentyMinutes);
+  const sixtyMinutes = 3_600_000;
+  t.timeout(sixtyMinutes);
   const plannedBenchmarks = benchmarks.map((testDefinition) => {
     const [
       shortId,

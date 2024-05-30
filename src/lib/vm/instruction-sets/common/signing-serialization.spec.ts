@@ -11,7 +11,7 @@ import {
   numberToBinInt32TwosCompliment,
 } from '../../../lib.js';
 // eslint-disable-next-line import/no-internal-modules, import/no-restricted-paths
-import sighashTests from '../xec/fixtures/satoshi-client/sighash.json' assert { type: 'json' };
+import sighashTests from '../xec/fixtures/satoshi-client/sighash.json' with { type: 'json' };
 
 const tests = Object.values(sighashTests)
   .filter((e) => e.length !== 1 && e.length < 8)

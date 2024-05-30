@@ -71,7 +71,7 @@
     "test:unit:vmb_tests": "c8 ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
     "test:unit:vmb_test": "node --enable-source-maps 'build/lib/vmb-tests/run-bch-vmb-test.spec.helper.js'",
     "dev:vmb_tests": "yarn gen:vmb_tests && yarn build:tsc && ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial --fail-fast",
-    "bench:vmb_tests": "ava src/lib/vmb-tests/benchmark-bch-vmb-tests.spec.ts --serial",
+    "bench:vmb_tests": "ava --config config/.ava.vmb_bench.config.js src/lib/vmb-tests/benchmark-bch-vmb-tests.spec.ts --serial",
     "bench": "yarn build && yarn bench:browser-deps && yarn bench:vmb_tests && yarn bench:test",
     "bench:test": "ava --config config/.ava.bench.config.js --serial --timeout=2m 2>&1 | tee bench.log",
     "bench:browser-deps": "cpy '.yarn/artifacts/*.js' build/bench",
@@ -167,7 +167,8 @@
       "--experimental-json-modules",
       "--experimental-global-webcrypto",
       "# ^ needed for node v18"
-    ]
+    ],
+    "files": ["!src/lib/vmb-tests/benchmark-bch-vmb-tests.spec.ts"]
   },
   "config": {
     "commitizen": {

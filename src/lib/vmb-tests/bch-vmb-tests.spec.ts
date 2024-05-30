@@ -25,19 +25,19 @@ import {
 import { vmbTestsBch } from './bch-vmb-tests.js';
 import type { TestedVM, VmName } from './bch-vmb-tests.spec.helper.js';
 /* eslint-disable import/no-restricted-paths, import/no-internal-modules */
-import vmbTestsBchChipLoopsInvalidJson from './generated/CHIPs/bch_vmb_tests_chip_loops_invalid.json' assert { type: 'json' };
-import vmbTestsBchChipLoopsNonstandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_nonstandard.json' assert { type: 'json' };
-import vmbTestsBchChipLoopsStandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_standard.json' assert { type: 'json' };
-import vmbTestsBchJson from './generated/bch_vmb_tests.json' assert { type: 'json' };
-import vmbTestsBch2023InvalidJson from './generated/bch_vmb_tests_2023_invalid.json' assert { type: 'json' };
-import vmbTestsBch2023NonstandardJson from './generated/bch_vmb_tests_2023_nonstandard.json' assert { type: 'json' };
-import vmbTestsBch2023StandardJson from './generated/bch_vmb_tests_2023_standard.json' assert { type: 'json' };
-import vmbTestsBch2025InvalidJson from './generated/bch_vmb_tests_2025_invalid.json' assert { type: 'json' };
-import vmbTestsBch2025NonstandardJson from './generated/bch_vmb_tests_2025_nonstandard.json' assert { type: 'json' };
-import vmbTestsBch2025StandardJson from './generated/bch_vmb_tests_2025_standard.json' assert { type: 'json' };
-import vmbTestsBch2026InvalidJson from './generated/bch_vmb_tests_2026_invalid.json' assert { type: 'json' };
-import vmbTestsBch2026NonstandardJson from './generated/bch_vmb_tests_2026_nonstandard.json' assert { type: 'json' };
-import vmbTestsBch2026StandardJson from './generated/bch_vmb_tests_2026_standard.json' assert { type: 'json' };
+import vmbTestsBchChipLoopsInvalidJson from './generated/CHIPs/bch_vmb_tests_chip_loops_invalid.json' with { type: 'json' };
+import vmbTestsBchChipLoopsNonstandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_nonstandard.json' with { type: 'json' };
+import vmbTestsBchChipLoopsStandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_standard.json' with { type: 'json' };
+import vmbTestsBchJson from './generated/bch_vmb_tests.json' with { type: 'json' };
+import vmbTestsBch2023InvalidJson from './generated/bch_vmb_tests_2023_invalid.json' with { type: 'json' };
+import vmbTestsBch2023NonstandardJson from './generated/bch_vmb_tests_2023_nonstandard.json' with { type: 'json' };
+import vmbTestsBch2023StandardJson from './generated/bch_vmb_tests_2023_standard.json' with { type: 'json' };
+import vmbTestsBch2025InvalidJson from './generated/bch_vmb_tests_2025_invalid.json' with { type: 'json' };
+import vmbTestsBch2025NonstandardJson from './generated/bch_vmb_tests_2025_nonstandard.json' with { type: 'json' };
+import vmbTestsBch2025StandardJson from './generated/bch_vmb_tests_2025_standard.json' with { type: 'json' };
+import vmbTestsBch2026InvalidJson from './generated/bch_vmb_tests_2026_invalid.json' with { type: 'json' };
+import vmbTestsBch2026NonstandardJson from './generated/bch_vmb_tests_2026_nonstandard.json' with { type: 'json' };
+import vmbTestsBch2026StandardJson from './generated/bch_vmb_tests_2026_standard.json' with { type: 'json' };
 
 /* eslint-enable import/no-restricted-paths, import/no-internal-modules */
 
@@ -57,7 +57,7 @@ test('bch_vmb_tests.json is up to date and contains no test ID collisions', asyn
   t.deepEqual(
     allTestCases,
     vmbTestsBchJson,
-    'New test definitions were added to `bch-vmb.tests.ts`, but the generated tests were not updated. Run "yarn gen:vmb-tests" to correct this issue. (Note: tsc watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc to clear this error after re-generating tests.)',
+    'New test definitions were added to `bch-vmb.tests.ts`, but the generated tests were not updated. Run "yarn gen:vmb_tests" to correct this issue. (Note: tsc watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc to clear this error after re-generating tests.)',
   );
 
   const testCaseIds = allTestCases.map((testCase) => testCase[0]);

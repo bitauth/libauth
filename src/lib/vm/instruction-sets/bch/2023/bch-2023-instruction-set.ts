@@ -698,16 +698,15 @@ export const createInstructionSetBch2023 = <
        * included here for debugging purposes.
        */
       if (firstDuplicate !== undefined) {
-        return `Unable to verify transaction: the transaction attempts to spend the same outpoint in multiple inputs. ${firstDuplicate}`;
+        return `Unable to verify transaction: the transaction attempts to spend the same outpoint in multiple inputs. ${firstDuplicate}.`;
       }
-
+      if (
+        transaction.version < ConsensusBch2023.minimumConsensusVersion ||
+        transaction.version > ConsensusBch2023.maximumConsensusVersion
+      ) {
+        return `Transaction version must be either 1 or 2. Encoded version number: ${transaction.version}.`;
+      }
       if (standard) {
-        if (
-          transaction.version < 1 ||
-          transaction.version > ConsensusBch2023.maximumStandardVersion
-        ) {
-          return `Standard transactions must have a version no less than 1 and no greater than ${ConsensusBch2023.maximumStandardVersion}.`;
-        }
         if (
           transactionLengthBytes >
           ConsensusBch2023.maximumStandardTransactionSize

@@ -52,9 +52,9 @@ export const incrementHashDigestIterations = <
   }: {
     /**
      * If `true`, the limit will use
-     * {@link ConsensusBch2025.standardHashDigestIterationsPerByte}, otherwise
+     * {@link ConsensusBch2025.hashDigestIterationsPerByteStandard}, otherwise
      * it will use
-     * {@link ConsensusBch2025.nonstandardHashDigestIterationsPerByte}.
+     * {@link ConsensusBch2025.hashDigestIterationsPerByteNonstandard}.
      */
     strict: boolean;
     /**
@@ -75,8 +75,8 @@ export const incrementHashDigestIterations = <
     (resultIsHashed ? 1 : 0) +
     lengthToHashDigestIterationCount(messageLength);
   const maximumIterationsPerByte = strict
-    ? ConsensusBch2025.standardHashDigestIterationsPerByte
-    : ConsensusBch2025.nonstandardHashDigestIterationsPerByte;
+    ? ConsensusBch2025.hashDigestIterationsPerByteStandard
+    : ConsensusBch2025.hashDigestIterationsPerByteNonstandard;
   const maximumHashDigestIterations = Math.floor(
     maximumIterationsPerByte * state.transactionLengthBytes,
   );
@@ -109,9 +109,9 @@ export const opRipemd160ChipLimits =
     }: {
       /**
        * If `true`, the limit will use
-       * {@link ConsensusBch2025.standardHashDigestIterationsPerByte}, otherwise
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteStandard}, otherwise
        * it will use
-       * {@link ConsensusBch2025.nonstandardHashDigestIterationsPerByte}.
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteNonstandard}.
        */
       strict: boolean;
       ripemd160: { hash: Ripemd160['hash'] };
@@ -140,9 +140,9 @@ export const opSha1ChipLimits =
       sha1: { hash: Sha1['hash'] };
       /**
        * If `true`, the limit will use
-       * {@link ConsensusBch2025.standardHashDigestIterationsPerByte}, otherwise
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteStandard}, otherwise
        * it will use
-       * {@link ConsensusBch2025.nonstandardHashDigestIterationsPerByte}.
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteNonstandard}.
        */
       strict: boolean;
     } = { sha1: internalSha1, strict: true },
@@ -172,9 +172,9 @@ export const opSha256ChipLimits =
       };
       /**
        * If `true`, the limit will use
-       * {@link ConsensusBch2025.standardHashDigestIterationsPerByte}, otherwise
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteStandard}, otherwise
        * it will use
-       * {@link ConsensusBch2025.nonstandardHashDigestIterationsPerByte}.
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteNonstandard}.
        */
       strict: boolean;
     } = { sha256: internalSha256, strict: true },
@@ -204,9 +204,9 @@ export const opHash160ChipLimits =
       ripemd160: { hash: Ripemd160['hash'] };
       /**
        * If `true`, the limit will use
-       * {@link ConsensusBch2025.standardHashDigestIterationsPerByte}, otherwise
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteStandard}, otherwise
        * it will use
-       * {@link ConsensusBch2025.nonstandardHashDigestIterationsPerByte}.
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteNonstandard}.
        */
       strict: boolean;
     } = { ripemd160: internalRipemd160, sha256: internalSha256, strict: true },
@@ -237,9 +237,9 @@ export const opHash256ChipLimits =
       };
       /**
        * If `true`, the limit will use
-       * {@link ConsensusBch2025.standardHashDigestIterationsPerByte}, otherwise
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteStandard}, otherwise
        * it will use
-       * {@link ConsensusBch2025.nonstandardHashDigestIterationsPerByte}.
+       * {@link ConsensusBch2025.hashDigestIterationsPerByteNonstandard}.
        */
       strict: boolean;
     } = { sha256: internalSha256, strict: true },

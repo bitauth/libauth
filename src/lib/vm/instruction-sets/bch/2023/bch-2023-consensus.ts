@@ -28,9 +28,13 @@ export enum ConsensusBch2023 {
    */
   maximumStackItemLength = 520,
   /**
-   * A.K.A. `MAX_STANDARD_VERSION`
+   * A.K.A. `MIN_CONSENSUS_VERSION`
    */
-  maximumStandardVersion = 2,
+  minimumConsensusVersion = 1,
+  /**
+   * A.K.A. `MAX_CONSENSUS_VERSION`
+   */
+  maximumConsensusVersion = 2,
   /**
    * A.K.A. `MAX_TX_IN_SCRIPT_SIG_SIZE`
    */

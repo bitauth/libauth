@@ -138,12 +138,13 @@ export const benchmarkTestDefinitionsBch: VmbTestDefinitionGroup = [
     ['<1>', `<0> <2039> OP_NUM2BIN OP_HASH160 OP_DROP`, 'Within BCH_2025_05 P2SH/standard, single-input limits, maximize bytes OP_HASH160 hashed', ['2023_invalid', 'nop2sh_ignore'], minimalScenarioStandard],
     ['<1>', `<0> <2039> OP_NUM2BIN OP_SHA1 OP_DROP`, 'Within BCH_2025_05 P2SH/standard, single-input limits, maximize bytes OP_SHA1 hashed', ['2023_invalid', 'nop2sh_ignore'], minimalScenarioStandard],
     /* Invalid in 2023, nonstandard in 2025, invalid in 2026: */
-    ['<1>', `<0> ${repeat('<10_000> OP_NUM2BIN OP_HASH256', 2)} <503> OP_NUM2BIN OP_HASH256 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_HASH256 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
-    ['<1>', `<0> ${repeat('<10_000> OP_NUM2BIN OP_RIPEMD160', 2)} <695> OP_NUM2BIN OP_RIPEMD160 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_RIPEMD160 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
-    ['<1>', `<0> ${repeat('<10_000> OP_NUM2BIN OP_HASH160', 2)} <503> OP_NUM2BIN OP_HASH160 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_HASH160 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
-    ['<1>', `<0> ${repeat('<10_000> OP_NUM2BIN OP_SHA1', 2)} <695> OP_NUM2BIN OP_SHA1 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_SHA1 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
+    ['<1>', `<0> <10_000> OP_NUM2BIN OP_HASH256 <6_455> OP_NUM2BIN OP_HASH256 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_HASH256 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
+    ['<1>', `<0> <10_000> OP_NUM2BIN OP_RIPEMD160 <6_583> OP_NUM2BIN OP_RIPEMD160 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_RIPEMD160 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
+    ['<1>', `<0> <10_000> OP_NUM2BIN OP_HASH160 <6_455> OP_NUM2BIN OP_HASH160 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_HASH160 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
+    ['<1>', `<0> <10_000> OP_NUM2BIN OP_SHA1 <6_583> OP_NUM2BIN OP_SHA1 OP_DROP`, 'Within BCH_2025_05 noP2SH/nonstandard, single-input limits, maximize bytes OP_SHA1 hashed', ['invalid', '2025_nonstandard', 'p2sh_ignore'], minimalScenarioStandardPlusBytes(2)],
 
-    ['<1> <$(<1> <397> OP_NUM2BIN)> <$(<1> <520> OP_NUM2BIN)> <$(<2> <520> OP_NUM2BIN)>', `OP_2DUP ${repeat('OP_3DUP', 79)} ${repeat('OP_2DROP', 121)}`, 'Within BCH_2023_05 P2SH/standard limits, maximize stack memory usage (single input)', ['nop2sh_ignore'], minimalScenarioStandard],
-    ['<1> <$(<1> <397> OP_NUM2BIN)> <$(<1> <520> OP_NUM2BIN)> <$(<2> <520> OP_NUM2BIN)>', `OP_2DUP ${repeat('OP_3DUP', 79)} ${repeat('OP_2DROP', 121)}`, 'Within BCH_2023_05 nonP2SH/nonstandard limits, maximize stack memory usage (single input)', ['p2sh_ignore'], minimalScenarioNonStandard],
+    /* Maximize memory usage */
+    ['<1> <$(<1> <397> OP_NUM2BIN)> <$(<1> <520> OP_NUM2BIN)> <$(<2> <520> OP_NUM2BIN)>', `OP_2DUP ${repeat('OP_3DUP', 79)} ${repeat('OP_2DROP', 121)}`, 'Within BCH_2023_05 P2SH/standard, single-input limits, maximize stack memory usage', ['nop2sh_ignore'], minimalScenarioStandard],
+    ['<1> <$(<1> <397> OP_NUM2BIN)> <$(<1> <520> OP_NUM2BIN)> <$(<2> <520> OP_NUM2BIN)>', `OP_2DUP ${repeat('OP_3DUP', 79)} ${repeat('OP_2DROP', 121)}`, 'Within BCH_2023_05 nonP2SH/nonstandard, single-input limits, maximize stack memory usage', ['p2sh_ignore'], minimalScenarioNonStandard],
   ],
 ];

@@ -9,8 +9,9 @@ export enum ConsensusBch2025Overrides {
    */
   maximumStackItemLength = 10_000,
 
-  standardHashDigestIterationsPerByte = 0.5,
-  nonstandardHashDigestIterationsPerByte = 5,
+  hashDigestIterationsPerByteStandard = 0.5,
+  hashDigestIterationsPerByteNonstandard = 4,
+  bytesPerCodeSeparatorStandard = 65,
 }
 
 /**

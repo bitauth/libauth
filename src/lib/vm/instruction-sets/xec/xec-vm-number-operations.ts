@@ -17,9 +17,9 @@ import {
   useTwoVmNumbers,
 } from '../common/common.js';
 
-import { ConsensusXEC } from './xec-types.js';
+import { ConsensusXec } from './xec-types.js';
 
-const maximumVmNumberByteLength = ConsensusXEC.maximumVmNumberLength;
+const maximumVmNumberByteLength = ConsensusXec.maximumVmNumberLength;
 
 export const opPick4Byte = <
   State extends AuthenticationProgramStateError &
@@ -77,7 +77,7 @@ export const opNum2Bin4Byte = <
 ) =>
   useOneVmNumber(state, (nextState, value) => {
     const targetLength = Number(value);
-    return targetLength > ConsensusXEC.maximumStackItemLength
+    return targetLength > ConsensusXec.maximumStackItemLength
       ? applyError(
           nextState,
           AuthenticationErrorCommon.exceededMaximumStackItemLength,
@@ -99,7 +99,7 @@ export const opNum2Bin4Byte = <
                   );
           },
           {
-            maximumVmNumberByteLength: ConsensusXEC.maximumStackItemLength,
+            maximumVmNumberByteLength: ConsensusXec.maximumStackItemLength,
             requireMinimalEncoding: false,
           },
         );
@@ -115,7 +115,7 @@ export const opBin2Num4Byte = <
     state,
     (nextState, [target]) => {
       const minimallyEncoded = bigIntToVmNumber(target);
-      return minimallyEncoded.length > ConsensusXEC.maximumVmNumberLength
+      return minimallyEncoded.length > ConsensusXec.maximumVmNumberLength
         ? applyError(
             nextState,
             AuthenticationErrorCommon.exceededMaximumVmNumberLength,
@@ -123,7 +123,7 @@ export const opBin2Num4Byte = <
         : pushToStack(nextState, minimallyEncoded);
     },
     {
-      maximumVmNumberByteLength: ConsensusXEC.maximumStackItemLength,
+      maximumVmNumberByteLength: ConsensusXec.maximumStackItemLength,
       requireMinimalEncoding: false,
     },
   );

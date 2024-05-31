@@ -1,4 +1,4 @@
-export enum OpcodesXEC {
+export enum OpcodesXec {
   /**
    * A.K.A. `OP_FALSE` or `OP_PUSHBYTES_0`
    */

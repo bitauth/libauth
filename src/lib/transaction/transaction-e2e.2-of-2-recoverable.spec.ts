@@ -10,7 +10,7 @@ import type {
 import {
   CashAddressNetworkPrefix,
   compileCashAssembly,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   dateToLocktime,
   decodeTransactionCommon,
   encodeTransactionCommon,
@@ -20,7 +20,7 @@ import {
   importWalletTemplate,
   lockingBytecodeToCashAddress,
   stringify,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '../lib.js';
 
 import {
@@ -33,7 +33,7 @@ import {
   twoOfTwoRecoverableJson,
 } from './transaction-e2e.spec.helper.js';
 
-const vm = createVirtualMachineBCH();
+const vm = createVirtualMachineBch();
 
 // eslint-disable-next-line complexity
 test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
@@ -70,7 +70,7 @@ test('transaction e2e tests: 2-of-2 Recoverable Vault', (t) => {
   };
 
   const lockingScript = 'lock';
-  const compiler = walletTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBch(template);
   const lockingBytecode = compiler.generateBytecode({
     data: lockingData,
     scriptId: lockingScript,

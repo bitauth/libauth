@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
 } from '../../lib.js';
 import { hexToBin } from '../../lib.js';
@@ -31,7 +31,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -105,7 +105,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -138,7 +138,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -172,7 +172,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -203,7 +203,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -238,7 +238,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -310,7 +310,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -338,7 +338,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -366,7 +366,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -394,7 +394,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -419,7 +419,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -444,7 +444,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -470,7 +470,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -496,7 +496,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -523,7 +523,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -550,7 +550,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -577,7 +577,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },
@@ -604,7 +604,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     owner: { type: 'Key' },
   },

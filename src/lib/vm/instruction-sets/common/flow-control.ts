@@ -4,7 +4,7 @@ import type {
   AuthenticationProgramStateStack,
 } from '../../../lib.js';
 
-import { useOneStackItem } from './combinators.js';
+import { executionIsActive, useOneStackItem } from './combinators.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { stackItemIsTruthy } from './instruction-sets-utils.js';
 
@@ -30,6 +30,22 @@ export const opReturn = <State extends AuthenticationProgramStateError>(
   state: State,
 ) => applyError(state, AuthenticationErrorCommon.calledReturn);
 
+/**
+ * Return the provided state with the provided value pushed to its control stack.
+ * @param state - the state to update and return
+ * @param data - the value to push to the stack
+ */
+export const pushToControlStack = <
+  State extends AuthenticationProgramStateControlStack,
+>(
+  state: State,
+  value: boolean | number,
+) => {
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.controlStack.push(value);
+  return state;
+};
+
 export const opIf = <
   State extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
@@ -37,16 +53,12 @@ export const opIf = <
 >(
   state: State,
 ) => {
-  if (state.controlStack.every((item) => item)) {
-    return useOneStackItem(state, (nextState, [item]) => {
-      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-      nextState.controlStack.push(stackItemIsTruthy(item));
-      return state;
-    });
+  if (executionIsActive(state)) {
+    return useOneStackItem(state, (nextState, [item]) =>
+      pushToControlStack(nextState, stackItemIsTruthy(item)),
+    );
   }
-  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-  state.controlStack.push(false);
-  return state;
+  return pushToControlStack(state, false);
 };
 
 /**
@@ -61,16 +73,12 @@ export const opNotIf = <
 >(
   state: State,
 ) => {
-  if (state.controlStack.every((item) => item)) {
-    return useOneStackItem(state, (nextState, [item]) => {
-      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-      nextState.controlStack.push(!stackItemIsTruthy(item));
-      return state;
-    });
+  if (executionIsActive(state)) {
+    return useOneStackItem(state, (nextState, [item]) =>
+      pushToControlStack(nextState, !stackItemIsTruthy(item)),
+    );
   }
-  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-  state.controlStack.push(false);
-  return state;
+  return pushToControlStack(state, false);
 };
 
 export const opEndIf = <
@@ -81,7 +89,7 @@ export const opEndIf = <
 ) => {
   // eslint-disable-next-line functional/immutable-data
   const element = state.controlStack.pop();
-  if (element === undefined) {
+  if (typeof element !== 'boolean') {
     return applyError(state, AuthenticationErrorCommon.unexpectedEndIf);
   }
   return state;
@@ -94,7 +102,7 @@ export const opElse = <
   state: State,
 ) => {
   const top = state.controlStack[state.controlStack.length - 1];
-  if (top === undefined) {
+  if (typeof top !== 'boolean') {
     return applyError(state, AuthenticationErrorCommon.unexpectedElse);
   }
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data

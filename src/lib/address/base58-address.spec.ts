@@ -15,9 +15,9 @@ import {
 } from '../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import keyIoInvalid from './fixtures/key_io_invalid.json' assert { type: 'json' };
+import keyIoInvalid from './fixtures/key_io_invalid.json' with { type: 'json' };
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import keyIoValid from './fixtures/key_io_valid.json' assert { type: 'json' };
+import keyIoValid from './fixtures/key_io_valid.json' with { type: 'json' };
 
 import { fc, testProp } from '@fast-check/ava';
 

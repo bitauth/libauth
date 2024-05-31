@@ -9,9 +9,9 @@ import {
   compileCashAssembly,
   containsRange,
   createAuthenticationProgramEvaluationCommon,
-  createCompilerBCH,
+  createCompilerBch,
   createCompilerCommon,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   extractBytecodeResolutions,
   extractEvaluationSamples,
   extractEvaluationSamplesRecursive,
@@ -19,12 +19,12 @@ import {
   hexToBin,
   mergeRanges,
   Opcodes,
-  OpcodesBCH,
+  OpcodesBch,
   stringifyDebugTraceSummary,
   stringifyErrors,
   stringifyTestVector,
   summarizeDebugTrace,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '../lib.js';
 
 test('mergeRanges', (t) => {
@@ -223,8 +223,8 @@ OP_ELSE
     OP_ENDIF
 OP_ENDIF`;
 
-const vm = createVirtualMachineBCH();
-const compiler = createCompilerBCH({
+const vm = createVirtualMachineBch();
+const compiler = createCompilerBch({
   scripts: {
     docs: '0x00 0x01 0xab01 0xcd9300 $(OP_3 <0x00> OP_SWAP OP_CAT) 0x010203',
     /**
@@ -973,9 +973,9 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         ],
         ip: 7,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
         operationCount: 1,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [
           hexToBin(''),
@@ -1143,11 +1143,12 @@ test('extractEvaluationSamples: error in initial validation', (t) => {
         ],
         ip: 0,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [],
+        transactionLengthBytes: 62,
       },
     ],
     stringifyTestVector(trace),
@@ -1553,11 +1554,12 @@ test('extractEvaluationSamples: node that closes an open sample with an error', 
         instructions: [],
         ip: 0,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
@@ -1576,11 +1578,12 @@ test('extractEvaluationSamples: node that closes an open sample with an error', 
         ],
         ip: 0,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
@@ -1599,11 +1602,12 @@ test('extractEvaluationSamples: node that closes an open sample with an error', 
         ],
         ip: 1,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 1, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [hexToBin('')],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
@@ -1624,11 +1628,12 @@ test('extractEvaluationSamples: node that closes an open sample with an error', 
         ],
         ip: 2,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [hexToBin('')],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
@@ -1649,11 +1654,12 @@ test('extractEvaluationSamples: node that closes an open sample with an error', 
         ],
         ip: 2,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [hexToBin('')],
+        transactionLengthBytes: 60,
       },
     ],
     stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
@@ -1768,125 +1774,86 @@ test('extractEvaluationSamples: error3 - error occurs, so final state is dropped
         instructions: [],
         ip: 0,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
         controlStack: [],
         instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            opcode: 106,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
+          { data: hexToBin(''), opcode: 0 },
+          { opcode: 106 },
+          { data: hexToBin(''), opcode: 0 },
+          { data: hexToBin(''), opcode: 0 },
         ],
         ip: 0,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
         controlStack: [],
         instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            opcode: 106,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
+          { data: hexToBin(''), opcode: 0 },
+          { opcode: 106 },
+          { data: hexToBin(''), opcode: 0 },
+          { data: hexToBin(''), opcode: 0 },
         ],
         ip: 1,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 1, signatureCheckCount: 0 },
         operationCount: 0,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [hexToBin('')],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
         controlStack: [],
         error: 'Program called an OP_RETURN operation.',
         instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            opcode: 106,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
+          { data: hexToBin(''), opcode: 0 },
+          { opcode: 106 },
+          { data: hexToBin(''), opcode: 0 },
+          { data: hexToBin(''), opcode: 0 },
         ],
         ip: 2,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
         operationCount: 1,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [hexToBin('')],
+        transactionLengthBytes: 60,
       },
       {
         alternateStack: [],
         controlStack: [],
         error: 'Program called an OP_RETURN operation.',
         instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            opcode: 106,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
+          { data: hexToBin(''), opcode: 0 },
+          { opcode: 106 },
+          { data: hexToBin(''), opcode: 0 },
+          { data: hexToBin(''), opcode: 0 },
         ],
         ip: 2,
         lastCodeSeparator: -1,
+        metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
         operationCount: 1,
         program,
-        signatureOperationsCount: 0,
         signedMessages: [],
         stack: [hexToBin('')],
+        transactionLengthBytes: 60,
       },
     ],
     stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
@@ -4264,7 +4231,7 @@ test(extractUnexecutedRangesMacro, 'unexecutedEmpty', []);
 
 test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
   const { program } = assertSuccess(
-    walletTemplateToCompilerBCH({
+    walletTemplateToCompilerBch({
       entities: {},
       scripts: {
         lock: {
@@ -4277,12 +4244,12 @@ test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
       version: 0,
     }).generateScenario({ unlockingScriptId: 'unlock' }),
   );
-  const trace = createVirtualMachineBCH(true).debug(program);
+  const trace = createVirtualMachineBch(true).debug(program);
   const summary = summarizeDebugTrace(trace);
   const formatted = stringifyDebugTraceSummary(summary, {
     opcodes: {
-      ...OpcodesBCH,
-      [OpcodesBCH.OP_UNKNOWN255]: undefined as unknown as string,
+      ...OpcodesBch,
+      [OpcodesBch.OP_UNKNOWN255]: undefined as unknown as string,
     },
   });
   t.deepEqual(
@@ -4307,7 +4274,7 @@ test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
 
 test('summarizeDebugTrace, stringifyDebugTraceSummary (error)', (t) => {
   const { program } = assertSuccess(
-    walletTemplateToCompilerBCH({
+    walletTemplateToCompilerBch({
       entities: {},
       scripts: {
         lock: {
@@ -4320,7 +4287,7 @@ test('summarizeDebugTrace, stringifyDebugTraceSummary (error)', (t) => {
       version: 0,
     }).generateScenario({ unlockingScriptId: 'unlock' }),
   );
-  const trace = createVirtualMachineBCH(true).debug(program);
+  const trace = createVirtualMachineBch(true).debug(program);
   const summary = summarizeDebugTrace(trace);
   const formatted = stringifyDebugTraceSummary(summary);
   t.deepEqual(

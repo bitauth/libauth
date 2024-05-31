@@ -5,7 +5,7 @@ import {
   numberToBinUint32LE,
   valueSatoshisToBin,
 } from '../../../format/format.js';
-import type { CompilationContextBCH, Sha256 } from '../../../lib.js';
+import type { CompilationContextBch, Sha256 } from '../../../lib.js';
 import {
   encodeTokenPrefix,
   encodeTransactionInputSequenceNumbersForSigning,
@@ -71,7 +71,12 @@ export enum SigningSerializationType {
 /* eslint-enable no-bitwise, @typescript-eslint/prefer-literal-enum-member */
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const SigningSerializationTypeBCH = SigningSerializationType;
+export const SigningSerializationTypeBch = SigningSerializationType;
+/**
+ * @deprecated Alias of `SigningSerializationTypeBch` for backwards-compatibility.
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SigningSerializationTypeBCH = SigningSerializationTypeBch;
 
 const enum Internal {
   mask5Bits = 0b11111,
@@ -116,7 +121,7 @@ export const hashPrevouts = (
      */
     signingSerializationType: Uint8Array;
     /**
-     * See {@link generateSigningSerializationComponentsBCH}
+     * See {@link generateSigningSerializationComponentsBch}
      */
     transactionOutpoints: Uint8Array;
   },
@@ -140,7 +145,7 @@ export const hashUtxos = (
      */
     signingSerializationType: Uint8Array;
     /**
-     * See {@link generateSigningSerializationComponentsBCH}
+     * See {@link generateSigningSerializationComponentsBch}
      */
     transactionUtxos: Uint8Array;
   },
@@ -164,7 +169,7 @@ export const hashSequence = (
      */
     signingSerializationType: Uint8Array;
     /**
-     * See {@link generateSigningSerializationComponentsBCH}
+     * See {@link generateSigningSerializationComponentsBch}
      */
     transactionSequenceNumbers: Uint8Array;
   },
@@ -191,11 +196,11 @@ export const hashOutputs = (
      */
     signingSerializationType: Uint8Array;
     /**
-     * See {@link generateSigningSerializationComponentsBCH}
+     * See {@link generateSigningSerializationComponentsBch}
      */
     transactionOutputs: Uint8Array;
     /**
-     * See {@link generateSigningSerializationComponentsBCH}
+     * See {@link generateSigningSerializationComponentsBch}
      */
     correspondingOutput: Uint8Array | undefined;
   },
@@ -218,7 +223,7 @@ export const hashOutputs = (
  * performance-critical applications should use a memoized sha256 implementation
  * to avoid re-computing hashes.
  */
-export const encodeSigningSerializationBCH = (
+export const encodeSigningSerializationBch = (
   {
     correspondingOutput,
     coveredBytecode,
@@ -344,12 +349,16 @@ export const encodeSigningSerializationBCH = (
     signingSerializationType,
     forkId,
   ]);
+/**
+ * @deprecated Alias of `encodeSigningSerializationBch` for backwards-compatibility.
+ */
+export const encodeSigningSerializationBCH = encodeSigningSerializationBch;
 
 /**
  * The signing serialization components that are shared between all of the
  * inputs in a transaction.
  */
-export type SigningSerializationTransactionComponentsBCH = {
+export type SigningSerializationTransactionComponentsBch = {
   /**
    * A time or block height at which the transaction is considered valid (and
    * can be added to the block chain). This allows signers to create time-locked
@@ -389,12 +398,17 @@ export type SigningSerializationTransactionComponentsBCH = {
    */
   version: number;
 };
+/**
+ * @deprecated Alias of `SigningSerializationTransactionComponentsBch` for backwards-compatibility.
+ */
+export type SigningSerializationTransactionComponentsBCH =
+  SigningSerializationTransactionComponentsBch;
 
 /**
  * All signing serialization components for a particular transaction input.
  */
-export type SigningSerializationComponentsBCH =
-  SigningSerializationTransactionComponentsBCH & {
+export type SigningSerializationComponentsBch =
+  SigningSerializationTransactionComponentsBch & {
     /*
      * A.K.A. the serialization for {@link hashOutputs} with `SIGHASH_SINGLE`
      *
@@ -432,14 +446,19 @@ export type SigningSerializationComponentsBCH =
      */
     sequenceNumber: number;
   };
+/**
+ * @deprecated Alias of `SigningSerializationComponentsBch` for backwards-compatibility.
+ */
+export type SigningSerializationComponentsBCH =
+  SigningSerializationComponentsBch;
 
 /**
  * Generate the encoded components of a BCH signing serialization from
  * compilation context.
  */
-export const generateSigningSerializationComponentsBCH = (
-  context: CompilationContextBCH,
-): SigningSerializationComponentsBCH => ({
+export const generateSigningSerializationComponentsBch = (
+  context: CompilationContextBch,
+): SigningSerializationComponentsBch => ({
   correspondingOutput:
     context.inputIndex < context.transaction.outputs.length
       ? encodeTransactionOutput(
@@ -476,6 +495,12 @@ export const generateSigningSerializationComponentsBCH = (
 });
 
 /**
+ * @deprecated Alias of `generateSigningSerializationComponentsBch` for backwards-compatibility.
+ */
+export const generateSigningSerializationComponentsBCH =
+  generateSigningSerializationComponentsBch;
+
+/**
  * Generate the signing serialization for a particular transaction input
  * following the algorithm required by the provided `signingSerializationType`.
  *
@@ -483,8 +508,8 @@ export const generateSigningSerializationComponentsBCH = (
  * performance-critical applications should use a memoized sha256 implementation
  * to avoid re-computing hashes.
  */
-export const generateSigningSerializationBCH = (
-  context: CompilationContextBCH,
+export const generateSigningSerializationBch = (
+  context: CompilationContextBch,
   {
     coveredBytecode,
     signingSerializationType,
@@ -501,14 +526,19 @@ export const generateSigningSerializationBCH = (
   },
   sha256: { hash: Sha256['hash'] } = internalSha256,
 ) =>
-  encodeSigningSerializationBCH(
+  encodeSigningSerializationBch(
     {
-      ...generateSigningSerializationComponentsBCH(context),
+      ...generateSigningSerializationComponentsBch(context),
       coveredBytecode,
       signingSerializationType,
     },
     sha256,
   );
+
+/**
+ * @deprecated Alias of `generateSigningSerializationBch` for backwards-compatibility.
+ */
+export const generateSigningSerializationBCH = generateSigningSerializationBch;
 
 /**
  * @param signingSerializationType - the 32-bit number indicating the signing

@@ -13,7 +13,7 @@ import {
 } from '../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import base58Json from './fixtures/base58_encode_decode.json' assert { type: 'json' };
+import base58Json from './fixtures/base58_encode_decode.json' with { type: 'json' };
 
 import { fc, testProp } from '@fast-check/ava';
 

@@ -26,14 +26,31 @@ jobs:
           CI_NODE_INDEX: ${{ matrix.runner_index }}
           CI_NODE_TOTAL: ${{ matrix.runners_per_version }}
       - run: yarn cov:lcov
-        if: ${{ matrix.node-version }} == 20
+        if: ${{ matrix.node-version == 20 }}
       - name: Upload test coverage
-        if: ${{ matrix.node-version }} == 20
+        if: ${{ matrix.node-version == 20 }}
         uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
+
+  vmb-benchmarks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    name: Run VMB Benchmarks
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: yarn install --immutable --immutable-cache
+      - run: yarn build
+      - run: yarn bench:vmb_tests
 
   check-policies:
     runs-on: ubuntu-latest

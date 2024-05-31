@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
 } from '../../lib.js';
 import { hexToBin } from '../../lib.js';
@@ -46,7 +46,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
 );
 
@@ -90,7 +90,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
 );
 
@@ -114,7 +114,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
 );
 
@@ -138,7 +138,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
 );
 
@@ -164,7 +164,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
 );
 
@@ -188,7 +188,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
   { secp256k1: undefined },
 );
@@ -213,7 +213,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
   { secp256k1: undefined },
 );
@@ -238,7 +238,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
   { sha256: undefined },
 );
@@ -263,7 +263,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'Key' } },
 );
 
@@ -305,6 +305,6 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   { owner: { type: 'HdKey' } },
 );

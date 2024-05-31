@@ -1,12 +1,12 @@
 import {
-  SigningSerializationTypeBCH,
-  SigningSerializationTypesBCH,
+  SigningSerializationTypeBch,
+  SigningSerializationTypesCommon,
 } from '../../common/common.js';
 
 /**
  * Consensus settings for the `BCH_2023_05` instruction set.
  */
-export enum ConsensusBCH2023 {
+export enum ConsensusBch2023 {
   /**
    * A.K.A. `MAX_SCRIPT_SIZE`
    */
@@ -28,9 +28,13 @@ export enum ConsensusBCH2023 {
    */
   maximumStackItemLength = 520,
   /**
-   * A.K.A. `MAX_STANDARD_VERSION`
+   * A.K.A. `MIN_CONSENSUS_VERSION`
    */
-  maximumStandardVersion = 2,
+  minimumConsensusVersion = 1,
+  /**
+   * A.K.A. `MAX_CONSENSUS_VERSION`
+   */
+  maximumConsensusVersion = 2,
   /**
    * A.K.A. `MAX_TX_IN_SCRIPT_SIG_SIZE`
    */
@@ -41,7 +45,7 @@ export enum ConsensusBCH2023 {
    *
    * A.K.A. `MIN_TX_SIZE`
    */
-  minimumTransactionSize = 65,
+  minimumTransactionLengthBytes = 65,
   /**
    * A.K.A. `MAX_STANDARD_TX_SIZE`
    */
@@ -49,7 +53,7 @@ export enum ConsensusBCH2023 {
   /**
    * A.K.A. `MAX_TX_SIZE`
    */
-  maximumTransactionSize = 1_000_000,
+  maximumTransactionLengthBytes = 1_000_000,
   /**
    * A.K.A. `MAXIMUM_ELEMENT_SIZE_64_BIT`
    */
@@ -62,9 +66,9 @@ export enum ConsensusBCH2023 {
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const SigningSerializationTypesBCH2023 = [
-  ...SigningSerializationTypesBCH,
-  SigningSerializationTypeBCH.allOutputsAllUtxos,
-  SigningSerializationTypeBCH.correspondingOutputAllUtxos,
-  SigningSerializationTypeBCH.noOutputsAllUtxos,
+export const SigningSerializationTypesBch = [
+  ...SigningSerializationTypesCommon,
+  SigningSerializationTypeBch.allOutputsAllUtxos,
+  SigningSerializationTypeBch.correspondingOutputAllUtxos,
+  SigningSerializationTypeBch.noOutputsAllUtxos,
 ];

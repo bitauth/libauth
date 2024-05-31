@@ -9,7 +9,7 @@ import { deriveHdPrivateNodeFromSeed, encodeHdPrivateKey } from '../key/key.js';
 import { compileScriptRaw, stringifyErrors } from '../language/language.js';
 import type {
   AnyCompilerConfigurationIgnoreOperations,
-  CompilationContextBCH,
+  CompilationContextBch,
   CompilationData,
   CompilationError,
   CompilationResult,
@@ -554,7 +554,7 @@ export const compileWalletTemplateScenarioValueSatoshis = (
 export const compileWalletTemplateScenarioBytecode = <
   Configuration extends AnyCompilerConfigurationIgnoreOperations,
   GenerateBytecode extends Compiler<
-    CompilationContextBCH,
+    CompilationContextBch,
     Configuration,
     ProgramState
   >['generateBytecode'],
@@ -569,7 +569,7 @@ export const compileWalletTemplateScenarioBytecode = <
   lockingOrUnlockingScriptIdUnderTest,
 }: {
   bytecodeDefinition: WalletTemplateScenarioBytecode;
-  compilationContext?: CompilationContextBCH;
+  compilationContext?: CompilationContextBch;
   configuration: Configuration;
   extendedScenario: ExtendedScenarioDefinition;
   defaultOverride: WalletTemplateScenarioData;
@@ -665,10 +665,10 @@ export const compileScenarioOutputTokenData = (
  * {@link Compiler.generateScenario} instead.
  */
 // eslint-disable-next-line complexity
-export const generateScenarioBCH = <
+export const generateScenarioBch = <
   Configuration extends AnyCompilerConfigurationIgnoreOperations,
   GenerateBytecode extends Compiler<
-    CompilationContextBCH,
+    CompilationContextBch,
     Configuration,
     ProgramState
   >['generateBytecode'],
@@ -730,7 +730,7 @@ export const generateScenarioBCH = <
 
   const parentScenario = generateExtendedScenario<
     Configuration,
-    CompilationContextBCH
+    CompilationContextBch
   >({ configuration, scenarioId });
   if (typeof parentScenario === 'string') {
     return `Cannot generate ${scenarioName}: ${parentScenario}`;
@@ -1071,3 +1071,8 @@ export const generateScenarioBCH = <
     ? ScenarioGenerationDebuggingResult<ProgramState>
     : Scenario;
 };
+
+/**
+ * @deprecated Alias of `generateScenarioBch` for backwards-compatibility.
+ */
+export const generateScenarioBCH = generateScenarioBch;

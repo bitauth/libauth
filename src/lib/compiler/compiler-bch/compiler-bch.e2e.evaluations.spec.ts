@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
 } from '../../lib.js';
 
@@ -60,7 +60,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -73,7 +73,7 @@ test(
     errors: [
       {
         error:
-          'Both a VM and a createState method are required to reduce evaluations.',
+          'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
         range: {
           endColumn: 15,
           endLineNumber: 1,
@@ -83,13 +83,13 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { vm: undefined },
 );
 
 test(
-  '[BCH compiler] evaluations - requires createState',
+  '[BCH compiler] evaluations - requires createAuthenticationProgram',
   expectCompilationResult,
   '$( OP_1 OP_2 )',
   {},
@@ -98,7 +98,7 @@ test(
     errors: [
       {
         error:
-          'Both a VM and a createState method are required to reduce evaluations.',
+          'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
         range: {
           endColumn: 15,
           endLineNumber: 1,
@@ -108,7 +108,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { createAuthenticationProgram: undefined },
 );
@@ -133,7 +133,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -156,7 +156,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -179,7 +179,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -202,7 +202,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -225,7 +225,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -248,7 +248,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -293,7 +293,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -316,7 +316,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -349,7 +349,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );
 
 test(
@@ -372,5 +372,5 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
 );

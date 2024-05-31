@@ -7,8 +7,8 @@ import {
 } from '../../crypto/crypto.js';
 import type {
   AnyCompilerConfiguration,
-  AuthenticationProgramStateBCH,
-  CompilationContextBCH,
+  AuthenticationProgramStateBch,
+  CompilationContextBch,
   CompilationData,
   CompilerConfiguration,
   CompilerOperationResult,
@@ -17,12 +17,12 @@ import type {
 } from '../../lib.js';
 import { encodeTokenPrefix } from '../../message/message.js';
 import {
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   generateBytecodeMap,
-  generateSigningSerializationBCH,
-  OpcodesBCHCHIPs,
+  generateSigningSerializationBch,
+  OpcodesBchSpec,
   SigningSerializationFlag,
-  SigningSerializationTypeBCH,
+  SigningSerializationTypeBch,
 } from '../../vm/vm.js';
 import {
   attemptCompilerOperations,
@@ -34,12 +34,12 @@ import {
 } from '../compiler-operation-helpers.js';
 import { compilerOperationsCommon } from '../compiler-operations.js';
 import {
-  compilerConfigurationToCompilerBCH,
+  compilerConfigurationToCompilerBch,
   createAuthenticationProgramEvaluationCommon,
   walletTemplateToCompilerConfiguration,
 } from '../compiler-utils.js';
 
-export type CompilerOperationsKeyBCH =
+export type CompilerOperationsKeyBch =
   | 'data_signature'
   | 'ecdsa_signature'
   | 'public_key'
@@ -114,12 +114,12 @@ const getSigningSerializationType = (
 ) => {
   switch (algorithmIdentifier) {
     case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputs}`:
-      return Uint8Array.of(SigningSerializationTypeBCH.allOutputs);
+      return Uint8Array.of(SigningSerializationTypeBch.allOutputs);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputsAllUtxos}`:
     case `${prefix}${SigningSerializationAlgorithmIdentifier.default}`:
-      return Uint8Array.of(SigningSerializationTypeBCH.allOutputsAllUtxos);
+      return Uint8Array.of(SigningSerializationTypeBch.allOutputsAllUtxos);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputsSingleInput}`:
-      return Uint8Array.of(SigningSerializationTypeBCH.allOutputsSingleInput);
+      return Uint8Array.of(SigningSerializationTypeBch.allOutputsSingleInput);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.allOutputsSingleInputInvalidAllUtxos}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
@@ -129,14 +129,14 @@ const getSigningSerializationType = (
           SigningSerializationFlag.forkId,
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutput}`:
-      return Uint8Array.of(SigningSerializationTypeBCH.correspondingOutput);
+      return Uint8Array.of(SigningSerializationTypeBch.correspondingOutput);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutputAllUtxos}`:
       return Uint8Array.of(
-        SigningSerializationTypeBCH.correspondingOutputAllUtxos,
+        SigningSerializationTypeBch.correspondingOutputAllUtxos,
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutputSingleInput}`:
       return Uint8Array.of(
-        SigningSerializationTypeBCH.correspondingOutputSingleInput,
+        SigningSerializationTypeBch.correspondingOutputSingleInput,
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.correspondingOutputSingleInputInvalidAllUtxos}`:
       return Uint8Array.of(
@@ -147,11 +147,11 @@ const getSigningSerializationType = (
           SigningSerializationFlag.forkId,
       );
     case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputs}`:
-      return Uint8Array.of(SigningSerializationTypeBCH.noOutputs);
+      return Uint8Array.of(SigningSerializationTypeBch.noOutputs);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputsAllUtxos}`:
-      return Uint8Array.of(SigningSerializationTypeBCH.noOutputsAllUtxos);
+      return Uint8Array.of(SigningSerializationTypeBch.noOutputsAllUtxos);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputsSingleInput}`:
-      return Uint8Array.of(SigningSerializationTypeBCH.noOutputsSingleInput);
+      return Uint8Array.of(SigningSerializationTypeBch.noOutputsSingleInput);
     case `${prefix}${SigningSerializationAlgorithmIdentifier.noOutputsSingleInputInvalidAllUtxos}`:
       return Uint8Array.of(
         // eslint-disable-next-line no-bitwise
@@ -165,7 +165,7 @@ const getSigningSerializationType = (
   }
 };
 
-export const compilerOperationHelperComputeSignatureBCH = ({
+export const compilerOperationHelperComputeSignatureBch = ({
   coveredBytecode,
   identifier,
   compilationContext,
@@ -177,7 +177,7 @@ export const compilerOperationHelperComputeSignatureBCH = ({
   coveredBytecode: Uint8Array;
   identifier: string;
   privateKey: Uint8Array;
-  compilationContext: CompilationContextBCH;
+  compilationContext: CompilationContextBch;
   operationName: string;
   sign: (
     privateKey: Uint8Array,
@@ -210,7 +210,7 @@ export const compilerOperationHelperComputeSignatureBCH = ({
       status: 'error',
     };
   }
-  const serialization = generateSigningSerializationBCH(
+  const serialization = generateSigningSerializationBch(
     compilationContext,
     { coveredBytecode, signingSerializationType },
     sha256,
@@ -227,7 +227,7 @@ export const compilerOperationHelperComputeSignatureBCH = ({
   };
 };
 
-export const compilerOperationHelperHdKeySignatureBCH = ({
+export const compilerOperationHelperHdKeySignatureBch = ({
   operationName,
   secp256k1Method,
 }: {
@@ -278,7 +278,7 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
           return result;
         }
 
-        return compilerOperationHelperComputeSignatureBCH({
+        return compilerOperationHelperComputeSignatureBch({
           compilationContext,
           coveredBytecode: result,
           identifier,
@@ -291,18 +291,18 @@ export const compilerOperationHelperHdKeySignatureBCH = ({
     }),
   );
 
-export const compilerOperationHdKeyEcdsaSignatureBCH =
-  compilerOperationHelperHdKeySignatureBCH({
+export const compilerOperationHdKeyEcdsaSignatureBch =
+  compilerOperationHelperHdKeySignatureBch({
     operationName: 'ecdsa_signature',
     secp256k1Method: 'signMessageHashDER',
   });
-export const compilerOperationHdKeySchnorrSignatureBCH =
-  compilerOperationHelperHdKeySignatureBCH({
+export const compilerOperationHdKeySchnorrSignatureBch =
+  compilerOperationHelperHdKeySignatureBch({
     operationName: 'schnorr_signature',
     secp256k1Method: 'signMessageHashSchnorr',
   });
 
-export const compilerOperationHelperKeySignatureBCH = ({
+export const compilerOperationHelperKeySignatureBch = ({
   operationName,
   secp256k1Method,
 }: {
@@ -355,7 +355,7 @@ export const compilerOperationHelperKeySignatureBCH = ({
           return result;
         }
 
-        return compilerOperationHelperComputeSignatureBCH({
+        return compilerOperationHelperComputeSignatureBch({
           compilationContext,
           coveredBytecode: result,
           identifier,
@@ -368,20 +368,20 @@ export const compilerOperationHelperKeySignatureBCH = ({
     }),
   );
 
-export const compilerOperationKeyEcdsaSignatureBCH =
-  compilerOperationHelperKeySignatureBCH({
+export const compilerOperationKeyEcdsaSignatureBch =
+  compilerOperationHelperKeySignatureBch({
     operationName: 'ecdsa_signature',
     secp256k1Method: 'signMessageHashDER',
   });
-export const compilerOperationKeySchnorrSignatureBCH =
-  compilerOperationHelperKeySignatureBCH({
+export const compilerOperationKeySchnorrSignatureBch =
+  compilerOperationHelperKeySignatureBch({
     operationName: 'schnorr_signature',
     secp256k1Method: 'signMessageHashSchnorr',
   });
 
-export const compilerOperationHelperComputeDataSignatureBCH = <
+export const compilerOperationHelperComputeDataSignatureBch = <
   Data extends CompilationData,
-  Configuration extends AnyCompilerConfiguration<CompilationContextBCH>,
+  Configuration extends AnyCompilerConfiguration<CompilationContextBch>,
 >({
   data,
   configuration,
@@ -448,7 +448,7 @@ export const compilerOperationHelperComputeDataSignatureBCH = <
   };
 };
 
-export const compilerOperationHelperKeyDataSignatureBCH = ({
+export const compilerOperationHelperKeyDataSignatureBch = ({
   operationName,
   secp256k1Method,
 }: {
@@ -483,7 +483,7 @@ export const compilerOperationHelperKeyDataSignatureBCH = ({
           };
         }
 
-        return compilerOperationHelperComputeDataSignatureBCH<
+        return compilerOperationHelperComputeDataSignatureBch<
           typeof data,
           typeof configuration
         >({
@@ -499,18 +499,18 @@ export const compilerOperationHelperKeyDataSignatureBCH = ({
     }),
   );
 
-export const compilerOperationKeyEcdsaDataSignatureBCH =
-  compilerOperationHelperKeyDataSignatureBCH({
+export const compilerOperationKeyEcdsaDataSignatureBch =
+  compilerOperationHelperKeyDataSignatureBch({
     operationName: 'ecdsa_data_signature',
     secp256k1Method: 'signMessageHashDER',
   });
-export const compilerOperationKeySchnorrDataSignatureBCH =
-  compilerOperationHelperKeyDataSignatureBCH({
+export const compilerOperationKeySchnorrDataSignatureBch =
+  compilerOperationHelperKeyDataSignatureBch({
     operationName: 'schnorr_data_signature',
     secp256k1Method: 'signMessageHashSchnorr',
   });
 
-export const compilerOperationHelperHdKeyDataSignatureBCH = ({
+export const compilerOperationHelperHdKeyDataSignatureBch = ({
   operationName,
   secp256k1Method,
 }: {
@@ -546,7 +546,7 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = ({
         });
         if (derivationResult.status === 'error') return derivationResult;
 
-        return compilerOperationHelperComputeDataSignatureBCH<
+        return compilerOperationHelperComputeDataSignatureBch<
           typeof data,
           typeof configuration
         >({
@@ -562,13 +562,13 @@ export const compilerOperationHelperHdKeyDataSignatureBCH = ({
     }),
   );
 
-export const compilerOperationHdKeyEcdsaDataSignatureBCH =
-  compilerOperationHelperHdKeyDataSignatureBCH({
+export const compilerOperationHdKeyEcdsaDataSignatureBch =
+  compilerOperationHelperHdKeyDataSignatureBch({
     operationName: 'ecdsa_data_signature',
     secp256k1Method: 'signMessageHashDER',
   });
-export const compilerOperationHdKeySchnorrDataSignatureBCH =
-  compilerOperationHelperHdKeyDataSignatureBCH({
+export const compilerOperationHdKeySchnorrDataSignatureBch =
+  compilerOperationHelperHdKeyDataSignatureBch({
     operationName: 'schnorr_data_signature',
     secp256k1Method: 'signMessageHashSchnorr',
   });
@@ -605,7 +605,7 @@ export const compilerOperationDataSignatureRenamed = (identifier: string) => ({
   status: 'error',
 });
 
-export const compilerOperationSigningSerializationFullBCH =
+export const compilerOperationSigningSerializationFullBch =
   compilerOperationRequires({
     canBeSkipped: false,
     configurationProperties: ['sha256', 'sourceScriptIds', 'unlockingScripts'],
@@ -656,7 +656,7 @@ export const compilerOperationSigningSerializationFullBCH =
 
       const { compilationContext } = data;
       return {
-        bytecode: generateSigningSerializationBCH(
+        bytecode: generateSigningSerializationBch(
           compilationContext,
           {
             coveredBytecode: result,
@@ -670,104 +670,120 @@ export const compilerOperationSigningSerializationFullBCH =
   });
 
 /* eslint-disable camelcase, @typescript-eslint/naming-convention */
-export const compilerOperationsBCH = {
+export const compilerOperationsBch = {
   ...compilerOperationsCommon,
   hdKey: {
     data_signature: compilerOperationDataSignatureRenamed,
-    ecdsa_data_signature: compilerOperationHdKeyEcdsaDataSignatureBCH,
-    ecdsa_signature: compilerOperationHdKeyEcdsaSignatureBCH,
+    ecdsa_data_signature: compilerOperationHdKeyEcdsaDataSignatureBch,
+    ecdsa_signature: compilerOperationHdKeyEcdsaSignatureBch,
     public_key: compilerOperationsCommon.hdKey.public_key,
-    schnorr_data_signature: compilerOperationHdKeySchnorrDataSignatureBCH,
-    schnorr_signature: compilerOperationHdKeySchnorrSignatureBCH,
+    schnorr_data_signature: compilerOperationHdKeySchnorrDataSignatureBch,
+    schnorr_signature: compilerOperationHdKeySchnorrSignatureBch,
     signature: compilerOperationSignatureRenamed,
   },
   key: {
     data_signature: compilerOperationDataSignatureRenamed,
-    ecdsa_data_signature: compilerOperationKeyEcdsaDataSignatureBCH,
-    ecdsa_signature: compilerOperationKeyEcdsaSignatureBCH,
+    ecdsa_data_signature: compilerOperationKeyEcdsaDataSignatureBch,
+    ecdsa_signature: compilerOperationKeyEcdsaSignatureBch,
     public_key: compilerOperationsCommon.key.public_key,
-    schnorr_data_signature: compilerOperationKeySchnorrDataSignatureBCH,
-    schnorr_signature: compilerOperationKeySchnorrSignatureBCH,
+    schnorr_data_signature: compilerOperationKeySchnorrDataSignatureBch,
+    schnorr_signature: compilerOperationKeySchnorrSignatureBch,
     signature: compilerOperationSignatureRenamed,
   },
   signingSerialization: {
     ...compilerOperationsCommon.signingSerialization,
-    full_all_outputs: compilerOperationSigningSerializationFullBCH,
-    full_all_outputs_all_utxos: compilerOperationSigningSerializationFullBCH,
-    full_all_outputs_single_input: compilerOperationSigningSerializationFullBCH,
+    full_all_outputs: compilerOperationSigningSerializationFullBch,
+    full_all_outputs_all_utxos: compilerOperationSigningSerializationFullBch,
+    full_all_outputs_single_input: compilerOperationSigningSerializationFullBch,
     full_all_outputs_single_input_INVALID_all_utxos:
-      compilerOperationSigningSerializationFullBCH,
-    full_corresponding_output: compilerOperationSigningSerializationFullBCH,
+      compilerOperationSigningSerializationFullBch,
+    full_corresponding_output: compilerOperationSigningSerializationFullBch,
     full_corresponding_output_all_utxos:
-      compilerOperationSigningSerializationFullBCH,
+      compilerOperationSigningSerializationFullBch,
     full_corresponding_output_single_input:
-      compilerOperationSigningSerializationFullBCH,
+      compilerOperationSigningSerializationFullBch,
     full_corresponding_output_single_input_INVALID_all_utxos:
-      compilerOperationSigningSerializationFullBCH,
-    full_default: compilerOperationSigningSerializationFullBCH,
-    full_no_outputs: compilerOperationSigningSerializationFullBCH,
-    full_no_outputs_all_utxos: compilerOperationSigningSerializationFullBCH,
-    full_no_outputs_single_input: compilerOperationSigningSerializationFullBCH,
+      compilerOperationSigningSerializationFullBch,
+    full_default: compilerOperationSigningSerializationFullBch,
+    full_no_outputs: compilerOperationSigningSerializationFullBch,
+    full_no_outputs_all_utxos: compilerOperationSigningSerializationFullBch,
+    full_no_outputs_single_input: compilerOperationSigningSerializationFullBch,
     full_no_outputs_single_input_INVALID_all_utxos:
-      compilerOperationSigningSerializationFullBCH,
+      compilerOperationSigningSerializationFullBch,
     token_prefix: compilerOperationSigningSerializationTokenPrefix,
   },
 };
 /* eslint-enable camelcase, @typescript-eslint/naming-convention */
+/**
+ * @deprecated Alias of `compilerOperationsBch` for backwards-compatibility.
+ */
+export const compilerOperationsBCH = compilerOperationsBch;
 
-export type CompilerConfigurationBCH = CompilerConfiguration<
-  CompilationContextBCH,
-  CompilerOperationsKeyBCH
+export type CompilerConfigurationBch = CompilerConfiguration<
+  CompilationContextBch,
+  CompilerOperationsKeyBch
 >;
+/**
+ * @deprecated Alias of `CompilerConfigurationBch` for backwards-compatibility.
+ */
+export type CompilerConfigurationBCH = CompilerConfigurationBch;
 
 /**
  * Create a compiler using the default BCH compiler configuration.
  *
  * Internally instantiates the necessary crypto and VM implementations – use
- * {@link compilerConfigurationToCompilerBCH} for more control.
+ * {@link compilerConfigurationToCompilerBch} for more control.
  *
  * @param configuration - a compiler configuration from which properties
  * will be used to override properties of the default BCH configuration – must
  * include the `scripts` property
  */
-export const createCompilerBCH = <
-  Configuration extends CompilerConfiguration<CompilationContextBCH>,
-  ProgramState extends AuthenticationProgramStateBCH,
+export const createCompilerBch = <
+  Configuration extends CompilerConfiguration<CompilationContextBch>,
+  ProgramState extends AuthenticationProgramStateBch,
 >(
   configuration: Configuration,
 ) =>
-  compilerConfigurationToCompilerBCH<Configuration, ProgramState>({
+  compilerConfigurationToCompilerBch<Configuration, ProgramState>({
     ...{
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
-      opcodes: generateBytecodeMap(OpcodesBCHCHIPs),
-      operations: compilerOperationsBCH,
+      opcodes: generateBytecodeMap(OpcodesBchSpec),
+      operations: compilerOperationsBch,
       ripemd160: internalRipemd160,
       secp256k1: internalSecp256k1,
       sha256: internalSha256,
       sha512: internalSha512,
-      vm: configuration.vm ?? createVirtualMachineBCH(),
+      vm: configuration.vm ?? createVirtualMachineBch(),
     },
     ...configuration,
   });
-
-export const createCompiler = createCompilerBCH;
+export const createCompiler = createCompilerBch;
+/**
+ * @deprecated Alias of `createCompilerBch` for backwards-compatibility.
+ */
+export const createCompilerBCH = createCompilerBch;
 
 /**
- * Create a BCH `Compiler` from an `WalletTemplate` and an optional set
+ * Create a BCH `Compiler` from a `WalletTemplate` and an optional set
  * of overrides.
  * @param template - the `WalletTemplate` from which to create the BCH
  * compiler
  * @param overrides - a compiler configuration from which properties will be
  * used to override properties of the default BCH configuration
  */
-export const walletTemplateToCompilerBCH = <
-  Configuration extends CompilerConfiguration<CompilationContextBCH>,
-  ProgramState extends AuthenticationProgramStateBCH,
+export const walletTemplateToCompilerBch = <
+  Configuration extends CompilerConfiguration<CompilationContextBch>,
+  ProgramState extends AuthenticationProgramStateBch,
 >(
   template: WalletTemplate,
   overrides?: Configuration,
 ) =>
-  createCompilerBCH<Configuration, ProgramState>({
+  createCompilerBch<Configuration, ProgramState>({
     ...overrides,
     ...walletTemplateToCompilerConfiguration(template),
   } as Configuration);
+
+/**
+ * @deprecated Alias of `walletTemplateToCompilerBch` for backwards-compatibility.
+ */
+export const walletTemplateToCompilerBCH = walletTemplateToCompilerBch;

@@ -1,11 +1,9 @@
 import type {
-  AuthenticationProgramBCH,
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramBch,
+  AuthenticationProgramStateBch,
   InstructionSet,
-  ResolvedTransactionBCH,
+  ResolvedTransactionBch,
 } from '../../../lib.js';
-import { createInstructionSetBCH2022 } from '../bch/2022/bch-2022-instruction-set.js';
-import { OpcodesBCH2022 } from '../bch/2022/bch-2022-opcodes.js';
 import {
   conditionallyEvaluate,
   disabledOperation,
@@ -14,6 +12,8 @@ import {
   undefinedOperation,
 } from '../common/common.js';
 
+import { createInstructionSetBch2020 } from './bch-2020-instruction-set.js';
+import { OpcodesXec } from './xec-opcodes.js';
 import {
   op0NotEqual4Byte,
   op1Add4Byte,
@@ -52,65 +52,65 @@ import {
  * and can technically be included by miners in valid blocks, but most network
  * nodes will refuse to relay them. (Default: `true`)
  */
-export const createInstructionSetXEC = (
+export const createInstructionSetXec = (
   standard = true,
 ): InstructionSet<
-  ResolvedTransactionBCH,
-  AuthenticationProgramBCH,
-  AuthenticationProgramStateBCH
+  ResolvedTransactionBch,
+  AuthenticationProgramBch,
+  AuthenticationProgramStateBch
 > => {
-  const instructionSet = createInstructionSetBCH2022(standard);
+  const instructionSet = createInstructionSetBch2020(standard);
   return {
     ...instructionSet,
     operations: {
       ...instructionSet.operations,
-      ...mapOverOperations<AuthenticationProgramStateBCH>(
+      ...mapOverOperations<AuthenticationProgramStateBch>(
         [conditionallyEvaluate, incrementOperationCount],
         {
-          [OpcodesBCH2022.OP_PICK]: opPick4Byte,
-          [OpcodesBCH2022.OP_ROLL]: opRoll4Byte,
-          [OpcodesBCH2022.OP_SPLIT]: opSplit4Byte,
-          [OpcodesBCH2022.OP_NUM2BIN]: opNum2Bin4Byte,
-          [OpcodesBCH2022.OP_BIN2NUM]: opBin2Num4Byte,
-          [OpcodesBCH2022.OP_1ADD]: op1Add4Byte,
-          [OpcodesBCH2022.OP_1SUB]: op1Sub4Byte,
-          [OpcodesBCH2022.OP_NEGATE]: opNegate4Byte,
-          [OpcodesBCH2022.OP_ABS]: opAbs4Byte,
-          [OpcodesBCH2022.OP_NOT]: opNot4Byte,
-          [OpcodesBCH2022.OP_0NOTEQUAL]: op0NotEqual4Byte,
-          [OpcodesBCH2022.OP_ADD]: opAdd4Byte,
-          [OpcodesBCH2022.OP_SUB]: opSub4Byte,
-          [OpcodesBCH2022.OP_MUL]: disabledOperation,
-          [OpcodesBCH2022.OP_DIV]: opDiv4Byte,
-          [OpcodesBCH2022.OP_MOD]: opMod4Byte,
-          [OpcodesBCH2022.OP_BOOLAND]: opBoolAnd4Byte,
-          [OpcodesBCH2022.OP_BOOLOR]: opBoolOr4Byte,
-          [OpcodesBCH2022.OP_NUMEQUAL]: opNumEqual4Byte,
-          [OpcodesBCH2022.OP_NUMEQUALVERIFY]: opNumEqualVerify4Byte,
-          [OpcodesBCH2022.OP_NUMNOTEQUAL]: opNumNotEqual4Byte,
-          [OpcodesBCH2022.OP_LESSTHAN]: opLessThan4Byte,
-          [OpcodesBCH2022.OP_GREATERTHAN]: opGreaterThan4Byte,
-          [OpcodesBCH2022.OP_LESSTHANOREQUAL]: opLessThanOrEqual4Byte,
-          [OpcodesBCH2022.OP_GREATERTHANOREQUAL]: opGreaterThanOrEqual4Byte,
-          [OpcodesBCH2022.OP_MIN]: opMin4Byte,
-          [OpcodesBCH2022.OP_MAX]: opMax4Byte,
-          [OpcodesBCH2022.OP_WITHIN]: opWithin4Byte,
+          [OpcodesXec.OP_PICK]: opPick4Byte,
+          [OpcodesXec.OP_ROLL]: opRoll4Byte,
+          [OpcodesXec.OP_SPLIT]: opSplit4Byte,
+          [OpcodesXec.OP_NUM2BIN]: opNum2Bin4Byte,
+          [OpcodesXec.OP_BIN2NUM]: opBin2Num4Byte,
+          [OpcodesXec.OP_1ADD]: op1Add4Byte,
+          [OpcodesXec.OP_1SUB]: op1Sub4Byte,
+          [OpcodesXec.OP_NEGATE]: opNegate4Byte,
+          [OpcodesXec.OP_ABS]: opAbs4Byte,
+          [OpcodesXec.OP_NOT]: opNot4Byte,
+          [OpcodesXec.OP_0NOTEQUAL]: op0NotEqual4Byte,
+          [OpcodesXec.OP_ADD]: opAdd4Byte,
+          [OpcodesXec.OP_SUB]: opSub4Byte,
+          [OpcodesXec.OP_MUL]: disabledOperation,
+          [OpcodesXec.OP_DIV]: opDiv4Byte,
+          [OpcodesXec.OP_MOD]: opMod4Byte,
+          [OpcodesXec.OP_BOOLAND]: opBoolAnd4Byte,
+          [OpcodesXec.OP_BOOLOR]: opBoolOr4Byte,
+          [OpcodesXec.OP_NUMEQUAL]: opNumEqual4Byte,
+          [OpcodesXec.OP_NUMEQUALVERIFY]: opNumEqualVerify4Byte,
+          [OpcodesXec.OP_NUMNOTEQUAL]: opNumNotEqual4Byte,
+          [OpcodesXec.OP_LESSTHAN]: opLessThan4Byte,
+          [OpcodesXec.OP_GREATERTHAN]: opGreaterThan4Byte,
+          [OpcodesXec.OP_LESSTHANOREQUAL]: opLessThanOrEqual4Byte,
+          [OpcodesXec.OP_GREATERTHANOREQUAL]: opGreaterThanOrEqual4Byte,
+          [OpcodesXec.OP_MIN]: opMin4Byte,
+          [OpcodesXec.OP_MAX]: opMax4Byte,
+          [OpcodesXec.OP_WITHIN]: opWithin4Byte,
         },
       ),
-      [OpcodesBCH2022.OP_INPUTINDEX]: undefinedOperation,
-      [OpcodesBCH2022.OP_ACTIVEBYTECODE]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXVERSION]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXINPUTCOUNT]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXOUTPUTCOUNT]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXLOCKTIME]: undefinedOperation,
-      [OpcodesBCH2022.OP_UTXOVALUE]: undefinedOperation,
-      [OpcodesBCH2022.OP_UTXOBYTECODE]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPOINTTXHASH]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPOINTINDEX]: undefinedOperation,
-      [OpcodesBCH2022.OP_INPUTBYTECODE]: undefinedOperation,
-      [OpcodesBCH2022.OP_INPUTSEQUENCENUMBER]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPUTVALUE]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPUTBYTECODE]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN192]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN193]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN194]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN195]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN196]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN197]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN198]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN199]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN200]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN201]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN202]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN203]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN204]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN205]: undefinedOperation,
     },
   };
 };

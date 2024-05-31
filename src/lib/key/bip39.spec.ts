@@ -35,9 +35,9 @@ import {
 } from '../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import bip39ExtendedVectors from './fixtures/bip39.extended-vectors.json' assert { type: 'json' };
+import bip39ExtendedVectors from './fixtures/bip39.extended-vectors.json' with { type: 'json' };
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import bip39TrezorVectorsRaw from './fixtures/bip39.trezor.json' assert { type: 'json' };
+import bip39TrezorVectorsRaw from './fixtures/bip39.trezor.json' with { type: 'json' };
 
 import { fc, testProp } from '@fast-check/ava';
 import { entropyToMnemonic, mnemonicToSeedSync } from 'bip39';

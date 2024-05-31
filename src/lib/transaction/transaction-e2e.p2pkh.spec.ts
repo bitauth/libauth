@@ -9,7 +9,7 @@ import {
   importWalletTemplate,
   lockingBytecodeToCashAddress,
   stringify,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '../lib.js';
 
 import {
@@ -41,7 +41,7 @@ test('transaction e2e tests: P2PKH (walletTemplateP2pkhHd)', (t) => {
     hdKeys: { addressIndex: 0, hdPrivateKeys: { owner: hdPrivateKey } },
   };
 
-  const compiler = walletTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBch(template);
   const lockingBytecode = compiler.generateBytecode({
     data: lockingData,
     scriptId: lockingScript,

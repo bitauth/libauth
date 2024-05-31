@@ -67,7 +67,7 @@ const isValidInteger = (
  * specification in that it does not validate the existence of a signing
  * serialization type byte at the end of the signature (to support
  * OP_CHECKDATASIG). To validate a bitcoin-encoded signature (including null
- * signatures), use {@link isValidSignatureEncodingBCHTransaction}.
+ * signatures), use {@link isValidSignatureEncodingBchTransaction}.
  *
  * @privateRemarks
  * From the Bitcoin ABC C++ implementation:
@@ -131,7 +131,7 @@ export const isValidSignatureEncodingDER = (signature: Uint8Array) => {
  *
  * @param transactionSignature - the full transaction signature
  */
-export const isValidSignatureEncodingBCHTransaction = (
+export const isValidSignatureEncodingBchTransaction = (
   transactionSignature: Uint8Array,
   validSigningSerializationTypes: number[],
 ) =>
@@ -156,7 +156,7 @@ export const isValidSignatureEncodingBCHTransaction = (
  * Bitcoin Cash's Replay Protected Sighash spec for details.)
  *
  * @param encodedSignature - a signature that passes
- * {@link isValidSignatureEncodingBCHTransaction}
+ * {@link isValidSignatureEncodingBchTransaction}
  */
 export const decodeBitcoinSignature = (encodedSignature: Uint8Array) => ({
   signature: encodedSignature.slice(0, -1),

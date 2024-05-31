@@ -5,7 +5,7 @@ import test from 'ava';
 import type { CompilationData, TransactionCommon } from '../lib.js';
 import {
   CashAddressNetworkPrefix,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   decodeTransactionCommon,
   encodeTransactionCommon,
   extractMissingVariables,
@@ -16,7 +16,7 @@ import {
   lockingBytecodeToCashAddress,
   safelyExtendCompilationData,
   stringify,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '../lib.js';
 
 import {
@@ -28,7 +28,7 @@ import {
   twoOfThreeJson,
 } from './transaction-e2e.spec.helper.js';
 
-const vm = createVirtualMachineBCH();
+const vm = createVirtualMachineBch();
 
 // eslint-disable-next-line complexity
 test('transaction e2e tests: 2-of-3 multisig', (t) => {
@@ -52,7 +52,7 @@ test('transaction e2e tests: 2-of-3 multisig', (t) => {
   };
 
   const lockingScript = 'lock';
-  const compiler = walletTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBch(template);
   const lockingBytecode = compiler.generateBytecode({
     data: lockingData,
     scriptId: lockingScript,

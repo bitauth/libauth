@@ -13,9 +13,9 @@ import {
   CashAddressDecodingError,
   cashAddressToLockingBytecode,
   crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode,
-  createInstructionSetBCH,
+  createInstructionSetBch,
   createVirtualMachine,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   decodeCashAddress,
   decodeCashAddressFormat,
   decodeHdPrivateKey,
@@ -41,7 +41,7 @@ import {
   hdPublicKeyToP2pkhCashAddress,
   hexToBin,
   lockingBytecodeToCashAddress,
-  OpcodesBCH,
+  OpcodesBch,
   privateKeyToP2pkhCashAddress,
   publicKeyToP2pkhCashAddress,
   pushToStack,
@@ -55,7 +55,7 @@ import {
   summarizeDebugTrace,
   useThreeStackItems,
   utf8ToBin,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from './lib.js';
 
 test('addresses.md: encode CashAddresses', (t) => {
@@ -690,7 +690,7 @@ test('keys.md: crackHdPrivateNodeFromHdPublicNodeAndChildPrivateNode', (t) => {
 });
 
 test('verify-transactions.md: simple verification', (t) => {
-  const vm = createVirtualMachineBCH(true);
+  const vm = createVirtualMachineBch(true);
   /* Example transaction from Virtual Machine Bytecode (VMB) test ID: "dv5k4" */
   const vmbTest = {
     description:
@@ -724,7 +724,7 @@ test('verify-transactions.md: simple verification', (t) => {
 });
 
 test('verify-transactions.md: add OP_UNROT', (t) => {
-  const instructionSet = createInstructionSetBCH(true);
+  const instructionSet = createInstructionSetBch(true);
   /**
    * A hypothetical "OP_UNROT" which rotates the top stack items in the
    * direction opposite that of OP_ROT. (The generic `<State extends ...>`
@@ -738,7 +738,7 @@ test('verify-transactions.md: add OP_UNROT', (t) => {
     );
 
   /* We assign "OP_UNROT" at the index held by "OP_RESERVED1" */
-  const opcode = OpcodesBCH.OP_RESERVED1;
+  const opcode = OpcodesBch.OP_RESERVED1;
   /* All other features of the BCH instruction set are unmodified: */
   const vm = createVirtualMachine({
     ...instructionSet,
@@ -750,7 +750,7 @@ test('verify-transactions.md: add OP_UNROT', (t) => {
 
   const OP_UNROT = `0x${binToHex(Uint8Array.of(opcode))}`;
   /* A compiler for a simple wallet template to test the new opcode: */
-  const compiler = walletTemplateToCompilerBCH({
+  const compiler = walletTemplateToCompilerBch({
     entities: {},
     scripts: {
       lock: {
@@ -771,7 +771,7 @@ test('verify-transactions.md: add OP_UNROT', (t) => {
   const trace = vm.debug(program);
   const summary = summarizeDebugTrace(trace);
   const formatted = stringifyDebugTraceSummary(summary, {
-    opcodes: { ...OpcodesBCH, [opcode]: 'OP_UNROT' },
+    opcodes: { ...OpcodesBch, [opcode]: 'OP_UNROT' },
   });
   // eslint-disable-next-line no-console
   console.log(formatted);

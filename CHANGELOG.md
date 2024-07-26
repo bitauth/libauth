@@ -1,5 +1,43 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.0
+
+### Minor Changes
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`1a03d3f`](https://github.com/bitauth/libauth/commit/1a03d3fe737783c2df7014ea70da2a3293c088c1) Thanks [@github-actions](https://github.com/apps/github-actions)! - Add support for debugging evaluations with loops
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`4043ae7`](https://github.com/bitauth/libauth/commit/4043ae73eefd4900e6f979a8b4645b4b541b2cb7) Thanks [@github-actions](https://github.com/apps/github-actions)! - Deprecate `BCH_2022_05` VM, add `BCH_2023_05`, `BCH_2025_05`, and `BCH_SPEC` VMs, update vmb_tests
+
+  Additionally, all exports have been renamed to more consistently adhere to the `camelCase` capitalization style, without exceptions for abbreviations. For example `assembleBytecodeBCH` is now `assembleBytecodeBch`. To ensure backwards-compatibility, aliases (marked with `@deprecated` TSdoc tags) are also exported using the old capitalization. These aliases will be removed in a future major version.
+
+### Patch Changes
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`1f34ca4`](https://github.com/bitauth/libauth/commit/1f34ca443f65c6696096e198bcb9a70e6f6e026c) Thanks [@github-actions](https://github.com/apps/github-actions)! - Update `isStandardOutputBytecode` to allow P2SH32
+
+  Fixes #133. Thanks for the report @rkalis!
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`d0d54b9`](https://github.com/bitauth/libauth/commit/d0d54b99445af46176804ec9a43c18a1edb9f139) Thanks [@github-actions](https://github.com/apps/github-actions)! - Fix OP_TXVERSION VMB tests, reduce 2025 nonstandard hashing density limit
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`18e1614`](https://github.com/bitauth/libauth/commit/18e16143c025807b8f81f347ea7231bdb444271d) Thanks [@github-actions](https://github.com/apps/github-actions)! - Add BCH_2026_05, add VM benchmarking
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`1a03d3f`](https://github.com/bitauth/libauth/commit/1a03d3fe737783c2df7014ea70da2a3293c088c1) Thanks [@github-actions](https://github.com/apps/github-actions)! - Add support for BigInt CHIP
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`1a03d3f`](https://github.com/bitauth/libauth/commit/1a03d3fe737783c2df7014ea70da2a3293c088c1) Thanks [@github-actions](https://github.com/apps/github-actions)! - Improve performance of all virtual machines
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`c0eadac`](https://github.com/bitauth/libauth/commit/c0eadacbbc4afcf712a602844f0317c7f715701b) Thanks [@github-actions](https://github.com/apps/github-actions)! - Run VMB benchmarks in CI
+
+- [#130](https://github.com/bitauth/libauth/pull/130) [`ade0151`](https://github.com/bitauth/libauth/commit/ade015123b2bfdbca721602cda19191c6f12252d) Thanks [@bitjson](https://github.com/bitjson)! - clarify `generateDeterministicEntropy` usage examples
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`1a03d3f`](https://github.com/bitauth/libauth/commit/1a03d3fe737783c2df7014ea70da2a3293c088c1) Thanks [@github-actions](https://github.com/apps/github-actions)! - Add support for Schnorr multisig in BCH VMs
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`49bcce4`](https://github.com/bitauth/libauth/commit/49bcce4c1bf7d96f59dad3a3dfb4a44358bfa8ec) Thanks [@github-actions](https://github.com/apps/github-actions)! - Begin implementation of BCH_2025_05 and BCH_SPEC
+
+  - Revised `AuthenticationVirtualMachine` to remove `clone` (obviated by wide availability of `structuredClone`) and add `initialize`, allowing VM proposals to add to the program state of an existing VM (in a type-safe way) without duplicating its unchanged logic.
+  - Clarified documentation around contributing upgrade proposals to Libauth VMs
+  - Allow usage of any `BCH_SPEC` opcodes in `assembleBytecodeBch`/`disassembleBytecodeBch`
+
+- [#138](https://github.com/bitauth/libauth/pull/138) [`1a03d3f`](https://github.com/bitauth/libauth/commit/1a03d3fe737783c2df7014ea70da2a3293c088c1) Thanks [@github-actions](https://github.com/apps/github-actions)! - Expand VMB benchmark tests and tooling
+
 ## 3.0.0
 
 ### Major Changes

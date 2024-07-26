@@ -1,0 +1,8 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@bitauth/libauth": "3.0.0"
+  },
+  "changesets": []
+}

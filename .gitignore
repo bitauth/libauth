@@ -10,6 +10,7 @@ coverage
 report.*.json
 scratch
 gitignore.*
+*.cpuprofile
 
 src/lib/bin/**/*.html
 src/lib/bin/**/*.js

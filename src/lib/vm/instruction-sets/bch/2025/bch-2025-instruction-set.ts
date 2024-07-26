@@ -21,13 +21,43 @@ import {
   createOpNum2Bin,
   incrementOperationCount,
   mapOverOperations,
+  opCheckMultiSig,
+  opCheckMultiSigVerify,
   pushOperation,
 } from '../../common/common.js';
 import { createInstructionSetBch2023 } from '../2023/bch-2023-instruction-set.js';
 import { OpcodesBch2023 } from '../2023/bch-2023-opcodes.js';
 
+import {
+  op0NotEqualChipBigInt,
+  op1AddChipBigInt,
+  op1SubChipBigInt,
+  opAbsChipBigInt,
+  opAddChipBigInt,
+  opBoolAndChipBigInt,
+  opBoolOrChipBigInt,
+  opDivChipBigInt,
+  opGreaterThanChipBigInt,
+  opGreaterThanOrEqualChipBigInt,
+  opLessThanChipBigInt,
+  opLessThanOrEqualChipBigInt,
+  opMaxChipBigInt,
+  opMinChipBigInt,
+  opModChipBigInt,
+  opMulChipBigInt,
+  opNegateChipBigInt,
+  opNotChipBigInt,
+  opNumEqualChipBigInt,
+  opNumEqualVerifyChipBigInt,
+  opNumNotEqualChipBigInt,
+  opSubChipBigInt,
+  opWithinChipBigInt,
+} from './bch-2025-bigint.js';
 import { opCodeSeparatorChipLimits } from './bch-2025-code-separator.js';
-import { ConsensusBch2025 } from './bch-2025-consensus.js';
+import {
+  ConsensusBch2025,
+  measureOperationCost,
+} from './bch-2025-consensus.js';
 import {
   opHash160ChipLimits,
   opHash256ChipLimits,
@@ -47,14 +77,17 @@ import { AuthenticationErrorBch2025 } from './bch-2025-errors.js';
  */
 export const createInstructionSetBch2025 = <
   AuthenticationProgramState extends AuthenticationProgramStateBch2025,
+  Consensus extends typeof ConsensusBch2025 = typeof ConsensusBch2025,
 >(
   standard = true,
   {
+    consensus = ConsensusBch2025 as Consensus,
     ripemd160,
     secp256k1,
     sha1,
     sha256,
   }: {
+    consensus?: Consensus;
     /**
      * a Ripemd160 implementation
      */
@@ -85,17 +118,24 @@ export const createInstructionSetBch2025 = <
   AuthenticationProgramBch,
   AuthenticationProgramState
 > => {
-  const instructionSet =
-    createInstructionSetBch2023<AuthenticationProgramState>(standard, {
-      ripemd160,
-      secp256k1,
-      sha1,
-      sha256,
-    });
-  const conditionallyPush = pushOperation<AuthenticationProgramState>();
+  const instructionSet = createInstructionSetBch2023<
+    AuthenticationProgramState,
+    Consensus
+  >(standard, {
+    consensus,
+    ripemd160,
+    secp256k1,
+    sha1,
+    sha256,
+  });
+  const conditionallyPush = pushOperation<AuthenticationProgramState>({
+    maximumPushSize: ConsensusBch2025.maximumStackItemLength,
+  });
   return {
     ...instructionSet,
     every: (state) => {
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+      state.metrics.operationCost = measureOperationCost(state.metrics);
       if (
         state.stack.length + state.alternateStack.length >
         ConsensusBch2025.maximumStackDepth
@@ -103,6 +143,14 @@ export const createInstructionSetBch2025 = <
         return applyError(
           state,
           AuthenticationErrorBch2025.exceededMaximumStackDepth,
+        );
+      }
+      if (
+        state.controlStack.length > ConsensusBch2025.maximumControlStackDepth
+      ) {
+        return applyError(
+          state,
+          AuthenticationErrorBch2025.exceededMaximumControlStackDepth,
         );
       }
       return state;
@@ -114,6 +162,7 @@ export const createInstructionSetBch2025 = <
         metrics: {
           ...initialState?.metrics,
           hashDigestIterations: 0,
+          maxMemoryUsage: 0,
         },
       } as Partial<AuthenticationProgramStateBch2025> as Partial<AuthenticationProgramState>;
     },
@@ -214,6 +263,44 @@ export const createInstructionSetBch2025 = <
               maximumStackItemLength: ConsensusBch2025.maximumStackItemLength,
             }),
           ),
+          [OpcodesBch2023.OP_1ADD]: conditionallyEvaluate(op1AddChipBigInt),
+          [OpcodesBch2023.OP_1SUB]: conditionallyEvaluate(op1SubChipBigInt),
+          [OpcodesBch2023.OP_NEGATE]: conditionallyEvaluate(opNegateChipBigInt),
+          [OpcodesBch2023.OP_ABS]: conditionallyEvaluate(opAbsChipBigInt),
+          [OpcodesBch2023.OP_NOT]: conditionallyEvaluate(opNotChipBigInt),
+          [OpcodesBch2023.OP_0NOTEQUAL]: conditionallyEvaluate(
+            op0NotEqualChipBigInt,
+          ),
+          [OpcodesBch2023.OP_ADD]: conditionallyEvaluate(opAddChipBigInt),
+          [OpcodesBch2023.OP_SUB]: conditionallyEvaluate(opSubChipBigInt),
+          [OpcodesBch2023.OP_MUL]: conditionallyEvaluate(opMulChipBigInt),
+          [OpcodesBch2023.OP_DIV]: conditionallyEvaluate(opDivChipBigInt),
+          [OpcodesBch2023.OP_MOD]: conditionallyEvaluate(opModChipBigInt),
+          [OpcodesBch2023.OP_BOOLAND]:
+            conditionallyEvaluate(opBoolAndChipBigInt),
+          [OpcodesBch2023.OP_BOOLOR]: conditionallyEvaluate(opBoolOrChipBigInt),
+          [OpcodesBch2023.OP_NUMEQUAL]:
+            conditionallyEvaluate(opNumEqualChipBigInt),
+          [OpcodesBch2023.OP_NUMEQUALVERIFY]: conditionallyEvaluate(
+            opNumEqualVerifyChipBigInt,
+          ),
+          [OpcodesBch2023.OP_NUMNOTEQUAL]: conditionallyEvaluate(
+            opNumNotEqualChipBigInt,
+          ),
+          [OpcodesBch2023.OP_LESSTHAN]:
+            conditionallyEvaluate(opLessThanChipBigInt),
+          [OpcodesBch2023.OP_GREATERTHAN]: conditionallyEvaluate(
+            opGreaterThanChipBigInt,
+          ),
+          [OpcodesBch2023.OP_LESSTHANOREQUAL]: conditionallyEvaluate(
+            opLessThanOrEqualChipBigInt,
+          ),
+          [OpcodesBch2023.OP_GREATERTHANOREQUAL]: conditionallyEvaluate(
+            opGreaterThanOrEqualChipBigInt,
+          ),
+          [OpcodesBch2023.OP_MIN]: conditionallyEvaluate(opMinChipBigInt),
+          [OpcodesBch2023.OP_MAX]: conditionallyEvaluate(opMaxChipBigInt),
+          [OpcodesBch2023.OP_WITHIN]: conditionallyEvaluate(opWithinChipBigInt),
           [OpcodesBch2023.OP_RIPEMD160]: conditionallyEvaluate(
             opRipemd160ChipLimits({ ripemd160, strict: standard }),
           ),
@@ -231,6 +318,20 @@ export const createInstructionSetBch2025 = <
           ),
           [OpcodesBch2023.OP_CODESEPARATOR]: conditionallyEvaluate(
             opCodeSeparatorChipLimits,
+          ),
+          [OpcodesBch2023.OP_CHECKMULTISIG]: conditionallyEvaluate(
+            opCheckMultiSig({
+              enforceOperationLimit: false,
+              secp256k1,
+              sha256,
+            }),
+          ),
+          [OpcodesBch2023.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
+            opCheckMultiSigVerify({
+              enforceOperationLimit: false,
+              secp256k1,
+              sha256,
+            }),
           ),
         },
       ),

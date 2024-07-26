@@ -2,6 +2,7 @@ import { flattenBinArray } from '../format/format.js';
 import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
+  AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
   AuthenticationVirtualMachine,
   CompilationError,
@@ -70,6 +71,7 @@ export const verifyCashAssemblyEvaluationState = <
 export const reduceScript = <
   ProgramState extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
+    AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
   AuthenticationProgram,
   ResolvedTransaction,

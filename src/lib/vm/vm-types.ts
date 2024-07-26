@@ -36,6 +36,13 @@ export type AuthenticationProgramStateStack<StackType = Uint8Array> = {
    * held on the stack.
    */
   stack: StackType[];
+  metrics: {
+    /**
+     * The cumulative byte count of all items pushed to the stack over the
+     * course of verifying the transaction.
+     */
+    stackPushedBytes: number;
+  };
 };
 
 export type AuthenticationProgramStateAlternateStack<StackType = Uint8Array> = {
@@ -157,6 +164,17 @@ export type AuthenticationProgramStateResourceLimits = {
    */
   operationCount: number;
   metrics: {
+    /**
+     * The cumulative cost of non-linear arithmetic operations (`OP_AND`,
+     * `OP_OR`, `OP_XOR`) executed over the course of verifying the transaction.
+     */
+    bitwiseCost: number;
+    /**
+     * The cumulative cost of non-linear arithmetic operations (`OP_MUL`,
+     * `OP_DIV`, `OP_MOD`) executed over the course of verifying
+     * the transaction.
+     */
+    arithmeticCost: number;
     /**
      * A count of signature checks (A.K.A. "SigChecks") performed over the
      * course of the entire evaluation as defined by the BCH_2020_05 upgrade.

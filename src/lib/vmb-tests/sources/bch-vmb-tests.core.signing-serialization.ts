@@ -26,10 +26,14 @@ const signatureTypes = [
 ] as const;
 
 const opcodePatterns = [
-  ['single sig', 'OP_2DUP OP_CHECKSIG OP_VERIFY OP_2DUP OP_CHECKSIGVERIFY'],
-  ['1-of-1 multisig', 'OP_2DUP OP_0 OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIG OP_VERIFY OP_2DUP OP_0 OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIGVERIFY'],
-  ['1-of-2 multisig (second key)', 'OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIGVERIFY'],
-  ['1-of-3 multisig (middle key)', 'OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIGVERIFY'],
+  ['single ECDSA signature', 'OP_2DUP OP_CHECKSIG OP_VERIFY OP_2DUP OP_CHECKSIGVERIFY'],
+  ['single schnorr signature', 'OP_2DUP OP_CHECKSIG OP_VERIFY OP_2DUP OP_CHECKSIGVERIFY'],
+  ['1-of-1 multisig ECDSA signature', 'OP_2DUP OP_0 OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIG OP_VERIFY OP_2DUP OP_0 OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIGVERIFY'],
+  ['1-of-2 multisig ECDSA signature (second key)', 'OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIGVERIFY'],
+  ['1-of-3 multisig ECDSA signature (middle key)', 'OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIGVERIFY'],
+  ['1-of-1 multisig schnorr signature', 'OP_2DUP <0b1> OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0b1> OP_ROT OP_ROT OP_1 OP_SWAP OP_1 OP_CHECKMULTISIGVERIFY'],
+  ['1-of-2 multisig schnorr signature (second key)', 'OP_2DUP <0b10> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0b10> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <2> OP_CHECKMULTISIGVERIFY'],
+  ['1-of-3 multisig schnorr signature (middle key)', 'OP_2DUP <0b10> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIG OP_VERIFY OP_2DUP <0b10> OP_ROT OP_ROT <1> OP_SWAP <key2.public_key> OP_SWAP <key3.public_key> <3> OP_CHECKMULTISIGVERIFY'],
 ] as const;
 
 /* eslint-disable @typescript-eslint/naming-convention, camelcase */
@@ -49,8 +53,7 @@ const akaMap: { [key in (typeof algorithms)[number]]: string } = {
 };
 /* eslint-enable @typescript-eslint/naming-convention, camelcase */
 
-// TODO: implement and verify schnorr multisig
-const combinatorial = algorithms.flatMap((algorithm) => signatureTypes.flatMap((signatureType) => opcodePatterns.flatMap((pattern) => [true, false].map((valid) => [algorithm, signatureType, pattern, valid] as const)))).filter(([_, signatureType, pattern]) => signatureType !== signatureTypes[0] || pattern === opcodePatterns[0]);
+const combinatorial = algorithms.flatMap((algorithm) => signatureTypes.flatMap((signatureType) => opcodePatterns.flatMap((pattern) => [true, false].map((valid) => [algorithm, signatureType, pattern, valid] as const)))).filter(([_, signatureType, pattern]) => pattern[0].includes(signatureType[0]));
 
 const verifyAlgorithm = combinatorial.map<VmbTestDefinition>(([algorithm, signatureType, pattern, valid]) => [
   `<signing_serialization.full_${algorithm}> <${valid ? 'key1' : 'key2'}.${signatureType[1]}.${algorithm}>`,

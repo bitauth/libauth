@@ -23,8 +23,10 @@
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["run", "ava"],
       "args": ["${file}"],
+      // "args": ["--serial", "${file}"],
       "outputCapture": "std",
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"]
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
     },
     {
       "type": "node",
@@ -32,7 +34,24 @@
       "name": "Debug VMB Test",
       "runtimeExecutable": "yarn",
       "runtimeArgs": ["run", "test:unit:vmb_test"],
-      "args": ["${input:vmVersion}", "${input:vmbTestShortId}", "-v"],
+      "args": ["${input:vmVersion}", "${input:vmbTestShortId}"],
+      // "args": ["${input:vmVersion}", "${input:vmbTestShortId}", "-v"],
+      "outputCapture": "std",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "preLaunchTask": "npm: build"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug VMB Benchmark",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": ["run", "bench:vmb_tests"],
+      "env": {
+        "BENCH_DEBUG_VM": "${input:vmVersion}",
+        "BENCH_DEBUG_TEST": "${input:vmbTestShortId}",
+        "BENCH_DEBUG_PROFILE": "${input:collectProfile}"
+      },
       "outputCapture": "std",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"],
@@ -72,6 +91,13 @@
         "bch_spec_nonstandard"
       ],
       "default": "bch_spec_standard"
+    },
+    {
+      "id": "collectProfile",
+      "description": "Collect a CPU profile?",
+      "type": "pickString",
+      "options": ["Yes", "No"],
+      "default": "Yes"
     }
   ]
 }

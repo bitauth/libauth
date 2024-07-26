@@ -14,24 +14,9 @@ import type {
   Sha1,
   Sha256,
 } from '../../../../lib.js';
-import {
-  AuthenticationErrorCommon,
-  conditionallyEvaluate,
-  incrementOperationCount,
-  mapOverOperations,
-} from '../../common/common.js';
-import {
-  opHash160ChipLimits,
-  opHash256ChipLimits,
-  opRipemd160ChipLimits,
-  opSha1ChipLimits,
-  opSha256ChipLimits,
-} from '../2025/bch-2025-crypto.js';
-import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js';
+import { createInstructionSetBch2026 } from '../2026/bch-2026-instruction-set.js';
 
-import { AuthenticationErrorBchSpec } from './bch-spec-errors.js';
-import { opBegin, opUntil } from './bch-spec-loops.js';
-import { OpcodesBchSpec } from './bch-spec-opcodes.js';
+import { ConsensusBchSpec } from './bch-spec-consensus.js';
 
 /**
  * create an instance of the `BCH_SPEC` virtual machine instruction set, an
@@ -45,14 +30,17 @@ import { OpcodesBchSpec } from './bch-spec-opcodes.js';
  */
 export const createInstructionSetBchSpec = <
   AuthenticationProgramState extends AuthenticationProgramStateBchSpec,
+  Consensus extends typeof ConsensusBchSpec = typeof ConsensusBchSpec,
 >(
   standard = true,
   {
+    consensus = ConsensusBchSpec as Consensus,
     ripemd160,
     secp256k1,
     sha1,
     sha256,
   }: {
+    consensus?: Consensus;
     /**
      * a Ripemd160 implementation
      */
@@ -84,50 +72,30 @@ export const createInstructionSetBchSpec = <
   AuthenticationProgramState
 > => {
   const instructionSet =
-    createInstructionSetBch2025<AuthenticationProgramState>(standard, {
+    createInstructionSetBch2026<AuthenticationProgramState>(standard, {
+      consensus,
       ripemd160,
       secp256k1,
       sha1,
       sha256,
     });
+  const stackSize = (stack: Uint8Array[]) =>
+    stack.reduce((sum, item) => sum + item.length, 0);
   return {
     ...instructionSet,
-    initialize: () =>
-      ({
-        ...instructionSet.initialize?.(),
-        repeatedBytes: 0,
-      }) as Partial<AuthenticationProgramStateBchSpec> as Partial<AuthenticationProgramState>,
-    operations: {
-      ...instructionSet.operations,
-      [OpcodesBchSpec.OP_BEGIN]: conditionallyEvaluate(opBegin),
-      [OpcodesBchSpec.OP_UNTIL]: conditionallyEvaluate(opUntil),
-
-      ...mapOverOperations<AuthenticationProgramStateBchSpec>(
-        [incrementOperationCount],
-        {
-          [OpcodesBchSpec.OP_RIPEMD160]: conditionallyEvaluate(
-            opRipemd160ChipLimits({ ripemd160, strict: true }),
-          ),
-          [OpcodesBchSpec.OP_SHA1]: conditionallyEvaluate(
-            opSha1ChipLimits({ sha1, strict: true }),
-          ),
-          [OpcodesBchSpec.OP_SHA256]: conditionallyEvaluate(
-            opSha256ChipLimits({ sha256, strict: true }),
-          ),
-          [OpcodesBchSpec.OP_HASH160]: conditionallyEvaluate(
-            opHash160ChipLimits({ ripemd160, sha256, strict: true }),
-          ),
-          [OpcodesBchSpec.OP_HASH256]: conditionallyEvaluate(
-            opHash256ChipLimits({ sha256, strict: true }),
-          ),
-        },
-      ),
-    },
-    success: (state) => {
-      const result = instructionSet.success(state);
-      if (result === AuthenticationErrorCommon.nonEmptyControlStack)
-        return AuthenticationErrorBchSpec.nonEmptyControlStack;
-      return result;
+    every: (state) => {
+      const nextState = instructionSet.every?.(state) ?? state;
+      /**
+       * For benchmarking/research purposes only, not required by the protocol.
+       */
+      const memoryUsage =
+        stackSize(nextState.stack) + stackSize(nextState.alternateStack);
+      // eslint-disable-next-line functional/no-conditional-statements
+      if (nextState.metrics.maxMemoryUsage < memoryUsage) {
+        // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+        nextState.metrics.maxMemoryUsage = memoryUsage;
+      }
+      return nextState;
     },
   };
 };

@@ -15,6 +15,7 @@ import {
   createVirtualMachineBch2026,
   createVirtualMachineBchSpec,
   hexToBin,
+  maskStaticProgramState,
   readTransactionCommon,
   readTransactionOutputs,
   stringify,
@@ -47,7 +48,22 @@ type DebugInfo = { testId: string; vmName: VmName } | undefined;
  */
 const debug = undefined as DebugInfo;
 /* spell-checker:disable-next-line */
-// const debug = { testId: 'dv5k4', vmName: 'bch_2023_standard' } as DebugInfo;
+// const debug = { testId: '12345', vmName: 'bch_spec_standard' } as DebugInfo;
+
+const { FILTER_VMB_TESTS, FILTER_VMB_TEST_VM } = process.env;
+
+if (FILTER_VMB_TESTS !== undefined) {
+  // eslint-disable-next-line no-console
+  console.log(
+    `The 'FILTER_VMB_TESTS' environment variable is configured to filter VMB tests to descriptions matching: ${FILTER_VMB_TESTS}`,
+  );
+}
+if (FILTER_VMB_TEST_VM !== undefined) {
+  // eslint-disable-next-line no-console
+  console.log(
+    `The 'FILTER_VMB_TEST_VM' environment variable is configured to limit VMB tests to VM version: ${FILTER_VMB_TEST_VM}`,
+  );
+}
 
 test('bch_vmb_tests.json is up to date and contains no test ID collisions', async (t) => {
   /* Trim any stack traces returned AVA */
@@ -139,6 +155,7 @@ const testVm = ({
       const sourceOutputs = sourceOutputsRead.result;
       const transaction = transactionRead.result;
       if (debug !== undefined) debugger; // eslint-disable-line no-debugger
+      const highMemory = description.includes('[high-memory]');
       const result = vm.verify({ sourceOutputs, transaction });
       const moreDetails = `For more detailed debugging information, run: "yarn test:unit:vmb_test ${vmName} ${shortId} -v"`;
       const logDebugInfo = () => {
@@ -150,9 +167,10 @@ const testVm = ({
           transaction,
         };
         const evaluateResult = vm.evaluate(program);
-        const debugResult = vm.debug(program);
+        if (highMemory) return;
+        const debugResult = vm.debug(program, { maskProgramState: true });
         t.deepEqual(
-          evaluateResult,
+          maskStaticProgramState(evaluateResult),
           debugResult[debugResult.length - 1],
           `vm.evaluate and the final result of vm.debug differ: is something being unexpectedly mutated? evaluateResult:\n\n${stringify(
             evaluateResult,
@@ -175,15 +193,20 @@ const testVm = ({
           );
           t.log(
             `Failing input at index ${failingIndex}:`,
-            stringifyDebugTraceSummary(
-              summarizeDebugTrace(
-                vm.debug({
-                  inputIndex: Number(failingIndex),
-                  sourceOutputs,
-                  transaction,
-                }),
-              ),
-            ),
+            highMemory
+              ? '(Skipped vm.debug due to "[high-memory]" label.)'
+              : stringifyDebugTraceSummary(
+                  summarizeDebugTrace(
+                    vm.debug(
+                      {
+                        inputIndex: Number(failingIndex),
+                        sourceOutputs,
+                        transaction,
+                      },
+                      { maskProgramState: true },
+                    ),
+                  ),
+                ),
           );
           t.log(moreDetails);
           return;
@@ -212,12 +235,24 @@ const testVm = ({
   });
   const expectedPass = succeeds.flat(1);
   const expectedFail = fails.flat(1);
-  expectedPass.forEach((testCase, index) => {
-    (debug === undefined
+
+  // eslint-disable-next-line complexity
+  const testOrSkip = ({
+    description,
+    testId,
+  }: {
+    description: string;
+    testId: string;
+  }): typeof test | typeof test.skip =>
+    (FILTER_VMB_TEST_VM === undefined || vmName.includes(FILTER_VMB_TEST_VM)) &&
+    (FILTER_VMB_TESTS === undefined ||
+      description.includes(FILTER_VMB_TESTS)) &&
+    (debug === undefined ||
+      (vmName === debug.vmName && debug.testId === testId))
       ? test
-      : vmName === debug.vmName && debug.testId === testCase[0]
-        ? test
-        : test.skip)(
+      : test.skip;
+  expectedPass.forEach((testCase, index) => {
+    testOrSkip({ description: testCase[1], testId: testCase[0] })(
       `(${index + 1}/${expectedPass.length + expectedFail.length} valid)`,
       runCase,
       testCase,
@@ -225,11 +260,7 @@ const testVm = ({
     );
   });
   expectedFail.forEach((testCase, index) => {
-    (debug === undefined
-      ? test
-      : vmName === debug.vmName && debug.testId === testCase[0]
-        ? test
-        : test.skip)(
+    testOrSkip({ description: testCase[1], testId: testCase[0] })(
       `(${expectedPass.length + index + 1}/${
         expectedPass.length + expectedFail.length
       } invalid)`,

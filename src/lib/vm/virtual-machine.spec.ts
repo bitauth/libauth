@@ -3,7 +3,6 @@ import test from 'ava';
 import type {
   AuthenticationInstruction,
   AuthenticationProgramStateMinimum,
-  AuthenticationProgramStateStack,
   InstructionSet,
 } from '../lib.js';
 import { createVirtualMachine } from '../lib.js';
@@ -33,11 +32,11 @@ type SimpleProgram = {
   instructions: AuthenticationInstruction[];
 };
 
-type SimpleProgramState = AuthenticationProgramStateMinimum &
-  AuthenticationProgramStateStack<number> & {
-    repeated?: true;
-    error?: string;
-  };
+type SimpleProgramState = AuthenticationProgramStateMinimum & {
+  stack: number[];
+  repeated?: true;
+  error?: string;
+};
 
 const simpleInstructionSet: InstructionSet<
   SimpleResolvedTransaction,
@@ -196,6 +195,60 @@ test('vm.debug with a simple instruction set', (t) => {
     },
     {
       instructions,
+      ip: 6,
+      metrics: { executedInstructionCount: 6 },
+      stack: [1],
+    },
+  ]);
+});
+
+test('vm.debug with a simple instruction set (masked)', (t) => {
+  const results = vm.debug({ instructions }, { maskProgramState: true });
+  t.deepEqual(results, [
+    {
+      instruction: { opcode: 0 },
+      ip: 0,
+      metrics: { executedInstructionCount: 0 },
+      stack: [],
+    },
+    {
+      instruction: { opcode: 1 },
+      ip: 1,
+      metrics: { executedInstructionCount: 1 },
+      stack: [0],
+    },
+    {
+      instruction: { opcode: 1 },
+      ip: 2,
+      metrics: { executedInstructionCount: 2 },
+      stack: [1],
+    },
+    {
+      instruction: { opcode: 0 },
+      ip: 3,
+      metrics: { executedInstructionCount: 3 },
+      stack: [2],
+    },
+    {
+      instruction: { opcode: 2 },
+      ip: 4,
+      metrics: { executedInstructionCount: 4 },
+      stack: [2, 0],
+    },
+    {
+      instruction: { opcode: 3 },
+      ip: 5,
+      metrics: { executedInstructionCount: 5 },
+      stack: [2, -1],
+    },
+    {
+      instruction: undefined,
+      ip: 6,
+      metrics: { executedInstructionCount: 6 },
+      stack: [1],
+    },
+    {
+      instruction: undefined,
       ip: 6,
       metrics: { executedInstructionCount: 6 },
       stack: [1],

@@ -39,6 +39,7 @@
     "cashaddr",
     "CASHTOKENS",
     "Chaingraph",
+    "checkbits",
     "CHECKDATASIG",
     "CHECKDATASIGVERIFY",
     "CHECKLOCKTIMEVERIFY",

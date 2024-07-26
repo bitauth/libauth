@@ -27,11 +27,13 @@ import {
   opSha1ChipLimits,
   opSha256ChipLimits,
 } from '../2025/bch-2025-crypto.js';
-import { AuthenticationErrorBch2025 } from '../2025/bch-2025-errors.js';
 import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js';
+import { AuthenticationErrorBch2026 } from '../2026/bch-2026-errors.js';
+import { opBegin, opUntil } from '../2026/bch-2026-loops.js';
 
+import { ConsensusBch2026 } from './bch-2026-consensus.js';
+import { OpcodesBch2026 } from './bch-2026-opcodes.js';
 import type { AuthenticationProgramStateBch2026 } from './bch-2026-types.js';
-
 /**
  * * Initialize a virtual machine using the `BCH_2026_05` instruction set.
  *
@@ -42,14 +44,17 @@ import type { AuthenticationProgramStateBch2026 } from './bch-2026-types.js';
  */
 export const createInstructionSetBch2026 = <
   AuthenticationProgramState extends AuthenticationProgramStateBch2026,
+  Consensus extends typeof ConsensusBch2026 = typeof ConsensusBch2026,
 >(
   standard = true,
   {
+    consensus = ConsensusBch2026 as Consensus,
     ripemd160,
     secp256k1,
     sha1,
     sha256,
   }: {
+    consensus?: Consensus;
     /**
      * a Ripemd160 implementation
      */
@@ -82,6 +87,7 @@ export const createInstructionSetBch2026 = <
 > => {
   const instructionSet =
     createInstructionSetBch2025<AuthenticationProgramState>(standard, {
+      consensus,
       ripemd160,
       secp256k1,
       sha1,
@@ -89,6 +95,11 @@ export const createInstructionSetBch2026 = <
     });
   return {
     ...instructionSet,
+    initialize: () =>
+      ({
+        ...instructionSet.initialize?.(),
+        repeatedBytes: 0,
+      }) as Partial<AuthenticationProgramStateBch2026> as Partial<AuthenticationProgramState>,
     operations: {
       ...instructionSet.operations,
       ...mapOverOperations<AuthenticationProgramState>(
@@ -111,11 +122,19 @@ export const createInstructionSetBch2026 = <
           ),
         },
       ),
+      [OpcodesBch2026.OP_BEGIN]: opBegin,
+      [OpcodesBch2026.OP_UNTIL]: opUntil,
     },
     success: (state) => {
       const result = instructionSet.success(state);
-      if (result === AuthenticationErrorCommon.nonEmptyControlStack)
-        return AuthenticationErrorBch2025.nonEmptyControlStack;
+      if (
+        typeof result === 'string' &&
+        result.includes(AuthenticationErrorCommon.nonEmptyControlStack)
+      )
+        return result.replace(
+          AuthenticationErrorCommon.nonEmptyControlStack,
+          AuthenticationErrorBch2026.nonEmptyControlStack,
+        );
       return result;
     },
   };

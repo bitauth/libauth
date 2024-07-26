@@ -30,9 +30,9 @@ export type TestedVM =
  * VM's performance in validating all other VMB tests should be compared to this
  * baseline to identify performance bottlenecks.
  */
-// cspell:ignore trxhz
-export const baselineBenchmarkId = 'trxhz';
-export const baselineBenchmarkTransactionSize = 366;
+// cspell:ignore trxhzt
+export const baselineBenchmarkId = 'trxhzt';
+export const baselineBenchmarkTransactionByteLength = 366;
 
 export const vms = {
   /* eslint-disable @typescript-eslint/naming-convention, camelcase */

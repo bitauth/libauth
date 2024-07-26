@@ -10,6 +10,7 @@ import {
 } from '../../../../crypto/crypto.js';
 import { binToHex } from '../../../../format/format.js';
 import type {
+  AuthenticationInstructionMalformed,
   AuthenticationProgramBch,
   AuthenticationProgramStateBch,
   InstructionSet,
@@ -29,6 +30,7 @@ import {
   createOpNum2Bin,
   decodeAuthenticationInstructions,
   disabledOperation,
+  disassembleAuthenticationInstructionMalformed,
   getDustThreshold,
   incrementOperationCount,
   isArbitraryDataOutput,
@@ -56,7 +58,11 @@ import {
   opCheckDataSig,
   opCheckDataSigVerify,
   opCheckLockTimeVerify,
+  opCheckMultiSig,
+  opCheckMultiSigVerify,
   opCheckSequenceVerify,
+  opCheckSig,
+  opCheckSigVerify,
   opCodeSeparator,
   opDepth,
   opDiv,
@@ -128,12 +134,6 @@ import {
 } from '../../common/common.js';
 
 import { ConsensusBch2023 } from './bch-2023-consensus.js';
-import {
-  opCheckMultiSigBch2023,
-  opCheckMultiSigVerifyBch2023,
-  opCheckSigBch2023,
-  opCheckSigVerifyBch2023,
-} from './bch-2023-crypto.js';
 import { OpcodesBch2023 } from './bch-2023-opcodes.js';
 import {
   opOutputTokenAmount,
@@ -155,14 +155,17 @@ import {
  */
 export const createInstructionSetBch2023 = <
   AuthenticationProgramState extends AuthenticationProgramStateBch,
+  Consensus extends typeof ConsensusBch2023 = typeof ConsensusBch2023,
 >(
   standard = true,
   {
+    consensus = ConsensusBch2023 as Consensus,
     ripemd160,
     secp256k1,
     sha1,
     sha256,
   }: {
+    consensus?: Consensus;
     /**
      * a Ripemd160 implementation
      */
@@ -222,16 +225,22 @@ export const createInstructionSetBch2023 = <
         },
       } as AuthenticationProgramState;
 
-      if (unlockingBytecode.length > ConsensusBch2023.maximumBytecodeLength) {
+      if (unlockingBytecode.length > consensus.maximumBytecodeLength) {
         return applyError(
           initialState,
-          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${ConsensusBch2023.maximumBytecodeLength} bytes).`,
+          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${consensus.maximumBytecodeLength} bytes).`,
         );
       }
       if (authenticationInstructionsAreMalformed(unlockingInstructions)) {
         return applyError(
           initialState,
           AuthenticationErrorCommon.malformedUnlockingBytecode,
+          `Malformed instruction: ${disassembleAuthenticationInstructionMalformed(
+            OpcodesBch2023,
+            unlockingInstructions[
+              unlockingInstructions.length - 1
+            ] as AuthenticationInstructionMalformed,
+          )}.`,
         );
       }
       if (!isPushOnly(unlockingBytecode)) {
@@ -240,16 +249,23 @@ export const createInstructionSetBch2023 = <
           AuthenticationErrorCommon.requiresPushOnly,
         );
       }
-      if (lockingBytecode.length > ConsensusBch2023.maximumBytecodeLength) {
+      if (lockingBytecode.length > consensus.maximumBytecodeLength) {
         return applyError(
           initialState,
           AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking,
+          `Locking bytecode length: ${lockingBytecode.length}.`,
         );
       }
       if (authenticationInstructionsAreMalformed(lockingInstructions)) {
         return applyError(
           initialState,
           AuthenticationErrorCommon.malformedLockingBytecode,
+          `Malformed instruction: ${disassembleAuthenticationInstructionMalformed(
+            OpcodesBch2023,
+            lockingInstructions[
+              lockingInstructions.length - 1
+            ] as AuthenticationInstructionMalformed,
+          )}.`,
         );
       }
       const unlockingResult = stateEvaluate(initialState);
@@ -260,6 +276,7 @@ export const createInstructionSetBch2023 = <
         return applyError(
           initialState,
           AuthenticationErrorCommon.nonEmptyControlStack,
+          `Control stack depth: ${unlockingResult.controlStack.length}.`,
         );
       }
       const lockingResult = stateEvaluate({
@@ -307,9 +324,9 @@ export const createInstructionSetBch2023 = <
     },
     every: (state) =>
       state.stack.length + state.alternateStack.length >
-      ConsensusBch2023.maximumStackDepth
+      consensus.maximumStackDepth
         ? applyError(state, AuthenticationErrorCommon.exceededMaximumStackDepth)
-        : state.operationCount > ConsensusBch2023.maximumOperationCount
+        : state.operationCount > consensus.maximumOperationCount
           ? applyError(
               state,
               AuthenticationErrorCommon.exceededMaximumOperationCount,
@@ -323,8 +340,12 @@ export const createInstructionSetBch2023 = <
         ip: 0,
         lastCodeSeparator: -1,
         metrics: {
+          arithmeticCost: 0,
+          bitwiseCost: 0,
           executedInstructionCount: 0,
+          maxMemoryUsage: 0,
           signatureCheckCount: 0,
+          stackPushedBytes: 0,
         },
         operationCount: 0,
         signedMessages: [],
@@ -525,16 +546,24 @@ export const createInstructionSetBch2023 = <
           [OpcodesBch2023.OP_CODESEPARATOR]:
             conditionallyEvaluate(opCodeSeparator),
           [OpcodesBch2023.OP_CHECKSIG]: conditionallyEvaluate(
-            opCheckSigBch2023({ secp256k1, sha256 }),
+            opCheckSig({ secp256k1, sha256 }),
           ),
           [OpcodesBch2023.OP_CHECKSIGVERIFY]: conditionallyEvaluate(
-            opCheckSigVerifyBch2023({ secp256k1, sha256 }),
+            opCheckSigVerify({ secp256k1, sha256 }),
           ),
           [OpcodesBch2023.OP_CHECKMULTISIG]: conditionallyEvaluate(
-            opCheckMultiSigBch2023({ secp256k1, sha256 }),
+            opCheckMultiSig({
+              enforceOperationLimit: true,
+              secp256k1,
+              sha256,
+            }),
           ),
           [OpcodesBch2023.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
-            opCheckMultiSigVerifyBch2023({ secp256k1, sha256 }),
+            opCheckMultiSigVerify({
+              enforceOperationLimit: true,
+              secp256k1,
+              sha256,
+            }),
           ),
           ...(standard
             ? {
@@ -660,15 +689,11 @@ export const createInstructionSetBch2023 = <
       }
 
       const transactionLengthBytes = encodeTransactionBch(transaction).length;
-      if (
-        transactionLengthBytes < ConsensusBch2023.minimumTransactionLengthBytes
-      ) {
-        return `Invalid transaction byte length: the transaction is ${transactionLengthBytes} bytes, but transactions must be no smaller than ${ConsensusBch2023.minimumTransactionLengthBytes} bytes to prevent an exploit of the transaction Merkle tree design.`;
+      if (transactionLengthBytes < consensus.minimumTransactionLengthBytes) {
+        return `Invalid transaction byte length: the transaction is ${transactionLengthBytes} bytes, but transactions must be no smaller than ${consensus.minimumTransactionLengthBytes} bytes to prevent an exploit of the transaction Merkle tree design.`;
       }
-      if (
-        transactionLengthBytes > ConsensusBch2023.maximumTransactionLengthBytes
-      ) {
-        return `Transaction exceeds maximum byte length: the transaction is ${transactionLengthBytes} bytes, but the maximum transaction size is ${ConsensusBch2023.maximumTransactionLengthBytes} bytes.`;
+      if (transactionLengthBytes > consensus.maximumTransactionLengthBytes) {
+        return `Transaction exceeds maximum byte length: the transaction is ${transactionLengthBytes} bytes, but the maximum transaction size is ${consensus.maximumTransactionLengthBytes} bytes.`;
       }
 
       const inputValue = sourceOutputs.reduce(
@@ -701,17 +726,14 @@ export const createInstructionSetBch2023 = <
         return `Unable to verify transaction: the transaction attempts to spend the same outpoint in multiple inputs. ${firstDuplicate}.`;
       }
       if (
-        transaction.version < ConsensusBch2023.minimumConsensusVersion ||
-        transaction.version > ConsensusBch2023.maximumConsensusVersion
+        transaction.version < consensus.minimumConsensusVersion ||
+        transaction.version > consensus.maximumConsensusVersion
       ) {
         return `Transaction version must be either 1 or 2. Encoded version number: ${transaction.version}.`;
       }
       if (standard) {
-        if (
-          transactionLengthBytes >
-          ConsensusBch2023.maximumStandardTransactionSize
-        ) {
-          return `Transaction exceeds maximum standard size: this transaction is ${transactionLengthBytes} bytes, but the maximum standard transaction size is ${ConsensusBch2023.maximumStandardTransactionSize} bytes.`;
+        if (transactionLengthBytes > consensus.maximumStandardTransactionSize) {
+          return `Transaction exceeds maximum standard size: this transaction is ${transactionLengthBytes} bytes, but the maximum standard transaction size is ${consensus.maximumStandardTransactionSize} bytes.`;
         }
 
         // eslint-disable-next-line functional/no-loop-statements
@@ -739,19 +761,17 @@ export const createInstructionSetBch2023 = <
             )} satoshis. Current value: ${output.valueSatoshis}`;
           }
         }
-        if (
-          totalArbitraryDataBytes > ConsensusBch2023.maximumDataCarrierBytes
-        ) {
-          return `Standard transactions may carry no more than ${ConsensusBch2023.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
+        if (totalArbitraryDataBytes > consensus.maximumDataCarrierBytes) {
+          return `Standard transactions may carry no more than ${consensus.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
         }
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, input] of transaction.inputs.entries()) {
           if (
             input.unlockingBytecode.length >
-            ConsensusBch2023.maximumStandardUnlockingBytecodeLength
+            consensus.maximumStandardUnlockingBytecodeLength
           ) {
-            return `Input index ${index} is non-standard: the unlocking bytecode (${input.unlockingBytecode.length} bytes) exceeds the maximum standard unlocking bytecode length (${ConsensusBch2023.maximumStandardUnlockingBytecodeLength} bytes).`;
+            return `Input index ${index} is non-standard: the unlocking bytecode (${input.unlockingBytecode.length} bytes) exceeds the maximum standard unlocking bytecode length (${consensus.maximumStandardUnlockingBytecodeLength} bytes).`;
           }
           if (!isPushOnly(input.unlockingBytecode)) {
             return `Input index ${index} is non-standard: unlocking bytecode may contain only push operations.`;
@@ -776,7 +796,7 @@ export const createInstructionSetBch2023 = <
       for (const index of transaction.inputs.keys()) {
         const state = evaluate(
           { inputIndex: index, sourceOutputs, transaction },
-          stateOverride,
+          { stateOverride },
         );
         const result = success(state);
         if (typeof result === 'string') {

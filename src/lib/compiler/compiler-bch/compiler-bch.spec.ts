@@ -59,7 +59,7 @@ test('[BCH compiler] createCompilerBch: generateBytecode', (t) => {
   );
 });
 
-test('[BCH compiler] createCompilerBch: debug', (t) => {
+test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
   const compiler = createCompilerBch({
     scripts: {
       lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',

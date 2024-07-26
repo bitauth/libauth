@@ -3,7 +3,7 @@ import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
-  CompilationContextBCH,
+  CompilationContextBch,
   CompilationContextCommon,
   CompilationData,
   CompilationResult,
@@ -26,7 +26,7 @@ export const compileScript = <
     AuthenticationProgramStateStack = AuthenticationProgramStateControlStack &
     AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
-  CompilationContext extends CompilationContextCommon = CompilationContextBCH,
+  CompilationContext extends CompilationContextCommon = CompilationContextBch,
 >(
   scriptId: string,
   data: CompilationData<CompilationContext>,

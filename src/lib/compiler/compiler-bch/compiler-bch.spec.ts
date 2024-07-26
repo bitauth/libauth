@@ -1,13 +1,8 @@
 import test from 'ava';
 
-import type {
-  AuthenticationInstruction,
-  AuthenticationProgramBCH,
-} from '../../lib.js';
 import {
-  createAuthenticationProgramStateCommon,
   createCompilationContextCommonTesting,
-  createCompilerBCH,
+  createCompilerBch,
   hexToBin,
   stringifyTestVector,
 } from '../../lib.js';
@@ -15,11 +10,11 @@ import {
 // prettier-ignore
 const privkey = new Uint8Array([0xf8, 0x5d, 0x4b, 0xd8, 0xa0, 0x3c, 0xa1, 0x06, 0xc9, 0xde, 0xb4, 0x7b, 0x79, 0x18, 0x03, 0xda, 0xc7, 0xf0, 0x33, 0x38, 0x09, 0xe3, 0xf1, 0xdd, 0x04, 0xd1, 0x82, 0xe0, 0xab, 0xa6, 0xe5, 0x53]);
 
-test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
-  const compiler = createCompilerBCH({
+test('[BCH compiler] createCompilerBch: generateBytecode', (t) => {
+  const compiler = createCompilerBch({
     scripts: {
-      lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
-      unlock: '<a.ecdsa_signature.all_outputs> <a.public_key>',
+      lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
+      unlock: '<a.schnorr_signature.all_outputs> <a.public_key>',
     },
     unlockingScripts: {
       unlock: 'lock',
@@ -56,7 +51,7 @@ test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
     resultUnlock,
     {
       bytecode: hexToBin(
-        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
+        '412000c439d7eb94cb7b501560a2e96fe9eb7d9a4083f0ab84408fb0fab97e51f6ed4d8a4d7aae3bc805afe3aa8b75f6bf74fa102529349c9d0d112d2c34ec9b2b41210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
       ),
       success: true,
     },
@@ -64,25 +59,8 @@ test.failing('[BCH compiler] createCompilerBCH: generateBytecode', (t) => {
   );
 });
 
-test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
-  const program = createCompilationContextCommonTesting({
-    inputs: [
-      {
-        outpointIndex: 0,
-        outpointTransactionHash: Uint8Array.of(1),
-        sequenceNumber: 0,
-        unlockingBytecode: Uint8Array.of(),
-      },
-    ],
-  }) as AuthenticationProgramBCH;
-  const createState = (instructions: AuthenticationInstruction[]) =>
-    createAuthenticationProgramStateCommon({
-      instructions,
-      program,
-      stack: [],
-    });
-  const compiler = createCompilerBCH({
-    createState,
+test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
+  const compiler = createCompilerBch({
     scripts: {
       lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
       unlock: '<a.ecdsa_signature.all_outputs> <a.public_key>',
@@ -160,7 +138,6 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               line: 1,
               offset: 18,
             },
-
             value: {
               end: {
                 column: 48,
@@ -303,7 +280,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
         },
         script: [
           {
-            bytecode: Uint8Array.of(0x76),
+            bytecode: hexToBin('76'),
             range: {
               endColumn: 7,
               endLineNumber: 1,
@@ -312,7 +289,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
             },
           },
           {
-            bytecode: Uint8Array.of(0xa9),
+            bytecode: hexToBin('a9'),
             range: {
               endColumn: 18,
               endLineNumber: 1,
@@ -388,7 +365,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                         },
                       },
                       {
-                        bytecode: Uint8Array.of(0xa9),
+                        bytecode: hexToBin('a9'),
                         range: {
                           endColumn: 47,
                           endLineNumber: 1,
@@ -405,11 +382,45 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       instructions: [],
                       ip: 0,
                       lastCodeSeparator: -1,
+                      metrics: {
+                        executedInstructionCount: 0,
+                        signatureCheckCount: 0,
+                      },
                       operationCount: 0,
-                      program,
-                      signatureOperationsCount: 0,
+                      program: {
+                        inputIndex: 0,
+                        sourceOutputs: [
+                          {
+                            lockingBytecode: hexToBin(
+                              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5a9',
+                            ),
+                            valueSatoshis: 0n,
+                          },
+                        ],
+                        transaction: {
+                          inputs: [
+                            {
+                              outpointIndex: 0,
+                              outpointTransactionHash: hexToBin(
+                                '0000000000000000000000000000000000000000000000000000000000000000',
+                              ),
+                              sequenceNumber: 0,
+                              unlockingBytecode: hexToBin(''),
+                            },
+                          ],
+                          locktime: 0,
+                          outputs: [
+                            {
+                              lockingBytecode: hexToBin(''),
+                              valueSatoshis: 0n,
+                            },
+                          ],
+                          version: 0,
+                        },
+                      },
                       signedMessages: [],
                       stack: [],
+                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -427,11 +438,45 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       ],
                       ip: 0,
                       lastCodeSeparator: -1,
+                      metrics: {
+                        executedInstructionCount: 0,
+                        signatureCheckCount: 0,
+                      },
                       operationCount: 0,
-                      program,
-                      signatureOperationsCount: 0,
+                      program: {
+                        inputIndex: 0,
+                        sourceOutputs: [
+                          {
+                            lockingBytecode: hexToBin(
+                              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5a9',
+                            ),
+                            valueSatoshis: 0n,
+                          },
+                        ],
+                        transaction: {
+                          inputs: [
+                            {
+                              outpointIndex: 0,
+                              outpointTransactionHash: hexToBin(
+                                '0000000000000000000000000000000000000000000000000000000000000000',
+                              ),
+                              sequenceNumber: 0,
+                              unlockingBytecode: hexToBin(''),
+                            },
+                          ],
+                          locktime: 0,
+                          outputs: [
+                            {
+                              lockingBytecode: hexToBin(''),
+                              valueSatoshis: 0n,
+                            },
+                          ],
+                          version: 0,
+                        },
+                      },
                       signedMessages: [],
                       stack: [],
+                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -449,15 +494,49 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       ],
                       ip: 1,
                       lastCodeSeparator: -1,
+                      metrics: {
+                        executedInstructionCount: 1,
+                        signatureCheckCount: 0,
+                      },
                       operationCount: 0,
-                      program,
-                      signatureOperationsCount: 0,
+                      program: {
+                        inputIndex: 0,
+                        sourceOutputs: [
+                          {
+                            lockingBytecode: hexToBin(
+                              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5a9',
+                            ),
+                            valueSatoshis: 0n,
+                          },
+                        ],
+                        transaction: {
+                          inputs: [
+                            {
+                              outpointIndex: 0,
+                              outpointTransactionHash: hexToBin(
+                                '0000000000000000000000000000000000000000000000000000000000000000',
+                              ),
+                              sequenceNumber: 0,
+                              unlockingBytecode: hexToBin(''),
+                            },
+                          ],
+                          locktime: 0,
+                          outputs: [
+                            {
+                              lockingBytecode: hexToBin(''),
+                              valueSatoshis: 0n,
+                            },
+                          ],
+                          version: 0,
+                        },
+                      },
                       signedMessages: [],
                       stack: [
                         hexToBin(
                           '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                         ),
                       ],
+                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -475,13 +554,47 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       ],
                       ip: 2,
                       lastCodeSeparator: -1,
+                      metrics: {
+                        executedInstructionCount: 2,
+                        signatureCheckCount: 0,
+                      },
                       operationCount: 1,
-                      program,
-                      signatureOperationsCount: 0,
+                      program: {
+                        inputIndex: 0,
+                        sourceOutputs: [
+                          {
+                            lockingBytecode: hexToBin(
+                              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5a9',
+                            ),
+                            valueSatoshis: 0n,
+                          },
+                        ],
+                        transaction: {
+                          inputs: [
+                            {
+                              outpointIndex: 0,
+                              outpointTransactionHash: hexToBin(
+                                '0000000000000000000000000000000000000000000000000000000000000000',
+                              ),
+                              sequenceNumber: 0,
+                              unlockingBytecode: hexToBin(''),
+                            },
+                          ],
+                          locktime: 0,
+                          outputs: [
+                            {
+                              lockingBytecode: hexToBin(''),
+                              valueSatoshis: 0n,
+                            },
+                          ],
+                          version: 0,
+                        },
+                      },
                       signedMessages: [],
                       stack: [
                         hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
                       ],
+                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -499,13 +612,47 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                       ],
                       ip: 2,
                       lastCodeSeparator: -1,
+                      metrics: {
+                        executedInstructionCount: 2,
+                        signatureCheckCount: 0,
+                      },
                       operationCount: 1,
-                      program,
-                      signatureOperationsCount: 0,
+                      program: {
+                        inputIndex: 0,
+                        sourceOutputs: [
+                          {
+                            lockingBytecode: hexToBin(
+                              '210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5a9',
+                            ),
+                            valueSatoshis: 0n,
+                          },
+                        ],
+                        transaction: {
+                          inputs: [
+                            {
+                              outpointIndex: 0,
+                              outpointTransactionHash: hexToBin(
+                                '0000000000000000000000000000000000000000000000000000000000000000',
+                              ),
+                              sequenceNumber: 0,
+                              unlockingBytecode: hexToBin(''),
+                            },
+                          ],
+                          locktime: 0,
+                          outputs: [
+                            {
+                              lockingBytecode: hexToBin(''),
+                              valueSatoshis: 0n,
+                            },
+                          ],
+                          version: 0,
+                        },
+                      },
                       signedMessages: [],
                       stack: [
                         hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
                       ],
+                      transactionLengthBytes: 60,
                     },
                   ],
                 },
@@ -519,7 +666,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
             },
           },
           {
-            bytecode: Uint8Array.of(0x88),
+            bytecode: hexToBin('88'),
             range: {
               endColumn: 64,
               endLineNumber: 1,
@@ -528,7 +675,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
             },
           },
           {
-            bytecode: Uint8Array.of(0xac),
+            bytecode: hexToBin('ac'),
             range: {
               endColumn: 76,
               endLineNumber: 1,
@@ -548,7 +695,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
             startLineNumber: 1,
           },
           type: 'bytecode',
-          value: Uint8Array.of(0x76),
+          value: hexToBin('76'),
         },
         {
           opcode: 'OP_HASH160',
@@ -559,7 +706,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
             startLineNumber: 1,
           },
           type: 'bytecode',
-          value: Uint8Array.of(0xa9),
+          value: hexToBin('a9'),
         },
         {
           range: {
@@ -612,7 +759,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                     startLineNumber: 1,
                   },
                   type: 'bytecode',
-                  value: Uint8Array.of(0xa9),
+                  value: hexToBin('a9'),
                 },
               ],
             },
@@ -627,7 +774,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
             startLineNumber: 1,
           },
           type: 'bytecode',
-          value: Uint8Array.of(0x88),
+          value: hexToBin('88'),
         },
         {
           opcode: 'OP_CHECKSIG',
@@ -638,7 +785,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
             startLineNumber: 1,
           },
           type: 'bytecode',
-          value: Uint8Array.of(0xac),
+          value: hexToBin('ac'),
         },
       ],
       success: true,
@@ -658,100 +805,44 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
     resultUnlock,
     {
       bytecode: hexToBin(
-        '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
+        '483045022100f129fea5cb875fe5f35e3b2cf919aaf2211340cb49de5253db1d0726cf5f3b7c0220747c59400a81473510883199f59a3f957adf0418dff9d1549ed985bf0b66c4af41210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
       ),
       parse: {
-        end: {
-          column: 41,
-          line: 1,
-          offset: 40,
-        },
+        end: { column: 47, line: 1, offset: 46 },
         name: 'Script',
-        start: {
-          column: 1,
-          line: 1,
-          offset: 0,
-        },
+        start: { column: 1, line: 1, offset: 0 },
         value: [
           {
-            end: {
-              column: 26,
-              line: 1,
-              offset: 25,
-            },
+            end: { column: 32, line: 1, offset: 31 },
             name: 'Push',
-            start: {
-              column: 1,
-              line: 1,
-              offset: 0,
-            },
+            start: { column: 1, line: 1, offset: 0 },
             value: {
-              end: {
-                column: 25,
-                line: 1,
-                offset: 24,
-              },
+              end: { column: 31, line: 1, offset: 30 },
               name: 'Script',
-              start: {
-                column: 2,
-                line: 1,
-                offset: 1,
-              },
+              start: { column: 2, line: 1, offset: 1 },
               value: [
                 {
-                  end: {
-                    column: 25,
-                    line: 1,
-                    offset: 24,
-                  },
+                  end: { column: 31, line: 1, offset: 30 },
                   name: 'Identifier',
-                  start: {
-                    column: 2,
-                    line: 1,
-                    offset: 1,
-                  },
+                  start: { column: 2, line: 1, offset: 1 },
                   value: 'a.ecdsa_signature.all_outputs',
                 },
               ],
             },
           },
           {
-            end: {
-              column: 41,
-              line: 1,
-              offset: 40,
-            },
+            end: { column: 47, line: 1, offset: 46 },
             name: 'Push',
-            start: {
-              column: 27,
-              line: 1,
-              offset: 26,
-            },
+            start: { column: 33, line: 1, offset: 32 },
             value: {
-              end: {
-                column: 40,
-                line: 1,
-                offset: 39,
-              },
+              end: { column: 46, line: 1, offset: 45 },
               name: 'Script',
-              start: {
-                column: 28,
-                line: 1,
-                offset: 27,
-              },
+              start: { column: 34, line: 1, offset: 33 },
               value: [
                 {
-                  end: {
-                    column: 40,
-                    line: 1,
-                    offset: 39,
-                  },
+                  end: { column: 46, line: 1, offset: 45 },
                   name: 'Identifier',
-                  start: {
-                    column: 28,
-                    line: 1,
-                    offset: 27,
-                  },
+                  start: { column: 34, line: 1, offset: 33 },
                   value: 'a.public_key',
                 },
               ],
@@ -761,10 +852,10 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
       },
       reduce: {
         bytecode: hexToBin(
-          '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
+          '483045022100f129fea5cb875fe5f35e3b2cf919aaf2211340cb49de5253db1d0726cf5f3b7c0220747c59400a81473510883199f59a3f957adf0418dff9d1549ed985bf0b66c4af41210376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
         ),
         range: {
-          endColumn: 41,
+          endColumn: 47,
           endLineNumber: 1,
           startColumn: 1,
           startLineNumber: 1,
@@ -772,14 +863,14 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
         script: [
           {
             bytecode: hexToBin(
-              '47304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
+              '483045022100f129fea5cb875fe5f35e3b2cf919aaf2211340cb49de5253db1d0726cf5f3b7c0220747c59400a81473510883199f59a3f957adf0418dff9d1549ed985bf0b66c4af41',
             ),
             push: {
               bytecode: hexToBin(
-                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
+                '3045022100f129fea5cb875fe5f35e3b2cf919aaf2211340cb49de5253db1d0726cf5f3b7c0220747c59400a81473510883199f59a3f957adf0418dff9d1549ed985bf0b66c4af41',
               ),
               range: {
-                endColumn: 25,
+                endColumn: 31,
                 endLineNumber: 1,
                 startColumn: 2,
                 startLineNumber: 1,
@@ -787,10 +878,10 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               script: [
                 {
                   bytecode: hexToBin(
-                    '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
+                    '3045022100f129fea5cb875fe5f35e3b2cf919aaf2211340cb49de5253db1d0726cf5f3b7c0220747c59400a81473510883199f59a3f957adf0418dff9d1549ed985bf0b66c4af41',
                   ),
                   range: {
-                    endColumn: 25,
+                    endColumn: 31,
                     endLineNumber: 1,
                     startColumn: 2,
                     startLineNumber: 1,
@@ -799,7 +890,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
               ],
             },
             range: {
-              endColumn: 26,
+              endColumn: 32,
               endLineNumber: 1,
               startColumn: 1,
               startLineNumber: 1,
@@ -814,9 +905,9 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                 '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
               ),
               range: {
-                endColumn: 40,
+                endColumn: 46,
                 endLineNumber: 1,
-                startColumn: 28,
+                startColumn: 34,
                 startLineNumber: 1,
               },
               script: [
@@ -825,18 +916,18 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
                     '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                   ),
                   range: {
-                    endColumn: 40,
+                    endColumn: 46,
                     endLineNumber: 1,
-                    startColumn: 28,
+                    startColumn: 34,
                     startLineNumber: 1,
                   },
                 },
               ],
             },
             range: {
-              endColumn: 41,
+              endColumn: 47,
               endLineNumber: 1,
-              startColumn: 27,
+              startColumn: 33,
               startLineNumber: 1,
             },
           },
@@ -845,7 +936,7 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
       resolve: [
         {
           range: {
-            endColumn: 26,
+            endColumn: 32,
             endLineNumber: 1,
             startColumn: 1,
             startLineNumber: 1,
@@ -854,19 +945,19 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
           value: [
             {
               range: {
-                endColumn: 25,
+                endColumn: 31,
                 endLineNumber: 1,
                 startColumn: 2,
                 startLineNumber: 1,
               },
               signature: {
                 serialization: hexToBin(
-                  '000000001cc3adea40ebfd94433ac004777d68150cce9db4c771bc7de1b297a7b795bbba214e63bf41490e67d34476778f6707aa6c8d2c8dccdf78ae11e40ee9f91e89a70505050505050505050505050505050505050505050505050505050505050505000000001976a91415d16c84669ab46059313bf0747e781f1d13936d88ac000000000000000000000000c942a06c127c2c18022677e888020afb174208d299354f3ecfedb124a1f3fa450000000041000000',
+                  '000000002d6c6135bed260db00d1b9ad203fbd17ee6c8b009850fc407bfec29fc45e3d4d8cb9012517c817fead650287d61bdd9c68803b6bf9c64133dcab3e65b5a50cb90101010101010101010101010101010101010101010101010101010101010101000000001976a91415d16c84669ab46059313bf0747e781f1d13936d88acffffffffffffffff00000000dd2aed19e2aa2ddc93b21ca9e9bb5e89016be12113ea1746ebb4e1d0417eca550000000041000000',
                 ),
               },
               type: 'bytecode',
               value: hexToBin(
-                '304402200bda982d5b1a2a42d4568cf180ea1e4042397b02a77d5039b4b620dbc5ba1141022008f2a4f13ff538221cbf79d676f55fbe0c05617dea57877b648037b8dae939f141',
+                '3045022100f129fea5cb875fe5f35e3b2cf919aaf2211340cb49de5253db1d0726cf5f3b7c0220747c59400a81473510883199f59a3f957adf0418dff9d1549ed985bf0b66c4af41',
               ),
               variable: 'a.ecdsa_signature.all_outputs',
             },
@@ -874,18 +965,18 @@ test.failing('[BCH compiler] createCompilerBCH: debug', (t) => {
         },
         {
           range: {
-            endColumn: 41,
+            endColumn: 47,
             endLineNumber: 1,
-            startColumn: 27,
+            startColumn: 33,
             startLineNumber: 1,
           },
           type: 'push',
           value: [
             {
               range: {
-                endColumn: 40,
+                endColumn: 46,
                 endLineNumber: 1,
-                startColumn: 28,
+                startColumn: 34,
                 startLineNumber: 1,
               },
               type: 'bytecode',

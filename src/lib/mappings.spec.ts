@@ -6,13 +6,13 @@
  * with an uppercase currency symbol suffix.
  *
  * For example, a "transaction" may include different properties depending on
- * the chain for which it is created. The type {@link TransactionBCH} specifies
+ * the chain for which it is created. The type {@link TransactionBch} specifies
  * a transaction intended for the BCH network, while the type
- * {@link TransactionBTC} specifies a transaction intended for BTC.
+ * {@link TransactionBtc} specifies a transaction intended for BTC.
  *
  * For convenience, unless another chain is specified, Libauth types refer to
  * their BCH implementation, e.g. {@link Transaction} is an alias for
- * {@link TransactionBCH}.
+ * {@link TransactionBch}.
  *
  * This file tests these default mappings.
  */
@@ -22,99 +22,94 @@ import test from 'ava';
 import type {
   AssertTypesEqual,
   AuthenticationProgram,
-  AuthenticationProgramBCH,
+  AuthenticationProgramBch,
   AuthenticationProgramCommon,
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramState,
+  AuthenticationProgramStateBch,
   AuthenticationProgramStateCommon,
   ResolvedTransaction,
-  ResolvedTransactionBCH,
+  ResolvedTransactionBch,
   ResolvedTransactionCommon,
   Transaction,
-  TransactionBCH,
+  TransactionBch,
   TransactionCommon,
 } from './lib.js';
 import {
-  AuthenticationErrorBCH,
-  AuthenticationErrorBCH2023,
-  cloneAuthenticationProgramState,
-  cloneAuthenticationProgramStateBCH,
-  cloneAuthenticationProgramStateCommon,
+  AuthenticationErrorBch,
+  AuthenticationErrorBch2023,
   compilerConfigurationToCompiler,
-  compilerConfigurationToCompilerBCH,
-  ConsensusBCH,
+  compilerConfigurationToCompilerBch,
+  ConsensusBch,
   ConsensusCommon,
   createCompiler,
-  createCompilerBCH,
-  createInstructionSetBCH,
-  createInstructionSetBCH2023,
-  createVirtualMachineBCH,
-  createVirtualMachineBCH2023,
+  createCompilerBch,
+  createInstructionSetBch,
+  createInstructionSetBch2023,
+  createVirtualMachineBch,
+  createVirtualMachineBch2023,
   decodeTransaction,
-  decodeTransactionBCH,
+  decodeTransactionBch,
   decodeTransactionCommon,
   decodeTransactionUnsafe,
-  decodeTransactionUnsafeBCH,
+  decodeTransactionUnsafeBch,
   decodeTransactionUnsafeCommon,
   encodeTransaction,
-  encodeTransactionBCH,
+  encodeTransactionBch,
   encodeTransactionCommon,
   OpcodeDescriptions,
-  OpcodeDescriptionsBCH,
-  OpcodeDescriptionsBCH2023,
+  OpcodeDescriptionsBch,
+  OpcodeDescriptionsBch2023,
+  OpcodeDescriptionsBchSpec,
   Opcodes,
-  OpcodesBCH,
-  OpcodesBCH2023,
+  OpcodesBch,
+  OpcodesBch2023,
+  OpcodesBchSpec,
   SigningSerializationType,
-  SigningSerializationTypeBCH,
+  SigningSerializationTypeBch,
 } from './lib.js';
 
 /* eslint-disable @typescript-eslint/no-duplicate-type-constituents */
 type TypeTests =
   | AssertTypesEqual<
-      AuthenticationProgramStateBCH,
+      AuthenticationProgramStateBch,
       AuthenticationProgramStateCommon
     >
-  | AssertTypesEqual<AuthenticationProgramBCH, AuthenticationProgram>
-  | AssertTypesEqual<AuthenticationProgramBCH, AuthenticationProgramCommon>
-  | AssertTypesEqual<ResolvedTransactionBCH, ResolvedTransaction>
-  | AssertTypesEqual<ResolvedTransactionBCH, ResolvedTransactionCommon>
-  | AssertTypesEqual<TransactionBCH, Transaction>
-  | AssertTypesEqual<TransactionBCH, TransactionCommon>
-  | AssertTypesEqual<typeof ConsensusCommon, typeof ConsensusBCH>
-  | AssertTypesEqual<typeof OpcodeDescriptionsBCH, typeof OpcodeDescriptions>
-  | AssertTypesEqual<typeof OpcodesBCH, typeof Opcodes>;
-// TODO: AssertTypesEqual<AuthenticationProgramStateBCH, AuthenticationProgramState>`
+  | AssertTypesEqual<
+      typeof OpcodeDescriptionsBchSpec,
+      typeof OpcodeDescriptions
+    >
+  | AssertTypesEqual<AuthenticationProgramBch, AuthenticationProgram>
+  | AssertTypesEqual<AuthenticationProgramBch, AuthenticationProgramCommon>
+  | AssertTypesEqual<AuthenticationProgramStateBch, AuthenticationProgramState>
+  | AssertTypesEqual<ResolvedTransactionBch, ResolvedTransaction>
+  | AssertTypesEqual<ResolvedTransactionBch, ResolvedTransactionCommon>
+  | AssertTypesEqual<TransactionBch, Transaction>
+  | AssertTypesEqual<TransactionBch, TransactionCommon>
+  | AssertTypesEqual<typeof ConsensusCommon, typeof ConsensusBch>
+  | AssertTypesEqual<typeof OpcodesBchSpec, typeof Opcodes>;
 /* eslint-enable @typescript-eslint/no-duplicate-type-constituents */
 
 test('Libauth exposes all expected mappings', (t) => {
   const testTypes: TypeTests = true;
   t.true(testTypes);
-  t.deepEqual(AuthenticationErrorBCH2023, AuthenticationErrorBCH);
+  t.deepEqual(AuthenticationErrorBch2023, AuthenticationErrorBch);
   t.deepEqual(
-    cloneAuthenticationProgramStateCommon,
-    cloneAuthenticationProgramStateBCH,
-  );
-  t.deepEqual(
-    cloneAuthenticationProgramState,
-    cloneAuthenticationProgramStateBCH,
-  );
-  t.deepEqual(
-    compilerConfigurationToCompilerBCH,
+    compilerConfigurationToCompilerBch,
     compilerConfigurationToCompiler,
   );
-  t.deepEqual(createInstructionSetBCH2023, createInstructionSetBCH);
-  t.deepEqual(createVirtualMachineBCH2023, createVirtualMachineBCH);
-  t.deepEqual(ConsensusCommon, ConsensusBCH);
-  t.deepEqual(createCompilerBCH, createCompiler);
-  t.deepEqual(decodeTransactionCommon, decodeTransactionBCH);
-  t.deepEqual(decodeTransaction, decodeTransactionBCH);
-  t.deepEqual(decodeTransactionUnsafeCommon, decodeTransactionUnsafeBCH);
-  t.deepEqual(decodeTransactionUnsafe, decodeTransactionUnsafeBCH);
-  t.deepEqual(encodeTransactionCommon, encodeTransactionBCH);
-  t.deepEqual(encodeTransaction, encodeTransactionBCH);
-  t.deepEqual(OpcodeDescriptionsBCH2023, OpcodeDescriptionsBCH);
-  t.deepEqual(OpcodeDescriptionsBCH, OpcodeDescriptions);
-  t.deepEqual(OpcodesBCH2023, OpcodesBCH);
-  t.deepEqual(Opcodes, OpcodesBCH);
-  t.deepEqual(SigningSerializationType, SigningSerializationTypeBCH);
+  t.deepEqual(createInstructionSetBch2023, createInstructionSetBch);
+  t.deepEqual(createVirtualMachineBch2023, createVirtualMachineBch);
+  t.deepEqual(ConsensusCommon, ConsensusBch);
+  t.deepEqual(createCompilerBch, createCompiler);
+  t.deepEqual(decodeTransactionCommon, decodeTransactionBch);
+  t.deepEqual(decodeTransaction, decodeTransactionBch);
+  t.deepEqual(decodeTransactionUnsafeCommon, decodeTransactionUnsafeBch);
+  t.deepEqual(decodeTransactionUnsafe, decodeTransactionUnsafeBch);
+  t.deepEqual(encodeTransactionCommon, encodeTransactionBch);
+  t.deepEqual(encodeTransaction, encodeTransactionBch);
+  t.deepEqual(OpcodeDescriptionsBch, OpcodeDescriptionsBch2023);
+  t.deepEqual(OpcodeDescriptions, OpcodeDescriptionsBchSpec);
+  t.deepEqual(OpcodesBch, OpcodesBch2023);
+  t.deepEqual(Opcodes, OpcodesBchSpec);
+  t.deepEqual(SigningSerializationType, SigningSerializationTypeBch);
 });

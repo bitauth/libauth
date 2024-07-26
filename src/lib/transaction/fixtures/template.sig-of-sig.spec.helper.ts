@@ -42,5 +42,4 @@ export const sigOfSig: WalletTemplate = {
     },
   },
   supported: ['BCH_2021_05', 'BCH_2022_05'],
-  version: 0,
 };

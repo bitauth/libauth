@@ -1,22 +1,22 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
-  CompilationContextBCH,
+  CompilationContextBch,
   CompilationData,
   CompilerConfiguration,
-  CompilerConfigurationBCH,
+  CompilerConfigurationBch,
 } from '../../lib.js';
 import {
-  compilerConfigurationToCompilerBCH,
-  compilerOperationsBCH,
+  compilerConfigurationToCompilerBch,
+  compilerOperationsBch,
   createAuthenticationProgramEvaluationCommon,
   createCompilationContextCommonTesting,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   generateBytecodeMap,
   hexToBin,
-  OpcodesBCH2022,
+  OpcodesBch,
   ripemd160,
   secp256k1,
   sha256,
@@ -54,18 +54,15 @@ export const privateKeyM0 = hexToBin(
   'f85d4bd8a03ca106c9deb47b791803dac7f0333809e3f1dd04d182e0aba6e553',
 );
 
-const vm = createVirtualMachineBCH();
+const vm = createVirtualMachineBch();
 
-/**
- * Uses `createCompiler` rather than `createCompilerBCH` for performance.
- */
 export const expectCompilationResult = test.macro<
   [
     string,
     CompilationData,
-    BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+    BytecodeGenerationResult<AuthenticationProgramStateBch>,
     CompilerConfiguration['variables']?,
-    Partial<CompilerConfiguration<CompilationContextBCH>>?,
+    Partial<CompilerConfiguration<CompilationContextBch>>?,
   ]
 >(
   (
@@ -77,9 +74,9 @@ export const expectCompilationResult = test.macro<
     configurationOverrides,
     // eslint-disable-next-line @typescript-eslint/max-params
   ) => {
-    const compiler = compilerConfigurationToCompilerBCH<
-      CompilerConfigurationBCH,
-      AuthenticationProgramStateBCH
+    const compiler = compilerConfigurationToCompilerBch<
+      CompilerConfigurationBch,
+      AuthenticationProgramStateBch
     >({
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
       entityOwnership: {
@@ -87,8 +84,8 @@ export const expectCompilationResult = test.macro<
         owner: 'ownerEntityId',
         two: 'ownerEntityTwo',
       },
-      opcodes: generateBytecodeMap(OpcodesBCH2022),
-      operations: compilerOperationsBCH,
+      opcodes: generateBytecodeMap(OpcodesBch),
+      operations: compilerOperationsBch,
       ripemd160,
       scripts: {
         another: '0xabcdef',

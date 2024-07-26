@@ -1,10 +1,12 @@
 import type {
   AuthenticationProgramStateError,
+  AuthenticationProgramStateResourceLimits,
   AuthenticationProgramStateStack,
 } from '../../../lib.js';
 
 import {
   combineOperations,
+  measureArithmeticCost,
   pushToStack,
   pushToStackVmNumberChecked,
   useOneVmNumber,
@@ -35,7 +37,7 @@ export const op1Sub = <
   state: State,
 ) =>
   useOneVmNumber(state, (nextState, [value]) =>
-    pushToStack(nextState, bigIntToVmNumber(value - 1n)),
+    pushToStackVmNumberChecked(nextState, value - 1n),
   );
 
 export const opNegate = <
@@ -45,7 +47,7 @@ export const opNegate = <
   state: State,
 ) =>
   useOneVmNumber(state, (nextState, [value]) =>
-    pushToStack(nextState, bigIntToVmNumber(-value)),
+    pushToStack(nextState, [bigIntToVmNumber(-value)]),
   );
 
 export const opAbs = <
@@ -55,7 +57,7 @@ export const opAbs = <
   state: State,
 ) =>
   useOneVmNumber(state, (nextState, [value]) =>
-    pushToStack(nextState, bigIntToVmNumber(value < 0 ? -value : value)),
+    pushToStack(nextState, [bigIntToVmNumber(value < 0 ? -value : value)]),
   );
 
 export const opNot = <
@@ -65,10 +67,9 @@ export const opNot = <
   state: State,
 ) =>
   useOneVmNumber(state, (nextState, [value]) =>
-    pushToStack(
-      nextState,
+    pushToStack(nextState, [
       value === 0n ? bigIntToVmNumber(1n) : bigIntToVmNumber(0n),
-    ),
+    ]),
   );
 
 export const op0NotEqual = <
@@ -78,10 +79,9 @@ export const op0NotEqual = <
   state: State,
 ) =>
   useOneVmNumber(state, (nextState, [value]) =>
-    pushToStack(
-      nextState,
+    pushToStack(nextState, [
       value === 0n ? bigIntToVmNumber(0n) : bigIntToVmNumber(1n),
-    ),
+    ]),
   );
 
 export const opAdd = <
@@ -101,7 +101,7 @@ export const opSub = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(nextState, bigIntToVmNumber(firstValue - secondValue)),
+    pushToStackVmNumberChecked(nextState, firstValue - secondValue),
   );
 
 export const opBoolAnd = <
@@ -111,10 +111,9 @@ export const opBoolAnd = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(
-      nextState,
+    pushToStack(nextState, [
       booleanToVmNumber(firstValue !== 0n && secondValue !== 0n),
-    ),
+    ]),
   );
 
 export const opBoolOr = <
@@ -124,10 +123,9 @@ export const opBoolOr = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(
-      nextState,
+    pushToStack(nextState, [
       booleanToVmNumber(firstValue !== 0n || secondValue !== 0n),
-    ),
+    ]),
   );
 
 export const opNumEqual = <
@@ -137,7 +135,7 @@ export const opNumEqual = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(nextState, booleanToVmNumber(firstValue === secondValue)),
+    pushToStack(nextState, [booleanToVmNumber(firstValue === secondValue)]),
   );
 
 export const opNumEqualVerify = combineOperations(opNumEqual, opVerify);
@@ -149,7 +147,7 @@ export const opNumNotEqual = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(nextState, booleanToVmNumber(firstValue !== secondValue)),
+    pushToStack(nextState, [booleanToVmNumber(firstValue !== secondValue)]),
   );
 
 export const opLessThan = <
@@ -159,7 +157,7 @@ export const opLessThan = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(nextState, booleanToVmNumber(firstValue < secondValue)),
+    pushToStack(nextState, [booleanToVmNumber(firstValue < secondValue)]),
   );
 
 export const opLessThanOrEqual = <
@@ -169,7 +167,7 @@ export const opLessThanOrEqual = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(nextState, booleanToVmNumber(firstValue <= secondValue)),
+    pushToStack(nextState, [booleanToVmNumber(firstValue <= secondValue)]),
   );
 
 export const opGreaterThan = <
@@ -179,7 +177,7 @@ export const opGreaterThan = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(nextState, booleanToVmNumber(firstValue > secondValue)),
+    pushToStack(nextState, [booleanToVmNumber(firstValue > secondValue)]),
   );
 
 export const opGreaterThanOrEqual = <
@@ -189,7 +187,7 @@ export const opGreaterThanOrEqual = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(nextState, booleanToVmNumber(firstValue >= secondValue)),
+    pushToStack(nextState, [booleanToVmNumber(firstValue >= secondValue)]),
   );
 
 export const opMin = <
@@ -199,9 +197,9 @@ export const opMin = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(
+    pushToStackVmNumberChecked(
       nextState,
-      bigIntToVmNumber(firstValue < secondValue ? firstValue : secondValue),
+      firstValue < secondValue ? firstValue : secondValue,
     ),
   );
 
@@ -212,9 +210,9 @@ export const opMax = <
   state: State,
 ) =>
   useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStack(
+    pushToStackVmNumberChecked(
       nextState,
-      bigIntToVmNumber(firstValue > secondValue ? firstValue : secondValue),
+      firstValue > secondValue ? firstValue : secondValue,
     ),
   );
 
@@ -225,42 +223,50 @@ export const opWithin = <
   state: State,
 ) =>
   useThreeVmNumbers(state, (nextState, [firstValue, secondValue, thirdValue]) =>
-    pushToStack(
-      nextState,
+    pushToStack(nextState, [
       booleanToVmNumber(secondValue <= firstValue && firstValue < thirdValue),
-    ),
+    ]),
   );
 
 export const opMul = <
   State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateStack,
 >(
   state: State,
 ) =>
-  useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    pushToStackVmNumberChecked(nextState, firstValue * secondValue),
+  measureArithmeticCost(state, () =>
+    useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
+      pushToStackVmNumberChecked(nextState, firstValue * secondValue),
+    ),
   );
 
 export const opDiv = <
   State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateStack,
 >(
   state: State,
 ) =>
-  useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    secondValue === 0n
-      ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
-      : pushToStack(nextState, bigIntToVmNumber(firstValue / secondValue)),
+  measureArithmeticCost(state, () =>
+    useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
+      secondValue === 0n
+        ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
+        : pushToStack(nextState, [bigIntToVmNumber(firstValue / secondValue)]),
+    ),
   );
 
 export const opMod = <
   State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateStack,
 >(
   state: State,
 ) =>
-  useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
-    secondValue === 0n
-      ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
-      : pushToStack(nextState, bigIntToVmNumber(firstValue % secondValue)),
+  measureArithmeticCost(state, () =>
+    useTwoVmNumbers(state, (nextState, [firstValue, secondValue]) =>
+      secondValue === 0n
+        ? applyError(nextState, AuthenticationErrorCommon.divisionByZero)
+        : pushToStack(nextState, [bigIntToVmNumber(firstValue % secondValue)]),
+    ),
   );

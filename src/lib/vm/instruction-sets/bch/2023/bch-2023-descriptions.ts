@@ -1,4 +1,4 @@
-export enum OpcodeDescriptionsBCH2023 {
+export enum OpcodeDescriptionsBch2023 {
   OP_0 = 'Push the VM Number 0 onto the stack.',
   OP_PUSHBYTES_1 = 'Push the next byte onto the stack.',
   OP_PUSHBYTES_2 = 'Push the next 2 bytes onto the stack.',
@@ -209,8 +209,3 @@ export enum OpcodeDescriptionsBCH2023 {
   OP_OUTPUTTOKENCOMMITMENT = 'Pop the top item from the stack as an output index (VM Number). Push the token commitment of the output at that index to the stack. If the output does not include a non-fungible token, or if it includes a non-fungible token with a zero-length commitment, push a 0 (VM Number).',
   OP_OUTPUTTOKENAMOUNT = 'Pop the top item from the stack as an output index (VM Number). Push the fungible token amount of the output at that index to the stack as a VM Number. If the output includes no fungible tokens, push a 0 (VM Number).',
 }
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptionsBCH = OpcodeDescriptionsBCH2023;
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptions = OpcodeDescriptionsBCH;

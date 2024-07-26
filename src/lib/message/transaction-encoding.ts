@@ -650,8 +650,12 @@ export const decodeTransactionCommon = (
   }
   return transactionRead.result;
 };
-export const decodeTransactionBCH = decodeTransactionCommon;
-export const decodeTransaction = decodeTransactionBCH;
+export const decodeTransactionBch = decodeTransactionCommon;
+export const decodeTransaction = decodeTransactionBch;
+/**
+ * @deprecated Alias of `decodeTransactionBch` for backwards-compatibility.
+ */
+export const decodeTransactionBCH = decodeTransactionBch;
 
 /**
  * Decode a {@link TransactionCommon} from a trusted source according to the
@@ -673,8 +677,12 @@ export const decodeTransactionUnsafeCommon = (
   }
   return result;
 };
-export const decodeTransactionUnsafeBCH = decodeTransactionUnsafeCommon;
-export const decodeTransactionUnsafe = decodeTransactionUnsafeBCH;
+export const decodeTransactionUnsafeBch = decodeTransactionUnsafeCommon;
+export const decodeTransactionUnsafe = decodeTransactionUnsafeBch;
+/**
+ * @deprecated Alias of `decodeTransactionUnsafeBch` for backwards-compatibility.
+ */
+export const decodeTransactionUnsafeBCH = decodeTransactionUnsafeBch;
 
 /**
  * Encode a {@link Transaction} using the standard P2P network format. This
@@ -690,64 +698,12 @@ export const encodeTransactionCommon = (tx: TransactionCommon) =>
     encodeTransactionOutputs(tx.outputs),
     numberToBinUint32LE(tx.locktime),
   ]);
-export const encodeTransactionBCH = encodeTransactionCommon;
-export const encodeTransaction = encodeTransactionBCH;
-
+export const encodeTransactionBch = encodeTransactionCommon;
+export const encodeTransaction = encodeTransactionBch;
 /**
- * @deprecated use `structuredClone` instead
+ * @deprecated Alias of `decodeTransactionUnsafeBch` for backwards-compatibility.
  */
-export const cloneTransactionInputsCommon = <
-  Transaction extends TransactionCommon,
->(
-  inputs: Transaction['inputs'],
-) =>
-  inputs.map((input) => ({
-    outpointIndex: input.outpointIndex,
-    outpointTransactionHash: input.outpointTransactionHash.slice(),
-    sequenceNumber: input.sequenceNumber,
-    unlockingBytecode: input.unlockingBytecode.slice(),
-  }));
-
-/**
- * @deprecated use `structuredClone` instead
- */
-export const cloneTransactionOutputsCommon = <
-  Transaction extends TransactionCommon,
->(
-  outputs: Transaction['outputs'],
-) =>
-  outputs.map((output) => ({
-    lockingBytecode: output.lockingBytecode.slice(),
-    ...(output.token === undefined
-      ? {}
-      : {
-          token: {
-            amount: output.token.amount,
-            category: output.token.category.slice(),
-            ...(output.token.nft === undefined
-              ? {}
-              : {
-                  nft: {
-                    capability: output.token.nft.capability,
-                    commitment: output.token.nft.commitment.slice(),
-                  },
-                }),
-          },
-        }),
-    valueSatoshis: output.valueSatoshis,
-  }));
-
-/**
- * @deprecated use `structuredClone` instead
- */
-export const cloneTransactionCommon = <Transaction extends TransactionCommon>(
-  transaction: Transaction,
-) => ({
-  inputs: cloneTransactionInputsCommon(transaction.inputs),
-  locktime: transaction.locktime,
-  outputs: cloneTransactionOutputsCommon(transaction.outputs),
-  version: transaction.version,
-});
+export const encodeTransactionBCH = encodeTransactionBch;
 
 /**
  * Compute a transaction hash (A.K.A. "transaction ID" or "TXID") from an

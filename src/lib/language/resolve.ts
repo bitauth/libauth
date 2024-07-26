@@ -671,7 +671,9 @@ export const createIdentifierResolver =
  */
 export const compileScriptContents = <
   ProgramState extends AuthenticationProgramStateControlStack &
+    AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack = AuthenticationProgramStateControlStack &
+    AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
   CompilationContext = unknown,
 >({

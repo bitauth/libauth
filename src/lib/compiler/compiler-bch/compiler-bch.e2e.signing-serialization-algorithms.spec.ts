@@ -1,19 +1,19 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
-  CompilerConfigurationBCH,
+  CompilerConfigurationBch,
 } from '../../lib.js';
 import {
-  compilerConfigurationToCompilerBCH,
-  compilerOperationsBCH,
+  compilerConfigurationToCompilerBch,
+  compilerOperationsBch,
   createAuthenticationProgramEvaluationCommon,
   createCompilationContextCommonTesting,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   generateBytecodeMap,
   hexToBin,
-  OpcodesBCH2022,
+  OpcodesBch,
   ripemd160,
   secp256k1,
   sha256,
@@ -23,23 +23,20 @@ import {
 
 import { hdPrivateKey, privateKeyM0 } from './compiler-bch.e2e.spec.helper.js';
 
-const vm = createVirtualMachineBCH();
+const vm = createVirtualMachineBch();
 
-/**
- * Uses `createCompiler` rather than `createCompilerBCH` for performance.
- */
 const testSigningSerializationAlgorithms = test.macro<[string, string]>(
   (t, unlockScript, bytecodeHex) => {
-    const compiler = compilerConfigurationToCompilerBCH<
-      CompilerConfigurationBCH,
-      AuthenticationProgramStateBCH
+    const compiler = compilerConfigurationToCompilerBch<
+      CompilerConfigurationBch,
+      AuthenticationProgramStateBch
     >({
       createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
       entityOwnership: {
         b: 'entity',
       },
-      opcodes: generateBytecodeMap(OpcodesBCH2022),
-      operations: compilerOperationsBCH,
+      opcodes: generateBytecodeMap(OpcodesBch),
+      operations: compilerOperationsBch,
       ripemd160,
       scripts: {
         lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
@@ -189,13 +186,13 @@ test(
 );
 
 test('[BCH compiler] signing serialization algorithms - no signing serialization data', (t) => {
-  const compiler = compilerConfigurationToCompilerBCH<
-    CompilerConfigurationBCH,
-    AuthenticationProgramStateBCH
+  const compiler = compilerConfigurationToCompilerBch<
+    CompilerConfigurationBch,
+    AuthenticationProgramStateBch
   >({
     createAuthenticationProgram: createAuthenticationProgramEvaluationCommon,
-    opcodes: generateBytecodeMap(OpcodesBCH2022),
-    operations: compilerOperationsBCH,
+    opcodes: generateBytecodeMap(OpcodesBch),
+    operations: compilerOperationsBch,
     scripts: {
       lock: 'OP_DUP OP_HASH160 <$(<a.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG',
       unlock: '<a.schnorr_signature.all_outputs> <a.public_key>',
@@ -235,5 +232,5 @@ test('[BCH compiler] signing serialization algorithms - no signing serialization
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>);
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>);
 });

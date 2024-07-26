@@ -8,16 +8,16 @@ import {
   encodeDataPush,
   generateBytecodeMap,
 } from '../../../common/common.js';
-import { OpcodesXEC } from '../../xec-opcodes.js';
+import { OpcodesXec } from '../../xec-opcodes.js';
 
 export const bitcoinSatoshiOpcodes = Object.entries(
-  generateBytecodeMap(OpcodesXEC),
+  generateBytecodeMap(OpcodesXec),
 ).reduce<{ [opcode: string]: Uint8Array }>(
   (acc, cur) => ({ ...acc, [cur[0].slice('OP_'.length)]: cur[1] }),
   {
-    PUSHDATA1: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_1), // eslint-disable-line @typescript-eslint/naming-convention
-    PUSHDATA2: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_2), // eslint-disable-line @typescript-eslint/naming-convention
-    PUSHDATA4: Uint8Array.of(OpcodesXEC.OP_PUSHDATA_4), // eslint-disable-line @typescript-eslint/naming-convention
+    PUSHDATA1: Uint8Array.of(OpcodesXec.OP_PUSHDATA_1), // eslint-disable-line @typescript-eslint/naming-convention
+    PUSHDATA2: Uint8Array.of(OpcodesXec.OP_PUSHDATA_2), // eslint-disable-line @typescript-eslint/naming-convention
+    PUSHDATA4: Uint8Array.of(OpcodesXec.OP_PUSHDATA_4), // eslint-disable-line @typescript-eslint/naming-convention
   },
 );
 

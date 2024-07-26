@@ -4,6 +4,7 @@ import {
   sha256 as internalSha256,
   sha512 as internalSha512,
 } from '../crypto/crypto.js';
+import { flattenBinArray } from '../format/format.js';
 import { compileScript } from '../language/language.js';
 import type {
   AnyCompilerConfiguration,
@@ -24,6 +25,7 @@ import type {
   WalletTemplate,
 } from '../lib.js';
 import {
+  encodeDataPush,
   generateBytecodeMap,
   Opcodes,
   OpcodesBchSpec,
@@ -123,6 +125,7 @@ export const compilerConfigurationToCompiler =
   compilerConfigurationToCompilerBch;
 
 const nullHashLength = 32;
+const maximumValidOpReturnPushLength = 9996;
 
 /**
  * A common {@link createAuthenticationProgram} implementation for
@@ -162,7 +165,10 @@ export const createAuthenticationProgramEvaluationCommon = (
     locktime: 0,
     outputs: [
       {
-        lockingBytecode: Uint8Array.of(),
+        lockingBytecode: flattenBinArray([
+          Uint8Array.of(Opcodes.OP_RETURN),
+          encodeDataPush(new Uint8Array(maximumValidOpReturnPushLength)),
+        ]),
         valueSatoshis: 0n,
       },
     ],

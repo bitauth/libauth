@@ -176,7 +176,7 @@ export const pushOperation =
         )
       : executionIsActive(state)
         ? isMinimalDataPush(instruction.opcode, instruction.data)
-          ? pushToStack(state, instruction.data)
+          ? pushToStack(state, [instruction.data])
           : applyError(state, AuthenticationErrorCommon.nonMinimalPush)
         : state;
   };
@@ -192,5 +192,5 @@ export const pushNumberOperation = <
   number: number,
 ) => {
   const value = bigIntToVmNumber(BigInt(number));
-  return (state: ProgramState) => pushToStack(state, value);
+  return (state: ProgramState) => pushToStack(state, [value]);
 };

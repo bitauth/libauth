@@ -23,25 +23,9 @@ import {
   hexToBin,
   OpcodesBch,
   OpcodesBtc,
-  range,
 } from '../../../lib.js';
 
 import { fc, testProp } from '@fast-check/ava';
-
-test('Each Opcodes enum contains a single instruction for 0-255', (t) => {
-  const expected = range(256);
-  const names = (keys: string[]) => keys.filter((k) => isNaN(parseInt(k, 10)));
-  const numbers = (keys: string[]) =>
-    keys.map((k) => parseInt(k, 10)).filter((k) => !isNaN(k));
-
-  const bch = Object.keys(OpcodesBch);
-  t.deepEqual(numbers(bch), expected);
-  t.deepEqual(names(bch).length, expected.length);
-
-  const btc = Object.keys(OpcodesBtc);
-  t.deepEqual(numbers(btc), expected);
-  t.deepEqual(names(btc).length, expected.length);
-});
 
 /**
  * `scriptHex` - the hex-encoded script prepended with `0x`

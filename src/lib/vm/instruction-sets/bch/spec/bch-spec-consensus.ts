@@ -1,15 +1,18 @@
-import { ConsensusBch2025 } from '../2025/bch-2025-consensus.js';
+import { ConsensusBch2026 } from '../2026/bch-2026-consensus.js';
 
 /**
  * Consensus setting overrides for the `BCH_SPEC` instruction set.
  */
-export enum ConsensusBchSpecOverrides {}
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const ConsensusBchSpecOverrides = {
+  maximumBytecodeLength: 100_000,
+};
 
 /**
  * Consensus settings for the `BCH_SPEC` instruction set.
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const ConsensusBchSpec = {
-  ...ConsensusBch2025,
+  ...ConsensusBch2026,
   ...ConsensusBchSpecOverrides,
 };

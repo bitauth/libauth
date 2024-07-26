@@ -1,13 +1,10 @@
-import { OpcodesBch2023 } from '../2023/bch-2023-opcodes.js';
+import { OpcodesBch2026 } from '../2026/bch-2026-opcodes.js';
 
 /**
  * The opcodes added to the `BCH_SPEC` instruction set beyond those present in
- * `BCH_2023_05`.
+ * `BCH_2026_05`.
  */
-export enum OpcodesBchSpecAdditions {
-  OP_BEGIN = 0x65,
-  OP_UNTIL = 0x66,
-}
+export enum OpcodesBchSpecAdditions {}
 
 /**
  * The `BCH_SPEC` instruction set.
@@ -16,4 +13,4 @@ export enum OpcodesBchSpecAdditions {
  * includes the previous names for new opcodes (e.g. `OP_VERIF` for `OP_BEGIN`).
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodesBchSpec = { ...OpcodesBch2023, ...OpcodesBchSpecAdditions };
+export const OpcodesBchSpec = { ...OpcodesBch2026, ...OpcodesBchSpecAdditions };

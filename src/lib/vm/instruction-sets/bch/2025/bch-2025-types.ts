@@ -15,6 +15,13 @@ export type AuthenticationProgramStateResourceLimitsBch2025 =
        * persists and accumulates across all input evaluations.
        */
       hashDigestIterations: number;
+      /**
+       * The cumulative cost of all operations executed over the course of
+       * verifying the transaction; the sum of `arithmeticCost`,
+       * `executedInstructionCount`, `64 * hashDigestIterations`,
+       * and `stackPushedBytes`.
+       */
+      operationCost: number;
     };
   };
 

@@ -17,7 +17,7 @@ import type {
 } from '../../lib.js';
 import { encodeTokenPrefix } from '../../message/message.js';
 import {
-  createVirtualMachineBch,
+  createVirtualMachineBchSpec,
   generateBytecodeMap,
   generateSigningSerializationBch,
   OpcodesBchSpec,
@@ -40,7 +40,7 @@ import {
 } from '../compiler-utils.js';
 
 export type CompilerOperationsKeyBch =
-  | 'data_signature'
+  | 'ecdsa_data_signature'
   | 'ecdsa_signature'
   | 'public_key'
   | 'schnorr_data_signature'
@@ -753,7 +753,7 @@ export const createCompilerBch = <
       secp256k1: internalSecp256k1,
       sha256: internalSha256,
       sha512: internalSha512,
-      vm: configuration.vm ?? createVirtualMachineBch(),
+      vm: configuration.vm ?? createVirtualMachineBchSpec(),
     },
     ...configuration,
   });

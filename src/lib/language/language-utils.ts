@@ -11,6 +11,7 @@ import type {
   CompilationError,
   CompilationErrorRecoverable,
   EvaluationSample,
+  MaskedProgramState,
   Range,
   ResolvedScript,
   ResolvedSegmentLiteralType,
@@ -84,7 +85,7 @@ export const mergeRanges = (
 };
 
 /**
- * Returns true if the `outerRange` fully contains the `innerRange`, otherwise,
+ * Returns `true` if the `outerRange` fully contains the `innerRange`, otherwise,
  * `false`.
  *
  * @param outerRange - the bounds of the outer range
@@ -117,6 +118,17 @@ export const containsRange = (
         : false;
   return startsAfter && endsBefore;
 };
+
+/**
+ * Returns `true` if the provided ranges are exactly equivalent.
+ * @param a - the first range
+ * @param b - the second range
+ */
+export const rangesAreEqual = (a: Range, b: Range) =>
+  a.startLineNumber === b.startLineNumber &&
+  a.startColumn === b.startColumn &&
+  a.endLineNumber === b.endLineNumber &&
+  a.endColumn === b.endColumn;
 
 /**
  * Extract a list of the errors that occurred while resolving a script.
@@ -415,7 +427,9 @@ export type SampleExtractionResult<ProgramState> = {
  * {@link decodeAuthenticationInstructions}.
  */
 // eslint-disable-next-line complexity
-export const extractEvaluationSamples = <ProgramState>({
+export const extractEvaluationSamples = <
+  ProgramState extends AuthenticationProgramStateMinimum,
+>({
   evaluationRange,
   nodes,
   trace,
@@ -456,6 +470,17 @@ export const extractEvaluationSamples = <ProgramState>({
     },
   ];
 
+  const stateByIp: ProgramState[][] = traceWithoutFinalState.reduce<
+    ProgramState[][]
+  >((byIp, state) => {
+    const atIndex = byIp[state.ip] ?? [];
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+    atIndex.push(state);
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+    byIp[state.ip] = atIndex;
+    return byIp;
+  }, []);
+
   // eslint-disable-next-line functional/no-let
   let nextState = 1;
   // eslint-disable-next-line functional/no-let
@@ -463,7 +488,7 @@ export const extractEvaluationSamples = <ProgramState>({
   // eslint-disable-next-line functional/no-let, @typescript-eslint/init-declarations
   let incomplete: { bytecode: Uint8Array; range: Range } | undefined;
   // eslint-disable-next-line functional/no-loop-statements
-  while (nextState < traceWithoutFinalState.length && nextNode < nodes.length) {
+  while (nextState < stateByIp.length && nextNode < nodes.length) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const currentNode = nodes[nextNode]!;
     const { mergedBytecode, mergedRange } =
@@ -494,13 +519,11 @@ export const extractEvaluationSamples = <ProgramState>({
           ? decoded.slice(0, decoded.length - 1)
           : decoded;
       const firstUnmatchedStateIndex = nextState + validInstructions.length;
-      const matchingStates = traceWithoutFinalState.slice(
-        nextState,
-        firstUnmatchedStateIndex,
-      );
+      const matchingIps = stateByIp.slice(nextState, firstUnmatchedStateIndex);
       const pairedStates = validInstructions.map((instruction, index) => ({
         instruction,
-        state: matchingStates[index],
+        iterations: matchingIps[index]?.slice(1),
+        state: matchingIps[index]?.[0],
       }));
 
       /**
@@ -509,6 +532,7 @@ export const extractEvaluationSamples = <ProgramState>({
       const firstPairedState = pairedStates[0] as {
         instruction: AuthenticationInstructionMaybeMalformed;
         state: ProgramState;
+        iterations?: ProgramState[];
       };
 
       const closesCurrentlyOpenSample = incomplete !== undefined;
@@ -519,6 +543,7 @@ export const extractEvaluationSamples = <ProgramState>({
           evaluationRange,
           instruction: firstPairedState.instruction,
           internalStates: [],
+          iterations: firstPairedState.iterations,
           range: mergedRange,
           state: firstPairedState.state,
         });
@@ -539,6 +564,7 @@ export const extractEvaluationSamples = <ProgramState>({
         const finalState = pairedStates[sampleClosingIndex] as {
           instruction: AuthenticationInstructionMaybeMalformed;
           state: ProgramState;
+          iterations?: ProgramState[];
         };
         const secondSamplePairsBegin = closesCurrentlyOpenSample ? 1 : 0;
         const internalStates = pairedStates.slice(
@@ -553,6 +579,7 @@ export const extractEvaluationSamples = <ProgramState>({
           evaluationRange,
           instruction: finalState.instruction,
           internalStates,
+          iterations: finalState.iterations,
           range: currentNode.range,
           state: finalState.state,
         });
@@ -623,7 +650,9 @@ export const extractEvaluationSamples = <ProgramState>({
  * their range. Samples from CashAssembly evaluations that occur within an
  * outer evaluation appear before their parent sample (which uses their result).
  */
-export const extractEvaluationSamplesRecursive = <ProgramState>({
+export const extractEvaluationSamplesRecursive = <
+  ProgramState extends AuthenticationProgramStateMinimum,
+>({
   /**
    * The range of the script node that was evaluated to produce the `trace`
    */
@@ -810,6 +839,12 @@ export const summarizeStack = (stack: Uint8Array[]) =>
     }`;
   });
 
+type MinimalDebugTrace = AuthenticationProgramStateAlternateStack &
+  AuthenticationProgramStateControlStack<unknown> &
+  AuthenticationProgramStateError &
+  AuthenticationProgramStateMinimum &
+  AuthenticationProgramStateStack;
+
 /**
  * Given a debug trace (produced by {@link AuthenticationVirtualMachine.debug}),
  * return an array summarizing each step of the trace. Note, debug traces
@@ -818,11 +853,7 @@ export const summarizeStack = (stack: Uint8Array[]) =>
  * evaluation step.
  */
 export const summarizeDebugTrace = <
-  Trace extends (AuthenticationProgramStateAlternateStack &
-    AuthenticationProgramStateControlStack<unknown> &
-    AuthenticationProgramStateError &
-    AuthenticationProgramStateMinimum &
-    AuthenticationProgramStateStack)[],
+  Trace extends MaskedProgramState<MinimalDebugTrace>[] | MinimalDebugTrace[],
 >(
   trace: Trace,
 ) =>
@@ -850,7 +881,10 @@ export const summarizeDebugTrace = <
                 : { error: nextState.error }),
               execute:
                 state.controlStack[state.controlStack.length - 1] !== false,
-              instruction: state.instructions[state.ip],
+              instruction:
+                'instruction' in state
+                  ? state.instruction
+                  : state.instructions[state.ip],
               ip: state.ip,
               stack: summarizeStack(nextState.stack),
             },
@@ -860,6 +894,7 @@ export const summarizeDebugTrace = <
   );
 
 const reasonablePaddingForInstructionSetBch = 23;
+const reasonableLineCountForInstructionSetBch = 30;
 
 /**
  * Return a string with the result of {@link summarizeDebugTrace} including one
@@ -872,6 +907,7 @@ export const stringifyDebugTraceSummary = (
   {
     opcodes = OpcodesBch,
     padInstruction = reasonablePaddingForInstructionSetBch,
+    printLineCount = reasonableLineCountForInstructionSetBch,
   }: {
     /**
      * An opcode enum, e.g. {@link OpcodesBch}.
@@ -881,9 +917,19 @@ export const stringifyDebugTraceSummary = (
      * The width of the instruction column.
      */
     padInstruction?: number;
+    /**
+     * The number of steps to print counting backward from the end of the
+     * debug trace.
+     */
+    printLineCount?: number;
   } = {},
 ) =>
-  summary
+  `${
+    summary.length > printLineCount
+      ? `[${summary.length - printLineCount} steps truncated]\n`
+      : ''
+  }${summary
+    .slice(-printLineCount)
     .map(
       // eslint-disable-next-line complexity
       (line) =>
@@ -903,4 +949,4 @@ export const stringifyDebugTraceSummary = (
               }`
         }`,
     )
-    .join('\n');
+    .join('\n')}`;

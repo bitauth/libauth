@@ -8,6 +8,7 @@ export enum ConsensusCommon {
    * A.K.A. `MAX_SCRIPT_SIZE`
    */
   maximumBytecodeLength = 10000,
+  maximumControlStackDepth = 100,
   /**
    * A.K.A. `MAX_OP_RETURN_RELAY`, `nMaxDatacarrierBytes`
    */
@@ -35,6 +36,7 @@ export enum ConsensusCommon {
   /**
    * A.K.A. `MIN_TX_SIZE`
    */
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   minimumTransactionSize = 100,
   /**
    * A.K.A. `MAX_STANDARD_TX_SIZE`
@@ -62,4 +64,12 @@ export const SigningSerializationTypesCommon = [
   SigningSerializationTypeBch.correspondingOutputSingleInput,
   SigningSerializationTypeBch.noOutputs,
   SigningSerializationTypeBch.noOutputsSingleInput,
+];
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const SigningSerializationTypesBch = [
+  ...SigningSerializationTypesCommon,
+  SigningSerializationTypeBch.allOutputsAllUtxos,
+  SigningSerializationTypeBch.correspondingOutputAllUtxos,
+  SigningSerializationTypeBch.noOutputsAllUtxos,
 ];

@@ -27,6 +27,8 @@ const vmVersionsBch = [
   '2023',
   '2025',
   '2026',
+  'spec',
+  'chip_bigint',
   'chip_limits',
   'chip_loops',
   'chip_zce',
@@ -101,7 +103,11 @@ export const vmbTestDefinitionDefaultBehaviorBch: TestSetOverrideLabelBch[] = [
  * and looking up the result in {@link supportedTestSetOverridesBch}.
  */
 const testSetOverrideListBch = [
+  ['chip_bigint_invalid'],
+  ['chip_bigint'],
+  ['spec'],
   ['2023_invalid'],
+  ['2023_invalid', '2025_nonstandard', 'p2sh_ignore'],
   ['2023_invalid', 'nop2sh_ignore'],
   ['chip_loops_invalid'],
   ['chip_loops'],
@@ -123,6 +129,7 @@ const testSetOverrideListBch = [
   ['invalid', 'p2sh32_standard'],
   ['invalid'],
   ['nop2sh_ignore'],
+  ['nop2sh_ignore', 'p2sh32_ignore'],
   ['nop2sh_invalid'],
   ['nop2sh_standard', 'p2sh_ignore'],
   ['nonstandard', 'p2sh_ignore'],
@@ -182,6 +189,12 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
+  '2023_invalid,2025_nonstandard,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
   '2023_invalid,nop2sh_ignore': [
     {
       mode: 'P2SH20',
@@ -196,6 +209,16 @@ export const supportedTestSetOverridesBch: {
    * `chip_*` values exclude the marked test from
    * {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
+  chip_bigint: [
+    { mode: 'nonP2SH', sets: ['chip_bigint_nonstandard'] },
+    { mode: 'P2SH20', sets: ['chip_bigint_standard'] },
+    { mode: 'P2SH32', sets: ['chip_bigint_standard'] },
+  ],
+  chip_bigint_invalid: [
+    { mode: 'nonP2SH', sets: ['chip_bigint_invalid'] },
+    { mode: 'P2SH20', sets: ['chip_bigint_invalid'] },
+    { mode: 'P2SH32', sets: ['chip_bigint_invalid'] },
+  ],
   chip_loops: [
     { mode: 'nonP2SH', sets: ['chip_loops_nonstandard'] },
     { mode: 'P2SH20', sets: ['chip_loops_standard'] },
@@ -317,6 +340,12 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_standard', '2025_standard', '2026_standard'],
     },
   ],
+  'nop2sh_ignore,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
   nop2sh_invalid: [
     { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
     {
@@ -361,6 +390,15 @@ export const supportedTestSetOverridesBch: {
     },
     { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
     { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  ],
+  /**
+   * `spec_*` values exclude the marked test from
+   * {@link vmbTestDefinitionDefaultBehaviorBch}.
+   */
+  spec: [
+    { mode: 'nonP2SH', sets: ['spec_nonstandard'] },
+    { mode: 'P2SH20', sets: ['spec_standard'] },
+    { mode: 'P2SH32', sets: ['spec_standard'] },
   ],
   /* eslint-enable camelcase */
 };
@@ -409,7 +447,7 @@ export type VmbTestDefinitionGroup = [
  * Short IDs use bech32 encoding, so birthday collisions will happen
  * approximately every `Math.sqrt(2 * (32 ** defaultShortIdLength))` tests.
  */
-const defaultShortIdLength = 5;
+const defaultShortIdLength = 6;
 
 const planTestsBch = (labels?: readonly string[]) => {
   const labelList = (labels ?? []).join(',');
@@ -452,6 +490,27 @@ export const vmbTestDefinitionToVmbTests = (
           key1: { type: 'HdKey' },
           key2: { privateDerivationPath: 'm/2/i', type: 'HdKey' },
           key3: { privateDerivationPath: 'm/3/i', type: 'HdKey' },
+          key4: { privateDerivationPath: 'm/4/i', type: 'HdKey' },
+          key5: { privateDerivationPath: 'm/5/i', type: 'HdKey' },
+          key6: { privateDerivationPath: 'm/6/i', type: 'HdKey' },
+          key7: { privateDerivationPath: 'm/7/i', type: 'HdKey' },
+          key8: { privateDerivationPath: 'm/8/i', type: 'HdKey' },
+          key9: { privateDerivationPath: 'm/9/i', type: 'HdKey' },
+          ...{
+            key10: { privateDerivationPath: 'm/10/i', type: 'HdKey' },
+            key11: { privateDerivationPath: 'm/11/i', type: 'HdKey' },
+            key12: { privateDerivationPath: 'm/12/i', type: 'HdKey' },
+            key13: { privateDerivationPath: 'm/13/i', type: 'HdKey' },
+            key14: { privateDerivationPath: 'm/14/i', type: 'HdKey' },
+            key15: { privateDerivationPath: 'm/15/i', type: 'HdKey' },
+            key16: { privateDerivationPath: 'm/16/i', type: 'HdKey' },
+            key17: { privateDerivationPath: 'm/17/i', type: 'HdKey' },
+            key18: { privateDerivationPath: 'm/18/i', type: 'HdKey' },
+            key19: { privateDerivationPath: 'm/18/i', type: 'HdKey' },
+          },
+          ...{
+            key20: { privateDerivationPath: 'm/20/i', type: 'HdKey' },
+          },
         },
       },
     },
@@ -462,7 +521,16 @@ export const vmbTestDefinitionToVmbTests = (
     },
     scripts: {
       ...additionalScripts,
+      lockBareMultisig1of3: {
+        lockingType: 'standard',
+        script:
+          '<1> <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG',
+      },
       lockEmptyP2sh20: { lockingType: 'p2sh20', script: '' },
+      lockP2pk: {
+        lockingType: 'standard',
+        script: '<key1.public_key> OP_CHECKSIG',
+      },
       lockP2pkh: {
         lockingType: 'standard',
         script:
@@ -471,7 +539,23 @@ export const vmbTestDefinitionToVmbTests = (
       lockP2sh20: { lockingType: 'p2sh20', script: redeemOrLockingScript },
       lockP2sh32: { lockingType: 'p2sh32', script: redeemOrLockingScript },
       lockStandard: { lockingType: 'standard', script: redeemOrLockingScript },
+      unlockBareMultisig1of3Ecdsa: {
+        script: '<0> <key1.ecdsa_signature.all_outputs>',
+        unlocks: 'lockBareMultisig1of3',
+      },
+      unlockBareMultisig1of3Schnorr: {
+        script: '<0b001> <key1.schnorr_signature.all_outputs>',
+        unlocks: 'lockBareMultisig1of3',
+      },
       unlockEmptyP2sh20: { script: '<1>', unlocks: 'lockEmptyP2sh20' },
+      unlockP2pkStandardEcdsa: {
+        script: '<key1.ecdsa_signature.all_outputs>',
+        unlocks: 'lockP2pk',
+      },
+      unlockP2pkStandardSchnorr: {
+        script: '<key1.schnorr_signature.all_outputs>',
+        unlocks: 'lockP2pk',
+      },
       unlockP2pkh: {
         /**
          * Uses `corresponding_output_single_input` to reuse the same signature

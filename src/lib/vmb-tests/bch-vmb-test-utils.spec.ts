@@ -25,7 +25,7 @@ test('vmbTestGroupToVmbTests', (t) => {
     [
       [
         [
-          'lqhcn',
+          'lqhcne',
           'Test set: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (nonP2SH)',
           'OP_0',
           'OP_SIZE <0> OP_EQUAL',
@@ -35,7 +35,7 @@ test('vmbTestGroupToVmbTests', (t) => {
           1,
         ],
         [
-          'y0ql2',
+          'y0ql2w',
           'Test set: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (P2SH20)',
           'OP_0',
           'OP_SIZE <0> OP_EQUAL',
@@ -45,7 +45,7 @@ test('vmbTestGroupToVmbTests', (t) => {
           1,
         ],
         [
-          'zdclz',
+          'zdclze',
           'Test set: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (P2SH32)',
           'OP_0',
           'OP_SIZE <0> OP_EQUAL',
@@ -57,7 +57,7 @@ test('vmbTestGroupToVmbTests', (t) => {
       ],
       [
         [
-          '7j2u2',
+          '7j2u2h',
           'Test set: OP_PUSHBYTES_1 with missing bytes (nonP2SH)',
           'OP_PUSHBYTES_1',
           'OP_SIZE <1> OP_EQUAL',

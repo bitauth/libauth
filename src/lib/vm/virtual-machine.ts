@@ -3,6 +3,7 @@ import type {
   AuthenticationProgramCommon,
   AuthenticationProgramStateCommon,
   AuthenticationProgramStateMinimum,
+  AuthenticationProgramStateTransactionContext,
   ResolvedTransactionCommon,
 } from '../lib.js';
 
@@ -162,12 +163,27 @@ export type InstructionSet<
     }: {
       evaluate: (
         program: AuthenticationProgram,
-        stateOverride?: Partial<ProgramState>,
+        options?: { stateOverride?: Partial<ProgramState> },
       ) => ProgramState;
       success: (state: ProgramState) => string | true;
       initialize: () => Partial<ProgramState>;
     },
   ) => string | true;
+};
+
+export type MaskedProgramState<
+  ProgramState extends
+    AuthenticationProgramStateMinimum = AuthenticationProgramStateCommon,
+> = Omit<ProgramState, 'instructions' | 'program'> & {
+  /**
+   * The resolved instruction that was executed to arrive at this program state.
+   *
+   * Set to `undefined` for the last (duplicated) program state produced by each
+   * bytecode evaluation.
+   */
+  instruction:
+    | AuthenticationProgramStateMinimum['instructions'][number]
+    | undefined;
 };
 
 /**
@@ -177,7 +193,7 @@ export type InstructionSet<
 export type AuthenticationVirtualMachine<
   ResolvedTransaction,
   AuthenticationProgram,
-  ProgramState,
+  ProgramState extends AuthenticationProgramStateMinimum,
 > = {
   /**
    * Debug a program by fully evaluating it, cloning and adding each
@@ -209,10 +225,20 @@ export type AuthenticationVirtualMachine<
    *
    * @param state - the {@link AuthenticationProgram} to debug
    */
-  debug: (
+  debug: <MaskProgramState extends boolean = false>(
     program: AuthenticationProgram,
-    stateOverride?: Partial<ProgramState>,
-  ) => ProgramState[];
+    options?: {
+      /**
+       * Improve performance and reduce the memory footprint of the resulting
+       * debug trace by excluding `program` and `instructions` and instead
+       * including a resolved `instruction` in each returned program state.
+       */
+      maskProgramState?: MaskProgramState;
+      stateOverride?: Partial<ProgramState>;
+    },
+  ) => (MaskProgramState extends true
+    ? MaskedProgramState<ProgramState>
+    : ProgramState)[];
 
   /**
    * Fully evaluate a program, returning the resulting `ProgramState`.
@@ -221,7 +247,7 @@ export type AuthenticationVirtualMachine<
    */
   evaluate: (
     program: AuthenticationProgram,
-    stateOverride?: Partial<ProgramState>,
+    options?: { stateOverride?: Partial<ProgramState> },
   ) => ProgramState;
 
   /**
@@ -323,6 +349,65 @@ export type AuthenticationVirtualMachine<
 };
 
 /**
+ * Partially clone a `ProgramState`, avoiding duplication of components that are
+ * never expected to change (improving performance and memory footprint). Note,
+ * this could make mutation-related bugs in VMs harder to track down (mutations
+ * in later operations can create confusion in the "history" returned by
+ * `vm.debug`), but the performance and memory benefits are worth the added
+ * development and testing effort.
+ * @param state - the state to clone
+ * @param referenceOnlyKeys - keys which should be copied entirely by reference
+ * @param shallowCloneArrayKeys - keys to arrays which should be shallow cloned
+ */
+export const partiallyCloneProgramState = <
+  ProgramState extends
+    AuthenticationProgramStateMinimum = AuthenticationProgramStateCommon,
+>(
+  state: ProgramState,
+  referenceOnlyKeys = ['instructions', 'program'],
+  shallowCloneArrayKeys = [
+    'alternateStack',
+    'controlStack',
+    'signedMessages',
+    'stack',
+  ],
+) =>
+  Object.fromEntries(
+    Object.entries(state).map(([key, value]) =>
+      referenceOnlyKeys.includes(key)
+        ? [key, value]
+        : shallowCloneArrayKeys.includes(key)
+          ? [key, (value as unknown[]).slice()]
+          : [key, structuredClone(value)],
+    ),
+  ) as ProgramState;
+
+/**
+ * Given a `ProgramState`, clone and return a {@link MaskedProgramState} from
+ * which `instructions` and `program` are excluded.
+ * @param state - the `ProgramState` to mask
+ */
+export const maskStaticProgramState = <
+  ProgramState extends
+    AuthenticationProgramStateMinimum = AuthenticationProgramStateCommon,
+>(
+  state: ProgramState,
+) => {
+  const maskedState = partiallyCloneProgramState(state) as unknown as Partial<
+    AuthenticationProgramStateMinimum &
+      AuthenticationProgramStateTransactionContext &
+      MaskedProgramState<AuthenticationProgramStateMinimum>
+  >;
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  delete maskedState.instructions;
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  delete maskedState.program;
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  maskedState.instruction = state.instructions[state.ip];
+  return maskedState as MaskedProgramState<ProgramState>;
+};
+
+/**
  * Create an {@link AuthenticationVirtualMachine} to evaluate authentication
  * programs constructed from operations in the `instructionSet`.
  * @param instructionSet - an {@link InstructionSet}
@@ -394,7 +479,7 @@ export const createVirtualMachine = <
     instructionSet.initialize ??
     (() =>
       ({ metrics: { executedInstructionCount: 0 } }) as Partial<ProgramState>);
-  const stateClone = structuredClone;
+  const stateClone = partiallyCloneProgramState;
   const { success } = instructionSet;
 
   const stateEvaluate = (state: ProgramState) =>
@@ -405,7 +490,7 @@ export const createVirtualMachine = <
     return after(stateEvery(operator(stateClone(state))));
   };
 
-  const stateDebug = (state: ProgramState) => {
+  const stateDebug = (state: ProgramState): ProgramState[] => {
     const trace: ProgramState[] = [];
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     trace.push(state);
@@ -423,7 +508,7 @@ export const createVirtualMachine = <
 
   const evaluate = (
     program: AuthenticationProgram,
-    stateOverride?: Partial<ProgramState>,
+    { stateOverride }: { stateOverride?: Partial<ProgramState> } = {},
   ) =>
     instructionSet.evaluate(program, {
       stateEvaluate,
@@ -431,9 +516,15 @@ export const createVirtualMachine = <
       stateOverride,
     });
 
-  const debug = (
+  const debug = <MaskProgramState extends boolean = false>(
     program: AuthenticationProgram,
-    stateOverride?: Partial<ProgramState>,
+    {
+      stateOverride,
+      maskProgramState = false as MaskProgramState,
+    }: {
+      maskProgramState?: MaskProgramState;
+      stateOverride?: Partial<ProgramState>;
+    } = {},
   ) => {
     const results: ProgramState[] = [];
     const proxyDebug = (state: ProgramState) => {
@@ -447,7 +538,12 @@ export const createVirtualMachine = <
       stateInitialize: initialize,
       stateOverride,
     });
-    return [...results, finalResult];
+    const trace = [...results, finalResult];
+    return (
+      maskProgramState ? trace.map(maskStaticProgramState) : trace
+    ) as (MaskProgramState extends true
+      ? MaskedProgramState<ProgramState>
+      : ProgramState)[];
   };
 
   const verify = (resolvedTransaction: ResolvedTransaction) =>

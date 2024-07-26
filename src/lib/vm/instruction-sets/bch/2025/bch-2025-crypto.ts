@@ -122,7 +122,7 @@ export const opRipemd160ChipLimits =
       incrementHashDigestIterations(
         nextState,
         { messageLength: value.length, resultIsHashed: false, strict },
-        (finalState) => pushToStack(finalState, ripemd160.hash(value)),
+        (finalState) => pushToStack(finalState, [ripemd160.hash(value)]),
       ),
     );
 
@@ -152,7 +152,7 @@ export const opSha1ChipLimits =
       incrementHashDigestIterations(
         nextState,
         { messageLength: value.length, resultIsHashed: false, strict },
-        (finalState) => pushToStack(finalState, sha1.hash(value)),
+        (finalState) => pushToStack(finalState, [sha1.hash(value)]),
       ),
     );
 
@@ -184,7 +184,7 @@ export const opSha256ChipLimits =
       incrementHashDigestIterations(
         nextState,
         { messageLength: value.length, resultIsHashed: false, strict },
-        (finalState) => pushToStack(finalState, sha256.hash(value)),
+        (finalState) => pushToStack(finalState, [sha256.hash(value)]),
       ),
     );
 
@@ -217,7 +217,7 @@ export const opHash160ChipLimits =
         nextState,
         { messageLength: value.length, resultIsHashed: true, strict },
         (finalState) =>
-          pushToStack(finalState, ripemd160.hash(sha256.hash(value))),
+          pushToStack(finalState, [ripemd160.hash(sha256.hash(value))]),
       ),
     );
 
@@ -249,6 +249,6 @@ export const opHash256ChipLimits =
       incrementHashDigestIterations(
         nextState,
         { messageLength: value.length, resultIsHashed: true, strict },
-        (finalState) => pushToStack(finalState, hash256(value, sha256)),
+        (finalState) => pushToStack(finalState, [hash256(value, sha256)]),
       ),
     );

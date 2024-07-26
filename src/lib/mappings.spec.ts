@@ -74,6 +74,10 @@ type TypeTests =
       AuthenticationProgramStateBch,
       AuthenticationProgramStateCommon
     >
+  | AssertTypesEqual<
+      typeof OpcodeDescriptionsBchSpec,
+      typeof OpcodeDescriptions
+    >
   | AssertTypesEqual<AuthenticationProgramBch, AuthenticationProgram>
   | AssertTypesEqual<AuthenticationProgramBch, AuthenticationProgramCommon>
   | AssertTypesEqual<AuthenticationProgramStateBch, AuthenticationProgramState>
@@ -82,10 +86,7 @@ type TypeTests =
   | AssertTypesEqual<TransactionBch, Transaction>
   | AssertTypesEqual<TransactionBch, TransactionCommon>
   | AssertTypesEqual<typeof ConsensusCommon, typeof ConsensusBch>
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  | AssertTypesEqual<typeof OpcodeDescriptionsBch, typeof OpcodeDescriptions>
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  | AssertTypesEqual<typeof OpcodesBch, typeof Opcodes>;
+  | AssertTypesEqual<typeof OpcodesBchSpec, typeof Opcodes>;
 /* eslint-enable @typescript-eslint/no-duplicate-type-constituents */
 
 test('Libauth exposes all expected mappings', (t) => {

@@ -734,7 +734,7 @@ test('verify-transactions.md: add OP_UNROT', (t) => {
     state: State,
   ) =>
     useThreeStackItems(state, (nextState, [a, b, c]) =>
-      pushToStack(nextState, c, a, b),
+      pushToStack(nextState, [c, a, b]),
     );
 
   /* We assign "OP_UNROT" at the index held by "OP_RESERVED1" */

@@ -109,7 +109,7 @@ const instructionSet = createInstructionSetBch(true);
  */
 const opUnRot = <State extends AuthenticationProgramStateStack>(state: State) =>
   useThreeStackItems(state, (nextState, [a, b, c]) =>
-    pushToStack(nextState, c, a, b),
+    pushToStack(nextState, [c, a, b]),
   );
 
 /* We assign "OP_UNROT" at the index held by "OP_RESERVED1" */

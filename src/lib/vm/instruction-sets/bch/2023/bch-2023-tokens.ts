@@ -8,6 +8,7 @@ import type {
   Transaction,
 } from '../../../../lib.js';
 import {
+  pushToStack,
   pushToStackChecked,
   pushToStackVmNumber,
   pushToStackVmNumberChecked,
@@ -214,9 +215,9 @@ export const verifyTransactionTokens = (
 
   // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, sum] of Object.entries(outputSumsByCategory)) {
-    if (sum > BigInt(ConsensusBch2023.maxVmNumber)) {
+    if (sum > BigInt(ConsensusBch2023.maximumVmNumber)) {
       return `Transaction violates token validation: the transaction outputs include a sum of fungible tokens for a category exceeding the maximum supply (${
-        ConsensusBch2023.maxVmNumber
+        ConsensusBch2023.maximumVmNumber
       }). Category: ${categoryHex}, total amount: ${sum.toString()}.`;
     }
     const availableSum = availableSumsByCategory[categoryHex];
@@ -323,7 +324,7 @@ export const pushTokenExtendedCategory = <
     token.category.slice().reverse(),
     Uint8Array.from(capabilityByte),
   ]);
-  return pushToStackChecked(state, extendedCategory);
+  return pushToStack(state, [extendedCategory]);
 };
 
 type TokenOpState = AuthenticationProgramStateError &

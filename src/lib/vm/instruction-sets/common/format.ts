@@ -37,7 +37,7 @@ export const opSplit = <
     return useOneStackItem(nextState, (finalState, [item]) =>
       index < 0 || index > item.length
         ? applyError(finalState, AuthenticationErrorCommon.invalidSplitIndex)
-        : pushToStack(finalState, item.slice(0, index), item.slice(index)),
+        : pushToStack(finalState, [item.slice(0, index), item.slice(index)]),
     );
   });
 
@@ -102,14 +102,13 @@ export const createOpNum2Bin =
                     AuthenticationErrorCommon.insufficientLength,
                   )
                 : minimallyEncoded.length === targetLength
-                  ? pushToStack(finalState, minimallyEncoded)
-                  : pushToStack(
-                      finalState,
+                  ? pushToStack(finalState, [minimallyEncoded])
+                  : pushToStack(finalState, [
                       padMinimallyEncodedVmNumber(
                         minimallyEncoded,
                         targetLength,
                       ),
-                    );
+                    ]);
             },
             {
               maximumVmNumberByteLength:
@@ -137,7 +136,7 @@ export const createOpBin2Num =
               nextState,
               AuthenticationErrorCommon.exceededMaximumVmNumberLength,
             )
-          : pushToStack(nextState, minimallyEncoded);
+          : pushToStack(nextState, [minimallyEncoded]);
       },
       {
         maximumVmNumberByteLength: maximumStackItemLength,

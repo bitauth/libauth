@@ -1,3 +1,5 @@
+import { cashAssemblyToBin } from '../compiler/compiler.js';
+import { binToHex, range } from '../format/format.js';
 import type {
   WalletTemplateScenario,
   WalletTemplateScenarioInput,
@@ -84,3 +86,11 @@ export const slot9Scenario: WalletTemplateScenario = {
     outputs: [vmbTestOutput],
   },
 };
+
+export const repeat = (cashAssembly: string, count: number) =>
+  range(count)
+    .map(() => cashAssembly)
+    .join(' ');
+
+export const cashAssemblyToHex = (cashAssembly: string) =>
+  binToHex(cashAssemblyToBin(cashAssembly) as Uint8Array);

@@ -135,8 +135,11 @@ export const createAuthenticationProgramStateBch2020 = ({
   instructions,
   stack,
   metrics = {
+    arithmeticCost: 0,
+    bitwiseCost: 0,
     executedInstructionCount: 0,
     signatureCheckCount: 0,
+    stackPushedBytes: 0,
   },
   transactionLengthBytes,
 }: {
@@ -507,10 +510,14 @@ export const createInstructionSetBch2020 = (
             opCheckSigVerify({ secp256k1, sha256 }),
           ),
           [OpcodesBch.OP_CHECKMULTISIG]: conditionallyEvaluate(
-            opCheckMultiSig({ secp256k1, sha256 }),
+            opCheckMultiSig({ enforceOperationLimit: true, secp256k1, sha256 }),
           ),
           [OpcodesBch.OP_CHECKMULTISIGVERIFY]: conditionallyEvaluate(
-            opCheckMultiSigVerify({ secp256k1, sha256 }),
+            opCheckMultiSigVerify({
+              enforceOperationLimit: true,
+              secp256k1,
+              sha256,
+            }),
           ),
           ...(standard
             ? {

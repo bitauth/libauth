@@ -16,15 +16,15 @@ import vmbTestsBchJson from './generated/bch_vmb_tests.json' with { type: 'json'
 
 import { Bench } from 'tinybench';
 
-// cspell:ignore trxhz
+// cspell:ignore trxhzt
 const usageInfo = `
 This script runs a single VMB test on the requested VM, logging the results and debugging information. Use the "--verbose" (-v) flag to output the full debug trace, or use the "--bench" (-b) flag to benchmark the VM's validation performance for the specified test.
 
 Available VMs: ${Object.keys(vms).join(', ')}
 
 Usage: yarn test:unit:vmb_test <vm> <test_id> [-v OR -b]
-E.g.: yarn test:unit:vmb_test bch_2023_standard trxhz
-      yarn test:unit:vmb_test bch_2025_standard trxhz --verbose  # or -v
+E.g.: yarn test:unit:vmb_test bch_2023_standard trxhzt
+      yarn test:unit:vmb_test bch_2025_standard trxhzt --verbose  # or -v
       yarn test:unit:vmb_test bch_spec_standard 2v2wf --bench    # or -b
 `;
 
@@ -84,18 +84,23 @@ const program = {
   transaction,
 };
 
-const debugResult = vm.debug(program);
+const highMemory = testDescription.includes('[high-memory]');
+const debugResult = highMemory
+  ? []
+  : vm.debug(program, { maskProgramState: true });
 const failingIndex =
   typeof result === 'string'
     ? /evaluating input index (?<index>\d+)/u.exec(result)?.groups?.['index']
     : undefined;
 const unexpectedFailingIndexDebugTrace =
   failingIndex !== undefined && Number(failingIndex) !== testedIndex
-    ? vm.debug({
-        inputIndex: Number(failingIndex),
-        sourceOutputs,
-        transaction,
-      })
+    ? highMemory
+      ? []
+      : vm.debug({
+          inputIndex: Number(failingIndex),
+          sourceOutputs,
+          transaction,
+        })
     : undefined;
 
 const isP2sh20 = isPayToScriptHash20(

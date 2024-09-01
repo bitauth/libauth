@@ -1,4 +1,3 @@
-
 /* eslint-disable max-lines */ /* cspell: disable */ const raw = `abacate
 abaixo
 abalar

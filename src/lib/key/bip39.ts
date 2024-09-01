@@ -14,18 +14,16 @@ import type { Sha512 } from '../lib.js';
 
 import { deriveHdPrivateNodeFromSeed } from './hd-key.js';
 import { generateRandomBytes } from './key-utils.js';
-/* eslint-disable import/no-internal-modules */
-import bip39WordListChineseSimplified from './word-lists/bip39.chinese-simplified.json' assert { type: 'json' };
-import bip39WordListChineseTraditional from './word-lists/bip39.chinese-traditional.json' assert { type: 'json' };
-import bip39WordListCzech from './word-lists/bip39.czech.json' assert { type: 'json' };
-import bip39WordListEnglish from './word-lists/bip39.english.json' assert { type: 'json' };
-import bip39WordListFrench from './word-lists/bip39.french.json' assert { type: 'json' };
-import bip39WordListItalian from './word-lists/bip39.italian.json' assert { type: 'json' };
-import bip39WordListJapanese from './word-lists/bip39.japanese.json' assert { type: 'json' };
-import bip39WordListKorean from './word-lists/bip39.korean.json' assert { type: 'json' };
-import bip39WordListPortuguese from './word-lists/bip39.portuguese.json' assert { type: 'json' };
-import bip39WordListSpanish from './word-lists/bip39.spanish.json' assert { type: 'json' };
-/* eslint-enable import/no-internal-modules */
+import { bip39WordListChineseSimplified } from './word-lists/bip39.chinese-simplified.js';
+import { bip39WordListChineseTraditional } from './word-lists/bip39.chinese-traditional.js';
+import { bip39WordListCzech } from './word-lists/bip39.czech.js';
+import { bip39WordListEnglish } from './word-lists/bip39.english.js';
+import { bip39WordListFrench } from './word-lists/bip39.french.js';
+import { bip39WordListItalian } from './word-lists/bip39.italian.js';
+import { bip39WordListJapanese } from './word-lists/bip39.japanese.js';
+import { bip39WordListKorean } from './word-lists/bip39.korean.js';
+import { bip39WordListPortuguese } from './word-lists/bip39.portuguese.js';
+import { bip39WordListSpanish } from './word-lists/bip39.spanish.js';
 
 export {
   bip39WordListChineseSimplified,

@@ -7,7 +7,7 @@ import { join } from 'path';
 import test from 'ava';
 
 import type { HashFunction } from '../lib.js';
-import { utf8ToBin } from '../lib.js';
+import { streamWasmArrayBuffer, utf8ToBin } from '../lib.js';
 
 import fc from 'fast-check';
 import hashJs from 'hash.js';
@@ -43,7 +43,7 @@ export const testHashFunction = <T extends HashFunction>({
   nodeJsAlgorithm: 'ripemd160' | 'sha1' | 'sha256' | 'sha512';
 }) => {
   const binary = getEmbeddedBinary();
-  test(`[crypto] ${hashFunctionName} getEmbeddedBinary returns the proper binary`, (t) => {
+  test(`[crypto] ${hashFunctionName} getEmbeddedBinary returns the proper binary`, async (t) => {
     const path = join(
       new URL('.', import.meta.url).pathname,
       '..',
@@ -52,7 +52,10 @@ export const testHashFunction = <T extends HashFunction>({
       `${hashFunctionName}.wasm`,
     );
     const binaryFromDisk = readFileSync(path).buffer;
-    t.deepEqual(binary, binaryFromDisk);
+    const eventuallyDecompressedBinary = await (
+      await streamWasmArrayBuffer(binary)
+    ).arrayBuffer();
+    t.deepEqual(eventuallyDecompressedBinary, binaryFromDisk);
   });
 
   test(`[crypto] ${hashFunctionName} instantiated with embedded binary`, async (t) => {

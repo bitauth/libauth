@@ -1,9 +1,46 @@
+import { binsAreEqual } from '../format/hex.js';
+
 export type HashFunction = {
   final: (rawState: Uint8Array) => Uint8Array;
   hash: (input: Uint8Array) => Uint8Array;
   init: () => Uint8Array;
   update: (rawState: Uint8Array, input: Uint8Array) => Uint8Array;
 };
+
+/* eslint-disable @typescript-eslint/require-await, functional/no-return-void, functional/no-expression-statements, @typescript-eslint/no-magic-numbers, @typescript-eslint/naming-convention */
+/**
+ * Reads in a wasm binary as an ArrayBuffer, checks if it was compressed and
+ * decompresses it if necessary. Returns a Response object with the wasm binary compatible with WebAssembly.instantiateStreaming.
+ */
+export const streamWasmArrayBuffer = async (
+  wasmArrayBuffer: ArrayBuffer,
+): Promise<Response> => {
+  // currently, we consume the data in a single chunk, but when ReadableStream.from() becomes widely available, we can switch to it
+  const wasmStream = new ReadableStream({
+    start(controller): void {
+      controller.enqueue(new Uint8Array(wasmArrayBuffer));
+      controller.close();
+    },
+  });
+
+  // if source is uncompressed, then return as is
+  if (
+    binsAreEqual(
+      new Uint8Array(wasmArrayBuffer, 0, 4),
+      new Uint8Array([0x00, 0x61, 0x73, 0x6d]),
+    )
+  ) {
+    return new Response(wasmStream, {
+      headers: new Headers({ 'content-type': 'application/wasm' }),
+    });
+  }
+
+  // otherwise, decompress the source
+  return new Response(wasmStream.pipeThrough(new DecompressionStream('gzip')), {
+    headers: new Headers({ 'content-type': 'application/wasm' }),
+  });
+};
+/* eslint-enable @typescript-eslint/require-await, functional/no-return-void, functional/no-expression-statements, @typescript-eslint/no-magic-numbers, @typescript-eslint/naming-convention */
 
 /* eslint-disable functional/no-conditional-statements, functional/no-let, functional/no-expression-statements, no-underscore-dangle, functional/no-try-statements, @typescript-eslint/no-magic-numbers, @typescript-eslint/max-params, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-non-null-assertion */
 /**
@@ -19,8 +56,9 @@ export const instantiateRustWasm = async (
   updateExportName: string,
   finalExportName: string,
 ): Promise<HashFunction> => {
+  const webassemblyByteStream = await streamWasmArrayBuffer(webassemblyBytes);
   const wasm = (
-    await WebAssembly.instantiate(webassemblyBytes, {
+    await WebAssembly.instantiateStreaming(webassemblyByteStream, {
       [expectedImportModuleName]: {
         /**
          * This would only be called in cases where a `__wbindgen_malloc` failed.

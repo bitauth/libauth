@@ -59,7 +59,7 @@ RUN emcc src/libsecp256k1_la-secp256k1.o \
   ]' \
   -o out/secp256k1/secp256k1.js
 
-RUN OUTPUT_TS_FILE=out/secp256k1/secp256k1.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const secp256k1Base64Bytes =\n  '" > $OUTPUT_TS_FILE && base64 -w 0 out/secp256k1/secp256k1.wasm >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
+RUN OUTPUT_TS_FILE=out/secp256k1/secp256k1.base64.ts; printf "/**\n * @hidden\n */\n// prettier-ignore\nexport const secp256k1Base64Bytes =\n  '" > $OUTPUT_TS_FILE && cat out/secp256k1/secp256k1.wasm | gzip | base64 -w 0 >> $OUTPUT_TS_FILE && printf "';\n" >> $OUTPUT_TS_FILE
 
 RUN cp -r /libauth/wasm/secp256k1/out /libauth/bin
 

@@ -7,7 +7,8 @@
     "node_modules",
     "build",
     "coverage",
-    "src/lib/schema/ajv/*.js"
+    "src/lib/schema/ajv/*.js",
+    "src/lib/bin/secp256k1/secp256k1.js"
   ],
   "extends": ["bitauth"],
   // "globals": { "BigInt": true, "console": true, "WebAssembly": true },

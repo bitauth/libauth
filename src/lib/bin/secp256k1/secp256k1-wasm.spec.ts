@@ -12,6 +12,7 @@ import {
   getEmbeddedSecp256k1Binary,
   instantiateSecp256k1Wasm,
   instantiateSecp256k1WasmBytes,
+  streamWasmArrayBuffer,
 } from '../../lib.js';
 
 // test vectors from `zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong` (`xprv9s21ZrQH143K2PfMvkNViFc1fgumGqBew45JD8SxA59Jc5M66n3diqb92JjvaR61zT9P89Grys12kdtV4EFVo6tMwER7U2hcUmZ9VfMYPLC`), m/0 and m/1:
@@ -491,10 +492,35 @@ const testSecp256k1Wasm = (
 
 const binary = getEmbeddedSecp256k1Binary();
 
-test('[crypto] getEmbeddedSecp256k1Binary returns the proper binary', (t) => {
+test('[crypto] getEmbeddedSecp256k1Binary returns the proper binary', async (t) => {
   const path = join(new URL('.', import.meta.url).pathname, 'secp256k1.wasm');
   const binaryFromDisk = readFileSync(path).buffer;
-  t.deepEqual(binary, binaryFromDisk);
+  const eventuallyDecompressedBinary = await (
+    await streamWasmArrayBuffer(binary)
+  ).arrayBuffer();
+  t.deepEqual(eventuallyDecompressedBinary, binaryFromDisk);
+
+  // compress the wasm binary
+  const stream = new ReadableStream({
+    start(controller): void {
+      controller.enqueue(new Uint8Array(binaryFromDisk));
+      controller.close();
+    },
+  }).pipeThrough(new CompressionStream('gzip'));
+
+  const compressedBinary = await new Response(stream).arrayBuffer();
+
+  // decompress the compressed wasm binary
+  const decompressedBinary = await (
+    await streamWasmArrayBuffer(compressedBinary)
+  ).arrayBuffer();
+  t.deepEqual(decompressedBinary, binaryFromDisk);
+
+  // check that the uncompressed binary produced by `streamWasmArrayBuffer` is the same as the binary from disk
+  const uncompressedBinary = await (
+    await streamWasmArrayBuffer(binaryFromDisk)
+  ).arrayBuffer();
+  t.deepEqual(uncompressedBinary, binaryFromDisk);
 });
 
 test('[crypto] Secp256k1Wasm instantiated with embedded binary', async (t) => {

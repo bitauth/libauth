@@ -16,15 +16,22 @@ import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { bigIntToVmNumber } from './instruction-sets-utils.js';
 
-export const opCat = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack,
->(
-  state: State,
-) =>
-  useTwoStackItems(state, (nextState, [a, b]) =>
-    pushToStackChecked(nextState, flattenBinArray([a, b])),
-  );
+export const createOpCat =
+  ({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {}) =>
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateStack,
+  >(
+    state: State,
+  ) =>
+    useTwoStackItems(state, (nextState, [a, b]) =>
+      pushToStackChecked(nextState, flattenBinArray([a, b]), {
+        maximumStackItemLength,
+      }),
+    );
+export const opCat = createOpCat();
 
 export const opSplit = <
   State extends AuthenticationProgramStateError &
@@ -36,7 +43,11 @@ export const opSplit = <
     const index = Number(value);
     return useOneStackItem(nextState, (finalState, [item]) =>
       index < 0 || index > item.length
-        ? applyError(finalState, AuthenticationErrorCommon.invalidSplitIndex)
+        ? applyError(
+            finalState,
+            AuthenticationErrorCommon.invalidSplitIndex,
+            `stack item length: ${item.length}; requested split index: ${index}.`,
+          )
         : pushToStack(finalState, [item.slice(0, index), item.slice(index)]),
     );
   });
@@ -79,18 +90,15 @@ export const createOpNum2Bin =
       AuthenticationProgramStateStack,
   >({
     maximumStackItemLength = ConsensusCommon.maximumStackItemLength,
-    exceededMaximumStackItemLengthError = AuthenticationErrorCommon.exceededMaximumStackItemLength,
-  }: {
-    exceededMaximumStackItemLengthError?: string;
-    maximumStackItemLength?: number;
-  } = {}): Operation<State> =>
+  }: { maximumStackItemLength?: number } = {}): Operation<State> =>
   (state: State) =>
     useOneVmNumber(state, (nextState, value) => {
       const targetLength = Number(value);
       return targetLength > maximumStackItemLength
         ? applyError(
             nextState,
-            `${exceededMaximumStackItemLengthError} Item length: ${targetLength} bytes.`,
+            AuthenticationErrorCommon.exceededMaximumStackItemLength,
+            `Maximum stack item length: ${maximumStackItemLength} bytes. Item length: ${targetLength} bytes.`,
           )
         : useOneVmNumber(
             nextState,
@@ -100,6 +108,7 @@ export const createOpNum2Bin =
                 ? applyError(
                     finalState,
                     AuthenticationErrorCommon.insufficientLength,
+                    `Minimum necessary byte length: ${minimallyEncoded.length}. Requested byte length: ${targetLength}.`,
                   )
                 : minimallyEncoded.length === targetLength
                   ? pushToStack(finalState, [minimallyEncoded])
@@ -111,8 +120,7 @@ export const createOpNum2Bin =
                     ]);
             },
             {
-              maximumVmNumberByteLength:
-                ConsensusCommon.maximumStackItemLength as number,
+              maximumVmNumberByteLength: maximumStackItemLength,
               requireMinimalEncoding: false,
             },
           );
@@ -125,16 +133,21 @@ export const createOpBin2Num =
       AuthenticationProgramStateStack,
   >({
     maximumStackItemLength = ConsensusCommon.maximumStackItemLength,
-  }: { maximumStackItemLength?: number } = {}): Operation<State> =>
+    maximumVmNumberByteLength = ConsensusCommon.maximumVmNumberByteLength,
+  }: {
+    maximumStackItemLength?: number;
+    maximumVmNumberByteLength?: number;
+  } = {}): Operation<State> =>
   (state: State) =>
     useOneVmNumber(
       state,
       (nextState, [target]) => {
         const minimallyEncoded = bigIntToVmNumber(target);
-        return minimallyEncoded.length > ConsensusCommon.maximumVmNumberLength
+        return minimallyEncoded.length > maximumVmNumberByteLength
           ? applyError(
               nextState,
-              AuthenticationErrorCommon.exceededMaximumVmNumberLength,
+              AuthenticationErrorCommon.exceededMaximumVmNumberByteLength,
+              `Maximum VM number byte length: ${maximumVmNumberByteLength}; required byte length: ${minimallyEncoded.length}.`,
             )
           : pushToStack(nextState, [minimallyEncoded]);
       },

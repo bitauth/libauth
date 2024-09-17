@@ -1,0 +1,7 @@
+{
+"3lltrp":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"r4klg0":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"ms2klh":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"xh4md6":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"spu5dc":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN)."
+}

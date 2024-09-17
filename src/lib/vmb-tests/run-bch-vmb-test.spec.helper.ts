@@ -10,9 +10,8 @@ import {
   summarizeDebugTrace,
 } from '../lib.js';
 
-import { baselineBenchmarkId, isVm, vms } from './bch-vmb-tests.spec.helper.js';
-// eslint-disable-next-line import/no-internal-modules
-import vmbTestsBchJson from './generated/bch_vmb_tests.json' with { type: 'json' };
+import { importVmbTests } from './generate-vmb-tests.spec.helper.js';
+import { baselineBenchmarkId, isVm, vms } from './vmb-tests.spec.helper.js';
 
 import { Bench } from 'tinybench';
 
@@ -25,7 +24,8 @@ Available VMs: ${Object.keys(vms).join(', ')}
 Usage: yarn test:unit:vmb_test <vm> <test_id> [-v OR -b]
 E.g.: yarn test:unit:vmb_test bch_2023_standard trxhzt
       yarn test:unit:vmb_test bch_2025_standard trxhzt --verbose  # or -v
-      yarn test:unit:vmb_test bch_spec_standard 2v2wf --bench    # or -b
+      yarn test:unit:vmb_test bch_spec_standard trxhzt --bench    # or -b
+      yarn test:unit:vmb_test bch_spec_standard trxhzt --profile  # or -p
 `;
 
 const [, , vmId, testId, flag] = process.argv;
@@ -34,27 +34,20 @@ if (vmId === undefined || testId === undefined) {
   process.exit(1);
 }
 const useVerbose = flag?.includes('v') ?? false;
-const runBenchmark = flag?.includes('b') ?? false;
+const collectProfile = flag?.includes('p') ?? false;
+const runBenchmark = collectProfile || (flag?.includes('b') ?? false);
 
 if (!isVm(vmId)) {
   console.log(`Error: the VM "${vmId}" is unknown.\n${usageInfo}`);
   process.exit(1);
 }
-
+const baseVm = vmId.slice(0, vmId.lastIndexOf('_'));
+const both = 2;
+const allTests = (await importVmbTests(baseVm))
+  .map(({ files }) => files.map(({ tests }) => tests))
+  .flat(both);
 const vm = vms[vmId];
-const testDefinition = (
-  vmbTestsBchJson as [
-    shortId: string,
-    testDescription: string,
-    unlockingScriptAsm: string,
-    redeemOrLockingScriptAsm: string,
-    testTransactionHex: string,
-    sourceOutputsHex: string,
-    testSets: string[],
-    inputIndex?: number,
-  ][]
-).find(([shortId]) => shortId === testId);
-
+const testDefinition = allTests.find(([shortId]) => shortId === testId);
 if (testDefinition === undefined) {
   console.log(`Error: the test ID "${testId}" is unknown.\n${usageInfo}`);
   process.exit(1);
@@ -67,15 +60,13 @@ const [
   redeemOrLockingScriptAsm,
   txHex,
   sourceOutputsHex,
-  testSets,
   inputIndex,
 ] = testDefinition;
-
 const testedIndex = inputIndex ?? 0;
-const transaction = assertSuccess(decodeTransaction(hexToBin(txHex)));
-const sourceOutputs = assertSuccess(
-  decodeTransactionOutputs(hexToBin(sourceOutputsHex)),
-);
+const transactionBin = hexToBin(txHex);
+const sourceOutputsBin = hexToBin(sourceOutputsHex);
+const transaction = assertSuccess(decodeTransaction(transactionBin));
+const sourceOutputs = assertSuccess(decodeTransactionOutputs(sourceOutputsBin));
 const result = vm.verify({ sourceOutputs, transaction });
 
 const program = {
@@ -106,6 +97,18 @@ const unexpectedFailingIndexDebugTrace =
 const isP2sh20 = isPayToScriptHash20(
   sourceOutputs[testedIndex]!.lockingBytecode,
 );
+const {
+  arithmeticCost,
+  densityControlLength,
+  evaluatedInstructionCount,
+  hashDigestIterations,
+  maximumHashDigestIterations,
+  maximumOperationCost,
+  maximumSignatureCheckCount,
+  operationCost,
+  signatureCheckCount,
+  stackPushedBytes,
+} = debugResult[debugResult.length - 1]!.metrics;
 
 console.log(`
 ${
@@ -153,10 +156,17 @@ Standard information:
 
 VMB test ID: ${shortId}
 Description: ${testDescription}
-Test sets: ${testSets.join(', ')}
+Transaction byte length: ${transactionBin.length} | UTXOs byte length: ${
+  sourceOutputsBin.length
+} (${
+  sourceOutputs.length
+} UTXOs) | Tested index: ${testedIndex} | Locking bytecode length: ${
+  sourceOutputs[testedIndex]?.lockingBytecode.length ?? '???'
+} | Unlocking bytecode length: ${
+  transaction.inputs[testedIndex]?.unlockingBytecode.length ?? '???'
+} | Density control length: ${densityControlLength}
+Op. Cost: ${operationCost} (Max: ${maximumOperationCost}) | SigChecks: ${signatureCheckCount} (Max: ${maximumSignatureCheckCount}) | Hash iters. ${hashDigestIterations} (Max: ${maximumHashDigestIterations}) | Evaluated Ops: ${evaluatedInstructionCount} | Pushed Bytes: ${stackPushedBytes} | Math Cost: ${arithmeticCost}
 
-Unlocking ASM: ${unlockingScriptAsm}
-${isP2sh20 ? 'Redeem (P2SH20)' : 'Locking'} ASM: ${redeemOrLockingScriptAsm}
 Result (VM: ${vmId}): ${
   result === true ? 'Transaction accepted' : `Transaction rejected: ${result}`
 }${
@@ -171,6 +181,9 @@ ${stringifyDebugTraceSummary(
 )}
 `
 }
+Unlocking ASM: ${unlockingScriptAsm}
+${isP2sh20 ? 'Redeem (P2SH20)' : 'Locking'} ASM: ${redeemOrLockingScriptAsm}
+
 Evaluation at index ${testedIndex}:
 
 ${stringifyDebugTraceSummary(summarizeDebugTrace(debugResult))}
@@ -180,18 +193,9 @@ if (!runBenchmark) {
   process.exit(0);
 }
 
-const baselineDefinition = (
-  vmbTestsBchJson as [
-    shortId: string,
-    testDescription: string,
-    unlockingScriptAsm: string,
-    redeemOrLockingScriptAsm: string,
-    testTransactionHex: string,
-    sourceOutputsHex: string,
-    testSets: string[],
-    inputIndex?: number,
-  ][]
-).find(([id]) => id === baselineBenchmarkId);
+console.log('Benchmarking...');
+
+const baselineDefinition = allTests.find(([id]) => id === baselineBenchmarkId);
 if (baselineDefinition === undefined) {
   // eslint-disable-next-line functional/no-throw-statements
   throw new Error(
@@ -212,10 +216,17 @@ bench.add(baselineName, () =>
   vm.verify({ sourceOutputs: baselineSourceOutputs, transaction: baselineTx }),
 );
 bench.add(testName, () => vm.verify({ sourceOutputs, transaction }));
+console.log('Warming up benchmark...');
 await bench.warmup();
-console.log('Benchmarking...');
+console.log('Running benchmark...');
+// eslint-disable-next-line functional/no-conditional-statements
+if (collectProfile) console.profile();
 await bench.run();
+// eslint-disable-next-line functional/no-conditional-statements
+if (collectProfile) console.profileEnd();
+// console.log('\nTest result:', bench.getTask(baselineName)?.result);
 console.table(bench.table());
+// console.log('\nBaseline result:', bench.getTask(testName)?.result);
 const baselineMean = bench.results[0]!.mean;
 const testMean = bench.results[1]!.mean;
 console.log(

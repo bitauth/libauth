@@ -1,0 +1,13 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+5yhtnl,"BigInt: OP_1SUB 1-byte number (all bits set) (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,51,2
+tu2cr9,"BigInt: OP_1SUB 1-byte number (all bits set) (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,75,2
+dlwywd,"BigInt: OP_1SUB 1-byte number (alternating bits set) (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,49,1
+4yp3rw,"BigInt: OP_1SUB 1-byte number (alternating bits set) (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,73,1
+2j6xhu,"BigInt: OP_1SUB 8-byte number (alternating bits set) (P2SH20)",232,67,2,1,62,49600,0,1,0,31,2,8,77,8
+apvn50,"BigInt: OP_1SUB 8-byte number (alternating bits set) (P2SH32)",232,79,2,1,62,49600,0,1,0,31,2,8,101,8
+rzxju2,"BigInt: OP_1SUB 1-byte number (highest-bit set) (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,46,0
+ay67u8,"BigInt: OP_1SUB 1-byte number (highest-bit set) (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,70,0
+k7desx,"BigInt: OP_1SUB 8-byte number (highest-bit set) (P2SH20)",232,67,2,1,62,49600,0,1,0,31,2,8,77,8
+zr4a2q,"BigInt: OP_1SUB 8-byte number (highest-bit set) (P2SH32)",232,79,2,1,62,49600,0,1,0,31,2,8,101,8
+kn9nkv,"BigInt: OP_1SUB 8-byte number (one bit set per byte) (P2SH20)",232,67,2,1,62,49600,0,1,0,31,2,8,77,8
+runqsq,"BigInt: OP_1SUB 8-byte number (one bit set per byte) (P2SH32)",232,79,2,1,62,49600,0,1,0,31,2,8,101,8

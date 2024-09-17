@@ -93,7 +93,9 @@ export type InstructionSet<
       stateOverride,
     }: {
       stateEvaluate: (state: ProgramState) => ProgramState;
-      stateInitialize: () => Partial<ProgramState>;
+      stateInitialize: (
+        program: AuthenticationProgram,
+      ) => Partial<ProgramState>;
       stateOverride?: Partial<ProgramState>;
     },
   ) => ProgramState;
@@ -110,7 +112,7 @@ export type InstructionSet<
    * initialized at the beginning of evaluation. If not set, `stateInitialize`
    * will return an object with an empty `metrics` object.
    */
-  initialize?: () => Partial<ProgramState>;
+  initialize?: (program: AuthenticationProgram) => Partial<ProgramState>;
 
   /**
    * A mapping of `opcode` numbers (between 0 and 255) to `Operations`. When the
@@ -166,7 +168,7 @@ export type InstructionSet<
         options?: { stateOverride?: Partial<ProgramState> },
       ) => ProgramState;
       success: (state: ProgramState) => string | true;
-      initialize: () => Partial<ProgramState>;
+      initialize: (program: AuthenticationProgram) => Partial<ProgramState>;
     },
   ) => string | true;
 };
@@ -292,7 +294,7 @@ export type AuthenticationVirtualMachine<
    * Return a a partial program state including all properties that must be
    * initialized at the beginning of evaluation.
    */
-  stateInitialize: () => Partial<ProgramState>;
+  stateInitialize: (program: AuthenticationProgram) => Partial<ProgramState>;
 
   /**
    * Clones and return a new program state advanced by one step.
@@ -441,7 +443,7 @@ export const createVirtualMachine = <
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     state.ip += 1;
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-    state.metrics.executedInstructionCount += 1;
+    state.metrics.evaluatedInstructionCount += 1;
     return state;
   };
 
@@ -477,8 +479,8 @@ export const createVirtualMachine = <
 
   const initialize =
     instructionSet.initialize ??
-    (() =>
-      ({ metrics: { executedInstructionCount: 0 } }) as Partial<ProgramState>);
+    ((_program) =>
+      ({ metrics: { evaluatedInstructionCount: 0 } }) as Partial<ProgramState>);
   const stateClone = partiallyCloneProgramState;
   const { success } = instructionSet;
 

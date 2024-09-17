@@ -1,0 +1,37 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+r9reeh,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+w8l5f8,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+vxvgjm,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+wsg5k4,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+y9c9l5,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+j4wtu2,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+985gy4,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,21,0,0,0,0
+9tyfqs,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,8218,0,0,0,0
+3m04rw,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,8218,0,0,0,0
+30nsm0,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+8tf7dl,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+t3ulsd,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+e5m53g,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+k89aee,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+fjq68x,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+5xmzau,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,21,0,0,0,0
+n07jp4,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,8218,0,0,0,0
+4ngs9x,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,8218,0,0,0,0
+pfzld4,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+yf8lvj,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+5pltfc,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+0jstu0,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+klw2qv,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+tw7fdg,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+evynxp,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,21,0,0,0,0
+wghe8m,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,8218,0,0,0,0
+lc0j6k,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,8218,0,0,0,0
+p2n2yj,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+8sstvh,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+qxrhjv,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+ngqd90,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,21,0,0,0,0
+g6fc9v,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+ws7xzg,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,6170,0,0,0,0
+xh9amk,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,21,0,0,0,0
+n4t0nh,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,8218,0,0,0,0
+e0f0kt,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,8218,0,0,0,0

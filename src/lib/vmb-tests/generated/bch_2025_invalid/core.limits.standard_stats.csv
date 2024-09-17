@@ -1,0 +1,10 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+c2g0k4,"Transaction structure and limits: Requires empty unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,102,1,0,21,0,2,2,0
+5gs4c0,"Transaction structure and limits: Requires empty unlocking bytecode (P2SH20)",214,67,2,1,44,35200,928,1,0,22,2,6,44,0
+e0nnvf,"Transaction structure and limits: Requires empty unlocking bytecode (P2SH32)",214,79,2,1,44,35200,952,1,0,22,2,6,68,0
+wht0t5,"Transaction structure and limits: Empty locking bytecode requires truthy result (nonP2SH)",212,44,2,1,42,33600,0,1,0,21,0,1,0,0
+t82988,"Transaction structure and limits: Empty locking bytecode requires truthy result (P2SH20)",213,67,2,1,43,34400,825,1,0,21,2,5,41,0
+gzsgc9,"Transaction structure and limits: Empty locking bytecode requires truthy result (P2SH32)",213,79,2,1,43,34400,849,1,0,21,2,5,65,0
+rmy9zg,"Transaction structure and limits: Drop non-existent item (nonP2SH)",211,46,2,1,41,32800,0,1,0,20,0,1,0,0
+45cw83,"Transaction structure and limits: Drop non-existent item (P2SH20)",214,67,2,1,44,35200,827,1,0,22,2,5,43,0
+ufh6ua,"Transaction structure and limits: Drop non-existent item (P2SH32)",214,79,2,1,44,35200,851,1,0,22,2,5,67,0

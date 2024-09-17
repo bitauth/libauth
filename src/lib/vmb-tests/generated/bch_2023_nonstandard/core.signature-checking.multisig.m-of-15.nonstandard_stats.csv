@@ -1,0 +1,9 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+aktdrv,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 1) (nonP2SH)",284,559,2,1,114,91200,0,3,15,399,180,20,569,0
+mnkcy7,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 7) (nonP2SH)",284,559,2,1,114,91200,0,3,15,399,108,20,569,0
+ylckl2,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 15) (nonP2SH)",284,559,2,1,114,91200,0,3,15,399,12,20,569,0
+dyxfml,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 1) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,565,0
+pwuxfd,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 7) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,565,0
+dg2e2u,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 15) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,565,0
+tc2lq7,"Signature checking: 2-of-15 ECDSA multisig (keys 1 and 2) (nonP2SH)",358,559,2,1,188,150400,0,4,15,658,180,21,642,0
+ntndgy,"Signature checking: 2-of-15 Schnorr multisig (keys 1 and 2) (nonP2SH)",346,559,2,1,176,140800,0,4,2,616,24,21,630,0

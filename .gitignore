@@ -11,6 +11,12 @@ report.*.json
 scratch
 gitignore.*
 *.cpuprofile
+.aidigestignore
+codebase.md
+src/lib/vmb-tests/generated/.vmb-*
+src/lib/vmb-tests/generated/**/*bench.csv
+src/lib/vmb-tests/generated/bch_chip_*
+src/lib/vmb-tests/generated/bch_2026_*
 
 src/lib/bin/**/*.html
 src/lib/bin/**/*.js

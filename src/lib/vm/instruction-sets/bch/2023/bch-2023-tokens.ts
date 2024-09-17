@@ -11,7 +11,6 @@ import {
   pushToStack,
   pushToStackChecked,
   pushToStackVmNumber,
-  pushToStackVmNumberChecked,
   useTransactionOutput,
   useTransactionUtxo,
 } from '../../common/common.js';
@@ -215,9 +214,9 @@ export const verifyTransactionTokens = (
 
   // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, sum] of Object.entries(outputSumsByCategory)) {
-    if (sum > BigInt(ConsensusBch2023.maximumVmNumber)) {
+    if (sum > BigInt(ConsensusBch2023.maximumFungibleTokenAmount)) {
       return `Transaction violates token validation: the transaction outputs include a sum of fungible tokens for a category exceeding the maximum supply (${
-        ConsensusBch2023.maximumVmNumber
+        ConsensusBch2023.maximumFungibleTokenAmount
       }). Category: ${categoryHex}, total amount: ${sum.toString()}.`;
     }
     const availableSum = availableSumsByCategory[categoryHex];
@@ -350,7 +349,7 @@ export const pushTokenAmount = <State extends TokenOpState>(
   if (token === undefined) {
     return pushToStackVmNumber(state, 0n);
   }
-  return pushToStackVmNumberChecked(state, token.amount);
+  return pushToStackVmNumber(state, token.amount);
 };
 
 export const opUtxoTokenCategory = <State extends TokenOpState>(state: State) =>

@@ -178,6 +178,7 @@
     "TOALTSTACK",
     "tprv",
     "tpub",
+    "trxhzt",
     "tsdoc",
     "txid",
     "TXINPUTCOUNT",
@@ -221,7 +222,8 @@
     "tsconfig.json",
     "node_modules/**",
     "src/**/*.base64.ts",
-    "src/**/script_tests.json"
+    "src/**/script_tests.json",
+    "src/lib/vmb-tests/generated"
   ],
   "patterns": [
     {

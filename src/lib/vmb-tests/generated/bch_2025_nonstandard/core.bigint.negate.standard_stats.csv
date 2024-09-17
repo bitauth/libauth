@@ -1,0 +1,32 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+kshzrn,"BigInt: OP_NEGATE 1-byte number (all bits set) (nonP2SH)",213,48,2,1,43,34400,305,1,0,21,0,4,4,1
+2rch5l,"BigInt: OP_NEGATE 8-byte number (all bits set) (nonP2SH)",220,55,2,1,50,40000,333,1,0,25,0,4,25,8
+y3ehce,"BigInt: OP_NEGATE 64-byte number (all bits set) (nonP2SH)",276,111,2,1,106,84800,557,2,0,53,0,4,193,64
+ucddf3,"BigInt: OP_NEGATE 512-byte number (all bits set) (nonP2SH)",728,563,2,1,556,444800,2349,13,0,278,0,4,1537,512
+l7mtx5,"BigInt: OP_NEGATE 4096-byte number (all bits set) (nonP2SH)",4312,4147,2,1,4140,3312000,16685,96,0,2070,0,4,12289,4096
+sq4f0u,"BigInt: OP_NEGATE 4096-byte number (all bits set) (P2SH20)",8416,67,2,1,8244,6595200,33899,192,0,4122,66,8,16431,4096
+5ttpf2,"BigInt: OP_NEGATE 4096-byte number (all bits set) (P2SH32)",8416,79,2,1,8244,6595200,33923,192,0,4122,66,8,16455,4096
+8y6p9x,"BigInt: OP_NEGATE 8192-byte number (all bits set) (nonP2SH)",8408,8243,2,1,8236,6588800,33069,191,0,4118,0,4,24577,8192
+vyap37,"BigInt: OP_NEGATE 1-byte number (alternating bits set) (nonP2SH)",213,48,2,1,43,34400,305,1,0,21,0,4,4,1
+jrkur3,"BigInt: OP_NEGATE 8-byte number (alternating bits set) (nonP2SH)",220,55,2,1,50,40000,333,1,0,25,0,4,25,8
+chrvg6,"BigInt: OP_NEGATE 64-byte number (alternating bits set) (nonP2SH)",276,111,2,1,106,84800,557,2,0,53,0,4,193,64
+lavmtu,"BigInt: OP_NEGATE 512-byte number (alternating bits set) (nonP2SH)",728,563,2,1,556,444800,2349,13,0,278,0,4,1537,512
+jpv0mh,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (nonP2SH)",4312,4147,2,1,4140,3312000,16685,96,0,2070,0,4,12289,4096
+x0982y,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,33899,192,0,4122,66,8,16431,4096
+tzxjpd,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,33923,192,0,4122,66,8,16455,4096
+zgyl7w,"BigInt: OP_NEGATE 8192-byte number (alternating bits set) (nonP2SH)",8408,8243,2,1,8236,6588800,33069,191,0,4118,0,4,24577,8192
+0f30tj,"BigInt: OP_NEGATE 1-byte number (highest-bit set) (nonP2SH)",212,47,2,1,42,33600,305,1,0,21,0,4,4,1
+2vk0u3,"BigInt: OP_NEGATE 8-byte number (highest-bit set) (nonP2SH)",220,55,2,1,50,40000,333,1,0,25,0,4,25,8
+5f62y3,"BigInt: OP_NEGATE 64-byte number (highest-bit set) (nonP2SH)",276,111,2,1,106,84800,557,2,0,53,0,4,193,64
+gc47zh,"BigInt: OP_NEGATE 512-byte number (highest-bit set) (nonP2SH)",728,563,2,1,556,444800,2349,13,0,278,0,4,1537,512
+jng5wh,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (nonP2SH)",4312,4147,2,1,4140,3312000,16685,96,0,2070,0,4,12289,4096
+8cfpd3,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (P2SH20)",8416,67,2,1,8244,6595200,33899,192,0,4122,66,8,16431,4096
+u0yd5a,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (P2SH32)",8416,79,2,1,8244,6595200,33923,192,0,4122,66,8,16455,4096
+9s4kyw,"BigInt: OP_NEGATE 8192-byte number (highest-bit set) (nonP2SH)",8408,8243,2,1,8236,6588800,33069,191,0,4118,0,4,24577,8192
+my5ae7,"BigInt: OP_NEGATE 8-byte number (one bit set per byte) (nonP2SH)",220,55,2,1,50,40000,333,1,0,25,0,4,25,8
+xvz95q,"BigInt: OP_NEGATE 64-byte number (one bit set per byte) (nonP2SH)",276,111,2,1,106,84800,557,2,0,53,0,4,193,64
+0gngjy,"BigInt: OP_NEGATE 512-byte number (one bit set per byte) (nonP2SH)",728,563,2,1,556,444800,2349,13,0,278,0,4,1537,512
+z3jr88,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (nonP2SH)",4312,4147,2,1,4140,3312000,16685,96,0,2070,0,4,12289,4096
+l4mc4v,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (P2SH20)",8416,67,2,1,8244,6595200,33899,192,0,4122,66,8,16431,4096
+v82cgv,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (P2SH32)",8416,79,2,1,8244,6595200,33923,192,0,4122,66,8,16455,4096
+9ektgl,"BigInt: OP_NEGATE 8192-byte number (one bit set per byte) (nonP2SH)",8408,8243,2,1,8236,6588800,33069,191,0,4118,0,4,24577,8192

@@ -306,12 +306,15 @@ export const pushToStackChecked = <
 >(
   state: State,
   item: Uint8Array,
-  { maximumLength = ConsensusCommon.maximumStackItemLength as number } = {},
+  {
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {},
 ) => {
-  if (item.length > maximumLength) {
+  if (item.length > maximumStackItemLength) {
     return applyError(
       state,
-      `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${item.length} bytes.`,
+      AuthenticationErrorCommon.exceededMaximumStackItemLength,
+      `Maximum stack item length: ${maximumStackItemLength}; item length: ${item.length} bytes.`,
     );
   }
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
@@ -342,19 +345,27 @@ export const pushToStackVmNumber = <
  */
 export const pushToStackVmNumberChecked = <
   State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateStack,
 >(
   state: State,
   vmNumber: bigint,
   {
-    minVmNumber = BigInt(ConsensusCommon.minVmNumber),
-    maxVmNumber = BigInt(ConsensusCommon.maxVmNumber),
+    maximumVmNumberByteLength = ConsensusCommon.maximumVmNumberByteLength as number,
+    hasEncodingCost = false,
   } = {},
 ) => {
-  if (vmNumber > maxVmNumber || vmNumber < minVmNumber) {
-    return applyError(state, AuthenticationErrorCommon.overflowsVmNumberRange);
+  const encoded = bigIntToVmNumber(vmNumber);
+  if (encoded.length > maximumVmNumberByteLength) {
+    return applyError(
+      state,
+      AuthenticationErrorCommon.overflowsVmNumberRange,
+      `Maximum VM number byte length: ${maximumVmNumberByteLength}; encoded number length: ${encoded.length}.`,
+    );
   }
-  return pushToStackVmNumber(state, vmNumber);
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.arithmeticCost += hasEncodingCost ? encoded.length : 0;
+  return pushToStack(state, [encoded]);
 };
 
 export const combineOperations =
@@ -365,37 +376,49 @@ export const combineOperations =
   (state: State) =>
     secondOperation(firstOperation(state));
 
-const enum Constants {
-  lastTwoItems = -2,
-}
-export const measureArithmeticCost = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateResourceLimits &
-    AuthenticationProgramStateStack,
->(
-  state: State,
-  operation: Operation<State>,
-) => {
-  const [firstInput, secondInput] = state.stack.slice(Constants.lastTwoItems);
-  const firstLength = firstInput?.length ?? 0;
-  const secondLength = secondInput?.length ?? 0;
-  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-  state.metrics.arithmeticCost += firstLength * secondLength;
-  return operation(state);
-};
+/**
+ * Given a message length, compute and return the number of hash digest
+ * iterations required. (See `CHIP-2021-05-vm-limits`)
+ */
+export const lengthToHashDigestIterationCount = (messageLength: number) =>
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
+  1 + (((messageLength + 8) / 64) | 0);
 
-export const measureBitwiseCost = <
+/**
+ * Given a program state, increment the hash digest iteration count for a
+ * message of the provided length. If the total would exceed the maximum, append
+ * an error.
+ */
+export const incrementHashDigestIterations = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateResourceLimits &
-    AuthenticationProgramStateStack,
+    AuthenticationProgramStateResourceLimits,
 >(
   state: State,
-  operation: Operation<State>,
+  {
+    messageLength,
+    resultIsHashed,
+  }: {
+    /**
+     * The length of the message to be hashed.
+     */
+    messageLength: number;
+    /**
+     * If `true`, the result of the initial hashing process is to be provided to
+     * the hashing function one final time (i.e. for `OP_HASH160`
+     * and `OP_HASH256`).
+     */
+    resultIsHashed: boolean;
+  },
+  /**
+   * The operation to execute if no error occurred
+   */
+  operation: (nextState: State) => State,
 ) => {
-  const [firstInput, secondInput] = state.stack.slice(Constants.lastTwoItems);
-  const firstLength = firstInput?.length ?? 0;
-  const secondLength = secondInput?.length ?? 0;
+  const newIterations = lengthToHashDigestIterationCount(messageLength);
+  const secondRound = resultIsHashed ? 1 : 0;
+  const requiredTotalIterations =
+    state.metrics.hashDigestIterations + newIterations + secondRound;
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-  state.metrics.bitwiseCost += firstLength + secondLength;
+  state.metrics.hashDigestIterations = requiredTotalIterations;
   return operation(state);
 };

@@ -1,0 +1,27 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+eeukxv,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,9,66,0
+6vd8g5,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,9,90,0
+6s2evy,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,9,66,0
+6gx2xr,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,9,90,0
+0ky683,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,31,2,9,80,0
+lxseu8,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,31,2,9,104,0
+vrpeen,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,9,52,0
+cas8y9,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,9,76,0
+ealvhx,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,9,66,0
+2n0jen,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,9,90,0
+4enck4,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,9,66,0
+9pdrsm,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,9,90,0
+cylxdp,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,31,2,9,80,0
+h50u9d,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,31,2,9,104,0
+am9nr7,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,9,50,0
+v8ka0w,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,9,74,0
+jep0n9,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,0,1,0,27,2,9,65,0
+eeea53,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,0,1,0,27,2,9,89,0
+46yp9h,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,0,1,0,27,2,9,65,0
+jhu56y,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,0,1,0,27,2,9,89,0
+zadmpe,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,0,1,0,31,2,9,80,0
+l42r6q,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,0,1,0,31,2,9,104,0
+h9yy6h,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",225,67,2,1,55,44000,0,1,0,27,2,9,65,0
+xqkew8,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",225,79,2,1,55,44000,0,1,0,27,2,9,89,0
+y357q0,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,0,1,0,31,2,9,80,0
+ftgej2,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,0,1,0,31,2,9,104,0

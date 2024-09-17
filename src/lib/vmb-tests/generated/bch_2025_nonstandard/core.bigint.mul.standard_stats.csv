@@ -1,0 +1,193 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+k5x66j,"BigInt: OP_MUL 1-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",214,50,2,1,44,35200,410,1,0,22,0,5,7,3
+xw5rmr,"BigInt: OP_MUL 1-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",221,57,2,1,51,40800,445,1,0,25,0,5,28,17
+uj7wgr,"BigInt: OP_MUL 1-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",277,113,2,1,107,85600,725,2,0,53,0,5,196,129
+xgk7lv,"BigInt: OP_MUL 1-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",729,565,2,1,557,445600,2965,13,0,278,0,5,1540,1025
+9at6rn,"BigInt: OP_MUL 1-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",4313,4149,2,1,4141,3312800,20885,96,0,2070,0,5,12292,8193
+vet2r9,"BigInt: OP_MUL 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",8419,67,2,1,8247,6597600,38101,192,0,4123,66,9,16436,8193
+cfe8nj,"BigInt: OP_MUL 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",8419,79,2,1,8247,6597600,38125,192,0,4123,66,9,16460,8193
+wftjv5,"BigInt: OP_MUL 1-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",8409,8245,2,1,8237,6589600,41365,192,0,4118,0,5,24580,16385
+yqeqls,"BigInt: OP_MUL 8-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",221,57,2,1,51,40800,445,1,0,25,0,5,28,17
+fz90m0,"BigInt: OP_MUL 8-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",228,64,2,1,58,46400,529,1,0,29,0,5,49,80
+gf4xzs,"BigInt: OP_MUL 8-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",284,120,2,1,114,91200,1201,3,0,57,0,5,217,584
+d7cq7e,"BigInt: OP_MUL 8-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",736,572,2,1,564,451200,6577,13,0,282,0,5,1561,4616
+9lua0r,"BigInt: OP_MUL 8-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",4320,4156,2,1,4148,3318400,49585,96,0,2074,0,5,12313,36872
+20wqgn,"BigInt: OP_MUL 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",8433,67,2,1,8261,6608800,66808,192,0,4130,66,9,16464,36872
+3c34pc,"BigInt: OP_MUL 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",8433,79,2,1,8261,6608800,66832,192,0,4130,66,9,16488,36872
+l3qcrx,"BigInt: OP_MUL 8-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",8416,8252,2,1,8244,6595200,98737,192,0,4122,0,5,24601,73736
+vlvlmr,"BigInt: OP_MUL 64-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",277,113,2,1,107,85600,725,2,0,53,0,5,196,129
+ntghcz,"BigInt: OP_MUL 64-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",284,120,2,1,114,91200,1201,3,0,57,0,5,217,584
+3m8534,"BigInt: OP_MUL 64-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",341,176,2,1,171,136800,5009,4,0,85,0,5,385,4224
+zmg74l,"BigInt: OP_MUL 64-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",792,628,2,1,620,496000,35473,14,0,310,0,5,1729,33344
+n2j2ks,"BigInt: OP_MUL 64-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",4376,4212,2,1,4204,3363200,279185,98,0,2102,0,5,12481,266304
+kfnllk,"BigInt: OP_MUL 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",8545,67,2,1,8373,6698400,296656,195,0,4186,67,9,16688,266304
+lr7rmr,"BigInt: OP_MUL 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",8545,79,2,1,8373,6698400,296680,195,0,4186,67,9,16712,266304
+a54das,"BigInt: OP_MUL 64-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",8472,8308,2,1,8300,6640000,557713,193,0,4150,0,5,24769,532544
+aqgxty,"BigInt: OP_MUL 512-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",729,565,2,1,557,445600,2965,13,0,278,0,5,1540,1025
+zyvf3p,"BigInt: OP_MUL 512-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",736,572,2,1,564,451200,6577,13,0,282,0,5,1561,4616
+30yrww,"BigInt: OP_MUL 512-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",792,628,2,1,620,496000,35473,14,0,310,0,5,1729,33344
+refmra,"BigInt: OP_MUL 512-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",1240,1078,2,1,1068,854400,266641,25,0,534,0,5,3073,263168
+hcgc35,"BigInt: OP_MUL 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",2275,67,2,1,2103,1682400,271570,49,0,1051,18,9,4146,263168
+5345rs,"BigInt: OP_MUL 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",2275,79,2,1,2103,1682400,271594,49,0,1051,18,9,4170,263168
+zvuj46,"BigInt: OP_MUL 512-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",4824,4662,2,1,4652,3721600,2115985,108,0,2326,0,5,13825,2101760
+ze2m7u,"BigInt: OP_MUL 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",9443,67,2,1,9271,7416800,2135250,216,0,4635,74,9,18482,2101760
+a07kn7,"BigInt: OP_MUL 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",9443,79,2,1,9271,7416800,2135274,216,0,4635,74,9,18506,2101760
+mn56r6,"BigInt: OP_MUL 512-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",8920,8758,2,1,8748,6998400,4229521,203,0,4374,0,5,26113,4203008
+hjqp9k,"BigInt: OP_MUL 4096-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",4313,4149,2,1,4141,3312800,20885,96,0,2070,0,5,12292,8193
+79hg9j,"BigInt: OP_MUL 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",8419,67,2,1,8247,6597600,38101,192,0,4123,66,9,16436,8193
+phkja9,"BigInt: OP_MUL 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",8419,79,2,1,8247,6597600,38125,192,0,4123,66,9,16460,8193
+wn75mx,"BigInt: OP_MUL 4096-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",4320,4156,2,1,4148,3318400,49585,96,0,2074,0,5,12313,36872
+w5axqj,"BigInt: OP_MUL 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",8433,67,2,1,8261,6608800,66808,192,0,4130,66,9,16464,36872
+xd0ej3,"BigInt: OP_MUL 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",8433,79,2,1,8261,6608800,66832,192,0,4130,66,9,16488,36872
+zs227r,"BigInt: OP_MUL 4096-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",4376,4212,2,1,4204,3363200,279185,98,0,2102,0,5,12481,266304
+8e3st2,"BigInt: OP_MUL 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",8545,67,2,1,8373,6698400,296656,195,0,4186,67,9,16688,266304
+h72mrn,"BigInt: OP_MUL 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",8545,79,2,1,8373,6698400,296680,195,0,4186,67,9,16712,266304
+5lrc3c,"BigInt: OP_MUL 4096-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",4824,4662,2,1,4652,3721600,2115985,108,0,2326,0,5,13825,2101760
+gg5770,"BigInt: OP_MUL 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",9443,67,2,1,9271,7416800,2135250,216,0,4635,74,9,18482,2101760
+def25g,"BigInt: OP_MUL 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",9443,79,2,1,9271,7416800,2135274,216,0,4635,74,9,18506,2101760
+6xlwm9,"BigInt: OP_MUL 8192-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",8409,8245,2,1,8237,6589600,41365,192,0,4118,0,5,24580,16385
+495h2x,"BigInt: OP_MUL 8192-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",8416,8252,2,1,8244,6595200,98737,192,0,4122,0,5,24601,73736
+njsya3,"BigInt: OP_MUL 8192-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",8472,8308,2,1,8300,6640000,557713,193,0,4150,0,5,24769,532544
+4qq4m3,"BigInt: OP_MUL 8192-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",8920,8758,2,1,8748,6998400,4229521,203,0,4374,0,5,26113,4203008
+sp8acx,"BigInt: OP_MUL 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",214,50,2,1,44,35200,410,1,0,22,0,5,7,3
+parmam,"BigInt: OP_MUL 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",221,57,2,1,51,40800,445,1,0,25,0,5,28,17
+8hmlq2,"BigInt: OP_MUL 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",277,113,2,1,107,85600,725,2,0,53,0,5,196,129
+lr9s2l,"BigInt: OP_MUL 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",729,565,2,1,557,445600,2965,13,0,278,0,5,1540,1025
+p0mz69,"BigInt: OP_MUL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",4313,4149,2,1,4141,3312800,20885,96,0,2070,0,5,12292,8193
+4hf6ya,"BigInt: OP_MUL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",8419,67,2,1,8247,6597600,38101,192,0,4123,66,9,16436,8193
+fj7wkc,"BigInt: OP_MUL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",8419,79,2,1,8247,6597600,38125,192,0,4123,66,9,16460,8193
+q9p7m7,"BigInt: OP_MUL 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",8409,8245,2,1,8237,6589600,41365,192,0,4118,0,5,24580,16385
+ny4c5w,"BigInt: OP_MUL 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",221,57,2,1,51,40800,445,1,0,25,0,5,28,17
+u03lux,"BigInt: OP_MUL 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",228,64,2,1,58,46400,529,1,0,29,0,5,49,80
+yqc9wq,"BigInt: OP_MUL 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",284,120,2,1,114,91200,1201,3,0,57,0,5,217,584
+zvs6tu,"BigInt: OP_MUL 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",736,572,2,1,564,451200,6577,13,0,282,0,5,1561,4616
+hr0nst,"BigInt: OP_MUL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",4320,4156,2,1,4148,3318400,49585,96,0,2074,0,5,12313,36872
+3vlmsy,"BigInt: OP_MUL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",8433,67,2,1,8261,6608800,66808,192,0,4130,66,9,16464,36872
+hasw8y,"BigInt: OP_MUL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",8433,79,2,1,8261,6608800,66832,192,0,4130,66,9,16488,36872
+2h0vnq,"BigInt: OP_MUL 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",8416,8252,2,1,8244,6595200,98737,192,0,4122,0,5,24601,73736
+3gdgrf,"BigInt: OP_MUL 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",277,113,2,1,107,85600,725,2,0,53,0,5,196,129
+3mauj0,"BigInt: OP_MUL 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",284,120,2,1,114,91200,1201,3,0,57,0,5,217,584
+cchnpy,"BigInt: OP_MUL 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",341,176,2,1,171,136800,5009,4,0,85,0,5,385,4224
+xtu20e,"BigInt: OP_MUL 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",792,628,2,1,620,496000,35473,14,0,310,0,5,1729,33344
+nmyqfs,"BigInt: OP_MUL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",4376,4212,2,1,4204,3363200,279185,98,0,2102,0,5,12481,266304
+gln3n7,"BigInt: OP_MUL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",8545,67,2,1,8373,6698400,296656,195,0,4186,67,9,16688,266304
+znpty8,"BigInt: OP_MUL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",8545,79,2,1,8373,6698400,296680,195,0,4186,67,9,16712,266304
+k9pu26,"BigInt: OP_MUL 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",8472,8308,2,1,8300,6640000,557713,193,0,4150,0,5,24769,532544
+0hmkv5,"BigInt: OP_MUL 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",729,565,2,1,557,445600,2965,13,0,278,0,5,1540,1025
+cqyh4v,"BigInt: OP_MUL 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",736,572,2,1,564,451200,6577,13,0,282,0,5,1561,4616
+xzrtsm,"BigInt: OP_MUL 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",792,628,2,1,620,496000,35473,14,0,310,0,5,1729,33344
+xqny6w,"BigInt: OP_MUL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",1240,1078,2,1,1068,854400,266641,25,0,534,0,5,3073,263168
+nczlsn,"BigInt: OP_MUL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",2275,67,2,1,2103,1682400,271570,49,0,1051,18,9,4146,263168
+4wqahe,"BigInt: OP_MUL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",2275,79,2,1,2103,1682400,271594,49,0,1051,18,9,4170,263168
+yrqe2e,"BigInt: OP_MUL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",4824,4662,2,1,4652,3721600,2115985,108,0,2326,0,5,13825,2101760
+mfd6gj,"BigInt: OP_MUL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",9443,67,2,1,9271,7416800,2135250,216,0,4635,74,9,18482,2101760
+nccfjd,"BigInt: OP_MUL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",9443,79,2,1,9271,7416800,2135274,216,0,4635,74,9,18506,2101760
+jhphf8,"BigInt: OP_MUL 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",8920,8758,2,1,8748,6998400,4229521,203,0,4374,0,5,26113,4203008
+750mzq,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",4313,4149,2,1,4141,3312800,20885,96,0,2070,0,5,12292,8193
+0ahxr5,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",8419,67,2,1,8247,6597600,38101,192,0,4123,66,9,16436,8193
+pn3z8v,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",8419,79,2,1,8247,6597600,38125,192,0,4123,66,9,16460,8193
+csvftv,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",4320,4156,2,1,4148,3318400,49585,96,0,2074,0,5,12313,36872
+s4y0us,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",8433,67,2,1,8261,6608800,66808,192,0,4130,66,9,16464,36872
+4sed7d,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",8433,79,2,1,8261,6608800,66832,192,0,4130,66,9,16488,36872
+mk2ku4,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",4376,4212,2,1,4204,3363200,279185,98,0,2102,0,5,12481,266304
+af4ydc,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",8545,67,2,1,8373,6698400,296656,195,0,4186,67,9,16688,266304
+xl50kp,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",8545,79,2,1,8373,6698400,296680,195,0,4186,67,9,16712,266304
+ygcr5w,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",4824,4662,2,1,4652,3721600,2115985,108,0,2326,0,5,13825,2101760
+2yjr8e,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",9443,67,2,1,9271,7416800,2135250,216,0,4635,74,9,18482,2101760
+jmylhe,"BigInt: OP_MUL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",9443,79,2,1,9271,7416800,2135274,216,0,4635,74,9,18506,2101760
+yf6m9z,"BigInt: OP_MUL 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",8409,8245,2,1,8237,6589600,41365,192,0,4118,0,5,24580,16385
+wvldqg,"BigInt: OP_MUL 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",8416,8252,2,1,8244,6595200,98737,192,0,4122,0,5,24601,73736
+07nzmq,"BigInt: OP_MUL 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",8472,8308,2,1,8300,6640000,557713,193,0,4150,0,5,24769,532544
+v48wjg,"BigInt: OP_MUL 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",8920,8758,2,1,8748,6998400,4229521,203,0,4374,0,5,26113,4203008
+a4l7pa,"BigInt: OP_MUL 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,48,2,1,42,33600,407,1,0,21,0,5,5,2
+vufgf2,"BigInt: OP_MUL 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",220,56,2,1,50,40000,442,1,0,25,0,5,26,16
+nz0mx5,"BigInt: OP_MUL 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",276,112,2,1,106,84800,722,2,0,53,0,5,194,128
+g97s6z,"BigInt: OP_MUL 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",728,564,2,1,556,444800,2962,13,0,278,0,5,1538,1024
+3ynqdx,"BigInt: OP_MUL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",4312,4148,2,1,4140,3312000,20882,96,0,2070,0,5,12290,8192
+fv3j2g,"BigInt: OP_MUL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",8417,67,2,1,8245,6596000,38097,192,0,4122,66,9,16433,8192
+gwtl6w,"BigInt: OP_MUL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",8417,79,2,1,8245,6596000,38121,192,0,4122,66,9,16457,8192
+ets803,"BigInt: OP_MUL 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",8408,8244,2,1,8236,6588800,41362,191,0,4118,0,5,24578,16384
+vgh055,"BigInt: OP_MUL 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",220,56,2,1,50,40000,442,1,0,25,0,5,26,16
+cdzzz4,"BigInt: OP_MUL 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",227,64,2,1,57,45600,526,1,0,28,0,5,47,79
+jtqq7r,"BigInt: OP_MUL 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",283,120,2,1,113,90400,1198,3,0,56,0,5,215,583
+8m3akj,"BigInt: OP_MUL 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",735,572,2,1,563,450400,6574,13,0,281,0,5,1559,4615
+kq5au5,"BigInt: OP_MUL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",4319,4156,2,1,4147,3317600,49582,96,0,2073,0,5,12311,36871
+58ztp9,"BigInt: OP_MUL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",8432,67,2,1,8260,6608000,66805,192,0,4130,66,9,16462,36871
+rqapdp,"BigInt: OP_MUL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",8432,79,2,1,8260,6608000,66829,192,0,4130,66,9,16486,36871
+n99a9v,"BigInt: OP_MUL 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",8415,8252,2,1,8243,6594400,98734,192,0,4121,0,5,24599,73735
+pk4plm,"BigInt: OP_MUL 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",276,112,2,1,106,84800,722,2,0,53,0,5,194,128
+susasc,"BigInt: OP_MUL 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",283,120,2,1,113,90400,1198,3,0,56,0,5,215,583
+l5c9lh,"BigInt: OP_MUL 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",340,176,2,1,170,136000,5006,4,0,85,0,5,383,4223
+ep5w0l,"BigInt: OP_MUL 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",791,628,2,1,619,495200,35470,14,0,309,0,5,1727,33343
+3gpxqx,"BigInt: OP_MUL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",4375,4212,2,1,4203,3362400,279182,98,0,2101,0,5,12479,266303
+50ugry,"BigInt: OP_MUL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",8544,67,2,1,8372,6697600,296653,195,0,4186,67,9,16686,266303
+xachyt,"BigInt: OP_MUL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",8544,79,2,1,8372,6697600,296677,195,0,4186,67,9,16710,266303
+aw8akd,"BigInt: OP_MUL 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",8471,8308,2,1,8299,6639200,557710,193,0,4149,0,5,24767,532543
+3cl89d,"BigInt: OP_MUL 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",728,564,2,1,556,444800,2962,13,0,278,0,5,1538,1024
+vlfsle,"BigInt: OP_MUL 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",735,572,2,1,563,450400,6574,13,0,281,0,5,1559,4615
+cu2e42,"BigInt: OP_MUL 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",791,628,2,1,619,495200,35470,14,0,309,0,5,1727,33343
+88pptp,"BigInt: OP_MUL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",1239,1078,2,1,1067,853600,266638,25,0,533,0,5,3071,263167
+vla3vr,"BigInt: OP_MUL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",2274,67,2,1,2102,1681600,271567,49,0,1051,18,9,4144,263167
+uehtxw,"BigInt: OP_MUL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",2274,79,2,1,2102,1681600,271591,49,0,1051,18,9,4168,263167
+8flnkq,"BigInt: OP_MUL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",4823,4662,2,1,4651,3720800,2115982,108,0,2325,0,5,13823,2101759
+3qxz04,"BigInt: OP_MUL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",9442,67,2,1,9270,7416000,2135247,216,0,4635,74,9,18480,2101759
+e05wta,"BigInt: OP_MUL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",9442,79,2,1,9270,7416000,2135271,216,0,4635,74,9,18504,2101759
+tv3j0h,"BigInt: OP_MUL 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",8919,8758,2,1,8747,6997600,4229518,203,0,4373,0,5,26111,4203007
+ydzgvk,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",4312,4148,2,1,4140,3312000,20882,96,0,2070,0,5,12290,8192
+ldrmrl,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",8417,67,2,1,8245,6596000,38097,192,0,4122,66,9,16433,8192
+kge53x,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",8417,79,2,1,8245,6596000,38121,192,0,4122,66,9,16457,8192
+veufdd,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",4319,4156,2,1,4147,3317600,49582,96,0,2073,0,5,12311,36871
+mng36j,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",8432,67,2,1,8260,6608000,66805,192,0,4130,66,9,16462,36871
+3zh402,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",8432,79,2,1,8260,6608000,66829,192,0,4130,66,9,16486,36871
+eu3mxf,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",4375,4212,2,1,4203,3362400,279182,98,0,2101,0,5,12479,266303
+yc2vr4,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",8544,67,2,1,8372,6697600,296653,195,0,4186,67,9,16686,266303
+qlsqvv,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",8544,79,2,1,8372,6697600,296677,195,0,4186,67,9,16710,266303
+jn9dqp,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",4823,4662,2,1,4651,3720800,2115982,108,0,2325,0,5,13823,2101759
+c0nx5k,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",9442,67,2,1,9270,7416000,2135247,216,0,4635,74,9,18480,2101759
+a4usyg,"BigInt: OP_MUL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",9442,79,2,1,9270,7416000,2135271,216,0,4635,74,9,18504,2101759
+x0rky5,"BigInt: OP_MUL 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",8408,8244,2,1,8236,6588800,41362,191,0,4118,0,5,24578,16384
+4ar3zy,"BigInt: OP_MUL 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",8415,8252,2,1,8243,6594400,98734,192,0,4121,0,5,24599,73735
+aqn6ru,"BigInt: OP_MUL 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",8471,8308,2,1,8299,6639200,557710,193,0,4149,0,5,24767,532543
+wkczpt,"BigInt: OP_MUL 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",8919,8758,2,1,8747,6997600,4229518,203,0,4373,0,5,26111,4203007
+mqfmwk,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",220,56,2,1,50,40000,442,1,0,25,0,5,26,16
+87veva,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",227,64,2,1,57,45600,526,1,0,28,0,5,47,79
+f4pday,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",283,120,2,1,113,90400,1198,3,0,56,0,5,215,583
+pfcw4e,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",735,572,2,1,563,450400,6574,13,0,281,0,5,1559,4615
+40vz6a,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",4319,4156,2,1,4147,3317600,49582,96,0,2073,0,5,12311,36871
+65dvdx,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",8432,67,2,1,8260,6608000,66805,192,0,4130,66,9,16462,36871
+97nkgh,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",8432,79,2,1,8260,6608000,66829,192,0,4130,66,9,16486,36871
+8k7hr6,"BigInt: OP_MUL 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",8415,8252,2,1,8243,6594400,98734,192,0,4121,0,5,24599,73735
+pl33d0,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",276,112,2,1,106,84800,722,2,0,53,0,5,194,128
+yxvstu,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",283,120,2,1,113,90400,1198,3,0,56,0,5,215,583
+sscgk2,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",340,176,2,1,170,136000,5006,4,0,85,0,5,383,4223
+tx7zl7,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",791,628,2,1,619,495200,35470,14,0,309,0,5,1727,33343
+wgdsqq,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",4375,4212,2,1,4203,3362400,279182,98,0,2101,0,5,12479,266303
+0pv605,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",8544,67,2,1,8372,6697600,296653,195,0,4186,67,9,16686,266303
+4qh0s2,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",8544,79,2,1,8372,6697600,296677,195,0,4186,67,9,16710,266303
+djape4,"BigInt: OP_MUL 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",8471,8308,2,1,8299,6639200,557710,193,0,4149,0,5,24767,532543
+kdxapg,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",728,564,2,1,556,444800,2962,13,0,278,0,5,1538,1024
+v668zc,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",735,572,2,1,563,450400,6574,13,0,281,0,5,1559,4615
+9jq7qw,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",791,628,2,1,619,495200,35470,14,0,309,0,5,1727,33343
+arg5zy,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",1239,1078,2,1,1067,853600,266638,25,0,533,0,5,3071,263167
+yyxtdj,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",2274,67,2,1,2102,1681600,271567,49,0,1051,18,9,4144,263167
+z56g8x,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",2274,79,2,1,2102,1681600,271591,49,0,1051,18,9,4168,263167
+rsjda0,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",4823,4662,2,1,4651,3720800,2115982,108,0,2325,0,5,13823,2101759
+zj2qtg,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",9442,67,2,1,9270,7416000,2135247,216,0,4635,74,9,18480,2101759
+qgawv5,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",9442,79,2,1,9270,7416000,2135271,216,0,4635,74,9,18504,2101759
+2au98q,"BigInt: OP_MUL 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",8919,8758,2,1,8747,6997600,4229518,203,0,4373,0,5,26111,4203007
+rce0d8,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",4312,4148,2,1,4140,3312000,20882,96,0,2070,0,5,12290,8192
+4ettcg,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",8417,67,2,1,8245,6596000,38097,192,0,4122,66,9,16433,8192
+86gs4s,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",8417,79,2,1,8245,6596000,38121,192,0,4122,66,9,16457,8192
+mdp7k9,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",4319,4156,2,1,4147,3317600,49582,96,0,2073,0,5,12311,36871
+fmz4n0,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",8432,67,2,1,8260,6608000,66805,192,0,4130,66,9,16462,36871
+mkmu29,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",8432,79,2,1,8260,6608000,66829,192,0,4130,66,9,16486,36871
+xrhzzk,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",4375,4212,2,1,4203,3362400,279182,98,0,2101,0,5,12479,266303
+q3vu8c,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",8544,67,2,1,8372,6697600,296653,195,0,4186,67,9,16686,266303
+q0nkcy,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",8544,79,2,1,8372,6697600,296677,195,0,4186,67,9,16710,266303
+2s9waq,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",4823,4662,2,1,4651,3720800,2115982,108,0,2325,0,5,13823,2101759
+8juh6x,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",9442,67,2,1,9270,7416000,2135247,216,0,4635,74,9,18480,2101759
+z08mqf,"BigInt: OP_MUL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",9442,79,2,1,9270,7416000,2135271,216,0,4635,74,9,18504,2101759
+zmpgpl,"BigInt: OP_MUL 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",8408,8244,2,1,8236,6588800,41362,191,0,4118,0,5,24578,16384
+0h3uzl,"BigInt: OP_MUL 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",8415,8252,2,1,8243,6594400,98734,192,0,4121,0,5,24599,73735
+2pmn74,"BigInt: OP_MUL 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",8471,8308,2,1,8299,6639200,557710,193,0,4149,0,5,24767,532543
+gmxa76,"BigInt: OP_MUL 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",8919,8758,2,1,8747,6997600,4229518,203,0,4373,0,5,26111,4203007

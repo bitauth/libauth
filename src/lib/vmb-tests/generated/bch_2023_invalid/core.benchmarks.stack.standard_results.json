@@ -1,0 +1,15 @@
+{
+"ss72kv":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"l0acpe":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"9nd5e9":"Standard transactions may only spend standard output types, but source output 0 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"8zmhnl":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"xxy89j":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"m7sdck":"Standard transactions may only spend standard output types, but source output 0 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"a3ujmu":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"5sxtzw":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"nevxwn":"Standard transactions may only spend standard output types, but source output 0 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"g2qj8r":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"xqlhvr":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"w6v3jd":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes.",
+"5pvlyk":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 1646 bytes."
+}

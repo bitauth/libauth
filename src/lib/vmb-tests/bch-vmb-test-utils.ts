@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /**
  * This script generates all bch_vmb_tests, run it with: `yarn gen:tests`.
  */
@@ -5,7 +6,7 @@ import { encodeBech32, regroupBits } from '../address/address.js';
 import { createCompilerBch } from '../compiler/compiler-bch/compiler-bch.js';
 import { walletTemplateToCompilerConfiguration } from '../compiler/compiler-utils.js';
 import { sha256 } from '../crypto/crypto.js';
-import { binToHex, flattenBinArray } from '../format/format.js';
+import { binToHex, flattenBinArray, sortObjectKeys } from '../format/format.js';
 import type { WalletTemplate, WalletTemplateScenario } from '../lib.js';
 import {
   encodeTransaction,
@@ -33,6 +34,8 @@ const vmVersionsBch = [
   'chip_loops',
   'chip_zce',
   'chip_txv5',
+  /* For error reporting in combinatorial test generation: */ 'unknown',
+  /* For skipping in combinatorial test generation: */ 'skip',
 ] as const;
 /**
  * These are the VM "modes" for which tests can be generated.
@@ -105,24 +108,25 @@ export const vmbTestDefinitionDefaultBehaviorBch: TestSetOverrideLabelBch[] = [
 const testSetOverrideListBch = [
   ['chip_bigint_invalid'],
   ['chip_bigint'],
+  ['chip_bigint', 'nonstandard'],
+  ['chip_bigint', 'nonstandard', 'nop2sh_invalid'],
+  ['chip_bigint', 'nonstandard', 'p2sh_invalid'],
+  ['chip_bigint', 'nop2sh_invalid'],
   ['spec'],
   ['2023_invalid'],
   ['2023_invalid', '2025_nonstandard', 'p2sh_ignore'],
   ['2023_invalid', 'nop2sh_ignore'],
+  ['2023_invalid', 'nop2sh_ignore'],
+  ['2023_invalid', 'p2sh_ignore'],
+  ['2023_p2sh_invalid'],
   ['chip_loops_invalid'],
   ['chip_loops'],
+  ['invalid', '2023_nonstandard'],
+  ['invalid', '2023_nonstandard', 'p2sh_ignore'],
   ['invalid', '2025_nonstandard', 'p2sh_ignore'],
-  ['invalid', 'nop2sh_ignore', '2023_p2sh_standard', '2025_p2sh_nonstandard'],
-  [
-    'invalid',
-    'nop2sh_ignore',
-    'p2sh32_ignore',
-    '2023_p2sh20_standard',
-    '2025_p2sh20_nonstandard',
-  ],
+  ['invalid', 'nop2sh_ignore'],
+  ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'p2sh_ignore', '2023_nop2sh_nonstandard'],
-  ['invalid', 'nop2sh_nonstandard'],
-  ['invalid', 'nop2sh_nonstandard'],
   ['invalid', 'p2sh_ignore'],
   ['invalid', 'p2sh_standard'],
   ['invalid', 'p2sh20_standard'],
@@ -131,13 +135,25 @@ const testSetOverrideListBch = [
   ['nop2sh_ignore'],
   ['nop2sh_ignore', 'p2sh32_ignore'],
   ['nop2sh_invalid'],
+  ['nop2sh_invalid', '2023_p2sh_invalid'],
+  ['nop2sh_invalid', '2023_p2sh_nonstandard'],
+  ['nop2sh_invalid', '2023_nop2sh_nonstandard'],
+  ['nop2sh_standard'],
   ['nop2sh_standard', 'p2sh_ignore'],
+  ['nonstandard'],
+  ['nonstandard', '2023_invalid'],
+  ['nonstandard', '2023_invalid', 'p2sh_ignore'],
+  ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
+  ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard', 'p2sh32_ignore'],
+  ['nonstandard', 'nop2sh_ignore', 'p2sh32_ignore'],
+  ['nonstandard', 'nop2sh_invalid', '2023_invalid'],
   ['nonstandard', 'p2sh_ignore'],
   ['nonstandard', 'p2sh_invalid'],
-  ['nonstandard'],
   ['p2sh_ignore'],
   ['p2sh_invalid'],
   ['p2sh32_nonstandard'],
+  ['skip'],
+  ['unknown'],
   [],
 ] as const;
 
@@ -205,19 +221,113 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
+  '2023_invalid,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  '2023_p2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
   /**
    * `chip_*` values exclude the marked test from
    * {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
   chip_bigint: [
-    { mode: 'nonP2SH', sets: ['chip_bigint_nonstandard'] },
-    { mode: 'P2SH20', sets: ['chip_bigint_standard'] },
-    { mode: 'P2SH32', sets: ['chip_bigint_standard'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
+    },
+  ],
+  'chip_bigint,nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
+    },
+  ],
+  'chip_bigint,nonstandard,nop2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
+    },
+  ],
+  'chip_bigint,nonstandard,p2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+  ],
+  'chip_bigint,nop2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
+    },
   ],
   chip_bigint_invalid: [
-    { mode: 'nonP2SH', sets: ['chip_bigint_invalid'] },
-    { mode: 'P2SH20', sets: ['chip_bigint_invalid'] },
-    { mode: 'P2SH32', sets: ['chip_bigint_invalid'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
   ],
   chip_loops: [
     { mode: 'nonP2SH', sets: ['chip_loops_nonstandard'] },
@@ -234,30 +344,36 @@ export const supportedTestSetOverridesBch: {
     { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
     { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
+  'invalid,2023_nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+  ],
+  'invalid,2023_nonstandard,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+  ],
   'invalid,2025_nonstandard,p2sh_ignore': [
     {
       mode: 'nonP2SH',
       sets: ['2023_invalid', '2025_nonstandard', '2026_invalid'],
     },
   ],
-  'invalid,nop2sh_ignore,2023_p2sh_standard,2025_p2sh_nonstandard': [
-    {
-      mode: 'P2SH20',
-      sets: ['2023_standard', '2025_nonstandard', '2026_invalid'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_standard', '2025_nonstandard', '2026_invalid'],
-    },
+  'invalid,nop2sh_ignore': [
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
-
-  'invalid,nop2sh_ignore,p2sh32_ignore,2023_p2sh20_standard,2025_p2sh20_nonstandard':
-    [
-      {
-        mode: 'P2SH20',
-        sets: ['2023_standard', '2025_nonstandard', '2026_invalid'],
-      },
-    ],
   'invalid,nop2sh_nonstandard': [
     {
       mode: 'nonP2SH',
@@ -316,6 +432,62 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
     },
   ],
+  'nonstandard,2023_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,2023_invalid,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_ignore,2023_p2sh_standard': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_ignore,2023_p2sh_standard,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_ignore,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_invalid,2023_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
   'nonstandard,p2sh_ignore': [
     {
       mode: 'nonP2SH',
@@ -348,6 +520,59 @@ export const supportedTestSetOverridesBch: {
   ],
   nop2sh_invalid: [
     { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_invalid,2023_nop2sh_nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_invalid,2023_p2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_invalid,2023_p2sh_nonstandard': [
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_nonstandard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_nonstandard', '2025_standard', '2026_standard'],
+    },
+  ],
+  nop2sh_standard: [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
     {
       mode: 'P2SH20',
       sets: ['2023_standard', '2025_standard', '2026_standard'],
@@ -605,7 +830,7 @@ export const vmbTestDefinitionToVmbTests = (
     if (typeof result.scenario === 'string') {
       // eslint-disable-next-line functional/no-throw-statements
       throw new Error(
-        `Error while generating "${description}" - ${result.scenario}`,
+        `Error while generating "${description}" - ${result.scenario}. Unlocking script: ${unlockingScript}. Redeem or locking script: ${redeemOrLockingScript}.`,
       );
     }
     const encodedTx = encodeTransaction(result.scenario.program.transaction);
@@ -702,3 +927,140 @@ export const vmbTestPartitionMasterTestList = (
     });
     return accumulatedTestSets;
   }, {});
+
+export type PossibleTestValue = [description: string, value: string];
+export type TestValues = PossibleTestValue[];
+
+/**
+ * Given an array of arrays, produce an array of all possible combinations.
+ * E.g.: `[['a', 'b'], [1, 2], ['x']]` produces:
+ * `[ [ 'a', 1, 'x' ], [ 'a', 2, 'x' ], [ 'b', 1, 'x' ], [ 'b', 2, 'x' ] ]`.
+ * @param arrays - an array of arrays
+ */
+export const generateCombinations = <T>(arrays: T[][]): T[][] =>
+  arrays.reduce<T[][]>(
+    (acc, curr) => acc.flatMap((combo) => curr.map((item) => [...combo, item])),
+    [[]],
+  );
+
+/**
+ * Map an array of value arrays onto a a template test case.
+ * @param templates - templates for unlockingScript, lockingScript, and
+ * test description.
+ * @param possibleValues - an array of arrays of `PossibleValue`s
+ */
+export const mapTestCases = (
+  templates: [
+    unlockingScript: string,
+    lockingScript: string,
+    description: string,
+  ],
+  combinations: TestValues[],
+  {
+    prefixAsHexLiterals = false,
+    scenario,
+  }: { prefixAsHexLiterals?: boolean; scenario?: WalletTemplateScenario } = {},
+): VmbTestDefinition[] =>
+  combinations.map((values) => {
+    const replace = (template: string, useLabel = false) =>
+      // eslint-disable-next-line complexity
+      template.replace(/\$(?<index>\d+)/gu, (_, index) => {
+        const raw = `${prefixAsHexLiterals && !useLabel ? '0x' : ''}${
+          values[Number(index)]?.[useLabel ? 0 : 1] ??
+          'LIBAUTH_GENERATION_ERROR_UNKNOWN_INDEX'
+        }`;
+        return raw === '0x' ? '0' : raw;
+      });
+    return [
+      replace(templates[0]),
+      replace(templates[1]),
+      replace(templates[2], true),
+      [],
+      scenario,
+    ];
+  });
+
+/**
+ * Given a template test case and an array of possible-value arrays, produce a
+ * combinatorial set of test cases.
+ * @param templates - templates for unlockingScript, lockingScript, and
+ * test description.
+ * @param possibleValues - an array of arrays of `PossibleValue`s
+ */
+export const generateTestCases = (
+  templates: [
+    unlockingScript: string,
+    lockingScript: string,
+    description: string,
+  ],
+  possibleValues: PossibleTestValue[][],
+  { scenario }: { scenario?: WalletTemplateScenario } = {},
+): VmbTestDefinition[] => {
+  const combinations = generateCombinations(possibleValues);
+  return mapTestCases(templates, combinations, { scenario });
+};
+
+type TestSetOverrideListBchIndex = 3;
+/**
+ * Given a generated set of tests, set expected results using a dictionary of
+ * descriptions.
+ *
+ * To make updating tests easier, the test definitions include tests that aren't
+ * included in the dictionary, this function logs the new dictionary and throws
+ * (to exit early).
+ *
+ * To exclude a particular case from the resulting set, mark it as `['skip']`,
+ * (e.g. if that particular test is already manually defined elsewhere.)
+ */
+export const setExpectedResults = (
+  generatedDefinitions: VmbTestDefinition[],
+  resultDictionary: {
+    [description: string]:
+      | VmbTestDefinition[TestSetOverrideListBchIndex]
+      | ['skip'];
+  },
+  /**
+   * A place to drop quick functions to bulk edit the dictionary. If set, the
+   * corrected dictionary will be logged quickly and an error thrown.
+   */
+  macroEdit?: (
+    description: string,
+    currentSets: VmbTestDefinition[TestSetOverrideListBchIndex],
+  ) => VmbTestDefinition[TestSetOverrideListBchIndex],
+): VmbTestDefinition[] => {
+  const results = generatedDefinitions.map((definition) => {
+    const [_unlockingScript, _redeemOrLockingScript, testDescription, _labels] =
+      definition;
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+    definition[3] = resultDictionary[testDescription] ?? ['unknown'];
+    return definition;
+  });
+  const descriptions = generatedDefinitions.map((def) => def[2]);
+  const extraKeys = Object.keys(resultDictionary).filter(
+    (key) => !descriptions.includes(key),
+  );
+  const hasUnknownResults = results.some(
+    (definition) => definition[3]?.[0] === 'unknown',
+  );
+  if (macroEdit !== undefined || extraKeys.length > 0 || hasUnknownResults) {
+    const newDictionary = results.reduce<{
+      [description: string]: VmbTestDefinition[TestSetOverrideListBchIndex];
+    }>(
+      (dict, def) =>
+        macroEdit === undefined
+          ? { ...dict, [def[2]]: def[3] }
+          : { ...dict, [def[2]]: macroEdit(def[2], def[3]) },
+      {},
+    );
+    const sorted = sortObjectKeys(newDictionary) as typeof newDictionary;
+    // eslint-disable-next-line functional/no-expression-statements, no-console
+    console.log(sorted);
+    // eslint-disable-next-line functional/no-expression-statements, no-console
+    console.log(`Generated test count: ${Object.keys(sorted).length}`);
+    // eslint-disable-next-line functional/no-throw-statements
+    throw new Error(
+      `Libauth test generation error: one or more test cases in the above set have not been reviewed for expected behavior. Please update the above result dictionary for the relevant "setExpectedResults" and regenerate the tests.`,
+    );
+  }
+  return results.filter((def) => def[3]?.[0] !== 'skip');
+};

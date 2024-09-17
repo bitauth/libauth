@@ -41,11 +41,19 @@ export const useLocktime = <
     requireMinimalEncoding: true,
   });
   if (isVmNumberError(decodedLocktime)) {
-    return applyError(state, AuthenticationErrorCommon.invalidVmNumber);
+    return applyError(
+      state,
+      AuthenticationErrorCommon.invalidVmNumber,
+      decodedLocktime,
+    );
   }
   const locktime = Number(decodedLocktime);
   if (locktime < 0) {
-    return applyError(state, AuthenticationErrorCommon.negativeLocktime);
+    return applyError(
+      state,
+      AuthenticationErrorCommon.negativeLocktime,
+      `Locktime: ${locktime}.`,
+    );
   }
   return operation(state, locktime);
 };
@@ -76,19 +84,25 @@ export const opCheckLockTimeVerify = <
       return applyError(
         nextState,
         AuthenticationErrorCommon.incompatibleLocktimeType,
+        `Transaction locktime: ${nextState.program.transaction.locktime}; required locktime: ${requiredLocktime}.`,
       );
     }
     if (requiredLocktime > nextState.program.transaction.locktime) {
       return applyError(
         nextState,
         AuthenticationErrorCommon.unsatisfiedLocktime,
+        `Transaction locktime: ${nextState.program.transaction.locktime}; required locktime: ${requiredLocktime}.`,
       );
     }
     const { sequenceNumber } =
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       nextState.program.transaction.inputs[nextState.program.inputIndex]!;
     if (sequenceNumber === Constants.locktimeDisablingSequenceNumber) {
-      return applyError(nextState, AuthenticationErrorCommon.locktimeDisabled);
+      return applyError(
+        nextState,
+        AuthenticationErrorCommon.locktimeDisabled,
+        `Sequence number: ${sequenceNumber}.`,
+      );
     }
     return nextState;
   });
@@ -125,6 +139,7 @@ export const opCheckSequenceVerify = <
         return applyError(
           nextState,
           AuthenticationErrorCommon.checkSequenceUnavailable,
+          `Transaction version: ${nextState.program.transaction.version}.`,
         );
       }
 
@@ -132,6 +147,7 @@ export const opCheckSequenceVerify = <
         return applyError(
           nextState,
           AuthenticationErrorCommon.unmatchedSequenceDisable,
+          `Sequence number: ${sequenceNumber}.`,
         );
       }
 
@@ -142,6 +158,7 @@ export const opCheckSequenceVerify = <
         return applyError(
           nextState,
           AuthenticationErrorCommon.incompatibleSequenceType,
+          `Sequence number: ${sequenceNumber}; required sequence number: ${requiredSequence}.`,
         );
       }
 
@@ -154,6 +171,7 @@ export const opCheckSequenceVerify = <
         return applyError(
           nextState,
           AuthenticationErrorCommon.unsatisfiedSequenceNumber,
+          `Sequence number: ${sequenceNumber}; required sequence number: ${requiredSequence}.`,
         );
       }
 

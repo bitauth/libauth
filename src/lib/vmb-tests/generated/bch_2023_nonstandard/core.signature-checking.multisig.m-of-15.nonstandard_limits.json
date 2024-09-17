@@ -1,0 +1,10 @@
+{
+"aktdrv":[114,91200,0,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 1) (nonP2SH)"],
+"mnkcy7":[114,91200,0,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 7) (nonP2SH)"],
+"ylckl2":[114,91200,0,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 15) (nonP2SH)"],
+"dyxfml":[110,88000,0,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 1) (nonP2SH)"],
+"pwuxfd":[110,88000,0,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 7) (nonP2SH)"],
+"dg2e2u":[110,88000,0,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 15) (nonP2SH)"],
+"tc2lq7":[188,150400,0,"Signature checking: 2-of-15 ECDSA multisig (keys 1 and 2) (nonP2SH)"],
+"ntndgy":[176,140800,0,"Signature checking: 2-of-15 Schnorr multisig (keys 1 and 2) (nonP2SH)"]
+}

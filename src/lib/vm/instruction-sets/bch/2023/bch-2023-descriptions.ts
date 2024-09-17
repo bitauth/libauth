@@ -128,7 +128,7 @@ export enum OpcodeDescriptionsBch2023 {
   OP_CAT = 'Pop the top 2 items from the stack and concatenate them, pushing the result.',
   OP_SPLIT = 'Pop the top item from the stack as an index (VM Number) and the next item as a byte array. Split the byte array into two stack items at the index (zero-based), pushing the results.',
   OP_NUM2BIN = 'Pop the top item from the stack as an item length (VM Number) and the next item as a VM Number (without encoding restrictions). Re-encode the number using a byte array of the provided length, filling any unused bytes with zeros, then push the result. (If the requested length is too short to encode the number, error.)',
-  OP_BIN2NUM = "Pop the top item from the stack as a VM Number without encoding restrictions. Minimally-encode the number and push the result. (If the number can't be encoded in 4 bytes or less, error.)",
+  OP_BIN2NUM = "Pop the top item from the stack as a VM Number without encoding restrictions. Minimally-encode the number and push the result. (If the number can't be encoded within the maximum VM number length, error.)",
   OP_SIZE = 'Push the byte-length of the top stack item as a VM Number.',
   OP_INVERT = 'Error, even when found in an unexecuted conditional branch. (Historically, this flipped all the bits in a stack item.)',
   OP_AND = 'Pop the top 2 items from the stack and perform a bitwise AND on each byte, pushing the result. If the length of the items are not equal, error.',

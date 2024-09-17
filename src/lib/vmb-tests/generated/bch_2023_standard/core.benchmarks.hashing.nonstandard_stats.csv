@@ -1,0 +1,21 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+yxrclk,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_RIPEMD160 hashed (P2SH20)",569,33,1,0,547,437600,0,13,0,1914,909,307,54744,0
+83v867,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_RIPEMD160 hashed (P2SH32)",569,45,1,0,547,437600,0,13,0,1914,909,307,54768,0
+0uk59w,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA1 hashed (P2SH20)",569,33,1,0,547,437600,0,13,0,1914,909,307,54744,0
+q5mn2f,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA1 hashed (P2SH32)",569,45,1,0,547,437600,0,13,0,1914,909,307,54768,0
+xvg04z,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA256 hashed (P2SH20)",569,33,1,0,547,437600,0,13,0,1914,909,307,55944,0
+k7ar59,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA256 hashed (P2SH32)",569,45,1,0,547,437600,0,13,0,1914,909,307,55968,0
+26gphy,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH160 hashed (P2SH20)",569,33,1,0,547,437600,0,13,0,1914,1009,307,54744,0
+f49kmv,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH160 hashed (P2SH32)",569,45,1,0,547,437600,0,13,0,1914,1009,307,54768,0
+quqgxg,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH256 hashed (P2SH20)",569,33,1,0,547,437600,0,13,0,1914,1009,307,55944,0
+cdr2df,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH256 hashed (P2SH32)",569,45,1,0,547,437600,0,13,0,1914,1009,307,55968,0
+j0yjwy,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_RIPEMD160 hashed (P2SH20)",268,33,1,0,248,198400,0,6,0,868,769,207,86100,0
+f75j0v,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_RIPEMD160 hashed (P2SH32)",268,45,1,0,248,198400,0,6,0,868,769,207,86124,0
+8n2t3l,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA1 hashed (P2SH20)",268,33,1,0,248,198400,0,6,0,868,769,207,86100,0
+3venyq,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA1 hashed (P2SH32)",268,45,1,0,248,198400,0,6,0,868,769,207,86124,0
+amtdvz,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA256 hashed (P2SH20)",268,33,1,0,248,198400,0,6,0,868,769,207,88128,0
+ynhjy6,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA256 hashed (P2SH32)",268,45,1,0,248,198400,0,6,0,868,769,207,88152,0
+4ekawh,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH160 hashed (P2SH20)",268,33,1,0,248,198400,0,6,0,868,854,207,86100,0
+75g9ph,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH160 hashed (P2SH32)",268,45,1,0,248,198400,0,6,0,868,854,207,86124,0
+e976ul,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH256 hashed (P2SH20)",268,33,1,0,248,198400,0,6,0,868,854,207,88128,0
+kzrfmf,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH256 hashed (P2SH32)",268,45,1,0,248,198400,0,6,0,868,854,207,88152,0

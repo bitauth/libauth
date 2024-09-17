@@ -163,16 +163,17 @@ export const pushOperation =
       AuthenticationProgramStateMinimum &
       AuthenticationProgramStateStack,
   >({
-    maximumPushSize = ConsensusCommon.maximumStackItemLength,
-  }: { maximumPushSize?: number } = {}): Operation<State> =>
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength,
+  }: { maximumStackItemLength?: number } = {}): Operation<State> =>
   (state: State) => {
     const instruction = state.instructions[
       state.ip
     ] as AuthenticationInstructionPush;
-    return instruction.data.length > maximumPushSize
+    return instruction.data.length > maximumStackItemLength
       ? applyError(
           state,
-          `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${instruction.data.length} bytes.`,
+          AuthenticationErrorCommon.exceededMaximumStackItemLength,
+          `Maximum stack item length: ${maximumStackItemLength} bytes. Item length: ${instruction.data.length} bytes.`,
         )
       : executionIsActive(state)
         ? isMinimalDataPush(instruction.opcode, instruction.data)

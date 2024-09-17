@@ -8,7 +8,11 @@ import {
   OpcodeDescriptionsBch2023,
   OpcodesBch2023,
 } from './2023/bch-2023.js';
-import { OpcodeDescriptionsBchSpec, OpcodesBchSpec } from './spec/bch-spec.js';
+import {
+  AuthenticationErrorBchSpec,
+  OpcodeDescriptionsBchSpec,
+  OpcodesBchSpec,
+} from './spec/bch-spec.js';
 
 export * from './2023/bch-2023.js';
 export * from './2025/bch-2025.js';
@@ -20,7 +24,7 @@ export const createVirtualMachineBch = createVirtualMachineBch2023;
 /* eslint-disable @typescript-eslint/naming-convention */
 export const ConsensusBch = ConsensusCommon;
 export const OpcodesBch = OpcodesBchSpec;
-export const AuthenticationErrorBch = AuthenticationErrorBch2023;
+export const AuthenticationErrorBch = AuthenticationErrorBchSpec;
 export const OpcodeDescriptionsBch = OpcodeDescriptionsBchSpec;
 
 /**

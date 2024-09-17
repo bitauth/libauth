@@ -1,0 +1,5 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+4z3ggm,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard, single-input limits, maximize stack usage (nonP2SH)",1509,211,1,0,1488,1190400,146118,35,0,744,0,205,125718,0
+9nd5e9,"Transaction validation benchmarks: Within BCH_2025_05 nonP2SH/nonstandard, single-input limits, maximize stack usage checking (OP_1ADD) (nonP2SH)",2566,10012,1,0,2544,2035200,1035946,59,0,1272,0,9956,21519,18927
+m7sdck,"Transaction validation benchmarks: Within BCH_2025_05 nonP2SH/nonstandard, single-input limits, maximize alternate stack usage checking (OP_1ADD) (nonP2SH)",1317,10012,1,0,1295,1036000,1035658,30,0,647,0,10001,18455,17203
+nevxwn,"Transaction validation benchmarks: Within BCH_2025_05 nonP2SH/nonstandard, single-input limits, maximize control stack and stack usage checking (OP_NOTIF, OP_1ADD) (nonP2SH)",1315,10012,1,0,1293,1034400,1033759,30,0,646,0,9956,19800,18459

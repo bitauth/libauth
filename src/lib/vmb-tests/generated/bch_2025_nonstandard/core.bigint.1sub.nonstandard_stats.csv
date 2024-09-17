@@ -1,0 +1,32 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+yxzgx2,"BigInt: OP_1SUB 1-byte number (all bits set) (nonP2SH)",214,48,2,1,44,35200,308,1,0,154,0,4,6,2
+8gfujv,"BigInt: OP_1SUB 8-byte number (all bits set) (nonP2SH)",221,55,2,1,51,40800,336,1,0,178,0,4,27,9
+wehdy2,"BigInt: OP_1SUB 64-byte number (all bits set) (nonP2SH)",277,111,2,1,107,85600,560,2,0,374,0,4,195,65
+86zjcz,"BigInt: OP_1SUB 512-byte number (all bits set) (nonP2SH)",729,563,2,1,557,445600,2352,13,0,1949,0,4,1539,513
+dtc3uh,"BigInt: OP_1SUB 4096-byte number (all bits set) (nonP2SH)",4313,4147,2,1,4141,3312800,16688,96,0,14493,0,4,12291,4097
+26a52k,"BigInt: OP_1SUB 4096-byte number (all bits set) (P2SH20)",8417,67,2,1,8245,6596000,25454,192,0,28857,66,8,16433,4097
+2rdad0,"BigInt: OP_1SUB 4096-byte number (all bits set) (P2SH32)",8417,79,2,1,8245,6596000,25478,192,0,28857,66,8,16457,4097
+8yl5tl,"BigInt: OP_1SUB 8192-byte number (all bits set) (nonP2SH)",8409,8243,2,1,8237,6589600,33072,192,0,28829,0,4,24579,8193
+z84hnk,"BigInt: OP_1SUB 1-byte number (alternating bits set) (nonP2SH)",213,48,2,1,43,34400,305,1,0,150,0,4,4,1
+hmfmxg,"BigInt: OP_1SUB 8-byte number (alternating bits set) (nonP2SH)",220,55,2,1,50,40000,333,1,0,175,0,4,25,8
+q20nsz,"BigInt: OP_1SUB 64-byte number (alternating bits set) (nonP2SH)",276,111,2,1,106,84800,557,2,0,371,0,4,193,64
+w7nw8q,"BigInt: OP_1SUB 512-byte number (alternating bits set) (nonP2SH)",728,563,2,1,556,444800,2349,13,0,1946,0,4,1537,512
+6trl7r,"BigInt: OP_1SUB 4096-byte number (alternating bits set) (nonP2SH)",4312,4147,2,1,4140,3312000,16685,96,0,14490,0,4,12289,4096
+09js7d,"BigInt: OP_1SUB 4096-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,25451,192,0,28854,66,8,16431,4096
+tus5pw,"BigInt: OP_1SUB 4096-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,25475,192,0,28854,66,8,16455,4096
+t9vtd3,"BigInt: OP_1SUB 8192-byte number (alternating bits set) (nonP2SH)",8408,8243,2,1,8236,6588800,33069,191,0,28826,0,4,24577,8192
+t9v5zr,"BigInt: OP_1SUB 1-byte number (highest-bit set) (nonP2SH)",212,47,2,1,42,33600,302,1,0,147,0,4,2,0
+5t89ts,"BigInt: OP_1SUB 8-byte number (highest-bit set) (nonP2SH)",220,55,2,1,50,40000,333,1,0,175,0,4,25,8
+hfq2ml,"BigInt: OP_1SUB 64-byte number (highest-bit set) (nonP2SH)",276,111,2,1,106,84800,557,2,0,371,0,4,193,64
+ku2608,"BigInt: OP_1SUB 512-byte number (highest-bit set) (nonP2SH)",728,563,2,1,556,444800,2349,13,0,1946,0,4,1537,512
+qn9a3a,"BigInt: OP_1SUB 4096-byte number (highest-bit set) (nonP2SH)",4312,4147,2,1,4140,3312000,16685,96,0,14490,0,4,12289,4096
+ysuy0u,"BigInt: OP_1SUB 4096-byte number (highest-bit set) (P2SH20)",8416,67,2,1,8244,6595200,25451,192,0,28854,66,8,16431,4096
+ka5scc,"BigInt: OP_1SUB 4096-byte number (highest-bit set) (P2SH32)",8416,79,2,1,8244,6595200,25475,192,0,28854,66,8,16455,4096
+gv6rmm,"BigInt: OP_1SUB 8192-byte number (highest-bit set) (nonP2SH)",8408,8243,2,1,8236,6588800,33069,191,0,28826,0,4,24577,8192
+dadxxw,"BigInt: OP_1SUB 8-byte number (one bit set per byte) (nonP2SH)",220,55,2,1,50,40000,333,1,0,175,0,4,25,8
+v0fmth,"BigInt: OP_1SUB 64-byte number (one bit set per byte) (nonP2SH)",276,111,2,1,106,84800,557,2,0,371,0,4,193,64
+tj4cfe,"BigInt: OP_1SUB 512-byte number (one bit set per byte) (nonP2SH)",728,563,2,1,556,444800,2349,13,0,1946,0,4,1537,512
+7ymxsl,"BigInt: OP_1SUB 4096-byte number (one bit set per byte) (nonP2SH)",4312,4147,2,1,4140,3312000,16685,96,0,14490,0,4,12289,4096
+uelda6,"BigInt: OP_1SUB 4096-byte number (one bit set per byte) (P2SH20)",8416,67,2,1,8244,6595200,25451,192,0,28854,66,8,16431,4096
+ln78ya,"BigInt: OP_1SUB 4096-byte number (one bit set per byte) (P2SH32)",8416,79,2,1,8244,6595200,25475,192,0,28854,66,8,16455,4096
+8m5zf2,"BigInt: OP_1SUB 8192-byte number (one bit set per byte) (nonP2SH)",8408,8243,2,1,8236,6588800,33069,191,0,28826,0,4,24577,8192

@@ -1,0 +1,11 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+7s4l4d,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize OP_ADD (P2SH20)",271,33,1,0,251,200800,24068,6,0,878,5,206,2198,1050
+wjg8aj,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize OP_ADD (P2SH32)",271,45,1,0,251,200800,24092,6,0,878,5,206,2222,1050
+wc6z2q,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize OP_SUB (P2SH20)",271,33,1,0,251,200800,22868,6,0,878,5,206,1598,450
+3z4fuw,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize OP_SUB (P2SH32)",271,45,1,0,251,200800,22892,6,0,878,5,206,1622,450
+y54lkh,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize OP_ADD operand bytes (P2SH20)",91,33,1,0,71,56800,52139,2,0,248,2,29,41018,8193
+9vkccn,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize OP_ADD operand bytes (P2SH32)",91,45,1,0,71,56800,52163,2,0,248,2,29,41042,8193
+09macl,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, balance OP_ADD density and operand bytes (P2SH20)",183,33,1,0,163,130400,129126,4,0,570,3,120,78559,38475
+mju7aq,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, balance OP_ADD density and operand bytes (P2SH32)",183,45,1,0,163,130400,129150,4,0,570,3,120,78583,38475
+479864,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize OP_SUB (minimize 0 results) (P2SH20)",280,33,1,0,260,208000,24071,6,0,910,5,206,2300,951
+pp6twr,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize OP_SUB (minimize 0 results) (P2SH32)",280,45,1,0,260,208000,24095,6,0,910,5,206,2324,951

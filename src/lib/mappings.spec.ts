@@ -36,7 +36,7 @@ import type {
 } from './lib.js';
 import {
   AuthenticationErrorBch,
-  AuthenticationErrorBch2023,
+  AuthenticationErrorBchSpec,
   compilerConfigurationToCompiler,
   compilerConfigurationToCompilerBch,
   ConsensusBch,
@@ -58,11 +58,9 @@ import {
   encodeTransactionCommon,
   OpcodeDescriptions,
   OpcodeDescriptionsBch,
-  OpcodeDescriptionsBch2023,
   OpcodeDescriptionsBchSpec,
   Opcodes,
   OpcodesBch,
-  OpcodesBch2023,
   OpcodesBchSpec,
   SigningSerializationType,
   SigningSerializationTypeBch,
@@ -92,7 +90,7 @@ type TypeTests =
 test('Libauth exposes all expected mappings', (t) => {
   const testTypes: TypeTests = true;
   t.true(testTypes);
-  t.deepEqual(AuthenticationErrorBch2023, AuthenticationErrorBch);
+  t.deepEqual(AuthenticationErrorBch, AuthenticationErrorBchSpec);
   t.deepEqual(
     compilerConfigurationToCompilerBch,
     compilerConfigurationToCompiler,
@@ -107,9 +105,9 @@ test('Libauth exposes all expected mappings', (t) => {
   t.deepEqual(decodeTransactionUnsafe, decodeTransactionUnsafeBch);
   t.deepEqual(encodeTransactionCommon, encodeTransactionBch);
   t.deepEqual(encodeTransaction, encodeTransactionBch);
-  t.deepEqual(OpcodeDescriptionsBch, OpcodeDescriptionsBch2023);
+  t.deepEqual(OpcodeDescriptionsBch, OpcodeDescriptionsBchSpec);
   t.deepEqual(OpcodeDescriptions, OpcodeDescriptionsBchSpec);
-  t.deepEqual(OpcodesBch, OpcodesBch2023);
+  t.deepEqual(OpcodesBch, OpcodesBchSpec);
   t.deepEqual(Opcodes, OpcodesBchSpec);
   t.deepEqual(SigningSerializationType, SigningSerializationTypeBch);
 });

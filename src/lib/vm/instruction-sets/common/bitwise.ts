@@ -8,7 +8,6 @@ import type {
 
 import {
   combineOperations,
-  measureBitwiseCost,
   pushToStack,
   useTwoStackItems,
 } from './combinators.js';
@@ -39,15 +38,14 @@ export const bitwiseOperation =
     combine: (a: Uint8Array, b: Uint8Array) => Uint8Array,
   ): Operation<State> =>
   (state: State) =>
-    measureBitwiseCost(state, () =>
-      useTwoStackItems(state, (nextState, [a, b]) =>
-        a.length === b.length
-          ? pushToStack(nextState, [combine(a, b)])
-          : applyError(
-              nextState,
-              AuthenticationErrorCommon.mismatchedBitwiseOperandLength,
-            ),
-      ),
+    useTwoStackItems(state, (nextState, [a, b]) =>
+      a.length === b.length
+        ? pushToStack(nextState, [combine(a, b)])
+        : applyError(
+            nextState,
+            AuthenticationErrorCommon.mismatchedBitwiseOperandLength,
+            `First item length: ${a.length} bytes. Second item length: ${b.length} bytes.`,
+          ),
     );
 
 // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion

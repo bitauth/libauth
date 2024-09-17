@@ -1,0 +1,5 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+vx8cqv,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, P2PKH input, 1 output (Schnorr signature) (nonP2SH)",161,35,1,0,141,112800,27925,3,1,70,6,7,173,0
+99mssa,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, packed P2PKH inputs, 1 output (all Schnorr signatures) (nonP2SH)",99991,24109,709,708,141,112800,27925,3,1,70,6,7,173,0
+jyqemh,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, P2PKH input, 1 output (ECDSA signature) (nonP2SH)",168,35,1,0,148,118400,27932,3,1,74,6,7,180,0
+p406sl,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, packed P2PKH inputs, 1 output (all ECDSA signatures) (nonP2SH)",99872,23021,677,676,148,118400,27932,3,1,74,6,7,180,0

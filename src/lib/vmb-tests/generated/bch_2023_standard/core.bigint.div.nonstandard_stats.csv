@@ -1,0 +1,29 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+l2hqhm,"BigInt: OP_DIV 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,9,52,2
+qyd87c,"BigInt: OP_DIV 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,9,76,2
+z77x4g,"BigInt: OP_DIV 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,196,2,9,64,8
+k9tmal,"BigInt: OP_DIV 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,196,2,9,88,8
+guhzvd,"BigInt: OP_DIV 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",234,67,2,1,64,51200,0,1,0,224,2,9,80,16
+h6waa0,"BigInt: OP_DIV 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",234,79,2,1,64,51200,0,1,0,224,2,9,104,16
+uc4rly,"BigInt: OP_DIV 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,80,65
+qgwllp,"BigInt: OP_DIV 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,104,65
+ez44wf,"BigInt: OP_DIV 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,9,52,2
+e7d83l,"BigInt: OP_DIV 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,9,76,2
+8wtql6,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,196,2,9,64,8
+wppny3,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,196,2,9,88,8
+aknxtk,"BigInt: OP_DIV 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",234,67,2,1,64,51200,0,1,0,224,2,9,80,16
+y7msk4,"BigInt: OP_DIV 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",234,79,2,1,64,51200,0,1,0,224,2,9,104,16
+2mc6j6,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,80,65
+hkuug8,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,104,65
+4jukzg,"BigInt: OP_DIV 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,0,1,0,164,2,9,50,2
+6gktkq,"BigInt: OP_DIV 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,9,74,2
+xa5x45,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,0,1,0,192,2,9,63,8
+72rfek,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,0,1,0,192,2,9,87,8
+wxrqe3,"BigInt: OP_DIV 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,79,16
+064kn0,"BigInt: OP_DIV 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,103,16
+3k86py,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,80,65
+nnmnvv,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,104,65
+7scpum,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,79,16
+cz3e3r,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,103,16
+he2hm4,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,80,65
+tsedy3,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,104,65

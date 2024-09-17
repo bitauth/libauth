@@ -1,0 +1,18 @@
+{
+"06rr6t":[630,504000,429903,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 1) (P2SH20)"],
+"wrlghv":[630,504000,429927,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 1) (P2SH32)"],
+"6e8pst":[630,504000,416079,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 7) (P2SH20)"],
+"peapxs":[630,504000,416103,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 7) (P2SH32)"],
+"d3adfw":[630,504000,397647,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 15) (P2SH20)"],
+"8n56aw":[630,504000,397671,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 15) (P2SH32)"],
+"xe5t58":[626,500800,33643,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 1) (P2SH20)"],
+"pkpv5x":[626,500800,33667,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 1) (P2SH32)"],
+"xcfanr":[626,500800,33643,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 7) (P2SH20)"],
+"2y3mfk":[626,500800,33667,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 7) (P2SH32)"],
+"dvzdd9":[626,500800,33643,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 15) (P2SH20)"],
+"wr7euv":[626,500800,33667,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 15) (P2SH32)"],
+"a5p3yk":[704,563200,430076,"Signature checking: 2-of-15 ECDSA multisig (keys 1 and 2) (P2SH20)"],
+"8syueh":[704,563200,430100,"Signature checking: 2-of-15 ECDSA multisig (keys 1 and 2) (P2SH32)"],
+"gp8fdk":[692,553600,62112,"Signature checking: 2-of-15 Schnorr multisig (keys 1 and 2) (P2SH20)"],
+"pq0rqf":[692,553600,62136,"Signature checking: 2-of-15 Schnorr multisig (keys 1 and 2) (P2SH32)"]
+}

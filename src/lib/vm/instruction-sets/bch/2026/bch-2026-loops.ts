@@ -1,4 +1,4 @@
-import type { AuthenticationProgramStateBchSpec } from '../../../../lib.js';
+import type { AuthenticationProgramStateBch2026 } from '../../../../lib.js';
 import {
   applyError,
   ConsensusCommon,
@@ -14,14 +14,14 @@ const enum Constants {
   markInactiveOpBegin = -1,
 }
 
-export const opBegin = <State extends AuthenticationProgramStateBchSpec>(
+export const opBegin = <State extends AuthenticationProgramStateBch2026>(
   state: State,
 ) =>
   executionIsActive(state)
     ? pushToControlStack(state, state.ip)
     : pushToControlStack(state, Constants.markInactiveOpBegin);
 
-export const opUntil = <State extends AuthenticationProgramStateBchSpec>(
+export const opUntil = <State extends AuthenticationProgramStateBch2026>(
   state: State,
 ) => {
   // eslint-disable-next-line functional/immutable-data

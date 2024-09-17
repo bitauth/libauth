@@ -42,6 +42,22 @@
         "functional/immutable-data": "off",
         "functional/no-return-void": "off"
       }
+    },
+    {
+      "files": ["src/lib/vmb-tests/sources/**.ts"],
+      "rules": {
+        "import/no-default-export": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/no-magic-numbers": "off",
+        "@typescript-eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              { "allowTypeImports": true, "group": ["../../lib.js"] }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

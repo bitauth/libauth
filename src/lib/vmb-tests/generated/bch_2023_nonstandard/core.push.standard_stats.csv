@@ -1,0 +1,95 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+qwfvtd,"Basic push operations: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,2,0
+gugeya,"Basic push operations: OP_PUSHBYTES_1 (nonP2SH)",213,48,2,1,43,34400,0,1,0,21,0,5,6,0
+kdrhfu,"Basic push operations: OP_PUSHBYTES_2 (nonP2SH)",214,48,2,1,44,35200,0,1,0,22,0,5,8,0
+y629x2,"Basic push operations: OP_PUSHBYTES_3 (nonP2SH)",215,48,2,1,45,36000,0,1,0,22,0,5,10,0
+423fch,"Basic push operations: OP_PUSHBYTES_4 (nonP2SH)",216,48,2,1,46,36800,0,1,0,23,0,5,12,0
+3p5han,"Basic push operations: OP_PUSHBYTES_5 (nonP2SH)",217,48,2,1,47,37600,0,1,0,23,0,5,14,0
+cv9twm,"Basic push operations: OP_PUSHBYTES_6 (nonP2SH)",218,48,2,1,48,38400,0,1,0,24,0,5,16,0
+n5cjwj,"Basic push operations: OP_PUSHBYTES_7 (nonP2SH)",219,48,2,1,49,39200,0,1,0,24,0,5,18,0
+rf9w62,"Basic push operations: OP_PUSHBYTES_8 (nonP2SH)",220,48,2,1,50,40000,0,1,0,25,0,5,20,0
+2qtmhf,"Basic push operations: OP_PUSHBYTES_9 (nonP2SH)",221,48,2,1,51,40800,0,1,0,25,0,5,22,0
+tj0g7n,"Basic push operations: OP_PUSHBYTES_10 (nonP2SH)",222,48,2,1,52,41600,0,1,0,26,0,5,24,0
+99p5r4,"Basic push operations: OP_PUSHBYTES_11 (nonP2SH)",223,48,2,1,53,42400,0,1,0,26,0,5,26,0
+3uaxap,"Basic push operations: OP_PUSHBYTES_12 (nonP2SH)",224,48,2,1,54,43200,0,1,0,27,0,5,28,0
+xg757u,"Basic push operations: OP_PUSHBYTES_13 (nonP2SH)",225,48,2,1,55,44000,0,1,0,27,0,5,30,0
+jcp5ga,"Basic push operations: OP_PUSHBYTES_14 (nonP2SH)",226,48,2,1,56,44800,0,1,0,28,0,5,32,0
+8h4vkw,"Basic push operations: OP_PUSHBYTES_15 (nonP2SH)",227,48,2,1,57,45600,0,1,0,28,0,5,34,0
+c0dh42,"Basic push operations: OP_PUSHBYTES_16 (nonP2SH)",228,48,2,1,58,46400,0,1,0,29,0,5,36,0
+90f2nl,"Basic push operations: OP_PUSHBYTES_17 (nonP2SH)",229,49,2,1,59,47200,0,1,0,29,0,5,38,0
+mgu8nh,"Basic push operations: OP_PUSHBYTES_18 (nonP2SH)",230,49,2,1,60,48000,0,1,0,30,0,5,40,0
+0p9zv4,"Basic push operations: OP_PUSHBYTES_19 (nonP2SH)",231,49,2,1,61,48800,0,1,0,30,0,5,42,0
+x3pyzp,"Basic push operations: OP_PUSHBYTES_20 (nonP2SH)",232,49,2,1,62,49600,0,1,0,31,0,5,44,0
+64nhv2,"Basic push operations: OP_PUSHBYTES_21 (nonP2SH)",233,49,2,1,63,50400,0,1,0,31,0,5,46,0
+vsr9ev,"Basic push operations: OP_PUSHBYTES_22 (nonP2SH)",234,49,2,1,64,51200,0,1,0,32,0,5,48,0
+2hqapk,"Basic push operations: OP_PUSHBYTES_23 (nonP2SH)",235,49,2,1,65,52000,0,1,0,32,0,5,50,0
+2utym8,"Basic push operations: OP_PUSHBYTES_24 (nonP2SH)",236,49,2,1,66,52800,0,1,0,33,0,5,52,0
+d54hhw,"Basic push operations: OP_PUSHBYTES_25 (nonP2SH)",237,49,2,1,67,53600,0,2,0,33,0,5,54,0
+er7awr,"Basic push operations: OP_PUSHBYTES_26 (nonP2SH)",238,49,2,1,68,54400,0,2,0,34,0,5,56,0
+gqdyq6,"Basic push operations: OP_PUSHBYTES_27 (nonP2SH)",239,49,2,1,69,55200,0,2,0,34,0,5,58,0
+tswqsp,"Basic push operations: OP_PUSHBYTES_28 (nonP2SH)",240,49,2,1,70,56000,0,2,0,35,0,5,60,0
+n5tnc8,"Basic push operations: OP_PUSHBYTES_29 (nonP2SH)",241,49,2,1,71,56800,0,2,0,35,0,5,62,0
+kxrf4f,"Basic push operations: OP_PUSHBYTES_30 (nonP2SH)",242,49,2,1,72,57600,0,2,0,36,0,5,64,0
+g2hadz,"Basic push operations: OP_PUSHBYTES_31 (nonP2SH)",243,49,2,1,73,58400,0,2,0,36,0,5,66,0
+m2rl4y,"Basic push operations: OP_PUSHBYTES_32 (nonP2SH)",244,49,2,1,74,59200,0,2,0,37,0,5,68,0
+yswgj0,"Basic push operations: OP_PUSHBYTES_33 (nonP2SH)",245,49,2,1,75,60000,0,2,0,37,0,5,70,0
+2tvcy6,"Basic push operations: OP_PUSHBYTES_34 (nonP2SH)",246,49,2,1,76,60800,0,2,0,38,0,5,72,0
+et74d7,"Basic push operations: OP_PUSHBYTES_35 (nonP2SH)",247,49,2,1,77,61600,0,2,0,38,0,5,74,0
+fy72ga,"Basic push operations: OP_PUSHBYTES_36 (nonP2SH)",248,49,2,1,78,62400,0,2,0,39,0,5,76,0
+0ccm6y,"Basic push operations: OP_PUSHBYTES_37 (nonP2SH)",249,49,2,1,79,63200,0,2,0,39,0,5,78,0
+vw20nu,"Basic push operations: OP_PUSHBYTES_38 (nonP2SH)",250,49,2,1,80,64000,0,2,0,40,0,5,80,0
+8rkfya,"Basic push operations: OP_PUSHBYTES_39 (nonP2SH)",251,49,2,1,81,64800,0,2,0,40,0,5,82,0
+hlgfge,"Basic push operations: OP_PUSHBYTES_40 (nonP2SH)",252,49,2,1,82,65600,0,2,0,41,0,5,84,0
+789j2d,"Basic push operations: OP_PUSHBYTES_41 (nonP2SH)",253,49,2,1,83,66400,0,2,0,41,0,5,86,0
+d7s54s,"Basic push operations: OP_PUSHBYTES_42 (nonP2SH)",254,49,2,1,84,67200,0,2,0,42,0,5,88,0
+ayff92,"Basic push operations: OP_PUSHBYTES_43 (nonP2SH)",255,49,2,1,85,68000,0,2,0,42,0,5,90,0
+jzr6vh,"Basic push operations: OP_PUSHBYTES_44 (nonP2SH)",256,49,2,1,86,68800,0,2,0,43,0,5,92,0
+ga7cal,"Basic push operations: OP_PUSHBYTES_45 (nonP2SH)",257,49,2,1,87,69600,0,2,0,43,0,5,94,0
+hsucae,"Basic push operations: OP_PUSHBYTES_46 (nonP2SH)",258,49,2,1,88,70400,0,2,0,44,0,5,96,0
+h8h9hp,"Basic push operations: OP_PUSHBYTES_47 (nonP2SH)",259,49,2,1,89,71200,0,2,0,44,0,5,98,0
+25hm8x,"Basic push operations: OP_PUSHBYTES_48 (nonP2SH)",260,49,2,1,90,72000,0,2,0,45,0,5,100,0
+5ym6zp,"Basic push operations: OP_PUSHBYTES_49 (nonP2SH)",261,49,2,1,91,72800,0,2,0,45,0,5,102,0
+8f8xp9,"Basic push operations: OP_PUSHBYTES_50 (nonP2SH)",262,49,2,1,92,73600,0,2,0,46,0,5,104,0
+nyqevt,"Basic push operations: OP_PUSHBYTES_51 (nonP2SH)",263,49,2,1,93,74400,0,2,0,46,0,5,106,0
+trsynf,"Basic push operations: OP_PUSHBYTES_52 (nonP2SH)",264,49,2,1,94,75200,0,2,0,47,0,5,108,0
+5htse5,"Basic push operations: OP_PUSHBYTES_53 (nonP2SH)",265,49,2,1,95,76000,0,2,0,47,0,5,110,0
+st6a23,"Basic push operations: OP_PUSHBYTES_54 (nonP2SH)",266,49,2,1,96,76800,0,2,0,48,0,5,112,0
+jv33ad,"Basic push operations: OP_PUSHBYTES_55 (nonP2SH)",267,49,2,1,97,77600,0,2,0,48,0,5,114,0
+206g8z,"Basic push operations: OP_PUSHBYTES_56 (nonP2SH)",268,49,2,1,98,78400,0,2,0,49,0,5,116,0
+yzkr6g,"Basic push operations: OP_PUSHBYTES_57 (nonP2SH)",269,49,2,1,99,79200,0,2,0,49,0,5,118,0
+4c6wt7,"Basic push operations: OP_PUSHBYTES_58 (nonP2SH)",270,49,2,1,100,80000,0,2,0,50,0,5,120,0
+5z72ql,"Basic push operations: OP_PUSHBYTES_59 (nonP2SH)",271,49,2,1,101,80800,0,2,0,50,0,5,122,0
+n020z7,"Basic push operations: OP_PUSHBYTES_60 (nonP2SH)",272,49,2,1,102,81600,0,2,0,51,0,5,124,0
+d6yqyg,"Basic push operations: OP_PUSHBYTES_61 (nonP2SH)",273,49,2,1,103,82400,0,2,0,51,0,5,126,0
+j8777q,"Basic push operations: OP_PUSHBYTES_62 (nonP2SH)",274,49,2,1,104,83200,0,2,0,52,0,5,128,0
+s847tg,"Basic push operations: OP_PUSHBYTES_63 (nonP2SH)",275,49,2,1,105,84000,0,2,0,52,0,5,130,0
+yz3k2e,"Basic push operations: OP_PUSHBYTES_64 (nonP2SH)",276,49,2,1,106,84800,0,2,0,53,0,5,132,0
+ktterx,"Basic push operations: OP_PUSHBYTES_65 (nonP2SH)",277,49,2,1,107,85600,0,2,0,53,0,5,134,0
+4dnuhm,"Basic push operations: OP_PUSHBYTES_66 (nonP2SH)",278,49,2,1,108,86400,0,2,0,54,0,5,136,0
+x65azl,"Basic push operations: OP_PUSHBYTES_67 (nonP2SH)",279,49,2,1,109,87200,0,2,0,54,0,5,138,0
+d3lx3c,"Basic push operations: OP_PUSHBYTES_68 (nonP2SH)",280,49,2,1,110,88000,0,3,0,55,0,5,140,0
+4mtdg5,"Basic push operations: OP_PUSHBYTES_69 (nonP2SH)",281,49,2,1,111,88800,0,3,0,55,0,5,142,0
+fd54zu,"Basic push operations: OP_PUSHBYTES_70 (nonP2SH)",282,49,2,1,112,89600,0,3,0,56,0,5,144,0
+8hsz6v,"Basic push operations: OP_PUSHBYTES_71 (nonP2SH)",283,49,2,1,113,90400,0,3,0,56,0,5,146,0
+weva7c,"Basic push operations: OP_PUSHBYTES_72 (nonP2SH)",284,49,2,1,114,91200,0,3,0,57,0,5,148,0
+3w8r88,"Basic push operations: OP_PUSHBYTES_73 (nonP2SH)",285,49,2,1,115,92000,0,3,0,57,0,5,150,0
+pt98gp,"Basic push operations: OP_PUSHBYTES_74 (nonP2SH)",286,49,2,1,116,92800,0,3,0,58,0,5,152,0
+yqpsuq,"Basic push operations: OP_PUSHBYTES_75 (nonP2SH)",287,49,2,1,117,93600,0,3,0,58,0,5,154,0
+uy5d3w,"Push number operations (OP_1NEGATE-OP_16): OP_1NEGATE pushes 0x81. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+zm6hwm,"Push number operations (OP_1NEGATE-OP_16): OP_0 pushes an empty stack item. (nonP2SH)",212,50,2,1,42,33600,0,1,0,21,0,5,4,0
+4gplfr,"Push number operations (OP_1NEGATE-OP_16): OP_1 pushes 0x01. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+tczlj8,"Push number operations (OP_1NEGATE-OP_16): OP_2 pushes 0x02. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+jt9hpj,"Push number operations (OP_1NEGATE-OP_16): OP_3 pushes 0x03. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+a2m8j3,"Push number operations (OP_1NEGATE-OP_16): OP_4 pushes 0x04. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+urwkd3,"Push number operations (OP_1NEGATE-OP_16): OP_5 pushes 0x05. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+fev50l,"Push number operations (OP_1NEGATE-OP_16): OP_6 pushes 0x06. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+s5lfp2,"Push number operations (OP_1NEGATE-OP_16): OP_7 pushes 0x07. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+ll7j4l,"Push number operations (OP_1NEGATE-OP_16): OP_8 pushes 0x08. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+lt3ux6,"Push number operations (OP_1NEGATE-OP_16): OP_9 pushes 0x09. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+vu6y8x,"Push number operations (OP_1NEGATE-OP_16): OP_10 pushes 0x0a. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+0ttrvw,"Push number operations (OP_1NEGATE-OP_16): OP_11 pushes 0x0b. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+rfjvd7,"Push number operations (OP_1NEGATE-OP_16): OP_12 pushes 0x0c. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+rjg0d5,"Push number operations (OP_1NEGATE-OP_16): OP_13 pushes 0x0d. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+y3tahd,"Push number operations (OP_1NEGATE-OP_16): OP_14 pushes 0x0e. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+8f8yru,"Push number operations (OP_1NEGATE-OP_16): OP_15 pushes 0x0f. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+4k4enw,"Push number operations (OP_1NEGATE-OP_16): OP_16 pushes 0x10. (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0

@@ -1,0 +1,3 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+u265dp,"Formatting: OP_NUM2BIN allows 32-byte number inputs (P2SH20)",257,67,2,1,87,69600,6647,2,0,43,22,13,1223,0
+wsc3e7,"Formatting: OP_NUM2BIN allows 32-byte number inputs (P2SH32)",257,79,2,1,87,69600,6671,2,0,43,22,13,1247,0

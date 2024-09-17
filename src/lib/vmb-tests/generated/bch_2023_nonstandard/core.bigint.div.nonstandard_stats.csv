@@ -1,0 +1,15 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+utql0r,"BigInt: OP_DIV 1-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,50,2,1,42,33600,0,1,0,147,0,5,5,2
+de8kl0,"BigInt: OP_DIV 1-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,147,0,5,10,8
+raxg5x,"BigInt: OP_DIV 8-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",220,57,2,1,50,40000,0,1,0,175,0,5,26,16
+jcs2qm,"BigInt: OP_DIV 8-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,19,65
+l2ffrj,"BigInt: OP_DIV 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,50,2,1,42,33600,0,1,0,147,0,5,5,2
+k4u2jv,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,147,0,5,10,8
+eu70mw,"BigInt: OP_DIV 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",220,57,2,1,50,40000,0,1,0,175,0,5,26,16
+9m442e,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,19,65
+crnnys,"BigInt: OP_DIV 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,147,0,5,5,2
+efj25q,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,56,2,1,42,33600,0,1,0,147,0,5,10,8
+6f4y5j,"BigInt: OP_DIV 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",220,56,2,1,50,40000,0,1,0,175,0,5,26,16
+z2745x,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,19,65
+vrx8u0,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",220,56,2,1,50,40000,0,1,0,175,0,5,26,16
+nfqlfa,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,19,65

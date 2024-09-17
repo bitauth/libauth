@@ -46,14 +46,17 @@ const simpleInstructionSet: InstructionSet<
   continue: (state) =>
     state.error === undefined && state.ip < state.instructions.length,
   evaluate: (program, { stateEvaluate, stateInitialize }) =>
-    stateEvaluate({ ...stateInitialize(), ...program } as SimpleProgramState),
+    stateEvaluate({
+      ...stateInitialize(program),
+      ...program,
+    } as SimpleProgramState),
   every: (state) =>
     (state.stack[state.stack.length - 1] ?? 0) > 2
       ? applyError(state, SimpleError.EXCESSIVE)
       : state,
   initialize: () => ({
     ip: 0,
-    metrics: { executedInstructionCount: 0 },
+    metrics: { evaluatedInstructionCount: 0 },
     stack: [],
   }),
   operations: {
@@ -144,7 +147,7 @@ test('vm.evaluate with a simple instruction set', (t) => {
   t.deepEqual(vm.evaluate({ instructions }), {
     instructions,
     ip: 6,
-    metrics: { executedInstructionCount: 6 },
+    metrics: { evaluatedInstructionCount: 6 },
     stack: [1],
   });
 });
@@ -154,49 +157,49 @@ test('vm.debug with a simple instruction set', (t) => {
     {
       instructions,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [],
     },
     {
       instructions,
       ip: 1,
-      metrics: { executedInstructionCount: 1 },
+      metrics: { evaluatedInstructionCount: 1 },
       stack: [0],
     },
     {
       instructions,
       ip: 2,
-      metrics: { executedInstructionCount: 2 },
+      metrics: { evaluatedInstructionCount: 2 },
       stack: [1],
     },
     {
       instructions,
       ip: 3,
-      metrics: { executedInstructionCount: 3 },
+      metrics: { evaluatedInstructionCount: 3 },
       stack: [2],
     },
     {
       instructions,
       ip: 4,
-      metrics: { executedInstructionCount: 4 },
+      metrics: { evaluatedInstructionCount: 4 },
       stack: [2, 0],
     },
     {
       instructions,
       ip: 5,
-      metrics: { executedInstructionCount: 5 },
+      metrics: { evaluatedInstructionCount: 5 },
       stack: [2, -1],
     },
     {
       instructions,
       ip: 6,
-      metrics: { executedInstructionCount: 6 },
+      metrics: { evaluatedInstructionCount: 6 },
       stack: [1],
     },
     {
       instructions,
       ip: 6,
-      metrics: { executedInstructionCount: 6 },
+      metrics: { evaluatedInstructionCount: 6 },
       stack: [1],
     },
   ]);
@@ -208,49 +211,49 @@ test('vm.debug with a simple instruction set (masked)', (t) => {
     {
       instruction: { opcode: 0 },
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [],
     },
     {
       instruction: { opcode: 1 },
       ip: 1,
-      metrics: { executedInstructionCount: 1 },
+      metrics: { evaluatedInstructionCount: 1 },
       stack: [0],
     },
     {
       instruction: { opcode: 1 },
       ip: 2,
-      metrics: { executedInstructionCount: 2 },
+      metrics: { evaluatedInstructionCount: 2 },
       stack: [1],
     },
     {
       instruction: { opcode: 0 },
       ip: 3,
-      metrics: { executedInstructionCount: 3 },
+      metrics: { evaluatedInstructionCount: 3 },
       stack: [2],
     },
     {
       instruction: { opcode: 2 },
       ip: 4,
-      metrics: { executedInstructionCount: 4 },
+      metrics: { evaluatedInstructionCount: 4 },
       stack: [2, 0],
     },
     {
       instruction: { opcode: 3 },
       ip: 5,
-      metrics: { executedInstructionCount: 5 },
+      metrics: { evaluatedInstructionCount: 5 },
       stack: [2, -1],
     },
     {
       instruction: undefined,
       ip: 6,
-      metrics: { executedInstructionCount: 6 },
+      metrics: { evaluatedInstructionCount: 6 },
       stack: [1],
     },
     {
       instruction: undefined,
       ip: 6,
-      metrics: { executedInstructionCount: 6 },
+      metrics: { evaluatedInstructionCount: 6 },
       stack: [1],
     },
   ]);
@@ -261,25 +264,25 @@ test('vm.debug with a simple instruction set (failure 1)', (t) => {
     {
       instructions: instructionsFail1,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [],
     },
     {
       instructions: instructionsFail1,
       ip: 1,
-      metrics: { executedInstructionCount: 1 },
+      metrics: { evaluatedInstructionCount: 1 },
       stack: [0],
     },
     {
       instructions: instructionsFail1,
       ip: 2,
-      metrics: { executedInstructionCount: 2 },
+      metrics: { evaluatedInstructionCount: 2 },
       stack: [-1],
     },
     {
       instructions: instructionsFail1,
       ip: 2,
-      metrics: { executedInstructionCount: 2 },
+      metrics: { evaluatedInstructionCount: 2 },
       stack: [-1],
     },
   ]);
@@ -290,39 +293,39 @@ test('vm.debug with a simple instruction set (failure 2)', (t) => {
     {
       instructions: instructionsFail2,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [],
     },
     {
       instructions: instructionsFail2,
       ip: 1,
-      metrics: { executedInstructionCount: 1 },
+      metrics: { evaluatedInstructionCount: 1 },
       stack: [0],
     },
     {
       instructions: instructionsFail2,
       ip: 2,
-      metrics: { executedInstructionCount: 2 },
+      metrics: { evaluatedInstructionCount: 2 },
       stack: [1],
     },
     {
       instructions: instructionsFail2,
       ip: 3,
-      metrics: { executedInstructionCount: 3 },
+      metrics: { evaluatedInstructionCount: 3 },
       stack: [2],
     },
     {
       error: SimpleError.EXCESSIVE,
       instructions: instructionsFail2,
       ip: 4,
-      metrics: { executedInstructionCount: 4 },
+      metrics: { evaluatedInstructionCount: 4 },
       stack: [3],
     },
     {
       error: SimpleError.EXCESSIVE,
       instructions: instructionsFail2,
       ip: 4,
-      metrics: { executedInstructionCount: 4 },
+      metrics: { evaluatedInstructionCount: 4 },
       stack: [3],
     },
   ]);
@@ -351,50 +354,50 @@ test('vm.stateDebug with a simple instruction set', (t) => {
     vm.stateDebug({
       instructions,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [],
     }),
     [
       {
         instructions,
         ip: 0,
-        metrics: { executedInstructionCount: 0 },
+        metrics: { evaluatedInstructionCount: 0 },
         stack: [],
       },
       {
         instructions,
         ip: 1,
-        metrics: { executedInstructionCount: 1 },
+        metrics: { evaluatedInstructionCount: 1 },
         stack: [0],
       },
       {
         instructions,
         ip: 2,
-        metrics: { executedInstructionCount: 2 },
+        metrics: { evaluatedInstructionCount: 2 },
         stack: [1],
       },
       {
         instructions,
         ip: 3,
-        metrics: { executedInstructionCount: 3 },
+        metrics: { evaluatedInstructionCount: 3 },
         stack: [2],
       },
       {
         instructions,
         ip: 4,
-        metrics: { executedInstructionCount: 4 },
+        metrics: { evaluatedInstructionCount: 4 },
         stack: [2, 0],
       },
       {
         instructions,
         ip: 5,
-        metrics: { executedInstructionCount: 5 },
+        metrics: { evaluatedInstructionCount: 5 },
         stack: [2, -1],
       },
       {
         instructions,
         ip: 6,
-        metrics: { executedInstructionCount: 6 },
+        metrics: { evaluatedInstructionCount: 6 },
         stack: [1],
       },
     ],
@@ -405,19 +408,19 @@ test('vm.stateEvaluate does not mutate the original state', (t) => {
   const unchanged = {
     instructions,
     ip: 0,
-    metrics: { executedInstructionCount: 0 },
+    metrics: { evaluatedInstructionCount: 0 },
     stack: [],
   };
   t.deepEqual(vm.stateEvaluate(unchanged), {
     instructions,
     ip: 6,
-    metrics: { executedInstructionCount: 6 },
+    metrics: { evaluatedInstructionCount: 6 },
     stack: [1],
   });
   t.deepEqual(unchanged, {
     instructions,
     ip: 0,
-    metrics: { executedInstructionCount: 0 },
+    metrics: { evaluatedInstructionCount: 0 },
     stack: [],
   });
 });
@@ -426,19 +429,19 @@ test('vm.stateStep does not mutate the original state', (t) => {
   const unchanged = {
     instructions,
     ip: 5,
-    metrics: { executedInstructionCount: 5 },
+    metrics: { evaluatedInstructionCount: 5 },
     stack: [2, -1],
   };
   t.deepEqual(vm.stateStep(unchanged), {
     instructions,
     ip: 6,
-    metrics: { executedInstructionCount: 6 },
+    metrics: { evaluatedInstructionCount: 6 },
     stack: [1],
   });
   t.deepEqual(unchanged, {
     instructions,
     ip: 5,
-    metrics: { executedInstructionCount: 5 },
+    metrics: { evaluatedInstructionCount: 5 },
     stack: [2, -1],
   });
 });
@@ -447,19 +450,19 @@ test('vm.stateStepMutate does not clone (mutating the original state)', (t) => {
   const changed = {
     instructions,
     ip: 5,
-    metrics: { executedInstructionCount: 5 },
+    metrics: { evaluatedInstructionCount: 5 },
     stack: [2, -1],
   };
   t.deepEqual(vm.stateStepMutate(changed), {
     instructions,
     ip: 6,
-    metrics: { executedInstructionCount: 6 },
+    metrics: { evaluatedInstructionCount: 6 },
     stack: [1],
   });
   t.deepEqual(changed, {
     instructions,
     ip: 6,
-    metrics: { executedInstructionCount: 6 },
+    metrics: { evaluatedInstructionCount: 6 },
     stack: [1],
   });
 });
@@ -469,7 +472,7 @@ test('vm.stateSuccess is available', (t) => {
     vm.stateSuccess({
       instructions: instructionsFail1,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [2],
     }),
     SimpleError.FAIL,
@@ -481,13 +484,13 @@ test('vm.stateClone is available', (t) => {
     vm.stateClone({
       instructions,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [1, 2, 3],
     }),
     {
       instructions,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [1, 2, 3],
     },
   );
@@ -506,81 +509,81 @@ test('vm can control the instruction pointer', (t) => {
   const result = vm.stateDebug({
     instructions: repeated,
     ip: 0,
-    metrics: { executedInstructionCount: 0 },
+    metrics: { evaluatedInstructionCount: 0 },
     stack: [],
   });
   t.deepEqual(result, [
     {
       instructions: repeated,
       ip: 0,
-      metrics: { executedInstructionCount: 0 },
+      metrics: { evaluatedInstructionCount: 0 },
       stack: [],
     },
     {
       instructions: repeated,
       ip: 1,
-      metrics: { executedInstructionCount: 1 },
+      metrics: { evaluatedInstructionCount: 1 },
       stack: [0],
     },
     {
       instructions: repeated,
       ip: 2,
-      metrics: { executedInstructionCount: 2 },
+      metrics: { evaluatedInstructionCount: 2 },
       stack: [1],
     },
     {
       instructions: repeated,
       ip: 0,
-      metrics: { executedInstructionCount: 3 },
+      metrics: { evaluatedInstructionCount: 3 },
       repeated: true,
       stack: [1],
     },
     {
       instructions: repeated,
       ip: 1,
-      metrics: { executedInstructionCount: 4 },
+      metrics: { evaluatedInstructionCount: 4 },
       repeated: true,
       stack: [1, 0],
     },
     {
       instructions: repeated,
       ip: 2,
-      metrics: { executedInstructionCount: 5 },
+      metrics: { evaluatedInstructionCount: 5 },
       repeated: true,
       stack: [1, 1],
     },
     {
       instructions: repeated,
       ip: 3,
-      metrics: { executedInstructionCount: 6 },
+      metrics: { evaluatedInstructionCount: 6 },
       repeated: true,
       stack: [1, 1],
     },
     {
       instructions: repeated,
       ip: 4,
-      metrics: { executedInstructionCount: 7 },
+      metrics: { evaluatedInstructionCount: 7 },
       repeated: true,
       stack: [2],
     },
     {
       instructions: repeated,
       ip: 5,
-      metrics: { executedInstructionCount: 8 },
+      metrics: { evaluatedInstructionCount: 8 },
       repeated: true,
       stack: [2, 0],
     },
     {
       instructions: repeated,
       ip: 6,
-      metrics: { executedInstructionCount: 9 },
+      metrics: { evaluatedInstructionCount: 9 },
       repeated: true,
       stack: [2, -1],
     },
     {
       instructions: repeated,
       ip: 7,
-      metrics: { executedInstructionCount: 10 },
+      metrics: { evaluatedInstructionCount: 10 },
       repeated: true,
       stack: [1],
     },

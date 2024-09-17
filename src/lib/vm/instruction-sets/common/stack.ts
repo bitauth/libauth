@@ -144,10 +144,14 @@ export const opPick = <
 >(
   state: State,
 ) =>
-  useOneVmNumber(state, (nextState, depth) => {
+  useOneVmNumber(state, (nextState, [depth]) => {
     const item = nextState.stack[nextState.stack.length - 1 - Number(depth)];
     if (item === undefined) {
-      return applyError(state, AuthenticationErrorCommon.invalidStackIndex);
+      return applyError(
+        state,
+        AuthenticationErrorCommon.invalidStackIndex,
+        `Current stack depth: ${nextState.stack.length}; requested depth: ${depth}.`,
+      );
     }
     return pushToStack(nextState, [item.slice()]);
   });
@@ -158,12 +162,15 @@ export const opRoll = <
 >(
   state: State,
 ) =>
-  useOneVmNumber(state, (nextState, depth) => {
+  useOneVmNumber(state, (nextState, [depth]) => {
     const index = nextState.stack.length - 1 - Number(depth);
     if (index < 0 || index > nextState.stack.length - 1) {
-      return applyError(state, AuthenticationErrorCommon.invalidStackIndex);
+      return applyError(
+        state,
+        AuthenticationErrorCommon.invalidStackIndex,
+        `Current stack depth: ${nextState.stack.length}; requested depth: ${depth}.`,
+      );
     }
-
     // eslint-disable-next-line functional/immutable-data, @typescript-eslint/no-non-null-assertion
     return pushToStack(nextState, [nextState.stack.splice(index, 1)[0]!]);
   });

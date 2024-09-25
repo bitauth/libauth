@@ -65,6 +65,7 @@ import {
   isDustOutput,
   isPushOnly,
   isStandardOutputBytecode,
+  isStandardUtxoBytecode,
   isWitnessProgram,
   mapOverOperations,
   op2Drop,
@@ -842,7 +843,7 @@ export const createInstructionSetBch2023 = <
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
-          if (!isStandardOutputBytecode(output.lockingBytecode)) {
+          if (!isStandardUtxoBytecode(output.lockingBytecode)) {
             return `Standard transactions may only spend standard output types, but source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`;
           }
         }

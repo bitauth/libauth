@@ -29,7 +29,8 @@ import {
   vmbTestPartitionMasterTestList,
 } from './bch-vmb-test-utils.js';
 import type { VmbTest, VmbTestDefinitionGroup } from './bch-vmb-test-utils.js';
-import { type baselineBenchmarkId, vms } from './vmb-tests.spec.helper.js';
+import type { baselineBenchmarkId } from './vmb-tests.spec.helper.js';
+import { vms } from './vmb-tests.spec.helper.js';
 
 import { Bench } from 'tinybench';
 
@@ -53,11 +54,14 @@ export const compiledDir = resolve('build/lib/vmb-tests/sources');
  * artifacts that aren't needed in this context (`.d.ts`, `.map`, etc.)
  */
 const sourcesDir = resolve('src/lib/vmb-tests/sources');
-const resultDir = resolve('src/lib/vmb-tests/generated');
+export const resultDir = resolve('src/lib/vmb-tests/generated');
 const buildInfoFile = '.vmb-build-info.json';
 const benchInfoFile = '.vmb-bench-info.json';
 const buildInfoPath = resolve(resultDir, buildInfoFile);
 const benchInfoPath = resolve(resultDir, benchInfoFile);
+
+export const benchHeader =
+  'Test ID,Relative Time Per Transaction Byte,Relative Time,Hz,Average Time (ns),Margin (+/- %),Samples,Accepted/Rejected';
 
 type Manifest = {
   [filePath: string]: string;
@@ -318,6 +322,15 @@ export const generateVmbTestsFromSourceFile = async (
         standard: [],
       };
       const bench = { nonstandard: new Bench(), standard: new Bench() };
+      type BenchStats = { [shortId: string]: { txLength: number } };
+      const baselineStats: BenchStats[string] = {
+        txLength: baselineTxBin.length,
+      };
+      const benchMap = {
+        nonstandard: {} as BenchStats,
+        standard: {} as BenchStats,
+      };
+
       bench.standard.add(baselineId, () => standardVm.verify(baseline));
       bench.nonstandard.add(baselineId, () => nonstandardVm.verify(baseline));
       // eslint-disable-next-line functional/no-loop-statements
@@ -421,6 +434,8 @@ export const generateVmbTestsFromSourceFile = async (
           const statsEntry = statsConfig.map(([_key, value]) => value);
           // eslint-disable-next-line functional/immutable-data
           stats[mode].push(statsEntry);
+          // eslint-disable-next-line functional/immutable-data
+          benchMap[mode][shortId] = { txLength: txBin.length };
           /**
            * In standard mode:
            * - `standard` tests are expected to succeed,
@@ -489,18 +504,32 @@ export const generateVmbTestsFromSourceFile = async (
               const { hz, mean, samples, rme } = assertNonNull(task.result);
               const relativeTime = mean / baselineMean;
               const id = task.name;
-              const passes = results[mode][id] === true;
+              const passes = id === baselineId || results[mode][id] === true;
               return { hz, id, mean, passes, relativeTime, rme, samples };
             });
             const benchFile = `${fileBase}.${mode}_bench.csv`;
             const digits = 6;
-            const csv = `Test ID,Relative Time,Hz,Average Time (ns),Margin (+/- %),Samples,Accepted/Rejected\n${benchResults
-              .map(
-                ({ hz, id, mean, samples, passes, relativeTime, rme }) =>
-                  `${id},${[relativeTime, hz, mean, rme, samples.length]
-                    .map((n) => n.toPrecision(digits))
-                    .join(',')},${passes ? 'A' : 'R'}`,
-              )
+            const csv = `${benchHeader}\n${benchResults
+              .map(({ hz, id, mean, samples, passes, relativeTime, rme }) => {
+                const testStats =
+                  id === baselineId ? baselineStats : benchMap[mode][id];
+                if (testStats === undefined) {
+                  // eslint-disable-next-line functional/no-throw-statements
+                  throw new Error(
+                    `Missing bench stats for mode: ${mode} id: ${id}`,
+                  );
+                }
+                const relativeTimePerTxByte =
+                  relativeTime * (baselineTxBin.length / testStats.txLength);
+                return [
+                  id,
+                  ...[relativeTimePerTxByte, relativeTime, hz, mean, rme].map(
+                    (n) => n.toPrecision(digits),
+                  ),
+                  samples.length,
+                  passes ? 'A' : 'R',
+                ].join(',');
+              })
               .join('\n')}`;
             writeFileSync(benchFile, csv, utf8);
             const ms = (performance.now() - start).toFixed(0);
@@ -536,7 +565,8 @@ export const generateVmbTestsFromSourceFile = async (
 
     const annotationEnd = performance.now();
     const annotationTime = (annotationEnd - annotationStart).toFixed(0);
-    const buildTime = (annotationEnd - importStart).toFixed(0);
+    const buildMs = annotationEnd - importStart;
+    const buildTime = buildMs.toFixed(0);
     console.log(
       `${logPrefix}${filename}: finished in ${buildTime}ms: imported in ${importTime}ms, generated in ${generationTime}ms, annotated in ${annotationTime}ms.`,
     );
@@ -552,11 +582,11 @@ export const generateVmbTestsFromSourceFile = async (
         await benchmarkFn();
       }
       const benchEnd = performance.now();
-      const benchTime = (benchEnd - benchStart).toFixed(0);
+      const benchMs = benchEnd - benchStart;
+      const benchTime = benchMs.toFixed(0);
+      const totalTime = (buildMs + benchMs).toFixed(0);
       console.log(
-        `${logPrefix}${filename}: finished and benchmarked in ${
-          buildTime + benchTime
-        }ms: imported in ${importTime}ms, generated in ${generationTime}ms, annotated in ${annotationTime}ms, benchmarked in ${benchTime}ms.`,
+        `${logPrefix}${filename}: finished and benchmarked in ${totalTime}ms: imported in ${importTime}ms, generated in ${generationTime}ms, annotated in ${annotationTime}ms, benchmarked in ${benchTime}ms.`,
       );
     }
     return issueMessages;

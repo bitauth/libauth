@@ -604,8 +604,8 @@ export const bigIntToVmNumber = (integer: bigint): Uint8Array => {
     bytes.push(isNegative ? signFlippingByte : 0x00);
     // eslint-disable-next-line functional/no-conditional-statements
   } else if (isNegative) {
-    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data, no-bitwise
-    bytes[bytes.length - 1] |= signFlippingByte;
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+    bytes[bytes.length - 1]! |= signFlippingByte;
   }
   return new Uint8Array(bytes);
 };
@@ -943,6 +943,15 @@ export const isStandardOutputBytecodePre2023 = (lockingBytecode: Uint8Array) =>
  */
 export const isStandardOutputBytecode = (lockingBytecode: Uint8Array) =>
   isStandardOutputBytecodePre2023(lockingBytecode) ||
+  isPayToScriptHash32(lockingBytecode);
+
+// eslint-disable-next-line complexity
+export const isStandardUtxoBytecode = (lockingBytecode: Uint8Array) =>
+  isPayToPublicKeyHash(lockingBytecode) ||
+  isPayToScriptHash20(lockingBytecode) ||
+  isPayToPublicKey(lockingBytecode) ||
+  isArbitraryDataOutput(lockingBytecode) ||
+  isSimpleMultisig(lockingBytecode) !== false ||
   isPayToScriptHash32(lockingBytecode);
 
 export const isStandardOutputBytecode2023 = isStandardOutputBytecode;

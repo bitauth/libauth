@@ -1,4 +1,7 @@
 /* eslint-disable no-console, functional/no-expression-statements, @typescript-eslint/no-non-null-assertion */
+import { writeFileSync } from 'node:fs';
+import { Session } from 'node:inspector/promises';
+
 import {
   assertSuccess,
   decodeTransaction,
@@ -25,7 +28,7 @@ Usage: yarn test:unit:vmb_test <vm> <test_id> [-v OR -b]
 E.g.: yarn test:unit:vmb_test bch_2023_standard trxhzt
       yarn test:unit:vmb_test bch_2025_standard trxhzt --verbose  # or -v
       yarn test:unit:vmb_test bch_spec_standard trxhzt --bench    # or -b
-      yarn test:unit:vmb_test bch_spec_standard trxhzt --profile  # or -p
+      yarn test:unit:vmb_test bch_spec_standard trxhzt --profile  # or -p (implies --bench)
 `;
 
 const [, , vmId, testId, flag] = process.argv;
@@ -193,7 +196,7 @@ if (!runBenchmark) {
   process.exit(0);
 }
 
-console.log('Benchmarking...');
+console.log(`Benchmarking...`);
 
 const baselineDefinition = allTests.find(([id]) => id === baselineBenchmarkId);
 if (baselineDefinition === undefined) {
@@ -219,14 +222,16 @@ bench.add(testName, () => vm.verify({ sourceOutputs, transaction }));
 console.log('Warming up benchmark...');
 await bench.warmup();
 console.log('Running benchmark...');
-// eslint-disable-next-line functional/no-conditional-statements
-if (collectProfile) console.profile();
 await bench.run();
-// eslint-disable-next-line functional/no-conditional-statements
-if (collectProfile) console.profileEnd();
-// console.log('\nTest result:', bench.getTask(baselineName)?.result);
 console.table(bench.table());
-// console.log('\nBaseline result:', bench.getTask(testName)?.result);
+if (useVerbose)
+  // eslint-disable-next-line functional/no-conditional-statements
+  console.log(
+    '\nTest result:',
+    bench.getTask(baselineName)?.result,
+    '\nBaseline result:',
+    bench.getTask(testName)?.result,
+  );
 const baselineMean = bench.results[0]!.mean;
 const testMean = bench.results[1]!.mean;
 console.log(
@@ -234,3 +239,23 @@ console.log(
     testMean / baselineMean
   } baseline validations (${baselineBenchmarkId}).`,
 );
+
+if (!collectProfile) {
+  process.exit(0);
+}
+console.log(`Profiling...`);
+const session = new Session();
+session.connect();
+bench.reset();
+bench.remove(baselineName);
+await session.post('Profiler.enable');
+await session.post('Profiler.start');
+await bench.warmup();
+await bench.run();
+const { profile } = await session.post('Profiler.stop');
+session.disconnect();
+const filename = `vmb_test.${testId}.${vmId}.${new Date()
+  .toISOString()
+  .replace(/[:.]/gu, '-')}.cpuprofile`;
+console.log(`Writing profile to: ${filename}`);
+writeFileSync(filename, JSON.stringify(profile));

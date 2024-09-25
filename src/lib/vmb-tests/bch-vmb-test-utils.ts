@@ -116,7 +116,8 @@ const testSetOverrideListBch = [
   ['2023_invalid'],
   ['2023_invalid', '2025_nonstandard', 'p2sh_ignore'],
   ['2023_invalid', 'nop2sh_ignore'],
-  ['2023_invalid', 'nop2sh_ignore'],
+  ['2023_invalid', 'nop2sh_ignore', 'p2sh20_ignore'],
+  ['2023_invalid', 'nop2sh_ignore', 'p2sh32_ignore'],
   ['2023_invalid', 'p2sh_ignore'],
   ['2023_p2sh_invalid'],
   ['chip_loops_invalid'],
@@ -218,6 +219,18 @@ export const supportedTestSetOverridesBch: {
     },
     {
       mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,nop2sh_ignore,p2sh20_ignore': [
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,nop2sh_ignore,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],

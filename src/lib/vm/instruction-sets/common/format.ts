@@ -70,8 +70,8 @@ export const padMinimallyEncodedVmNumber = (
   if (vmNumber.length > 0) {
     // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
     signBit = vmNumber[vmNumber.length - 1]! & Constants.negativeSign;
-    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
-    vmNumber[vmNumber.length - 1] &= Constants.negativeSign - 1;
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+    vmNumber[vmNumber.length - 1]! &= Constants.negativeSign - 1;
   }
   const result = Array.from(vmNumber);
   // eslint-disable-next-line functional/no-loop-statements

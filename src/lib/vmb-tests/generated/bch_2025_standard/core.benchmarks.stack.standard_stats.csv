@@ -3,6 +3,9 @@ Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Inde
 p7aeva,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes pushed to the stack (P2SH32)",268,45,1,0,248,198400,145589,6,0,124,5,207,124029,0
 x4ddtw,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize stack usage (P2SH20)",1713,33,1,0,1691,1352800,147720,39,0,845,5,209,125960,0
 y05lce,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize stack usage (P2SH32)",1713,45,1,0,1691,1352800,147744,39,0,845,5,209,125984,0
+3ne030,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize stack usage (P2SH20)",72,33,1,0,52,41600,41433,1,0,26,2,11,40049,0
+7z9hne,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize stack usage (P2SH32)",72,45,1,0,52,41600,41457,1,0,26,2,11,40073,0
+9p30lt,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize OP_DUP OP_CAT (P2SH20)",94,33,1,0,74,59200,56998,2,0,37,2,34,53314,0
 ss72kv,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize stack usage checking (OP_1ADD) (P2SH20)",1713,33,1,0,1691,1352800,171905,39,0,845,27,1606,4000,2221
 l0acpe,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize stack usage checking (OP_1ADD) (P2SH32)",1713,45,1,0,1691,1352800,171929,39,0,845,27,1606,4024,2221
 8zmhnl,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize alternate stack usage checking (OP_1ADD) (P2SH20)",1713,33,1,0,1691,1352800,172866,39,0,845,27,1651,2185,497

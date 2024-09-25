@@ -1,4 +1,7 @@
 {
+"3ne030":[52,41600,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize stack usage (P2SH20)"],
+"7z9hne":[52,41600,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize stack usage (P2SH32)"],
+"9p30lt":[74,59200,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize OP_DUP OP_CAT (P2SH20)"],
 "ss72kv":[1691,1352800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize stack usage checking (OP_1ADD) (P2SH20)"],
 "l0acpe":[1691,1352800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize stack usage checking (OP_1ADD) (P2SH32)"],
 "9nd5e9":[2544,2035200,0,"Transaction validation benchmarks: Within BCH_2025_05 nonP2SH/nonstandard, single-input limits, maximize stack usage checking (OP_1ADD) (nonP2SH)"],

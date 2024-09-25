@@ -64,12 +64,12 @@
     "test:unit": "c8 ava",
     "test:fast": "echo '\n\nUsage:\n yarn test:fast src/lib/key/bip39.spec.ts                    # run a single test file \n yarn test:fast --match=\"!*crypto*\"                            # include/exclude tests with names matching pattern(s) \n\n' && ava -v",
     "test:unit:script_tests": "c8 ava --match='*[script_tests]*' --serial",
-    "test:unit:vmb_tests": "c8 ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
     "test:unit:vmb_test": "node --enable-source-maps 'build/lib/vmb-tests/run-bch-vmb-test.spec.helper.js'",
     "gen:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js'",
     "bench:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -b",
-    "dev:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -wb",
-    "dev:vmb_tests:no-bench": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -w",
+    "dev:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -w",
+    "dev:vmb_tests:bench": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -wb",
+    "export:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/export-vmb-test-results.spec.helper.js'",
     "bench": "yarn build && yarn bench:browser-deps && yarn bench:vmb_tests && yarn bench:test",
     "bench:test": "ava --config config/.ava.bench.config.js --serial --timeout=2m 2>&1 | tee bench.log",
     "bench:browser-deps": "cpy '.yarn/artifacts/*.js' build/bench",
@@ -105,7 +105,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/elliptic": "^6.4.18",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.11.0",
+    "@types/node": "^22.5.5",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
     "@typescript-eslint/parser": "^6.18.1",
     "ajv-cli": "^5.0.0",
@@ -113,7 +113,7 @@
     "ava": "^6.0.1",
     "bip39": "^3.1.0",
     "bitcore-lib-cash": "^10.0.23",
-    "c8": "^9.0.0",
+    "c8": "^10.1.2",
     "chuhai": "^1.2.0",
     "cpy-cli": "^5.0.0",
     "cspell": "^8.3.2",
@@ -137,8 +137,8 @@
     "source-map-support": "^0.5.21",
     "tinybench": "^2.8.0",
     "ts-json-schema-generator": "^1.5.0",
-    "typedoc": "^0.25.7",
-    "typescript": "^5.3.3"
+    "typedoc": "^0.26.7",
+    "typescript": "^5.6.2"
   },
   "publishConfig": {
     "provenance": true
@@ -194,7 +194,7 @@
     ]
   },
   "sideEffects": false,
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.5.0",
   "resolutions": {
     "eslint-config-bitauth": "portal:./config/eslint-config-bitauth"
   }

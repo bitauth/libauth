@@ -1,0 +1,63 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+3ppftz,"BigInt: OP_WITHIN 1-byte number (all bits set) within 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",221,67,2,1,51,40800,0,1,0,25,2,10,53,0
+rhuqra,"BigInt: OP_WITHIN 1-byte number (all bits set) within 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",221,79,2,1,51,40800,0,1,0,25,2,10,77,0
+0q0pn3,"BigInt: OP_WITHIN 8-byte number (all bits set) within 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",228,67,2,1,58,46400,0,1,0,29,2,10,67,0
+vsn47v,"BigInt: OP_WITHIN 8-byte number (all bits set) within 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",228,79,2,1,58,46400,0,1,0,29,2,10,91,0
+gt0s7j,"BigInt: OP_WITHIN 1-byte number (all bits set) within 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",228,67,2,1,58,46400,0,1,0,29,2,10,67,0
+7f9avu,"BigInt: OP_WITHIN 1-byte number (all bits set) within 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",228,79,2,1,58,46400,0,1,0,29,2,10,91,0
+pl6292,"BigInt: OP_WITHIN 8-byte number (all bits set) within 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",235,67,2,1,65,52000,0,1,0,32,2,10,81,0
+3x5nq4,"BigInt: OP_WITHIN 8-byte number (all bits set) within 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",235,79,2,1,65,52000,0,1,0,32,2,10,105,0
+806n7z,"BigInt: OP_WITHIN 1-byte number (all bits set) within 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",228,67,2,1,58,46400,0,1,0,29,2,10,67,0
+puf2z2,"BigInt: OP_WITHIN 1-byte number (all bits set) within 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",228,79,2,1,58,46400,0,1,0,29,2,10,91,0
+95xpc9,"BigInt: OP_WITHIN 8-byte number (all bits set) within 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",235,67,2,1,65,52000,0,1,0,32,2,10,81,0
+7serw4,"BigInt: OP_WITHIN 8-byte number (all bits set) within 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",235,79,2,1,65,52000,0,1,0,32,2,10,105,0
+rz733f,"BigInt: OP_WITHIN 1-byte number (all bits set) within 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",235,67,2,1,65,52000,0,1,0,32,2,10,83,0
+nv07nc,"BigInt: OP_WITHIN 1-byte number (all bits set) within 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",235,79,2,1,65,52000,0,1,0,32,2,10,107,0
+p0zrkg,"BigInt: OP_WITHIN 8-byte number (all bits set) within 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",242,67,2,1,72,57600,0,2,0,36,2,10,95,0
+pu2qt3,"BigInt: OP_WITHIN 8-byte number (all bits set) within 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",242,79,2,1,72,57600,0,2,0,36,2,10,119,0
+ycafuw,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",221,67,2,1,51,40800,0,1,0,25,2,10,53,0
+awxey5,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",221,79,2,1,51,40800,0,1,0,25,2,10,77,0
+gs83au,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",228,67,2,1,58,46400,0,1,0,29,2,10,69,0
+9hvp25,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",228,79,2,1,58,46400,0,1,0,29,2,10,93,0
+cwc0la,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",228,67,2,1,58,46400,0,1,0,29,2,10,67,0
+ywxvd6,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",228,79,2,1,58,46400,0,1,0,29,2,10,91,0
+nwa9dl,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",235,67,2,1,65,52000,0,1,0,32,2,10,81,0
+nj36nq,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",235,79,2,1,65,52000,0,1,0,32,2,10,105,0
+u79vsj,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",228,67,2,1,58,46400,0,1,0,29,2,10,67,0
+s03cku,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",228,79,2,1,58,46400,0,1,0,29,2,10,91,0
+lp3yak,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",235,67,2,1,65,52000,0,1,0,32,2,10,81,0
+3qd6y0,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",235,79,2,1,65,52000,0,1,0,32,2,10,105,0
+yklec9,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",235,67,2,1,65,52000,0,1,0,32,2,10,81,0
+gaz3n8,"BigInt: OP_WITHIN 1-byte number (alternating bits set) within 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",235,79,2,1,65,52000,0,1,0,32,2,10,105,0
+yzhjap,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",242,67,2,1,72,57600,0,2,0,36,2,10,95,0
+vdnu6m,"BigInt: OP_WITHIN 8-byte number (alternating bits set) within 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",242,79,2,1,72,57600,0,2,0,36,2,10,119,0
+jauc4h,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,10,50,0
+0pfpya,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,10,74,0
+gsk4hg,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,10,67,0
+fye4vw,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,10,91,0
+dxgsem,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,10,65,0
+h4lle5,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,10,89,0
+ssy40e,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",234,67,2,1,64,51200,0,1,0,32,2,10,80,0
+qflm4x,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",234,79,2,1,64,51200,0,1,0,32,2,10,104,0
+32rtq4,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,10,65,0
+v4hure,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,10,89,0
+4xyz3c,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",234,67,2,1,64,51200,0,1,0,32,2,10,80,0
+pxkzcg,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",234,79,2,1,64,51200,0,1,0,32,2,10,104,0
+e632g9,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",234,67,2,1,64,51200,0,1,0,32,2,10,80,0
+6ssl7k,"BigInt: OP_WITHIN 1-byte number (highest-bit set) within 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",234,79,2,1,64,51200,0,1,0,32,2,10,104,0
+h3jrla,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",242,67,2,1,72,57600,0,2,0,36,2,10,95,0
+ud39wy,"BigInt: OP_WITHIN 8-byte number (highest-bit set) within 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",242,79,2,1,72,57600,0,2,0,36,2,10,119,0
+2tjq3v,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 1-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,10,67,0
+h0y5tn,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 1-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,10,91,0
+ze8kyt,"BigInt: OP_WITHIN 1-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,10,65,0
+vvu2uk,"BigInt: OP_WITHIN 1-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,10,89,0
+kdmk7a,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",234,67,2,1,64,51200,0,1,0,32,2,10,80,0
+u25ucs,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",234,79,2,1,64,51200,0,1,0,32,2,10,104,0
+xugkkk,"BigInt: OP_WITHIN 1-byte number (one bit set per byte) within 1-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",226,67,2,1,56,44800,0,1,0,28,2,10,65,0
+gkzzyv,"BigInt: OP_WITHIN 1-byte number (one bit set per byte) within 1-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",226,79,2,1,56,44800,0,1,0,28,2,10,89,0
+853xxm,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 1-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",234,67,2,1,64,51200,0,1,0,32,2,10,80,0
+wv5ssu,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 1-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",234,79,2,1,64,51200,0,1,0,32,2,10,104,0
+hsjhla,"BigInt: OP_WITHIN 1-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",234,67,2,1,64,51200,0,1,0,32,2,10,80,0
+3ra5fd,"BigInt: OP_WITHIN 1-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",234,79,2,1,64,51200,0,1,0,32,2,10,104,0
+hhnrre,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",242,67,2,1,72,57600,0,2,0,36,2,10,95,0
+y3k4l3,"BigInt: OP_WITHIN 8-byte number (one bit set per byte) within 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",242,79,2,1,72,57600,0,2,0,36,2,10,119,0

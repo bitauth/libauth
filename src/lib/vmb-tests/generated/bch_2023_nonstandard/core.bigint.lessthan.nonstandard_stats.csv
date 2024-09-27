@@ -1,0 +1,15 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+srgm9y,"BigInt: OP_LESSTHAN 1-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,50,2,1,42,33600,0,1,0,147,0,5,3,0
+5wnma0,"BigInt: OP_LESSTHAN 1-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,147,0,5,10,0
+54lfkc,"BigInt: OP_LESSTHAN 8-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,147,0,5,12,0
+akqvfm,"BigInt: OP_LESSTHAN 8-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,17,0
+g8g6km,"BigInt: OP_LESSTHAN 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,50,2,1,42,33600,0,1,0,147,0,5,3,0
+rgs38w,"BigInt: OP_LESSTHAN 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,147,0,5,12,0
+rwuwsz,"BigInt: OP_LESSTHAN 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,147,0,5,10,0
+sm3xy0,"BigInt: OP_LESSTHAN 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,17,0
+pw3a7t,"BigInt: OP_LESSTHAN 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,147,0,5,3,0
+vd7ljc,"BigInt: OP_LESSTHAN 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,56,2,1,42,33600,0,1,0,147,0,5,12,0
+5u404s,"BigInt: OP_LESSTHAN 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,56,2,1,42,33600,0,1,0,147,0,5,10,0
+gdzsqt,"BigInt: OP_LESSTHAN 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,17,0
+c229g6,"BigInt: OP_LESSTHAN 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",212,56,2,1,42,33600,0,1,0,147,0,5,10,0
+yhmxek,"BigInt: OP_LESSTHAN 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,64,2,1,42,33600,0,1,0,147,0,5,17,0

@@ -1,0 +1,69 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+e7xsp6,"Conditionals: OP_IF (P2SH20)",217,67,2,1,47,37600,0,1,0,164,2,9,46,0
+7x8rms,"Conditionals: OP_IF (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,9,70,0
+6zrk2s,"Conditionals: OP_NOTIF (P2SH20)",217,67,2,1,47,37600,0,1,0,164,2,9,47,0
+9acvd8,"Conditionals: OP_NOTIF (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,9,71,0
+y0uh2a,"Conditionally executed operations: OP_INPUTINDEX is conditionally executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,50,0
+3zj0ed,"Conditionally executed operations: OP_INPUTINDEX is conditionally executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,74,0
+kt2a4q,"Conditionally executed operations: OP_ACTIVEBYTECODE is conditionally executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,60,0
+689nf6,"Conditionally executed operations: OP_ACTIVEBYTECODE is conditionally executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,84,0
+z79760,"Conditionally executed operations: OP_TXVERSION is conditionally executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,50,0
+2e7e23,"Conditionally executed operations: OP_TXVERSION is conditionally executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,74,0
+nqgkps,"Conditionally executed operations: OP_TXINPUTCOUNT is conditionally executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,50,0
+slccmz,"Conditionally executed operations: OP_TXINPUTCOUNT is conditionally executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,74,0
+r7twy4,"Conditionally executed operations: OP_TXOUTPUTCOUNT is conditionally executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,50,0
+r3dzdv,"Conditionally executed operations: OP_TXOUTPUTCOUNT is conditionally executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,74,0
+jwevd0,"Conditionally executed operations: OP_TXLOCKTIME is conditionally executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,48,0
+2n4eex,"Conditionally executed operations: OP_TXLOCKTIME is conditionally executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,72,0
+636xke,"Conditionally executed operations: OP_UTXOVALUE is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,55,0
+2rzq82,"Conditionally executed operations: OP_UTXOVALUE is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,79,0
+jnkwex,"Conditionally executed operations: OP_UTXOBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,101,0
+khffxa,"Conditionally executed operations: OP_UTXOBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,125,0
+236693,"Conditionally executed operations: OP_OUTPOINTTXHASH is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,115,0
+wcwuzm,"Conditionally executed operations: OP_OUTPOINTTXHASH is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,139,0
+awhg7n,"Conditionally executed operations: OP_OUTPOINTINDEX is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+j2w6yy,"Conditionally executed operations: OP_OUTPOINTINDEX is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+h4x7wu,"Conditionally executed operations: OP_INPUTBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,251,0
+mk0xcu,"Conditionally executed operations: OP_INPUTBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,275,0
+nwesp9,"Conditionally executed operations: OP_INPUTSEQUENCENUMBER is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+dvq7xw,"Conditionally executed operations: OP_INPUTSEQUENCENUMBER is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+dqnj8z,"Conditionally executed operations: OP_OUTPUTVALUE is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+z5lfhd,"Conditionally executed operations: OP_OUTPUTVALUE is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+hsrgxs,"Conditionally executed operations: OP_OUTPUTBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,71,0
+z6vzc5,"Conditionally executed operations: OP_OUTPUTBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,95,0
+r83e4g,"Conditionally executed operations: OP_UTXOTOKENCATEGORY is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+wfdykr,"Conditionally executed operations: OP_UTXOTOKENCATEGORY is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+20ppx2,"Conditionally executed operations: OP_OUTPUTTOKENCATEGORY is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+0cfje0,"Conditionally executed operations: OP_OUTPUTTOKENCATEGORY is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+7jrwq5,"Conditionally executed operations: OP_UTXOTOKENCOMMITMENT is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+8zs7nt,"Conditionally executed operations: OP_UTXOTOKENCOMMITMENT is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+2n972r,"Conditionally executed operations: OP_OUTPUTTOKENCOMMITMENT is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+mnkz7h,"Conditionally executed operations: OP_OUTPUTTOKENCOMMITMENT is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+3qcxzh,"Conditionally executed operations: OP_UTXOTOKENAMOUNT is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+92wgh4,"Conditionally executed operations: OP_UTXOTOKENAMOUNT is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+sjfmlq,"Conditionally executed operations: OP_OUTPUTTOKENAMOUNT is conditionally executed (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,14,51,0
+pp4l60,"Conditionally executed operations: OP_OUTPUTTOKENAMOUNT is conditionally executed (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,14,75,0
+ymwxyg,"Unexecuted operations: OP_UTXOTOKENCATEGORY not executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,48,0
+0md7j6,"Unexecuted operations: OP_UTXOTOKENCATEGORY not executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,72,0
+tswyra,"Unexecuted operations: OP_UTXOTOKENCATEGORY executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,49,0
+dyruvx,"Unexecuted operations: OP_UTXOTOKENCATEGORY executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,73,0
+520x7f,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY not executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,48,0
+5k3k38,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY not executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,72,0
+duuwy5,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,49,0
+9xtvg0,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,73,0
+hsd0zy,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT not executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,48,0
+9y48ux,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT not executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,72,0
+elye4g,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,49,0
+qermtc,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,73,0
+u69wyh,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT not executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,48,0
+qm3jf6,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT not executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,72,0
+j29ak5,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,49,0
+rvnren,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,73,0
+y9j3rd,"Unexecuted operations: OP_UTXOTOKENAMOUNT not executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,48,0
+j2jvn3,"Unexecuted operations: OP_UTXOTOKENAMOUNT not executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,72,0
+vh0fca,"Unexecuted operations: OP_UTXOTOKENAMOUNT executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,49,0
+8wnlm5,"Unexecuted operations: OP_UTXOTOKENAMOUNT executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,73,0
+hazznv,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT not executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,48,0
+35fj9h,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT not executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,72,0
+7texcg,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT executed (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,11,49,0
+sws3pg,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT executed (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,11,73,0

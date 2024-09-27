@@ -1,0 +1,15 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+xlnnzx,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard, single-input limits, maximize bytes OP_RIPEMD160 hashed (nonP2SH)",65,514,1,0,42,33600,7811,1,0,21,27,11,1627,0
+3tywer,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard, single-input limits, maximize bytes OP_SHA1 hashed (nonP2SH)",65,514,1,0,42,33600,7811,1,0,21,27,11,1627,0
+mvypwk,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard, single-input limits, maximize bytes OP_SHA256 hashed (nonP2SH)",65,514,1,0,42,33600,7847,1,0,21,27,11,1663,0
+n4qn5c,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard, single-input limits, maximize bytes OP_HASH160 hashed (nonP2SH)",65,514,1,0,42,33600,8387,1,0,21,30,11,1627,0
+vdqk6h,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard, single-input limits, maximize bytes OP_HASH256 hashed (nonP2SH)",65,514,1,0,42,33600,8423,1,0,21,30,11,1663,0
+ntjj3l,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard limits, maximize hash digests per byte, then total bytes OP_RIPEMD160 hashed (nonP2SH)",65,214,1,0,42,33600,33735,1,0,21,0,26,31235,0
+r83vmf,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard limits, maximize hash digests per byte, then total bytes OP_SHA1 hashed (nonP2SH)",65,214,1,0,42,33600,33735,1,0,21,0,26,31235,0
+k8mg8c,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard limits, maximize hash digests per byte, then total bytes OP_SHA256 hashed (nonP2SH)",65,214,1,0,42,33600,33735,1,0,21,0,26,31235,0
+4t390w,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard limits, maximize hash digests per byte, then total bytes OP_HASH160 hashed (nonP2SH)",65,214,1,0,42,33600,33735,1,0,21,0,26,31235,0
+xpw62x,"Transaction validation benchmarks: Within BCH_2023_05 nonP2SH/nonstandard limits, maximize hash digests per byte, then total bytes OP_HASH256 hashed (nonP2SH)",65,214,1,0,42,33600,33735,1,0,21,0,26,31235,0
+vr4rff,"Transaction validation benchmarks: OP_HASH160 hash 9976 bytes (nonP2SH)",65,12,1,0,45,36000,40635,1,0,22,158,4,9999,0
+twst6j,"Transaction validation benchmarks: OP_HASH160 hash 10000 bytes (nonP2SH)",65,12,1,0,45,36000,40659,1,0,22,158,4,10023,0
+0vuq37,"Transaction validation benchmarks: OP_HASH256 hash 9976 bytes (nonP2SH)",65,12,1,0,45,36000,40647,1,0,22,158,4,10011,0
+0j2276,"Transaction validation benchmarks: OP_HASH256 hash 10000 bytes (nonP2SH)",65,12,1,0,45,36000,40671,1,0,22,158,4,10035,0

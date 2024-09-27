@@ -1,0 +1,35 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+c6ht32,"Conditionals: OP_IF (nonP2SH)",212,48,2,1,42,33600,401,1,0,21,0,5,1,0
+2daj2h,"Conditionals: OP_NOTIF (nonP2SH)",212,48,2,1,42,33600,402,1,0,21,0,5,2,0
+tytarv,"Conditionally executed operations: OP_INPUTINDEX is conditionally executed (nonP2SH)",212,50,2,1,42,33600,603,1,0,21,0,7,3,0
+7np8yf,"Conditionally executed operations: OP_ACTIVEBYTECODE is conditionally executed (nonP2SH)",212,50,2,1,42,33600,613,1,0,21,0,7,13,0
+yumsxq,"Conditionally executed operations: OP_TXVERSION is conditionally executed (nonP2SH)",212,50,2,1,42,33600,603,1,0,21,0,7,3,0
+x9gtjr,"Conditionally executed operations: OP_TXINPUTCOUNT is conditionally executed (nonP2SH)",212,50,2,1,42,33600,603,1,0,21,0,7,3,0
+keufrh,"Conditionally executed operations: OP_TXOUTPUTCOUNT is conditionally executed (nonP2SH)",212,50,2,1,42,33600,603,1,0,21,0,7,3,0
+t8jjev,"Conditionally executed operations: OP_TXLOCKTIME is conditionally executed (nonP2SH)",212,50,2,1,42,33600,601,1,0,21,0,7,1,0
+n0srx4,"Conditionally executed operations: OP_UTXOVALUE is conditionally executed (nonP2SH)",212,53,2,1,42,33600,905,1,0,21,0,10,5,0
+e2gr07,"Conditionally executed operations: OP_UTXOBYTECODE is conditionally executed (nonP2SH)",212,53,2,1,42,33600,951,1,0,21,0,10,51,0
+p5zhts,"Conditionally executed operations: OP_OUTPOINTTXHASH is conditionally executed (nonP2SH)",212,53,2,1,42,33600,965,1,0,21,0,10,65,0
+6e3l98,"Conditionally executed operations: OP_OUTPOINTINDEX is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+55lqyl,"Conditionally executed operations: OP_INPUTBYTECODE is conditionally executed (nonP2SH)",212,53,2,1,42,33600,1101,1,0,21,0,10,201,0
+0jjf3e,"Conditionally executed operations: OP_INPUTSEQUENCENUMBER is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+kr7ujm,"Conditionally executed operations: OP_OUTPUTVALUE is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+kfvpqn,"Conditionally executed operations: OP_OUTPUTBYTECODE is conditionally executed (nonP2SH)",212,53,2,1,42,33600,921,1,0,21,0,10,21,0
+zhkw5f,"Conditionally executed operations: OP_UTXOTOKENCATEGORY is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+s7hhav,"Conditionally executed operations: OP_OUTPUTTOKENCATEGORY is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+m850m9,"Conditionally executed operations: OP_UTXOTOKENCOMMITMENT is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+8zgezk,"Conditionally executed operations: OP_OUTPUTTOKENCOMMITMENT is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+u5h88h,"Conditionally executed operations: OP_UTXOTOKENAMOUNT is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+feua28,"Conditionally executed operations: OP_OUTPUTTOKENAMOUNT is conditionally executed (nonP2SH)",212,53,2,1,42,33600,901,1,0,21,0,10,1,0
+d0sggc,"Unexecuted operations: OP_UTXOTOKENCATEGORY not executed (nonP2SH)",212,50,2,1,42,33600,601,1,0,21,0,7,1,0
+v0a43v,"Unexecuted operations: OP_UTXOTOKENCATEGORY executed (nonP2SH)",212,50,2,1,42,33600,602,1,0,21,0,7,2,0
+wprpc4,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY not executed (nonP2SH)",212,50,2,1,42,33600,601,1,0,21,0,7,1,0
+42yc34,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY executed (nonP2SH)",212,50,2,1,42,33600,602,1,0,21,0,7,2,0
+su3dgr,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT not executed (nonP2SH)",212,50,2,1,42,33600,601,1,0,21,0,7,1,0
+mdlnfu,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT executed (nonP2SH)",212,50,2,1,42,33600,602,1,0,21,0,7,2,0
+mnz8f8,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT not executed (nonP2SH)",212,50,2,1,42,33600,601,1,0,21,0,7,1,0
+wnux7e,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT executed (nonP2SH)",212,50,2,1,42,33600,602,1,0,21,0,7,2,0
+68p9p8,"Unexecuted operations: OP_UTXOTOKENAMOUNT not executed (nonP2SH)",212,50,2,1,42,33600,601,1,0,21,0,7,1,0
+xds7rv,"Unexecuted operations: OP_UTXOTOKENAMOUNT executed (nonP2SH)",212,50,2,1,42,33600,602,1,0,21,0,7,2,0
+zz498v,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT not executed (nonP2SH)",212,50,2,1,42,33600,601,1,0,21,0,7,1,0
+w06ayc,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT executed (nonP2SH)",212,50,2,1,42,33600,602,1,0,21,0,7,2,0

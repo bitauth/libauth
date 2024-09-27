@@ -1,0 +1,5 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+xuxr6e,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, 1-of-3 bare multisig input, 1 output (ECDSA signature, bottom slot) (nonP2SH)",134,115,1,0,114,91200,80025,3,3,399,18,8,173,0
+l0fhm3,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, packed 1-of-3 bare multisig inputs, 1 output (all ECDSA signatures, bottom slot) (nonP2SH)",99988,99525,873,872,115,92000,80026,3,3,402,18,8,174,0
+c4chnz,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, 1-of-3 bare multisig input, 1 output (ECDSA signature, top slot) (nonP2SH)",134,115,1,0,114,91200,79257,3,3,399,6,8,173,0
+vzvufa,"Transaction validation benchmarks: Within BCH_2023_05 standard limits, packed 1-of-3 bare multisig inputs, 1 output (all ECDSA signatures, top slot) (nonP2SH)",99989,99525,873,872,114,91200,79257,3,3,399,6,8,173,0

@@ -1,0 +1,15 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+z4rjcc,"BigInt: OP_MAX 1-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",213,50,2,1,43,34400,0,1,0,21,0,5,5,1
+3sp2p0,"BigInt: OP_MAX 1-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",213,57,2,1,43,34400,0,1,0,21,0,5,12,1
+c7q4xd,"BigInt: OP_MAX 8-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",213,57,2,1,43,34400,0,1,0,21,0,5,12,1
+2r2mhq,"BigInt: OP_MAX 8-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8
+qv9zr8,"BigInt: OP_MAX 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",213,50,2,1,43,34400,0,1,0,21,0,5,5,1
+ga7882,"BigInt: OP_MAX 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",220,57,2,1,50,40000,0,1,0,25,0,5,26,8
+z2xpsp,"BigInt: OP_MAX 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",220,57,2,1,50,40000,0,1,0,25,0,5,26,8
+t6q8l4,"BigInt: OP_MAX 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8
+gdkvn6,"BigInt: OP_MAX 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,5,1
+4av234,"BigInt: OP_MAX 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
+077997,"BigInt: OP_MAX 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
+5c8kc6,"BigInt: OP_MAX 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8
+06c633,"BigInt: OP_MAX 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
+3kp83y,"BigInt: OP_MAX 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8

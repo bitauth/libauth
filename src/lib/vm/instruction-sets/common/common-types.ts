@@ -1,17 +1,13 @@
 import type {
   AuthenticationProgramCommon,
-  AuthenticationProgramStateAlternateStack,
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
-  AuthenticationProgramStateStack,
   Input,
-  Operation,
   Output,
   TransactionCommon,
 } from '../../../lib.js';
 
 import { conditionallyEvaluate } from './combinators.js';
-import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 
 export const undefinedOperation = conditionallyEvaluate(
@@ -22,30 +18,6 @@ export const undefinedOperation = conditionallyEvaluate(
     state: State,
   ) => applyError(state, AuthenticationErrorCommon.unknownOpcode),
 );
-
-export const checkLimitsCommon =
-  <
-    State extends AuthenticationProgramStateAlternateStack &
-      AuthenticationProgramStateError &
-      AuthenticationProgramStateStack & { operationCount: number },
-  >(
-    operation: Operation<State>,
-  ): Operation<State> =>
-  (state: State) => {
-    const nextState = operation(state);
-    return nextState.stack.length + nextState.alternateStack.length >
-      ConsensusCommon.maximumStackDepth
-      ? applyError(
-          nextState,
-          AuthenticationErrorCommon.exceededMaximumStackDepth,
-        )
-      : nextState.operationCount > ConsensusCommon.maximumOperationCount
-        ? applyError(
-            nextState,
-            AuthenticationErrorCommon.exceededMaximumOperationCount,
-          )
-        : nextState;
-  };
 
 /**
  * A reduced version of {@link AuthenticationProgramCommon} in which some

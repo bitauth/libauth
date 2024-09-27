@@ -1,48 +1,24 @@
+import {
+  ripemd160 as internalRipemd160,
+  secp256k1 as internalSecp256k1,
+  sha1 as internalSha1,
+  sha256 as internalSha256,
+} from '../../../crypto/crypto.js';
 import type {
   AuthenticationProgramBch,
   AuthenticationProgramStateBch,
   InstructionSet,
   ResolvedTransactionBch,
+  Ripemd160,
+  Secp256k1,
+  Sha1,
+  Sha256,
 } from '../../../lib.js';
-import {
-  conditionallyEvaluate,
-  disabledOperation,
-  incrementOperationCount,
-  mapOverOperations,
-  undefinedOperation,
-} from '../common/common.js';
+import { createInstructionSetBch2023 } from '../bch/2023/bch-2023-instruction-set.js';
+import { undefinedOperation } from '../common/common.js';
 
-import { createInstructionSetBch2020 } from './bch-2020-instruction-set.js';
+import { ConsensusXec } from './xec-2020-consensus.js';
 import { OpcodesXec } from './xec-opcodes.js';
-import {
-  op0NotEqual4Byte,
-  op1Add4Byte,
-  op1Sub4Byte,
-  opAbs4Byte,
-  opAdd4Byte,
-  opBin2Num4Byte,
-  opBoolAnd4Byte,
-  opBoolOr4Byte,
-  opDiv4Byte,
-  opGreaterThan4Byte,
-  opGreaterThanOrEqual4Byte,
-  opLessThan4Byte,
-  opLessThanOrEqual4Byte,
-  opMax4Byte,
-  opMin4Byte,
-  opMod4Byte,
-  opNegate4Byte,
-  opNot4Byte,
-  opNum2Bin4Byte,
-  opNumEqual4Byte,
-  opNumEqualVerify4Byte,
-  opNumNotEqual4Byte,
-  opPick4Byte,
-  opRoll4Byte,
-  opSplit4Byte,
-  opSub4Byte,
-  opWithin4Byte,
-} from './xec-vm-number-operations.js';
 
 /**
  * create an instance of the XEC virtual machine instruction set.
@@ -52,51 +28,64 @@ import {
  * and can technically be included by miners in valid blocks, but most network
  * nodes will refuse to relay them. (Default: `true`)
  */
-export const createInstructionSetXec = (
+export const createInstructionSetXec = <
+  AuthenticationProgramState extends AuthenticationProgramStateBch,
+  Consensus extends typeof ConsensusXec = typeof ConsensusXec,
+>(
   standard = true,
+  {
+    consensus = ConsensusXec as Consensus,
+    ripemd160,
+    secp256k1,
+    sha1,
+    sha256,
+  }: {
+    consensus?: Consensus;
+    /**
+     * a Ripemd160 implementation
+     */
+    ripemd160: { hash: Ripemd160['hash'] };
+    /**
+     * a Secp256k1 implementation
+     */
+    secp256k1: {
+      verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
+      verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
+    };
+    /**
+     * a Sha1 implementation
+     */
+    sha1: { hash: Sha1['hash'] };
+    /**
+     * a Sha256 implementation
+     */
+    sha256: { hash: Sha256['hash'] };
+  } = {
+    ripemd160: internalRipemd160,
+    secp256k1: internalSecp256k1,
+    sha1: internalSha1,
+    sha256: internalSha256,
+  },
 ): InstructionSet<
   ResolvedTransactionBch,
   AuthenticationProgramBch,
-  AuthenticationProgramStateBch
+  AuthenticationProgramState
 > => {
-  const instructionSet = createInstructionSetBch2020(standard);
+  const instructionSet = createInstructionSetBch2023<
+    AuthenticationProgramState,
+    Consensus
+  >(standard, {
+    consensus,
+    ripemd160,
+    secp256k1,
+    sha1,
+    sha256,
+  });
   return {
     ...instructionSet,
     operations: {
       ...instructionSet.operations,
-      ...mapOverOperations<AuthenticationProgramStateBch>(
-        [conditionallyEvaluate, incrementOperationCount],
-        {
-          [OpcodesXec.OP_PICK]: opPick4Byte,
-          [OpcodesXec.OP_ROLL]: opRoll4Byte,
-          [OpcodesXec.OP_SPLIT]: opSplit4Byte,
-          [OpcodesXec.OP_NUM2BIN]: opNum2Bin4Byte,
-          [OpcodesXec.OP_BIN2NUM]: opBin2Num4Byte,
-          [OpcodesXec.OP_1ADD]: op1Add4Byte,
-          [OpcodesXec.OP_1SUB]: op1Sub4Byte,
-          [OpcodesXec.OP_NEGATE]: opNegate4Byte,
-          [OpcodesXec.OP_ABS]: opAbs4Byte,
-          [OpcodesXec.OP_NOT]: opNot4Byte,
-          [OpcodesXec.OP_0NOTEQUAL]: op0NotEqual4Byte,
-          [OpcodesXec.OP_ADD]: opAdd4Byte,
-          [OpcodesXec.OP_SUB]: opSub4Byte,
-          [OpcodesXec.OP_MUL]: disabledOperation,
-          [OpcodesXec.OP_DIV]: opDiv4Byte,
-          [OpcodesXec.OP_MOD]: opMod4Byte,
-          [OpcodesXec.OP_BOOLAND]: opBoolAnd4Byte,
-          [OpcodesXec.OP_BOOLOR]: opBoolOr4Byte,
-          [OpcodesXec.OP_NUMEQUAL]: opNumEqual4Byte,
-          [OpcodesXec.OP_NUMEQUALVERIFY]: opNumEqualVerify4Byte,
-          [OpcodesXec.OP_NUMNOTEQUAL]: opNumNotEqual4Byte,
-          [OpcodesXec.OP_LESSTHAN]: opLessThan4Byte,
-          [OpcodesXec.OP_GREATERTHAN]: opGreaterThan4Byte,
-          [OpcodesXec.OP_LESSTHANOREQUAL]: opLessThanOrEqual4Byte,
-          [OpcodesXec.OP_GREATERTHANOREQUAL]: opGreaterThanOrEqual4Byte,
-          [OpcodesXec.OP_MIN]: opMin4Byte,
-          [OpcodesXec.OP_MAX]: opMax4Byte,
-          [OpcodesXec.OP_WITHIN]: opWithin4Byte,
-        },
-      ),
+      [OpcodesXec.OP_MUL]: undefinedOperation,
       [OpcodesXec.OP_UNKNOWN192]: undefinedOperation,
       [OpcodesXec.OP_UNKNOWN193]: undefinedOperation,
       [OpcodesXec.OP_UNKNOWN194]: undefinedOperation,
@@ -111,6 +100,12 @@ export const createInstructionSetXec = (
       [OpcodesXec.OP_UNKNOWN203]: undefinedOperation,
       [OpcodesXec.OP_UNKNOWN204]: undefinedOperation,
       [OpcodesXec.OP_UNKNOWN205]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN206]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN207]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN208]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN209]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN210]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN211]: undefinedOperation,
     },
   };
 };

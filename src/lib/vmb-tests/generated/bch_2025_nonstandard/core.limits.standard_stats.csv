@@ -1,0 +1,13 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+wjydw4,"Transaction structure and limits: Empty unlocking bytecode is supported (nonP2SH)",211,45,2,1,41,32800,1,1,0,20,0,1,1,0
+gt2may,"Transaction structure and limits: (Nonstandard) outputs may be malformed (nonP2SH)",202,45,2,1,41,32800,1,1,0,20,0,1,1,0
+9d7zh2,"Transaction structure and limits: (Nonstandard) outputs may be malformed (P2SH20)",204,67,2,1,43,34400,827,1,0,21,2,5,43,0
+x48wxa,"Transaction structure and limits: (Nonstandard) outputs may be malformed (P2SH32)",204,79,2,1,43,34400,851,1,0,21,2,5,67,0
+2293th,"Transaction structure and limits: Empty locking bytecode is supported (nonP2SH)",212,44,2,1,42,33600,1,1,0,21,0,1,1,0
+q03e0h,"Transaction structure and limits: Drop item and succeed (nonP2SH)",212,46,2,1,42,33600,201,1,0,21,0,3,1,0
+043nvh,"Transaction structure and limits: Allow 520 byte push (nonP2SH)",736,50,2,1,564,451200,1446,13,0,282,0,5,1046,0
+7ww72r,"Transaction structure and limits: Disallow 521 byte push (nonP2SH)",737,50,2,1,565,452000,1448,13,0,282,0,5,1048,0
+r7ulrj,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (nonP2SH)",211,280,2,1,41,32800,25310,1,0,20,7,234,549,117
+v3spvn,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations) (nonP2SH)",211,281,2,1,41,32800,25411,1,0,20,7,235,550,117
+qa6yh5,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (nonP2SH)",211,280,2,1,41,32800,25298,1,0,20,7,234,543,111
+xq9wjf,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations, CashToken operations) (nonP2SH)",211,281,2,1,41,32800,25399,1,0,20,7,235,544,111

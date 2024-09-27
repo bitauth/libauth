@@ -26,8 +26,36 @@ import {
   AuthenticationErrorCommon,
   authenticationInstructionsAreMalformed,
   conditionallyEvaluate,
+  createOp0NotEqual,
+  createOp1Add,
+  createOp1Sub,
+  createOpAbs,
+  createOpActiveBytecode,
+  createOpAdd,
   createOpBin2Num,
+  createOpBoolAnd,
+  createOpBoolOr,
+  createOpCat,
+  createOpDiv,
+  createOpGreaterThan,
+  createOpGreaterThanOrEqual,
+  createOpInputBytecode,
+  createOpLessThan,
+  createOpLessThanOrEqual,
+  createOpMax,
+  createOpMin,
+  createOpMod,
+  createOpMul,
+  createOpNegate,
+  createOpNot,
   createOpNum2Bin,
+  createOpNumEqual,
+  createOpNumEqualVerify,
+  createOpNumNotEqual,
+  createOpOutputBytecode,
+  createOpSub,
+  createOpUtxoBytecode,
+  createOpWithin,
   decodeAuthenticationInstructions,
   disabledOperation,
   disassembleAuthenticationInstructionMalformed,
@@ -37,24 +65,16 @@ import {
   isDustOutput,
   isPushOnly,
   isStandardOutputBytecode,
+  isStandardUtxoBytecode,
   isWitnessProgram,
   mapOverOperations,
-  op0NotEqual,
-  op1Add,
-  op1Sub,
   op2Drop,
   op2Dup,
   op2Over,
   op2Rot,
   op2Swap,
   op3Dup,
-  opAbs,
-  opActiveBytecode,
-  opAdd,
   opAnd,
-  opBoolAnd,
-  opBoolOr,
-  opCat,
   opCheckDataSig,
   opCheckDataSigVerify,
   opCheckLockTimeVerify,
@@ -65,7 +85,6 @@ import {
   opCheckSigVerify,
   opCodeSeparator,
   opDepth,
-  opDiv,
   opDrop,
   opDup,
   opElse,
@@ -73,34 +92,19 @@ import {
   opEqual,
   opEqualVerify,
   opFromAltStack,
-  opGreaterThan,
-  opGreaterThanOrEqual,
   opHash160,
   opHash256,
   opIf,
   opIfDup,
-  opInputBytecode,
   opInputIndex,
   opInputSequenceNumber,
-  opLessThan,
-  opLessThanOrEqual,
-  opMax,
-  opMin,
-  opMod,
-  opMul,
-  opNegate,
   opNip,
   opNop,
   opNopDisallowed,
-  opNot,
   opNotIf,
-  opNumEqual,
-  opNumEqualVerify,
-  opNumNotEqual,
   opOr,
   opOutpointIndex,
   opOutpointTxHash,
-  opOutputBytecode,
   opOutputValue,
   opOver,
   opPick,
@@ -113,7 +117,6 @@ import {
   opSha256,
   opSize,
   opSplit,
-  opSub,
   opSwap,
   opToAltStack,
   opTuck,
@@ -121,10 +124,8 @@ import {
   opTxLocktime,
   opTxOutputCount,
   opTxVersion,
-  opUtxoBytecode,
   opUtxoValue,
   opVerify,
-  opWithin,
   opXor,
   pushNumberOperation,
   pushOperation,
@@ -133,7 +134,10 @@ import {
   undefinedOperation,
 } from '../../common/common.js';
 
-import { ConsensusBch2023 } from './bch-2023-consensus.js';
+import {
+  ConsensusBch2023,
+  maximumSignatureCheckCount,
+} from './bch-2023-consensus.js';
 import { OpcodesBch2023 } from './bch-2023-opcodes.js';
 import {
   opOutputTokenAmount,
@@ -144,6 +148,10 @@ import {
   opUtxoTokenCommitment,
   verifyTransactionTokens,
 } from './bch-2023-tokens.js';
+
+const satoshisPerCoin = 100_000_000;
+const maxCoins = 21_000_000;
+const maxMoney = maxCoins * satoshisPerCoin;
 
 /**
  * create an instance of the BCH 2023 virtual machine instruction set.
@@ -196,7 +204,8 @@ export const createInstructionSetBch2023 = <
   AuthenticationProgramBch,
   AuthenticationProgramState
 > => {
-  const conditionallyPush = pushOperation<AuthenticationProgramState>();
+  const conditionallyPush =
+    pushOperation<AuthenticationProgramState>(consensus);
   return {
     continue: (state) =>
       state.error === undefined && state.ip < state.instructions.length,
@@ -211,12 +220,8 @@ export const createInstructionSetBch2023 = <
         decodeAuthenticationInstructions(unlockingBytecode);
       const lockingInstructions =
         decodeAuthenticationInstructions(lockingBytecode);
-      const transactionLengthBytes = encodeTransactionBch(
-        program.transaction,
-      ).length;
       const initialState = {
-        ...(stateInitialize() as AuthenticationProgramState),
-        transactionLengthBytes,
+        ...(stateInitialize(program) as AuthenticationProgramState),
         ...stateOverride,
         ...{
           instructions: unlockingInstructions,
@@ -228,7 +233,8 @@ export const createInstructionSetBch2023 = <
       if (unlockingBytecode.length > consensus.maximumBytecodeLength) {
         return applyError(
           initialState,
-          `The provided unlocking bytecode (${unlockingBytecode.length} bytes) exceeds the maximum bytecode length (${consensus.maximumBytecodeLength} bytes).`,
+          AuthenticationErrorCommon.exceededMaximumBytecodeLengthUnlocking,
+          `Maximum bytecode length: ${consensus.maximumBytecodeLength} bytes. Unlocking bytecode length: ${unlockingBytecode.length} bytes.`,
         );
       }
       if (authenticationInstructionsAreMalformed(unlockingInstructions)) {
@@ -253,7 +259,7 @@ export const createInstructionSetBch2023 = <
         return applyError(
           initialState,
           AuthenticationErrorCommon.exceededMaximumBytecodeLengthLocking,
-          `Locking bytecode length: ${lockingBytecode.length}.`,
+          `Maximum bytecode length: ${consensus.maximumBytecodeLength} bytes. Locking bytecode length: ${lockingBytecode.length} bytes.`,
         );
       }
       if (authenticationInstructionsAreMalformed(lockingInstructions)) {
@@ -276,12 +282,11 @@ export const createInstructionSetBch2023 = <
         return applyError(
           initialState,
           AuthenticationErrorCommon.nonEmptyControlStack,
-          `Control stack depth: ${unlockingResult.controlStack.length}.`,
+          `Remaining control stack depth: ${unlockingResult.controlStack.length}.`,
         );
       }
       const lockingResult = stateEvaluate({
-        ...(stateInitialize() as AuthenticationProgramState),
-        transactionLengthBytes,
+        ...(stateInitialize(program) as AuthenticationProgramState),
         ...stateOverride,
         ...{
           instructions: lockingInstructions,
@@ -311,8 +316,7 @@ export const createInstructionSetBch2023 = <
             error: AuthenticationErrorCommon.malformedP2shBytecode,
           }
         : stateEvaluate({
-            ...(stateInitialize() as AuthenticationProgramState),
-            transactionLengthBytes,
+            ...(stateInitialize(program) as AuthenticationProgramState),
             ...stateOverride,
             ...{
               instructions: p2shInstructions,
@@ -322,34 +326,79 @@ export const createInstructionSetBch2023 = <
             },
           } as AuthenticationProgramState);
     },
-    every: (state) =>
-      state.stack.length + state.alternateStack.length >
-      consensus.maximumStackDepth
-        ? applyError(state, AuthenticationErrorCommon.exceededMaximumStackDepth)
-        : state.operationCount > consensus.maximumOperationCount
-          ? applyError(
-              state,
-              AuthenticationErrorCommon.exceededMaximumOperationCount,
-            )
-          : state,
-
-    initialize: () =>
-      ({
+    every: (state) => {
+      const { unlockingBytecode } =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        state.program.transaction.inputs[state.program.inputIndex]!;
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+      state.metrics.maximumSignatureCheckCount = maximumSignatureCheckCount(
+        unlockingBytecode.length,
+      );
+      if (
+        standard &&
+        state.metrics.signatureCheckCount >
+          state.metrics.maximumSignatureCheckCount
+      ) {
+        return applyError(
+          state,
+          AuthenticationErrorCommon.exceededMaximumSignatureCheckCount,
+          `Maximum signature check count: ${state.metrics.maximumSignatureCheckCount}; signature check count following operation: ${state.metrics.signatureCheckCount}.`,
+        );
+      }
+      if (
+        state.stack.length + state.alternateStack.length >
+        consensus.maximumStackDepth
+      ) {
+        return applyError(
+          state,
+          AuthenticationErrorCommon.exceededMaximumStackDepth,
+          `Maximum stack depth: ${consensus.maximumStackDepth}.`,
+        );
+      }
+      if (state.operationCount > consensus.maximumOperationCount) {
+        return applyError(
+          state,
+          AuthenticationErrorCommon.exceededMaximumOperationCount,
+        );
+      }
+      return state;
+    },
+    initialize: (program) => {
+      const { unlockingBytecode } =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        program.transaction.inputs[program.inputIndex]!;
+      const densityControlLength =
+        consensus.densityControlBaseLength + unlockingBytecode.length;
+      const maximumIterationsPerByte = standard
+        ? consensus.hashDigestIterationsPerByteStandard
+        : consensus.hashDigestIterationsPerByteNonstandard;
+      return {
         alternateStack: [],
         controlStack: [],
         ip: 0,
         lastCodeSeparator: -1,
         metrics: {
           arithmeticCost: 0,
-          bitwiseCost: 0,
-          executedInstructionCount: 0,
-          maxMemoryUsage: 0,
+          densityControlLength,
+          evaluatedInstructionCount: 0,
+          hashDigestIterations: 0,
+          maximumHashDigestIterations: Math.floor(
+            maximumIterationsPerByte * densityControlLength,
+          ),
+          maximumOperationCost: Math.floor(
+            densityControlLength * consensus.operationCostBudgetPerByte,
+          ),
+          maximumSignatureCheckCount: maximumSignatureCheckCount(
+            unlockingBytecode.length,
+          ),
+          operationCost: 0,
           signatureCheckCount: 0,
           stackPushedBytes: 0,
         },
         operationCount: 0,
         signedMessages: [],
-      }) as Partial<AuthenticationProgramStateBch> as Partial<AuthenticationProgramState>,
+      } as Partial<AuthenticationProgramStateBch> as Partial<AuthenticationProgramState>;
+    },
     operations: {
       [OpcodesBch2023.OP_0]: conditionallyPush,
       [OpcodesBch2023.OP_PUSHBYTES_1]: conditionallyPush,
@@ -485,10 +534,16 @@ export const createInstructionSetBch2023 = <
           [OpcodesBch2023.OP_ROT]: conditionallyEvaluate(opRot),
           [OpcodesBch2023.OP_SWAP]: conditionallyEvaluate(opSwap),
           [OpcodesBch2023.OP_TUCK]: conditionallyEvaluate(opTuck),
-          [OpcodesBch2023.OP_CAT]: conditionallyEvaluate(opCat),
+          [OpcodesBch2023.OP_CAT]: conditionallyEvaluate(
+            createOpCat(consensus),
+          ),
           [OpcodesBch2023.OP_SPLIT]: conditionallyEvaluate(opSplit),
-          [OpcodesBch2023.OP_NUM2BIN]: conditionallyEvaluate(createOpNum2Bin()),
-          [OpcodesBch2023.OP_BIN2NUM]: conditionallyEvaluate(createOpBin2Num()),
+          [OpcodesBch2023.OP_NUM2BIN]: conditionallyEvaluate(
+            createOpNum2Bin(consensus),
+          ),
+          [OpcodesBch2023.OP_BIN2NUM]: conditionallyEvaluate(
+            createOpBin2Num(consensus),
+          ),
           [OpcodesBch2023.OP_SIZE]: conditionallyEvaluate(opSize),
           [OpcodesBch2023.OP_INVERT]: disabledOperation,
           [OpcodesBch2023.OP_AND]: conditionallyEvaluate(opAnd),
@@ -500,36 +555,79 @@ export const createInstructionSetBch2023 = <
             conditionallyEvaluate(reservedOperation),
           [OpcodesBch2023.OP_RESERVED2]:
             conditionallyEvaluate(reservedOperation),
-          [OpcodesBch2023.OP_1ADD]: conditionallyEvaluate(op1Add),
-          [OpcodesBch2023.OP_1SUB]: conditionallyEvaluate(op1Sub),
+          [OpcodesBch2023.OP_1ADD]: conditionallyEvaluate(
+            createOp1Add(consensus),
+          ),
+          [OpcodesBch2023.OP_1SUB]: conditionallyEvaluate(
+            createOp1Sub(consensus),
+          ),
           [OpcodesBch2023.OP_2MUL]: disabledOperation,
           [OpcodesBch2023.OP_2DIV]: disabledOperation,
-          [OpcodesBch2023.OP_NEGATE]: conditionallyEvaluate(opNegate),
-          [OpcodesBch2023.OP_ABS]: conditionallyEvaluate(opAbs),
-          [OpcodesBch2023.OP_NOT]: conditionallyEvaluate(opNot),
-          [OpcodesBch2023.OP_0NOTEQUAL]: conditionallyEvaluate(op0NotEqual),
-          [OpcodesBch2023.OP_ADD]: conditionallyEvaluate(opAdd),
-          [OpcodesBch2023.OP_SUB]: conditionallyEvaluate(opSub),
-          [OpcodesBch2023.OP_MUL]: conditionallyEvaluate(opMul),
-          [OpcodesBch2023.OP_DIV]: conditionallyEvaluate(opDiv),
-          [OpcodesBch2023.OP_MOD]: conditionallyEvaluate(opMod),
+          [OpcodesBch2023.OP_NEGATE]: conditionallyEvaluate(
+            createOpNegate(consensus),
+          ),
+          [OpcodesBch2023.OP_ABS]: conditionallyEvaluate(
+            createOpAbs(consensus),
+          ),
+          [OpcodesBch2023.OP_NOT]: conditionallyEvaluate(
+            createOpNot(consensus),
+          ),
+          [OpcodesBch2023.OP_0NOTEQUAL]: conditionallyEvaluate(
+            createOp0NotEqual(consensus),
+          ),
+          [OpcodesBch2023.OP_ADD]: conditionallyEvaluate(
+            createOpAdd(consensus),
+          ),
+          [OpcodesBch2023.OP_SUB]: conditionallyEvaluate(
+            createOpSub(consensus),
+          ),
+          [OpcodesBch2023.OP_MUL]: conditionallyEvaluate(
+            createOpMul(consensus),
+          ),
+          [OpcodesBch2023.OP_DIV]: conditionallyEvaluate(
+            createOpDiv(consensus),
+          ),
+          [OpcodesBch2023.OP_MOD]: conditionallyEvaluate(
+            createOpMod(consensus),
+          ),
           [OpcodesBch2023.OP_LSHIFT]: disabledOperation,
           [OpcodesBch2023.OP_RSHIFT]: disabledOperation,
-          [OpcodesBch2023.OP_BOOLAND]: conditionallyEvaluate(opBoolAnd),
-          [OpcodesBch2023.OP_BOOLOR]: conditionallyEvaluate(opBoolOr),
-          [OpcodesBch2023.OP_NUMEQUAL]: conditionallyEvaluate(opNumEqual),
-          [OpcodesBch2023.OP_NUMEQUALVERIFY]:
-            conditionallyEvaluate(opNumEqualVerify),
-          [OpcodesBch2023.OP_NUMNOTEQUAL]: conditionallyEvaluate(opNumNotEqual),
-          [OpcodesBch2023.OP_LESSTHAN]: conditionallyEvaluate(opLessThan),
-          [OpcodesBch2023.OP_GREATERTHAN]: conditionallyEvaluate(opGreaterThan),
-          [OpcodesBch2023.OP_LESSTHANOREQUAL]:
-            conditionallyEvaluate(opLessThanOrEqual),
-          [OpcodesBch2023.OP_GREATERTHANOREQUAL]:
-            conditionallyEvaluate(opGreaterThanOrEqual),
-          [OpcodesBch2023.OP_MIN]: conditionallyEvaluate(opMin),
-          [OpcodesBch2023.OP_MAX]: conditionallyEvaluate(opMax),
-          [OpcodesBch2023.OP_WITHIN]: conditionallyEvaluate(opWithin),
+          [OpcodesBch2023.OP_BOOLAND]: conditionallyEvaluate(
+            createOpBoolAnd(consensus),
+          ),
+          [OpcodesBch2023.OP_BOOLOR]: conditionallyEvaluate(
+            createOpBoolOr(consensus),
+          ),
+          [OpcodesBch2023.OP_NUMEQUAL]: conditionallyEvaluate(
+            createOpNumEqual(consensus),
+          ),
+          [OpcodesBch2023.OP_NUMEQUALVERIFY]: conditionallyEvaluate(
+            createOpNumEqualVerify(consensus),
+          ),
+          [OpcodesBch2023.OP_NUMNOTEQUAL]: conditionallyEvaluate(
+            createOpNumNotEqual(consensus),
+          ),
+          [OpcodesBch2023.OP_LESSTHAN]: conditionallyEvaluate(
+            createOpLessThan(consensus),
+          ),
+          [OpcodesBch2023.OP_GREATERTHAN]: conditionallyEvaluate(
+            createOpGreaterThan(consensus),
+          ),
+          [OpcodesBch2023.OP_LESSTHANOREQUAL]: conditionallyEvaluate(
+            createOpLessThanOrEqual(consensus),
+          ),
+          [OpcodesBch2023.OP_GREATERTHANOREQUAL]: conditionallyEvaluate(
+            createOpGreaterThanOrEqual(consensus),
+          ),
+          [OpcodesBch2023.OP_MIN]: conditionallyEvaluate(
+            createOpMin(consensus),
+          ),
+          [OpcodesBch2023.OP_MAX]: conditionallyEvaluate(
+            createOpMax(consensus),
+          ),
+          [OpcodesBch2023.OP_WITHIN]: conditionallyEvaluate(
+            createOpWithin(consensus),
+          ),
           [OpcodesBch2023.OP_RIPEMD160]: conditionallyEvaluate(
             opRipemd160({ ripemd160 }),
           ),
@@ -615,8 +713,9 @@ export const createInstructionSetBch2023 = <
           [OpcodesBch2023.OP_REVERSEBYTES]:
             conditionallyEvaluate(opReverseBytes),
           [OpcodesBch2023.OP_INPUTINDEX]: conditionallyEvaluate(opInputIndex),
-          [OpcodesBch2023.OP_ACTIVEBYTECODE]:
-            conditionallyEvaluate(opActiveBytecode),
+          [OpcodesBch2023.OP_ACTIVEBYTECODE]: conditionallyEvaluate(
+            createOpActiveBytecode(consensus),
+          ),
           [OpcodesBch2023.OP_TXVERSION]: conditionallyEvaluate(opTxVersion),
           [OpcodesBch2023.OP_TXINPUTCOUNT]:
             conditionallyEvaluate(opTxInputCount),
@@ -624,20 +723,23 @@ export const createInstructionSetBch2023 = <
             conditionallyEvaluate(opTxOutputCount),
           [OpcodesBch2023.OP_TXLOCKTIME]: conditionallyEvaluate(opTxLocktime),
           [OpcodesBch2023.OP_UTXOVALUE]: conditionallyEvaluate(opUtxoValue),
-          [OpcodesBch2023.OP_UTXOBYTECODE]:
-            conditionallyEvaluate(opUtxoBytecode),
+          [OpcodesBch2023.OP_UTXOBYTECODE]: conditionallyEvaluate(
+            createOpUtxoBytecode(consensus),
+          ),
           [OpcodesBch2023.OP_OUTPOINTTXHASH]:
             conditionallyEvaluate(opOutpointTxHash),
           [OpcodesBch2023.OP_OUTPOINTINDEX]:
             conditionallyEvaluate(opOutpointIndex),
-          [OpcodesBch2023.OP_INPUTBYTECODE]:
-            conditionallyEvaluate(opInputBytecode),
+          [OpcodesBch2023.OP_INPUTBYTECODE]: conditionallyEvaluate(
+            createOpInputBytecode(consensus),
+          ),
           [OpcodesBch2023.OP_INPUTSEQUENCENUMBER]: conditionallyEvaluate(
             opInputSequenceNumber,
           ),
           [OpcodesBch2023.OP_OUTPUTVALUE]: conditionallyEvaluate(opOutputValue),
-          [OpcodesBch2023.OP_OUTPUTBYTECODE]:
-            conditionallyEvaluate(opOutputBytecode),
+          [OpcodesBch2023.OP_OUTPUTBYTECODE]: conditionallyEvaluate(
+            createOpOutputBytecode(consensus),
+          ),
           [OpcodesBch2023.OP_UTXOTOKENCATEGORY]:
             conditionallyEvaluate(opUtxoTokenCategory),
           [OpcodesBch2023.OP_UTXOTOKENCOMMITMENT]: conditionallyEvaluate(
@@ -674,10 +776,7 @@ export const createInstructionSetBch2023 = <
     },
     undefined: undefinedOperation,
     // eslint-disable-next-line complexity
-    verify: (
-      { sourceOutputs, transaction },
-      { evaluate, success, initialize },
-    ) => {
+    verify: ({ sourceOutputs, transaction }, { evaluate, success }) => {
       if (transaction.inputs.length === 0) {
         return 'Transactions must have at least one input.';
       }
@@ -704,8 +803,14 @@ export const createInstructionSetBch2023 = <
         (sum, output) => sum + output.valueSatoshis,
         0n,
       );
+      if (inputValue > maxMoney) {
+        return `Unable to verify transaction: the sum of source output values exceeds the maximum possible satoshi value. Maximum supply in satoshis: ${maxMoney}, cumulative input value: ${inputValue}.`;
+      }
+      if (outputValue > maxMoney) {
+        return `Unable to verify transaction: the sum of transaction output values exceeds the maximum possible satoshi value. Maximum supply in satoshis: ${maxMoney}, cumulative output value: ${outputValue}.`;
+      }
       if (outputValue > inputValue) {
-        return `Unable to verify transaction: the sum of transaction outputs exceeds the sum of transaction inputs. Input value: ${inputValue}, output value: ${outputValue}`;
+        return `Unable to verify transaction: the sum of transaction output values exceeds the sum of transaction inputs. Cumulative input value: ${inputValue}, cumulative output value: ${outputValue}.`;
       }
 
       const outpointList = transaction.inputs.map(
@@ -738,7 +843,7 @@ export const createInstructionSetBch2023 = <
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
-          if (!isStandardOutputBytecode(output.lockingBytecode)) {
+          if (!isStandardUtxoBytecode(output.lockingBytecode)) {
             return `Standard transactions may only spend standard output types, but source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`;
           }
         }
@@ -786,26 +891,20 @@ export const createInstructionSetBch2023 = <
       if (tokenValidationResult !== true) {
         return tokenValidationResult;
       }
-
-      const initialState: Partial<AuthenticationProgramState> = initialize();
       // eslint-disable-next-line functional/no-let
-      let stateOverride = {
-        metrics: initialState.metrics,
-      } as Partial<AuthenticationProgramState>;
+      let cumulativeSigChecks = 0;
       // eslint-disable-next-line functional/no-loop-statements
-      for (const index of transaction.inputs.keys()) {
-        const state = evaluate(
-          { inputIndex: index, sourceOutputs, transaction },
-          { stateOverride },
-        );
+      for (const inputIndex of transaction.inputs.keys()) {
+        const state = evaluate({ inputIndex, sourceOutputs, transaction });
+        // eslint-disable-next-line functional/no-expression-statements
+        cumulativeSigChecks += state.metrics.signatureCheckCount;
+        if (cumulativeSigChecks > consensus.maximumTransactionSignatureChecks) {
+          return `Transaction exceeded the maximum of ${consensus.maximumTransactionSignatureChecks} signature check while evaluating input index ${inputIndex} of ${transaction.inputs.length}.`;
+        }
         const result = success(state);
         if (typeof result === 'string') {
-          return `Error in evaluating input index ${index}: ${result}`;
+          return `Error in evaluating input index ${inputIndex}: ${result}`;
         }
-        // eslint-disable-next-line functional/no-expression-statements
-        stateOverride = {
-          metrics: state.metrics,
-        } as Partial<AuthenticationProgramState>;
       }
       return true;
     },

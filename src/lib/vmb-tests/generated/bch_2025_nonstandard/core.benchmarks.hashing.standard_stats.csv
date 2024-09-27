@@ -1,0 +1,100 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+yxrclk,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_RIPEMD160 hashed (P2SH20)",569,33,1,0,547,437600,79872,13,0,273,279,96,16804,0
+83v867,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_RIPEMD160 hashed (P2SH32)",569,45,1,0,547,437600,79896,13,0,273,279,96,16828,0
+0uk59w,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA1 hashed (P2SH20)",569,33,1,0,547,437600,79872,13,0,273,279,96,16804,0
+q5mn2f,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA1 hashed (P2SH32)",569,45,1,0,547,437600,79896,13,0,273,279,96,16828,0
+xvg04z,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA256 hashed (P2SH20)",569,33,1,0,547,437600,80232,13,0,273,279,96,17164,0
+k7ar59,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_SHA256 hashed (P2SH32)",569,45,1,0,547,437600,80256,13,0,273,279,96,17188,0
+26gphy,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH160 hashed (P2SH20)",569,33,1,0,547,437600,77346,13,0,273,279,87,15178,0
+f49kmv,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH160 hashed (P2SH32)",569,45,1,0,547,437600,77370,13,0,273,279,87,15202,0
+quqgxg,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH256 hashed (P2SH20)",569,33,1,0,547,437600,77670,13,0,273,279,87,15502,0
+cdr2df,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes OP_HASH256 hashed (P2SH32)",569,45,1,0,547,437600,77694,13,0,273,279,87,15526,0
+j0yjwy,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_RIPEMD160 hashed (P2SH20)",268,33,1,0,248,198400,79872,6,0,124,130,64,48612,0
+f75j0v,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_RIPEMD160 hashed (P2SH32)",268,45,1,0,248,198400,79896,6,0,124,130,64,48636,0
+8n2t3l,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA1 hashed (P2SH20)",268,33,1,0,248,198400,79872,6,0,124,130,64,48612,0
+3venyq,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA1 hashed (P2SH32)",268,45,1,0,248,198400,79896,6,0,124,130,64,48636,0
+amtdvz,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA256 hashed (P2SH20)",268,33,1,0,248,198400,80196,6,0,124,130,64,48936,0
+ynhjy6,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_SHA256 hashed (P2SH32)",268,45,1,0,248,198400,80220,6,0,124,130,64,48960,0
+4ekawh,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH160 hashed (P2SH20)",268,33,1,0,248,198400,79912,6,0,124,134,62,48084,0
+75g9ph,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH160 hashed (P2SH32)",268,45,1,0,248,198400,79936,6,0,124,134,62,48108,0
+e976ul,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH256 hashed (P2SH20)",268,33,1,0,248,198400,80212,6,0,124,134,62,48384,0
+kzrfmf,"Transaction validation benchmarks: Within BCH_2023_05 P2SH20/standard limits, maximize hash digests per byte, then total bytes OP_HASH256 hashed (P2SH32)",268,45,1,0,248,198400,80236,6,0,124,134,62,48408,0
+f8q8qr,"Transaction validation benchmarks: OP_RIPEMD160 hash 1335 bytes (nonP2SH)",65,12,1,0,45,36000,5690,1,0,22,21,4,1358,0
+hfmhj6,"Transaction validation benchmarks: OP_RIPEMD160 hash 1336 bytes (nonP2SH)",65,12,1,0,45,36000,5883,1,0,22,22,4,1359,0
+paj8qc,"Transaction validation benchmarks: OP_RIPEMD160 hash 1399 bytes (nonP2SH)",65,12,1,0,45,36000,5946,1,0,22,22,4,1422,0
+wawpr9,"Transaction validation benchmarks: OP_RIPEMD160 hash 1400 bytes (nonP2SH)",65,12,1,0,45,36000,6139,1,0,22,23,4,1423,0
+cl46p5,"Transaction validation benchmarks: OP_RIPEMD160 hash 1400 bytes (P2SH20)",68,33,1,0,48,38400,6966,1,0,24,25,8,1466,0
+j92sv9,"Transaction validation benchmarks: OP_RIPEMD160 hash 1400 bytes (P2SH32)",68,45,1,0,48,38400,6990,1,0,24,25,8,1490,0
+wuzzxx,"Transaction validation benchmarks: OP_RIPEMD160 hash 9975 bytes (nonP2SH)",65,12,1,0,45,36000,40250,1,0,22,156,4,9998,0
+s39rs5,"Transaction validation benchmarks: OP_RIPEMD160 hash 9975 bytes (P2SH20)",68,33,1,0,48,38400,41077,1,0,24,158,8,10041,0
+q5fhf3,"Transaction validation benchmarks: OP_RIPEMD160 hash 9975 bytes (P2SH32)",68,45,1,0,48,38400,41101,1,0,24,158,8,10065,0
+08mujk,"Transaction validation benchmarks: OP_RIPEMD160 hash 9976 bytes (nonP2SH)",65,12,1,0,45,36000,40443,1,0,22,157,4,9999,0
+c8mklq,"Transaction validation benchmarks: OP_RIPEMD160 hash 9976 bytes (P2SH20)",68,33,1,0,48,38400,41270,1,0,24,159,8,10042,0
+gznx32,"Transaction validation benchmarks: OP_RIPEMD160 hash 9976 bytes (P2SH32)",68,45,1,0,48,38400,41294,1,0,24,159,8,10066,0
+w57j6w,"Transaction validation benchmarks: OP_RIPEMD160 hash 10000 bytes (nonP2SH)",65,12,1,0,45,36000,40467,1,0,22,157,4,10023,0
+mu0yve,"Transaction validation benchmarks: OP_RIPEMD160 hash 10000 bytes (P2SH20)",68,33,1,0,48,38400,41294,1,0,24,159,8,10066,0
+jh35lq,"Transaction validation benchmarks: OP_RIPEMD160 hash 10000 bytes (P2SH32)",68,45,1,0,48,38400,41318,1,0,24,159,8,10090,0
+wrtsdg,"Transaction validation benchmarks: OP_SHA1 hash 1335 bytes (nonP2SH)",65,12,1,0,45,36000,5690,1,0,22,21,4,1358,0
+cwk8s3,"Transaction validation benchmarks: OP_SHA1 hash 1336 bytes (nonP2SH)",65,12,1,0,45,36000,5883,1,0,22,22,4,1359,0
+pr4pzg,"Transaction validation benchmarks: OP_SHA1 hash 1399 bytes (nonP2SH)",65,12,1,0,45,36000,5946,1,0,22,22,4,1422,0
+javle6,"Transaction validation benchmarks: OP_SHA1 hash 1400 bytes (nonP2SH)",65,12,1,0,45,36000,6139,1,0,22,23,4,1423,0
+nmed72,"Transaction validation benchmarks: OP_SHA1 hash 1400 bytes (P2SH20)",68,33,1,0,48,38400,6966,1,0,24,25,8,1466,0
+qrqfcc,"Transaction validation benchmarks: OP_SHA1 hash 1400 bytes (P2SH32)",68,45,1,0,48,38400,6990,1,0,24,25,8,1490,0
+zf085d,"Transaction validation benchmarks: OP_SHA1 hash 9975 bytes (nonP2SH)",65,12,1,0,45,36000,40250,1,0,22,156,4,9998,0
+p8rc2k,"Transaction validation benchmarks: OP_SHA1 hash 9975 bytes (P2SH20)",68,33,1,0,48,38400,41077,1,0,24,158,8,10041,0
+rxw3n5,"Transaction validation benchmarks: OP_SHA1 hash 9975 bytes (P2SH32)",68,45,1,0,48,38400,41101,1,0,24,158,8,10065,0
+ulnedq,"Transaction validation benchmarks: OP_SHA1 hash 9976 bytes (nonP2SH)",65,12,1,0,45,36000,40443,1,0,22,157,4,9999,0
+vugk9k,"Transaction validation benchmarks: OP_SHA1 hash 9976 bytes (P2SH20)",68,33,1,0,48,38400,41270,1,0,24,159,8,10042,0
+dqlvp5,"Transaction validation benchmarks: OP_SHA1 hash 9976 bytes (P2SH32)",68,45,1,0,48,38400,41294,1,0,24,159,8,10066,0
+gen82y,"Transaction validation benchmarks: OP_SHA1 hash 10000 bytes (nonP2SH)",65,12,1,0,45,36000,40467,1,0,22,157,4,10023,0
+sfhsmk,"Transaction validation benchmarks: OP_SHA1 hash 10000 bytes (P2SH20)",68,33,1,0,48,38400,41294,1,0,24,159,8,10066,0
+ez294u,"Transaction validation benchmarks: OP_SHA1 hash 10000 bytes (P2SH32)",68,45,1,0,48,38400,41318,1,0,24,159,8,10090,0
+4tt8x6,"Transaction validation benchmarks: OP_SHA256 hash 1335 bytes (nonP2SH)",65,12,1,0,45,36000,5702,1,0,22,21,4,1370,0
+mc3nlk,"Transaction validation benchmarks: OP_SHA256 hash 1336 bytes (nonP2SH)",65,12,1,0,45,36000,5895,1,0,22,22,4,1371,0
+t77tn5,"Transaction validation benchmarks: OP_SHA256 hash 1399 bytes (nonP2SH)",65,12,1,0,45,36000,5958,1,0,22,22,4,1434,0
+z90re2,"Transaction validation benchmarks: OP_SHA256 hash 1400 bytes (nonP2SH)",65,12,1,0,45,36000,6151,1,0,22,23,4,1435,0
+802aqr,"Transaction validation benchmarks: OP_SHA256 hash 1400 bytes (P2SH20)",68,33,1,0,48,38400,6978,1,0,24,25,8,1478,0
+y0xwll,"Transaction validation benchmarks: OP_SHA256 hash 1400 bytes (P2SH32)",68,45,1,0,48,38400,7002,1,0,24,25,8,1502,0
+la0qdy,"Transaction validation benchmarks: OP_SHA256 hash 9975 bytes (nonP2SH)",65,12,1,0,45,36000,40262,1,0,22,156,4,10010,0
+3l5fpk,"Transaction validation benchmarks: OP_SHA256 hash 9975 bytes (P2SH20)",68,33,1,0,48,38400,41089,1,0,24,158,8,10053,0
+8wysry,"Transaction validation benchmarks: OP_SHA256 hash 9975 bytes (P2SH32)",68,45,1,0,48,38400,41113,1,0,24,158,8,10077,0
+f706dv,"Transaction validation benchmarks: OP_SHA256 hash 9976 bytes (nonP2SH)",65,12,1,0,45,36000,40455,1,0,22,157,4,10011,0
+p2jx4r,"Transaction validation benchmarks: OP_SHA256 hash 9976 bytes (P2SH20)",68,33,1,0,48,38400,41282,1,0,24,159,8,10054,0
+5ate89,"Transaction validation benchmarks: OP_SHA256 hash 9976 bytes (P2SH32)",68,45,1,0,48,38400,41306,1,0,24,159,8,10078,0
+qcqxkd,"Transaction validation benchmarks: OP_SHA256 hash 10000 bytes (nonP2SH)",65,12,1,0,45,36000,40479,1,0,22,157,4,10035,0
+kyr3h4,"Transaction validation benchmarks: OP_SHA256 hash 10000 bytes (P2SH20)",68,33,1,0,48,38400,41306,1,0,24,159,8,10078,0
+9sdxkn,"Transaction validation benchmarks: OP_SHA256 hash 10000 bytes (P2SH32)",68,45,1,0,48,38400,41330,1,0,24,159,8,10102,0
+ua7859,"Transaction validation benchmarks: OP_HASH160 hash 1335 bytes (nonP2SH)",65,12,1,0,45,36000,5882,1,0,22,22,4,1358,0
+dkmlmd,"Transaction validation benchmarks: OP_HASH160 hash 1336 bytes (nonP2SH)",65,12,1,0,45,36000,6075,1,0,22,23,4,1359,0
+tnlvav,"Transaction validation benchmarks: OP_HASH160 hash 1336 bytes (P2SH20)",68,33,1,0,48,38400,6902,1,0,24,25,8,1402,0
+7lvzfk,"Transaction validation benchmarks: OP_HASH160 hash 1336 bytes (P2SH32)",68,45,1,0,48,38400,6926,1,0,24,25,8,1426,0
+76n6uw,"Transaction validation benchmarks: OP_HASH160 hash 1399 bytes (nonP2SH)",65,12,1,0,45,36000,6138,1,0,22,23,4,1422,0
+w9kztv,"Transaction validation benchmarks: OP_HASH160 hash 1399 bytes (P2SH20)",68,33,1,0,48,38400,6965,1,0,24,25,8,1465,0
+4y38aj,"Transaction validation benchmarks: OP_HASH160 hash 1399 bytes (P2SH32)",68,45,1,0,48,38400,6989,1,0,24,25,8,1489,0
+3wpqru,"Transaction validation benchmarks: OP_HASH160 hash 1400 bytes (nonP2SH)",65,12,1,0,45,36000,6331,1,0,22,24,4,1423,0
+mtzn9u,"Transaction validation benchmarks: OP_HASH160 hash 1400 bytes (P2SH20)",68,33,1,0,48,38400,7158,1,0,24,26,8,1466,0
+svlfpg,"Transaction validation benchmarks: OP_HASH160 hash 1400 bytes (P2SH32)",68,45,1,0,48,38400,7182,1,0,24,26,8,1490,0
+nc7rrl,"Transaction validation benchmarks: OP_HASH160 hash 9975 bytes (nonP2SH)",65,12,1,0,45,36000,40442,1,0,22,157,4,9998,0
+z2s7mq,"Transaction validation benchmarks: OP_HASH160 hash 9975 bytes (P2SH20)",68,33,1,0,48,38400,41269,1,0,24,159,8,10041,0
+7xnktq,"Transaction validation benchmarks: OP_HASH160 hash 9975 bytes (P2SH32)",68,45,1,0,48,38400,41293,1,0,24,159,8,10065,0
+d5dlj7,"Transaction validation benchmarks: OP_HASH160 hash 9976 bytes (P2SH20)",68,33,1,0,48,38400,41462,1,0,24,160,8,10042,0
+lzxugf,"Transaction validation benchmarks: OP_HASH160 hash 9976 bytes (P2SH32)",68,45,1,0,48,38400,41486,1,0,24,160,8,10066,0
+twtnps,"Transaction validation benchmarks: OP_HASH160 hash 10000 bytes (P2SH20)",68,33,1,0,48,38400,41486,1,0,24,160,8,10066,0
+t66cdq,"Transaction validation benchmarks: OP_HASH160 hash 10000 bytes (P2SH32)",68,45,1,0,48,38400,41510,1,0,24,160,8,10090,0
+kfrw39,"Transaction validation benchmarks: OP_HASH256 hash 1335 bytes (nonP2SH)",65,12,1,0,45,36000,5894,1,0,22,22,4,1370,0
+g7slt0,"Transaction validation benchmarks: OP_HASH256 hash 1336 bytes (nonP2SH)",65,12,1,0,45,36000,6087,1,0,22,23,4,1371,0
+vs4fkg,"Transaction validation benchmarks: OP_HASH256 hash 1336 bytes (P2SH20)",68,33,1,0,48,38400,6914,1,0,24,25,8,1414,0
+42n0gk,"Transaction validation benchmarks: OP_HASH256 hash 1336 bytes (P2SH32)",68,45,1,0,48,38400,6938,1,0,24,25,8,1438,0
+yktva0,"Transaction validation benchmarks: OP_HASH256 hash 1399 bytes (nonP2SH)",65,12,1,0,45,36000,6150,1,0,22,23,4,1434,0
+gesmtc,"Transaction validation benchmarks: OP_HASH256 hash 1399 bytes (P2SH20)",68,33,1,0,48,38400,6977,1,0,24,25,8,1477,0
+kqkg8j,"Transaction validation benchmarks: OP_HASH256 hash 1399 bytes (P2SH32)",68,45,1,0,48,38400,7001,1,0,24,25,8,1501,0
+ers893,"Transaction validation benchmarks: OP_HASH256 hash 1400 bytes (nonP2SH)",65,12,1,0,45,36000,6343,1,0,22,24,4,1435,0
+wzfj9h,"Transaction validation benchmarks: OP_HASH256 hash 1400 bytes (P2SH20)",68,33,1,0,48,38400,7170,1,0,24,26,8,1478,0
+mgrutq,"Transaction validation benchmarks: OP_HASH256 hash 1400 bytes (P2SH32)",68,45,1,0,48,38400,7194,1,0,24,26,8,1502,0
+c7culk,"Transaction validation benchmarks: OP_HASH256 hash 9975 bytes (nonP2SH)",65,12,1,0,45,36000,40454,1,0,22,157,4,10010,0
+2y670y,"Transaction validation benchmarks: OP_HASH256 hash 9975 bytes (P2SH20)",68,33,1,0,48,38400,41281,1,0,24,159,8,10053,0
+flankj,"Transaction validation benchmarks: OP_HASH256 hash 9975 bytes (P2SH32)",68,45,1,0,48,38400,41305,1,0,24,159,8,10077,0
+5lv0pa,"Transaction validation benchmarks: OP_HASH256 hash 9976 bytes (P2SH20)",68,33,1,0,48,38400,41474,1,0,24,160,8,10054,0
+u04df7,"Transaction validation benchmarks: OP_HASH256 hash 9976 bytes (P2SH32)",68,45,1,0,48,38400,41498,1,0,24,160,8,10078,0
+zsh52j,"Transaction validation benchmarks: OP_HASH256 hash 10000 bytes (P2SH20)",68,33,1,0,48,38400,41498,1,0,24,160,8,10078,0
+gpe444,"Transaction validation benchmarks: OP_HASH256 hash 10000 bytes (P2SH32)",68,45,1,0,48,38400,41522,1,0,24,160,8,10102,0

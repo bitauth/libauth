@@ -1,0 +1,12 @@
+{
+"yrnqg6":[47,37600,1230,"Disabled/unknown operations: OP_RESERVED is standard if not executed (P2SH20)"],
+"hmgwew":[47,37600,1254,"Disabled/unknown operations: OP_RESERVED is standard if not executed (P2SH32)"],
+"vtyfxq":[47,37600,1230,"Disabled/unknown operations: OP_VER is standard if not executed (P2SH20)"],
+"h8mg84":[47,37600,1254,"Disabled/unknown operations: OP_VER is standard if not executed (P2SH32)"],
+"ks65dm":[47,37600,1230,"Disabled/unknown operations: OP_RETURN is standard if not executed (P2SH20)"],
+"lwyl8a":[47,37600,1254,"Disabled/unknown operations: OP_RETURN is standard if not executed (P2SH32)"],
+"7dr28s":[47,37600,1230,"Disabled/unknown operations: OP_RESERVED1 is standard if not executed (P2SH20)"],
+"jg5xsm":[47,37600,1254,"Disabled/unknown operations: OP_RESERVED1 is standard if not executed (P2SH32)"],
+"hh2gqy":[47,37600,1230,"Disabled/unknown operations: OP_RESERVED2 is standard if not executed (P2SH20)"],
+"xwyvvm":[47,37600,1254,"Disabled/unknown operations: OP_RESERVED2 is standard if not executed (P2SH32)"]
+}

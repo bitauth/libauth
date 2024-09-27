@@ -420,7 +420,6 @@ test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
                       },
                       signedMessages: [],
                       stack: [],
-                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -476,7 +475,6 @@ test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
                       },
                       signedMessages: [],
                       stack: [],
-                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -536,7 +534,6 @@ test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
                           '0376ea9e36a75d2ecf9c93a0be76885e36f822529db22acfdc761c9b5b4544f5c5',
                         ),
                       ],
-                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -594,7 +591,6 @@ test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
                       stack: [
                         hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
                       ],
-                      transactionLengthBytes: 60,
                     },
                     {
                       alternateStack: [],
@@ -652,7 +648,6 @@ test.failing('[BCH compiler] createCompilerBch: debug', (t) => {
                       stack: [
                         hexToBin('15d16c84669ab46059313bf0747e781f1d13936d'),
                       ],
-                      transactionLengthBytes: 60,
                     },
                   ],
                 },

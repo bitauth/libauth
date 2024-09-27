@@ -11,15 +11,6 @@ export type AuthenticationProgramStateResourceLimitsBch2026 = {
    * loops.
    */
   repeatedBytes: number;
-  metrics: {
-    /**
-     * An unsigned integer reflecting the highest cumulative stack and
-     * alternate stack memory usage reached across all input evaluations. This
-     * metric is implemented for research purposes and not required by
-     * the VM.
-     */
-    maxMemoryUsage: number;
-  };
 };
 
 export type AuthenticationProgramStateBch2026 =

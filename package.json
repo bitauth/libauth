@@ -44,10 +44,6 @@
     "fix": "yarn fix:eslint && yarn fix:prettier",
     "fix:prettier": "prettier . --write",
     "fix:eslint": "yarn test:eslint --fix",
-    "gen:vmb_tests": "yarn build && yarn gen:vmb_tests:bch && yarn gen:vmb_tests-prettier",
-    "gen:vmb_tests-prettier": "prettier 'src/lib/vmb-tests/generated/**/*.json' --write",
-    "gen:vmb_tests:bch": "node --enable-source-maps 'build/lib/vmb-tests/write-bch-vmb-tests.spec.helper.js' 'src/lib/vmb-tests/generated' && yarn run gen:vmb_tests:bch:reasons",
-    "gen:vmb_tests:bch:reasons": "node --enable-source-maps 'build/lib/vmb-tests/write-reasons-bch-vmb-tests.spec.helper.js'",
     "wallet": "node --enable-source-maps 'build/lib/vmb-tests/run-live-bch-vmb-test.spec.helper.js'",
     "gen:schema": "yarn gen:schema:wallet-template && yarn gen:schema:bcmr",
     "gen:schema:wallet-template": "ts-json-schema-generator --no-ref-encode --path 'src/lib/engine/types/template-types.ts' --type 'WalletTemplate' > src/lib/schema/wallet-template.schema.json && prettier 'src/lib/schema/wallet-template.schema.json' --write && ajv compile -s src/lib/schema/wallet-template.schema.json --allowUnionTypes -o src/lib/schema/ajv/validate-wallet-template.js && prettier 'src/lib/schema/ajv/validate-wallet-template.js' --write && node -e \"const fs = require('fs'), path = 'src/lib/schema/ajv/validate-wallet-template.js'; fs.writeFileSync(path, fs.readFileSync(path, 'utf8').replace(/'use strict'[\\s\\S]*module.exports.default =/, 'export default'), 'utf8')\"",
@@ -66,18 +62,19 @@
     "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:cycles": "madge --circular build/index.js",
     "test:unit": "c8 ava",
-    "test:fast": "echo '\n\nUsage:\n yarn test:fast src/lib/key/bip39.spec.ts                    # run a single test file \n yarn test:fast --match=\"!*crypto*\" --match=\"!*vmb_tests*\"   # include/exclude tests with names matching pattern(s) \n\n' && ava -v",
+    "test:fast": "echo '\n\nUsage:\n yarn test:fast src/lib/key/bip39.spec.ts                    # run a single test file \n yarn test:fast --match=\"!*crypto*\"                            # include/exclude tests with names matching pattern(s) \n\n' && ava -v",
     "test:unit:script_tests": "c8 ava --match='*[script_tests]*' --serial",
-    "test:unit:vmb_tests": "c8 ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial",
     "test:unit:vmb_test": "node --enable-source-maps 'build/lib/vmb-tests/run-bch-vmb-test.spec.helper.js'",
-    "dev:vmb_tests": "yarn gen:vmb_tests && yarn build:tsc && ava src/lib/vmb-tests/bch-vmb-tests.spec.ts --serial --fail-fast",
-    "dev:vmb_tests:info": "echo 'example: export FILTER_VMB_TESTS=benchmark; export FILTER_VMB_TEST_VM=2025; yarn dev:vmb_tests && say sucess || say failure",
-    "bench:vmb_tests": "ava --config config/.ava.vmb_bench.config.js src/lib/vmb-tests/benchmark-bch-vmb-tests.spec.ts --serial",
+    "gen:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js'",
+    "bench:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -b",
+    "dev:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -w",
+    "dev:vmb_tests:bench": "node --enable-source-maps 'build/lib/vmb-tests/dev-vmb-tests.spec.helper.js' -wb",
+    "export:vmb_tests": "node --enable-source-maps 'build/lib/vmb-tests/export-vmb-test-results.spec.helper.js'",
     "bench": "yarn build && yarn bench:browser-deps && yarn bench:vmb_tests && yarn bench:test",
     "bench:test": "ava --config config/.ava.bench.config.js --serial --timeout=2m 2>&1 | tee bench.log",
     "bench:browser-deps": "cpy '.yarn/artifacts/*.js' build/bench",
     "watch": "yarn build -w",
-    "watch:test": "echo '\n\nUsage:\n yarn watch:test src/lib/key/bip39.spec.ts                    # watch a single test file \n yarn watch:test --match=\"!*crypto*\" --match=\"!*vmb_tests*\"   # include/exclude tests with names matching pattern(s) \n\n' && ava -v --watch",
+    "watch:test": "echo '\n\nUsage:\n yarn watch:test src/lib/key/bip39.spec.ts                    # watch a single test file \n yarn watch:test --match=\"!*crypto*\"                            # include/exclude tests with names matching pattern(s) \n\n' && ava -v --watch",
     "cov": "yarn build && yarn test:unit && yarn cov:html && yarn cov:lcov && open-cli coverage/index.html",
     "cov:html": "c8 report --reporter=html",
     "cov:lcov": "c8 report --reporter=lcov",
@@ -88,6 +85,7 @@
     "doc:extract": "mkdir -p build/api && api-extractor run --local --typescript-compiler-folder node_modules/typescript",
     "doc:generate": "api-documenter markdown -i temp -o build/api/markdown",
     "doc:check-api": "api-extractor run --typescript-compiler-folder node_modules/typescript",
+    "digest": "ai-digest",
     "changeset:version": "yarn changeset version && yarn fix:prettier",
     "release": "yarn build && yarn changeset publish"
   },
@@ -107,7 +105,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/elliptic": "^6.4.18",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.11.0",
+    "@types/node": "^22.5.5",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
     "@typescript-eslint/parser": "^6.18.1",
     "ajv-cli": "^5.0.0",
@@ -115,7 +113,7 @@
     "ava": "^6.0.1",
     "bip39": "^3.1.0",
     "bitcore-lib-cash": "^10.0.23",
-    "c8": "^9.0.0",
+    "c8": "^10.1.2",
     "chuhai": "^1.2.0",
     "cpy-cli": "^5.0.0",
     "cspell": "^8.3.2",
@@ -139,8 +137,8 @@
     "source-map-support": "^0.5.21",
     "tinybench": "^2.8.0",
     "ts-json-schema-generator": "^1.5.0",
-    "typedoc": "^0.25.7",
-    "typescript": "^5.3.3"
+    "typedoc": "^0.26.7",
+    "typescript": "^5.6.2"
   },
   "publishConfig": {
     "provenance": true
@@ -148,7 +146,6 @@
   "files": [
     "build",
     "!build/.tsbuildinfo",
-    "!build/**/*.map",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",
@@ -167,9 +164,6 @@
     "nodeArguments": [
       "--experimental-json-modules",
       "--experimental-global-webcrypto"
-    ],
-    "files": [
-      "!src/lib/vmb-tests/benchmark-bch-vmb-tests.spec.ts"
     ]
   },
   "config": {
@@ -182,26 +176,10 @@
     "overrides": [
       {
         "files": [
-          "src/lib/vmb-tests/**/*bch-vmb-tests*.ts"
+          "src/lib/vmb-tests/sources/**/*.ts"
         ],
         "options": {
           "printWidth": 400
-        }
-      },
-      {
-        "files": [
-          "src/lib/vmb-tests/*bch-vmb-tests*.spec.*ts"
-        ],
-        "options": {
-          "printWidth": 80
-        }
-      },
-      {
-        "files": [
-          "src/lib/vmb-tests/generated/**/*.json"
-        ],
-        "options": {
-          "printWidth": 10000
         }
       }
     ]
@@ -216,7 +194,7 @@
     ]
   },
   "sideEffects": false,
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.5.0",
   "resolutions": {
     "eslint-config-bitauth": "portal:./config/eslint-config-bitauth"
   }

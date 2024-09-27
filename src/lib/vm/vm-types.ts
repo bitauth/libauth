@@ -17,15 +17,15 @@ export type AuthenticationProgramStateMinimum = {
   ip: number;
 
   /**
-   * An object containing metrics that persist and accumulate over the course of
-   * evaluating each input in the transaction.
+   * An object containing metrics that persist and accumulate over all phases of
+   * evaluating an input – unlocking, locking and (for P2SH) redeem bytecode.
    */
   metrics: {
     /**
-     * A count of instructions executed over the course of verifying
-     * the transaction.
+     * A count of instructions evaluated over the course of verifying
+     * the input, included unexecuted instructions.
      */
-    executedInstructionCount: number;
+    evaluatedInstructionCount: number;
   };
 };
 
@@ -39,7 +39,7 @@ export type AuthenticationProgramStateStack<StackType = Uint8Array> = {
   metrics: {
     /**
      * The cumulative byte count of all items pushed to the stack over the
-     * course of verifying the transaction.
+     * course of verifying the input.
      */
     stackPushedBytes: number;
   };
@@ -163,32 +163,54 @@ export type AuthenticationProgramStateResourceLimits = {
    * count is replaced by other limits and no longer requires tracking.
    */
   operationCount: number;
+
   metrics: {
     /**
-     * The cumulative cost of non-linear arithmetic operations (`OP_AND`,
-     * `OP_OR`, `OP_XOR`) executed over the course of verifying the transaction.
-     */
-    bitwiseCost: number;
-    /**
-     * The cumulative cost of non-linear arithmetic operations (`OP_MUL`,
-     * `OP_DIV`, `OP_MOD`) executed over the course of verifying
-     * the transaction.
+     * The cumulative operation cost contributed by arithmetic operations
+     * executed over the course of verifying the input.
      */
     arithmeticCost: number;
     /**
+     * An unsigned integer counter use to count the total number of hash
+     * digest iterations required to validate the input.
+     */
+    hashDigestIterations: number;
+    /**
+     * The maximum allowable `operationCost` given `densityControlLength`.
+     */
+    maximumOperationCost: number;
+    /**
+     * The maximum allowable `hashDigestIterations`
+     * given `densityControlLength`.
+     */
+    maximumHashDigestIterations: number;
+    /**
+     * The maximum allowable `signatureCheckCount` for this evaluation.
+     */
+    maximumSignatureCheckCount: number;
+    /**
+     * The approximated input length for use in determining limits. Note that
+     * this is not the actual encoded length of the input, but rather, a
+     * fixed formula of `41 + unlockingBytecode.length`.
+     */
+    densityControlLength: number;
+    /**
+     * The cumulative cost of all operations executed over the course of
+     * verifying the input, including `arithmeticCost`, `stackPushedBytes`,
+     * base instruction costs (derived from `executedInstructionCount`), hashing
+     * costs (from `hashDigestIterations`), and signature checking costs
+     * (from `signatureCheckCount`).
+     */
+    operationCost: number;
+    /**
      * A count of signature checks (A.K.A. "SigChecks") performed over the
-     * course of the entire evaluation as defined by the BCH_2020_05 upgrade.
+     * course of the entire evaluation as defined by the `BCH_2020_05` upgrade.
      *
      * Signature checks replaced the earlier Signature Operations (A.K.A.
-     * "SigOps") system of limits, and following BCH_2025_05, signature checks
-     * are replaced by other limits and no longer require tracking.
+     * "SigOps") system of limits.
      */
     signatureCheckCount: number;
   };
-  /**
-   * The length of the encoded spending transaction in bytes.
-   */
-  transactionLengthBytes: number;
 };
 
 export type AuthenticationProgramStateTransactionContext = {

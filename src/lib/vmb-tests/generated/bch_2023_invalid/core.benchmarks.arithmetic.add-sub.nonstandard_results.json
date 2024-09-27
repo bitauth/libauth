@@ -1,0 +1,11 @@
+{
+"des0rv":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 10000 bytes.",
+"xg7206":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 10000 bytes.",
+"v8lscg":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 9999 bytes.",
+"2xhecr":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 9999 bytes.",
+"y54lkh":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520; item length: 1024 bytes.",
+"9vkccn":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520; item length: 1024 bytes.",
+"53s3xu":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520; item length: 1024 bytes.",
+"f7qhsg":"Error in evaluating input index 0: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520; item length: 1024 bytes.",
+"09macl":"Error in evaluating input index 0: Invalid input: this operation requires a valid VM Number. Failed to decode VM Number: overflows VM Number range."
+}

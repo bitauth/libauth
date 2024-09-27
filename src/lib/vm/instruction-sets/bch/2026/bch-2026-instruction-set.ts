@@ -13,20 +13,7 @@ import type {
   Sha1,
   Sha256,
 } from '../../../../lib.js';
-import {
-  AuthenticationErrorCommon,
-  conditionallyEvaluate,
-  incrementOperationCount,
-  mapOverOperations,
-} from '../../common/common.js';
-import { OpcodesBch2023 } from '../2023/bch-2023-opcodes.js';
-import {
-  opHash160ChipLimits,
-  opHash256ChipLimits,
-  opRipemd160ChipLimits,
-  opSha1ChipLimits,
-  opSha256ChipLimits,
-} from '../2025/bch-2025-crypto.js';
+import { AuthenticationErrorCommon } from '../../common/common.js';
 import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js';
 import { AuthenticationErrorBch2026 } from '../2026/bch-2026-errors.js';
 import { opBegin, opUntil } from '../2026/bch-2026-loops.js';
@@ -95,33 +82,13 @@ export const createInstructionSetBch2026 = <
     });
   return {
     ...instructionSet,
-    initialize: () =>
+    initialize: (program) =>
       ({
-        ...instructionSet.initialize?.(),
+        ...instructionSet.initialize?.(program),
         repeatedBytes: 0,
       }) as Partial<AuthenticationProgramStateBch2026> as Partial<AuthenticationProgramState>,
     operations: {
       ...instructionSet.operations,
-      ...mapOverOperations<AuthenticationProgramState>(
-        [incrementOperationCount],
-        {
-          [OpcodesBch2023.OP_RIPEMD160]: conditionallyEvaluate(
-            opRipemd160ChipLimits({ ripemd160, strict: true }),
-          ),
-          [OpcodesBch2023.OP_SHA1]: conditionallyEvaluate(
-            opSha1ChipLimits({ sha1, strict: true }),
-          ),
-          [OpcodesBch2023.OP_SHA256]: conditionallyEvaluate(
-            opSha256ChipLimits({ sha256, strict: true }),
-          ),
-          [OpcodesBch2023.OP_HASH160]: conditionallyEvaluate(
-            opHash160ChipLimits({ ripemd160, sha256, strict: true }),
-          ),
-          [OpcodesBch2023.OP_HASH256]: conditionallyEvaluate(
-            opHash256ChipLimits({ sha256, strict: true }),
-          ),
-        },
-      ),
       [OpcodesBch2026.OP_BEGIN]: opBegin,
       [OpcodesBch2026.OP_UNTIL]: opUntil,
     },

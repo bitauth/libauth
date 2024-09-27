@@ -1,0 +1,20 @@
+{
+"c2g0k4":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"5gs4c0":"Error in evaluating input index 1: Program completed with an unexpected number of items on the stack (must be exactly 1).",
+"e0nnvf":"Error in evaluating input index 1: Program completed with an unexpected number of items on the stack (must be exactly 1).",
+"wht0t5":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"t82988":"Error in evaluating input index 1: Unsuccessful evaluation: completed with a non-truthy value on top of the stack.",
+"gzsgc9":"Error in evaluating input index 1: Unsuccessful evaluation: completed with a non-truthy value on top of the stack.",
+"rmy9zg":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"45cw83":"Error in evaluating input index 1: Tried to read from an empty stack.",
+"ufh6ua":"Error in evaluating input index 1: Tried to read from an empty stack.",
+"7ww72r":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"3xplzh":"Error in evaluating input index 1: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 521 bytes.",
+"ddrwxl":"Error in evaluating input index 1: Program attempted to push a stack item that exceeded the maximum stack item length. Maximum stack item length: 520 bytes. Item length: 521 bytes.",
+"v3spvn":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"dm48pk":"Error in evaluating input index 1: Program exceeded the maximum operation count (201 operations).",
+"sxg5nu":"Error in evaluating input index 1: Program exceeded the maximum operation count (201 operations).",
+"xq9wjf":"Standard transactions may only spend standard output types, but source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"cgsjja":"Error in evaluating input index 1: Program exceeded the maximum operation count (201 operations).",
+"t5uu4j":"Error in evaluating input index 1: Program exceeded the maximum operation count (201 operations)."
+}

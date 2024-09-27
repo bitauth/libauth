@@ -1,0 +1,73 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+63gynq,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 1) (nonP2SH)",278,559,2,1,108,86400,0,2,0,378,12,20,562,0
+kaw3jr,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 1) (P2SH20)",796,67,2,1,624,499200,0,14,0,2184,22,24,1116,0
+62v9zq,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 1) (P2SH32)",796,79,2,1,624,499200,0,14,0,2184,22,24,1140,0
+aqwcrl,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 7) (nonP2SH)",278,559,2,1,108,86400,0,2,0,378,12,20,562,0
+u0h0q7,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 7) (P2SH20)",796,67,2,1,624,499200,0,14,0,2184,22,24,1116,0
+uaams5,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 7) (P2SH32)",796,79,2,1,624,499200,0,14,0,2184,22,24,1140,0
+mlvgdj,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 15) (nonP2SH)",278,559,2,1,108,86400,0,2,0,378,12,20,562,0
+0u8gek,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 15) (P2SH20)",796,67,2,1,624,499200,0,14,0,2184,22,24,1116,0
+q5qx4m,"Signature checking: 1-of-15 multisig with checkBits of zero (Schnorr key 15) (P2SH32)",796,79,2,1,624,499200,0,14,0,2184,22,24,1140,0
+jehvzc,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 1) (nonP2SH)",286,559,2,1,116,92800,0,3,0,406,0,20,570,0
+6ffz64,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 1) (P2SH20)",804,67,2,1,632,505600,0,15,0,2212,10,24,1124,0
+nr3qvd,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 1) (P2SH32)",804,79,2,1,632,505600,0,15,0,2212,10,24,1148,0
+wh2ctj,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 1) (nonP2SH)",280,559,2,1,110,88000,0,3,0,385,0,20,564,0
+sfv3ph,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 1) (P2SH20)",798,67,2,1,626,500800,0,15,0,2191,10,24,1118,0
+y987wt,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 1) (P2SH32)",798,79,2,1,626,500800,0,15,0,2191,10,24,1142,0
+lkes35,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 7) (nonP2SH)",286,559,2,1,116,92800,0,3,0,406,0,20,570,0
+wvphmc,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 7) (P2SH20)",804,67,2,1,632,505600,0,15,0,2212,10,24,1124,0
+f0jnym,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 7) (P2SH32)",804,79,2,1,632,505600,0,15,0,2212,10,24,1148,0
+cl5yn2,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 7) (nonP2SH)",280,559,2,1,110,88000,0,3,0,385,0,20,564,0
+z2mpx6,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 7) (P2SH20)",798,67,2,1,626,500800,0,15,0,2191,10,24,1118,0
+dfcel7,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 7) (P2SH32)",798,79,2,1,626,500800,0,15,0,2191,10,24,1142,0
+45370q,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 15) (nonP2SH)",286,559,2,1,116,92800,0,3,0,406,0,20,570,0
+0s6gjd,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 15) (P2SH20)",804,67,2,1,632,505600,0,15,0,2212,10,24,1124,0
+yslyax,"Signature checking: 1-of-15 multisig with checkBits of padded zero (ECDSA key 15) (P2SH32)",804,79,2,1,632,505600,0,15,0,2212,10,24,1148,0
+lyknqu,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 15) (nonP2SH)",280,559,2,1,110,88000,0,3,0,385,0,20,564,0
+sp4q2p,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 15) (P2SH20)",798,67,2,1,626,500800,0,15,0,2191,10,24,1118,0
+dnalt0,"Signature checking: 1-of-15 multisig with checkBits of padded zero (Schnorr key 15) (P2SH32)",798,79,2,1,626,500800,0,15,0,2191,10,24,1142,0
+e0kg8h,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 1) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+7j062x,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 1) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+7xny36,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 1) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+txkp7w,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 7) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+gfdfsh,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 7) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+uqqqe4,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 7) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+7pa0dk,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 7) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,564,0
+x5sj6e,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 7) (P2SH20)",798,67,2,1,626,500800,0,15,1,2191,22,24,1118,0
+wqy7k5,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 7) (P2SH32)",798,79,2,1,626,500800,0,15,1,2191,22,24,1142,0
+tk6rm9,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 15) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+z2ma9g,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 15) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+dnm2eq,"Signature checking: 1-of-15 multisig with checkBits of key 1 (ECDSA key 15) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+385c3f,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 15) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,564,0
+eq5d4t,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 15) (P2SH20)",798,67,2,1,626,500800,0,15,1,2191,22,24,1118,0
+h49vsf,"Signature checking: 1-of-15 multisig with checkBits of key 1 (Schnorr key 15) (P2SH32)",798,79,2,1,626,500800,0,15,1,2191,22,24,1142,0
+a44tk3,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 1) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+rw7ewy,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 1) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+3ervay,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 1) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+udascx,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 1) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,564,0
+u8wqle,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 1) (P2SH20)",798,67,2,1,626,500800,0,15,1,2191,22,24,1118,0
+342dwp,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 1) (P2SH32)",798,79,2,1,626,500800,0,15,1,2191,22,24,1142,0
+j4ufy3,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 7) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+2cch2q,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 7) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+m9625l,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 7) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+rhlzqa,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 15) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+4xg8q3,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 15) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+qyntuk,"Signature checking: 1-of-15 multisig with checkBits of key 7 (ECDSA key 15) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+l4fjnx,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 15) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,564,0
+050ryr,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 15) (P2SH20)",798,67,2,1,626,500800,0,15,1,2191,22,24,1118,0
+zf7vmu,"Signature checking: 1-of-15 multisig with checkBits of key 7 (Schnorr key 15) (P2SH32)",798,79,2,1,626,500800,0,15,1,2191,22,24,1142,0
+khnmy3,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 1) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+wzq36n,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 1) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+vgyd34,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 1) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+kd0hsg,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 1) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,564,0
+5ygxxm,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 1) (P2SH20)",798,67,2,1,626,500800,0,15,1,2191,22,24,1118,0
+lr26ku,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 1) (P2SH32)",798,79,2,1,626,500800,0,15,1,2191,22,24,1142,0
+h2ujx5,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 7) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+vez6c0,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 7) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+mn2qgp,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 7) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0
+zxdasv,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 7) (nonP2SH)",280,559,2,1,110,88000,0,3,1,385,12,20,564,0
+qm3u52,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 7) (P2SH20)",798,67,2,1,626,500800,0,15,1,2191,22,24,1118,0
+ma8cap,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 7) (P2SH32)",798,79,2,1,626,500800,0,15,1,2191,22,24,1142,0
+t36v6h,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (nonP2SH)",286,559,2,1,116,92800,0,3,1,406,12,20,570,0
+3fd605,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (P2SH20)",804,67,2,1,632,505600,0,15,1,2212,22,24,1124,0
+uyngmr,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (P2SH32)",804,79,2,1,632,505600,0,15,1,2212,22,24,1148,0

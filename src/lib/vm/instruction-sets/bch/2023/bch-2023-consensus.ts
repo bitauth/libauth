@@ -3,6 +3,16 @@
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const ConsensusBch2023 = {
+  baseInstructionCost: 100,
+  /**
+   * The constant added to the unlocking bytecode length to determine a
+   * contract's density control length (for operation cost and hashing budgets).
+   */
+  densityControlBaseLength: 41,
+  hashDigestIterationCostConsensus: 64,
+  hashDigestIterationCostStandard: 192,
+  hashDigestIterationsPerByteNonstandard: 3.5,
+  hashDigestIterationsPerByteStandard: 0.5,
   /**
    * A.K.A. `MAX_SCRIPT_SIZE`
    */
@@ -12,10 +22,12 @@ export const ConsensusBch2023 = {
    * A.K.A. `MAX_CONSENSUS_VERSION`
    */
   maximumConsensusVersion: 2,
+  maximumControlStackDepth: 100,
   /**
    * A.K.A. `MAX_OP_RETURN_RELAY`, `nMaxDatacarrierBytes`
    */
   maximumDataCarrierBytes: 223,
+  maximumFungibleTokenAmount: '9223372036854775807',
   /**
    * A.K.A. `MAX_OPS_PER_SCRIPT`
    */
@@ -40,11 +52,14 @@ export const ConsensusBch2023 = {
    * A.K.A. `MAX_TX_SIZE`
    */
   maximumTransactionLengthBytes: 1_000_000,
-  maximumVmNumber: '9223372036854775807',
   /**
-   * A.K.A. `MAXIMUM_ELEMENT_SIZE_64_BIT`
+   * A.K.A. `MAX_TX_SIGCHECKS`
    */
-  maximumVmNumberLength: 8,
+  maximumTransactionSignatureChecks: 3_000,
+  /**
+   * A.K.A. `nMaxNumSize`
+   */
+  maximumVmNumberByteLength: 8,
   /**
    * A.K.A. `MIN_CONSENSUS_VERSION`
    */
@@ -56,6 +71,15 @@ export const ConsensusBch2023 = {
    * A.K.A. `MIN_TX_SIZE`
    */
   minimumTransactionLengthBytes: 65,
-  minimumVmNumber: '-9223372036854775807',
+  operationCostBudgetPerByte: 800,
   schnorrSignatureLength: 64,
+  signatureCheckCost: 26000,
 };
+
+/**
+ * Calculate the maximum signature check count (A.K.A. "SigChecks") as defined
+ * by the `BCH_2020_05` upgrade.
+ */
+export const maximumSignatureCheckCount = (unlockingBytecodeLength: number) =>
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  Math.floor((unlockingBytecodeLength + 60) / 43);

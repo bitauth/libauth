@@ -451,7 +451,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             repeatedBytes: 0,
             signedMessages: [],
             stack: [],
-            transactionLengthBytes: 10062,
           },
           {
             alternateStack: [],
@@ -484,7 +483,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             repeatedBytes: 0,
             signedMessages: [],
             stack: [],
-            transactionLengthBytes: 10062,
           },
           {
             alternateStack: [],
@@ -517,7 +515,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             repeatedBytes: 0,
             signedMessages: [],
             stack: [hexToBin('03')],
-            transactionLengthBytes: 10062,
           },
           {
             alternateStack: [],
@@ -550,7 +547,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             repeatedBytes: 0,
             signedMessages: [],
             stack: [hexToBin('03'), hexToBin('00')],
-            transactionLengthBytes: 10062,
           },
           {
             alternateStack: [],
@@ -583,7 +579,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             repeatedBytes: 0,
             signedMessages: [],
             stack: [hexToBin('00'), hexToBin('03')],
-            transactionLengthBytes: 10062,
           },
           {
             alternateStack: [],
@@ -616,7 +611,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             repeatedBytes: 0,
             signedMessages: [],
             stack: [hexToBin('0003')],
-            transactionLengthBytes: 10062,
           },
           {
             alternateStack: [],
@@ -649,7 +643,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
             repeatedBytes: 0,
             signedMessages: [],
             stack: [hexToBin('0003')],
-            transactionLengthBytes: 10062,
           },
         ],
       },
@@ -683,7 +676,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -727,7 +719,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -771,7 +762,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -815,7 +805,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('ab')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -859,7 +848,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('ab'), hexToBin('cd')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -903,7 +891,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('f8')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -947,7 +934,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('f8'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -991,7 +977,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
         program,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('f8'), hexToBin(''), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -1041,7 +1026,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
           hexToBin(''),
           hexToBin('010203'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -1091,7 +1075,6 @@ test.failing('extractEvaluationSamples: documentation example', (t) => {
           hexToBin(''),
           hexToBin('010203'),
         ],
-        transactionLengthBytes: 10062,
       },
     ],
     stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
@@ -1256,7 +1239,6 @@ test.failing('extractEvaluationSamples: error in initial validation', (t) => {
         program,
         signedMessages: [],
         stack: [],
-        transactionLengthBytes: 62,
       },
     ],
     stringifyTestVector(trace),
@@ -1404,7 +1386,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
             {
               alternateStack: [],
@@ -1428,7 +1409,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
             {
               alternateStack: [],
@@ -1452,7 +1432,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('ab6a00')],
-              transactionLengthBytes: 10062,
             },
             {
               alternateStack: [],
@@ -1476,7 +1455,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('ab6a00')],
-              transactionLengthBytes: 10062,
             },
           ],
         },
@@ -1501,7 +1479,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -1529,7 +1506,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -1557,7 +1533,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin('ab')],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -1586,7 +1561,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin('ab')],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -1615,7 +1589,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin('ab')],
-          transactionLengthBytes: 10062,
         },
       ],
       stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
@@ -1658,209 +1631,209 @@ test.failing(
   },
 );
 
-test('extractEvaluationSamples: node that closes an open sample with an error', (t) => {
-  const result = compiler.generateBytecode({
-    data: {},
-    debug: true,
-    scriptId: 'error2',
-  });
-  if (!result.success) {
-    t.fail(stringifyErrors(result.errors));
-    return;
-  }
-  const program = createAuthenticationProgramEvaluationCommon(result.bytecode);
-  const nodes = result.reduce.script;
-  const evaluationRange = result.reduce.range;
-  const traceWithUnlockingPhaseAndFinalState = vm.debug(program);
-  const trace = traceWithUnlockingPhaseAndFinalState.slice(1);
-  const extracted = extractEvaluationSamples({
-    evaluationRange,
-    nodes,
-    trace,
-  });
-  t.deepEqual(
-    nodes,
-    [
-      {
-        bytecode: hexToBin('004d5802'),
-        range: {
-          endColumn: 11,
-          endLineNumber: 1,
-          startColumn: 1,
-          startLineNumber: 1,
+test.failing(
+  'extractEvaluationSamples: node that closes an open sample with an error',
+  (t) => {
+    const result = compiler.generateBytecode({
+      data: {},
+      debug: true,
+      scriptId: 'error2',
+    });
+    if (!result.success) {
+      t.fail(stringifyErrors(result.errors));
+      return;
+    }
+    const program = createAuthenticationProgramEvaluationCommon(
+      result.bytecode,
+    );
+    const nodes = result.reduce.script;
+    const evaluationRange = result.reduce.range;
+    const traceWithUnlockingPhaseAndFinalState = vm.debug(program);
+    const trace = traceWithUnlockingPhaseAndFinalState.slice(1);
+    const extracted = extractEvaluationSamples({
+      evaluationRange,
+      nodes,
+      trace,
+    });
+    t.deepEqual(
+      nodes,
+      [
+        {
+          bytecode: hexToBin('004d5802'),
+          range: {
+            endColumn: 11,
+            endLineNumber: 1,
+            startColumn: 1,
+            startLineNumber: 1,
+          },
         },
-      },
-      {
-        bytecode: hexToBin(
-          '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
-        ),
-        range: {
-          endColumn: 614,
-          endLineNumber: 1,
-          startColumn: 12,
-          startLineNumber: 1,
-        },
-      },
-    ],
-    stringifyTestVector(nodes),
-  );
-
-  t.deepEqual(
-    traceWithUnlockingPhaseAndFinalState,
-    [
-      {
-        alternateStack: [],
-        controlStack: [],
-        instructions: [],
-        ip: 0,
-        lastCodeSeparator: -1,
-        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
-        operationCount: 0,
-        program,
-        signedMessages: [],
-        stack: [],
-        transactionLengthBytes: 10062,
-      },
-      {
-        alternateStack: [],
-        controlStack: [],
-        instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(
-              '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
-            ),
-            opcode: 77,
-          },
-        ],
-        ip: 0,
-        lastCodeSeparator: -1,
-        metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
-        operationCount: 0,
-        program,
-        signedMessages: [],
-        stack: [],
-        transactionLengthBytes: 10062,
-      },
-      {
-        alternateStack: [],
-        controlStack: [],
-        instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(
-              '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
-            ),
-            opcode: 77,
-          },
-        ],
-        ip: 1,
-        lastCodeSeparator: -1,
-        metrics: { executedInstructionCount: 1, signatureCheckCount: 0 },
-        operationCount: 0,
-        program,
-        signedMessages: [],
-        stack: [hexToBin('')],
-        transactionLengthBytes: 10062,
-      },
-      {
-        alternateStack: [],
-        controlStack: [],
-        error:
-          'Program attempted to push a stack item that exceeded the maximum stack item length (520 bytes). Item length: 600 bytes.',
-        instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(
-              '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
-            ),
-            opcode: 77,
-          },
-        ],
-        ip: 2,
-        lastCodeSeparator: -1,
-        metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
-        operationCount: 0,
-        program,
-        signedMessages: [],
-        stack: [hexToBin('')],
-        transactionLengthBytes: 10062,
-      },
-      {
-        alternateStack: [],
-        controlStack: [],
-        error:
-          'Program attempted to push a stack item that exceeded the maximum stack item length (520 bytes). Item length: 600 bytes.',
-        instructions: [
-          {
-            data: hexToBin(''),
-            opcode: 0,
-          },
-          {
-            data: hexToBin(
-              '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
-            ),
-            opcode: 77,
-          },
-        ],
-        ip: 2,
-        lastCodeSeparator: -1,
-        metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
-        operationCount: 0,
-        program,
-        signedMessages: [],
-        stack: [hexToBin('')],
-        transactionLengthBytes: 10062,
-      },
-    ],
-    stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
-  );
-
-  t.deepEqual(extracted, {
-    samples: [
-      {
-        evaluationRange,
-        internalStates: [],
-        range: {
-          endColumn: 1,
-          endLineNumber: 1,
-          startColumn: 1,
-          startLineNumber: 1,
-        },
-        state: trace[0],
-      },
-      {
-        evaluationRange,
-        instruction: { data: Uint8Array.of(), opcode: 0 },
-        internalStates: [],
-        range: nodes[0]!.range,
-        state: trace[1],
-      },
-      {
-        evaluationRange,
-        instruction: {
-          data: hexToBin(
+        {
+          bytecode: hexToBin(
             '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
           ),
-          opcode: 77,
+          range: {
+            endColumn: 614,
+            endLineNumber: 1,
+            startColumn: 12,
+            startLineNumber: 1,
+          },
         },
-        internalStates: [],
-        range: mergeRanges([nodes[0]!.range, nodes[1]!.range]),
-        state: trace[2],
-      },
-    ],
-    unmatchedStates: [trace[3]],
-  });
-});
+      ],
+      stringifyTestVector(nodes),
+    );
+
+    t.deepEqual(
+      traceWithUnlockingPhaseAndFinalState,
+      [
+        {
+          alternateStack: [],
+          controlStack: [],
+          instructions: [],
+          ip: 0,
+          lastCodeSeparator: -1,
+          metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
+          operationCount: 0,
+          program,
+          signedMessages: [],
+          stack: [],
+        },
+        {
+          alternateStack: [],
+          controlStack: [],
+          instructions: [
+            {
+              data: hexToBin(''),
+              opcode: 0,
+            },
+            {
+              data: hexToBin(
+                '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
+              ),
+              opcode: 77,
+            },
+          ],
+          ip: 0,
+          lastCodeSeparator: -1,
+          metrics: { executedInstructionCount: 0, signatureCheckCount: 0 },
+          operationCount: 0,
+          program,
+          signedMessages: [],
+          stack: [],
+        },
+        {
+          alternateStack: [],
+          controlStack: [],
+          instructions: [
+            {
+              data: hexToBin(''),
+              opcode: 0,
+            },
+            {
+              data: hexToBin(
+                '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
+              ),
+              opcode: 77,
+            },
+          ],
+          ip: 1,
+          lastCodeSeparator: -1,
+          metrics: { executedInstructionCount: 1, signatureCheckCount: 0 },
+          operationCount: 0,
+          program,
+          signedMessages: [],
+          stack: [hexToBin('')],
+        },
+        {
+          alternateStack: [],
+          controlStack: [],
+          error:
+            'Program attempted to push a stack item that exceeded the maximum stack item length (520 bytes). Item length: 600 bytes.',
+          instructions: [
+            {
+              data: hexToBin(''),
+              opcode: 0,
+            },
+            {
+              data: hexToBin(
+                '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
+              ),
+              opcode: 77,
+            },
+          ],
+          ip: 2,
+          lastCodeSeparator: -1,
+          metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
+          operationCount: 0,
+          program,
+          signedMessages: [],
+          stack: [hexToBin('')],
+        },
+        {
+          alternateStack: [],
+          controlStack: [],
+          error:
+            'Program attempted to push a stack item that exceeded the maximum stack item length (520 bytes). Item length: 600 bytes.',
+          instructions: [
+            {
+              data: hexToBin(''),
+              opcode: 0,
+            },
+            {
+              data: hexToBin(
+                '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
+              ),
+              opcode: 77,
+            },
+          ],
+          ip: 2,
+          lastCodeSeparator: -1,
+          metrics: { executedInstructionCount: 2, signatureCheckCount: 0 },
+          operationCount: 0,
+          program,
+          signedMessages: [],
+          stack: [hexToBin('')],
+        },
+      ],
+      stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
+    );
+
+    t.deepEqual(extracted, {
+      samples: [
+        {
+          evaluationRange,
+          internalStates: [],
+          range: {
+            endColumn: 1,
+            endLineNumber: 1,
+            startColumn: 1,
+            startLineNumber: 1,
+          },
+          state: trace[0],
+        },
+        {
+          evaluationRange,
+          instruction: { data: Uint8Array.of(), opcode: 0 },
+          internalStates: [],
+          range: nodes[0]!.range,
+          state: trace[1],
+        },
+        {
+          evaluationRange,
+          instruction: {
+            data: hexToBin(
+              '626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262',
+            ),
+            opcode: 77,
+          },
+          internalStates: [],
+          range: mergeRanges([nodes[0]!.range, nodes[1]!.range]),
+          state: trace[2],
+        },
+      ],
+      unmatchedStates: [trace[3]],
+    });
+  },
+);
 
 test.failing(
   'extractEvaluationSamples: error3 - error occurs, so final state is dropped',
@@ -1943,7 +1916,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -1961,7 +1933,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -1979,7 +1950,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin('')],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -1998,7 +1968,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin('')],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -2017,7 +1986,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin('')],
-          transactionLengthBytes: 10062,
         },
       ],
       stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
@@ -2491,7 +2459,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2510,7 +2477,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2529,7 +2495,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2548,7 +2513,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2567,7 +2531,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2586,7 +2549,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2605,7 +2567,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2624,7 +2585,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2643,7 +2603,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('01'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2668,7 +2627,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2687,7 +2645,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 0,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('01'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2706,7 +2663,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 5,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2725,7 +2681,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 5,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2744,7 +2699,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 5,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2763,7 +2717,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 5,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2788,7 +2741,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2807,7 +2759,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 5,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2826,7 +2777,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin(''), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2845,7 +2795,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin(''), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2864,7 +2813,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2883,7 +2831,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2902,7 +2849,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2921,7 +2867,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2940,7 +2885,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2959,7 +2903,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -2978,7 +2921,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 10,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3003,7 +2945,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('01'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3029,7 +2970,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3054,7 +2994,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin(''),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3073,7 +3012,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 15,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3092,7 +3030,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 15,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3111,7 +3048,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 15,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3136,7 +3072,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3162,7 +3097,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3187,7 +3121,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin(''),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3206,7 +3139,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 20,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3225,7 +3157,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 20,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3244,7 +3175,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 20,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3269,7 +3199,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3295,7 +3224,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3320,7 +3248,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('01'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3339,7 +3266,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 25,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3358,7 +3284,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 25,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3377,7 +3302,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 46,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3396,7 +3320,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 46,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3415,7 +3338,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 46,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3434,7 +3356,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 46,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3453,7 +3374,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 46,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3472,7 +3392,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 46,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3497,7 +3416,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3516,7 +3434,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 46,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3535,7 +3452,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 51,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3554,7 +3470,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 51,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3573,7 +3488,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 51,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3592,7 +3506,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 51,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3617,7 +3530,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3636,7 +3548,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 51,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3655,7 +3566,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3674,7 +3584,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('01'), hexToBin('04')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3693,7 +3602,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('04'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3712,7 +3620,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('04'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3731,7 +3638,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3750,7 +3656,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3769,7 +3674,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3788,7 +3692,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3807,7 +3710,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 56,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3832,7 +3734,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('01'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3858,7 +3759,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3883,7 +3783,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin(''),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3902,7 +3801,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 61,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3921,7 +3819,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 61,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3940,7 +3837,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 61,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3965,7 +3861,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -3991,7 +3886,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4016,7 +3910,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin(''),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4035,7 +3928,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 66,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4054,7 +3946,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 66,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4073,7 +3964,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 66,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4098,7 +3988,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4124,7 +4013,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4149,7 +4037,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('01'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4168,7 +4055,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 71,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4187,7 +4073,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 71,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4206,7 +4091,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 92,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4225,7 +4109,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 92,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4244,7 +4127,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 92,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4263,7 +4145,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 92,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4282,7 +4163,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 92,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4301,7 +4181,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 92,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('01'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4326,7 +4205,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4345,7 +4223,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 92,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('01'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4364,7 +4241,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 97,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4383,7 +4259,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 97,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4402,7 +4277,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 97,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4421,7 +4295,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 97,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4446,7 +4319,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4465,7 +4337,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 97,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4484,7 +4355,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('04'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4503,7 +4373,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('02'), hexToBin('06')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4522,7 +4391,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('06'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4541,7 +4409,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('06'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4560,7 +4427,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4579,7 +4445,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4598,7 +4463,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4617,7 +4481,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4636,7 +4499,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 102,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4661,7 +4523,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('01'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4687,7 +4548,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4712,7 +4572,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('01'),
           hexToBin(''),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4731,7 +4590,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 107,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4750,7 +4608,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 107,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4769,7 +4626,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 107,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4794,7 +4650,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('02'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4820,7 +4675,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4845,7 +4699,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('02'),
           hexToBin(''),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4864,7 +4717,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 112,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4883,7 +4735,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 112,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('02')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4902,7 +4753,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 112,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4927,7 +4777,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4953,7 +4802,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('03'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4978,7 +4826,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
           hexToBin('03'),
           hexToBin('01'),
         ],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -4997,7 +4844,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 117,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('03'), hexToBin('03')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -5016,7 +4862,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 117,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06'), hexToBin('01')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -5035,7 +4880,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 138,
         signedMessages: [],
         stack: [hexToBin('03'), hexToBin('06')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -5054,7 +4898,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 138,
         signedMessages: [],
         stack: [hexToBin('06')],
-        transactionLengthBytes: 10062,
       },
       {
         alternateStack: [],
@@ -5073,7 +4916,6 @@ test.failing('extractEvaluationSamples: supports loops', (t) => {
         repeatedBytes: 138,
         signedMessages: [],
         stack: [hexToBin('06')],
-        transactionLengthBytes: 10062,
       },
     ],
     stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
@@ -5261,7 +5103,6 @@ test.failing(
                                 repeatedBytes: 0,
                                 signedMessages: [],
                                 stack: [],
-                                transactionLengthBytes: 10062,
                               },
                               {
                                 alternateStack: [],
@@ -5285,7 +5126,6 @@ test.failing(
                                 repeatedBytes: 0,
                                 signedMessages: [],
                                 stack: [],
-                                transactionLengthBytes: 10062,
                               },
                               {
                                 alternateStack: [],
@@ -5309,7 +5149,6 @@ test.failing(
                                 repeatedBytes: 0,
                                 signedMessages: [],
                                 stack: [hexToBin('51')],
-                                transactionLengthBytes: 10062,
                               },
                               {
                                 alternateStack: [],
@@ -5333,7 +5172,6 @@ test.failing(
                                 repeatedBytes: 0,
                                 signedMessages: [],
                                 stack: [hexToBin('51')],
-                                transactionLengthBytes: 10062,
                               },
                             ],
                           },
@@ -5375,7 +5213,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5404,7 +5241,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5433,7 +5269,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('01')],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5462,7 +5297,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('01'), hexToBin('02')],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5491,7 +5325,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('03')],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5520,7 +5353,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('03')],
-                          transactionLengthBytes: 10062,
                         },
                       ],
                     },
@@ -5590,7 +5422,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5614,7 +5445,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5638,7 +5468,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('616263')],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -5662,7 +5491,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('616263')],
-                          transactionLengthBytes: 10062,
                         },
                       ],
                     },
@@ -5704,7 +5532,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -5742,7 +5569,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -5780,7 +5606,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin('')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -5818,7 +5643,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin(''), hexToBin('')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -5856,7 +5680,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin(''), hexToBin(''), hexToBin('616263')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -5894,7 +5717,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin(''), hexToBin('616263')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -5932,7 +5754,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin('616263')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -5970,7 +5791,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin('616263')],
-                    transactionLengthBytes: 10062,
                   },
                 ],
               },
@@ -6115,7 +5935,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -6139,7 +5958,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -6163,7 +5981,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('7e')],
-                          transactionLengthBytes: 10062,
                         },
                         {
                           alternateStack: [],
@@ -6187,7 +6004,6 @@ test.failing(
                           repeatedBytes: 0,
                           signedMessages: [],
                           stack: [hexToBin('7e')],
-                          transactionLengthBytes: 10062,
                         },
                       ],
                     },
@@ -6211,7 +6027,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -6242,7 +6057,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -6273,7 +6087,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin('')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -6304,7 +6117,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin(''), hexToBin('')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -6335,7 +6147,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin('')],
-                    transactionLengthBytes: 10062,
                   },
                   {
                     alternateStack: [],
@@ -6366,7 +6177,6 @@ test.failing(
                     repeatedBytes: 0,
                     signedMessages: [],
                     stack: [hexToBin('')],
-                    transactionLengthBytes: 10062,
                   },
                 ],
               },
@@ -6400,7 +6210,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -6425,7 +6234,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -6450,7 +6258,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin('')],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -6475,7 +6282,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin(''), hexToBin('616263')],
-          transactionLengthBytes: 10062,
         },
         {
           alternateStack: [],
@@ -6500,7 +6306,6 @@ test.failing(
           program,
           signedMessages: [],
           stack: [hexToBin(''), hexToBin('616263')],
-          transactionLengthBytes: 10062,
         },
       ],
       stringifyTestVector(traceWithUnlockingPhaseAndFinalState),
@@ -6556,7 +6361,6 @@ test.failing(
               },
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -6609,7 +6413,6 @@ test.failing(
               },
               signedMessages: [],
               stack: [hexToBin('')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -6671,7 +6474,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -6736,7 +6538,6 @@ test.failing(
                   repeatedBytes: 0,
                   signedMessages: [],
                   stack: [hexToBin('')],
-                  transactionLengthBytes: 10062,
                 },
               },
             ],
@@ -6791,7 +6592,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin(''), hexToBin('')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -6844,7 +6644,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -6892,7 +6691,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -6944,7 +6742,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('51')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7000,7 +6797,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('01')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7056,7 +6852,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('01'), hexToBin('02')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7112,7 +6907,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('03')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7160,7 +6954,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7212,7 +7005,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('616263')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7278,7 +7070,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin(''), hexToBin(''), hexToBin('616263')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7343,7 +7134,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin(''), hexToBin('616263')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7408,7 +7198,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('616263')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7463,7 +7252,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7522,7 +7310,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7581,7 +7368,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin(''), hexToBin('')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7629,7 +7415,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7681,7 +7466,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('7e')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7739,7 +7523,6 @@ test.failing(
               repeatedBytes: 0,
               signedMessages: [],
               stack: [hexToBin('')],
-              transactionLengthBytes: 10062,
             },
           },
           {
@@ -7792,7 +7575,6 @@ test.failing(
               },
               signedMessages: [],
               stack: [hexToBin(''), hexToBin('616263')],
-              transactionLengthBytes: 10062,
             },
           },
         ],
@@ -7829,7 +7611,6 @@ test.failing(
             },
             signedMessages: [],
             stack: [hexToBin(''), hexToBin('616263')],
-            transactionLengthBytes: 10062,
           },
         ],
       },

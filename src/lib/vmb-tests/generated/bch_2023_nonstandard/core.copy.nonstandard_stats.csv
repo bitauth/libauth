@@ -1,0 +1,21 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+uvjc66,"Operations copy by value: each OP_INPUTINDEX pushes an independent stack item (nonP2SH)",211,49,2,1,41,32800,0,1,0,143,0,5,4,1
+ts85pp,"Operations copy by value: each OP_ACTIVEBYTECODE pushes an independent stack item (nonP2SH)",211,49,2,1,41,32800,0,1,0,143,0,5,16,0
+ujtmtc,"Operations copy by value: each OP_TXVERSION pushes an independent stack item (nonP2SH)",211,49,2,1,41,32800,0,1,0,143,0,5,4,1
+snqe8w,"Operations copy by value: each OP_TXINPUTCOUNT pushes an independent stack item (nonP2SH)",211,49,2,1,41,32800,0,1,0,143,0,5,4,1
+fqz8yd,"Operations copy by value: each OP_TXOUTPUTCOUNT pushes an independent stack item (nonP2SH)",211,49,2,1,41,32800,0,1,0,143,0,5,4,1
+rlhyhu,"Operations copy by value: each OP_TXLOCKTIME pushes an independent stack item (nonP2SH)",211,49,2,1,41,32800,0,1,0,143,0,5,2,1
+x5f2jx,"Operations copy by value: each OP_UTXOVALUE pushes an independent stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,143,0,7,9,2
+rj4s42,"Operations copy by value: each OP_UTXOBYTECODE pushes an independent stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,143,0,7,24,0
+g97mr8,"Operations copy by value: each OP_OUTPOINTTXHASH pushes an independent stack item (nonP2SH)",211,84,2,1,41,32800,0,1,0,143,0,8,131,0
+kdlcje,"Operations copy by value: each OP_OUTPOINTINDEX pushes an independent stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,143,0,7,6,1
+4yesjx,"Operations copy by value: each OP_INPUTBYTECODE pushes an independent stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,143,0,7,301,0
+l5rly7,"Operations copy by value: each OP_INPUTSEQUENCENUMBER pushes an independent stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,143,0,7,4,1
+qxvhp8,"Operations copy by value: each OP_OUTPUTVALUE pushes an independent stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,143,0,7,2,1
+tg6tsq,"Operations copy by value: each OP_OUTPUTBYTECODE pushes an independent stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,143,0,7,31,0
+keymvy,"Operations copy by value: each OP_UTXOTOKENCATEGORY pushes an independent stack item (nonP2SH)",106,56,1,0,41,32800,0,1,0,143,0,7,97,0
+kaevvh,"Operations copy by value: each OP_OUTPUTTOKENCATEGORY pushes an independent stack item (nonP2SH)",106,56,1,0,41,32800,0,1,0,143,0,7,97,0
+a22vgl,"Operations copy by value: each OP_UTXOTOKENCOMMITMENT pushes an independent stack item (nonP2SH)",106,56,1,0,41,32800,0,1,0,143,0,7,10,0
+qhmurd,"Operations copy by value: each OP_OUTPUTTOKENCOMMITMENT pushes an independent stack item (nonP2SH)",106,56,1,0,41,32800,0,1,0,143,0,7,10,0
+yyhtmm,"Operations copy by value: each OP_UTXOTOKENAMOUNT pushes an independent stack item (nonP2SH)",106,56,1,0,41,32800,0,1,0,143,0,7,4,1
+yn39z0,"Operations copy by value: each OP_OUTPUTTOKENAMOUNT pushes an independent stack item (nonP2SH)",106,56,1,0,41,32800,0,1,0,143,0,7,4,1

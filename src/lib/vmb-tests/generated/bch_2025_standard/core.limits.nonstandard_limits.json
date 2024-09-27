@@ -1,0 +1,20 @@
+{
+"rk3h8w":[43,34400,571,"Transaction structure and limits: Empty unlocking bytecode is supported (P2SH20)"],
+"p7snyd":[43,34400,595,"Transaction structure and limits: Empty unlocking bytecode is supported (P2SH32)"],
+"aj94zg":[43,34400,570,"Transaction structure and limits: Empty locking bytecode is supported (P2SH20)"],
+"wfp34x":[43,34400,594,"Transaction structure and limits: Empty locking bytecode is supported (P2SH32)"],
+"dmmcy2":[45,36000,772,"Transaction structure and limits: Drop item and succeed (P2SH20)"],
+"w5vqj2":[45,36000,796,"Transaction structure and limits: Drop item and succeed (P2SH32)"],
+"2afrns":[571,456800,2021,"Transaction structure and limits: Allow 520 byte push (P2SH20)"],
+"nezvsl":[571,456800,2045,"Transaction structure and limits: Allow 520 byte push (P2SH32)"],
+"3xplzh":[572,457600,2023,"Transaction structure and limits: Disallow 521 byte push (P2SH20)"],
+"ddrwxl":[572,457600,2047,"Transaction structure and limits: Disallow 521 byte push (P2SH32)"],
+"ymts3m":[279,223200,25411,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH20)"],
+"4aumh2":[279,223200,25435,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH32)"],
+"dm48pk":[280,224000,25513,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations) (P2SH20)"],
+"sxg5nu":[280,224000,25537,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations) (P2SH32)"],
+"86hf4f":[279,223200,25399,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH20)"],
+"wfz3nh":[279,223200,25423,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH32)"],
+"cgsjja":[280,224000,25501,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations, CashToken operations) (P2SH20)"],
+"t5uu4j":[280,224000,25525,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations, CashToken operations) (P2SH32)"]
+}

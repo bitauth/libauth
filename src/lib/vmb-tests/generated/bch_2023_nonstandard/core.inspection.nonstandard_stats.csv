@@ -1,0 +1,106 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+xlsj0q,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (0) (nonP2SH)",212,46,2,0,42,33600,0,1,0,147,0,3,1,0
+uvh7f6,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (1) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+40g5xf,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (2) (nonP2SH)",353,80,3,2,42,33600,0,1,0,147,0,3,3,0
+ph4vau,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (9) (nonP2SH)",1340,318,10,9,42,33600,0,1,0,147,0,3,3,0
+k565cd,"Transaction inspection: OP_ACTIVEBYTECODE returns the bytecode currently being evaluated (nonP2SH)",214,46,2,1,44,35200,0,1,0,154,0,3,5,0
+nr7jlx,"Transaction inspection: OP_ACTIVEBYTECODE returns the bytecode currently being evaluated (check size) (nonP2SH)",217,49,2,1,47,37600,0,1,0,164,0,6,19,0
+t30qu6,"Transaction inspection: OP_ACTIVEBYTECODE returns the same bytecode each time (without OP_CODESEPARATOR) (nonP2SH)",220,52,2,1,50,40000,0,1,0,175,0,9,45,0
+vdmg35,"Transaction inspection: OP_ACTIVEBYTECODE respects OP_CODESEPARATOR (nonP2SH)",214,50,2,1,44,35200,0,1,0,154,0,7,10,0
+29gpwn,"Transaction inspection: OP_ACTIVEBYTECODE respects a single OP_CODESEPARATOR (includes the OP_EQUALVERIFY) (nonP2SH)",215,50,2,1,45,36000,0,1,0,157,0,7,13,0
+h805gh,"Transaction inspection: OP_ACTIVEBYTECODE returns only the bytecode after the last executed OP_CODESEPARATOR (nonP2SH)",215,52,2,1,45,36000,0,1,0,157,0,9,13,0
+vzrxz7,"Transaction inspection: OP_ACTIVEBYTECODE returns only the bytecode after the last executed OP_CODESEPARATOR (two OP_ACTIVEBYTECODEs) (nonP2SH)",222,55,2,1,52,41600,0,1,0,182,0,13,29,0
+xunrqg,"Transaction inspection: OP_ACTIVEBYTECODE works before and after multiple OP_CODESEPARATORs (nonP2SH)",242,55,2,1,72,57600,0,2,0,252,0,15,58,0
+pettp6,"Transaction inspection: "OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working nonP2SH) (nonP2SH)",212,48,2,1,42,33600,0,1,0,147,0,5,11,0
+25txyz,"Transaction inspection: OP_TXVERSION (version == 1) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+s5e0z9,"Transaction inspection: OP_TXVERSION (version == 2) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+0ewkd9,"Transaction inspection: OP_TXINPUTCOUNT (2 inputs) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+vcd6xs,"Transaction inspection: OP_TXINPUTCOUNT (1 input) (nonP2SH)",127,13,1,0,98,78400,0,2,0,343,0,5,58,0
+39jm74,"Transaction inspection: OP_TXINPUTCOUNT (3 inputs) (nonP2SH)",353,80,3,2,42,33600,0,1,0,147,0,3,3,0
+n72are,"Transaction inspection: OP_TXINPUTCOUNT (10 inputs) (nonP2SH)",1340,318,10,9,42,33600,0,1,0,147,0,3,3,0
+8vsjsx,"Transaction inspection: OP_TXINPUTCOUNT (101 inputs) (nonP2SH)",4372,3212,101,0,43,34400,0,1,0,150,0,3,3,0
+0uvvlt,"Transaction inspection: OP_TXOUTPUTCOUNT (1 output) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+ry29px,"Transaction inspection: OP_TXOUTPUTCOUNT (2 outputs) (nonP2SH)",231,46,2,1,42,33600,0,1,0,147,0,3,3,0
+av85n4,"Transaction inspection: OP_TXOUTPUTCOUNT (3 outputs) (nonP2SH)",250,46,2,1,42,33600,0,1,0,147,0,3,3,0
+43xees,"Transaction inspection: OP_TXOUTPUTCOUNT (20 outputs) (nonP2SH)",574,46,2,1,43,34400,0,1,0,150,0,3,3,0
+jp0ase,"Transaction inspection: OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit) (nonP2SH)",2094,46,2,1,43,34400,0,1,0,150,0,3,3,0
+4y85zq,"Transaction inspection: OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit) (P2SH20)",2097,67,2,1,46,36800,0,1,0,161,2,7,46,0
+tag2ez,"Transaction inspection: OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit) (P2SH32)",2097,79,2,1,46,36800,0,1,0,161,2,7,70,0
+xd4ry6,"Transaction inspection: OP_TXLOCKTIME (locktime == 0) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,1,0
+dmvctx,"Transaction inspection: OP_TXLOCKTIME (locktime == 1) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+2cw7lu,"Transaction inspection: OP_TXLOCKTIME (locktime == 2) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+attl48,"Transaction inspection: OP_TXLOCKTIME (locktime == 499999999, the maximum block height) (nonP2SH)",216,46,2,1,46,36800,0,1,0,161,0,3,9,0
+rdt6js,"Transaction inspection: OP_TXLOCKTIME (locktime == 500000000, the minimum UNIX timestamp) (nonP2SH)",216,46,2,1,46,36800,0,1,0,161,0,3,9,0
+2h5dn4,"Transaction inspection: OP_TXLOCKTIME (locktime == 4294967294) (nonP2SH)",217,46,2,1,47,37600,0,1,0,164,0,3,11,0
+t8rgkd,"Transaction inspection: OP_TXLOCKTIME (locktime == 4294967295) (nonP2SH)",217,46,2,1,47,37600,0,1,0,164,0,3,11,0
+jakr9r,"Transaction inspection: OP_UTXOVALUE (10000) (nonP2SH)",215,46,2,1,45,36000,0,1,0,157,0,4,5,0
+cjefs8,"Transaction inspection: OP_UTXOVALUE (ignore result) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,3,0
+8xje5g,"Transaction inspection: OP_UTXOVALUE (ignore result, index 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,4,0
+dzmfuc,"Transaction inspection: OP_UTXOVALUE (10000; input 1) (nonP2SH)",215,46,2,1,45,36000,0,1,0,157,0,4,6,0
+3fmhmt,"Transaction inspection: OP_UTXOVALUE (123456; input 101) (nonP2SH)",4376,3212,101,0,47,37600,0,1,0,164,0,4,8,0
+02lwue,"Transaction inspection: OP_UTXOVALUE (1.23456789 BCH) (nonP2SH)",100,12,1,0,47,37600,0,1,0,164,0,4,9,0
+3dlj0s,"Transaction inspection: OP_UTXOVALUE (21,000,000 BCH) (nonP2SH)",100,12,1,0,50,40000,0,1,0,175,0,4,15,0
+cunvwv,"Transaction inspection: OP_UTXOBYTECODE (<<1> OP_UTXOBYTECODE OP_EQUAL>; nonP2SH) (nonP2SH)",215,47,2,1,45,36000,0,1,0,157,0,4,8,0
+fmrs9n,"Transaction inspection: OP_UTXOBYTECODE (<simple p2pkh output>; input 0) (nonP2SH)",237,47,2,1,67,53600,0,2,0,234,0,4,51,0
+jde2za,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,26,0
+6k3s5s,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,5,0
+l03ud7,"Transaction inspection: OP_UTXOBYTECODE (maximum size UTXO bytecode) (nonP2SH)",736,566,2,1,564,451200,0,13,0,1974,0,6,1555,0
+w74278,"Transaction inspection: OP_UTXOBYTECODE (ignore result, not excessive size) (nonP2SH)",212,566,2,1,42,33600,0,1,0,147,0,6,1035,0
+tuneu5,"Transaction inspection: multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs) (nonP2SH)",2282,672,50,0,97,77600,0,2,0,339,0,31,111,0
+x5sef2,"Transaction inspection: OP_OUTPOINTTXHASH (input 0) (nonP2SH)",244,47,2,1,74,59200,0,2,0,259,0,4,65,0
+n3f20k,"Transaction inspection: OP_OUTPOINTTXHASH (input 1) (nonP2SH)",244,47,2,1,74,59200,0,2,0,259,0,4,66,0
+4sxq34,"Transaction inspection: OP_OUTPOINTTXHASH returns in OP_HASH256 order (genesis block) (nonP2SH)",146,45,2,0,74,59200,0,2,0,259,0,4,66,0
+y979k0,"Transaction inspection: OP_OUTPOINTTXHASH (input 1, 0x00...01) (nonP2SH)",146,45,2,0,74,59200,0,2,0,259,0,4,66,0
+0cexhu,"Transaction inspection: OP_OUTPOINTTXHASH (ignore result, input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,33,0
+9afauh,"Transaction inspection: OP_OUTPOINTTXHASH (ignore result, input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,34,0
+ryhfv4,"Transaction inspection: OP_OUTPOINTTXHASH (ignore result, input 2) (nonP2SH)",157,77,3,0,42,33600,0,1,0,147,0,4,34,0
+vqgc6t,"Transaction inspection: multiple OP_OUTPOINTTXHASHs (50 inputs) (nonP2SH)",2181,1607,50,0,45,36000,0,1,0,157,0,31,336,0
+vsvwc4,"Transaction inspection: OP_OUTPOINTINDEX (input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,1,0
+cja2u8,"Transaction inspection: OP_OUTPOINTINDEX (input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,4,0
+yqt4dm,"Transaction inspection: OP_OUTPOINTINDEX (input 1, 1) (nonP2SH)",114,45,2,0,42,33600,0,1,0,147,0,4,4,0
+ua7hqm,"Transaction inspection: OP_OUTPOINTINDEX (ignore result, input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,1,0
+0lmwz3,"Transaction inspection: OP_OUTPOINTINDEX (ignore result, input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,3,0
+gmj6fr,"Transaction inspection: OP_OUTPOINTINDEX (ignore result, input 2) (nonP2SH)",157,77,3,0,42,33600,0,1,0,147,0,4,3,0
+plrnmx,"Transaction inspection: multiple OP_OUTPOINTINDEXs (50 inputs) (nonP2SH)",2181,1597,50,0,45,36000,0,1,0,157,0,21,18,0
+cuj3f6,"Transaction inspection: OP_INPUTBYTECODE (input 0) (nonP2SH)",212,148,2,1,42,33600,0,1,0,147,0,4,201,0
+3cxn95,"Transaction inspection: OP_INPUTBYTECODE (self, nonP2SH) (nonP2SH)",212,48,2,1,42,33600,0,1,0,147,0,4,4,0
+fnv6e2,"Transaction inspection: OP_INPUTBYTECODE (self, empty input bytecode, nonP2SH) (nonP2SH)",211,48,2,1,41,32800,0,1,0,143,0,4,2,0
+pcdw0e,"Transaction inspection: OP_INPUTBYTECODE (ignore result, input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,101,0
+c5awxf,"Transaction inspection: OP_INPUTBYTECODE (ignore result, input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,3,0
+vwkf2w,"Transaction inspection: OP_INPUTBYTECODE (ignore result, input 2) (nonP2SH)",157,77,3,0,42,33600,0,1,0,147,0,4,4,0
+faml9w,"Transaction inspection: multiple OP_INPUTBYTECODEs (50 inputs) (nonP2SH)",2507,1596,50,0,77,61600,0,2,0,269,0,21,145,0
+qpxh9r,"Transaction inspection: OP_INPUTBYTECODE (maximum size) (nonP2SH)",733,573,2,1,561,448800,0,13,0,1963,0,6,1560,0
+xuwehz,"Transaction inspection: OP_INPUTBYTECODE (ignore result, not 2023 excessive size) (nonP2SH)",728,48,2,1,556,444800,0,13,0,1946,0,6,1028,0
+04cve3,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,1,0
+9t6a7n,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,2,0
+xrlunk,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 1, 1) (nonP2SH)",114,45,2,0,42,33600,0,1,0,147,0,4,4,0
+5jmq5u,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 0 sequence number: 4294967295; disables locktime support) (nonP2SH)",119,45,2,0,47,37600,0,1,0,164,0,4,11,0
+62d46n,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 0 sequence number: 4294967294; locktime not disabled) (nonP2SH)",119,48,2,0,47,37600,0,1,0,164,0,7,12,0
+e8dxwq,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 1 sequence number: 4294967295; disables locktime support) (nonP2SH)",119,45,2,0,47,37600,0,1,0,164,0,4,12,0
+pnencr,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 1 sequence number: 4294967294; locktime enabled) (nonP2SH)",119,48,2,0,47,37600,0,1,0,164,0,7,13,0
+j3udym,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 1 sequence number: 4294967295; locktime is disabled for input 1, but remains enabled for input 0) (nonP2SH)",119,48,2,0,47,37600,0,1,0,164,0,7,13,0
+sp6awd,"Transaction inspection: OP_INPUTSEQUENCENUMBER (ignore result, input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,1,0
+2e0ln4,"Transaction inspection: OP_INPUTSEQUENCENUMBER (ignore result, input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,2,0
+y7gxp8,"Transaction inspection: OP_INPUTSEQUENCENUMBER (ignore result, input 2) (nonP2SH)",157,77,3,0,42,33600,0,1,0,147,0,4,2,0
+eh3pcp,"Transaction inspection: multiple OP_INPUTSEQUENCENUMBERs (50 inputs) (nonP2SH)",2181,1597,50,0,45,36000,0,1,0,157,0,21,18,0
+wtd0wj,"Transaction inspection: OP_OUTPUTVALUE (output 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,1,0
+rwzx65,"Transaction inspection: OP_OUTPUTVALUE (output 0, 10_000) (nonP2SH)",207,47,2,1,44,35200,0,1,0,154,0,4,5,0
+m9f8pl,"Transaction inspection: OP_OUTPUTVALUE (ignore result, output 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,1,0
+0fv9yu,"Transaction inspection: OP_OUTPUTVALUE (ignore result, output 2) (nonP2SH)",229,47,2,1,42,33600,0,1,0,147,0,4,4,0
+l70srw,"Transaction inspection: multiple OP_OUTPUTVALUEs (50 inputs) (nonP2SH)",1554,62,2,1,53,42400,0,1,0,185,0,21,29,0
+dvfcwh,"Transaction inspection: OP_OUTPUTVALUE (1.23456789 BCH) (nonP2SH)",209,46,2,1,47,37600,0,1,0,164,0,4,9,0
+pfxkrc,"Transaction inspection: OP_OUTPUTVALUE (21,000,000 BCH) (nonP2SH)",71,12,1,0,50,40000,0,1,0,175,0,4,15,0
+3cdqpj,"Transaction inspection: OP_OUTPUTBYTECODE (output 0) (nonP2SH)",222,47,2,1,52,41600,0,1,0,182,0,4,21,0
+qa3wgq,"Transaction inspection: OP_OUTPUTBYTECODE (output 0, <OP_RETURN>) (nonP2SH)",204,47,2,1,43,34400,0,1,0,150,0,4,3,0
+cvw4n4,"Transaction inspection: OP_OUTPUTBYTECODE, OP_CODESEPARATOR has no effect (output 0, <OP_DROP OP_CODESEPARATOR <1>>) (nonP2SH)",208,48,2,1,45,36000,0,1,0,157,0,5,7,0
+tadr4j,"Transaction inspection: OP_OUTPUTBYTECODE, OP_CODESEPARATOR has no effect (output 0, <OP_DROP OP_CODESEPARATOR <1>>) (P2SH20)",213,67,2,1,50,40000,0,1,0,175,2,9,52,0
+wfkr37,"Transaction inspection: OP_OUTPUTBYTECODE, OP_CODESEPARATOR has no effect (output 0, <OP_DROP OP_CODESEPARATOR <1>>) (P2SH32)",213,79,2,1,50,40000,0,1,0,175,2,9,76,0
+tgfset,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, output 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,11,0
+zjx66s,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, output 2) (nonP2SH)",229,47,2,1,42,33600,0,1,0,147,0,4,5,0
+h3sy2t,"Transaction inspection: multiple OP_OUTPUTBYTECODEs (50 inputs) (nonP2SH)",788,62,2,1,54,43200,0,1,0,189,0,21,31,0
+qv9a03,"Transaction inspection: OP_OUTPUTBYTECODE (maximum size) (nonP2SH)",1248,47,2,1,564,451200,0,13,0,1974,0,4,1041,0
+tm0j3u,"Transaction inspection: OP_OUTPUTBYTECODE (maximum size) (P2SH20)",1252,67,2,1,568,454400,0,13,0,1988,2,8,1085,0
+236zhk,"Transaction inspection: OP_OUTPUTBYTECODE (maximum size) (P2SH32)",1252,79,2,1,568,454400,0,13,0,1988,2,8,1109,0
+glj96c,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, not 2023 excessive size) (nonP2SH)",724,47,2,1,42,33600,0,1,0,147,0,4,521,0
+7a3f28,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, not 2023 excessive size) (P2SH20)",728,67,2,1,46,36800,0,1,0,161,2,8,565,0
+8jcu48,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, not 2023 excessive size) (P2SH32)",728,79,2,1,46,36800,0,1,0,161,2,8,589,0

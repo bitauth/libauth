@@ -1,5 +1,17 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.1
+
+### Minor Changes
+
+- [#144](https://github.com/bitauth/libauth/pull/144) [`cad78dd`](https://github.com/bitauth/libauth/commit/cad78dd3cb59bae50db9c28bf3c0ac10c7ce78fd) Thanks [@bitjson](https://github.com/bitjson)! - Add combinatorial VMB test sets for arithmetic, hashing, and signature checking
+
+- [#144](https://github.com/bitauth/libauth/pull/144) [`cad78dd`](https://github.com/bitauth/libauth/commit/cad78dd3cb59bae50db9c28bf3c0ac10c7ce78fd) Thanks [@bitjson](https://github.com/bitjson)! - Rewrite VMB test tooling for parallel and incremental generation, benchmarking
+
+### Patch Changes
+
+- [#144](https://github.com/bitauth/libauth/pull/144) [`cad78dd`](https://github.com/bitauth/libauth/commit/cad78dd3cb59bae50db9c28bf3c0ac10c7ce78fd) Thanks [@bitjson](https://github.com/bitjson)! - Refactor BCH VMs for correctness and clarity
+
 ## 3.1.0-next.0
 
 ### Minor Changes

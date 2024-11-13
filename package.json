@@ -80,7 +80,7 @@
     "cov:html": "c8 report --reporter=html",
     "cov:lcov": "c8 report --reporter=lcov",
     "doc": "yarn doc:html && yarn doc:html && open-cli build/docs/index.html",
-    "doc:logo": "cpy assets/libauth.svg build/docs",
+    "doc:assets": "cp assets/libauth.svg build/docs/assets/libauth.svg && mkdir build/docs/schemas && cp assets/schemas/wallet-template-v0.schema.json build/docs/schemas/wallet-template-v0.schema.json",
     "doc:html": "typedoc src/index.ts --out build/docs",
     "doc:next": "yarn build && yarn doc:extract && yarn doc:generate",
     "doc:extract": "mkdir -p build/api && api-extractor run --local --typescript-compiler-folder node_modules/typescript",

@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18, 20, latest]
+        node-version: [18, 20, 22]
         runner_index: [0, 1, 2, 3]
         runners_per_version: [4]
     name: Test Node ${{ matrix.node-version }} (${{ matrix.runner_index }})

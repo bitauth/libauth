@@ -8,12 +8,37 @@ import {
   encodePrivateKeyWif,
   hexToBin,
   sha256 as internalSha256,
+  WalletImportFormatError,
 } from '../lib.js';
 
 test('decodePrivateKeyWif: pass through errors', (t) => {
   t.deepEqual(
     decodePrivateKeyWif('not a key'),
     `${Base58AddressError.unknownCharacter} ${BaseConversionError.unknownCharacter} Unknown character: " ".`,
+  );
+});
+
+test('decodePrivateKeyWif: invalid version (base58/legacy address)', (t) => {
+  t.deepEqual(
+    // cspell: disable-next-line
+    decodePrivateKeyWif('1CQbfkN8cADaJWk29ARtaa55UNdBa1kLaA'),
+    WalletImportFormatError.invalidVersion,
+  );
+});
+
+test('decodePrivateKeyWif: incorrect length (mainnet wif version, 20 bytes)', (t) => {
+  t.deepEqual(
+    // cspell: disable-next-line
+    decodePrivateKeyWif('tWGD2u9st6K9gUr68hdo53qhZZyk3JoQAF'),
+    WalletImportFormatError.incorrectLength,
+  );
+});
+
+test('decodePrivateKeyWif: incorrect length (testnet wif version, 20 bytes)', (t) => {
+  t.deepEqual(
+    // cspell: disable-next-line
+    decodePrivateKeyWif('2fAnAKxErh7kQTbKhrGcAty42RZaSyLdLhp'),
+    WalletImportFormatError.incorrectLength,
   );
 });
 

@@ -8,6 +8,7 @@ import type { Sha256 } from '../lib.js';
 
 export enum WalletImportFormatError {
   incorrectLength = 'The WIF private key payload is not the correct length.',
+  invalidVersion = 'The WIF private key does not have a valid version',
 }
 
 /**
@@ -89,9 +90,20 @@ export const decodePrivateKeyWif = (
   wifKey: string,
   sha256: { hash: Sha256['hash'] } = internalSha256,
 ) => {
+  const uncompressedPayloadLength = 32;
   const compressedPayloadLength = 33;
   const decoded = decodeBase58AddressFormat(wifKey, sha256);
   if (typeof decoded === 'string') return decoded;
+  if (
+    decoded.version !== Base58AddressFormatVersion.wif &&
+    decoded.version !== Base58AddressFormatVersion.wifTestnet
+  )
+    return WalletImportFormatError.invalidVersion;
+  if (
+    decoded.payload.length !== uncompressedPayloadLength &&
+    decoded.payload.length !== compressedPayloadLength
+  )
+    return WalletImportFormatError.incorrectLength;
   const mainnet = decoded.version === Base58AddressFormatVersion.wif;
   const compressed = decoded.payload.length === compressedPayloadLength;
   const privateKey = compressed

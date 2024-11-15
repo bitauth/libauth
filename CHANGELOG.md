@@ -1,5 +1,33 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.2
+
+### Minor Changes
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Extend AuthenticationErrorCommon with all transaction verification errors
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Add support for warnings in VMB test generation
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Add support for verifying VMB tests against BCHN metrics and fail reasons
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Prevent excessive hashing in null-signature CHECKMULTISIG
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Submodule BCHN and extend package scripts to verify VMB tests
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Expand VMB test coverage
+
+### Patch Changes
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Fix operation cost in OP_SIZE
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Move VMB test duplication checking to start of generation
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Fix operation cost in OP_NIP
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Fix operation cost in OP_ROLL
+
+- [#148](https://github.com/bitauth/libauth/pull/148) [`76879be`](https://github.com/bitauth/libauth/commit/76879be3f74b8b4829c2100e7a2954eb845ad7d8) Thanks [@bitjson](https://github.com/bitjson)! - Fix bug in isMinimalDataPush for OP_PUSHBYTES_1
+
 ## 3.1.0-next.1
 
 ### Minor Changes

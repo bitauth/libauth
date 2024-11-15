@@ -5,20 +5,31 @@
     "@bitauth/libauth": "3.0.0"
   },
   "changesets": [
+    "breezy-tables-enjoy",
+    "clean-adults-explain",
     "cold-cups-eat",
     "curvy-pandas-agree",
+    "eight-mirrors-arrive",
+    "fair-zoos-tap",
     "famous-spies-drive",
+    "fast-ghosts-fix",
     "great-ducks-roll",
     "happy-insects-wait",
     "itchy-dancers-confess",
     "long-hairs-jam",
+    "modern-cobras-drop",
     "nervous-carrots-punch",
+    "nice-flies-listen",
     "orange-suits-impress",
+    "quiet-ducks-sneeze",
     "seven-ligers-drum",
+    "shaggy-monkeys-tell",
+    "short-cars-cheat",
     "sixty-brooms-shout",
     "sour-ties-allow",
     "twelve-suns-protect",
     "two-peas-give",
-    "unlucky-windows-remember"
+    "unlucky-windows-remember",
+    "wet-pans-confess"
   ]
 }

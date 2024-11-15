@@ -4,7 +4,6 @@ export enum AuthenticationErrorBch2026Additions {
   unexpectedUntil = 'Encountered an OP_UNTIL that is not following a matching OP_BEGIN.',
   unexpectedUntilMissingEndIf = 'Encountered an OP_UNTIL before the previous OP_IF was closed by an OP_ENDIF.',
   excessiveLooping = 'Program attempted an OP_UNTIL operation that would exceed the limit of repeated bytes.',
-  nonEmptyControlStack = 'The active bytecode completed with a non-empty control stack (missing `OP_ENDIF` or `OP_UNTIL`).',
 }
 
 /**

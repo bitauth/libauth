@@ -112,13 +112,14 @@ const testSetOverrideListBch = [
   ['chip_bigint', 'nonstandard', 'nop2sh_invalid'],
   ['chip_bigint', 'nonstandard', 'p2sh_invalid'],
   ['chip_bigint', 'nop2sh_invalid'],
-  ['spec'],
   ['2023_invalid'],
   ['2023_invalid', '2025_nonstandard', 'p2sh_ignore'],
   ['2023_invalid', 'nop2sh_ignore'],
   ['2023_invalid', 'nop2sh_ignore', 'p2sh20_ignore'],
   ['2023_invalid', 'nop2sh_ignore', 'p2sh32_ignore'],
+  ['2023_invalid', 'nop2sh_invalid'],
   ['2023_invalid', 'p2sh_ignore'],
+  ['2023_invalid', 'p2sh_invalid'],
   ['2023_p2sh_invalid'],
   ['chip_loops_invalid'],
   ['chip_loops'],
@@ -132,6 +133,7 @@ const testSetOverrideListBch = [
   ['invalid', 'p2sh_standard'],
   ['invalid', 'p2sh20_standard'],
   ['invalid', 'p2sh32_standard'],
+  ['invalid', 'spec'],
   ['invalid'],
   ['nop2sh_ignore'],
   ['nop2sh_ignore', 'p2sh32_ignore'],
@@ -141,6 +143,7 @@ const testSetOverrideListBch = [
   ['nop2sh_invalid', '2023_nop2sh_nonstandard'],
   ['nop2sh_standard'],
   ['nop2sh_standard', 'p2sh_ignore'],
+  ['nop2sh_standard', 'p2sh_ignore', 'spec'],
   ['nonstandard'],
   ['nonstandard', '2023_invalid'],
   ['nonstandard', '2023_invalid', 'p2sh_ignore'],
@@ -234,11 +237,33 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
+  '2023_invalid,nop2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
   '2023_invalid,p2sh_ignore': [
     {
       mode: 'nonP2SH',
       sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
+  ],
+  '2023_invalid,p2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   '2023_p2sh_invalid': [
     {
@@ -431,6 +456,25 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_standard', '2025_standard', '2026_standard'],
     },
   ],
+  'invalid,spec': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2023_invalid',
+        '2025_invalid',
+        '2026_invalid',
+        'spec_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid', 'spec_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid', 'spec_standard'],
+    },
+  ],
   nonstandard: [
     {
       mode: 'nonP2SH',
@@ -601,6 +645,17 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_standard', '2025_standard', '2026_standard'],
     },
   ],
+  'nop2sh_standard,p2sh_ignore,spec': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2023_standard',
+        '2025_standard',
+        '2026_standard',
+        'spec_standard',
+      ],
+    },
+  ],
   p2sh32_nonstandard: [
     {
       mode: 'nonP2SH',
@@ -628,15 +683,6 @@ export const supportedTestSetOverridesBch: {
     },
     { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
     { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-  ],
-  /**
-   * `spec_*` values exclude the marked test from
-   * {@link vmbTestDefinitionDefaultBehaviorBch}.
-   */
-  spec: [
-    { mode: 'nonP2SH', sets: ['spec_nonstandard'] },
-    { mode: 'P2SH20', sets: ['spec_standard'] },
-    { mode: 'P2SH32', sets: ['spec_standard'] },
   ],
   /* eslint-enable camelcase */
 };
@@ -759,6 +805,11 @@ export const vmbTestDefinitionToVmbTests = (
     },
     scripts: {
       ...additionalScripts,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      LIB_REPEAT: {
+        script:
+          '/* usage: <$( <pattern> <repeat_count> LIB_REPEAT )> */ <> OP_SWAP OP_BEGIN OP_1SUB OP_TOALTSTACK OP_OVER OP_CAT OP_FROMALTSTACK OP_IFDUP OP_NOT OP_UNTIL OP_NIP',
+      },
       lockBareMultisig1of3: {
         lockingType: 'standard',
         script:
@@ -970,9 +1021,14 @@ export const mapTestCases = (
   ],
   combinations: TestValues[],
   {
+    additionalScripts,
     prefixAsHexLiterals = false,
     scenario,
-  }: { prefixAsHexLiterals?: boolean; scenario?: WalletTemplateScenario } = {},
+  }: {
+    additionalScripts?: WalletTemplate['scripts'];
+    prefixAsHexLiterals?: boolean;
+    scenario?: WalletTemplateScenario;
+  } = {},
 ): VmbTestDefinition[] =>
   combinations.map((values) => {
     const replace = (template: string, useLabel = false) =>
@@ -990,6 +1046,7 @@ export const mapTestCases = (
       replace(templates[2], true),
       [],
       scenario,
+      additionalScripts,
     ];
   });
 
@@ -1007,10 +1064,16 @@ export const generateTestCases = (
     description: string,
   ],
   possibleValues: PossibleTestValue[][],
-  { scenario }: { scenario?: WalletTemplateScenario } = {},
+  {
+    additionalScripts,
+    scenario,
+  }: {
+    additionalScripts?: WalletTemplate['scripts'];
+    scenario?: WalletTemplateScenario;
+  } = {},
 ): VmbTestDefinition[] => {
   const combinations = generateCombinations(possibleValues);
-  return mapTestCases(templates, combinations, { scenario });
+  return mapTestCases(templates, combinations, { additionalScripts, scenario });
 };
 
 type TestSetOverrideListBchIndex = 3;

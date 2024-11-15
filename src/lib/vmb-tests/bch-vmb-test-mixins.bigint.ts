@@ -56,14 +56,7 @@ export const unaryOpcodes: PossibleTestValue[] = [
   'OP_0NOTEQUAL',
 ].map((value) => [value, value]);
 export const binaryOpcodes: PossibleTestValue[] = [
-  'OP_BIN2NUM',
   'OP_NUM2BIN',
-  'OP_1ADD',
-  'OP_1SUB',
-  'OP_NEGATE',
-  'OP_ABS',
-  'OP_NOT',
-  'OP_0NOTEQUAL',
   'OP_ADD',
   'OP_SUB',
   'OP_BOOLAND',
@@ -164,6 +157,15 @@ export const negateTests = appendUnaryNumericResult(
 export const absTests = appendUnaryNumericResult(
   benchmarkNumberPossibilitiesAll,
   (value) => (value < 0n ? -value : value),
+);
+export const notTests = appendUnaryNumericResult(
+  benchmarkNumberPossibilitiesAll,
+  (value) => (value === 0n ? 1n : 0n),
+);
+export const zeroNotEqualTests = appendUnaryNumericResult(
+  benchmarkNumberPossibilitiesAll,
+  // eslint-disable-next-line no-negated-condition
+  (value) => (value !== 0n ? 1n : 0n),
 );
 
 /**

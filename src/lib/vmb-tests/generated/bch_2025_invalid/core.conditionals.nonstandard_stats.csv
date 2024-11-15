@@ -1,25 +1,448 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-fpfl30,"Conditionals: Unbalanced OP_IF in unlocking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,150,0,0,0,0
-8f98cw,"Conditionals: Unbalanced OP_IF in unlocking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,157,0,0,0,0
-u3w96q,"Conditionals: Unbalanced OP_IF in unlocking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,157,0,0,0,0
-vg66hh,"Conditionals: Unbalanced OP_IF, must OP_ENDIF in active bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,0,0,0
-ezzaau,"Conditionals: Unbalanced OP_IF, must OP_ENDIF in active bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,0,0,0,0
-mxs73l,"Conditionals: Unbalanced OP_IF, must OP_ENDIF in active bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,0,0,0,0
-uqtll6,"Conditionals: Unbalanced OP_IF in locking bytecode (nonP2SH)",212,46,2,1,42,33600,202,1,0,147,0,3,2,0
-dg2j60,"Conditionals: Unbalanced OP_IF in locking bytecode (P2SH20)",215,67,2,1,45,36000,773,1,0,157,2,7,45,0
-d5q4xr,"Conditionals: Unbalanced OP_IF in locking bytecode (P2SH32)",215,79,2,1,45,36000,797,1,0,157,2,7,69,0
-f0g78n,"Conditionals: Unbalanced OP_NOTIF in unlocking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,150,0,0,0,0
-ceu5j6,"Conditionals: Unbalanced OP_NOTIF in unlocking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,157,0,0,0,0
-eehfcr,"Conditionals: Unbalanced OP_NOTIF in unlocking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,157,0,0,0,0
-57ll59,"Conditionals: Unbalanced OP_NOTIF, must OP_ENDIF in active bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,0,0,0
-e3jnf6,"Conditionals: Unbalanced OP_NOTIF, must OP_ENDIF in active bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,0,0,0,0
-xg8638,"Conditionals: Unbalanced OP_NOTIF, must OP_ENDIF in active bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,0,0,0,0
-wh55s4,"Conditionals: Unbalanced OP_NOTIF in locking bytecode (nonP2SH)",212,46,2,1,42,33600,201,1,0,147,0,3,1,0
-dsgxqn,"Conditionals: Unbalanced OP_NOTIF in locking bytecode (P2SH20)",215,67,2,1,45,36000,772,1,0,157,2,7,44,0
-7zjcv2,"Conditionals: Unbalanced OP_NOTIF in locking bytecode (P2SH32)",215,79,2,1,45,36000,796,1,0,157,2,7,68,0
-jk6v9s,"Conditionals: unbalanced OP_IF fails evaluation even if not executed (nonP2SH)",212,49,2,1,42,33600,500,1,0,147,0,6,0,0
-0h44a0,"Conditionals: unbalanced OP_IF fails evaluation even if not executed (P2SH20)",218,67,2,1,48,38400,1074,1,0,168,2,10,46,0
-luttrs,"Conditionals: unbalanced OP_IF fails evaluation even if not executed (P2SH32)",218,79,2,1,48,38400,1098,1,0,168,2,10,70,0
-m9x5hk,"Conditionals: unbalanced OP_NOTIF fails evaluation even if not executed (nonP2SH)",212,49,2,1,42,33600,500,1,0,147,0,6,0,0
-7veme6,"Conditionals: unbalanced OP_NOTIF fails evaluation even if not executed (P2SH20)",218,67,2,1,48,38400,1074,1,0,168,2,10,46,0
-8nvwna,"Conditionals: unbalanced OP_NOTIF fails evaluation even if not executed (P2SH32)",218,79,2,1,48,38400,1098,1,0,168,2,10,70,0
+f7dkt5,"Conditionals: zero OP_IF (accept) (nonP2SH)",212,47,2,1,42,33600,400,1,0,147,0,4,0,0
+f04wf7,"Conditionals: zero OP_IF (accept) (P2SH20)",216,67,2,1,46,36800,972,1,0,161,2,8,44,0
+f2u2w7,"Conditionals: zero OP_IF (accept) (P2SH32)",216,79,2,1,46,36800,996,1,0,161,2,8,68,0
+rsrhhj,"Conditionals: zero OP_IF (reject) (nonP2SH)",212,47,2,1,42,33600,400,1,0,147,0,4,0,0
+2trhh0,"Conditionals: zero OP_IF (reject) (P2SH20)",216,67,2,1,46,36800,972,1,0,161,2,8,44,0
+mzx0l5,"Conditionals: zero OP_IF (reject) (P2SH32)",216,79,2,1,46,36800,996,1,0,161,2,8,68,0
+2w25g2,"Conditionals: padded zero OP_IF (accept) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+h7trf9,"Conditionals: padded zero OP_IF (accept) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+frn25l,"Conditionals: padded zero OP_IF (accept) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+dfgzl3,"Conditionals: padded zero OP_IF (reject) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+qceuz6,"Conditionals: padded zero OP_IF (reject) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+0mvd3l,"Conditionals: padded zero OP_IF (reject) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+fatxz9,"Conditionals: negative zero OP_IF (accept) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+d5lgpn,"Conditionals: negative zero OP_IF (accept) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+qhyjn9,"Conditionals: negative zero OP_IF (accept) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+p87f49,"Conditionals: negative zero OP_IF (reject) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+gphcys,"Conditionals: negative zero OP_IF (reject) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+yzhanr,"Conditionals: negative zero OP_IF (reject) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+vhp3qg,"Conditionals: padded negative zero OP_IF (accept) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+kua2rj,"Conditionals: padded negative zero OP_IF (accept) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+uua0s8,"Conditionals: padded negative zero OP_IF (accept) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+4u5d53,"Conditionals: padded negative zero OP_IF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+m2sawh,"Conditionals: padded negative zero OP_IF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+tw98gx,"Conditionals: padded negative zero OP_IF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+f7m4uj,"Conditionals: one OP_IF (reject) (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+cc9404,"Conditionals: one OP_IF (reject) (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+qhu4x4,"Conditionals: one OP_IF (reject) (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+6n7te2,"Conditionals: padded one OP_IF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+a9dhul,"Conditionals: padded one OP_IF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+0r8gm0,"Conditionals: padded one OP_IF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+a0k2c9,"Conditionals: negative one OP_IF (reject) (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+uc5hae,"Conditionals: negative one OP_IF (reject) (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+ad8szl,"Conditionals: negative one OP_IF (reject) (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+eapqmy,"Conditionals: padded negative one OP_IF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+kwcxdd,"Conditionals: padded negative one OP_IF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+d8t2qh,"Conditionals: padded negative one OP_IF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+gmpen3,"Conditionals: padded zero (520 bytes) OP_IF (accept) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+p0zlvh,"Conditionals: padded zero (520 bytes) OP_IF (accept) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+at7wxs,"Conditionals: padded zero (520 bytes) OP_IF (accept) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+k9jx3g,"Conditionals: padded zero (520 bytes) OP_IF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+lxxnr7,"Conditionals: padded zero (520 bytes) OP_IF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+y539vm,"Conditionals: padded zero (520 bytes) OP_IF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+5uhjv9,"Conditionals: padded negative zero (520 bytes) OP_IF (accept) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+xq242c,"Conditionals: padded negative zero (520 bytes) OP_IF (accept) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+4pnqaj,"Conditionals: padded negative zero (520 bytes) OP_IF (accept) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+khfkh9,"Conditionals: padded negative zero (520 bytes) OP_IF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+fgj2dd,"Conditionals: padded negative zero (520 bytes) OP_IF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+vl3xs6,"Conditionals: padded negative zero (520 bytes) OP_IF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+pgvrkw,"Conditionals: padded zero (521 bytes) OP_IF (accept) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+tz6vp4,"Conditionals: padded zero (521 bytes) OP_IF (accept) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+3k5lnw,"Conditionals: padded zero (521 bytes) OP_IF (accept) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+0dmjr0,"Conditionals: padded zero (521 bytes) OP_IF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+2wtc8w,"Conditionals: padded zero (521 bytes) OP_IF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+5py7v6,"Conditionals: padded zero (521 bytes) OP_IF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+24f4rp,"Conditionals: padded negative zero (521 bytes) OP_IF (accept) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+8v8376,"Conditionals: padded negative zero (521 bytes) OP_IF (accept) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+t76crh,"Conditionals: padded negative zero (521 bytes) OP_IF (accept) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+4crxym,"Conditionals: padded negative zero (521 bytes) OP_IF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+l8d6pd,"Conditionals: padded negative zero (521 bytes) OP_IF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+auaj3s,"Conditionals: padded negative zero (521 bytes) OP_IF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+r86er6,"Conditionals: padded one (520 bytes) OP_IF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+kwvcpw,"Conditionals: padded one (520 bytes) OP_IF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+99xzg8,"Conditionals: padded one (520 bytes) OP_IF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+5v8k44,"Conditionals: padded negative one (520 bytes) OP_IF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+t3zvgs,"Conditionals: padded negative one (520 bytes) OP_IF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+x92fh3,"Conditionals: padded negative one (520 bytes) OP_IF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+a0uwpc,"Conditionals: padded one (521 bytes) OP_IF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+enfq7t,"Conditionals: padded one (521 bytes) OP_IF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+lartt5,"Conditionals: padded one (521 bytes) OP_IF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+shydls,"Conditionals: padded negative one (521 bytes) OP_IF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+pduh73,"Conditionals: padded negative one (521 bytes) OP_IF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+exlyuz,"Conditionals: padded negative one (521 bytes) OP_IF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+jlk36n,"Conditionals: <0xff> OP_IF (reject) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+tzcq6h,"Conditionals: <0xff> OP_IF (reject) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+ruxgzc,"Conditionals: <0xff> OP_IF (reject) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+akdr47,"Conditionals: <0xffff> OP_IF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+cgfxw4,"Conditionals: <0xffff> OP_IF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+qnlgga,"Conditionals: <0xffff> OP_IF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+d5z9hp,"Conditionals: 520 bytes of 0xff OP_IF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+xddhd2,"Conditionals: 520 bytes of 0xff OP_IF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+0k8dj4,"Conditionals: 520 bytes of 0xff OP_IF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+r3c8r5,"Conditionals: 521 bytes of 0xff OP_IF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+0q2gh4,"Conditionals: 521 bytes of 0xff OP_IF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+5x7vd5,"Conditionals: 521 bytes of 0xff OP_IF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+46ywqz,"Conditionals: zero OP_NOTIF (reject) (nonP2SH)",212,47,2,1,42,33600,400,1,0,147,0,4,0,0
+30fypt,"Conditionals: zero OP_NOTIF (reject) (P2SH20)",216,67,2,1,46,36800,972,1,0,161,2,8,44,0
+elrac4,"Conditionals: zero OP_NOTIF (reject) (P2SH32)",216,79,2,1,46,36800,996,1,0,161,2,8,68,0
+7wgjfv,"Conditionals: padded zero OP_NOTIF (reject) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+lymzwh,"Conditionals: padded zero OP_NOTIF (reject) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+7xz0kr,"Conditionals: padded zero OP_NOTIF (reject) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+hqzt7x,"Conditionals: negative zero OP_NOTIF (reject) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+kkx74e,"Conditionals: negative zero OP_NOTIF (reject) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+0r2dyu,"Conditionals: negative zero OP_NOTIF (reject) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+mc8gvg,"Conditionals: padded negative zero OP_NOTIF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+vlh02a,"Conditionals: padded negative zero OP_NOTIF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+reajpl,"Conditionals: padded negative zero OP_NOTIF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+duedsm,"Conditionals: one OP_NOTIF (accept) (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+3llfgq,"Conditionals: one OP_NOTIF (accept) (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+aqz998,"Conditionals: one OP_NOTIF (accept) (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+ttxu7y,"Conditionals: one OP_NOTIF (reject) (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+xuwjdd,"Conditionals: one OP_NOTIF (reject) (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+g8gzaw,"Conditionals: one OP_NOTIF (reject) (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+z26yyn,"Conditionals: padded one OP_NOTIF (accept) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+vfhcyj,"Conditionals: padded one OP_NOTIF (accept) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+m2l3pq,"Conditionals: padded one OP_NOTIF (accept) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+ed4g8a,"Conditionals: padded one OP_NOTIF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+pztltr,"Conditionals: padded one OP_NOTIF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+mrytzd,"Conditionals: padded one OP_NOTIF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+ec6rts,"Conditionals: negative one OP_NOTIF (accept) (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+hy5hgq,"Conditionals: negative one OP_NOTIF (accept) (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+qkmpcc,"Conditionals: negative one OP_NOTIF (accept) (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+yx9kz5,"Conditionals: negative one OP_NOTIF (reject) (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+sa3vdd,"Conditionals: negative one OP_NOTIF (reject) (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+a558sf,"Conditionals: negative one OP_NOTIF (reject) (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+cwaqeh,"Conditionals: padded negative one OP_NOTIF (accept) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+mkx3e5,"Conditionals: padded negative one OP_NOTIF (accept) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+zw88lt,"Conditionals: padded negative one OP_NOTIF (accept) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+j72xdj,"Conditionals: padded negative one OP_NOTIF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+w6a6jv,"Conditionals: padded negative one OP_NOTIF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+nq964n,"Conditionals: padded negative one OP_NOTIF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+dtxdmj,"Conditionals: padded zero (520 bytes) OP_NOTIF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+l40rwl,"Conditionals: padded zero (520 bytes) OP_NOTIF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+vsprfu,"Conditionals: padded zero (520 bytes) OP_NOTIF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+3660wf,"Conditionals: padded negative zero (520 bytes) OP_NOTIF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+euyqx4,"Conditionals: padded negative zero (520 bytes) OP_NOTIF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+9c2y2r,"Conditionals: padded negative zero (520 bytes) OP_NOTIF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+txf53e,"Conditionals: padded zero (521 bytes) OP_NOTIF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+ata3gr,"Conditionals: padded zero (521 bytes) OP_NOTIF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+75t624,"Conditionals: padded zero (521 bytes) OP_NOTIF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+ezf8qs,"Conditionals: padded negative zero (521 bytes) OP_NOTIF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+9syh0m,"Conditionals: padded negative zero (521 bytes) OP_NOTIF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+nq4225,"Conditionals: padded negative zero (521 bytes) OP_NOTIF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+vnfhpz,"Conditionals: padded one (520 bytes) OP_NOTIF (accept) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+gegm2u,"Conditionals: padded one (520 bytes) OP_NOTIF (accept) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+gkg2d5,"Conditionals: padded one (520 bytes) OP_NOTIF (accept) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+mn4msk,"Conditionals: padded one (520 bytes) OP_NOTIF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+vyp59c,"Conditionals: padded one (520 bytes) OP_NOTIF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+dq54am,"Conditionals: padded one (520 bytes) OP_NOTIF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+lqmcl5,"Conditionals: padded negative one (520 bytes) OP_NOTIF (accept) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+c67wdl,"Conditionals: padded negative one (520 bytes) OP_NOTIF (accept) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+7q6p4j,"Conditionals: padded negative one (520 bytes) OP_NOTIF (accept) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+rhvs9c,"Conditionals: padded negative one (520 bytes) OP_NOTIF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+m0qvrg,"Conditionals: padded negative one (520 bytes) OP_NOTIF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+ugspv0,"Conditionals: padded negative one (520 bytes) OP_NOTIF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+7tlvmk,"Conditionals: padded one (521 bytes) OP_NOTIF (accept) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+g7xd9m,"Conditionals: padded one (521 bytes) OP_NOTIF (accept) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+42rgky,"Conditionals: padded one (521 bytes) OP_NOTIF (accept) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+yds548,"Conditionals: padded one (521 bytes) OP_NOTIF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+vvkru5,"Conditionals: padded one (521 bytes) OP_NOTIF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+66q03m,"Conditionals: padded one (521 bytes) OP_NOTIF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+nf3feu,"Conditionals: padded negative one (521 bytes) OP_NOTIF (accept) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+rg8p6q,"Conditionals: padded negative one (521 bytes) OP_NOTIF (accept) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+h3pyf9,"Conditionals: padded negative one (521 bytes) OP_NOTIF (accept) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+sshrxu,"Conditionals: padded negative one (521 bytes) OP_NOTIF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+yzxhzm,"Conditionals: padded negative one (521 bytes) OP_NOTIF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+2s3up4,"Conditionals: padded negative one (521 bytes) OP_NOTIF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+katcf8,"Conditionals: <0xff> OP_NOTIF (accept) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+947670,"Conditionals: <0xff> OP_NOTIF (accept) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+nc678r,"Conditionals: <0xff> OP_NOTIF (accept) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+lme7v6,"Conditionals: <0xff> OP_NOTIF (reject) (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+9h6pfr,"Conditionals: <0xff> OP_NOTIF (reject) (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+vq9ah4,"Conditionals: <0xff> OP_NOTIF (reject) (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+rajhxe,"Conditionals: <0xffff> OP_NOTIF (accept) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+5290lh,"Conditionals: <0xffff> OP_NOTIF (accept) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+ny62j9,"Conditionals: <0xffff> OP_NOTIF (accept) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+ltvupf,"Conditionals: <0xffff> OP_NOTIF (reject) (nonP2SH)",214,47,2,1,44,35200,402,1,0,154,0,4,2,0
+44knnu,"Conditionals: <0xffff> OP_NOTIF (reject) (P2SH20)",218,67,2,1,48,38400,974,1,0,168,2,8,46,0
+ye9ugj,"Conditionals: <0xffff> OP_NOTIF (reject) (P2SH32)",218,79,2,1,48,38400,998,1,0,168,2,8,70,0
+yve749,"Conditionals: 520 bytes of 0xff OP_NOTIF (accept) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+0rfgwq,"Conditionals: 520 bytes of 0xff OP_NOTIF (accept) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+hlndgc,"Conditionals: 520 bytes of 0xff OP_NOTIF (accept) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+ax6809,"Conditionals: 520 bytes of 0xff OP_NOTIF (reject) (nonP2SH)",736,47,2,1,564,451200,920,13,0,1974,0,4,520,0
+p2fkf8,"Conditionals: 520 bytes of 0xff OP_NOTIF (reject) (P2SH20)",740,67,2,1,568,454400,1492,13,0,1988,2,8,564,0
+84jsw5,"Conditionals: 520 bytes of 0xff OP_NOTIF (reject) (P2SH32)",740,79,2,1,568,454400,1516,13,0,1988,2,8,588,0
+qg8zkj,"Conditionals: 521 bytes of 0xff OP_NOTIF (accept) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+h8ttnq,"Conditionals: 521 bytes of 0xff OP_NOTIF (accept) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+g056t3,"Conditionals: 521 bytes of 0xff OP_NOTIF (accept) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+qhm3sj,"Conditionals: 521 bytes of 0xff OP_NOTIF (reject) (nonP2SH)",737,47,2,1,565,452000,921,13,0,1977,0,4,521,0
+xzqtel,"Conditionals: 521 bytes of 0xff OP_NOTIF (reject) (P2SH20)",741,67,2,1,569,455200,1493,13,0,1991,2,8,565,0
+qdt7p6,"Conditionals: 521 bytes of 0xff OP_NOTIF (reject) (P2SH32)",741,79,2,1,569,455200,1517,13,0,1991,2,8,589,0
+47pkcq,"Conditionals: zero OP_IFDUP OP_NIP (nonP2SH)",212,46,2,1,42,33600,300,1,0,147,0,3,0,0
+v0ge6t,"Conditionals: zero OP_IFDUP OP_NIP (P2SH20)",215,67,2,1,45,36000,871,1,0,157,2,7,43,0
+4g2aqf,"Conditionals: zero OP_IFDUP OP_NIP (P2SH32)",215,79,2,1,45,36000,895,1,0,157,2,7,67,0
+h3ewz9,"Conditionals: padded zero OP_IFDUP OP_NIP (nonP2SH)",213,46,2,1,43,34400,301,1,0,150,0,3,1,0
+q0sug7,"Conditionals: padded zero OP_IFDUP OP_NIP (P2SH20)",216,67,2,1,46,36800,872,1,0,161,2,7,44,0
+v0hnrp,"Conditionals: padded zero OP_IFDUP OP_NIP (P2SH32)",216,79,2,1,46,36800,896,1,0,161,2,7,68,0
+gww3g8,"Conditionals: negative zero OP_IFDUP OP_NIP (nonP2SH)",213,46,2,1,43,34400,301,1,0,150,0,3,1,0
+h7amct,"Conditionals: negative zero OP_IFDUP OP_NIP (P2SH20)",216,67,2,1,46,36800,872,1,0,161,2,7,44,0
+l46q4m,"Conditionals: negative zero OP_IFDUP OP_NIP (P2SH32)",216,79,2,1,46,36800,896,1,0,161,2,7,68,0
+4yz5ce,"Conditionals: padded negative zero OP_IFDUP OP_NIP (nonP2SH)",214,46,2,1,44,35200,302,1,0,154,0,3,2,0
+kfsgp5,"Conditionals: padded negative zero OP_IFDUP OP_NIP (P2SH20)",217,67,2,1,47,37600,873,1,0,164,2,7,45,0
+c3pdy4,"Conditionals: padded negative zero OP_IFDUP OP_NIP (P2SH32)",217,79,2,1,47,37600,897,1,0,164,2,7,69,0
+k92vch,"Conditionals: one OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",212,47,2,1,42,33600,403,1,0,147,0,4,3,0
+dfj8qw,"Conditionals: one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",216,67,2,1,46,36800,975,1,0,161,2,8,47,0
+pm7lk7,"Conditionals: one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",216,79,2,1,46,36800,999,1,0,161,2,8,71,0
+rlf4s5,"Conditionals: padded one OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",214,47,2,1,44,35200,405,1,0,154,0,4,5,0
+gtl0r9,"Conditionals: padded one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",218,67,2,1,48,38400,977,1,0,168,2,8,49,0
+p7mg28,"Conditionals: padded one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",218,79,2,1,48,38400,1001,1,0,168,2,8,73,0
+zmwed9,"Conditionals: negative one OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",212,47,2,1,42,33600,403,1,0,147,0,4,3,0
+mgg7nm,"Conditionals: negative one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",216,67,2,1,46,36800,975,1,0,161,2,8,47,0
+lfrf2f,"Conditionals: negative one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",216,79,2,1,46,36800,999,1,0,161,2,8,71,0
+vrdcr6,"Conditionals: padded negative one OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",214,47,2,1,44,35200,405,1,0,154,0,4,5,0
+fqkk2t,"Conditionals: padded negative one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",218,67,2,1,48,38400,977,1,0,168,2,8,49,0
+8ut34w,"Conditionals: padded negative one OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",218,79,2,1,48,38400,1001,1,0,168,2,8,73,0
+m7yl0s,"Conditionals: padded zero (520 bytes) OP_IFDUP OP_NIP (nonP2SH)",736,46,2,1,564,451200,820,13,0,1974,0,3,520,0
+sgex8f,"Conditionals: padded zero (520 bytes) OP_IFDUP OP_NIP (P2SH20)",739,67,2,1,567,453600,1391,13,0,1984,2,7,563,0
+lwercs,"Conditionals: padded zero (520 bytes) OP_IFDUP OP_NIP (P2SH32)",739,79,2,1,567,453600,1415,13,0,1984,2,7,587,0
+yqm3g2,"Conditionals: padded negative zero (520 bytes) OP_IFDUP OP_NIP (nonP2SH)",736,46,2,1,564,451200,820,13,0,1974,0,3,520,0
+89vppz,"Conditionals: padded negative zero (520 bytes) OP_IFDUP OP_NIP (P2SH20)",739,67,2,1,567,453600,1391,13,0,1984,2,7,563,0
+89h0uj,"Conditionals: padded negative zero (520 bytes) OP_IFDUP OP_NIP (P2SH32)",739,79,2,1,567,453600,1415,13,0,1984,2,7,587,0
+75eyv6,"Conditionals: padded zero (521 bytes) OP_IFDUP OP_NIP (nonP2SH)",737,46,2,1,565,452000,821,13,0,1977,0,3,521,0
+dneudw,"Conditionals: padded zero (521 bytes) OP_IFDUP OP_NIP (P2SH20)",740,67,2,1,568,454400,1392,13,0,1988,2,7,564,0
+ypdpwz,"Conditionals: padded zero (521 bytes) OP_IFDUP OP_NIP (P2SH32)",740,79,2,1,568,454400,1416,13,0,1988,2,7,588,0
+mukkmh,"Conditionals: padded negative zero (521 bytes) OP_IFDUP OP_NIP (nonP2SH)",737,46,2,1,565,452000,821,13,0,1977,0,3,521,0
+rfgpsa,"Conditionals: padded negative zero (521 bytes) OP_IFDUP OP_NIP (P2SH20)",740,67,2,1,568,454400,1392,13,0,1988,2,7,564,0
+c8ak53,"Conditionals: padded negative zero (521 bytes) OP_IFDUP OP_NIP (P2SH32)",740,79,2,1,568,454400,1416,13,0,1988,2,7,588,0
+wn34je,"Conditionals: padded one (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",736,47,2,1,564,451200,1441,13,0,1974,0,4,1041,0
+p4s355,"Conditionals: padded one (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",740,67,2,1,568,454400,2013,13,0,1988,2,8,1085,0
+uuf4jf,"Conditionals: padded one (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",740,79,2,1,568,454400,2037,13,0,1988,2,8,1109,0
+vut2t7,"Conditionals: padded negative one (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",736,47,2,1,564,451200,1441,13,0,1974,0,4,1041,0
+j0uf55,"Conditionals: padded negative one (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",740,67,2,1,568,454400,2013,13,0,1988,2,8,1085,0
+lgur77,"Conditionals: padded negative one (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",740,79,2,1,568,454400,2037,13,0,1988,2,8,1109,0
+gvmn2x,"Conditionals: padded one (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",737,47,2,1,565,452000,1443,13,0,1977,0,4,1043,0
+tf3k3g,"Conditionals: padded one (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",741,67,2,1,569,455200,2015,13,0,1991,2,8,1087,0
+ccr33j,"Conditionals: padded one (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",741,79,2,1,569,455200,2039,13,0,1991,2,8,1111,0
+kj3m5x,"Conditionals: padded negative one (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",737,47,2,1,565,452000,1443,13,0,1977,0,4,1043,0
+73z8vc,"Conditionals: padded negative one (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",741,67,2,1,569,455200,2015,13,0,1991,2,8,1087,0
+a8f7hr,"Conditionals: padded negative one (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",741,79,2,1,569,455200,2039,13,0,1991,2,8,1111,0
+evvfqn,"Conditionals: <0xff> OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",213,47,2,1,43,34400,403,1,0,150,0,4,3,0
+fsr3c2,"Conditionals: <0xff> OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",217,67,2,1,47,37600,975,1,0,164,2,8,47,0
+p3gkeh,"Conditionals: <0xff> OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",217,79,2,1,47,37600,999,1,0,164,2,8,71,0
+ml54q0,"Conditionals: <0xffff> OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",214,47,2,1,44,35200,406,1,0,154,0,4,6,0
+dclcc4,"Conditionals: <0xffff> OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",218,67,2,1,48,38400,978,1,0,168,2,8,50,0
+2eaqnw,"Conditionals: <0xffff> OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",218,79,2,1,48,38400,1002,1,0,168,2,8,74,0
+9hxu6r,"Conditionals: 520 bytes of 0xff OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",736,47,2,1,564,451200,1960,13,0,1974,0,4,1560,0
+ky905w,"Conditionals: 520 bytes of 0xff OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",740,67,2,1,568,454400,2532,13,0,1988,2,8,1604,0
+5hsfxk,"Conditionals: 520 bytes of 0xff OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",740,79,2,1,568,454400,2556,13,0,1988,2,8,1628,0
+p0un4a,"Conditionals: 521 bytes of 0xff OP_IFDUP OP_BIN2NUM OP_NOT (nonP2SH)",737,47,2,1,565,452000,1963,13,0,1977,0,4,1563,0
+dq55zd,"Conditionals: 521 bytes of 0xff OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",741,67,2,1,569,455200,2535,13,0,1991,2,8,1607,0
+940xj9,"Conditionals: 521 bytes of 0xff OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",741,79,2,1,569,455200,2559,13,0,1991,2,8,1631,0
+90yut6,"Conditionals: <1> OP_IF in unlocking bytecode (unbalanced) (nonP2SH)",213,45,2,1,43,34400,0,1,0,150,0,0,0,0
+03mpah,"Conditionals: <1> OP_IF in unlocking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,0,1,0,157,0,0,0,0
+9c22cj,"Conditionals: <1> OP_IF in unlocking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,0,1,0,157,0,0,0,0
+87ezjd,"Conditionals: <1> OP_NOTIF in unlocking bytecode (unbalanced) (nonP2SH)",213,45,2,1,43,34400,0,1,0,150,0,0,0,0
+snhxzq,"Conditionals: <1> OP_NOTIF in unlocking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,0,1,0,157,0,0,0,0
+y7yhnf,"Conditionals: <1> OP_NOTIF in unlocking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,0,1,0,157,0,0,0,0
+fpfl30,"Conditionals: <0> OP_IF in unlocking bytecode (unbalanced) (nonP2SH)",213,45,2,1,43,34400,0,1,0,150,0,0,0,0
+8f98cw,"Conditionals: <0> OP_IF in unlocking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,0,1,0,157,0,0,0,0
+u3w96q,"Conditionals: <0> OP_IF in unlocking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,0,1,0,157,0,0,0,0
+f0g78n,"Conditionals: <0> OP_NOTIF in unlocking bytecode (unbalanced) (nonP2SH)",213,45,2,1,43,34400,0,1,0,150,0,0,0,0
+ceu5j6,"Conditionals: <0> OP_NOTIF in unlocking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,0,1,0,157,0,0,0,0
+eehfcr,"Conditionals: <0> OP_NOTIF in unlocking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,0,1,0,157,0,0,0,0
+4kt3v0,"Conditionals: <1> OP_IF in unlocking bytecode, OP_ENDIF locking bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,0,0,0
+r4q727,"Conditionals: <1> OP_IF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,0,0,0,0
+swuk2j,"Conditionals: <1> OP_IF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,0,0,0,0
+gs78k2,"Conditionals: <1> OP_NOTIF in unlocking bytecode, OP_ENDIF locking bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,0,0,0
+jeg66w,"Conditionals: <1> OP_NOTIF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,0,0,0,0
+763xun,"Conditionals: <1> OP_NOTIF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,0,0,0,0
+vg66hh,"Conditionals: <0> OP_IF in unlocking bytecode, OP_ENDIF locking bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,0,0,0
+ezzaau,"Conditionals: <0> OP_IF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,0,0,0,0
+mxs73l,"Conditionals: <0> OP_IF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,0,0,0,0
+57ll59,"Conditionals: <0> OP_NOTIF in unlocking bytecode, OP_ENDIF locking bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,0,0,0
+e3jnf6,"Conditionals: <0> OP_NOTIF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,0,0,0,0
+xg8638,"Conditionals: <0> OP_NOTIF in unlocking bytecode, OP_ENDIF locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,0,0,0,0
+h40t85,"Conditionals: <1> OP_IF in locking bytecode (unbalanced) (nonP2SH)",211,47,2,1,41,32800,302,1,0,143,0,3,2,0
+kuva74,"Conditionals: <1> OP_IF in locking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,874,1,0,157,2,7,46,0
+cmlwvq,"Conditionals: <1> OP_IF in locking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,898,1,0,157,2,7,70,0
+cdzxgc,"Conditionals: <1> OP_NOTIF in locking bytecode (unbalanced) (nonP2SH)",211,47,2,1,41,32800,301,1,0,143,0,3,1,0
+m9d5lu,"Conditionals: <1> OP_NOTIF in locking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,873,1,0,157,2,7,45,0
+adnjc8,"Conditionals: <1> OP_NOTIF in locking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,897,1,0,157,2,7,69,0
+tvy4x2,"Conditionals: <0> OP_IF in locking bytecode (unbalanced) (nonP2SH)",211,47,2,1,41,32800,300,1,0,143,0,3,0,0
+h94ye4,"Conditionals: <0> OP_IF in locking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,872,1,0,157,2,7,44,0
+7pwgka,"Conditionals: <0> OP_IF in locking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,896,1,0,157,2,7,68,0
+g96cv4,"Conditionals: <0> OP_NOTIF in locking bytecode (unbalanced) (nonP2SH)",211,47,2,1,41,32800,301,1,0,143,0,3,1,0
+n9zc5c,"Conditionals: <0> OP_NOTIF in locking bytecode (unbalanced) (P2SH20)",215,67,2,1,45,36000,873,1,0,157,2,7,45,0
+qz4upd,"Conditionals: <0> OP_NOTIF in locking bytecode (unbalanced) (P2SH32)",215,79,2,1,45,36000,897,1,0,157,2,7,69,0
+uqtll6,"Conditionals: unlock: <1>, lock: OP_IF (unbalanced) (nonP2SH)",212,46,2,1,42,33600,302,1,0,147,0,3,2,0
+dg2j60,"Conditionals: unlock: <1>, lock: OP_IF (unbalanced) (P2SH20)",215,67,2,1,45,36000,873,1,0,157,2,7,45,0
+d5q4xr,"Conditionals: unlock: <1>, lock: OP_IF (unbalanced) (P2SH32)",215,79,2,1,45,36000,897,1,0,157,2,7,69,0
+wh55s4,"Conditionals: unlock: <1>, lock: OP_NOTIF (unbalanced) (nonP2SH)",212,46,2,1,42,33600,301,1,0,147,0,3,1,0
+dsgxqn,"Conditionals: unlock: <1>, lock: OP_NOTIF (unbalanced) (P2SH20)",215,67,2,1,45,36000,872,1,0,157,2,7,44,0
+7zjcv2,"Conditionals: unlock: <1>, lock: OP_NOTIF (unbalanced) (P2SH32)",215,79,2,1,45,36000,896,1,0,157,2,7,68,0
+v4pavd,"Conditionals: unlock: <0>, lock: OP_IF (unbalanced) (nonP2SH)",212,46,2,1,42,33600,300,1,0,147,0,3,0,0
+uxjwy2,"Conditionals: unlock: <0>, lock: OP_IF (unbalanced) (P2SH20)",215,67,2,1,45,36000,871,1,0,157,2,7,43,0
+nrvr5a,"Conditionals: unlock: <0>, lock: OP_IF (unbalanced) (P2SH32)",215,79,2,1,45,36000,895,1,0,157,2,7,67,0
+t7xnp4,"Conditionals: unlock: <0>, lock: OP_NOTIF (unbalanced) (nonP2SH)",212,46,2,1,42,33600,301,1,0,147,0,3,1,0
+uj766v,"Conditionals: unlock: <0>, lock: OP_NOTIF (unbalanced) (P2SH20)",215,67,2,1,45,36000,872,1,0,157,2,7,44,0
+qu9lwt,"Conditionals: unlock: <0>, lock: OP_NOTIF (unbalanced) (P2SH32)",215,79,2,1,45,36000,896,1,0,157,2,7,68,0
+j6ck0v,"Conditionals: unlock: <1>, lock: OP_IF OP_RETURN OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,301,1,0,147,0,3,1,0
+x89u7k,"Conditionals: unlock: <1>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH20)",216,67,2,1,46,36800,873,1,0,161,2,7,45,0
+gsqqvl,"Conditionals: unlock: <1>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH32)",216,79,2,1,46,36800,897,1,0,161,2,7,69,0
+nkwhrh,"Conditionals: unlock: <1>, lock: OP_IF <1> <1> OP_IF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,603,1,0,147,0,6,3,0
+lezqj8,"Conditionals: unlock: <1>, lock: OP_IF <1> <1> OP_IF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1177,1,0,168,2,10,49,0
+6zxg3q,"Conditionals: unlock: <1>, lock: OP_IF <1> <1> OP_IF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1201,1,0,168,2,10,73,0
+njsc6z,"Conditionals: unlock: <1>, lock: OP_IF OP_NOTIF OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,301,1,0,147,0,3,1,0
+d8pfqk,"Conditionals: unlock: <1>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH20)",216,67,2,1,46,36800,873,1,0,161,2,7,45,0
+73vl6f,"Conditionals: unlock: <1>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH32)",216,79,2,1,46,36800,897,1,0,161,2,7,69,0
+w8pxhn,"Conditionals: unlock: <1>, lock: OP_IF <1> <0> OP_NOTIF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,602,1,0,147,0,6,2,0
+s4q6d6,"Conditionals: unlock: <1>, lock: OP_IF <1> <0> OP_NOTIF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1176,1,0,168,2,10,48,0
+lz695z,"Conditionals: unlock: <1>, lock: OP_IF <1> <0> OP_NOTIF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1200,1,0,168,2,10,72,0
+kta7xr,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+e2cnuj,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE OP_ENDIF (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+w4vwuy,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE OP_ENDIF (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+wdw7uh,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE <1> OP_ENDIF (nonP2SH)",212,48,2,1,42,33600,501,1,0,147,0,5,1,0
+64q2f5,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE <1> OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+ddn4z8,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE <1> OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+5xjd6j,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE <1> OP_ELSE OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,601,1,0,147,0,6,1,0
+eeftfj,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+6zpusx,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+p3n0hm,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_RETURN OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+updz6f,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+uel783,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+swzexl,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> <1> OP_IF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,601,1,0,147,0,6,1,0
+77gvx5,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> <1> OP_IF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+ehvugg,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> <1> OP_IF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+q48gt5,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+7cwn2c,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+jwxj8h,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+azl3ve,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> <0> OP_NOTIF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,601,1,0,147,0,6,1,0
+crevm6,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> <0> OP_NOTIF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+f6eqmq,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> <0> OP_NOTIF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+a54j8l,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,401,1,0,147,0,4,1,0
+nyem3e,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE OP_ENDIF (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+sxlcrw,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE OP_ENDIF (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+jacaat,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> OP_ELSE OP_ENDIF (nonP2SH)",212,48,2,1,42,33600,501,1,0,147,0,5,1,0
+gca52d,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> OP_ELSE OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+g8s7gy,"Conditionals: unlock: <1>, lock: OP_NOTIF <1> OP_ELSE OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+wm2g74,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE OP_ELSE <1> OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,601,1,0,147,0,6,1,0
+vhrth2,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+uv7s39,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+ales2c,"Conditionals: unlock: <0>, lock: OP_IF OP_RETURN OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,400,1,0,147,0,4,0,0
+75rtu4,"Conditionals: unlock: <0>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH20)",216,67,2,1,46,36800,972,1,0,161,2,8,44,0
+nuckra,"Conditionals: unlock: <0>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH32)",216,79,2,1,46,36800,996,1,0,161,2,8,68,0
+lq9dep,"Conditionals: unlock: <0>, lock: OP_IF <1> <1> OP_IF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,600,1,0,147,0,6,0,0
+ad9amq,"Conditionals: unlock: <0>, lock: OP_IF <1> <1> OP_IF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+59vvjl,"Conditionals: unlock: <0>, lock: OP_IF <1> <1> OP_IF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+2qm96x,"Conditionals: unlock: <0>, lock: OP_IF OP_NOTIF OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,400,1,0,147,0,4,0,0
+nak9up,"Conditionals: unlock: <0>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH20)",216,67,2,1,46,36800,972,1,0,161,2,8,44,0
+qrrns6,"Conditionals: unlock: <0>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH32)",216,79,2,1,46,36800,996,1,0,161,2,8,68,0
+k5h3te,"Conditionals: unlock: <0>, lock: OP_IF <1> <0> OP_NOTIF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,600,1,0,147,0,6,0,0
+j6ajtj,"Conditionals: unlock: <0>, lock: OP_IF <1> <0> OP_NOTIF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+krnlak,"Conditionals: unlock: <0>, lock: OP_IF <1> <0> OP_NOTIF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+j0zfun,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,400,1,0,147,0,4,0,0
+dm6pm4,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE OP_ENDIF (P2SH20)",216,67,2,1,46,36800,972,1,0,161,2,8,44,0
+0tyyz8,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE OP_ENDIF (P2SH32)",216,79,2,1,46,36800,996,1,0,161,2,8,68,0
+7h45fv,"Conditionals: unlock: <0>, lock: OP_IF <1> OP_ELSE OP_ENDIF (nonP2SH)",212,48,2,1,42,33600,500,1,0,147,0,5,0,0
+gq3msn,"Conditionals: unlock: <0>, lock: OP_IF <1> OP_ELSE OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+2r0fec,"Conditionals: unlock: <0>, lock: OP_IF <1> OP_ELSE OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+wcxmnw,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE OP_ELSE <1> OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,600,1,0,147,0,6,0,0
+l6tw49,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+2euvea,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+pkwzlh,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_RETURN OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,300,1,0,147,0,3,0,0
+f8kc3e,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH20)",216,67,2,1,46,36800,872,1,0,161,2,7,44,0
+mpa5q0,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH32)",216,79,2,1,46,36800,896,1,0,161,2,7,68,0
+l649a5,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> <1> OP_IF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,602,1,0,147,0,6,2,0
+93agu2,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> <1> OP_IF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1176,1,0,168,2,10,48,0
+mdk2f3,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> <1> OP_IF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1200,1,0,168,2,10,72,0
+hknhu7,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,300,1,0,147,0,3,0,0
+sysvln,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH20)",216,67,2,1,46,36800,872,1,0,161,2,7,44,0
+36gxsz,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH32)",216,79,2,1,46,36800,896,1,0,161,2,7,68,0
+5ag9lc,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> <0> OP_NOTIF OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,601,1,0,147,0,6,1,0
+q602kd,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> <0> OP_NOTIF OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+ngpmlu,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> <0> OP_NOTIF OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+45ral7,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE OP_ENDIF (nonP2SH)",212,47,2,1,42,33600,400,1,0,147,0,4,0,0
+93ps5j,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE OP_ENDIF (P2SH20)",216,67,2,1,46,36800,972,1,0,161,2,8,44,0
+whdytd,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE OP_ENDIF (P2SH32)",216,79,2,1,46,36800,996,1,0,161,2,8,68,0
+2esagn,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE <1> OP_ENDIF (nonP2SH)",212,48,2,1,42,33600,500,1,0,147,0,5,0,0
+njdyjl,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE <1> OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+a9thur,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE <1> OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+ppuh6j,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE <1> OP_ELSE OP_ENDIF (nonP2SH)",212,49,2,1,42,33600,600,1,0,147,0,6,0,0
+aj07q7,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+r50ezm,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+w9kxvm,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_RETURN OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,402,1,0,150,0,4,2,0
+8ad4fd,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,8,46,0
+dkq7v0,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,8,70,0
+0jdeu8,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_IF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,502,1,0,150,0,5,2,0
+3dyej4,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_IF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+czx7ya,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_IF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+p50rys,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_NOTIF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,502,1,0,150,0,5,2,0
+6yf5av,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+p69k3n,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+9x05dc,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_DROP OP_ELSE OP_ENDIF (nonP2SH)",213,48,2,1,43,34400,602,1,0,150,0,6,2,0
+zlyt8f,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_DROP OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+9fysdz,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_DROP OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+l4pu2d,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (nonP2SH)",213,49,2,1,43,34400,702,1,0,150,0,7,2,0
+naedpd,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+kt8jlt,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+93lwxe,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_IF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,502,1,0,150,0,5,2,0
+tfhj2w,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_IF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+mwwm28,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_IF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+ww7lx2,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,502,1,0,150,0,5,2,0
+ez9004,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+a9dn0t,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+9dyedr,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_DROP OP_ENDIF (nonP2SH)",213,48,2,1,43,34400,602,1,0,150,0,6,2,0
+pqalla,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_DROP OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+4l0zey,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_DROP OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+jra4s6,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (nonP2SH)",213,50,2,1,43,34400,802,1,0,150,0,8,2,0
+a90h2m,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",220,67,2,1,50,40000,1377,1,0,175,2,12,49,0
+dkyt25,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",220,79,2,1,50,40000,1401,1,0,175,2,12,73,0
+tuh566,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_IF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,501,1,0,150,0,5,1,0
+af32yn,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_IF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+yz0puf,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_IF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+tw9d5e,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_NOTIF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,501,1,0,150,0,5,1,0
+wqwndt,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+29gunt,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_NOTIF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+3006lm,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_DROP OP_ENDIF (nonP2SH)",213,48,2,1,43,34400,601,1,0,150,0,6,1,0
+pdp6cc,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_DROP OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+t72sn3,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_DROP OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+u6lta5,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (nonP2SH)",213,50,2,1,43,34400,801,1,0,150,0,8,1,0
+mw92y0,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",220,67,2,1,50,40000,1376,1,0,175,2,12,48,0
+l0yju2,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",220,79,2,1,50,40000,1400,1,0,175,2,12,72,0
+6mgy9n,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_RETURN OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,401,1,0,150,0,4,1,0
+9s0qep,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH20)",217,67,2,1,47,37600,973,1,0,164,2,8,45,0
+ks38k4,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH32)",217,79,2,1,47,37600,997,1,0,164,2,8,69,0
+x5zk9x,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_IF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,501,1,0,150,0,5,1,0
+w9jrek,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_IF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+w0hawq,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_IF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+wlnmhy,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (nonP2SH)",213,47,2,1,43,34400,501,1,0,150,0,5,1,0
+am59hl,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+ykp668,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_NOTIF OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+6vkckj,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_DROP OP_ELSE OP_ENDIF (nonP2SH)",213,48,2,1,43,34400,601,1,0,150,0,6,1,0
+hnastu,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_DROP OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+5y47en,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_DROP OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+qns9k2,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (nonP2SH)",213,49,2,1,43,34400,701,1,0,150,0,7,1,0
+amy3ar,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",219,67,2,1,49,39200,1275,1,0,171,2,11,47,0
+8p4hpw,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",219,79,2,1,49,39200,1299,1,0,171,2,11,71,0
+enlwlj,"Conditionals: Maximize control stack depth (OP_IF), fail (nonP2SH)",311,245,2,1,141,112800,30200,3,0,493,0,301,100,0
+45mthz,"Conditionals: Maximize control stack depth (OP_IF), fail (P2SH20)",516,67,2,1,344,275200,31162,8,0,1204,5,305,342,0
+myl874,"Conditionals: Maximize control stack depth (OP_IF), fail (P2SH32)",516,79,2,1,344,275200,31186,8,0,1204,5,305,366,0
+f7kfjz,"Conditionals: Excessive control stack depth (OP_IF) (nonP2SH)",312,247,2,1,142,113600,20301,3,0,497,0,202,101,0
+zx94kq,"Conditionals: Excessive control stack depth (OP_IF) (P2SH20)",519,67,2,1,347,277600,21265,8,0,1214,5,206,345,0
+tyta5u,"Conditionals: Excessive control stack depth (OP_IF) (P2SH32)",519,79,2,1,347,277600,21289,8,0,1214,5,206,369,0
+6s0qxu,"Conditionals: Maximize control stack depth (OP_NOTIF), fail (nonP2SH)",311,245,2,1,141,112800,30100,3,0,493,0,301,0,0
+am9jwy,"Conditionals: Maximize control stack depth (OP_NOTIF), fail (P2SH20)",516,67,2,1,344,275200,31062,8,0,1204,5,305,242,0
+3wys77,"Conditionals: Maximize control stack depth (OP_NOTIF), fail (P2SH32)",516,79,2,1,344,275200,31086,8,0,1204,5,305,266,0
+wnchc3,"Conditionals: Excessive control stack depth (OP_NOTIF) (nonP2SH)",312,247,2,1,142,113600,20200,3,0,497,0,202,0,0
+ttpyf2,"Conditionals: Excessive control stack depth (OP_NOTIF) (P2SH20)",519,67,2,1,347,277600,21164,8,0,1214,5,206,244,0
+sflutj,"Conditionals: Excessive control stack depth (OP_NOTIF) (P2SH32)",519,79,2,1,347,277600,21188,8,0,1214,5,206,268,0
+r6rf7m,"Conditionals: Maximize control stack depth (OP_IF & OP_NOTIF), fail (nonP2SH)",311,245,2,1,141,112800,30150,3,0,493,0,301,50,0
+zuw8rk,"Conditionals: Maximize control stack depth (OP_IF & OP_NOTIF), fail (P2SH20)",516,67,2,1,344,275200,31112,8,0,1204,5,305,292,0
+9h4jsx,"Conditionals: Maximize control stack depth (OP_IF & OP_NOTIF), fail (P2SH32)",516,79,2,1,344,275200,31136,8,0,1204,5,305,316,0
+lw4edx,"Conditionals: Excessive control stack depth (OP_IF & OP_NOTIF) (nonP2SH)",312,247,2,1,142,113600,20251,3,0,497,0,202,51,0
+xch3n0,"Conditionals: Excessive control stack depth (OP_IF & OP_NOTIF) (P2SH20)",519,67,2,1,347,277600,21215,8,0,1214,5,206,295,0
+pqlkk2,"Conditionals: Excessive control stack depth (OP_IF & OP_NOTIF) (P2SH32)",519,79,2,1,347,277600,21239,8,0,1214,5,206,319,0
+4updhy,"Conditionals: Excessive control stack depth (OP_IF), 202 operations (nonP2SH)",312,251,2,1,142,113600,20301,3,0,497,0,202,101,0
+ydt5sv,"Conditionals: Excessive control stack depth (OP_IF), 202 operations (P2SH20)",523,67,2,1,351,280800,21269,8,0,1228,5,206,349,0
+6ffhwj,"Conditionals: Excessive control stack depth (OP_IF), 202 operations (P2SH32)",523,79,2,1,351,280800,21293,8,0,1228,5,206,373,0

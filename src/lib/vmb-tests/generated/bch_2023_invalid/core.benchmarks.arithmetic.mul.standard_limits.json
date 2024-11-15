@@ -14,5 +14,11 @@
 "mqttrf":[61,48800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-256 byte OP_MUL (all bits set) (P2SH20)"],
 "rehnu5":[61,48800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-256 byte OP_MUL (all bits set) (P2SH32)"],
 "cgkp7j":[64,51200,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-320 byte OP_MUL (all bits set) (P2SH20)"],
-"pf86u7":[64,51200,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-320 byte OP_MUL (all bits set) (P2SH32)"]
+"pf86u7":[64,51200,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-320 byte OP_MUL (all bits set) (P2SH32)"],
+"pg83j6":[51,40800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize square OP_MUL (194-by-194 byte) (highest byte set) (P2SH20)"],
+"8t6h2y":[51,40800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize square OP_MUL (194-by-194 byte) (highest byte set) (P2SH32)"],
+"s8czyv":[51,40800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize top-operand OP_MUL (1-by-7873 byte) (highest byte set) (P2SH20)"],
+"fwtkxa":[51,40800,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH32/standard, single-input limits, maximize top-operand OP_MUL (1-by-7868 byte) (highest byte set) (P2SH32)"],
+"gwvyrp":[52,41600,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize 1-byte OP_MUL (1-by-8032 byte) (highest byte set) (P2SH20)"],
+"dpaptk":[52,41600,0,"Transaction validation benchmarks: Within BCH_2025_05 P2SH32/standard, single-input limits, maximize 1-byte OP_MUL (1-by-8028 byte) (highest byte set) (P2SH32)"]
 }

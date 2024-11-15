@@ -1,0 +1,3 @@
+{
+"trxhzt":[10100,8080000,28025,"Transaction validation benchmarks: [baseline] 2 P2PKH inputs, 2 P2PKH outputs (one Schnorr signature, one ECDSA signature) (nonP2SH)"]
+}

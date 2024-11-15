@@ -1,27 +1,27 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-74yvcd,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 13) (P2SH20)",1047,67,2,1,875,700000,544400,20,20,3062,312,30,1532,0
-7h997p,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 13) (P2SH32)",1047,79,2,1,875,700000,544424,20,20,3062,312,30,1556,0
-8gde7n,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 20) (P2SH20)",1047,67,2,1,875,700000,544400,20,20,3062,312,30,1532,0
-8gh6k0,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 20) (P2SH32)",1047,79,2,1,875,700000,544424,20,20,3062,312,30,1556,0
-qg4v0w,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 13 and key 20) (P2SH20)",1047,67,2,1,875,700000,532880,20,20,3062,132,30,1532,0
-rcrtjq,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 13 and key 20) (P2SH32)",1047,79,2,1,875,700000,532904,20,20,3062,132,30,1556,0
-am2kdg,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 13 (Schnorr, key 1 and key 13) (P2SH20)",1036,67,2,1,864,691200,59109,20,2,3024,42,30,1521,0
-mauxc8,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 13 (Schnorr, key 1 and key 13) (P2SH32)",1036,79,2,1,864,691200,59133,20,2,3024,42,30,1545,0
-xakr7h,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 20 (Schnorr, key 1 and key 20) (P2SH20)",1036,67,2,1,864,691200,59109,20,2,3024,42,30,1521,0
-0c4gpz,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 20 (Schnorr, key 1 and key 20) (P2SH32)",1036,79,2,1,864,691200,59133,20,2,3024,42,30,1545,0
-ares4w,"Signature checking: 2-of-20 multisig with checkBits of keys 13 and 20 (Schnorr, key 13 and key 20) (P2SH20)",1036,67,2,1,864,691200,59109,20,2,3024,42,30,1521,0
-83dmdh,"Signature checking: 2-of-20 multisig with checkBits of keys 13 and 20 (Schnorr, key 13 and key 20) (P2SH32)",1036,79,2,1,864,691200,59133,20,2,3024,42,30,1545,0
-6a7a2a,"Signature checking: 8-of-20 ECDSA multisig with checkBits of zero (keys 1 to 8) (P2SH20)",1480,67,2,1,1308,1046400,545427,30,20,4578,312,36,1959,0
-7wjqvy,"Signature checking: 8-of-20 ECDSA multisig with checkBits of zero (keys 1 to 8) (P2SH32)",1480,79,2,1,1308,1046400,545451,30,20,4578,312,36,1983,0
-9h3knk,"Signature checking: 8-of-20 Schnorr multisig with checkBits of keys 1 to 8 (keys 1 to 8) (P2SH20)",1432,67,2,1,1260,1008000,221859,29,8,4410,132,36,1911,0
-37k4z2,"Signature checking: 8-of-20 Schnorr multisig with checkBits of keys 1 to 8 (keys 1 to 8) (P2SH32)",1432,79,2,1,1260,1008000,221883,29,8,4410,132,36,1935,0
-67k99q,"Signature checking: 9-of-20 ECDSA multisig with checkBits of zero (keys 1 to 9) (P2SH20)",1554,67,2,1,1382,1105600,545600,32,20,4837,312,37,2032,0
-uh2maf,"Signature checking: 9-of-20 ECDSA multisig with checkBits of zero (keys 1 to 9) (P2SH32)",1554,79,2,1,1382,1105600,545624,32,20,4837,312,37,2056,0
-yt6kvl,"Signature checking: 9-of-20 Schnorr multisig with checkBits of keys 1 to 9 (keys 1 to 9) (P2SH20)",1498,67,2,1,1326,1060800,248984,31,9,4641,147,37,1976,0
-sqvgwe,"Signature checking: 9-of-20 Schnorr multisig with checkBits of keys 1 to 9 (keys 1 to 9) (P2SH32)",1498,79,2,1,1326,1060800,249008,31,9,4641,147,37,2000,0
-zjv9dh,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and valid public key 19 (P2SH20)",474,67,2,1,302,241600,56884,7,2,1057,16,30,960,0
-9gpfva,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and valid public key 19 (P2SH32)",474,79,2,1,302,241600,56908,7,2,1057,16,30,984,0
-ar3uyn,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and invalid public key 19 (P2SH20)",439,67,2,1,269,215200,56065,6,2,941,13,30,333,0
-r7d6t8,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and invalid public key 19 (P2SH32)",439,79,2,1,269,215200,56089,6,2,941,13,30,357,0
-z4frfp,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 19 and 20, signatures 19 and 20, and valid public key 19 (P2SH20)",474,67,2,1,302,241600,56884,7,2,1057,16,30,960,0
-aa4an6,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 19 and 20, signatures 19 and 20, and valid public key 19 (P2SH32)",474,79,2,1,302,241600,56908,7,2,1057,16,30,984,0
+74yvcd,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 13) (P2SH20)",1047,67,2,1,875,700000,544500,20,20,3062,312,30,1532,0
+7h997p,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 13) (P2SH32)",1047,79,2,1,875,700000,544524,20,20,3062,312,30,1556,0
+8gde7n,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 20) (P2SH20)",1047,67,2,1,875,700000,544500,20,20,3062,312,30,1532,0
+8gh6k0,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 1 and key 20) (P2SH32)",1047,79,2,1,875,700000,544524,20,20,3062,312,30,1556,0
+qg4v0w,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 13 and key 20) (P2SH20)",1047,67,2,1,875,700000,532980,20,20,3062,132,30,1532,0
+rcrtjq,"Signature checking: 2-of-20 multisig with checkBits of zero (ECDSA, key 13 and key 20) (P2SH32)",1047,79,2,1,875,700000,533004,20,20,3062,132,30,1556,0
+am2kdg,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 13 (Schnorr, key 1 and key 13) (P2SH20)",1036,67,2,1,864,691200,59209,20,2,3024,42,30,1521,0
+mauxc8,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 13 (Schnorr, key 1 and key 13) (P2SH32)",1036,79,2,1,864,691200,59233,20,2,3024,42,30,1545,0
+xakr7h,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 20 (Schnorr, key 1 and key 20) (P2SH20)",1036,67,2,1,864,691200,59209,20,2,3024,42,30,1521,0
+0c4gpz,"Signature checking: 2-of-20 multisig with checkBits of keys 1 and 20 (Schnorr, key 1 and key 20) (P2SH32)",1036,79,2,1,864,691200,59233,20,2,3024,42,30,1545,0
+ares4w,"Signature checking: 2-of-20 multisig with checkBits of keys 13 and 20 (Schnorr, key 13 and key 20) (P2SH20)",1036,67,2,1,864,691200,59209,20,2,3024,42,30,1521,0
+83dmdh,"Signature checking: 2-of-20 multisig with checkBits of keys 13 and 20 (Schnorr, key 13 and key 20) (P2SH32)",1036,79,2,1,864,691200,59233,20,2,3024,42,30,1545,0
+6a7a2a,"Signature checking: 8-of-20 ECDSA multisig with checkBits of zero (keys 1 to 8) (P2SH20)",1480,67,2,1,1308,1046400,545527,30,20,4578,312,36,1959,0
+7wjqvy,"Signature checking: 8-of-20 ECDSA multisig with checkBits of zero (keys 1 to 8) (P2SH32)",1480,79,2,1,1308,1046400,545551,30,20,4578,312,36,1983,0
+9h3knk,"Signature checking: 8-of-20 Schnorr multisig with checkBits of keys 1 to 8 (keys 1 to 8) (P2SH20)",1432,67,2,1,1260,1008000,221959,29,8,4410,132,36,1911,0
+37k4z2,"Signature checking: 8-of-20 Schnorr multisig with checkBits of keys 1 to 8 (keys 1 to 8) (P2SH32)",1432,79,2,1,1260,1008000,221983,29,8,4410,132,36,1935,0
+67k99q,"Signature checking: 9-of-20 ECDSA multisig with checkBits of zero (keys 1 to 9) (P2SH20)",1554,67,2,1,1382,1105600,545700,32,20,4837,312,37,2032,0
+uh2maf,"Signature checking: 9-of-20 ECDSA multisig with checkBits of zero (keys 1 to 9) (P2SH32)",1554,79,2,1,1382,1105600,545724,32,20,4837,312,37,2056,0
+yt6kvl,"Signature checking: 9-of-20 Schnorr multisig with checkBits of keys 1 to 9 (keys 1 to 9) (P2SH20)",1498,67,2,1,1326,1060800,249084,31,9,4641,147,37,1976,0
+sqvgwe,"Signature checking: 9-of-20 Schnorr multisig with checkBits of keys 1 to 9 (keys 1 to 9) (P2SH32)",1498,79,2,1,1326,1060800,249108,31,9,4641,147,37,2000,0
+zjv9dh,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and valid public key 19 (P2SH20)",474,67,2,1,302,241600,56984,7,2,1057,16,30,960,0
+9gpfva,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and valid public key 19 (P2SH32)",474,79,2,1,302,241600,57008,7,2,1057,16,30,984,0
+ar3uyn,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and invalid public key 19 (P2SH20)",439,67,2,1,269,215200,56165,6,2,941,13,30,333,0
+r7d6t8,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and invalid public key 19 (P2SH32)",439,79,2,1,269,215200,56189,6,2,941,13,30,357,0
+z4frfp,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 19 and 20, signatures 19 and 20, and valid public key 19 (P2SH20)",474,67,2,1,302,241600,56984,7,2,1057,16,30,960,0
+aa4an6,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 19 and 20, signatures 19 and 20, and valid public key 19 (P2SH32)",474,79,2,1,302,241600,57008,7,2,1057,16,30,984,0

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   isPayToScriptHash20,
   isPayToScriptHash32,
@@ -8,7 +9,7 @@ import {
   sha1 as internalSha1,
   sha256 as internalSha256,
 } from '../../../../crypto/crypto.js';
-import { binToHex } from '../../../../format/format.js';
+import { binToHex, formatError } from '../../../../format/format.js';
 import type {
   AuthenticationInstructionMalformed,
   AuthenticationProgramBch,
@@ -280,8 +281,8 @@ export const createInstructionSetBch2023 = <
       }
       if (unlockingResult.controlStack.length !== 0) {
         return applyError(
-          initialState,
-          AuthenticationErrorCommon.nonEmptyControlStack,
+          unlockingResult,
+          AuthenticationErrorCommon.nonEmptyControlStackUnlockingBytecode,
           `Remaining control stack depth: ${unlockingResult.controlStack.length}.`,
         );
       }
@@ -296,10 +297,33 @@ export const createInstructionSetBch2023 = <
         },
       } as AuthenticationProgramState);
 
+      if (lockingResult.controlStack.length !== 0) {
+        return applyError(
+          lockingResult,
+          AuthenticationErrorCommon.nonEmptyControlStackLockingBytecode,
+          `Remaining control stack depth: ${lockingResult.controlStack.length}.`,
+        );
+      }
       const p2sh20 = isPayToScriptHash20(lockingBytecode);
       const p2sh32 = isPayToScriptHash32(lockingBytecode);
       if (!p2sh20 && !p2sh32) {
+        if (lockingResult.stack.length !== 1) {
+          return applyError(
+            lockingResult,
+            AuthenticationErrorCommon.requiresCleanStackLockingBytecode,
+            `Remaining stack depth: ${lockingResult.stack.length}.`,
+          );
+        }
         return lockingResult;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const top = lockingResult.stack[lockingResult.stack.length - 1]!;
+      if (!stackItemIsTruthy(top)) {
+        return applyError(
+          lockingResult,
+          AuthenticationErrorCommon.unmatchedP2shRedeemBytecode,
+          `Top stack item: "${binToHex(top)}".`,
+        );
       }
       const p2shStack = structuredClone(unlockingResult.stack);
       // eslint-disable-next-line functional/immutable-data
@@ -310,7 +334,10 @@ export const createInstructionSetBch2023 = <
       }
 
       const p2shInstructions = decodeAuthenticationInstructions(p2shScript);
-      return authenticationInstructionsAreMalformed(p2shInstructions)
+
+      const p2shResult = authenticationInstructionsAreMalformed(
+        p2shInstructions,
+      )
         ? {
             ...lockingResult,
             error: AuthenticationErrorCommon.malformedP2shBytecode,
@@ -325,6 +352,22 @@ export const createInstructionSetBch2023 = <
               stack: p2shStack,
             },
           } as AuthenticationProgramState);
+
+      if (p2shResult.controlStack.length !== 0) {
+        return applyError(
+          p2shResult,
+          AuthenticationErrorCommon.nonEmptyControlStackRedeemBytecode,
+          `Remaining control stack depth: ${p2shResult.controlStack.length}.`,
+        );
+      }
+      if (p2shResult.stack.length !== 1) {
+        return applyError(
+          p2shResult,
+          AuthenticationErrorCommon.requiresCleanStackRedeemBytecode,
+          `Remaining stack depth: ${p2shResult.stack.length}.`,
+        );
+      }
+      return p2shResult;
     },
     every: (state) => {
       const { unlockingBytecode } =
@@ -758,19 +801,18 @@ export const createInstructionSetBch2023 = <
         },
       ),
     },
-    success: (state: AuthenticationProgramStateBch) => {
+    success: (state) => {
       if (state.error !== undefined) {
         return state.error;
       }
-      if (state.controlStack.length !== 0) {
-        return AuthenticationErrorCommon.nonEmptyControlStack;
-      }
-      if (state.stack.length !== 1) {
-        return AuthenticationErrorCommon.requiresCleanStack;
-      }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (!stackItemIsTruthy(state.stack[0]!)) {
-        return AuthenticationErrorCommon.unsuccessfulEvaluation;
+      const top = state.stack[state.stack.length - 1];
+      if (top === undefined || !stackItemIsTruthy(top)) {
+        return formatError(
+          AuthenticationErrorCommon.unsuccessfulEvaluation,
+          top === undefined
+            ? `Stack is empty.`
+            : `Top stack item: "${binToHex(top)}".`,
+        );
       }
       return true;
     },
@@ -778,23 +820,31 @@ export const createInstructionSetBch2023 = <
     // eslint-disable-next-line complexity
     verify: ({ sourceOutputs, transaction }, { evaluate, success }) => {
       if (transaction.inputs.length === 0) {
-        return 'Transactions must have at least one input.';
+        return formatError(AuthenticationErrorCommon.verifyFailedNoInputs);
       }
       if (transaction.outputs.length === 0) {
-        return 'Transactions must have at least one output.';
+        return formatError(AuthenticationErrorCommon.verifyFailedNoOutputs);
       }
       if (transaction.inputs.length !== sourceOutputs.length) {
-        return 'Unable to verify transaction: a single spent output must be provided for each transaction input.';
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedMismatchedSourceOutputs,
+          `Transaction input count: ${transaction.inputs.length}; source outputs count: ${sourceOutputs.length}.`,
+        );
       }
 
       const transactionLengthBytes = encodeTransactionBch(transaction).length;
       if (transactionLengthBytes < consensus.minimumTransactionLengthBytes) {
-        return `Invalid transaction byte length: the transaction is ${transactionLengthBytes} bytes, but transactions must be no smaller than ${consensus.minimumTransactionLengthBytes} bytes to prevent an exploit of the transaction Merkle tree design.`;
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedInsufficientLength,
+          `The transaction is ${transactionLengthBytes} bytes, but transactions must be no smaller than ${consensus.minimumTransactionLengthBytes} bytes to prevent an exploit of the transaction Merkle tree design.`,
+        );
       }
       if (transactionLengthBytes > consensus.maximumTransactionLengthBytes) {
-        return `Transaction exceeds maximum byte length: the transaction is ${transactionLengthBytes} bytes, but the maximum transaction size is ${consensus.maximumTransactionLengthBytes} bytes.`;
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedExcessiveLength,
+          `Transaction exceeds maximum byte length: the transaction is ${transactionLengthBytes} bytes, but the maximum transaction size is ${consensus.maximumTransactionLengthBytes} bytes.`,
+        );
       }
-
       const inputValue = sourceOutputs.reduce(
         (sum, utxo) => sum + utxo.valueSatoshis,
         0n,
@@ -804,13 +854,22 @@ export const createInstructionSetBch2023 = <
         0n,
       );
       if (inputValue > maxMoney) {
-        return `Unable to verify transaction: the sum of source output values exceeds the maximum possible satoshi value. Maximum supply in satoshis: ${maxMoney}, cumulative input value: ${inputValue}.`;
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedInputsExceedMaxMoney,
+          `Maximum supply in satoshis: ${maxMoney}, cumulative input value: ${inputValue}.`,
+        );
       }
       if (outputValue > maxMoney) {
-        return `Unable to verify transaction: the sum of transaction output values exceeds the maximum possible satoshi value. Maximum supply in satoshis: ${maxMoney}, cumulative output value: ${outputValue}.`;
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedOutputsExceedMaxMoney,
+          `Maximum supply in satoshis: ${maxMoney}, cumulative output value: ${outputValue}.`,
+        );
       }
       if (outputValue > inputValue) {
-        return `Unable to verify transaction: the sum of transaction output values exceeds the sum of transaction inputs. Cumulative input value: ${inputValue}, cumulative output value: ${outputValue}.`;
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedOutputsExceedInputs,
+          `Cumulative input value: ${inputValue}, cumulative output value: ${outputValue}.`,
+        );
       }
 
       const outpointList = transaction.inputs.map(
@@ -828,23 +887,35 @@ export const createInstructionSetBch2023 = <
        * included here for debugging purposes.
        */
       if (firstDuplicate !== undefined) {
-        return `Unable to verify transaction: the transaction attempts to spend the same outpoint in multiple inputs. ${firstDuplicate}.`;
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedDuplicateSourceOutputs,
+          firstDuplicate,
+        );
       }
       if (
         transaction.version < consensus.minimumConsensusVersion ||
         transaction.version > consensus.maximumConsensusVersion
       ) {
-        return `Transaction version must be either 1 or 2. Encoded version number: ${transaction.version}.`;
+        return formatError(
+          AuthenticationErrorCommon.verifyFailedInvalidVersion,
+          `Encoded version number: ${transaction.version}.`,
+        );
       }
       if (standard) {
         if (transactionLengthBytes > consensus.maximumStandardTransactionSize) {
-          return `Transaction exceeds maximum standard size: this transaction is ${transactionLengthBytes} bytes, but the maximum standard transaction size is ${consensus.maximumStandardTransactionSize} bytes.`;
+          return formatError(
+            AuthenticationErrorCommon.verifyStandardFailedExcessiveLength,
+            `This transaction is ${transactionLengthBytes} bytes, but the maximum standard transaction size is ${consensus.maximumStandardTransactionSize} bytes.`,
+          );
         }
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
           if (!isStandardUtxoBytecode(output.lockingBytecode)) {
-            return `Standard transactions may only spend standard output types, but source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`;
+            return formatError(
+              AuthenticationErrorCommon.verifyStandardFailedNonstandardSourceOutput,
+              `Source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
+            );
           }
         }
 
@@ -853,7 +924,10 @@ export const createInstructionSetBch2023 = <
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of transaction.outputs.entries()) {
           if (!isStandardOutputBytecode(output.lockingBytecode)) {
-            return `Standard transactions may only create standard output types, but transaction output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`;
+            return formatError(
+              AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
+              `Transaction output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
+            );
           }
           // eslint-disable-next-line functional/no-conditional-statements
           if (isArbitraryDataOutput(output.lockingBytecode)) {
@@ -861,13 +935,19 @@ export const createInstructionSetBch2023 = <
             totalArbitraryDataBytes += output.lockingBytecode.length + 1;
           }
           if (isDustOutput(output)) {
-            return `Standard transactions may not have dust outputs, but transaction output ${index} is a dust output. Output ${index} must have a value of at least ${getDustThreshold(
-              output,
-            )} satoshis. Current value: ${output.valueSatoshis}`;
+            return formatError(
+              AuthenticationErrorCommon.verifyStandardFailedDustOutput,
+              ` Transaction output ${index} must have a value of at least ${getDustThreshold(
+                output,
+              )} satoshis. Current value: ${output.valueSatoshis}`,
+            );
           }
         }
         if (totalArbitraryDataBytes > consensus.maximumDataCarrierBytes) {
-          return `Standard transactions may carry no more than ${consensus.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`;
+          return formatError(
+            AuthenticationErrorCommon.verifyStandardFailedExcessiveDataCarrierBytes,
+            `Standard transactions may carry no more than ${consensus.maximumDataCarrierBytes} bytes in arbitrary data outputs; this transaction includes ${totalArbitraryDataBytes} bytes of arbitrary data.`,
+          );
         }
 
         // eslint-disable-next-line functional/no-loop-statements
@@ -876,10 +956,16 @@ export const createInstructionSetBch2023 = <
             input.unlockingBytecode.length >
             consensus.maximumStandardUnlockingBytecodeLength
           ) {
-            return `Input index ${index} is non-standard: the unlocking bytecode (${input.unlockingBytecode.length} bytes) exceeds the maximum standard unlocking bytecode length (${consensus.maximumStandardUnlockingBytecodeLength} bytes).`;
+            return formatError(
+              AuthenticationErrorCommon.verifyStandardFailedExcessiveUnlockingBytecodeLength,
+              `The maximum standard unlocking bytecode length is ${consensus.maximumStandardUnlockingBytecodeLength} bytes, but the unlocking bytecode at input index ${index} is ${input.unlockingBytecode.length} bytes.`,
+            );
           }
           if (!isPushOnly(input.unlockingBytecode)) {
-            return `Input index ${index} is non-standard: unlocking bytecode may contain only push operations.`;
+            return formatError(
+              AuthenticationErrorCommon.verifyStandardFailedNonPushUnlockingBytecode,
+              `The unlocking bytecode at input index ${index} contains non-push operations.`,
+            );
           }
         }
       }
@@ -899,11 +985,14 @@ export const createInstructionSetBch2023 = <
         // eslint-disable-next-line functional/no-expression-statements
         cumulativeSigChecks += state.metrics.signatureCheckCount;
         if (cumulativeSigChecks > consensus.maximumTransactionSignatureChecks) {
-          return `Transaction exceeded the maximum of ${consensus.maximumTransactionSignatureChecks} signature check while evaluating input index ${inputIndex} of ${transaction.inputs.length}.`;
+          return formatError(
+            AuthenticationErrorCommon.verifyFailedExcessiveSigChecks,
+            `Transaction exceeded the per-transaction maximum of ${consensus.maximumTransactionSignatureChecks} signature checks while evaluating input index ${inputIndex} of ${transaction.inputs.length}.`,
+          );
         }
         const result = success(state);
         if (typeof result === 'string') {
-          return `Error in evaluating input index ${inputIndex}: ${result}`;
+          return `Unable to verify transaction: error in evaluating input index ${inputIndex}: ${result}`;
         }
       }
       return true;

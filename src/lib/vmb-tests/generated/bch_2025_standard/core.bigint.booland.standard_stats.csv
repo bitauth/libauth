@@ -1,119 +1,119 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-eeukxv,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,1250,1,0,28,2,9,66,0
-6vd8g5,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,1274,1,0,28,2,9,90,0
-dpnnqv,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,1554,3,0,56,3,9,178,0
-hrt5x8,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,1578,3,0,56,3,9,202,0
-na2r2u,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,3796,13,0,282,10,9,1076,0
-y3re4l,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,3820,13,0,282,10,9,1100,0
-6s2evy,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,1250,1,0,28,2,9,66,0
-6gx2xr,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,1274,1,0,28,2,9,90,0
-0ky683,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,1264,1,0,31,2,9,80,0
-lxseu8,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,1288,1,0,31,2,9,104,0
-5c7jgj,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-xr5qds,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-99e7zq,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-gpazpl,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-smfu72,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,1554,3,0,56,3,9,178,0
-tw5et7,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,1578,3,0,56,3,9,202,0
-0mrw4n,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-cf4a3v,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-9hgnv6,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",346,67,2,1,176,140800,1872,4,0,88,4,9,304,0
-yg7w0l,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",346,79,2,1,176,140800,1896,4,0,88,4,9,328,0
-gf9zf8,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-5g0046,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-e0pp4c,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,3796,13,0,282,10,9,1076,0
-dk30wm,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,3820,13,0,282,10,9,1100,0
-qtlnqk,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-6w3w4c,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-647err,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-7v0ykz,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-6vrxx6,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",1249,67,2,1,1077,861600,6356,25,0,538,18,9,2100,0
-8dx5v7,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",1249,79,2,1,1077,861600,6380,25,0,538,18,9,2124,0
-vrpeen,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,1236,1,0,24,2,9,52,0
-cas8y9,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,1260,1,0,24,2,9,76,0
-ealvhx,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,1250,1,0,28,2,9,66,0
-2n0jen,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,1274,1,0,28,2,9,90,0
-4s4teh,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,1554,3,0,56,3,9,178,0
-007mfm,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,1578,3,0,56,3,9,202,0
-ua3yzg,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,3796,13,0,282,10,9,1076,0
-9x2l6p,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,3820,13,0,282,10,9,1100,0
-4enck4,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,1250,1,0,28,2,9,66,0
-9pdrsm,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,1274,1,0,28,2,9,90,0
-cylxdp,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,1264,1,0,31,2,9,80,0
-h50u9d,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,1288,1,0,31,2,9,104,0
-x422ca,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-g949cw,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-aqvemw,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-6yfag6,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-aw05jd,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,1554,3,0,56,3,9,178,0
-88yrah,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,1578,3,0,56,3,9,202,0
-k9dj57,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-l5fp2j,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-m6yuq4,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",346,67,2,1,176,140800,1872,4,0,88,4,9,304,0
-86m0y5,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",346,79,2,1,176,140800,1896,4,0,88,4,9,328,0
-58hx5c,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-q63u9m,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-84qt4x,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,3796,13,0,282,10,9,1076,0
-9wzaf7,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,3820,13,0,282,10,9,1100,0
-kmvd2l,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-nghnuz,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-0g9jcl,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-77xzhy,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-fc0a3k,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",1249,67,2,1,1077,861600,6356,25,0,538,18,9,2100,0
-p0dpzp,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",1249,79,2,1,1077,861600,6380,25,0,538,18,9,2124,0
-am9nr7,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,1234,1,0,23,2,9,50,0
-v8ka0w,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,1258,1,0,23,2,9,74,0
-jep0n9,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,1249,1,0,27,2,9,65,0
-eeea53,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,1273,1,0,27,2,9,89,0
-hllugf,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,1553,3,0,55,3,9,177,0
-2e2vn2,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,1577,3,0,55,3,9,201,0
-va0j3p,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,3795,13,0,281,10,9,1075,0
-pscnqf,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,3819,13,0,281,10,9,1099,0
-46yp9h,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,1249,1,0,27,2,9,65,0
-jhu56y,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,1273,1,0,27,2,9,89,0
-zadmpe,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,1264,1,0,31,2,9,80,0
-l42r6q,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,1288,1,0,31,2,9,104,0
-46ccfv,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-fq7p5v,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-0j7vq7,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-m8wm9j,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-hj6q63,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,1553,3,0,55,3,9,177,0
-cfu4nq,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,1577,3,0,55,3,9,201,0
-f2nd7p,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-cxv9d0,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-jk33x9,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",346,67,2,1,176,140800,1872,4,0,88,4,9,304,0
-4zc3qa,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",346,79,2,1,176,140800,1896,4,0,88,4,9,328,0
-jxks3m,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-cwxrxr,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-a73dju,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,3795,13,0,281,10,9,1075,0
-z3xf23,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,3819,13,0,281,10,9,1099,0
-lpmaeu,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-pw3cck,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-js89sq,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-cucmy5,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-jkjngm,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",1249,67,2,1,1077,861600,6356,25,0,538,18,9,2100,0
-fuae2s,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",1249,79,2,1,1077,861600,6380,25,0,538,18,9,2124,0
-h9yy6h,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",225,67,2,1,55,44000,1249,1,0,27,2,9,65,0
-xqkew8,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",225,79,2,1,55,44000,1273,1,0,27,2,9,89,0
-y357q0,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,1264,1,0,31,2,9,80,0
-ftgej2,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,1288,1,0,31,2,9,104,0
-wl3tn8,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-x7gprr,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-9z5jmx,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-r2j263,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-auk5pv,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",281,67,2,1,111,88800,1553,3,0,55,3,9,177,0
-uqf5yp,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",281,79,2,1,111,88800,1577,3,0,55,3,9,201,0
-jms6d5,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,1568,3,0,60,3,9,192,0
-v25aur,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,1592,3,0,60,3,9,216,0
-pcjttx,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",346,67,2,1,176,140800,1872,4,0,88,4,9,304,0
-rm6egm,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",346,79,2,1,176,140800,1896,4,0,88,4,9,328,0
-ntnqjh,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-dtvhss,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-h7yh3l,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",735,67,2,1,563,450400,3795,13,0,281,10,9,1075,0
-fepxc4,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",735,79,2,1,563,450400,3819,13,0,281,10,9,1099,0
-5yke4z,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,3810,13,0,285,10,9,1090,0
-7tm3yu,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,3834,13,0,285,10,9,1114,0
-a9n3ps,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,4114,15,0,313,11,9,1202,0
-cjy9kx,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,4138,15,0,313,11,9,1226,0
-a4dpsc,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",1249,67,2,1,1077,861600,6356,25,0,538,18,9,2100,0
-h69fzs,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",1249,79,2,1,1077,861600,6380,25,0,538,18,9,2124,0
+eeukxv,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+6vd8g5,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+dpnnqv,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+hrt5x8,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+na2r2u,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+y3re4l,"BigInt: OP_BOOLAND 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+6s2evy,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+6gx2xr,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+0ky683,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+lxseu8,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+5c7jgj,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+xr5qds,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+99e7zq,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+gpazpl,"BigInt: OP_BOOLAND 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+smfu72,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+tw5et7,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+0mrw4n,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+cf4a3v,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+9hgnv6,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+yg7w0l,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+gf9zf8,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+5g0046,"BigInt: OP_BOOLAND 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+e0pp4c,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+dk30wm,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+qtlnqk,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+6w3w4c,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+647err,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+7v0ykz,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+6vrxx6,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+8dx5v7,"BigInt: OP_BOOLAND 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0
+vrpeen,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,1336,1,0,24,2,9,52,0
+cas8y9,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,1360,1,0,24,2,9,76,0
+ealvhx,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+2n0jen,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+4s4teh,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+007mfm,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+ua3yzg,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+9x2l6p,"BigInt: OP_BOOLAND 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+4enck4,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+9pdrsm,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+cylxdp,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+h50u9d,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+x422ca,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+g949cw,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+aqvemw,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+6yfag6,"BigInt: OP_BOOLAND 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+aw05jd,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+88yrah,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+k9dj57,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+l5fp2j,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+m6yuq4,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+86m0y5,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+58hx5c,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+q63u9m,"BigInt: OP_BOOLAND 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+84qt4x,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+9wzaf7,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+kmvd2l,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+nghnuz,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+0g9jcl,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+77xzhy,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+fc0a3k,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+p0dpzp,"BigInt: OP_BOOLAND 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0
+am9nr7,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,1334,1,0,23,2,9,50,0
+v8ka0w,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,1358,1,0,23,2,9,74,0
+jep0n9,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,1349,1,0,27,2,9,65,0
+eeea53,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,1373,1,0,27,2,9,89,0
+hllugf,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,1653,3,0,55,3,9,177,0
+2e2vn2,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,1677,3,0,55,3,9,201,0
+va0j3p,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,3895,13,0,281,10,9,1075,0
+pscnqf,"BigInt: OP_BOOLAND 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,3919,13,0,281,10,9,1099,0
+46yp9h,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,1349,1,0,27,2,9,65,0
+jhu56y,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,1373,1,0,27,2,9,89,0
+zadmpe,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+l42r6q,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+46ccfv,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+fq7p5v,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+0j7vq7,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+m8wm9j,"BigInt: OP_BOOLAND 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+hj6q63,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,1653,3,0,55,3,9,177,0
+cfu4nq,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,1677,3,0,55,3,9,201,0
+f2nd7p,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+cxv9d0,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+jk33x9,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+4zc3qa,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+jxks3m,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+cwxrxr,"BigInt: OP_BOOLAND 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+a73dju,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,3895,13,0,281,10,9,1075,0
+z3xf23,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,3919,13,0,281,10,9,1099,0
+lpmaeu,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+pw3cck,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+js89sq,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+cucmy5,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+jkjngm,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+fuae2s,"BigInt: OP_BOOLAND 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0
+h9yy6h,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",225,67,2,1,55,44000,1349,1,0,27,2,9,65,0
+xqkew8,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",225,79,2,1,55,44000,1373,1,0,27,2,9,89,0
+y357q0,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+ftgej2,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+wl3tn8,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+x7gprr,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+9z5jmx,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+r2j263,"BigInt: OP_BOOLAND 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+auk5pv,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",281,67,2,1,111,88800,1653,3,0,55,3,9,177,0
+uqf5yp,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",281,79,2,1,111,88800,1677,3,0,55,3,9,201,0
+jms6d5,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+v25aur,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+pcjttx,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+rm6egm,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+ntnqjh,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+dtvhss,"BigInt: OP_BOOLAND 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+h7yh3l,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",735,67,2,1,563,450400,3895,13,0,281,10,9,1075,0
+fepxc4,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",735,79,2,1,563,450400,3919,13,0,281,10,9,1099,0
+5yke4z,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+7tm3yu,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+a9n3ps,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+cjy9kx,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+a4dpsc,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+h69fzs,"BigInt: OP_BOOLAND 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0

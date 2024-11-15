@@ -1,4 +1,8 @@
-import { binToHex, flattenBinArray } from '../../../../format/format.js';
+import {
+  binToHex,
+  flattenBinArray,
+  formatError,
+} from '../../../../format/format.js';
 import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
@@ -8,6 +12,7 @@ import type {
   Transaction,
 } from '../../../../lib.js';
 import {
+  AuthenticationErrorCommon,
   pushToStack,
   pushToStackChecked,
   pushToStackVmNumber,
@@ -180,12 +185,15 @@ export const verifyTransactionTokens = (
         ConsensusBch2023.maximumCommitmentLength,
   );
   if (excessiveCommitment !== undefined) {
-    return `Transaction violates token validation: a token commitment exceeds the consensus limit of ${
-      ConsensusBch2023.maximumCommitmentLength
-    } bytes. Excessive token commitment length: ${
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      excessiveCommitment.token!.nft!.commitment.length
-    }`;
+    return formatError(
+      AuthenticationErrorCommon.tokenValidationExcessiveCommitmentLength,
+      `A token commitment exceeds the consensus limit of ${
+        ConsensusBch2023.maximumCommitmentLength
+      } bytes. Excessive token commitment length: ${
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        excessiveCommitment.token!.nft!.commitment.length
+      }`,
+    );
   }
   const genesisCategories = extractGenesisCategories(transaction.inputs);
   const {
@@ -209,15 +217,21 @@ export const verifyTransactionTokens = (
     (category) => !availableMintingCategories.includes(category),
   );
   if (missingMintingCategory !== undefined) {
-    return `Transaction violates token validation: the transaction outputs include a minting token that is not substantiated by the transaction's inputs. Invalid output minting token category: ${missingMintingCategory}`;
+    return formatError(
+      AuthenticationErrorCommon.tokenValidationInvalidMintingToken,
+      `Invalid output minting token category: ${missingMintingCategory}`,
+    );
   }
 
   // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, sum] of Object.entries(outputSumsByCategory)) {
     if (sum > BigInt(ConsensusBch2023.maximumFungibleTokenAmount)) {
-      return `Transaction violates token validation: the transaction outputs include a sum of fungible tokens for a category exceeding the maximum supply (${
-        ConsensusBch2023.maximumFungibleTokenAmount
-      }). Category: ${categoryHex}, total amount: ${sum.toString()}.`;
+      return formatError(
+        AuthenticationErrorCommon.tokenValidationExcessiveAmount,
+        `Category: ${categoryHex}, total amount: ${sum.toString()}. Consensus maximum amount: ${
+          ConsensusBch2023.maximumFungibleTokenAmount
+        }`,
+      );
     }
     const availableSum = availableSumsByCategory[categoryHex];
     if (
@@ -225,10 +239,16 @@ export const verifyTransactionTokens = (
       sum > 0 &&
       !genesisCategories.includes(categoryHex)
     ) {
-      return `Transaction violates token validation: the transaction creates new fungible tokens for a category without a matching genesis input. Category: ${categoryHex}, tokens created: ${sum}`;
+      return formatError(
+        AuthenticationErrorCommon.tokenValidationInvalidFungibleMint,
+        `Category: ${categoryHex}, tokens created: ${sum}`,
+      );
     }
     if (availableSum !== undefined && sum > availableSum) {
-      return `Transaction violates token validation: the sum of fungible tokens in the transaction's outputs exceed that of the transactions inputs for a category. Category: ${categoryHex}, input amount: ${availableSum}, output amount: ${sum}`;
+      return formatError(
+        AuthenticationErrorCommon.tokenValidationOutputsExceedInputs,
+        `Category: ${categoryHex}, input amount: ${availableSum}, output amount: ${sum}`,
+      );
     }
   }
 
@@ -244,9 +264,10 @@ export const verifyTransactionTokens = (
   // eslint-disable-next-line functional/no-loop-statements
   for (const [categoryHex, sum] of Object.entries(remainingMutableTokens)) {
     if (sum < 0) {
-      return `Transaction violates token validation: the transaction creates more mutable tokens than are available for a category without a matching minting token. Category: ${categoryHex}, excess mutable tokens: ${
-        0 - sum
-      }`;
+      return formatError(
+        AuthenticationErrorCommon.tokenValidationExcessiveMutableTokens,
+        `Category: ${categoryHex}, excess mutable tokens: ${0 - sum}`,
+      );
     }
   }
 
@@ -289,7 +310,10 @@ export const verifyTransactionTokens = (
   for (const [categoryHex, required] of Object.entries(requiredMutableTokens)) {
     const available = remainingMutableTokens[categoryHex] ?? 0;
     if (available < required) {
-      return `Transaction violates token validation: the transaction creates an immutable token for a category without a matching minting token or sufficient mutable tokens. Category ${categoryHex}, available mutable tokens: ${available}, new immutable tokens: ${required}`;
+      return formatError(
+        AuthenticationErrorCommon.tokenValidationExcessiveImmutableTokens,
+        `Category ${categoryHex}, available mutable tokens: ${available}, new immutable tokens: ${required}`,
+      );
     }
   }
 

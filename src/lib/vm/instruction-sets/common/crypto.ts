@@ -549,6 +549,13 @@ export const opCheckMultiSig =
                 );
               }
 
+              if (bitcoinEncodedSignature.length === 0) {
+                // eslint-disable-next-line functional/no-expression-statements
+                remainingSignatures -= 1;
+                // eslint-disable-next-line no-continue
+                continue;
+              }
+
               const { signingSerializationType, signature } =
                 decodeBitcoinSignature(bitcoinEncodedSignature);
 
@@ -597,6 +604,7 @@ export const opCheckMultiSig =
             if (!allSignaturesAreNull) {
               // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
               finalState.metrics.signatureCheckCount += publicKeys.length;
+
               if (!success) {
                 return applyError(
                   finalState,

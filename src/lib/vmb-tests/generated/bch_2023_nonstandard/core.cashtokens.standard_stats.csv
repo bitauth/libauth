@@ -181,9 +181,9 @@ jm9ze5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only minting token, index
 ay6uv3,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 0) (nonP2SH)",97,81,1,0,42,33600,0,1,0,21,0,4,67,0
 dgg92q,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 1) (nonP2SH)",140,113,2,1,42,33600,0,1,0,21,0,4,68,0
 2s5wjz,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 1, category 0x00...03) (nonP2SH)",140,113,2,1,42,33600,0,1,0,21,0,4,68,0
-eprqsl,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32) (nonP2SH)",67,50,1,0,42,33600,0,1,0,21,0,6,68,0
-j94erf,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33) (nonP2SH)",67,50,1,0,42,33600,0,1,0,21,0,6,70,0
-q57l4e,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33) (nonP2SH)",67,50,1,0,42,33600,0,1,0,21,0,6,70,0
+eprqsl,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32) (nonP2SH)",67,50,1,0,42,33600,0,1,0,21,0,6,35,0
+j94erf,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33) (nonP2SH)",67,50,1,0,42,33600,0,1,0,21,0,6,36,0
+q57l4e,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33) (nonP2SH)",67,50,1,0,42,33600,0,1,0,21,0,6,36,0
 k2zxf5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered) (nonP2SH)",541,626,7,1,48,38400,0,1,0,24,0,28,403,0
 gscsqw,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY accepts an index and returns the category and capability (palindrome category to test without endianness) (nonP2SH)",130,45,1,0,42,33600,0,1,0,21,0,4,65,0
 sa3l3u,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY accepts an index and returns the category and capability (expect correct endianness) (nonP2SH)",130,45,1,0,42,33600,0,1,0,21,0,4,65,0
@@ -212,9 +212,9 @@ zruu0l,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction
 fu8slt,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting and fungible tokens, index 0) (nonP2SH)",132,46,1,0,42,33600,0,1,0,21,0,4,67,0
 7l7tqm,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, minting and fungible tokens, index 1) (nonP2SH)",220,113,2,1,42,33600,0,1,0,21,0,4,68,0
 danmaq,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, minting and fungible tokens, index 1, category 0x00...03) (nonP2SH)",220,113,2,1,42,33600,0,1,0,21,0,4,68,0
-x2l6q8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32) (nonP2SH)",101,16,1,0,42,33600,0,1,0,21,0,6,68,0
-2um4ts,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33) (nonP2SH)",101,16,1,0,42,33600,0,1,0,21,0,6,70,0
-enltmm,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33) (nonP2SH)",101,16,1,0,42,33600,0,1,0,21,0,6,70,0
+x2l6q8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32) (nonP2SH)",101,16,1,0,42,33600,0,1,0,21,0,6,35,0
+2um4ts,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33) (nonP2SH)",101,16,1,0,42,33600,0,1,0,21,0,6,36,0
+enltmm,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33) (nonP2SH)",101,16,1,0,42,33600,0,1,0,21,0,6,36,0
 xe6tfc,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered) (nonP2SH)",2099,626,7,1,48,38400,0,1,0,24,0,28,403,0
 8ahahc,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (10-byte commitment, tests endianness) (nonP2SH)",74,68,1,0,42,33600,0,1,0,21,0,4,21,0
 rmxaj3,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (40-byte commitment) (nonP2SH)",104,128,1,0,42,33600,0,1,0,21,0,4,81,0
@@ -341,7 +341,7 @@ r362k7,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at multiple indexes, mult
 suadl3,"CHIP-2022-02-CashTokens: OP_UTXOBYTECODE (sibling with token prefix) (nonP2SH)",210,113,2,1,65,52000,0,1,0,32,0,4,47,0
 su0jcy,"CHIP-2022-02-CashTokens: OP_ACTIVEBYTECODE returns the bytecode currently being evaluated (with token prefix) (nonP2SH)",99,46,1,0,44,35200,0,1,0,22,0,3,5,0
 fnzaud,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE (sibling with token prefix) (nonP2SH)",115,47,1,0,52,41600,0,1,0,26,0,4,21,0
-l90x0j,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 10) (nonP2SH)",107,16,1,0,41,32800,0,1,0,20,0,6,24,0
-m0aprc,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (nonP2SH)",619,18,1,0,41,32800,0,1,0,20,0,6,1046,0
-pnre84,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (P2SH20)",628,33,1,0,50,40000,0,1,0,25,2,10,1095,0
-z3sjs4,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (P2SH32)",628,45,1,0,50,40000,0,1,0,25,2,10,1119,0
+l90x0j,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 10) (nonP2SH)",107,16,1,0,41,32800,0,1,0,20,0,6,13,0
+m0aprc,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (nonP2SH)",619,18,1,0,41,32800,0,1,0,20,0,6,525,0
+pnre84,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (P2SH20)",628,33,1,0,50,40000,0,1,0,25,2,10,574,0
+z3sjs4,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (P2SH32)",628,45,1,0,50,40000,0,1,0,25,2,10,598,0

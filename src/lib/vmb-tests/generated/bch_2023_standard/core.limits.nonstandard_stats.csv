@@ -5,9 +5,7 @@ aj94zg,"Transaction structure and limits: Empty locking bytecode is supported (P
 wfp34x,"Transaction structure and limits: Empty locking bytecode is supported (P2SH32)",213,79,2,1,43,34400,0,1,0,150,2,5,66,0
 dmmcy2,"Transaction structure and limits: Drop item and succeed (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,44,0
 w5vqj2,"Transaction structure and limits: Drop item and succeed (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,68,0
-2afrns,"Transaction structure and limits: Allow 520 byte push (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,2,9,1093,0
-nezvsl,"Transaction structure and limits: Allow 520 byte push (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,2,9,1117,0
-ymts3m,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH20)",449,67,2,1,279,223200,0,6,0,976,12,238,826,117
-4aumh2,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH32)",449,79,2,1,279,223200,0,6,0,976,12,238,850,117
-86hf4f,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH20)",449,67,2,1,279,223200,0,6,0,976,12,238,820,111
-wfz3nh,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH32)",449,79,2,1,279,223200,0,6,0,976,12,238,844,111
+ymts3m,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH20)",449,67,2,1,279,223200,0,6,0,976,12,238,829,117
+4aumh2,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH32)",449,79,2,1,279,223200,0,6,0,976,12,238,853,117
+86hf4f,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH20)",449,67,2,1,279,223200,0,6,0,976,12,238,823,111
+wfz3nh,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH32)",449,79,2,1,279,223200,0,6,0,976,12,238,847,111

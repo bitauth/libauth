@@ -104,17 +104,6 @@ export const createInstructionSetBch2025 = <
           : consensus.hashDigestIterationCostConsensus,
         signatureCheckCost: consensus.signatureCheckCost,
       });
-      if (
-        standard &&
-        state.metrics.signatureCheckCount >
-          state.metrics.maximumSignatureCheckCount
-      ) {
-        return applyError(
-          state,
-          AuthenticationErrorBch2025.exceededMaximumSignatureCheckCount,
-          `Maximum signature check count: ${state.metrics.maximumSignatureCheckCount}; signature check count following operation: ${state.metrics.signatureCheckCount}.`,
-        );
-      }
       if (state.metrics.operationCost > state.metrics.maximumOperationCost) {
         return applyError(
           state,
@@ -147,6 +136,17 @@ export const createInstructionSetBch2025 = <
           state,
           AuthenticationErrorBch2025.exceededMaximumControlStackDepth,
           `Maximum control stack depth: ${consensus.maximumControlStackDepth}.`,
+        );
+      }
+      if (
+        standard &&
+        state.metrics.signatureCheckCount >
+          state.metrics.maximumSignatureCheckCount
+      ) {
+        return applyError(
+          state,
+          AuthenticationErrorBch2025.exceededMaximumSignatureCheckCount,
+          `Maximum signature check count: ${state.metrics.maximumSignatureCheckCount}; signature check count following operation: ${state.metrics.signatureCheckCount}.`,
         );
       }
       return state;

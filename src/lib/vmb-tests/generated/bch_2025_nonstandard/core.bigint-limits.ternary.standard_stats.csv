@@ -1,0 +1,14 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+yldh09,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_1ADD OP_WITHIN, 10,000 bytes of 0x00 (nonP2SH)",841,57,2,1,669,535200,30153,16,0,334,0,14,28752,1
+338d0t,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP <1> OP_WITHIN, 10,000 bytes of 0x00 (nonP2SH)",841,56,2,1,669,535200,30052,16,0,334,0,13,28752,0
+6cnnt0,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_1ADD OP_WITHIN, 10,000 bytes of 0x7f (nonP2SH)",841,57,2,1,669,535200,80151,16,0,334,0,14,68751,10000
+d2zwky,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_NEGATE OP_WITHIN, 10,000 bytes of 0x80 (nonP2SH)",841,57,2,1,669,535200,80151,16,0,334,0,14,68751,10000
+y80cv2,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_ABS OP_WITHIN, 10,000 bytes of 0x80 (nonP2SH)",841,57,2,1,669,535200,80151,16,0,334,0,14,68751,10000
+7tykpx,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_1ADD OP_WITHIN, 10,000 bytes of 0x80 (nonP2SH)",841,57,2,1,669,535200,80151,16,0,334,0,14,68751,10000
+h66m5w,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP <0> OP_WITHIN, 10,000 bytes of 0x80 (nonP2SH)",841,56,2,1,669,535200,50051,16,0,334,0,13,48751,0
+da0h2z,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP <1> OP_WITHIN, 10,000 bytes of 0x80 (nonP2SH)",841,56,2,1,669,535200,50052,16,0,334,0,13,48752,0
+levn7a,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_NEGATE OP_WITHIN, 10,000 bytes of 0xff (nonP2SH)",841,57,2,1,669,535200,80151,16,0,334,0,14,68751,10000
+xp602d,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_ABS OP_WITHIN, 10,000 bytes of 0xff (nonP2SH)",841,57,2,1,669,535200,80151,16,0,334,0,14,68751,10000
+sqsza4,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP OP_DUP OP_1ADD OP_WITHIN, 10,000 bytes of 0xff (nonP2SH)",841,57,2,1,669,535200,80151,16,0,334,0,14,68751,10000
+nk824r,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP <0> OP_WITHIN, 10,000 bytes of 0xff (nonP2SH)",841,56,2,1,669,535200,50051,16,0,334,0,13,48751,0
+t3eghh,"BigInt ternary operation limits: OP_BIN2NUM OP_DUP <1> OP_WITHIN, 10,000 bytes of 0xff (nonP2SH)",841,56,2,1,669,535200,50052,16,0,334,0,13,48752,0

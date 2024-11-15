@@ -1,0 +1,38 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+ddmnwe,"BigInt unary operation limits: OP_BIN2NUM, 10,000 bytes of 0x7f (nonP2SH)",841,53,2,1,669,535200,39750,16,0,334,0,10,38750,0
+g96kev,"BigInt unary operation limits: OP_BIN2NUM OP_BIN2NUM, 10,000 bytes of 0x7f (nonP2SH)",841,54,2,1,669,535200,49850,16,0,334,0,11,48750,0
+t87l68,"BigInt unary operation limits: OP_BIN2NUM, 10,000 bytes of 0x80 (nonP2SH)",841,53,2,1,669,535200,39750,16,0,334,0,10,38750,0
+67jtxf,"BigInt unary operation limits: OP_BIN2NUM OP_BIN2NUM, 10,000 bytes of 0x80 (nonP2SH)",841,54,2,1,669,535200,49850,16,0,334,0,11,48750,0
+qg8sx9,"BigInt unary operation limits: OP_BIN2NUM, 10,000 bytes of 0xff (nonP2SH)",841,53,2,1,669,535200,39750,16,0,334,0,10,38750,0
+4rsvje,"BigInt unary operation limits: OP_BIN2NUM OP_BIN2NUM, 10,000 bytes of 0xff (nonP2SH)",841,54,2,1,669,535200,49850,16,0,334,0,11,48750,0
+v3zel9,"BigInt unary operation limits: OP_BIN2NUM OP_1ADD, 10,000 bytes of 0x00 (nonP2SH)",841,54,2,1,669,535200,29852,16,0,334,0,11,28751,1
+3waqjk,"BigInt unary operation limits: OP_1ADD, 10,000 bytes of 0x7f (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+lj6nq0,"BigInt unary operation limits: OP_BIN2NUM OP_1ADD, 10,000 bytes of 0x7f (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+6yftyu,"BigInt unary operation limits: OP_1ADD, 10,000 bytes of 0x80 (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+nvj8v5,"BigInt unary operation limits: OP_BIN2NUM OP_1ADD, 10,000 bytes of 0x80 (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+pwq3r0,"BigInt unary operation limits: OP_1ADD, 10,000 bytes of 0xff (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+xc64n9,"BigInt unary operation limits: OP_BIN2NUM OP_1ADD, 10,000 bytes of 0xff (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+hadzgm,"BigInt unary operation limits: OP_BIN2NUM OP_1SUB, 10,000 bytes of 0x00 (nonP2SH)",841,54,2,1,669,535200,29852,16,0,334,0,11,28751,1
+4zaqw9,"BigInt unary operation limits: OP_1SUB, 10,000 bytes of 0x7f (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+m9nzww,"BigInt unary operation limits: OP_BIN2NUM OP_1SUB, 10,000 bytes of 0x7f (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+lwca04,"BigInt unary operation limits: OP_1SUB, 10,000 bytes of 0x80 (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+ng8l8a,"BigInt unary operation limits: OP_BIN2NUM OP_1SUB, 10,000 bytes of 0x80 (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+pwvnag,"BigInt unary operation limits: OP_NEGATE, 10,000 bytes of 0x7f (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+hm6zh5,"BigInt unary operation limits: OP_BIN2NUM OP_NEGATE, 10,000 bytes of 0x7f (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+gffpw2,"BigInt unary operation limits: OP_NEGATE, 10,000 bytes of 0x80 (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+wntwud,"BigInt unary operation limits: OP_BIN2NUM OP_NEGATE, 10,000 bytes of 0x80 (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+cszwyh,"BigInt unary operation limits: OP_NEGATE, 10,000 bytes of 0xff (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+7lu90q,"BigInt unary operation limits: OP_BIN2NUM OP_NEGATE, 10,000 bytes of 0xff (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+uffpq6,"BigInt unary operation limits: OP_ABS, 10,000 bytes of 0x7f (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+yzhhyp,"BigInt unary operation limits: OP_BIN2NUM OP_ABS, 10,000 bytes of 0x7f (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+6w78sk,"BigInt unary operation limits: OP_ABS, 10,000 bytes of 0x80 (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+4780t5,"BigInt unary operation limits: OP_BIN2NUM OP_ABS, 10,000 bytes of 0x80 (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+wf0yq6,"BigInt unary operation limits: OP_ABS, 10,000 bytes of 0xff (nonP2SH)",841,53,2,1,669,535200,49750,16,0,334,0,10,38750,10000
+72xkms,"BigInt unary operation limits: OP_BIN2NUM OP_ABS, 10,000 bytes of 0xff (nonP2SH)",841,54,2,1,669,535200,59850,16,0,334,0,11,48750,10000
+2q9j7e,"BigInt unary operation limits: OP_BIN2NUM OP_NOT, 10,000 bytes of 0x00 (nonP2SH)",841,54,2,1,669,535200,29851,16,0,334,0,11,28751,0
+33dh0y,"BigInt unary operation limits: OP_0NOTEQUAL, 10,000 bytes of 0x7f (nonP2SH)",841,53,2,1,669,535200,29751,16,0,334,0,10,28751,0
+s7rj80,"BigInt unary operation limits: OP_BIN2NUM OP_0NOTEQUAL, 10,000 bytes of 0x7f (nonP2SH)",841,54,2,1,669,535200,39851,16,0,334,0,11,38751,0
+5g8e30,"BigInt unary operation limits: OP_0NOTEQUAL, 10,000 bytes of 0x80 (nonP2SH)",841,53,2,1,669,535200,29751,16,0,334,0,10,28751,0
+cgd879,"BigInt unary operation limits: OP_BIN2NUM OP_0NOTEQUAL, 10,000 bytes of 0x80 (nonP2SH)",841,54,2,1,669,535200,39851,16,0,334,0,11,38751,0
+v2nwvh,"BigInt unary operation limits: OP_0NOTEQUAL, 10,000 bytes of 0xff (nonP2SH)",841,53,2,1,669,535200,29751,16,0,334,0,10,28751,0
+gsq38y,"BigInt unary operation limits: OP_BIN2NUM OP_0NOTEQUAL, 10,000 bytes of 0xff (nonP2SH)",841,54,2,1,669,535200,39851,16,0,334,0,11,38751,0

@@ -439,9 +439,13 @@ export const createVirtualMachine = <
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const getCodepoint = (state: ProgramState) => state.instructions[state.ip]!;
 
-  const after = (state: ProgramState) => {
+  const afterInstruction = (state: ProgramState) => {
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     state.ip += 1;
+    return state;
+  };
+
+  const afterOperation = (state: ProgramState) => {
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     state.metrics.evaluatedInstructionCount += 1;
     return state;
@@ -456,7 +460,7 @@ export const createVirtualMachine = <
 
   const stateStepMutate = (state: ProgramState) => {
     const operator = getOperation(state);
-    return after(stateEvery(operator(state)));
+    return afterInstruction(stateEvery(afterOperation(operator(state))));
   };
 
   const stateContinue = instructionSet.continue;
@@ -489,7 +493,9 @@ export const createVirtualMachine = <
 
   const stateDebugStep = (state: ProgramState) => {
     const operator = getOperation(state);
-    return after(stateEvery(operator(stateClone(state))));
+    return afterInstruction(
+      stateEvery(afterOperation(operator(stateClone(state)))),
+    );
   };
 
   const stateDebug = (state: ProgramState): ProgramState[] => {

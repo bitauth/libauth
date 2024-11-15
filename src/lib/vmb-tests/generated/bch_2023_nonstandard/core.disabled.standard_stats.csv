@@ -1,6 +1,53 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-3lltrp,"Disabled/unknown operations: OP_RESERVED is standard if not executed (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
-r4klg0,"Disabled/unknown operations: OP_VER is standard if not executed (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
-ms2klh,"Disabled/unknown operations: OP_RETURN is standard if not executed (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
-xh4md6,"Disabled/unknown operations: OP_RESERVED1 is standard if not executed (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
-spu5dc,"Disabled/unknown operations: OP_RESERVED2 is standard if not executed (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+3lltrp,"Disabled operations: Unexecuted OP_RESERVED in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+r4klg0,"Disabled operations: Unexecuted OP_VER in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+ms2klh,"Disabled operations: Unexecuted OP_RETURN in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+xh4md6,"Disabled operations: Unexecuted OP_RESERVED1 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+spu5dc,"Disabled operations: Unexecuted OP_RESERVED2 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+r2g3xw,"Unknown operations: Unexecuted OP_UNKNOWN189 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+vs98yw,"Unknown operations: Unexecuted OP_UNKNOWN190 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+ulx5uc,"Unknown operations: Unexecuted OP_UNKNOWN191 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+c7f3gl,"Unknown operations: Unexecuted OP_UNKNOWN212 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+hxdg7y,"Unknown operations: Unexecuted OP_UNKNOWN213 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+tp4gvy,"Unknown operations: Unexecuted OP_UNKNOWN214 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+6q2g9e,"Unknown operations: Unexecuted OP_UNKNOWN215 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+69dd9v,"Unknown operations: Unexecuted OP_UNKNOWN216 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+t33n45,"Unknown operations: Unexecuted OP_UNKNOWN217 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+8wuvm7,"Unknown operations: Unexecuted OP_UNKNOWN218 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+vd4r3s,"Unknown operations: Unexecuted OP_UNKNOWN219 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+cmp20a,"Unknown operations: Unexecuted OP_UNKNOWN220 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+yd4upn,"Unknown operations: Unexecuted OP_UNKNOWN221 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+crqh63,"Unknown operations: Unexecuted OP_UNKNOWN222 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+vcfz5p,"Unknown operations: Unexecuted OP_UNKNOWN223 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+zyfh5q,"Unknown operations: Unexecuted OP_UNKNOWN224 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+27wur3,"Unknown operations: Unexecuted OP_UNKNOWN225 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+ejtvea,"Unknown operations: Unexecuted OP_UNKNOWN226 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+gtxffd,"Unknown operations: Unexecuted OP_UNKNOWN227 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+s3e6zz,"Unknown operations: Unexecuted OP_UNKNOWN228 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+pe6k8k,"Unknown operations: Unexecuted OP_UNKNOWN229 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+sludwv,"Unknown operations: Unexecuted OP_UNKNOWN230 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+hljv6y,"Unknown operations: Unexecuted OP_UNKNOWN231 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+yuvx4z,"Unknown operations: Unexecuted OP_UNKNOWN232 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+fprszc,"Unknown operations: Unexecuted OP_UNKNOWN233 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+whcwph,"Unknown operations: Unexecuted OP_UNKNOWN234 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+dswjrg,"Unknown operations: Unexecuted OP_UNKNOWN235 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+hkvkrm,"Unknown operations: Unexecuted OP_UNKNOWN236 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+cgp9fw,"Unknown operations: Unexecuted OP_UNKNOWN237 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+mtkszd,"Unknown operations: Unexecuted OP_UNKNOWN238 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+qkzk49,"Unknown operations: Unexecuted OP_UNKNOWN239 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+rtw3cq,"Unknown operations: Unexecuted OP_UNKNOWN240 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+v5njse,"Unknown operations: Unexecuted OP_UNKNOWN241 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+3s8rht,"Unknown operations: Unexecuted OP_UNKNOWN242 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+q62jzf,"Unknown operations: Unexecuted OP_UNKNOWN243 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+ntxf8m,"Unknown operations: Unexecuted OP_UNKNOWN244 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+ava8p9,"Unknown operations: Unexecuted OP_UNKNOWN245 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+xk6g3n,"Unknown operations: Unexecuted OP_UNKNOWN246 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+hrlfk3,"Unknown operations: Unexecuted OP_UNKNOWN247 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+0pn806,"Unknown operations: Unexecuted OP_UNKNOWN248 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+ycrfxm,"Unknown operations: Unexecuted OP_UNKNOWN249 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+ujcw8y,"Unknown operations: Unexecuted OP_UNKNOWN250 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+vxw2tm,"Unknown operations: Unexecuted OP_UNKNOWN251 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+2mduvh,"Unknown operations: Unexecuted OP_UNKNOWN252 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+kjq7jg,"Unknown operations: Unexecuted OP_UNKNOWN253 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+55ewym,"Unknown operations: Unexecuted OP_UNKNOWN254 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0
+zdcaru,"Unknown operations: Unexecuted OP_UNKNOWN255 in locking bytecode (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,1,0

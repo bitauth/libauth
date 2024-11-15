@@ -15,3 +15,9 @@ mqttrf,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, sin
 rehnu5,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-256 byte OP_MUL (all bits set) (P2SH32)",81,45,1,0,61,48800,0,1,0,213,2,19,967,32768
 cgkp7j,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-320 byte OP_MUL (all bits set) (P2SH20)",84,33,1,0,64,51200,0,1,0,224,2,22,1234,40960
 pf86u7,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-320 byte OP_MUL (all bits set) (P2SH32)",84,45,1,0,64,51200,0,1,0,224,2,22,1258,40960
+pg83j6,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize square OP_MUL (194-by-194 byte) (highest byte set) (P2SH20)",71,33,1,0,51,40800,0,1,0,178,2,10,630,37636
+8t6h2y,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize square OP_MUL (194-by-194 byte) (highest byte set) (P2SH32)",71,45,1,0,51,40800,0,1,0,178,2,10,654,37636
+s8czyv,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize top-operand OP_MUL (1-by-7873 byte) (highest byte set) (P2SH20)",71,33,1,0,51,40800,0,1,0,178,2,7,48,0
+fwtkxa,"Transaction validation benchmarks: Within BCH_2025_05 P2SH32/standard, single-input limits, maximize top-operand OP_MUL (1-by-7868 byte) (highest byte set) (P2SH32)",71,45,1,0,51,40800,0,1,0,178,2,7,72,0
+gwvyrp,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize 1-byte OP_MUL (1-by-8032 byte) (highest byte set) (P2SH20)",72,33,1,0,52,41600,0,1,0,182,2,7,49,0
+dpaptk,"Transaction validation benchmarks: Within BCH_2025_05 P2SH32/standard, single-input limits, maximize 1-byte OP_MUL (1-by-8028 byte) (highest byte set) (P2SH32)",72,45,1,0,52,41600,0,1,0,182,2,7,73,0

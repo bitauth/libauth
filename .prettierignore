@@ -6,3 +6,4 @@ package.json
 src/lib/address/fixtures/key_io_*.json
 src/lib/vm/instruction-sets/xec/fixtures/satoshi-client/*.json
 src/lib/vmb-tests/generated
+src/lib/vmb-tests/bchn/*.json

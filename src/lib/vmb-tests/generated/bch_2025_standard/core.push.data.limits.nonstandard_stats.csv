@@ -1,0 +1,7 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+2afrns,"PUSHDATA limits: OP_PUSHDATA_2 520 bytes (P2SH20)",743,67,2,1,571,456800,1600,13,0,1998,2,9,572,0
+nezvsl,"PUSHDATA limits: OP_PUSHDATA_2 520 bytes (P2SH32)",743,79,2,1,571,456800,1624,13,0,1998,2,9,596,0
+xmxcya,"PUSHDATA limits: OP_PUSHDATA_2 521 bytes (P2SH20)",744,67,2,1,572,457600,1601,13,0,2002,2,9,573,0
+03eumm,"PUSHDATA limits: OP_PUSHDATA_2 521 bytes (P2SH32)",744,79,2,1,572,457600,1625,13,0,2002,2,9,597,0
+jkjpjz,"PUSHDATA limits: OP_PUSHDATA_2 1,640 bytes (P2SH20)",1863,67,2,1,1691,1352800,2720,39,0,5918,2,9,1692,0
+flsaqd,"PUSHDATA limits: OP_PUSHDATA_2 1,640 bytes (P2SH32)",1863,79,2,1,1691,1352800,2744,39,0,5918,2,9,1716,0

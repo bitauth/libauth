@@ -127,7 +127,10 @@ export const opDup = <State extends AuthenticationProgramStateStack>(
 
 export const opNip = <State extends AuthenticationProgramStateStack>(
   state: State,
-) => useTwoStackItems(state, (nextState, [, b]) => pushToStack(nextState, [b]));
+) =>
+  useTwoStackItems(state, (nextState, [, b]) =>
+    pushToStack(nextState, [b], { pushedBytes: 0 }),
+  );
 
 export const opOver = <State extends AuthenticationProgramStateStack>(
   state: State,
@@ -162,8 +165,9 @@ export const opRoll = <
 >(
   state: State,
 ) =>
-  useOneVmNumber(state, (nextState, [depth]) => {
-    const index = nextState.stack.length - 1 - Number(depth);
+  useOneVmNumber(state, (nextState, [depthBigInt]) => {
+    const depth = Number(depthBigInt);
+    const index = nextState.stack.length - 1 - depth;
     if (index < 0 || index > nextState.stack.length - 1) {
       return applyError(
         state,
@@ -172,7 +176,8 @@ export const opRoll = <
       );
     }
     // eslint-disable-next-line functional/immutable-data, @typescript-eslint/no-non-null-assertion
-    return pushToStack(nextState, [nextState.stack.splice(index, 1)[0]!]);
+    const item = nextState.stack.splice(index, 1)[0]!;
+    return pushToStack(nextState, [item], { pushedBytes: item.length + depth });
   });
 
 export const opRot = <State extends AuthenticationProgramStateStack>(
@@ -205,6 +210,9 @@ export const opTuck = <State extends AuthenticationProgramStateStack>(
 export const opSize = <State extends AuthenticationProgramStateStack>(
   state: State,
 ) =>
-  useOneStackItem(state, (nextState, [item]) =>
-    pushToStack(nextState, [item, bigIntToVmNumber(BigInt(item.length))]),
-  );
+  useOneStackItem(state, (nextState, [item]) => {
+    const size = bigIntToVmNumber(BigInt(item.length));
+    return pushToStack(nextState, [item, size], {
+      pushedBytes: size.length,
+    });
+  });

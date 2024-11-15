@@ -1,0 +1,3 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+49e6f3,"PUSHDATA limits: Max OP_PUSHDATA_2 in unlocking bytecode (nonP2SH)",65753,51,2,1,75538,60430400,66042,1525,0,37769,0,5,65542,0
+kga37m,"PUSHDATA limits: Min OP_PUSHDATA_4 in unlocking bytecode (nonP2SH)",65756,51,2,1,75541,60432800,66043,1525,0,37770,0,5,65543,0

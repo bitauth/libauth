@@ -143,6 +143,7 @@
     "PUBKEYS",
     "PUSHBYTES",
     "PUSHDATA",
+    "pushonly",
     "rebranded",
     "rebranding",
     "redenominated",
@@ -156,6 +157,8 @@
     "satoshis",
     "Sats",
     "schnorr",
+    "scriptonly",
+    "scriptsig",
     "seckey",
     "secp",
     "secp256k1",
@@ -183,6 +186,7 @@
     "txid",
     "TXINPUTCOUNT",
     "TXLOCKTIME",
+    "txns",
     "TXOUTPUTCOUNT",
     "TXVERSION",
     "typeof",
@@ -223,7 +227,8 @@
     "node_modules/**",
     "src/**/*.base64.ts",
     "src/**/script_tests.json",
-    "src/lib/vmb-tests/generated"
+    "src/lib/vmb-tests/generated",
+    "src/lib/vmb-tests/bchn/*.json"
   ],
   "patterns": [
     {

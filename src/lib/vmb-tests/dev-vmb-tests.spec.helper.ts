@@ -38,6 +38,10 @@ const main = async () => {
       }
     }
   }
+  // eslint-disable-next-line functional/no-return-void
+  workers.forEach(({ worker }) => {
+    worker.postMessage({ type: 'shutdown' });
+  });
 };
 
 // eslint-disable-next-line functional/no-return-void

@@ -22,6 +22,7 @@ const enum PushOperationConstants {
    * OP_PUSHBYTES_75
    */
   maximumPushByteOperationSize = 0x4b,
+  OP_PUSHBYTES_1 = 0x01,
   OP_PUSHDATA_1 = 0x4c,
   OP_PUSHDATA_2 = 0x4d,
   OP_PUSHDATA_4 = 0x4e,
@@ -128,16 +129,13 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) => {
   }
   if (data.length === 1) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (data[0]! >= 1 && data[0]! <= PushOperationConstants.pushNumberOpcodes) {
-      return (
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        opcode === data[0]! + PushOperationConstants.pushNumberOpcodesOffset
-      );
+    const byte = data[0]!;
+    if (byte >= 1 && byte <= PushOperationConstants.pushNumberOpcodes) {
+      return opcode === byte + PushOperationConstants.pushNumberOpcodesOffset;
     }
-    if (data[0] === PushOperationConstants.negativeOne) {
+    if (byte === PushOperationConstants.negativeOne) {
       return opcode === PushOperationConstants.OP_1NEGATE;
     }
-    return true;
   }
   if (data.length <= PushOperationConstants.maximumPushByteOperationSize) {
     return opcode === data.length;
@@ -153,8 +151,6 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) => {
   }
   return false;
 };
-
-// TODO: add tests that verify the order of operations below (are non-minimal pushes OK inside unexecuted conditionals?)
 
 export const pushOperation =
   <

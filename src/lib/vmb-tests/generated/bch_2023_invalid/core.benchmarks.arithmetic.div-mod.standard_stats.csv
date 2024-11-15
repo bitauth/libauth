@@ -15,6 +15,8 @@ xp2mgv,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, sin
 8zk9rg,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 128-by-320 byte OP_DIV (all bits set) (P2SH20)",85,33,1,0,65,52000,0,1,0,32,2,22,1235,40960
 zyrc2f,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize square OP_DIV (195-by-195 byte) (highest byte set) (P2SH20)",71,33,1,0,51,40800,0,1,0,25,2,10,636,38025
 wa3e5m,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize square OP_DIV (195-by-195 byte) (highest byte set) (P2SH32)",71,45,1,0,51,40800,0,1,0,25,2,10,660,38025
+ly54y8,"Transaction validation benchmarks: Within BCH_2025_05 P2SH20/standard, single-input limits, maximize 1-byte OP_DIV (1-by-8033 byte) (highest byte set) (P2SH20)",72,33,1,0,52,41600,0,1,0,26,2,7,49,0
+90e2p7,"Transaction validation benchmarks: Within BCH_2025_05 P2SH32/standard, single-input limits, maximize 1-byte OP_DIV (1-by-8028 byte) (highest byte set) (P2SH32)",72,45,1,0,52,41600,0,1,0,26,2,7,73,0
 jlc8j2,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 1-by-8192 byte OP_MOD (all bits set, long bottom operand) (P2SH20)",92,33,1,0,72,57600,0,2,0,36,2,21,2106,0
 jp2gew,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 1-by-8192 byte OP_MOD (all bits set, long top operand) (P2SH20)",93,33,1,0,73,58400,0,2,0,36,2,21,2107,0
 lthl39,"Transaction validation benchmarks: Within BCH_2025_05 P2SH/standard, single-input limits, maximize 1-by-8192 byte OP_MOD (all bits set, long top operand) (P2SH32)",93,45,1,0,73,58400,0,2,0,36,2,21,2131,0

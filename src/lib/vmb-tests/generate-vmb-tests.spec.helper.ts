@@ -1,4 +1,4 @@
-/* eslint-disable functional/no-expression-statements, no-console */
+/* eslint-disable max-lines, functional/no-expression-statements, no-console */
 /* This file exports the utilities required for VMB test generation. */
 
 import { createHash } from 'node:crypto';
@@ -29,6 +29,12 @@ import {
   vmbTestPartitionMasterTestList,
 } from './bch-vmb-test-utils.js';
 import type { VmbTest, VmbTestDefinitionGroup } from './bch-vmb-test-utils.js';
+import {
+  failReasonsPath,
+  getBchnMetrics,
+  testMetricsPath,
+  verifyExpectedErrorMessage,
+} from './bchn/map-bchn-results.spec.helper.js';
 import type { baselineBenchmarkId } from './vmb-tests.spec.helper.js';
 import { vms } from './vmb-tests.spec.helper.js';
 
@@ -160,7 +166,11 @@ const formatVmbDictionary = (dictionary: { [shortId: string]: unknown }) =>
     .map(([key, value]) => `"${key}":${JSON.stringify(value)}`)
     .join(',\n')}\n}`;
 
-const defaultConsole = { error: console.error, log: console.log };
+const defaultConsole = {
+  error: console.error,
+  log: console.log,
+  warn: console.warn,
+};
 
 /**
  * (Re)generate and run a VMB tests defined in `filename`, formatting and
@@ -184,10 +194,12 @@ export const generateVmbTestsFromSourceFile = async (
       error: (...args: unknown[]) => void;
       // eslint-disable-next-line functional/no-return-void
       log: (...args: unknown[]) => void;
+      // eslint-disable-next-line functional/no-return-void
+      warn: (...args: unknown[]) => void;
     };
     logPrefix?: string;
   } = {},
-) => {
+): Promise<{ issues: string[]; severity: 'error' | 'warn' }> => {
   // eslint-disable-next-line functional/no-try-statements
   try {
     console.log(`${logPrefix}Generating VMB tests from ${filename}...`);
@@ -230,7 +242,11 @@ export const generateVmbTestsFromSourceFile = async (
      * issues occur.
      */
     const issues: {
-      [issue: string]: [using: string, testSet: string][];
+      [issue: string]: [
+        using: string,
+        testSet: string,
+        severity: 'error' | 'warn',
+      ][];
     } = {};
     /**
      * Queue up benchmarks to run after any issues have been logged (for faster
@@ -436,6 +452,7 @@ export const generateVmbTestsFromSourceFile = async (
           stats[mode].push(statsEntry);
           // eslint-disable-next-line functional/immutable-data
           benchMap[mode][shortId] = { txLength: txBin.length };
+          const isStandard = mode === 'standard';
           /**
            * In standard mode:
            * - `standard` tests are expected to succeed,
@@ -445,24 +462,133 @@ export const generateVmbTestsFromSourceFile = async (
            * - `standard` and `nonstandard` tests are expected to succeed,
            * - `invalid` tests are expected to reject.
            */
-          const expectedToSucceed =
-            mode === 'standard'
-              ? fullTestSetName.includes('_standard')
-              : !fullTestSetName.includes('invalid');
+          const fromStandardSet = fullTestSetName.includes('_standard');
+          const fromNonstandardSet = fullTestSetName.includes('_nonstandard');
+          const fromInvalidSet = fullTestSetName.includes('invalid');
+          const expectedToSucceed = isStandard
+            ? fromStandardSet
+            : !fromInvalidSet;
           const using = mode === 'standard' ? standardVmId : nonStdVmId;
+          // eslint-disable-next-line functional/no-return-void
+          const markIssue = (
+            error: string,
+            severity: 'error' | 'warn' = 'error',
+          ) => {
+            // eslint-disable-next-line functional/immutable-data
+            issues[error] = [
+              ...(issues[error] ?? []),
+              [using, fullTestSetName, severity],
+            ];
+          };
+          if (inputIndex > sourceOutputs.length - 1) {
+            markIssue(
+              `Malformed VMB test in ${filename}: test ID "${shortId}" ("${description}") is configured to test input index ${inputIndex}, but the highest input index is ${
+                sourceOutputs.length - 1
+              }. Please correct this test to specify a valid tested index.`,
+            );
+            return;
+          }
           const message =
             expectedToSucceed && result !== true
               ? `VMB test failure in ${filename}: test ID "${shortId}" ("${description}") was expected to succeed but rejected with error: ${result}`
               : !expectedToSucceed && result === true
                 ? `VMB test failure in ${filename}: test ID "${shortId}" ("${description}") was expected to fail but succeeded.`
                 : undefined;
-          // eslint-disable-next-line functional/no-conditional-statements
           if (message !== undefined) {
-            // eslint-disable-next-line functional/immutable-data
-            issues[message] = [
-              ...(issues[message] ?? []),
-              [using, fullTestSetName],
-            ];
+            markIssue(message);
+            return;
+          }
+          /**
+           * Note, the below checks only execute if no issues have occurred (we
+           * avoid cluttering development with the additional errors if the
+           * above validation already failed).
+           */
+          const prefix = 4;
+          const vmYear = testSetBase.slice(prefix);
+
+          const bchnTestedYears = ['2023', '2025'];
+          if (!bchnTestedYears.includes(vmYear)) {
+            return;
+          }
+          const matchedBchnResult = verifyExpectedErrorMessage({
+            isStandard,
+            libauthResult: result,
+            shortId,
+            vmYear,
+          });
+          if (matchedBchnResult === false) {
+            markIssue(
+              `[warning] New VMB test in ${filename}: test ID "${shortId}" ("${description}") was not found in the BCHN fail reasons. Please evaluate new tests in BCHN and update the reasons file (${failReasonsPath}) by running: "yarn bchn:update-vmb-tests"`,
+              'warn',
+            );
+            return;
+          }
+          // TODO: review remaining reasons
+          const skipReasons = true as boolean;
+          if (!skipReasons && typeof matchedBchnResult === 'string') {
+            markIssue(
+              `[warning] VMB test failure in ${filename}: test ID "${shortId}" ("${description}") evaluated result is inconsistent with BCHN's expected result. ${matchedBchnResult}`,
+              'warn',
+            );
+            return;
+          }
+          /**
+           * Any "metrics" from 2023 are not consensus standardized, so they are
+           * not expected to match between Libauth and BCHN.
+           */
+          const excluded = '2023';
+          if (
+            vmYear === excluded ||
+            /**
+             * BCHN does not export metrics from mismatched evaluations, so all possible checks for this evaluation are now complete.
+             */
+            (isStandard && !fromStandardSet) ||
+            (!isStandard && !fromNonstandardSet)
+          ) {
+            return;
+          }
+          const bchnMetrics = getBchnMetrics({
+            isStandard,
+            shortId,
+            vmYear,
+          });
+          if (bchnMetrics === undefined) {
+            markIssue(
+              `[warning] New VMB test in ${filename}: test ID "${shortId}" ("${description}") was not found in the BCHN test metrics. Please evaluate new tests in BCHN and update the metrics file (${testMetricsPath}) by running: "yarn bchn:update-vmb-tests"`,
+              'warn',
+            );
+            return;
+          }
+          const input =
+            bchnMetrics[inputIndex] ??
+            /**
+             * "scriptonly" tests only provide metrics for the tested index
+             */
+            bchnMetrics.find((metrics) => metrics.inputIndex === inputIndex);
+          if (input === undefined) {
+            // eslint-disable-next-line functional/no-throw-statements
+            throw new Error(
+              `Issue in BCHN metrics file at ${testMetricsPath}: metrics are not provided for input index ${inputIndex} in entry – vmYear: ${vmYear}, isStandard: ${isStandard}, shortId: ${shortId}; this happens for "scriptonly" cases. If this is expected, add "${shortId}" to "reviewedScriptOnlyIds".`,
+            );
+          }
+          if (
+            input.hashIterations !== hashDigestIterations ||
+            (input.hashIterationsLimit !== maximumHashDigestIterations &&
+              input.hashIterationsLimit !== null) ||
+            input.operationCost !== operationCost ||
+            (input.operationCostLimit !== maximumOperationCost &&
+              input.operationCostLimit !== null) ||
+            input.sigChecks !== signatureCheckCount ||
+            (input.sigChecksLimit !== maximumSignatureCheckCount &&
+              input.sigChecksLimit !== null)
+            // eslint-disable-next-line functional/no-conditional-statements
+          ) {
+            markIssue(
+              `[metrics] VMB test failure in ${filename}: test ID "${shortId}" ("${description}") evaluated metrics are inconsistent with BCHN's metrics.
+Libauth metrics: ${hashDigestIterations} hash iterations (${maximumHashDigestIterations} max), ${operationCost} operation cost (${maximumOperationCost} max), ${signatureCheckCount} sigChecks (${maximumSignatureCheckCount} max)
+BCHN metrics: ${input.hashIterations} hash iterations (${input.hashIterationsLimit} max), ${input.operationCost} operation cost (${input.operationCostLimit} max), ${input.sigChecks} sigChecks (${input.sigChecksLimit} max)
+This is a vulnerability in one of the implementations, please confidentially report this issue: https://github.com/bitauth/libauth/security`,
+            );
           }
         });
       }
@@ -543,8 +669,21 @@ export const generateVmbTestsFromSourceFile = async (
       }
     }
 
-    const issueMessages = Object.entries(issues).map(
-      ([issue, occurrences], index) => {
+    const hideWarnings = Object.values(issues).some((runs) =>
+      runs.some((occurrence) => occurrence[2] === 'error'),
+    );
+    // eslint-disable-next-line functional/no-conditional-statements
+    if (hideWarnings) {
+      console.error('\nErrors found, hiding warnings...\n');
+    }
+
+    const issueMessages = Object.entries(issues)
+      .filter(([_, occurrences]) =>
+        hideWarnings
+          ? occurrences.some((occurrence) => occurrence[2] === 'error')
+          : true,
+      )
+      .map(([issue, occurrences], index) => {
         const runs = Object.entries(
           occurrences.reduce<{ [key: string]: string[] }>(
             (acc, [vm, set]) => ({ ...acc, [set]: [...(acc[set] ?? []), vm] }),
@@ -556,12 +695,11 @@ export const generateVmbTestsFromSourceFile = async (
         const message = `${index}. ${issue} Occurred in: ${runs}`;
         const firstVm = occurrences[0]?.[0];
         const id = /test ID "(?<id>\w+)"/u.exec(message)?.groups?.['id'];
-        console.error(
+        (hideWarnings ? console.error : console.warn)(
           `${message}\nFor more detailed debugging information, try e.g.: "yarn test:unit:vmb_test ${firstVm} ${id} [-v]"\n`,
         );
         return message;
-      },
-    );
+      });
 
     const annotationEnd = performance.now();
     const annotationTime = (annotationEnd - annotationStart).toFixed(0);
@@ -589,11 +727,11 @@ export const generateVmbTestsFromSourceFile = async (
         `${logPrefix}${filename}: finished and benchmarked in ${totalTime}ms: imported in ${importTime}ms, generated in ${generationTime}ms, annotated in ${annotationTime}ms, benchmarked in ${benchTime}ms.`,
       );
     }
-    return issueMessages;
+    return { issues: issueMessages, severity: hideWarnings ? 'error' : 'warn' };
   } catch (error) {
     const message = `Error generating ${filename}: ${String(error)}`;
     console.error(message, error);
-    return [message];
+    return { issues: [message], severity: 'error' };
   }
 };
 
@@ -694,14 +832,14 @@ export const checkVmbTestsForConflicts = async () => {
 
     return Object.entries(conflicts).map(([issue, sets], index) => {
       const message = `${index}. ${issue}\nTest sets: ${sets.join(', ')}\n`;
-      console.error(message);
+      console.warn(message);
       return message;
     });
   } catch (error) {
     const message = `Error checking for duplicate test IDs and descriptions: ${String(
       error,
     )}`;
-    console.error(message);
+    console.warn(message);
     return [message];
   }
 };
@@ -709,7 +847,12 @@ export const checkVmbTestsForConflicts = async () => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, functional/no-mixed-types, functional/no-return-void
 type WorkerWrapper = { worker: Worker; handler?: (value: any) => void };
 export type WorkerTask = { file: string; hash: string };
-export type WorkerResult = { file: string; hash: string; fileIssues: string[] };
+export type WorkerResult = {
+  file: string;
+  hash: string;
+  fileIssues: string[];
+  severity: 'error' | 'warn';
+};
 
 // eslint-disable-next-line functional/immutable-data
 process.env['FORCE_COLOR'] = '3';
@@ -760,6 +903,54 @@ export const generateVmbTests = async (
   workers?: WorkerWrapper[],
   { benchmark = false, deleteUnexpected = false } = {},
 ) => {
+  const bases = getSources().map((name) => name.replace('.ts', ''));
+  const suffixes = [
+    '.nonstandard_bench.csv',
+    '.nonstandard_limits.json',
+    '.nonstandard_results.json',
+    '.nonstandard_stats.csv',
+    '.standard_bench.csv',
+    '.standard_limits.json',
+    '.standard_results.json',
+    '.standard_stats.csv',
+    '.vmb_tests.json',
+  ];
+  const resultSubDirs = readdirSync(resultDir, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name);
+  const unexpectedFiles = resultSubDirs.flatMap((subDir) => {
+    const subDirPath = join(resultDir, subDir);
+    return readdirSync(subDirPath)
+      .filter(
+        (file) =>
+          !file.endsWith('.scriptonly.json') &&
+          !bases.some(
+            (base) =>
+              file.startsWith(base) &&
+              suffixes.some((suffix) => file === `${base}${suffix}`),
+          ),
+      )
+      .map((file) => join(subDirPath, file));
+  });
+
+  if (unexpectedFiles.length > 0) {
+    // eslint-disable-next-line functional/no-conditional-statements
+    if (deleteUnexpected) {
+      await Promise.all(
+        unexpectedFiles.map(async (file) => {
+          await fs.unlink(file);
+          console.log(`Deleted unexpected file: ${file}`);
+        }),
+      );
+    } else {
+      const message = `Found unexpected files in the result directory that do not correspond to any source files:\n${unexpectedFiles.join(
+        '\n',
+      )}\n\nTo automatically delete these unexpected files, re-run generation with the '-d' flag.`;
+      console.error(message);
+      return message;
+    }
+  }
+
   console.log('Generating vmb_tests...');
   const manifestPath = benchmark ? benchInfoPath : buildInfoPath;
   console.log(`Using manifest: ${manifestPath}`);
@@ -797,9 +988,11 @@ export const generateVmbTests = async (
     console.log(`(Not using workers.)`);
     await Promise.all(
       modifiedFiles.map(async ([file, hash]) => {
-        const fileIssues = await generateVmbTestsFromSourceFile(file, hash, {
-          benchmark,
-        });
+        const { issues: fileIssues } = await generateVmbTestsFromSourceFile(
+          file,
+          hash,
+          { benchmark },
+        );
         saveOnSuccess(file, hash, fileIssues);
       }),
     );
@@ -827,11 +1020,15 @@ export const generateVmbTests = async (
       workers.forEach((wrapper) => {
         const handler = (
           message:
-            | { type: 'error' | 'log'; args: unknown[] }
+            | { type: 'error' | 'log' | 'warn'; args: unknown[] }
             | { type: 'result'; data: WorkerResult },
         ) => {
           if (message.type === 'error') {
             console.error(...message.args);
+            return;
+          }
+          if (message.type === 'warn') {
+            console.warn(...message.args);
             return;
           }
           if (message.type === 'log') {
@@ -882,53 +1079,6 @@ export const generateVmbTests = async (
 
   if (issues.length > 0) {
     return issues;
-  }
-
-  const bases = getSources().map((name) => name.replace('.ts', ''));
-  const suffixes = [
-    '.nonstandard_bench.csv',
-    '.nonstandard_limits.json',
-    '.nonstandard_results.json',
-    '.nonstandard_stats.csv',
-    '.standard_bench.csv',
-    '.standard_limits.json',
-    '.standard_results.json',
-    '.standard_stats.csv',
-    '.vmb_tests.json',
-  ];
-  const resultSubDirs = readdirSync(resultDir, { withFileTypes: true })
-    .filter((dirent) => dirent.isDirectory())
-    .map((dirent) => dirent.name);
-  const unexpectedFiles = resultSubDirs.flatMap((subDir) => {
-    const subDirPath = join(resultDir, subDir);
-    return readdirSync(subDirPath)
-      .filter(
-        (file) =>
-          !bases.some(
-            (base) =>
-              file.startsWith(base) &&
-              suffixes.some((suffix) => file === `${base}${suffix}`),
-          ),
-      )
-      .map((file) => join(subDirPath, file));
-  });
-
-  if (unexpectedFiles.length > 0) {
-    // eslint-disable-next-line functional/no-conditional-statements
-    if (deleteUnexpected) {
-      await Promise.all(
-        unexpectedFiles.map(async (file) => {
-          await fs.unlink(file);
-          console.log(`Deleted unexpected file: ${file}`);
-        }),
-      );
-    } else {
-      const message = `Found unexpected files in the result directory that do not correspond to any source files:\n${unexpectedFiles.join(
-        '\n',
-      )}\n\nTo automatically delete these unexpected files, re-run generation with the '-d' flag.`;
-      console.error(message);
-      return message;
-    }
   }
 
   const dupCheckStart = performance.now();

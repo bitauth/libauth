@@ -2,9 +2,9 @@ Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Inde
 9pgg0a,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (1, expects 0) (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,1,0
 th5qa0,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (1, expects 0) (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,44,0
 ccexd6,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (1, expects 0) (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,68,0
-6kkshe,"Transaction inspection: Active bytecode begins after the last OP_CODESEPARATOR (nonP2SH)",215,50,2,1,45,36000,0,1,0,157,0,7,11,0
-x3zapc,"Transaction inspection: Active bytecode begins after the last OP_CODESEPARATOR (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,11,58,0
-8ujvcz,"Transaction inspection: Active bytecode begins after the last OP_CODESEPARATOR (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,11,82,0
+6kkshe,"Transaction inspection: Active bytecode begins after the last OP_CODESEPARATOR (nonP2SH)",215,50,2,1,45,36000,0,1,0,157,0,7,8,0
+x3zapc,"Transaction inspection: Active bytecode begins after the last OP_CODESEPARATOR (P2SH20)",222,67,2,1,52,41600,0,1,0,182,2,11,55,0
+8ujvcz,"Transaction inspection: Active bytecode begins after the last OP_CODESEPARATOR (P2SH32)",222,79,2,1,52,41600,0,1,0,182,2,11,79,0
 c5c4ng,"Transaction inspection: "OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working nonP2SH) (P2SH20)",217,67,2,1,47,37600,0,1,0,164,2,9,74,0
 ggvv4s,"Transaction inspection: "OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working nonP2SH) (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,9,110,0
 3vgys4,"Transaction inspection: "OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working P2SH20) (nonP2SH)",214,53,2,1,44,35200,0,1,0,154,2,9,86,0
@@ -98,7 +98,7 @@ ssz234,"Transaction inspection: OP_OUTPOINTINDEX (ignore result, input 2, greate
 sqsgfs,"Transaction inspection: OP_INPUTBYTECODE (self, nonP2SH) (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,8,77,0
 vp7pnn,"Transaction inspection: OP_INPUTBYTECODE (self, empty input bytecode, nonP2SH) (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,51,0
 8xxcz4,"Transaction inspection: OP_INPUTBYTECODE (self, empty input bytecode, nonP2SH) (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,75,0
-clqg8p,"Transaction inspection: OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH) (nonP2SH)",225,57,2,1,55,44000,0,1,0,192,0,13,125,0
+clqg8p,"Transaction inspection: OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH) (nonP2SH)",225,57,2,1,55,44000,0,1,0,192,0,13,98,0
 5gphct,"Transaction inspection: OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20, compare OP_UTXOBYTECODE) (nonP2SH)",212,67,2,1,42,33600,0,1,0,147,0,4,3,0
 2m5fhp,"Transaction inspection: OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20, compare OP_UTXOBYTECODE) (P2SH32)",236,79,2,1,66,52800,0,1,0,231,4,19,244,0
 8c9dgg,"Transaction inspection: OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH32, compare OP_UTXOBYTECODE) (nonP2SH)",212,67,2,1,42,33600,0,1,0,147,0,4,3,0

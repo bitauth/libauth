@@ -1,0 +1,6 @@
+{
+"0qpak7":[75546,60436800,66618,"PUSHDATA limits: Max OP_PUSHDATA_2 in unlocking bytecode (P2SH20)"],
+"z5zrq7":[75546,60436800,66642,"PUSHDATA limits: Max OP_PUSHDATA_2 in unlocking bytecode (P2SH32)"],
+"ddm5jj":[75549,60439200,66619,"PUSHDATA limits: Min OP_PUSHDATA_4 in unlocking bytecode (P2SH20)"],
+"se3q23":[75549,60439200,66643,"PUSHDATA limits: Min OP_PUSHDATA_4 in unlocking bytecode (P2SH32)"]
+}

@@ -1,10 +1,10 @@
 {
-"np8uy5":"Input index 1 is non-standard: the unlocking bytecode (16396 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes).",
-"cux8kj":"Input index 1 is non-standard: the unlocking bytecode (16396 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes).",
-"cf6mnu":"Input index 1 is non-standard: the unlocking bytecode (16395 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes).",
-"ehjt9u":"Input index 1 is non-standard: the unlocking bytecode (16395 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes).",
-"ltk7rp":"Input index 1 is non-standard: the unlocking bytecode (16395 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes).",
-"5zt8sx":"Input index 1 is non-standard: the unlocking bytecode (16395 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes).",
-"8zynza":"Input index 1 is non-standard: the unlocking bytecode (16395 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes).",
-"uv4xuy":"Input index 1 is non-standard: the unlocking bytecode (16395 bytes) exceeds the maximum standard unlocking bytecode length (1650 bytes)."
+"np8uy5":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16396 bytes.",
+"cux8kj":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16396 bytes.",
+"cf6mnu":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16395 bytes.",
+"ehjt9u":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16395 bytes.",
+"ltk7rp":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16395 bytes.",
+"5zt8sx":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16395 bytes.",
+"8zynza":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16395 bytes.",
+"uv4xuy":"Unable to verify standard transaction: excessive unlocking bytecode length. The maximum standard unlocking bytecode length is 1650 bytes, but the unlocking bytecode at input index 1 is 16395 bytes."
 }

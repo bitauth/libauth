@@ -1,69 +1,201 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-e7xsp6,"Conditionals: OP_IF (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,9,46,0
-7x8rms,"Conditionals: OP_IF (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,9,70,0
-6zrk2s,"Conditionals: OP_NOTIF (P2SH20)",217,67,2,1,47,37600,975,1,0,164,2,9,47,0
-9acvd8,"Conditionals: OP_NOTIF (P2SH32)",217,79,2,1,47,37600,999,1,0,164,2,9,71,0
-y0uh2a,"Conditionally executed operations: OP_INPUTINDEX is conditionally executed (P2SH20)",219,67,2,1,49,39200,1178,1,0,171,2,11,50,0
-3zj0ed,"Conditionally executed operations: OP_INPUTINDEX is conditionally executed (P2SH32)",219,79,2,1,49,39200,1202,1,0,171,2,11,74,0
-kt2a4q,"Conditionally executed operations: OP_ACTIVEBYTECODE is conditionally executed (P2SH20)",219,67,2,1,49,39200,1188,1,0,171,2,11,60,0
-689nf6,"Conditionally executed operations: OP_ACTIVEBYTECODE is conditionally executed (P2SH32)",219,79,2,1,49,39200,1212,1,0,171,2,11,84,0
-z79760,"Conditionally executed operations: OP_TXVERSION is conditionally executed (P2SH20)",219,67,2,1,49,39200,1178,1,0,171,2,11,50,0
-2e7e23,"Conditionally executed operations: OP_TXVERSION is conditionally executed (P2SH32)",219,79,2,1,49,39200,1202,1,0,171,2,11,74,0
-nqgkps,"Conditionally executed operations: OP_TXINPUTCOUNT is conditionally executed (P2SH20)",219,67,2,1,49,39200,1178,1,0,171,2,11,50,0
-slccmz,"Conditionally executed operations: OP_TXINPUTCOUNT is conditionally executed (P2SH32)",219,79,2,1,49,39200,1202,1,0,171,2,11,74,0
-r7twy4,"Conditionally executed operations: OP_TXOUTPUTCOUNT is conditionally executed (P2SH20)",219,67,2,1,49,39200,1178,1,0,171,2,11,50,0
-r3dzdv,"Conditionally executed operations: OP_TXOUTPUTCOUNT is conditionally executed (P2SH32)",219,79,2,1,49,39200,1202,1,0,171,2,11,74,0
-jwevd0,"Conditionally executed operations: OP_TXLOCKTIME is conditionally executed (P2SH20)",219,67,2,1,49,39200,1176,1,0,171,2,11,48,0
-2n4eex,"Conditionally executed operations: OP_TXLOCKTIME is conditionally executed (P2SH32)",219,79,2,1,49,39200,1200,1,0,171,2,11,72,0
-636xke,"Conditionally executed operations: OP_UTXOVALUE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1483,1,0,182,2,14,55,0
-2rzq82,"Conditionally executed operations: OP_UTXOVALUE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1507,1,0,182,2,14,79,0
-jnkwex,"Conditionally executed operations: OP_UTXOBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1529,1,0,182,2,14,101,0
-khffxa,"Conditionally executed operations: OP_UTXOBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1553,1,0,182,2,14,125,0
-236693,"Conditionally executed operations: OP_OUTPOINTTXHASH is conditionally executed (P2SH20)",222,67,2,1,52,41600,1543,1,0,182,2,14,115,0
-wcwuzm,"Conditionally executed operations: OP_OUTPOINTTXHASH is conditionally executed (P2SH32)",222,79,2,1,52,41600,1567,1,0,182,2,14,139,0
-awhg7n,"Conditionally executed operations: OP_OUTPOINTINDEX is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-j2w6yy,"Conditionally executed operations: OP_OUTPOINTINDEX is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-h4x7wu,"Conditionally executed operations: OP_INPUTBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1679,1,0,182,2,14,251,0
-mk0xcu,"Conditionally executed operations: OP_INPUTBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1703,1,0,182,2,14,275,0
-nwesp9,"Conditionally executed operations: OP_INPUTSEQUENCENUMBER is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-dvq7xw,"Conditionally executed operations: OP_INPUTSEQUENCENUMBER is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-dqnj8z,"Conditionally executed operations: OP_OUTPUTVALUE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-z5lfhd,"Conditionally executed operations: OP_OUTPUTVALUE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-hsrgxs,"Conditionally executed operations: OP_OUTPUTBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1499,1,0,182,2,14,71,0
-z6vzc5,"Conditionally executed operations: OP_OUTPUTBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1523,1,0,182,2,14,95,0
-r83e4g,"Conditionally executed operations: OP_UTXOTOKENCATEGORY is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-wfdykr,"Conditionally executed operations: OP_UTXOTOKENCATEGORY is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-20ppx2,"Conditionally executed operations: OP_OUTPUTTOKENCATEGORY is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-0cfje0,"Conditionally executed operations: OP_OUTPUTTOKENCATEGORY is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-7jrwq5,"Conditionally executed operations: OP_UTXOTOKENCOMMITMENT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-8zs7nt,"Conditionally executed operations: OP_UTXOTOKENCOMMITMENT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-2n972r,"Conditionally executed operations: OP_OUTPUTTOKENCOMMITMENT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-mnkz7h,"Conditionally executed operations: OP_OUTPUTTOKENCOMMITMENT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-3qcxzh,"Conditionally executed operations: OP_UTXOTOKENAMOUNT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-92wgh4,"Conditionally executed operations: OP_UTXOTOKENAMOUNT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-sjfmlq,"Conditionally executed operations: OP_OUTPUTTOKENAMOUNT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1479,1,0,182,2,14,51,0
-pp4l60,"Conditionally executed operations: OP_OUTPUTTOKENAMOUNT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1503,1,0,182,2,14,75,0
-ymwxyg,"Unexecuted operations: OP_UTXOTOKENCATEGORY not executed (P2SH20)",219,67,2,1,49,39200,1176,1,0,171,2,11,48,0
-0md7j6,"Unexecuted operations: OP_UTXOTOKENCATEGORY not executed (P2SH32)",219,79,2,1,49,39200,1200,1,0,171,2,11,72,0
-tswyra,"Unexecuted operations: OP_UTXOTOKENCATEGORY executed (P2SH20)",219,67,2,1,49,39200,1177,1,0,171,2,11,49,0
-dyruvx,"Unexecuted operations: OP_UTXOTOKENCATEGORY executed (P2SH32)",219,79,2,1,49,39200,1201,1,0,171,2,11,73,0
-520x7f,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY not executed (P2SH20)",219,67,2,1,49,39200,1176,1,0,171,2,11,48,0
-5k3k38,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY not executed (P2SH32)",219,79,2,1,49,39200,1200,1,0,171,2,11,72,0
-duuwy5,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY executed (P2SH20)",219,67,2,1,49,39200,1177,1,0,171,2,11,49,0
-9xtvg0,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY executed (P2SH32)",219,79,2,1,49,39200,1201,1,0,171,2,11,73,0
-hsd0zy,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT not executed (P2SH20)",219,67,2,1,49,39200,1176,1,0,171,2,11,48,0
-9y48ux,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT not executed (P2SH32)",219,79,2,1,49,39200,1200,1,0,171,2,11,72,0
-elye4g,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT executed (P2SH20)",219,67,2,1,49,39200,1177,1,0,171,2,11,49,0
-qermtc,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT executed (P2SH32)",219,79,2,1,49,39200,1201,1,0,171,2,11,73,0
-u69wyh,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT not executed (P2SH20)",219,67,2,1,49,39200,1176,1,0,171,2,11,48,0
-qm3jf6,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT not executed (P2SH32)",219,79,2,1,49,39200,1200,1,0,171,2,11,72,0
-j29ak5,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT executed (P2SH20)",219,67,2,1,49,39200,1177,1,0,171,2,11,49,0
-rvnren,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT executed (P2SH32)",219,79,2,1,49,39200,1201,1,0,171,2,11,73,0
-y9j3rd,"Unexecuted operations: OP_UTXOTOKENAMOUNT not executed (P2SH20)",219,67,2,1,49,39200,1176,1,0,171,2,11,48,0
-j2jvn3,"Unexecuted operations: OP_UTXOTOKENAMOUNT not executed (P2SH32)",219,79,2,1,49,39200,1200,1,0,171,2,11,72,0
-vh0fca,"Unexecuted operations: OP_UTXOTOKENAMOUNT executed (P2SH20)",219,67,2,1,49,39200,1177,1,0,171,2,11,49,0
-8wnlm5,"Unexecuted operations: OP_UTXOTOKENAMOUNT executed (P2SH32)",219,79,2,1,49,39200,1201,1,0,171,2,11,73,0
-hazznv,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT not executed (P2SH20)",219,67,2,1,49,39200,1176,1,0,171,2,11,48,0
-35fj9h,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT not executed (P2SH32)",219,79,2,1,49,39200,1200,1,0,171,2,11,72,0
-7texcg,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT executed (P2SH20)",219,67,2,1,49,39200,1177,1,0,171,2,11,49,0
-sws3pg,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT executed (P2SH32)",219,79,2,1,49,39200,1201,1,0,171,2,11,73,0
+0p7lax,"Conditionals: one OP_IF (accept) (P2SH20)",216,67,2,1,46,36800,974,1,0,161,2,8,46,0
+dp8x3d,"Conditionals: one OP_IF (accept) (P2SH32)",216,79,2,1,46,36800,998,1,0,161,2,8,70,0
+ypzk4y,"Conditionals: padded one OP_IF (accept) (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+ru8gxc,"Conditionals: padded one OP_IF (accept) (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+eruxx4,"Conditionals: negative one OP_IF (accept) (P2SH20)",216,67,2,1,46,36800,974,1,0,161,2,8,46,0
+7dwyvu,"Conditionals: negative one OP_IF (accept) (P2SH32)",216,79,2,1,46,36800,998,1,0,161,2,8,70,0
+zj6avk,"Conditionals: padded negative one OP_IF (accept) (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+z5pr9j,"Conditionals: padded negative one OP_IF (accept) (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+rslnj3,"Conditionals: padded one (520 bytes) OP_IF (accept) (P2SH20)",740,67,2,1,568,454400,1493,13,0,1988,2,8,565,0
+k5pjft,"Conditionals: padded one (520 bytes) OP_IF (accept) (P2SH32)",740,79,2,1,568,454400,1517,13,0,1988,2,8,589,0
+jerl22,"Conditionals: padded negative one (520 bytes) OP_IF (accept) (P2SH20)",740,67,2,1,568,454400,1493,13,0,1988,2,8,565,0
+az39cm,"Conditionals: padded negative one (520 bytes) OP_IF (accept) (P2SH32)",740,79,2,1,568,454400,1517,13,0,1988,2,8,589,0
+qky4zy,"Conditionals: padded one (521 bytes) OP_IF (accept) (P2SH20)",741,67,2,1,569,455200,1494,13,0,1991,2,8,566,0
+7cxx2v,"Conditionals: padded one (521 bytes) OP_IF (accept) (P2SH32)",741,79,2,1,569,455200,1518,13,0,1991,2,8,590,0
+yxwalv,"Conditionals: padded negative one (521 bytes) OP_IF (accept) (P2SH20)",741,67,2,1,569,455200,1494,13,0,1991,2,8,566,0
+vj76t6,"Conditionals: padded negative one (521 bytes) OP_IF (accept) (P2SH32)",741,79,2,1,569,455200,1518,13,0,1991,2,8,590,0
+7wdzca,"Conditionals: <0xff> OP_IF (accept) (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,8,46,0
+70fsxt,"Conditionals: <0xff> OP_IF (accept) (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,8,70,0
+vd9mkl,"Conditionals: <0xffff> OP_IF (accept) (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+n7nh3u,"Conditionals: <0xffff> OP_IF (accept) (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+ds9jwt,"Conditionals: 520 bytes of 0xff OP_IF (accept) (P2SH20)",740,67,2,1,568,454400,1493,13,0,1988,2,8,565,0
+2uazza,"Conditionals: 520 bytes of 0xff OP_IF (accept) (P2SH32)",740,79,2,1,568,454400,1517,13,0,1988,2,8,589,0
+up4x63,"Conditionals: 521 bytes of 0xff OP_IF (accept) (P2SH20)",741,67,2,1,569,455200,1494,13,0,1991,2,8,566,0
+uet0qv,"Conditionals: 521 bytes of 0xff OP_IF (accept) (P2SH32)",741,79,2,1,569,455200,1518,13,0,1991,2,8,590,0
+ajvyhh,"Conditionals: zero OP_NOTIF (accept) (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+runerk,"Conditionals: zero OP_NOTIF (accept) (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+lwjxdq,"Conditionals: padded zero OP_NOTIF (accept) (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,8,46,0
+6ag2ez,"Conditionals: padded zero OP_NOTIF (accept) (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,8,70,0
+hvlded,"Conditionals: negative zero OP_NOTIF (accept) (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,8,46,0
+8n3s5j,"Conditionals: negative zero OP_NOTIF (accept) (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,8,70,0
+ytv8ad,"Conditionals: padded negative zero OP_NOTIF (accept) (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+706t8w,"Conditionals: padded negative zero OP_NOTIF (accept) (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+m6n3el,"Conditionals: padded zero (520 bytes) OP_NOTIF (accept) (P2SH20)",740,67,2,1,568,454400,1493,13,0,1988,2,8,565,0
+yupthv,"Conditionals: padded zero (520 bytes) OP_NOTIF (accept) (P2SH32)",740,79,2,1,568,454400,1517,13,0,1988,2,8,589,0
+kuqxw9,"Conditionals: padded negative zero (520 bytes) OP_NOTIF (accept) (P2SH20)",740,67,2,1,568,454400,1493,13,0,1988,2,8,565,0
+p4mqqx,"Conditionals: padded negative zero (520 bytes) OP_NOTIF (accept) (P2SH32)",740,79,2,1,568,454400,1517,13,0,1988,2,8,589,0
+9dxq06,"Conditionals: padded zero (521 bytes) OP_NOTIF (accept) (P2SH20)",741,67,2,1,569,455200,1494,13,0,1991,2,8,566,0
+frncdp,"Conditionals: padded zero (521 bytes) OP_NOTIF (accept) (P2SH32)",741,79,2,1,569,455200,1518,13,0,1991,2,8,590,0
+ujctl0,"Conditionals: padded negative zero (521 bytes) OP_NOTIF (accept) (P2SH20)",741,67,2,1,569,455200,1494,13,0,1991,2,8,566,0
+jyfl25,"Conditionals: padded negative zero (521 bytes) OP_NOTIF (accept) (P2SH32)",741,79,2,1,569,455200,1518,13,0,1991,2,8,590,0
+s8snmv,"Conditionals: zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",216,67,2,1,46,36800,973,1,0,161,2,8,45,0
+pqtmus,"Conditionals: zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",216,79,2,1,46,36800,997,1,0,161,2,8,69,0
+l6jz2u,"Conditionals: padded zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,8,46,0
+glalee,"Conditionals: padded zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,8,70,0
+ced8ka,"Conditionals: negative zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,8,46,0
+lru4h4,"Conditionals: negative zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,8,70,0
+2aqsk8,"Conditionals: padded negative zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+vpxwzt,"Conditionals: padded negative zero OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+p3unn4,"Conditionals: one OP_IFDUP OP_NIP (P2SH20)",215,67,2,1,45,36000,873,1,0,157,2,7,45,0
+ct30mc,"Conditionals: one OP_IFDUP OP_NIP (P2SH32)",215,79,2,1,45,36000,897,1,0,157,2,7,69,0
+vnza69,"Conditionals: padded one OP_IFDUP OP_NIP (P2SH20)",217,67,2,1,47,37600,875,1,0,164,2,7,47,0
+wnxdxn,"Conditionals: padded one OP_IFDUP OP_NIP (P2SH32)",217,79,2,1,47,37600,899,1,0,164,2,7,71,0
+gh7kkq,"Conditionals: negative one OP_IFDUP OP_NIP (P2SH20)",215,67,2,1,45,36000,873,1,0,157,2,7,45,0
+xju2vz,"Conditionals: negative one OP_IFDUP OP_NIP (P2SH32)",215,79,2,1,45,36000,897,1,0,157,2,7,69,0
+r4wg4v,"Conditionals: padded negative one OP_IFDUP OP_NIP (P2SH20)",217,67,2,1,47,37600,875,1,0,164,2,7,47,0
+f543vj,"Conditionals: padded negative one OP_IFDUP OP_NIP (P2SH32)",217,79,2,1,47,37600,899,1,0,164,2,7,71,0
+wh5cd7,"Conditionals: padded zero (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",740,67,2,1,568,454400,1493,13,0,1988,2,8,565,0
+st9u43,"Conditionals: padded zero (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",740,79,2,1,568,454400,1517,13,0,1988,2,8,589,0
+nmch65,"Conditionals: padded negative zero (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",740,67,2,1,568,454400,1493,13,0,1988,2,8,565,0
+azv7g7,"Conditionals: padded negative zero (520 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",740,79,2,1,568,454400,1517,13,0,1988,2,8,589,0
+8cj4xz,"Conditionals: padded zero (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",741,67,2,1,569,455200,1494,13,0,1991,2,8,566,0
+2fh96z,"Conditionals: padded zero (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",741,79,2,1,569,455200,1518,13,0,1991,2,8,590,0
+s38nj0,"Conditionals: padded negative zero (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH20)",741,67,2,1,569,455200,1494,13,0,1991,2,8,566,0
+3s6jv2,"Conditionals: padded negative zero (521 bytes) OP_IFDUP OP_BIN2NUM OP_NOT (P2SH32)",741,79,2,1,569,455200,1518,13,0,1991,2,8,590,0
+xy5kwn,"Conditionals: padded one (520 bytes) OP_IFDUP OP_NIP (P2SH20)",739,67,2,1,567,453600,1911,13,0,1984,2,7,1083,0
+j8dg49,"Conditionals: padded one (520 bytes) OP_IFDUP OP_NIP (P2SH32)",739,79,2,1,567,453600,1935,13,0,1984,2,7,1107,0
+day6qw,"Conditionals: padded negative one (520 bytes) OP_IFDUP OP_NIP (P2SH20)",739,67,2,1,567,453600,1911,13,0,1984,2,7,1083,0
+ljkd6j,"Conditionals: padded negative one (520 bytes) OP_IFDUP OP_NIP (P2SH32)",739,79,2,1,567,453600,1935,13,0,1984,2,7,1107,0
+2gej0f,"Conditionals: padded one (521 bytes) OP_IFDUP OP_NIP (P2SH20)",740,67,2,1,568,454400,1913,13,0,1988,2,7,1085,0
+d65d07,"Conditionals: padded one (521 bytes) OP_IFDUP OP_NIP (P2SH32)",740,79,2,1,568,454400,1937,13,0,1988,2,7,1109,0
+yu60x4,"Conditionals: padded negative one (521 bytes) OP_IFDUP OP_NIP (P2SH20)",740,67,2,1,568,454400,1913,13,0,1988,2,7,1085,0
+kenlxz,"Conditionals: padded negative one (521 bytes) OP_IFDUP OP_NIP (P2SH32)",740,79,2,1,568,454400,1937,13,0,1988,2,7,1109,0
+xr0tn5,"Conditionals: <0xff> OP_IFDUP OP_NIP (P2SH20)",216,67,2,1,46,36800,873,1,0,161,2,7,45,0
+l6y070,"Conditionals: <0xff> OP_IFDUP OP_NIP (P2SH32)",216,79,2,1,46,36800,897,1,0,161,2,7,69,0
+sckfea,"Conditionals: <0xffff> OP_IFDUP OP_NIP (P2SH20)",217,67,2,1,47,37600,875,1,0,164,2,7,47,0
+nvdndn,"Conditionals: <0xffff> OP_IFDUP OP_NIP (P2SH32)",217,79,2,1,47,37600,899,1,0,164,2,7,71,0
+u0cq9c,"Conditionals: 520 bytes of 0xff OP_IFDUP OP_NIP (P2SH20)",739,67,2,1,567,453600,1911,13,0,1984,2,7,1083,0
+kktwpq,"Conditionals: 520 bytes of 0xff OP_IFDUP OP_NIP (P2SH32)",739,79,2,1,567,453600,1935,13,0,1984,2,7,1107,0
+5xvsc3,"Conditionals: 521 bytes of 0xff OP_IFDUP OP_NIP (P2SH20)",740,67,2,1,568,454400,1913,13,0,1988,2,7,1085,0
+84u7c6,"Conditionals: 521 bytes of 0xff OP_IFDUP OP_NIP (P2SH32)",740,79,2,1,568,454400,1937,13,0,1988,2,7,1109,0
+erznjx,"Conditionals: <1> OP_IF OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,975,1,0,161,2,8,47,0
+zd0cdq,"Conditionals: <1> OP_IF OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,999,1,0,161,2,8,71,0
+ms24uq,"Conditionals: <1> OP_NOTIF OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,975,1,0,161,2,8,47,0
+eaut2l,"Conditionals: <1> OP_NOTIF OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,999,1,0,161,2,8,71,0
+frpflg,"Conditionals: <0> OP_IF OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,974,1,0,161,2,8,46,0
+r55ad4,"Conditionals: <0> OP_IF OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,998,1,0,161,2,8,70,0
+k8kwcf,"Conditionals: <0> OP_NOTIF OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,974,1,0,161,2,8,46,0
+34fe7a,"Conditionals: <0> OP_NOTIF OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,998,1,0,161,2,8,70,0
+4a6uha,"Conditionals: unlock: <1>, lock: OP_IF <1> OP_ELSE OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1075,1,0,164,2,9,47,0
+7885ks,"Conditionals: unlock: <1>, lock: OP_IF <1> OP_ELSE OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1099,1,0,164,2,9,71,0
+70vy8w,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1176,1,0,168,2,10,48,0
+h5wzp8,"Conditionals: unlock: <1>, lock: OP_IF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1200,1,0,168,2,10,72,0
+9qr08a,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE <1> OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1075,1,0,164,2,9,47,0
+mn3avp,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE <1> OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1099,1,0,164,2,9,71,0
+xz5ae8,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1176,1,0,168,2,10,48,0
+mwcn0q,"Conditionals: unlock: <1>, lock: OP_NOTIF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1200,1,0,168,2,10,72,0
+7ygtfj,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE <1> OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+cs6evd,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE <1> OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+2gvuqs,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+04099g,"Conditionals: unlock: <0>, lock: OP_IF OP_ELSE <1> OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+rqcdnc,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> OP_ELSE OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+qc5c06,"Conditionals: unlock: <0>, lock: OP_NOTIF <1> OP_ELSE OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+3lxta6,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+q3uwnh,"Conditionals: unlock: <0>, lock: OP_NOTIF OP_ELSE OP_ELSE <1> OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+yxct6r,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_ELSE OP_DROP OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+qh2rwx,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_ELSE OP_DROP OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+vydxjn,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",220,67,2,1,50,40000,1377,1,0,175,2,12,49,0
+d3n4p8,"Conditionals: unlock: <1> <1>, lock: OP_IF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",220,79,2,1,50,40000,1401,1,0,175,2,12,73,0
+6s2pv2,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1074,1,0,164,2,9,46,0
+0g6meg,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_RETURN OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1098,1,0,164,2,9,70,0
+6hcczj,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_DROP OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1175,1,0,168,2,10,47,0
+xrhm34,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_DROP OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1199,1,0,168,2,10,71,0
+hfvlwr,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+nqfra4,"Conditionals: unlock: <1> <1>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+m07hn9,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+weyrvg,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_RETURN OP_ENDIF (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+5sjwj9,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_DROP OP_ELSE OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+u77dzs,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_DROP OP_ELSE OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+p3dccz,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",219,67,2,1,49,39200,1275,1,0,171,2,11,47,0
+c2qyje,"Conditionals: unlock: <1> <0>, lock: OP_IF OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",219,79,2,1,49,39200,1299,1,0,171,2,11,71,0
+th0648,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_ELSE OP_DROP OP_ENDIF (P2SH20)",218,67,2,1,48,38400,1174,1,0,168,2,10,46,0
+tcgfxa,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_ELSE OP_DROP OP_ENDIF (P2SH32)",218,79,2,1,48,38400,1198,1,0,168,2,10,70,0
+5aka6u,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH20)",220,67,2,1,50,40000,1376,1,0,175,2,12,48,0
+gedwth,"Conditionals: unlock: <1> <0>, lock: OP_NOTIF OP_ELSE OP_ELSE OP_ELSE OP_DROP OP_ENDIF (P2SH32)",220,79,2,1,50,40000,1400,1,0,175,2,12,72,0
+r2uwe7,"Conditionals: Maximize control stack depth (OP_IF) (P2SH20)",516,67,2,1,344,275200,31163,8,0,1204,5,305,343,0
+7ez0d0,"Conditionals: Maximize control stack depth (OP_IF) (P2SH32)",516,79,2,1,344,275200,31187,8,0,1204,5,305,367,0
+746vtd,"Conditionals: Maximize control stack depth (OP_NOTIF) (P2SH20)",516,67,2,1,344,275200,31063,8,0,1204,5,305,243,0
+c2p7hg,"Conditionals: Maximize control stack depth (OP_NOTIF) (P2SH32)",516,79,2,1,344,275200,31087,8,0,1204,5,305,267,0
+kn3r7y,"Conditionals: Maximize control stack depth (OP_IF & OP_NOTIF) (P2SH20)",516,67,2,1,344,275200,31113,8,0,1204,5,305,293,0
+vph3sg,"Conditionals: Maximize control stack depth (OP_IF & OP_NOTIF) (P2SH32)",516,79,2,1,344,275200,31137,8,0,1204,5,305,317,0
+chd4le,"Conditionals: Maximize control stack depth (OP_IF), 201 operations (P2SH20)",518,67,2,1,346,276800,31366,8,0,1211,5,307,346,0
+a00323,"Conditionals: Maximize control stack depth (OP_IF), 201 operations (P2SH32)",518,79,2,1,346,276800,31390,8,0,1211,5,307,370,0
+jps8l6,"Conditionals: Maximize control stack depth (OP_IF), 202 operations (P2SH20)",520,67,2,1,348,278400,31569,8,0,1218,5,309,349,0
+y83vdf,"Conditionals: Maximize control stack depth (OP_IF), 202 operations (P2SH32)",520,79,2,1,348,278400,31593,8,0,1218,5,309,373,0
+l29pzz,"Conditionals: OP_IFDUP at maximum control stack depth (OP_IF), 202 operations (P2SH20)",518,67,2,1,346,276800,31366,8,0,1211,5,307,346,0
+75sd4p,"Conditionals: OP_IFDUP at maximum control stack depth (OP_IF), 202 operations (P2SH32)",518,79,2,1,346,276800,31390,8,0,1211,5,307,370,0
+y0uh2a,"Conditionally executed operations: OP_INPUTINDEX is conditionally executed (P2SH20)",219,67,2,1,49,39200,1278,1,0,171,2,11,50,0
+3zj0ed,"Conditionally executed operations: OP_INPUTINDEX is conditionally executed (P2SH32)",219,79,2,1,49,39200,1302,1,0,171,2,11,74,0
+kt2a4q,"Conditionally executed operations: OP_ACTIVEBYTECODE is conditionally executed (P2SH20)",219,67,2,1,49,39200,1288,1,0,171,2,11,60,0
+689nf6,"Conditionally executed operations: OP_ACTIVEBYTECODE is conditionally executed (P2SH32)",219,79,2,1,49,39200,1312,1,0,171,2,11,84,0
+z79760,"Conditionally executed operations: OP_TXVERSION is conditionally executed (P2SH20)",219,67,2,1,49,39200,1278,1,0,171,2,11,50,0
+2e7e23,"Conditionally executed operations: OP_TXVERSION is conditionally executed (P2SH32)",219,79,2,1,49,39200,1302,1,0,171,2,11,74,0
+nqgkps,"Conditionally executed operations: OP_TXINPUTCOUNT is conditionally executed (P2SH20)",219,67,2,1,49,39200,1278,1,0,171,2,11,50,0
+slccmz,"Conditionally executed operations: OP_TXINPUTCOUNT is conditionally executed (P2SH32)",219,79,2,1,49,39200,1302,1,0,171,2,11,74,0
+r7twy4,"Conditionally executed operations: OP_TXOUTPUTCOUNT is conditionally executed (P2SH20)",219,67,2,1,49,39200,1278,1,0,171,2,11,50,0
+r3dzdv,"Conditionally executed operations: OP_TXOUTPUTCOUNT is conditionally executed (P2SH32)",219,79,2,1,49,39200,1302,1,0,171,2,11,74,0
+jwevd0,"Conditionally executed operations: OP_TXLOCKTIME is conditionally executed (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+2n4eex,"Conditionally executed operations: OP_TXLOCKTIME is conditionally executed (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+636xke,"Conditionally executed operations: OP_UTXOVALUE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1583,1,0,182,2,14,55,0
+2rzq82,"Conditionally executed operations: OP_UTXOVALUE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1607,1,0,182,2,14,79,0
+jnkwex,"Conditionally executed operations: OP_UTXOBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1629,1,0,182,2,14,101,0
+khffxa,"Conditionally executed operations: OP_UTXOBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1653,1,0,182,2,14,125,0
+236693,"Conditionally executed operations: OP_OUTPOINTTXHASH is conditionally executed (P2SH20)",222,67,2,1,52,41600,1643,1,0,182,2,14,115,0
+wcwuzm,"Conditionally executed operations: OP_OUTPOINTTXHASH is conditionally executed (P2SH32)",222,79,2,1,52,41600,1667,1,0,182,2,14,139,0
+awhg7n,"Conditionally executed operations: OP_OUTPOINTINDEX is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+j2w6yy,"Conditionally executed operations: OP_OUTPOINTINDEX is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+h4x7wu,"Conditionally executed operations: OP_INPUTBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1779,1,0,182,2,14,251,0
+mk0xcu,"Conditionally executed operations: OP_INPUTBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1803,1,0,182,2,14,275,0
+nwesp9,"Conditionally executed operations: OP_INPUTSEQUENCENUMBER is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+dvq7xw,"Conditionally executed operations: OP_INPUTSEQUENCENUMBER is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+dqnj8z,"Conditionally executed operations: OP_OUTPUTVALUE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+z5lfhd,"Conditionally executed operations: OP_OUTPUTVALUE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+hsrgxs,"Conditionally executed operations: OP_OUTPUTBYTECODE is conditionally executed (P2SH20)",222,67,2,1,52,41600,1599,1,0,182,2,14,71,0
+z6vzc5,"Conditionally executed operations: OP_OUTPUTBYTECODE is conditionally executed (P2SH32)",222,79,2,1,52,41600,1623,1,0,182,2,14,95,0
+r83e4g,"Conditionally executed operations: OP_UTXOTOKENCATEGORY is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+wfdykr,"Conditionally executed operations: OP_UTXOTOKENCATEGORY is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+20ppx2,"Conditionally executed operations: OP_OUTPUTTOKENCATEGORY is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+0cfje0,"Conditionally executed operations: OP_OUTPUTTOKENCATEGORY is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+7jrwq5,"Conditionally executed operations: OP_UTXOTOKENCOMMITMENT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+8zs7nt,"Conditionally executed operations: OP_UTXOTOKENCOMMITMENT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+2n972r,"Conditionally executed operations: OP_OUTPUTTOKENCOMMITMENT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+mnkz7h,"Conditionally executed operations: OP_OUTPUTTOKENCOMMITMENT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+3qcxzh,"Conditionally executed operations: OP_UTXOTOKENAMOUNT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+92wgh4,"Conditionally executed operations: OP_UTXOTOKENAMOUNT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+sjfmlq,"Conditionally executed operations: OP_OUTPUTTOKENAMOUNT is conditionally executed (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+pp4l60,"Conditionally executed operations: OP_OUTPUTTOKENAMOUNT is conditionally executed (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+ymwxyg,"Unexecuted operations: OP_UTXOTOKENCATEGORY not executed (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+0md7j6,"Unexecuted operations: OP_UTXOTOKENCATEGORY not executed (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+tswyra,"Unexecuted operations: OP_UTXOTOKENCATEGORY executed (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+dyruvx,"Unexecuted operations: OP_UTXOTOKENCATEGORY executed (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0
+520x7f,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY not executed (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+5k3k38,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY not executed (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+duuwy5,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY executed (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+9xtvg0,"Unexecuted operations: OP_OUTPUTTOKENCATEGORY executed (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0
+hsd0zy,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT not executed (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+9y48ux,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT not executed (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+elye4g,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT executed (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+qermtc,"Unexecuted operations: OP_UTXOTOKENCOMMITMENT executed (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0
+u69wyh,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT not executed (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+qm3jf6,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT not executed (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+j29ak5,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT executed (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+rvnren,"Unexecuted operations: OP_OUTPUTTOKENCOMMITMENT executed (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0
+y9j3rd,"Unexecuted operations: OP_UTXOTOKENAMOUNT not executed (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+j2jvn3,"Unexecuted operations: OP_UTXOTOKENAMOUNT not executed (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+vh0fca,"Unexecuted operations: OP_UTXOTOKENAMOUNT executed (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+8wnlm5,"Unexecuted operations: OP_UTXOTOKENAMOUNT executed (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0
+hazznv,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT not executed (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+35fj9h,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT not executed (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+7texcg,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT executed (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+sws3pg,"Unexecuted operations: OP_OUTPUTTOKENAMOUNT executed (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0

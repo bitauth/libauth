@@ -272,12 +272,12 @@ fzqewl,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible toke
 scp58v,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 1) (P2SH32)",176,112,2,1,79,63200,0,2,0,276,2,8,169,0
 svaalw,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 1, category 0x00...03) (P2SH20)",164,100,2,1,79,63200,0,2,0,276,2,8,145,0
 9haxtn,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 1, category 0x00...03) (P2SH32)",176,112,2,1,79,63200,0,2,0,276,2,8,169,0
-qd6w6s,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,115,0
-2r4wpz,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,139,0
-3t4mfu,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,117,0
-z636q5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,141,0
-cdj0tv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,117,0
-d9wcs7,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,141,0
+qd6w6s,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,82,0
+2r4wpz,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,106,0
+3t4mfu,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,83,0
+z636q5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,107,0
+cdj0tv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,83,0
+d9wcs7,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,107,0
 kprq70,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered) (P2SH20)",566,433,7,1,266,212800,0,6,0,931,5,32,660,0
 94v8hm,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered) (P2SH32)",578,445,7,1,266,212800,0,6,0,931,5,32,684,0
 v5asxw,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY accepts an index and returns the category and capability (palindrome category to test without endianness) (P2SH20)",154,33,1,0,78,62400,0,2,0,273,2,8,141,0
@@ -336,12 +336,12 @@ ya4jqk,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting and fungible to
 fqrdwu,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, minting and fungible tokens, index 1) (P2SH32)",255,112,2,1,79,63200,0,2,0,276,2,8,169,0
 0cl6rf,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, minting and fungible tokens, index 1, category 0x00...03) (P2SH20)",231,100,2,1,79,63200,0,2,0,276,2,8,145,0
 rwqc3k,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, minting and fungible tokens, index 1, category 0x00...03) (P2SH32)",255,112,2,1,79,63200,0,2,0,276,2,8,169,0
-lcfhyl,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,115,0
-mf35g6,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,139,0
-yv8x88,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,117,0
-2a6cfn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,141,0
-pphche,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,117,0
-8jg50x,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,141,0
+lcfhyl,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,82,0
+mf35g6,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,106,0
+yv8x88,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,83,0
+2a6cfn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,107,0
+pphche,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,83,0
+8jg50x,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,107,0
 v43u6v,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered) (P2SH20)",966,433,7,1,266,212800,0,6,0,931,5,32,660,0
 wvpgwx,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered) (P2SH32)",1050,445,7,1,266,212800,0,6,0,931,5,32,684,0
 ycxug9,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment) (P2SH20)",88,67,1,0,46,36800,0,1,0,161,2,8,45,0
@@ -614,5 +614,5 @@ eqzpfz,"CHIP-2022-02-CashTokens: OP_ACTIVEBYTECODE returns the bytecode currentl
 uxggkv,"CHIP-2022-02-CashTokens: OP_ACTIVEBYTECODE returns the bytecode currently being evaluated (with token prefix) (P2SH32)",135,79,1,0,47,37600,0,1,0,164,2,7,72,0
 22426f,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE (sibling with token prefix) (P2SH20)",119,67,1,0,56,44800,0,1,0,196,2,8,65,0
 mdah90,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE (sibling with token prefix) (P2SH32)",119,79,1,0,56,44800,0,1,0,196,2,8,89,0
-tqlte2,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 10) (P2SH20)",114,33,1,0,48,38400,0,1,0,168,2,10,71,0
-908nvl,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 10) (P2SH32)",114,45,1,0,48,38400,0,1,0,168,2,10,95,0
+tqlte2,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 10) (P2SH20)",114,33,1,0,48,38400,0,1,0,168,2,10,60,0
+908nvl,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 10) (P2SH32)",114,45,1,0,48,38400,0,1,0,168,2,10,84,0

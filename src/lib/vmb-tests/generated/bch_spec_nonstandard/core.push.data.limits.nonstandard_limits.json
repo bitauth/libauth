@@ -1,0 +1,4 @@
+{
+"49e6f3":[75538,60430400,66042,"PUSHDATA limits: Max OP_PUSHDATA_2 in unlocking bytecode (nonP2SH)"],
+"kga37m":[75541,60432800,66043,"PUSHDATA limits: Min OP_PUSHDATA_4 in unlocking bytecode (nonP2SH)"]
+}

@@ -13,9 +13,7 @@ import type {
   Sha1,
   Sha256,
 } from '../../../../lib.js';
-import { AuthenticationErrorCommon } from '../../common/common.js';
 import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js';
-import { AuthenticationErrorBch2026 } from '../2026/bch-2026-errors.js';
 import { opBegin, opUntil } from '../2026/bch-2026-loops.js';
 
 import { ConsensusBch2026 } from './bch-2026-consensus.js';
@@ -91,18 +89,6 @@ export const createInstructionSetBch2026 = <
       ...instructionSet.operations,
       [OpcodesBch2026.OP_BEGIN]: opBegin,
       [OpcodesBch2026.OP_UNTIL]: opUntil,
-    },
-    success: (state) => {
-      const result = instructionSet.success(state);
-      if (
-        typeof result === 'string' &&
-        result.includes(AuthenticationErrorCommon.nonEmptyControlStack)
-      )
-        return result.replace(
-          AuthenticationErrorCommon.nonEmptyControlStack,
-          AuthenticationErrorBch2026.nonEmptyControlStack,
-        );
-      return result;
     },
   };
 };

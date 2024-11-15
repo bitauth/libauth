@@ -68,11 +68,18 @@ export default [
         '2-of-15 ECDSA multisig (keys 1 and 2)',
         ['nop2sh_invalid', '2023_nop2sh_nonstandard'],
       ],
+      ['<0> <0> <0>', '<2> <key1.public_key> <key2.public_key> <key3.public_key> <key4.public_key> <key5.public_key> <key6.public_key> <key7.public_key> <key8.public_key> <key9.public_key> <key10.public_key> <key11.public_key> <key12.public_key> <key13.public_key> <key14.public_key> <key15.public_key> <15> OP_CHECKMULTISIG OP_NOT', '2-of-15 ECDSA multisig (null signatures)', []],
       [
         '<0b11 0x00> <key1.schnorr_signature.all_outputs> <key2.schnorr_signature.all_outputs>',
         '<2> <key1.public_key> <key2.public_key> <key3.public_key> <key4.public_key> <key5.public_key> <key6.public_key> <key7.public_key> <key8.public_key> <key9.public_key> <key10.public_key> <key11.public_key> <key12.public_key> <key13.public_key> <key14.public_key> <key15.public_key> <15> OP_CHECKMULTISIG',
         '2-of-15 Schnorr multisig (keys 1 and 2)',
         ['nop2sh_standard'],
+      ],
+      [
+        '<0b11 0x00> <0> <0>',
+        '<2> <key1.public_key> <key2.public_key> <key3.public_key> <key4.public_key> <key5.public_key> <key6.public_key> <key7.public_key> <key8.public_key> <key9.public_key> <key10.public_key> <key11.public_key> <key12.public_key> <key13.public_key> <key14.public_key> <key15.public_key> <15> OP_CHECKMULTISIG OP_NOT',
+        '2-of-15 Schnorr multisig (null signatures)',
+        ['invalid'],
       ],
     ],
   ],

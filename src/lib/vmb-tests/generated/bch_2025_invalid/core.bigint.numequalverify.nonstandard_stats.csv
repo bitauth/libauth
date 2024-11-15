@@ -1,0 +1,37 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+e9gmw6,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+gyl42e,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+gtf9t6,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+zeajgc,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+vqur9d,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+ttd5t7,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+5fg4r8,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+yzllqy,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+zvnjmg,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+expgnz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+f9n9s0,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+yjk5sz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+57n5zt,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+lfxuhz,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+u3w0ph,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+5u2x5e,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+l0z02a,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+k7rzdl,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+503cnu,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+yedljn,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+8af4m5,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+w55k99,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+wc2a79,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+ew7meu,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+9rw8de,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+926c7p,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+5hhghs,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+2lcpgf,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+yelful,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+s52lwy,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+3jv9xm,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+mv8ys2,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+hgelpa,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+zjj6jx,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+0cgxpu,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+g8s86j,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0

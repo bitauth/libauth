@@ -30,14 +30,22 @@ const console = {
   log: (...args: unknown[]) => {
     parentPort?.postMessage({ args, type: 'log' });
   },
+  // eslint-disable-next-line functional/no-return-void, functional/functional-parameters
+  warn: (...args: unknown[]) => {
+    parentPort?.postMessage({ args, type: 'warn' });
+  },
 };
 
 const generateFile = async (file: string, hash: string) => {
-  const fileIssues = await generateVmbTestsFromSourceFile(file, hash, {
-    benchmark,
-    console,
-    logPrefix,
-  });
+  const { issues: fileIssues } = await generateVmbTestsFromSourceFile(
+    file,
+    hash,
+    {
+      benchmark,
+      console,
+      logPrefix,
+    },
+  );
   return { file, fileIssues, hash } as WorkerResult;
 };
 
@@ -58,6 +66,9 @@ parentPort.on(
         console.error(error);
       }
       return;
+    }
+    if (message.type === 'shutdown') {
+      process.exit(0);
     }
     console.error(`${logPrefix}Unexpected message:`, JSON.stringify(message));
   },

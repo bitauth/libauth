@@ -70,5 +70,8 @@
 "ma8cap":[626,500800,0,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr key 7) (P2SH32)"],
 "t36v6h":[116,92800,0,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (nonP2SH)"],
 "3fd605":[632,505600,0,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (P2SH20)"],
-"uyngmr":[632,505600,0,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (P2SH32)"]
+"uyngmr":[632,505600,0,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (P2SH32)"],
+"xtf6tu":[46,36800,0,"Signature checking: 2-of-15 Schnorr multisig (null signatures) (nonP2SH)"],
+"0u4tu8":[563,450400,0,"Signature checking: 2-of-15 Schnorr multisig (null signatures) (P2SH20)"],
+"g8xdap":[563,450400,0,"Signature checking: 2-of-15 Schnorr multisig (null signatures) (P2SH32)"]
 }

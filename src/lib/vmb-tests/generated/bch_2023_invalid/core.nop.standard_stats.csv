@@ -1,0 +1,55 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+kc3xvr,"OP_NOP1-OP_NOP10 expansion range: OP_NOP in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+anv80e,"OP_NOP1-OP_NOP10 expansion range: OP_NOP in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+g4dwtx,"OP_NOP1-OP_NOP10 expansion range: OP_NOP in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+rt52c6,"OP_NOP1-OP_NOP10 expansion range: OP_NOP1 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+6m3j93,"OP_NOP1-OP_NOP10 expansion range: OP_NOP1 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+8y0ez5,"OP_NOP1-OP_NOP10 expansion range: OP_NOP1 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+h8cfs8,"OP_NOP1-OP_NOP10 expansion range: OP_NOP4 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+gt54tt,"OP_NOP1-OP_NOP10 expansion range: OP_NOP4 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+6qcu6r,"OP_NOP1-OP_NOP10 expansion range: OP_NOP4 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+2e9hye,"OP_NOP1-OP_NOP10 expansion range: OP_NOP5 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+5dp77l,"OP_NOP1-OP_NOP10 expansion range: OP_NOP5 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+dg70zm,"OP_NOP1-OP_NOP10 expansion range: OP_NOP5 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+r7yyhj,"OP_NOP1-OP_NOP10 expansion range: OP_NOP6 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+067ugn,"OP_NOP1-OP_NOP10 expansion range: OP_NOP6 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+44nrek,"OP_NOP1-OP_NOP10 expansion range: OP_NOP6 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+05s4ls,"OP_NOP1-OP_NOP10 expansion range: OP_NOP7 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+vh7gnv,"OP_NOP1-OP_NOP10 expansion range: OP_NOP7 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+vrdm3d,"OP_NOP1-OP_NOP10 expansion range: OP_NOP7 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+e79vl2,"OP_NOP1-OP_NOP10 expansion range: OP_NOP8 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+y3xnhu,"OP_NOP1-OP_NOP10 expansion range: OP_NOP8 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+rmv83k,"OP_NOP1-OP_NOP10 expansion range: OP_NOP8 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+9e0w97,"OP_NOP1-OP_NOP10 expansion range: OP_NOP9 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+fzj09l,"OP_NOP1-OP_NOP10 expansion range: OP_NOP9 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+rqf53y,"OP_NOP1-OP_NOP10 expansion range: OP_NOP9 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+w5eakg,"OP_NOP1-OP_NOP10 expansion range: OP_NOP10 in unlocking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+4fvmqm,"OP_NOP1-OP_NOP10 expansion range: OP_NOP10 in unlocking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
+adppf0,"OP_NOP1-OP_NOP10 expansion range: OP_NOP10 in unlocking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
+xsz0ze,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+ennu6d,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+34rey2,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+ne2w6q,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP1 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+wh86ex,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP1 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+9nzgn0,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP1 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+80g8v8,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP4 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+0k24uh,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP4 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+n8vlu0,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP4 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+zjql0d,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP5 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+zwnaqj,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP5 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+z23llc,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP5 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+afq976,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP6 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+ynp760,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP6 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+cxv40x,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP6 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+je4z0x,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP7 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+vy0gjm,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP7 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+7z25sq,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP7 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+ge5elw,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP8 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+tdvff2,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP8 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+3v5ay9,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP8 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+ar60tq,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP9 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+arramq,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP9 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+dkd43s,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP9 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
+0avg6t,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP10 in unlocking bytecode (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+yfegmj,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP10 in unlocking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
+p6tlqn,"OP_NOP1-OP_NOP10 expansion range: Unexecuted OP_NOP10 in unlocking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0

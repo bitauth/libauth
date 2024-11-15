@@ -14,6 +14,7 @@ export const ConsensusBchSpecOverrides = {
   densityControlBaseLength: 10_000,
   maximumBytecodeLength: 100_000,
   maximumStackItemLength: 100_000,
+  maximumStandardUnlockingBytecodeLength: 100_000,
   maximumVmNumberByteLength: 100_000,
 };
 

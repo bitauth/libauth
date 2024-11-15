@@ -4,12 +4,12 @@ uvh7f6,"Transaction inspection: OP_INPUTINDEX returns the index of the input cur
 40g5xf,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (2) (nonP2SH)",353,80,3,2,42,33600,0,1,0,21,0,3,3,0
 ph4vau,"Transaction inspection: OP_INPUTINDEX returns the index of the input currently being evaluated (9) (nonP2SH)",1340,318,10,9,42,33600,0,1,0,21,0,3,3,0
 k565cd,"Transaction inspection: OP_ACTIVEBYTECODE returns the bytecode currently being evaluated (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,3,5,0
-nr7jlx,"Transaction inspection: OP_ACTIVEBYTECODE returns the bytecode currently being evaluated (check size) (nonP2SH)",217,49,2,1,47,37600,0,1,0,23,0,6,19,0
-t30qu6,"Transaction inspection: OP_ACTIVEBYTECODE returns the same bytecode each time (without OP_CODESEPARATOR) (nonP2SH)",220,52,2,1,50,40000,0,1,0,25,0,9,45,0
-vdmg35,"Transaction inspection: OP_ACTIVEBYTECODE respects OP_CODESEPARATOR (nonP2SH)",214,50,2,1,44,35200,0,1,0,22,0,7,10,0
-29gpwn,"Transaction inspection: OP_ACTIVEBYTECODE respects a single OP_CODESEPARATOR (includes the OP_EQUALVERIFY) (nonP2SH)",215,50,2,1,45,36000,0,1,0,22,0,7,13,0
-h805gh,"Transaction inspection: OP_ACTIVEBYTECODE returns only the bytecode after the last executed OP_CODESEPARATOR (nonP2SH)",215,52,2,1,45,36000,0,1,0,22,0,9,13,0
-vzrxz7,"Transaction inspection: OP_ACTIVEBYTECODE returns only the bytecode after the last executed OP_CODESEPARATOR (two OP_ACTIVEBYTECODEs) (nonP2SH)",222,55,2,1,52,41600,0,1,0,26,0,13,29,0
+nr7jlx,"Transaction inspection: OP_ACTIVEBYTECODE returns the bytecode currently being evaluated (check size) (nonP2SH)",217,49,2,1,47,37600,0,1,0,23,0,6,14,0
+t30qu6,"Transaction inspection: OP_ACTIVEBYTECODE returns the same bytecode each time (without OP_CODESEPARATOR) (nonP2SH)",220,52,2,1,50,40000,0,1,0,25,0,9,37,0
+vdmg35,"Transaction inspection: OP_ACTIVEBYTECODE respects OP_CODESEPARATOR (nonP2SH)",214,50,2,1,44,35200,0,1,0,22,0,7,8,0
+29gpwn,"Transaction inspection: OP_ACTIVEBYTECODE respects a single OP_CODESEPARATOR (includes the OP_EQUALVERIFY) (nonP2SH)",215,50,2,1,45,36000,0,1,0,22,0,7,10,0
+h805gh,"Transaction inspection: OP_ACTIVEBYTECODE returns only the bytecode after the last executed OP_CODESEPARATOR (nonP2SH)",215,52,2,1,45,36000,0,1,0,22,0,9,10,0
+vzrxz7,"Transaction inspection: OP_ACTIVEBYTECODE returns only the bytecode after the last executed OP_CODESEPARATOR (two OP_ACTIVEBYTECODEs) (nonP2SH)",222,55,2,1,52,41600,0,1,0,26,0,13,23,0
 xunrqg,"Transaction inspection: OP_ACTIVEBYTECODE works before and after multiple OP_CODESEPARATORs (nonP2SH)",242,55,2,1,72,57600,0,2,0,36,0,15,58,0
 pettp6,"Transaction inspection: "OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working nonP2SH) (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,11,0
 25txyz,"Transaction inspection: OP_TXVERSION (version == 1) (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,3,3,0
@@ -69,7 +69,7 @@ pcdw0e,"Transaction inspection: OP_INPUTBYTECODE (ignore result, input 0) (nonP2
 c5awxf,"Transaction inspection: OP_INPUTBYTECODE (ignore result, input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,3,0
 vwkf2w,"Transaction inspection: OP_INPUTBYTECODE (ignore result, input 2) (nonP2SH)",157,77,3,0,42,33600,0,1,0,21,0,4,4,0
 faml9w,"Transaction inspection: multiple OP_INPUTBYTECODEs (50 inputs) (nonP2SH)",2507,1596,50,0,77,61600,0,2,0,38,0,21,145,0
-qpxh9r,"Transaction inspection: OP_INPUTBYTECODE (maximum size) (nonP2SH)",733,573,2,1,561,448800,0,13,0,280,0,6,1560,0
+qpxh9r,"Transaction inspection: OP_INPUTBYTECODE (maximum size) (nonP2SH)",733,573,2,1,561,448800,0,13,0,280,0,6,1559,0
 xuwehz,"Transaction inspection: OP_INPUTBYTECODE (ignore result, not 2023 excessive size) (nonP2SH)",728,48,2,1,556,444800,0,13,0,278,0,6,1028,0
 04cve3,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 0) (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,1,0
 9t6a7n,"Transaction inspection: OP_INPUTSEQUENCENUMBER (input 1) (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,2,0

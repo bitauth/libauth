@@ -11,7 +11,7 @@ import type {
   ScriptReductionTraceChildNode,
   ScriptReductionTraceScriptNode,
 } from '../lib.js';
-import { AuthenticationErrorCommon, encodeDataPush } from '../vm/vm.js';
+import { encodeDataPush } from '../vm/vm.js';
 
 import { mergeRanges } from './language-utils.js';
 
@@ -47,10 +47,10 @@ export const verifyCashAssemblyEvaluationState = <
     return state.error;
   }
   if (state.controlStack.length !== 0) {
-    return AuthenticationErrorCommon.nonEmptyControlStack;
+    return `The CashAssembly internal evaluation completed with a non-empty control stack.`;
   }
   if (state.stack.length !== 1) {
-    return AuthenticationErrorCommon.requiresCleanStack;
+    return `The CashAssembly internal evaluation completed with an unexpected number of items on the stack (must be exactly 1).`;
   }
   return true;
 };

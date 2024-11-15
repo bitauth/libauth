@@ -1,0 +1,7 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+uuz4z3,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes pushed to the stack, inner OP_ROLLs (6) (P2SH20)",287,33,1,0,267,213600,0,6,0,133,5,214,124909,0
+wfd0jv,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes pushed to the stack, inner OP_ROLLs (6) (P2SH32)",287,45,1,0,267,213600,0,6,0,133,5,214,124933,0
+2h5x79,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes pushed to the stack, inner OP_ROLLs (21) (P2SH20)",335,33,1,0,313,250400,0,7,0,156,6,229,126526,0
+aqa938,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes pushed to the stack, inner OP_ROLLs (21) (P2SH32)",335,45,1,0,313,250400,0,7,0,156,6,229,126550,0
+64h7ly,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes pushed to the stack, inner OP_ROLLs (71) (P2SH20)",485,33,1,0,463,370400,0,11,0,231,8,279,128016,0
+23tlfd,"Transaction validation benchmarks: Within BCH_2023_05 P2SH/standard, single-input limits, maximize bytes pushed to the stack, inner OP_ROLLs (71) (P2SH32)",485,45,1,0,463,370400,0,11,0,231,8,279,128040,0

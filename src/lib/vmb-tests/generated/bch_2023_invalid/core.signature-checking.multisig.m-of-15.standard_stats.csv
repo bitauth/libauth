@@ -71,3 +71,6 @@ ma8cap,"Signature checking: 1-of-15 multisig with checkBits of key 15 (Schnorr k
 t36v6h,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (nonP2SH)",286,559,2,1,116,92800,0,3,1,58,12,20,570,0
 3fd605,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (P2SH20)",804,67,2,1,632,505600,0,15,1,316,22,24,1124,0
 uyngmr,"Signature checking: 1-of-15 multisig with checkBits of key 15 (ECDSA key 15) (P2SH32)",804,79,2,1,632,505600,0,15,1,316,22,24,1148,0
+xtf6tu,"Signature checking: 2-of-15 Schnorr multisig (null signatures) (nonP2SH)",216,560,2,1,46,36800,0,1,1,23,12,21,499,0
+0u4tu8,"Signature checking: 2-of-15 Schnorr multisig (null signatures) (P2SH20)",735,67,2,1,563,450400,0,13,1,281,22,25,1054,0
+g8xdap,"Signature checking: 2-of-15 Schnorr multisig (null signatures) (P2SH32)",735,79,2,1,563,450400,0,13,1,281,22,25,1078,0

@@ -7,6 +7,7 @@
     "node_modules",
     "build",
     "coverage",
+    "wasm",
     "src/lib/schema/ajv/*.js"
   ],
   "extends": ["bitauth"],

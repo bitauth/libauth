@@ -1,0 +1,14 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+c643nx,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,12,0
+msfmuu,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,12,0
+znjrsd,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0
+2d5kmc,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,50,2,1,42,33600,0,1,0,21,0,5,5,0
+6qephz,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,12,0
+z9x39m,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,12,0
+9jx2yn,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0
+w820mj,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,5,0
+klg5ee,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,56,2,1,42,33600,0,1,0,21,0,5,12,0
+vkvemf,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,56,2,1,42,33600,0,1,0,21,0,5,12,0
+hx4p0x,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0
+mt9awv,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",212,56,2,1,42,33600,0,1,0,21,0,5,12,0
+we2y0m,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0

@@ -2,6 +2,7 @@ import { flattenBinArray } from '../format/format.js';
 import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
+  AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
   AuthenticationVirtualMachine,
   CompilationError,
@@ -10,7 +11,7 @@ import type {
   ScriptReductionTraceChildNode,
   ScriptReductionTraceScriptNode,
 } from '../lib.js';
-import { AuthenticationErrorCommon, encodeDataPush } from '../vm/vm.js';
+import { encodeDataPush } from '../vm/vm.js';
 
 import { mergeRanges } from './language-utils.js';
 
@@ -46,10 +47,10 @@ export const verifyCashAssemblyEvaluationState = <
     return state.error;
   }
   if (state.controlStack.length !== 0) {
-    return AuthenticationErrorCommon.nonEmptyControlStack;
+    return `The CashAssembly internal evaluation completed with a non-empty control stack.`;
   }
   if (state.stack.length !== 1) {
-    return AuthenticationErrorCommon.requiresCleanStack;
+    return `The CashAssembly internal evaluation completed with an unexpected number of items on the stack (must be exactly 1).`;
   }
   return true;
 };
@@ -70,6 +71,7 @@ export const verifyCashAssemblyEvaluationState = <
 export const reduceScript = <
   ProgramState extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
+    AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
   AuthenticationProgram,
   ResolvedTransaction,
@@ -108,7 +110,7 @@ export const reduceScript = <
             errors: [
               {
                 error:
-                  'Both a VM and a createState method are required to reduce evaluations.',
+                  'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
                 range: segment.range,
               },
             ],

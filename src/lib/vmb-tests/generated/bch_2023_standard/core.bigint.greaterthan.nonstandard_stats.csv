@@ -1,0 +1,29 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+vmynt8,"BigInt: OP_GREATERTHAN 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,9,50,0
+7nqqex,"BigInt: OP_GREATERTHAN 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,9,74,0
+p77hr7,"BigInt: OP_GREATERTHAN 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,196,2,9,66,0
+rhd43t,"BigInt: OP_GREATERTHAN 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,196,2,9,90,0
+t0p0ce,"BigInt: OP_GREATERTHAN 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,196,2,9,64,0
+ky3kxv,"BigInt: OP_GREATERTHAN 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,196,2,9,88,0
+z24d0u,"BigInt: OP_GREATERTHAN 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+nwt9yg,"BigInt: OP_GREATERTHAN 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0
+ncmkdv,"BigInt: OP_GREATERTHAN 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,9,50,0
+fwnwxh,"BigInt: OP_GREATERTHAN 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,9,74,0
+cr5ncu,"BigInt: OP_GREATERTHAN 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,196,2,9,64,0
+vxr4n7,"BigInt: OP_GREATERTHAN 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,196,2,9,88,0
+9hkdqj,"BigInt: OP_GREATERTHAN 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,0,1,0,196,2,9,66,0
+ew9vmc,"BigInt: OP_GREATERTHAN 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,0,1,0,196,2,9,90,0
+axzrsf,"BigInt: OP_GREATERTHAN 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+ds828t,"BigInt: OP_GREATERTHAN 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0
+fjlunu,"BigInt: OP_GREATERTHAN 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,0,1,0,164,2,9,48,0
+379c5p,"BigInt: OP_GREATERTHAN 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,9,72,0
+muwj3a,"BigInt: OP_GREATERTHAN 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,0,1,0,192,2,9,63,0
+wjhzxh,"BigInt: OP_GREATERTHAN 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,0,1,0,192,2,9,87,0
+g98pj6,"BigInt: OP_GREATERTHAN 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,0,1,0,192,2,9,65,0
+wapusc,"BigInt: OP_GREATERTHAN 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,0,1,0,192,2,9,89,0
+mdw94v,"BigInt: OP_GREATERTHAN 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+uv0hsy,"BigInt: OP_GREATERTHAN 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0
+0sdxu0,"BigInt: OP_GREATERTHAN 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",225,67,2,1,55,44000,0,1,0,192,2,9,65,0
+f5vdng,"BigInt: OP_GREATERTHAN 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",225,79,2,1,55,44000,0,1,0,192,2,9,89,0
+q8dree,"BigInt: OP_GREATERTHAN 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+rj59y2,"BigInt: OP_GREATERTHAN 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0

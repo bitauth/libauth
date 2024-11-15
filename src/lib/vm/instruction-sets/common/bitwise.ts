@@ -1,6 +1,7 @@
 import { binsAreEqual } from '../../../format/format.js';
 import type {
   AuthenticationProgramStateError,
+  AuthenticationProgramStateResourceLimits,
   AuthenticationProgramStateStack,
   Operation,
 } from '../../../lib.js';
@@ -21,7 +22,9 @@ export const opEqual = <
   state: State,
 ) =>
   useTwoStackItems(state, (nextState, [element1, element2]) =>
-    pushToStack(nextState, booleanToVmNumber(binsAreEqual(element1, element2))),
+    pushToStack(nextState, [
+      booleanToVmNumber(binsAreEqual(element1, element2)),
+    ]),
   );
 
 export const opEqualVerify = combineOperations(opEqual, opVerify);
@@ -29,6 +32,7 @@ export const opEqualVerify = combineOperations(opEqual, opVerify);
 export const bitwiseOperation =
   <
     State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateResourceLimits &
       AuthenticationProgramStateStack,
   >(
     combine: (a: Uint8Array, b: Uint8Array) => Uint8Array,
@@ -36,10 +40,11 @@ export const bitwiseOperation =
   (state: State) =>
     useTwoStackItems(state, (nextState, [a, b]) =>
       a.length === b.length
-        ? pushToStack(nextState, combine(a, b))
+        ? pushToStack(nextState, [combine(a, b)])
         : applyError(
             nextState,
             AuthenticationErrorCommon.mismatchedBitwiseOperandLength,
+            `First item length: ${a.length} bytes. Second item length: ${b.length} bytes.`,
           ),
     );
 

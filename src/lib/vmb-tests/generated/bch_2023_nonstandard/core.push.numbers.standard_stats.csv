@@ -1,0 +1,55 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+uy5d3w,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_1NEGATE pushes 0x81 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+zm6hwm,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_0 pushes an empty stack item (nonP2SH)",212,50,2,1,42,33600,0,1,0,21,0,5,4,0
+4gplfr,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_1 pushes 1 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+tczlj8,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_2 pushes 2 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+jt9hpj,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_3 pushes 3 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+a2m8j3,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_4 pushes 4 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+urwkd3,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_5 pushes 5 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+fev50l,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_6 pushes 6 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+s5lfp2,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_7 pushes 7 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+ll7j4l,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_8 pushes 8 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+lt3ux6,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_9 pushes 9 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+vu6y8x,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_10 pushes 10 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+0ttrvw,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_11 pushes 11 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+rfjvd7,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_12 pushes 12 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+rjg0d5,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_13 pushes 13 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+y3tahd,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_14 pushes 14 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+8f8yru,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_15 pushes 15 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+4k4enw,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_16 pushes 16 (nonP2SH)",212,51,2,1,42,33600,0,1,0,21,0,6,7,0
+6y5m5h,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_1NEGATE pushes 0x81 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+yn3c5f,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_0 pushes an empty stack item (nonP2SH)",211,51,2,1,41,32800,0,1,0,20,0,5,4,0
+wt7yvh,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_1 pushes 1 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+q3adtv,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_2 pushes 2 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+jfs8vp,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_3 pushes 3 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+xacea2,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_4 pushes 4 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+wu5fu3,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_5 pushes 5 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+fruz2c,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_6 pushes 6 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+xzlaeh,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_7 pushes 7 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+sfdxga,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_8 pushes 8 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+y6n2vr,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_9 pushes 9 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+ly6wd3,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_10 pushes 10 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+0g5m4s,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_11 pushes 11 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+8qur54,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_12 pushes 12 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+2r00zn,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_13 pushes 13 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+xnfy36,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_14 pushes 14 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+0pny7p,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_15 pushes 15 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+85n5r3,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_16 pushes 16 (nonP2SH)",211,52,2,1,41,32800,0,1,0,20,0,6,7,0
+rhtwrq,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1NEGATE OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+04tc4x,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1NEGATE OP_ENDIF OP_NOT in locking bytecode (nonP2SH)",211,49,2,1,41,32800,0,1,0,20,0,5,2,0
+uarmm2,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+274yc4,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_2 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+nam3tp,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_3 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+n0xp4h,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_4 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+6fx48z,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_5 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+h832gr,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_6 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+kd6afj,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_7 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+cwtm0h,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_8 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+wxwhy4,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_9 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+ed33xt,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_10 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+7696c8,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_11 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+j9jzrj,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_12 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+rzqyp7,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_13 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+cr958y,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_14 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+q780f5,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_15 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0
+p7petp,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_16 OP_ENDIF in locking bytecode (nonP2SH)",211,48,2,1,41,32800,0,1,0,20,0,4,2,0

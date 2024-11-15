@@ -1,11 +1,12 @@
+/* eslint-disable max-lines */
 /**
  * This script generates all bch_vmb_tests, run it with: `yarn gen:tests`.
  */
 import { encodeBech32, regroupBits } from '../address/address.js';
-import { createCompilerBCH } from '../compiler/compiler-bch/compiler-bch.js';
+import { createCompilerBch } from '../compiler/compiler-bch/compiler-bch.js';
 import { walletTemplateToCompilerConfiguration } from '../compiler/compiler-utils.js';
 import { sha256 } from '../crypto/crypto.js';
-import { binToHex, flattenBinArray } from '../format/format.js';
+import { binToHex, flattenBinArray, sortObjectKeys } from '../format/format.js';
 import type { WalletTemplate, WalletTemplateScenario } from '../lib.js';
 import {
   encodeTransaction,
@@ -17,20 +18,24 @@ import { slot1Scenario } from './bch-vmb-test-mixins.js';
 /**
  * These are the VM versions for which tests are currently generated.
  *
- * A new 4-digit year should be added to prepare for each annual upgrade.
+ * A new 4-digit year should be added to prepare for each annual upgrade in
+ * which the VM is modified.
+ *
  * Libauth can also support testing of draft proposals by specifying a short
- * identifier for each independent proposal.
+ * identifier for each independent proposal beginning with the prefix `chip_`.
  */
-const vmVersionsBCH = [
-  '2022',
+const vmVersionsBch = [
   '2023',
-  'chip_cashtokens',
-  'before_chip_cashtokens',
+  '2025',
+  '2026',
+  'spec',
+  'chip_bigint',
   'chip_limits',
   'chip_loops',
-  'chip_p2sh32',
-  'chip_strict_checkmultisig',
   'chip_zce',
+  'chip_txv5',
+  /* For error reporting in combinatorial test generation: */ 'unknown',
+  /* For skipping in combinatorial test generation: */ 'skip',
 ] as const;
 /**
  * These are the VM "modes" for which tests can be generated.
@@ -38,27 +43,27 @@ const vmVersionsBCH = [
 const vmModes = ['nop2sh', 'p2sh', 'p2sh20', 'p2sh32'] as const;
 type TestSetType = 'invalid' | 'nonstandard' | 'standard';
 type TestSetOverrideType = TestSetType | 'ignore';
-type VmVersionBCH = (typeof vmVersionsBCH)[number];
+type VmVersionBch = (typeof vmVersionsBch)[number];
 type VmMode = (typeof vmModes)[number];
-type TestSetOverrideLabelBCH =
+type TestSetOverrideLabelBch =
   | 'default'
   | `${TestSetOverrideType}`
   | `${VmMode}_${TestSetOverrideType}`
   | `${VmMode}`
-  | `${VmVersionBCH}_${TestSetOverrideType}`
-  | `${VmVersionBCH}_${VmMode}_${TestSetOverrideType}`
-  | `${VmVersionBCH}`;
+  | `${VmVersionBch}_${TestSetOverrideType}`
+  | `${VmVersionBch}_${VmMode}_${TestSetOverrideType}`
+  | `${VmVersionBch}`;
 
-export type TestSetIdBCH = `${VmVersionBCH}_${TestSetType}`;
+export type TestSetIdBch = `${VmVersionBch}_${TestSetType}`;
 
-export type VmbTestMasterBCH = [
+export type VmbTestMasterBch = [
   shortId: string,
   testDescription: string,
   unlockingScriptAsm: string,
   redeemOrLockingScriptAsm: string,
   testTransactionHex: string,
   sourceOutputsHex: string,
-  testSets: TestSetIdBCH[],
+  testSets: TestSetIdBch[],
   /**
    * This isn't required for testing (implementations should always validate the
    * full test transaction), but it can allow downstream applications to
@@ -83,602 +88,601 @@ export type VmbTest = [
 
 /**
  * Not used currently, but these are the defaults that inform
- * {@link supportedTestSetOverridesBCH}.
+ * {@link supportedTestSetOverridesBch}.
  */
-export const vmbTestDefinitionDefaultBehaviorBCH: TestSetOverrideLabelBCH[] = [
+export const vmbTestDefinitionDefaultBehaviorBch: TestSetOverrideLabelBch[] = [
   'nop2sh_nonstandard',
   'p2sh20_standard',
-  'p2sh32_ignore',
+  'p2sh32_standard',
 ];
 
 /* eslint-disable @typescript-eslint/naming-convention */
 /**
- * The list of test set overrides currently supported. Eventually this should be
- * `TestSetOverride`.
+ * The list of test set overrides currently supported. We could implement
+ * support for any combination of {@link TestSetOverrideLabelBch}s, but this
+ * implementation improves consistency and clarity across test files
  *
- * For now, this implementation simplifies VMB test generation – we just
- * `join()` the provided overrides and look up resulting modes/test sets here.
+ * Test sets for a particular test definition are found by `join`ing this list
+ * and looking up the result in {@link supportedTestSetOverridesBch}.
  */
-const testSetOverrideListBCH = [
-  ['chip_cashtokens_invalid'],
-  ['chip_cashtokens_invalid', '2022_p2sh32_nonstandard'],
-  ['default', 'chip_cashtokens'],
-  ['chip_cashtokens'],
-  ['chip_cashtokens', '2022_p2sh32_nonstandard'],
+const testSetOverrideListBch = [
+  ['chip_bigint_invalid'],
+  ['chip_bigint'],
+  ['chip_bigint', 'nonstandard'],
+  ['chip_bigint', 'nonstandard', 'nop2sh_invalid'],
+  ['chip_bigint', 'nonstandard', 'p2sh_invalid'],
+  ['chip_bigint', 'nop2sh_invalid'],
+  ['2023_invalid'],
+  ['2023_invalid', '2025_nonstandard', 'p2sh_ignore'],
+  ['2023_invalid', 'nop2sh_ignore'],
+  ['2023_invalid', 'nop2sh_ignore', 'p2sh20_ignore'],
+  ['2023_invalid', 'nop2sh_ignore', 'p2sh32_ignore'],
+  ['2023_invalid', 'nop2sh_invalid'],
+  ['2023_invalid', 'p2sh_ignore'],
+  ['2023_invalid', 'p2sh_invalid'],
+  ['2023_p2sh_invalid'],
   ['chip_loops_invalid'],
   ['chip_loops'],
-  ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens'],
-  ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_invalid'],
-  ['invalid', '2022_p2sh32_nonstandard', 'chip_cashtokens_nonstandard'],
-  ['invalid', 'chip_cashtokens_invalid'],
-  ['invalid', 'chip_cashtokens', 'nop2sh_invalid'],
-  ['invalid', 'chip_cashtokens'],
-  [
-    'invalid',
-    'chip_cashtokens',
-    'chip_cashtokens_p2sh20_nonstandard',
-    'chip_cashtokens_p2sh32_nonstandard',
-  ],
-  ['invalid', 'chip_cashtokens', 'chip_cashtokens_p2sh32_nonstandard'],
-  ['invalid', 'chip_cashtokens', 'p2sh_ignore'],
-  ['invalid', 'chip_cashtokens_invalid', 'p2sh_ignore'],
+  ['invalid', '2023_nonstandard'],
+  ['invalid', '2023_nonstandard', 'p2sh_ignore'],
+  ['invalid', '2025_nonstandard', 'p2sh_ignore'],
+  ['invalid', 'nop2sh_ignore'],
   ['invalid', 'nop2sh_nonstandard'],
-  ['invalid', 'nop2sh_nonstandard'],
+  ['invalid', 'p2sh_ignore', '2023_nop2sh_nonstandard'],
   ['invalid', 'p2sh_ignore'],
-  ['invalid', 'p2sh_nonstandard', 'chip_cashtokens_invalid'],
-  ['invalid', 'p2sh_nonstandard', 'chip_cashtokens'],
   ['invalid', 'p2sh_standard'],
   ['invalid', 'p2sh20_standard'],
+  ['invalid', 'p2sh32_standard'],
+  ['invalid', 'spec'],
   ['invalid'],
+  ['nop2sh_ignore'],
+  ['nop2sh_ignore', 'p2sh32_ignore'],
   ['nop2sh_invalid'],
-  ['nonstandard', 'chip_cashtokens_invalid'],
-  ['nonstandard', 'chip_cashtokens'],
-  [
-    'nonstandard',
-    'chip_cashtokens',
-    'chip_cashtokens_p2sh20_nonstandard',
-    'chip_cashtokens_p2sh32_nonstandard',
-  ],
-  ['nonstandard', 'chip_cashtokens', 'chip_cashtokens_p2sh32_nonstandard'],
+  ['nop2sh_invalid', '2023_p2sh_invalid'],
+  ['nop2sh_invalid', '2023_p2sh_nonstandard'],
+  ['nop2sh_invalid', '2023_nop2sh_nonstandard'],
+  ['nop2sh_standard'],
+  ['nop2sh_standard', 'p2sh_ignore'],
+  ['nop2sh_standard', 'p2sh_ignore', 'spec'],
+  ['nonstandard'],
+  ['nonstandard', '2023_invalid'],
+  ['nonstandard', '2023_invalid', 'p2sh_ignore'],
+  ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
+  ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard', 'p2sh32_ignore'],
+  ['nonstandard', 'nop2sh_ignore', 'p2sh32_ignore'],
+  ['nonstandard', 'nop2sh_invalid', '2023_invalid'],
   ['nonstandard', 'p2sh_ignore'],
   ['nonstandard', 'p2sh_invalid'],
-  ['nonstandard'],
   ['p2sh_ignore'],
   ['p2sh_invalid'],
+  ['p2sh32_nonstandard'],
+  ['skip'],
+  ['unknown'],
   [],
 ] as const;
 
-type TestSetOverrideListBCH = (typeof testSetOverrideListBCH)[number];
-const testList = (_list: Readonly<Readonly<TestSetOverrideLabelBCH[]>[]>) => 0;
+type TestSetOverrideListBch = (typeof testSetOverrideListBch)[number];
+const testList = (_list: Readonly<Readonly<TestSetOverrideLabelBch[]>[]>) => 0;
 // eslint-disable-next-line functional/no-expression-statements
-testList(testSetOverrideListBCH);
+testList(testSetOverrideListBch);
 
 type TestPlan = {
   mode: 'nonP2SH' | 'P2SH20' | 'P2SH32';
-  sets: TestSetIdBCH[];
+  sets: TestSetIdBch[];
 }[];
 /**
  * Given one of these values and the
- * {@link vmbTestDefinitionDefaultBehaviorBCH}, return these test plans.
+ * {@link vmbTestDefinitionDefaultBehaviorBch}, return these test plans.
  */
-export const supportedTestSetOverridesBCH: {
+export const supportedTestSetOverridesBch: {
   [joinedList: string]: TestPlan;
 } = {
   /* eslint-disable camelcase */
+  /**
+   * The "default" test sets, see {@link vmbTestDefinitionDefaultBehaviorBch}.
+   */
   '': [
-    { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2022_standard'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,2025_nonstandard,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  '2023_invalid,nop2sh_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,nop2sh_ignore,p2sh20_ignore': [
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,nop2sh_ignore,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,nop2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  '2023_invalid,p2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  ],
+  '2023_p2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
   ],
   /**
    * `chip_*` values exclude the marked test from
-   * {@link vmbTestDefinitionDefaultBehaviorBCH}.
+   * {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
-  chip_cashtokens: [
+  chip_bigint: [
     {
       mode: 'nonP2SH',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_nonstandard'],
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
     },
     {
       mode: 'P2SH20',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_standard'],
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_standard'],
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
     },
   ],
-  'chip_cashtokens,2022_p2sh32_nonstandard': [
+  'chip_bigint,nonstandard': [
     {
       mode: 'nonP2SH',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_nonstandard'],
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
     },
     {
       mode: 'P2SH20',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_standard'],
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['before_chip_cashtokens_nonstandard', 'chip_cashtokens_standard'],
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
     },
   ],
-  chip_cashtokens_invalid: [
+  'chip_bigint,nonstandard,nop2sh_invalid': [
     {
       mode: 'nonP2SH',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
     },
     {
       mode: 'P2SH20',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
     },
   ],
-  'chip_cashtokens_invalid,2022_p2sh32_nonstandard': [
+  'chip_bigint,nonstandard,p2sh_invalid': [
     {
       mode: 'nonP2SH',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
     },
     {
       mode: 'P2SH20',
-      sets: ['before_chip_cashtokens_invalid', 'chip_cashtokens_invalid'],
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
     },
     {
       mode: 'P2SH32',
-      sets: ['before_chip_cashtokens_nonstandard', 'chip_cashtokens_invalid'],
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+  ],
+  'chip_bigint,nop2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
+    },
+  ],
+  chip_bigint_invalid: [
+    {
+      mode: 'nonP2SH',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
     },
   ],
   chip_loops: [
     { mode: 'nonP2SH', sets: ['chip_loops_nonstandard'] },
     { mode: 'P2SH20', sets: ['chip_loops_standard'] },
+    { mode: 'P2SH32', sets: ['chip_loops_standard'] },
   ],
   chip_loops_invalid: [
     { mode: 'nonP2SH', sets: ['chip_loops_invalid'] },
     { mode: 'P2SH20', sets: ['chip_loops_invalid'] },
-  ],
-  'default,chip_cashtokens': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_standard',
-        'before_chip_cashtokens_standard',
-        'chip_cashtokens_standard',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_cashtokens_standard'],
-    },
+    { mode: 'P2SH32', sets: ['chip_loops_invalid'] },
   ],
   invalid: [
-    { mode: 'nonP2SH', sets: ['2022_invalid'] },
-    { mode: 'P2SH20', sets: ['2022_invalid'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
-  'invalid,2022_p2sh32_nonstandard,chip_cashtokens': [
+  'invalid,2023_nonstandard': [
     {
       mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
     },
     {
       mode: 'P2SH20',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_standard',
-      ],
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
     },
     {
       mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_standard',
-      ],
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
     },
   ],
-  'invalid,2022_p2sh32_nonstandard,chip_cashtokens_invalid': [
+  'invalid,2023_nonstandard,p2sh_ignore': [
     {
       mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_invalid',
-      ],
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
     },
   ],
-  'invalid,2022_p2sh32_nonstandard,chip_cashtokens_nonstandard': [
+  'invalid,2025_nonstandard,p2sh_ignore': [
     {
       mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_nonstandard',
-      ],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_invalid'],
     },
   ],
-  'invalid,chip_cashtokens': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_standard',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_standard',
-      ],
-    },
-  ],
-  'invalid,chip_cashtokens,chip_cashtokens_p2sh20_nonstandard,chip_cashtokens_p2sh32_nonstandard':
-    [
-      {
-        mode: 'nonP2SH',
-        sets: [
-          '2022_invalid',
-          'before_chip_cashtokens_invalid',
-          'chip_cashtokens_nonstandard',
-        ],
-      },
-      {
-        mode: 'P2SH20',
-        sets: [
-          '2022_invalid',
-          'before_chip_cashtokens_invalid',
-          'chip_cashtokens_nonstandard',
-        ],
-      },
-      {
-        mode: 'P2SH32',
-        sets: [
-          '2022_invalid',
-          'before_chip_cashtokens_invalid',
-          'chip_cashtokens_nonstandard',
-        ],
-      },
-    ],
-  'invalid,chip_cashtokens,chip_cashtokens_p2sh32_nonstandard': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_standard',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
-  ],
-  'invalid,chip_cashtokens,nop2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_standard',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_standard',
-      ],
-    },
-  ],
-  'invalid,chip_cashtokens,p2sh_ignore': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
-  ],
-  'invalid,chip_cashtokens_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
-  ],
-  'invalid,chip_cashtokens_invalid,p2sh_ignore': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
+  'invalid,nop2sh_ignore': [
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   'invalid,nop2sh_nonstandard': [
-    { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2022_invalid'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   'invalid,p2sh20_standard': [
-    { mode: 'nonP2SH', sets: ['2022_invalid'] },
-    { mode: 'P2SH20', sets: ['2022_standard'] },
-  ],
-  'invalid,p2sh_ignore': [{ mode: 'nonP2SH', sets: ['2022_invalid'] }],
-  'invalid,p2sh_nonstandard,chip_cashtokens': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_nonstandard',
-      ],
-    },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
     {
       mode: 'P2SH20',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_standard',
-      ],
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
     },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  ],
+  'invalid,p2sh32_standard': [
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
     {
       mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_standard',
-      ],
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
     },
   ],
-  'invalid,p2sh_nonstandard,chip_cashtokens_invalid': [
+  'invalid,p2sh_ignore': [
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  ],
+  'invalid,p2sh_ignore,2023_nop2sh_nonstandard': [
     {
       mode: 'nonP2SH',
-      sets: [
-        '2022_invalid',
-        'before_chip_cashtokens_invalid',
-        'chip_cashtokens_invalid',
-      ],
-    },
-    {
-      mode: 'P2SH20',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_invalid',
-      ],
-    },
-    {
-      mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_invalid',
-      ],
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
     },
   ],
   'invalid,p2sh_standard': [
-    { mode: 'nonP2SH', sets: ['2022_invalid'] },
-    { mode: 'P2SH20', sets: ['2022_standard'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'invalid,spec': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2023_invalid',
+        '2025_invalid',
+        '2026_invalid',
+        'spec_nonstandard',
+      ],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid', 'spec_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid', 'spec_standard'],
+    },
   ],
   nonstandard: [
-    { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2022_nonstandard'] },
-  ],
-  'nonstandard,chip_cashtokens': [
     {
       mode: 'nonP2SH',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_nonstandard',
-      ],
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
     },
     {
       mode: 'P2SH20',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_standard',
-      ],
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
     },
     {
       mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_standard',
-      ],
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
     },
   ],
-  'nonstandard,chip_cashtokens,chip_cashtokens_p2sh20_nonstandard,chip_cashtokens_p2sh32_nonstandard':
-    [
-      {
-        mode: 'nonP2SH',
-        sets: [
-          '2022_nonstandard',
-          'before_chip_cashtokens_nonstandard',
-          'chip_cashtokens_nonstandard',
-        ],
-      },
-      {
-        mode: 'P2SH20',
-        sets: [
-          '2022_nonstandard',
-          'before_chip_cashtokens_nonstandard',
-          'chip_cashtokens_nonstandard',
-        ],
-      },
-      {
-        mode: 'P2SH32',
-        sets: [
-          '2022_nonstandard',
-          'before_chip_cashtokens_nonstandard',
-          'chip_cashtokens_nonstandard',
-        ],
-      },
-    ],
-  'nonstandard,chip_cashtokens,chip_cashtokens_p2sh32_nonstandard': [
+  'nonstandard,2023_invalid': [
     {
       mode: 'nonP2SH',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_nonstandard',
-      ],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
     {
       mode: 'P2SH20',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_standard',
-      ],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
     {
       mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_nonstandard',
-      ],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
   ],
-  'nonstandard,chip_cashtokens_invalid': [
+  'nonstandard,2023_invalid,p2sh_ignore': [
     {
       mode: 'nonP2SH',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_invalid',
-      ],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_ignore,2023_p2sh_standard': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_ignore,2023_p2sh_standard,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_ignore,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'nonstandard,nop2sh_invalid,2023_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid'],
     },
     {
       mode: 'P2SH20',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_invalid',
-      ],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
     {
       mode: 'P2SH32',
-      sets: [
-        '2022_nonstandard',
-        'before_chip_cashtokens_nonstandard',
-        'chip_cashtokens_invalid',
-      ],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
   ],
-  'nonstandard,p2sh_ignore': [{ mode: 'nonP2SH', sets: ['2022_nonstandard'] }],
+  'nonstandard,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
   'nonstandard,p2sh_invalid': [
-    { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2022_invalid'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  ],
+  nop2sh_ignore: [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_ignore,p2sh32_ignore': [
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
   ],
   nop2sh_invalid: [
-    { mode: 'nonP2SH', sets: ['2022_invalid'] },
-    { mode: 'P2SH20', sets: ['2022_standard'] },
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
   ],
-  p2sh_ignore: [{ mode: 'nonP2SH', sets: ['2022_nonstandard'] }],
+  'nop2sh_invalid,2023_nop2sh_nonstandard': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_invalid,2023_p2sh_invalid': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_invalid,2023_p2sh_nonstandard': [
+    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_nonstandard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_nonstandard', '2025_standard', '2026_standard'],
+    },
+  ],
+  nop2sh_standard: [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_standard,p2sh_ignore': [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+  ],
+  'nop2sh_standard,p2sh_ignore,spec': [
+    {
+      mode: 'nonP2SH',
+      sets: [
+        '2023_standard',
+        '2025_standard',
+        '2026_standard',
+        'spec_standard',
+      ],
+    },
+  ],
+  p2sh32_nonstandard: [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_standard', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  p2sh_ignore: [
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
   p2sh_invalid: [
-    { mode: 'nonP2SH', sets: ['2022_nonstandard'] },
-    { mode: 'P2SH20', sets: ['2022_invalid'] },
+    {
+      mode: 'nonP2SH',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   /* eslint-enable camelcase */
 };
@@ -707,7 +711,7 @@ export type VmbTestDefinition = [
    */
   redeemOrLockingScript: string,
   testDescription: string,
-  testSetOverrideLabels?: TestSetOverrideListBCH,
+  testSetOverrideLabels?: TestSetOverrideListBch,
   /**
    * A scenario that extends the default scenario for use with this test.
    */
@@ -727,12 +731,18 @@ export type VmbTestDefinitionGroup = [
  * Short IDs use bech32 encoding, so birthday collisions will happen
  * approximately every `Math.sqrt(2 * (32 ** defaultShortIdLength))` tests.
  */
-const defaultShortIdLength = 5;
+const defaultShortIdLength = 6;
 
-const planTestsBCH = (
-  labels?: readonly string[],
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-) => supportedTestSetOverridesBCH[(labels ?? []).join(',')]!;
+const planTestsBch = (labels?: readonly string[]) => {
+  const labelList = (labels ?? []).join(',');
+  const sets = supportedTestSetOverridesBch[labelList];
+  if (sets === undefined)
+    // eslint-disable-next-line functional/no-throw-statements
+    throw new Error(
+      `Missing label list: ${labelList} in 'supportedTestSetOverridesBch'.`,
+    );
+  return sets;
+};
 
 /**
  * Given a VMB test definition, generate a full VMB test vector. Note, this
@@ -742,7 +752,7 @@ export const vmbTestDefinitionToVmbTests = (
   testDefinition: VmbTestDefinition,
   groupName = '',
   shortIdLength = defaultShortIdLength,
-): VmbTestMasterBCH[] => {
+): VmbTestMasterBch[] => {
   const [
     unlockingScript,
     redeemOrLockingScript,
@@ -753,7 +763,7 @@ export const vmbTestDefinitionToVmbTests = (
   ] = testDefinition;
   const scenarioId = 'test';
 
-  const testGenerationPlan = planTestsBCH(testSetOverrideLabels);
+  const testGenerationPlan = planTestsBch(testSetOverrideLabels);
 
   const scenarioDefinition = { extends: 'vmb_default', ...scenarioOverride };
 
@@ -764,6 +774,27 @@ export const vmbTestDefinitionToVmbTests = (
           key1: { type: 'HdKey' },
           key2: { privateDerivationPath: 'm/2/i', type: 'HdKey' },
           key3: { privateDerivationPath: 'm/3/i', type: 'HdKey' },
+          key4: { privateDerivationPath: 'm/4/i', type: 'HdKey' },
+          key5: { privateDerivationPath: 'm/5/i', type: 'HdKey' },
+          key6: { privateDerivationPath: 'm/6/i', type: 'HdKey' },
+          key7: { privateDerivationPath: 'm/7/i', type: 'HdKey' },
+          key8: { privateDerivationPath: 'm/8/i', type: 'HdKey' },
+          key9: { privateDerivationPath: 'm/9/i', type: 'HdKey' },
+          ...{
+            key10: { privateDerivationPath: 'm/10/i', type: 'HdKey' },
+            key11: { privateDerivationPath: 'm/11/i', type: 'HdKey' },
+            key12: { privateDerivationPath: 'm/12/i', type: 'HdKey' },
+            key13: { privateDerivationPath: 'm/13/i', type: 'HdKey' },
+            key14: { privateDerivationPath: 'm/14/i', type: 'HdKey' },
+            key15: { privateDerivationPath: 'm/15/i', type: 'HdKey' },
+            key16: { privateDerivationPath: 'm/16/i', type: 'HdKey' },
+            key17: { privateDerivationPath: 'm/17/i', type: 'HdKey' },
+            key18: { privateDerivationPath: 'm/18/i', type: 'HdKey' },
+            key19: { privateDerivationPath: 'm/18/i', type: 'HdKey' },
+          },
+          ...{
+            key20: { privateDerivationPath: 'm/20/i', type: 'HdKey' },
+          },
         },
       },
     },
@@ -774,7 +805,21 @@ export const vmbTestDefinitionToVmbTests = (
     },
     scripts: {
       ...additionalScripts,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      LIB_REPEAT: {
+        script:
+          '/* usage: <$( <pattern> <repeat_count> LIB_REPEAT )> */ <> OP_SWAP OP_BEGIN OP_1SUB OP_TOALTSTACK OP_OVER OP_CAT OP_FROMALTSTACK OP_IFDUP OP_NOT OP_UNTIL OP_NIP',
+      },
+      lockBareMultisig1of3: {
+        lockingType: 'standard',
+        script:
+          '<1> <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG',
+      },
       lockEmptyP2sh20: { lockingType: 'p2sh20', script: '' },
+      lockP2pk: {
+        lockingType: 'standard',
+        script: '<key1.public_key> OP_CHECKSIG',
+      },
       lockP2pkh: {
         lockingType: 'standard',
         script:
@@ -783,7 +828,23 @@ export const vmbTestDefinitionToVmbTests = (
       lockP2sh20: { lockingType: 'p2sh20', script: redeemOrLockingScript },
       lockP2sh32: { lockingType: 'p2sh32', script: redeemOrLockingScript },
       lockStandard: { lockingType: 'standard', script: redeemOrLockingScript },
+      unlockBareMultisig1of3Ecdsa: {
+        script: '<0> <key1.ecdsa_signature.all_outputs>',
+        unlocks: 'lockBareMultisig1of3',
+      },
+      unlockBareMultisig1of3Schnorr: {
+        script: '<0b001> <key1.schnorr_signature.all_outputs>',
+        unlocks: 'lockBareMultisig1of3',
+      },
       unlockEmptyP2sh20: { script: '<1>', unlocks: 'lockEmptyP2sh20' },
+      unlockP2pkStandardEcdsa: {
+        script: '<key1.ecdsa_signature.all_outputs>',
+        unlocks: 'lockP2pk',
+      },
+      unlockP2pkStandardSchnorr: {
+        script: '<key1.schnorr_signature.all_outputs>',
+        unlocks: 'lockP2pk',
+      },
       unlockP2pkh: {
         /**
          * Uses `corresponding_output_single_input` to reuse the same signature
@@ -791,6 +852,14 @@ export const vmbTestDefinitionToVmbTests = (
          */
         script:
           '<key1.schnorr_signature.corresponding_output_single_input> <key1.public_key>',
+        unlocks: 'lockP2pkh',
+      },
+      unlockP2pkhStandardEcdsa: {
+        script: '<key1.ecdsa_signature.all_outputs> <key1.public_key>',
+        unlocks: 'lockP2pkh',
+      },
+      unlockP2pkhStandardSchnorr: {
+        script: '<key1.schnorr_signature.all_outputs> <key1.public_key>',
         unlocks: 'lockP2pkh',
       },
       unlockP2sh20: { script: unlockingScript, unlocks: 'lockP2sh20' },
@@ -802,9 +871,8 @@ export const vmbTestDefinitionToVmbTests = (
       },
     },
     supported: ['BCH_2022_05'],
-    version: 0,
   });
-  const compiler = createCompilerBCH(configuration);
+  const compiler = createCompilerBch(configuration);
 
   const tests = testGenerationPlan.map((planItem) => {
     const description = `${groupName}: ${testDescription} (${planItem.mode})`;
@@ -826,7 +894,7 @@ export const vmbTestDefinitionToVmbTests = (
     if (typeof result.scenario === 'string') {
       // eslint-disable-next-line functional/no-throw-statements
       throw new Error(
-        `Error while generating "${description}" - ${result.scenario}`,
+        `Error while generating "${description}" - ${result.scenario}. Unlocking script: ${unlockingScript}. Redeem or locking script: ${redeemOrLockingScript}.`,
       );
     }
     const encodedTx = encodeTransaction(result.scenario.program.transaction);
@@ -855,7 +923,7 @@ export const vmbTestDefinitionToVmbTests = (
       result.scenario.program.inputIndex === 0
         ? testCase
         : [...testCase, result.scenario.program.inputIndex]
-    ) as VmbTestMasterBCH;
+    ) as VmbTestMasterBch;
   });
 
   return tests;
@@ -887,10 +955,10 @@ export const vmbTestGroupToVmbTests = (testGroup: VmbTestDefinitionGroup) =>
  * separate files).
  */
 export const vmbTestPartitionMasterTestList = (
-  masterTestList: VmbTestMasterBCH[],
+  masterTestList: VmbTestMasterBch[],
 ) =>
   masterTestList.reduce<{
-    [key in TestSetIdBCH]?: VmbTest[];
+    [key in TestSetIdBch]?: VmbTest[];
   }>((accumulatedTestSets, testCase) => {
     const [
       shortId,
@@ -923,3 +991,152 @@ export const vmbTestPartitionMasterTestList = (
     });
     return accumulatedTestSets;
   }, {});
+
+export type PossibleTestValue = [description: string, value: string];
+export type TestValues = PossibleTestValue[];
+
+/**
+ * Given an array of arrays, produce an array of all possible combinations.
+ * E.g.: `[['a', 'b'], [1, 2], ['x']]` produces:
+ * `[ [ 'a', 1, 'x' ], [ 'a', 2, 'x' ], [ 'b', 1, 'x' ], [ 'b', 2, 'x' ] ]`.
+ * @param arrays - an array of arrays
+ */
+export const generateCombinations = <T>(arrays: T[][]): T[][] =>
+  arrays.reduce<T[][]>(
+    (acc, curr) => acc.flatMap((combo) => curr.map((item) => [...combo, item])),
+    [[]],
+  );
+
+/**
+ * Map an array of value arrays onto a a template test case.
+ * @param templates - templates for unlockingScript, lockingScript, and
+ * test description.
+ * @param possibleValues - an array of arrays of `PossibleValue`s
+ */
+export const mapTestCases = (
+  templates: [
+    unlockingScript: string,
+    lockingScript: string,
+    description: string,
+  ],
+  combinations: TestValues[],
+  {
+    additionalScripts,
+    prefixAsHexLiterals = false,
+    scenario,
+  }: {
+    additionalScripts?: WalletTemplate['scripts'];
+    prefixAsHexLiterals?: boolean;
+    scenario?: WalletTemplateScenario;
+  } = {},
+): VmbTestDefinition[] =>
+  combinations.map((values) => {
+    const replace = (template: string, useLabel = false) =>
+      // eslint-disable-next-line complexity
+      template.replace(/\$(?<index>\d+)/gu, (_, index) => {
+        const raw = `${prefixAsHexLiterals && !useLabel ? '0x' : ''}${
+          values[Number(index)]?.[useLabel ? 0 : 1] ??
+          'LIBAUTH_GENERATION_ERROR_UNKNOWN_INDEX'
+        }`;
+        return raw === '0x' ? '0' : raw;
+      });
+    return [
+      replace(templates[0]),
+      replace(templates[1]),
+      replace(templates[2], true),
+      [],
+      scenario,
+      additionalScripts,
+    ];
+  });
+
+/**
+ * Given a template test case and an array of possible-value arrays, produce a
+ * combinatorial set of test cases.
+ * @param templates - templates for unlockingScript, lockingScript, and
+ * test description.
+ * @param possibleValues - an array of arrays of `PossibleValue`s
+ */
+export const generateTestCases = (
+  templates: [
+    unlockingScript: string,
+    lockingScript: string,
+    description: string,
+  ],
+  possibleValues: PossibleTestValue[][],
+  {
+    additionalScripts,
+    scenario,
+  }: {
+    additionalScripts?: WalletTemplate['scripts'];
+    scenario?: WalletTemplateScenario;
+  } = {},
+): VmbTestDefinition[] => {
+  const combinations = generateCombinations(possibleValues);
+  return mapTestCases(templates, combinations, { additionalScripts, scenario });
+};
+
+type TestSetOverrideListBchIndex = 3;
+/**
+ * Given a generated set of tests, set expected results using a dictionary of
+ * descriptions.
+ *
+ * To make updating tests easier, the test definitions include tests that aren't
+ * included in the dictionary, this function logs the new dictionary and throws
+ * (to exit early).
+ *
+ * To exclude a particular case from the resulting set, mark it as `['skip']`,
+ * (e.g. if that particular test is already manually defined elsewhere.)
+ */
+export const setExpectedResults = (
+  generatedDefinitions: VmbTestDefinition[],
+  resultDictionary: {
+    [description: string]:
+      | VmbTestDefinition[TestSetOverrideListBchIndex]
+      | ['skip'];
+  },
+  /**
+   * A place to drop quick functions to bulk edit the dictionary. If set, the
+   * corrected dictionary will be logged quickly and an error thrown.
+   */
+  macroEdit?: (
+    description: string,
+    currentSets: VmbTestDefinition[TestSetOverrideListBchIndex],
+  ) => VmbTestDefinition[TestSetOverrideListBchIndex],
+): VmbTestDefinition[] => {
+  const results = generatedDefinitions.map((definition) => {
+    const [_unlockingScript, _redeemOrLockingScript, testDescription, _labels] =
+      definition;
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+    definition[3] = resultDictionary[testDescription] ?? ['unknown'];
+    return definition;
+  });
+  const descriptions = generatedDefinitions.map((def) => def[2]);
+  const extraKeys = Object.keys(resultDictionary).filter(
+    (key) => !descriptions.includes(key),
+  );
+  const hasUnknownResults = results.some(
+    (definition) => definition[3]?.[0] === 'unknown',
+  );
+  if (macroEdit !== undefined || extraKeys.length > 0 || hasUnknownResults) {
+    const newDictionary = results.reduce<{
+      [description: string]: VmbTestDefinition[TestSetOverrideListBchIndex];
+    }>(
+      (dict, def) =>
+        macroEdit === undefined
+          ? { ...dict, [def[2]]: def[3] }
+          : { ...dict, [def[2]]: macroEdit(def[2], def[3]) },
+      {},
+    );
+    const sorted = sortObjectKeys(newDictionary) as typeof newDictionary;
+    // eslint-disable-next-line functional/no-expression-statements, no-console
+    console.log(sorted);
+    // eslint-disable-next-line functional/no-expression-statements, no-console
+    console.log(`Generated test count: ${Object.keys(sorted).length}`);
+    // eslint-disable-next-line functional/no-throw-statements
+    throw new Error(
+      `Libauth test generation error: one or more test cases in the above set have not been reviewed for expected behavior. Please update the above result dictionary for the relevant "setExpectedResults" and regenerate the tests.`,
+    );
+  }
+  return results.filter((def) => def[3]?.[0] !== 'skip');
+};

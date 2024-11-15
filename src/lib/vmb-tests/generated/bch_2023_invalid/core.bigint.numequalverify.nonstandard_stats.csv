@@ -1,0 +1,373 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+57affu,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",211,118,2,1,41,32800,0,1,0,143,0,8,65,0
+y2ya7m,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",286,67,2,1,116,92800,0,3,0,406,3,12,180,0
+yjlrsl,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",286,79,2,1,116,92800,0,3,0,406,3,12,204,0
+ccw922,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",211,570,2,1,41,32800,0,1,0,143,0,8,513,0
+fsmt74,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",740,67,2,1,568,454400,0,13,0,1988,0,1,0,0
+awy4sh,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",740,79,2,1,568,454400,0,13,0,1988,0,1,0,0
+xjdjtl,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",211,4154,2,1,41,32800,0,1,0,143,0,2,1,0
+sndp0k,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4324,67,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+nuw88d,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4324,79,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+aq05qx,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,8250,2,1,41,32800,0,1,0,143,0,2,1,0
+5eqhvp,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8420,67,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+cygmjk,"BigInt: OP_NUMEQUALVERIFY 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8420,79,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+jqq9fk,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+tukxrx,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+xe66s0,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+f7yyvx,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+0ch83z,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+kz4fs4,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+gtcatx,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,2,8,0
+fvarxk,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+rkmct8,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+5akw30,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,2,8,0
+nltnm3,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+0szzsf,"BigInt: OP_NUMEQUALVERIFY 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+r6p365,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",211,118,2,1,41,32800,0,1,0,143,0,8,65,0
+sx028m,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",286,67,2,1,116,92800,0,3,0,406,3,12,180,0
+qhpnj0,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",286,79,2,1,116,92800,0,3,0,406,3,12,204,0
+psfj57,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+va9lh6,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+t6fdwy,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+mehkz7,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",211,181,2,1,41,32800,0,1,0,143,0,5,129,0
+67pumy,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",350,67,2,1,180,144000,0,4,0,630,4,9,307,0
+rwjeq6,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",350,79,2,1,180,144000,0,4,0,630,4,9,331,0
+5jh9xg,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+kql8s2,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+vt9uzy,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+c3yewd,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,2,64,0
+mv5qag,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+7ezy3m,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+nmwfs5,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,2,64,0
+x94lw6,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+yq4ags,"BigInt: OP_NUMEQUALVERIFY 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+dtwaq2,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",211,570,2,1,41,32800,0,1,0,143,0,8,513,0
+6zkchd,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",740,67,2,1,568,454400,0,13,0,1988,0,1,0,0
+xpw55q,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",740,79,2,1,568,454400,0,13,0,1988,0,1,0,0
+xjd8a6,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+l4gdaq,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+f3s2yf,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+0wtmpc,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+p4kkfk,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+p5xr5z,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+l0lhjg,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",211,1083,2,1,41,32800,0,1,0,143,0,5,1025,0
+fx4e0v,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",1253,67,2,1,1081,864800,0,25,0,3783,0,1,0,0
+wfr2uu,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",1253,79,2,1,1081,864800,0,25,0,3783,0,1,0,0
+esu3g4,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,2,512,0
+7ttza5,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+67rjld,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+w3wsyw,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,2,512,0
+dug5g0,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+x6dvh3,"BigInt: OP_NUMEQUALVERIFY 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+745luy,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",211,4154,2,1,41,32800,0,1,0,143,0,1,0,0
+gnwg7c,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",4324,67,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+jxdlta,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",4324,79,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+05e373,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,1,0,0
+7fy37k,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+uzps02,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+hx0kdz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,1,0,0
+46wkfe,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+jnrjdf,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+assrgz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,1,0,0
+g65qcr,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+nvjt6d,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+ksghk5,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",211,8251,2,1,41,32800,0,1,0,143,0,1,0,0
+0lhkrp,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",8421,67,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+zkstqn,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",8421,79,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+e9gmw6,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+gyl42e,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+gtf9t6,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+l8ta0p,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",211,8250,2,1,41,32800,0,1,0,143,0,1,0,0
+ytq7eq,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",8420,67,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+dm7sx5,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",8420,79,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+d2x2g2,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,1,0,0
+y53v4k,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+kuvfvz,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+cv90ly,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,1,0,0
+2rk35s,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+agxwwg,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+0jsu0w,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,1,0,0
+j07etn,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+n03fxg,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+zeajgc,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+vqur9d,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+ttd5t7,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+5fg4r8,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+yzllqy,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+zvnjmg,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+94dzzc,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",211,118,2,1,41,32800,0,1,0,143,0,8,65,0
+jvaymg,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",286,67,2,1,116,92800,0,3,0,406,3,12,180,0
+029jq6,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",286,79,2,1,116,92800,0,3,0,406,3,12,204,0
+4sntmg,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",211,570,2,1,41,32800,0,1,0,143,0,8,513,0
+d2vlcc,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",740,67,2,1,568,454400,0,13,0,1988,0,1,0,0
+75sqcf,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",740,79,2,1,568,454400,0,13,0,1988,0,1,0,0
+2r6jtz,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",211,4154,2,1,41,32800,0,1,0,143,0,2,1,0
+5hvpky,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4324,67,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+zdcfjx,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4324,79,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+5qwwy3,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,8250,2,1,41,32800,0,1,0,143,0,2,1,0
+942y3d,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8420,67,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+wjv32r,"BigInt: OP_NUMEQUALVERIFY 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8420,79,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+sgkw26,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+zmxzvr,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+swfafx,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+y0p7da,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+hqhr0d,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+kaq6q3,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+ull989,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,2,8,0
+mzajgn,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+htng3v,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+g5vlhu,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,2,8,0
+77ce63,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+hmr7gz,"BigInt: OP_NUMEQUALVERIFY 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+xdp52u,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",211,118,2,1,41,32800,0,1,0,143,0,8,65,0
+crlqz7,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",286,67,2,1,116,92800,0,3,0,406,3,12,180,0
+3ej0gl,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",286,79,2,1,116,92800,0,3,0,406,3,12,204,0
+g8fyha,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+kr6p00,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+qx95lp,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+6kfpe5,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",211,181,2,1,41,32800,0,1,0,143,0,5,129,0
+rjye99,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",350,67,2,1,180,144000,0,4,0,630,4,9,307,0
+9pcd6e,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",350,79,2,1,180,144000,0,4,0,630,4,9,331,0
+992r94,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+r40swy,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+j3uwjd,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+k8ekrr,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,2,64,0
+vaw29u,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+0gjwj6,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+4msk9w,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,2,64,0
+s5sprx,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+wl4uhl,"BigInt: OP_NUMEQUALVERIFY 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+grknxd,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",211,570,2,1,41,32800,0,1,0,143,0,8,513,0
+j7r8gw,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",740,67,2,1,568,454400,0,13,0,1988,0,1,0,0
+jzjqx7,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",740,79,2,1,568,454400,0,13,0,1988,0,1,0,0
+d59m8k,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+d8lsa3,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+dsh7k7,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+j3nlvk,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+lcpvn5,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+8f526r,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+jletc5,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",211,1083,2,1,41,32800,0,1,0,143,0,5,1025,0
+5z94v9,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",1253,67,2,1,1081,864800,0,25,0,3783,0,1,0,0
+q0qlyw,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",1253,79,2,1,1081,864800,0,25,0,3783,0,1,0,0
+mcwnnj,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,2,512,0
+zuxv29,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+hpawwr,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+kas72s,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,2,512,0
+kftpww,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+tgx2d2,"BigInt: OP_NUMEQUALVERIFY 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+jnqwuy,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",211,4154,2,1,41,32800,0,1,0,143,0,1,0,0
+zrzdw5,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",4324,67,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+7dyzvr,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",4324,79,2,1,4152,3321600,0,97,0,14532,0,1,0,0
+5uuq8m,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,1,0,0
+q0m5x8,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+cg8ntp,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+qttsyc,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,1,0,0
+3we8kr,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+0gr8v8,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+ump4ze,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,1,0,0
+7j6p3j,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+eclxjg,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+5c62ej,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",211,8251,2,1,41,32800,0,1,0,143,0,1,0,0
+m8xw3p,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",8421,67,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+y45tmm,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",8421,79,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+expgnz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+f9n9s0,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+yjk5sz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+g5yrhk,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",211,8250,2,1,41,32800,0,1,0,143,0,1,0,0
+fecawh,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",8420,67,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+c7as7u,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",8420,79,2,1,8248,6598400,0,192,0,28868,0,1,0,0
+m536gs,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,1,0,0
+hqxprj,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+07rdqa,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+3wcn7k,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,1,0,0
+6caws8,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+fez7sa,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+4prjeq,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,1,0,0
+yrsw8r,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+myakj5,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+57n5zt,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+lfxuhz,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+u3w0ph,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+5u2x5e,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+l0z02a,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+k7rzdl,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+xpkfuh,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",211,117,2,1,41,32800,0,1,0,143,0,8,65,0
+rh969p,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",285,67,2,1,115,92000,0,3,0,402,3,12,179,0
+s9gz3p,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",285,79,2,1,115,92000,0,3,0,402,3,12,203,0
+h3lp3m,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",211,569,2,1,41,32800,0,1,0,143,0,8,513,0
+hfcfs5,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",739,67,2,1,567,453600,0,13,0,1984,0,1,0,0
+knd6mv,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",739,79,2,1,567,453600,0,13,0,1984,0,1,0,0
+cnwcuu,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",211,4153,2,1,41,32800,0,1,0,143,0,2,1,0
+j6elsd,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4323,67,2,1,4151,3320800,0,96,0,14528,0,1,0,0
+vfjy7z,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4323,79,2,1,4151,3320800,0,96,0,14528,0,1,0,0
+u9k9hq,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,8249,2,1,41,32800,0,1,0,143,0,2,1,0
+zlgq7t,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8419,67,2,1,8247,6597600,0,192,0,28864,0,1,0,0
+ydz6n7,"BigInt: OP_NUMEQUALVERIFY 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8419,79,2,1,8247,6597600,0,192,0,28864,0,1,0,0
+ywvq8w,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+08t539,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+r8lngj,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+l9twmn,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+df80we,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+9mhsut,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+4fr605,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,2,8,0
+k9g9v0,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+3g4ue8,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+qzkenx,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,2,8,0
+xx3tyk,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+wsujnh,"BigInt: OP_NUMEQUALVERIFY 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+t6c4m7,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",211,117,2,1,41,32800,0,1,0,143,0,8,65,0
+aly2sy,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",285,67,2,1,115,92000,0,3,0,402,3,12,179,0
+2edgu3,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",285,79,2,1,115,92000,0,3,0,402,3,12,203,0
+vz3fdr,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+pm56w5,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+2ezl9a,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+pxhwmj,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",211,181,2,1,41,32800,0,1,0,143,0,5,129,0
+2myv8a,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",350,67,2,1,180,144000,0,4,0,630,4,9,307,0
+wypmty,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",350,79,2,1,180,144000,0,4,0,630,4,9,331,0
+x9rz9u,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+j5wz4t,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+h2lu4u,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+zswjw9,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,2,64,0
+e3jmj3,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+9t4q7d,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+jajh73,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,2,64,0
+2hmnxc,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+svzswu,"BigInt: OP_NUMEQUALVERIFY 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+6wdauz,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",211,569,2,1,41,32800,0,1,0,143,0,8,513,0
+xxyx53,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",739,67,2,1,567,453600,0,13,0,1984,0,1,0,0
+3lrddn,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",739,79,2,1,567,453600,0,13,0,1984,0,1,0,0
+j482pl,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+mdmc8x,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+wujese,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+90qpt2,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+985k6h,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+ul4hpc,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+dtn07j,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",211,1083,2,1,41,32800,0,1,0,143,0,5,1025,0
+gj68fz,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",1253,67,2,1,1081,864800,0,25,0,3783,0,1,0,0
+4aa8fv,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",1253,79,2,1,1081,864800,0,25,0,3783,0,1,0,0
+d5c5ef,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,2,512,0
+0dsjwu,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+tapetn,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+gspj8j,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,2,512,0
+sx0vcx,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+7jrgf3,"BigInt: OP_NUMEQUALVERIFY 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+84mptz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",211,4153,2,1,41,32800,0,1,0,143,0,1,0,0
+n7ctff,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",4323,67,2,1,4151,3320800,0,96,0,14528,0,1,0,0
+64wps8,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",4323,79,2,1,4151,3320800,0,96,0,14528,0,1,0,0
+jg543y,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,1,0,0
+9dgqeg,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+zlrmnx,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+tnaqxk,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,1,0,0
+0y6q5q,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+p268wk,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+s3wmjw,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,1,0,0
+7jk5a5,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+0haq4z,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+w2mvw4,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",211,8251,2,1,41,32800,0,1,0,143,0,1,0,0
+vvaak2,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",8421,67,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+funrxf,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",8421,79,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+503cnu,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+yedljn,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+8af4m5,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+54vnhh,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",211,8249,2,1,41,32800,0,1,0,143,0,1,0,0
+xy8ulg,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",8419,67,2,1,8247,6597600,0,192,0,28864,0,1,0,0
+rgaqjk,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",8419,79,2,1,8247,6597600,0,192,0,28864,0,1,0,0
+j0jm5y,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,1,0,0
+tu0n9j,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+smyfxe,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+jxvcfc,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,1,0,0
+z5yd8n,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+eadnnn,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+54cky6,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,1,0,0
+garhf2,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+4gsfe6,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+w55k99,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+wc2a79,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+ew7meu,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+9rw8de,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+926c7p,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+5hhghs,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+krglrd,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+3kul57,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+6l6mcx,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+3h6k92,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+5l68vj,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+d20tp2,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+zzlzhs,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,2,8,0
+awgfmj,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+3sk3vz,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+pew5u9,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,2,8,0
+ynqn3a,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+xf73cl,"BigInt: OP_NUMEQUALVERIFY 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+kqsrug,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",211,117,2,1,41,32800,0,1,0,143,0,8,65,0
+c7ycrw,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",285,67,2,1,115,92000,0,3,0,402,3,12,179,0
+n2qdcj,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",285,79,2,1,115,92000,0,3,0,402,3,12,203,0
+zk23ph,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",211,125,2,1,41,32800,0,1,0,143,0,8,72,0
+qfkyd6,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",294,67,2,1,124,99200,0,3,0,434,3,12,194,0
+2tvlpz,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",294,79,2,1,124,99200,0,3,0,434,3,12,218,0
+q8u5yl,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",211,181,2,1,41,32800,0,1,0,143,0,5,129,0
+pqmfeg,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",350,67,2,1,180,144000,0,4,0,630,4,9,307,0
+ze9fma,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",350,79,2,1,180,144000,0,4,0,630,4,9,331,0
+rsyt0x,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+hv9g6u,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+w59j9q,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+tj3cca,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,2,64,0
+pjwms2,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+j7zvkn,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+n0n490,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,2,64,0
+m3h8zj,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+gzmwek,"BigInt: OP_NUMEQUALVERIFY 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+8jqh34,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",211,569,2,1,41,32800,0,1,0,143,0,8,513,0
+gcqrxg,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",739,67,2,1,567,453600,0,13,0,1984,0,1,0,0
+rne4ck,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",739,79,2,1,567,453600,0,13,0,1984,0,1,0,0
+nqqdnq,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",211,577,2,1,41,32800,0,1,0,143,0,8,520,0
+dg47ng,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",747,67,2,1,575,460000,0,13,0,2012,0,1,0,0
+d0pvne,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",747,79,2,1,575,460000,0,13,0,2012,0,1,0,0
+0tfalq,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",211,633,2,1,41,32800,0,1,0,143,0,8,576,0
+w6d0q7,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",803,67,2,1,631,504800,0,15,0,2208,0,1,0,0
+gnszau,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",803,79,2,1,631,504800,0,15,0,2208,0,1,0,0
+eh600y,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",211,1083,2,1,41,32800,0,1,0,143,0,5,1025,0
+pkkl6v,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",1253,67,2,1,1081,864800,0,25,0,3783,0,1,0,0
+sr476c,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",1253,79,2,1,1081,864800,0,25,0,3783,0,1,0,0
+d8gw7r,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,2,512,0
+eev4qz,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+x087yc,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+474sd5,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,2,512,0
+2cppt7,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+hst4jw,"BigInt: OP_NUMEQUALVERIFY 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+le2dzu,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",211,4153,2,1,41,32800,0,1,0,143,0,1,0,0
+xnvhun,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",4323,67,2,1,4151,3320800,0,96,0,14528,0,1,0,0
+g2vmxz,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",4323,79,2,1,4151,3320800,0,96,0,14528,0,1,0,0
+ntjnvw,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",211,4161,2,1,41,32800,0,1,0,143,0,1,0,0
+6e8my9,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",4331,67,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+t6t0jr,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",4331,79,2,1,4159,3327200,0,97,0,14556,0,1,0,0
+th6fvs,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",211,4217,2,1,41,32800,0,1,0,143,0,1,0,0
+pcjug2,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",4387,67,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+6m9d4m,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",4387,79,2,1,4215,3372000,0,98,0,14752,0,1,0,0
+jz6hwl,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",211,4667,2,1,41,32800,0,1,0,143,0,1,0,0
+2zt2g6,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",4837,67,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+nawl7y,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",4837,79,2,1,4665,3732000,0,108,0,16327,0,1,0,0
+qn7p2j,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",211,8251,2,1,41,32800,0,1,0,143,0,1,0,0
+0s9sf6,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",8421,67,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+v2mzf7,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",8421,79,2,1,8249,6599200,0,192,0,28871,0,1,0,0
+2lcpgf,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+yelful,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+s52lwy,"BigInt: OP_NUMEQUALVERIFY 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+ahehl7,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",211,8249,2,1,41,32800,0,1,0,143,0,1,0,0
+aqky09,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",8419,67,2,1,8247,6597600,0,192,0,28864,0,1,0,0
+jv8avp,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",8419,79,2,1,8247,6597600,0,192,0,28864,0,1,0,0
+kmsh92,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",211,8257,2,1,41,32800,0,1,0,143,0,1,0,0
+vemtag,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",8427,67,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+4sk4j8,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",8427,79,2,1,8255,6604000,0,192,0,28892,0,1,0,0
+f6hgt9,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",211,8313,2,1,41,32800,0,1,0,143,0,1,0,0
+p9aw7d,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",8483,67,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+9axpp4,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",8483,79,2,1,8311,6648800,0,193,0,29088,0,1,0,0
+rgm9g5,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",211,8763,2,1,41,32800,0,1,0,143,0,1,0,0
+25vcuz,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",8933,67,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+xfw7vk,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",8933,79,2,1,8761,7008800,0,204,0,30663,0,1,0,0
+3jv9xm,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",211,12347,2,1,41,32800,0,1,0,143,0,0,0,0
+mv8ys2,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",12517,67,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+hgelpa,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",12517,79,2,1,12345,9876000,0,287,0,43207,0,0,0,0
+zjj6jx,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",211,16443,2,1,41,32800,0,1,0,143,0,0,0,0
+0cgxpu,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",16613,67,2,1,16441,13152800,0,382,0,57543,0,0,0,0
+g8s86j,"BigInt: OP_NUMEQUALVERIFY 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",16613,79,2,1,16441,13152800,0,382,0,57543,0,0,0,0

@@ -11,7 +11,7 @@ import type {
   Operation,
 } from '../../../lib.js';
 
-import { pushToStack } from './combinators.js';
+import { executionIsActive, pushToStack } from './combinators.js';
 import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { bigIntToVmNumber } from './instruction-sets-utils.js';
@@ -22,6 +22,7 @@ const enum PushOperationConstants {
    * OP_PUSHBYTES_75
    */
   maximumPushByteOperationSize = 0x4b,
+  OP_PUSHBYTES_1 = 0x01,
   OP_PUSHDATA_1 = 0x4c,
   OP_PUSHDATA_2 = 0x4d,
   OP_PUSHDATA_4 = 0x4e,
@@ -128,16 +129,13 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) => {
   }
   if (data.length === 1) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (data[0]! >= 1 && data[0]! <= PushOperationConstants.pushNumberOpcodes) {
-      return (
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        opcode === data[0]! + PushOperationConstants.pushNumberOpcodesOffset
-      );
+    const byte = data[0]!;
+    if (byte >= 1 && byte <= PushOperationConstants.pushNumberOpcodes) {
+      return opcode === byte + PushOperationConstants.pushNumberOpcodesOffset;
     }
-    if (data[0] === PushOperationConstants.negativeOne) {
+    if (byte === PushOperationConstants.negativeOne) {
       return opcode === PushOperationConstants.OP_1NEGATE;
     }
-    return true;
   }
   if (data.length <= PushOperationConstants.maximumPushByteOperationSize) {
     return opcode === data.length;
@@ -154,35 +152,28 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) => {
   return false;
 };
 
-const executionIsActive = <
-  State extends AuthenticationProgramStateControlStack,
->(
-  state: State,
-) => state.controlStack.every((item) => item);
-
-// TODO: add tests that verify the order of operations below (are non-minimal pushes OK inside unexecuted conditionals?)
-
 export const pushOperation =
   <
-    State extends AuthenticationProgramStateControlStack &
+    State extends AuthenticationProgramStateControlStack<unknown> &
       AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
       AuthenticationProgramStateStack,
-  >(
-    maximumPushSize = ConsensusCommon.maximumStackItemLength as number,
-  ): Operation<State> =>
+  >({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength,
+  }: { maximumStackItemLength?: number } = {}): Operation<State> =>
   (state: State) => {
     const instruction = state.instructions[
       state.ip
     ] as AuthenticationInstructionPush;
-    return instruction.data.length > maximumPushSize
+    return instruction.data.length > maximumStackItemLength
       ? applyError(
           state,
-          `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${instruction.data.length} bytes.`,
+          AuthenticationErrorCommon.exceededMaximumStackItemLength,
+          `Maximum stack item length: ${maximumStackItemLength} bytes. Item length: ${instruction.data.length} bytes.`,
         )
       : executionIsActive(state)
         ? isMinimalDataPush(instruction.opcode, instruction.data)
-          ? pushToStack(state, instruction.data)
+          ? pushToStack(state, [instruction.data])
           : applyError(state, AuthenticationErrorCommon.nonMinimalPush)
         : state;
   };
@@ -198,5 +189,5 @@ export const pushNumberOperation = <
   number: number,
 ) => {
   const value = bigIntToVmNumber(BigInt(number));
-  return (state: ProgramState) => pushToStack(state, value);
+  return (state: ProgramState) => pushToStack(state, [value]);
 };

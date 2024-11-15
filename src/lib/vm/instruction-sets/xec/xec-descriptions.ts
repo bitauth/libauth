@@ -1,4 +1,4 @@
-export enum OpcodeDescriptionsXEC {
+export enum OpcodeDescriptionsXec {
   OP_0 = 'Push the VM Number 0 onto the stack.',
   OP_PUSHBYTES_1 = 'Push the next byte onto the stack.',
   OP_PUSHBYTES_2 = 'Push the next 2 bytes onto the stack.',
@@ -148,7 +148,7 @@ export enum OpcodeDescriptionsXEC {
   OP_0NOTEQUAL = 'Pop the top item from the stack as a VM Number. If its value is not 0, push a 1 (VM Number), otherwise, push a 0 (VM Number).',
   OP_ADD = 'Pop the top two items from the stack as VM Numbers. Add them, then push the result.',
   OP_SUB = 'Pop the top two items from the stack as VM Numbers. Subtract the top item from the second item, then push the result.',
-  OP_MUL = 'Pop the top two items from the stack as VM Numbers. Multiply them, then push the result.',
+  OP_MUL = 'Error, even when found in an unexecuted conditional branch. (Historically, this multiplied two VM Numbers.)',
   OP_DIV = 'Pop the top item from the stack as a denominator (VM Number) and the next as a numerator (VM Number). Divide and push the result to the stack.',
   OP_MOD = 'Pop the top item from the stack as a denominator (VM Number) and the next as a numerator (VM Number). Divide and push the remainder to the stack.',
   OP_LSHIFT = 'Error, even when found in an unexecuted conditional branch. (Historically, this performed a sign-preserving, left bit shift.)',

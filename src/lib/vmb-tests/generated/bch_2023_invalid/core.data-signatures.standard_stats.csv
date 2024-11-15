@@ -1,0 +1,19 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+8u7cce,"Data signatures: OP_CHECKDATASIG for 521 byte message (nonP2SH)",282,84,2,1,112,89600,0,3,0,56,0,4,72,0
+dm3y7y,"Data signatures: OP_CHECKDATASIG for 521 byte message (P2SH20)",323,67,2,1,153,122400,0,4,0,76,2,8,153,0
+c222ve,"Data signatures: OP_CHECKDATASIG for 521 byte message (P2SH32)",323,79,2,1,153,122400,0,4,0,76,2,8,177,0
+tketns,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 521 byte message (nonP2SH)",282,85,2,1,112,89600,0,3,0,56,0,4,72,0
+c474j3,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 521 byte message (P2SH20)",324,67,2,1,154,123200,0,4,0,77,2,8,154,0
+7fm206,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 521 byte message (P2SH32)",324,79,2,1,154,123200,0,4,0,77,2,8,178,0
+9fq9fn,"Data signatures: OP_CHECKDATASIG for 1015 byte message (nonP2SH)",283,84,2,1,113,90400,0,3,0,56,0,4,73,0
+tryc47,"Data signatures: OP_CHECKDATASIG for 1015 byte message (P2SH20)",324,67,2,1,154,123200,0,4,0,77,2,8,154,0
+hfjljw,"Data signatures: OP_CHECKDATASIG for 1015 byte message (P2SH32)",324,79,2,1,154,123200,0,4,0,77,2,8,178,0
+jdukqd,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 1015 byte message (nonP2SH)",283,85,2,1,113,90400,0,3,0,56,0,4,73,0
+y6s8x8,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 1015 byte message (P2SH20)",325,67,2,1,155,124000,0,4,0,77,2,8,155,0
+fk2pej,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 1015 byte message (P2SH32)",325,79,2,1,155,124000,0,4,0,77,2,8,179,0
+nyv9q6,"Data signatures: OP_CHECKDATASIG for 1016 byte message (nonP2SH)",282,84,2,1,112,89600,0,3,0,56,0,4,72,0
+ynzwvc,"Data signatures: OP_CHECKDATASIG for 1016 byte message (P2SH20)",323,67,2,1,153,122400,0,4,0,76,2,8,153,0
+2j4qtu,"Data signatures: OP_CHECKDATASIG for 1016 byte message (P2SH32)",323,79,2,1,153,122400,0,4,0,76,2,8,177,0
+cqzyng,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 1016 byte message (nonP2SH)",282,85,2,1,112,89600,0,3,0,56,0,4,72,0
+5hvuqv,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 1016 byte message (P2SH20)",324,67,2,1,154,123200,0,4,0,77,2,8,154,0
+ve72th,"Data signatures: OP_CHECKDATASIGVERIFY <1> for 1016 byte message (P2SH32)",324,79,2,1,154,123200,0,4,0,77,2,8,178,0

@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
 } from '../../lib.js';
 import { hexToBin } from '../../lib.js';
@@ -149,7 +149,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   {
     lockingScriptTypes: {
@@ -184,7 +184,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   {
     lockingScriptTypes: {
@@ -203,7 +203,7 @@ test(
     errors: [
       {
         error:
-          'Both a VM and a createState method are required to reduce evaluations.',
+          'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
         range: {
           endColumn: 44,
           endLineNumber: 1,
@@ -213,7 +213,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   {
     lockingScriptTypes: {

@@ -2,6 +2,7 @@ import { flattenBinArray } from '../../../format/format.js';
 import type {
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
+  Operation,
 } from '../../../lib.js';
 
 import {
@@ -15,15 +16,22 @@ import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { bigIntToVmNumber } from './instruction-sets-utils.js';
 
-export const opCat = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack,
->(
-  state: State,
-) =>
-  useTwoStackItems(state, (nextState, [a, b]) =>
-    pushToStackChecked(nextState, flattenBinArray([a, b])),
-  );
+export const createOpCat =
+  ({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {}) =>
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateStack,
+  >(
+    state: State,
+  ) =>
+    useTwoStackItems(state, (nextState, [a, b]) =>
+      pushToStackChecked(nextState, flattenBinArray([a, b]), {
+        maximumStackItemLength,
+      }),
+    );
+export const opCat = createOpCat();
 
 export const opSplit = <
   State extends AuthenticationProgramStateError &
@@ -35,8 +43,12 @@ export const opSplit = <
     const index = Number(value);
     return useOneStackItem(nextState, (finalState, [item]) =>
       index < 0 || index > item.length
-        ? applyError(finalState, AuthenticationErrorCommon.invalidSplitIndex)
-        : pushToStack(finalState, item.slice(0, index), item.slice(index)),
+        ? applyError(
+            finalState,
+            AuthenticationErrorCommon.invalidSplitIndex,
+            `stack item length: ${item.length}; requested split index: ${index}.`,
+          )
+        : pushToStack(finalState, [item.slice(0, index), item.slice(index)]),
     );
   });
 
@@ -58,8 +70,8 @@ export const padMinimallyEncodedVmNumber = (
   if (vmNumber.length > 0) {
     // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
     signBit = vmNumber[vmNumber.length - 1]! & Constants.negativeSign;
-    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
-    vmNumber[vmNumber.length - 1] &= Constants.negativeSign - 1;
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+    vmNumber[vmNumber.length - 1]! &= Constants.negativeSign - 1;
   }
   const result = Array.from(vmNumber);
   // eslint-disable-next-line functional/no-loop-statements
@@ -72,65 +84,76 @@ export const padMinimallyEncodedVmNumber = (
   return Uint8Array.from(result);
 };
 
-export const opNum2Bin = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack,
->(
-  state: State,
-) =>
-  useOneVmNumber(state, (nextState, value) => {
-    const targetLength = Number(value);
-    return targetLength > ConsensusCommon.maximumStackItemLength
-      ? applyError(
-          nextState,
-          `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${targetLength} bytes.`,
-        )
-      : useOneVmNumber(
-          nextState,
-          (finalState, [target]) => {
-            const minimallyEncoded = bigIntToVmNumber(target);
-            return minimallyEncoded.length > targetLength
-              ? applyError(
-                  finalState,
-                  AuthenticationErrorCommon.insufficientLength,
-                )
-              : minimallyEncoded.length === targetLength
-                ? pushToStack(finalState, minimallyEncoded)
-                : pushToStack(
-                    finalState,
-                    padMinimallyEncodedVmNumber(minimallyEncoded, targetLength),
-                  );
-          },
-          {
-            maximumVmNumberByteLength:
-              // TODO: is this right?
-              ConsensusCommon.maximumStackItemLength as number,
-            requireMinimalEncoding: false,
-          },
-        );
-  });
-
-export const opBin2Num = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack,
->(
-  state: State,
-) =>
-  useOneVmNumber(
-    state,
-    (nextState, [target]) => {
-      const minimallyEncoded = bigIntToVmNumber(target);
-      return minimallyEncoded.length > ConsensusCommon.maximumVmNumberLength
+export const createOpNum2Bin =
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateStack,
+  >({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength,
+  }: { maximumStackItemLength?: number } = {}): Operation<State> =>
+  (state: State) =>
+    useOneVmNumber(state, (nextState, value) => {
+      const targetLength = Number(value);
+      return targetLength > maximumStackItemLength
         ? applyError(
             nextState,
-            AuthenticationErrorCommon.exceededMaximumVmNumberLength,
+            AuthenticationErrorCommon.exceededMaximumStackItemLength,
+            `Maximum stack item length: ${maximumStackItemLength} bytes. Item length: ${targetLength} bytes.`,
           )
-        : pushToStack(nextState, minimallyEncoded);
-    },
-    {
-      // TODO: is this right?
-      maximumVmNumberByteLength:
-        ConsensusCommon.maximumStackItemLength as number,
-      requireMinimalEncoding: false,
-    },
-  );
+        : useOneVmNumber(
+            nextState,
+            (finalState, [target]) => {
+              const minimallyEncoded = bigIntToVmNumber(target);
+              return minimallyEncoded.length > targetLength
+                ? applyError(
+                    finalState,
+                    AuthenticationErrorCommon.insufficientLength,
+                    `Minimum necessary byte length: ${minimallyEncoded.length}. Requested byte length: ${targetLength}.`,
+                  )
+                : minimallyEncoded.length === targetLength
+                  ? pushToStack(finalState, [minimallyEncoded])
+                  : pushToStack(finalState, [
+                      padMinimallyEncodedVmNumber(
+                        minimallyEncoded,
+                        targetLength,
+                      ),
+                    ]);
+            },
+            {
+              maximumVmNumberByteLength: maximumStackItemLength,
+              requireMinimalEncoding: false,
+            },
+          );
+    });
+export const opNum2Bin = createOpNum2Bin();
+
+export const createOpBin2Num =
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateStack,
+  >({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength,
+    maximumVmNumberByteLength = ConsensusCommon.maximumVmNumberByteLength,
+  }: {
+    maximumStackItemLength?: number;
+    maximumVmNumberByteLength?: number;
+  } = {}): Operation<State> =>
+  (state: State) =>
+    useOneVmNumber(
+      state,
+      (nextState, [target]) => {
+        const minimallyEncoded = bigIntToVmNumber(target);
+        return minimallyEncoded.length > maximumVmNumberByteLength
+          ? applyError(
+              nextState,
+              AuthenticationErrorCommon.exceededMaximumVmNumberByteLength,
+              `Maximum VM number byte length: ${maximumVmNumberByteLength}; required byte length: ${minimallyEncoded.length}.`,
+            )
+          : pushToStack(nextState, [minimallyEncoded]);
+      },
+      {
+        maximumVmNumberByteLength: maximumStackItemLength,
+        requireMinimalEncoding: false,
+      },
+    );
+export const opBin2Num = createOpBin2Num();

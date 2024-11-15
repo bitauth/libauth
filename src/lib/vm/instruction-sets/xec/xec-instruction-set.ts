@@ -1,48 +1,24 @@
+import {
+  ripemd160 as internalRipemd160,
+  secp256k1 as internalSecp256k1,
+  sha1 as internalSha1,
+  sha256 as internalSha256,
+} from '../../../crypto/crypto.js';
 import type {
-  AuthenticationProgramBCH,
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramBch,
+  AuthenticationProgramStateBch,
   InstructionSet,
-  ResolvedTransactionBCH,
+  ResolvedTransactionBch,
+  Ripemd160,
+  Secp256k1,
+  Sha1,
+  Sha256,
 } from '../../../lib.js';
-import { createInstructionSetBCH2022 } from '../bch/2022/bch-2022-instruction-set.js';
-import { OpcodesBCH2022 } from '../bch/2022/bch-2022-opcodes.js';
-import {
-  conditionallyEvaluate,
-  disabledOperation,
-  incrementOperationCount,
-  mapOverOperations,
-  undefinedOperation,
-} from '../common/common.js';
+import { createInstructionSetBch2023 } from '../bch/2023/bch-2023-instruction-set.js';
+import { undefinedOperation } from '../common/common.js';
 
-import {
-  op0NotEqual4Byte,
-  op1Add4Byte,
-  op1Sub4Byte,
-  opAbs4Byte,
-  opAdd4Byte,
-  opBin2Num4Byte,
-  opBoolAnd4Byte,
-  opBoolOr4Byte,
-  opDiv4Byte,
-  opGreaterThan4Byte,
-  opGreaterThanOrEqual4Byte,
-  opLessThan4Byte,
-  opLessThanOrEqual4Byte,
-  opMax4Byte,
-  opMin4Byte,
-  opMod4Byte,
-  opNegate4Byte,
-  opNot4Byte,
-  opNum2Bin4Byte,
-  opNumEqual4Byte,
-  opNumEqualVerify4Byte,
-  opNumNotEqual4Byte,
-  opPick4Byte,
-  opRoll4Byte,
-  opSplit4Byte,
-  opSub4Byte,
-  opWithin4Byte,
-} from './xec-vm-number-operations.js';
+import { ConsensusXec } from './xec-2020-consensus.js';
+import { OpcodesXec } from './xec-opcodes.js';
 
 /**
  * create an instance of the XEC virtual machine instruction set.
@@ -52,65 +28,84 @@ import {
  * and can technically be included by miners in valid blocks, but most network
  * nodes will refuse to relay them. (Default: `true`)
  */
-export const createInstructionSetXEC = (
+export const createInstructionSetXec = <
+  AuthenticationProgramState extends AuthenticationProgramStateBch,
+  Consensus extends typeof ConsensusXec = typeof ConsensusXec,
+>(
   standard = true,
+  {
+    consensus = ConsensusXec as Consensus,
+    ripemd160,
+    secp256k1,
+    sha1,
+    sha256,
+  }: {
+    consensus?: Consensus;
+    /**
+     * a Ripemd160 implementation
+     */
+    ripemd160: { hash: Ripemd160['hash'] };
+    /**
+     * a Secp256k1 implementation
+     */
+    secp256k1: {
+      verifySignatureSchnorr: Secp256k1['verifySignatureSchnorr'];
+      verifySignatureDERLowS: Secp256k1['verifySignatureDERLowS'];
+    };
+    /**
+     * a Sha1 implementation
+     */
+    sha1: { hash: Sha1['hash'] };
+    /**
+     * a Sha256 implementation
+     */
+    sha256: { hash: Sha256['hash'] };
+  } = {
+    ripemd160: internalRipemd160,
+    secp256k1: internalSecp256k1,
+    sha1: internalSha1,
+    sha256: internalSha256,
+  },
 ): InstructionSet<
-  ResolvedTransactionBCH,
-  AuthenticationProgramBCH,
-  AuthenticationProgramStateBCH
+  ResolvedTransactionBch,
+  AuthenticationProgramBch,
+  AuthenticationProgramState
 > => {
-  const instructionSet = createInstructionSetBCH2022(standard);
+  const instructionSet = createInstructionSetBch2023<
+    AuthenticationProgramState,
+    Consensus
+  >(standard, {
+    consensus,
+    ripemd160,
+    secp256k1,
+    sha1,
+    sha256,
+  });
   return {
     ...instructionSet,
     operations: {
       ...instructionSet.operations,
-      ...mapOverOperations<AuthenticationProgramStateBCH>(
-        [conditionallyEvaluate, incrementOperationCount],
-        {
-          [OpcodesBCH2022.OP_PICK]: opPick4Byte,
-          [OpcodesBCH2022.OP_ROLL]: opRoll4Byte,
-          [OpcodesBCH2022.OP_SPLIT]: opSplit4Byte,
-          [OpcodesBCH2022.OP_NUM2BIN]: opNum2Bin4Byte,
-          [OpcodesBCH2022.OP_BIN2NUM]: opBin2Num4Byte,
-          [OpcodesBCH2022.OP_1ADD]: op1Add4Byte,
-          [OpcodesBCH2022.OP_1SUB]: op1Sub4Byte,
-          [OpcodesBCH2022.OP_NEGATE]: opNegate4Byte,
-          [OpcodesBCH2022.OP_ABS]: opAbs4Byte,
-          [OpcodesBCH2022.OP_NOT]: opNot4Byte,
-          [OpcodesBCH2022.OP_0NOTEQUAL]: op0NotEqual4Byte,
-          [OpcodesBCH2022.OP_ADD]: opAdd4Byte,
-          [OpcodesBCH2022.OP_SUB]: opSub4Byte,
-          [OpcodesBCH2022.OP_MUL]: disabledOperation,
-          [OpcodesBCH2022.OP_DIV]: opDiv4Byte,
-          [OpcodesBCH2022.OP_MOD]: opMod4Byte,
-          [OpcodesBCH2022.OP_BOOLAND]: opBoolAnd4Byte,
-          [OpcodesBCH2022.OP_BOOLOR]: opBoolOr4Byte,
-          [OpcodesBCH2022.OP_NUMEQUAL]: opNumEqual4Byte,
-          [OpcodesBCH2022.OP_NUMEQUALVERIFY]: opNumEqualVerify4Byte,
-          [OpcodesBCH2022.OP_NUMNOTEQUAL]: opNumNotEqual4Byte,
-          [OpcodesBCH2022.OP_LESSTHAN]: opLessThan4Byte,
-          [OpcodesBCH2022.OP_GREATERTHAN]: opGreaterThan4Byte,
-          [OpcodesBCH2022.OP_LESSTHANOREQUAL]: opLessThanOrEqual4Byte,
-          [OpcodesBCH2022.OP_GREATERTHANOREQUAL]: opGreaterThanOrEqual4Byte,
-          [OpcodesBCH2022.OP_MIN]: opMin4Byte,
-          [OpcodesBCH2022.OP_MAX]: opMax4Byte,
-          [OpcodesBCH2022.OP_WITHIN]: opWithin4Byte,
-        },
-      ),
-      [OpcodesBCH2022.OP_INPUTINDEX]: undefinedOperation,
-      [OpcodesBCH2022.OP_ACTIVEBYTECODE]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXVERSION]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXINPUTCOUNT]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXOUTPUTCOUNT]: undefinedOperation,
-      [OpcodesBCH2022.OP_TXLOCKTIME]: undefinedOperation,
-      [OpcodesBCH2022.OP_UTXOVALUE]: undefinedOperation,
-      [OpcodesBCH2022.OP_UTXOBYTECODE]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPOINTTXHASH]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPOINTINDEX]: undefinedOperation,
-      [OpcodesBCH2022.OP_INPUTBYTECODE]: undefinedOperation,
-      [OpcodesBCH2022.OP_INPUTSEQUENCENUMBER]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPUTVALUE]: undefinedOperation,
-      [OpcodesBCH2022.OP_OUTPUTBYTECODE]: undefinedOperation,
+      [OpcodesXec.OP_MUL]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN192]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN193]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN194]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN195]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN196]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN197]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN198]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN199]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN200]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN201]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN202]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN203]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN204]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN205]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN206]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN207]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN208]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN209]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN210]: undefinedOperation,
+      [OpcodesXec.OP_UNKNOWN211]: undefinedOperation,
     },
   };
 };

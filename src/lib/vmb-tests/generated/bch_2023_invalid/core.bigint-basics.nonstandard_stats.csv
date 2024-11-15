@@ -1,0 +1,214 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+jw69xu,"BigInt: padded zero is truthy (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,1,1,0
+872jqe,"BigInt: padded zero is truthy (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,42,0
+pgkhzu,"BigInt: padded zero is truthy (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,66,0
+292ufu,"BigInt: negative zero is truthy (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,1,1,0
+vmzxmu,"BigInt: negative zero is truthy (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,42,0
+pnezqc,"BigInt: negative zero is truthy (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,66,0
+443mcn,"BigInt: padded negative zero is truthy (nonP2SH)",214,44,2,1,44,35200,0,1,0,154,0,1,2,0
+scw9nz,"BigInt: padded negative zero is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,5,43,0
+xhe48n,"BigInt: padded negative zero is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,5,67,0
+g0wca3,"BigInt: padded zero (520 bytes) is truthy (nonP2SH)",736,44,2,1,564,451200,0,13,0,1974,0,1,520,0
+rw8l39,"BigInt: padded zero (520 bytes) is truthy (P2SH20)",737,67,2,1,565,452000,0,13,0,1977,2,5,561,0
+aks0x6,"BigInt: padded zero (520 bytes) is truthy (P2SH32)",737,79,2,1,565,452000,0,13,0,1977,2,5,585,0
+gscsqh,"BigInt: padded negative zero (520 bytes) is truthy (nonP2SH)",736,44,2,1,564,451200,0,13,0,1974,0,1,520,0
+2rhx68,"BigInt: padded negative zero (520 bytes) is truthy (P2SH20)",737,67,2,1,565,452000,0,13,0,1977,2,5,561,0
+7uhqyu,"BigInt: padded negative zero (520 bytes) is truthy (P2SH32)",737,79,2,1,565,452000,0,13,0,1977,2,5,585,0
+vq0ehs,"BigInt: padded zero (521 bytes) is truthy (nonP2SH)",737,44,2,1,565,452000,0,13,0,1977,0,1,0,0
+3hx7q7,"BigInt: padded zero (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,1981,0,1,0,0
+k84xqq,"BigInt: padded zero (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,1981,0,1,0,0
+xpfsmv,"BigInt: padded negative zero (521 bytes) is truthy (nonP2SH)",737,44,2,1,565,452000,0,13,0,1977,0,1,0,0
+ps23mh,"BigInt: padded negative zero (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,1981,0,1,0,0
+5lwgty,"BigInt: padded negative zero (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,1981,0,1,0,0
+32grnz,"BigInt: padded one (521 bytes) is truthy (nonP2SH)",737,44,2,1,565,452000,0,13,0,1977,0,1,0,0
+rvrxrg,"BigInt: padded one (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,1981,0,1,0,0
+45suuj,"BigInt: padded one (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,1981,0,1,0,0
+mcdetk,"BigInt: padded negative one (521 bytes) is truthy (nonP2SH)",737,44,2,1,565,452000,0,13,0,1977,0,1,0,0
+693kj6,"BigInt: padded negative one (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,1981,0,1,0,0
+tl4ylu,"BigInt: padded negative one (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,1981,0,1,0,0
+7esqyn,"BigInt: OP_BIN2NUM on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+dq4ajj,"BigInt: OP_BIN2NUM on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+jhmexs,"BigInt: OP_BIN2NUM on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+vqfp03,"BigInt: OP_1ADD on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+9yx35y,"BigInt: OP_1ADD on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+8677zr,"BigInt: OP_1ADD on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+svhdtt,"BigInt: OP_1SUB on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+rp25hz,"BigInt: OP_1SUB on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+3j7vks,"BigInt: OP_1SUB on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+0gxfer,"BigInt: OP_NEGATE on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+8axcmc,"BigInt: OP_NEGATE on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+k83lh0,"BigInt: OP_NEGATE on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+9yx2ql,"BigInt: OP_ABS on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+j3c3gj,"BigInt: OP_ABS on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+99278j,"BigInt: OP_ABS on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+aqtdkj,"BigInt: OP_NOT on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+ejd4l8,"BigInt: OP_NOT on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+pnv0t2,"BigInt: OP_NOT on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+30qnek,"BigInt: OP_0NOTEQUAL on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+x50290,"BigInt: OP_0NOTEQUAL on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+emz038,"BigInt: OP_0NOTEQUAL on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+epa5jf,"BigInt: OP_BIN2NUM OP_NOT on empty stack (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,1,0,0
+tmmukx,"BigInt: OP_BIN2NUM OP_NOT on empty stack (P2SH20)",214,67,2,1,44,35200,0,1,0,154,2,5,43,0
+qvprwf,"BigInt: OP_BIN2NUM OP_NOT on empty stack (P2SH32)",214,79,2,1,44,35200,0,1,0,154,2,5,67,0
+d80z3m,"BigInt: OP_BIN2NUM on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,1,0
+f7qn30,"BigInt: OP_BIN2NUM on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,44,0
+2lkyys,"BigInt: OP_BIN2NUM on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,68,0
+gxy5jq,"BigInt: OP_1ADD on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,2,1
+lfdqlv,"BigInt: OP_1ADD on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,45,1
+6t7ntm,"BigInt: OP_1ADD on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,69,1
+0s73j0,"BigInt: OP_1SUB on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,2,1
+fk2gnz,"BigInt: OP_1SUB on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,45,1
+czwx4s,"BigInt: OP_1SUB on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,69,1
+uj6sxg,"BigInt: OP_NEGATE on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,1,0
+arun6s,"BigInt: OP_NEGATE on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,44,0
+l4mm95,"BigInt: OP_NEGATE on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,68,0
+4k83lp,"BigInt: OP_ABS on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,1,0
+47vmcd,"BigInt: OP_ABS on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,44,0
+057vjw,"BigInt: OP_ABS on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,68,0
+l3x93w,"BigInt: OP_NOT on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,2,0
+y8ck4g,"BigInt: OP_NOT on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,45,0
+2qwe04,"BigInt: OP_NOT on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,69,0
+j4jgn4,"BigInt: OP_0NOTEQUAL on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,1,0
+zwfpld,"BigInt: OP_0NOTEQUAL on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,44,0
+lr9vtw,"BigInt: OP_0NOTEQUAL on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,68,0
+6ta9z4,"BigInt: OP_NUM2BIN on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+f99h57,"BigInt: OP_NUM2BIN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+wc5gqy,"BigInt: OP_NUM2BIN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+7jvxkq,"BigInt: OP_ADD on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+98cq70,"BigInt: OP_ADD on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+frx9wl,"BigInt: OP_ADD on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+eq23pr,"BigInt: OP_SUB on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+u5cj7z,"BigInt: OP_SUB on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+60gxxw,"BigInt: OP_SUB on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+r7qyml,"BigInt: OP_BOOLAND on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+j2rtue,"BigInt: OP_BOOLAND on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+8dx63c,"BigInt: OP_BOOLAND on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+qefeat,"BigInt: OP_BOOLOR on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+9mmqxm,"BigInt: OP_BOOLOR on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+ry3907,"BigInt: OP_BOOLOR on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+ff0zpj,"BigInt: OP_NUMEQUAL on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+cvfzwj,"BigInt: OP_NUMEQUAL on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+mrmcp4,"BigInt: OP_NUMEQUAL on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+4fw3rn,"BigInt: OP_NUMEQUALVERIFY on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+9epmcr,"BigInt: OP_NUMEQUALVERIFY on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+l292fs,"BigInt: OP_NUMEQUALVERIFY on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+7ed2lp,"BigInt: OP_NUMNOTEQUAL on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+tpafff,"BigInt: OP_NUMNOTEQUAL on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+shuf27,"BigInt: OP_NUMNOTEQUAL on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+8040gd,"BigInt: OP_LESSTHAN on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+q5rqw4,"BigInt: OP_LESSTHAN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+fxneru,"BigInt: OP_LESSTHAN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+pdnvmk,"BigInt: OP_LESSTHANOREQUAL on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+7lgy9p,"BigInt: OP_LESSTHANOREQUAL on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+m4d7pt,"BigInt: OP_LESSTHANOREQUAL on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+mqdqcc,"BigInt: OP_GREATERTHAN on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+m8j4cn,"BigInt: OP_GREATERTHAN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+3xx33m,"BigInt: OP_GREATERTHAN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+53e74q,"BigInt: OP_GREATERTHANOREQUAL on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+d9w78z,"BigInt: OP_GREATERTHANOREQUAL on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+q95c45,"BigInt: OP_GREATERTHANOREQUAL on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+ug3pu3,"BigInt: OP_MIN on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+8tma9k,"BigInt: OP_MIN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+2xgaln,"BigInt: OP_MIN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+ka9a2u,"BigInt: OP_MAX on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+vjfr3e,"BigInt: OP_MAX on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+akl4sk,"BigInt: OP_MAX on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+l2f8ye,"BigInt: OP_MUL on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+6338h9,"BigInt: OP_MUL on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+wvnu52,"BigInt: OP_MUL on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+88eef8,"BigInt: OP_DIV on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+6kxpv2,"BigInt: OP_DIV on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+2mn8wk,"BigInt: OP_DIV on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+06ymmd,"BigInt: OP_MOD on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+2kuzmj,"BigInt: OP_MOD on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+lakstz,"BigInt: OP_MOD on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+5xyj98,"BigInt: OP_WITHIN on 1-item stack of zero (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,0,0
+dflk7y,"BigInt: OP_WITHIN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,43,0
+axa7ad,"BigInt: OP_WITHIN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,67,0
+79ayc8,"BigInt: OP_BIN2NUM on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+eqm7gu,"BigInt: OP_BIN2NUM on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,46,0
+kw4a7t,"BigInt: OP_BIN2NUM on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,70,0
+z2shq0,"BigInt: OP_1ADD on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,1
+4c26xk,"BigInt: OP_1ADD on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,46,1
+ntl6k9,"BigInt: OP_1ADD on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,70,1
+fk352g,"BigInt: OP_1SUB on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,2,0
+pf0pu3,"BigInt: OP_1SUB on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,45,0
+6p603d,"BigInt: OP_1SUB on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,69,0
+v73spy,"BigInt: OP_NEGATE on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,1
+menh27,"BigInt: OP_NEGATE on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,46,1
+dtxj52,"BigInt: OP_NEGATE on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,70,1
+yeqh3t,"BigInt: OP_ABS on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,1
+nnukjv,"BigInt: OP_ABS on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,46,1
+fpreu6,"BigInt: OP_ABS on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,70,1
+n8gul2,"BigInt: OP_NOT on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,2,0
+8yxskx,"BigInt: OP_NOT on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,45,0
+spcc3l,"BigInt: OP_NOT on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,69,0
+2tpdmc,"BigInt: OP_0NOTEQUAL on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,3,3,0
+dlf604,"BigInt: OP_0NOTEQUAL on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,7,46,0
+lr4quz,"BigInt: OP_0NOTEQUAL on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,7,70,0
+5p2n6a,"BigInt: OP_NUM2BIN on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+42u0fn,"BigInt: OP_NUM2BIN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+m8crf0,"BigInt: OP_NUM2BIN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+02pxmd,"BigInt: OP_ADD on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+4qfpmp,"BigInt: OP_ADD on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+fl352u,"BigInt: OP_ADD on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+e24qn0,"BigInt: OP_SUB on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+rza6zc,"BigInt: OP_SUB on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+s4x9n5,"BigInt: OP_SUB on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+r5eg2k,"BigInt: OP_BOOLAND on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+flekgy,"BigInt: OP_BOOLAND on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+2ztewq,"BigInt: OP_BOOLAND on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+rrcten,"BigInt: OP_BOOLOR on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+vpr720,"BigInt: OP_BOOLOR on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+rup6an,"BigInt: OP_BOOLOR on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+227u45,"BigInt: OP_NUMEQUAL on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+u4ys9n,"BigInt: OP_NUMEQUAL on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+l5zh3q,"BigInt: OP_NUMEQUAL on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+rxswvx,"BigInt: OP_NUMEQUALVERIFY on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+xzx24e,"BigInt: OP_NUMEQUALVERIFY on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+wwadjg,"BigInt: OP_NUMEQUALVERIFY on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+azupww,"BigInt: OP_NUMNOTEQUAL on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+jpk73d,"BigInt: OP_NUMNOTEQUAL on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+78l65m,"BigInt: OP_NUMNOTEQUAL on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+us2fe3,"BigInt: OP_LESSTHAN on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+7p2gqa,"BigInt: OP_LESSTHAN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+e6ggrd,"BigInt: OP_LESSTHAN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+8tzc6e,"BigInt: OP_LESSTHANOREQUAL on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+mmgy2q,"BigInt: OP_LESSTHANOREQUAL on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+k24zf4,"BigInt: OP_LESSTHANOREQUAL on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+r5c9ul,"BigInt: OP_GREATERTHAN on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+hsdjyg,"BigInt: OP_GREATERTHAN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+ch6phx,"BigInt: OP_GREATERTHAN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+dztt0q,"BigInt: OP_GREATERTHANOREQUAL on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+tve6ft,"BigInt: OP_GREATERTHANOREQUAL on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+aqtsdh,"BigInt: OP_GREATERTHANOREQUAL on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+5nqnuj,"BigInt: OP_MIN on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+shxymp,"BigInt: OP_MIN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+p8wcnz,"BigInt: OP_MIN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+m4gdmp,"BigInt: OP_MAX on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+lqw3qp,"BigInt: OP_MAX on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+mrdsy5,"BigInt: OP_MAX on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+qftzus,"BigInt: OP_MUL on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+czyfqn,"BigInt: OP_MUL on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+he40lf,"BigInt: OP_MUL on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+z45g24,"BigInt: OP_DIV on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+5lvwq3,"BigInt: OP_DIV on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+cfrc06,"BigInt: OP_DIV on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+jh034m,"BigInt: OP_MOD on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+enw32r,"BigInt: OP_MOD on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+sdnhrh,"BigInt: OP_MOD on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+5trf5p,"BigInt: OP_WITHIN on 1-item stack of one (nonP2SH)",212,46,2,1,42,33600,0,1,0,147,0,2,1,0
+sg3j63,"BigInt: OP_WITHIN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,0,1,0,157,2,6,44,0
+l25t5s,"BigInt: OP_WITHIN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,0,1,0,157,2,6,68,0
+ylkdz6,"BigInt: OP_WITHIN on 2-item stack of zero and zero (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,3,0,0
+ntg2ym,"BigInt: OP_WITHIN on 2-item stack of zero and zero (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,7,43,0
+5ky9hg,"BigInt: OP_WITHIN on 2-item stack of zero and zero (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,7,67,0
+cvfxcq,"BigInt: OP_WITHIN on 2-item stack of zero and one (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,3,1,0
+x4w7dn,"BigInt: OP_WITHIN on 2-item stack of zero and one (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,7,44,0
+t23804,"BigInt: OP_WITHIN on 2-item stack of zero and one (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,7,68,0
+qjldu4,"BigInt: OP_WITHIN on 2-item stack of one and zero (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,3,1,0
+yazrre,"BigInt: OP_WITHIN on 2-item stack of one and zero (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,7,44,0
+g0c7qj,"BigInt: OP_WITHIN on 2-item stack of one and zero (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,7,68,0
+esz25k,"BigInt: OP_WITHIN on 2-item stack of one and one (nonP2SH)",213,46,2,1,43,34400,0,1,0,150,0,3,2,0
+sgjpg4,"BigInt: OP_WITHIN on 2-item stack of one and one (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,7,45,0
+ek95c6,"BigInt: OP_WITHIN on 2-item stack of one and one (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,7,69,0

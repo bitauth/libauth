@@ -1,0 +1,37 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+ytetzn,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+kqcled,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+pwzvtm,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+0xthlp,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+wahy47,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+rk4l0f,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+n38hy4,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+u79sk8,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
+3zx08a,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0
+s2kx82,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+madd5c,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+kkfxmh,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+2t99r9,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+ku6mfy,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+6ehss7,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+8fryve,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+6js2j0,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
+jxj3ha,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0
+w9cqef,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+9d00hj,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+j5c93u,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+y62jy0,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+k5ptc0,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+wgp9m5,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+8nnta6,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+8shz3p,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
+7duc97,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0
+c4eh2v,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+luev0z,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+2j468h,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+em0rur,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+s8tf37,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+wrt7g0,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
+x570dz,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+vjqqtp,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
+azy6l7,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0

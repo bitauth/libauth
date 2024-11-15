@@ -1,5 +1,5 @@
-export enum OpcodeDescriptionsBCH2023 {
-  OP_0 = 'Push the VM Number 0 onto the stack.',
+export enum OpcodeDescriptionsBch2023 {
+  OP_0 = 'Push the VM Number 0 onto the stack. (A.K.A. OP_FALSE or OP_PUSHBYTES_0)',
   OP_PUSHBYTES_1 = 'Push the next byte onto the stack.',
   OP_PUSHBYTES_2 = 'Push the next 2 bytes onto the stack.',
   OP_PUSHBYTES_3 = 'Push the next 3 bytes onto the stack.',
@@ -80,7 +80,7 @@ export enum OpcodeDescriptionsBCH2023 {
   OP_PUSHDATA_4 = 'Read the next little-endian Uint32 and push that number of bytes onto the stack.',
   OP_1NEGATE = 'Push the VM Number -1 onto the stack.',
   OP_RESERVED = 'Error unless found in an unexecuted conditional branch. Note: OP_RESERVED does not count toward the opcode limit.',
-  OP_1 = 'Push a 1 (VM Number) onto the stack.',
+  OP_1 = 'Push a 1 (VM Number) onto the stack. (A.K.A. OP_TRUE)',
   OP_2 = 'Push a 2 (VM Number) onto the stack.',
   OP_3 = 'Push a 3 (VM Number) onto the stack.',
   OP_4 = 'Push a 4 (VM Number) onto the stack.',
@@ -128,7 +128,7 @@ export enum OpcodeDescriptionsBCH2023 {
   OP_CAT = 'Pop the top 2 items from the stack and concatenate them, pushing the result.',
   OP_SPLIT = 'Pop the top item from the stack as an index (VM Number) and the next item as a byte array. Split the byte array into two stack items at the index (zero-based), pushing the results.',
   OP_NUM2BIN = 'Pop the top item from the stack as an item length (VM Number) and the next item as a VM Number (without encoding restrictions). Re-encode the number using a byte array of the provided length, filling any unused bytes with zeros, then push the result. (If the requested length is too short to encode the number, error.)',
-  OP_BIN2NUM = "Pop the top item from the stack as a VM Number without encoding restrictions. Minimally-encode the number and push the result. (If the number can't be encoded in 4 bytes or less, error.)",
+  OP_BIN2NUM = "Pop the top item from the stack as a VM Number without encoding restrictions. Minimally-encode the number and push the result. (If the number can't be encoded within the maximum VM number length, error.)",
   OP_SIZE = 'Push the byte-length of the top stack item as a VM Number.',
   OP_INVERT = 'Error, even when found in an unexecuted conditional branch. (Historically, this flipped all the bits in a stack item.)',
   OP_AND = 'Pop the top 2 items from the stack and perform a bitwise AND on each byte, pushing the result. If the length of the items are not equal, error.',
@@ -144,7 +144,7 @@ export enum OpcodeDescriptionsBCH2023 {
   OP_2DIV = 'Error, even when found in an unexecuted conditional branch. (Historically, this divided a VM Number by 2.)',
   OP_NEGATE = 'Pop the top item from the stack as a VM Number, negate it, then push the result.',
   OP_ABS = 'Pop the top item from the stack as a VM Number, take its absolute value, then push the result.',
-  OP_NOT = 'Pop the top item from the stack as a VM Number. If its value is 0, push a 1 (VM Number), otherwise, push a 0 (VM Number).',
+  OP_NOT = 'Pop the top item from the stack as a VM Number. If its value is 0, push a 1 (VM Number), otherwise, push a 0 (VM Number). (A.K.A. OP_0EQUAL)',
   OP_0NOTEQUAL = 'Pop the top item from the stack as a VM Number. If its value is not 0, push a 1 (VM Number), otherwise, push a 0 (VM Number).',
   OP_ADD = 'Pop the top two items from the stack as VM Numbers. Add them, then push the result.',
   OP_SUB = 'Pop the top two items from the stack as VM Numbers. Subtract the top item from the second item, then push the result.',
@@ -209,8 +209,3 @@ export enum OpcodeDescriptionsBCH2023 {
   OP_OUTPUTTOKENCOMMITMENT = 'Pop the top item from the stack as an output index (VM Number). Push the token commitment of the output at that index to the stack. If the output does not include a non-fungible token, or if it includes a non-fungible token with a zero-length commitment, push a 0 (VM Number).',
   OP_OUTPUTTOKENAMOUNT = 'Pop the top item from the stack as an output index (VM Number). Push the fungible token amount of the output at that index to the stack as a VM Number. If the output includes no fungible tokens, push a 0 (VM Number).',
 }
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptionsBCH = OpcodeDescriptionsBCH2023;
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodeDescriptions = OpcodeDescriptionsBCH;

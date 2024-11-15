@@ -1,0 +1,15 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+658z9a,"BigInt: OP_LESSTHANOREQUAL 1-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,50,2,1,42,33600,0,1,0,21,0,5,5,0
+p48fja,"BigInt: OP_LESSTHANOREQUAL 1-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,10,0
+8aret2,"BigInt: OP_LESSTHANOREQUAL 8-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,12,0
+y6zyn4,"BigInt: OP_LESSTHANOREQUAL 8-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0
+mjjrus,"BigInt: OP_LESSTHANOREQUAL 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,50,2,1,42,33600,0,1,0,21,0,5,5,0
+acn6w6,"BigInt: OP_LESSTHANOREQUAL 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,12,0
+z489m6,"BigInt: OP_LESSTHANOREQUAL 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,57,2,1,42,33600,0,1,0,21,0,5,10,0
+yfze9m,"BigInt: OP_LESSTHANOREQUAL 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0
+kmqhma,"BigInt: OP_LESSTHANOREQUAL 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,5,0
+8fes6n,"BigInt: OP_LESSTHANOREQUAL 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,56,2,1,42,33600,0,1,0,21,0,5,12,0
+9wqtdt,"BigInt: OP_LESSTHANOREQUAL 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,56,2,1,42,33600,0,1,0,21,0,5,10,0
+utrj6c,"BigInt: OP_LESSTHANOREQUAL 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0
+gen29t,"BigInt: OP_LESSTHANOREQUAL 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",212,56,2,1,42,33600,0,1,0,21,0,5,10,0
+7fh9c8,"BigInt: OP_LESSTHANOREQUAL 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,64,2,1,42,33600,0,1,0,21,0,5,19,0

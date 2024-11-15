@@ -2,7 +2,7 @@
  * The `BCH_2023_05` instruction set.
  */
 
-export enum OpcodesBCH2023 {
+export enum OpcodesBch2023 {
   /**
    * A.K.A. `OP_FALSE` or `OP_PUSHBYTES_0`
    */
@@ -154,6 +154,9 @@ export enum OpcodesBCH2023 {
   OP_2DIV = 0x8e,
   OP_NEGATE = 0x8f,
   OP_ABS = 0x90,
+  /**
+   * A.K.A. OP_0EQUAL
+   */
   OP_NOT = 0x91,
   OP_0NOTEQUAL = 0x92,
   OP_ADD = 0x93,
@@ -278,8 +281,3 @@ export enum OpcodesBCH2023 {
   OP_UNKNOWN254 = 0xfe,
   OP_UNKNOWN255 = 0xff,
 }
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const OpcodesBCH = OpcodesBCH2023;
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const Opcodes = OpcodesBCH;

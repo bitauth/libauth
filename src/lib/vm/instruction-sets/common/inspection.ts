@@ -10,10 +10,12 @@ import type {
 import type { AuthenticationProgramStateCodeSeparator } from '../../vm-types.js';
 
 import {
+  pushToStack,
   pushToStackChecked,
-  pushToStackVmNumberChecked,
+  pushToStackVmNumber,
   useOneVmNumber,
 } from './combinators.js';
+import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { encodeAuthenticationInstructions } from './instruction-sets-utils.js';
 
@@ -23,23 +25,29 @@ export const opInputIndex = <
     AuthenticationProgramStateTransactionContext,
 >(
   state: State,
-) => pushToStackVmNumberChecked(state, BigInt(state.program.inputIndex));
+) => pushToStackVmNumber(state, BigInt(state.program.inputIndex));
 
-export const opActiveBytecode = <
-  State extends AuthenticationProgramStateCodeSeparator &
-    AuthenticationProgramStateError &
-    AuthenticationProgramStateMinimum &
-    AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext,
->(
-  state: State,
-) =>
-  pushToStackChecked(
-    state,
-    encodeAuthenticationInstructions(
-      state.instructions.slice(state.lastCodeSeparator + 1),
-    ),
-  );
+export const createOpActiveBytecode =
+  ({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {}) =>
+  <
+    State extends AuthenticationProgramStateCodeSeparator &
+      AuthenticationProgramStateError &
+      AuthenticationProgramStateMinimum &
+      AuthenticationProgramStateStack &
+      AuthenticationProgramStateTransactionContext,
+  >(
+    state: State,
+  ) =>
+    pushToStackChecked(
+      state,
+      encodeAuthenticationInstructions(
+        state.instructions.slice(state.lastCodeSeparator + 1),
+      ),
+      { maximumStackItemLength },
+    );
+export const opActiveBytecode = createOpActiveBytecode();
 
 export const opTxVersion = <
   State extends AuthenticationProgramStateError &
@@ -48,7 +56,7 @@ export const opTxVersion = <
 >(
   state: State,
 ) =>
-  pushToStackVmNumberChecked(
+  pushToStackVmNumber(
     state,
     BigInt(int32UnsignedToSigned(state.program.transaction.version)),
   );
@@ -60,10 +68,7 @@ export const opTxInputCount = <
 >(
   state: State,
 ) =>
-  pushToStackVmNumberChecked(
-    state,
-    BigInt(state.program.transaction.inputs.length),
-  );
+  pushToStackVmNumber(state, BigInt(state.program.transaction.inputs.length));
 
 export const opTxOutputCount = <
   State extends AuthenticationProgramStateError &
@@ -72,10 +77,7 @@ export const opTxOutputCount = <
 >(
   state: State,
 ) =>
-  pushToStackVmNumberChecked(
-    state,
-    BigInt(state.program.transaction.outputs.length),
-  );
+  pushToStackVmNumber(state, BigInt(state.program.transaction.outputs.length));
 
 export const opTxLocktime = <
   State extends AuthenticationProgramStateError &
@@ -83,8 +85,7 @@ export const opTxLocktime = <
     AuthenticationProgramStateTransactionContext,
 >(
   state: State,
-) =>
-  pushToStackVmNumberChecked(state, BigInt(state.program.transaction.locktime));
+) => pushToStackVmNumber(state, BigInt(state.program.transaction.locktime));
 
 export const useTransactionUtxo = <
   State extends AuthenticationProgramStateError &
@@ -100,6 +101,7 @@ export const useTransactionUtxo = <
       return applyError(
         nextState,
         AuthenticationErrorCommon.invalidTransactionUtxoIndex,
+        `Transaction UTXO count: ${nextState.program.sourceOutputs.length}; requested index: ${index}.`,
       );
     }
     return operation(state, [utxo]);
@@ -113,19 +115,26 @@ export const opUtxoValue = <
   state: State,
 ) =>
   useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushToStackVmNumberChecked(nextState, utxo.valueSatoshis),
+    pushToStackVmNumber(nextState, utxo.valueSatoshis),
   );
 
-export const opUtxoBytecode = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext,
->(
-  state: State,
-) =>
-  useTransactionUtxo(state, (nextState, [utxo]) =>
-    pushToStackChecked(nextState, utxo.lockingBytecode.slice()),
-  );
+export const createOpUtxoBytecode =
+  ({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {}) =>
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateStack &
+      AuthenticationProgramStateTransactionContext,
+  >(
+    state: State,
+  ) =>
+    useTransactionUtxo(state, (nextState, [utxo]) =>
+      pushToStackChecked(nextState, utxo.lockingBytecode.slice(), {
+        maximumStackItemLength,
+      }),
+    );
+export const opUtxoBytecode = createOpUtxoBytecode();
 
 export const useTransactionInput = <
   State extends AuthenticationProgramStateError &
@@ -141,6 +150,7 @@ export const useTransactionInput = <
       return applyError(
         nextState,
         AuthenticationErrorCommon.invalidTransactionInputIndex,
+        `Transaction input count: ${nextState.program.transaction.inputs.length}; requested index: ${index}.`,
       );
     }
     return operation(state, [input]);
@@ -154,10 +164,7 @@ export const opOutpointTxHash = <
   state: State,
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
-    pushToStackChecked(
-      nextState,
-      input.outpointTransactionHash.slice().reverse(),
-    ),
+    pushToStack(nextState, [input.outpointTransactionHash.slice().reverse()]),
   );
 
 export const opOutpointIndex = <
@@ -168,19 +175,26 @@ export const opOutpointIndex = <
   state: State,
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
-    pushToStackVmNumberChecked(nextState, BigInt(input.outpointIndex)),
+    pushToStackVmNumber(nextState, BigInt(input.outpointIndex)),
   );
 
-export const opInputBytecode = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext,
->(
-  state: State,
-) =>
-  useTransactionInput(state, (nextState, [input]) =>
-    pushToStackChecked(nextState, input.unlockingBytecode.slice()),
-  );
+export const createOpInputBytecode =
+  ({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {}) =>
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateStack &
+      AuthenticationProgramStateTransactionContext,
+  >(
+    state: State,
+  ) =>
+    useTransactionInput(state, (nextState, [input]) =>
+      pushToStackChecked(nextState, input.unlockingBytecode.slice(), {
+        maximumStackItemLength,
+      }),
+    );
+export const opInputBytecode = createOpInputBytecode();
 
 export const opInputSequenceNumber = <
   State extends AuthenticationProgramStateError &
@@ -190,7 +204,7 @@ export const opInputSequenceNumber = <
   state: State,
 ) =>
   useTransactionInput(state, (nextState, [input]) =>
-    pushToStackVmNumberChecked(nextState, BigInt(input.sequenceNumber)),
+    pushToStackVmNumber(nextState, BigInt(input.sequenceNumber)),
   );
 
 export const useTransactionOutput = <
@@ -207,6 +221,7 @@ export const useTransactionOutput = <
       return applyError(
         nextState,
         AuthenticationErrorCommon.invalidTransactionOutputIndex,
+        `Transaction output count: ${nextState.program.transaction.outputs.length}; requested index: ${index}.`,
       );
     }
     return operation(state, [input]);
@@ -220,16 +235,23 @@ export const opOutputValue = <
   state: State,
 ) =>
   useTransactionOutput(state, (nextState, [output]) =>
-    pushToStackVmNumberChecked(nextState, output.valueSatoshis),
+    pushToStackVmNumber(nextState, output.valueSatoshis),
   );
 
-export const opOutputBytecode = <
-  State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateStack &
-    AuthenticationProgramStateTransactionContext,
->(
-  state: State,
-) =>
-  useTransactionOutput(state, (nextState, [output]) =>
-    pushToStackChecked(nextState, output.lockingBytecode.slice()),
-  );
+export const createOpOutputBytecode =
+  ({
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {}) =>
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateStack &
+      AuthenticationProgramStateTransactionContext,
+  >(
+    state: State,
+  ) =>
+    useTransactionOutput(state, (nextState, [output]) =>
+      pushToStackChecked(nextState, output.lockingBytecode.slice(), {
+        maximumStackItemLength,
+      }),
+    );
+export const opOutputBytecode = createOpOutputBytecode();

@@ -1,6 +1,7 @@
 import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
+  AuthenticationProgramStateResourceLimits,
   AuthenticationProgramStateStack,
   InstructionSetOperationMapping,
   Operation,
@@ -25,12 +26,18 @@ export const incrementOperationCount =
     return nextState;
   };
 
+export const executionIsActive = <
+  State extends AuthenticationProgramStateControlStack<unknown>,
+>(
+  state: State,
+) => state.controlStack.every((item) => item !== false);
+
 export const conditionallyEvaluate =
-  <State extends AuthenticationProgramStateControlStack>(
+  <State extends AuthenticationProgramStateControlStack<unknown>>(
     operation: Operation<State>,
   ): Operation<State> =>
   (state: State) =>
-    state.controlStack.every((item) => item) ? operation(state) : state;
+    executionIsActive(state) ? operation(state) : state;
 
 /**
  * Map a function over each operation in an {@link InstructionSet.operations}
@@ -183,7 +190,11 @@ export const useOneVmNumber = <
       requireMinimalEncoding,
     });
     if (isVmNumberError(value)) {
-      return applyError(state, AuthenticationErrorCommon.invalidVmNumber);
+      return applyError(
+        state,
+        AuthenticationErrorCommon.invalidVmNumber,
+        value,
+      );
     }
     return operation(nextState, [value]);
   });
@@ -267,15 +278,19 @@ export const useThreeVmNumbers = <
 /**
  * Return the provided state with the provided value pushed to its stack.
  * @param state - the state to update and return
- * @param data - the value to push to the stack
+ * @param data - the values to push to the stack
+ * @param pushedBytes - the number of bytes this operation should add to
+ * `state.metrics.stackPushedBytes`; defaults to the sum of all `data` lengths
  */
 export const pushToStack = <State extends AuthenticationProgramStateStack>(
   state: State,
-  // eslint-disable-next-line functional/functional-parameters
-  ...data: Uint8Array[]
+  data: Uint8Array[],
+  { pushedBytes = data.reduce((acc, item) => acc + item.length, 0) } = {},
 ) => {
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.stack.push(...data);
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.stackPushedBytes += pushedBytes;
   return state;
 };
 
@@ -291,16 +306,21 @@ export const pushToStackChecked = <
 >(
   state: State,
   item: Uint8Array,
-  maximumLength = ConsensusCommon.maximumStackItemLength as number,
+  {
+    maximumStackItemLength = ConsensusCommon.maximumStackItemLength as number,
+  } = {},
 ) => {
-  if (item.length > maximumLength) {
+  if (item.length > maximumStackItemLength) {
     return applyError(
       state,
-      `${AuthenticationErrorCommon.exceededMaximumStackItemLength} Item length: ${item.length} bytes.`,
+      AuthenticationErrorCommon.exceededMaximumStackItemLength,
+      `Maximum stack item length: ${maximumStackItemLength}; item length: ${item.length} bytes.`,
     );
   }
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.stack.push(item);
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.stackPushedBytes += item.length;
   return state;
 };
 
@@ -315,7 +335,7 @@ export const pushToStackVmNumber = <
 >(
   state: State,
   vmNumber: bigint,
-) => pushToStack(state, bigIntToVmNumber(vmNumber));
+) => pushToStack(state, [bigIntToVmNumber(vmNumber)]);
 
 /**
  * If the provided number is outside the VM number range, apply an error.
@@ -325,19 +345,27 @@ export const pushToStackVmNumber = <
  */
 export const pushToStackVmNumberChecked = <
   State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateStack,
 >(
   state: State,
   vmNumber: bigint,
   {
-    minVmNumber = BigInt(ConsensusCommon.minVmNumber),
-    maxVmNumber = BigInt(ConsensusCommon.maxVmNumber),
+    maximumVmNumberByteLength = ConsensusCommon.maximumVmNumberByteLength as number,
+    hasEncodingCost = false,
   } = {},
 ) => {
-  if (vmNumber > maxVmNumber || vmNumber < minVmNumber) {
-    return applyError(state, AuthenticationErrorCommon.overflowsVmNumberRange);
+  const encoded = bigIntToVmNumber(vmNumber);
+  if (encoded.length > maximumVmNumberByteLength) {
+    return applyError(
+      state,
+      AuthenticationErrorCommon.overflowsVmNumberRange,
+      `Maximum VM number byte length: ${maximumVmNumberByteLength}; encoded number length: ${encoded.length}.`,
+    );
   }
-  return pushToStackVmNumber(state, vmNumber);
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.arithmeticCost += hasEncodingCost ? encoded.length : 0;
+  return pushToStack(state, [encoded]);
 };
 
 export const combineOperations =
@@ -347,3 +375,50 @@ export const combineOperations =
   ) =>
   (state: State) =>
     secondOperation(firstOperation(state));
+
+/**
+ * Given a message length, compute and return the number of hash digest
+ * iterations required. (See `CHIP-2021-05-vm-limits`)
+ */
+export const lengthToHashDigestIterationCount = (messageLength: number) =>
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-magic-numbers
+  1 + (((messageLength + 8) / 64) | 0);
+
+/**
+ * Given a program state, increment the hash digest iteration count for a
+ * message of the provided length. If the total would exceed the maximum, append
+ * an error.
+ */
+export const incrementHashDigestIterations = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits,
+>(
+  state: State,
+  {
+    messageLength,
+    resultIsHashed,
+  }: {
+    /**
+     * The length of the message to be hashed.
+     */
+    messageLength: number;
+    /**
+     * If `true`, the result of the initial hashing process is to be provided to
+     * the hashing function one final time (i.e. for `OP_HASH160`
+     * and `OP_HASH256`).
+     */
+    resultIsHashed: boolean;
+  },
+  /**
+   * The operation to execute if no error occurred
+   */
+  operation: (nextState: State) => State,
+) => {
+  const newIterations = lengthToHashDigestIterationCount(messageLength);
+  const secondRound = resultIsHashed ? 1 : 0;
+  const requiredTotalIterations =
+    state.metrics.hashDigestIterations + newIterations + secondRound;
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.hashDigestIterations = requiredTotalIterations;
+  return operation(state);
+};

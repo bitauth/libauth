@@ -1,0 +1,1147 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+x2j8g8,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of -1 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+s977tx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of -1 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+5y05ct,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of -1 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+eyttcz,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 1 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+2jhd8u,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 1 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+u2jax5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 1 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+53hhn3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 2 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+a5ru78,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 2 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+gagr8q,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 2 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+crs9p0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 3 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+v2tjgj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 3 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+c2s239,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 3 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+heq0sf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 4 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+twjxvk,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 4 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+w9vm9n,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 4 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+zt7r76,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 5 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+5t0f7z,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 5 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+w4m8vk,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 5 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+qzymq0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 6 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+ku9rkp,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 6 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+c7nl5d,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 6 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+8azh04,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 7 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+et7xaw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 7 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+hlk2uq,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 7 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+n4smej,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 8 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+f7wdut,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 8 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+daq7tx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 8 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+xqq20z,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 9 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+ymt84s,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 9 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+0twqvl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 9 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+wega5j,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 10 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+ykwnfl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 10 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+96akcy,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 10 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+nexz5f,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 11 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+89kke5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 11 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+9askdx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 11 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+l6q3n5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 12 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+qsng6q,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 12 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+stz7et,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 12 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+6kmw89,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 13 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+ggkvtn,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 13 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+vprdlh,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 13 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+u6v059,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 14 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+8v3nmd,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 14 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+fdp7hl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 14 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+5x7qfs,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 15 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+f4vpdj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 15 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+fllhkt,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 15 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+gafy3a,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 16 (nonP2SH)",213,44,2,1,43,34400,100,1,0,150,0,1,0,0
+gww2gy,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 16 (P2SH20)",214,67,2,1,44,35200,100,1,0,154,0,1,0,0
+nxetrj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 16 (P2SH32)",214,79,2,1,44,35200,100,1,0,154,0,1,0,0
+58q79r,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 128 (nonP2SH)",214,44,2,1,44,35200,201,1,0,154,0,2,1,0
+ddnv4n,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 128 (P2SH20)",215,67,2,1,45,36000,770,1,0,157,2,6,42,0
+92lrsj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 128 (P2SH32)",215,79,2,1,45,36000,794,1,0,157,2,6,66,0
+7yds6s,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 255 (nonP2SH)",214,44,2,1,44,35200,201,1,0,154,0,2,1,0
+akkhra,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 255 (P2SH20)",215,67,2,1,45,36000,770,1,0,157,2,6,42,0
+ax4up5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 255 (P2SH32)",215,79,2,1,45,36000,794,1,0,157,2,6,66,0
+fe9f47,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 0x0000 (nonP2SH)",214,44,2,1,44,35200,201,1,0,154,0,2,1,0
+g4xwg7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 0x0000 (P2SH20)",215,67,2,1,45,36000,770,1,0,157,2,6,42,0
+g9weeu,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_1 of 0x0000 (P2SH32)",215,79,2,1,45,36000,794,1,0,157,2,6,66,0
+sg95qs,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of -1 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+87m7rw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of -1 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+3cwxe5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of -1 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+a33v5w,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 0x00 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+cmvrc5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 0x00 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+v0kt9c,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 0x00 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+weuytq,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 2 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+9990rt,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 2 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+s9tk9x,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 2 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+e5nu40,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 3 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+sauwxp,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 3 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+xkm9ye,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 3 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+m6gy4w,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 4 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+ja0pjm,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 4 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+67yn29,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 4 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+09r2xm,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 5 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+3ep4ja,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 5 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+wygedc,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 5 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+qrydd7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 6 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+39k73a,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 6 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+efq6ax,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 6 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+ae3dkm,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 7 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+w5zv9s,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 7 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+38sptj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 7 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+mpf8ta,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 8 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+34lflw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 8 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+pcghjd,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 8 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+vw8laj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 9 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+cs7cyt,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 9 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+sq4j9m,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 9 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+ugyqg3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 10 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+l58dc9,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 10 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+tl3arz,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 10 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+wv2wxf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 11 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+9sfyzj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 11 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+hutz2w,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 11 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+2073rv,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 12 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+nhzs3u,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 12 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+mvmn6g,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 12 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+c0qfk2,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 13 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+jwvuny,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 13 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+muzun7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 13 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+qw46lw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 14 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+29sm02,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 14 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+q2qkqw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 14 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+xhw5qh,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 15 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+jakr88,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 15 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+tqatj3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 15 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+h8x8xa,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 16 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+7ku0t0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 16 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+aztvca,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 16 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+dux2aa,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 17 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+jmfzw9,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 17 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+3j58cr,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 17 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+7mrym6,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 76 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+xascyv,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 76 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+7jtf20,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 76 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+ws3mk7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 127 (nonP2SH)",213,44,2,1,43,34400,0,1,0,150,0,0,0,0
+yz8sgm,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 127 (P2SH20)",214,67,2,1,44,35200,570,1,0,154,2,4,42,0
+xjplhw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 127 (P2SH32)",214,79,2,1,44,35200,594,1,0,154,2,4,66,0
+wluhfs,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 0x0000 (nonP2SH)",214,44,2,1,44,35200,102,1,0,154,0,1,2,0
+smjwxc,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 0x0000 (P2SH20)",215,67,2,1,45,36000,671,1,0,157,2,5,43,0
+f5w5sd,"Push operation minimal data validation: Unlocking bytecode OP_PUSHBYTES_2 of 0x0000 (P2SH32)",215,79,2,1,45,36000,695,1,0,157,2,5,67,0
+3wumpf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of -1 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+tt6tck,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of -1 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+64v8s3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of -1 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+xgexae,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 1 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+3a2hpa,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 1 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+t0r2fk,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 1 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+srdxtf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 2 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+j7cclc,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 2 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+q97g62,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 2 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+l52q8f,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 3 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+5sada3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 3 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+4v3ujj,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 3 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+0y7j29,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 4 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+vtewp5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 4 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+9k7ycf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 4 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+mlal2e,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 5 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+urf94e,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 5 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+qkrfuz,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 5 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+gzm5rw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 6 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+hj0grx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 6 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+gppmak,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 6 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+khsmuy,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 7 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+g4sfe2,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 7 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+f3udfq,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 7 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+xh7gsc,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 8 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+aauvh9,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 8 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+ry8les,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 8 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+0s76rw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 9 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+vl4fw0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 9 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+txw6ma,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 9 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+74dv6l,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 10 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+ljcttp,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 10 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+l0pz5u,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 10 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+l4lfu9,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 11 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+jhezfk,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 11 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+z0e9m6,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 11 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+hut3zs,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 12 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+aurxj8,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 12 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+6fykpp,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 12 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+093s90,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 13 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+wsws3c,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 13 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+u8y28h,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 13 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+8mpwxu,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 14 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+c2tzj7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 14 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+8a2fs0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 14 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+5f8dzs,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 15 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+0lteg9,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 15 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+cghavk,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 15 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+f3l6tl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 16 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+3x5ypg,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 16 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+zvtl8c,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 16 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+uahl6w,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 17 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+qa2cwl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 17 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+4lt3gn,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 17 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+dc7xnw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 76 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+pcjk2j,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 76 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+0jtdw6,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 76 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+5czwlt,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 127 (nonP2SH)",214,44,2,1,44,35200,100,1,0,154,0,1,0,0
+xyndwl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 127 (P2SH20)",215,67,2,1,45,36000,100,1,0,157,0,1,0,0
+rude0m,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 127 (P2SH32)",215,79,2,1,45,36000,100,1,0,157,0,1,0,0
+8xuant,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 128 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+j92d48,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 128 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+gag872,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 128 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+nj8rwn,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 255 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+jw8r36,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 255 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+5pm2da,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 255 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+q8fx4d,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 0x0000 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+ysug0p,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 0x0000 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+hqz5hs,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_1 1 of 0x0000 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+q4w9tp,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of -1 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+6xm4rf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of -1 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+dcth5h,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of -1 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+pr2q5e,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 0x00 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+nv98mv,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 0x00 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+2umal6,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 0x00 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+hmnnau,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 1 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+ztjrxr,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 1 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+nlxuad,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 1 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+wklskr,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 2 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+asphtq,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 2 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+xuuyy6,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 2 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+kmsn6c,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 3 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+rv2yh5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 3 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+u06zyz,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 3 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+l9hg97,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 4 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+6kl86g,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 4 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+4c4v07,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 4 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+v634yx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 5 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+6rkr30,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 5 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+g6x80a,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 5 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+ktcngs,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 6 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+dw0zj5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 6 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+03l5sn,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 6 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+436zwu,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 7 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+cnmp97,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 7 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+snt07j,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 7 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+dcurge,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 8 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+hu0uz4,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 8 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+jw5dre,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 8 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+gaghs3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 9 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+gacuje,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 9 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+e0zq78,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 9 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+hsuewr,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 10 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+csycx2,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 10 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+vfdt9h,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 10 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+2x8uc2,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 11 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+fnq4sp,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 11 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+p0m2q4,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 11 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+tdd284,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 12 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+8erusl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 12 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+djy858,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 12 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+3ururn,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 13 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+5q9srf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 13 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+x7nvja,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 13 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+7sl4y8,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 14 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+25fwp8,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 14 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+ux94nh,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 14 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+gwq8f3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 15 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+279f8d,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 15 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+j9m4ym,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 15 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+yamjjt,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 16 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+320dks,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 16 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+6h083g,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 16 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+ttckgr,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 17 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+6haegd,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 17 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+em6pqv,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 17 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+dpf0lc,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 76 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+957jmw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 76 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+adz3yt,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 76 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+lymg3h,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 127 (nonP2SH)",215,44,2,1,45,36000,100,1,0,157,0,1,0,0
+z43xe0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 127 (P2SH20)",216,67,2,1,46,36800,100,1,0,161,0,1,0,0
+fmc22q,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 127 (P2SH32)",216,79,2,1,46,36800,100,1,0,161,0,1,0,0
+6qlhax,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 128 (nonP2SH)",216,44,2,1,46,36800,100,1,0,161,0,1,0,0
+mrnnph,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 128 (P2SH20)",217,67,2,1,47,37600,100,1,0,164,0,1,0,0
+936d5t,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 128 (P2SH32)",217,79,2,1,47,37600,100,1,0,164,0,1,0,0
+etdanl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 255 (nonP2SH)",216,44,2,1,46,36800,100,1,0,161,0,1,0,0
+kjnhev,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 255 (P2SH20)",217,67,2,1,47,37600,100,1,0,164,0,1,0,0
+shufh7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_2 1 of 255 (P2SH32)",217,79,2,1,47,37600,100,1,0,164,0,1,0,0
+mrkmw0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of -1 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+7duzx4,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of -1 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+at3hc7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of -1 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+y8pmy5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 0x00 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+2mfnn0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 0x00 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+0u9k4t,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 0x00 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+gu9a63,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 1 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+c2nj6c,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 1 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+9hanyy,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 1 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+h0kgau,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 2 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+nz3rh4,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 2 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+txglf7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 2 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+00zwt0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 3 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+pz2wt5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 3 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+ww8t4l,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 3 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+qyee32,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 4 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+p4dfkn,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 4 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+8kqxnx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 4 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+wl66v7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 5 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+phls76,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 5 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+zuqa4x,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 5 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+9j8xx5,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 6 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+8h3ry7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 6 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+zfkkl3,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 6 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+5sq9je,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 7 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+94m3j6,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 7 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+fw2wtt,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 7 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+69g2m8,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 8 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+3mpyhe,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 8 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+v5vhj7,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 8 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+rdvec8,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 9 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+ret2fh,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 9 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+k4gk0m,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 9 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+rvw7pa,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 10 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+qgzeye,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 10 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+36pg97,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 10 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+4d22ng,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 11 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+ap8m7d,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 11 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+memdqx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 11 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+sq92gw,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 12 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+0adnhn,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 12 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+jnqmzf,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 12 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+4xa4cz,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 13 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+l2ygv9,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 13 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+c6s28q,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 13 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+42pxyl,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 14 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+tt3fyu,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 14 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+ds4laa,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 14 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+sh37ng,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 15 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+x56xte,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 15 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+atjnnd,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 15 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+98fm3p,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 16 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+yfeupk,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 16 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+gkr583,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 16 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+jmklch,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 17 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+00p3tq,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 17 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+028tsa,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 17 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+mrjl5s,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 76 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+7u0lam,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 76 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+c2x9ym,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 76 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+hzdmny,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 127 (nonP2SH)",217,44,2,1,47,37600,100,1,0,164,0,1,0,0
+mnwy6a,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 127 (P2SH20)",218,67,2,1,48,38400,100,1,0,168,0,1,0,0
+lz8yv0,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 127 (P2SH32)",218,79,2,1,48,38400,100,1,0,168,0,1,0,0
+k54lhx,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 128 (nonP2SH)",218,44,2,1,48,38400,100,1,0,168,0,1,0,0
+ttl4vg,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 128 (P2SH20)",219,67,2,1,49,39200,100,1,0,171,0,1,0,0
+9sxgu4,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 128 (P2SH32)",219,79,2,1,49,39200,100,1,0,171,0,1,0,0
+xj7gr8,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 255 (nonP2SH)",218,44,2,1,48,38400,100,1,0,168,0,1,0,0
+makfpq,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 255 (P2SH20)",219,67,2,1,49,39200,100,1,0,171,0,1,0,0
+tu6qha,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 255 (P2SH32)",219,79,2,1,49,39200,100,1,0,171,0,1,0,0
+r78p4a,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 0x0000 (nonP2SH)",218,44,2,1,48,38400,100,1,0,168,0,1,0,0
+jdm2pk,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 0x0000 (P2SH20)",219,67,2,1,49,39200,100,1,0,171,0,1,0,0
+hm2zep,"Push operation minimal data validation: Unlocking bytecode OP_PUSHDATA_4 1 of 0x0000 (P2SH32)",219,79,2,1,49,39200,100,1,0,171,0,1,0,0
+frelyc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of -1 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+ykvq86,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of -1 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+xan7f0,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of -1 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+qzw4f7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0x00 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+9j2l2p,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0x00 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+hkak5j,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0x00 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+lc2kc4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0 (empty) (nonP2SH)",216,44,2,1,46,36800,0,1,0,161,0,0,0,0
+3spl3y,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0 (empty) (P2SH20)",217,67,2,1,47,37600,0,1,0,164,0,0,0,0
+7gfwgj,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0 (empty) (P2SH32)",217,79,2,1,47,37600,0,1,0,164,0,0,0,0
+gewtek,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 1 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+6h2wf2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 1 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+cmramm,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 1 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+0dldgw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 2 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+mm4jjj,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 2 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+qzhjju,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 2 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+nadl8n,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 3 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+vx3duh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 3 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+zhz7qx,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 3 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+zdvkt9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 4 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+586zzh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 4 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+7t92f7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 4 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+4syjz9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 5 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+7x6zev,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 5 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+h0wdec,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 5 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+yr5cey,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 6 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+zlnn79,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 6 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+6k56sl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 6 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+cqnxup,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 7 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+54j09f,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 7 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+dp39jt,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 7 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+dc2tku,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 8 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+97wfg7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 8 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+sshjl2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 8 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+f37zvq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 9 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+k69x6e,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 9 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+kakr6l,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 9 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+l5pjff,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 10 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+np3dwc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 10 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+mafjkj,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 10 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+49xpgp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 11 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+maagst,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 11 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+86xtxk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 11 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+mge3q7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 12 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+29dnwu,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 12 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+ayvv2x,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 12 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+95kpvd,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 13 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+u3r686,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 13 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+wdqvgq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 13 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+8dx5jx,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 14 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+jz906t,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 14 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+hrrwcd,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 14 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+e2fwyu,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 15 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+pnyc2q,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 15 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+2eavwu,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 15 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+2jwxpz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 16 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+2hxvus,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 16 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+hxd7fs,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 16 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+l88sp3,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 17 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+smyzy9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 17 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+sh3ju8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 17 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+rqjmnn,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 76 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+d8u5rr,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 76 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+3qwkly,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 76 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+l9mckp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 127 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+z530ez,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 127 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+kzttga,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 127 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+j30pjd,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 128 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+cv9wc0,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 128 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+3x6ljy,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 128 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+66dj7w,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 255 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+kc3va6,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 255 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+5mxze2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 255 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+sjmtrj,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0x0000 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+nja60f,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0x0000 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+358wf7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_1 of 0x0000 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+mywtaz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of -1 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+ycqux2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of -1 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+mlr3w7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of -1 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+cuzy7v,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0x00 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+8x2zl2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0x00 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+qluda2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0x00 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+wn79aw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0 (empty) (nonP2SH)",216,44,2,1,46,36800,0,1,0,161,0,0,0,0
+9thzyu,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0 (empty) (P2SH20)",217,67,2,1,47,37600,0,1,0,164,0,0,0,0
+r4kw7y,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0 (empty) (P2SH32)",217,79,2,1,47,37600,0,1,0,164,0,0,0,0
+ha620d,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 1 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+czjqfw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 1 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+tugzy9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 1 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+y4uhug,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 2 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+56c60r,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 2 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+veuz8c,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 2 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+043l9l,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 3 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+f0tjcc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 3 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+stzg64,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 3 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+qgc3mr,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 4 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+vyd789,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 4 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+r32jw2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 4 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+4yslrv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 5 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+truwkm,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 5 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+z54x7t,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 5 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+mlh6sz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 6 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+wlekvg,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 6 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+wd0f6l,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 6 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+4c2eae,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 7 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+8wqrd4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 7 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+w3tgf9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 7 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+4sa0u7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 8 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+efuaq4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 8 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+r26ga6,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 8 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+xe039w,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 9 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+zc0hut,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 9 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+xhhmwy,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 9 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+92jetp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 10 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+pktqkw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 10 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+9h8qqk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 10 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+4a2w5f,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 11 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+scdr53,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 11 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+40yjhz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 11 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+jwwnj2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 12 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+pdd9dc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 12 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+jxnulv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 12 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+qtu002,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 13 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+j23ud2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 13 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+vdtx92,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 13 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+v9fmev,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 14 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+0xnfyw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 14 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+90q9q7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 14 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+596ql5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 15 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+dqu2z7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 15 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+ukfwvn,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 15 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+67a7dq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 16 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+yuunyr,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 16 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+a6w0we,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 16 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+q2xd94,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 17 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+ds5udl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 17 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+cqnkwn,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 17 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+eyryfy,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 76 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+zudhqf,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 76 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+lz6a38,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 76 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+dkl0wf,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 127 (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+p6uv5x,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 127 (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+zhr28l,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 127 (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+85hv4u,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 128 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+vr5vpc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 128 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+qrtp8l,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 128 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+t3c4mq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 255 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+prkr7e,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 255 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+3686hl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 255 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+hz879j,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0x0000 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+fd6sma,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0x0000 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+62dlv4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHBYTES_2 of 0x0000 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+5xvplr,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of -1 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+snzju7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of -1 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+xrywlz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of -1 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+fwt02s,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0x00 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+5wpn0c,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0x00 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+ylztlt,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0x00 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+j9gqvs,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0 (empty) (nonP2SH)",217,44,2,1,47,37600,0,1,0,164,0,0,0,0
+x9zw89,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0 (empty) (P2SH20)",218,67,2,1,48,38400,0,1,0,168,0,0,0,0
+9aed6y,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0 (empty) (P2SH32)",218,79,2,1,48,38400,0,1,0,168,0,0,0,0
+k0t64l,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 1 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+u3xuj9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 1 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+7k8w5x,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 1 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+muyfuq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 2 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+plhh3p,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 2 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+mv2hxh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 2 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+z08gpw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 3 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+3855mv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 3 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+a8jgh3,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 3 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+nwjyvt,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 4 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+tvzwyt,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 4 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+l9f6g2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 4 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+050uqt,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 5 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+cmvvky,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 5 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+elhwjf,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 5 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+0ujevv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 6 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+g467kp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 6 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+6awk56,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 6 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+8kt2lx,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 7 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+65hqsw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 7 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+8g4e4c,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 7 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+5qtsyk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 8 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+w5rc50,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 8 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+tdse7x,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 8 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+kl9v70,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 9 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+qrewzm,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 9 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+5u7aee,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 9 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+lrh3ny,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 10 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+xhl9lm,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 10 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+06em3x,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 10 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+tek4ea,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 11 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+j7j9jk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 11 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+ftn2kk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 11 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+r3knxl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 12 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+m6u5m5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 12 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+c9t6d8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 12 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+d5wre5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 13 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+wdtshv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 13 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+jv5u5x,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 13 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+a5qm80,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 14 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+t48aye,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 14 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+0f3qt4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 14 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+0kza53,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 15 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+rl06ve,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 15 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+6l4gm2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 15 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+kuq4gp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 16 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+dsskts,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 16 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+9lkan8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 16 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+8rqd3a,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 17 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+lvx7r9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 17 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+nt3h03,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 17 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+p7w4lg,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 76 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+z957e0,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 76 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+554hf9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 76 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+7u7vfy,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 127 (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+vwrd7k,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 127 (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+xu4dwh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 127 (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+n9ce2n,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 128 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+hqet3z,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 128 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+zay8qt,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 128 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+x2n0lx,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 255 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+nvn097,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 255 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+t4luv2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 255 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+z0rwc5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0x0000 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+s6lqee,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0x0000 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+c6duws,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_1 1 of 0x0000 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+nlatc5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of -1 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+r93ztc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of -1 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+7zrr33,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of -1 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+2yzp87,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0x00 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+say6f2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0x00 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+p4q7nf,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0x00 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+kmugr3,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0 (empty) (nonP2SH)",218,44,2,1,48,38400,0,1,0,168,0,0,0,0
+n9vm67,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0 (empty) (P2SH20)",219,67,2,1,49,39200,0,1,0,171,0,0,0,0
+r4r8xh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0 (empty) (P2SH32)",219,79,2,1,49,39200,0,1,0,171,0,0,0,0
+d5dfgu,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 1 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+550cdz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 1 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+m3yxmn,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 1 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+6r4lln,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 2 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+9ctdls,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 2 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+aegp53,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 2 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+vd0ws0,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 3 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+e0upws,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 3 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+lfd8a8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 3 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+ymq6ky,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 4 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+dyaank,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 4 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+depvkm,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 4 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+j7d8ha,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 5 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+anwyn2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 5 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+qfwnqd,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 5 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+xu2pwq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 6 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+7uxu96,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 6 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+5mqcx5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 6 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+hsce0q,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 7 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+hujuzk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 7 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+vt8ljl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 7 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+qaaq8v,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 8 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+07ufh6,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 8 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+ej3gau,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 8 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+vsfje9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 9 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+qfgeur,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 9 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+8h8f36,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 9 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+mfc8ne,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 10 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+wwtf37,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 10 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+00hnrh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 10 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+25x5t2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 11 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+kjqtxq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 11 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+ey3gng,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 11 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+n2s83n,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 12 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+9eqw74,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 12 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+zcgj6l,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 12 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+60j83t,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 13 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+crhkwx,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 13 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+n0lvzc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 13 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+xy68qj,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 14 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+atxcuc,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 14 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+cvd2j4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 14 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+0vpky8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 15 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+0gpd8z,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 15 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+8j8vzj,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 15 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+ds94p2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 16 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+n27cwr,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 16 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+hy64gk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 16 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+qerq7p,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 17 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+yfreke,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 17 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+funyme,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 17 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+m0ach6,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 76 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+zywqyf,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 76 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+009vak,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 76 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+zfhkkj,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 127 (nonP2SH)",219,44,2,1,49,39200,0,1,0,171,0,0,0,0
+2dudsv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 127 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,0,0,0,0
+jrhkjx,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 127 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,0,0,0,0
+uhp206,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 128 (nonP2SH)",220,44,2,1,50,40000,0,1,0,175,0,0,0,0
+q5kexv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 128 (P2SH20)",221,67,2,1,51,40800,0,1,0,178,0,0,0,0
+muf935,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 128 (P2SH32)",221,79,2,1,51,40800,0,1,0,178,0,0,0,0
+jefuvv,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 255 (nonP2SH)",220,44,2,1,50,40000,0,1,0,175,0,0,0,0
+enn5w6,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 255 (P2SH20)",221,67,2,1,51,40800,0,1,0,178,0,0,0,0
+mje9z5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 255 (P2SH32)",221,79,2,1,51,40800,0,1,0,178,0,0,0,0
+6nepzg,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0x0000 (nonP2SH)",220,44,2,1,50,40000,0,1,0,175,0,0,0,0
+2vga5n,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0x0000 (P2SH20)",221,67,2,1,51,40800,0,1,0,178,0,0,0,0
+x3xtlw,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_2 1 of 0x0000 (P2SH32)",221,79,2,1,51,40800,0,1,0,178,0,0,0,0
+2k2qtz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of -1 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+p4lt98,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of -1 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+zdy6dz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of -1 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+pahhux,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0x00 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+n59w7z,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0x00 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+ghe58a,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0x00 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+zflrs8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0 (empty) (nonP2SH)",220,44,2,1,50,40000,0,1,0,175,0,0,0,0
+nwn2c2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0 (empty) (P2SH20)",221,67,2,1,51,40800,0,1,0,178,0,0,0,0
+p4dkt5,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0 (empty) (P2SH32)",221,79,2,1,51,40800,0,1,0,178,0,0,0,0
+q9zlep,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 1 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+t8j8sa,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 1 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+8p69vp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 1 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+ucjda8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 2 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+3e8sjp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 2 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+zerjxg,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 2 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+6thqy7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 3 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+lf4xh3,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 3 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+ydvlgg,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 3 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+wvvmjg,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 4 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+a93hah,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 4 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+pe0zg2,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 4 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+4809d4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 5 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+snc8tk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 5 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+d4pvzz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 5 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+j24v6u,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 6 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+8lne7c,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 6 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+wxvy3g,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 6 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+p5rcwp,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 7 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+wuu8np,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 7 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+4m77t7,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 7 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+73heee,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 8 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+fwwuyn,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 8 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+j5vn3x,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 8 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+dlxn5y,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 9 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+vl5avm,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 9 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+sgdses,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 9 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+juvj0w,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 10 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+7hc8z4,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 10 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+4akck3,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 10 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+xj7rnn,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 11 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+qr08qn,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 11 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+xl8ct8,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 11 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+0wz0j0,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 12 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+fnzmvg,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 12 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+8zncwl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 12 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+zc57mk,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 13 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+hek468,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 13 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+cqzaze,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 13 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+m67xup,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 14 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+nxlzjh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 14 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+yzww46,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 14 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+ut97vl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 15 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+6fzx9v,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 15 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+hepvc3,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 15 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+7drf2k,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 16 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+lr6075,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 16 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+3fwtvu,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 16 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+gys23k,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 17 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+8hn0rm,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 17 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+2eegas,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 17 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+yxw0j6,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 76 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+acjfcz,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 76 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+tv477m,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 76 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+zw6zv9,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 127 (nonP2SH)",221,44,2,1,51,40800,0,1,0,178,0,0,0,0
+dntvtt,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 127 (P2SH20)",222,67,2,1,52,41600,0,1,0,182,0,0,0,0
+02sw9s,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 127 (P2SH32)",222,79,2,1,52,41600,0,1,0,182,0,0,0,0
+nplhrq,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 128 (nonP2SH)",222,44,2,1,52,41600,0,1,0,182,0,0,0,0
+3s0p3g,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 128 (P2SH20)",223,67,2,1,53,42400,0,1,0,185,0,0,0,0
+klu7tl,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 128 (P2SH32)",223,79,2,1,53,42400,0,1,0,185,0,0,0,0
+7yxg7f,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 255 (nonP2SH)",222,44,2,1,52,41600,0,1,0,182,0,0,0,0
+ut0e2h,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 255 (P2SH20)",223,67,2,1,53,42400,0,1,0,185,0,0,0,0
+zk9ksu,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 255 (P2SH32)",223,79,2,1,53,42400,0,1,0,185,0,0,0,0
+l29qvh,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0x0000 (nonP2SH)",222,44,2,1,52,41600,0,1,0,182,0,0,0,0
+8esh00,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0x0000 (P2SH20)",223,67,2,1,53,42400,0,1,0,185,0,0,0,0
+eyegea,"Push operation minimal data validation: Unexecuted conditional in unlocking bytecode, OP_PUSHDATA_4 1 of 0x0000 (P2SH32)",223,79,2,1,53,42400,0,1,0,185,0,0,0,0
+urwdsh,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of -1 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+mp6a57,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of -1 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+lmy9xt,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of -1 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+gmsqes,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0x00 (nonP2SH)",211,46,2,1,41,32800,101,1,0,143,0,1,1,0
+72jedq,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0x00 (P2SH20)",214,67,2,1,44,35200,672,1,0,154,2,5,44,0
+qhuxaj,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0x00 (P2SH32)",214,79,2,1,44,35200,696,1,0,154,2,5,68,0
+0lf9ax,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0 (empty) (nonP2SH)",211,45,2,1,41,32800,0,1,0,143,0,0,0,0
+09t2ac,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0 (empty) (P2SH20)",212,67,2,1,42,33600,570,1,0,147,2,4,42,0
+4tguhf,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0 (empty) (P2SH32)",212,79,2,1,42,33600,594,1,0,147,2,4,66,0
+580wqt,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 1 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+gt9myw,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 1 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+c3zeer,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 1 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+4zd33y,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 2 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+x6cxs9,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 2 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+ynuzjl,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 2 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+tslp2d,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 3 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+f60uud,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 3 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+wcgxug,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 3 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+ccgg05,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 4 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+tsmcm7,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 4 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+hwc32h,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 4 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+zgw24c,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 5 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+3xwtr4,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 5 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+c2q2kz,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 5 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+tgrddk,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 6 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+pc4yq2,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 6 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+qt49s8,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 6 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+5ygdfk,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 7 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+jnmwel,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 7 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+c0j0wh,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 7 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+fll4zz,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 8 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+2lqypp,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 8 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+ucrl9d,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 8 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+lpanmt,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 9 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+p8thxd,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 9 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+e5uwen,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 9 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+apg9pv,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 10 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+up9tw6,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 10 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+x2ahdl,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 10 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+ul0d5r,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 11 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+stxkct,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 11 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+czjtrx,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 11 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+9zxa3l,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 12 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+h2yxz3,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 12 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+4e4kjl,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 12 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+jh7zqy,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 13 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+azd30v,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 13 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+yw6c6e,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 13 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+3xqsfp,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 14 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+qrrveg,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 14 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+3g290j,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 14 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+xj3xj7,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 15 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+uda8gn,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 15 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+8rpv7e,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 15 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+jpzmq8,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 16 (nonP2SH)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+0vf28l,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 16 (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+c8z2tn,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 16 (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+hlhsq4,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 128 (nonP2SH)",211,47,2,1,41,32800,201,1,0,143,0,2,1,0
+ptdkvv,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 128 (P2SH20)",215,67,2,1,45,36000,773,1,0,157,2,6,45,0
+5lpkz4,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 128 (P2SH32)",215,79,2,1,45,36000,797,1,0,157,2,6,69,0
+scc9rh,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 255 (nonP2SH)",211,47,2,1,41,32800,201,1,0,143,0,2,1,0
+wu9r44,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 255 (P2SH20)",215,67,2,1,45,36000,773,1,0,157,2,6,45,0
+xhq2sy,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 255 (P2SH32)",215,79,2,1,45,36000,797,1,0,157,2,6,69,0
+ky3vjx,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0x0000 (nonP2SH)",211,47,2,1,41,32800,201,1,0,143,0,2,1,0
+hmyc3t,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0x0000 (P2SH20)",215,67,2,1,45,36000,773,1,0,157,2,6,45,0
+xxklg4,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_1 of 0x0000 (P2SH32)",215,79,2,1,45,36000,797,1,0,157,2,6,69,0
+h9kllf,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of -1 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+pzw5xm,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of -1 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+qt6twn,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of -1 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+gn2ksx,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0x00 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+f2qyxf,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0x00 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+3fd5vt,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0x00 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+k72syj,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0 (empty) (nonP2SH)",211,45,2,1,41,32800,0,1,0,143,0,0,0,0
+8t0yws,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0 (empty) (P2SH20)",212,67,2,1,42,33600,570,1,0,147,2,4,42,0
+9sguu5,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0 (empty) (P2SH32)",212,79,2,1,42,33600,594,1,0,147,2,4,66,0
+d5cdnn,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 1 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+ja7xfl,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 1 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+6qmca5,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 1 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+z64h0s,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 2 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+l7qdvg,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 2 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+046cdy,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 2 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+xkct44,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 3 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+wv68fm,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 3 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+8y2z3c,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 3 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+4u5a35,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 4 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+c5d766,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 4 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+rjz9zh,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 4 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+kjwle8,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 5 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+trmm0y,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 5 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+89xdts,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 5 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+gy0rze,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 6 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+zuurj9,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 6 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+vqnnvw,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 6 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+0l9eay,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 7 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+swl0yk,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 7 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+vdq7qh,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 7 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+zs26zs,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 8 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+4nu97z,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 8 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+64z4up,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 8 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+p92m0p,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 9 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+wegk9f,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 9 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+cjlm82,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 9 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+9ph2nk,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 10 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+ftnelf,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 10 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+66r0dq,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 10 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+dk85y5,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 11 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+djekvs,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 11 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+9ayuyk,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 11 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+tuyudz,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 12 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+2mh2eg,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 12 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+8gq08x,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 12 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+wh6gqe,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 13 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+0mq8k4,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 13 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+006vnt,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 13 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+x4a6p5,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 14 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+7n6p38,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 14 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+s4vngc,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 14 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+yv20tm,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 15 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+vvgaf0,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 15 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+q6f6fg,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 15 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+t8lujs,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 16 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+ar7dyd,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 16 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+2d9fvp,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 16 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+8rp3fu,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 17 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+974m50,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 17 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+039e04,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 17 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+qlxhgc,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 76 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+t8wdwk,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 76 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+ctf6aj,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 76 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+uplcn3,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 127 (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+m4qf7a,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 127 (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+4vdkld,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 127 (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+ehw9tc,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0x0000 (nonP2SH)",211,47,2,1,41,32800,102,1,0,143,0,1,2,0
+jvh95l,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0x0000 (P2SH20)",215,67,2,1,45,36000,674,1,0,157,2,5,46,0
+dtzc80,"Push operation minimal data validation: Locking bytecode OP_PUSHBYTES_2 of 0x0000 (P2SH32)",215,79,2,1,45,36000,698,1,0,157,2,5,70,0
+srue83,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of -1 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+rf57z3,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of -1 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+egaxr2,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of -1 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+4leuhn,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0x00 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+n6y2al,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0x00 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+hzp0sq,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0x00 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+kvxnmu,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0 (empty) (nonP2SH)",211,46,2,1,41,32800,0,1,0,143,0,0,0,0
+qcax39,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0 (empty) (P2SH20)",214,67,2,1,44,35200,571,1,0,154,2,4,43,0
+hj6nh8,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0 (empty) (P2SH32)",214,79,2,1,44,35200,595,1,0,154,2,4,67,0
+pkywkz,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 1 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+k6mdfq,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 1 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+p5u7dw,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 1 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+vz58l3,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 2 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+2es72l,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 2 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+kpxwme,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 2 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+ryyydl,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 3 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+sum64h,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 3 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+g68h8t,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 3 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+c5s5t2,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 4 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+gdrd8s,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 4 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+lqm55s,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 4 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+fhsukv,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 5 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+aey5ze,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 5 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+u7utkr,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 5 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+jufgtv,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 6 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+fqgh85,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 6 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+83vgwj,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 6 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+ywrfvp,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 7 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+wpmszv,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 7 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+8rskmm,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 7 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+ktnchn,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 8 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+8ysk5j,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 8 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+euwus8,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 8 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+shyfqc,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 9 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+pvz03d,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 9 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+8cuz7s,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 9 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+4kw8s9,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 10 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+a7ym26,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 10 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+u0emjm,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 10 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+uzmjpa,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 11 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+mn7uqw,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 11 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+xuh9a9,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 11 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+q3y3yn,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 12 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+30kg0a,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 12 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+ms9fj0,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 12 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+9yw70s,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 13 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+veqk3v,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 13 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+h5ykl2,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 13 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+mzwnpa,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 14 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+fpvj6n,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 14 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+h4q8ht,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 14 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+gnq7du,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 15 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+k6ga20,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 15 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+yepwt4,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 15 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+ezv7g2,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 16 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+pp5w0j,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 16 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+pp539u,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 16 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+z7shlx,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 17 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+cl6mse,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 17 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+h9f9q5,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 17 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+jnnzh6,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 76 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+myu9q8,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 76 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+d7e4rd,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 76 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+rsw9nl,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 127 (nonP2SH)",211,47,2,1,41,32800,100,1,0,143,0,1,0,0
+90v78h,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 127 (P2SH20)",215,67,2,1,45,36000,672,1,0,157,2,5,44,0
+v7z5yh,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 127 (P2SH32)",215,79,2,1,45,36000,696,1,0,157,2,5,68,0
+snnp6j,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 128 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+3fpxed,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 128 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+gwzz3w,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 128 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+6twqsp,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 255 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+8jc26x,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 255 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+sf0nw4,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 255 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+f9kh65,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0x0000 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+4e8x0j,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0x0000 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+hr7q0r,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_1 1 of 0x0000 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+xqer64,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of -1 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+nx2tt5,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of -1 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+yls0ss,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of -1 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+t36ln6,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0x00 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+lrggcq,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0x00 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+nyh7yz,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0x00 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+8egmnf,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0 (empty) (nonP2SH)",211,47,2,1,41,32800,0,1,0,143,0,0,0,0
+guyxhm,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0 (empty) (P2SH20)",215,67,2,1,45,36000,572,1,0,157,2,4,44,0
+gyrk69,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0 (empty) (P2SH32)",215,79,2,1,45,36000,596,1,0,157,2,4,68,0
+f9053s,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 1 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+wylww5,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 1 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+x8dwzp,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 1 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+8ruu5r,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 2 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+qjrd5x,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 2 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+66a95w,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 2 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+nr94v4,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 3 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+9mckz3,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 3 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+vu3jpc,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 3 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+sulzew,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 4 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+wqgzee,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 4 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+vpcecm,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 4 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+3z6s8j,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 5 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+knlv63,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 5 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+ywnx78,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 5 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+f2d03r,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 6 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+500mzk,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 6 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+8vwvjy,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 6 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+8kwld8,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 7 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+np0u8z,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 7 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+l6gg0c,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 7 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+lkhdlj,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 8 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+mgq4v0,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 8 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+rr9zuk,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 8 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+67urn7,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 9 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+yxcuc0,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 9 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+ntxeq7,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 9 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+l6nqvf,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 10 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+0vs7tz,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 10 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+t30eu9,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 10 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+xjlw5f,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 11 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+53cw29,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 11 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+zpgcyd,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 11 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+q6j9qp,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 12 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+hdzktt,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 12 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+4t9jul,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 12 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+hdg5q2,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 13 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+udgg43,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 13 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+4vzags,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 13 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+gdym7l,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 14 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+graevt,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 14 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+28akyr,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 14 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+z2vgj4,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 15 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+t93jss,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 15 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+ulqs2q,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 15 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+wk3mxv,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 16 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+gdnjc5,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 16 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+el3jzq,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 16 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+shtm6m,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 17 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+afg7j0,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 17 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+flknnt,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 17 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+kv4206,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 76 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+lkn93u,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 76 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+d3vrp7,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 76 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+kkx6g3,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 127 (nonP2SH)",211,48,2,1,41,32800,100,1,0,143,0,1,0,0
+amzfy2,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 127 (P2SH20)",216,67,2,1,46,36800,673,1,0,161,2,5,45,0
+6zjx8n,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 127 (P2SH32)",216,79,2,1,46,36800,697,1,0,161,2,5,69,0
+qgnr9e,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 128 (nonP2SH)",211,49,2,1,41,32800,100,1,0,143,0,1,0,0
+6mus3m,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 128 (P2SH20)",217,67,2,1,47,37600,674,1,0,164,2,5,46,0
+py0c5a,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 128 (P2SH32)",217,79,2,1,47,37600,698,1,0,164,2,5,70,0
+c6rkza,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 255 (nonP2SH)",211,49,2,1,41,32800,100,1,0,143,0,1,0,0
+a0cxrj,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 255 (P2SH20)",217,67,2,1,47,37600,674,1,0,164,2,5,46,0
+l27eq7,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 255 (P2SH32)",217,79,2,1,47,37600,698,1,0,164,2,5,70,0
+zpa39g,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0x0000 (nonP2SH)",211,49,2,1,41,32800,100,1,0,143,0,1,0,0
+e0njr4,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0x0000 (P2SH20)",217,67,2,1,47,37600,674,1,0,164,2,5,46,0
+n563rt,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_2 1 of 0x0000 (P2SH32)",217,79,2,1,47,37600,698,1,0,164,2,5,70,0
+ava3q3,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of -1 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+0vmasz,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of -1 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+ygsy66,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of -1 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+emzgzn,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0x00 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+4eu6ek,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0x00 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+ml8kg8,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0x00 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+jhymdw,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0 (empty) (nonP2SH)",211,49,2,1,41,32800,0,1,0,143,0,0,0,0
+3m3ae6,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0 (empty) (P2SH20)",217,67,2,1,47,37600,574,1,0,164,2,4,46,0
+u7678q,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0 (empty) (P2SH32)",217,79,2,1,47,37600,598,1,0,164,2,4,70,0
+n9mn43,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 1 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+es7lv6,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 1 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+vylr5c,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 1 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+m0zdht,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 2 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+pknf5z,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 2 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+vtd85d,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 2 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+y0an5k,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 3 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+536fkp,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 3 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+m9e3cr,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 3 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+pl0m6f,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 4 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+anepaa,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 4 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+endsfu,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 4 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+ezgv3w,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 5 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+vcqpzt,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 5 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+cpas89,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 5 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+6alza9,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 6 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+0kclz7,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 6 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+qqrtuk,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 6 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+2jrevu,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 7 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+km434v,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 7 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+cqjj0t,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 7 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+65ug35,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 8 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+7f79m9,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 8 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+wr8ktr,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 8 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+pmumd7,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 9 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+w59cg3,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 9 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+wen562,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 9 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+rz8mjh,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 10 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+cart4a,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 10 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+9zm7ym,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 10 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+ndtfak,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 11 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+2dt80z,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 11 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+c7p8zv,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 11 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+pge47f,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 12 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+vgrz30,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 12 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+url4k4,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 12 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+nwljgq,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 13 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+000qk7,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 13 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+z9a26e,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 13 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+vgpd03,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 14 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+fxvpd4,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 14 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+cpvxm0,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 14 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+ffcllm,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 15 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+qnqwpm,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 15 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+l2pudk,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 15 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+tatceq,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 16 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+6pymtu,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 16 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+x4vapf,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 16 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+hvrlwf,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 17 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+g0r667,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 17 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+rd9rk8,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 17 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+58t5nu,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 76 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+ket62h,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 76 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+e7ksmw,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 76 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+pxdpuj,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 127 (nonP2SH)",211,50,2,1,41,32800,100,1,0,143,0,1,0,0
+7hcr67,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 127 (P2SH20)",218,67,2,1,48,38400,675,1,0,168,2,5,47,0
+j55ejz,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 127 (P2SH32)",218,79,2,1,48,38400,699,1,0,168,2,5,71,0
+hxnfql,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 128 (nonP2SH)",211,51,2,1,41,32800,100,1,0,143,0,1,0,0
+aglrw9,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 128 (P2SH20)",219,67,2,1,49,39200,676,1,0,171,2,5,48,0
+z0w7qd,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 128 (P2SH32)",219,79,2,1,49,39200,700,1,0,171,2,5,72,0
+gqa87g,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 255 (nonP2SH)",211,51,2,1,41,32800,100,1,0,143,0,1,0,0
+mxr2uv,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 255 (P2SH20)",219,67,2,1,49,39200,676,1,0,171,2,5,48,0
+lad6hw,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 255 (P2SH32)",219,79,2,1,49,39200,700,1,0,171,2,5,72,0
+8l8h85,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0x0000 (nonP2SH)",211,51,2,1,41,32800,100,1,0,143,0,1,0,0
+2rzfr5,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0x0000 (P2SH20)",219,67,2,1,49,39200,676,1,0,171,2,5,48,0
+xc0muc,"Push operation minimal data validation: Locking bytecode OP_PUSHDATA_4 1 of 0x0000 (P2SH32)",219,79,2,1,49,39200,700,1,0,171,2,5,72,0
+dx335e,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_1 of 0 (empty) (nonP2SH)",211,49,2,1,41,32800,400,1,0,143,0,4,0,0
+t58rjx,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_1 of 0 (empty) (P2SH20)",217,67,2,1,47,37600,974,1,0,164,2,8,46,0
+e66dnj,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_1 of 0 (empty) (P2SH32)",217,79,2,1,47,37600,998,1,0,164,2,8,70,0
+kafuv9,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of -1 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+hq68pw,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of -1 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+3v6zwe,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of -1 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+mylmmf,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 0x00 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+8l3xcz,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 0x00 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+qa7ccf,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 0x00 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+u029xd,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 0 (empty) (nonP2SH)",211,49,2,1,41,32800,300,1,0,143,0,3,0,0
+3s34pc,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 0 (empty) (P2SH20)",217,67,2,1,47,37600,874,1,0,164,2,7,46,0
+2j8ea5,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 0 (empty) (P2SH32)",217,79,2,1,47,37600,898,1,0,164,2,7,70,0
+z36vdn,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 1 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+59yrlj,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 1 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+dkxk6v,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 1 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+d0uf6t,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 2 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+3j0jrw,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 2 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+dpmk90,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 2 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+sa60e3,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 3 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+tay26g,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 3 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+v6tfly,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 3 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+jupusq,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 4 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+4ng2m8,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 4 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+7rff2u,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 4 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+8hp2qw,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 5 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+sp4yd5,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 5 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+dsp26m,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 5 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+36veh8,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 6 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+wj2fh5,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 6 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+nf885h,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 6 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+ujw00g,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 7 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+ms86y0,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 7 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+udyt5x,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 7 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+2aq52v,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 8 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+cp788r,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 8 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+svkncd,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 8 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+k38kyj,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 9 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+d45cau,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 9 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+f9u07k,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 9 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+z5rlze,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 10 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+dhpp3c,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 10 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+swtj62,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 10 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+tesnup,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 11 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+rxf99z,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 11 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+8zpw4z,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 11 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+0wkz6j,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 12 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+3j4fx7,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 12 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+atdy4q,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 12 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+wv0k3d,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 13 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+8jdla3,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 13 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+gwf464,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 13 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+0p8x74,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 14 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+hczwm5,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 14 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+q7qzuj,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 14 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+t2n5tn,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 15 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+vx66hl,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 15 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+ypkdt5,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 15 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+ejew77,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 16 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+xs22fy,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 16 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+2a5vjc,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 16 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+f86460,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 17 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+hsh72v,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 17 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+wpanhs,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 17 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+m7dj8y,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 76 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+fe70t0,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 76 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+d9gm58,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 76 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+6asj7r,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 127 (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+f5gept,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 127 (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+0lh9d6,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHBYTES_2 of 127 (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+7ez7c6,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_1 1 of 0 (empty) (nonP2SH)",211,50,2,1,41,32800,400,1,0,143,0,4,0,0
+4p20rt,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_1 1 of 0 (empty) (P2SH20)",218,67,2,1,48,38400,975,1,0,168,2,8,47,0
+qdlejs,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_1 1 of 0 (empty) (P2SH32)",218,79,2,1,48,38400,999,1,0,168,2,8,71,0
+et57y2,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_2 1 of 0 (empty) (nonP2SH)",211,51,2,1,41,32800,400,1,0,143,0,4,0,0
+d446wx,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_2 1 of 0 (empty) (P2SH20)",219,67,2,1,49,39200,976,1,0,171,2,8,48,0
+94e5yg,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_2 1 of 0 (empty) (P2SH32)",219,79,2,1,49,39200,1000,1,0,171,2,8,72,0
+rz8ggv,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_4 1 of 0 (empty) (nonP2SH)",211,53,2,1,41,32800,400,1,0,143,0,4,0,0
+smpz88,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_4 1 of 0 (empty) (P2SH20)",221,67,2,1,51,40800,978,1,0,178,2,8,50,0
+jdtsv0,"Push operation minimal data validation: Unexecuted conditional in locking bytecode, OP_PUSHDATA_4 1 of 0 (empty) (P2SH32)",221,79,2,1,51,40800,1002,1,0,178,2,8,74,0

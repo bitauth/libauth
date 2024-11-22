@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/max-params, @typescript-eslint/naming-convention */
 // cSpell:ignore memcpy, anyfunc
 import { base64ToBin } from '../../format/format.js';
+import { streamWasmArrayBuffer } from '../hashes.js';
 
 import type { Secp256k1Wasm } from './secp256k1-wasm-types.js';
 import { CompressionFlag, ContextFlag } from './secp256k1-wasm-types.js';
@@ -352,11 +353,15 @@ export const instantiateSecp256k1WasmBytes = async (
     global: { Infinity, NaN },
   };
 
-  return WebAssembly.instantiate(webassemblyBytes, info).then((result) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-    getErrNoLocation = result.instance.exports['___errno_location'] as any;
-    return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);
-  });
+  const webassemblyByteStream = await streamWasmArrayBuffer(webassemblyBytes);
+
+  return WebAssembly.instantiateStreaming(webassemblyByteStream, info).then(
+    (result) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+      getErrNoLocation = result.instance.exports['___errno_location'] as any;
+      return wrapSecp256k1Wasm(result.instance, heapU8, heapU32);
+    },
+  );
 };
 /* eslint-enable functional/immutable-data, functional/no-expression-statements, @typescript-eslint/no-magic-numbers, functional/no-conditional-statements, no-bitwise, functional/no-throw-statements */
 

@@ -4,17 +4,17 @@ Libauth includes extensive support for verifying transactions and debugging Virt
 
 ## Simple Verification
 
-To verify a transaction using Bitcoin Cash's latest standard VM, use `createVirtualMachineBCH` with the initial `standard` parameter set to `true`. (For details on the difference between standard and non-standard VMs, see [`Standard Vs. Non-Standard VMs`](../src/lib/vmb-tests/readme.md#standard-vs-non-standard-vms).)
+To verify a transaction using Bitcoin Cash's latest standard VM, use `createVirtualMachineBch` with the initial `standard` parameter set to `true`. (For details on the difference between standard and non-standard VMs, see [`Standard Vs. Non-Standard VMs`](../src/lib/vmb-tests/readme.md#standard-vs-non-standard-vms).)
 
 ```ts
 import {
   assertSuccess,
   decodeTransaction,
   decodeTransactionOutputs,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
 } from '@bitauth/libauth';
 
-const vm = createVirtualMachineBCH(true);
+const vm = createVirtualMachineBch(true);
 /* Example transaction from Virtual Machine Bytecode (VMB) test ID: "dv5k4" */
 const vmbTest = {
   description:
@@ -43,22 +43,22 @@ if (typeof result === 'string') {
 }
 ```
 
-For examples of the kind of error messages that `vm.verify` might return, see [`bch_vmb_tests_2022_invalid_reasons.json`](../src/lib/vmb-tests/generated/bch/bch_vmb_tests_2022_invalid_reasons.json) and [`bch_vmb_tests_2022_nonstandard_reasons.json`](../src/lib/vmb-tests/generated/bch/bch_vmb_tests_2022_nonstandard_reasons.json)/.
+For examples of the kind of error messages that `vm.verify` might return, see [`bch_vmb_tests_2025_invalid_reasons.json`](../src/lib/vmb-tests/generated/bch_vmb_tests_2025_invalid_reasons.json) and [`bch_vmb_tests_2025_nonstandard_reasons.json`](../src/lib/vmb-tests/generated/bch_vmb_tests_2025_nonstandard_reasons.json)/.
 
 ## Debugging Evaluations
 
-A complete example of transaction verification and evaluation debugging is available in [`bch-vmb-test.spec.helper.ts`](src/lib/vmb-tests/bch-vmb-test.spec.helper.ts), which is used by the `yarn test:unit:vmb_test` CLI command. E.g.:
+A complete example of transaction verification and evaluation debugging is available in [`run-bch-vmb-test.spec.helper.ts`](src/lib/vmb-tests/run-bch-vmb-test.spec.helper.ts), which is used by the `yarn test:unit:vmb_test` CLI command. E.g.:
 
 ```sh
-❯ yarn test:unit:vmb_test bch_2023_standard dv5k4
+❯ yarn test:unit:vmb_test bch_2025_standard dv5k4
 
 VMB test ID: dv5k4
 Description: Basic push operations: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (P2SH20)
-Test sets: 2022_standard
+Test sets: 2025_standard, 2025_standard
 
 Unlocking ASM: OP_0
 Redeem (P2SH20) ASM: OP_SIZE <0> OP_EQUAL OP_NIP
-Result: Success
+Result (VM: bch_2025_standard): Transaction accepted
 Evaluation at index 1:
 
 0. OP_0:                0x(0)
@@ -76,7 +76,7 @@ Evaluation at index 1:
 
 ```
 
-For extended debugging information, try the `-v` flag, e.g. `yarn test:unit:vmb_test bch_2023_standard dv5k4 -v`.
+For extended debugging information, try the `-v` flag, e.g. `yarn test:unit:vmb_test bch_2025_standard dv5k4 -v`.
 
 For a more advanced example of transaction debugging, including mapping of evaluation results to CashAssembly source positions ([`extractEvaluationSamplesRecursive`](https://libauth.org/functions/extractEvaluationSamplesRecursive.html)), see [Bitauth IDE's `editor-state.ts`](https://github.com/bitauth/bitauth-ide/blob/master/src/editor/editor-state.ts).
 
@@ -91,17 +91,17 @@ import type { AuthenticationProgramStateStack } from '@bitauth/libauth';
 import {
   assertSuccess,
   binToHex,
-  createInstructionSetBCH,
+  createInstructionSetBch,
   createVirtualMachine,
-  OpcodesBCH,
+  OpcodesBch,
   pushToStack,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
   useThreeStackItems,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '@bitauth/libauth';
 
-const instructionSet = createInstructionSetBCH(true);
+const instructionSet = createInstructionSetBch(true);
 /**
  * A hypothetical "OP_UNROT" which rotates the top stack items in the
  * direction opposite that of OP_ROT. (The generic `<State extends ...>`
@@ -109,11 +109,11 @@ const instructionSet = createInstructionSetBCH(true);
  */
 const opUnRot = <State extends AuthenticationProgramStateStack>(state: State) =>
   useThreeStackItems(state, (nextState, [a, b, c]) =>
-    pushToStack(nextState, c, a, b),
+    pushToStack(nextState, [c, a, b]),
   );
 
 /* We assign "OP_UNROT" at the index held by "OP_RESERVED1" */
-const opcode = OpcodesBCH.OP_RESERVED1;
+const opcode = OpcodesBch.OP_RESERVED1;
 /* All other features of the BCH instruction set are unmodified: */
 const vm = createVirtualMachine({
   ...instructionSet,
@@ -125,7 +125,7 @@ const vm = createVirtualMachine({
 
 const OP_UNROT = `0x${binToHex(Uint8Array.of(opcode))}`;
 /* A compiler for a simple wallet template to test the new opcode: */
-const compiler = walletTemplateToCompilerBCH({
+const compiler = walletTemplateToCompilerBch({
   entities: {},
   scripts: {
     lock: {
@@ -146,7 +146,7 @@ const { program } = assertSuccess(
 const trace = vm.debug(program);
 const summary = summarizeDebugTrace(trace);
 const formatted = stringifyDebugTraceSummary(summary, {
-  opcodes: { ...OpcodesBCH, [opcode]: 'OP_UNROT' },
+  opcodes: { ...OpcodesBch, [opcode]: 'OP_UNROT' },
 });
 console.log(formatted); /*
 

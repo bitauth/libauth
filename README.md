@@ -319,7 +319,7 @@ High-level utilities are composed from lower-level utilities which are also expo
 - [`isArbitraryDataOutput`](https://libauth.org/functions/isArbitraryDataOutput.html)
 - [`isSimpleMultisig`](https://libauth.org/functions/isSimpleMultisig.html)
 - [`isStandardOutputBytecode`](https://libauth.org/functions/isStandardOutputBytecode.html)
-- [`isStandardOutputBytecode2023`](https://libauth.org/functions/isStandardOutputBytecode2023.html)
+- [`isStandardOutputBytecodePre2023`](https://libauth.org/functions/isStandardOutputBytecodePre2023.html)
 - [`isStandardMultisig`](https://libauth.org/functions/isStandardMultisig.html)
 - [`isWitnessProgram`](https://libauth.org/functions/isWitnessProgram.html)
 
@@ -333,26 +333,26 @@ High-level utilities are composed from lower-level utilities which are also expo
 
 #### Built-In VMs
 
-- [`createInstructionSetBCH`](https://libauth.org/functions/createInstructionSetBCH.html)
-- [`createInstructionSetBCH2022`](https://libauth.org/functions/createInstructionSetBCH2022.html)
-- [`createInstructionSetBCH2023`](https://libauth.org/functions/createInstructionSetBCH2023.html)
-- [`createInstructionSetBCHCHIPs`](https://libauth.org/functions/createInstructionSetBCHCHIPs.html)
-- [`createInstructionSetXEC`](https://libauth.org/functions/createInstructionSetXEC.html)
+- [`createInstructionSetBch`](https://libauth.org/functions/createInstructionSetBch.html)
+- [`createInstructionSetBch2023`](https://libauth.org/functions/createInstructionSetBch2023.html)
+- [`createInstructionSetBch2025`](https://libauth.org/functions/createInstructionSetBch2025.html)
+- [`createInstructionSetBchSpec`](https://libauth.org/functions/createInstructionSetBchSpec.html)
+- [`createInstructionSetXec`](https://libauth.org/functions/createInstructionSetXec.html)
 - [`createVirtualMachine`](https://libauth.org/functions/createVirtualMachine.html)
-- [`createVirtualMachineBCH`](https://libauth.org/functions/createVirtualMachineBCH.html)
-- [`createVirtualMachineBCH2022`](https://libauth.org/functions/createVirtualMachineBCH2022.html)
-- [`createVirtualMachineBCH2023`](https://libauth.org/functions/createVirtualMachineBCH2023.html)
-- [`createVirtualMachineBCHCHIPs`](https://libauth.org/functions/createVirtualMachineBCHCHIPs.html)
-- [`createVirtualMachineXEC`](https://libauth.org/functions/createVirtualMachineXEC.html)
+- [`createVirtualMachineBch`](https://libauth.org/functions/createVirtualMachineBch.html)
+- [`createVirtualMachineBch2023`](https://libauth.org/functions/createVirtualMachineBch2023.html)
+- [`createVirtualMachineBch2025`](https://libauth.org/functions/createVirtualMachineBch2025.html)
+- [`createVirtualMachineBchSpec`](https://libauth.org/functions/createVirtualMachineBchSpec.html)
+- [`createVirtualMachineXec`](https://libauth.org/functions/createVirtualMachineXec.html)
 
 #### Debugging
 
 - [`assembleBytecode`](https://libauth.org/functions/assembleBytecode.html)
-- [`assembleBytecodeBCH`](https://libauth.org/functions/assembleBytecodeBCH.html)
-- [`assembleBytecodeBTC`](https://libauth.org/functions/assembleBytecodeBTC.html)
-- [`disassembleBytecode`](https://libauth.org/functions/disassembleBytecodeBCH.html)
-- [`disassembleBytecodeBCH`](https://libauth.org/functions/disassembleBytecodeBCH.html)
-- [`disassembleBytecodeBTC`](https://libauth.org/functions/disassembleBytecodeBTC.html)
+- [`assembleBytecodeBch`](https://libauth.org/functions/assembleBytecodeBch.html)
+- [`assembleBytecodeBtc`](https://libauth.org/functions/assembleBytecodeBtc.html)
+- [`disassembleBytecode`](https://libauth.org/functions/disassembleBytecode.html)
+- [`disassembleBytecodeBch`](https://libauth.org/functions/disassembleBytecodeBch.html)
+- [`disassembleBytecodeBtc`](https://libauth.org/functions/disassembleBytecodeBtc.html)
 - [`generateBytecodeMap`](https://libauth.org/functions/generateBytecodeMap.html)
 - [`summarizeDebugTrace`](https://libauth.org/functions/summarizeDebugTrace.html)
 - [`stringifyDebugTraceSummary`](https://libauth.org/functions/stringifyDebugTraceSummary.html)
@@ -399,7 +399,7 @@ High-level utilities are composed from lower-level utilities which are also expo
 - [`stringifyErrors`](https://libauth.org/functions/stringifyErrors.html)
 - [`verifyCashAssemblyEvaluationState`](https://libauth.org/functions/verifyCashAssemblyEvaluationState.html)
 - [`walletTemplateToCompilerConfiguration`](https://libauth.org/functions/walletTemplateToCompilerConfiguration.html)
-- [`walletTemplateToCompilerBCH`](https://libauth.org/functions/walletTemplateToCompilerBCH.html)
+- [`walletTemplateToCompilerBch`](https://libauth.org/functions/walletTemplateToCompilerBch.html)
 
 #### Multi-Party Compilation
 

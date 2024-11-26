@@ -2,6 +2,7 @@ import { flattenBinArray } from '../format/format.js';
 import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
+  AuthenticationProgramStateMinimum,
   AuthenticationProgramStateStack,
   AuthenticationVirtualMachine,
   CompilationError,
@@ -70,6 +71,7 @@ export const verifyCashAssemblyEvaluationState = <
 export const reduceScript = <
   ProgramState extends AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
+    AuthenticationProgramStateMinimum &
     AuthenticationProgramStateStack,
   AuthenticationProgram,
   ResolvedTransaction,
@@ -108,7 +110,7 @@ export const reduceScript = <
             errors: [
               {
                 error:
-                  'Both a VM and a createState method are required to reduce evaluations.',
+                  'Both a VM and a createAuthenticationProgram method are required to reduce evaluations.',
                 range: segment.range,
               },
             ],

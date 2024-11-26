@@ -11,7 +11,7 @@ import type {
   Operation,
 } from '../../../lib.js';
 
-import { pushToStack } from './combinators.js';
+import { executionIsActive, pushToStack } from './combinators.js';
 import { ConsensusCommon } from './consensus.js';
 import { applyError, AuthenticationErrorCommon } from './errors.js';
 import { bigIntToVmNumber } from './instruction-sets-utils.js';
@@ -154,23 +154,17 @@ export const isMinimalDataPush = (opcode: number, data: Uint8Array) => {
   return false;
 };
 
-const executionIsActive = <
-  State extends AuthenticationProgramStateControlStack,
->(
-  state: State,
-) => state.controlStack.every((item) => item);
-
 // TODO: add tests that verify the order of operations below (are non-minimal pushes OK inside unexecuted conditionals?)
 
 export const pushOperation =
   <
-    State extends AuthenticationProgramStateControlStack &
+    State extends AuthenticationProgramStateControlStack<unknown> &
       AuthenticationProgramStateError &
       AuthenticationProgramStateMinimum &
       AuthenticationProgramStateStack,
-  >(
-    maximumPushSize = ConsensusCommon.maximumStackItemLength as number,
-  ): Operation<State> =>
+  >({
+    maximumPushSize = ConsensusCommon.maximumStackItemLength,
+  }: { maximumPushSize?: number } = {}): Operation<State> =>
   (state: State) => {
     const instruction = state.instructions[
       state.ip
@@ -182,7 +176,7 @@ export const pushOperation =
         )
       : executionIsActive(state)
         ? isMinimalDataPush(instruction.opcode, instruction.data)
-          ? pushToStack(state, instruction.data)
+          ? pushToStack(state, [instruction.data])
           : applyError(state, AuthenticationErrorCommon.nonMinimalPush)
         : state;
   };
@@ -198,5 +192,5 @@ export const pushNumberOperation = <
   number: number,
 ) => {
   const value = bigIntToVmNumber(BigInt(number));
-  return (state: ProgramState) => pushToStack(state, value);
+  return (state: ProgramState) => pushToStack(state, [value]);
 };

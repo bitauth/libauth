@@ -13,7 +13,7 @@ import {
 } from '../message/message.js';
 import {
   bigIntToVmNumber,
-  generateSigningSerializationComponentsBCH,
+  generateSigningSerializationComponentsBch,
 } from '../vm/vm.js';
 
 import { CompilerDefaults } from './compiler-defaults.js';
@@ -87,7 +87,7 @@ export const compilerOperationSigningSerializationCorrespondingOutput =
     configurationProperties: [],
     dataProperties: ['compilationContext'],
     operation: (_, data) => {
-      const { correspondingOutput } = generateSigningSerializationComponentsBCH(
+      const { correspondingOutput } = generateSigningSerializationComponentsBch(
         data.compilationContext,
       );
       return correspondingOutput === undefined
@@ -105,7 +105,7 @@ export const compilerOperationSigningSerializationCorrespondingOutputHash =
     configurationProperties: ['sha256'],
     dataProperties: ['compilationContext'],
     operation: (_, data, configuration) => {
-      const { correspondingOutput } = generateSigningSerializationComponentsBCH(
+      const { correspondingOutput } = generateSigningSerializationComponentsBch(
         data.compilationContext,
       );
       return correspondingOutput === undefined

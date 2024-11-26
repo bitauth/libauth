@@ -1,6 +1,7 @@
 import type {
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
+  AuthenticationProgramStateResourceLimits,
   AuthenticationProgramStateStack,
   InstructionSetOperationMapping,
   Operation,
@@ -25,12 +26,18 @@ export const incrementOperationCount =
     return nextState;
   };
 
+export const executionIsActive = <
+  State extends AuthenticationProgramStateControlStack<unknown>,
+>(
+  state: State,
+) => state.controlStack.every((item) => item !== false);
+
 export const conditionallyEvaluate =
-  <State extends AuthenticationProgramStateControlStack>(
+  <State extends AuthenticationProgramStateControlStack<unknown>>(
     operation: Operation<State>,
   ): Operation<State> =>
   (state: State) =>
-    state.controlStack.every((item) => item) ? operation(state) : state;
+    executionIsActive(state) ? operation(state) : state;
 
 /**
  * Map a function over each operation in an {@link InstructionSet.operations}
@@ -183,7 +190,11 @@ export const useOneVmNumber = <
       requireMinimalEncoding,
     });
     if (isVmNumberError(value)) {
-      return applyError(state, AuthenticationErrorCommon.invalidVmNumber);
+      return applyError(
+        state,
+        AuthenticationErrorCommon.invalidVmNumber,
+        value,
+      );
     }
     return operation(nextState, [value]);
   });
@@ -267,15 +278,19 @@ export const useThreeVmNumbers = <
 /**
  * Return the provided state with the provided value pushed to its stack.
  * @param state - the state to update and return
- * @param data - the value to push to the stack
+ * @param data - the values to push to the stack
+ * @param pushedBytes - the number of bytes this operation should add to
+ * `state.metrics.stackPushedBytes`; defaults to the sum of all `data` lengths
  */
 export const pushToStack = <State extends AuthenticationProgramStateStack>(
   state: State,
-  // eslint-disable-next-line functional/functional-parameters
-  ...data: Uint8Array[]
+  data: Uint8Array[],
+  { pushedBytes = data.reduce((acc, item) => acc + item.length, 0) } = {},
 ) => {
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.stack.push(...data);
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.stackPushedBytes += pushedBytes;
   return state;
 };
 
@@ -291,7 +306,7 @@ export const pushToStackChecked = <
 >(
   state: State,
   item: Uint8Array,
-  maximumLength = ConsensusCommon.maximumStackItemLength as number,
+  { maximumLength = ConsensusCommon.maximumStackItemLength as number } = {},
 ) => {
   if (item.length > maximumLength) {
     return applyError(
@@ -301,6 +316,8 @@ export const pushToStackChecked = <
   }
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.stack.push(item);
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.stackPushedBytes += item.length;
   return state;
 };
 
@@ -315,7 +332,7 @@ export const pushToStackVmNumber = <
 >(
   state: State,
   vmNumber: bigint,
-) => pushToStack(state, bigIntToVmNumber(vmNumber));
+) => pushToStack(state, [bigIntToVmNumber(vmNumber)]);
 
 /**
  * If the provided number is outside the VM number range, apply an error.
@@ -347,3 +364,38 @@ export const combineOperations =
   ) =>
   (state: State) =>
     secondOperation(firstOperation(state));
+
+const enum Constants {
+  lastTwoItems = -2,
+}
+export const measureArithmeticCost = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits &
+    AuthenticationProgramStateStack,
+>(
+  state: State,
+  operation: Operation<State>,
+) => {
+  const [firstInput, secondInput] = state.stack.slice(Constants.lastTwoItems);
+  const firstLength = firstInput?.length ?? 0;
+  const secondLength = secondInput?.length ?? 0;
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.arithmeticCost += firstLength * secondLength;
+  return operation(state);
+};
+
+export const measureBitwiseCost = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateResourceLimits &
+    AuthenticationProgramStateStack,
+>(
+  state: State,
+  operation: Operation<State>,
+) => {
+  const [firstInput, secondInput] = state.stack.slice(Constants.lastTwoItems);
+  const firstLength = firstInput?.length ?? 0;
+  const secondLength = secondInput?.length ?? 0;
+  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+  state.metrics.bitwiseCost += firstLength + secondLength;
+  return operation(state);
+};

@@ -1,13 +1,14 @@
-import { SigningSerializationTypeBCH } from './signing-serialization.js';
+import { SigningSerializationTypeBch } from './signing-serialization.js';
 
 /**
- * Consensus settings for the `BCH_2022_05` instruction set.
+ * Consensus settings for the `BCH_2023_05` instruction set.
  */
 export enum ConsensusCommon {
   /**
    * A.K.A. `MAX_SCRIPT_SIZE`
    */
   maximumBytecodeLength = 10000,
+  maximumControlStackDepth = 100,
   /**
    * A.K.A. `MAX_OP_RETURN_RELAY`, `nMaxDatacarrierBytes`
    */
@@ -35,6 +36,7 @@ export enum ConsensusCommon {
   /**
    * A.K.A. `MIN_TX_SIZE`
    */
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   minimumTransactionSize = 100,
   /**
    * A.K.A. `MAX_STANDARD_TX_SIZE`
@@ -56,16 +58,18 @@ export enum ConsensusCommon {
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const SigningSerializationTypesCommon = [
-  SigningSerializationTypeBCH.allOutputs,
-  SigningSerializationTypeBCH.allOutputsSingleInput,
-  SigningSerializationTypeBCH.correspondingOutput,
-  SigningSerializationTypeBCH.correspondingOutputSingleInput,
-  SigningSerializationTypeBCH.noOutputs,
-  SigningSerializationTypeBCH.noOutputsSingleInput,
+  SigningSerializationTypeBch.allOutputs,
+  SigningSerializationTypeBch.allOutputsSingleInput,
+  SigningSerializationTypeBch.correspondingOutput,
+  SigningSerializationTypeBch.correspondingOutputSingleInput,
+  SigningSerializationTypeBch.noOutputs,
+  SigningSerializationTypeBch.noOutputsSingleInput,
 ];
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const SigningSerializationTypesBCH = SigningSerializationTypesCommon;
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const ConsensusBCH = ConsensusCommon;
+export const SigningSerializationTypesBch = [
+  ...SigningSerializationTypesCommon,
+  SigningSerializationTypeBch.allOutputsAllUtxos,
+  SigningSerializationTypeBch.correspondingOutputAllUtxos,
+  SigningSerializationTypeBch.noOutputsAllUtxos,
+];

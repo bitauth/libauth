@@ -8,67 +8,72 @@
 
 import test from 'ava';
 
-import type {
-  AuthenticationProgramStateCommon,
-  AuthenticationVirtualMachineBCH,
-  AuthenticationVirtualMachineBCHCHIPs,
-  VmbTest,
-} from '../lib.js';
+import type { VmbTest } from '../lib.js';
 import {
-  createVirtualMachineBCH2022,
-  createVirtualMachineBCH2023,
+  createVirtualMachineBch2023,
+  createVirtualMachineBch2025,
+  createVirtualMachineBch2026,
+  createVirtualMachineBchSpec,
   hexToBin,
+  maskStaticProgramState,
   readTransactionCommon,
-  readTransactionNonTokenAware,
   readTransactionOutputs,
-  readTransactionOutputsNonTokenAware,
   stringify,
   stringifyDebugTraceSummary,
   summarizeDebugTrace,
 } from '../lib.js';
-import { createVirtualMachineBCHCHIPs } from '../vm/instruction-sets/bch/chips/bch-chips-vm.js';
 
-import { vmbTestsBCH } from './bch-vmb-tests.js';
+import { vmbTestsBch } from './bch-vmb-tests.js';
+import type { TestedVM, VmName } from './bch-vmb-tests.spec.helper.js';
 /* eslint-disable import/no-restricted-paths, import/no-internal-modules */
-import vmbTestsBCHBeforeChipCashtokensInvalidJson from './generated/bch/CHIPs/bch_vmb_tests_before_chip_cashtokens_invalid.json' assert { type: 'json' };
-import vmbTestsBCHBeforeChipCashtokensNonstandardJson from './generated/bch/CHIPs/bch_vmb_tests_before_chip_cashtokens_nonstandard.json' assert { type: 'json' };
-import vmbTestsBCHBeforeChipCashtokensStandardJson from './generated/bch/CHIPs/bch_vmb_tests_before_chip_cashtokens_standard.json' assert { type: 'json' };
-import vmbTestsBCHChipCashtokensInvalidJson from './generated/bch/CHIPs/bch_vmb_tests_chip_cashtokens_invalid.json' assert { type: 'json' };
-import vmbTestsBCHChipCashtokensNonstandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_cashtokens_nonstandard.json' assert { type: 'json' };
-import vmbTestsBCHChipCashtokensStandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_cashtokens_standard.json' assert { type: 'json' };
-import vmbTestsBCHChipLoopsInvalidJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_invalid.json' assert { type: 'json' };
-import vmbTestsBCHChipLoopsNonstandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_nonstandard.json' assert { type: 'json' };
-import vmbTestsBCHChipLoopsStandardJson from './generated/bch/CHIPs/bch_vmb_tests_chip_loops_standard.json' assert { type: 'json' };
-import vmbTestsBCHJson from './generated/bch/bch_vmb_tests.json' assert { type: 'json' };
-import vmbTestsBCH2022InvalidJson from './generated/bch/bch_vmb_tests_2022_invalid.json' assert { type: 'json' };
-import vmbTestsBCH2022NonstandardJson from './generated/bch/bch_vmb_tests_2022_nonstandard.json' assert { type: 'json' };
-import vmbTestsBCH2022StandardJson from './generated/bch/bch_vmb_tests_2022_standard.json' assert { type: 'json' };
+import vmbTestsBchChipLoopsInvalidJson from './generated/CHIPs/bch_vmb_tests_chip_loops_invalid.json' with { type: 'json' };
+import vmbTestsBchChipLoopsNonstandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_nonstandard.json' with { type: 'json' };
+import vmbTestsBchChipLoopsStandardJson from './generated/CHIPs/bch_vmb_tests_chip_loops_standard.json' with { type: 'json' };
+import vmbTestsBchJson from './generated/bch_vmb_tests.json' with { type: 'json' };
+import vmbTestsBch2023InvalidJson from './generated/bch_vmb_tests_2023_invalid.json' with { type: 'json' };
+import vmbTestsBch2023NonstandardJson from './generated/bch_vmb_tests_2023_nonstandard.json' with { type: 'json' };
+import vmbTestsBch2023StandardJson from './generated/bch_vmb_tests_2023_standard.json' with { type: 'json' };
+import vmbTestsBch2025InvalidJson from './generated/bch_vmb_tests_2025_invalid.json' with { type: 'json' };
+import vmbTestsBch2025NonstandardJson from './generated/bch_vmb_tests_2025_nonstandard.json' with { type: 'json' };
+import vmbTestsBch2025StandardJson from './generated/bch_vmb_tests_2025_standard.json' with { type: 'json' };
+import vmbTestsBch2026InvalidJson from './generated/bch_vmb_tests_2026_invalid.json' with { type: 'json' };
+import vmbTestsBch2026NonstandardJson from './generated/bch_vmb_tests_2026_nonstandard.json' with { type: 'json' };
+import vmbTestsBch2026StandardJson from './generated/bch_vmb_tests_2026_standard.json' with { type: 'json' };
+
 /* eslint-enable import/no-restricted-paths, import/no-internal-modules */
 
+type DebugInfo = { testId: string; vmName: VmName } | undefined;
 /**
  * =========== Debugging Info ===========
  */
 const debug = undefined as DebugInfo;
 /* spell-checker:disable-next-line */
-// const debug = { testId: 'mn8qr', vmName: 'bch_2022_standard' } as DebugInfo;
+// const debug = { testId: '12345', vmName: 'bch_spec_standard' } as DebugInfo;
 
-type VmName =
-  | 'bch_2022_nonstandard'
-  | 'bch_2022_standard'
-  | 'bch_2023_nonstandard'
-  | 'bch_2023_standard'
-  | 'bch_chips_nonstandard'
-  | 'bch_chips_standard';
+const { FILTER_VMB_TESTS, FILTER_VMB_TEST_VM } = process.env;
 
-type DebugInfo = { testId: string; vmName: VmName } | undefined;
+if (FILTER_VMB_TESTS !== undefined) {
+  // eslint-disable-next-line no-console
+  console.log(
+    `The 'FILTER_VMB_TESTS' environment variable is configured to filter VMB tests to descriptions matching: ${FILTER_VMB_TESTS}`,
+  );
+}
+if (FILTER_VMB_TEST_VM !== undefined) {
+  // eslint-disable-next-line no-console
+  console.log(
+    `The 'FILTER_VMB_TEST_VM' environment variable is configured to limit VMB tests to VM version: ${FILTER_VMB_TEST_VM}`,
+  );
+}
 
-test('bch_vmb_tests.json is up to date and contains no test ID collisions', (t) => {
+test('bch_vmb_tests.json is up to date and contains no test ID collisions', async (t) => {
+  /* Trim any stack traces returned AVA */
+  await Promise.resolve();
   const testGroupsAndTypes = 2;
-  const allTestCases = vmbTestsBCH.flat(testGroupsAndTypes);
+  const allTestCases = vmbTestsBch.flat(testGroupsAndTypes);
   t.deepEqual(
     allTestCases,
-    vmbTestsBCHJson,
-    'New test definitions were added to `bch-vmb.tests.ts`, but the generated tests were not updated. Run "yarn gen:vmb-tests" to correct this issue. (Note: tsc watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc to clear this error after re-generating tests.)',
+    vmbTestsBchJson,
+    'New test definitions were added to `bch-vmb.tests.ts`, but the generated tests were not updated. Run "yarn gen:vmb_tests" to correct this issue. (Note: tsc watch tasks don\'t always update cached JSON imports when the source file changes. You may need to restart tsc to clear this error after re-generating tests.)',
   );
 
   const testCaseIds = allTestCases.map((testCase) => testCase[0]);
@@ -108,17 +113,17 @@ const testVm = ({
   succeeds,
   vm,
   vmName,
-  vmOptions,
 }: {
   vmName: VmName;
   succeeds: VmbTest[][];
   fails: VmbTest[][];
-  vm: AuthenticationVirtualMachineBCH | AuthenticationVirtualMachineBCHCHIPs;
-  vmOptions?: { canParseTokens: boolean };
+  vm: TestedVM;
 }) => {
   const runCase = test.macro<[VmbTest, boolean]>({
     // eslint-disable-next-line complexity
-    exec: (t, testCase, expectedToSucceed) => {
+    exec: async (t, testCase, expectedToSucceed) => {
+      /* Trim any stack traces returned AVA */
+      await Promise.resolve();
       const [
         shortId,
         description,
@@ -129,15 +134,14 @@ const testVm = ({
         inputIndex,
       ] = testCase;
       const testedIndex = inputIndex ?? 0;
-      const supportsTokens = vmOptions?.canParseTokens !== false;
-      const sourceOutputsRead = (
-        supportsTokens
-          ? readTransactionOutputs
-          : readTransactionOutputsNonTokenAware
-      )({ bin: hexToBin(sourceOutputsHex), index: 0 });
-      const transactionRead = (
-        supportsTokens ? readTransactionCommon : readTransactionNonTokenAware
-      )({ bin: hexToBin(txHex), index: 0 });
+      const sourceOutputsRead = readTransactionOutputs({
+        bin: hexToBin(sourceOutputsHex),
+        index: 0,
+      });
+      const transactionRead = readTransactionCommon({
+        bin: hexToBin(txHex),
+        index: 0,
+      });
       if (typeof sourceOutputsRead === 'string') {
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         expectedToSucceed ? t.fail(sourceOutputsRead) : t.pass();
@@ -151,6 +155,7 @@ const testVm = ({
       const sourceOutputs = sourceOutputsRead.result;
       const transaction = transactionRead.result;
       if (debug !== undefined) debugger; // eslint-disable-line no-debugger
+      const highMemory = description.includes('[high-memory]');
       const result = vm.verify({ sourceOutputs, transaction });
       const moreDetails = `For more detailed debugging information, run: "yarn test:unit:vmb_test ${vmName} ${shortId} -v"`;
       const logDebugInfo = () => {
@@ -162,9 +167,10 @@ const testVm = ({
           transaction,
         };
         const evaluateResult = vm.evaluate(program);
-        const debugResult = vm.debug(program);
+        if (highMemory) return;
+        const debugResult = vm.debug(program, { maskProgramState: true });
         t.deepEqual(
-          evaluateResult,
+          maskStaticProgramState(evaluateResult),
           debugResult[debugResult.length - 1],
           `vm.evaluate and the final result of vm.debug differ: is something being unexpectedly mutated? evaluateResult:\n\n${stringify(
             evaluateResult,
@@ -187,15 +193,20 @@ const testVm = ({
           );
           t.log(
             `Failing input at index ${failingIndex}:`,
-            stringifyDebugTraceSummary(
-              summarizeDebugTrace(
-                vm.debug({
-                  inputIndex: Number(failingIndex),
-                  sourceOutputs,
-                  transaction,
-                }) as AuthenticationProgramStateCommon[],
-              ),
-            ),
+            highMemory
+              ? '(Skipped vm.debug due to "[high-memory]" label.)'
+              : stringifyDebugTraceSummary(
+                  summarizeDebugTrace(
+                    vm.debug(
+                      {
+                        inputIndex: Number(failingIndex),
+                        sourceOutputs,
+                        transaction,
+                      },
+                      { maskProgramState: true },
+                    ),
+                  ),
+                ),
           );
           t.log(moreDetails);
           return;
@@ -224,12 +235,24 @@ const testVm = ({
   });
   const expectedPass = succeeds.flat(1);
   const expectedFail = fails.flat(1);
-  expectedPass.forEach((testCase, index) => {
-    (debug === undefined
+
+  // eslint-disable-next-line complexity
+  const testOrSkip = ({
+    description,
+    testId,
+  }: {
+    description: string;
+    testId: string;
+  }): typeof test | typeof test.skip =>
+    (FILTER_VMB_TEST_VM === undefined || vmName.includes(FILTER_VMB_TEST_VM)) &&
+    (FILTER_VMB_TESTS === undefined ||
+      description.includes(FILTER_VMB_TESTS)) &&
+    (debug === undefined ||
+      (vmName === debug.vmName && debug.testId === testId))
       ? test
-      : vmName === debug.vmName && debug.testId === testCase[0]
-        ? test
-        : test.skip)(
+      : test.skip;
+  expectedPass.forEach((testCase, index) => {
+    testOrSkip({ description: testCase[1], testId: testCase[0] })(
       `(${index + 1}/${expectedPass.length + expectedFail.length} valid)`,
       runCase,
       testCase,
@@ -237,11 +260,7 @@ const testVm = ({
     );
   });
   expectedFail.forEach((testCase, index) => {
-    (debug === undefined
-      ? test
-      : vmName === debug.vmName && debug.testId === testCase[0]
-        ? test
-        : test.skip)(
+    testOrSkip({ description: testCase[1], testId: testCase[0] })(
       `(${expectedPass.length + index + 1}/${
         expectedPass.length + expectedFail.length
       } invalid)`,
@@ -254,72 +273,80 @@ const testVm = ({
 
 testVm({
   fails: [
-    vmbTestsBCH2022InvalidJson as VmbTest[],
-    vmbTestsBCH2022NonstandardJson as VmbTest[],
-    vmbTestsBCHBeforeChipCashtokensInvalidJson as VmbTest[],
-    vmbTestsBCHBeforeChipCashtokensNonstandardJson as VmbTest[],
+    vmbTestsBch2023InvalidJson as VmbTest[],
+    vmbTestsBch2023NonstandardJson as VmbTest[],
   ],
-  succeeds: [
-    vmbTestsBCH2022StandardJson as VmbTest[],
-    vmbTestsBCHBeforeChipCashtokensStandardJson as VmbTest[],
-  ],
-  vm: createVirtualMachineBCH2022(true),
-  vmName: 'bch_2022_standard',
-  vmOptions: { canParseTokens: false },
-});
-
-testVm({
-  fails: [
-    vmbTestsBCH2022InvalidJson as VmbTest[],
-    vmbTestsBCHBeforeChipCashtokensInvalidJson as VmbTest[],
-  ],
-  succeeds: [
-    vmbTestsBCH2022StandardJson as VmbTest[],
-    vmbTestsBCH2022NonstandardJson as VmbTest[],
-    vmbTestsBCHBeforeChipCashtokensStandardJson as VmbTest[],
-    vmbTestsBCHBeforeChipCashtokensNonstandardJson as VmbTest[],
-  ],
-  vm: createVirtualMachineBCH2022(false),
-  vmName: 'bch_2022_nonstandard',
-  vmOptions: { canParseTokens: false },
-});
-
-testVm({
-  fails: [
-    vmbTestsBCHChipCashtokensInvalidJson as VmbTest[],
-    vmbTestsBCHChipCashtokensNonstandardJson as VmbTest[],
-  ],
-  succeeds: [vmbTestsBCHChipCashtokensStandardJson as VmbTest[]],
-  vm: createVirtualMachineBCH2023(true),
+  succeeds: [vmbTestsBch2023StandardJson as VmbTest[]],
+  vm: createVirtualMachineBch2023(true),
   vmName: 'bch_2023_standard',
 });
 
 testVm({
-  fails: [vmbTestsBCHChipCashtokensInvalidJson as VmbTest[]],
+  fails: [vmbTestsBch2023InvalidJson as VmbTest[]],
   succeeds: [
-    vmbTestsBCHChipCashtokensStandardJson as VmbTest[],
-    vmbTestsBCHChipCashtokensNonstandardJson as VmbTest[],
+    vmbTestsBch2023StandardJson as VmbTest[],
+    vmbTestsBch2023NonstandardJson as VmbTest[],
   ],
-  vm: createVirtualMachineBCH2023(false),
+  vm: createVirtualMachineBch2023(false),
   vmName: 'bch_2023_nonstandard',
 });
 
 testVm({
   fails: [
-    vmbTestsBCHChipLoopsInvalidJson as VmbTest[],
-    vmbTestsBCHChipLoopsNonstandardJson as VmbTest[],
+    vmbTestsBch2025InvalidJson as VmbTest[],
+    vmbTestsBch2025NonstandardJson as VmbTest[],
   ],
-  succeeds: [vmbTestsBCHChipLoopsStandardJson as VmbTest[]],
-  vm: createVirtualMachineBCHCHIPs(true),
-  vmName: 'bch_chips_standard',
+  succeeds: [vmbTestsBch2025StandardJson as VmbTest[]],
+  vm: createVirtualMachineBch2025(true),
+  vmName: 'bch_2025_standard',
 });
 
 testVm({
-  fails: [vmbTestsBCHChipLoopsInvalidJson as VmbTest[]],
+  fails: [vmbTestsBch2025InvalidJson as VmbTest[]],
   succeeds: [
-    vmbTestsBCHChipLoopsStandardJson as VmbTest[],
-    vmbTestsBCHChipLoopsNonstandardJson as VmbTest[],
+    vmbTestsBch2025StandardJson as VmbTest[],
+    vmbTestsBch2025NonstandardJson as VmbTest[],
   ],
-  vm: createVirtualMachineBCHCHIPs(false),
-  vmName: 'bch_chips_nonstandard',
+  vm: createVirtualMachineBch2025(false),
+  vmName: 'bch_2025_nonstandard',
+});
+
+testVm({
+  fails: [
+    vmbTestsBch2026InvalidJson as VmbTest[],
+    vmbTestsBch2026NonstandardJson as VmbTest[],
+  ],
+  succeeds: [vmbTestsBch2026StandardJson as VmbTest[]],
+  vm: createVirtualMachineBch2026(true),
+  vmName: 'bch_2026_standard',
+});
+
+testVm({
+  fails: [vmbTestsBch2026InvalidJson as VmbTest[]],
+  succeeds: [
+    vmbTestsBch2026StandardJson as VmbTest[],
+    vmbTestsBch2026NonstandardJson as VmbTest[],
+  ],
+  vm: createVirtualMachineBch2026(false),
+  vmName: 'bch_2026_nonstandard',
+});
+
+testVm({
+  fails: [
+    vmbTestsBchChipLoopsInvalidJson as VmbTest[],
+    vmbTestsBchChipLoopsNonstandardJson as VmbTest[],
+  ],
+  succeeds: [vmbTestsBchChipLoopsStandardJson as VmbTest[]],
+  vm: createVirtualMachineBchSpec(true),
+  vmName: 'bch_spec_standard',
+});
+
+testVm({
+  fails: [vmbTestsBchChipLoopsInvalidJson as VmbTest[]],
+  succeeds: [
+    vmbTestsBchChipLoopsStandardJson as VmbTest[],
+    vmbTestsBchChipLoopsNonstandardJson as VmbTest[],
+  ],
+  vm: createVirtualMachineBchSpec(false),
+  vmName: 'bch_spec_nonstandard',
 });

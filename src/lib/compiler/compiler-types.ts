@@ -1,7 +1,7 @@
 import type {
   AuthenticationProgramCommon,
   AuthenticationVirtualMachine,
-  CompilationContextBCH,
+  CompilationContextBch,
   CompilationResult,
   CompilationResultError,
   Ripemd160,
@@ -476,7 +476,7 @@ export type CompilerConfiguration<
  * Data required at compilation time to generate the bytecode for a particular
  * CashAssembly Template script.
  */
-export type CompilationData<CompilationContext = CompilationContextBCH> = {
+export type CompilationData<CompilationContext = CompilationContextBch> = {
   /**
    * A map of full identifiers to pre-computed bytecode for this compilation.
    *
@@ -618,7 +618,7 @@ export type AnyCompilerConfiguration<CompilationContext> =
  * irrelevant.
  */
 export type AnyCompilerConfigurationIgnoreOperations<
-  CompilationContext = CompilationContextBCH,
+  CompilationContext = CompilationContextBch,
 > = Omit<AnyCompilerConfiguration<CompilationContext>, 'operations'>;
 
 export type BytecodeGenerationResult<ProgramState> =

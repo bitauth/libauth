@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import type {
-  AuthenticationProgramStateBCH,
+  AuthenticationProgramStateBch,
   BytecodeGenerationResult,
 } from '../../lib.js';
 import { hexToBin } from '../../lib.js';
@@ -80,7 +80,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     one: { type: 'AddressData' },
     two: { type: 'AddressData' },
@@ -123,7 +123,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     one: { type: 'AddressData' },
     two: { type: 'AddressData' },
@@ -202,7 +202,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     one: { type: 'WalletData' },
     two: { type: 'WalletData' },
@@ -245,7 +245,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     one: { type: 'WalletData' },
     two: { type: 'WalletData' },
@@ -272,7 +272,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { operations: undefined },
 );
@@ -297,7 +297,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { operations: undefined },
 );
@@ -322,7 +322,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {},
   { operations: undefined },
 );
@@ -347,7 +347,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     a: { type: 'AddressData' },
   },
@@ -374,7 +374,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     a: { type: 'HdKey' },
   },
@@ -401,7 +401,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     a: { type: 'Key' },
   },
@@ -428,7 +428,7 @@ test(
       },
     ],
     success: false,
-  } as BytecodeGenerationResult<AuthenticationProgramStateBCH>,
+  } as BytecodeGenerationResult<AuthenticationProgramStateBch>,
   {
     a: { type: 'WalletData' },
   },

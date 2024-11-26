@@ -31,7 +31,7 @@ import {
 } from '../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import cashAddrJson from './fixtures/cashaddr.json' assert { type: 'json' };
+import cashAddrJson from './fixtures/cashaddr.json' with { type: 'json' };
 
 import fc from 'fast-check';
 

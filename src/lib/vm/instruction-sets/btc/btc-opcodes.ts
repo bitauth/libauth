@@ -1,7 +1,7 @@
 /**
- *  `OpcodesBTC` currently represents the `BTC_2017_08` instruction set.
+ *  `OpcodesBtc` currently represents the `BTC_2017_08` instruction set.
  */
-export enum OpcodesBTC {
+export enum OpcodesBtc {
   OP_0 = 0x00,
   OP_PUSHBYTES_1 = 0x01,
   OP_PUSHBYTES_2 = 0x02,

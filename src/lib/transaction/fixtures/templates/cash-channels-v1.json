@@ -242,6 +242,5 @@
       }
     }
   },
-  "supported": ["BCH_2022_05"],
-  "version": 0
+  "supported": ["BCH_2022_05"]
 }

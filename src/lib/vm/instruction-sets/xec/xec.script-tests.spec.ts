@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import test from 'ava';
 
-import type { AuthenticationProgramStateBCH } from '../../../lib.js';
+import type { AuthenticationProgramStateBch } from '../../../lib.js';
 import {
   assembleBitcoinSatoshiScript,
-  createTestAuthenticationProgramBCH,
-  createVirtualMachineXEC,
-  disassembleBytecodeBCH,
+  createTestAuthenticationProgramBch,
+  createVirtualMachineXec,
+  disassembleBytecodeBch,
   stackItemIsTruthy,
   stringify,
   stringifyDebugTraceSummary,
@@ -14,9 +14,9 @@ import {
 } from '../../../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import scriptTestsAddendum from './fixtures/satoshi-client/script-tests-addendum.json' assert { type: 'json' };
+import scriptTestsAddendum from './fixtures/satoshi-client/script-tests-addendum.json' with { type: 'json' };
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import scriptTests from './fixtures/satoshi-client/script_tests.json' assert { type: 'json' };
+import scriptTests from './fixtures/satoshi-client/script_tests.json' with { type: 'json' };
 
 const tests = Object.values(scriptTests)
   .filter((e) => e.length !== 1 && e.length < 7)
@@ -81,7 +81,7 @@ Object.entries(overrides.locking).forEach(([index, script]) => {
   tests[Number(index)]!.lockingBytecodeText = script;
 });
 
-const validateDirtyStackState = (state: AuthenticationProgramStateBCH) =>
+const validateDirtyStackState = (state: AuthenticationProgramStateBch) =>
   state.error === undefined &&
   state.stack.length > 0 &&
   stackItemIsTruthy(state.stack[state.stack.length - 1]!);
@@ -95,8 +95,8 @@ const pendingTests = tests;
 const elide = (text: string, length: number) =>
   text.length > length ? `${text.slice(0, length)}...` : text;
 
-const vmNonStandard = createVirtualMachineXEC(false);
-const vmStandard = createVirtualMachineXEC(true);
+const vmNonStandard = createVirtualMachineXec(false);
+const vmStandard = createVirtualMachineXec(true);
 
 pendingTests.map((expectation) => {
   const description = `[script_tests] ${expectation.testIndex}/${
@@ -121,7 +121,7 @@ pendingTests.map((expectation) => {
         expectation.lockingBytecodeText,
       );
       const vm = expectation.flags.useStrict ? vmStandard : vmNonStandard;
-      const program = createTestAuthenticationProgramBCH({
+      const program = createTestAuthenticationProgramBch({
         lockingBytecode,
         unlockingBytecode,
         valueSatoshis: BigInt(expectation.valueSatoshis),
@@ -135,9 +135,9 @@ pendingTests.map((expectation) => {
         (!valid && expectation.expectedError !== false);
       if (!pass) {
         t.log(`unlockingBytecodeText: "${expectation.unlockingBytecodeText}"`);
-        t.log(`disassembled: "${disassembleBytecodeBCH(unlockingBytecode)}"`);
+        t.log(`disassembled: "${disassembleBytecodeBch(unlockingBytecode)}"`);
         t.log(`lockingBytecodeText: "${expectation.lockingBytecodeText}"`);
-        t.log(`disassembled: "${disassembleBytecodeBCH(lockingBytecode)}"`);
+        t.log(`disassembled: "${disassembleBytecodeBch(lockingBytecode)}"`);
         t.log('result:', stringify(result));
         t.log(
           'debug:',

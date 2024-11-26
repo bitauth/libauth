@@ -68,6 +68,7 @@ const RAW_RUNTIME_STATE =
           ["rollup", "npm:4.9.4"],\
           ["secp256k1", "npm:5.0.0"],\
           ["source-map-support", "npm:0.5.21"],\
+          ["tinybench", "npm:2.8.0"],\
           ["ts-json-schema-generator", "npm:1.5.0"],\
           ["typedoc", "virtual:5e2c2634f4a5e533cb699d8f9b1c4acc34ccf947e45d7ed30f8385999c64d0ad7826196b49f3aef89d9e3c624e9036dc9c2773fa1ea27b516851dbf6b3663df5#npm:0.25.7"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"]\
@@ -224,6 +225,7 @@ const RAW_RUNTIME_STATE =
           ["rollup", "npm:4.9.4"],\
           ["secp256k1", "npm:5.0.0"],\
           ["source-map-support", "npm:0.5.21"],\
+          ["tinybench", "npm:2.8.0"],\
           ["ts-json-schema-generator", "npm:1.5.0"],\
           ["typedoc", "virtual:5e2c2634f4a5e533cb699d8f9b1c4acc34ccf947e45d7ed30f8385999c64d0ad7826196b49f3aef89d9e3c624e9036dc9c2773fa1ea27b516851dbf6b3663df5#npm:0.25.7"],\
           ["typescript", "patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"]\
@@ -10312,6 +10314,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/time-zone-npm-1.0.0-0522e3467f-d00ebd8850.zip/node_modules/time-zone/",\
         "packageDependencies": [\
           ["time-zone", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["tinybench", [\
+      ["npm:2.8.0", {\
+        "packageLocation": "./.yarn/cache/tinybench-npm-2.8.0-e63baae395-5a9a642351.zip/node_modules/tinybench/",\
+        "packageDependencies": [\
+          ["tinybench", "npm:2.8.0"]\
         ],\
         "linkType": "HARD"\
       }]\

@@ -911,10 +911,20 @@ export const createInstructionSetBch2023 = <
 
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
-          if (!isStandardUtxoBytecode(output.lockingBytecode)) {
+          if (consensus.maximumStandardLockingBytecodeLength === -1) {
+            if (!isStandardUtxoBytecode(output.lockingBytecode)) {
+              return formatError(
+                AuthenticationErrorCommon.verifyStandardFailedNonstandardSourceOutput,
+                `Source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
+              );
+            }
+          } else if (
+            output.lockingBytecode.length >
+            consensus.maximumStandardLockingBytecodeLength
+          ) {
             return formatError(
               AuthenticationErrorCommon.verifyStandardFailedNonstandardSourceOutput,
-              `Source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
+              `Source output ${index} is non-standard: locking bytecode length of ${output.lockingBytecode.length} exceeds the maximum standard locking bytecode length of ${consensus.maximumStandardLockingBytecodeLength}.`,
             );
           }
         }
@@ -923,21 +933,32 @@ export const createInstructionSetBch2023 = <
         let totalArbitraryDataBytes = 0;
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of transaction.outputs.entries()) {
-          if (!isStandardOutputBytecode(output.lockingBytecode)) {
-            return formatError(
-              AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
-              `Transaction output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
-            );
-          }
-          // eslint-disable-next-line functional/no-conditional-statements
-          if (isArbitraryDataOutput(output.lockingBytecode)) {
-            // eslint-disable-next-line functional/no-expression-statements
-            totalArbitraryDataBytes += output.lockingBytecode.length + 1;
+          if (consensus.maximumStandardLockingBytecodeLength === -1) {
+            if (!isStandardOutputBytecode(output.lockingBytecode)) {
+              return formatError(
+                AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
+                `Transaction output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
+              );
+            }
+          } else if (
+            output.lockingBytecode.length >
+            consensus.maximumStandardLockingBytecodeLength
+          ) {
+            // eslint-disable-next-line functional/no-conditional-statements
+            if (isArbitraryDataOutput(output.lockingBytecode)) {
+              // eslint-disable-next-line functional/no-expression-statements
+              totalArbitraryDataBytes += output.lockingBytecode.length + 1;
+            } else {
+              return formatError(
+                AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
+                `Transaction output ${index} is non-standard: locking bytecode length of ${output.lockingBytecode.length} exceeds the maximum standard locking bytecode length of ${consensus.maximumStandardLockingBytecodeLength} and does not match the standard arbitrary data pattern (OP_RETURN).`,
+              );
+            }
           }
           if (isDustOutput(output)) {
             return formatError(
               AuthenticationErrorCommon.verifyStandardFailedDustOutput,
-              ` Transaction output ${index} must have a value of at least ${getDustThreshold(
+              `Transaction output ${index} must have a value of at least ${getDustThreshold(
                 output,
               )} satoshis. Current value: ${output.valueSatoshis}`,
             );
@@ -973,6 +994,9 @@ export const createInstructionSetBch2023 = <
       const tokenValidationResult = verifyTransactionTokens(
         transaction,
         sourceOutputs,
+        {
+          maximumTokenCommitmentLength: consensus.maximumTokenCommitmentLength,
+        },
       );
       if (tokenValidationResult !== true) {
         return tokenValidationResult;

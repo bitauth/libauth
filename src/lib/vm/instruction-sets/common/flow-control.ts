@@ -1,4 +1,5 @@
 import type {
+  AuthenticationProgramStackFrame,
   AuthenticationProgramStateControlStack,
   AuthenticationProgramStateError,
   AuthenticationProgramStateStack,
@@ -39,7 +40,7 @@ export const pushToControlStack = <
   State extends AuthenticationProgramStateControlStack,
 >(
   state: State,
-  value: boolean | number,
+  value: AuthenticationProgramStackFrame | boolean | number,
 ) => {
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
   state.controlStack.push(value);

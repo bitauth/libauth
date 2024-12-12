@@ -52,10 +52,16 @@ export const vms = {
   ...baseVms,
   bch_chip_bigint_nonstandard: baseVms.bch_2025_nonstandard,
   bch_chip_bigint_standard: baseVms.bch_2025_standard,
+  bch_chip_eval_nonstandard: baseVms.bch_2026_nonstandard,
+  bch_chip_eval_standard: baseVms.bch_2026_standard,
   bch_chip_limits_nonstandard: baseVms.bch_2025_nonstandard,
   bch_chip_limits_standard: baseVms.bch_2025_standard,
   bch_chip_loops_nonstandard: baseVms.bch_2026_nonstandard,
   bch_chip_loops_standard: baseVms.bch_2026_standard,
+  bch_chip_p2s_nonstandard: baseVms.bch_2026_nonstandard,
+  bch_chip_p2s_standard: baseVms.bch_2026_standard,
+  bch_chip_pow_nonstandard: baseVms.bch_spec_nonstandard,
+  bch_chip_pow_standard: baseVms.bch_spec_standard,
   /* eslint-enable @typescript-eslint/naming-convention, camelcase */
 };
 export const isVm = (vmId: string): vmId is keyof typeof vms =>

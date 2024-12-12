@@ -58,6 +58,7 @@ export const libauthErrorPrefixToBchnErrorStandard: {
   invalidVmNumber:
     'mandatory-script-verify-flag-failed (Number encoding must be minimal)',
   locktimeDisabled: '',
+  malformedEval: '',
   malformedLockingBytecode: '',
   malformedP2shBytecode: '',
   malformedPush: '',
@@ -179,6 +180,7 @@ export const libauthErrorPrefixToBchnErrorNonstandard: {
   invalidVmNumber:
     'mandatory-script-verify-flag-failed (Number encoding must be minimal)',
   locktimeDisabled: '',
+  malformedEval: '',
   malformedLockingBytecode: '',
   malformedP2shBytecode: '',
   malformedPush: '',

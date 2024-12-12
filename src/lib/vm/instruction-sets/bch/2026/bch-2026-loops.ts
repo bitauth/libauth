@@ -8,7 +8,8 @@ import {
   stackItemIsTruthy,
   useOneStackItem,
 } from '../../common/common.js';
-import { AuthenticationErrorBchSpec } from '../spec/bch-spec-errors.js';
+
+import { AuthenticationErrorBch2026 } from './bch-2026-errors.js';
 
 const enum Constants {
   markInactiveOpBegin = -1,
@@ -27,14 +28,14 @@ export const opUntil = <State extends AuthenticationProgramStateBch2026>(
   // eslint-disable-next-line functional/immutable-data
   const controlValue = state.controlStack.pop();
   if (typeof controlValue !== 'number') {
-    return applyError(state, AuthenticationErrorBchSpec.unexpectedUntil);
+    return applyError(state, AuthenticationErrorBch2026.unexpectedUntil);
   }
   if (!executionIsActive(state)) {
     return controlValue === Constants.markInactiveOpBegin
       ? state
       : applyError(
           state,
-          AuthenticationErrorBchSpec.unexpectedUntilMissingEndIf,
+          AuthenticationErrorBch2026.unexpectedUntilMissingEndIf,
         );
   }
 
@@ -51,7 +52,7 @@ export const opUntil = <State extends AuthenticationProgramStateBch2026>(
   ) {
     return applyError(
       state,
-      AuthenticationErrorBchSpec.excessiveLooping,
+      AuthenticationErrorBch2026.excessiveLooping,
       `Repeated bytes: ${state.repeatedBytes}; active bytecode length: ${activeBytecodeLength}`,
     );
   }

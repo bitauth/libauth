@@ -45,7 +45,8 @@ import { Bench } from 'tinybench';
  * skipped (e.g. test sets that aren't ready to publish and excluded
  * by `.gitignore`).
  */
-const skipDirectoryPrefixes = ['bch_chip', 'bch_2026'];
+const skipDirectoryPrefixes: string[] = [];
+// const skipDirectoryPrefixes = ['bch_chip', 'bch_2026'];
 // eslint-disable-next-line functional/no-let
 let warnedOnce = false;
 

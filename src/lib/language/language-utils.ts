@@ -651,7 +651,8 @@ export const extractEvaluationSamples = <
  * outer evaluation appear before their parent sample (which uses their result).
  */
 export const extractEvaluationSamplesRecursive = <
-  ProgramState extends AuthenticationProgramStateMinimum,
+  ProgramState extends AuthenticationProgramStateControlStack &
+    AuthenticationProgramStateMinimum,
 >({
   /**
    * The range of the script node that was evaluated to produce the `trace`
@@ -670,6 +671,8 @@ export const extractEvaluationSamplesRecursive = <
   nodes: ScriptReductionTraceScriptNode<ProgramState>['script'];
   trace: ProgramState[];
 }): SampleExtractionResult<ProgramState> => {
+  const statesNotProducedByOpEval = (state: ProgramState) =>
+    !state.controlStack.some((item) => typeof item === 'object');
   const extractEvaluations = (
     node: ScriptReductionTraceChildNode<ProgramState>,
     depth = 1,
@@ -690,7 +693,9 @@ export const extractEvaluationSamplesRecursive = <
         ],
         [],
       );
-      const traceWithoutUnlockingPhase = node.trace.slice(1);
+      const traceWithoutUnlockingPhase = node.trace
+        .slice(1)
+        .filter(statesNotProducedByOpEval);
       const evaluationBeginToken = '$(';
       const evaluationEndToken = ')';
       const extracted = extractEvaluationSamples<ProgramState>({
@@ -711,7 +716,7 @@ export const extractEvaluationSamplesRecursive = <
   const { samples, unmatchedStates } = extractEvaluationSamples<ProgramState>({
     evaluationRange,
     nodes,
-    trace,
+    trace: trace.filter(statesNotProducedByOpEval),
   });
 
   const childSamples = nodes.reduce<EvaluationSample<ProgramState>[]>(
@@ -825,6 +830,7 @@ export const extractUnexecutedRanges = <
   return containedRangesExcluded;
 };
 
+const oneBelowHash160 = 19;
 /**
  * Given a stack, return a summary of the stack's contents, encoding valid VM
  * numbers as numbers, and all other stack items as hex literals.
@@ -833,7 +839,9 @@ export const extractUnexecutedRanges = <
  */
 export const summarizeStack = (stack: Uint8Array[]) =>
   stack.map((item) => {
-    const asNumber = vmNumberToBigInt(item);
+    const asNumber = vmNumberToBigInt(item, {
+      maximumVmNumberByteLength: oneBelowHash160,
+    });
     return `0x${binToHex(item)}${
       typeof asNumber === 'string' ? '' : `(${asNumber.toString()})`
     }`;
@@ -879,8 +887,7 @@ export const summarizeDebugTrace = <
               ...(nextState.error === undefined
                 ? {}
                 : { error: nextState.error }),
-              execute:
-                state.controlStack[state.controlStack.length - 1] !== false,
+              execute: state.controlStack.every((item) => item !== false),
               instruction:
                 'instruction' in state
                   ? state.instruction

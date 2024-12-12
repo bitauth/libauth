@@ -1,0 +1,11 @@
+{
+"pwran7":"Unable to verify standard transaction: standard transactions may only spend standard output types. Source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"ll48n6":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"earn55":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"m30e80":"Unable to verify standard transaction: standard transactions may only spend standard output types. Source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"06ty9d":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"xf7k9u":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"838k9p":"Unable to verify standard transaction: standard transactions may only spend standard output types. Source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"pqydxn":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"ug0w55":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation."
+}

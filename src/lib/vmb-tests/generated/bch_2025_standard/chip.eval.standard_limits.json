@@ -1,0 +1,6 @@
+{
+"upu678":[45,36000,1027,"OP_EVAL: Works (P2SH20)"],
+"wg3zzk":[45,36000,1051,"OP_EVAL: Works (P2SH32)"],
+"32pq0g":[47,37600,1029,"OP_EVAL: Can be nested (P2SH20)"],
+"mtedjn":[47,37600,1053,"OP_EVAL: Can be nested (P2SH32)"]
+}

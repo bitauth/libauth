@@ -1,0 +1,4 @@
+{
+"a3h4p9":"Transaction violates token validation: excessive token commitment length. A token commitment exceeds the consensus limit of 40 bytes. Excessive token commitment length: 41",
+"vjfze6":"Transaction violates token validation: excessive token commitment length. A token commitment exceeds the consensus limit of 40 bytes. Excessive token commitment length: 41"
+}

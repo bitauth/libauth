@@ -841,6 +841,8 @@ export type WalletTemplateScriptLocking = WalletTemplateScript & {
    * The presence of the `lockingType` property indicates that this script is a
    * locking script. It must be present on any script referenced by the
    * `unlocks` property of another script.
+   * 
+   * TODO: migrate `standard` -> `p2s`
    */
   lockingType: 'p2sh20' | 'p2sh32' | 'standard';
 };

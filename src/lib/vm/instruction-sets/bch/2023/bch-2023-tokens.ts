@@ -177,19 +177,17 @@ export const extractTransactionOutputTokenData = (
 export const verifyTransactionTokens = (
   transaction: Transaction,
   sourceOutputs: Output[],
+  { maximumTokenCommitmentLength }: { maximumTokenCommitmentLength: number },
 ) => {
   const excessiveCommitment = [...sourceOutputs, ...transaction.outputs].find(
     (output) =>
       output.token?.nft?.commitment !== undefined &&
-      output.token.nft.commitment.length >
-        ConsensusBch2023.maximumCommitmentLength,
+      output.token.nft.commitment.length > maximumTokenCommitmentLength,
   );
   if (excessiveCommitment !== undefined) {
     return formatError(
       AuthenticationErrorCommon.tokenValidationExcessiveCommitmentLength,
-      `A token commitment exceeds the consensus limit of ${
-        ConsensusBch2023.maximumCommitmentLength
-      } bytes. Excessive token commitment length: ${
+      `A token commitment exceeds the consensus limit of ${maximumTokenCommitmentLength} bytes. Excessive token commitment length: ${
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         excessiveCommitment.token!.nft!.commitment.length
       }`,

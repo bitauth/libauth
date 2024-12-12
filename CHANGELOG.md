@@ -1,5 +1,11 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.3
+
+### Minor Changes
+
+- [#150](https://github.com/bitauth/libauth/pull/150) [`836d917`](https://github.com/bitauth/libauth/commit/836d9172f556889150ced64d8d991d1dfa3d3c79) Thanks [@bitjson](https://github.com/bitjson)! - Speculatively implement P2S, OP_EVAL, and OP_POW
+
 ## 3.1.0-next.2
 
 ### Minor Changes

@@ -17,7 +17,6 @@ export const ConsensusBch2023 = {
    * A.K.A. `MAX_SCRIPT_SIZE`
    */
   maximumBytecodeLength: 10000,
-  maximumCommitmentLength: 40,
   /**
    * A.K.A. `MAX_CONSENSUS_VERSION`
    */
@@ -41,6 +40,10 @@ export const ConsensusBch2023 = {
    */
   maximumStackItemLength: 520,
   /**
+   * When set to `-1`, only BCH_2023_05 standard patterns are accepted.
+   */
+  maximumStandardLockingBytecodeLength: -1,
+  /**
    * A.K.A. `MAX_STANDARD_TX_SIZE`
    */
   maximumStandardTransactionSize: 100_000,
@@ -48,6 +51,7 @@ export const ConsensusBch2023 = {
    * A.K.A. `MAX_TX_IN_SCRIPT_SIG_SIZE`
    */
   maximumStandardUnlockingBytecodeLength: 1650,
+  maximumTokenCommitmentLength: 40,
   /**
    * A.K.A. `MAX_TX_SIZE`
    */

@@ -4,7 +4,9 @@ import { OpcodesBch2026 } from '../2026/bch-2026-opcodes.js';
  * The opcodes added to the `BCH_SPEC` instruction set beyond those present in
  * `BCH_2026_05`.
  */
-export enum OpcodesBchSpecAdditions {}
+export enum OpcodesBchSpecAdditions {
+  OP_POW = 0x8d,
+}
 
 /**
  * The `BCH_SPEC` instruction set.

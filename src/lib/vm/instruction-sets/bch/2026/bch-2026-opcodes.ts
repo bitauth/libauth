@@ -5,6 +5,7 @@ import { OpcodesBch2023 } from '../2023/bch-2023-opcodes.js';
  * `BCH_2023_05`.
  */
 export enum OpcodesBch2026Additions {
+  OP_EVAL = 0x62,
   OP_BEGIN = 0x65,
   OP_UNTIL = 0x66,
 }

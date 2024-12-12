@@ -3,20 +3,20 @@
 // TODO: finish this simple wallet CLI
 
 import { randomBytes } from 'node:crypto';
-import { writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 
 import {
   assertSuccess,
   binsAreEqual,
   binToHex,
   cashAddressToLockingBytecode,
+  cashAssemblyToBin,
   createCompilerBch,
-  createVirtualMachineBch,
+  createVirtualMachineBch2025,
   decodeTransactionUnsafe,
   deriveHdPrivateNodeFromSeed,
   encodeHdPrivateKey,
   encodeTransaction,
+  hashTransaction,
   hdPrivateKeyToIdentifier,
   hdPrivateKeyToP2pkhCashAddress,
   hdPrivateKeyToP2pkhLockingBytecode,
@@ -25,6 +25,8 @@ import {
   lockingBytecodeToBase58Address,
   lockingBytecodeToCashAddress,
   stringify,
+  stringifyDebugTraceSummary,
+  summarizeDebugTrace,
   walletTemplateToCompilerConfiguration,
 } from '../lib.js';
 
@@ -49,7 +51,7 @@ To generate an address, provide the CashAddress prefix and the xprv of the HD ke
 # Generate the transaction(s)
 ====================
 Command: yarn wallet generate <hd_private_key> <transaction_hex>
-   E.g.: yarn wallet generate out/transactions.json xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ6zZNcJaiJogsRaLaYFFjs48qt4Fg7y1GnmrchQt1zFNu6QVnta 020000...
+   E.g.: yarn wallet generate xprv9s21ZrQH143K2JbpEjGU94NcdKSASB7LuXvJCTsxuENcGN1nVG7QjMnBZ6zZNcJaiJogsRaLaYFFjs48qt4Fg7y1GnmrchQt1zFNu6QVnta 020000...
 
 For <transaction_hex>, provide the full, encoded funding transaction. The generate command will use the first output paying to index 0 of the provided address.
 `;
@@ -153,7 +155,9 @@ if (typeof keyId === 'string') {
   console.log('\n', keyId);
   process.exit(1);
 }
-const fundingTransaction = decodeTransactionUnsafe(hexToBin(arg3));
+const fundingTransactionBin = hexToBin(arg3);
+const fundingTxId = hashTransaction(fundingTransactionBin);
+const fundingTransaction = decodeTransactionUnsafe(fundingTransactionBin);
 const fundingLockingBytecode = hdPrivateKeyToP2pkhLockingBytecode({
   addressIndex: fundingAddressIndex,
   hdPrivateKey,
@@ -182,7 +186,8 @@ const fundingUtxo = fundingTransaction.outputs[fundingUtxoIndex]!;
 
 console.log('Funding UTXO:', stringify(fundingUtxo));
 
-const outputAddress = 'bitcoincash:qq2pq6z974lrdq8s0zkrl79efs3xap98fqvz9f30fl';
+// const outputAddress = 'bitcoincash:qq2pq6z974lrdq8s0zkrl79efs3xap98fqvz9f30fl';
+const outputAddress = 'bchtest:qrz7khw7pml90zzgzrf7ttdp934d56sxkyxgwhre99';
 const outputLockingBytecode = cashAddressToLockingBytecode(outputAddress);
 if (typeof outputLockingBytecode === 'string') {
   console.log(
@@ -192,18 +197,34 @@ if (typeof outputLockingBytecode === 'string') {
 }
 
 const fundingUtxoValue = Number(fundingUtxo.valueSatoshis);
-const expectedInputTransactionSizeBytes = 1000;
-const setupOutputValue = fundingUtxoValue - expectedInputTransactionSizeBytes;
-const finalOutputValue = setupOutputValue - expectedInputTransactionSizeBytes;
+const setupSizeBytes = 183;
+const setupOutputValue = fundingUtxoValue - setupSizeBytes;
+const testSizeBytes = 106;
+const finalOutputValue = setupOutputValue - testSizeBytes;
+
+const setupTxId =
+  'bec7a1507cc76495f005dcc71652cbb388c9adb10da7acdf89caa56c0c45da9e';
+const setupUtxoIndex = 0;
+
+const finalOutputBytecode = binToHex(
+  assertSuccess(cashAssemblyToBin('OP_RETURN <"BigInt">')),
+);
 const configuration = walletTemplateToCompilerConfiguration({
   entities: { owner: { variables: { key: { type: 'HdKey' } } } },
   scenarios: {
     setupTx: {
+      data: { hdKeys: { hdPrivateKeys: { owner: hdPrivateKey } } },
       sourceOutputs: [
         { lockingBytecode: ['slot'], valueSatoshis: fundingUtxoValue },
       ],
       transaction: {
-        inputs: [{ unlockingBytecode: ['slot'] }],
+        inputs: [
+          {
+            outpointIndex: fundingUtxoIndex,
+            outpointTransactionHash: fundingTxId,
+            unlockingBytecode: ['slot'],
+          },
+        ],
         outputs: [
           {
             lockingBytecode: { script: 'testLock' },
@@ -213,14 +234,21 @@ const configuration = walletTemplateToCompilerConfiguration({
       },
     },
     testSpend: {
+      data: { hdKeys: { hdPrivateKeys: { owner: hdPrivateKey } } },
       sourceOutputs: [
         { lockingBytecode: ['slot'], valueSatoshis: setupOutputValue },
       ],
       transaction: {
-        inputs: [{ unlockingBytecode: ['slot'] }],
+        inputs: [
+          {
+            outpointIndex: setupUtxoIndex,
+            outpointTransactionHash: setupTxId,
+            unlockingBytecode: ['slot'],
+          },
+        ],
         outputs: [
           {
-            lockingBytecode: binToHex(outputLockingBytecode.bytecode),
+            lockingBytecode: finalOutputBytecode,
             valueSatoshis: finalOutputValue,
           },
         ],
@@ -239,14 +267,19 @@ const configuration = walletTemplateToCompilerConfiguration({
       script: '<key.schnorr_signature.all_outputs>\n<key.public_key>',
       unlocks: 'p2pkhLock',
     },
-
-    testLock: { lockingType: 'p2sh20', script: '' },
-    testUnlock: { script: '<1>', unlocks: 'testLock' },
+    testLock: {
+      lockingType: 'p2sh20',
+      script:
+        '<0xffffffffffffffff> OP_MUL <0x0100000000000000ffffffffffffff3f> OP_EQUAL',
+    },
+    testUnlock: {
+      script: '<0xffffffffffffffff>',
+      unlocks: 'testLock',
+    },
   },
-  supported: ['BCH_2022_05'],
+  supported: ['BCH_2023_05', 'BCH_2025_05'],
 });
 const compiler = createCompilerBch(configuration);
-
 const setupTx = compiler.generateScenario({
   debug: true,
   scenarioId: 'setupTx',
@@ -264,7 +297,7 @@ if (typeof setupTx.scenario === 'string') {
   process.exit(1);
 }
 
-const vm = createVirtualMachineBch(true);
+const vm = createVirtualMachineBch2025(true);
 const firstProgram = {
   sourceOutputs: [fundingUtxo],
   transaction: setupTx.scenario.program.transaction,
@@ -272,15 +305,83 @@ const firstProgram = {
 const testFirstTx = vm.verify(firstProgram);
 if (testFirstTx !== true) {
   console.log(`First transaction is invalid: ${testFirstTx}`);
-  vm.debug({ ...firstProgram, inputIndex: 0 });
+  const trace = vm.debug({ ...firstProgram, inputIndex: fundingUtxoIndex });
+  console.log(stringifyDebugTraceSummary(summarizeDebugTrace(trace)));
   process.exit(1);
 }
 
-const encodedTx = encodeTransaction(setupTx.scenario.program.transaction);
+const encodedSetupTx = encodeTransaction(setupTx.scenario.program.transaction);
+const newSetupTxId = hashTransaction(encodedSetupTx);
 
-console.log(stringify(encodedTx));
+if (newSetupTxId !== setupTxId) {
+  console.error('Update "setupTxId" to:', newSetupTxId);
+  process.exit(1);
+}
 
-const outputAbsolutePath = `${resolve('temp')}/vmb_tests_live.json`;
-writeFileSync(outputAbsolutePath, JSON.stringify(encodedTx), {
-  encoding: 'utf8',
+if (setupSizeBytes !== encodedSetupTx.length) {
+  console.error(
+    `Set "setupSizeBytes" to the new value: ${encodedSetupTx.length}`,
+  );
+  process.exit(1);
+}
+
+console.log(`
+First TX ID: ${setupTxId}
+Hex: ${binToHex(encodedSetupTx)}
+`);
+
+const secondTx = compiler.generateScenario({
+  debug: true,
+  scenarioId: 'testSpend',
+  unlockingScriptId: 'testUnlock',
 });
+
+if (typeof secondTx === 'string') {
+  console.log(`Error while generating setupTransaction: ${secondTx}`);
+  process.exit(1);
+}
+if (typeof secondTx.scenario === 'string') {
+  console.log(
+    `Error while generating setupTransaction.scenario - ${secondTx.scenario}`,
+  );
+  process.exit(1);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const setupUtxo = setupTx.scenario.program.transaction.outputs[setupUtxoIndex]!;
+
+console.log('Setup UTXO:', stringify(setupUtxo));
+
+const secondProgram = {
+  sourceOutputs: [setupUtxo],
+  transaction: secondTx.scenario.program.transaction,
+};
+
+const encodedSecondTx = encodeTransaction(
+  secondTx.scenario.program.transaction,
+);
+const secondTxId = hashTransaction(encodedSetupTx);
+
+console.log(`
+  Second TX ID: ${secondTxId}
+  Hex: ${binToHex(encodedSecondTx)}
+  `);
+
+console.log('verifying second transaction:');
+
+const testSecondTx = vm.verify(secondProgram);
+
+const trace = vm.debug({ ...secondProgram, inputIndex: setupUtxoIndex });
+console.log(stringifyDebugTraceSummary(summarizeDebugTrace(trace)));
+
+if (testSecondTx !== true) {
+  console.log(`Second transaction is invalid: ${testSecondTx}`);
+  process.exit(1);
+}
+
+if (testSizeBytes !== encodedSecondTx.length) {
+  console.error(
+    `Set "testSizeBytes" to the new value: ${encodedSecondTx.length}`,
+  );
+  process.exit(1);
+}

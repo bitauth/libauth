@@ -4,7 +4,7 @@ import type {
   TransactionCommon,
 } from '../lib.js';
 
-export type AuthenticationProgramStateMinimum = {
+export type AuthenticationProgramStackFrame = {
   /**
    * The full list of instructions to be evaluated by the virtual machine.
    */
@@ -15,19 +15,22 @@ export type AuthenticationProgramStateMinimum = {
    * `instructions` (`ip === instructions.length`), evaluation is complete.
    */
   ip: number;
-
-  /**
-   * An object containing metrics that persist and accumulate over all phases of
-   * evaluating an input – unlocking, locking and (for P2SH) redeem bytecode.
-   */
-  metrics: {
-    /**
-     * A count of instructions evaluated over the course of verifying
-     * the input, included unexecuted instructions.
-     */
-    evaluatedInstructionCount: number;
-  };
 };
+
+export type AuthenticationProgramStateMinimum =
+  AuthenticationProgramStackFrame & {
+    /**
+     * An object containing metrics that persist and accumulate over all phases of
+     * evaluating an input – unlocking, locking and (for P2SH) redeem bytecode.
+     */
+    metrics: {
+      /**
+       * A count of instructions evaluated over the course of verifying
+       * the input, included unexecuted instructions.
+       */
+      evaluatedInstructionCount: number;
+    };
+  };
 
 export type AuthenticationProgramStateStack<StackType = Uint8Array> = {
   /**
@@ -54,11 +57,12 @@ export type AuthenticationProgramStateAlternateStack<StackType = Uint8Array> = {
 };
 
 export type AuthenticationProgramStateControlStack<
-  ItemType = boolean | number,
+  ItemType = AuthenticationProgramStackFrame | boolean | number,
 > = {
   /**
-   * An array of boolean values representing the current execution status of the
-   * program. This allows the state to track nested conditional branches.
+   * An array representing the current execution status of the program. This
+   * allows the state to track nested conditional branches, loops, and
+   * evaluation operations (`OP_EVAL`).
    *
    * The `OP_IF` and `OP_NOTIF` operations push a new boolean onto the
    * `controlStack`, `OP_ELSE` flips the top boolean, and `OP_ENDIF` removes

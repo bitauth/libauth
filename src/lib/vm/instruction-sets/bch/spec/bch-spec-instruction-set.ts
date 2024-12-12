@@ -14,9 +14,15 @@ import type {
   Sha1,
   Sha256,
 } from '../../../../lib.js';
+import {
+  conditionallyEvaluate,
+  incrementOperationCount,
+} from '../../common/common.js';
 import { createInstructionSetBch2026 } from '../2026/bch-2026-instruction-set.js';
 
 import { ConsensusBchSpec } from './bch-spec-consensus.js';
+import { OpcodesBchSpec } from './bch-spec-opcodes.js';
+import { createOpPow } from './bch-spec-pow.js';
 
 /**
  * create an instance of the `BCH_SPEC` virtual machine instruction set, an
@@ -96,6 +102,14 @@ export const createInstructionSetBchSpec = <
         nextState.metrics.maxMemoryUsage = memoryUsage;
       }
       return nextState;
+    },
+    operations: {
+      ...instructionSet.operations,
+      [OpcodesBchSpec.OP_POW]: incrementOperationCount(
+        conditionallyEvaluate(
+          createOpPow<AuthenticationProgramState>(consensus),
+        ),
+      ),
     },
   };
 };

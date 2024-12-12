@@ -1,0 +1,11 @@
+{
+"pwran7":[43,34400,302,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (nonP2SH)"],
+"ll48n6":[48,38400,875,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH20)"],
+"earn55":[48,38400,899,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH32)"],
+"m30e80":[43,34400,301,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (nonP2SH)"],
+"06ty9d":[48,38400,874,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH20)"],
+"xf7k9u":[48,38400,898,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH32)"],
+"838k9p":[42,33600,502,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (nonP2SH)"],
+"pqydxn":[59,47200,1087,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH20)"],
+"ug0w55":[59,47200,1111,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH32)"]
+}

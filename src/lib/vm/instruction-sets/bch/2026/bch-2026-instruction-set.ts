@@ -6,6 +6,7 @@ import {
 } from '../../../../crypto/crypto.js';
 import type {
   AuthenticationProgramBch,
+  AuthenticationProgramStackFrame,
   InstructionSet,
   ResolvedTransactionBch,
   Ripemd160,
@@ -17,6 +18,7 @@ import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js
 import { opBegin, opUntil } from '../2026/bch-2026-loops.js';
 
 import { ConsensusBch2026 } from './bch-2026-consensus.js';
+import { opEval } from './bch-2026-eval.js';
 import { OpcodesBch2026 } from './bch-2026-opcodes.js';
 import type { AuthenticationProgramStateBch2026 } from './bch-2026-types.js';
 /**
@@ -80,6 +82,22 @@ export const createInstructionSetBch2026 = <
     });
   return {
     ...instructionSet,
+    /* eslint-disable functional/no-loop-statements, functional/immutable-data, functional/no-expression-statements */
+    continue: (state) => {
+      if (state.error !== undefined) return false;
+      while (
+        state.ip >= state.instructions.length &&
+        state.controlStack.length > 0 &&
+        typeof state.controlStack[state.controlStack.length - 1] === 'object'
+      ) {
+        const { instructions, ip } =
+          state.controlStack.pop() as AuthenticationProgramStackFrame;
+        state.ip = ip;
+        state.instructions = instructions;
+      }
+      return state.ip < state.instructions.length;
+    },
+    /* eslint-enable functional/no-loop-statements, functional/immutable-data, functional/no-expression-statements */
     initialize: (program) =>
       ({
         ...instructionSet.initialize?.(program),
@@ -87,6 +105,7 @@ export const createInstructionSetBch2026 = <
       }) as Partial<AuthenticationProgramStateBch2026> as Partial<AuthenticationProgramState>,
     operations: {
       ...instructionSet.operations,
+      [OpcodesBch2026.OP_EVAL]: opEval,
       [OpcodesBch2026.OP_BEGIN]: opBegin,
       [OpcodesBch2026.OP_UNTIL]: opUntil,
     },

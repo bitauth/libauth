@@ -1,0 +1,10 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+pwran7,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (nonP2SH)",213,48,2,1,43,34400,302,1,0,21,0,3,2,0
+ll48n6,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH20)",218,67,2,1,48,38400,1131,1,0,24,2,7,47,0
+earn55,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH32)",218,79,2,1,48,38400,1155,1,0,24,2,7,71,0
+m30e80,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (nonP2SH)",213,48,2,1,43,34400,301,1,0,21,0,3,1,0
+06ty9d,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH20)",218,67,2,1,48,38400,1130,1,0,24,2,7,46,0
+xf7k9u,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH32)",218,79,2,1,48,38400,1154,1,0,24,2,7,70,0
+838k9p,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (nonP2SH)",212,60,2,1,42,33600,502,1,0,21,0,5,2,0
+pqydxn,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH20)",229,67,2,1,59,47200,1343,1,0,29,2,9,59,0
+ug0w55,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH32)",229,79,2,1,59,47200,1367,1,0,29,2,9,83,0

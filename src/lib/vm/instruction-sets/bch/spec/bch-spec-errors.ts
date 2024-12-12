@@ -1,6 +1,8 @@
 import { AuthenticationErrorBch2026 } from '../2026/bch-2026-errors.js';
 
-export enum AuthenticationErrorBchSpecAdditions {}
+export enum AuthenticationErrorBchSpecAdditions {
+  excessiveOperationCostOpPow = 'Program attempted an OP_POW operation that would have exceed the operation cost density limit.',
+}
 
 /**
  * Errors for the `BCH_SPEC` instruction set.

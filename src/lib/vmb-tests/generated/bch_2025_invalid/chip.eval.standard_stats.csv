@@ -20,9 +20,18 @@ c8frkn,"OP_EVAL: Control stack limited to depth of 100 (P2SH32)",483,79,2,1,311,
 g3u8du,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (nonP2SH)",211,337,2,1,41,32800,685,1,0,20,0,4,285,0
 4cvzpw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH20)",507,67,2,1,335,268000,2569,8,0,167,6,8,617,0
 9782kk,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH32)",507,79,2,1,335,268000,2593,8,0,167,6,8,641,0
-ekqyxw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt OP_EVAL at 100 (nonP2SH)",211,339,2,1,41,32800,687,1,0,20,0,4,287,0
-sqwlkq,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt OP_EVAL at 100 (P2SH20)",509,67,2,1,337,269600,2573,8,0,168,6,8,621,0
-ltlhp7,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt OP_EVAL at 100 (P2SH32)",509,79,2,1,337,269600,2597,8,0,168,6,8,645,0
+g3u8du,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (nonP2SH)",211,337,2,1,41,32800,685,1,0,20,0,4,285,0
+4cvzpw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH20)",507,67,2,1,335,268000,2569,8,0,167,6,8,617,0
+9782kk,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH32)",507,79,2,1,335,268000,2593,8,0,167,6,8,641,0
+g3u8du,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100 (nonP2SH)",211,337,2,1,41,32800,685,1,0,20,0,4,285,0
+4cvzpw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100 (P2SH20)",507,67,2,1,335,268000,2569,8,0,167,6,8,617,0
+9782kk,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100 (P2SH32)",507,79,2,1,335,268000,2593,8,0,167,6,8,641,0
+ekqyxw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (nonP2SH)",211,339,2,1,41,32800,687,1,0,20,0,4,287,0
+sqwlkq,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (P2SH20)",509,67,2,1,337,269600,2573,8,0,168,6,8,621,0
+ltlhp7,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (P2SH32)",509,79,2,1,337,269600,2597,8,0,168,6,8,645,0
+t0rx6q,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "OP_1 OP_0 OP_EVAL" (evaluation of empty bytecode) at 100 (nonP2SH)",211,339,2,1,41,32800,687,1,0,20,0,4,287,0
+x55fkv,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "OP_1 OP_0 OP_EVAL" (evaluation of empty bytecode) at 100 (P2SH20)",509,67,2,1,337,269600,2573,8,0,168,6,8,621,0
+2wcdcd,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "OP_1 OP_0 OP_EVAL" (evaluation of empty bytecode) at 100 (P2SH32)",509,79,2,1,337,269600,2597,8,0,168,6,8,645,0
 unhdgg,"OP_EVAL: ((2 2 +)) 4 = (nonP2SH)",217,47,2,1,47,37600,205,1,0,23,0,2,5,0
 k0n4m0,"OP_EVAL: ((2 2 +)) 4 = (P2SH20)",221,67,2,1,51,40800,1033,1,0,25,2,6,49,0
 htr8ly,"OP_EVAL: ((2 2 +)) 4 = (P2SH32)",221,79,2,1,51,40800,1057,1,0,25,2,6,73,0

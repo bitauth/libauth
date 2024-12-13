@@ -1,0 +1,8 @@
+{
+"pwran7":[43,34400,603,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (nonP2SH)"],
+"ll48n6":[48,38400,1432,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH20)"],
+"earn55":[48,38400,1456,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH32)"],
+"838k9p":[42,33600,6743,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (nonP2SH)"],
+"pqydxn":[59,47200,7584,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH20)"],
+"ug0w55":[59,47200,7608,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH32)"]
+}

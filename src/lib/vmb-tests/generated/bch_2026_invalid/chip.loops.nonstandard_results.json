@@ -1,0 +1,5 @@
+{
+"m30e80":"Unable to verify transaction: error in evaluating input index 1: Program attempted an operation that would exceed the operation cost density limit. Maximum operation cost: 34400 (density control length: 43); operation cost following operation: 34401.",
+"06ty9d":"Unable to verify transaction: error in evaluating input index 1: Program attempted an operation that would exceed the operation cost density limit. Maximum operation cost: 38400 (density control length: 48); operation cost following operation: 38474.",
+"xf7k9u":"Unable to verify transaction: error in evaluating input index 1: Program attempted an operation that would exceed the operation cost density limit. Maximum operation cost: 38400 (density control length: 48); operation cost following operation: 38498."
+}

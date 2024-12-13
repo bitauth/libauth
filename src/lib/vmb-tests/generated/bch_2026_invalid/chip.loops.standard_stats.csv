@@ -1,0 +1,4 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+m30e80,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (nonP2SH)",213,48,2,1,43,34400,34401,1,0,21,0,344,1,0
+06ty9d,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH20)",218,67,2,1,48,38400,38430,1,0,24,2,380,46,0
+xf7k9u,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH32)",218,79,2,1,48,38400,38454,1,0,24,2,380,70,0

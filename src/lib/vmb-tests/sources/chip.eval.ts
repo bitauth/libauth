@@ -43,10 +43,40 @@ export default [
         ``,
         `${range(50)
           .map(() => '<1> OP_IF <')
+          .join('')} OP_1 ${range(50)
+          .map(() => '> OP_EVAL OP_ENDIF')
+          .join('')}`,
+        'Nesting with OP_IF/OP_ENDIF to depth 100',
+        ['chip_eval', '2026_nop2sh_nonstandard'],
+      ],
+      [
+        ``,
+        `${range(50)
+          .map(() => '<1> OP_IF <')
+          .join('')} OP_1 ${range(50)
+          .map(() => '> OP_EVAL OP_ENDIF')
+          .join('')}`,
+        'Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100',
+        ['chip_eval', '2026_nop2sh_nonstandard'],
+      ],
+      [
+        ``,
+        `${range(50)
+          .map(() => '<1> OP_IF <')
           .join('')} <OP_1> OP_EVAL ${range(50)
           .map(() => '> OP_EVAL OP_ENDIF')
           .join('')}`,
-        'Nesting with OP_IF/OP_ENDIF to depth 100, attempt OP_EVAL at 100',
+        'Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100',
+        ['chip_eval_invalid'],
+      ],
+      [
+        ``,
+        `${range(50)
+          .map(() => '<1> OP_IF <')
+          .join('')} OP_1 OP_0 OP_EVAL ${range(50)
+          .map(() => '> OP_EVAL OP_ENDIF')
+          .join('')}`,
+        'Nesting with OP_IF/OP_ENDIF to depth 100, attempt "OP_1 OP_0 OP_EVAL" (evaluation of empty bytecode) at 100',
         ['chip_eval_invalid'],
       ],
       [`<<OP_2 OP_2 OP_ADD> OP_EVAL>`, `OP_EVAL OP_4 OP_EQUAL`, '((2 2 +)) 4 =', ['chip_eval']],

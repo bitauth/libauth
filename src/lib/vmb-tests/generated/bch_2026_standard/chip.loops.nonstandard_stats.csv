@@ -1,0 +1,7 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+pwran7,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (nonP2SH)",213,48,2,1,43,34400,603,1,0,150,0,6,3,0
+ll48n6,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH20)",218,67,2,1,48,38400,1176,1,0,168,2,10,48,0
+earn55,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH32)",218,79,2,1,48,38400,1200,1,0,168,2,10,72,0
+838k9p,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (nonP2SH)",212,60,2,1,42,33600,6743,1,0,147,0,67,32,11
+pqydxn,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH20)",229,67,2,1,59,47200,7328,1,0,206,2,71,89,11
+ug0w55,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH32)",229,79,2,1,59,47200,7352,1,0,206,2,71,113,11

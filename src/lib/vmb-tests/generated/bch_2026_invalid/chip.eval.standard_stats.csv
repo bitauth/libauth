@@ -1,0 +1,19 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+wh2rs3,"OP_EVAL: Requires a stack item (nonP2SH)",211,46,2,1,41,32800,100,1,0,20,0,1,0,0
+d6xj3f,"OP_EVAL: Requires a stack item (P2SH20)",214,67,2,1,44,35200,927,1,0,22,2,5,43,0
+rxuqyk,"OP_EVAL: Requires a stack item (P2SH32)",214,79,2,1,44,35200,951,1,0,22,2,5,67,0
+05fpsr,"OP_EVAL: Control stack limited to depth of 100 (nonP2SH)",481,45,2,1,309,247200,32357,7,0,154,0,202,12157,0
+4xfv3c,"OP_EVAL: Control stack limited to depth of 100 (P2SH20)",483,67,2,1,311,248800,33183,7,0,155,2,206,12199,0
+c8frkn,"OP_EVAL: Control stack limited to depth of 100 (P2SH32)",483,79,2,1,311,248800,33207,7,0,155,2,206,12223,0
+ekqyxw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (nonP2SH)",211,339,2,1,41,32800,27131,1,0,20,0,202,6931,0
+sqwlkq,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (P2SH20)",509,67,2,1,337,269600,29017,8,0,168,6,206,7265,0
+ltlhp7,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (P2SH32)",509,79,2,1,337,269600,29041,8,0,168,6,206,7289,0
+t0rx6q,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "OP_1 OP_0 OP_EVAL" (evaluation of empty bytecode) at 100 (nonP2SH)",211,339,2,1,41,32800,27231,1,0,20,0,203,6931,0
+x55fkv,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "OP_1 OP_0 OP_EVAL" (evaluation of empty bytecode) at 100 (P2SH20)",509,67,2,1,337,269600,29117,8,0,168,6,207,7265,0
+2wcdcd,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "OP_1 OP_0 OP_EVAL" (evaluation of empty bytecode) at 100 (P2SH32)",509,79,2,1,337,269600,29141,8,0,168,6,207,7289,0
+dhrw4u,"OP_EVAL: ((2 2 +)) 0 = (reject) (nonP2SH)",217,47,2,1,47,37600,912,1,0,23,0,9,11,1
+amgzuk,"OP_EVAL: ((2 2 +)) 0 = (reject) (P2SH20)",221,67,2,1,51,40800,1740,1,0,25,2,13,55,1
+wwf9t6,"OP_EVAL: ((2 2 +)) 0 = (reject) (P2SH32)",221,79,2,1,51,40800,1764,1,0,25,2,13,79,1
+8w6fdn,"OP_EVAL: ((2 2 -)) 4 = (reject) (nonP2SH)",217,47,2,1,47,37600,911,1,0,23,0,9,11,0
+d7dnrq,"OP_EVAL: ((2 2 -)) 4 = (reject) (P2SH20)",221,67,2,1,51,40800,1739,1,0,25,2,13,55,0
+yq3l9q,"OP_EVAL: ((2 2 -)) 4 = (reject) (P2SH32)",221,79,2,1,51,40800,1763,1,0,25,2,13,79,0

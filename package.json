@@ -63,7 +63,7 @@
     "gen:graph": "mkdir -p temp && madge --image temp/deps-$(date +\"%FT%H%M\").svg build/index.js",
     "test": "yarn build && yarn test:policies && yarn test:unit",
     "test:policies": "yarn test:deps && yarn test:schemas && yarn test:lint && yarn test:cycles",
-    "test:deps": "node -e \"import('./package.json', { assert: { type: 'json' } }).then(p => typeof p.dependencies === 'undefined' ? console.log('No dependencies found.') : (console.error('Dependencies are not allowed.') && process.exit(1)));\"",
+    "test:deps": "node -e \"import('./package.json', { with: { type: 'json' } }).then(p => typeof p.dependencies === 'undefined' ? console.log('No dependencies found.') : (console.error('Dependencies are not allowed.') && process.exit(1)));\"",
     "test:schemas:unchanged": "yarn gen:schema && node -e \"child_process.exec('git status src/lib/schema --porcelain | head -c1 | wc -c', (err, stdout) => stdout.trim() === '0' ? process.exit(0) : process.exit(1) )\"",
     "test:schemas": "yarn test:schemas:unchanged && echo \"Schemas are up to date.\" || echo \"Error: one or more schemas are outdated. Please review and commit the changes in src/lib/schema.\"",
     "test:lint": "yarn test:prettier && yarn test:eslint && yarn test:spelling",
@@ -204,7 +204,7 @@
     ]
   },
   "sideEffects": false,
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.5.3",
   "resolutions": {
     "eslint-config-bitauth": "portal:./config/eslint-config-bitauth"
   }

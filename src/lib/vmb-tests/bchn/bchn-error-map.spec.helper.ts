@@ -37,6 +37,8 @@ export const libauthErrorPrefixToBchnErrorStandard: {
   excessiveLooping: '',
   excessiveOperationCost:
     'mandatory-script-verify-flag-failed (VM cost limit exceeded)',
+  excessiveOperationCostOpPow:
+    'mandatory-script-verify-flag-failed (VM cost limit exceeded)',
   failedVerify:
     'mandatory-script-verify-flag-failed (Script failed an OP_EQUALVERIFY operation)',
   incompatibleLocktimeType: '',
@@ -158,6 +160,8 @@ export const libauthErrorPrefixToBchnErrorNonstandard: {
     'mandatory-script-verify-flag-failed (Hash iteration limit exceeded)',
   excessiveLooping: '',
   excessiveOperationCost:
+    'mandatory-script-verify-flag-failed (VM cost limit exceeded)',
+  excessiveOperationCostOpPow:
     'mandatory-script-verify-flag-failed (VM cost limit exceeded)',
   failedVerify:
     'mandatory-script-verify-flag-failed (Script failed an OP_EQUALVERIFY operation)',

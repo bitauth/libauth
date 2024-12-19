@@ -1,5 +1,15 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.4
+
+### Patch Changes
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`477334a`](https://github.com/bitauth/libauth/commit/477334a2bf5c3a1d4b3a56ce7c17a29b0f65e969) Thanks [@bitjson](https://github.com/bitjson)! - Add -i flag to ignore warnings in gen:vmb_tests
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`477334a`](https://github.com/bitauth/libauth/commit/477334a2bf5c3a1d4b3a56ce7c17a29b0f65e969) Thanks [@bitjson](https://github.com/bitjson)! - Eliminate Repeated Bytes counter from BCH_2026_05
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`477334a`](https://github.com/bitauth/libauth/commit/477334a2bf5c3a1d4b3a56ce7c17a29b0f65e969) Thanks [@bitjson](https://github.com/bitjson)! - Expand VMB tests for OP_EVAL and loops
+
 ## 3.1.0-next.3
 
 ### Minor Changes

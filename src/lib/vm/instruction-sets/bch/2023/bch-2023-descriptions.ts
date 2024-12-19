@@ -105,7 +105,7 @@ export enum OpcodeDescriptionsBch2023 {
   OP_ELSE = 'Invert conditional evaluation within the current OP_IF ... OP_ENDIF block. (If evaluation is enabled, disable it, if it is disabled, enable it.)',
   OP_ENDIF = 'End the current OP_IF/OP_NOTIF ... OP_ENDIF block.',
   OP_VERIFY = 'Pop the top item from the stack and error if it isn\'t "truthy".',
-  OP_RETURN = 'Error when executed.',
+  OP_RETURN = 'Error when executed. (A.K.A. OP_FAIL or OP_REJECT)',
   OP_TOALTSTACK = 'Pop the top item from the stack and push it onto the alternate stack.',
   OP_FROMALTSTACK = 'Pop the top item from the alternate stack and push it onto the stack.',
   OP_2DROP = 'Pop the top 2 items from the stack and discard them.',

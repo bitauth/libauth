@@ -1,5 +1,10 @@
 {
-"m30e80":[43,34400,34401,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (nonP2SH)"],
-"06ty9d":[48,38400,38474,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH20)"],
-"xf7k9u":[48,38400,38498,"OP_BEGIN/OP_UNTIL: infinite loops fail after exhausting repeated bytes limit (P2SH32)"]
+"u9n5x2":[41,32800,32900,"Transaction validation benchmarks: infinite loop, packed inputs (nonP2SH)"],
+"lcavup":[41,32800,32802,"Transaction validation benchmarks: infinite loop of max duplication, packed inputs (nonP2SH)"],
+"k27gzm":[42,33600,33700,"OP_BEGIN/OP_UNTIL: infinite loop (nonP2SH)"],
+"lyy606":[46,36800,36872,"OP_BEGIN/OP_UNTIL: infinite loop (P2SH20)"],
+"4850dr":[46,36800,36896,"OP_BEGIN/OP_UNTIL: infinite loop (P2SH32)"],
+"m30e80":[43,34400,34401,"OP_BEGIN/OP_UNTIL: infinite loop, attempt success (nonP2SH)"],
+"06ty9d":[48,38400,38474,"OP_BEGIN/OP_UNTIL: infinite loop, attempt success (P2SH20)"],
+"xf7k9u":[48,38400,38498,"OP_BEGIN/OP_UNTIL: infinite loop, attempt success (P2SH32)"]
 }

@@ -1,4 +1,15 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+0rc4p4,"Transaction validation benchmarks: OP_EVAL infinite recursion (OP_ACTIVEBYTECODE) (nonP2SH)",211,48,2,1,41,32800,202,1,0,143,0,2,2,0
+rxs2cf,"Transaction validation benchmarks: OP_EVAL infinite recursion (OP_ACTIVEBYTECODE) (P2SH20)",216,67,2,1,46,36800,775,1,0,161,2,6,47,0
+6ypxgg,"Transaction validation benchmarks: OP_EVAL infinite recursion (OP_ACTIVEBYTECODE) (P2SH32)",216,79,2,1,46,36800,799,1,0,161,2,6,71,0
+8vah3q,"Transaction validation benchmarks: OP_EVAL infinite recursion, packed inputs (OP_ACTIVEBYTECODE) (nonP2SH)",99980,31697,2438,2437,41,32800,202,1,0,143,0,2,2,0
+hnjpku,"Transaction validation benchmarks: OP_EVAL infinite recursion (OP_DUP) (nonP2SH)",211,49,2,1,41,32800,304,1,0,143,0,3,4,0
+qmv4vf,"Transaction validation benchmarks: OP_EVAL infinite recursion (OP_DUP) (P2SH20)",217,67,2,1,47,37600,878,1,0,164,2,7,50,0
+kw4d9r,"Transaction validation benchmarks: OP_EVAL infinite recursion (OP_DUP) (P2SH32)",217,79,2,1,47,37600,902,1,0,164,2,7,74,0
+48x5xs,"Transaction validation benchmarks: OP_EVAL recursive OP_1SUB countdown (nonP2SH)",230,46,2,1,60,48000,615,1,0,210,0,6,15,0
+t795lm,"Transaction validation benchmarks: OP_EVAL recursive OP_1SUB countdown (P2SH20)",233,67,2,1,63,50400,1186,1,0,220,2,10,58,0
+narhym,"Transaction validation benchmarks: OP_EVAL recursive OP_1SUB countdown (P2SH32)",233,79,2,1,63,50400,1210,1,0,220,2,10,82,0
+28vkpt,"Transaction validation benchmarks: OP_EVAL recursive OP_1SUB countdown, packed inputs (nonP2SH)",99982,18329,1666,1665,60,48000,615,1,0,210,0,6,15,0
 3agzq4,"OP_EVAL: Works (nonP2SH)",213,45,2,1,43,34400,201,1,0,150,0,2,1,0
 upu678,"OP_EVAL: Works (P2SH20)",215,67,2,1,45,36000,771,1,0,157,2,6,43,0
 wg3zzk,"OP_EVAL: Works (P2SH32)",215,79,2,1,45,36000,795,1,0,157,2,6,67,0
@@ -17,15 +28,21 @@ zywwcx,"OP_EVAL: Can be nested (99x) (P2SH32)",479,79,2,1,307,245600,1055,7,0,10
 05fpsr,"OP_EVAL: Control stack limited to depth of 100 (nonP2SH)",481,45,2,1,309,247200,465,7,0,1081,0,2,265,0
 4xfv3c,"OP_EVAL: Control stack limited to depth of 100 (P2SH20)",483,67,2,1,311,248800,1035,7,0,1088,2,6,307,0
 c8frkn,"OP_EVAL: Control stack limited to depth of 100 (P2SH32)",483,79,2,1,311,248800,1059,7,0,1088,2,6,331,0
-g3u8du,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (nonP2SH)",211,337,2,1,41,32800,685,1,0,143,0,4,285,0
-4cvzpw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH20)",507,67,2,1,335,268000,1801,8,0,1172,6,8,617,0
-9782kk,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH32)",507,79,2,1,335,268000,1825,8,0,1172,6,8,641,0
-g3u8du,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (nonP2SH)",211,337,2,1,41,32800,685,1,0,143,0,4,285,0
-4cvzpw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH20)",507,67,2,1,335,268000,1801,8,0,1172,6,8,617,0
-9782kk,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100 (P2SH32)",507,79,2,1,335,268000,1825,8,0,1172,6,8,641,0
 g3u8du,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100 (nonP2SH)",211,337,2,1,41,32800,685,1,0,143,0,4,285,0
 4cvzpw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100 (P2SH20)",507,67,2,1,335,268000,1801,8,0,1172,6,8,617,0
 9782kk,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100 (P2SH32)",507,79,2,1,335,268000,1825,8,0,1172,6,8,641,0
+969edw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 100 (nonP2SH)",211,340,2,1,41,32800,688,1,0,143,0,4,288,0
+remuaw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 100 (P2SH20)",510,67,2,1,338,270400,1807,8,0,1183,6,8,623,0
+jc9wtt,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 100 (P2SH32)",510,79,2,1,338,270400,1831,8,0,1183,6,8,647,0
+v2d39t,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 99 (nonP2SH)",211,338,2,1,41,32800,686,1,0,143,0,4,286,0
+qx589f,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 99 (P2SH20)",508,67,2,1,336,268800,1803,8,0,1176,6,8,619,0
+fh7yd2,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 99 (P2SH32)",508,79,2,1,336,268800,1827,8,0,1176,6,8,643,0
+hu8gj8,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_NOTIF + OP_ELSE at 99 (nonP2SH)",211,340,2,1,41,32800,688,1,0,143,0,4,288,0
+xg22wp,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_NOTIF + OP_ELSE at 99 (P2SH20)",510,67,2,1,338,270400,1807,8,0,1183,6,8,623,0
+0lx4u0,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_NOTIF + OP_ELSE at 99 (P2SH32)",510,79,2,1,338,270400,1831,8,0,1183,6,8,647,0
+4kykcs,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, unexpected OP_ELSE (nonP2SH)",211,338,2,1,41,32800,686,1,0,143,0,4,286,0
+eut34t,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, unexpected OP_ELSE (P2SH20)",508,67,2,1,336,268800,1803,8,0,1176,6,8,619,0
+0wyxgr,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, unexpected OP_ELSE (P2SH32)",508,79,2,1,336,268800,1827,8,0,1176,6,8,643,0
 ekqyxw,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (nonP2SH)",211,339,2,1,41,32800,687,1,0,143,0,4,287,0
 sqwlkq,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (P2SH20)",509,67,2,1,337,269600,1805,8,0,1179,6,8,621,0
 ltlhp7,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, attempt "<OP_1> OP_EVAL" at 100 (P2SH32)",509,79,2,1,337,269600,1829,8,0,1179,6,8,645,0
@@ -59,9 +76,45 @@ tu46ks,"OP_EVAL: (2 2 (+)) 4 (=) (P2SH20)",223,67,2,1,53,42400,779,1,0,185,2,6,5
 3nh97u,"OP_EVAL: Concatenated instructions (nonP2SH)",213,51,2,1,43,34400,406,1,0,150,0,4,6,0
 x862er,"OP_EVAL: Concatenated instructions (P2SH20)",221,67,2,1,51,40800,982,1,0,178,2,8,54,0
 t0w3wf,"OP_EVAL: Concatenated instructions (P2SH32)",221,79,2,1,51,40800,1006,1,0,178,2,8,78,0
-mehmuj,"OP_EVAL: Exposes evaluated instructions to OP_ACTIVEBYTECODE (nonP2SH)",214,46,2,1,44,35200,202,1,0,154,0,2,2,0
-fmcfv5,"OP_EVAL: Exposes evaluated instructions to OP_ACTIVEBYTECODE (P2SH20)",217,67,2,1,47,37600,773,1,0,164,2,6,45,0
-za04h4,"OP_EVAL: Exposes evaluated instructions to OP_ACTIVEBYTECODE (P2SH32)",217,79,2,1,47,37600,797,1,0,164,2,6,69,0
+cyfcr7,"OP_EVAL: Exposes evaluated instructions to OP_ACTIVEBYTECODE (nonP2SH)",213,47,2,1,43,34400,302,1,0,150,0,3,2,0
+nyfu4a,"OP_EVAL: Exposes evaluated instructions to OP_ACTIVEBYTECODE (P2SH20)",217,67,2,1,47,37600,874,1,0,164,2,7,46,0
+tec35e,"OP_EVAL: Exposes evaluated instructions to OP_ACTIVEBYTECODE (P2SH32)",217,79,2,1,47,37600,898,1,0,164,2,7,70,0
 x2h6mx,"OP_EVAL: Fibonacci to 13 (nonP2SH)",212,65,2,1,42,33600,615,1,0,147,0,6,15,0
 qjd6nk,"OP_EVAL: Fibonacci to 13 (P2SH20)",234,67,2,1,64,51200,1205,1,0,224,2,10,77,0
 vcrwzq,"OP_EVAL: Fibonacci to 13 (P2SH32)",234,79,2,1,64,51200,1229,1,0,224,2,10,101,0
+075f4e,"OP_EVAL: OP_IF inside OP_EVAL (nonP2SH)",212,49,2,1,42,33600,304,1,0,147,0,3,4,0
+4m3c2h,"OP_EVAL: OP_IF inside OP_EVAL (P2SH20)",218,67,2,1,48,38400,878,1,0,168,2,7,50,0
+54au4h,"OP_EVAL: OP_IF inside OP_EVAL (P2SH32)",218,79,2,1,48,38400,902,1,0,168,2,7,74,0
+ae9wmq,"OP_EVAL: OP_IF inside OP_EVAL (reject) (nonP2SH)",212,49,2,1,42,33600,303,1,0,147,0,3,3,0
+6n6hn5,"OP_EVAL: OP_IF inside OP_EVAL (reject) (P2SH20)",218,67,2,1,48,38400,877,1,0,168,2,7,49,0
+yzuyvl,"OP_EVAL: OP_IF inside OP_EVAL (reject) (P2SH32)",218,79,2,1,48,38400,901,1,0,168,2,7,73,0
+d2ta6z,"OP_EVAL: OP_IF + OP_ELSE inside OP_EVAL (nonP2SH)",212,51,2,1,42,33600,305,1,0,147,0,3,5,0
+gueyc9,"OP_EVAL: OP_IF + OP_ELSE inside OP_EVAL (P2SH20)",220,67,2,1,50,40000,881,1,0,175,2,7,53,0
+zsqpaz,"OP_EVAL: OP_IF + OP_ELSE inside OP_EVAL (P2SH32)",220,79,2,1,50,40000,905,1,0,175,2,7,77,0
+warke5,"OP_EVAL: OP_IF + OP_ELSE inside OP_EVAL (reject) (nonP2SH)",212,51,2,1,42,33600,306,1,0,147,0,3,6,0
+67fxs3,"OP_EVAL: OP_IF + OP_ELSE inside OP_EVAL (reject) (P2SH20)",220,67,2,1,50,40000,882,1,0,175,2,7,54,0
+lkfz92,"OP_EVAL: OP_IF + OP_ELSE inside OP_EVAL (reject) (P2SH32)",220,79,2,1,50,40000,906,1,0,175,2,7,78,0
+tkkqar,"OP_EVAL: OP_NOTIF inside OP_EVAL (nonP2SH)",212,49,2,1,42,33600,303,1,0,147,0,3,3,0
+uc6vj0,"OP_EVAL: OP_NOTIF inside OP_EVAL (P2SH20)",218,67,2,1,48,38400,877,1,0,168,2,7,49,0
+xkraa3,"OP_EVAL: OP_NOTIF inside OP_EVAL (P2SH32)",218,79,2,1,48,38400,901,1,0,168,2,7,73,0
+60vptl,"OP_EVAL: OP_NOTIF inside OP_EVAL (reject) (nonP2SH)",212,49,2,1,42,33600,304,1,0,147,0,3,4,0
+4nl8g8,"OP_EVAL: OP_NOTIF inside OP_EVAL (reject) (P2SH20)",218,67,2,1,48,38400,878,1,0,168,2,7,50,0
+gqt2kq,"OP_EVAL: OP_NOTIF inside OP_EVAL (reject) (P2SH32)",218,79,2,1,48,38400,902,1,0,168,2,7,74,0
+2w4jwa,"OP_EVAL: OP_NOTIF + OP_ELSE inside OP_EVAL (nonP2SH)",212,51,2,1,42,33600,306,1,0,147,0,3,6,0
+fk4efs,"OP_EVAL: OP_NOTIF + OP_ELSE inside OP_EVAL (P2SH20)",220,67,2,1,50,40000,882,1,0,175,2,7,54,0
+wufcvg,"OP_EVAL: OP_NOTIF + OP_ELSE inside OP_EVAL (P2SH32)",220,79,2,1,50,40000,906,1,0,175,2,7,78,0
+dp8uga,"OP_EVAL: OP_NOTIF + OP_ELSE inside OP_EVAL (reject) (nonP2SH)",212,51,2,1,42,33600,305,1,0,147,0,3,5,0
+3786fu,"OP_EVAL: OP_NOTIF + OP_ELSE inside OP_EVAL (reject) (P2SH20)",220,67,2,1,50,40000,881,1,0,175,2,7,53,0
+9gp6ae,"OP_EVAL: OP_NOTIF + OP_ELSE inside OP_EVAL (reject) (P2SH32)",220,79,2,1,50,40000,905,1,0,175,2,7,77,0
+e6nfwa,"OP_EVAL: Unclosed OP_IF inside OP_EVAL (nonP2SH)",212,48,2,1,42,33600,303,1,0,147,0,3,3,0
+wjlm5m,"OP_EVAL: Unclosed OP_IF inside OP_EVAL (P2SH20)",217,67,2,1,47,37600,876,1,0,164,2,7,48,0
+5phu6t,"OP_EVAL: Unclosed OP_IF inside OP_EVAL (P2SH32)",217,79,2,1,47,37600,900,1,0,164,2,7,72,0
+ufx9ju,"OP_EVAL: Unclosed OP_IF inside OP_EVAL, attempt outer close (nonP2SH)",212,49,2,1,42,33600,303,1,0,147,0,3,3,0
+rpvfd0,"OP_EVAL: Unclosed OP_IF inside OP_EVAL, attempt outer close (P2SH20)",218,67,2,1,48,38400,877,1,0,168,2,7,49,0
+ysngeg,"OP_EVAL: Unclosed OP_IF inside OP_EVAL, attempt outer close (P2SH32)",218,79,2,1,48,38400,901,1,0,168,2,7,73,0
+fgy2kw,"OP_EVAL: Single OP_IF inside OP_EVAL (nonP2SH)",213,47,2,1,43,34400,403,1,0,150,0,4,3,0
+ujl9dm,"OP_EVAL: Single OP_IF inside OP_EVAL (P2SH20)",217,67,2,1,47,37600,975,1,0,164,2,8,47,0
+9xnvxr,"OP_EVAL: Single OP_IF inside OP_EVAL (P2SH32)",217,79,2,1,47,37600,999,1,0,164,2,8,71,0
+7gup3k,"OP_EVAL: Single OP_IF inside OP_EVAL, attempt outer close (nonP2SH)",213,48,2,1,43,34400,403,1,0,150,0,4,3,0
+pe55yz,"OP_EVAL: Single OP_IF inside OP_EVAL, attempt outer close (P2SH20)",218,67,2,1,48,38400,976,1,0,168,2,8,48,0
+780e3e,"OP_EVAL: Single OP_IF inside OP_EVAL, attempt outer close (P2SH32)",218,79,2,1,48,38400,1000,1,0,168,2,8,72,0

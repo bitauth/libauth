@@ -1,8 +1,6 @@
 import type { AuthenticationProgramStateBch2026 } from '../../../../lib.js';
 import {
   applyError,
-  ConsensusCommon,
-  encodeAuthenticationInstructions,
   executionIsActive,
   pushToControlStack,
   stackItemIsTruthy,
@@ -37,24 +35,6 @@ export const opUntil = <State extends AuthenticationProgramStateBch2026>(
           state,
           AuthenticationErrorBch2026.unexpectedUntilMissingEndIf,
         );
-  }
-
-  // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-  state.repeatedBytes += encodeAuthenticationInstructions(
-    state.instructions.slice(controlValue, state.ip),
-  ).length;
-  const activeBytecodeLength = encodeAuthenticationInstructions(
-    state.instructions,
-  ).length;
-  if (
-    state.repeatedBytes + activeBytecodeLength >
-    ConsensusCommon.maximumBytecodeLength
-  ) {
-    return applyError(
-      state,
-      AuthenticationErrorBch2026.excessiveLooping,
-      `Repeated bytes: ${state.repeatedBytes}; active bytecode length: ${activeBytecodeLength}`,
-    );
   }
   return useOneStackItem(state, (nextState, [item]) => {
     if (stackItemIsTruthy(item)) {

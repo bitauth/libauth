@@ -188,6 +188,7 @@ export const generateVmbTestsFromSourceFile = async (
     benchmark = false,
     console = defaultConsole,
     logPrefix = '',
+    ignoreWarnings = false,
   }: {
     benchmark?: boolean;
     console?: {
@@ -198,6 +199,7 @@ export const generateVmbTestsFromSourceFile = async (
       // eslint-disable-next-line functional/no-return-void
       warn: (...args: unknown[]) => void;
     };
+    ignoreWarnings?: boolean;
     logPrefix?: string;
   } = {},
 ): Promise<{ issues: string[]; severity: 'error' | 'warn' }> => {
@@ -680,7 +682,7 @@ This is a vulnerability in one of the implementations, please confidentially rep
 
     const issueMessages = Object.entries(issues)
       .filter(([_, occurrences]) =>
-        hideWarnings
+        hideWarnings || ignoreWarnings
           ? occurrences.some((occurrence) => occurrence[2] === 'error')
           : true,
       )
@@ -860,7 +862,13 @@ process.env['FORCE_COLOR'] = '3';
 const cwd = dirname(fileURLToPath(import.meta.url));
 export const createWorkers = (
   count: number,
-  benchmark: boolean,
+  {
+    benchmark,
+    ignoreWarnings,
+  }: {
+    benchmark: boolean;
+    ignoreWarnings: boolean;
+  },
 ): WorkerWrapper[] =>
   range(count).map((index) => {
     const worker = new Worker(
@@ -868,7 +876,7 @@ export const createWorkers = (
       {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         env: { ...process.env, FORCE_COLOR: '3' },
-        workerData: { benchmark, index },
+        workerData: { benchmark, ignoreWarnings, index },
       },
     );
     // eslint-disable-next-line functional/no-return-void
@@ -902,7 +910,7 @@ export const createWorkers = (
 // eslint-disable-next-line complexity
 export const generateVmbTests = async (
   workers?: WorkerWrapper[],
-  { benchmark = false, deleteUnexpected = false } = {},
+  { benchmark = false, deleteUnexpected = false, ignoreWarnings = false } = {},
 ) => {
   const bases = getSources().map((name) => name.replace('.ts', ''));
   const suffixes = [
@@ -992,7 +1000,7 @@ export const generateVmbTests = async (
         const { issues: fileIssues } = await generateVmbTestsFromSourceFile(
           file,
           hash,
-          { benchmark },
+          { benchmark, ignoreWarnings },
         );
         saveOnSuccess(file, hash, fileIssues);
       }),

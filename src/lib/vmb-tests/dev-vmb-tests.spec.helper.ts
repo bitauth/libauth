@@ -11,19 +11,39 @@ import {
 } from './generate-vmb-tests.spec.helper.js';
 
 const [, , flags] = process.argv;
+const showHelp = flags?.includes('help') ?? false;
 const benchmark = flags?.includes('b') ?? false;
 const watchFiles = flags?.includes('w') ?? false;
 const deleteUnexpected = flags?.includes('d') ?? false;
+const ignoreWarnings = flags?.includes('i') ?? false;
 
-console.log(`Benchmarking ${benchmark ? 'enabled' : 'disabled'}.`);
+if (showHelp) {
+  console.log(`Usage examples:
+       yarn gen:vmb_tests         # re-generate outdated VMB tests
+       yarn gen:vmb_tests -b      # enable benchmarks           (alias: yarn bench:vmb_tests)
+       yarn gen:vmb_tests -w      # re-generate on watch task   (alias: yarn dev:vmb_tests)
+       yarn gen:vmb_tests -wb     # watch + bench            (alias: dev:vmb_tests:bench)
+       yarn gen:vmb_tests -d      # perform any deletions (dry-run happens automatically)
+       yarn gen:vmb_tests -i      # ignore generation warnings
+       yarn gen:vmb_tests -wi     # watch + ignore warnings
+       yarn gen:vmb_tests --help  # show this message
+`);
+  process.exit(0);
+}
+
+console.log(
+  `Benchmarking ${benchmark ? 'enabled' : 'disabled'}. ${
+    ignoreWarnings ? '\nWarnings are disabled.' : ''
+  }`,
+);
 
 const main = async () => {
   const availableCPUs = cpus().length;
   const most = 0.5;
   const workerCount = Math.floor(most * availableCPUs);
   console.log(`Spawning ${workerCount} workers...`);
-  const workers = createWorkers(workerCount, benchmark);
-  const settings = { benchmark, deleteUnexpected };
+  const settings = { benchmark, deleteUnexpected, ignoreWarnings };
+  const workers = createWorkers(workerCount, settings);
   await generateVmbTests(workers, settings);
   if (watchFiles) {
     const watcher = watch(compiledDir);

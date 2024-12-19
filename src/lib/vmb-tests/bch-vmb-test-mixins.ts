@@ -142,6 +142,7 @@ const minSats = 10_000;
  * under test
  */
 export const packedTransactionScenario = (
+  // TODO: `nop2sh` -> `p2s`
   using: 'nop2sh' | 'p2sh20',
   repeatCount: number,
 ): WalletTemplateScenario => ({

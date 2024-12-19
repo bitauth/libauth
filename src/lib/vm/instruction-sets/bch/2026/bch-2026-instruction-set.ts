@@ -98,11 +98,6 @@ export const createInstructionSetBch2026 = <
       return state.ip < state.instructions.length;
     },
     /* eslint-enable functional/no-loop-statements, functional/immutable-data, functional/no-expression-statements */
-    initialize: (program) =>
-      ({
-        ...instructionSet.initialize?.(program),
-        repeatedBytes: 0,
-      }) as Partial<AuthenticationProgramStateBch2026> as Partial<AuthenticationProgramState>,
     operations: {
       ...instructionSet.operations,
       [OpcodesBch2026.OP_EVAL]: opEval,

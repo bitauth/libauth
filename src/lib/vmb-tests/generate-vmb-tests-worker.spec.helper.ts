@@ -11,8 +11,9 @@ if (parentPort === null) {
   throw new Error(`This script must be run via a Worker.`);
 }
 
-const { benchmark, index } = workerData as {
+const { benchmark, ignoreWarnings, index } = workerData as {
   benchmark: boolean;
+  ignoreWarnings: boolean;
   index: number;
 };
 const logPrefix = `Worker ${index}: `;
@@ -43,6 +44,7 @@ const generateFile = async (file: string, hash: string) => {
     {
       benchmark,
       console,
+      ignoreWarnings,
       logPrefix,
     },
   );

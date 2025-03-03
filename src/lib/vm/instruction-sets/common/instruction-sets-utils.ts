@@ -482,7 +482,10 @@ export const isVmNumberError = (
 ): value is VmNumberError =>
   value === VmNumberError.outOfRange || value === VmNumberError.requiresMinimal;
 
-const typicalMaximumVmNumberByteLength = 8;
+/**
+ * Zero means any maximum length checks on VM numbers are disabled.
+ */
+const typicalMaximumVmNumberByteLength = 0;
 
 /**
  * This method attempts to decode a VM Number, a format in which numeric values
@@ -512,7 +515,8 @@ export const vmNumberToBigInt = (
     requireMinimalEncoding = true,
   }: {
     /**
-     * The maximum valid number of bytes in a VM Number.
+     * The maximum valid number of bytes in a VM Number. Set to `0` to disable
+     * this check.
      */
     maximumVmNumberByteLength?: number;
     /**
@@ -528,7 +532,7 @@ export const vmNumberToBigInt = (
   if (bytes.length === 0) {
     return 0n;
   }
-  if (bytes.length > maximumVmNumberByteLength) {
+  if (maximumVmNumberByteLength && bytes.length > maximumVmNumberByteLength) {
     return VmNumberError.outOfRange;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

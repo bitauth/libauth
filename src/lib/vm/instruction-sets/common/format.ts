@@ -143,7 +143,7 @@ export const createOpBin2Num =
       state,
       (nextState, [target]) => {
         const minimallyEncoded = bigIntToVmNumber(target);
-        return minimallyEncoded.length > maximumVmNumberByteLength
+        return maximumVmNumberByteLength && minimallyEncoded.length > maximumVmNumberByteLength
           ? applyError(
               nextState,
               AuthenticationErrorCommon.exceededMaximumVmNumberByteLength,

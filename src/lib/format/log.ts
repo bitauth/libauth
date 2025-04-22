@@ -114,3 +114,37 @@ export const stringifyTestVector = (
     .replace(uint8ArrayRegex, "hexToBin('$1')")
     .replace(bigIntRegex, '$1n');
 };
+
+/**
+ * Elide words and hex strings in the given `text` at `maxLength`. Max length
+ * defaults to `148`, the maximum hex-encoded length (with `0x` prefix) of most
+ * ECDSA signatures.
+ *
+ * Hex strings include a count of total bytes, e.g.
+ * `0x01 … (512 total bytes) … 10101`. (Note that the surrounding spacing
+ * decreases the incidences of line breaks within the message.)
+ *
+ * @param text - the text to process
+ * @param maxLength - the maximum length of each word in the resulting text
+ * @returns
+ */
+export const elideWordsAndHexAtLength = (
+  text: string,
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  maxLength = 148,
+) =>
+  text.replace(/\S+/gu, (w) => {
+    if (w.length < maxLength) return w;
+    const prefix = '0x'.length;
+    const byte = 2;
+    const match = /^(?:<)?(?<hex>0x[0-9A-Fa-f]+)(?:>)?$/gu.exec(w);
+    const middle = match
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        ` … (${(match.groups!['hex']!.length - prefix) / byte} total bytes) … `
+      : '…';
+    const keep = maxLength - middle.length;
+    const half = 2;
+    const front = Math.floor(keep / half);
+    const back = keep - front;
+    return `${w.slice(0, front)}${middle}${w.slice(w.length - back)}`;
+  });

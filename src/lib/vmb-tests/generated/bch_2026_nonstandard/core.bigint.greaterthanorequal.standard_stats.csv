@@ -1,0 +1,94 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+6l49gs,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,565,2,1,42,33600,1016,1,0,21,0,5,516,0
+j5z270,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4149,2,1,42,33600,4600,1,0,21,0,5,4100,0
+dva55f,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8245,2,1,42,33600,8696,1,0,21,0,5,8196,0
+yylxtc,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,572,2,1,42,33600,1023,1,0,21,0,5,523,0
+elpff4,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4156,2,1,42,33600,4607,1,0,21,0,5,4107,0
+7szw7x,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8252,2,1,42,33600,8703,1,0,21,0,5,8203,0
+kcuwcx,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,628,2,1,42,33600,1079,1,0,21,0,5,579,0
+v4c3tz,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4212,2,1,42,33600,4663,1,0,21,0,5,4163,0
+xzxl2t,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8308,2,1,42,33600,8759,1,0,21,0,5,8259,0
+439zpw,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,565,2,1,42,33600,1014,1,0,21,0,5,514,0
+7d7ms0,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,572,2,1,42,33600,1021,1,0,21,0,5,521,0
+ljkdu5,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,628,2,1,42,33600,1077,1,0,21,0,5,577,0
+0zzmuj,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,1078,2,1,42,33600,1527,1,0,21,0,5,1027,0
+t9grpr,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4662,2,1,42,33600,5111,1,0,21,0,5,4611,0
+jdmcvm,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8758,2,1,42,33600,9207,1,0,21,0,5,8707,0
+nkuvh8,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,4149,2,1,42,33600,4598,1,0,21,0,5,4098,0
+qzfle6,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,4156,2,1,42,33600,4605,1,0,21,0,5,4105,0
+2nzp5y,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,4212,2,1,42,33600,4661,1,0,21,0,5,4161,0
+xqwya7,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,4662,2,1,42,33600,5109,1,0,21,0,5,4609,0
+mxf6g3,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,8246,2,1,42,33600,8695,1,0,21,0,5,8195,0
+4tjc0h,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,8245,2,1,42,33600,8694,1,0,21,0,5,8194,0
+af4w94,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,8252,2,1,42,33600,8701,1,0,21,0,5,8201,0
+pd2eye,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,8308,2,1,42,33600,8757,1,0,21,0,5,8257,0
+fjzpvp,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,8758,2,1,42,33600,9205,1,0,21,0,5,8705,0
+49htsd,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,565,2,1,42,33600,1014,1,0,21,0,5,514,0
+gqnxx3,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4149,2,1,42,33600,4598,1,0,21,0,5,4098,0
+jmstww,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8245,2,1,42,33600,8694,1,0,21,0,5,8194,0
+lpszgd,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,572,2,1,42,33600,1021,1,0,21,0,5,521,0
+r4m0lh,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4156,2,1,42,33600,4605,1,0,21,0,5,4105,0
+4vns5e,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8252,2,1,42,33600,8701,1,0,21,0,5,8201,0
+lcznr8,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,628,2,1,42,33600,1077,1,0,21,0,5,577,0
+vqez0d,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4212,2,1,42,33600,4661,1,0,21,0,5,4161,0
+4wrs28,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8308,2,1,42,33600,8757,1,0,21,0,5,8257,0
+e5sey6,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,565,2,1,42,33600,1016,1,0,21,0,5,516,0
+8gdwtz,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,572,2,1,42,33600,1023,1,0,21,0,5,523,0
+v9sdtp,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,628,2,1,42,33600,1079,1,0,21,0,5,579,0
+0d377x,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,1078,2,1,42,33600,1527,1,0,21,0,5,1027,0
+kh0xj7,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4662,2,1,42,33600,5109,1,0,21,0,5,4609,0
+rlv6vw,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8758,2,1,42,33600,9205,1,0,21,0,5,8705,0
+y3vyfs,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,4149,2,1,42,33600,4600,1,0,21,0,5,4100,0
+f2hsrp,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,4156,2,1,42,33600,4607,1,0,21,0,5,4107,0
+dg28j7,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,4212,2,1,42,33600,4663,1,0,21,0,5,4163,0
+2qxreh,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,4662,2,1,42,33600,5111,1,0,21,0,5,4611,0
+gzmypv,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,8246,2,1,42,33600,8695,1,0,21,0,5,8195,0
+07a0v4,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,8245,2,1,42,33600,8696,1,0,21,0,5,8196,0
+tx5ux0,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,8252,2,1,42,33600,8703,1,0,21,0,5,8203,0
+wtw9m7,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,8308,2,1,42,33600,8759,1,0,21,0,5,8259,0
+t46vm6,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,8758,2,1,42,33600,9207,1,0,21,0,5,8707,0
+qnrd50,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,564,2,1,42,33600,1014,1,0,21,0,5,514,0
+3zrmc9,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4148,2,1,42,33600,4598,1,0,21,0,5,4098,0
+4wannu,"BigInt: OP_GREATERTHANOREQUAL 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8244,2,1,42,33600,8694,1,0,21,0,5,8194,0
+kp3w4s,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,572,2,1,42,33600,1021,1,0,21,0,5,521,0
+yqj0vl,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4156,2,1,42,33600,4605,1,0,21,0,5,4105,0
+s36hfr,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8252,2,1,42,33600,8701,1,0,21,0,5,8201,0
+nd7wgp,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,628,2,1,42,33600,1077,1,0,21,0,5,577,0
+dmehsr,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4212,2,1,42,33600,4661,1,0,21,0,5,4161,0
+lcvy55,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8308,2,1,42,33600,8757,1,0,21,0,5,8257,0
+5zgwne,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,564,2,1,42,33600,1016,1,0,21,0,5,516,0
+vwux20,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,572,2,1,42,33600,1023,1,0,21,0,5,523,0
+0f4p3k,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,628,2,1,42,33600,1079,1,0,21,0,5,579,0
+69t234,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,1078,2,1,42,33600,1527,1,0,21,0,5,1027,0
+gw0vpj,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4662,2,1,42,33600,5109,1,0,21,0,5,4609,0
+ywdxh2,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8758,2,1,42,33600,9205,1,0,21,0,5,8705,0
+8xww3s,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,4148,2,1,42,33600,4600,1,0,21,0,5,4100,0
+yt3ee0,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,4156,2,1,42,33600,4607,1,0,21,0,5,4107,0
+3qmt3f,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,4212,2,1,42,33600,4663,1,0,21,0,5,4163,0
+zzla2v,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,4662,2,1,42,33600,5111,1,0,21,0,5,4611,0
+v2ck4d,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,8246,2,1,42,33600,8695,1,0,21,0,5,8195,0
+9queun,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,8244,2,1,42,33600,8696,1,0,21,0,5,8196,0
+r5ezn4,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,8252,2,1,42,33600,8703,1,0,21,0,5,8203,0
+7axd6h,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,8308,2,1,42,33600,8759,1,0,21,0,5,8259,0
+ljwap4,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,8758,2,1,42,33600,9207,1,0,21,0,5,8707,0
+tvvpfp,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,572,2,1,42,33600,1021,1,0,21,0,5,521,0
+equ0a5,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,4156,2,1,42,33600,4605,1,0,21,0,5,4105,0
+azp0ec,"BigInt: OP_GREATERTHANOREQUAL 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,8252,2,1,42,33600,8701,1,0,21,0,5,8201,0
+hr29h3,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,628,2,1,42,33600,1077,1,0,21,0,5,577,0
+f6jluc,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,4212,2,1,42,33600,4661,1,0,21,0,5,4161,0
+uuz2q3,"BigInt: OP_GREATERTHANOREQUAL 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,8308,2,1,42,33600,8757,1,0,21,0,5,8257,0
+2tm3gj,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,564,2,1,42,33600,1016,1,0,21,0,5,516,0
+6z7kfm,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,572,2,1,42,33600,1023,1,0,21,0,5,523,0
+vn6q99,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,628,2,1,42,33600,1079,1,0,21,0,5,579,0
+4jpvul,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,1078,2,1,42,33600,1527,1,0,21,0,5,1027,0
+en3v3p,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,4662,2,1,42,33600,5109,1,0,21,0,5,4609,0
+h2dqxm,"BigInt: OP_GREATERTHANOREQUAL 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,8758,2,1,42,33600,9205,1,0,21,0,5,8705,0
+jemwx4,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,4148,2,1,42,33600,4600,1,0,21,0,5,4100,0
+nuad76,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,4156,2,1,42,33600,4607,1,0,21,0,5,4107,0
+v6n9y2,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,4212,2,1,42,33600,4663,1,0,21,0,5,4163,0
+p27cma,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,4662,2,1,42,33600,5111,1,0,21,0,5,4611,0
+5qt2j4,"BigInt: OP_GREATERTHANOREQUAL 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,8246,2,1,42,33600,8695,1,0,21,0,5,8195,0
+g9wz2q,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,8244,2,1,42,33600,8696,1,0,21,0,5,8196,0
+frp348,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,8252,2,1,42,33600,8703,1,0,21,0,5,8203,0
+ddl30n,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,8308,2,1,42,33600,8759,1,0,21,0,5,8259,0
+f3nmeq,"BigInt: OP_GREATERTHANOREQUAL 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,8758,2,1,42,33600,9207,1,0,21,0,5,8707,0

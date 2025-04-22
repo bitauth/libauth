@@ -7,14 +7,14 @@ export default [
   [
     'BigInt unary operation limits',
     [
-      [`<$(<0xff> <11> LIB_REPEAT)>`, '<0> <9988> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT', 'Maximum VM number (max op cost density)', ['2023_invalid', 'nop2sh_ignore']],
-      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_1SUB', 'Subtract one from maximum VM number', ['2023_invalid', 'nop2sh_ignore']],
-      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_ABS', 'OP_ABS maximum VM number', ['2023_invalid', 'nop2sh_ignore']],
-      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_1ADD', 'Add one to maximum VM number', ['invalid', 'nop2sh_ignore']],
-      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE', 'Negate maximum VM number', ['2023_invalid', 'nop2sh_ignore']],
-      [`<$(<0xff> <59> LIB_REPEAT)>`, '<0> <9940> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE OP_1ADD', 'Add one to minimum VM number', ['2023_invalid', 'nop2sh_ignore']],
-      [`<$(<0xff> <59> LIB_REPEAT)>`, '<0> <9940> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE OP_ABS', 'OP_ABS minimum VM number', ['2023_invalid', 'nop2sh_ignore']],
-      [`<$(<0xff> <59> LIB_REPEAT)>`, '<0> <9940> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE OP_1SUB', 'Subtract one from minimum VM number', ['invalid', 'nop2sh_ignore']],
+      [`<$(<0xff> <11> LIB_REPEAT)>`, '<0> <9988> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT', 'Maximum VM number (max op cost density)', ['2023_invalid', 'p2s_ignore']],
+      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_1SUB', 'Subtract one from maximum VM number', ['2023_invalid', 'p2s_ignore']],
+      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_ABS', 'OP_ABS maximum VM number', ['2023_invalid', 'p2s_ignore']],
+      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_1ADD', 'Add one to maximum VM number', ['invalid', 'p2s_ignore']],
+      [`<$(<0xff> <35> LIB_REPEAT)>`, '<0> <9964> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE', 'Negate maximum VM number', ['2023_invalid', 'p2s_ignore']],
+      [`<$(<0xff> <59> LIB_REPEAT)>`, '<0> <9940> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE OP_1ADD', 'Add one to minimum VM number', ['2023_invalid', 'p2s_ignore']],
+      [`<$(<0xff> <59> LIB_REPEAT)>`, '<0> <9940> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE OP_ABS', 'OP_ABS minimum VM number', ['2023_invalid', 'p2s_ignore']],
+      [`<$(<0xff> <59> LIB_REPEAT)>`, '<0> <9940> OP_NUM2BIN <0x8000> OP_CAT OP_1SUB OP_CAT OP_NEGATE OP_1SUB', 'Subtract one from minimum VM number', ['invalid', 'p2s_ignore']],
 
       ...setExpectedResults(
         generateTestCases(

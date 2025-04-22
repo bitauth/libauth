@@ -77,13 +77,17 @@ export const readLittleEndianNumber = (
   position: ReadPosition,
   length: typeof uint8Bytes | typeof uint16Bytes | typeof uint32Bytes,
 ) => {
-  const view = new DataView(position.bin.buffer, position.index, length);
+  const view = new DataView(
+    position.bin.buffer,
+    position.bin.byteOffset,
+    position.bin.byteLength,
+  );
   const readAsLittleEndian = true;
   return length === uint8Bytes
-    ? view.getUint8(0)
+    ? view.getUint8(position.index)
     : length === uint16Bytes
-      ? view.getUint16(0, readAsLittleEndian)
-      : view.getUint32(0, readAsLittleEndian);
+      ? view.getUint16(position.index, readAsLittleEndian)
+      : view.getUint32(position.index, readAsLittleEndian);
 };
 
 /**
@@ -941,20 +945,18 @@ export const isStandardOutputBytecodePre2023 = (lockingBytecode: Uint8Array) =>
  * P2SH32 activation).
  * @param lockingBytecode - the locking bytecode to test for standardness
  */
-export const isStandardOutputBytecode = (lockingBytecode: Uint8Array) =>
+export const isStandardOutputBytecode2023 = (lockingBytecode: Uint8Array) =>
   isStandardOutputBytecodePre2023(lockingBytecode) ||
   isPayToScriptHash32(lockingBytecode);
 
 // eslint-disable-next-line complexity
-export const isStandardUtxoBytecode = (lockingBytecode: Uint8Array) =>
+export const isStandardUtxoBytecode2023 = (lockingBytecode: Uint8Array) =>
   isPayToPublicKeyHash(lockingBytecode) ||
   isPayToScriptHash20(lockingBytecode) ||
   isPayToPublicKey(lockingBytecode) ||
   isArbitraryDataOutput(lockingBytecode) ||
   isSimpleMultisig(lockingBytecode) !== false ||
   isPayToScriptHash32(lockingBytecode);
-
-export const isStandardOutputBytecode2023 = isStandardOutputBytecode;
 
 const enum SegWit {
   minimumLength = 4,

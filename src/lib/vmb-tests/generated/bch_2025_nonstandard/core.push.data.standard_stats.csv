@@ -1,12 +1,12 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-xzn37n,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes (nonP2SH)",289,44,2,1,119,95200,176,3,0,59,0,1,76,0
-q2r4e2,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes (nonP2SH)",470,44,2,1,298,238400,355,7,0,149,0,1,255,0
-mcdtmc,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes (nonP2SH)",472,44,2,1,300,240000,356,7,0,150,0,1,256,0
-cagp4c,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes produces expected stack item (nonP2SH)",211,127,2,1,41,32800,579,1,0,20,0,5,79,0
-dscwpd,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes produces expected stack item (nonP2SH)",211,127,2,1,41,32800,579,1,0,20,0,5,79,0
-xcyp3t,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes produces expected stack item (nonP2SH)",211,309,2,1,41,32800,760,1,0,20,0,5,260,0
-ruhrpq,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes produces expected stack item (nonP2SH)",211,309,2,1,41,32800,760,1,0,20,0,5,260,0
-m0vklc,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes produces expected stack item (nonP2SH)",211,311,2,1,41,32800,761,1,0,20,0,5,261,0
-e6tfx8,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes produces expected stack item (nonP2SH)",211,311,2,1,41,32800,761,1,0,20,0,5,261,0
-atxaha,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (nonP2SH)",211,130,2,1,41,32800,880,1,0,20,0,8,80,0
-gs5rlf,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (nonP2SH)",211,314,2,1,41,32800,1062,1,0,20,0,8,262,0
+xzn37n,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes (P2S)",289,44,2,1,119,95200,176,3,0,59,0,1,76,0
+q2r4e2,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes (P2S)",470,44,2,1,298,238400,355,7,0,149,0,1,255,0
+mcdtmc,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes (P2S)",472,44,2,1,300,240000,356,7,0,150,0,1,256,0
+cagp4c,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,579,1,0,20,0,5,79,0
+dscwpd,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,579,1,0,20,0,5,79,0
+xcyp3t,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes produces expected stack item (P2S)",211,309,2,1,41,32800,760,1,0,20,0,5,260,0
+ruhrpq,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes produces expected stack item (P2S)",211,309,2,1,41,32800,760,1,0,20,0,5,260,0
+m0vklc,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes produces expected stack item (P2S)",211,311,2,1,41,32800,761,1,0,20,0,5,261,0
+e6tfx8,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes produces expected stack item (P2S)",211,311,2,1,41,32800,761,1,0,20,0,5,261,0
+atxaha,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (P2S)",211,130,2,1,41,32800,880,1,0,20,0,8,80,0
+gs5rlf,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (P2S)",211,314,2,1,41,32800,1062,1,0,20,0,8,262,0

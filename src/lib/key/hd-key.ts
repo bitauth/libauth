@@ -526,18 +526,15 @@ export const decodeHdKeyUnchecked = (
   const chainCodeIndex = 13;
   const keyDataIndex = 45;
 
-  const version = new DataView(
+  const view = new DataView(
     decoded.buffer,
     decoded.byteOffset,
-    depthIndex,
-  ).getUint32(0);
-  const depth = decoded[depthIndex];
+    decoded.byteLength,
+  );
+  const version = view.getUint32(0, false);
+  const depth = view.getUint8(depthIndex);
   const parentFingerprint = decoded.slice(fingerprintIndex, childIndexIndex);
-  const childIndex = new DataView(
-    decoded.buffer,
-    decoded.byteOffset + childIndexIndex,
-    decoded.byteOffset + chainCodeIndex,
-  ).getUint32(0);
+  const childIndex = view.getUint32(childIndexIndex, false);
   const chainCode = decoded.slice(chainCodeIndex, keyDataIndex);
   const keyData = decoded.slice(
     keyDataIndex,

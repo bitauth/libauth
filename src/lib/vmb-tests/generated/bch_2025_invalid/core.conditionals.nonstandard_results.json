@@ -445,5 +445,11 @@
 "pqlkk2":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100.",
 "4updhy":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100.",
 "ydt5sv":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100.",
-"6ffhwj":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100."
+"6ffhwj":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100.",
+"7y55wj":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"27tjfx":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"kx0rh5":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"ldd4dj":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"szft5e":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"3ek08n":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation."
 }

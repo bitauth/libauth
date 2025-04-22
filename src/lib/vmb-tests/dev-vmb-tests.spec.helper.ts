@@ -54,7 +54,7 @@ const main = async () => {
         event.filename.endsWith('.js')
       ) {
         console.log(`File changed: ${event.filename}`);
-        await generateVmbTests(workers, settings);
+        await generateVmbTests(workers, settings, event.filename);
       }
     }
   }

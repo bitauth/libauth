@@ -1,6 +1,10 @@
 import test from 'ava';
 
-import { stringifyTestVector, vmbTestGroupToVmbTests } from '../lib.js';
+import {
+  stringifyTestVector,
+  supportedTestSetOverridesBch,
+  vmbTestGroupToVmbTests,
+} from '../lib.js';
 
 /* spell-checker: disable */
 test('vmbTestGroupToVmbTests', (t) => {
@@ -26,7 +30,7 @@ test('vmbTestGroupToVmbTests', (t) => {
       [
         [
           'lqhcne',
-          'Test set: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (nonP2SH)',
+          'Test set: OP_0 (A.K.A. OP_PUSHBYTES_0, OP_FALSE): zero is represented by an empty stack item (P2S)',
           'OP_0',
           'OP_SIZE <0> OP_EQUAL',
           '020000000201000000000000000000000000000000000000000000000000000000000000000000000064417dfb529d352908ee0a88a0074c216b09793d6aa8c94c7640bb4ced51eaefc75d0aef61f7685d0307491e2628da3d4f91e86329265a4a58ca27a41ec0b8910779c32103a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785000000000100000000000000000000000000000000000000000000000000000000000000010000000100000000000100000000000000000a6a08766d625f7465737400000000',
@@ -58,7 +62,7 @@ test('vmbTestGroupToVmbTests', (t) => {
       [
         [
           '7j2u2h',
-          'Test set: OP_PUSHBYTES_1 with missing bytes (nonP2SH)',
+          'Test set: OP_PUSHBYTES_1 with missing bytes (P2S)',
           'OP_PUSHBYTES_1',
           'OP_SIZE <1> OP_EQUAL',
           '020000000201000000000000000000000000000000000000000000000000000000000000000000000064417dfb529d352908ee0a88a0074c216b09793d6aa8c94c7640bb4ced51eaefc75d0aef61f7685d0307491e2628da3d4f91e86329265a4a58ca27a41ec0b8910779c32103a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785000000000100000000000000000000000000000000000000000000000000000000000000010000000101000000000100000000000000000a6a08766d625f7465737400000000',

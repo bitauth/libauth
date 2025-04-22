@@ -20,7 +20,7 @@ export default [
         '',
         '<1>',
         'mint immutable NFT (with genesis input, index 0, 5-byte commitment: P2SH20 dust, P2SH32 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff00' } }, valueSatoshis: 659 }] } },
       ],
       [
@@ -48,7 +48,7 @@ export default [
         '',
         '<1>',
         'mint immutable NFT (with genesis input, index 0, 6-byte commitment: P2SH20 dust, P2SH32 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '01020304ff00' } }, valueSatoshis: 662 }] } },
       ],
       [
@@ -258,7 +258,7 @@ export default [
         '',
         '<1>',
         'mint fungible tokens (with genesis input, index 0, P2SH20 dust, P2SH32 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: '9223372036854775806' }, valueSatoshis: 668 }] } },
       ],
       [
@@ -460,7 +460,7 @@ export default [
         '',
         '<1>',
         'mint fungible tokens and immutable NFTs (with genesis input, index 0, P2SH20 dust, P2SH32 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ token: { amount: 1_000, nft: { commitment: '010203ff00' } }, valueSatoshis: 668 }] } },
       ],
       [
@@ -733,13 +733,51 @@ export default [
         '',
         '<1>',
         'mint all token types (output 0 P2SH20 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
           transaction: {
             inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
             outputs: [
               { token: { amount: 1, nft: { capability: 'minting', commitment: '010203ff00' } }, valueSatoshis: 662 },
+              { token: { amount: 253, nft: { capability: 'mutable', commitment: '010203ff00' } }, valueSatoshis: 1_000 },
+              { token: { amount: 65536, nft: { capability: 'none', commitment: '' } }, valueSatoshis: 1_000 },
+              { token: { amount: 4294967296, nft: { capability: 'none', commitment: '' } }, valueSatoshis: 1_000 },
+              { valueSatoshis: 1_000 },
+            ],
+          },
+        },
+      ],
+      [
+        '',
+        '<1>',
+        'mint all token types (output 0 P2S non-dust minimum)',
+        ['p2sh_nonstandard'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+          transaction: {
+            inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+            outputs: [
+              { token: { amount: 1, nft: { capability: 'minting', commitment: '010203ff00' } }, valueSatoshis: 597 },
+              { token: { amount: 253, nft: { capability: 'mutable', commitment: '010203ff00' } }, valueSatoshis: 1_000 },
+              { token: { amount: 65536, nft: { capability: 'none', commitment: '' } }, valueSatoshis: 1_000 },
+              { token: { amount: 4294967296, nft: { capability: 'none', commitment: '' } }, valueSatoshis: 1_000 },
+              { valueSatoshis: 1_000 },
+            ],
+          },
+        },
+      ],
+      [
+        '',
+        '<1>',
+        'mint all token types (output 0 P2S dust)',
+        ['nonstandard'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+          transaction: {
+            inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+            outputs: [
+              { token: { amount: 1, nft: { capability: 'minting', commitment: '010203ff00' } }, valueSatoshis: 596 },
               { token: { amount: 253, nft: { capability: 'mutable', commitment: '010203ff00' } }, valueSatoshis: 1_000 },
               { token: { amount: 65536, nft: { capability: 'none', commitment: '' } }, valueSatoshis: 1_000 },
               { token: { amount: 4294967296, nft: { capability: 'none', commitment: '' } }, valueSatoshis: 1_000 },
@@ -790,7 +828,7 @@ export default [
         '',
         '<1>',
         'mint all token types (output 1 P2SH20 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
           transaction: {
@@ -847,7 +885,7 @@ export default [
         '',
         '<1>',
         'mint all token types (output 2 P2SH20 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
           transaction: {
@@ -904,7 +942,7 @@ export default [
         '',
         '<1>',
         'mint all token types (output 3 P2SH20 dust)',
-        ['nonstandard'],
+        ['p2sh_nonstandard'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
           transaction: {
@@ -1108,8 +1146,44 @@ export default [
         '',
         '<1>',
         'mint immutable NFT (41-byte commitment)',
-        ['invalid'],
+        ['2023_invalid', '2025_invalid'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { category: '0000000000000000000000000000000000000000000000000000000000000001', nft: { commitment: '0102030405060708090001020304050607080900010203040506070809000102030405060708090001' } }, valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '',
+        '<1>',
+        'mint immutable NFT (128-byte commitment)',
+        ['2023_invalid', '2025_invalid'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+          transaction: {
+            inputs: [{ unlockingBytecode: ['slot'] }],
+            outputs: [
+              {
+                token: { category: '0000000000000000000000000000000000000000000000000000000000000001', nft: { commitment: '0102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708' } },
+                valueSatoshis: 1_065,
+              },
+            ],
+          },
+        },
+      ],
+      [
+        '',
+        '<1>',
+        'mint immutable NFT (129-byte commitment)',
+        ['invalid'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+          transaction: {
+            inputs: [{ unlockingBytecode: ['slot'] }],
+            outputs: [
+              {
+                token: { category: '0000000000000000000000000000000000000000000000000000000000000001', nft: { commitment: '010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809' } },
+                valueSatoshis: 2_000,
+              },
+            ],
+          },
+        },
       ],
       ['', '<1>', 'mint immutable NFT (253-byte commitment)', ['invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 100_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { category: '0000000000000000000000000000000000000000000000000000000000000001', nft: { commitment: binToHex(Uint8Array.from(range(253))) } }, valueSatoshis: 10_000 }] } }],
       // test fungible tokens
@@ -2257,7 +2331,7 @@ export default [
       ['', '<1>', 'implicitly destroy immutable token (4-byte commitment)', [], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }, { valueSatoshis: 1_000 }] } }],
       ['', '<1>', 'implicitly destroy immutable token (zero-length commitment)', [], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: {} }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }, { valueSatoshis: 1_000 }] } }],
       ['', '<1>', 'move immutable token', [], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff' } }, valueSatoshis: 693 }] } }],
-      ['', '<1>', 'move immutable token (P2SH32 and P2SH20 dust)', ['nonstandard'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff' } }, valueSatoshis: 656 }] } }],
+      ['', '<1>', 'move immutable token (P2SH32 and P2SH20 dust)', ['p2sh_nonstandard'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff' } }, valueSatoshis: 656 }] } }],
       ['', '<1>', 'move immutable token (P2SH32 dust, 657)', ['p2sh32_nonstandard'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff' } }, valueSatoshis: 657 }] } }],
       ['', '<1>', 'move immutable token (P2SH32 dust, 692)', ['p2sh32_nonstandard'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203ff' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '010203ff' } }, valueSatoshis: 692 }] } }],
       [
@@ -2560,7 +2634,7 @@ export default [
           transaction: { inputs: [{ unlockingBytecode: { script: 'unlockEmptyP2sh20' } }, { unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_UTXOTOKENCATEGORY <0> OP_EQUAL', 'OP_UTXOTOKENCATEGORY (transaction without tokens)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENCATEGORY <0> OP_EQUAL', 'OP_UTXOTOKENCATEGORY (transaction without tokens)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<0>',
         'OP_UTXOTOKENCATEGORY <0> OP_EQUAL',
@@ -2815,7 +2889,7 @@ export default [
         '<6> <5> <4> <3> <2> <0> <1>',
         'OP_UTXOTOKENCATEGORY <0x0300000000000000000000000000000000000000000000000000000000000000> OP_EQUALVERIFY OP_UTXOTOKENCATEGORY <0> OP_EQUALVERIFY OP_UTXOTOKENCATEGORY <0x0400000000000000000000000000000000000000000000000000000000000000> OP_EQUALVERIFY OP_UTXOTOKENCATEGORY <0x0500000000000000000000000000000000000000000000000000000000000000> OP_EQUALVERIFY OP_UTXOTOKENCATEGORY <0x060000000000000000000000000000000000000000000000000000000000000001> OP_EQUALVERIFY OP_UTXOTOKENCATEGORY <0x070000000000000000000000000000000000000000000000000000000000000002> OP_EQUALVERIFY OP_UTXOTOKENCATEGORY <0x080000000000000000000000000000000000000000000000000000000000000002> OP_EQUAL',
         'OP_UTXOTOKENCATEGORY (at multiple indexes, unordered)',
-        [],
+        ['p2s_nonstandard'],
         {
           sourceOutputs: [
             { lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 },
@@ -2919,7 +2993,7 @@ export default [
           transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }, { token: { nft: {} }, valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_OUTPUTTOKENCATEGORY <0> OP_EQUAL', 'OP_OUTPUTTOKENCATEGORY (transaction without tokens)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_OUTPUTTOKENCATEGORY <0> OP_EQUAL', 'OP_OUTPUTTOKENCATEGORY (transaction without tokens)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<0>',
         'OP_OUTPUTTOKENCATEGORY <0> OP_EQUAL',
@@ -3312,7 +3386,7 @@ export default [
         '<6> <5> <4> <3> <2> <0> <1>',
         'OP_OUTPUTTOKENCATEGORY <0x0300000000000000000000000000000000000000000000000000000000000000> OP_EQUALVERIFY OP_OUTPUTTOKENCATEGORY <0> OP_EQUALVERIFY OP_OUTPUTTOKENCATEGORY <0x0400000000000000000000000000000000000000000000000000000000000000> OP_EQUALVERIFY OP_OUTPUTTOKENCATEGORY <0x0500000000000000000000000000000000000000000000000000000000000000> OP_EQUALVERIFY OP_OUTPUTTOKENCATEGORY <0x060000000000000000000000000000000000000000000000000000000000000001> OP_EQUALVERIFY OP_OUTPUTTOKENCATEGORY <0x070000000000000000000000000000000000000000000000000000000000000002> OP_EQUALVERIFY OP_OUTPUTTOKENCATEGORY <0x080000000000000000000000000000000000000000000000000000000000000002> OP_EQUAL',
         'OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered)',
-        [],
+        ['p2s_nonstandard'],
         {
           sourceOutputs: [
             { lockingBytecode: { script: 'lockEmptyP2sh20' }, token: { amount: '1', category: '0000000000000000000000000000000000000000000000000000000000000004' }, valueSatoshis: 10_000 },
@@ -3367,9 +3441,9 @@ export default [
         },
       ],
       // OP_UTXOTOKENCOMMITMENT
-      ['<0>', 'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: {} }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: {} }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       ['<0>', 'OP_UTXOTOKENCOMMITMENT <0x00> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00)', ['invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: {} }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
-      ['<0>', 'OP_UTXOTOKENCOMMITMENT <1> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (1-byte commitment)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '01' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENCOMMITMENT <1> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (1-byte commitment)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '01' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       ['', 'OP_UTXOTOKENCOMMITMENT <1> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT requires an index from the stack', ['invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '01' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       ['<0x80>', 'OP_UTXOTOKENCOMMITMENT <1> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero)', ['invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '01' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
@@ -3389,16 +3463,36 @@ export default [
       [
         '<0>',
         'OP_UTXOTOKENCOMMITMENT <0x0102030405060708090001020304050607080900010203040506070809000102030405060708090001> OP_EQUAL',
-        'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length)',
-        ['invalid'],
+        'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment)',
+        ['2023_invalid', '2025_invalid'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '0102030405060708090001020304050607080900010203040506070809000102030405060708090001' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '<0>',
+        'OP_UTXOTOKENCOMMITMENT <0x0102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708> OP_EQUAL',
+        'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment)',
+        ['2023_invalid', '2025_invalid'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '0102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708' } }, valueSatoshis: 10_000 }],
+          transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_065 }] },
+        },
+      ],
+      [
+        '<0>',
+        'OP_UTXOTOKENCOMMITMENT <0x010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809> OP_EQUAL',
+        'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length)',
+        ['invalid'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: '010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809' } }, valueSatoshis: 10_000 }],
+          transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 5_000 }] },
+        },
       ],
       [
         '<0>',
         `OP_UTXOTOKENCOMMITMENT <0x${binToHex(Uint8Array.from(range(253)))}> OP_EQUAL`,
         'OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus)',
         ['invalid'],
-        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: binToHex(Uint8Array.from(range(253))) } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } },
+        { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { commitment: binToHex(Uint8Array.from(range(253))) } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 5_000 }] } },
       ],
       [
         '<1>',
@@ -3439,7 +3533,7 @@ export default [
           transaction: { inputs: [{ unlockingBytecode: { script: 'unlockEmptyP2sh20' } }, { unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT (transaction without tokens)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT (transaction without tokens)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<0>',
         'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL',
@@ -3492,7 +3586,7 @@ export default [
           transaction: { inputs: [{ unlockingBytecode: { script: 'unlockEmptyP2sh20' } }, { unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT (only fungible tokens, index 0)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 100 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL', 'OP_UTXOTOKENCOMMITMENT (only fungible tokens, index 0)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 100 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<1>',
         'OP_UTXOTOKENCOMMITMENT <0> OP_EQUAL',
@@ -3753,9 +3847,35 @@ export default [
       [
         '<0>',
         'OP_OUTPUTTOKENCOMMITMENT <0x0102030405060708090001020304050607080900010203040506070809000102030405060708090001> OP_EQUAL',
-        'OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length)',
-        ['invalid'],
+        'OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment)',
+        ['2023_invalid', '2025_invalid'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ token: { nft: { commitment: '0102030405060708090001020304050607080900010203040506070809000102030405060708090001' } }, valueSatoshis: 1_000 }] } },
+      ],
+      [
+        '<0>',
+        'OP_OUTPUTTOKENCOMMITMENT <0x0102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708> OP_EQUAL',
+        'OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment)',
+        ['2023_invalid', '2025_invalid'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+          transaction: {
+            inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+            outputs: [{ token: { nft: { commitment: '0102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708' } }, valueSatoshis: 1_362 }],
+          },
+        },
+      ],
+      [
+        '<0>',
+        'OP_OUTPUTTOKENCOMMITMENT <0x010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809> OP_EQUAL',
+        'OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length)',
+        ['invalid'],
+        {
+          sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }],
+          transaction: {
+            inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }],
+            outputs: [{ token: { nft: { commitment: '010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809000102030405060708090001020304050607080900010203040506070809' } }, valueSatoshis: 5_000 }],
+          },
+        },
       ],
       [
         '<0>',
@@ -3794,7 +3914,7 @@ export default [
           transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }, { token: { nft: { commitment: 'ff' } }, valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_OUTPUTTOKENCOMMITMENT <0> OP_EQUAL', 'OP_OUTPUTTOKENCOMMITMENT (transaction without tokens)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_OUTPUTTOKENCOMMITMENT <0> OP_EQUAL', 'OP_OUTPUTTOKENCOMMITMENT (transaction without tokens)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<0>',
         'OP_OUTPUTTOKENCOMMITMENT <0> OP_EQUAL',
@@ -4215,7 +4335,7 @@ export default [
         },
       ],
       // OP_UTXOTOKENAMOUNT
-      ['<0>', 'OP_UTXOTOKENAMOUNT <1> OP_EQUAL', 'OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENAMOUNT <1> OP_EQUAL', 'OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       ['<0>', 'OP_UTXOTOKENAMOUNT <2> OP_EQUAL', 'OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2)', ['invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 1 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       ['<0>', 'OP_UTXOTOKENAMOUNT <253> OP_EQUAL', 'OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (253 fungible tokens)', [], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 253 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       ['<0>', 'OP_UTXOTOKENAMOUNT <65536> OP_EQUAL', 'OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (65536 fungible tokens)', [], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { amount: 65536 }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
@@ -4263,7 +4383,7 @@ export default [
           transaction: { inputs: [{ unlockingBytecode: { script: 'unlockEmptyP2sh20' } }, { unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_UTXOTOKENAMOUNT <0> OP_EQUAL', 'OP_UTXOTOKENAMOUNT (transaction without tokens)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENAMOUNT <0> OP_EQUAL', 'OP_UTXOTOKENAMOUNT (transaction without tokens)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
 
       [
         '<0>',
@@ -4372,7 +4492,7 @@ export default [
           transaction: { inputs: [{ unlockingBytecode: { script: 'unlockEmptyP2sh20' } }, { unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_UTXOTOKENAMOUNT <0> OP_EQUAL', 'OP_UTXOTOKENAMOUNT (only mutable token, index 0)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable', commitment: 'ee' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENAMOUNT <0> OP_EQUAL', 'OP_UTXOTOKENAMOUNT (only mutable token, index 0)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'mutable', commitment: 'ee' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<1>',
         'OP_UTXOTOKENAMOUNT <0> OP_EQUAL',
@@ -4427,7 +4547,7 @@ export default [
           transaction: { inputs: [{ unlockingBytecode: { script: 'unlockEmptyP2sh20' } }, { unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_UTXOTOKENAMOUNT <0> OP_EQUAL', 'OP_UTXOTOKENAMOUNT (only minting token, index 0)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'minting', commitment: 'ee' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_UTXOTOKENAMOUNT <0> OP_EQUAL', 'OP_UTXOTOKENAMOUNT (only minting token, index 0)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], token: { nft: { capability: 'minting', commitment: 'ee' } }, valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<1>',
         'OP_UTXOTOKENAMOUNT <0> OP_EQUAL',
@@ -4650,7 +4770,7 @@ export default [
           transaction: { inputs: [{ outpointTransactionHash: '0000000000000000000000000000000000000000000000000000000000000002', unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }, { token: { amount: 1 }, valueSatoshis: 1_000 }] },
         },
       ],
-      ['<0>', 'OP_OUTPUTTOKENAMOUNT <0> OP_EQUAL', 'OP_OUTPUTTOKENAMOUNT (transaction without tokens)', ['nop2sh_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
+      ['<0>', 'OP_OUTPUTTOKENAMOUNT <0> OP_EQUAL', 'OP_OUTPUTTOKENAMOUNT (transaction without tokens)', ['p2s_invalid'], { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: 10_000 }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ valueSatoshis: 1_000 }] } }],
       [
         '<0>',
         'OP_OUTPUTTOKENAMOUNT <0> OP_EQUAL',

@@ -29,13 +29,10 @@ const vmVersionsBch = [
   '2025',
   '2026',
   'spec',
-  'chip_bigint',
   'chip_eval',
-  'chip_limits',
   'chip_loops',
   'chip_p2s',
   'chip_pow',
-  'chip_zce',
   'chip_txv5',
   /* For error reporting in combinatorial test generation: */ 'unknown',
   /* For skipping in combinatorial test generation: */ 'skip',
@@ -43,7 +40,7 @@ const vmVersionsBch = [
 /**
  * These are the VM "modes" for which tests can be generated.
  */
-const vmModes = ['nop2sh', 'p2sh', 'p2sh20', 'p2sh32'] as const;
+const vmModes = ['p2s', 'p2sh', 'p2sh20', 'p2sh32'] as const;
 type TestSetType = 'invalid' | 'nonstandard' | 'standard';
 type TestSetOverrideType = TestSetType | 'ignore';
 type VmVersionBch = (typeof vmVersionsBch)[number];
@@ -94,38 +91,71 @@ export type VmbTest = [
  * {@link supportedTestSetOverridesBch}.
  */
 export const vmbTestDefinitionDefaultBehaviorBch: TestSetOverrideLabelBch[] = [
-  'nop2sh_nonstandard',
+  'p2s_nonstandard',
   'p2sh20_standard',
   'p2sh32_standard',
+  '2026_p2s_standard',
 ];
 
 /* eslint-disable @typescript-eslint/naming-convention */
+
+/**
+ * TODO: deterministically produce a `generatedTestSetOverrideListBch` (just a simple exhaustive solver) in tests from `supportedTestSetPlansBch`, compare against `testSetOverrideListBch` and fail if they're not deeply equal. Then produce `generatedSupportedTestSetPlansBch` from `supportedTestSetOverridesBch`, compare against `supportedTestSetPlansBch` and fail if they're not deeply equal.
+ *
+ * Each top-level key maps to the deepest child key, the boolean value is just
+ * an easy way to enable/disable a path. Goal of representing in a tree is to
+ * use eslint's `sort-key` enforcement to enforce a deterministic ordering and
+ * prevent duplicates.
+ *
+ * Solver:
+ *  - Count the difference between the base sets and requested, e.g.:
+ *     - Base set is: `2023_p2s_nonstandard,2023_p2sh20_standard,2023_p2sh32_standard,2025_p2s_nonstandard,2025_p2sh20_standard,2025_p2sh32_standard,p2s_nonstandard,2026_p2sh20_standard,2026_p2sh32_standard`
+ *     - Requested: `2023_p2s_invalid,2023_p2sh20_invalid,2023_p2sh32_invalid,2025_p2s_nonstandard,2025_p2sh20_standard,2025_p2sh32_standard`
+ *     - Differences are: `2023_p2s_invalid,2023_p2sh20_invalid,2023_p2sh32_invalid`.
+ *     - Removals are: `p2s_nonstandard,2026_p2sh20_standard,2026_p2sh32_standard`
+ *  - For each entry in `setModifiers`, count the differences after application. Take the first entry of those which minimize the differences. Repeat until no differences.
+ *  - For each entry in `setReducers`, count missing removals after application. Take the first entry of those which maximize the matching removals. Repeat until sets are equal.
+ */
+/*
+ * export const supportedTestSetPlansBch = {
+ *   // 2023_invalid:
+ *   '2023_p2s_invalid,2023_p2sh20_invalid,2023_p2sh32_invalid,2025_p2s_nonstandard,2025_p2sh20_standard,2025_p2sh32_standard,p2s_nonstandard,2026_p2sh20_standard,2026_p2sh32_standard':
+ *     true,
+ *   // 2023_invalid,p2sh_ignore:
+ *   '2023_p2s_invalid,2025_p2s_nonstandard,2026_p2s_standard': true,
+ *   // base plan (''):
+ *   '2023_p2s_nonstandard,2023_p2sh20_standard,2023_p2sh32_standard,2025_p2s_nonstandard,2025_p2sh20_standard,2025_p2sh32_standard,p2s_nonstandard,2026_p2sh20_standard,2026_p2sh32_standard':
+ *     true,
+ * };
+ * export const selectors = ['', '2023_', '2025_', '2026_'].flatMap((prefix) =>
+ *   ['', 'p2s_', 'p2sh_', 'p2sh20_', 'p2sh32_'].map((suffix) => prefix + suffix),
+ * );
+ * export const setModifiers = selectors.flatMap((prefix) =>
+ *   ['standard', 'nonstandard', 'invalid'].map((suffix) => prefix + suffix),
+ * );
+ * export const setReducers = selectors.map((prefix) => `${prefix}_ignore`);
+ */
+
 /**
  * The list of test set overrides currently supported. We could implement
  * support for any combination of {@link TestSetOverrideLabelBch}s, but this
- * implementation improves consistency and clarity across test files
+ * implementation improves consistency and clarity across test files.
  *
  * Test sets for a particular test definition are found by `join`ing this list
  * and looking up the result in {@link supportedTestSetOverridesBch}.
  */
 const testSetOverrideListBch = [
   ['2023_invalid'],
-  ['2023_invalid', '2025_nonstandard', 'p2sh_ignore'],
-  ['2023_invalid', 'nop2sh_ignore'],
-  ['2023_invalid', 'nop2sh_ignore', 'p2sh20_ignore'],
-  ['2023_invalid', 'nop2sh_ignore', 'p2sh32_ignore'],
-  ['2023_invalid', 'nop2sh_invalid'],
+  ['2023_invalid', '2025_invalid'],
+  ['2023_invalid', '2025_p2sh_nonstandard'],
+  ['2023_invalid', 'p2s_ignore'],
+  ['2023_invalid', 'p2s_ignore', 'p2sh20_ignore'],
+  ['2023_invalid', 'p2s_ignore', 'p2sh32_ignore'],
   ['2023_invalid', 'p2sh_ignore'],
-  ['2023_invalid', 'p2sh_invalid'],
   ['2023_p2sh_invalid'],
-  ['chip_bigint_invalid'],
-  ['chip_bigint'],
-  ['chip_bigint', 'nonstandard'],
-  ['chip_bigint', 'nonstandard', 'nop2sh_invalid'],
-  ['chip_bigint', 'nonstandard', 'p2sh_invalid'],
-  ['chip_bigint', 'nop2sh_invalid'],
+  ['2023_p2sh_nonstandard', '2025_p2sh_nonstandard'],
   ['chip_eval'],
-  ['chip_eval', '2026_nop2sh_nonstandard'],
+  ['chip_eval', 'p2s_nonstandard'],
   ['chip_eval', 'p2sh_ignore'],
   ['chip_eval_invalid'],
   ['chip_eval_invalid', 'p2sh_ignore'],
@@ -133,44 +163,51 @@ const testSetOverrideListBch = [
   ['chip_loops_invalid', 'p2sh_ignore'],
   ['chip_loops'],
   ['chip_p2s'],
-  ['chip_p2s', 'nop2sh_standard', 'p2sh_ignore'],
+  ['chip_p2s', 'p2sh_ignore'],
   ['chip_p2s_invalid'],
   ['chip_pow'],
   ['chip_pow_invalid'],
   ['invalid', '2023_nonstandard'],
   ['invalid', '2023_nonstandard', 'p2sh_ignore'],
-  ['invalid', '2025_nonstandard', 'p2sh_ignore'],
-  ['invalid', 'nop2sh_ignore'],
-  ['invalid', 'nop2sh_nonstandard'],
-  ['invalid', 'p2sh_ignore', '2023_nop2sh_nonstandard'],
+  ['invalid', 'p2s_ignore'],
+  ['invalid', 'p2s_nonstandard'],
+  ['invalid', 'p2sh_ignore', '2023_p2s_nonstandard'],
   ['invalid', 'p2sh_ignore'],
-  ['invalid', 'p2sh_standard'],
   ['invalid', 'p2sh20_standard'],
   ['invalid', 'p2sh32_standard'],
-  ['invalid', 'spec'],
+  ['invalid', 'spec_standard'],
   ['invalid'],
-  ['nop2sh_ignore'],
-  ['nop2sh_ignore', 'p2sh32_ignore'],
-  ['nop2sh_invalid'],
-  ['nop2sh_invalid', '2023_p2sh_invalid'],
-  ['nop2sh_invalid', '2023_p2sh_nonstandard'],
-  ['nop2sh_invalid', '2023_nop2sh_nonstandard'],
-  ['nop2sh_standard'],
-  ['nop2sh_standard', 'p2sh_ignore'],
-  ['nop2sh_standard', 'p2sh_ignore', 'spec'],
   ['nonstandard'],
   ['nonstandard', '2023_invalid'],
   ['nonstandard', '2023_invalid', 'p2sh_ignore'],
-  ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
-  ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard', 'p2sh32_ignore'],
-  ['nonstandard', 'nop2sh_ignore', 'p2sh32_ignore'],
-  ['nonstandard', 'nop2sh_invalid', '2023_invalid'],
+  ['nonstandard', '2023_p2sh_standard', 'p2s_ignore'],
   ['nonstandard', 'p2sh_ignore'],
-  ['nonstandard', 'p2sh_invalid'],
+  ['nonstandard', 'p2sh_invalid', '2023_invalid'],
+  ['p2s_ignore'],
+  ['p2s_invalid'],
+  ['p2s_invalid', '2023_p2s_nonstandard', '2023_p2sh_invalid'],
+  ['p2s_invalid', '2023_p2s_nonstandard'],
+  ['p2s_invalid', '2023_invalid'],
+  ['p2s_invalid', '2023_invalid', '2025_p2sh_nonstandard'],
+  ['p2s_nonstandard'],
+  ['p2s_nonstandard', '2023_invalid'],
+  ['p2s_nonstandard', '2023_invalid', '2025_p2sh_nonstandard'],
+  ['p2s_nonstandard', '2023_invalid', 'p2sh_ignore'],
+  ['p2s_nonstandard', '2023_p2sh_invalid'],
+  ['p2s_nonstandard', 'p2sh_ignore'],
+  ['p2s_nonstandard', 'p2sh_invalid'],
+  ['p2s_nonstandard', 'p2sh_invalid', '2023_invalid'],
+  ['p2s_standard'],
+  ['p2s_standard', 'p2sh_ignore'],
+  ['p2s_standard', 'spec_standard', 'p2sh_ignore'],
+  ['p2sh32_nonstandard'],
   ['p2sh_ignore'],
   ['p2sh_invalid'],
-  ['p2sh32_nonstandard'],
+  ['p2sh_invalid', '2023_invalid'],
+  ['p2sh_nonstandard'],
+  ['p2sh_nonstandard', 'p2s_invalid', '2023_invalid'],
   ['skip'],
+  ['spec'],
   ['unknown'],
   [],
 ] as const;
@@ -180,9 +217,22 @@ const testList = (_list: Readonly<Readonly<TestSetOverrideLabelBch[]>[]>) => 0;
 // eslint-disable-next-line functional/no-expression-statements
 testList(testSetOverrideListBch);
 
+const baseP2s = [
+  '2023_nonstandard',
+  '2025_nonstandard',
+  '2026_standard',
+] as const;
+const standard = ['2023_standard', '2025_standard', '2026_standard'] as const;
+const invalid = ['2023_invalid', '2025_invalid', '2026_invalid'] as const;
+const nonstandard = [
+  '2023_nonstandard',
+  '2025_nonstandard',
+  '2026_nonstandard',
+] as const;
+
 type TestPlan = {
-  mode: 'nonP2SH' | 'P2SH20' | 'P2SH32';
-  sets: TestSetIdBch[];
+  mode: 'P2S' | 'P2SH20' | 'P2SH32';
+  sets: Readonly<TestSetIdBch[]>;
 }[];
 /**
  * Given one of these values and the
@@ -196,23 +246,14 @@ export const supportedTestSetOverridesBch: {
    * The "default" test sets, see {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
   '': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_standard'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
+    { mode: 'P2S', sets: baseP2s },
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: standard },
   ],
   '2023_invalid': [
     {
-      mode: 'nonP2SH',
-      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
     },
     {
       mode: 'P2SH20',
@@ -223,13 +264,35 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
-  '2023_invalid,2025_nonstandard,p2sh_ignore': [
+  '2023_invalid,2025_invalid': [
     {
-      mode: 'nonP2SH',
-      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_invalid', '2026_standard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_invalid', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_invalid', '2026_standard'],
     },
   ],
-  '2023_invalid,nop2sh_ignore': [
+  '2023_invalid,2025_p2sh_nonstandard': [
+    {
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
+    },
+  ],
+  '2023_invalid,p2s_ignore': [
     {
       mode: 'P2SH20',
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
@@ -239,51 +302,26 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
-  '2023_invalid,nop2sh_ignore,p2sh20_ignore': [
+  '2023_invalid,p2s_ignore,p2sh20_ignore': [
     {
       mode: 'P2SH32',
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
-  '2023_invalid,nop2sh_ignore,p2sh32_ignore': [
+  '2023_invalid,p2s_ignore,p2sh32_ignore': [
     {
       mode: 'P2SH20',
-      sets: ['2023_invalid', '2025_standard', '2026_standard'],
-    },
-  ],
-  '2023_invalid,nop2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_invalid', '2025_invalid', '2026_invalid'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_invalid', '2025_standard', '2026_standard'],
-    },
-    {
-      mode: 'P2SH32',
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
   '2023_invalid,p2sh_ignore': [
     {
-      mode: 'nonP2SH',
-      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
     },
-  ],
-  '2023_invalid,p2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
-    },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
   ],
   '2023_p2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
+    { mode: 'P2S', sets: baseP2s },
     {
       mode: 'P2SH20',
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
@@ -291,99 +329,29 @@ export const supportedTestSetOverridesBch: {
     {
       mode: 'P2SH32',
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  '2023_p2sh_nonstandard,2025_p2sh_nonstandard': [
+    {
+      mode: 'P2S',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_standard'],
     },
   ],
   /**
    * `chip_*` values exclude the marked test from
    * {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
-  chip_bigint: [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
-    },
-  ],
-  'chip_bigint,nonstandard': [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
-    },
-  ],
-  'chip_bigint,nonstandard,nop2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
-    },
-  ],
-  'chip_bigint,nonstandard,p2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_bigint_nonstandard', '2023_invalid', '2025_nonstandard'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
-    },
-  ],
-  'chip_bigint,nop2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_bigint_standard', '2023_invalid', '2025_standard'],
-    },
-  ],
-  chip_bigint_invalid: [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_bigint_invalid', '2023_invalid', '2025_invalid'],
-    },
-  ],
   chip_eval: [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
     },
     {
@@ -395,9 +363,9 @@ export const supportedTestSetOverridesBch: {
       sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
     },
   ],
-  'chip_eval,2026_nop2sh_nonstandard': [
+  'chip_eval,p2s_nonstandard': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_eval_nonstandard', '2025_invalid', '2026_nonstandard'],
     },
     {
@@ -411,13 +379,13 @@ export const supportedTestSetOverridesBch: {
   ],
   'chip_eval,p2sh_ignore': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
     },
   ],
   chip_eval_invalid: [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_eval_invalid', '2025_invalid', '2026_invalid'],
     },
     {
@@ -431,13 +399,13 @@ export const supportedTestSetOverridesBch: {
   ],
   'chip_eval_invalid,p2sh_ignore': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_eval_invalid', '2025_invalid', '2026_invalid'],
     },
   ],
   chip_loops: [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_loops_standard', '2025_invalid', '2026_standard'],
     },
     {
@@ -451,7 +419,7 @@ export const supportedTestSetOverridesBch: {
   ],
   chip_loops_invalid: [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_loops_invalid', '2025_invalid', '2026_invalid'],
     },
     {
@@ -465,13 +433,13 @@ export const supportedTestSetOverridesBch: {
   ],
   'chip_loops_invalid,p2sh_ignore': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_loops_invalid', '2025_invalid', '2026_invalid'],
     },
   ],
   chip_p2s: [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_p2s_standard', '2025_invalid', '2026_standard'],
     },
     {
@@ -483,17 +451,14 @@ export const supportedTestSetOverridesBch: {
       sets: ['chip_p2s_standard', '2025_invalid', '2026_standard'],
     },
   ],
-  'chip_p2s,nop2sh_standard,p2sh_ignore': [
+  'chip_p2s,p2sh_ignore': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['chip_p2s_standard', '2025_invalid', '2026_standard'],
     },
   ],
   chip_p2s_invalid: [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_p2s_invalid', '2025_invalid', '2026_invalid'],
-    },
+    { mode: 'P2S', sets: ['chip_p2s_invalid', '2025_invalid', '2026_invalid'] },
     {
       mode: 'P2SH20',
       sets: ['chip_p2s_invalid', '2025_invalid', '2026_invalid'],
@@ -504,43 +469,22 @@ export const supportedTestSetOverridesBch: {
     },
   ],
   chip_pow: [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_pow_standard'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_pow_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_pow_standard'],
-    },
+    { mode: 'P2S', sets: ['chip_pow_standard'] },
+    { mode: 'P2SH20', sets: ['chip_pow_standard'] },
+    { mode: 'P2SH32', sets: ['chip_pow_standard'] },
   ],
   chip_pow_invalid: [
-    {
-      mode: 'nonP2SH',
-      sets: ['chip_pow_invalid'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_pow_invalid'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_pow_invalid'],
-    },
+    { mode: 'P2S', sets: ['chip_pow_invalid'] },
+    { mode: 'P2SH20', sets: ['chip_pow_invalid'] },
+    { mode: 'P2SH32', sets: ['chip_pow_invalid'] },
   ],
   invalid: [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2S', sets: invalid },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
   ],
   'invalid,2023_nonstandard': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
-    },
+    { mode: 'P2S', sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'] },
     {
       mode: 'P2SH20',
       sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
@@ -551,74 +495,35 @@ export const supportedTestSetOverridesBch: {
     },
   ],
   'invalid,2023_nonstandard,p2sh_ignore': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
-    },
+    { mode: 'P2S', sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'] },
   ],
-  'invalid,2025_nonstandard,p2sh_ignore': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_invalid', '2025_nonstandard', '2026_invalid'],
-    },
+  'invalid,p2s_ignore': [
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
   ],
-  'invalid,nop2sh_ignore': [
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-  ],
-  'invalid,nop2sh_nonstandard': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  'invalid,p2s_nonstandard': [
+    { mode: 'P2S', sets: nonstandard },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
   ],
   'invalid,p2sh20_standard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+    { mode: 'P2S', sets: invalid },
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: invalid },
   ],
   'invalid,p2sh32_standard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
+    { mode: 'P2S', sets: invalid },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: standard },
   ],
-  'invalid,p2sh_ignore': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  'invalid,p2sh_ignore': [{ mode: 'P2S', sets: invalid }],
+  'invalid,p2sh_ignore,2023_p2s_nonstandard': [
+    { mode: 'P2S', sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'] },
   ],
-  'invalid,p2sh_ignore,2023_nop2sh_nonstandard': [
+  'invalid,spec_standard': [
     {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
-    },
-  ],
-  'invalid,p2sh_standard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
-  ],
-  'invalid,spec': [
-    {
-      mode: 'nonP2SH',
-      sets: [
-        '2023_invalid',
-        '2025_invalid',
-        '2026_invalid',
-        'spec_nonstandard',
-      ],
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_invalid', '2026_invalid', 'spec_standard'],
     },
     {
       mode: 'P2SH20',
@@ -630,22 +535,13 @@ export const supportedTestSetOverridesBch: {
     },
   ],
   nonstandard: [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
+    { mode: 'P2S', sets: nonstandard },
+    { mode: 'P2SH20', sets: nonstandard },
+    { mode: 'P2SH32', sets: nonstandard },
   ],
   'nonstandard,2023_invalid': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
     {
@@ -659,11 +555,11 @@ export const supportedTestSetOverridesBch: {
   ],
   'nonstandard,2023_invalid,p2sh_ignore': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
   ],
-  'nonstandard,nop2sh_ignore,2023_p2sh_standard': [
+  'nonstandard,2023_p2sh_standard,p2s_ignore': [
     {
       mode: 'P2SH20',
       sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
@@ -673,90 +569,57 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
     },
   ],
-  'nonstandard,nop2sh_ignore,2023_p2sh_standard,p2sh32_ignore': [
+  'nonstandard,p2sh_ignore': [{ mode: 'P2S', sets: nonstandard }],
+  'nonstandard,p2sh_invalid,2023_invalid': [
     {
-      mode: 'P2SH20',
-      sets: ['2023_standard', '2025_nonstandard', '2026_nonstandard'],
-    },
-  ],
-  'nonstandard,nop2sh_ignore,p2sh32_ignore': [
-    {
-      mode: 'P2SH20',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
-  ],
-  'nonstandard,nop2sh_invalid,2023_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_invalid', '2025_invalid', '2026_invalid'],
-    },
-    {
-      mode: 'P2SH20',
+      mode: 'P2S',
       sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
-    },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
   ],
-  'nonstandard,p2sh_ignore': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
+  p2s_ignore: [
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: standard },
   ],
-  'nonstandard,p2sh_invalid': [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  p2s_invalid: [
+    { mode: 'P2S', sets: invalid },
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: standard },
   ],
-  nop2sh_ignore: [
+  'p2s_invalid,2023_invalid': [
+    { mode: 'P2S', sets: invalid },
     {
       mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
-  'nop2sh_ignore,p2sh32_ignore': [
+  'p2s_invalid,2023_invalid,2025_p2sh_nonstandard': [
+    { mode: 'P2S', sets: invalid },
     {
       mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
-  ],
-  nop2sh_invalid: [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
     },
   ],
-  'nop2sh_invalid,2023_nop2sh_nonstandard': [
+  'p2s_invalid,2023_p2s_nonstandard': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
     },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
-    },
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: standard },
   ],
-  'nop2sh_invalid,2023_p2sh_invalid': [
+  'p2s_invalid,2023_p2s_nonstandard,2023_p2sh_invalid': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
       sets: ['2023_nonstandard', '2025_invalid', '2026_invalid'],
     },
     {
@@ -768,40 +631,82 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
-  'nop2sh_invalid,2023_p2sh_nonstandard': [
-    { mode: 'nonP2SH', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    {
-      mode: 'P2SH20',
-      sets: ['2023_nonstandard', '2025_standard', '2026_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['2023_nonstandard', '2025_standard', '2026_standard'],
-    },
+  p2s_nonstandard: [
+    { mode: 'P2S', sets: nonstandard },
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: standard },
   ],
-  nop2sh_standard: [
+  'p2s_nonstandard,2023_invalid': [
     {
-      mode: 'nonP2SH',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
     {
       mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
     },
   ],
-  'nop2sh_standard,p2sh_ignore': [
+  'p2s_nonstandard,2023_invalid,2025_p2sh_nonstandard': [
     {
-      mode: 'nonP2SH',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
     },
   ],
-  'nop2sh_standard,p2sh_ignore,spec': [
+  'p2s_nonstandard,2023_invalid,p2sh_ignore': [
     {
-      mode: 'nonP2SH',
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+  ],
+  'p2s_nonstandard,2023_p2sh_invalid': [
+    {
+      mode: 'P2S',
+      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_standard', '2026_standard'],
+    },
+  ],
+  'p2s_nonstandard,p2sh_ignore': [{ mode: 'P2S', sets: nonstandard }],
+  'p2s_nonstandard,p2sh_invalid': [
+    { mode: 'P2S', sets: nonstandard },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
+  ],
+  'p2s_nonstandard,p2sh_invalid,2023_invalid': [
+    {
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
+    },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
+  ],
+  p2s_standard: [
+    { mode: 'P2S', sets: standard },
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: standard },
+  ],
+  'p2s_standard,p2sh_ignore': [{ mode: 'P2S', sets: standard }],
+  'p2s_standard,spec_standard,p2sh_ignore': [
+    {
+      mode: 'P2S',
       sets: [
         '2023_standard',
         '2025_standard',
@@ -811,32 +716,44 @@ export const supportedTestSetOverridesBch: {
     },
   ],
   p2sh32_nonstandard: [
+    { mode: 'P2S', sets: baseP2s },
+    { mode: 'P2SH20', sets: standard },
+    { mode: 'P2SH32', sets: nonstandard },
+  ],
+  p2sh_ignore: [{ mode: 'P2S', sets: baseP2s }],
+  p2sh_invalid: [
+    { mode: 'P2S', sets: baseP2s },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
+  ],
+  'p2sh_invalid,2023_invalid': [
     {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_nonstandard', '2026_standard'],
     },
+    { mode: 'P2SH20', sets: invalid },
+    { mode: 'P2SH32', sets: invalid },
+  ],
+  p2sh_nonstandard: [
+    { mode: 'P2S', sets: baseP2s },
+    { mode: 'P2SH20', sets: nonstandard },
+    { mode: 'P2SH32', sets: nonstandard },
+  ],
+  'p2sh_nonstandard,p2s_invalid,2023_invalid': [
+    { mode: 'P2S', sets: invalid },
     {
       mode: 'P2SH20',
-      sets: ['2023_standard', '2025_standard', '2026_standard'],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
+      sets: ['2023_invalid', '2025_nonstandard', '2026_nonstandard'],
     },
   ],
-  p2sh_ignore: [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
-  ],
-  p2sh_invalid: [
-    {
-      mode: 'nonP2SH',
-      sets: ['2023_nonstandard', '2025_nonstandard', '2026_nonstandard'],
-    },
-    { mode: 'P2SH20', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
-    { mode: 'P2SH32', sets: ['2023_invalid', '2025_invalid', '2026_invalid'] },
+  spec: [
+    { mode: 'P2S', sets: ['spec_standard'] },
+    { mode: 'P2SH20', sets: ['spec_standard'] },
+    { mode: 'P2SH32', sets: ['spec_standard'] },
   ],
   /* eslint-enable camelcase */
 };
@@ -1035,10 +952,11 @@ export const vmbTestDefinitionToVmbTests = (
       scenarioId,
       unlockingScriptId: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
+        P2S: 'unlockStandard',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         P2SH20: 'unlockP2sh20',
         // eslint-disable-next-line @typescript-eslint/naming-convention
         P2SH32: 'unlockP2sh32',
-        nonP2SH: 'unlockStandard',
       }[planItem.mode],
     });
     if (typeof result === 'string') {

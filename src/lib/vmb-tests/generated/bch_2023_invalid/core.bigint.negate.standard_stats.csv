@@ -1,49 +1,49 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-y3ehce,"BigInt: OP_NEGATE 64-byte number (all bits set) (nonP2SH)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
+y3ehce,"BigInt: OP_NEGATE 64-byte number (all bits set) (P2S)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
 8fn646,"BigInt: OP_NEGATE 64-byte number (all bits set) (P2SH20)",344,67,2,1,174,139200,0,4,0,87,3,7,236,0
 q3vrch,"BigInt: OP_NEGATE 64-byte number (all bits set) (P2SH32)",344,79,2,1,174,139200,0,4,0,87,3,7,260,0
-ucddf3,"BigInt: OP_NEGATE 512-byte number (all bits set) (nonP2SH)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
+ucddf3,"BigInt: OP_NEGATE 512-byte number (all bits set) (P2S)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
 0kp82p,"BigInt: OP_NEGATE 512-byte number (all bits set) (P2SH20)",1248,67,2,1,1076,860800,0,25,0,538,10,7,1582,0
 xt7gn2,"BigInt: OP_NEGATE 512-byte number (all bits set) (P2SH32)",1248,79,2,1,1076,860800,0,25,0,538,10,7,1606,0
-l7mtx5,"BigInt: OP_NEGATE 4096-byte number (all bits set) (nonP2SH)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
+l7mtx5,"BigInt: OP_NEGATE 4096-byte number (all bits set) (P2S)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
 sq4f0u,"BigInt: OP_NEGATE 4096-byte number (all bits set) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,4122,0,1,0,0
 5ttpf2,"BigInt: OP_NEGATE 4096-byte number (all bits set) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,4122,0,1,0,0
-8y6p9x,"BigInt: OP_NEGATE 8192-byte number (all bits set) (nonP2SH)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
+8y6p9x,"BigInt: OP_NEGATE 8192-byte number (all bits set) (P2S)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
 79v2zw,"BigInt: OP_NEGATE 8192-byte number (all bits set) (P2SH20)",16608,67,2,1,16436,13148800,0,382,0,8218,0,0,0,0
 ea2gew,"BigInt: OP_NEGATE 8192-byte number (all bits set) (P2SH32)",16608,79,2,1,16436,13148800,0,382,0,8218,0,0,0,0
-chrvg6,"BigInt: OP_NEGATE 64-byte number (alternating bits set) (nonP2SH)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
+chrvg6,"BigInt: OP_NEGATE 64-byte number (alternating bits set) (P2S)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
 f3huzg,"BigInt: OP_NEGATE 64-byte number (alternating bits set) (P2SH20)",344,67,2,1,174,139200,0,4,0,87,3,7,236,0
 xtlfsc,"BigInt: OP_NEGATE 64-byte number (alternating bits set) (P2SH32)",344,79,2,1,174,139200,0,4,0,87,3,7,260,0
-lavmtu,"BigInt: OP_NEGATE 512-byte number (alternating bits set) (nonP2SH)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
+lavmtu,"BigInt: OP_NEGATE 512-byte number (alternating bits set) (P2S)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
 pm3qs6,"BigInt: OP_NEGATE 512-byte number (alternating bits set) (P2SH20)",1248,67,2,1,1076,860800,0,25,0,538,10,7,1582,0
 hmejc0,"BigInt: OP_NEGATE 512-byte number (alternating bits set) (P2SH32)",1248,79,2,1,1076,860800,0,25,0,538,10,7,1606,0
-jpv0mh,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (nonP2SH)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
+jpv0mh,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (P2S)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
 x0982y,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,4122,0,1,0,0
 tzxjpd,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,4122,0,1,0,0
-zgyl7w,"BigInt: OP_NEGATE 8192-byte number (alternating bits set) (nonP2SH)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
+zgyl7w,"BigInt: OP_NEGATE 8192-byte number (alternating bits set) (P2S)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
 myq69m,"BigInt: OP_NEGATE 8192-byte number (alternating bits set) (P2SH20)",16608,67,2,1,16436,13148800,0,382,0,8218,0,0,0,0
 c36qam,"BigInt: OP_NEGATE 8192-byte number (alternating bits set) (P2SH32)",16608,79,2,1,16436,13148800,0,382,0,8218,0,0,0,0
-5f62y3,"BigInt: OP_NEGATE 64-byte number (highest-bit set) (nonP2SH)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
+5f62y3,"BigInt: OP_NEGATE 64-byte number (highest-bit set) (P2S)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
 5ftyyk,"BigInt: OP_NEGATE 64-byte number (highest-bit set) (P2SH20)",344,67,2,1,174,139200,0,4,0,87,3,7,236,0
 rqfw4p,"BigInt: OP_NEGATE 64-byte number (highest-bit set) (P2SH32)",344,79,2,1,174,139200,0,4,0,87,3,7,260,0
-gc47zh,"BigInt: OP_NEGATE 512-byte number (highest-bit set) (nonP2SH)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
+gc47zh,"BigInt: OP_NEGATE 512-byte number (highest-bit set) (P2S)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
 3jnckv,"BigInt: OP_NEGATE 512-byte number (highest-bit set) (P2SH20)",1248,67,2,1,1076,860800,0,25,0,538,10,7,1582,0
 cw9dcw,"BigInt: OP_NEGATE 512-byte number (highest-bit set) (P2SH32)",1248,79,2,1,1076,860800,0,25,0,538,10,7,1606,0
-jng5wh,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (nonP2SH)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
+jng5wh,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (P2S)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
 8cfpd3,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,4122,0,1,0,0
 u0yd5a,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,4122,0,1,0,0
-9s4kyw,"BigInt: OP_NEGATE 8192-byte number (highest-bit set) (nonP2SH)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
+9s4kyw,"BigInt: OP_NEGATE 8192-byte number (highest-bit set) (P2S)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
 4kcger,"BigInt: OP_NEGATE 8192-byte number (highest-bit set) (P2SH20)",16608,67,2,1,16436,13148800,0,382,0,8218,0,0,0,0
 jek8l3,"BigInt: OP_NEGATE 8192-byte number (highest-bit set) (P2SH32)",16608,79,2,1,16436,13148800,0,382,0,8218,0,0,0,0
-xvz95q,"BigInt: OP_NEGATE 64-byte number (one bit set per byte) (nonP2SH)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
+xvz95q,"BigInt: OP_NEGATE 64-byte number (one bit set per byte) (P2S)",276,111,2,1,106,84800,0,2,0,53,0,3,128,0
 n40w0y,"BigInt: OP_NEGATE 64-byte number (one bit set per byte) (P2SH20)",344,67,2,1,174,139200,0,4,0,87,3,7,236,0
 gj8v3p,"BigInt: OP_NEGATE 64-byte number (one bit set per byte) (P2SH32)",344,79,2,1,174,139200,0,4,0,87,3,7,260,0
-0gngjy,"BigInt: OP_NEGATE 512-byte number (one bit set per byte) (nonP2SH)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
+0gngjy,"BigInt: OP_NEGATE 512-byte number (one bit set per byte) (P2S)",728,563,2,1,556,444800,0,13,0,278,0,3,1024,0
 axwtgr,"BigInt: OP_NEGATE 512-byte number (one bit set per byte) (P2SH20)",1248,67,2,1,1076,860800,0,25,0,538,10,7,1582,0
 ej4v70,"BigInt: OP_NEGATE 512-byte number (one bit set per byte) (P2SH32)",1248,79,2,1,1076,860800,0,25,0,538,10,7,1606,0
-z3jr88,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (nonP2SH)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
+z3jr88,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (P2S)",4312,4147,2,1,4140,3312000,0,96,0,2070,0,1,0,0
 l4mc4v,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,4122,0,1,0,0
 v82cgv,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,4122,0,1,0,0
-9ektgl,"BigInt: OP_NEGATE 8192-byte number (one bit set per byte) (nonP2SH)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
+9ektgl,"BigInt: OP_NEGATE 8192-byte number (one bit set per byte) (P2S)",8408,8243,2,1,8236,6588800,0,191,0,4118,0,1,0,0
 ktrctl,"BigInt: OP_NEGATE 8192-byte number (one bit set per byte) (P2SH20)",16608,67,2,1,16436,13148800,0,382,0,8218,0,0,0,0
 ca8ddx,"BigInt: OP_NEGATE 8192-byte number (one bit set per byte) (P2SH32)",16608,79,2,1,16436,13148800,0,382,0,8218,0,0,0,0

@@ -1,8 +1,8 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-r9hr44,"BigInt: OP_NOT 1-byte number (all bits set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,147,0,4,2,0
-qcp9uv,"BigInt: OP_NOT 8-byte number (all bits set) (nonP2SH)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0
-szrdsl,"BigInt: OP_NOT 1-byte number (alternating bits set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,147,0,4,2,0
-q0vhra,"BigInt: OP_NOT 8-byte number (alternating bits set) (nonP2SH)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0
-tgkrwt,"BigInt: OP_NOT 1-byte number (highest-bit set) (nonP2SH)",212,47,2,1,42,33600,0,1,0,147,0,4,2,0
-m36t6k,"BigInt: OP_NOT 8-byte number (highest-bit set) (nonP2SH)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0
-jgwens,"BigInt: OP_NOT 8-byte number (one bit set per byte) (nonP2SH)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0
+r9hr44,"BigInt: OP_NOT 1-byte number (all bits set) (P2S)",212,48,2,1,42,33600,0,1,0,147,0,4,2,0
+qcp9uv,"BigInt: OP_NOT 8-byte number (all bits set) (P2S)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0
+szrdsl,"BigInt: OP_NOT 1-byte number (alternating bits set) (P2S)",212,48,2,1,42,33600,0,1,0,147,0,4,2,0
+q0vhra,"BigInt: OP_NOT 8-byte number (alternating bits set) (P2S)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0
+tgkrwt,"BigInt: OP_NOT 1-byte number (highest-bit set) (P2S)",212,47,2,1,42,33600,0,1,0,147,0,4,2,0
+m36t6k,"BigInt: OP_NOT 8-byte number (highest-bit set) (P2S)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0
+jgwens,"BigInt: OP_NOT 8-byte number (one bit set per byte) (P2S)",212,55,2,1,42,33600,0,1,0,147,0,4,9,0

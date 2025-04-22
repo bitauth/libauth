@@ -1,0 +1,13 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+qf0xy5,"BigInt: OP_0NOTEQUAL 512-byte number (all bits set) (P2S)",212,563,2,1,42,33600,915,1,0,147,0,4,515,0
+velmq0,"BigInt: OP_0NOTEQUAL 4096-byte number (all bits set) (P2S)",212,4147,2,1,42,33600,4499,1,0,147,0,4,4099,0
+4nrxyh,"BigInt: OP_0NOTEQUAL 8192-byte number (all bits set) (P2S)",212,8243,2,1,42,33600,8595,1,0,147,0,4,8195,0
+x8dd4y,"BigInt: OP_0NOTEQUAL 512-byte number (alternating bits set) (P2S)",212,563,2,1,42,33600,915,1,0,147,0,4,515,0
+lcacng,"BigInt: OP_0NOTEQUAL 4096-byte number (alternating bits set) (P2S)",212,4147,2,1,42,33600,4499,1,0,147,0,4,4099,0
+easndq,"BigInt: OP_0NOTEQUAL 8192-byte number (alternating bits set) (P2S)",212,8243,2,1,42,33600,8595,1,0,147,0,4,8195,0
+93xdvc,"BigInt: OP_0NOTEQUAL 512-byte number (highest-bit set) (P2S)",212,563,2,1,42,33600,915,1,0,147,0,4,515,0
+e3f74w,"BigInt: OP_0NOTEQUAL 4096-byte number (highest-bit set) (P2S)",212,4147,2,1,42,33600,4499,1,0,147,0,4,4099,0
+ht5vda,"BigInt: OP_0NOTEQUAL 8192-byte number (highest-bit set) (P2S)",212,8243,2,1,42,33600,8595,1,0,147,0,4,8195,0
+qnf7af,"BigInt: OP_0NOTEQUAL 512-byte number (one bit set per byte) (P2S)",212,563,2,1,42,33600,915,1,0,147,0,4,515,0
+9z88ed,"BigInt: OP_0NOTEQUAL 4096-byte number (one bit set per byte) (P2S)",212,4147,2,1,42,33600,4499,1,0,147,0,4,4099,0
+4yrh8v,"BigInt: OP_0NOTEQUAL 8192-byte number (one bit set per byte) (P2S)",212,8243,2,1,42,33600,8595,1,0,147,0,4,8195,0

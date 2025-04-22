@@ -21,7 +21,7 @@ export default [
         `<0> <key1.ecdsa_signature.default> <key2.ecdsa_signature.default> <key3.ecdsa_signature.default>`,
         `<3> <0x${binToHex(key1Uncompressed)}> <0x${binToHex(key2Uncompressed)}> <0x${binToHex(key3Uncompressed)}> OP_3 OP_CHECKMULTISIG`,
         'Maximum length BCH_2025_05 standard UTXO and output (3-of-3 bare multisig, uncompressed keys), ECDSA signatures',
-        ['nop2sh_standard', 'p2sh_ignore'],
+        ['p2s_standard', 'p2sh_ignore'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], token: longestTokenPrefix, valueSatoshis: 1_898 }],
           transaction: {
@@ -34,7 +34,7 @@ export default [
         `<0b111> <key1.schnorr_signature.default> <key2.schnorr_signature.default> <key3.schnorr_signature.default>`,
         `<3> <0x${binToHex(key1Uncompressed)}> <0x${binToHex(key2Uncompressed)}> <0x${binToHex(key3Uncompressed)}> OP_3 OP_CHECKMULTISIG`,
         'Maximum length BCH_2025_05 standard UTXO and output (3-of-3 bare multisig, uncompressed keys), Schnorr signatures',
-        ['nop2sh_standard', 'p2sh_ignore'],
+        ['p2s_standard', 'p2sh_ignore'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], token: longestTokenPrefix, valueSatoshis: 1_898 }],
           transaction: {
@@ -47,7 +47,7 @@ export default [
         `<0> <key1.ecdsa_signature.default> <key2.ecdsa_signature.default> <key3.ecdsa_signature.default>`,
         `<3> <0x${binToHex(key1Uncompressed)}> <0x${binToHex(key2Uncompressed)}> <0x${binToHex(key3Uncompressed)}> OP_3 OP_CHECKMULTISIG`,
         'Maximum length BCH_2025_05 standard UTXO and output (3-of-3 bare multisig, uncompressed keys), ECDSA signatures, 41-byte commitment',
-        ['chip_p2s', 'nop2sh_standard', 'p2sh_ignore'],
+        ['chip_p2s', 'p2sh_ignore'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], token: oneBeyondLongestTokenCommitment2025, valueSatoshis: 1_902 }],
           transaction: {
@@ -60,7 +60,7 @@ export default [
         `<0b111> <key1.schnorr_signature.default> <key2.schnorr_signature.default> <key3.schnorr_signature.default>`,
         `<3> <0x${binToHex(key1Uncompressed)}> <0x${binToHex(key2Uncompressed)}> <0x${binToHex(key3Uncompressed)}> OP_3 OP_CHECKMULTISIG`,
         'Maximum length BCH_2025_05 standard UTXO and output (3-of-3 bare multisig, uncompressed keys), Schnorr signatures, 41-byte commitment',
-        ['chip_p2s', 'nop2sh_standard', 'p2sh_ignore'],
+        ['chip_p2s', 'p2sh_ignore'],
         {
           sourceOutputs: [{ lockingBytecode: ['slot'], token: oneBeyondLongestTokenCommitment2025, valueSatoshis: 1_902 }],
           transaction: {

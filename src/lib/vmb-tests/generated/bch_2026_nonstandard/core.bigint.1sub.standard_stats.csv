@@ -1,0 +1,13 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+86zjcz,"BigInt: OP_1SUB 512-byte number (all bits set) (P2S)",729,563,2,1,557,445600,2452,13,0,278,0,4,1539,513
+dtc3uh,"BigInt: OP_1SUB 4096-byte number (all bits set) (P2S)",4313,4147,2,1,4141,3312800,16788,96,0,2070,0,4,12291,4097
+8yl5tl,"BigInt: OP_1SUB 8192-byte number (all bits set) (P2S)",8409,8243,2,1,8237,6589600,33172,192,0,4118,0,4,24579,8193
+w7nw8q,"BigInt: OP_1SUB 512-byte number (alternating bits set) (P2S)",728,563,2,1,556,444800,2449,13,0,278,0,4,1537,512
+6trl7r,"BigInt: OP_1SUB 4096-byte number (alternating bits set) (P2S)",4312,4147,2,1,4140,3312000,16785,96,0,2070,0,4,12289,4096
+t9vtd3,"BigInt: OP_1SUB 8192-byte number (alternating bits set) (P2S)",8408,8243,2,1,8236,6588800,33169,191,0,4118,0,4,24577,8192
+ku2608,"BigInt: OP_1SUB 512-byte number (highest-bit set) (P2S)",728,563,2,1,556,444800,2449,13,0,278,0,4,1537,512
+qn9a3a,"BigInt: OP_1SUB 4096-byte number (highest-bit set) (P2S)",4312,4147,2,1,4140,3312000,16785,96,0,2070,0,4,12289,4096
+gv6rmm,"BigInt: OP_1SUB 8192-byte number (highest-bit set) (P2S)",8408,8243,2,1,8236,6588800,33169,191,0,4118,0,4,24577,8192
+tj4cfe,"BigInt: OP_1SUB 512-byte number (one bit set per byte) (P2S)",728,563,2,1,556,444800,2449,13,0,278,0,4,1537,512
+7ymxsl,"BigInt: OP_1SUB 4096-byte number (one bit set per byte) (P2S)",4312,4147,2,1,4140,3312000,16785,96,0,2070,0,4,12289,4096
+8m5zf2,"BigInt: OP_1SUB 8192-byte number (one bit set per byte) (P2S)",8408,8243,2,1,8236,6588800,33169,191,0,4118,0,4,24577,8192

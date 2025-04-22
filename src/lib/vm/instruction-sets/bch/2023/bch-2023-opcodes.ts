@@ -257,6 +257,10 @@ export enum OpcodesBch2023 {
   OP_UNKNOWN236 = 0xec,
   OP_UNKNOWN237 = 0xed,
   OP_UNKNOWN238 = 0xee,
+  /**
+   * A.K.A. `PREFIX_TOKEN`, the codepoint used by CashToken locking
+   * bytecode prefixes.
+   */
   OP_UNKNOWN239 = 0xef,
   /**
    * A.K.A. `OP_PREFIX_BEGIN`

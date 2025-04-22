@@ -1,2 +1,2 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-043nvh,"PUSHDATA limits: OP_PUSHDATA_2 520 bytes (nonP2SH)",736,50,2,1,564,451200,0,13,0,282,0,5,525,0
+043nvh,"PUSHDATA limits: OP_PUSHDATA_2 520 bytes (P2S)",736,50,2,1,564,451200,0,13,0,282,0,5,525,0

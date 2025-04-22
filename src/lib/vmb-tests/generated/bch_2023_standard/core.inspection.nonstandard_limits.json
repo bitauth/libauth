@@ -82,6 +82,8 @@
 "gx9pq7":[46,36800,0,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 0) (P2SH32)"],
 "u86z5g":[46,36800,0,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 1) (P2SH20)"],
 "scs33l":[46,36800,0,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 1) (P2SH32)"],
+"7d4rg9":[565,452000,0,"Transaction inspection: OP_UTXOBYTECODE (ignore result, not excessive size) (P2SH20)"],
+"vt7hwa":[565,452000,0,"Transaction inspection: OP_UTXOBYTECODE (ignore result, not excessive size) (P2SH32)"],
 "np25et":[153,122400,0,"Transaction inspection: multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs, P2SH20) (P2SH20)"],
 "38ka7u":[201,160800,0,"Transaction inspection: multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs, P2SH32) (P2SH32)"],
 "kuc75c":[78,62400,0,"Transaction inspection: OP_OUTPOINTTXHASH (input 0) (P2SH20)"],

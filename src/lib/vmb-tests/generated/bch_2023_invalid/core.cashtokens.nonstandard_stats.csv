@@ -1,484 +1,502 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-sn55ut,"CHIP-2022-02-CashTokens: mint immutable NFT without authorization (pre-activation token forgery) (nonP2SH)",100,11,1,0,41,32800,0,1,0,143,0,1,1,0
+sn55ut,"CHIP-2022-02-CashTokens: mint immutable NFT without authorization (pre-activation token forgery) (P2S)",100,11,1,0,41,32800,0,1,0,143,0,1,1,0
 d5lu0l,"CHIP-2022-02-CashTokens: mint immutable NFT without authorization (pre-activation token forgery) (P2SH20)",124,33,1,0,43,34400,0,1,0,150,2,5,43,0
 wh536v,"CHIP-2022-02-CashTokens: mint immutable NFT without authorization (pre-activation token forgery) (P2SH32)",136,45,1,0,43,34400,0,1,0,150,2,5,67,0
-gppug8,"CHIP-2022-02-CashTokens: mint immutable NFT (without genesis input) (nonP2SH)",101,11,1,0,41,32800,0,1,0,143,0,1,1,0
+gppug8,"CHIP-2022-02-CashTokens: mint immutable NFT (without genesis input) (P2S)",101,11,1,0,41,32800,0,1,0,143,0,1,1,0
 9ug9ax,"CHIP-2022-02-CashTokens: mint immutable NFT (without genesis input) (P2SH20)",125,33,1,0,43,34400,0,1,0,150,2,5,43,0
 9us6t4,"CHIP-2022-02-CashTokens: mint immutable NFT (without genesis input) (P2SH32)",137,45,1,0,43,34400,0,1,0,150,2,5,67,0
-z8lnaj,"CHIP-2022-02-CashTokens: mint immutable NFT (wrong genesis input) (nonP2SH)",144,43,2,1,41,32800,0,1,0,143,0,1,1,0
+z8lnaj,"CHIP-2022-02-CashTokens: mint immutable NFT (wrong genesis input) (P2S)",144,43,2,1,41,32800,0,1,0,143,0,1,1,0
 da96c4,"CHIP-2022-02-CashTokens: mint immutable NFT (wrong genesis input) (P2SH20)",168,65,2,1,43,34400,0,1,0,150,2,5,43,0
 qmfh8n,"CHIP-2022-02-CashTokens: mint immutable NFT (wrong genesis input) (P2SH32)",180,77,2,1,43,34400,0,1,0,150,2,5,67,0
-w6n0a7,"CHIP-2022-02-CashTokens: mint mutable NFT without authorization (pre-activation token forgery) (nonP2SH)",100,11,1,0,41,32800,0,1,0,143,0,1,1,0
+w6n0a7,"CHIP-2022-02-CashTokens: mint mutable NFT without authorization (pre-activation token forgery) (P2S)",100,11,1,0,41,32800,0,1,0,143,0,1,1,0
 e42he5,"CHIP-2022-02-CashTokens: mint mutable NFT without authorization (pre-activation token forgery) (P2SH20)",124,33,1,0,43,34400,0,1,0,150,2,5,43,0
 wvg5tr,"CHIP-2022-02-CashTokens: mint mutable NFT without authorization (pre-activation token forgery) (P2SH32)",136,45,1,0,43,34400,0,1,0,150,2,5,67,0
-0ha2gl,"CHIP-2022-02-CashTokens: mint mutable NFT (without genesis input) (nonP2SH)",101,11,1,0,41,32800,0,1,0,143,0,1,1,0
+0ha2gl,"CHIP-2022-02-CashTokens: mint mutable NFT (without genesis input) (P2S)",101,11,1,0,41,32800,0,1,0,143,0,1,1,0
 9cy6j0,"CHIP-2022-02-CashTokens: mint mutable NFT (without genesis input) (P2SH20)",125,33,1,0,43,34400,0,1,0,150,2,5,43,0
 q75qj6,"CHIP-2022-02-CashTokens: mint mutable NFT (without genesis input) (P2SH32)",137,45,1,0,43,34400,0,1,0,150,2,5,67,0
-m6q3yz,"CHIP-2022-02-CashTokens: mint mutable NFT (wrong genesis input) (nonP2SH)",144,43,2,1,41,32800,0,1,0,143,0,1,1,0
+m6q3yz,"CHIP-2022-02-CashTokens: mint mutable NFT (wrong genesis input) (P2S)",144,43,2,1,41,32800,0,1,0,143,0,1,1,0
 6vwcds,"CHIP-2022-02-CashTokens: mint mutable NFT (wrong genesis input) (P2SH20)",168,65,2,1,43,34400,0,1,0,150,2,5,43,0
 ja2ttu,"CHIP-2022-02-CashTokens: mint mutable NFT (wrong genesis input) (P2SH32)",180,77,2,1,43,34400,0,1,0,150,2,5,67,0
-5kz8dn,"CHIP-2022-02-CashTokens: mint minting NFT without authorization (pre-activation token forgery) (nonP2SH)",100,11,1,0,41,32800,0,1,0,143,0,1,1,0
+5kz8dn,"CHIP-2022-02-CashTokens: mint minting NFT without authorization (pre-activation token forgery) (P2S)",100,11,1,0,41,32800,0,1,0,143,0,1,1,0
 8suega,"CHIP-2022-02-CashTokens: mint minting NFT without authorization (pre-activation token forgery) (P2SH20)",124,33,1,0,43,34400,0,1,0,150,2,5,43,0
 qtrju9,"CHIP-2022-02-CashTokens: mint minting NFT without authorization (pre-activation token forgery) (P2SH32)",136,45,1,0,43,34400,0,1,0,150,2,5,67,0
-hgvz03,"CHIP-2022-02-CashTokens: mint minting NFT (without genesis input) (nonP2SH)",101,11,1,0,41,32800,0,1,0,143,0,1,1,0
+hgvz03,"CHIP-2022-02-CashTokens: mint minting NFT (without genesis input) (P2S)",101,11,1,0,41,32800,0,1,0,143,0,1,1,0
 4txsyk,"CHIP-2022-02-CashTokens: mint minting NFT (without genesis input) (P2SH20)",125,33,1,0,43,34400,0,1,0,150,2,5,43,0
 pfp8uf,"CHIP-2022-02-CashTokens: mint minting NFT (without genesis input) (P2SH32)",137,45,1,0,43,34400,0,1,0,150,2,5,67,0
-a7nvtc,"CHIP-2022-02-CashTokens: mint minting NFT (wrong genesis input) (nonP2SH)",144,43,2,1,41,32800,0,1,0,143,0,1,1,0
+a7nvtc,"CHIP-2022-02-CashTokens: mint minting NFT (wrong genesis input) (P2S)",144,43,2,1,41,32800,0,1,0,143,0,1,1,0
 f778td,"CHIP-2022-02-CashTokens: mint minting NFT (wrong genesis input) (P2SH20)",168,65,2,1,43,34400,0,1,0,150,2,5,43,0
 00yjgg,"CHIP-2022-02-CashTokens: mint minting NFT (wrong genesis input) (P2SH32)",180,77,2,1,43,34400,0,1,0,150,2,5,67,0
-zu7hym,"CHIP-2022-02-CashTokens: mint fungible tokens without authorization (pre-activation token forgery) (nonP2SH)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
+zu7hym,"CHIP-2022-02-CashTokens: mint fungible tokens without authorization (pre-activation token forgery) (P2S)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
 0hhrj8,"CHIP-2022-02-CashTokens: mint fungible tokens without authorization (pre-activation token forgery) (P2SH20)",128,33,1,0,43,34400,0,1,0,150,2,5,43,0
 6mteh2,"CHIP-2022-02-CashTokens: mint fungible tokens without authorization (pre-activation token forgery) (P2SH32)",140,45,1,0,43,34400,0,1,0,150,2,5,67,0
-pqk9e8,"CHIP-2022-02-CashTokens: mint fungible tokens (without genesis input) (nonP2SH)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
+pqk9e8,"CHIP-2022-02-CashTokens: mint fungible tokens (without genesis input) (P2S)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
 2clru4,"CHIP-2022-02-CashTokens: mint fungible tokens (without genesis input) (P2SH20)",128,33,1,0,43,34400,0,1,0,150,2,5,43,0
 j676ez,"CHIP-2022-02-CashTokens: mint fungible tokens (without genesis input) (P2SH32)",140,45,1,0,43,34400,0,1,0,150,2,5,67,0
-qarc7z,"CHIP-2022-02-CashTokens: mint fungible tokens (wrong genesis input) (nonP2SH)",141,43,2,1,41,32800,0,1,0,143,0,1,1,0
+qarc7z,"CHIP-2022-02-CashTokens: mint fungible tokens (wrong genesis input) (P2S)",141,43,2,1,41,32800,0,1,0,143,0,1,1,0
 ctmcpj,"CHIP-2022-02-CashTokens: mint fungible tokens (wrong genesis input) (P2SH20)",165,65,2,1,43,34400,0,1,0,150,2,5,43,0
 pkacq0,"CHIP-2022-02-CashTokens: mint fungible tokens (wrong genesis input) (P2SH32)",177,77,2,1,43,34400,0,1,0,150,2,5,67,0
-0crvd0,"CHIP-2022-02-CashTokens: mint excessive fungible token supply (4611686018427387904 + 4611686018427387904) (nonP2SH)",157,11,1,0,41,32800,0,1,0,143,0,1,1,0
+0crvd0,"CHIP-2022-02-CashTokens: mint excessive fungible token supply (4611686018427387904 + 4611686018427387904) (P2S)",157,11,1,0,41,32800,0,1,0,143,0,1,1,0
 cfawg5,"CHIP-2022-02-CashTokens: mint excessive fungible token supply (4611686018427387904 + 4611686018427387904) (P2SH20)",203,33,1,0,43,34400,0,1,0,150,2,5,43,0
 grvlmy,"CHIP-2022-02-CashTokens: mint excessive fungible token supply (4611686018427387904 + 4611686018427387904) (P2SH32)",227,45,1,0,43,34400,0,1,0,150,2,5,67,0
-pxukh4,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT without authorization (pre-activation token forgery) (nonP2SH)",103,11,1,0,41,32800,0,1,0,143,0,1,1,0
+pxukh4,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT without authorization (pre-activation token forgery) (P2S)",103,11,1,0,41,32800,0,1,0,143,0,1,1,0
 3w5e6q,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT without authorization (pre-activation token forgery) (P2SH20)",127,33,1,0,43,34400,0,1,0,150,2,5,43,0
 2w5hx2,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT without authorization (pre-activation token forgery) (P2SH32)",139,45,1,0,43,34400,0,1,0,150,2,5,67,0
-jc3qlh,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (without genesis input) (nonP2SH)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
+jc3qlh,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (without genesis input) (P2S)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
 8chgtd,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (without genesis input) (P2SH20)",128,33,1,0,43,34400,0,1,0,150,2,5,43,0
 gnzaex,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (without genesis input) (P2SH32)",140,45,1,0,43,34400,0,1,0,150,2,5,67,0
-2zkrfr,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (wrong genesis input) (nonP2SH)",147,43,2,1,41,32800,0,1,0,143,0,1,1,0
+2zkrfr,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (wrong genesis input) (P2S)",147,43,2,1,41,32800,0,1,0,143,0,1,1,0
 v8akl4,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (wrong genesis input) (P2SH20)",171,65,2,1,43,34400,0,1,0,150,2,5,43,0
 8vnngz,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFT (wrong genesis input) (P2SH32)",183,77,2,1,43,34400,0,1,0,150,2,5,67,0
-tqhd8m,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT without authorization (pre-activation token forgery) (nonP2SH)",103,11,1,0,41,32800,0,1,0,143,0,1,1,0
+tqhd8m,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT without authorization (pre-activation token forgery) (P2S)",103,11,1,0,41,32800,0,1,0,143,0,1,1,0
 cmrhyv,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT without authorization (pre-activation token forgery) (P2SH20)",127,33,1,0,43,34400,0,1,0,150,2,5,43,0
 nejrdg,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT without authorization (pre-activation token forgery) (P2SH32)",139,45,1,0,43,34400,0,1,0,150,2,5,67,0
-ql9y38,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (without genesis input) (nonP2SH)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
+ql9y38,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (without genesis input) (P2S)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
 933kg5,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (without genesis input) (P2SH20)",128,33,1,0,43,34400,0,1,0,150,2,5,43,0
 w8q0w9,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (without genesis input) (P2SH32)",140,45,1,0,43,34400,0,1,0,150,2,5,67,0
-2z4puv,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (wrong genesis input) (nonP2SH)",147,43,2,1,41,32800,0,1,0,143,0,1,1,0
+2z4puv,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (wrong genesis input) (P2S)",147,43,2,1,41,32800,0,1,0,143,0,1,1,0
 secw0h,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (wrong genesis input) (P2SH20)",171,65,2,1,43,34400,0,1,0,150,2,5,43,0
 eqzwm8,"CHIP-2022-02-CashTokens: mint fungible tokens and mutable NFT (wrong genesis input) (P2SH32)",183,77,2,1,43,34400,0,1,0,150,2,5,67,0
-uyq2u8,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT without authorization (pre-activation token forgery) (nonP2SH)",103,11,1,0,41,32800,0,1,0,143,0,1,1,0
+uyq2u8,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT without authorization (pre-activation token forgery) (P2S)",103,11,1,0,41,32800,0,1,0,143,0,1,1,0
 8n4slm,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT without authorization (pre-activation token forgery) (P2SH20)",127,33,1,0,43,34400,0,1,0,150,2,5,43,0
 lezve9,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT without authorization (pre-activation token forgery) (P2SH32)",139,45,1,0,43,34400,0,1,0,150,2,5,67,0
-npuf2g,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (without genesis input) (nonP2SH)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
+npuf2g,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (without genesis input) (P2S)",104,11,1,0,41,32800,0,1,0,143,0,1,1,0
 m3lnt0,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (without genesis input) (P2SH20)",128,33,1,0,43,34400,0,1,0,150,2,5,43,0
 3rummr,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (without genesis input) (P2SH32)",140,45,1,0,43,34400,0,1,0,150,2,5,67,0
-za4gv8,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (wrong genesis input) (nonP2SH)",147,43,2,1,41,32800,0,1,0,143,0,1,1,0
+za4gv8,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (wrong genesis input) (P2S)",147,43,2,1,41,32800,0,1,0,143,0,1,1,0
 q8fx0w,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (wrong genesis input) (P2SH20)",171,65,2,1,43,34400,0,1,0,150,2,5,43,0
 ceukut,"CHIP-2022-02-CashTokens: mint fungible tokens and minting NFT (wrong genesis input) (P2SH32)",183,77,2,1,43,34400,0,1,0,150,2,5,67,0
-ly3wck,"CHIP-2022-02-CashTokens: mint multiple categories (fungible tokens of wrong category, immutable tokens) (nonP2SH)",288,43,2,1,41,32800,0,1,0,143,0,1,1,0
+ly3wck,"CHIP-2022-02-CashTokens: mint multiple categories (fungible tokens of wrong category, immutable tokens) (P2S)",288,43,2,1,41,32800,0,1,0,143,0,1,1,0
 0kalrd,"CHIP-2022-02-CashTokens: mint multiple categories (fungible tokens of wrong category, immutable tokens) (P2SH20)",378,65,2,1,43,34400,0,1,0,150,2,5,43,0
 zyrstq,"CHIP-2022-02-CashTokens: mint multiple categories (fungible tokens of wrong category, immutable tokens) (P2SH32)",426,77,2,1,43,34400,0,1,0,150,2,5,67,0
-7zc0v7,"CHIP-2022-02-CashTokens: mint maximum fungible supply for multiple categories (excessive in one category) (nonP2SH)",306,43,2,1,41,32800,0,1,0,143,0,1,1,0
+7zc0v7,"CHIP-2022-02-CashTokens: mint maximum fungible supply for multiple categories (excessive in one category) (P2S)",306,43,2,1,41,32800,0,1,0,143,0,1,1,0
 ds3tal,"CHIP-2022-02-CashTokens: mint maximum fungible supply for multiple categories (excessive in one category) (P2SH20)",396,65,2,1,43,34400,0,1,0,150,2,5,43,0
 q5l5gq,"CHIP-2022-02-CashTokens: mint maximum fungible supply for multiple categories (excessive in one category) (P2SH32)",444,77,2,1,43,34400,0,1,0,150,2,5,67,0
-m6jsdy,"CHIP-2022-02-CashTokens: mint immutable tokens while moving immutable tokens of another category (attempt to modify a moved commitment) (nonP2SH)",334,154,3,2,41,32800,0,1,0,143,0,1,1,0
+m6jsdy,"CHIP-2022-02-CashTokens: mint immutable tokens while moving immutable tokens of another category (attempt to modify a moved commitment) (P2S)",334,154,3,2,41,32800,0,1,0,143,0,1,1,0
 64x4xu,"CHIP-2022-02-CashTokens: mint immutable tokens while moving immutable tokens of another category (attempt to modify a moved commitment) (P2SH20)",424,176,3,2,43,34400,0,1,0,150,2,5,43,0
 386uc2,"CHIP-2022-02-CashTokens: mint immutable tokens while moving immutable tokens of another category (attempt to modify a moved commitment) (P2SH32)",472,188,3,2,43,34400,0,1,0,150,2,5,67,0
-wu8dd9,"CHIP-2022-02-CashTokens: mint immutable NFT (41-byte commitment) (nonP2SH)",137,11,1,0,41,32800,0,1,0,143,0,1,1,0
+wu8dd9,"CHIP-2022-02-CashTokens: mint immutable NFT (41-byte commitment) (P2S)",137,11,1,0,41,32800,0,1,0,143,0,1,1,0
 j03kn5,"CHIP-2022-02-CashTokens: mint immutable NFT (41-byte commitment) (P2SH20)",161,33,1,0,43,34400,0,1,0,150,2,5,43,0
 e326gx,"CHIP-2022-02-CashTokens: mint immutable NFT (41-byte commitment) (P2SH32)",173,45,1,0,43,34400,0,1,0,150,2,5,67,0
-42yvde,"CHIP-2022-02-CashTokens: mint immutable NFT (253-byte commitment) (nonP2SH)",353,11,1,0,41,32800,0,1,0,143,0,1,1,0
+hzn2el,"CHIP-2022-02-CashTokens: mint immutable NFT (128-byte commitment) (P2S)",224,11,1,0,41,32800,0,1,0,143,0,1,1,0
+q5cjxh,"CHIP-2022-02-CashTokens: mint immutable NFT (128-byte commitment) (P2SH20)",248,33,1,0,43,34400,0,1,0,150,2,5,43,0
+epr5rp,"CHIP-2022-02-CashTokens: mint immutable NFT (128-byte commitment) (P2SH32)",260,45,1,0,43,34400,0,1,0,150,2,5,67,0
+qq9nte,"CHIP-2022-02-CashTokens: mint immutable NFT (129-byte commitment) (P2S)",225,11,1,0,41,32800,0,1,0,143,0,1,1,0
+nqe204,"CHIP-2022-02-CashTokens: mint immutable NFT (129-byte commitment) (P2SH20)",249,33,1,0,43,34400,0,1,0,150,2,5,43,0
+67lp88,"CHIP-2022-02-CashTokens: mint immutable NFT (129-byte commitment) (P2SH32)",261,45,1,0,43,34400,0,1,0,150,2,5,67,0
+42yvde,"CHIP-2022-02-CashTokens: mint immutable NFT (253-byte commitment) (P2S)",353,11,1,0,41,32800,0,1,0,143,0,1,1,0
 vp3rqc,"CHIP-2022-02-CashTokens: mint immutable NFT (253-byte commitment) (P2SH20)",377,33,1,0,43,34400,0,1,0,150,2,5,43,0
 n8uxg8,"CHIP-2022-02-CashTokens: mint immutable NFT (253-byte commitment) (P2SH32)",389,45,1,0,43,34400,0,1,0,150,2,5,67,0
-hpak2x,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (1 to 2) (nonP2SH)",96,46,1,0,41,32800,0,1,0,143,0,1,1,0
+hpak2x,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (1 to 2) (P2S)",96,46,1,0,41,32800,0,1,0,143,0,1,1,0
 ngm2je,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (1 to 2) (P2SH20)",120,68,1,0,43,34400,0,1,0,150,2,5,43,0
 ctm9nl,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (1 to 2) (P2SH32)",132,80,1,0,43,34400,0,1,0,150,2,5,67,0
-fuk0k6,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (253 to 254) (nonP2SH)",98,48,1,0,41,32800,0,1,0,143,0,1,1,0
+fuk0k6,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (253 to 254) (P2S)",98,48,1,0,41,32800,0,1,0,143,0,1,1,0
 qgj0ma,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (253 to 254) (P2SH20)",122,70,1,0,43,34400,0,1,0,150,2,5,43,0
 4jvjz5,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (253 to 254) (P2SH32)",134,82,1,0,43,34400,0,1,0,150,2,5,67,0
-x0eayr,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (65535 to 65536) (nonP2SH)",100,48,1,0,41,32800,0,1,0,143,0,1,1,0
+x0eayr,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (65535 to 65536) (P2S)",100,48,1,0,41,32800,0,1,0,143,0,1,1,0
 gldx4r,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (65535 to 65536) (P2SH20)",124,70,1,0,43,34400,0,1,0,150,2,5,43,0
 fe5p3m,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (65535 to 65536) (P2SH32)",136,82,1,0,43,34400,0,1,0,150,2,5,67,0
-mgckg6,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (4294967295 to 4294967296) (nonP2SH)",104,50,1,0,41,32800,0,1,0,143,0,1,1,0
+mgckg6,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (4294967295 to 4294967296) (P2S)",104,50,1,0,41,32800,0,1,0,143,0,1,1,0
 6yjhvx,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (4294967295 to 4294967296) (P2SH20)",128,72,1,0,43,34400,0,1,0,150,2,5,43,0
 5z9tmc,"CHIP-2022-02-CashTokens: attempt to overspend fungible token amount (4294967295 to 4294967296) (P2SH32)",140,84,1,0,43,34400,0,1,0,150,2,5,67,0
-kq7lqv,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 1,000,000 to 1,000,001) (nonP2SH)",149,50,1,0,41,32800,0,1,0,143,0,1,1,0
+kq7lqv,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 1,000,000 to 1,000,001) (P2S)",149,50,1,0,41,32800,0,1,0,143,0,1,1,0
 65ztkn,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 1,000,000 to 1,000,001) (P2SH20)",195,72,1,0,43,34400,0,1,0,150,2,5,43,0
 dy743a,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 1,000,000 to 1,000,001) (P2SH32)",219,84,1,0,43,34400,0,1,0,150,2,5,67,0
-33g5lg,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 100,000 to 100,001) (nonP2SH)",286,50,1,0,41,32800,0,1,0,143,0,1,1,0
+33g5lg,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 100,000 to 100,001) (P2S)",286,50,1,0,41,32800,0,1,0,143,0,1,1,0
 2qc44t,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 100,000 to 100,001) (P2SH20)",398,72,1,0,43,34400,0,1,0,150,2,5,43,0
 605srl,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 100,000 to 100,001) (P2SH32)",458,84,1,0,43,34400,0,1,0,150,2,5,67,0
-hy0dfr,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 10,000 to 10,001) (nonP2SH)",239,48,1,0,41,32800,0,1,0,143,0,1,1,0
+hy0dfr,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 10,000 to 10,001) (P2S)",239,48,1,0,41,32800,0,1,0,143,0,1,1,0
 9dq8sk,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 10,000 to 10,001) (P2SH20)",329,70,1,0,43,34400,0,1,0,150,2,5,43,0
 2v5d5p,"CHIP-2022-02-CashTokens: split fungible token outputs (attempt 10,000 to 10,001) (P2SH32)",377,82,1,0,43,34400,0,1,0,150,2,5,67,0
-a7q0ca,"CHIP-2022-02-CashTokens: merge fungible token outputs (1 + 1 == 3) (nonP2SH)",139,113,2,1,41,32800,0,1,0,143,0,1,1,0
+a7q0ca,"CHIP-2022-02-CashTokens: merge fungible token outputs (1 + 1 == 3) (P2S)",139,113,2,1,41,32800,0,1,0,143,0,1,1,0
 24p3gp,"CHIP-2022-02-CashTokens: merge fungible token outputs (1 + 1 == 3) (P2SH20)",163,135,2,1,43,34400,0,1,0,150,2,5,43,0
 90u36y,"CHIP-2022-02-CashTokens: merge fungible token outputs (1 + 1 == 3) (P2SH32)",175,147,2,1,43,34400,0,1,0,150,2,5,67,0
-ll8h0k,"CHIP-2022-02-CashTokens: merge fungible token outputs (252 + 1 == 254) (nonP2SH)",141,113,2,1,41,32800,0,1,0,143,0,1,1,0
+ll8h0k,"CHIP-2022-02-CashTokens: merge fungible token outputs (252 + 1 == 254) (P2S)",141,113,2,1,41,32800,0,1,0,143,0,1,1,0
 a3jxpt,"CHIP-2022-02-CashTokens: merge fungible token outputs (252 + 1 == 254) (P2SH20)",165,135,2,1,43,34400,0,1,0,150,2,5,43,0
 s55nu7,"CHIP-2022-02-CashTokens: merge fungible token outputs (252 + 1 == 254) (P2SH32)",177,147,2,1,43,34400,0,1,0,150,2,5,67,0
-sqjzpx,"CHIP-2022-02-CashTokens: merge fungible token outputs (65535 + 1 == 65537) (nonP2SH)",143,115,2,1,41,32800,0,1,0,143,0,1,1,0
+sqjzpx,"CHIP-2022-02-CashTokens: merge fungible token outputs (65535 + 1 == 65537) (P2S)",143,115,2,1,41,32800,0,1,0,143,0,1,1,0
 nvxh3l,"CHIP-2022-02-CashTokens: merge fungible token outputs (65535 + 1 == 65537) (P2SH20)",167,137,2,1,43,34400,0,1,0,150,2,5,43,0
 fwwkft,"CHIP-2022-02-CashTokens: merge fungible token outputs (65535 + 1 == 65537) (P2SH32)",179,149,2,1,43,34400,0,1,0,150,2,5,67,0
-wxwdee,"CHIP-2022-02-CashTokens: merge fungible token outputs (4294967295 + 1 == 4294967297) (nonP2SH)",147,117,2,1,41,32800,0,1,0,143,0,1,1,0
+wxwdee,"CHIP-2022-02-CashTokens: merge fungible token outputs (4294967295 + 1 == 4294967297) (P2S)",147,117,2,1,41,32800,0,1,0,143,0,1,1,0
 e8gudr,"CHIP-2022-02-CashTokens: merge fungible token outputs (4294967295 + 1 == 4294967297) (P2SH20)",171,139,2,1,43,34400,0,1,0,150,2,5,43,0
 6p9sa3,"CHIP-2022-02-CashTokens: merge fungible token outputs (4294967295 + 1 == 4294967297) (P2SH32)",183,151,2,1,43,34400,0,1,0,150,2,5,67,0
-ezatf3,"CHIP-2022-02-CashTokens: merge fungible token outputs (9223372036854775807 == 1 + 9223372036854775807) (nonP2SH)",149,54,1,0,41,32800,0,1,0,143,0,1,1,0
+ezatf3,"CHIP-2022-02-CashTokens: merge fungible token outputs (9223372036854775807 == 1 + 9223372036854775807) (P2S)",149,54,1,0,41,32800,0,1,0,143,0,1,1,0
 fqte47,"CHIP-2022-02-CashTokens: merge fungible token outputs (9223372036854775807 == 1 + 9223372036854775807) (P2SH20)",195,76,1,0,43,34400,0,1,0,150,2,5,43,0
 ky9xry,"CHIP-2022-02-CashTokens: merge fungible token outputs (9223372036854775807 == 1 + 9223372036854775807) (P2SH32)",219,88,1,0,43,34400,0,1,0,150,2,5,67,0
-deg3n4,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 1,000,000 to 1,000,001) (nonP2SH)",143,121,2,1,41,32800,0,1,0,143,0,1,1,0
+deg3n4,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 1,000,000 to 1,000,001) (P2S)",143,121,2,1,41,32800,0,1,0,143,0,1,1,0
 dc4kxg,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 1,000,000 to 1,000,001) (P2SH20)",167,143,2,1,43,34400,0,1,0,150,2,5,43,0
 u980vk,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 1,000,000 to 1,000,001) (P2SH32)",179,155,2,1,43,34400,0,1,0,150,2,5,67,0
-49lemn,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 100,000 to 100,001) (nonP2SH)",272,324,5,2,41,32800,0,1,0,143,0,1,1,0
+49lemn,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 100,000 to 100,001) (P2S)",272,324,5,2,41,32800,0,1,0,143,0,1,1,0
 calusk,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 100,000 to 100,001) (P2SH20)",296,346,5,2,43,34400,0,1,0,150,2,5,43,0
 k2jen7,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 100,000 to 100,001) (P2SH32)",308,358,5,2,43,34400,0,1,0,150,2,5,67,0
-zcx8qm,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 10,000 to 10,001) (nonP2SH)",227,255,4,1,41,32800,0,1,0,143,0,1,1,0
+zcx8qm,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 10,000 to 10,001) (P2S)",227,255,4,1,41,32800,0,1,0,143,0,1,1,0
 rhx4uk,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 10,000 to 10,001) (P2SH20)",251,277,4,1,43,34400,0,1,0,150,2,5,43,0
 4k9p7y,"CHIP-2022-02-CashTokens: merge fungible token outputs (attempt 10,000 to 10,001) (P2SH32)",263,289,4,1,43,34400,0,1,0,150,2,5,67,0
-wmyske,"CHIP-2022-02-CashTokens: merge/split fungible token outputs of multiple categories (attempt amount increase) (nonP2SH)",368,255,4,1,41,32800,0,1,0,143,0,1,1,0
+wmyske,"CHIP-2022-02-CashTokens: merge/split fungible token outputs of multiple categories (attempt amount increase) (P2S)",368,255,4,1,41,32800,0,1,0,143,0,1,1,0
 q4nqsg,"CHIP-2022-02-CashTokens: merge/split fungible token outputs of multiple categories (attempt amount increase) (P2SH20)",458,277,4,1,43,34400,0,1,0,150,2,5,43,0
 2mjrea,"CHIP-2022-02-CashTokens: merge/split fungible token outputs of multiple categories (attempt amount increase) (P2SH32)",506,289,4,1,43,34400,0,1,0,150,2,5,67,0
-wff9q0,"CHIP-2022-02-CashTokens: mint 1 immutable token, destroy minting token (attempt with minting token of wrong category) (nonP2SH)",97,45,1,0,41,32800,0,1,0,143,0,1,1,0
+wff9q0,"CHIP-2022-02-CashTokens: mint 1 immutable token, destroy minting token (attempt with minting token of wrong category) (P2S)",97,45,1,0,41,32800,0,1,0,143,0,1,1,0
 gj659d,"CHIP-2022-02-CashTokens: mint 1 immutable token, destroy minting token (attempt with minting token of wrong category) (P2SH20)",121,67,1,0,43,34400,0,1,0,150,2,5,43,0
 zsl6vw,"CHIP-2022-02-CashTokens: mint 1 immutable token, destroy minting token (attempt with minting token of wrong category) (P2SH32)",133,79,1,0,43,34400,0,1,0,150,2,5,67,0
-y7x5jk,"CHIP-2022-02-CashTokens: mint multiple NFTs, various capabilities (attempt to mint a fungible token after genesis transaction) (nonP2SH)",360,45,1,0,41,32800,0,1,0,143,0,1,1,0
+y7x5jk,"CHIP-2022-02-CashTokens: mint multiple NFTs, various capabilities (attempt to mint a fungible token after genesis transaction) (P2S)",360,45,1,0,41,32800,0,1,0,143,0,1,1,0
 6g8ufw,"CHIP-2022-02-CashTokens: mint multiple NFTs, various capabilities (attempt to mint a fungible token after genesis transaction) (P2SH20)",516,67,1,0,43,34400,0,1,0,150,2,5,43,0
 2g22v2,"CHIP-2022-02-CashTokens: mint multiple NFTs, various capabilities (attempt to mint a fungible token after genesis transaction) (P2SH32)",600,79,1,0,43,34400,0,1,0,150,2,5,67,0
-ul7grw,"CHIP-2022-02-CashTokens: mint an immutable token while minting fungible and minting tokens (genesis transaction) of a new category (attempt to add fungible tokens of original category) (nonP2SH)",231,45,1,0,41,32800,0,1,0,143,0,1,1,0
+ul7grw,"CHIP-2022-02-CashTokens: mint an immutable token while minting fungible and minting tokens (genesis transaction) of a new category (attempt to add fungible tokens of original category) (P2S)",231,45,1,0,41,32800,0,1,0,143,0,1,1,0
 jucyy4,"CHIP-2022-02-CashTokens: mint an immutable token while minting fungible and minting tokens (genesis transaction) of a new category (attempt to add fungible tokens of original category) (P2SH20)",321,67,1,0,43,34400,0,1,0,150,2,5,43,0
 tty0nd,"CHIP-2022-02-CashTokens: mint an immutable token while minting fungible and minting tokens (genesis transaction) of a new category (attempt to add fungible tokens of original category) (P2SH32)",369,79,1,0,43,34400,0,1,0,150,2,5,67,0
-qlxfwa,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (nonP2SH)",139,45,1,0,41,32800,0,1,0,143,0,1,1,0
+qlxfwa,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (P2S)",139,45,1,0,41,32800,0,1,0,143,0,1,1,0
 qqrtsn,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (P2SH20)",185,67,1,0,43,34400,0,1,0,150,2,5,43,0
 eyfkkm,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (P2SH32)",209,79,1,0,43,34400,0,1,0,150,2,5,67,0
-gxlzcy,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (from 2 to 3) (nonP2SH)",226,111,2,0,41,32800,0,1,0,143,0,1,1,0
+gxlzcy,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (from 2 to 3) (P2S)",226,111,2,0,41,32800,0,1,0,143,0,1,1,0
 f4avsx,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (from 2 to 3) (P2SH20)",294,133,2,0,43,34400,0,1,0,150,2,5,43,0
 qpjt0e,"CHIP-2022-02-CashTokens: attempt to duplicate mutable token (from 2 to 3) (P2SH32)",330,145,2,0,43,34400,0,1,0,150,2,5,67,0
-agla32,"CHIP-2022-02-CashTokens: attempt to swap commitments of one mutable and one immutable token of the same category (nonP2SH)",190,119,2,1,41,32800,0,1,0,143,0,1,1,0
+agla32,"CHIP-2022-02-CashTokens: attempt to swap commitments of one mutable and one immutable token of the same category (P2S)",190,119,2,1,41,32800,0,1,0,143,0,1,1,0
 6mn084,"CHIP-2022-02-CashTokens: attempt to swap commitments of one mutable and one immutable token of the same category (P2SH20)",236,141,2,1,43,34400,0,1,0,150,2,5,43,0
 hhle9w,"CHIP-2022-02-CashTokens: attempt to swap commitments of one mutable and one immutable token of the same category (P2SH32)",260,153,2,1,43,34400,0,1,0,150,2,5,67,0
-l2vmdl,"CHIP-2022-02-CashTokens: modify 2 mutable tokens while dropping 1 immutable token of the same category (attempt to only swap commitments) (nonP2SH)",277,181,3,2,41,32800,0,1,0,143,0,1,1,0
+l2vmdl,"CHIP-2022-02-CashTokens: modify 2 mutable tokens while dropping 1 immutable token of the same category (attempt to only swap commitments) (P2S)",277,181,3,2,41,32800,0,1,0,143,0,1,1,0
 uudl4q,"CHIP-2022-02-CashTokens: modify 2 mutable tokens while dropping 1 immutable token of the same category (attempt to only swap commitments) (P2SH20)",345,203,3,2,43,34400,0,1,0,150,2,5,43,0
 v4mcav,"CHIP-2022-02-CashTokens: modify 2 mutable tokens while dropping 1 immutable token of the same category (attempt to only swap commitments) (P2SH32)",381,215,3,2,43,34400,0,1,0,150,2,5,67,0
-fse8cz,"CHIP-2022-02-CashTokens: downgrade 2 mutable tokens while moving 1 immutable token of the same category (attempt to modify immutable token) (nonP2SH)",269,181,3,2,41,32800,0,1,0,143,0,1,1,0
+fse8cz,"CHIP-2022-02-CashTokens: downgrade 2 mutable tokens while moving 1 immutable token of the same category (attempt to modify immutable token) (P2S)",269,181,3,2,41,32800,0,1,0,143,0,1,1,0
 ffkf02,"CHIP-2022-02-CashTokens: downgrade 2 mutable tokens while moving 1 immutable token of the same category (attempt to modify immutable token) (P2SH20)",337,203,3,2,43,34400,0,1,0,150,2,5,43,0
 mgpctg,"CHIP-2022-02-CashTokens: downgrade 2 mutable tokens while moving 1 immutable token of the same category (attempt to modify immutable token) (P2SH32)",373,215,3,2,43,34400,0,1,0,150,2,5,67,0
-w9jxpd,"CHIP-2022-02-CashTokens: modify, downgrade, and/or destroy mutable tokens of multiple categories (attempt with insufficient mutable tokens) (nonP2SH)",584,515,8,7,41,32800,0,1,0,143,0,1,1,0
+w9jxpd,"CHIP-2022-02-CashTokens: modify, downgrade, and/or destroy mutable tokens of multiple categories (attempt with insufficient mutable tokens) (P2S)",584,515,8,7,41,32800,0,1,0,143,0,1,1,0
 5jlar2,"CHIP-2022-02-CashTokens: modify, downgrade, and/or destroy mutable tokens of multiple categories (attempt with insufficient mutable tokens) (P2SH20)",696,537,8,7,43,34400,0,1,0,150,2,5,43,0
 7ggnpn,"CHIP-2022-02-CashTokens: modify, downgrade, and/or destroy mutable tokens of multiple categories (attempt with insufficient mutable tokens) (P2SH32)",756,549,8,7,43,34400,0,1,0,150,2,5,67,0
-jd965f,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (nonP2SH)",139,45,1,0,41,32800,0,1,0,143,0,1,1,0
+jd965f,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (P2S)",139,45,1,0,41,32800,0,1,0,143,0,1,1,0
 dq5q05,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (P2SH20)",185,67,1,0,43,34400,0,1,0,150,2,5,43,0
 64r95v,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (P2SH32)",209,79,1,0,43,34400,0,1,0,150,2,5,67,0
-upr2rl,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (from 2 to 3) (nonP2SH)",226,111,2,0,41,32800,0,1,0,143,0,1,1,0
+upr2rl,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (from 2 to 3) (P2S)",226,111,2,0,41,32800,0,1,0,143,0,1,1,0
 5y8yfy,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (from 2 to 3) (P2SH20)",294,133,2,0,43,34400,0,1,0,150,2,5,43,0
 55xhn4,"CHIP-2022-02-CashTokens: attempt to duplicate immutable token (from 2 to 3) (P2SH32)",330,145,2,0,43,34400,0,1,0,150,2,5,67,0
-9jtpr5,"CHIP-2022-02-CashTokens: attempt to modify immutable token (slice off byte) (nonP2SH)",99,50,1,0,41,32800,0,1,0,143,0,1,1,0
+9jtpr5,"CHIP-2022-02-CashTokens: attempt to modify immutable token (slice off byte) (P2S)",99,50,1,0,41,32800,0,1,0,143,0,1,1,0
 ty26uu,"CHIP-2022-02-CashTokens: attempt to modify immutable token (slice off byte) (P2SH20)",123,72,1,0,43,34400,0,1,0,150,2,5,43,0
 a0thn0,"CHIP-2022-02-CashTokens: attempt to modify immutable token (slice off byte) (P2SH32)",135,84,1,0,43,34400,0,1,0,150,2,5,67,0
-ex0lyr,"CHIP-2022-02-CashTokens: attempt to modify immutable token (append byte) (nonP2SH)",101,50,1,0,41,32800,0,1,0,143,0,1,1,0
+ex0lyr,"CHIP-2022-02-CashTokens: attempt to modify immutable token (append byte) (P2S)",101,50,1,0,41,32800,0,1,0,143,0,1,1,0
 e4yqsx,"CHIP-2022-02-CashTokens: attempt to modify immutable token (append byte) (P2SH20)",125,72,1,0,43,34400,0,1,0,150,2,5,43,0
 glpg32,"CHIP-2022-02-CashTokens: attempt to modify immutable token (append byte) (P2SH32)",137,84,1,0,43,34400,0,1,0,150,2,5,67,0
-886j8e,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to mutable (nonP2SH)",100,50,1,0,41,32800,0,1,0,143,0,1,1,0
+886j8e,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to mutable (P2S)",100,50,1,0,41,32800,0,1,0,143,0,1,1,0
 qlwaw5,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to mutable (P2SH20)",124,72,1,0,43,34400,0,1,0,150,2,5,43,0
 arsygm,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to mutable (P2SH32)",136,84,1,0,43,34400,0,1,0,150,2,5,67,0
-j9z0ue,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to minting (nonP2SH)",100,50,1,0,41,32800,0,1,0,143,0,1,1,0
+j9z0ue,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to minting (P2S)",100,50,1,0,41,32800,0,1,0,143,0,1,1,0
 umddyf,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to minting (P2SH20)",124,72,1,0,43,34400,0,1,0,150,2,5,43,0
 c787ad,"CHIP-2022-02-CashTokens: attempt to upgrade immutable token to minting (P2SH32)",136,84,1,0,43,34400,0,1,0,150,2,5,67,0
-87clsp,"CHIP-2022-02-CashTokens: move multiple immutable tokens with the same commitment (attempt to drop a commitment) (nonP2SH)",273,183,3,1,41,32800,0,1,0,143,0,1,1,0
+87clsp,"CHIP-2022-02-CashTokens: move multiple immutable tokens with the same commitment (attempt to drop a commitment) (P2S)",273,183,3,1,41,32800,0,1,0,143,0,1,1,0
 kkz3y7,"CHIP-2022-02-CashTokens: move multiple immutable tokens with the same commitment (attempt to drop a commitment) (P2SH20)",341,205,3,1,43,34400,0,1,0,150,2,5,43,0
 44r74g,"CHIP-2022-02-CashTokens: move multiple immutable tokens with the same commitment (attempt to drop a commitment) (P2SH32)",377,217,3,1,43,34400,0,1,0,150,2,5,67,0
-mgx3g7,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap categories for duplicate commitments) (nonP2SH)",631,455,7,1,41,32800,0,1,0,143,0,1,1,0
+mgx3g7,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap categories for duplicate commitments) (P2S)",631,455,7,1,41,32800,0,1,0,143,0,1,1,0
 dxddf8,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap categories for duplicate commitments) (P2SH20)",787,477,7,1,43,34400,0,1,0,150,2,5,43,0
 s64w4t,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap categories for duplicate commitments) (P2SH32)",871,489,7,1,43,34400,0,1,0,150,2,5,67,0
-wd7jn2,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap commitments across categories) (nonP2SH)",631,455,7,1,41,32800,0,1,0,143,0,1,1,0
+wd7jn2,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap commitments across categories) (P2S)",631,455,7,1,41,32800,0,1,0,143,0,1,1,0
 d7tvy9,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap commitments across categories) (P2SH20)",787,477,7,1,43,34400,0,1,0,150,2,5,43,0
 keq4el,"CHIP-2022-02-CashTokens: move multiple immutable tokens of multiple categories (attempt to swap commitments across categories) (P2SH32)",871,489,7,1,43,34400,0,1,0,150,2,5,67,0
-nte7ze,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires an index from the stack (nonP2SH)",95,79,1,0,41,32800,0,1,0,143,0,1,0,0
+nte7ze,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires an index from the stack (P2S)",95,79,1,0,41,32800,0,1,0,143,0,1,0,0
 c4w7js,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires an index from the stack (P2SH20)",119,67,1,0,77,61600,0,2,0,269,2,5,76,0
 2wfyx9,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires an index from the stack (P2SH32)",131,79,1,0,77,61600,0,2,0,269,2,5,100,0
-v6ps7y,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (nonP2SH)",97,79,1,0,43,34400,0,1,0,150,0,2,1,0
+v6ps7y,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (P2S)",97,79,1,0,43,34400,0,1,0,150,0,2,1,0
 arh63c,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (P2SH20)",121,67,1,0,79,63200,0,2,0,276,2,6,77,0
 xq7kzh,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (P2SH32)",133,79,1,0,79,63200,0,2,0,276,2,6,101,0
-znektq,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a positive index from the stack (attempt negative one) (nonP2SH)",139,111,2,1,42,33600,0,1,0,147,0,2,1,0
+znektq,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a positive index from the stack (attempt negative one) (P2S)",139,111,2,1,42,33600,0,1,0,147,0,2,1,0
 s6s23v,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a positive index from the stack (attempt negative one) (P2SH20)",163,99,2,1,78,62400,0,2,0,273,2,6,77,0
 4wx227,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY requires a positive index from the stack (attempt negative one) (P2SH32)",175,111,2,1,78,62400,0,2,0,273,2,6,101,0
-e0qg2e,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (excessive index) (nonP2SH)",139,111,2,1,42,33600,0,1,0,147,0,2,1,0
+e0qg2e,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (excessive index) (P2S)",139,111,2,1,42,33600,0,1,0,147,0,2,1,0
 amyen2,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (excessive index) (P2SH20)",163,99,2,1,78,62400,0,2,0,273,2,6,77,0
 zzapeq,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (excessive index) (P2SH32)",175,111,2,1,78,62400,0,2,0,273,2,6,101,0
-dkzrnk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (transaction without tokens) (nonP2SH)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
-n5753z,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (expect category at index without tokens) (nonP2SH)",139,111,2,1,42,33600,0,1,0,147,0,4,32,0
+dkzrnk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (transaction without tokens) (P2S)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
+n5753z,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (expect category at index without tokens) (P2S)",139,111,2,1,42,33600,0,1,0,147,0,4,32,0
 g9ctws,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (expect category at index without tokens) (P2SH20)",163,99,2,1,78,62400,0,2,0,273,2,8,108,0
 25rttv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (expect category at index without tokens) (P2SH32)",175,111,2,1,78,62400,0,2,0,273,2,8,132,0
-pczxsm,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at two indexes, expect swapped) (nonP2SH)",143,114,2,1,43,34400,0,1,0,150,0,5,33,0
+pczxsm,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at two indexes, expect swapped) (P2S)",143,114,2,1,43,34400,0,1,0,150,0,5,33,0
 axsk85,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at two indexes, expect swapped) (P2SH20)",167,99,2,1,82,65600,0,2,0,287,2,9,112,0
 40yfdz,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at two indexes, expect swapped) (P2SH32)",179,111,2,1,82,65600,0,2,0,287,2,9,136,0
-3u4wwh,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only fungible tokens, index 0, expect none) (nonP2SH)",64,48,1,0,42,33600,0,1,0,147,0,4,32,0
+3u4wwh,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only fungible tokens, index 0, expect none) (P2S)",64,48,1,0,42,33600,0,1,0,147,0,4,32,0
 pc03l2,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only fungible tokens, index 0, expect none) (P2SH20)",88,68,1,0,46,36800,0,1,0,161,2,8,76,0
 jcm9y5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only fungible tokens, index 0, expect none) (P2SH32)",100,80,1,0,46,36800,0,1,0,161,2,8,100,0
-f8x3gl,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (nonP2SH)",64,48,1,0,42,33600,0,1,0,147,0,4,32,0
+f8x3gl,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (P2S)",64,48,1,0,42,33600,0,1,0,147,0,4,32,0
 r9z5d5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (P2SH20)",88,68,1,0,46,36800,0,1,0,161,2,8,76,0
 7ggd0m,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (P2SH32)",100,80,1,0,46,36800,0,1,0,161,2,8,100,0
-9p40f8,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only mutable token, index 0, expect no capability) (nonP2SH)",96,79,1,0,42,33600,0,1,0,147,0,4,65,0
+9p40f8,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only mutable token, index 0, expect no capability) (P2S)",96,79,1,0,42,33600,0,1,0,147,0,4,65,0
 dv84dx,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only mutable token, index 0, expect no capability) (P2SH20)",120,67,1,0,78,62400,0,2,0,273,2,8,141,0
 vtfrs0,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only mutable token, index 0, expect no capability) (P2SH32)",132,79,1,0,78,62400,0,2,0,273,2,8,165,0
-gzhlg8,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (nonP2SH)",64,48,1,0,42,33600,0,1,0,147,0,4,33,0
+gzhlg8,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (P2S)",64,48,1,0,42,33600,0,1,0,147,0,4,33,0
 frfs6e,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (P2SH20)",88,68,1,0,46,36800,0,1,0,161,2,8,77,0
 8ysjeg,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (P2SH32)",100,80,1,0,46,36800,0,1,0,161,2,8,101,0
-zujeud,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only minting token, index 0, expect mutable capability) (nonP2SH)",97,80,1,0,42,33600,0,1,0,147,0,4,66,0
+zujeud,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only minting token, index 0, expect mutable capability) (P2S)",97,80,1,0,42,33600,0,1,0,147,0,4,66,0
 fpkjem,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only minting token, index 0, expect mutable capability) (P2SH20)",121,67,1,0,79,63200,0,2,0,276,2,8,143,0
 h7y6vv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (only minting token, index 0, expect mutable capability) (P2SH32)",133,79,1,0,79,63200,0,2,0,276,2,8,167,0
-6mzjm0,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (nonP2SH)",64,48,1,0,42,33600,0,1,0,147,0,4,33,0
+6mzjm0,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (P2S)",64,48,1,0,42,33600,0,1,0,147,0,4,33,0
 da05v5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (P2SH20)",88,68,1,0,46,36800,0,1,0,161,2,8,77,0
 s3mzqu,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (P2SH32)",100,80,1,0,46,36800,0,1,0,161,2,8,101,0
-y4eg7c,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32, expect 33) (nonP2SH)",67,50,1,0,42,33600,0,1,0,147,0,6,34,0
+y4eg7c,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32, expect 33) (P2S)",67,50,1,0,42,33600,0,1,0,147,0,6,34,0
 t8jhae,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32, expect 33) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,81,0
 53p2wh,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (immutable result length is 32, expect 33) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,105,0
-vv6f6m,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33, expect 32) (nonP2SH)",67,50,1,0,42,33600,0,1,0,147,0,6,35,0
+vv6f6m,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33, expect 32) (P2S)",67,50,1,0,42,33600,0,1,0,147,0,6,35,0
 mvw0kv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33, expect 32) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,82,0
 cjck9a,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (mutable result length is 33, expect 32) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,106,0
-gd33w0,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33, expect 32) (nonP2SH)",67,50,1,0,42,33600,0,1,0,147,0,6,35,0
+gd33w0,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33, expect 32) (P2S)",67,50,1,0,42,33600,0,1,0,147,0,6,35,0
 e0lh8c,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33, expect 32) (P2SH20)",91,67,1,0,49,39200,0,1,0,171,2,10,82,0
 nyp305,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (minting result length is 33, expect 32) (P2SH32)",103,79,1,0,49,39200,0,1,0,171,2,10,106,0
-w97h0h,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (nonP2SH)",540,625,7,1,48,38400,0,1,0,168,0,28,401,0
+w97h0h,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (P2S)",540,625,7,1,48,38400,0,1,0,168,0,28,401,0
 twt8pw,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (P2SH20)",565,433,7,1,265,212000,0,6,0,927,5,32,657,0
 4f4zdq,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (P2SH32)",577,445,7,1,265,212000,0,6,0,927,5,32,681,0
-3hav83,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires an index from the stack (nonP2SH)",129,45,1,0,41,32800,0,1,0,143,0,1,0,0
+3hav83,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires an index from the stack (P2S)",129,45,1,0,41,32800,0,1,0,143,0,1,0,0
 9a58sn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires an index from the stack (P2SH20)",153,33,1,0,77,61600,0,2,0,269,2,5,76,0
 duz0zt,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires an index from the stack (P2SH32)",165,45,1,0,77,61600,0,2,0,269,2,5,100,0
-hd5elg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (nonP2SH)",131,45,1,0,43,34400,0,1,0,150,0,2,1,0
+hd5elg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (P2S)",131,45,1,0,43,34400,0,1,0,150,0,2,1,0
 a506qr,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (P2SH20)",155,33,1,0,79,63200,0,2,0,276,2,6,77,0
 8lnxpq,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a minimally-encoded index from the stack (attempt negative zero) (P2SH32)",167,45,1,0,79,63200,0,2,0,276,2,6,101,0
-wcljzk,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a positive index from the stack (attempt negative one) (nonP2SH)",174,45,1,0,42,33600,0,1,0,147,0,2,1,0
+wcljzk,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a positive index from the stack (attempt negative one) (P2S)",174,45,1,0,42,33600,0,1,0,147,0,2,1,0
 ptygph,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a positive index from the stack (attempt negative one) (P2SH20)",186,33,1,0,78,62400,0,2,0,273,2,6,77,0
 4lh3fg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY requires a positive index from the stack (attempt negative one) (P2SH32)",210,45,1,0,78,62400,0,2,0,273,2,6,101,0
-w7fxd0,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (excessive index) (nonP2SH)",174,45,1,0,42,33600,0,1,0,147,0,2,1,0
+w7fxd0,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (excessive index) (P2S)",174,45,1,0,42,33600,0,1,0,147,0,2,1,0
 0lj60r,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (excessive index) (P2SH20)",186,33,1,0,78,62400,0,2,0,273,2,6,77,0
 jfqd4p,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (excessive index) (P2SH32)",210,45,1,0,78,62400,0,2,0,273,2,6,101,0
-ky9sma,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (transaction without tokens) (nonP2SH)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
-akqn6v,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (expect category at index without tokens) (nonP2SH)",174,45,1,0,42,33600,0,1,0,147,0,4,32,0
+ky9sma,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (transaction without tokens) (P2S)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
+akqn6v,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (expect category at index without tokens) (P2S)",174,45,1,0,42,33600,0,1,0,147,0,4,32,0
 vt50je,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (expect category at index without tokens) (P2SH20)",186,33,1,0,78,62400,0,2,0,273,2,8,108,0
 7ftxw8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (expect category at index without tokens) (P2SH32)",210,45,1,0,78,62400,0,2,0,273,2,8,132,0
-sh2xk3,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, expect category at index without tokens) (nonP2SH)",217,111,2,1,42,33600,0,1,0,147,0,4,32,0
+sh2xk3,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, expect category at index without tokens) (P2S)",217,111,2,1,42,33600,0,1,0,147,0,4,32,0
 6cxvz8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, expect category at index without tokens) (P2SH20)",229,99,2,1,78,62400,0,2,0,273,2,8,108,0
 cnjtj4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, expect category at index without tokens) (P2SH32)",253,111,2,1,78,62400,0,2,0,273,2,8,132,0
-0tcfrv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at two indexes, expect swapped) (nonP2SH)",181,48,1,0,43,34400,0,1,0,150,0,5,33,0
+0tcfrv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at two indexes, expect swapped) (P2S)",181,48,1,0,43,34400,0,1,0,150,0,5,33,0
 d7ac63,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at two indexes, expect swapped) (P2SH20)",190,33,1,0,82,65600,0,2,0,287,2,9,112,0
 3srx8p,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at two indexes, expect swapped) (P2SH32)",214,45,1,0,82,65600,0,2,0,287,2,9,136,0
-nfcsu8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, at two indexes, expect swapped) (nonP2SH)",224,114,2,1,43,34400,0,1,0,150,0,5,33,0
+nfcsu8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, at two indexes, expect swapped) (P2S)",224,114,2,1,43,34400,0,1,0,150,0,5,33,0
 nzudqu,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, at two indexes, expect swapped) (P2SH20)",233,99,2,1,82,65600,0,2,0,287,2,9,112,0
 ccer2s,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (non-genesis transaction, at two indexes, expect swapped) (P2SH32)",257,111,2,1,82,65600,0,2,0,287,2,9,136,0
-zhhz5y,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only fungible tokens, index 0, expect none) (nonP2SH)",99,13,1,0,42,33600,0,1,0,147,0,4,32,0
+zhhz5y,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only fungible tokens, index 0, expect none) (P2S)",99,13,1,0,42,33600,0,1,0,147,0,4,32,0
 yd6psw,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only fungible tokens, index 0, expect none) (P2SH20)",123,33,1,0,46,36800,0,1,0,161,2,8,76,0
 v7f3c5,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only fungible tokens, index 0, expect none) (P2SH32)",135,45,1,0,46,36800,0,1,0,161,2,8,100,0
-2kgu76,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (nonP2SH)",99,13,1,0,42,33600,0,1,0,147,0,4,32,0
+2kgu76,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (P2S)",99,13,1,0,42,33600,0,1,0,147,0,4,32,0
 jasrd0,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (P2SH20)",123,33,1,0,46,36800,0,1,0,161,2,8,76,0
 ctea20,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable and fungible tokens, index 0, expect none) (P2SH32)",135,45,1,0,46,36800,0,1,0,161,2,8,100,0
-ff0ec0,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only mutable token, index 0, expect no capability) (nonP2SH)",130,45,1,0,42,33600,0,1,0,147,0,4,65,0
+ff0ec0,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only mutable token, index 0, expect no capability) (P2S)",130,45,1,0,42,33600,0,1,0,147,0,4,65,0
 0j3a5s,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only mutable token, index 0, expect no capability) (P2SH20)",154,33,1,0,78,62400,0,2,0,273,2,8,141,0
 4z60hj,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only mutable token, index 0, expect no capability) (P2SH32)",166,45,1,0,78,62400,0,2,0,273,2,8,165,0
-yw50gc,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (nonP2SH)",99,13,1,0,42,33600,0,1,0,147,0,4,33,0
+yw50gc,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (P2S)",99,13,1,0,42,33600,0,1,0,147,0,4,33,0
 y09ks7,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (P2SH20)",123,33,1,0,46,36800,0,1,0,161,2,8,77,0
 qytfa9,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable and fungible tokens, index 0, expect none) (P2SH32)",135,45,1,0,46,36800,0,1,0,161,2,8,101,0
-3kelrv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only minting token, index 0, expect no capability) (nonP2SH)",130,45,1,0,42,33600,0,1,0,147,0,4,65,0
+3kelrv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only minting token, index 0, expect no capability) (P2S)",130,45,1,0,42,33600,0,1,0,147,0,4,65,0
 xf64vx,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only minting token, index 0, expect no capability) (P2SH20)",154,33,1,0,78,62400,0,2,0,273,2,8,141,0
 sjm6dm,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (only minting token, index 0, expect no capability) (P2SH32)",166,45,1,0,78,62400,0,2,0,273,2,8,165,0
-cysd3w,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (nonP2SH)",99,13,1,0,42,33600,0,1,0,147,0,4,33,0
+cysd3w,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (P2S)",99,13,1,0,42,33600,0,1,0,147,0,4,33,0
 yuxr82,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (P2SH20)",123,33,1,0,46,36800,0,1,0,161,2,8,77,0
 8snszn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting and fungible tokens, index 0, expect none) (P2SH32)",135,45,1,0,46,36800,0,1,0,161,2,8,101,0
-ps022c,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32, expect 33) (nonP2SH)",101,16,1,0,42,33600,0,1,0,147,0,6,34,0
+ps022c,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32, expect 33) (P2S)",101,16,1,0,42,33600,0,1,0,147,0,6,34,0
 2e9v6s,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32, expect 33) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,81,0
 jpc304,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (immutable result length is 32, expect 33) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,105,0
-wxuryn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33, expect 32) (nonP2SH)",101,16,1,0,42,33600,0,1,0,147,0,6,35,0
+wxuryn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33, expect 32) (P2S)",101,16,1,0,42,33600,0,1,0,147,0,6,35,0
 j97pss,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33, expect 32) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,82,0
 km8p2e,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (mutable result length is 33, expect 32) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,106,0
-nrm9ay,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33, expect 32) (nonP2SH)",101,16,1,0,42,33600,0,1,0,147,0,6,35,0
+nrm9ay,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33, expect 32) (P2S)",101,16,1,0,42,33600,0,1,0,147,0,6,35,0
 tg2n2g,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33, expect 32) (P2SH20)",125,33,1,0,49,39200,0,1,0,171,2,10,82,0
 axfpew,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (minting result length is 33, expect 32) (P2SH32)",137,45,1,0,49,39200,0,1,0,171,2,10,106,0
-3ngmgs,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (nonP2SH)",2092,625,7,1,48,38400,0,1,0,168,0,28,401,0
+3ngmgs,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (P2S)",2092,625,7,1,48,38400,0,1,0,168,0,28,401,0
 jvfcsh,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (P2SH20)",965,433,7,1,265,212000,0,6,0,927,5,32,657,0
 stkeey,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered, expect missing capability) (P2SH32)",1049,445,7,1,265,212000,0,6,0,927,5,32,681,0
-vahqkq,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment) (nonP2SH)",64,47,1,0,42,33600,0,1,0,147,0,4,1,0
-jsqvqa,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (nonP2SH)",65,48,1,0,42,33600,0,1,0,147,0,4,1,0
+vahqkq,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment) (P2S)",64,47,1,0,42,33600,0,1,0,147,0,4,1,0
+jsqvqa,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (P2S)",65,48,1,0,42,33600,0,1,0,147,0,4,1,0
 z9clrv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (P2SH20)",89,67,1,0,47,37600,0,1,0,164,2,8,46,0
 yu9e25,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (P2SH32)",101,79,1,0,47,37600,0,1,0,164,2,8,70,0
-3g5tvc,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (1-byte commitment) (nonP2SH)",64,49,1,0,42,33600,0,1,0,147,0,4,3,0
-rdw3x3,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires an index from the stack (nonP2SH)",63,49,1,0,41,32800,0,1,0,143,0,1,0,0
+3g5tvc,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (1-byte commitment) (P2S)",64,49,1,0,42,33600,0,1,0,147,0,4,3,0
+rdw3x3,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires an index from the stack (P2S)",63,49,1,0,41,32800,0,1,0,143,0,1,0,0
 vrlarj,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires an index from the stack (P2SH20)",87,69,1,0,45,36000,0,1,0,157,2,5,44,0
 9jk8pv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires an index from the stack (P2SH32)",99,81,1,0,45,36000,0,1,0,157,2,5,68,0
-rr902v,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (nonP2SH)",65,49,1,0,43,34400,0,1,0,150,0,2,1,0
+rr902v,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (P2S)",65,49,1,0,43,34400,0,1,0,150,0,2,1,0
 vggmax,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH20)",89,69,1,0,47,37600,0,1,0,164,2,6,45,0
 xjj0rk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH32)",101,81,1,0,47,37600,0,1,0,164,2,6,69,0
-pd9dvr,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length) (nonP2SH)",105,130,1,0,42,33600,0,1,0,147,0,4,83,0
-vhelmv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length) (P2SH20)",129,109,1,0,87,69600,0,2,0,304,2,8,168,0
-0p6lf6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length) (P2SH32)",141,121,1,0,87,69600,0,2,0,304,2,8,192,0
-g28eh7,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (nonP2SH)",320,559,1,0,42,33600,0,1,0,147,0,3,253,0
-5xddqa,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2SH20)",346,325,1,0,302,241600,0,7,0,1057,6,8,805,0
-m6mp3x,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2SH32)",358,337,1,0,302,241600,0,7,0,1057,6,8,829,0
-zujgsa,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (nonP2SH)",108,82,2,1,42,33600,0,1,0,147,0,2,1,0
+pd9dvr,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment) (P2S)",105,130,1,0,42,33600,0,1,0,147,0,4,83,0
+vhelmv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment) (P2SH20)",129,109,1,0,87,69600,0,2,0,304,2,8,168,0
+0p6lf6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment) (P2SH32)",141,121,1,0,87,69600,0,2,0,304,2,8,192,0
+hx0kzu,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment) (P2S)",193,307,1,0,42,33600,0,1,0,147,0,4,257,0
+fvjk2k,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment) (P2SH20)",218,196,1,0,176,140800,0,4,0,616,4,8,430,0
+ts9vzq,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment) (P2SH32)",230,208,1,0,176,140800,0,4,0,616,4,8,454,0
+e5ssh5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length) (P2S)",194,309,1,0,42,33600,0,1,0,147,0,4,259,0
+ft7qhs,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length) (P2SH20)",219,197,1,0,177,141600,0,4,0,619,4,8,433,0
+0nr0k6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length) (P2SH32)",231,209,1,0,177,141600,0,4,0,619,4,8,457,0
+ss35am,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2S)",320,559,1,0,42,33600,0,1,0,147,0,4,507,0
+0lrr5v,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2SH20)",346,325,1,0,302,241600,0,7,0,1057,6,8,805,0
+apf7z7,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2SH32)",358,337,1,0,302,241600,0,7,0,1057,6,8,829,0
+zujgsa,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (P2S)",108,82,2,1,42,33600,0,1,0,147,0,2,1,0
 7pr4d4,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (P2SH20)",132,101,2,1,47,37600,0,1,0,164,2,6,46,0
 6wqd3d,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (P2SH32)",144,113,2,1,47,37600,0,1,0,164,2,6,70,0
-n4phwv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (excessive index) (nonP2SH)",108,82,2,1,42,33600,0,1,0,147,0,2,1,0
+n4phwv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (excessive index) (P2S)",108,82,2,1,42,33600,0,1,0,147,0,2,1,0
 uta2p9,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (excessive index) (P2SH20)",132,101,2,1,47,37600,0,1,0,164,2,6,46,0
 cwvy0c,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (excessive index) (P2SH32)",144,113,2,1,47,37600,0,1,0,164,2,6,70,0
-2sxdgk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (transaction without tokens) (nonP2SH)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
-2jkg5j,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (expect commitment at index without tokens) (nonP2SH)",108,82,2,1,42,33600,0,1,0,147,0,4,1,0
+2sxdgk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (transaction without tokens) (P2S)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
+2jkg5j,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (expect commitment at index without tokens) (P2S)",108,82,2,1,42,33600,0,1,0,147,0,4,1,0
 0h072s,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (expect commitment at index without tokens) (P2SH20)",132,101,2,1,47,37600,0,1,0,164,2,8,46,0
 mxc745,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (expect commitment at index without tokens) (P2SH32)",144,113,2,1,47,37600,0,1,0,164,2,8,70,0
-tecdsk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at two indexes, expect swapped) (nonP2SH)",112,85,2,1,43,34400,0,1,0,150,0,5,2,0
+tecdsk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at two indexes, expect swapped) (P2S)",112,85,2,1,43,34400,0,1,0,150,0,5,2,0
 adr9sm,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at two indexes, expect swapped) (P2SH20)",136,101,2,1,51,40800,0,1,0,178,2,9,50,0
 rwv3xj,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at two indexes, expect swapped) (P2SH32)",148,113,2,1,51,40800,0,1,0,178,2,9,74,0
-m5tw58,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (only fungible tokens, index 0) (nonP2SH)",64,48,1,0,42,33600,0,1,0,147,0,4,1,0
-52s9dr,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (immutable and fungible tokens, index 0, expect zero-length) (nonP2SH)",64,50,1,0,42,33600,0,1,0,147,0,4,1,0
+m5tw58,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (only fungible tokens, index 0) (P2S)",64,48,1,0,42,33600,0,1,0,147,0,4,1,0
+52s9dr,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (immutable and fungible tokens, index 0, expect zero-length) (P2S)",64,50,1,0,42,33600,0,1,0,147,0,4,1,0
 agd23v,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (immutable and fungible tokens, index 0, expect zero-length) (P2SH20)",88,70,1,0,46,36800,0,1,0,161,2,8,45,0
 ukc80t,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (immutable and fungible tokens, index 0, expect zero-length) (P2SH32)",100,82,1,0,46,36800,0,1,0,161,2,8,69,0
-6qu3re,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (mutable and fungible tokens, index 0, expect zero-length) (nonP2SH)",64,50,1,0,42,33600,0,1,0,147,0,4,1,0
+6qu3re,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (mutable and fungible tokens, index 0, expect zero-length) (P2S)",64,50,1,0,42,33600,0,1,0,147,0,4,1,0
 6mfz96,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (mutable and fungible tokens, index 0, expect zero-length) (P2SH20)",88,70,1,0,46,36800,0,1,0,161,2,8,45,0
 ggrwse,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (mutable and fungible tokens, index 0, expect zero-length) (P2SH32)",100,82,1,0,46,36800,0,1,0,161,2,8,69,0
-2g4r6u,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (minting and fungible tokens, index 0, expect zero-length) (nonP2SH)",64,50,1,0,42,33600,0,1,0,147,0,4,1,0
+2g4r6u,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (minting and fungible tokens, index 0, expect zero-length) (P2S)",64,50,1,0,42,33600,0,1,0,147,0,4,1,0
 skwtnw,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (minting and fungible tokens, index 0, expect zero-length) (P2SH20)",88,70,1,0,46,36800,0,1,0,161,2,8,45,0
 ac9v5y,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (minting and fungible tokens, index 0, expect zero-length) (P2SH32)",100,82,1,0,46,36800,0,1,0,161,2,8,69,0
-qd0xgv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect padding for zero-length) (nonP2SH)",356,455,7,1,48,38400,0,1,0,168,0,10,7,0
+qd0xgv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect padding for zero-length) (P2S)",356,455,7,1,48,38400,0,1,0,168,0,10,7,0
 n78mr6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect padding for zero-length) (P2SH20)",380,447,7,1,80,64000,0,2,0,280,2,14,79,0
 0sul45,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect padding for zero-length) (P2SH32)",392,459,7,1,80,64000,0,2,0,280,2,14,103,0
-u9kza4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (nonP2SH)",99,14,1,0,42,33600,0,1,0,147,0,4,1,0
+u9kza4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (P2S)",99,14,1,0,42,33600,0,1,0,147,0,4,1,0
 wwe4xc,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (P2SH20)",123,33,1,0,47,37600,0,1,0,164,2,8,46,0
 sm94pm,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (zero-length commitment, expect 0x00) (P2SH32)",135,45,1,0,47,37600,0,1,0,164,2,8,70,0
-6vf4hy,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires an index from the stack (nonP2SH)",99,13,1,0,41,32800,0,1,0,143,0,1,0,0
+6vf4hy,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires an index from the stack (P2S)",99,13,1,0,41,32800,0,1,0,143,0,1,0,0
 87shph,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires an index from the stack (P2SH20)",123,33,1,0,45,36000,0,1,0,157,2,5,44,0
 ekzkt4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires an index from the stack (P2SH32)",135,45,1,0,45,36000,0,1,0,157,2,5,68,0
-6uxg6f,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (nonP2SH)",101,13,1,0,43,34400,0,1,0,150,0,2,1,0
+6uxg6f,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (P2S)",101,13,1,0,43,34400,0,1,0,150,0,2,1,0
 52jwwa,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH20)",125,33,1,0,47,37600,0,1,0,164,2,6,45,0
 536x2w,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH32)",137,45,1,0,47,37600,0,1,0,164,2,6,69,0
-7nskt8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length) (nonP2SH)",181,54,1,0,42,33600,0,1,0,147,0,4,83,0
-aly0z4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length) (P2SH20)",205,33,1,0,87,69600,0,2,0,304,2,8,168,0
-0mhksh,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment: excessive length) (P2SH32)",217,45,1,0,87,69600,0,2,0,304,2,8,192,0
-8jx89y,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (nonP2SH)",610,269,1,0,42,33600,0,1,0,147,0,4,507,0
+7nskt8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment) (P2S)",181,54,1,0,42,33600,0,1,0,147,0,4,83,0
+aly0z4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment) (P2SH20)",205,33,1,0,87,69600,0,2,0,304,2,8,168,0
+0mhksh,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (41-byte commitment) (P2SH32)",217,45,1,0,87,69600,0,2,0,304,2,8,192,0
+z5tm7g,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment) (P2S)",358,142,1,0,42,33600,0,1,0,147,0,4,257,0
+qqaacq,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment) (P2SH20)",381,33,1,0,176,140800,0,4,0,616,4,8,430,0
+7ydpf5,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (128-byte commitment) (P2SH32)",393,45,1,0,176,140800,0,4,0,616,4,8,454,0
+3pjcpm,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length) (P2S)",360,143,1,0,42,33600,0,1,0,147,0,4,259,0
+ptff7q,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length) (P2SH20)",383,33,1,0,177,141600,0,4,0,619,4,8,433,0
+watwp9,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (129-byte commitment: excessive length) (P2SH32)",395,45,1,0,177,141600,0,4,0,619,4,8,457,0
+8jx89y,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2S)",610,269,1,0,42,33600,0,1,0,147,0,4,507,0
 y4t7vg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2SH20)",638,33,1,0,302,241600,0,7,0,1057,6,8,805,0
 epj6j4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT accepts an index and returns the commitment (253-byte commitment: must be parsable by all implementations, but disabled by consensus) (P2SH32)",650,45,1,0,302,241600,0,7,0,1057,6,8,829,0
-x5rukf,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (nonP2SH)",114,14,1,0,42,33600,0,1,0,147,0,2,1,0
+x5rukf,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (P2S)",114,14,1,0,42,33600,0,1,0,147,0,2,1,0
 2zgr4h,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (P2SH20)",157,33,1,0,47,37600,0,1,0,164,2,6,46,0
 yyhhpn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT requires a positive index from the stack (attempt negative one) (P2SH32)",181,45,1,0,47,37600,0,1,0,164,2,6,70,0
-3jg7y9,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (excessive index) (nonP2SH)",114,14,1,0,42,33600,0,1,0,147,0,2,1,0
+3jg7y9,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (excessive index) (P2S)",114,14,1,0,42,33600,0,1,0,147,0,2,1,0
 36pajn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (excessive index) (P2SH20)",157,33,1,0,47,37600,0,1,0,164,2,6,46,0
 dxr4u0,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (excessive index) (P2SH32)",181,45,1,0,47,37600,0,1,0,164,2,6,70,0
-m3nffg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (transaction without tokens) (nonP2SH)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
-2srw3r,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (expect commitment at index without tokens) (nonP2SH)",114,14,1,0,42,33600,0,1,0,147,0,4,1,0
+m3nffg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (transaction without tokens) (P2S)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
+2srw3r,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (expect commitment at index without tokens) (P2S)",114,14,1,0,42,33600,0,1,0,147,0,4,1,0
 epx2pg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (expect commitment at index without tokens) (P2SH20)",157,33,1,0,47,37600,0,1,0,164,2,8,46,0
 z8nl3f,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (expect commitment at index without tokens) (P2SH32)",181,45,1,0,47,37600,0,1,0,164,2,8,70,0
-pmwal4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, expect commitment at index without tokens) (nonP2SH)",157,82,2,1,42,33600,0,1,0,147,0,4,1,0
+pmwal4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, expect commitment at index without tokens) (P2S)",157,82,2,1,42,33600,0,1,0,147,0,4,1,0
 hlzd8x,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, expect commitment at index without tokens) (P2SH20)",200,101,2,1,47,37600,0,1,0,164,2,8,46,0
 umadlr,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, expect commitment at index without tokens) (P2SH32)",224,113,2,1,47,37600,0,1,0,164,2,8,70,0
-9plhxw,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at two indexes, expect swapped) (nonP2SH)",121,17,1,0,43,34400,0,1,0,150,0,5,2,0
+9plhxw,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at two indexes, expect swapped) (P2S)",121,17,1,0,43,34400,0,1,0,150,0,5,2,0
 3afta9,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at two indexes, expect swapped) (P2SH20)",161,33,1,0,51,40800,0,1,0,178,2,9,50,0
 nvk58c,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at two indexes, expect swapped) (P2SH32)",185,45,1,0,51,40800,0,1,0,178,2,9,74,0
-u7av62,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, at two indexes, expect swapped) (nonP2SH)",164,85,2,1,43,34400,0,1,0,150,0,5,2,0
+u7av62,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, at two indexes, expect swapped) (P2S)",164,85,2,1,43,34400,0,1,0,150,0,5,2,0
 nf9njl,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, at two indexes, expect swapped) (P2SH20)",204,101,2,1,51,40800,0,1,0,178,2,9,50,0
 p7ze6r,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (non-genesis transaction, at two indexes, expect swapped) (P2SH32)",228,113,2,1,51,40800,0,1,0,178,2,9,74,0
-78pgp5,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (nonP2SH)",101,13,1,0,42,33600,0,1,0,147,0,4,1,0
+78pgp5,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2S)",101,13,1,0,42,33600,0,1,0,147,0,4,1,0
 p3n63u,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH20)",125,33,1,0,46,36800,0,1,0,161,2,8,45,0
 lgsrfl,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH32)",137,45,1,0,46,36800,0,1,0,161,2,8,69,0
-jwtlhv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (nonP2SH)",101,13,1,0,42,33600,0,1,0,147,0,4,1,0
+jwtlhv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2S)",101,13,1,0,42,33600,0,1,0,147,0,4,1,0
 793eap,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH20)",125,33,1,0,46,36800,0,1,0,161,2,8,45,0
 t0dk23,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH32)",137,45,1,0,46,36800,0,1,0,161,2,8,69,0
-d7684s,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (nonP2SH)",101,13,1,0,42,33600,0,1,0,147,0,4,1,0
+d7684s,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (P2S)",101,13,1,0,42,33600,0,1,0,147,0,4,1,0
 56tzt7,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH20)",125,33,1,0,46,36800,0,1,0,161,2,8,45,0
 txxfk8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH32)",137,45,1,0,46,36800,0,1,0,161,2,8,69,0
-nfwa5j,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect zero-length commitment at index 1) (nonP2SH)",920,444,7,1,49,39200,0,1,0,171,0,11,11,0
+nfwa5j,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect zero-length commitment at index 1) (P2S)",920,444,7,1,49,39200,0,1,0,171,0,11,11,0
 e7ys9s,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect zero-length commitment at index 1) (P2SH20)",867,433,7,1,84,67200,0,2,0,294,2,15,86,0
 5pdjrn,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCOMMITMENT (at multiple indexes, multiple categories, unordered, expect zero-length commitment at index 1) (P2SH32)",963,445,7,1,84,67200,0,2,0,294,2,15,110,0
-9534eh,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token) (nonP2SH)",64,48,1,0,42,33600,0,1,0,147,0,4,3,0
-w8zl9d,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (nonP2SH)",64,48,1,0,42,33600,0,1,0,147,0,4,2,0
+9534eh,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token) (P2S)",64,48,1,0,42,33600,0,1,0,147,0,4,3,0
+w8zl9d,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (P2S)",64,48,1,0,42,33600,0,1,0,147,0,4,2,0
 2pxcpv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (P2SH20)",88,68,1,0,46,36800,0,1,0,161,2,8,46,0
 536ssv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (P2SH32)",100,80,1,0,46,36800,0,1,0,161,2,8,70,0
-cecqae,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires an index from the stack (nonP2SH)",63,48,1,0,41,32800,0,1,0,143,0,1,0,0
+cecqae,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires an index from the stack (P2S)",63,48,1,0,41,32800,0,1,0,143,0,1,0,0
 9hdg3k,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires an index from the stack (P2SH20)",87,68,1,0,45,36000,0,1,0,157,2,5,44,0
 3kql5t,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires an index from the stack (P2SH32)",99,80,1,0,45,36000,0,1,0,157,2,5,68,0
-th84m6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (nonP2SH)",65,48,1,0,43,34400,0,1,0,150,0,2,1,0
+th84m6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (P2S)",65,48,1,0,43,34400,0,1,0,150,0,2,1,0
 2p28u5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH20)",89,68,1,0,47,37600,0,1,0,164,2,6,45,0
 f7ju4d,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH32)",101,80,1,0,47,37600,0,1,0,164,2,6,69,0
-tdwgj7,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a positive index from the stack (attempt negative one) (nonP2SH)",107,80,2,1,42,33600,0,1,0,147,0,2,1,0
+tdwgj7,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a positive index from the stack (attempt negative one) (P2S)",107,80,2,1,42,33600,0,1,0,147,0,2,1,0
 ux74yg,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a positive index from the stack (attempt negative one) (P2SH20)",131,100,2,1,46,36800,0,1,0,161,2,6,45,0
 8l6n4j,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT requires a positive index from the stack (attempt negative one) (P2SH32)",143,112,2,1,46,36800,0,1,0,161,2,6,69,0
-8h703n,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (excessive index) (nonP2SH)",107,80,2,1,42,33600,0,1,0,147,0,2,1,0
+8h703n,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (excessive index) (P2S)",107,80,2,1,42,33600,0,1,0,147,0,2,1,0
 2hlsmr,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (excessive index) (P2SH20)",131,100,2,1,46,36800,0,1,0,161,2,6,45,0
 pnyvf6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (excessive index) (P2SH32)",143,112,2,1,46,36800,0,1,0,161,2,6,69,0
-mq3tzw,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (transaction without tokens) (nonP2SH)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
-p33c9g,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (expect amount at index without tokens) (nonP2SH)",107,80,2,1,42,33600,0,1,0,147,0,4,1,0
+mq3tzw,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (transaction without tokens) (P2S)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
+p33c9g,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (expect amount at index without tokens) (P2S)",107,80,2,1,42,33600,0,1,0,147,0,4,1,0
 9a0u9a,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (expect amount at index without tokens) (P2SH20)",131,100,2,1,46,36800,0,1,0,161,2,8,45,0
 tnhlvf,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (expect amount at index without tokens) (P2SH32)",143,112,2,1,46,36800,0,1,0,161,2,8,69,0
-g3wpn0,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at two indexes, expect swapped) (nonP2SH)",111,83,2,1,43,34400,0,1,0,150,0,5,2,0
+g3wpn0,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at two indexes, expect swapped) (P2S)",111,83,2,1,43,34400,0,1,0,150,0,5,2,0
 wj5854,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at two indexes, expect swapped) (P2SH20)",135,100,2,1,50,40000,0,1,0,175,2,9,49,0
 hfq7pt,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at two indexes, expect swapped) (P2SH32)",147,112,2,1,50,40000,0,1,0,175,2,9,73,0
-tncc8h,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (nonP2SH)",64,52,1,0,42,33600,0,1,0,147,0,4,2,0
+tncc8h,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (P2S)",64,52,1,0,42,33600,0,1,0,147,0,4,2,0
 tr59xv,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (P2SH20)",88,72,1,0,46,36800,0,1,0,161,2,8,46,0
 8jcpq6,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (P2SH32)",100,84,1,0,46,36800,0,1,0,161,2,8,70,0
-8l4sde,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (only mutable token, index 0) (nonP2SH)",64,49,1,0,42,33600,0,1,0,147,0,4,1,0
-krxgxg,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (nonP2SH)",64,52,1,0,42,33600,0,1,0,147,0,4,2,0
+8l4sde,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (only mutable token, index 0) (P2S)",64,49,1,0,42,33600,0,1,0,147,0,4,1,0
+krxgxg,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (P2S)",64,52,1,0,42,33600,0,1,0,147,0,4,2,0
 8jwfx4,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (P2SH20)",88,72,1,0,46,36800,0,1,0,161,2,8,46,0
 p04duc,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (P2SH32)",100,84,1,0,46,36800,0,1,0,161,2,8,70,0
-624c5l,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (only minting token, index 0) (nonP2SH)",64,49,1,0,42,33600,0,1,0,147,0,4,1,0
-fal9ka,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (minting and fungible tokens, index 0, expect amount of 0) (nonP2SH)",64,52,1,0,42,33600,0,1,0,147,0,4,2,0
+624c5l,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (only minting token, index 0) (P2S)",64,49,1,0,42,33600,0,1,0,147,0,4,1,0
+fal9ka,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (minting and fungible tokens, index 0, expect amount of 0) (P2S)",64,52,1,0,42,33600,0,1,0,147,0,4,2,0
 hv89gk,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (minting and fungible tokens, index 0, expect amount of 0) (P2SH20)",88,72,1,0,46,36800,0,1,0,161,2,8,46,0
 tlffau,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (minting and fungible tokens, index 0, expect amount of 0) (P2SH32)",100,84,1,0,46,36800,0,1,0,161,2,8,70,0
-ckv8dg,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount of 1 at index 0) (nonP2SH)",500,623,9,1,50,40000,0,1,0,175,0,15,10,0
+ckv8dg,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount of 1 at index 0) (P2S)",500,623,9,1,50,40000,0,1,0,175,0,15,10,0
 sl0fwl,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount of 1 at index 0) (P2SH20)",524,594,9,1,103,82400,0,2,0,360,2,19,103,0
 n45hc8,"CHIP-2022-02-CashTokens: OP_UTXOTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount of 1 at index 0) (P2SH32)",536,606,9,1,103,82400,0,2,0,360,2,19,127,0
-wfdelk,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (nonP2SH)",99,13,1,0,42,33600,0,1,0,147,0,4,2,0
+wfdelk,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (P2S)",99,13,1,0,42,33600,0,1,0,147,0,4,2,0
 ats8d6,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (P2SH20)",123,33,1,0,46,36800,0,1,0,161,2,8,46,0
 gffd8c,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (1 fungible token, expect 2) (P2SH32)",135,45,1,0,46,36800,0,1,0,161,2,8,70,0
-rmn9qs,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (non-genesis transaction, 1 fungible token, expect 2) (nonP2SH)",99,48,1,0,42,33600,0,1,0,147,0,4,2,0
+rmn9qs,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (non-genesis transaction, 1 fungible token, expect 2) (P2S)",99,48,1,0,42,33600,0,1,0,147,0,4,2,0
 04lpq3,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (non-genesis transaction, 1 fungible token, expect 2) (P2SH20)",123,68,1,0,46,36800,0,1,0,161,2,8,46,0
 lwyvwc,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT accepts an index and returns the token amount (non-genesis transaction, 1 fungible token, expect 2) (P2SH32)",135,80,1,0,46,36800,0,1,0,161,2,8,70,0
-cx36x5,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires an index from the stack (nonP2SH)",98,13,1,0,41,32800,0,1,0,143,0,1,0,0
+cx36x5,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires an index from the stack (P2S)",98,13,1,0,41,32800,0,1,0,143,0,1,0,0
 gks0wq,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires an index from the stack (P2SH20)",122,33,1,0,45,36000,0,1,0,157,2,5,44,0
 9t5q55,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires an index from the stack (P2SH32)",134,45,1,0,45,36000,0,1,0,157,2,5,68,0
-wqynf6,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (nonP2SH)",100,13,1,0,43,34400,0,1,0,150,0,2,1,0
+wqynf6,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (P2S)",100,13,1,0,43,34400,0,1,0,150,0,2,1,0
 ensfm8,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH20)",124,33,1,0,47,37600,0,1,0,164,2,6,45,0
 jhn3tp,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a minimally-encoded index from the stack (attempt negative zero) (P2SH32)",136,45,1,0,47,37600,0,1,0,164,2,6,69,0
-ukq5nr,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a positive index from the stack (attempt negative one) (nonP2SH)",111,13,1,0,42,33600,0,1,0,147,0,2,1,0
+ukq5nr,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a positive index from the stack (attempt negative one) (P2S)",111,13,1,0,42,33600,0,1,0,147,0,2,1,0
 lwvr0f,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a positive index from the stack (attempt negative one) (P2SH20)",155,33,1,0,46,36800,0,1,0,161,2,6,45,0
 wjpmrq,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT requires a positive index from the stack (attempt negative one) (P2SH32)",179,45,1,0,46,36800,0,1,0,161,2,6,69,0
-du68ws,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (excessive index) (nonP2SH)",111,13,1,0,42,33600,0,1,0,147,0,2,1,0
+du68ws,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (excessive index) (P2S)",111,13,1,0,42,33600,0,1,0,147,0,2,1,0
 9q00tp,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (excessive index) (P2SH20)",155,33,1,0,46,36800,0,1,0,161,2,6,45,0
 0tjt2y,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (excessive index) (P2SH32)",179,45,1,0,46,36800,0,1,0,161,2,6,69,0
-4va898,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (transaction without tokens) (nonP2SH)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
-rcrh05,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (expect amount at index without tokens) (nonP2SH)",111,13,1,0,42,33600,0,1,0,147,0,4,1,0
+4va898,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (transaction without tokens) (P2S)",64,13,1,0,42,33600,0,1,0,147,0,4,1,0
+rcrh05,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (expect amount at index without tokens) (P2S)",111,13,1,0,42,33600,0,1,0,147,0,4,1,0
 2m8c28,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (expect amount at index without tokens) (P2SH20)",155,33,1,0,46,36800,0,1,0,161,2,8,45,0
 p7cuqy,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (expect amount at index without tokens) (P2SH32)",179,45,1,0,46,36800,0,1,0,161,2,8,69,0
-659meu,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, expect commitment at index without tokens) (nonP2SH)",154,80,2,1,42,33600,0,1,0,147,0,4,1,0
+659meu,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, expect commitment at index without tokens) (P2S)",154,80,2,1,42,33600,0,1,0,147,0,4,1,0
 z8hup2,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, expect commitment at index without tokens) (P2SH20)",198,100,2,1,46,36800,0,1,0,161,2,8,45,0
 9st5ha,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, expect commitment at index without tokens) (P2SH32)",222,112,2,1,46,36800,0,1,0,161,2,8,69,0
-g6pc4r,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at two indexes, expect swapped) (nonP2SH)",118,16,1,0,43,34400,0,1,0,150,0,5,2,0
+g6pc4r,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at two indexes, expect swapped) (P2S)",118,16,1,0,43,34400,0,1,0,150,0,5,2,0
 rgh3mu,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at two indexes, expect swapped) (P2SH20)",159,33,1,0,50,40000,0,1,0,175,2,9,49,0
 47yq4j,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at two indexes, expect swapped) (P2SH32)",183,45,1,0,50,40000,0,1,0,175,2,9,73,0
-ev7ekp,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, at two indexes, expect swapped) (nonP2SH)",161,83,2,1,43,34400,0,1,0,150,0,5,2,0
+ev7ekp,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, at two indexes, expect swapped) (P2S)",161,83,2,1,43,34400,0,1,0,150,0,5,2,0
 7v5dhg,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, at two indexes, expect swapped) (P2SH20)",202,100,2,1,50,40000,0,1,0,175,2,9,49,0
 tjd4xa,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (non-genesis transaction, at two indexes, expect swapped) (P2SH32)",226,112,2,1,50,40000,0,1,0,175,2,9,73,0
-vjus0e,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (nonP2SH)",101,13,1,0,42,33600,0,1,0,147,0,4,2,0
+vjus0e,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (P2S)",101,13,1,0,42,33600,0,1,0,147,0,4,2,0
 3wsdks,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (P2SH20)",125,33,1,0,46,36800,0,1,0,161,2,8,46,0
 l6l5mw,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, expect 0) (P2SH32)",137,45,1,0,46,36800,0,1,0,161,2,8,70,0
-2a6s7e,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (nonP2SH)",103,13,1,0,42,33600,0,1,0,147,0,4,2,0
+2a6s7e,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2S)",103,13,1,0,42,33600,0,1,0,147,0,4,2,0
 avv6uu,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH20)",127,33,1,0,46,36800,0,1,0,161,2,8,46,0
 hjmmjv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (immutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH32)",139,45,1,0,46,36800,0,1,0,161,2,8,70,0
-34k7ac,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (nonP2SH)",101,13,1,0,42,33600,0,1,0,147,0,4,2,0
+34k7ac,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (P2S)",101,13,1,0,42,33600,0,1,0,147,0,4,2,0
 mrvc8r,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (P2SH20)",125,33,1,0,46,36800,0,1,0,161,2,8,46,0
 tylwfq,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, expect 0) (P2SH32)",137,45,1,0,46,36800,0,1,0,161,2,8,70,0
-s3uycf,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (nonP2SH)",103,13,1,0,42,33600,0,1,0,147,0,4,2,0
+s3uycf,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2S)",103,13,1,0,42,33600,0,1,0,147,0,4,2,0
 jxu8u2,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH20)",127,33,1,0,46,36800,0,1,0,161,2,8,46,0
 k2v4ax,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (mutable and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH32)",139,45,1,0,46,36800,0,1,0,161,2,8,70,0
-4tnnd4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, expect 0) (nonP2SH)",101,13,1,0,42,33600,0,1,0,147,0,4,2,0
+4tnnd4,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, expect 0) (P2S)",101,13,1,0,42,33600,0,1,0,147,0,4,2,0
 t52w87,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, expect 0) (P2SH20)",125,33,1,0,46,36800,0,1,0,161,2,8,46,0
 ezxxgj,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, expect 0) (P2SH32)",137,45,1,0,46,36800,0,1,0,161,2,8,70,0
-q6terf,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (nonP2SH)",103,13,1,0,42,33600,0,1,0,147,0,4,2,0
+q6terf,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (P2S)",103,13,1,0,42,33600,0,1,0,147,0,4,2,0
 ees563,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH20)",127,33,1,0,46,36800,0,1,0,161,2,8,46,0
 f38zx7,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (minting and fungible tokens, index 0, 1-byte commitment, expect 0) (P2SH32)",139,45,1,0,46,36800,0,1,0,161,2,8,70,0
-u3augv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount at index 1) (nonP2SH)",1258,623,9,1,50,40000,0,1,0,175,0,12,9,0
+u3augv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount at index 1) (P2S)",1258,623,9,1,50,40000,0,1,0,175,0,12,9,0
 2gshwv,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount at index 1) (P2SH20)",1050,594,9,1,103,82400,0,2,0,360,2,16,102,0
 mhddn9,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENAMOUNT (at multiple indexes, multiple categories, unordered, expect incorrect amount at index 1) (P2SH32)",1158,606,9,1,103,82400,0,2,0,360,2,16,126,0
-nh0wva,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 47) (nonP2SH)",107,17,1,0,41,32800,0,1,0,143,0,6,12,0
+nh0wva,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 47) (P2S)",107,17,1,0,41,32800,0,1,0,143,0,6,12,0
 g9z7m3,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 47) (P2SH20)",115,33,1,0,49,39200,0,1,0,171,2,10,60,0
 dfsyze,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 47) (P2SH32)",115,45,1,0,49,39200,0,1,0,171,2,10,84,0
-w360jd,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 46) (nonP2SH)",107,17,1,0,41,32800,0,1,0,143,0,6,12,0
+w360jd,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 46) (P2S)",107,17,1,0,41,32800,0,1,0,143,0,6,12,0
 f4krxh,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 46) (P2SH20)",115,33,1,0,49,39200,0,1,0,171,2,10,60,0
 e3h0hg,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 47, expect 46) (P2SH32)",115,45,1,0,49,39200,0,1,0,171,2,10,84,0
-razas4,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 520, expect 520) (nonP2SH)",582,18,1,0,41,32800,0,1,0,143,0,6,487,0
+razas4,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 520, expect 520) (P2S)",582,18,1,0,41,32800,0,1,0,143,0,6,487,0
 c63j35,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 520, expect 520) (P2SH20)",591,33,1,0,50,40000,0,1,0,175,2,10,536,0
 tqv7tr,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 520, expect 520) (P2SH32)",591,45,1,0,50,40000,0,1,0,175,2,10,560,0
-rqqqmu,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 521, expect 521) (nonP2SH)",583,18,1,0,41,32800,0,1,0,143,0,6,488,0
+rqqqmu,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 521, expect 521) (P2S)",583,18,1,0,41,32800,0,1,0,143,0,6,488,0
 5mglsf,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 521, expect 521) (P2SH20)",592,33,1,0,50,40000,0,1,0,175,2,10,537,0
 vpe0ph,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE includes token prefix before upgrade (length 521, expect 521) (P2SH32)",592,45,1,0,50,40000,0,1,0,175,2,10,561,0
-tucxsg,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 11) (nonP2SH)",107,16,1,0,41,32800,0,1,0,143,0,6,12,0
+tucxsg,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 11) (P2S)",107,16,1,0,41,32800,0,1,0,143,0,6,12,0
 ngpce0,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 11) (P2SH20)",114,33,1,0,48,38400,0,1,0,168,2,10,59,0
 nsfh4d,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 10, expect 11) (P2SH32)",114,45,1,0,48,38400,0,1,0,168,2,10,83,0
-9ga8v8,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521) (nonP2SH)",620,18,1,0,41,32800,0,1,0,143,0,2,0,0
+9ga8v8,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521) (P2S)",620,18,1,0,41,32800,0,1,0,143,0,2,0,0
 28urur,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521) (P2SH20)",629,33,1,0,50,40000,0,1,0,175,2,6,49,0
 dl4q97,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521) (P2SH32)",629,45,1,0,50,40000,0,1,0,175,2,6,73,0

@@ -6,6 +6,7 @@ import {
   assertSuccess,
   decodeTransaction,
   decodeTransactionOutputs,
+  elideWordsAndHexAtLength,
   hexToBin,
   isPayToScriptHash20,
   stringify,
@@ -113,7 +114,7 @@ const {
   stackPushedBytes,
 } = debugResult[debugResult.length - 1]!.metrics;
 
-console.log(`
+const print = `
 ${
   useVerbose
     ? `
@@ -190,7 +191,9 @@ ${isP2sh20 ? 'Redeem (P2SH20)' : 'Locking'} ASM: ${redeemOrLockingScriptAsm}
 Evaluation at index ${testedIndex}:
 
 ${stringifyDebugTraceSummary(summarizeDebugTrace(debugResult))}
-`);
+`;
+
+console.log(useVerbose ? print : elideWordsAndHexAtLength(print));
 
 if (!runBenchmark) {
   process.exit(0);

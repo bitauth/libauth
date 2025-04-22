@@ -1,0 +1,13 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+ucddf3,"BigInt: OP_NEGATE 512-byte number (all bits set) (P2S)",728,563,2,1,556,444800,2449,13,0,1946,0,4,1537,512
+l7mtx5,"BigInt: OP_NEGATE 4096-byte number (all bits set) (P2S)",4312,4147,2,1,4140,3312000,16785,96,0,14490,0,4,12289,4096
+8y6p9x,"BigInt: OP_NEGATE 8192-byte number (all bits set) (P2S)",8408,8243,2,1,8236,6588800,33169,191,0,28826,0,4,24577,8192
+lavmtu,"BigInt: OP_NEGATE 512-byte number (alternating bits set) (P2S)",728,563,2,1,556,444800,2449,13,0,1946,0,4,1537,512
+jpv0mh,"BigInt: OP_NEGATE 4096-byte number (alternating bits set) (P2S)",4312,4147,2,1,4140,3312000,16785,96,0,14490,0,4,12289,4096
+zgyl7w,"BigInt: OP_NEGATE 8192-byte number (alternating bits set) (P2S)",8408,8243,2,1,8236,6588800,33169,191,0,28826,0,4,24577,8192
+gc47zh,"BigInt: OP_NEGATE 512-byte number (highest-bit set) (P2S)",728,563,2,1,556,444800,2449,13,0,1946,0,4,1537,512
+jng5wh,"BigInt: OP_NEGATE 4096-byte number (highest-bit set) (P2S)",4312,4147,2,1,4140,3312000,16785,96,0,14490,0,4,12289,4096
+9s4kyw,"BigInt: OP_NEGATE 8192-byte number (highest-bit set) (P2S)",8408,8243,2,1,8236,6588800,33169,191,0,28826,0,4,24577,8192
+0gngjy,"BigInt: OP_NEGATE 512-byte number (one bit set per byte) (P2S)",728,563,2,1,556,444800,2449,13,0,1946,0,4,1537,512
+z3jr88,"BigInt: OP_NEGATE 4096-byte number (one bit set per byte) (P2S)",4312,4147,2,1,4140,3312000,16785,96,0,14490,0,4,12289,4096
+9ektgl,"BigInt: OP_NEGATE 8192-byte number (one bit set per byte) (P2S)",8408,8243,2,1,8236,6588800,33169,191,0,28826,0,4,24577,8192

@@ -1,2 +1,2 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-pf9trm,"Formatting: OP_NUM2BIN allows 32-byte number inputs (nonP2SH)",215,85,2,1,45,36000,5881,1,0,22,20,9,1141,0
+pf9trm,"Formatting: OP_NUM2BIN allows 32-byte number inputs (P2S)",215,85,2,1,45,36000,5881,1,0,22,20,9,1141,0

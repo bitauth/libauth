@@ -23,12 +23,13 @@ export const opBegin = <State extends AuthenticationProgramStateBch2026>(
 export const opUntil = <State extends AuthenticationProgramStateBch2026>(
   state: State,
 ) => {
-  // eslint-disable-next-line functional/immutable-data
-  const controlValue = state.controlStack.pop();
+  const controlValue = state.controlStack[state.controlStack.length - 1];
   if (typeof controlValue !== 'number') {
     return applyError(state, AuthenticationErrorBch2026.unexpectedUntil);
   }
   if (!executionIsActive(state)) {
+    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+    state.controlStack.pop();
     return controlValue === Constants.markInactiveOpBegin
       ? state
       : applyError(
@@ -38,10 +39,12 @@ export const opUntil = <State extends AuthenticationProgramStateBch2026>(
   }
   return useOneStackItem(state, (nextState, [item]) => {
     if (stackItemIsTruthy(item)) {
+      // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+      state.controlStack.pop();
       return nextState;
     }
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-    nextState.ip = controlValue - 1;
+    nextState.ip = controlValue;
     return nextState;
   });
 };

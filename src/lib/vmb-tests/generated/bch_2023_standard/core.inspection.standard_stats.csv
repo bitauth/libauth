@@ -82,6 +82,8 @@ vapu5l,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 0) (P2SH20
 gx9pq7,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 0) (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,94,0
 u86z5g,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 1) (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,69,0
 scs33l,"Transaction inspection: OP_UTXOBYTECODE (ignore result, input 1) (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,105,0
+7d4rg9,"Transaction inspection: OP_UTXOBYTECODE (ignore result, not excessive size) (P2SH20)",737,67,2,1,565,452000,0,13,0,282,10,10,1099,0
+vt7hwa,"Transaction inspection: OP_UTXOBYTECODE (ignore result, not excessive size) (P2SH32)",737,79,2,1,565,452000,0,13,0,282,10,10,1135,0
 np25et,"Transaction inspection: multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs, P2SH20) (P2SH20)",2583,1601,50,0,153,122400,0,4,0,76,2,23,247,0
 38ka7u,"Transaction inspection: multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs, P2SH32) (P2SH32)",2631,2201,50,0,201,160800,0,5,0,100,2,23,367,0
 kuc75c,"Transaction inspection: OP_OUTPOINTTXHASH (input 0) (P2SH20)",248,67,2,1,78,62400,0,2,0,39,2,8,109,0

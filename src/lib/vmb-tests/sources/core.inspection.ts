@@ -30,7 +30,7 @@ export default [
         'OP_ACTIVEBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR OP_ACTIVEBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR OP_ACTIVEBYTECODE OP_CODESEPARATOR OP_EQUALVERIFY OP_ACTIVEBYTECODE OP_EQUAL',
         'OP_ACTIVEBYTECODE works before and after multiple OP_CODESEPARATORs',
       ],
-      ['<1>', 'OP_INPUTINDEX OP_UTXOBYTECODE OP_ACTIVEBYTECODE OP_EQUALVERIFY', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working nonP2SH)', ['p2sh_invalid']],
+      ['<1>', 'OP_INPUTINDEX OP_UTXOBYTECODE OP_ACTIVEBYTECODE OP_EQUALVERIFY', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working P2S)', ['p2sh_invalid']],
       ['<OP_HASH160 OP_PUSHBYTES_20>', 'OP_ACTIVEBYTECODE OP_HASH160 <OP_EQUAL> OP_CAT OP_CAT OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working P2SH20)', ['invalid', 'p2sh20_standard']],
       ['<OP_HASH256 OP_PUSHBYTES_32>', 'OP_ACTIVEBYTECODE OP_HASH256 <OP_EQUAL> OP_CAT OP_CAT OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL', '"OP_INPUTINDEX OP_UTXOBYTECODE" and "OP_ACTIVEBYTECODE" differ in P2SH contracts (working P2SH32)', ['invalid', 'p2sh32_standard']],
       ['<0>', 'OP_TXVERSION OP_EQUAL', 'OP_TXVERSION (version == 0); only versions 1 and 2 are valid', ['invalid'], { transaction: { version: 0 } }],
@@ -85,7 +85,7 @@ export default [
         ['invalid'],
         { sourceOutputs: [{ lockingBytecode: ['slot'], valueSatoshis: binToHex(bigIntToBinUint64LE(9223372036854775807n)) }], transaction: { inputs: [{ unlockingBytecode: ['slot'] }], outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN <"100-byte tx size minimum 123">') as Uint8Array) }] } },
       ],
-      ['<<1> OP_UTXOBYTECODE OP_EQUAL>', '<1> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<<1> OP_UTXOBYTECODE OP_EQUAL>; nonP2SH)', ['p2sh_invalid']],
+      ['<<1> OP_UTXOBYTECODE OP_EQUAL>', '<1> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<<1> OP_UTXOBYTECODE OP_EQUAL>; P2S)', ['p2sh_invalid']],
       ['<0xa914baae9f614b7d4cde00a5c2ea454f59b5a3f91a2d87>', '<1> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<<1> OP_UTXOBYTECODE OP_EQUAL>; P2SH20)', ['invalid', 'p2sh20_standard']],
       ['<0x76a91460011c6bf3f1dd98cff576437b9d85de780f497488ac>', '<0> OP_UTXOBYTECODE OP_EQUAL', 'OP_UTXOBYTECODE (<simple p2pkh output>; input 0)'],
       ['<1>', '<0> OP_UTXOBYTECODE OP_DROP', 'OP_UTXOBYTECODE (ignore result, input 0)'],
@@ -101,7 +101,7 @@ export default [
           .map((i) => binToHex(Uint8Array.of(i)))
           .join('')}> OP_DROP <1> OP_UTXOBYTECODE OP_EQUAL`,
         'OP_UTXOBYTECODE (maximum size UTXO bytecode)',
-        ['p2sh_ignore'],
+        ['p2s_nonstandard', 'p2sh_invalid'],
       ],
       [
         '<1>',
@@ -109,7 +109,7 @@ export default [
           .map((i) => binToHex(Uint8Array.of(i)))
           .join('')}> OP_DROP <1> OP_UTXOBYTECODE OP_DROP`,
         'OP_UTXOBYTECODE (ignore result, not excessive size)',
-        ['p2sh_ignore'],
+        ['p2s_nonstandard'],
       ],
       [
         '<1>',
@@ -123,7 +123,7 @@ export default [
         '<<0x00 42> OP_EQUAL> <<0x00 13> OP_EQUAL> <<0x00 7> OP_EQUAL> <<0x00 3> OP_EQUAL> <<0x00 2> OP_EQUAL> <<0x00 1> OP_EQUAL> <<0> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_CODESEPARATOR OP_UTXOBYTECODE OP_EQUALVERIFY <2> OP_UTXOBYTECODE OP_EQUALVERIFY <3> OP_UTXOBYTECODE OP_CODESEPARATOR OP_EQUALVERIFY <7> OP_UTXOBYTECODE OP_EQUALVERIFY <13> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <42> OP_UTXOBYTECODE OP_EQUAL>',
         '<0> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_CODESEPARATOR OP_UTXOBYTECODE OP_EQUALVERIFY <2> OP_UTXOBYTECODE OP_EQUALVERIFY <3> OP_UTXOBYTECODE OP_CODESEPARATOR OP_EQUALVERIFY <7> OP_UTXOBYTECODE OP_EQUALVERIFY <13> OP_UTXOBYTECODE OP_EQUALVERIFY OP_CODESEPARATOR <42> OP_UTXOBYTECODE OP_EQUAL',
         'multiple OP_UTXOBYTECODEs, OP_CODESEPARATOR has no effect (50 inputs)',
-        ['invalid', 'nop2sh_nonstandard'],
+        ['p2sh_invalid'],
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ lockingBytecode: { script: `lock${i}` }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ unlockingBytecode: { script: `unlock${i}` } }))] } },
         range(49, 1).reduce((agg, i) => ({ ...agg, [`unlock${i}`]: { script: `<0x00 ${i}>`, unlocks: `lock${i}` }, [`lock${i}`]: { lockingType: 'standard', script: `<0x00 ${i}> OP_EQUAL` } }), {}),
       ],
@@ -197,9 +197,9 @@ export default [
         { sourceOutputs: [{ lockingBytecode: ['slot'] }, ...range(49, 1).map(() => ({ lockingBytecode: { script: 'lockEmptyP2sh20' }, valueSatoshis: 10_000 }))], transaction: { inputs: [{ unlockingBytecode: ['slot'] }, ...range(49, 1).map((i) => ({ outpointIndex: i, unlockingBytecode: { script: 'unlockEmptyP2sh20' } }))] } },
       ],
       ['<0>', 'OP_INPUTBYTECODE <<0x7dfb529d352908ee0a88a0074c216b09793d6aa8c94c7640bb4ced51eaefc75d0aef61f7685d0307491e2628da3d4f91e86329265a4a58ca27a41ec0b8910779c3> <0x03a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785>> OP_EQUAL', 'OP_INPUTBYTECODE (input 0)'],
-      ['<1>', 'OP_INPUTBYTECODE <<1>> OP_EQUAL', 'OP_INPUTBYTECODE (self, nonP2SH)', ['invalid', 'nop2sh_nonstandard']],
-      ['', '<1> OP_INPUTBYTECODE <0> OP_EQUAL', 'OP_INPUTBYTECODE (self, empty input bytecode, nonP2SH)', ['invalid', 'nop2sh_nonstandard']],
-      ['<OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>>', 'OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH)', ['invalid', 'p2sh_standard']],
+      ['<1>', 'OP_INPUTBYTECODE <<1>> OP_EQUAL', 'OP_INPUTBYTECODE (self, P2S)', ['p2sh_invalid']],
+      ['', '<1> OP_INPUTBYTECODE <0> OP_EQUAL', 'OP_INPUTBYTECODE (self, empty input bytecode, P2S)', ['p2sh_invalid']],
+      ['<OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>>', 'OP_DUP OP_SIZE OP_SWAP OP_CAT OP_CODESEPARATOR OP_NIP OP_DUP OP_CAT OP_CODESEPARATOR <1> OP_INPUTBYTECODE OP_EQUALVERIFY <1>', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH)', ['p2s_invalid']],
       ['<1>', 'OP_INPUTBYTECODE <2> OP_SPLIT OP_CODESEPARATOR OP_HASH160 <OP_HASH160 OP_PUSHBYTES_20> OP_SWAP OP_CAT <OP_EQUAL> OP_CAT OP_CODESEPARATOR <1> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_SPLIT OP_DROP <<1>> OP_EQUAL', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH20, compare OP_UTXOBYTECODE)', ['invalid', 'p2sh20_standard']],
       ['<1>', 'OP_INPUTBYTECODE <2> OP_SPLIT OP_CODESEPARATOR OP_HASH256 <OP_HASH256 OP_PUSHBYTES_32> OP_SWAP OP_CAT <OP_EQUAL> OP_CAT OP_CODESEPARATOR <1> OP_UTXOBYTECODE OP_EQUALVERIFY <1> OP_SPLIT OP_DROP <<1>> OP_EQUAL', 'OP_INPUTBYTECODE, OP_CODESEPARATOR in redeem bytecode has no effect (self, P2SH32, compare OP_UTXOBYTECODE)', ['invalid', 'p2sh32_standard']],
       ['<1>', 'OP_INPUTBYTECODE <1> OP_EQUAL', 'OP_INPUTBYTECODE (input 1, expected missing OP_PUSHBYTES_1)', ['invalid']],
@@ -225,7 +225,7 @@ export default [
           .map((i) => binToHex(Uint8Array.of(i)))
           .join('')}>> <1> OP_INPUTBYTECODE OP_EQUAL OP_NIP`,
         'OP_INPUTBYTECODE (maximum size)',
-        ['p2sh_ignore'],
+        ['p2s_nonstandard', 'p2sh_invalid'],
       ],
       [
         `<0x${range(518)
@@ -235,7 +235,7 @@ export default [
           .map((i) => binToHex(Uint8Array.of(i)))
           .join('')}>> <1> OP_INPUTBYTECODE OP_EQUAL OP_NIP`,
         'OP_INPUTBYTECODE (excessive size)',
-        ['2023_invalid', 'p2sh_ignore'],
+        ['p2s_nonstandard', 'p2sh_invalid', '2023_invalid'],
       ],
       [
         `<1> <0x${range(511)
@@ -344,7 +344,7 @@ export default [
       ['<OP_RETURN <"vmb_test">>', '<0> OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE (output 0)'],
       ['<OP_RETURN>', '<0> OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE (output 0, expected <OP_RETURN>)', ['invalid']],
       ['<OP_RETURN>', '<0> OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE (output 0, <OP_RETURN>)', [], { transaction: { outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_RETURN') as Uint8Array), valueSatoshis: 10_000 }] } }],
-      ['<OP_DROP OP_CODESEPARATOR <1>>', '<0> OP_CODESEPARATOR OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE, OP_CODESEPARATOR has no effect (output 0, <OP_DROP OP_CODESEPARATOR <1>>)', ['nonstandard'], { transaction: { outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_DROP OP_CODESEPARATOR <1>') as Uint8Array), valueSatoshis: 10_000 }] } }],
+      ['<OP_DROP OP_CODESEPARATOR <1>>', '<0> OP_CODESEPARATOR OP_OUTPUTBYTECODE OP_EQUAL', 'OP_OUTPUTBYTECODE, OP_CODESEPARATOR has no effect (output 0, <OP_DROP OP_CODESEPARATOR <1>>)', ['2023_p2sh_nonstandard', '2025_p2sh_nonstandard'], { transaction: { outputs: [{ lockingBytecode: binToHex(cashAssemblyToBin('OP_DROP OP_CODESEPARATOR <1>') as Uint8Array), valueSatoshis: 10_000 }] } }],
       ['<1>', '<0> OP_OUTPUTBYTECODE OP_DROP', 'OP_OUTPUTBYTECODE (ignore result, output 0)'],
       ['<1>', '<0x0000> OP_OUTPUTBYTECODE OP_DROP', 'OP_OUTPUTBYTECODE (ignore result, output 0, non-minimally encoded)', ['invalid']],
       ['<1>', '<-1> OP_OUTPUTBYTECODE OP_DROP', 'OP_OUTPUTBYTECODE (ignore result, negative output index)', ['invalid'], { transaction: { outputs: [{ valueSatoshis: 10_000 }, { valueSatoshis: 10_001 }] } }],

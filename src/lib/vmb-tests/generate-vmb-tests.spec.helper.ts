@@ -128,7 +128,7 @@ const allowPrintTime = async () => sleep(1);
  * From `core.benchmarks.baseline.vmb_tests.json`
  */
 // prettier-ignore
-const baselineVmbTest = ["trxhzt","Transaction validation benchmarks: [baseline] 2 P2PKH inputs, 2 P2PKH outputs (one Schnorr signature, one ECDSA signature) (nonP2SH)","<key1.schnorr_signature.all_outputs> <key1.public_key>","OP_DUP OP_HASH160 <$(<key1.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG","02000000020100000000000000000000000000000000000000000000000000000000000000000000006a47304402204a86326ea6e2abb2ba73d490cd3293bdb7ff35886f9571064fb61e3dc64cb28b0220239338de5a5b1d54f7ff07196e16d10456da74b11ef1a79fc1bb02a084a977fd412103a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785000000000100000000000000000000000000000000000000000000000000000000000000010000006441de6174892e09d0b5d48c69d76cd4510d0254fd4a35edb6283454b0be48aa8db13c7d5b4cc84019cdf82a87c5bef2fc7768a7f249b681be49480e61a0b093b2a6412103a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e7850000000002a0860100000000001976a9144af864646d46ee5a12f4695695ae78f993cad77588ac32850100000000001976a9144af864646d46ee5a12f4695695ae78f993cad77588ac00000000","02a0860100000000001976a91460011c6bf3f1dd98cff576437b9d85de780f497488aca0860100000000001976a91460011c6bf3f1dd98cff576437b9d85de780f497488ac",1] as const;
+const baselineVmbTest = ["trxhzt","Transaction validation benchmarks: [baseline] 2 P2PKH inputs, 2 P2PKH outputs (one Schnorr signature, one ECDSA signature) (P2S)","<key1.schnorr_signature.all_outputs> <key1.public_key>","OP_DUP OP_HASH160 <$(<key1.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG","02000000020100000000000000000000000000000000000000000000000000000000000000000000006a47304402204a86326ea6e2abb2ba73d490cd3293bdb7ff35886f9571064fb61e3dc64cb28b0220239338de5a5b1d54f7ff07196e16d10456da74b11ef1a79fc1bb02a084a977fd412103a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e785000000000100000000000000000000000000000000000000000000000000000000000000010000006441de6174892e09d0b5d48c69d76cd4510d0254fd4a35edb6283454b0be48aa8db13c7d5b4cc84019cdf82a87c5bef2fc7768a7f249b681be49480e61a0b093b2a6412103a524f43d6166ad3567f18b0a5c769c6ab4dc02149f4d5095ccf4e8ffa293e7850000000002a0860100000000001976a9144af864646d46ee5a12f4695695ae78f993cad77588ac32850100000000001976a9144af864646d46ee5a12f4695695ae78f993cad77588ac00000000","02a0860100000000001976a91460011c6bf3f1dd98cff576437b9d85de780f497488aca0860100000000001976a91460011c6bf3f1dd98cff576437b9d85de780f497488ac",1] as const;
 const [baselineId, , , , baselineTxHex, baselineSourceOutputsHex] =
   baselineVmbTest;
 type TypeTest = AssertTypesEqual<typeof baselineId, typeof baselineBenchmarkId>;
@@ -693,7 +693,7 @@ This is a vulnerability in one of the implementations, please confidentially rep
             {},
           ),
         )
-          .map(([set, vm]) => `${vm.join(', ')}${set ? ` (${set})` : ''}`)
+          .map(([set, vm]) => `${vm.join(', ')}${set ? ` (set: ${set})` : ''}`)
           .join('; ');
         const message = `${index}. ${issue} Occurred in: ${runs}`;
         const firstVm = occurrences[0]?.[0];
@@ -903,6 +903,8 @@ export const createWorkers = (
  * duplicate IDs/descriptions.
  * @param workers - if provided, these workers will be used during
  * generation rather than the current thread.
+ * @param options - options for generation
+ * @param changedFile - if provided, only regenerate this specific file
  * @returns a list of any regeneration or validation errors or – if no issues
  * are found – an empty array.
  */
@@ -911,6 +913,7 @@ export const createWorkers = (
 export const generateVmbTests = async (
   workers?: WorkerWrapper[],
   { benchmark = false, deleteUnexpected = false, ignoreWarnings = false } = {},
+  changedFile?: string,
 ) => {
   const bases = getSources().map((name) => name.replace('.ts', ''));
   const suffixes = [
@@ -966,9 +969,24 @@ export const generateVmbTests = async (
 
   const currentManifest = getPreviousManifest(manifestPath);
   const newManifest = getLatestManifest();
-  const modifiedFiles = Object.entries(newManifest).filter(
-    ([file, hash]) => currentManifest[file] !== hash,
-  );
+
+  const chooseFilesToRegenerate = (
+    specificFile?: string,
+  ): [string, string][] => {
+    if (specificFile !== undefined) {
+      if (newManifest[specificFile] !== undefined) {
+        console.log(`Processing only changed file: ${specificFile}`);
+        return [[specificFile, newManifest[specificFile]]];
+      }
+      console.log(
+        `Changed file (${specificFile}) not found in manifest, processing all modified files.`,
+      );
+    }
+    return Object.entries(newManifest).filter(
+      ([file, hash]) => currentManifest[file] !== hash,
+    );
+  };
+  const modifiedFiles = chooseFilesToRegenerate(changedFile);
   const generationStart = performance.now();
   console.log(
     `${modifiedFiles.length} modified files: ${modifiedFiles

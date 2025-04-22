@@ -1,0 +1,45 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+0cgg6z,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 5-byte commitment: P2SH20 dust, P2SH32 dust) (P2SH20)",125,33,1,0,43,34400,671,1,0,150,2,5,43,0
+v2p56a,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 5-byte commitment: P2SH20 dust, P2SH32 dust) (P2SH32)",137,45,1,0,43,34400,695,1,0,150,2,5,67,0
+fe2jpa,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 5-byte commitment: P2SH20 non-dust minimum, P2SH32 dust) (P2SH32)",137,45,1,0,43,34400,695,1,0,150,2,5,67,0
+lzpd5s,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 5-byte commitment: P2SH32 dust maximum) (P2SH32)",137,45,1,0,43,34400,695,1,0,150,2,5,67,0
+d38r9m,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 6-byte commitment: P2SH20 dust, P2SH32 dust) (P2SH20)",126,33,1,0,43,34400,671,1,0,150,2,5,43,0
+t8zltz,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 6-byte commitment: P2SH20 dust, P2SH32 dust) (P2SH32)",138,45,1,0,43,34400,695,1,0,150,2,5,67,0
+pjlgea,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 6-byte commitment: P2SH20 non-dust minimum, P2SH32 dust) (P2SH32)",138,45,1,0,43,34400,695,1,0,150,2,5,67,0
+vr3wjd,"CHIP-2022-02-CashTokens: mint immutable NFT (with genesis input, index 0, 6-byte commitment: P2SH32 dust maximum) (P2SH32)",138,45,1,0,43,34400,695,1,0,150,2,5,67,0
+agljhp,"CHIP-2022-02-CashTokens: mint fungible tokens (with genesis input, index 0, P2SH20 dust, P2SH32 dust) (P2SH20)",128,33,1,0,43,34400,671,1,0,150,2,5,43,0
+2au3wt,"CHIP-2022-02-CashTokens: mint fungible tokens (with genesis input, index 0, P2SH20 dust, P2SH32 dust) (P2SH32)",140,45,1,0,43,34400,695,1,0,150,2,5,67,0
+qaz95k,"CHIP-2022-02-CashTokens: mint fungible tokens (with genesis input, index 0, P2SH20 non-dust minimum, P2SH32 dust) (P2SH32)",140,45,1,0,43,34400,695,1,0,150,2,5,67,0
+kna366,"CHIP-2022-02-CashTokens: mint fungible tokens (with genesis input, index 0, P2SH32 dust maximum) (P2SH32)",140,45,1,0,43,34400,695,1,0,150,2,5,67,0
+7k09dy,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFTs (with genesis input, index 0, P2SH20 dust, P2SH32 dust) (P2SH20)",128,33,1,0,43,34400,671,1,0,150,2,5,43,0
+8u2vtn,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFTs (with genesis input, index 0, P2SH20 dust, P2SH32 dust) (P2SH32)",140,45,1,0,43,34400,695,1,0,150,2,5,67,0
+z3q52r,"CHIP-2022-02-CashTokens: mint fungible tokens and immutable NFTs (with genesis input, index 0, P2SH32 dust maximum) (P2SH32)",140,45,1,0,43,34400,695,1,0,150,2,5,67,0
+cxytme,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2SH20 dust) (P2SH20)",379,33,1,0,43,34400,671,1,0,150,2,5,43,0
+lfm0mw,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2SH20 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+80l4wu,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2S non-dust minimum) (P2SH20)",379,33,1,0,43,34400,671,1,0,150,2,5,43,0
+465xxr,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2S non-dust minimum) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+vkc3tk,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2S dust) (P2S)",267,11,1,0,41,32800,101,1,0,143,0,1,1,0
+vxc6ku,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2S dust) (P2SH20)",379,33,1,0,43,34400,671,1,0,150,2,5,43,0
+dqxeyg,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2S dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+jkcusz,"CHIP-2022-02-CashTokens: mint all token types (output 0 P2SH32 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+svw6qy,"CHIP-2022-02-CashTokens: mint all token types (output 1 P2SH20 dust) (P2SH20)",379,33,1,0,43,34400,671,1,0,150,2,5,43,0
+rgwmf8,"CHIP-2022-02-CashTokens: mint all token types (output 1 P2SH20 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+673q2s,"CHIP-2022-02-CashTokens: mint all token types (output 1 P2SH32 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+6k8e2w,"CHIP-2022-02-CashTokens: mint all token types (output 2 P2SH20 dust) (P2SH20)",379,33,1,0,43,34400,671,1,0,150,2,5,43,0
+up5err,"CHIP-2022-02-CashTokens: mint all token types (output 2 P2SH20 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+fn6s3t,"CHIP-2022-02-CashTokens: mint all token types (output 2 P2SH32 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+tafanh,"CHIP-2022-02-CashTokens: mint all token types (output 3 P2SH20 dust) (P2SH20)",379,33,1,0,43,34400,671,1,0,150,2,5,43,0
+nx6mx8,"CHIP-2022-02-CashTokens: mint all token types (output 3 P2SH20 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+jnhzst,"CHIP-2022-02-CashTokens: mint all token types (output 3 P2SH32 dust) (P2SH32)",439,45,1,0,43,34400,695,1,0,150,2,5,67,0
+jfm62q,"CHIP-2022-02-CashTokens: move immutable token (P2SH32 and P2SH20 dust) (P2SH20)",124,72,1,0,43,34400,671,1,0,150,2,5,43,0
+kr62gp,"CHIP-2022-02-CashTokens: move immutable token (P2SH32 and P2SH20 dust) (P2SH32)",136,84,1,0,43,34400,695,1,0,150,2,5,67,0
+y2je2y,"CHIP-2022-02-CashTokens: move immutable token (P2SH32 dust, 657) (P2SH32)",136,84,1,0,43,34400,695,1,0,150,2,5,67,0
+8ylwra,"CHIP-2022-02-CashTokens: move immutable token (P2SH32 dust, 692) (P2SH32)",136,84,1,0,43,34400,695,1,0,150,2,5,67,0
+k2zxf5,"CHIP-2022-02-CashTokens: OP_UTXOTOKENCATEGORY (at multiple indexes, unordered) (P2S)",541,626,7,1,48,38400,3203,1,0,168,0,28,403,0
+xe6tfc,"CHIP-2022-02-CashTokens: OP_OUTPUTTOKENCATEGORY (at multiple indexes, unordered) (P2S)",2099,626,7,1,48,38400,3203,1,0,168,0,28,403,0
+m0aprc,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (P2S)",619,18,1,0,41,32800,1125,1,0,143,0,6,525,0
+pnre84,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (P2SH20)",628,33,1,0,50,40000,1702,1,0,175,2,10,574,0
+z3sjs4,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 520, expect 520) (P2SH32)",628,45,1,0,50,40000,1726,1,0,175,2,10,598,0
+9ga8v8,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521) (P2S)",620,18,1,0,41,32800,1126,1,0,143,0,6,526,0
+28urur,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521) (P2SH20)",629,33,1,0,50,40000,1703,1,0,175,2,10,575,0
+dl4q97,"CHIP-2022-02-CashTokens: OP_OUTPUTBYTECODE excludes token prefix after upgrade (length 521, expect 521) (P2SH32)",629,45,1,0,50,40000,1727,1,0,175,2,10,599,0

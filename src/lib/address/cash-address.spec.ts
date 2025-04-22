@@ -163,6 +163,9 @@ test('encodeCashAddressFormat: works', (t) => {
 });
 
 test('encodeCashAddress: works', (t) => {
+  /**
+   * From `f85d4bd8a03ca106c9deb47b791803dac7f0333809e3f1dd04d182e0aba6e553`
+   */
   const payload = hexToBin('15d16c84669ab46059313bf0747e781f1d13936d');
   t.deepEqual(
     encodeCashAddress({

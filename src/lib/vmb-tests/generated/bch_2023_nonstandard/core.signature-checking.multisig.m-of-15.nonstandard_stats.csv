@@ -1,6 +1,6 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-aktdrv,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 1) (nonP2SH)",284,559,2,1,114,91200,0,3,15,399,180,20,569,0
-mnkcy7,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 7) (nonP2SH)",284,559,2,1,114,91200,0,3,15,399,108,20,569,0
-ylckl2,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 15) (nonP2SH)",284,559,2,1,114,91200,0,3,15,399,12,20,569,0
-tc2lq7,"Signature checking: 2-of-15 ECDSA multisig (keys 1 and 2) (nonP2SH)",358,559,2,1,188,150400,0,4,15,658,180,21,642,0
-xf3ptg,"Signature checking: 2-of-15 ECDSA multisig (null signatures) (nonP2SH)",214,560,2,1,44,35200,0,1,0,154,0,22,498,0
+aktdrv,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 1) (P2S)",284,559,2,1,114,91200,0,3,15,399,180,20,569,0
+mnkcy7,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 7) (P2S)",284,559,2,1,114,91200,0,3,15,399,108,20,569,0
+ylckl2,"Signature checking: 1-of-15 multisig with checkBits of zero (ECDSA key 15) (P2S)",284,559,2,1,114,91200,0,3,15,399,12,20,569,0
+tc2lq7,"Signature checking: 2-of-15 ECDSA multisig (keys 1 and 2) (P2S)",358,559,2,1,188,150400,0,4,15,658,180,21,642,0
+xf3ptg,"Signature checking: 2-of-15 ECDSA multisig (null signatures) (P2S)",214,560,2,1,44,35200,0,1,0,154,0,22,498,0

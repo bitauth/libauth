@@ -584,6 +584,8 @@ export type IdentitySnapshot = {
    * The split ID of this identity's chain of record.
    *
    * If undefined, defaults to {@link MetadataRegistry.defaultChain}.
+   *
+   * TODO: rename "splitId" to "chainBranchId" (more clearly refers to the immediate descendent of the split block)
    */
   splitId?: string;
 

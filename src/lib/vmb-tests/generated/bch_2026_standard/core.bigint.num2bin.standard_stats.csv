@@ -1,0 +1,107 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+nfdp3w,"BigInt: OP_NUM2BIN zero with length of zero is zero (P2S)",212,48,2,1,42,33600,501,1,0,21,0,5,1,0
+nz9jwj,"BigInt: OP_NUM2BIN zero with length of zero is zero (P2SH20)",217,67,2,1,47,37600,1330,1,0,23,2,9,46,0
+vq80wp,"BigInt: OP_NUM2BIN zero with length of zero is zero (P2SH32)",217,79,2,1,47,37600,1354,1,0,23,2,9,70,0
+ygd7qc,"BigInt: OP_NUM2BIN padded zero with length of zero is zero (P2S)",212,49,2,1,42,33600,502,1,0,21,0,5,2,0
+rtahw9,"BigInt: OP_NUM2BIN padded zero with length of zero is zero (P2SH20)",218,67,2,1,48,38400,1332,1,0,24,2,9,48,0
+zlrqag,"BigInt: OP_NUM2BIN padded zero with length of zero is zero (P2SH32)",218,79,2,1,48,38400,1356,1,0,24,2,9,72,0
+wd9lu9,"BigInt: OP_NUM2BIN negative zero with length of zero is zero (P2S)",212,49,2,1,42,33600,502,1,0,21,0,5,2,0
+mwwelk,"BigInt: OP_NUM2BIN negative zero with length of zero is zero (P2SH20)",218,67,2,1,48,38400,1332,1,0,24,2,9,48,0
+wfn732,"BigInt: OP_NUM2BIN negative zero with length of zero is zero (P2SH32)",218,79,2,1,48,38400,1356,1,0,24,2,9,72,0
+j0ssfm,"BigInt: OP_NUM2BIN padded negative zero with length of zero is zero (P2S)",212,50,2,1,42,33600,503,1,0,21,0,5,3,0
+yc0p7a,"BigInt: OP_NUM2BIN padded negative zero with length of zero is zero (P2SH20)",219,67,2,1,49,39200,1334,1,0,24,2,9,50,0
+0a5m8k,"BigInt: OP_NUM2BIN padded negative zero with length of zero is zero (P2SH32)",219,79,2,1,49,39200,1358,1,0,24,2,9,74,0
+qyjn9h,"BigInt: OP_NUM2BIN padded zero (520 bytes) with length of zero is zero (P2SH20)",743,67,2,1,571,456800,3908,13,0,285,10,9,1088,0
+zt7tq6,"BigInt: OP_NUM2BIN padded zero (520 bytes) with length of zero is zero (P2SH32)",743,79,2,1,571,456800,3932,13,0,285,10,9,1112,0
+m9rqqm,"BigInt: OP_NUM2BIN padded negative zero (520 bytes) with length of zero is zero (P2SH20)",743,67,2,1,571,456800,3908,13,0,285,10,9,1088,0
+35lwg3,"BigInt: OP_NUM2BIN padded negative zero (520 bytes) with length of zero is zero (P2SH32)",743,79,2,1,571,456800,3932,13,0,285,10,9,1112,0
+84hsaz,"BigInt: OP_NUM2BIN padded zero (521 bytes) with length of zero is zero (P2SH20)",744,67,2,1,572,457600,3910,13,0,286,10,9,1090,0
+kycc8j,"BigInt: OP_NUM2BIN padded zero (521 bytes) with length of zero is zero (P2SH32)",744,79,2,1,572,457600,3934,13,0,286,10,9,1114,0
+72mvrx,"BigInt: OP_NUM2BIN padded negative zero (521 bytes) with length of zero is zero (P2SH20)",744,67,2,1,572,457600,3910,13,0,286,10,9,1090,0
+kmxxcf,"BigInt: OP_NUM2BIN padded negative zero (521 bytes) with length of zero is zero (P2SH32)",744,79,2,1,572,457600,3934,13,0,286,10,9,1114,0
+fhupkd,"BigInt: OP_NUM2BIN zero with length of one is padded zero (P2S)",213,48,2,1,43,34400,504,1,0,21,0,5,4,0
+p0pv5s,"BigInt: OP_NUM2BIN zero with length of one is padded zero (P2SH20)",218,67,2,1,48,38400,1333,1,0,24,2,9,49,0
+euj97c,"BigInt: OP_NUM2BIN zero with length of one is padded zero (P2SH32)",218,79,2,1,48,38400,1357,1,0,24,2,9,73,0
+wdk9ke,"BigInt: OP_NUM2BIN padded zero with length of one is padded zero (P2S)",213,49,2,1,43,34400,505,1,0,21,0,5,5,0
+pgssw7,"BigInt: OP_NUM2BIN padded zero with length of one is padded zero (P2SH20)",219,67,2,1,49,39200,1335,1,0,24,2,9,51,0
+600ja2,"BigInt: OP_NUM2BIN padded zero with length of one is padded zero (P2SH32)",219,79,2,1,49,39200,1359,1,0,24,2,9,75,0
+husfpg,"BigInt: OP_NUM2BIN negative zero with length of one is padded zero (P2S)",213,49,2,1,43,34400,505,1,0,21,0,5,5,0
+4n25mn,"BigInt: OP_NUM2BIN negative zero with length of one is padded zero (P2SH20)",219,67,2,1,49,39200,1335,1,0,24,2,9,51,0
+pnus75,"BigInt: OP_NUM2BIN negative zero with length of one is padded zero (P2SH32)",219,79,2,1,49,39200,1359,1,0,24,2,9,75,0
+ztnyf5,"BigInt: OP_NUM2BIN padded negative zero with length of one is padded zero (P2S)",213,50,2,1,43,34400,506,1,0,21,0,5,6,0
+eeuz4x,"BigInt: OP_NUM2BIN padded negative zero with length of one is padded zero (P2SH20)",220,67,2,1,50,40000,1337,1,0,25,2,9,53,0
+5jcwc0,"BigInt: OP_NUM2BIN padded negative zero with length of one is padded zero (P2SH32)",220,79,2,1,50,40000,1361,1,0,25,2,9,77,0
+f0u2vc,"BigInt: OP_NUM2BIN padded zero (520 bytes) with length of one is padded zero (P2SH20)",744,67,2,1,572,457600,3911,13,0,286,10,9,1091,0
+kl2l5n,"BigInt: OP_NUM2BIN padded zero (520 bytes) with length of one is padded zero (P2SH32)",744,79,2,1,572,457600,3935,13,0,286,10,9,1115,0
+mmyf2j,"BigInt: OP_NUM2BIN padded negative zero (520 bytes) with length of one is padded zero (P2SH20)",744,67,2,1,572,457600,3911,13,0,286,10,9,1091,0
+8gj9h7,"BigInt: OP_NUM2BIN padded negative zero (520 bytes) with length of one is padded zero (P2SH32)",744,79,2,1,572,457600,3935,13,0,286,10,9,1115,0
+dlnm83,"BigInt: OP_NUM2BIN padded zero (521 bytes) with length of one is padded zero (P2SH20)",745,67,2,1,573,458400,3913,13,0,286,10,9,1093,0
+2p5kvr,"BigInt: OP_NUM2BIN padded zero (521 bytes) with length of one is padded zero (P2SH32)",745,79,2,1,573,458400,3937,13,0,286,10,9,1117,0
+cdy5fq,"BigInt: OP_NUM2BIN padded negative zero (521 bytes) with length of one is padded zero (P2SH20)",745,67,2,1,573,458400,3913,13,0,286,10,9,1093,0
+p3tmcv,"BigInt: OP_NUM2BIN padded negative zero (521 bytes) with length of one is padded zero (P2SH32)",745,79,2,1,573,458400,3937,13,0,286,10,9,1117,0
+pu8hm4,"BigInt: OP_NUM2BIN of 520 bytes (P2S)",214,52,2,1,44,35200,1227,1,0,22,0,7,527,0
+l6kgeg,"BigInt: OP_NUM2BIN of 520 bytes (P2SH20)",223,67,2,1,53,42400,2060,1,0,26,2,11,576,0
+r3ggy2,"BigInt: OP_NUM2BIN of 520 bytes (P2SH32)",223,79,2,1,53,42400,2084,1,0,26,2,11,600,0
+3s5mc7,"BigInt: OP_NUM2BIN of 521 bytes (P2S)",214,52,2,1,44,35200,1228,1,0,22,0,7,528,0
+6yfutz,"BigInt: OP_NUM2BIN of 521 bytes (P2SH20)",223,67,2,1,53,42400,2061,1,0,26,2,11,577,0
+uv3hds,"BigInt: OP_NUM2BIN of 521 bytes (P2SH32)",223,79,2,1,53,42400,2085,1,0,26,2,11,601,0
+n845dc,"BigInt: OP_NUM2BIN of 10,000 bytes (P2S)",214,52,2,1,44,35200,10707,1,0,22,0,7,10007,0
+snf9j8,"BigInt: OP_NUM2BIN of 10,000 bytes (P2SH20)",223,67,2,1,53,42400,11540,1,0,26,2,11,10056,0
+0gsxhj,"BigInt: OP_NUM2BIN of 10,000 bytes (P2SH32)",223,79,2,1,53,42400,11564,1,0,26,2,11,10080,0
+uv5fl8,"BigInt: OP_NUM2BIN retains endianness and appends padding (P2S)",220,50,2,1,50,40000,520,1,0,25,0,5,20,0
+w3gjxg,"BigInt: OP_NUM2BIN retains endianness and appends padding (P2SH20)",227,67,2,1,57,45600,1351,1,0,28,2,9,67,0
+ra0fs3,"BigInt: OP_NUM2BIN retains endianness and appends padding (P2SH32)",227,79,2,1,57,45600,1375,1,0,28,2,9,91,0
+cllns3,"BigInt: OP_NUM2BIN numbers beginning with 0x00 (P2S)",220,51,2,1,50,40000,521,1,0,25,0,5,21,0
+shg2jv,"BigInt: OP_NUM2BIN numbers beginning with 0x00 (P2SH20)",228,67,2,1,58,46400,1353,1,0,29,2,9,69,0
+y7r68k,"BigInt: OP_NUM2BIN numbers beginning with 0x00 (P2SH32)",228,79,2,1,58,46400,1377,1,0,29,2,9,93,0
+urkqsy,"BigInt: OP_NUM2BIN then OP_BIN2NUM numbers beginning with 0x00 (P2S)",215,49,2,1,45,36000,619,1,0,22,0,6,19,0
+gfcx65,"BigInt: OP_NUM2BIN then OP_BIN2NUM numbers beginning with 0x00 (P2SH20)",221,67,2,1,51,40800,1449,1,0,25,2,10,65,0
+35edkt,"BigInt: OP_NUM2BIN then OP_BIN2NUM numbers beginning with 0x00 (P2SH32)",221,79,2,1,51,40800,1473,1,0,25,2,10,89,0
+qwtrgh,"BigInt: OP_NUM2BIN accepts padded numbers (P2S)",220,51,2,1,50,40000,521,1,0,25,0,5,21,0
+99y47z,"BigInt: OP_NUM2BIN accepts padded numbers (P2SH20)",228,67,2,1,58,46400,1353,1,0,29,2,9,69,0
+g7ekxa,"BigInt: OP_NUM2BIN accepts padded numbers (P2SH32)",228,79,2,1,58,46400,1377,1,0,29,2,9,93,0
+s3tat2,"BigInt: OP_NUM2BIN padded number then OP_BIN2NUM is not equal (succeed) (P2S)",215,50,2,1,45,36000,718,1,0,22,0,7,18,0
+fxvs03,"BigInt: OP_NUM2BIN padded number then OP_BIN2NUM is not equal (succeed) (P2SH20)",222,67,2,1,52,41600,1549,1,0,26,2,11,65,0
+e77vmf,"BigInt: OP_NUM2BIN padded number then OP_BIN2NUM is not equal (succeed) (P2SH32)",222,79,2,1,52,41600,1573,1,0,26,2,11,89,0
+rc6eff,"BigInt: OP_NUM2BIN 0 with length of 256 (P2S)",214,52,2,1,44,35200,963,1,0,22,0,7,263,0
+mx35jf,"BigInt: OP_NUM2BIN 0 with length of 256 (P2SH20)",223,67,2,1,53,42400,1796,1,0,26,2,11,312,0
+gddtqg,"BigInt: OP_NUM2BIN 0 with length of 256 (P2SH32)",223,79,2,1,53,42400,1820,1,0,26,2,11,336,0
+jhs2fm,"BigInt: OP_NUM2BIN positive integer length of 127 (P2S)",340,51,2,1,170,136000,758,4,0,85,0,5,258,0
+cgwrnv,"BigInt: OP_NUM2BIN positive integer length of 127 (P2SH20)",348,67,2,1,178,142400,1590,4,0,89,2,9,306,0
+zsjnan,"BigInt: OP_NUM2BIN positive integer length of 127 (P2SH32)",348,79,2,1,178,142400,1614,4,0,89,2,9,330,0
+yc6rnz,"BigInt: OP_NUM2BIN positive integer length of 128 (P2S)",341,52,2,1,171,136800,761,4,0,85,0,5,261,0
+nhrh6w,"BigInt: OP_NUM2BIN positive integer length of 128 (P2SH20)",350,67,2,1,180,144000,1594,4,0,90,2,9,310,0
+5mpf4v,"BigInt: OP_NUM2BIN positive integer length of 128 (P2SH32)",350,79,2,1,180,144000,1618,4,0,90,2,9,334,0
+4s8qqf,"BigInt: OP_NUM2BIN positive integer length of 520 (P2S)",736,52,2,1,564,451200,1545,13,0,282,0,5,1045,0
+8h2h94,"BigInt: OP_NUM2BIN positive integer length of 520 (P2SH20)",745,67,2,1,573,458400,2378,13,0,286,2,9,1094,0
+80pnpm,"BigInt: OP_NUM2BIN positive integer length of 520 (P2SH32)",745,79,2,1,573,458400,2402,13,0,286,2,9,1118,0
+j3q3ax,"BigInt: OP_NUM2BIN positive integer length of 521 (P2S)",737,52,2,1,565,452000,1547,13,0,282,0,5,1047,0
+j96584,"BigInt: OP_NUM2BIN positive integer length of 521 (P2SH20)",746,67,2,1,574,459200,2380,13,0,287,2,9,1096,0
+ps4xxp,"BigInt: OP_NUM2BIN positive integer length of 521 (P2SH32)",746,79,2,1,574,459200,2404,13,0,287,2,9,1120,0
+8kexxu,"BigInt: OP_NUM2BIN reduce-able negative integer (P2S)",214,51,2,1,44,35200,509,1,0,22,0,5,9,0
+fgllxw,"BigInt: OP_NUM2BIN reduce-able negative integer (P2SH20)",222,67,2,1,52,41600,1341,1,0,26,2,9,57,0
+ums7x4,"BigInt: OP_NUM2BIN reduce-able negative integer (P2SH32)",222,79,2,1,52,41600,1365,1,0,26,2,9,81,0
+h0grh7,"BigInt: OP_NUM2BIN negative integer length of 127 (P2S)",340,51,2,1,170,136000,758,4,0,85,0,5,258,0
+4rwx5f,"BigInt: OP_NUM2BIN negative integer length of 127 (P2SH20)",348,67,2,1,178,142400,1590,4,0,89,2,9,306,0
+y6uslm,"BigInt: OP_NUM2BIN negative integer length of 127 (P2SH32)",348,79,2,1,178,142400,1614,4,0,89,2,9,330,0
+jkym9m,"BigInt: OP_NUM2BIN negative integer length of 128 (P2S)",341,52,2,1,171,136800,761,4,0,85,0,5,261,0
+ad3uad,"BigInt: OP_NUM2BIN negative integer length of 128 (P2SH20)",350,67,2,1,180,144000,1594,4,0,90,2,9,310,0
+f7j7hc,"BigInt: OP_NUM2BIN negative integer length of 128 (P2SH32)",350,79,2,1,180,144000,1618,4,0,90,2,9,334,0
+a50r6e,"BigInt: OP_NUM2BIN negative integer length of 520 (P2S)",736,52,2,1,564,451200,1545,13,0,282,0,5,1045,0
+75qhuk,"BigInt: OP_NUM2BIN negative integer length of 520 (P2SH20)",745,67,2,1,573,458400,2378,13,0,286,2,9,1094,0
+tg2cwd,"BigInt: OP_NUM2BIN negative integer length of 520 (P2SH32)",745,79,2,1,573,458400,2402,13,0,286,2,9,1118,0
+lmyzp9,"BigInt: OP_NUM2BIN negative integer length of 521 (P2S)",737,52,2,1,565,452000,1547,13,0,282,0,5,1047,0
+fhrvt0,"BigInt: OP_NUM2BIN negative integer length of 521 (P2SH20)",746,67,2,1,574,459200,2380,13,0,287,2,9,1096,0
+tx9sjf,"BigInt: OP_NUM2BIN negative integer length of 521 (P2SH32)",746,79,2,1,574,459200,2404,13,0,287,2,9,1120,0
+uq4wpg,"BigInt: OP_NUM2BIN padded bytes length of 127 (P2S)",340,55,2,1,170,136000,762,4,0,85,0,5,262,0
+pd7cs7,"BigInt: OP_NUM2BIN padded bytes length of 127 (P2SH20)",352,67,2,1,182,145600,1598,4,0,91,2,9,314,0
+7ffcc7,"BigInt: OP_NUM2BIN padded bytes length of 127 (P2SH32)",352,79,2,1,182,145600,1622,4,0,91,2,9,338,0
+qle3f4,"BigInt: OP_NUM2BIN padded bytes length of 128 (P2S)",341,56,2,1,171,136800,765,4,0,85,0,5,265,0
+wl870j,"BigInt: OP_NUM2BIN padded bytes length of 128 (P2SH20)",354,67,2,1,184,147200,1602,4,0,92,2,9,318,0
+2pyflc,"BigInt: OP_NUM2BIN padded bytes length of 128 (P2SH32)",354,79,2,1,184,147200,1626,4,0,92,2,9,342,0
+j2gkxy,"BigInt: OP_NUM2BIN padded bytes length of 520 (P2S)",736,56,2,1,564,451200,1549,13,0,282,0,5,1049,0
+jeh3zn,"BigInt: OP_NUM2BIN padded bytes length of 520 (P2SH20)",749,67,2,1,577,461600,2386,13,0,288,2,9,1102,0
+qt4k7s,"BigInt: OP_NUM2BIN padded bytes length of 520 (P2SH32)",749,79,2,1,577,461600,2410,13,0,288,2,9,1126,0
+3e5utv,"BigInt: OP_NUM2BIN padded bytes length of 521 (P2S)",737,56,2,1,565,452000,1551,13,0,282,0,5,1051,0
+zfp4t4,"BigInt: OP_NUM2BIN padded bytes length of 521 (P2SH20)",750,67,2,1,578,462400,2388,13,0,289,2,9,1104,0
+7dwv62,"BigInt: OP_NUM2BIN padded bytes length of 521 (P2SH32)",750,79,2,1,578,462400,2412,13,0,289,2,9,1128,0

@@ -1,373 +1,373 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-33gmxf,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
+33gmxf,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
 vtyvln,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,0,3,0,392,3,8,175,0
 zmayg6,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,0,3,0,392,3,8,199,0
-4p08ny,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
+4p08ny,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
 h7lfs4,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,0,13,0,1974,10,8,1073,0
 kglzls,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,0,13,0,1974,10,8,1097,0
-7kgdsd,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,4149,2,1,42,33600,0,1,0,147,0,3,1,0
+7kgdsd,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4149,2,1,42,33600,0,1,0,147,0,3,1,0
 rjn5x4,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4320,67,2,1,4148,3318400,0,96,0,14518,0,2,0,0
 57vum3,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4320,79,2,1,4148,3318400,0,96,0,14518,0,2,0,0
-cgnp8a,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,8245,2,1,42,33600,0,1,0,147,0,3,1,0
+cgnp8a,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8245,2,1,42,33600,0,1,0,147,0,3,1,0
 g45vyg,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,28854,0,2,0,0
 llsknl,"BigInt: OP_NUMEQUAL 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,28854,0,2,0,0
-c4kzey,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+c4kzey,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 k4f5gy,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 a6z7eq,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-efafgd,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+efafgd,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 nz2huw,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 7x3639,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-fve35k,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
+fve35k,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
 neumg4,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 ygn5jx,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-tg79u7,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
+tg79u7,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
 zs8f79,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 xknm0t,"BigInt: OP_NUMEQUAL 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-pqarnu,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
+pqarnu,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
 u9502h,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,0,3,0,392,3,8,175,0
 9uznjx,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,0,3,0,392,3,8,199,0
-fq5xvd,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+fq5xvd,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 f4d833,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 6a7qcj,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-pcxys0,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
+pcxys0,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
 qvu9lv,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",346,67,2,1,176,140800,0,4,0,616,4,8,302,0
 vwnms6,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",346,79,2,1,176,140800,0,4,0,616,4,8,326,0
-fa83cc,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+fa83cc,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 qnwrl3,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 tuwy6k,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-2gpyq2,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
+2gpyq2,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
 wqvyyh,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 wmkca3,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-2h368z,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
+2h368z,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
 7m5ga6,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 s5a3um,"BigInt: OP_NUMEQUAL 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-jkj7wt,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
+jkj7wt,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
 hulflv,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,0,13,0,1974,10,8,1073,0
 gl2s3s,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,0,13,0,1974,10,8,1097,0
-flth2p,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+flth2p,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 q8uq0w,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 wk5xcg,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-7pjjnc,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+7pjjnc,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 6te5xq,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 tscc04,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-h6d5nn,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
+h6d5nn,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
 xp372z,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",1249,67,2,1,1077,861600,0,25,0,3769,0,2,1,0
 fxhtnu,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",1249,79,2,1,1077,861600,0,25,0,3769,0,2,1,0
-rhe52p,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
+rhe52p,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
 4ny9qd,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 kplek7,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-yt4rvl,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
+yt4rvl,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
 ld00e8,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 amwpt8,"BigInt: OP_NUMEQUAL 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-6zy3z9,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,4149,2,1,42,33600,0,1,0,147,0,2,0,0
+6zy3z9,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,4149,2,1,42,33600,0,1,0,147,0,2,0,0
 u30atl,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",4320,67,2,1,4148,3318400,0,96,0,14518,0,2,0,0
 np9347,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",4320,79,2,1,4148,3318400,0,96,0,14518,0,2,0,0
-2y3l76,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
+2y3l76,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
 5xa447,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 0nlvxv,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-724u55,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
+724u55,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
 un8n62,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 9tkp52,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-5rm3ug,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
+5rm3ug,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
 u8u80q,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 0cl0wd,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-ttnytp,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
+ttnytp,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
 7fjcp9,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",8417,67,2,1,8245,6596000,0,192,0,28857,0,2,1,0
 xjp76r,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",8417,79,2,1,8245,6596000,0,192,0,28857,0,2,1,0
-sr87k7,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+sr87k7,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 nrpam6,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 ycv4w0,"BigInt: OP_NUMEQUAL 4096-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-jwrd2d,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",212,8245,2,1,42,33600,0,1,0,147,0,2,0,0
+jwrd2d,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,8245,2,1,42,33600,0,1,0,147,0,2,0,0
 n09gkz,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,28854,0,2,0,0
 dcyl7n,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,28854,0,2,0,0
-8snapk,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8-byte number (all bits set) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
+8snapk,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
 7r8ytc,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 dqz926,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-f02sw6,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 64-byte number (all bits set) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
+f02sw6,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
 8dy24h,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 jpncza,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-ympre2,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 512-byte number (all bits set) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
+ympre2,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 512-byte number (all bits set) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
 zwj302,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 692mq0,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-474fq8,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 4096-byte number (all bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+474fq8,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 8uydnq,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 see63l,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-c4h5q2,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8192-byte number (all bits set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+c4h5q2,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2S)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
 8valzf,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
 f8k0h8,"BigInt: OP_NUMEQUAL 8192-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0
-r0xpyd,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
+r0xpyd,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
 f0xl3m,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,0,3,0,392,3,8,175,0
 x08qlc,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,0,3,0,392,3,8,199,0
-s59h3u,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
+s59h3u,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
 5y8qtj,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,0,13,0,1974,10,8,1073,0
 hq8u57,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,0,13,0,1974,10,8,1097,0
-zqt4wr,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,4149,2,1,42,33600,0,1,0,147,0,3,1,0
+zqt4wr,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4149,2,1,42,33600,0,1,0,147,0,3,1,0
 ugx042,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4320,67,2,1,4148,3318400,0,96,0,14518,0,2,0,0
 d9xfmz,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4320,79,2,1,4148,3318400,0,96,0,14518,0,2,0,0
-tcsdjt,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,8245,2,1,42,33600,0,1,0,147,0,3,1,0
+tcsdjt,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8245,2,1,42,33600,0,1,0,147,0,3,1,0
 4c252x,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,28854,0,2,0,0
 02twyz,"BigInt: OP_NUMEQUAL 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,28854,0,2,0,0
-r7hl2w,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+r7hl2w,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 2sy3uu,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 yc9ttu,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-39ymfa,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+39ymfa,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 m0hefs,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 7k4ltl,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-aw4uxe,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
+aw4uxe,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
 qyne4s,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 7nx8pr,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-aplcrr,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
+aplcrr,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
 xl7mgr,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 tqrlst,"BigInt: OP_NUMEQUAL 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-5j5xuf,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
+5j5xuf,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,113,2,1,42,33600,0,1,0,147,0,4,65,0
 j2keek,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,0,3,0,392,3,8,175,0
 0l9dl2,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,0,3,0,392,3,8,199,0
-p5j3sj,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+p5j3sj,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 v2zegw,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 j7u0qg,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-fmzr3j,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
+fmzr3j,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
 0zdrcr,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",346,67,2,1,176,140800,0,4,0,616,4,8,302,0
 2eemrg,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",346,79,2,1,176,140800,0,4,0,616,4,8,326,0
-fnlvyn,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+fnlvyn,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 e03p2w,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 azcf64,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-x385ay,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
+x385ay,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
 0kaqxs,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 5j6986,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-0et3xz,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
+0et3xz,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
 4ax9gr,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 x80nav,"BigInt: OP_NUMEQUAL 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-rw7uwg,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
+rw7uwg,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,565,2,1,42,33600,0,1,0,147,0,4,513,0
 tz3s7s,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,0,13,0,1974,10,8,1073,0
 r2ahc5,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,0,13,0,1974,10,8,1097,0
-zp5qvw,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+zp5qvw,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 pmj02e,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 ykmvjd,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-h440c8,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+h440c8,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 q9qk46,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 chd8vu,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-ga9cya,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
+ga9cya,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
 p2z746,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",1249,67,2,1,1077,861600,0,25,0,3769,0,2,1,0
 wx6v9t,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",1249,79,2,1,1077,861600,0,25,0,3769,0,2,1,0
-eqqh6f,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
+eqqh6f,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
 wxjvyt,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 ka5x2t,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-sjs5fj,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
+sjs5fj,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
 70lruu,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 8yk3kn,"BigInt: OP_NUMEQUAL 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-m0cql8,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,4149,2,1,42,33600,0,1,0,147,0,2,0,0
+m0cql8,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,4149,2,1,42,33600,0,1,0,147,0,2,0,0
 5ty6zv,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",4320,67,2,1,4148,3318400,0,96,0,14518,0,2,0,0
 rxyxgc,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",4320,79,2,1,4148,3318400,0,96,0,14518,0,2,0,0
-nyxn3g,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
+nyxn3g,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
 0fsqkr,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 nphjsq,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-785s0j,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
+785s0j,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
 dx4a3a,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 j7763y,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-28suh7,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
+28suh7,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
 50j66h,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 h24s37,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-n2as89,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
+n2as89,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
 xrscpp,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",8417,67,2,1,8245,6596000,0,192,0,28857,0,2,1,0
 4dddjp,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",8417,79,2,1,8245,6596000,0,192,0,28857,0,2,1,0
-73v0x6,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+73v0x6,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 ph8wm5,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 av4x4f,"BigInt: OP_NUMEQUAL 4096-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-tygats,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",212,8245,2,1,42,33600,0,1,0,147,0,2,0,0
+tygats,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,8245,2,1,42,33600,0,1,0,147,0,2,0,0
 2lufqx,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,0,192,0,28854,0,2,0,0
 mqazsk,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,0,192,0,28854,0,2,0,0
-ydh637,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
+ydh637,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
 uh50he,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 6rq697,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-gx7az6,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
+gx7az6,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
 xzhe9g,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 58ft2l,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-dtnxwm,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
+dtnxwm,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
 hjj3zs,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 rqf8jm,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-72ry6x,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+72ry6x,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 uuu3cy,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 ctla0m,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-zkf4sz,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+zkf4sz,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2S)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
 tvewzy,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
 e5f97z,"BigInt: OP_NUMEQUAL 8192-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0
-zhuvy0,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",212,112,2,1,42,33600,0,1,0,147,0,4,65,0
+zhuvy0,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,112,2,1,42,33600,0,1,0,147,0,4,65,0
 4zmemm,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,0,3,0,388,3,8,174,0
 z6rqd2,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,0,3,0,388,3,8,198,0
-fcjxlr,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",212,564,2,1,42,33600,0,1,0,147,0,4,513,0
+fcjxlr,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,564,2,1,42,33600,0,1,0,147,0,4,513,0
 n7cp0k,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,0,13,0,1970,10,8,1072,0
 4kaur7,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,0,13,0,1970,10,8,1096,0
-n3je4m,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,4148,2,1,42,33600,0,1,0,147,0,3,1,0
+n3je4m,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4148,2,1,42,33600,0,1,0,147,0,3,1,0
 l26e4z,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4319,67,2,1,4147,3317600,0,96,0,14514,0,2,0,0
 av5gkt,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4319,79,2,1,4147,3317600,0,96,0,14514,0,2,0,0
-dw5x7g,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,8244,2,1,42,33600,0,1,0,147,0,3,1,0
+dw5x7g,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8244,2,1,42,33600,0,1,0,147,0,3,1,0
 a8s9x5,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8415,67,2,1,8243,6594400,0,192,0,28850,0,2,0,0
 c5macw,"BigInt: OP_NUMEQUAL 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8415,79,2,1,8243,6594400,0,192,0,28850,0,2,0,0
-5dwe76,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+5dwe76,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 ust2wz,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 69nrhv,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-4sy3ry,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+4sy3ry,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 mxzggk,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 hc7qqy,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-e9p2uq,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
+e9p2uq,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
 20p83w,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 80rard,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-0fmpxt,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
+0fmpxt,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
 dch9rf,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 vudegh,"BigInt: OP_NUMEQUAL 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-wa0h5m,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,112,2,1,42,33600,0,1,0,147,0,4,65,0
+wa0h5m,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,112,2,1,42,33600,0,1,0,147,0,4,65,0
 hxlf0g,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,0,3,0,388,3,8,174,0
 kp6e22,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,0,3,0,388,3,8,198,0
-e3l6ys,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+e3l6ys,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 wk8ag7,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 2gqy69,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-2zu8ng,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
+2zu8ng,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
 7zer8w,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",346,67,2,1,176,140800,0,4,0,616,4,8,302,0
 kefv0j,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",346,79,2,1,176,140800,0,4,0,616,4,8,326,0
-2gll0j,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+2gll0j,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 mlvtgv,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 jyfv5j,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-zav5zy,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
+zav5zy,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
 qk9z25,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 que9qq,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-6qd77l,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
+6qd77l,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
 wtxfnn,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 w2xg2a,"BigInt: OP_NUMEQUAL 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-fuqaat,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,564,2,1,42,33600,0,1,0,147,0,4,513,0
+fuqaat,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,564,2,1,42,33600,0,1,0,147,0,4,513,0
 3zwxxp,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,0,13,0,1970,10,8,1072,0
 0r0kyz,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,0,13,0,1970,10,8,1096,0
-wnf6wc,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+wnf6wc,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 ulj7cu,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 hee3a3,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-nt0jq2,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+nt0jq2,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 2wk4z2,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 5mua7s,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-t7dps7,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
+t7dps7,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
 w54ypk,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",1249,67,2,1,1077,861600,0,25,0,3769,0,2,1,0
 faglpx,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",1249,79,2,1,1077,861600,0,25,0,3769,0,2,1,0
-u5cq0z,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
+u5cq0z,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
 vjk4g3,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 ptc2h7,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-hm2azg,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
+hm2azg,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
 v58zvt,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 h77u9v,"BigInt: OP_NUMEQUAL 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-esrk5q,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,4148,2,1,42,33600,0,1,0,147,0,2,0,0
+esrk5q,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,4148,2,1,42,33600,0,1,0,147,0,2,0,0
 g2jul2,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",4319,67,2,1,4147,3317600,0,96,0,14514,0,2,0,0
 4w3hwt,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",4319,79,2,1,4147,3317600,0,96,0,14514,0,2,0,0
-qeav79,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
+qeav79,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
 0hwzmm,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 94vfw9,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-m599rw,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
+m599rw,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
 jat9nk,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 h33am9,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-5xajvj,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
+5xajvj,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
 ny8mu6,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 8vwth9,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-4jptg9,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
+4jptg9,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
 uksgze,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",8417,67,2,1,8245,6596000,0,192,0,28857,0,2,1,0
 asrt0c,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",8417,79,2,1,8245,6596000,0,192,0,28857,0,2,1,0
-ruxnhy,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+ruxnhy,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 a6gdqc,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 7mehtl,"BigInt: OP_NUMEQUAL 4096-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-g82mkz,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,8244,2,1,42,33600,0,1,0,147,0,2,0,0
+g82mkz,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,8244,2,1,42,33600,0,1,0,147,0,2,0,0
 7ezwg7,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",8415,67,2,1,8243,6594400,0,192,0,28850,0,2,0,0
 t3gr4a,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",8415,79,2,1,8243,6594400,0,192,0,28850,0,2,0,0
-aegu26,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
+aegu26,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
 fq5rvx,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 fthaz5,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-pjxyf9,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
+pjxyf9,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
 0py6v4,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 3utxk7,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-cmjcq3,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
+cmjcq3,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
 u2vsvt,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 ze02xs,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-2a600j,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+2a600j,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 mfgrkt,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 4hmldf,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-pwyhck,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+pwyhck,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2S)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
 dsue03,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
 0caw00,"BigInt: OP_NUMEQUAL 8192-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0
-wzm7dp,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+wzm7dp,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 mhqxqu,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 ku5g43,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-qnty7q,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+qnty7q,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 drx44j,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 a59hwy,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-37dznn,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
+37dznn,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,3,8,0
 7zdqy7,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 k7p0f0,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-gxw0r0,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
+gxw0r0,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,3,8,0
 avkx5l,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 ljx7wf,"BigInt: OP_NUMEQUAL 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-hys35y,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",212,112,2,1,42,33600,0,1,0,147,0,4,65,0
+hys35y,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,112,2,1,42,33600,0,1,0,147,0,4,65,0
 e33jm7,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",281,67,2,1,111,88800,0,3,0,388,3,8,174,0
 t6yz2q,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",281,79,2,1,111,88800,0,3,0,388,3,8,198,0
-fur6mz,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
+fur6mz,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,120,2,1,42,33600,0,1,0,147,0,4,72,0
 9saejn,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,0,3,0,420,3,8,189,0
 5n3f4c,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,0,3,0,420,3,8,213,0
-r6hyzd,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
+r6hyzd,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,176,2,1,42,33600,0,1,0,147,0,4,129,0
 v72uts,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",346,67,2,1,176,140800,0,4,0,616,4,8,302,0
 9emk7k,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",346,79,2,1,176,140800,0,4,0,616,4,8,326,0
-rr5273,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+rr5273,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 lh6hm6,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 n06qxp,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-9f2hex,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
+9f2hex,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,3,64,0
 jccex4,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 684kel,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-2p8njx,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
+2p8njx,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,3,64,0
 ua8xjc,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 rfp3ud,"BigInt: OP_NUMEQUAL 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-yh8seg,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",212,564,2,1,42,33600,0,1,0,147,0,4,513,0
+yh8seg,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,564,2,1,42,33600,0,1,0,147,0,4,513,0
 948t0y,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",735,67,2,1,563,450400,0,13,0,1970,10,8,1072,0
 w27l8j,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",735,79,2,1,563,450400,0,13,0,1970,10,8,1096,0
-gza8w0,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
+gza8w0,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,572,2,1,42,33600,0,1,0,147,0,4,520,0
 lprzc8,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,0,13,0,1998,0,2,0,0
 6rq2x6,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,0,13,0,1998,0,2,0,0
-tn7zx3,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
+tn7zx3,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,628,2,1,42,33600,0,1,0,147,0,4,576,0
 08v087,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,0,15,0,2194,0,2,0,0
 6g24dv,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,0,15,0,2194,0,2,0,0
-nhl9g8,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
+nhl9g8,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,1078,2,1,42,33600,0,1,0,147,0,4,1025,0
 hj549f,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",1249,67,2,1,1077,861600,0,25,0,3769,0,2,1,0
 hnwk7t,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",1249,79,2,1,1077,861600,0,25,0,3769,0,2,1,0
-6v7h83,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
+6v7h83,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,3,512,0
 f66j5l,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 avusqt,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-yhpnxa,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
+yhpnxa,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,3,512,0
 7d78um,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 9vyqd7,"BigInt: OP_NUMEQUAL 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-50dwal,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",212,4148,2,1,42,33600,0,1,0,147,0,2,0,0
+50dwal,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,4148,2,1,42,33600,0,1,0,147,0,2,0,0
 ahf7nd,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",4319,67,2,1,4147,3317600,0,96,0,14514,0,2,0,0
 m8yvms,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",4319,79,2,1,4147,3317600,0,96,0,14514,0,2,0,0
-296y6u,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
+296y6u,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,4156,2,1,42,33600,0,1,0,147,0,2,0,0
 eg8cmt,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",4327,67,2,1,4155,3324000,0,97,0,14542,0,2,0,0
 fzz6vk,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",4327,79,2,1,4155,3324000,0,97,0,14542,0,2,0,0
-saqcvz,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
+saqcvz,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,4212,2,1,42,33600,0,1,0,147,0,2,0,0
 5l86d2,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",4383,67,2,1,4211,3368800,0,98,0,14738,0,2,0,0
 0uxnwp,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",4383,79,2,1,4211,3368800,0,98,0,14738,0,2,0,0
-7l39ym,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
+7l39ym,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,4662,2,1,42,33600,0,1,0,147,0,2,0,0
 jhd5q0,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",4833,67,2,1,4661,3728800,0,108,0,16313,0,2,0,0
 ma5nsf,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",4833,79,2,1,4661,3728800,0,108,0,16313,0,2,0,0
-yhxl6h,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
+yhxl6h,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,8246,2,1,42,33600,0,1,0,147,0,2,1,0
 3jr05e,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",8417,67,2,1,8245,6596000,0,192,0,28857,0,2,1,0
 vdhvaz,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",8417,79,2,1,8245,6596000,0,192,0,28857,0,2,1,0
-32emj7,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+32emj7,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 smdkhk,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 f4aqgc,"BigInt: OP_NUMEQUAL 4096-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-enja5g,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",212,8244,2,1,42,33600,0,1,0,147,0,2,0,0
+enja5g,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,8244,2,1,42,33600,0,1,0,147,0,2,0,0
 f8hmj5,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",8415,67,2,1,8243,6594400,0,192,0,28850,0,2,0,0
 wdt4ty,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",8415,79,2,1,8243,6594400,0,192,0,28850,0,2,0,0
-awqm4u,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
+awqm4u,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,8252,2,1,42,33600,0,1,0,147,0,2,0,0
 78ntkz,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",8423,67,2,1,8251,6600800,0,192,0,28878,0,2,0,0
 ygltya,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",8423,79,2,1,8251,6600800,0,192,0,28878,0,2,0,0
-j0lrl8,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (nonP2SH)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
+j0lrl8,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,8308,2,1,42,33600,0,1,0,147,0,2,0,0
 7tgkc6,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",8479,67,2,1,8307,6645600,0,193,0,29074,0,2,0,0
 7pk89x,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",8479,79,2,1,8307,6645600,0,193,0,29074,0,2,0,0
-rn20aj,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (nonP2SH)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
+rn20aj,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2S)",212,8758,2,1,42,33600,0,1,0,147,0,2,0,0
 wu3zee,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",8929,67,2,1,8757,7005600,0,204,0,30649,0,2,0,0
 xyewl5,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",8929,79,2,1,8757,7005600,0,204,0,30649,0,2,0,0
-8haln9,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (nonP2SH)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
+8haln9,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2S)",212,12342,2,1,42,33600,0,1,0,147,0,0,0,0
 ntnj9n,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",12513,67,2,1,12341,9872800,0,287,0,43193,0,0,0,0
 l2ux4d,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",12513,79,2,1,12341,9872800,0,287,0,43193,0,0,0,0
-sw75kd,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (nonP2SH)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
+sw75kd,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2S)",212,16438,2,1,42,33600,0,1,0,147,0,0,0,0
 jywgcy,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",16609,67,2,1,16437,13149600,0,382,0,57529,0,0,0,0
 u88q33,"BigInt: OP_NUMEQUAL 8192-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",16609,79,2,1,16437,13149600,0,382,0,57529,0,0,0,0

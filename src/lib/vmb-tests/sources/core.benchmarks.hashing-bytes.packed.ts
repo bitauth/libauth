@@ -9,11 +9,11 @@ export default [
     'Transaction validation benchmarks',
     [
       ...setExpectedResults(mapTestCases(['<1>', `<0> ${repeat('<520> OP_NUM2BIN $0', 100)} OP_DROP`, 'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes $0 hashed (packed transaction)'], hashOps, { scenario: packedTransactionScenario('p2sh20', 181) }), {
-        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_HASH160 hashed (packed transaction)': ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
-        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_HASH256 hashed (packed transaction)': ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
-        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_RIPEMD160 hashed (packed transaction)': ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
-        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_SHA1 hashed (packed transaction)': ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
-        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_SHA256 hashed (packed transaction)': ['nonstandard', 'nop2sh_ignore', '2023_p2sh_standard'],
+        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_HASH160 hashed (packed transaction)': ['nonstandard', '2023_p2sh_standard', 'p2s_ignore'],
+        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_HASH256 hashed (packed transaction)': ['nonstandard', '2023_p2sh_standard', 'p2s_ignore'],
+        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_RIPEMD160 hashed (packed transaction)': ['nonstandard', '2023_p2sh_standard', 'p2s_ignore'],
+        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_SHA1 hashed (packed transaction)': ['nonstandard', '2023_p2sh_standard', 'p2s_ignore'],
+        'Within BCH_2023_05 P2SH20/standard, single-input limits, maximize bytes OP_SHA256 hashed (packed transaction)': ['nonstandard', '2023_p2sh_standard', 'p2s_ignore'],
       }),
     ],
   ],

@@ -1,907 +1,907 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-dmvz4v,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data (nonP2SH)",212,44,2,1,42,33600,0,1,0,21,0,0,0,0
+dmvz4v,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data (P2S)",212,44,2,1,42,33600,0,1,0,21,0,0,0,0
 9kuwwd,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,1,0,0
 nmx8rh,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,1,0,0
-tyjgmt,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+tyjgmt,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 2kd4yh,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 ck3k0h,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-m7pj4r,"Push data operations: OP_PUSHDATA_1 with length 76, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+m7pj4r,"Push data operations: OP_PUSHDATA_1 with length 76, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 38hld3,"Push data operations: OP_PUSHDATA_1 with length 76, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 dlz4yv,"Push data operations: OP_PUSHDATA_1 with length 76, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-sx4zr7,"Push data operations: OP_PUSHDATA_1 with length 127, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+sx4zr7,"Push data operations: OP_PUSHDATA_1 with length 127, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 4q85ut,"Push data operations: OP_PUSHDATA_1 with length 127, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 9y85mp,"Push data operations: OP_PUSHDATA_1 with length 127, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-43sl6a,"Push data operations: OP_PUSHDATA_1 with length 128, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+43sl6a,"Push data operations: OP_PUSHDATA_1 with length 128, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 a3ljyg,"Push data operations: OP_PUSHDATA_1 with length 128, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 vma5ze,"Push data operations: OP_PUSHDATA_1 with length 128, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-vunpa6,"Push data operations: OP_PUSHDATA_1 with length 129, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+vunpa6,"Push data operations: OP_PUSHDATA_1 with length 129, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 s43f7j,"Push data operations: OP_PUSHDATA_1 with length 129, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 6yx73n,"Push data operations: OP_PUSHDATA_1 with length 129, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-rh5pk6,"Push data operations: OP_PUSHDATA_1 with length 255, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+rh5pk6,"Push data operations: OP_PUSHDATA_1 with length 255, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 5pzj56,"Push data operations: OP_PUSHDATA_1 with length 255, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 kexpn9,"Push data operations: OP_PUSHDATA_1 with length 255, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-ud8szg,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,1,0,0
+ud8szg,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,1,0,0
 fwvuds,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 05jgns,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-jlmhfr,"Push data operations: OP_PUSHDATA_1 with length 256, no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+jlmhfr,"Push data operations: OP_PUSHDATA_1 with length 256, no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 85zll5,"Push data operations: OP_PUSHDATA_1 with length 256, no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 a0efam,"Push data operations: OP_PUSHDATA_1 with length 256, no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-cjpg06,"Push data operations: OP_PUSHDATA_1 with length 65535, no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+cjpg06,"Push data operations: OP_PUSHDATA_1 with length 65535, no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 tv72nk,"Push data operations: OP_PUSHDATA_1 with length 65535, no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 nynyk8,"Push data operations: OP_PUSHDATA_1 with length 65535, no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-gxhe7m,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
+gxhe7m,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
 9qgekp,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 rkf9y9,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-xur5qc,"Push data operations: OP_PUSHDATA_1 with length 65536, no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
+xur5qc,"Push data operations: OP_PUSHDATA_1 with length 65536, no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
 3jdkvf,"Push data operations: OP_PUSHDATA_1 with length 65536, no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 qqwgqe,"Push data operations: OP_PUSHDATA_1 with length 65536, no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-l9ea0t,"Push data operations: OP_PUSHDATA_1 with length 99990, no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
+l9ea0t,"Push data operations: OP_PUSHDATA_1 with length 99990, no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
 vcmffy,"Push data operations: OP_PUSHDATA_1 with length 99990, no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 ceffrg,"Push data operations: OP_PUSHDATA_1 with length 99990, no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-hyx2k0,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data (nonP2SH)",212,44,2,1,42,33600,0,1,0,21,0,0,0,0
+hyx2k0,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data (P2S)",212,44,2,1,42,33600,0,1,0,21,0,0,0,0
 twpwd7,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 rx3gez,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-ga25hk,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+ga25hk,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 3m7cy5,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 xn88r6,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-24mk64,"Push data operations: OP_PUSHDATA_2 with length 76, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+24mk64,"Push data operations: OP_PUSHDATA_2 with length 76, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 lg0egc,"Push data operations: OP_PUSHDATA_2 with length 76, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 4q56km,"Push data operations: OP_PUSHDATA_2 with length 76, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-dlwghs,"Push data operations: OP_PUSHDATA_2 with length 127, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+dlwghs,"Push data operations: OP_PUSHDATA_2 with length 127, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 50khdg,"Push data operations: OP_PUSHDATA_2 with length 127, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 zeht65,"Push data operations: OP_PUSHDATA_2 with length 127, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-8znt39,"Push data operations: OP_PUSHDATA_2 with length 128, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+8znt39,"Push data operations: OP_PUSHDATA_2 with length 128, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 fa0ajw,"Push data operations: OP_PUSHDATA_2 with length 128, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 vs3yjd,"Push data operations: OP_PUSHDATA_2 with length 128, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-7mh3au,"Push data operations: OP_PUSHDATA_2 with length 129, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+7mh3au,"Push data operations: OP_PUSHDATA_2 with length 129, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 kcxlsr,"Push data operations: OP_PUSHDATA_2 with length 129, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 tgu30l,"Push data operations: OP_PUSHDATA_2 with length 129, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-4ahhwl,"Push data operations: OP_PUSHDATA_2 with length 255, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+4ahhwl,"Push data operations: OP_PUSHDATA_2 with length 255, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 aermzc,"Push data operations: OP_PUSHDATA_2 with length 255, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 wd8j30,"Push data operations: OP_PUSHDATA_2 with length 255, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-0gcyf7,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+0gcyf7,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 jj65ww,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 vfpuwm,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-90hac8,"Push data operations: OP_PUSHDATA_2 with length 256, no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+90hac8,"Push data operations: OP_PUSHDATA_2 with length 256, no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 aryxnl,"Push data operations: OP_PUSHDATA_2 with length 256, no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 fs7xt7,"Push data operations: OP_PUSHDATA_2 with length 256, no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-k47zdg,"Push data operations: OP_PUSHDATA_2 with length 65535, no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+k47zdg,"Push data operations: OP_PUSHDATA_2 with length 65535, no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 vxaqp5,"Push data operations: OP_PUSHDATA_2 with length 65535, no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 5e00y3,"Push data operations: OP_PUSHDATA_2 with length 65535, no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-pzjneg,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
+pzjneg,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
 u34k83,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 tfr6yv,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-46r2gy,"Push data operations: OP_PUSHDATA_2 with length 65536, no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
+46r2gy,"Push data operations: OP_PUSHDATA_2 with length 65536, no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,1,0,0
 sr4jac,"Push data operations: OP_PUSHDATA_2 with length 65536, no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 z8yqz3,"Push data operations: OP_PUSHDATA_2 with length 65536, no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-w25rrr,"Push data operations: OP_PUSHDATA_2 with length 99990, no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
+w25rrr,"Push data operations: OP_PUSHDATA_2 with length 99990, no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
 8ssvm3,"Push data operations: OP_PUSHDATA_2 with length 99990, no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 j6vum2,"Push data operations: OP_PUSHDATA_2 with length 99990, no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-yz8y44,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data (nonP2SH)",212,44,2,1,42,33600,0,1,0,21,0,0,0,0
+yz8y44,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data (P2S)",212,44,2,1,42,33600,0,1,0,21,0,0,0,0
 vp3p7p,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 4fkkvy,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-pnzdrm,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+pnzdrm,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 m00qqq,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 ndgkyq,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-rhv4hf,"Push data operations: OP_PUSHDATA_4 with length 76, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+rhv4hf,"Push data operations: OP_PUSHDATA_4 with length 76, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 fes6xx,"Push data operations: OP_PUSHDATA_4 with length 76, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 ss4n69,"Push data operations: OP_PUSHDATA_4 with length 76, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-duxkq5,"Push data operations: OP_PUSHDATA_4 with length 127, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+duxkq5,"Push data operations: OP_PUSHDATA_4 with length 127, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 cn3m0r,"Push data operations: OP_PUSHDATA_4 with length 127, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 rap5n6,"Push data operations: OP_PUSHDATA_4 with length 127, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-vsg5ys,"Push data operations: OP_PUSHDATA_4 with length 128, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+vsg5ys,"Push data operations: OP_PUSHDATA_4 with length 128, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 e26mdv,"Push data operations: OP_PUSHDATA_4 with length 128, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 r6hhzg,"Push data operations: OP_PUSHDATA_4 with length 128, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-n58twa,"Push data operations: OP_PUSHDATA_4 with length 129, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+n58twa,"Push data operations: OP_PUSHDATA_4 with length 129, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 z7a7em,"Push data operations: OP_PUSHDATA_4 with length 129, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 juw5p6,"Push data operations: OP_PUSHDATA_4 with length 129, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-tkgzwz,"Push data operations: OP_PUSHDATA_4 with length 255, no data (nonP2SH)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
+tkgzwz,"Push data operations: OP_PUSHDATA_4 with length 255, no data (P2S)",213,44,2,1,43,34400,0,1,0,21,0,0,0,0
 359l87,"Push data operations: OP_PUSHDATA_4 with length 255, no data (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 pkkm9k,"Push data operations: OP_PUSHDATA_4 with length 255, no data (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-jp7p7n,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+jp7p7n,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 yadp83,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 faxx9t,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-5luc7h,"Push data operations: OP_PUSHDATA_4 with length 256, no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+5luc7h,"Push data operations: OP_PUSHDATA_4 with length 256, no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 3xxkuj,"Push data operations: OP_PUSHDATA_4 with length 256, no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 8a9w20,"Push data operations: OP_PUSHDATA_4 with length 256, no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-e9hr20,"Push data operations: OP_PUSHDATA_4 with length 65535, no data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+e9hr20,"Push data operations: OP_PUSHDATA_4 with length 65535, no data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 am587k,"Push data operations: OP_PUSHDATA_4 with length 65535, no data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 rp4gsv,"Push data operations: OP_PUSHDATA_4 with length 65535, no data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-0sn38h,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
+0sn38h,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
 m3t8wm,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 6yl6cl,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-ksuu30,"Push data operations: OP_PUSHDATA_4 with length 65536, no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
+ksuu30,"Push data operations: OP_PUSHDATA_4 with length 65536, no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
 qm8l6a,"Push data operations: OP_PUSHDATA_4 with length 65536, no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 fc8d92,"Push data operations: OP_PUSHDATA_4 with length 65536, no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-kr0vtu,"Push data operations: OP_PUSHDATA_4 with length 99990, no data (nonP2SH)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
+kr0vtu,"Push data operations: OP_PUSHDATA_4 with length 99990, no data (P2S)",216,44,2,1,46,36800,0,1,0,23,0,0,0,0
 3dlfq3,"Push data operations: OP_PUSHDATA_4 with length 99990, no data (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 yd048u,"Push data operations: OP_PUSHDATA_4 with length 99990, no data (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-2ewrpr,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data, OP_NOT (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+2ewrpr,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data, OP_NOT (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 dea288,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data, OP_NOT (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 hj7255,"Push data operations: OP_PUSHDATA_1 with length (missing length), no data, OP_NOT (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-eywwlu,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+eywwlu,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 rnmnee,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 d2pxc7,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-tvnpwp,"Push data operations: OP_PUSHDATA_1 with length 76, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+tvnpwp,"Push data operations: OP_PUSHDATA_1 with length 76, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 2695u3,"Push data operations: OP_PUSHDATA_1 with length 76, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 wch0dl,"Push data operations: OP_PUSHDATA_1 with length 76, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-ksyafc,"Push data operations: OP_PUSHDATA_1 with length 127, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+ksyafc,"Push data operations: OP_PUSHDATA_1 with length 127, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 l5ezrp,"Push data operations: OP_PUSHDATA_1 with length 127, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 yv2thn,"Push data operations: OP_PUSHDATA_1 with length 127, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-stgcpu,"Push data operations: OP_PUSHDATA_1 with length 128, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+stgcpu,"Push data operations: OP_PUSHDATA_1 with length 128, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 ge3z0u,"Push data operations: OP_PUSHDATA_1 with length 128, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 h2keya,"Push data operations: OP_PUSHDATA_1 with length 128, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-pu862f,"Push data operations: OP_PUSHDATA_1 with length 129, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+pu862f,"Push data operations: OP_PUSHDATA_1 with length 129, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 yd7eaa,"Push data operations: OP_PUSHDATA_1 with length 129, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 wvaafe,"Push data operations: OP_PUSHDATA_1 with length 129, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-f9dglx,"Push data operations: OP_PUSHDATA_1 with length 255, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+f9dglx,"Push data operations: OP_PUSHDATA_1 with length 255, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 yfqwc7,"Push data operations: OP_PUSHDATA_1 with length 255, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 vjlfyw,"Push data operations: OP_PUSHDATA_1 with length 255, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-s522xm,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,1,0,0
+s522xm,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,1,0,0
 jjyz5t,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,1,0,0
 scvae3,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,1,0,0
-hgflsw,"Push data operations: OP_PUSHDATA_1 with length 256, no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+hgflsw,"Push data operations: OP_PUSHDATA_1 with length 256, no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 mtdx5p,"Push data operations: OP_PUSHDATA_1 with length 256, no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 wuujyn,"Push data operations: OP_PUSHDATA_1 with length 256, no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-jeue0y,"Push data operations: OP_PUSHDATA_1 with length 65535, no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+jeue0y,"Push data operations: OP_PUSHDATA_1 with length 65535, no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 k5wse5,"Push data operations: OP_PUSHDATA_1 with length 65535, no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 45tpez,"Push data operations: OP_PUSHDATA_1 with length 65535, no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-klhgme,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
+klhgme,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
 d6hpsq,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 ja8v7d,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-zhaja6,"Push data operations: OP_PUSHDATA_1 with length 65536, no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
+zhaja6,"Push data operations: OP_PUSHDATA_1 with length 65536, no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
 ln62vs,"Push data operations: OP_PUSHDATA_1 with length 65536, no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 8gehnv,"Push data operations: OP_PUSHDATA_1 with length 65536, no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-7cqafj,"Push data operations: OP_PUSHDATA_1 with length 99990, no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+7cqafj,"Push data operations: OP_PUSHDATA_1 with length 99990, no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 ekw2ph,"Push data operations: OP_PUSHDATA_1 with length 99990, no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 c6ej04,"Push data operations: OP_PUSHDATA_1 with length 99990, no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-4xe4jp,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data, OP_NOT (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+4xe4jp,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data, OP_NOT (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 2uh0m6,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data, OP_NOT (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 kyq8eg,"Push data operations: OP_PUSHDATA_2 with length (missing length), no data, OP_NOT (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-de8y2v,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+de8y2v,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 z4uusx,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 zmj4fk,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-nw8r7x,"Push data operations: OP_PUSHDATA_2 with length 76, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+nw8r7x,"Push data operations: OP_PUSHDATA_2 with length 76, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 lg3ccv,"Push data operations: OP_PUSHDATA_2 with length 76, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 0vdj8t,"Push data operations: OP_PUSHDATA_2 with length 76, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-zff645,"Push data operations: OP_PUSHDATA_2 with length 127, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+zff645,"Push data operations: OP_PUSHDATA_2 with length 127, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 9dv3t9,"Push data operations: OP_PUSHDATA_2 with length 127, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 g9kyt8,"Push data operations: OP_PUSHDATA_2 with length 127, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-sqehma,"Push data operations: OP_PUSHDATA_2 with length 128, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+sqehma,"Push data operations: OP_PUSHDATA_2 with length 128, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 7zxk7h,"Push data operations: OP_PUSHDATA_2 with length 128, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 c7vwfr,"Push data operations: OP_PUSHDATA_2 with length 128, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-v30lql,"Push data operations: OP_PUSHDATA_2 with length 129, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+v30lql,"Push data operations: OP_PUSHDATA_2 with length 129, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 q3frfn,"Push data operations: OP_PUSHDATA_2 with length 129, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 q36u2f,"Push data operations: OP_PUSHDATA_2 with length 129, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-hqg80r,"Push data operations: OP_PUSHDATA_2 with length 255, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+hqg80r,"Push data operations: OP_PUSHDATA_2 with length 255, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 jmcw8z,"Push data operations: OP_PUSHDATA_2 with length 255, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 m4ht3u,"Push data operations: OP_PUSHDATA_2 with length 255, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-vn7fx9,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+vn7fx9,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 6vh4nj,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 36yzw5,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-u3y2s8,"Push data operations: OP_PUSHDATA_2 with length 256, no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+u3y2s8,"Push data operations: OP_PUSHDATA_2 with length 256, no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 pclzd0,"Push data operations: OP_PUSHDATA_2 with length 256, no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 8qljxc,"Push data operations: OP_PUSHDATA_2 with length 256, no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-kyn2ch,"Push data operations: OP_PUSHDATA_2 with length 65535, no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+kyn2ch,"Push data operations: OP_PUSHDATA_2 with length 65535, no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 axqtvq,"Push data operations: OP_PUSHDATA_2 with length 65535, no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 5kma84,"Push data operations: OP_PUSHDATA_2 with length 65535, no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-qdhz4y,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
+qdhz4y,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
 0l33xs,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 22ttnj,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-qpzdf3,"Push data operations: OP_PUSHDATA_2 with length 65536, no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
+qpzdf3,"Push data operations: OP_PUSHDATA_2 with length 65536, no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,1,0,0
 dymywt,"Push data operations: OP_PUSHDATA_2 with length 65536, no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 z99akv,"Push data operations: OP_PUSHDATA_2 with length 65536, no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-se32fh,"Push data operations: OP_PUSHDATA_2 with length 99990, no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+se32fh,"Push data operations: OP_PUSHDATA_2 with length 99990, no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 q56ygs,"Push data operations: OP_PUSHDATA_2 with length 99990, no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 z6adxn,"Push data operations: OP_PUSHDATA_2 with length 99990, no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-uhctle,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data, OP_NOT (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+uhctle,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data, OP_NOT (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 rkzskz,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data, OP_NOT (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 v9efy7,"Push data operations: OP_PUSHDATA_4 with length (missing length), no data, OP_NOT (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-q6tugd,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+q6tugd,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 n3gsvd,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 kpqvvf,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-v6zmfm,"Push data operations: OP_PUSHDATA_4 with length 76, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+v6zmfm,"Push data operations: OP_PUSHDATA_4 with length 76, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 kvluea,"Push data operations: OP_PUSHDATA_4 with length 76, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 37wfjy,"Push data operations: OP_PUSHDATA_4 with length 76, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-mu9hw3,"Push data operations: OP_PUSHDATA_4 with length 127, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+mu9hw3,"Push data operations: OP_PUSHDATA_4 with length 127, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 24kq4s,"Push data operations: OP_PUSHDATA_4 with length 127, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 02rznr,"Push data operations: OP_PUSHDATA_4 with length 127, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-rdkrd6,"Push data operations: OP_PUSHDATA_4 with length 128, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+rdkrd6,"Push data operations: OP_PUSHDATA_4 with length 128, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 64mpd9,"Push data operations: OP_PUSHDATA_4 with length 128, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 thvmfq,"Push data operations: OP_PUSHDATA_4 with length 128, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-m2lwjp,"Push data operations: OP_PUSHDATA_4 with length 129, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+m2lwjp,"Push data operations: OP_PUSHDATA_4 with length 129, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 ftxgxg,"Push data operations: OP_PUSHDATA_4 with length 129, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 r283yk,"Push data operations: OP_PUSHDATA_4 with length 129, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-0rpgsk,"Push data operations: OP_PUSHDATA_4 with length 255, no data, OP_NOT (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+0rpgsk,"Push data operations: OP_PUSHDATA_4 with length 255, no data, OP_NOT (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 ruyzew,"Push data operations: OP_PUSHDATA_4 with length 255, no data, OP_NOT (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 ue6ns0,"Push data operations: OP_PUSHDATA_4 with length 255, no data, OP_NOT (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-9dch93,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+9dch93,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 z9tsxz,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 vq7wyz,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-l7qftm,"Push data operations: OP_PUSHDATA_4 with length 256, no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+l7qftm,"Push data operations: OP_PUSHDATA_4 with length 256, no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 6xfhuc,"Push data operations: OP_PUSHDATA_4 with length 256, no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 z9ypmk,"Push data operations: OP_PUSHDATA_4 with length 256, no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-ku704r,"Push data operations: OP_PUSHDATA_4 with length 65535, no data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+ku704r,"Push data operations: OP_PUSHDATA_4 with length 65535, no data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 pxuc3h,"Push data operations: OP_PUSHDATA_4 with length 65535, no data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 7vwkr7,"Push data operations: OP_PUSHDATA_4 with length 65535, no data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-yhqtz6,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+yhqtz6,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 cznk5q,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 jr5x7j,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-dm4v89,"Push data operations: OP_PUSHDATA_4 with length 65536, no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+dm4v89,"Push data operations: OP_PUSHDATA_4 with length 65536, no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 ptmly4,"Push data operations: OP_PUSHDATA_4 with length 65536, no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 lsynl0,"Push data operations: OP_PUSHDATA_4 with length 65536, no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-8crfyz,"Push data operations: OP_PUSHDATA_4 with length 99990, no data, OP_NOT (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+8crfyz,"Push data operations: OP_PUSHDATA_4 with length 99990, no data, OP_NOT (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 ws2td0,"Push data operations: OP_PUSHDATA_4 with length 99990, no data, OP_NOT (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 59lsaj,"Push data operations: OP_PUSHDATA_4 with length 99990, no data, OP_NOT (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-nt9vzc,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,1,0,0
+nt9vzc,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,1,0,0
 npft3z,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 yq0xg3,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-hpezjg,"Push data operations: OP_PUSHDATA_1 with length 76, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+hpezjg,"Push data operations: OP_PUSHDATA_1 with length 76, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 786ug0,"Push data operations: OP_PUSHDATA_1 with length 76, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 p0azre,"Push data operations: OP_PUSHDATA_1 with length 76, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-45urlk,"Push data operations: OP_PUSHDATA_1 with length 127, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+45urlk,"Push data operations: OP_PUSHDATA_1 with length 127, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 50wmh8,"Push data operations: OP_PUSHDATA_1 with length 127, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 w2eea4,"Push data operations: OP_PUSHDATA_1 with length 127, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-y6x26j,"Push data operations: OP_PUSHDATA_1 with length 128, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+y6x26j,"Push data operations: OP_PUSHDATA_1 with length 128, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 7phcr4,"Push data operations: OP_PUSHDATA_1 with length 128, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 twqvt9,"Push data operations: OP_PUSHDATA_1 with length 128, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-0jx36l,"Push data operations: OP_PUSHDATA_1 with length 129, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+0jx36l,"Push data operations: OP_PUSHDATA_1 with length 129, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 ng94t6,"Push data operations: OP_PUSHDATA_1 with length 129, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 az8tme,"Push data operations: OP_PUSHDATA_1 with length 129, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-dcqsrv,"Push data operations: OP_PUSHDATA_1 with length 255, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+dcqsrv,"Push data operations: OP_PUSHDATA_1 with length 255, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 6ywrzs,"Push data operations: OP_PUSHDATA_1 with length 255, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 hsxmqf,"Push data operations: OP_PUSHDATA_1 with length 255, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-7g765t,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,1,0,0
+7g765t,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,1,0,0
 50gcwc,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,1,0,0
 4p6nea,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,1,0,0
-vapgy5,"Push data operations: OP_PUSHDATA_1 with length 256, partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,1,0,0
+vapgy5,"Push data operations: OP_PUSHDATA_1 with length 256, partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,1,0,0
 f6z5mv,"Push data operations: OP_PUSHDATA_1 with length 256, partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,1,0,0
 hgh2k7,"Push data operations: OP_PUSHDATA_1 with length 256, partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,1,0,0
-976d57,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
+976d57,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
 rllpqw,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 kku0s9,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-ja4pqk,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
+ja4pqk,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
 s9n3a4,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 p5eeyv,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-e76580,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
+e76580,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
 wnsmuu,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 wlhew0,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-cjufwm,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
+cjufwm,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
 p6s3dt,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 h3zkpu,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-rt5mhr,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+rt5mhr,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 atu3le,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 f6wkgv,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-wslr7n,"Push data operations: OP_PUSHDATA_2 with length 76, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+wslr7n,"Push data operations: OP_PUSHDATA_2 with length 76, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 n86jzy,"Push data operations: OP_PUSHDATA_2 with length 76, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 mguw2z,"Push data operations: OP_PUSHDATA_2 with length 76, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-mnaysr,"Push data operations: OP_PUSHDATA_2 with length 127, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+mnaysr,"Push data operations: OP_PUSHDATA_2 with length 127, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 hmjul9,"Push data operations: OP_PUSHDATA_2 with length 127, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 nz42l5,"Push data operations: OP_PUSHDATA_2 with length 127, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-wd5d43,"Push data operations: OP_PUSHDATA_2 with length 128, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+wd5d43,"Push data operations: OP_PUSHDATA_2 with length 128, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 uv3xwe,"Push data operations: OP_PUSHDATA_2 with length 128, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 e97l3y,"Push data operations: OP_PUSHDATA_2 with length 128, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-ayuwky,"Push data operations: OP_PUSHDATA_2 with length 129, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+ayuwky,"Push data operations: OP_PUSHDATA_2 with length 129, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 g409q2,"Push data operations: OP_PUSHDATA_2 with length 129, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 2zfs82,"Push data operations: OP_PUSHDATA_2 with length 129, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-mwd24q,"Push data operations: OP_PUSHDATA_2 with length 255, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+mwd24q,"Push data operations: OP_PUSHDATA_2 with length 255, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 ff9lg0,"Push data operations: OP_PUSHDATA_2 with length 255, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 pj0tan,"Push data operations: OP_PUSHDATA_2 with length 255, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-e27jea,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,1,0,0
+e27jea,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,1,0,0
 jy5q5x,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,1,0,0
 ugenf3,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,1,0,0
-mkhacs,"Push data operations: OP_PUSHDATA_2 with length 256, partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
+mkhacs,"Push data operations: OP_PUSHDATA_2 with length 256, partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
 5qplht,"Push data operations: OP_PUSHDATA_2 with length 256, partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 88fcfm,"Push data operations: OP_PUSHDATA_2 with length 256, partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-kshpld,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
+kshpld,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
 vae885,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 tauxz0,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-phjmz3,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
+phjmz3,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
 wd76xl,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 22mjkk,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-4apdlg,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
+4apdlg,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
 39rc3c,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 3fzpsw,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-qfdhwm,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
+qfdhwm,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
 wl84t2,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 k0yex6,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-m7l89m,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+m7l89m,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 8plvt4,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 93ewga,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-tl3cwm,"Push data operations: OP_PUSHDATA_4 with length 76, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+tl3cwm,"Push data operations: OP_PUSHDATA_4 with length 76, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 yrwvyq,"Push data operations: OP_PUSHDATA_4 with length 76, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 9ftru0,"Push data operations: OP_PUSHDATA_4 with length 76, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-lhmu4n,"Push data operations: OP_PUSHDATA_4 with length 127, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+lhmu4n,"Push data operations: OP_PUSHDATA_4 with length 127, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 5mkenp,"Push data operations: OP_PUSHDATA_4 with length 127, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 5lxc9h,"Push data operations: OP_PUSHDATA_4 with length 127, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-5dfws5,"Push data operations: OP_PUSHDATA_4 with length 128, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+5dfws5,"Push data operations: OP_PUSHDATA_4 with length 128, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 0x6k24,"Push data operations: OP_PUSHDATA_4 with length 128, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 8adla6,"Push data operations: OP_PUSHDATA_4 with length 128, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-nxpphd,"Push data operations: OP_PUSHDATA_4 with length 129, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+nxpphd,"Push data operations: OP_PUSHDATA_4 with length 129, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 le283j,"Push data operations: OP_PUSHDATA_4 with length 129, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 vjuyjw,"Push data operations: OP_PUSHDATA_4 with length 129, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-qhwkuw,"Push data operations: OP_PUSHDATA_4 with length 255, partial data (nonP2SH)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
+qhwkuw,"Push data operations: OP_PUSHDATA_4 with length 255, partial data (P2S)",214,44,2,1,44,35200,0,1,0,22,0,0,0,0
 a8qq6q,"Push data operations: OP_PUSHDATA_4 with length 255, partial data (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 y9qdn6,"Push data operations: OP_PUSHDATA_4 with length 255, partial data (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-m6d4mk,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
+m6d4mk,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
 h8dryf,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 809jgl,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-lazcqq,"Push data operations: OP_PUSHDATA_4 with length 256, partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
+lazcqq,"Push data operations: OP_PUSHDATA_4 with length 256, partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
 rd00cp,"Push data operations: OP_PUSHDATA_4 with length 256, partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 wy93l2,"Push data operations: OP_PUSHDATA_4 with length 256, partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-uc8sd8,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data (nonP2SH)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
+uc8sd8,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data (P2S)",215,44,2,1,45,36000,0,1,0,22,0,0,0,0
 3tltyp,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 nw6ntu,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-p4dqnp,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
+p4dqnp,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,1,0,0
 4qgdn9,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 cpngn9,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-svlsvu,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
+svlsvu,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
 rkrdp8,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 tvl064,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-7wk7j0,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data (nonP2SH)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
+7wk7j0,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data (P2S)",217,44,2,1,47,37600,0,1,0,23,0,0,0,0
 d68gam,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 uzhx4j,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-nkv6c4,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,1,0,0
+nkv6c4,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,1,0,0
 xm3yg6,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,1,0,0
 03jfdw,"Push data operations: OP_PUSHDATA_1 with length 1 (1-byte), partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,1,0,0
-z5ncy3,"Push data operations: OP_PUSHDATA_1 with length 76, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+z5ncy3,"Push data operations: OP_PUSHDATA_1 with length 76, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 y0wfs3,"Push data operations: OP_PUSHDATA_1 with length 76, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 7trn7x,"Push data operations: OP_PUSHDATA_1 with length 76, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-jvdax4,"Push data operations: OP_PUSHDATA_1 with length 127, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+jvdax4,"Push data operations: OP_PUSHDATA_1 with length 127, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 0z7g9q,"Push data operations: OP_PUSHDATA_1 with length 127, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 hmkkfw,"Push data operations: OP_PUSHDATA_1 with length 127, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-g8475c,"Push data operations: OP_PUSHDATA_1 with length 128, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+g8475c,"Push data operations: OP_PUSHDATA_1 with length 128, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 95gtav,"Push data operations: OP_PUSHDATA_1 with length 128, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 8r2jjq,"Push data operations: OP_PUSHDATA_1 with length 128, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-cue3qg,"Push data operations: OP_PUSHDATA_1 with length 129, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+cue3qg,"Push data operations: OP_PUSHDATA_1 with length 129, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 fj7v02,"Push data operations: OP_PUSHDATA_1 with length 129, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 feg3zf,"Push data operations: OP_PUSHDATA_1 with length 129, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-845m7m,"Push data operations: OP_PUSHDATA_1 with length 255, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+845m7m,"Push data operations: OP_PUSHDATA_1 with length 255, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 2ukwtg,"Push data operations: OP_PUSHDATA_1 with length 255, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 9t4umx,"Push data operations: OP_PUSHDATA_1 with length 255, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-70w24g,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,1,0,0
+70w24g,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,1,0,0
 es85kp,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 pszzq0,"Push data operations: OP_PUSHDATA_1 with length 1 (2-byte), partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-v7fms5,"Push data operations: OP_PUSHDATA_1 with length 256, partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,1,0,0
+v7fms5,"Push data operations: OP_PUSHDATA_1 with length 256, partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,1,0,0
 ut337q,"Push data operations: OP_PUSHDATA_1 with length 256, partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 9r00pe,"Push data operations: OP_PUSHDATA_1 with length 256, partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-shdq3j,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+shdq3j,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
 0f338d,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 dlmztr,"Push data operations: OP_PUSHDATA_1 with length 65535, partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-lt8fjh,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
+lt8fjh,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
 g8hgkl,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,1,0,0
 c3nh8z,"Push data operations: OP_PUSHDATA_1 with length 1 (4-byte), partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,1,0,0
-m2hx36,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
+m2hx36,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
 7zhfde,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,1,0,0
 snqzra,"Push data operations: OP_PUSHDATA_1 with length 65536, partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,1,0,0
-7xmzjz,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
+7xmzjz,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
 kd8s60,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,0,0,0
 ka3q83,"Push data operations: OP_PUSHDATA_1 with length 99990, partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,0,0,0
-70zggu,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+70zggu,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 yss3sg,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 rfdh6c,"Push data operations: OP_PUSHDATA_2 with length 1 (1-byte), partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-3sh8rp,"Push data operations: OP_PUSHDATA_2 with length 76, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+3sh8rp,"Push data operations: OP_PUSHDATA_2 with length 76, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 c3cuj9,"Push data operations: OP_PUSHDATA_2 with length 76, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 p4m52e,"Push data operations: OP_PUSHDATA_2 with length 76, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-eag364,"Push data operations: OP_PUSHDATA_2 with length 127, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+eag364,"Push data operations: OP_PUSHDATA_2 with length 127, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 xzqly5,"Push data operations: OP_PUSHDATA_2 with length 127, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 rjw5lw,"Push data operations: OP_PUSHDATA_2 with length 127, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-rvpkse,"Push data operations: OP_PUSHDATA_2 with length 128, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+rvpkse,"Push data operations: OP_PUSHDATA_2 with length 128, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 e8jnz5,"Push data operations: OP_PUSHDATA_2 with length 128, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 0a790x,"Push data operations: OP_PUSHDATA_2 with length 128, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-x2eqx3,"Push data operations: OP_PUSHDATA_2 with length 129, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+x2eqx3,"Push data operations: OP_PUSHDATA_2 with length 129, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 xele9p,"Push data operations: OP_PUSHDATA_2 with length 129, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 35ejzs,"Push data operations: OP_PUSHDATA_2 with length 129, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-9fqpvv,"Push data operations: OP_PUSHDATA_2 with length 255, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+9fqpvv,"Push data operations: OP_PUSHDATA_2 with length 255, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 jdk6wh,"Push data operations: OP_PUSHDATA_2 with length 255, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 m3tm0l,"Push data operations: OP_PUSHDATA_2 with length 255, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-hwcenw,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,1,0,0
+hwcenw,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,1,0,0
 9zyesx,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 jk4ean,"Push data operations: OP_PUSHDATA_2 with length 1 (2-byte), partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-e2xxhm,"Push data operations: OP_PUSHDATA_2 with length 256, partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+e2xxhm,"Push data operations: OP_PUSHDATA_2 with length 256, partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
 a49e8s,"Push data operations: OP_PUSHDATA_2 with length 256, partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 v7w3x2,"Push data operations: OP_PUSHDATA_2 with length 256, partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-ymvtc9,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+ymvtc9,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
 5rkj6f,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 jqrugn,"Push data operations: OP_PUSHDATA_2 with length 65535, partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-757g96,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
+757g96,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
 vpgdnm,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,1,0,0
 a2jvrw,"Push data operations: OP_PUSHDATA_2 with length 1 (4-byte), partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,1,0,0
-jc4h7s,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
+jc4h7s,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
 x39ver,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,1,0,0
 e83p6k,"Push data operations: OP_PUSHDATA_2 with length 65536, partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,1,0,0
-vfqsql,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
+vfqsql,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
 tc770w,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,0,0,0
 q8h556,"Push data operations: OP_PUSHDATA_2 with length 99990, partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,0,0,0
-js2zz9,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+js2zz9,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 vkf8cr,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 g2kwju,"Push data operations: OP_PUSHDATA_4 with length 1 (1-byte), partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-e2dxrp,"Push data operations: OP_PUSHDATA_4 with length 76, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+e2dxrp,"Push data operations: OP_PUSHDATA_4 with length 76, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 exk25v,"Push data operations: OP_PUSHDATA_4 with length 76, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 va2rlw,"Push data operations: OP_PUSHDATA_4 with length 76, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-68csw4,"Push data operations: OP_PUSHDATA_4 with length 127, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+68csw4,"Push data operations: OP_PUSHDATA_4 with length 127, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 w7sp2t,"Push data operations: OP_PUSHDATA_4 with length 127, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 m3yka2,"Push data operations: OP_PUSHDATA_4 with length 127, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-ag55pm,"Push data operations: OP_PUSHDATA_4 with length 128, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+ag55pm,"Push data operations: OP_PUSHDATA_4 with length 128, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 kq696s,"Push data operations: OP_PUSHDATA_4 with length 128, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 nwf0d9,"Push data operations: OP_PUSHDATA_4 with length 128, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-aau77v,"Push data operations: OP_PUSHDATA_4 with length 129, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+aau77v,"Push data operations: OP_PUSHDATA_4 with length 129, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 wdr8ap,"Push data operations: OP_PUSHDATA_4 with length 129, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 36jr5x,"Push data operations: OP_PUSHDATA_4 with length 129, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-8n7fhu,"Push data operations: OP_PUSHDATA_4 with length 255, partial data, OP_NOT (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+8n7fhu,"Push data operations: OP_PUSHDATA_4 with length 255, partial data, OP_NOT (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 f0wdrr,"Push data operations: OP_PUSHDATA_4 with length 255, partial data, OP_NOT (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 t5gt4c,"Push data operations: OP_PUSHDATA_4 with length 255, partial data, OP_NOT (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-x79k2s,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+x79k2s,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
 7gga6e,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 jm7r8t,"Push data operations: OP_PUSHDATA_4 with length 1 (2-byte), partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-2qrdmn,"Push data operations: OP_PUSHDATA_4 with length 256, partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+2qrdmn,"Push data operations: OP_PUSHDATA_4 with length 256, partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
 66cuuw,"Push data operations: OP_PUSHDATA_4 with length 256, partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 8mrvnu,"Push data operations: OP_PUSHDATA_4 with length 256, partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-gj8zem,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data, OP_NOT (nonP2SH)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
+gj8zem,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data, OP_NOT (P2S)",215,45,2,1,45,36000,0,1,0,22,0,0,0,0
 y2hafj,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data, OP_NOT (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 wk58v5,"Push data operations: OP_PUSHDATA_4 with length 65535, partial data, OP_NOT (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-yqpam9,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
+yqpam9,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,1,0,0
 nwqs59,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,1,0,0
 43nzvu,"Push data operations: OP_PUSHDATA_4 with length 1 (4-byte), partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,1,0,0
-tmcx24,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
+tmcx24,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
 p8tjnh,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,0,0,0
 5j5x6u,"Push data operations: OP_PUSHDATA_4 with length 65536, partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,0,0,0
-uhrl65,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data, OP_NOT (nonP2SH)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
+uhrl65,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data, OP_NOT (P2S)",217,45,2,1,47,37600,0,1,0,23,0,0,0,0
 lwq89z,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data, OP_NOT (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,0,0,0
 4g5mz9,"Push data operations: OP_PUSHDATA_4 with length 99990, partial data, OP_NOT (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,0,0,0
-evjc3k,"Push data operations: OP_PUSHBYTES_1 of -1 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+evjc3k,"Push data operations: OP_PUSHBYTES_1 of -1 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 z97506,"Push data operations: OP_PUSHBYTES_1 of -1 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 2flmc2,"Push data operations: OP_PUSHBYTES_1 of -1 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-z86gck,"Push data operations: OP_PUSHBYTES_1 of 0x00 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+z86gck,"Push data operations: OP_PUSHBYTES_1 of 0x00 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 pc42a3,"Push data operations: OP_PUSHBYTES_1 of 0x00 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 hm2hg7,"Push data operations: OP_PUSHBYTES_1 of 0x00 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-pu9apn,"Push data operations: OP_PUSHBYTES_1 of 2 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+pu9apn,"Push data operations: OP_PUSHBYTES_1 of 2 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 cd75y3,"Push data operations: OP_PUSHBYTES_1 of 2 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 dhuag4,"Push data operations: OP_PUSHBYTES_1 of 2 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-nuuu9m,"Push data operations: OP_PUSHBYTES_1 of 3 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+nuuu9m,"Push data operations: OP_PUSHBYTES_1 of 3 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 tl5z6e,"Push data operations: OP_PUSHBYTES_1 of 3 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 rwk4jr,"Push data operations: OP_PUSHBYTES_1 of 3 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-h9yex4,"Push data operations: OP_PUSHBYTES_1 of 4 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+h9yex4,"Push data operations: OP_PUSHBYTES_1 of 4 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 r0nh7n,"Push data operations: OP_PUSHBYTES_1 of 4 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 jxwz2j,"Push data operations: OP_PUSHBYTES_1 of 4 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-3ykde3,"Push data operations: OP_PUSHBYTES_1 of 5 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+3ykde3,"Push data operations: OP_PUSHBYTES_1 of 5 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 35c5yh,"Push data operations: OP_PUSHBYTES_1 of 5 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 etergc,"Push data operations: OP_PUSHBYTES_1 of 5 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-z7hzjp,"Push data operations: OP_PUSHBYTES_1 of 6 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+z7hzjp,"Push data operations: OP_PUSHBYTES_1 of 6 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 gggv0s,"Push data operations: OP_PUSHBYTES_1 of 6 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 fzpua5,"Push data operations: OP_PUSHBYTES_1 of 6 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-8aak54,"Push data operations: OP_PUSHBYTES_1 of 7 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+8aak54,"Push data operations: OP_PUSHBYTES_1 of 7 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 qmdc47,"Push data operations: OP_PUSHBYTES_1 of 7 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 f6l807,"Push data operations: OP_PUSHBYTES_1 of 7 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-kxta2c,"Push data operations: OP_PUSHBYTES_1 of 8 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+kxta2c,"Push data operations: OP_PUSHBYTES_1 of 8 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 lgpw7n,"Push data operations: OP_PUSHBYTES_1 of 8 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 hsael4,"Push data operations: OP_PUSHBYTES_1 of 8 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-37s48n,"Push data operations: OP_PUSHBYTES_1 of 9 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+37s48n,"Push data operations: OP_PUSHBYTES_1 of 9 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 tvucty,"Push data operations: OP_PUSHBYTES_1 of 9 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 x5xygq,"Push data operations: OP_PUSHBYTES_1 of 9 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-25f8ml,"Push data operations: OP_PUSHBYTES_1 of 10 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+25f8ml,"Push data operations: OP_PUSHBYTES_1 of 10 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 ejkn06,"Push data operations: OP_PUSHBYTES_1 of 10 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 jm3ypm,"Push data operations: OP_PUSHBYTES_1 of 10 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-j2d6up,"Push data operations: OP_PUSHBYTES_1 of 11 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+j2d6up,"Push data operations: OP_PUSHBYTES_1 of 11 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 nsffu2,"Push data operations: OP_PUSHBYTES_1 of 11 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 9gcjp6,"Push data operations: OP_PUSHBYTES_1 of 11 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-k7ygz0,"Push data operations: OP_PUSHBYTES_1 of 12 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+k7ygz0,"Push data operations: OP_PUSHBYTES_1 of 12 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 2ehrtg,"Push data operations: OP_PUSHBYTES_1 of 12 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 g70dkr,"Push data operations: OP_PUSHBYTES_1 of 12 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-3f6tm3,"Push data operations: OP_PUSHBYTES_1 of 13 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+3f6tm3,"Push data operations: OP_PUSHBYTES_1 of 13 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 a92yqk,"Push data operations: OP_PUSHBYTES_1 of 13 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 muejtv,"Push data operations: OP_PUSHBYTES_1 of 13 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-28adrc,"Push data operations: OP_PUSHBYTES_1 of 14 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+28adrc,"Push data operations: OP_PUSHBYTES_1 of 14 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 js9rwp,"Push data operations: OP_PUSHBYTES_1 of 14 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 lvz9ra,"Push data operations: OP_PUSHBYTES_1 of 14 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-2m2rsg,"Push data operations: OP_PUSHBYTES_1 of 15 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+2m2rsg,"Push data operations: OP_PUSHBYTES_1 of 15 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 3axkq2,"Push data operations: OP_PUSHBYTES_1 of 15 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 qsfwze,"Push data operations: OP_PUSHBYTES_1 of 15 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-d5d84j,"Push data operations: OP_PUSHBYTES_1 of 16 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+d5d84j,"Push data operations: OP_PUSHBYTES_1 of 16 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 plaswn,"Push data operations: OP_PUSHBYTES_1 of 16 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,4,41,0
 fp4kxa,"Push data operations: OP_PUSHBYTES_1 of 16 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,4,65,0
-alty8r,"Push data operations: OP_PUSHBYTES_1 of 17 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+alty8r,"Push data operations: OP_PUSHBYTES_1 of 17 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 n9ye4x,"Push data operations: OP_PUSHBYTES_1 of 17 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 akas6a,"Push data operations: OP_PUSHBYTES_1 of 17 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-rpkj0w,"Push data operations: OP_PUSHBYTES_1 of 76 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+rpkj0w,"Push data operations: OP_PUSHBYTES_1 of 76 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 m3xfkr,"Push data operations: OP_PUSHBYTES_1 of 76 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 ypmz90,"Push data operations: OP_PUSHBYTES_1 of 76 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-4j74n6,"Push data operations: OP_PUSHBYTES_1 of 127 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+4j74n6,"Push data operations: OP_PUSHBYTES_1 of 127 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 7mamn3,"Push data operations: OP_PUSHBYTES_1 of 127 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,0,0,0
 vp8mk4,"Push data operations: OP_PUSHBYTES_1 of 127 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,0,0,0
-tv9hag,"Push data operations: OP_PUSHBYTES_1 of 128 split across unlocking and locking bytecode (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
+tv9hag,"Push data operations: OP_PUSHBYTES_1 of 128 split across unlocking and locking bytecode (P2S)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
 w6552w,"Push data operations: OP_PUSHBYTES_1 of 128 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 09zeac,"Push data operations: OP_PUSHBYTES_1 of 128 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-uv3m4g,"Push data operations: OP_PUSHBYTES_1 of 255 split across unlocking and locking bytecode (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
+uv3m4g,"Push data operations: OP_PUSHBYTES_1 of 255 split across unlocking and locking bytecode (P2S)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
 k07yq6,"Push data operations: OP_PUSHBYTES_1 of 255 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 f56dea,"Push data operations: OP_PUSHBYTES_1 of 255 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-0e6dwv,"Push data operations: OP_PUSHBYTES_1 of 0x0000 split across unlocking and locking bytecode (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
+0e6dwv,"Push data operations: OP_PUSHBYTES_1 of 0x0000 split across unlocking and locking bytecode (P2S)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
 wte6wa,"Push data operations: OP_PUSHBYTES_1 of 0x0000 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 cutgl4,"Push data operations: OP_PUSHBYTES_1 of 0x0000 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-r30425,"Push data operations: OP_PUSHBYTES_2 of -1 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+r30425,"Push data operations: OP_PUSHBYTES_2 of -1 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 rddmjx,"Push data operations: OP_PUSHBYTES_2 of -1 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 carlrw,"Push data operations: OP_PUSHBYTES_2 of -1 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-y0edg9,"Push data operations: OP_PUSHBYTES_2 of 0x00 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+y0edg9,"Push data operations: OP_PUSHBYTES_2 of 0x00 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 xnjv32,"Push data operations: OP_PUSHBYTES_2 of 0x00 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,4,42,0
 m3lpjt,"Push data operations: OP_PUSHBYTES_2 of 0x00 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,4,66,0
-wvfu6s,"Push data operations: OP_PUSHBYTES_2 of 1 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+wvfu6s,"Push data operations: OP_PUSHBYTES_2 of 1 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 qayah2,"Push data operations: OP_PUSHBYTES_2 of 1 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 f748vz,"Push data operations: OP_PUSHBYTES_2 of 1 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-7en4er,"Push data operations: OP_PUSHBYTES_2 of 2 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+7en4er,"Push data operations: OP_PUSHBYTES_2 of 2 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 ny8k3v,"Push data operations: OP_PUSHBYTES_2 of 2 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 qtxg6u,"Push data operations: OP_PUSHBYTES_2 of 2 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-3hejkc,"Push data operations: OP_PUSHBYTES_2 of 3 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+3hejkc,"Push data operations: OP_PUSHBYTES_2 of 3 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 3s2n9k,"Push data operations: OP_PUSHBYTES_2 of 3 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 q2qwlh,"Push data operations: OP_PUSHBYTES_2 of 3 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-mndfq3,"Push data operations: OP_PUSHBYTES_2 of 4 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+mndfq3,"Push data operations: OP_PUSHBYTES_2 of 4 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 ve2phz,"Push data operations: OP_PUSHBYTES_2 of 4 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 4tdvug,"Push data operations: OP_PUSHBYTES_2 of 4 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-2wrrcm,"Push data operations: OP_PUSHBYTES_2 of 5 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+2wrrcm,"Push data operations: OP_PUSHBYTES_2 of 5 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 yng6th,"Push data operations: OP_PUSHBYTES_2 of 5 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 jkcp73,"Push data operations: OP_PUSHBYTES_2 of 5 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-4nw027,"Push data operations: OP_PUSHBYTES_2 of 6 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+4nw027,"Push data operations: OP_PUSHBYTES_2 of 6 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 nsvf69,"Push data operations: OP_PUSHBYTES_2 of 6 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 8nrpsl,"Push data operations: OP_PUSHBYTES_2 of 6 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-cx8w72,"Push data operations: OP_PUSHBYTES_2 of 7 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+cx8w72,"Push data operations: OP_PUSHBYTES_2 of 7 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 dt2fty,"Push data operations: OP_PUSHBYTES_2 of 7 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 6hwn93,"Push data operations: OP_PUSHBYTES_2 of 7 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-w9dxdg,"Push data operations: OP_PUSHBYTES_2 of 8 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+w9dxdg,"Push data operations: OP_PUSHBYTES_2 of 8 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 yaufkm,"Push data operations: OP_PUSHBYTES_2 of 8 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 zx28ly,"Push data operations: OP_PUSHBYTES_2 of 8 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-tnslz6,"Push data operations: OP_PUSHBYTES_2 of 9 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+tnslz6,"Push data operations: OP_PUSHBYTES_2 of 9 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 sn3qw7,"Push data operations: OP_PUSHBYTES_2 of 9 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 fzc968,"Push data operations: OP_PUSHBYTES_2 of 9 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-q4g33j,"Push data operations: OP_PUSHBYTES_2 of 10 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+q4g33j,"Push data operations: OP_PUSHBYTES_2 of 10 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 kfj9x6,"Push data operations: OP_PUSHBYTES_2 of 10 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 dm7l66,"Push data operations: OP_PUSHBYTES_2 of 10 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-2ncj32,"Push data operations: OP_PUSHBYTES_2 of 11 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+2ncj32,"Push data operations: OP_PUSHBYTES_2 of 11 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 fgdasw,"Push data operations: OP_PUSHBYTES_2 of 11 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 nxp9aq,"Push data operations: OP_PUSHBYTES_2 of 11 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-ql0vwy,"Push data operations: OP_PUSHBYTES_2 of 12 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+ql0vwy,"Push data operations: OP_PUSHBYTES_2 of 12 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 agxsv2,"Push data operations: OP_PUSHBYTES_2 of 12 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 kv4sdr,"Push data operations: OP_PUSHBYTES_2 of 12 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-dx4a50,"Push data operations: OP_PUSHBYTES_2 of 13 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+dx4a50,"Push data operations: OP_PUSHBYTES_2 of 13 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 quffly,"Push data operations: OP_PUSHBYTES_2 of 13 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 axpek8,"Push data operations: OP_PUSHBYTES_2 of 13 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-4mtee5,"Push data operations: OP_PUSHBYTES_2 of 14 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+4mtee5,"Push data operations: OP_PUSHBYTES_2 of 14 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 xfs7el,"Push data operations: OP_PUSHBYTES_2 of 14 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 p0dm7f,"Push data operations: OP_PUSHBYTES_2 of 14 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-qjw7kf,"Push data operations: OP_PUSHBYTES_2 of 15 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+qjw7kf,"Push data operations: OP_PUSHBYTES_2 of 15 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 v0l3mt,"Push data operations: OP_PUSHBYTES_2 of 15 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 h33vck,"Push data operations: OP_PUSHBYTES_2 of 15 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-aw7hkj,"Push data operations: OP_PUSHBYTES_2 of 16 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+aw7hkj,"Push data operations: OP_PUSHBYTES_2 of 16 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 l2sjkz,"Push data operations: OP_PUSHBYTES_2 of 16 split across unlocking and locking bytecode (P2SH20)",213,67,2,1,43,34400,0,1,0,21,0,0,0,0
 6hnlp5,"Push data operations: OP_PUSHBYTES_2 of 16 split across unlocking and locking bytecode (P2SH32)",213,79,2,1,43,34400,0,1,0,21,0,0,0,0
-0gsgau,"Push data operations: OP_PUSHBYTES_2 of 17 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+0gsgau,"Push data operations: OP_PUSHBYTES_2 of 17 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 7ch5hc,"Push data operations: OP_PUSHBYTES_2 of 17 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,4,42,0
 gzghlg,"Push data operations: OP_PUSHBYTES_2 of 17 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,4,66,0
-e74drs,"Push data operations: OP_PUSHBYTES_2 of 76 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+e74drs,"Push data operations: OP_PUSHBYTES_2 of 76 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 uk08y7,"Push data operations: OP_PUSHBYTES_2 of 76 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,4,42,0
 nl2d2r,"Push data operations: OP_PUSHBYTES_2 of 76 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,4,66,0
-zjry8y,"Push data operations: OP_PUSHBYTES_2 of 127 split across unlocking and locking bytecode (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
+zjry8y,"Push data operations: OP_PUSHBYTES_2 of 127 split across unlocking and locking bytecode (P2S)",212,45,2,1,42,33600,0,1,0,21,0,0,0,0
 qnc7sn,"Push data operations: OP_PUSHBYTES_2 of 127 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,4,42,0
 7f9fp8,"Push data operations: OP_PUSHBYTES_2 of 127 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,4,66,0
-32ptjy,"Push data operations: OP_PUSHBYTES_2 of 128 split across unlocking and locking bytecode (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
+32ptjy,"Push data operations: OP_PUSHBYTES_2 of 128 split across unlocking and locking bytecode (P2S)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
 u0zua3,"Push data operations: OP_PUSHBYTES_2 of 128 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,5,42,0
 lfy5fk,"Push data operations: OP_PUSHBYTES_2 of 128 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,5,66,0
-ydagz4,"Push data operations: OP_PUSHBYTES_2 of 255 split across unlocking and locking bytecode (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
+ydagz4,"Push data operations: OP_PUSHBYTES_2 of 255 split across unlocking and locking bytecode (P2S)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
 4u4jn2,"Push data operations: OP_PUSHBYTES_2 of 255 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,5,42,0
 000cp4,"Push data operations: OP_PUSHBYTES_2 of 255 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,5,66,0
-kavqme,"Push data operations: OP_PUSHBYTES_2 of 0x0000 split across unlocking and locking bytecode (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
+kavqme,"Push data operations: OP_PUSHBYTES_2 of 0x0000 split across unlocking and locking bytecode (P2S)",212,46,2,1,42,33600,0,1,0,21,0,0,0,0
 4add08,"Push data operations: OP_PUSHBYTES_2 of 0x0000 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,5,42,0
 jjf25k,"Push data operations: OP_PUSHBYTES_2 of 0x0000 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,5,66,0
-jzrh4r,"Push data operations: OP_PUSHDATA_1 1 of -1 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+jzrh4r,"Push data operations: OP_PUSHDATA_1 1 of -1 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 58sxvx,"Push data operations: OP_PUSHDATA_1 1 of -1 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 4kwfcf,"Push data operations: OP_PUSHDATA_1 1 of -1 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-8mge7l,"Push data operations: OP_PUSHDATA_1 1 of 0x00 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+8mge7l,"Push data operations: OP_PUSHDATA_1 1 of 0x00 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 7pdmxw,"Push data operations: OP_PUSHDATA_1 1 of 0x00 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 t7qp6y,"Push data operations: OP_PUSHDATA_1 1 of 0x00 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-6ak5wm,"Push data operations: OP_PUSHDATA_1 1 of 1 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+6ak5wm,"Push data operations: OP_PUSHDATA_1 1 of 1 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 4fwg27,"Push data operations: OP_PUSHDATA_1 1 of 1 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 vn9hak,"Push data operations: OP_PUSHDATA_1 1 of 1 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-26csam,"Push data operations: OP_PUSHDATA_1 1 of 2 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+26csam,"Push data operations: OP_PUSHDATA_1 1 of 2 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 gh900a,"Push data operations: OP_PUSHDATA_1 1 of 2 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 nmg9h8,"Push data operations: OP_PUSHDATA_1 1 of 2 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-wsedja,"Push data operations: OP_PUSHDATA_1 1 of 3 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+wsedja,"Push data operations: OP_PUSHDATA_1 1 of 3 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 f64yq4,"Push data operations: OP_PUSHDATA_1 1 of 3 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 f92syv,"Push data operations: OP_PUSHDATA_1 1 of 3 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-jrt5g9,"Push data operations: OP_PUSHDATA_1 1 of 4 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+jrt5g9,"Push data operations: OP_PUSHDATA_1 1 of 4 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 a75tj9,"Push data operations: OP_PUSHDATA_1 1 of 4 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 xmxngy,"Push data operations: OP_PUSHDATA_1 1 of 4 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-lmjl46,"Push data operations: OP_PUSHDATA_1 1 of 5 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+lmjl46,"Push data operations: OP_PUSHDATA_1 1 of 5 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 khjh4f,"Push data operations: OP_PUSHDATA_1 1 of 5 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 d4a77h,"Push data operations: OP_PUSHDATA_1 1 of 5 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-7zdhu5,"Push data operations: OP_PUSHDATA_1 1 of 6 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+7zdhu5,"Push data operations: OP_PUSHDATA_1 1 of 6 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 j6ssw8,"Push data operations: OP_PUSHDATA_1 1 of 6 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 we5nhm,"Push data operations: OP_PUSHDATA_1 1 of 6 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-2l3f8t,"Push data operations: OP_PUSHDATA_1 1 of 7 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+2l3f8t,"Push data operations: OP_PUSHDATA_1 1 of 7 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 fd4qmv,"Push data operations: OP_PUSHDATA_1 1 of 7 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 nuzu2w,"Push data operations: OP_PUSHDATA_1 1 of 7 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-4ywm4j,"Push data operations: OP_PUSHDATA_1 1 of 8 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+4ywm4j,"Push data operations: OP_PUSHDATA_1 1 of 8 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 7tsm20,"Push data operations: OP_PUSHDATA_1 1 of 8 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 pq986p,"Push data operations: OP_PUSHDATA_1 1 of 8 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-z4pdka,"Push data operations: OP_PUSHDATA_1 1 of 9 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+z4pdka,"Push data operations: OP_PUSHDATA_1 1 of 9 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 2jc34l,"Push data operations: OP_PUSHDATA_1 1 of 9 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 g6r37g,"Push data operations: OP_PUSHDATA_1 1 of 9 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-f9y6h8,"Push data operations: OP_PUSHDATA_1 1 of 10 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+f9y6h8,"Push data operations: OP_PUSHDATA_1 1 of 10 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 0ye0pu,"Push data operations: OP_PUSHDATA_1 1 of 10 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 9p9ck5,"Push data operations: OP_PUSHDATA_1 1 of 10 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-dg25gd,"Push data operations: OP_PUSHDATA_1 1 of 11 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+dg25gd,"Push data operations: OP_PUSHDATA_1 1 of 11 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 5a5mtc,"Push data operations: OP_PUSHDATA_1 1 of 11 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 vljxya,"Push data operations: OP_PUSHDATA_1 1 of 11 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-93t7kw,"Push data operations: OP_PUSHDATA_1 1 of 12 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+93t7kw,"Push data operations: OP_PUSHDATA_1 1 of 12 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 l5tqa3,"Push data operations: OP_PUSHDATA_1 1 of 12 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 7xftde,"Push data operations: OP_PUSHDATA_1 1 of 12 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-uurluq,"Push data operations: OP_PUSHDATA_1 1 of 13 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+uurluq,"Push data operations: OP_PUSHDATA_1 1 of 13 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 pzszav,"Push data operations: OP_PUSHDATA_1 1 of 13 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 rvgd6j,"Push data operations: OP_PUSHDATA_1 1 of 13 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-khepsx,"Push data operations: OP_PUSHDATA_1 1 of 14 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+khepsx,"Push data operations: OP_PUSHDATA_1 1 of 14 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 tmsx7r,"Push data operations: OP_PUSHDATA_1 1 of 14 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 80hhdz,"Push data operations: OP_PUSHDATA_1 1 of 14 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-2ntgsl,"Push data operations: OP_PUSHDATA_1 1 of 15 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+2ntgsl,"Push data operations: OP_PUSHDATA_1 1 of 15 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 lrc9d7,"Push data operations: OP_PUSHDATA_1 1 of 15 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 s8qqx4,"Push data operations: OP_PUSHDATA_1 1 of 15 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-92rs0a,"Push data operations: OP_PUSHDATA_1 1 of 16 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+92rs0a,"Push data operations: OP_PUSHDATA_1 1 of 16 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 jlph6q,"Push data operations: OP_PUSHDATA_1 1 of 16 split across unlocking and locking bytecode (P2SH20)",214,67,2,1,44,35200,0,1,0,22,0,1,0,0
 l97x88,"Push data operations: OP_PUSHDATA_1 1 of 16 split across unlocking and locking bytecode (P2SH32)",214,79,2,1,44,35200,0,1,0,22,0,1,0,0
-xg4kh4,"Push data operations: OP_PUSHDATA_1 1 of 17 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+xg4kh4,"Push data operations: OP_PUSHDATA_1 1 of 17 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 m9a3cr,"Push data operations: OP_PUSHDATA_1 1 of 17 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 y8k575,"Push data operations: OP_PUSHDATA_1 1 of 17 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-ma70hv,"Push data operations: OP_PUSHDATA_1 1 of 76 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+ma70hv,"Push data operations: OP_PUSHDATA_1 1 of 76 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 psn0wz,"Push data operations: OP_PUSHDATA_1 1 of 76 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 5t7qc6,"Push data operations: OP_PUSHDATA_1 1 of 76 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-phlthk,"Push data operations: OP_PUSHDATA_1 1 of 127 split across unlocking and locking bytecode (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
+phlthk,"Push data operations: OP_PUSHDATA_1 1 of 127 split across unlocking and locking bytecode (P2S)",213,45,2,1,43,34400,0,1,0,21,0,0,0,0
 ha67e9,"Push data operations: OP_PUSHDATA_1 1 of 127 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,0,0,0
 cugmrr,"Push data operations: OP_PUSHDATA_1 1 of 127 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,0,0,0
-4ytklz,"Push data operations: OP_PUSHDATA_1 1 of 128 split across unlocking and locking bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,21,0,0,0,0
+4ytklz,"Push data operations: OP_PUSHDATA_1 1 of 128 split across unlocking and locking bytecode (P2S)",213,46,2,1,43,34400,0,1,0,21,0,0,0,0
 39vwel,"Push data operations: OP_PUSHDATA_1 1 of 128 split across unlocking and locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 4pm0v3,"Push data operations: OP_PUSHDATA_1 1 of 128 split across unlocking and locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-ln6ajd,"Push data operations: OP_PUSHDATA_1 1 of 255 split across unlocking and locking bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,21,0,0,0,0
+ln6ajd,"Push data operations: OP_PUSHDATA_1 1 of 255 split across unlocking and locking bytecode (P2S)",213,46,2,1,43,34400,0,1,0,21,0,0,0,0
 tc94lt,"Push data operations: OP_PUSHDATA_1 1 of 255 split across unlocking and locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 3dh9sd,"Push data operations: OP_PUSHDATA_1 1 of 255 split across unlocking and locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-tkthfj,"Push data operations: OP_PUSHDATA_1 1 of 0x0000 split across unlocking and locking bytecode (nonP2SH)",213,46,2,1,43,34400,0,1,0,21,0,0,0,0
+tkthfj,"Push data operations: OP_PUSHDATA_1 1 of 0x0000 split across unlocking and locking bytecode (P2S)",213,46,2,1,43,34400,0,1,0,21,0,0,0,0
 sq9vy9,"Push data operations: OP_PUSHDATA_1 1 of 0x0000 split across unlocking and locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,1,0,0
 pesfyk,"Push data operations: OP_PUSHDATA_1 1 of 0x0000 split across unlocking and locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,1,0,0
-s45c5x,"Push data operations: OP_PUSHDATA_2 1 of -1 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+s45c5x,"Push data operations: OP_PUSHDATA_2 1 of -1 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 5m7z2u,"Push data operations: OP_PUSHDATA_2 1 of -1 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 24xrs9,"Push data operations: OP_PUSHDATA_2 1 of -1 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-0dedrj,"Push data operations: OP_PUSHDATA_2 1 of 0x00 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+0dedrj,"Push data operations: OP_PUSHDATA_2 1 of 0x00 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 mjlxt7,"Push data operations: OP_PUSHDATA_2 1 of 0x00 split across unlocking and locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,1,0,0
 a080ry,"Push data operations: OP_PUSHDATA_2 1 of 0x00 split across unlocking and locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,1,0,0
-jxr9t5,"Push data operations: OP_PUSHDATA_2 1 of 1 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+jxr9t5,"Push data operations: OP_PUSHDATA_2 1 of 1 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 92d9vj,"Push data operations: OP_PUSHDATA_2 1 of 1 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 w8f6ua,"Push data operations: OP_PUSHDATA_2 1 of 1 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-jje9vl,"Push data operations: OP_PUSHDATA_2 1 of 2 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+jje9vl,"Push data operations: OP_PUSHDATA_2 1 of 2 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 epcjdx,"Push data operations: OP_PUSHDATA_2 1 of 2 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 5uxf67,"Push data operations: OP_PUSHDATA_2 1 of 2 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-0x6qcg,"Push data operations: OP_PUSHDATA_2 1 of 3 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+0x6qcg,"Push data operations: OP_PUSHDATA_2 1 of 3 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 u8ku8p,"Push data operations: OP_PUSHDATA_2 1 of 3 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 hvw4la,"Push data operations: OP_PUSHDATA_2 1 of 3 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-xk8xqd,"Push data operations: OP_PUSHDATA_2 1 of 4 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+xk8xqd,"Push data operations: OP_PUSHDATA_2 1 of 4 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 4jkgat,"Push data operations: OP_PUSHDATA_2 1 of 4 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 m9weda,"Push data operations: OP_PUSHDATA_2 1 of 4 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-gtkejz,"Push data operations: OP_PUSHDATA_2 1 of 5 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+gtkejz,"Push data operations: OP_PUSHDATA_2 1 of 5 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 3z59w9,"Push data operations: OP_PUSHDATA_2 1 of 5 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 h9q6t2,"Push data operations: OP_PUSHDATA_2 1 of 5 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-0yalj0,"Push data operations: OP_PUSHDATA_2 1 of 6 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+0yalj0,"Push data operations: OP_PUSHDATA_2 1 of 6 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 wwnmte,"Push data operations: OP_PUSHDATA_2 1 of 6 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 cuvz0v,"Push data operations: OP_PUSHDATA_2 1 of 6 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-km6s3m,"Push data operations: OP_PUSHDATA_2 1 of 7 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+km6s3m,"Push data operations: OP_PUSHDATA_2 1 of 7 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 yv9fz4,"Push data operations: OP_PUSHDATA_2 1 of 7 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 jgzt6e,"Push data operations: OP_PUSHDATA_2 1 of 7 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-37zuxa,"Push data operations: OP_PUSHDATA_2 1 of 8 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+37zuxa,"Push data operations: OP_PUSHDATA_2 1 of 8 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 p8mr2q,"Push data operations: OP_PUSHDATA_2 1 of 8 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 409elc,"Push data operations: OP_PUSHDATA_2 1 of 8 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-qqax3y,"Push data operations: OP_PUSHDATA_2 1 of 9 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+qqax3y,"Push data operations: OP_PUSHDATA_2 1 of 9 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 drje9v,"Push data operations: OP_PUSHDATA_2 1 of 9 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 y33pzt,"Push data operations: OP_PUSHDATA_2 1 of 9 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-ppknnq,"Push data operations: OP_PUSHDATA_2 1 of 10 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+ppknnq,"Push data operations: OP_PUSHDATA_2 1 of 10 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 te4ah2,"Push data operations: OP_PUSHDATA_2 1 of 10 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 5pry4c,"Push data operations: OP_PUSHDATA_2 1 of 10 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-5zq29c,"Push data operations: OP_PUSHDATA_2 1 of 11 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+5zq29c,"Push data operations: OP_PUSHDATA_2 1 of 11 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 4nhe8t,"Push data operations: OP_PUSHDATA_2 1 of 11 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 v67lwq,"Push data operations: OP_PUSHDATA_2 1 of 11 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-dlwk5c,"Push data operations: OP_PUSHDATA_2 1 of 12 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+dlwk5c,"Push data operations: OP_PUSHDATA_2 1 of 12 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 sn02ue,"Push data operations: OP_PUSHDATA_2 1 of 12 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 tzxa3x,"Push data operations: OP_PUSHDATA_2 1 of 12 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-vnwxfv,"Push data operations: OP_PUSHDATA_2 1 of 13 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+vnwxfv,"Push data operations: OP_PUSHDATA_2 1 of 13 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 wadfwl,"Push data operations: OP_PUSHDATA_2 1 of 13 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 ggfjz0,"Push data operations: OP_PUSHDATA_2 1 of 13 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-a6kmxv,"Push data operations: OP_PUSHDATA_2 1 of 14 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+a6kmxv,"Push data operations: OP_PUSHDATA_2 1 of 14 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 e525eq,"Push data operations: OP_PUSHDATA_2 1 of 14 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 72cfjh,"Push data operations: OP_PUSHDATA_2 1 of 14 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-n02nuc,"Push data operations: OP_PUSHDATA_2 1 of 15 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+n02nuc,"Push data operations: OP_PUSHDATA_2 1 of 15 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 t3kk8n,"Push data operations: OP_PUSHDATA_2 1 of 15 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 0tfrcl,"Push data operations: OP_PUSHDATA_2 1 of 15 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-cz53gm,"Push data operations: OP_PUSHDATA_2 1 of 16 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+cz53gm,"Push data operations: OP_PUSHDATA_2 1 of 16 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 qyrmzg,"Push data operations: OP_PUSHDATA_2 1 of 16 split across unlocking and locking bytecode (P2SH20)",215,67,2,1,45,36000,0,1,0,22,0,1,0,0
 jnvqly,"Push data operations: OP_PUSHDATA_2 1 of 16 split across unlocking and locking bytecode (P2SH32)",215,79,2,1,45,36000,0,1,0,22,0,1,0,0
-sk2dp8,"Push data operations: OP_PUSHDATA_2 1 of 17 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+sk2dp8,"Push data operations: OP_PUSHDATA_2 1 of 17 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 fev78h,"Push data operations: OP_PUSHDATA_2 1 of 17 split across unlocking and locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 aft9r8,"Push data operations: OP_PUSHDATA_2 1 of 17 split across unlocking and locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-qzk966,"Push data operations: OP_PUSHDATA_2 1 of 76 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+qzk966,"Push data operations: OP_PUSHDATA_2 1 of 76 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 wlnafe,"Push data operations: OP_PUSHDATA_2 1 of 76 split across unlocking and locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 xtzsrd,"Push data operations: OP_PUSHDATA_2 1 of 76 split across unlocking and locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-n9f2jx,"Push data operations: OP_PUSHDATA_2 1 of 127 split across unlocking and locking bytecode (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
+n9f2jx,"Push data operations: OP_PUSHDATA_2 1 of 127 split across unlocking and locking bytecode (P2S)",214,45,2,1,44,35200,0,1,0,22,0,0,0,0
 ma27np,"Push data operations: OP_PUSHDATA_2 1 of 127 split across unlocking and locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,23,0,0,0,0
 jj66mt,"Push data operations: OP_PUSHDATA_2 1 of 127 split across unlocking and locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,23,0,0,0,0
-gp9kcf,"Push data operations: OP_PUSHDATA_2 1 of 128 split across unlocking and locking bytecode (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,0,0,0
+gp9kcf,"Push data operations: OP_PUSHDATA_2 1 of 128 split across unlocking and locking bytecode (P2S)",214,46,2,1,44,35200,0,1,0,22,0,0,0,0
 q0j5lf,"Push data operations: OP_PUSHDATA_2 1 of 128 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 80845r,"Push data operations: OP_PUSHDATA_2 1 of 128 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-xk2u2l,"Push data operations: OP_PUSHDATA_2 1 of 255 split across unlocking and locking bytecode (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,0,0,0
+xk2u2l,"Push data operations: OP_PUSHDATA_2 1 of 255 split across unlocking and locking bytecode (P2S)",214,46,2,1,44,35200,0,1,0,22,0,0,0,0
 53et2w,"Push data operations: OP_PUSHDATA_2 1 of 255 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,0,0,0
 08j4kx,"Push data operations: OP_PUSHDATA_2 1 of 255 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,0,0,0
-syu3ff,"Push data operations: OP_PUSHDATA_2 1 of 0x0000 split across unlocking and locking bytecode (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,0,0,0
+syu3ff,"Push data operations: OP_PUSHDATA_2 1 of 0x0000 split across unlocking and locking bytecode (P2S)",214,46,2,1,44,35200,0,1,0,22,0,0,0,0
 5at5mr,"Push data operations: OP_PUSHDATA_2 1 of 0x0000 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 c48sg4,"Push data operations: OP_PUSHDATA_2 1 of 0x0000 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-unrtwl,"Push data operations: OP_PUSHDATA_4 1 of -1 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+unrtwl,"Push data operations: OP_PUSHDATA_4 1 of -1 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 6hxm50,"Push data operations: OP_PUSHDATA_4 1 of -1 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 2gpdcu,"Push data operations: OP_PUSHDATA_4 1 of -1 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-emqje7,"Push data operations: OP_PUSHDATA_4 1 of 0x00 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+emqje7,"Push data operations: OP_PUSHDATA_4 1 of 0x00 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 cnta2k,"Push data operations: OP_PUSHDATA_4 1 of 0x00 split across unlocking and locking bytecode (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,1,0,0
 ahpqkp,"Push data operations: OP_PUSHDATA_4 1 of 0x00 split across unlocking and locking bytecode (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,1,0,0
-a92v3t,"Push data operations: OP_PUSHDATA_4 1 of 1 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+a92v3t,"Push data operations: OP_PUSHDATA_4 1 of 1 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 kjdypa,"Push data operations: OP_PUSHDATA_4 1 of 1 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 4qj73v,"Push data operations: OP_PUSHDATA_4 1 of 1 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-xy6yk7,"Push data operations: OP_PUSHDATA_4 1 of 2 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+xy6yk7,"Push data operations: OP_PUSHDATA_4 1 of 2 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 652r43,"Push data operations: OP_PUSHDATA_4 1 of 2 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 0anv4g,"Push data operations: OP_PUSHDATA_4 1 of 2 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-vwwkka,"Push data operations: OP_PUSHDATA_4 1 of 3 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+vwwkka,"Push data operations: OP_PUSHDATA_4 1 of 3 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 pt3yas,"Push data operations: OP_PUSHDATA_4 1 of 3 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 6mfdsr,"Push data operations: OP_PUSHDATA_4 1 of 3 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-tdt50u,"Push data operations: OP_PUSHDATA_4 1 of 4 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+tdt50u,"Push data operations: OP_PUSHDATA_4 1 of 4 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 5lct7a,"Push data operations: OP_PUSHDATA_4 1 of 4 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 c9s688,"Push data operations: OP_PUSHDATA_4 1 of 4 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-sjq93y,"Push data operations: OP_PUSHDATA_4 1 of 5 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+sjq93y,"Push data operations: OP_PUSHDATA_4 1 of 5 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 t5zdpf,"Push data operations: OP_PUSHDATA_4 1 of 5 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 g35haw,"Push data operations: OP_PUSHDATA_4 1 of 5 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-3p42sh,"Push data operations: OP_PUSHDATA_4 1 of 6 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+3p42sh,"Push data operations: OP_PUSHDATA_4 1 of 6 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 xw660x,"Push data operations: OP_PUSHDATA_4 1 of 6 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 v7rsu6,"Push data operations: OP_PUSHDATA_4 1 of 6 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-xmey2a,"Push data operations: OP_PUSHDATA_4 1 of 7 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+xmey2a,"Push data operations: OP_PUSHDATA_4 1 of 7 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 jay7ds,"Push data operations: OP_PUSHDATA_4 1 of 7 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 4gcjdq,"Push data operations: OP_PUSHDATA_4 1 of 7 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-d8jmy4,"Push data operations: OP_PUSHDATA_4 1 of 8 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+d8jmy4,"Push data operations: OP_PUSHDATA_4 1 of 8 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 p750hl,"Push data operations: OP_PUSHDATA_4 1 of 8 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 dxp6c9,"Push data operations: OP_PUSHDATA_4 1 of 8 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-9g7jv7,"Push data operations: OP_PUSHDATA_4 1 of 9 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+9g7jv7,"Push data operations: OP_PUSHDATA_4 1 of 9 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 kxkyep,"Push data operations: OP_PUSHDATA_4 1 of 9 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 upsa98,"Push data operations: OP_PUSHDATA_4 1 of 9 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-xmvwft,"Push data operations: OP_PUSHDATA_4 1 of 10 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+xmvwft,"Push data operations: OP_PUSHDATA_4 1 of 10 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 mnfx4y,"Push data operations: OP_PUSHDATA_4 1 of 10 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 uj4g3u,"Push data operations: OP_PUSHDATA_4 1 of 10 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-3jeuzg,"Push data operations: OP_PUSHDATA_4 1 of 11 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+3jeuzg,"Push data operations: OP_PUSHDATA_4 1 of 11 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 6fndy6,"Push data operations: OP_PUSHDATA_4 1 of 11 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 vdx5qf,"Push data operations: OP_PUSHDATA_4 1 of 11 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-njlaz4,"Push data operations: OP_PUSHDATA_4 1 of 12 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+njlaz4,"Push data operations: OP_PUSHDATA_4 1 of 12 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 r9c0mg,"Push data operations: OP_PUSHDATA_4 1 of 12 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 3gpf4z,"Push data operations: OP_PUSHDATA_4 1 of 12 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-t8gspw,"Push data operations: OP_PUSHDATA_4 1 of 13 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+t8gspw,"Push data operations: OP_PUSHDATA_4 1 of 13 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 equh6e,"Push data operations: OP_PUSHDATA_4 1 of 13 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 7zswj9,"Push data operations: OP_PUSHDATA_4 1 of 13 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-598djh,"Push data operations: OP_PUSHDATA_4 1 of 14 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+598djh,"Push data operations: OP_PUSHDATA_4 1 of 14 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 smsfd2,"Push data operations: OP_PUSHDATA_4 1 of 14 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 xexusp,"Push data operations: OP_PUSHDATA_4 1 of 14 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-kmdnna,"Push data operations: OP_PUSHDATA_4 1 of 15 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+kmdnna,"Push data operations: OP_PUSHDATA_4 1 of 15 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 l5es8h,"Push data operations: OP_PUSHDATA_4 1 of 15 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 2v7g9g,"Push data operations: OP_PUSHDATA_4 1 of 15 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-jl6h55,"Push data operations: OP_PUSHDATA_4 1 of 16 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+jl6h55,"Push data operations: OP_PUSHDATA_4 1 of 16 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 tyrjln,"Push data operations: OP_PUSHDATA_4 1 of 16 split across unlocking and locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,23,0,1,0,0
 0aaqkg,"Push data operations: OP_PUSHDATA_4 1 of 16 split across unlocking and locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,23,0,1,0,0
-gxwkdq,"Push data operations: OP_PUSHDATA_4 1 of 17 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+gxwkdq,"Push data operations: OP_PUSHDATA_4 1 of 17 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 9s3r30,"Push data operations: OP_PUSHDATA_4 1 of 17 split across unlocking and locking bytecode (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 z0309r,"Push data operations: OP_PUSHDATA_4 1 of 17 split across unlocking and locking bytecode (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-kkdwvu,"Push data operations: OP_PUSHDATA_4 1 of 76 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+kkdwvu,"Push data operations: OP_PUSHDATA_4 1 of 76 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 x63all,"Push data operations: OP_PUSHDATA_4 1 of 76 split across unlocking and locking bytecode (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 w0an6p,"Push data operations: OP_PUSHDATA_4 1 of 76 split across unlocking and locking bytecode (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-l5hfhq,"Push data operations: OP_PUSHDATA_4 1 of 127 split across unlocking and locking bytecode (nonP2SH)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
+l5hfhq,"Push data operations: OP_PUSHDATA_4 1 of 127 split across unlocking and locking bytecode (P2S)",216,45,2,1,46,36800,0,1,0,23,0,0,0,0
 xaj7fn,"Push data operations: OP_PUSHDATA_4 1 of 127 split across unlocking and locking bytecode (P2SH20)",218,67,2,1,48,38400,0,1,0,24,0,0,0,0
 ww4txx,"Push data operations: OP_PUSHDATA_4 1 of 127 split across unlocking and locking bytecode (P2SH32)",218,79,2,1,48,38400,0,1,0,24,0,0,0,0
-att8as,"Push data operations: OP_PUSHDATA_4 1 of 128 split across unlocking and locking bytecode (nonP2SH)",216,46,2,1,46,36800,0,1,0,23,0,0,0,0
+att8as,"Push data operations: OP_PUSHDATA_4 1 of 128 split across unlocking and locking bytecode (P2S)",216,46,2,1,46,36800,0,1,0,23,0,0,0,0
 4ef88s,"Push data operations: OP_PUSHDATA_4 1 of 128 split across unlocking and locking bytecode (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,0,0,0
 pe807a,"Push data operations: OP_PUSHDATA_4 1 of 128 split across unlocking and locking bytecode (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,0,0,0
-xqcmd0,"Push data operations: OP_PUSHDATA_4 1 of 255 split across unlocking and locking bytecode (nonP2SH)",216,46,2,1,46,36800,0,1,0,23,0,0,0,0
+xqcmd0,"Push data operations: OP_PUSHDATA_4 1 of 255 split across unlocking and locking bytecode (P2S)",216,46,2,1,46,36800,0,1,0,23,0,0,0,0
 4dvlxu,"Push data operations: OP_PUSHDATA_4 1 of 255 split across unlocking and locking bytecode (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,0,0,0
 n432g2,"Push data operations: OP_PUSHDATA_4 1 of 255 split across unlocking and locking bytecode (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,0,0,0
-xr90q0,"Push data operations: OP_PUSHDATA_4 1 of 0x0000 split across unlocking and locking bytecode (nonP2SH)",216,46,2,1,46,36800,0,1,0,23,0,0,0,0
+xr90q0,"Push data operations: OP_PUSHDATA_4 1 of 0x0000 split across unlocking and locking bytecode (P2S)",216,46,2,1,46,36800,0,1,0,23,0,0,0,0
 ehck9u,"Push data operations: OP_PUSHDATA_4 1 of 0x0000 split across unlocking and locking bytecode (P2SH20)",219,67,2,1,49,39200,0,1,0,24,0,1,0,0
 3w547v,"Push data operations: OP_PUSHDATA_4 1 of 0x0000 split across unlocking and locking bytecode (P2SH32)",219,79,2,1,49,39200,0,1,0,24,0,1,0,0
-kg0f47,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes (nonP2SH)",289,44,2,1,119,95200,0,3,0,59,0,1,76,0
+kg0f47,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes (P2S)",289,44,2,1,119,95200,0,3,0,59,0,1,76,0
 kx6eq2,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes (P2SH20)",290,67,2,1,120,96000,0,3,0,60,2,5,117,0
 n65dlq,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes (P2SH32)",290,79,2,1,120,96000,0,3,0,60,2,5,141,0
-5wxpg3,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes (nonP2SH)",470,44,2,1,298,238400,0,7,0,149,0,1,255,0
+5wxpg3,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes (P2S)",470,44,2,1,298,238400,0,7,0,149,0,1,255,0
 skutdw,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes (P2SH20)",471,67,2,1,299,239200,0,7,0,149,2,5,296,0
 zvnd2t,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes (P2SH32)",471,79,2,1,299,239200,0,7,0,149,2,5,320,0
-ken6ea,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes (nonP2SH)",472,44,2,1,300,240000,0,7,0,150,0,1,0,0
+ken6ea,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes (P2S)",472,44,2,1,300,240000,0,7,0,150,0,1,0,0
 d84g47,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes (P2SH20)",473,67,2,1,301,240800,0,7,0,150,0,1,0,0
 uq2zy5,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes (P2SH32)",473,79,2,1,301,240800,0,7,0,150,0,1,0,0
-awsetd,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes (nonP2SH)",472,44,2,1,300,240000,0,7,0,150,0,1,0,0
+awsetd,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes (P2S)",472,44,2,1,300,240000,0,7,0,150,0,1,0,0
 naekc0,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes (P2SH20)",473,67,2,1,301,240800,0,7,0,150,0,1,0,0
 2m2vfx,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes (P2SH32)",473,79,2,1,301,240800,0,7,0,150,0,1,0,0
-m5amzj,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes (nonP2SH)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
+m5amzj,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes (P2S)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
 sh28y7,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes (P2SH20)",290,67,2,1,120,96000,0,3,0,60,0,0,0,0
 pmvc69,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes (P2SH32)",290,79,2,1,120,96000,0,3,0,60,0,0,0,0
-ja8ux7,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes (nonP2SH)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
+ja8ux7,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes (P2S)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
 ul55r4,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes (P2SH20)",290,67,2,1,120,96000,0,3,0,60,0,1,0,0
 c49978,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes (P2SH32)",290,79,2,1,120,96000,0,3,0,60,0,1,0,0
-tgzumw,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes (nonP2SH)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
+tgzumw,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes (P2S)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
 nclmfh,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes (P2SH20)",471,67,2,1,299,239200,0,7,0,149,0,0,0,0
 ya49tz,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes (P2SH32)",471,79,2,1,299,239200,0,7,0,149,0,0,0,0
-t2xmuk,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes (nonP2SH)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
+t2xmuk,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes (P2S)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
 ufxvvp,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes (P2SH20)",471,67,2,1,299,239200,0,7,0,149,0,1,0,0
 amh4mt,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes (P2SH32)",471,79,2,1,299,239200,0,7,0,149,0,1,0,0
-wslrev,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes (nonP2SH)",472,44,2,1,300,240000,0,7,0,150,0,1,256,0
+wslrev,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes (P2S)",472,44,2,1,300,240000,0,7,0,150,0,1,256,0
 3rwakj,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes (P2SH20)",473,67,2,1,301,240800,0,7,0,150,2,5,297,0
 sv37uc,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes (P2SH32)",473,79,2,1,301,240800,0,7,0,150,2,5,321,0
-rpu8ve,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes (nonP2SH)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
+rpu8ve,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes (P2S)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
 ecjytp,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes (P2SH20)",290,67,2,1,120,96000,0,3,0,60,0,0,0,0
 25eghv,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes (P2SH32)",290,79,2,1,120,96000,0,3,0,60,0,0,0,0
-j09s4d,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes (nonP2SH)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
+j09s4d,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes (P2S)",289,44,2,1,119,95200,0,3,0,59,0,0,0,0
 f2ep43,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes (P2SH20)",290,67,2,1,120,96000,0,3,0,60,0,0,0,0
 7cx0ss,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes (P2SH32)",290,79,2,1,120,96000,0,3,0,60,0,0,0,0
-myrh5m,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes (nonP2SH)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
+myrh5m,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes (P2S)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
 ztny3j,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes (P2SH20)",471,67,2,1,299,239200,0,7,0,149,0,0,0,0
 2pj4q4,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes (P2SH32)",471,79,2,1,299,239200,0,7,0,149,0,0,0,0
-mqfndg,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes (nonP2SH)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
+mqfndg,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes (P2S)",470,44,2,1,298,238400,0,7,0,149,0,0,0,0
 gdqqrh,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes (P2SH20)",471,67,2,1,299,239200,0,7,0,149,0,0,0,0
 j8jqs5,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes (P2SH32)",471,79,2,1,299,239200,0,7,0,149,0,0,0,0
-nr6tva,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes (nonP2SH)",472,44,2,1,300,240000,0,7,0,150,0,0,0,0
+nr6tva,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes (P2S)",472,44,2,1,300,240000,0,7,0,150,0,0,0,0
 80jhrh,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes (P2SH20)",473,67,2,1,301,240800,0,7,0,150,0,0,0,0
 mpf0hy,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes (P2SH32)",473,79,2,1,301,240800,0,7,0,150,0,0,0,0
-949kt6,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes (nonP2SH)",472,44,2,1,300,240000,0,7,0,150,0,0,0,0
+949kt6,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes (P2S)",472,44,2,1,300,240000,0,7,0,150,0,0,0,0
 q55jq2,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes (P2SH20)",473,67,2,1,301,240800,0,7,0,150,0,0,0,0
 c0z9rm,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes (P2SH32)",473,79,2,1,301,240800,0,7,0,150,0,0,0,0
-pt8v27,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes produces expected stack item (nonP2SH)",211,311,2,1,41,32800,0,1,0,20,0,1,0,0
+pt8v27,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes produces expected stack item (P2S)",211,311,2,1,41,32800,0,1,0,20,0,1,0,0
 75zkhy,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes produces expected stack item (P2SH20)",481,67,2,1,309,247200,0,7,0,154,6,5,306,0
 3skpxk,"Push data operations: OP_PUSHDATA_1 of 256 non-zero bytes produces expected stack item (P2SH32)",481,79,2,1,309,247200,0,7,0,154,6,5,330,0
-9lw0sw,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes produces expected stack item (nonP2SH)",211,311,2,1,41,32800,0,1,0,20,0,1,0,0
+9lw0sw,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes produces expected stack item (P2S)",211,311,2,1,41,32800,0,1,0,20,0,1,0,0
 9nttdy,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes produces expected stack item (P2SH20)",481,67,2,1,309,247200,0,7,0,154,6,5,306,0
 rpkx7q,"Push data operations: OP_PUSHDATA_1 of 256 zero bytes produces expected stack item (P2SH32)",481,79,2,1,309,247200,0,7,0,154,6,5,330,0
-s5gah5,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes produces expected stack item (nonP2SH)",211,127,2,1,41,32800,0,1,0,20,0,0,0,0
+s5gah5,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,0,1,0,20,0,0,0,0
 akse46,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes produces expected stack item (P2SH20)",296,67,2,1,126,100800,0,3,0,63,3,4,124,0
 hfgj3l,"Push data operations: OP_PUSHDATA_2 of 76 non-zero bytes produces expected stack item (P2SH32)",296,79,2,1,126,100800,0,3,0,63,3,4,148,0
-pj07wq,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes produces expected stack item (nonP2SH)",211,127,2,1,41,32800,0,1,0,20,0,1,0,0
+pj07wq,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,0,1,0,20,0,1,0,0
 kgdywg,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes produces expected stack item (P2SH20)",296,67,2,1,126,100800,0,3,0,63,3,5,124,0
 efzawm,"Push data operations: OP_PUSHDATA_2 of 76 zero bytes produces expected stack item (P2SH32)",296,79,2,1,126,100800,0,3,0,63,3,5,148,0
-pzdamr,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes produces expected stack item (nonP2SH)",211,309,2,1,41,32800,0,1,0,20,0,0,0,0
+pzdamr,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes produces expected stack item (P2S)",211,309,2,1,41,32800,0,1,0,20,0,0,0,0
 hpcmq3,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes produces expected stack item (P2SH20)",479,67,2,1,307,245600,0,7,0,153,6,4,304,0
 4rk0dp,"Push data operations: OP_PUSHDATA_2 of 255 non-zero bytes produces expected stack item (P2SH32)",479,79,2,1,307,245600,0,7,0,153,6,4,328,0
-m79lns,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes produces expected stack item (nonP2SH)",211,309,2,1,41,32800,0,1,0,20,0,1,0,0
+m79lns,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes produces expected stack item (P2S)",211,309,2,1,41,32800,0,1,0,20,0,1,0,0
 8amgkm,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes produces expected stack item (P2SH20)",479,67,2,1,307,245600,0,7,0,153,6,5,304,0
 ypp7n0,"Push data operations: OP_PUSHDATA_2 of 255 zero bytes produces expected stack item (P2SH32)",479,79,2,1,307,245600,0,7,0,153,6,5,328,0
-p69phh,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes produces expected stack item (nonP2SH)",211,127,2,1,41,32800,0,1,0,20,0,0,0,0
+p69phh,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,0,1,0,20,0,0,0,0
 f4s2sn,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes produces expected stack item (P2SH20)",296,67,2,1,126,100800,0,3,0,63,3,4,124,0
 9m9jzd,"Push data operations: OP_PUSHDATA_4 of 76 non-zero bytes produces expected stack item (P2SH32)",296,79,2,1,126,100800,0,3,0,63,3,4,148,0
-ahuj30,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes produces expected stack item (nonP2SH)",211,127,2,1,41,32800,0,1,0,20,0,1,0,0
+ahuj30,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,0,1,0,20,0,1,0,0
 zd9pzv,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes produces expected stack item (P2SH20)",296,67,2,1,126,100800,0,3,0,63,3,5,124,0
 97ckh7,"Push data operations: OP_PUSHDATA_4 of 76 zero bytes produces expected stack item (P2SH32)",296,79,2,1,126,100800,0,3,0,63,3,5,148,0
-zry4mx,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes produces expected stack item (nonP2SH)",211,309,2,1,41,32800,0,1,0,20,0,0,0,0
+zry4mx,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes produces expected stack item (P2S)",211,309,2,1,41,32800,0,1,0,20,0,0,0,0
 r0y5t6,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes produces expected stack item (P2SH20)",479,67,2,1,307,245600,0,7,0,153,6,4,304,0
 qfmaz2,"Push data operations: OP_PUSHDATA_4 of 255 non-zero bytes produces expected stack item (P2SH32)",479,79,2,1,307,245600,0,7,0,153,6,4,328,0
-a4nawx,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes produces expected stack item (nonP2SH)",211,309,2,1,41,32800,0,1,0,20,0,1,0,0
+a4nawx,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes produces expected stack item (P2S)",211,309,2,1,41,32800,0,1,0,20,0,1,0,0
 sds6uw,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes produces expected stack item (P2SH20)",479,67,2,1,307,245600,0,7,0,153,6,5,304,0
 07jpa0,"Push data operations: OP_PUSHDATA_4 of 255 zero bytes produces expected stack item (P2SH32)",479,79,2,1,307,245600,0,7,0,153,6,5,328,0
-0u9ape,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes produces expected stack item (nonP2SH)",211,311,2,1,41,32800,0,1,0,20,0,0,0,0
+0u9ape,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes produces expected stack item (P2S)",211,311,2,1,41,32800,0,1,0,20,0,0,0,0
 09hd6c,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes produces expected stack item (P2SH20)",481,67,2,1,309,247200,0,7,0,154,6,4,306,0
 7dlp78,"Push data operations: OP_PUSHDATA_4 of 256 non-zero bytes produces expected stack item (P2SH32)",481,79,2,1,309,247200,0,7,0,154,6,4,330,0
-qafh20,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes produces expected stack item (nonP2SH)",211,311,2,1,41,32800,0,1,0,20,0,1,0,0
+qafh20,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes produces expected stack item (P2S)",211,311,2,1,41,32800,0,1,0,20,0,1,0,0
 zkl42e,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes produces expected stack item (P2SH20)",481,67,2,1,309,247200,0,7,0,154,6,5,306,0
 mjq349,"Push data operations: OP_PUSHDATA_4 of 256 zero bytes produces expected stack item (P2SH32)",481,79,2,1,309,247200,0,7,0,154,6,5,330,0
-78uhf4,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (nonP2SH)",297,44,2,1,127,101600,0,3,0,63,0,0,0,0
+78uhf4,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (P2S)",297,44,2,1,127,101600,0,3,0,63,0,0,0,0
 pm88my,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (P2SH20)",298,67,2,1,128,102400,0,3,0,64,0,0,0,0
 z3muvd,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (P2SH32)",298,79,2,1,128,102400,0,3,0,64,0,0,0,0
-8uygwl,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (nonP2SH)",297,44,2,1,127,101600,0,3,0,63,0,0,0,0
+8uygwl,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (P2S)",297,44,2,1,127,101600,0,3,0,63,0,0,0,0
 as737d,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (P2SH20)",298,67,2,1,128,102400,0,3,0,64,0,0,0,0
 xx8kyp,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in unlocking bytecode (P2SH32)",298,79,2,1,128,102400,0,3,0,64,0,0,0,0
-3wjazq,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (nonP2SH)",481,44,2,1,309,247200,0,7,0,154,0,0,0,0
+3wjazq,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (P2S)",481,44,2,1,309,247200,0,7,0,154,0,0,0,0
 ukscft,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (P2SH20)",482,67,2,1,310,248000,0,7,0,155,0,0,0,0
 kjyh9m,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (P2SH32)",482,79,2,1,310,248000,0,7,0,155,0,0,0,0
-s9mjcc,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (nonP2SH)",481,44,2,1,309,247200,0,7,0,154,0,0,0,0
+s9mjcc,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (P2S)",481,44,2,1,309,247200,0,7,0,154,0,0,0,0
 9qdexc,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (P2SH20)",482,67,2,1,310,248000,0,7,0,155,0,0,0,0
 5gxdh2,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in unlocking bytecode (P2SH32)",482,79,2,1,310,248000,0,7,0,155,0,0,0,0
-plm945,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (nonP2SH)",211,130,2,1,41,32800,0,1,0,20,0,8,0,0
+plm945,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (P2S)",211,130,2,1,41,32800,0,1,0,20,0,8,0,0
 hryhak,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (P2SH20)",299,67,2,1,129,103200,0,3,0,64,3,12,127,0
 pt95kv,"Push data operations: <0> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (P2SH32)",299,79,2,1,129,103200,0,3,0,64,3,12,151,0
-estqet,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (nonP2SH)",211,314,2,1,41,32800,0,1,0,20,0,8,0,0
+estqet,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (P2S)",211,314,2,1,41,32800,0,1,0,20,0,8,0,0
 az0uns,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (P2SH20)",484,67,2,1,312,249600,0,7,0,156,6,12,309,0
 8dnv30,"Push data operations: <0> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (P2SH32)",484,79,2,1,312,249600,0,7,0,156,6,12,333,0

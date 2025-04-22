@@ -1,25 +1,43 @@
 import { range } from '../../format/format.js';
 import type { VmbTestDefinitionGroup } from '../../lib.js';
-import { packedTransactionScenario } from '../bch-vmb-test-mixins.js';
+import { packedTransactionScenario, repeat } from '../bch-vmb-test-mixins.js';
 
 export default [
   [
     'Transaction validation benchmarks',
     [
       [``, `<OP_ACTIVEBYTECODE OP_EVAL> OP_EVAL`, 'OP_EVAL infinite recursion (OP_ACTIVEBYTECODE)', ['chip_eval_invalid']],
-      [``, `<OP_ACTIVEBYTECODE OP_EVAL> OP_EVAL`, 'OP_EVAL infinite recursion, packed inputs (OP_ACTIVEBYTECODE)', ['chip_eval_invalid', 'p2sh_ignore'], packedTransactionScenario('nop2sh', 2437)],
+      [``, `<OP_ACTIVEBYTECODE OP_EVAL> OP_EVAL`, 'OP_EVAL infinite recursion, packed inputs (OP_ACTIVEBYTECODE)', ['chip_eval_invalid', 'p2sh_ignore'], packedTransactionScenario('p2s', 2437)],
       [``, `<OP_DUP OP_EVAL> OP_DUP OP_EVAL`, 'OP_EVAL infinite recursion (OP_DUP)', ['chip_eval_invalid']],
       [`<1> <50> <OP_1SUB OP_IFDUP OP_IF OP_ACTIVEBYTECODE OP_EVAL OP_ENDIF> <27> <OP_1SUB OP_IFDUP OP_IF OP_ACTIVEBYTECODE OP_EVAL OP_ENDIF>`, `OP_EVAL OP_EVAL`, 'OP_EVAL recursive OP_1SUB countdown', ['chip_eval']],
-      [`<1> <50> <OP_1SUB OP_IFDUP OP_IF OP_ACTIVEBYTECODE OP_EVAL OP_ENDIF> <27> <OP_1SUB OP_IFDUP OP_IF OP_ACTIVEBYTECODE OP_EVAL OP_ENDIF>`, `OP_EVAL OP_EVAL`, 'OP_EVAL recursive OP_1SUB countdown, packed inputs', ['chip_eval', 'p2sh_ignore'], packedTransactionScenario('nop2sh', 1665)],
+      [`<1> <50> <OP_1SUB OP_IFDUP OP_IF OP_ACTIVEBYTECODE OP_EVAL OP_ENDIF> <27> <OP_1SUB OP_IFDUP OP_IF OP_ACTIVEBYTECODE OP_EVAL OP_ENDIF>`, `OP_EVAL OP_EVAL`, 'OP_EVAL recursive OP_1SUB countdown, packed inputs', ['chip_eval', 'p2sh_ignore'], packedTransactionScenario('p2s', 1665)],
+      [`<1> <1> <0> <0> <0>`, `${repeat('OP_3DUP', 62)} OP_BEGIN OP_EVAL OP_UNTIL`, 'Within BCH_2026_05 standard, single-input limits, maximize OP_EVAL density within a loop', ['chip_eval', 'p2sh_ignore']],
+      [`<1> <1> <0> <0> <0>`, `${repeat('OP_3DUP', 62)} OP_BEGIN OP_EVAL OP_UNTIL`, 'Within BCH_2026_05 standard, single-input limits, maximize OP_EVAL density within a loop, packed inputs', ['chip_eval', 'p2sh_ignore'], packedTransactionScenario('p2s', 2172)],
+      [
+        `<1>`,
+        `<0x4d00014cfd4cfa4cf74cf44cf14cee4ceb4ce84ce54ce24cdf4cdc4cd94cd64cd34cd04ccd4cca4cc74cc44cc14cbe4cbb4cb84cb54cb24caf4cac4ca94ca64ca34ca04c9d4c9a4c974c944c914c8e4c8b4c884c854c824c7f4c7c4c794c764c734c704c6d4c6a4c674c644c614c5e4c5b4c584c554c524c4f4c4c4a48464442403e3c3a38363432302e2c2a28262422201e1c1a18161412100e0c0a0806040200> <0x6262626262626262626262> OP_DUP OP_DUP OP_CAT OP_CAT OP_DUP OP_DUP OP_CAT OP_CAT OP_CAT OP_EVAL`,
+        'Within BCH_2026_05 standard, single-input limits, maximize OP_EVAL nesting (OP_EVAL to depth 100)',
+        ['chip_eval', 'p2sh_ignore'],
+      ],
+      [
+        `<1>`,
+        `<0x4d00014cfd4cfa4cf74cf44cf14cee4ceb4ce84ce54ce24cdf4cdc4cd94cd64cd34cd04ccd4cca4cc74cc44cc14cbe4cbb4cb84cb54cb24caf4cac4ca94ca64ca34ca04c9d4c9a4c974c944c914c8e4c8b4c884c854c824c7f4c7c4c794c764c734c704c6d4c6a4c674c644c614c5e4c5b4c584c554c524c4f4c4c4a48464442403e3c3a38363432302e2c2a28262422201e1c1a18161412100e0c0a0806040200> <0x6262626262626262626262> OP_DUP OP_DUP OP_CAT OP_CAT OP_DUP OP_DUP OP_CAT OP_CAT OP_CAT OP_EVAL`,
+        'Within BCH_2026_05 standard, single-input limits, maximize OP_EVAL nesting (OP_EVAL to depth 100), packed inputs',
+        ['chip_eval', 'p2sh_ignore'],
+        packedTransactionScenario('p2s', 2379),
+      ],
     ],
   ],
   [
     'OP_EVAL',
     [
       [`<OP_1>`, `OP_EVAL`, 'Works', ['chip_eval']],
+      [`<OP_1>`, `OP_EVAL OP_1 OP_EQUAL`, 'OP_1 OP_EVAL equivalent to OP_1', ['chip_eval']],
       [``, `OP_EVAL OP_1`, 'Requires a stack item', ['chip_eval_invalid']],
+      [`<OP_13>`, `OP_EVAL OP_13 OP_EQUAL`, 'OP_13 OP_EVAL equivalent to OP_13', ['chip_eval']],
       [`<<OP_1> OP_EVAL>`, `OP_EVAL`, 'Can be nested', ['chip_eval']],
       [`<<<OP_1> OP_EVAL> OP_EVAL>`, `OP_EVAL`, 'Can be nested (2x)', ['chip_eval']],
+      [`<<<OP_7> OP_EVAL> OP_EVAL>`, `OP_EVAL OP_7 OP_EQUAL`, 'Can be nested (3x)', ['chip_eval']],
       [
         `< ${range(99)
           .map(() => '<')
@@ -48,7 +66,7 @@ export default [
           .map(() => '> OP_EVAL OP_ENDIF')
           .join('')}`,
         'Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100',
-        ['chip_eval', '2026_nop2sh_nonstandard'],
+        ['chip_eval', 'p2s_nonstandard'],
       ],
       [
         ``,
@@ -68,7 +86,7 @@ export default [
           .map(() => '> OP_EVAL OP_ENDIF')
           .join('')}`,
         'Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 99',
-        ['chip_eval', '2026_nop2sh_nonstandard'],
+        ['chip_eval', 'p2s_nonstandard'],
       ],
       [
         ``,
@@ -78,7 +96,7 @@ export default [
           .map(() => '> OP_EVAL OP_ENDIF')
           .join('')}`,
         'Nesting with OP_IF/OP_ENDIF to depth 100, OP_NOTIF + OP_ELSE at 99',
-        ['chip_eval', '2026_nop2sh_nonstandard'],
+        ['chip_eval', 'p2s_nonstandard'],
       ],
       [
         ``,

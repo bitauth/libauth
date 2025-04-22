@@ -412,10 +412,10 @@ export default [
       [repeat('<1> <0>', 50), `${repeat('OP_NOTIF OP_IF', 50)} <0> ${repeat('OP_ENDIF', 100)}`, 'Maximize control stack depth (OP_IF & OP_NOTIF), fail', ['invalid']],
       [`${repeat('<1> <0>', 50)} <1>`, `OP_IF ${repeat('OP_NOTIF OP_IF', 50)} <1> ${repeat('OP_ENDIF', 101)}`, 'Excessive control stack depth (OP_IF & OP_NOTIF)', ['invalid']],
 
-      [repeat('<1>', 100), `${repeat('OP_IF', 100)} <1> OP_DROP <1> ${repeat('OP_ENDIF', 100)}`, 'Maximize control stack depth (OP_IF), 201 operations'],
-      [repeat('<1>', 100), `${repeat('OP_IF', 100)} <1> OP_DROP <1> OP_DROP <1> ${repeat('OP_ENDIF', 100)}`, 'Maximize control stack depth (OP_IF), 202 operations', ['2023_invalid']],
+      [repeat('<1>', 100), `${repeat('OP_IF', 100)} <1> OP_DROP <1> ${repeat('OP_ENDIF', 100)}`, 'Maximize control stack depth (OP_IF), 201 operations', ['p2s_nonstandard']],
+      [repeat('<1>', 100), `${repeat('OP_IF', 100)} <1> OP_DROP <1> OP_DROP <1> ${repeat('OP_ENDIF', 100)}`, 'Maximize control stack depth (OP_IF), 202 operations', ['p2s_nonstandard', '2023_invalid']],
       [repeat('<1>', 101), `${repeat('OP_IF', 101)} <1> OP_DROP <1> OP_DROP <1> ${repeat('OP_ENDIF', 101)}`, 'Excessive control stack depth (OP_IF), 202 operations', ['invalid']],
-      [repeat('<1>', 100), `${repeat('OP_IF', 100)} <1> OP_IFDUP OP_DROP ${repeat('OP_ENDIF', 100)}`, 'OP_IFDUP at maximum control stack depth (OP_IF), 202 operations', ['2023_invalid']],
+      [repeat('<1>', 100), `${repeat('OP_IF', 100)} <1> OP_IFDUP OP_DROP ${repeat('OP_ENDIF', 100)}`, 'OP_IFDUP at maximum control stack depth (OP_IF), 202 operations', ['p2s_nonstandard', '2023_invalid']],
     ],
   ],
   [

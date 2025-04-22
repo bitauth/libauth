@@ -1,11 +1,11 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-5xkumg,"BigInt: OP_ADD 1-byte number (all bits set) and 1-byte number (all bits set) (nonP2SH)",214,50,2,1,44,35200,0,1,0,22,0,5,7,2
-e8hmk9,"BigInt: OP_ADD 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",214,50,2,1,44,35200,0,1,0,22,0,5,7,2
-g75d8w,"BigInt: OP_ADD 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (nonP2SH)",220,57,2,1,50,40000,0,1,0,25,0,5,26,8
-6lzkfz,"BigInt: OP_ADD 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (nonP2SH)",220,57,2,1,50,40000,0,1,0,25,0,5,26,8
-35s8uq,"BigInt: OP_ADD 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,5,5,1
-jv2s6w,"BigInt: OP_ADD 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
-uh3tuj,"BigInt: OP_ADD 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (nonP2SH)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
-y8k95e,"BigInt: OP_ADD 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (nonP2SH)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8
-9vdmmn,"BigInt: OP_ADD 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (nonP2SH)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
-94vpf5,"BigInt: OP_ADD 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (nonP2SH)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8
+5xkumg,"BigInt: OP_ADD 1-byte number (all bits set) and 1-byte number (all bits set) (P2S)",214,50,2,1,44,35200,0,1,0,22,0,5,7,2
+e8hmk9,"BigInt: OP_ADD 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",214,50,2,1,44,35200,0,1,0,22,0,5,7,2
+g75d8w,"BigInt: OP_ADD 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",220,57,2,1,50,40000,0,1,0,25,0,5,26,8
+6lzkfz,"BigInt: OP_ADD 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",220,57,2,1,50,40000,0,1,0,25,0,5,26,8
+35s8uq,"BigInt: OP_ADD 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,48,2,1,42,33600,0,1,0,21,0,5,5,1
+jv2s6w,"BigInt: OP_ADD 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
+uh3tuj,"BigInt: OP_ADD 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
+y8k95e,"BigInt: OP_ADD 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8
+9vdmmn,"BigInt: OP_ADD 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",220,56,2,1,50,40000,0,1,0,25,0,5,26,8
+94vpf5,"BigInt: OP_ADD 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",220,64,2,1,50,40000,0,1,0,25,0,5,33,8

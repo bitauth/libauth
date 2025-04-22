@@ -1,3 +1,0 @@
-Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-3agzq4,"OP_EVAL: Works (nonP2SH)",213,45,2,1,43,34400,0,1,0,150,0,2,1,0
-0ehr72,"OP_EVAL: Can be nested (nonP2SH)",215,45,2,1,45,36000,0,1,0,157,0,2,3,0

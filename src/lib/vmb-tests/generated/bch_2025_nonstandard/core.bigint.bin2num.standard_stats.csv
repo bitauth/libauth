@@ -1,37 +1,37 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-597ljt,"BigInt: OP_BIN2NUM zero is zero (nonP2SH)",212,47,2,1,42,33600,401,1,0,21,0,4,1,0
-gh8jaw,"BigInt: OP_BIN2NUM padded zero is zero (nonP2SH)",212,48,2,1,42,33600,402,1,0,21,0,4,2,0
-a9krxp,"BigInt: OP_BIN2NUM negative zero is zero (nonP2SH)",212,48,2,1,42,33600,402,1,0,21,0,4,2,0
-em2lur,"BigInt: OP_BIN2NUM padded negative zero is zero (nonP2SH)",212,49,2,1,42,33600,403,1,0,21,0,4,3,0
-at9727,"BigInt: OP_BIN2NUM padded zero (520 bytes) is zero (nonP2SH)",212,571,2,1,42,33600,921,1,0,21,0,4,521,0
-a45zgl,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is zero (nonP2SH)",212,571,2,1,42,33600,921,1,0,21,0,4,521,0
-j9n7lt,"BigInt: OP_BIN2NUM padded zero (521 bytes) is zero (nonP2SH)",212,572,2,1,42,33600,922,1,0,21,0,4,522,0
-czzjs0,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is zero (nonP2SH)",212,572,2,1,42,33600,922,1,0,21,0,4,522,0
-rq50cq,"BigInt: OP_BIN2NUM one is one (nonP2SH)",212,47,2,1,42,33600,404,1,0,21,0,4,4,0
-zy5jz3,"BigInt: OP_BIN2NUM padded one is one (nonP2SH)",212,49,2,1,42,33600,405,1,0,21,0,4,5,0
-x32a4f,"BigInt: OP_BIN2NUM padded one (520 bytes) is one (nonP2SH)",212,571,2,1,42,33600,923,1,0,21,0,4,523,0
-mv8j35,"BigInt: OP_BIN2NUM padded one (521 bytes) is one (nonP2SH)",212,572,2,1,42,33600,924,1,0,21,0,4,524,0
-4zf5s8,"BigInt: OP_BIN2NUM negative one is negative one (nonP2SH)",212,47,2,1,42,33600,404,1,0,21,0,4,4,0
-5yzdl3,"BigInt: OP_BIN2NUM padded negative one is negative one (nonP2SH)",212,49,2,1,42,33600,405,1,0,21,0,4,5,0
-w0s6rw,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative one (nonP2SH)",212,571,2,1,42,33600,923,1,0,21,0,4,523,0
-4mt2qf,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative one (nonP2SH)",212,572,2,1,42,33600,924,1,0,21,0,4,524,0
-fdjs8e,"BigInt: OP_BIN2NUM one is truthy (nonP2SH)",212,45,2,1,42,33600,202,1,0,21,0,2,2,0
-4e709t,"BigInt: OP_BIN2NUM padded one is truthy (nonP2SH)",214,45,2,1,44,35200,203,1,0,22,0,2,3,0
-mlmhxh,"BigInt: OP_BIN2NUM negative one is truthy (nonP2SH)",212,45,2,1,42,33600,202,1,0,21,0,2,2,0
-hqvtt3,"BigInt: OP_BIN2NUM padded negative one is truthy (nonP2SH)",214,45,2,1,44,35200,203,1,0,22,0,2,3,0
-yd02nx,"BigInt: OP_BIN2NUM padded one (520 bytes) is truthy (nonP2SH)",736,45,2,1,564,451200,721,13,0,282,0,2,521,0
-4lxj0q,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is truthy (nonP2SH)",736,45,2,1,564,451200,721,13,0,282,0,2,521,0
-84au39,"BigInt: OP_BIN2NUM padded one (521 bytes) is truthy (nonP2SH)",737,45,2,1,565,452000,722,13,0,282,0,2,522,0
-2p0rkq,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is truthy (nonP2SH)",737,45,2,1,565,452000,722,13,0,282,0,2,522,0
-tpe2wa,"BigInt: OP_NOT zero is truthy (without OP_BIN2NUM) (nonP2SH)",212,45,2,1,42,33600,201,1,0,21,0,2,1,0
-qwvpu8,"BigInt: OP_NOT OP_BIN2NUM zero is truthy (nonP2SH)",212,46,2,1,42,33600,302,1,0,21,0,3,2,0
-zmukgc,"BigInt: OP_BIN2NUM OP_NOT zero is truthy (nonP2SH)",212,46,2,1,42,33600,301,1,0,21,0,3,1,0
-uxnjpw,"BigInt: OP_BIN2NUM OP_NOT padded zero is truthy (nonP2SH)",213,46,2,1,43,34400,302,1,0,21,0,3,2,0
-qfgspj,"BigInt: OP_BIN2NUM OP_NOT negative zero is truthy (nonP2SH)",213,46,2,1,43,34400,302,1,0,21,0,3,2,0
-a483wy,"BigInt: OP_BIN2NUM OP_NOT padded negative zero is truthy (nonP2SH)",214,46,2,1,44,35200,303,1,0,22,0,3,3,0
-jskg7f,"BigInt: OP_BIN2NUM OP_NOT padded zero (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,821,13,0,282,0,3,521,0
-z5vz0n,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,821,13,0,282,0,3,521,0
-9zz5me,"BigInt: OP_BIN2NUM OP_NOT padded zero (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,822,13,0,282,0,3,522,0
-lrwyz2,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,822,13,0,282,0,3,522,0
-fexssh,"BigInt: OP_BIN2NUM Non-minimal negative number (nonP2SH)",218,46,2,1,48,38400,408,1,0,24,0,4,8,0
-jnkjst,"BigInt: OP_1ADD genesis block header hash with OP_BIN2NUM (nonP2SH)",293,47,2,1,123,98400,1169,3,0,61,3,4,166,27
+597ljt,"BigInt: OP_BIN2NUM zero is zero (P2S)",212,47,2,1,42,33600,401,1,0,21,0,4,1,0
+gh8jaw,"BigInt: OP_BIN2NUM padded zero is zero (P2S)",212,48,2,1,42,33600,402,1,0,21,0,4,2,0
+a9krxp,"BigInt: OP_BIN2NUM negative zero is zero (P2S)",212,48,2,1,42,33600,402,1,0,21,0,4,2,0
+em2lur,"BigInt: OP_BIN2NUM padded negative zero is zero (P2S)",212,49,2,1,42,33600,403,1,0,21,0,4,3,0
+at9727,"BigInt: OP_BIN2NUM padded zero (520 bytes) is zero (P2S)",212,571,2,1,42,33600,921,1,0,21,0,4,521,0
+a45zgl,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is zero (P2S)",212,571,2,1,42,33600,921,1,0,21,0,4,521,0
+j9n7lt,"BigInt: OP_BIN2NUM padded zero (521 bytes) is zero (P2S)",212,572,2,1,42,33600,922,1,0,21,0,4,522,0
+czzjs0,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is zero (P2S)",212,572,2,1,42,33600,922,1,0,21,0,4,522,0
+rq50cq,"BigInt: OP_BIN2NUM one is one (P2S)",212,47,2,1,42,33600,404,1,0,21,0,4,4,0
+zy5jz3,"BigInt: OP_BIN2NUM padded one is one (P2S)",212,49,2,1,42,33600,405,1,0,21,0,4,5,0
+x32a4f,"BigInt: OP_BIN2NUM padded one (520 bytes) is one (P2S)",212,571,2,1,42,33600,923,1,0,21,0,4,523,0
+mv8j35,"BigInt: OP_BIN2NUM padded one (521 bytes) is one (P2S)",212,572,2,1,42,33600,924,1,0,21,0,4,524,0
+4zf5s8,"BigInt: OP_BIN2NUM negative one is negative one (P2S)",212,47,2,1,42,33600,404,1,0,21,0,4,4,0
+5yzdl3,"BigInt: OP_BIN2NUM padded negative one is negative one (P2S)",212,49,2,1,42,33600,405,1,0,21,0,4,5,0
+w0s6rw,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative one (P2S)",212,571,2,1,42,33600,923,1,0,21,0,4,523,0
+4mt2qf,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative one (P2S)",212,572,2,1,42,33600,924,1,0,21,0,4,524,0
+fdjs8e,"BigInt: OP_BIN2NUM one is truthy (P2S)",212,45,2,1,42,33600,202,1,0,21,0,2,2,0
+4e709t,"BigInt: OP_BIN2NUM padded one is truthy (P2S)",214,45,2,1,44,35200,203,1,0,22,0,2,3,0
+mlmhxh,"BigInt: OP_BIN2NUM negative one is truthy (P2S)",212,45,2,1,42,33600,202,1,0,21,0,2,2,0
+hqvtt3,"BigInt: OP_BIN2NUM padded negative one is truthy (P2S)",214,45,2,1,44,35200,203,1,0,22,0,2,3,0
+yd02nx,"BigInt: OP_BIN2NUM padded one (520 bytes) is truthy (P2S)",736,45,2,1,564,451200,721,13,0,282,0,2,521,0
+4lxj0q,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is truthy (P2S)",736,45,2,1,564,451200,721,13,0,282,0,2,521,0
+84au39,"BigInt: OP_BIN2NUM padded one (521 bytes) is truthy (P2S)",737,45,2,1,565,452000,722,13,0,282,0,2,522,0
+2p0rkq,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is truthy (P2S)",737,45,2,1,565,452000,722,13,0,282,0,2,522,0
+tpe2wa,"BigInt: OP_NOT zero is truthy (without OP_BIN2NUM) (P2S)",212,45,2,1,42,33600,201,1,0,21,0,2,1,0
+qwvpu8,"BigInt: OP_NOT OP_BIN2NUM zero is truthy (P2S)",212,46,2,1,42,33600,302,1,0,21,0,3,2,0
+zmukgc,"BigInt: OP_BIN2NUM OP_NOT zero is truthy (P2S)",212,46,2,1,42,33600,301,1,0,21,0,3,1,0
+uxnjpw,"BigInt: OP_BIN2NUM OP_NOT padded zero is truthy (P2S)",213,46,2,1,43,34400,302,1,0,21,0,3,2,0
+qfgspj,"BigInt: OP_BIN2NUM OP_NOT negative zero is truthy (P2S)",213,46,2,1,43,34400,302,1,0,21,0,3,2,0
+a483wy,"BigInt: OP_BIN2NUM OP_NOT padded negative zero is truthy (P2S)",214,46,2,1,44,35200,303,1,0,22,0,3,3,0
+jskg7f,"BigInt: OP_BIN2NUM OP_NOT padded zero (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,821,13,0,282,0,3,521,0
+z5vz0n,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,821,13,0,282,0,3,521,0
+9zz5me,"BigInt: OP_BIN2NUM OP_NOT padded zero (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,822,13,0,282,0,3,522,0
+lrwyz2,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,822,13,0,282,0,3,522,0
+fexssh,"BigInt: OP_BIN2NUM Non-minimal negative number (P2S)",218,46,2,1,48,38400,408,1,0,24,0,4,8,0
+jnkjst,"BigInt: OP_1ADD genesis block header hash with OP_BIN2NUM (P2S)",293,47,2,1,123,98400,1169,3,0,61,3,4,166,27

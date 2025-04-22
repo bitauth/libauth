@@ -1,513 +1,513 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-3xqc92,"BigInt: OP_BIN2NUM one is zero (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,2,0
+3xqc92,"BigInt: OP_BIN2NUM one is zero (P2S)",212,47,2,1,42,33600,0,1,0,21,0,4,2,0
 na9h8l,"BigInt: OP_BIN2NUM one is zero (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,46,0
 sc3rkm,"BigInt: OP_BIN2NUM one is zero (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,70,0
-2kv8np,"BigInt: OP_BIN2NUM padded one is zero (nonP2SH)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
+2kv8np,"BigInt: OP_BIN2NUM padded one is zero (P2S)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
 2x5e5f,"BigInt: OP_BIN2NUM padded one is zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,49,0
 zlpltn,"BigInt: OP_BIN2NUM padded one is zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,73,0
-k90t7s,"BigInt: OP_BIN2NUM negative one is zero (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,2,0
+k90t7s,"BigInt: OP_BIN2NUM negative one is zero (P2S)",212,47,2,1,42,33600,0,1,0,21,0,4,2,0
 evhx0w,"BigInt: OP_BIN2NUM negative one is zero (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,46,0
 k46q9h,"BigInt: OP_BIN2NUM negative one is zero (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,70,0
-79j3k6,"BigInt: OP_BIN2NUM padded negative one is zero (nonP2SH)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
+79j3k6,"BigInt: OP_BIN2NUM padded negative one is zero (P2S)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
 jkqn4e,"BigInt: OP_BIN2NUM padded negative one is zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,49,0
 nfvw6j,"BigInt: OP_BIN2NUM padded negative one is zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,73,0
 3vtgu2,"BigInt: OP_BIN2NUM padded zero (520 bytes) is zero (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,0,0
 jmm3dh,"BigInt: OP_BIN2NUM padded zero (520 bytes) is zero (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,0,0
 um2krp,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is zero (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,0,0
 2qhtlt,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is zero (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,0,0
-j9n7lt,"BigInt: OP_BIN2NUM padded zero (521 bytes) is zero (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
+j9n7lt,"BigInt: OP_BIN2NUM padded zero (521 bytes) is zero (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
 fkqm9k,"BigInt: OP_BIN2NUM padded zero (521 bytes) is zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,0,0
 2yns2h,"BigInt: OP_BIN2NUM padded zero (521 bytes) is zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,0,0
-czzjs0,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is zero (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
+czzjs0,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is zero (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
 jhqjt6,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,0,0
 nhzcfk,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,0,0
-q9zzdl,"BigInt: OP_BIN2NUM padded one (520 bytes) is zero (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
+q9zzdl,"BigInt: OP_BIN2NUM padded one (520 bytes) is zero (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
 gz0mny,"BigInt: OP_BIN2NUM padded one (520 bytes) is zero (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,0,0
 6spdyl,"BigInt: OP_BIN2NUM padded one (520 bytes) is zero (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,0,0
-56tk59,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is zero (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
+56tk59,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is zero (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
 5k7w62,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is zero (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,0,0
 gj50v5,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is zero (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,0,0
-6p3lh3,"BigInt: OP_BIN2NUM padded one (521 bytes) is zero (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
+6p3lh3,"BigInt: OP_BIN2NUM padded one (521 bytes) is zero (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
 dhl843,"BigInt: OP_BIN2NUM padded one (521 bytes) is zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,0,0
 kq2xan,"BigInt: OP_BIN2NUM padded one (521 bytes) is zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,0,0
-09vnsz,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is zero (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
+09vnsz,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is zero (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,0,0
 u85m7v,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,0,0
 juql0d,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,0,0
-4g6rsz,"BigInt: OP_BIN2NUM zero is padded zero (nonP2SH)",213,47,2,1,43,34400,0,1,0,21,0,4,1,0
+4g6rsz,"BigInt: OP_BIN2NUM zero is padded zero (P2S)",213,47,2,1,43,34400,0,1,0,21,0,4,1,0
 rwjwvt,"BigInt: OP_BIN2NUM zero is padded zero (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,45,0
 7g7llh,"BigInt: OP_BIN2NUM zero is padded zero (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,69,0
-z6kltc,"BigInt: OP_BIN2NUM padded zero is padded zero (nonP2SH)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
+z6kltc,"BigInt: OP_BIN2NUM padded zero is padded zero (P2S)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
 ngg3sk,"BigInt: OP_BIN2NUM padded zero is padded zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,47,0
 z4xtt9,"BigInt: OP_BIN2NUM padded zero is padded zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,71,0
-as3yjm,"BigInt: OP_BIN2NUM negative zero is padded zero (nonP2SH)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
+as3yjm,"BigInt: OP_BIN2NUM negative zero is padded zero (P2S)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
 mr9p0m,"BigInt: OP_BIN2NUM negative zero is padded zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,47,0
 lep3ak,"BigInt: OP_BIN2NUM negative zero is padded zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,71,0
-aysy9c,"BigInt: OP_BIN2NUM padded negative zero is padded zero (nonP2SH)",213,49,2,1,43,34400,0,1,0,21,0,4,3,0
+aysy9c,"BigInt: OP_BIN2NUM padded negative zero is padded zero (P2S)",213,49,2,1,43,34400,0,1,0,21,0,4,3,0
 lagxk3,"BigInt: OP_BIN2NUM padded negative zero is padded zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,49,0
 m4wjn9,"BigInt: OP_BIN2NUM padded negative zero is padded zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,73,0
-zgh2er,"BigInt: OP_BIN2NUM one is padded zero (nonP2SH)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
+zgh2er,"BigInt: OP_BIN2NUM one is padded zero (P2S)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
 hy6ly4,"BigInt: OP_BIN2NUM one is padded zero (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 94dsc0,"BigInt: OP_BIN2NUM one is padded zero (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-mq57kn,"BigInt: OP_BIN2NUM padded one is padded zero (nonP2SH)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
+mq57kn,"BigInt: OP_BIN2NUM padded one is padded zero (P2S)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
 u3dvqv,"BigInt: OP_BIN2NUM padded one is padded zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,50,0
 u22sf9,"BigInt: OP_BIN2NUM padded one is padded zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,74,0
-3ackpl,"BigInt: OP_BIN2NUM negative one is padded zero (nonP2SH)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
+3ackpl,"BigInt: OP_BIN2NUM negative one is padded zero (P2S)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
 wa4pj2,"BigInt: OP_BIN2NUM negative one is padded zero (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 7lw44t,"BigInt: OP_BIN2NUM negative one is padded zero (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-k0z8c5,"BigInt: OP_BIN2NUM padded negative one is padded zero (nonP2SH)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
+k0z8c5,"BigInt: OP_BIN2NUM padded negative one is padded zero (P2S)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
 h9xgvw,"BigInt: OP_BIN2NUM padded negative one is padded zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,50,0
 lr4w6j,"BigInt: OP_BIN2NUM padded negative one is padded zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,74,0
-6jam5g,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
+6jam5g,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
 x7w5ky,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 l6d63p,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-xyzmf3,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
+xyzmf3,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
 3hpy6n,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 8vq6ld,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-atk9ak,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+atk9ak,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 hd9ecm,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 9mncar,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-nw64d3,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+nw64d3,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 8a646e,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 2n0f6a,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-pe2hrt,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
+pe2hrt,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
 udem0p,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 mdtfkx,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-dmqfun,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
+dmqfun,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
 p4uvzf,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 t0vpu0,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-e50mee,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+e50mee,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 3shywk,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 trvylw,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-e7kevf,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+e7kevf,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 3xhyh3,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 y0aktt,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-xt66tg,"BigInt: OP_BIN2NUM zero is negative zero (nonP2SH)",213,47,2,1,43,34400,0,1,0,21,0,4,1,0
+xt66tg,"BigInt: OP_BIN2NUM zero is negative zero (P2S)",213,47,2,1,43,34400,0,1,0,21,0,4,1,0
 vvq5u9,"BigInt: OP_BIN2NUM zero is negative zero (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,45,0
 pl67nl,"BigInt: OP_BIN2NUM zero is negative zero (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,69,0
-rajkek,"BigInt: OP_BIN2NUM padded zero is negative zero (nonP2SH)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
+rajkek,"BigInt: OP_BIN2NUM padded zero is negative zero (P2S)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
 6pyrek,"BigInt: OP_BIN2NUM padded zero is negative zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,47,0
 v492mh,"BigInt: OP_BIN2NUM padded zero is negative zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,71,0
-hwpcly,"BigInt: OP_BIN2NUM negative zero is negative zero (nonP2SH)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
+hwpcly,"BigInt: OP_BIN2NUM negative zero is negative zero (P2S)",213,48,2,1,43,34400,0,1,0,21,0,4,2,0
 hhftu6,"BigInt: OP_BIN2NUM negative zero is negative zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,47,0
 fe5fuc,"BigInt: OP_BIN2NUM negative zero is negative zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,71,0
-8l7cjl,"BigInt: OP_BIN2NUM padded negative zero is negative zero (nonP2SH)",213,49,2,1,43,34400,0,1,0,21,0,4,3,0
+8l7cjl,"BigInt: OP_BIN2NUM padded negative zero is negative zero (P2S)",213,49,2,1,43,34400,0,1,0,21,0,4,3,0
 z3r6gt,"BigInt: OP_BIN2NUM padded negative zero is negative zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,49,0
 crrzyd,"BigInt: OP_BIN2NUM padded negative zero is negative zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,73,0
-v6es26,"BigInt: OP_BIN2NUM one is negative zero (nonP2SH)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
+v6es26,"BigInt: OP_BIN2NUM one is negative zero (P2S)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
 7qlgxw,"BigInt: OP_BIN2NUM one is negative zero (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 sm5gll,"BigInt: OP_BIN2NUM one is negative zero (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-z47gj0,"BigInt: OP_BIN2NUM padded one is negative zero (nonP2SH)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
+z47gj0,"BigInt: OP_BIN2NUM padded one is negative zero (P2S)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
 pc2979,"BigInt: OP_BIN2NUM padded one is negative zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,50,0
 xcy4rg,"BigInt: OP_BIN2NUM padded one is negative zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,74,0
-8uv542,"BigInt: OP_BIN2NUM negative one is negative zero (nonP2SH)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
+8uv542,"BigInt: OP_BIN2NUM negative one is negative zero (P2S)",213,47,2,1,43,34400,0,1,0,21,0,4,3,0
 3n8trc,"BigInt: OP_BIN2NUM negative one is negative zero (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 lks8gl,"BigInt: OP_BIN2NUM negative one is negative zero (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-mss7wn,"BigInt: OP_BIN2NUM padded negative one is negative zero (nonP2SH)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
+mss7wn,"BigInt: OP_BIN2NUM padded negative one is negative zero (P2S)",213,49,2,1,43,34400,0,1,0,21,0,4,4,0
 mjptkj,"BigInt: OP_BIN2NUM padded negative one is negative zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,50,0
 8nscmw,"BigInt: OP_BIN2NUM padded negative one is negative zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,74,0
-sa6d65,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
+sa6d65,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
 mmk7pw,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 r39tdp,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-5949hz,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
+5949hz,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,521,0
 tmxham,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 ltz7zr,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-k85dpj,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+k85dpj,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 xsrs89,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 wudwds,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-38jryg,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+38jryg,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 58k5mh,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 5wr0fa,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-uhm28h,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
+uhm28h,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
 j6z3wf,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 pdjw8k,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-k0gxqj,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative zero (nonP2SH)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
+k0gxqj,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative zero (P2S)",213,571,2,1,43,34400,0,1,0,21,0,4,522,0
 92e6tt,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative zero (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 w473aa,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative zero (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-eh4c8p,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+eh4c8p,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 qwvlt8,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 whrv3g,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-5dzkvu,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative zero (nonP2SH)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
+5dzkvu,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative zero (P2S)",213,572,2,1,43,34400,0,1,0,21,0,2,1,0
 g0gnvz,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,1,0
 c57hc8,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,1,0
-97g8ql,"BigInt: OP_BIN2NUM zero is padded negative zero (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,2,0
+97g8ql,"BigInt: OP_BIN2NUM zero is padded negative zero (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,2,0
 8wuueh,"BigInt: OP_BIN2NUM zero is padded negative zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,46,0
 svwrqy,"BigInt: OP_BIN2NUM zero is padded negative zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,70,0
-j5fu6p,"BigInt: OP_BIN2NUM padded zero is padded negative zero (nonP2SH)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
+j5fu6p,"BigInt: OP_BIN2NUM padded zero is padded negative zero (P2S)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
 0epq69,"BigInt: OP_BIN2NUM padded zero is padded negative zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,48,0
 7pz4v5,"BigInt: OP_BIN2NUM padded zero is padded negative zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,72,0
-eulu4q,"BigInt: OP_BIN2NUM negative zero is padded negative zero (nonP2SH)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
+eulu4q,"BigInt: OP_BIN2NUM negative zero is padded negative zero (P2S)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
 4dfxtk,"BigInt: OP_BIN2NUM negative zero is padded negative zero (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,48,0
 ajkwm7,"BigInt: OP_BIN2NUM negative zero is padded negative zero (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,72,0
-3uwsge,"BigInt: OP_BIN2NUM padded negative zero is padded negative zero (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,4,0
+3uwsge,"BigInt: OP_BIN2NUM padded negative zero is padded negative zero (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,4,0
 c0u062,"BigInt: OP_BIN2NUM padded negative zero is padded negative zero (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,50,0
 5vmwyh,"BigInt: OP_BIN2NUM padded negative zero is padded negative zero (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,74,0
-x86r3r,"BigInt: OP_BIN2NUM one is padded negative zero (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
+x86r3r,"BigInt: OP_BIN2NUM one is padded negative zero (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
 3axs46,"BigInt: OP_BIN2NUM one is padded negative zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,48,0
 hlnpy0,"BigInt: OP_BIN2NUM one is padded negative zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,72,0
-24mjw7,"BigInt: OP_BIN2NUM padded one is padded negative zero (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
+24mjw7,"BigInt: OP_BIN2NUM padded one is padded negative zero (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
 gpny37,"BigInt: OP_BIN2NUM padded one is padded negative zero (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,51,0
 e8q3qk,"BigInt: OP_BIN2NUM padded one is padded negative zero (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,75,0
-9fh5r5,"BigInt: OP_BIN2NUM negative one is padded negative zero (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
+9fh5r5,"BigInt: OP_BIN2NUM negative one is padded negative zero (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
 jq6ykq,"BigInt: OP_BIN2NUM negative one is padded negative zero (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,48,0
 a5k0dc,"BigInt: OP_BIN2NUM negative one is padded negative zero (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,72,0
-zqhf5m,"BigInt: OP_BIN2NUM padded negative one is padded negative zero (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
+zqhf5m,"BigInt: OP_BIN2NUM padded negative one is padded negative zero (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
 9827wt,"BigInt: OP_BIN2NUM padded negative one is padded negative zero (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,51,0
 9575cj,"BigInt: OP_BIN2NUM padded negative one is padded negative zero (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,75,0
-3v3g0f,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative zero (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
+3v3g0f,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative zero (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
 hu8cql,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 26rwyg,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-955v3j,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative zero (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
+955v3j,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative zero (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
 xwhl0r,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 z2fxzc,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-qd2yfr,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative zero (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+qd2yfr,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative zero (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 h8mcxs,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative zero (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 3fwllh,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative zero (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-wl9p7p,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative zero (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+wl9p7p,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative zero (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 pupuv9,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative zero (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 g5304l,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative zero (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-63h2wj,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative zero (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
+63h2wj,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative zero (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
 jvue5l,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 k0vtka,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-wjdk4m,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative zero (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
+wjdk4m,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative zero (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
 ksuuus,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative zero (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 tcfuh4,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative zero (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-n9wdsc,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative zero (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+n9wdsc,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative zero (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 5gf5nt,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative zero (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 hlxam2,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative zero (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-xc7ltt,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative zero (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+xc7ltt,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative zero (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 sfupud,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative zero (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 h7xzju,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative zero (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-6ejekw,"BigInt: OP_BIN2NUM zero is one (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,1,0
+6ejekw,"BigInt: OP_BIN2NUM zero is one (P2S)",212,47,2,1,42,33600,0,1,0,21,0,4,1,0
 ysf78u,"BigInt: OP_BIN2NUM zero is one (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,45,0
 t786pc,"BigInt: OP_BIN2NUM zero is one (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,69,0
-8d907c,"BigInt: OP_BIN2NUM padded zero is one (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
+8d907c,"BigInt: OP_BIN2NUM padded zero is one (P2S)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
 uc4edf,"BigInt: OP_BIN2NUM padded zero is one (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 zz8t4u,"BigInt: OP_BIN2NUM padded zero is one (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-m907cs,"BigInt: OP_BIN2NUM negative zero is one (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
+m907cs,"BigInt: OP_BIN2NUM negative zero is one (P2S)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
 mkr4mm,"BigInt: OP_BIN2NUM negative zero is one (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 9wywuw,"BigInt: OP_BIN2NUM negative zero is one (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-esnqlv,"BigInt: OP_BIN2NUM padded negative zero is one (nonP2SH)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
+esnqlv,"BigInt: OP_BIN2NUM padded negative zero is one (P2S)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
 qkuwc3,"BigInt: OP_BIN2NUM padded negative zero is one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,49,0
 e66mv4,"BigInt: OP_BIN2NUM padded negative zero is one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,73,0
-ketqw6,"BigInt: OP_BIN2NUM negative one is one (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,3,0
+ketqw6,"BigInt: OP_BIN2NUM negative one is one (P2S)",212,47,2,1,42,33600,0,1,0,21,0,4,3,0
 seuvq3,"BigInt: OP_BIN2NUM negative one is one (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,47,0
 xsj0p6,"BigInt: OP_BIN2NUM negative one is one (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,71,0
-qgkzqx,"BigInt: OP_BIN2NUM padded negative one is one (nonP2SH)",212,49,2,1,42,33600,0,1,0,21,0,4,4,0
+qgkzqx,"BigInt: OP_BIN2NUM padded negative one is one (P2S)",212,49,2,1,42,33600,0,1,0,21,0,4,4,0
 asq2a6,"BigInt: OP_BIN2NUM padded negative one is one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,50,0
 dhp0cq,"BigInt: OP_BIN2NUM padded negative one is one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,74,0
-8zy4a3,"BigInt: OP_BIN2NUM padded zero (520 bytes) is one (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
+8zy4a3,"BigInt: OP_BIN2NUM padded zero (520 bytes) is one (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
 2gcg69,"BigInt: OP_BIN2NUM padded zero (520 bytes) is one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 62k6fx,"BigInt: OP_BIN2NUM padded zero (520 bytes) is one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
-gxtp7t,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is one (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
+gxtp7t,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is one (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
 wlk8qc,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 kpjhke,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
-czx877,"BigInt: OP_BIN2NUM padded zero (521 bytes) is one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+czx877,"BigInt: OP_BIN2NUM padded zero (521 bytes) is one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 90chg8,"BigInt: OP_BIN2NUM padded zero (521 bytes) is one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 w976l2,"BigInt: OP_BIN2NUM padded zero (521 bytes) is one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-arn0sf,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+arn0sf,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 nwme89,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 nffyp8,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
 wszmsq,"BigInt: OP_BIN2NUM padded one (520 bytes) is one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 jlhnew,"BigInt: OP_BIN2NUM padded one (520 bytes) is one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
-ea7k0u,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is one (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,522,0
+ea7k0u,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is one (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,522,0
 maqama,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 798qs3,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
-mv8j35,"BigInt: OP_BIN2NUM padded one (521 bytes) is one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+mv8j35,"BigInt: OP_BIN2NUM padded one (521 bytes) is one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 m8uf5r,"BigInt: OP_BIN2NUM padded one (521 bytes) is one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 druqxc,"BigInt: OP_BIN2NUM padded one (521 bytes) is one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-hlpp86,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+hlpp86,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 yv5p8r,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 zcesx4,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-93uwxp,"BigInt: OP_BIN2NUM zero is padded one (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,2,0
+93uwxp,"BigInt: OP_BIN2NUM zero is padded one (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,2,0
 v6s77y,"BigInt: OP_BIN2NUM zero is padded one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,46,0
 2z2sua,"BigInt: OP_BIN2NUM zero is padded one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,70,0
-nx748c,"BigInt: OP_BIN2NUM padded zero is padded one (nonP2SH)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
+nx748c,"BigInt: OP_BIN2NUM padded zero is padded one (P2S)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
 826y9m,"BigInt: OP_BIN2NUM padded zero is padded one (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,48,0
 daj2gn,"BigInt: OP_BIN2NUM padded zero is padded one (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,72,0
-f6lxd2,"BigInt: OP_BIN2NUM negative zero is padded one (nonP2SH)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
+f6lxd2,"BigInt: OP_BIN2NUM negative zero is padded one (P2S)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
 3e7f3x,"BigInt: OP_BIN2NUM negative zero is padded one (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,48,0
 733sy8,"BigInt: OP_BIN2NUM negative zero is padded one (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,72,0
-lggf96,"BigInt: OP_BIN2NUM padded negative zero is padded one (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,4,0
+lggf96,"BigInt: OP_BIN2NUM padded negative zero is padded one (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,4,0
 cp8tyu,"BigInt: OP_BIN2NUM padded negative zero is padded one (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,50,0
 7jw355,"BigInt: OP_BIN2NUM padded negative zero is padded one (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,74,0
-8cr8xy,"BigInt: OP_BIN2NUM one is padded one (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
+8cr8xy,"BigInt: OP_BIN2NUM one is padded one (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
 mvz9tk,"BigInt: OP_BIN2NUM one is padded one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,48,0
 63rtmq,"BigInt: OP_BIN2NUM one is padded one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,72,0
-msy6fk,"BigInt: OP_BIN2NUM padded one is padded one (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
+msy6fk,"BigInt: OP_BIN2NUM padded one is padded one (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
 sxxt72,"BigInt: OP_BIN2NUM padded one is padded one (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,51,0
 j47pm6,"BigInt: OP_BIN2NUM padded one is padded one (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,75,0
-yktq83,"BigInt: OP_BIN2NUM negative one is padded one (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
+yktq83,"BigInt: OP_BIN2NUM negative one is padded one (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
 sq9d6x,"BigInt: OP_BIN2NUM negative one is padded one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,48,0
 mhzk3z,"BigInt: OP_BIN2NUM negative one is padded one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,72,0
-2lz965,"BigInt: OP_BIN2NUM padded negative one is padded one (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
+2lz965,"BigInt: OP_BIN2NUM padded negative one is padded one (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
 6e5ytx,"BigInt: OP_BIN2NUM padded negative one is padded one (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,51,0
 m2r22j,"BigInt: OP_BIN2NUM padded negative one is padded one (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,75,0
-z8ls2p,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
+z8ls2p,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
 l4axn6,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 l6daa4,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-eyz4ss,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
+eyz4ss,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
 3wxc9q,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 hxgjzh,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-v26e5n,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+v26e5n,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 fn895x,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 sl3f8y,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-vxv3c9,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+vxv3c9,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 dg57nj,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 dk7mag,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-2t72q6,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
+2t72q6,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
 taev2f,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 lntt97,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-utgz6g,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
+utgz6g,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
 s5swj9,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 w6vz4v,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-thkpwe,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+thkpwe,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 njwjw0,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 4aez24,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-s4t92n,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+s4t92n,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 p8h0v9,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 6amj5f,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-c8952s,"BigInt: OP_BIN2NUM zero is negative one (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,1,0
+c8952s,"BigInt: OP_BIN2NUM zero is negative one (P2S)",212,47,2,1,42,33600,0,1,0,21,0,4,1,0
 ukpc7y,"BigInt: OP_BIN2NUM zero is negative one (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,45,0
 pex4wa,"BigInt: OP_BIN2NUM zero is negative one (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,69,0
-wxp4uh,"BigInt: OP_BIN2NUM padded zero is negative one (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
+wxp4uh,"BigInt: OP_BIN2NUM padded zero is negative one (P2S)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
 w4c85y,"BigInt: OP_BIN2NUM padded zero is negative one (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 jhjraw,"BigInt: OP_BIN2NUM padded zero is negative one (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-m39e4h,"BigInt: OP_BIN2NUM negative zero is negative one (nonP2SH)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
+m39e4h,"BigInt: OP_BIN2NUM negative zero is negative one (P2S)",212,48,2,1,42,33600,0,1,0,21,0,4,2,0
 smxf7h,"BigInt: OP_BIN2NUM negative zero is negative one (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,8,47,0
 ayvz7n,"BigInt: OP_BIN2NUM negative zero is negative one (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,8,71,0
-prty3r,"BigInt: OP_BIN2NUM padded negative zero is negative one (nonP2SH)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
+prty3r,"BigInt: OP_BIN2NUM padded negative zero is negative one (P2S)",212,49,2,1,42,33600,0,1,0,21,0,4,3,0
 4r95j6,"BigInt: OP_BIN2NUM padded negative zero is negative one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,49,0
 dl0fha,"BigInt: OP_BIN2NUM padded negative zero is negative one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,73,0
-v963gw,"BigInt: OP_BIN2NUM one is negative one (nonP2SH)",212,47,2,1,42,33600,0,1,0,21,0,4,3,0
+v963gw,"BigInt: OP_BIN2NUM one is negative one (P2S)",212,47,2,1,42,33600,0,1,0,21,0,4,3,0
 6j4lxm,"BigInt: OP_BIN2NUM one is negative one (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,8,47,0
 nsjqmc,"BigInt: OP_BIN2NUM one is negative one (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,8,71,0
-aufac7,"BigInt: OP_BIN2NUM padded one is negative one (nonP2SH)",212,49,2,1,42,33600,0,1,0,21,0,4,4,0
+aufac7,"BigInt: OP_BIN2NUM padded one is negative one (P2S)",212,49,2,1,42,33600,0,1,0,21,0,4,4,0
 t0tunp,"BigInt: OP_BIN2NUM padded one is negative one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,50,0
 2ml96d,"BigInt: OP_BIN2NUM padded one is negative one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,74,0
-hmlzum,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative one (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
+hmlzum,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative one (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
 qm7akv,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 8tlm28,"BigInt: OP_BIN2NUM padded zero (520 bytes) is negative one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
-uj2nz6,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative one (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
+uj2nz6,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative one (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,521,0
 rt8zl9,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 mqrclr,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is negative one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
-302nqs,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+302nqs,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 2dcgtf,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 lygnyh,"BigInt: OP_BIN2NUM padded zero (521 bytes) is negative one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-8a0nsn,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+8a0nsn,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 kxv4hu,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 jh9626,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is negative one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-q83d2f,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative one (nonP2SH)",212,571,2,1,42,33600,0,1,0,21,0,4,522,0
+q83d2f,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative one (P2S)",212,571,2,1,42,33600,0,1,0,21,0,4,522,0
 8tlvqa,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 x7cjxu,"BigInt: OP_BIN2NUM padded one (520 bytes) is negative one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
 4lxmpr,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative one (P2SH20)",742,67,2,1,570,456000,0,13,0,285,0,2,1,0
 zy3h9r,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative one (P2SH32)",742,79,2,1,570,456000,0,13,0,285,0,2,1,0
-faj09n,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+faj09n,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 vlzcfq,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 9dgxjn,"BigInt: OP_BIN2NUM padded one (521 bytes) is negative one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-4mt2qf,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative one (nonP2SH)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
+4mt2qf,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative one (P2S)",212,572,2,1,42,33600,0,1,0,21,0,2,1,0
 zjq2lm,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative one (P2SH20)",743,67,2,1,571,456800,0,13,0,285,0,2,1,0
 q999l9,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative one (P2SH32)",743,79,2,1,571,456800,0,13,0,285,0,2,1,0
-qsemtu,"BigInt: OP_BIN2NUM zero is padded negative one (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,2,0
+qsemtu,"BigInt: OP_BIN2NUM zero is padded negative one (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,2,0
 mrrkl3,"BigInt: OP_BIN2NUM zero is padded negative one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,46,0
 53lw9k,"BigInt: OP_BIN2NUM zero is padded negative one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,70,0
-8jg96k,"BigInt: OP_BIN2NUM padded zero is padded negative one (nonP2SH)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
+8jg96k,"BigInt: OP_BIN2NUM padded zero is padded negative one (P2S)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
 atn953,"BigInt: OP_BIN2NUM padded zero is padded negative one (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,48,0
 sj0uj6,"BigInt: OP_BIN2NUM padded zero is padded negative one (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,72,0
-v9lr66,"BigInt: OP_BIN2NUM negative zero is padded negative one (nonP2SH)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
+v9lr66,"BigInt: OP_BIN2NUM negative zero is padded negative one (P2S)",214,48,2,1,44,35200,0,1,0,22,0,4,3,0
 7ys9qv,"BigInt: OP_BIN2NUM negative zero is padded negative one (P2SH20)",219,67,2,1,49,39200,0,1,0,24,2,8,48,0
 hmgxxq,"BigInt: OP_BIN2NUM negative zero is padded negative one (P2SH32)",219,79,2,1,49,39200,0,1,0,24,2,8,72,0
-r2jjxm,"BigInt: OP_BIN2NUM padded negative zero is padded negative one (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,4,0
+r2jjxm,"BigInt: OP_BIN2NUM padded negative zero is padded negative one (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,4,0
 cch747,"BigInt: OP_BIN2NUM padded negative zero is padded negative one (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,50,0
 df4rqv,"BigInt: OP_BIN2NUM padded negative zero is padded negative one (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,74,0
-l8ggfa,"BigInt: OP_BIN2NUM one is padded negative one (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
+l8ggfa,"BigInt: OP_BIN2NUM one is padded negative one (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
 hyy4ks,"BigInt: OP_BIN2NUM one is padded negative one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,48,0
 33lzn7,"BigInt: OP_BIN2NUM one is padded negative one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,72,0
-gxnuy7,"BigInt: OP_BIN2NUM padded one is padded negative one (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
+gxnuy7,"BigInt: OP_BIN2NUM padded one is padded negative one (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
 2jafm3,"BigInt: OP_BIN2NUM padded one is padded negative one (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,51,0
 cn28qp,"BigInt: OP_BIN2NUM padded one is padded negative one (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,75,0
-djqgy8,"BigInt: OP_BIN2NUM negative one is padded negative one (nonP2SH)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
+djqgy8,"BigInt: OP_BIN2NUM negative one is padded negative one (P2S)",214,47,2,1,44,35200,0,1,0,22,0,4,4,0
 f80shf,"BigInt: OP_BIN2NUM negative one is padded negative one (P2SH20)",218,67,2,1,48,38400,0,1,0,24,2,8,48,0
 rhd5ms,"BigInt: OP_BIN2NUM negative one is padded negative one (P2SH32)",218,79,2,1,48,38400,0,1,0,24,2,8,72,0
-qmtfa5,"BigInt: OP_BIN2NUM padded negative one is padded negative one (nonP2SH)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
+qmtfa5,"BigInt: OP_BIN2NUM padded negative one is padded negative one (P2S)",214,49,2,1,44,35200,0,1,0,22,0,4,5,0
 w34em7,"BigInt: OP_BIN2NUM padded negative one is padded negative one (P2SH20)",220,67,2,1,50,40000,0,1,0,25,2,8,51,0
 wg0saz,"BigInt: OP_BIN2NUM padded negative one is padded negative one (P2SH32)",220,79,2,1,50,40000,0,1,0,25,2,8,75,0
-w63s83,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
+w63s83,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
 3e7l6a,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 vqsfs8,"BigInt: OP_BIN2NUM padded zero (520 bytes) is padded negative one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-m9nq6h,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
+m9nq6h,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,522,0
 fd6eyx,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 9e55p0,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is padded negative one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-jtuptj,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+jtuptj,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 k23qqk,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 h3ulqh,"BigInt: OP_BIN2NUM padded zero (521 bytes) is padded negative one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-u6ahqh,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+u6ahqh,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 cg5n6w,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 k75vjx,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is padded negative one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-c9e0zd,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
+c9e0zd,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
 5rldwa,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 angv53,"BigInt: OP_BIN2NUM padded one (520 bytes) is padded negative one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-3sa6sp,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative one (nonP2SH)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
+3sa6sp,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative one (P2S)",214,571,2,1,44,35200,0,1,0,22,0,4,523,0
 feq28r,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative one (P2SH20)",744,67,2,1,572,457600,0,13,0,286,0,2,2,0
 n4apx5,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is padded negative one (P2SH32)",744,79,2,1,572,457600,0,13,0,286,0,2,2,0
-4tkkrg,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+4tkkrg,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 tulfar,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 grgzar,"BigInt: OP_BIN2NUM padded one (521 bytes) is padded negative one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-2nxyya,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative one (nonP2SH)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
+2nxyya,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative one (P2S)",214,572,2,1,44,35200,0,1,0,22,0,2,2,0
 sh6z29,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative one (P2SH20)",745,67,2,1,573,458400,0,13,0,286,0,2,2,0
 nqcest,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is padded negative one (P2SH32)",745,79,2,1,573,458400,0,13,0,286,0,2,2,0
-5fwruy,"BigInt: OP_BIN2NUM zero is truthy (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,2,0,0
+5fwruy,"BigInt: OP_BIN2NUM zero is truthy (P2S)",212,45,2,1,42,33600,0,1,0,21,0,2,0,0
 7kjk4n,"BigInt: OP_BIN2NUM zero is truthy (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,6,42,0
 gwkjf3,"BigInt: OP_BIN2NUM zero is truthy (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,6,66,0
-fjqw5a,"BigInt: OP_BIN2NUM padded zero is truthy (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
+fjqw5a,"BigInt: OP_BIN2NUM padded zero is truthy (P2S)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
 g4mw5x,"BigInt: OP_BIN2NUM padded zero is truthy (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,6,43,0
 qzm94x,"BigInt: OP_BIN2NUM padded zero is truthy (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,6,67,0
-mq02uy,"BigInt: OP_BIN2NUM negative zero is truthy (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
+mq02uy,"BigInt: OP_BIN2NUM negative zero is truthy (P2S)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
 zqudtz,"BigInt: OP_BIN2NUM negative zero is truthy (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,6,43,0
 3ddslx,"BigInt: OP_BIN2NUM negative zero is truthy (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,6,67,0
-qgez2p,"BigInt: OP_BIN2NUM padded negative zero is truthy (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
+qgez2p,"BigInt: OP_BIN2NUM padded negative zero is truthy (P2S)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
 qdz0rg,"BigInt: OP_BIN2NUM padded negative zero is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,6,44,0
 4xplum,"BigInt: OP_BIN2NUM padded negative zero is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,6,68,0
-nr8mgp,"BigInt: OP_BIN2NUM padded zero (520 bytes) is truthy (nonP2SH)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
+nr8mgp,"BigInt: OP_BIN2NUM padded zero (520 bytes) is truthy (P2S)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
 zjln4a,"BigInt: OP_BIN2NUM padded zero (520 bytes) is truthy (P2SH20)",737,67,2,1,565,452000,0,13,0,282,2,6,562,0
 rddzc6,"BigInt: OP_BIN2NUM padded zero (520 bytes) is truthy (P2SH32)",737,79,2,1,565,452000,0,13,0,282,2,6,586,0
-7q7ugu,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is truthy (nonP2SH)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
+7q7ugu,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is truthy (P2S)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
 dpwxl4,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is truthy (P2SH20)",737,67,2,1,565,452000,0,13,0,282,2,6,562,0
 53kp6y,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is truthy (P2SH32)",737,79,2,1,565,452000,0,13,0,282,2,6,586,0
-58563m,"BigInt: OP_BIN2NUM padded zero (521 bytes) is truthy (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+58563m,"BigInt: OP_BIN2NUM padded zero (521 bytes) is truthy (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 k7mnup,"BigInt: OP_BIN2NUM padded zero (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,283,0,1,0,0
 s2g0rw,"BigInt: OP_BIN2NUM padded zero (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,283,0,1,0,0
-wkvctw,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is truthy (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+wkvctw,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is truthy (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 fzzyuc,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,283,0,1,0,0
 pcztlq,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,283,0,1,0,0
-84au39,"BigInt: OP_BIN2NUM padded one (521 bytes) is truthy (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+84au39,"BigInt: OP_BIN2NUM padded one (521 bytes) is truthy (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 v4tfud,"BigInt: OP_BIN2NUM padded one (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,283,0,1,0,0
 cz0s7j,"BigInt: OP_BIN2NUM padded one (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,283,0,1,0,0
-2p0rkq,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is truthy (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+2p0rkq,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is truthy (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 wm5cqq,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is truthy (P2SH20)",738,67,2,1,566,452800,0,13,0,283,0,1,0,0
 rm0e54,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is truthy (P2SH32)",738,79,2,1,566,452800,0,13,0,283,0,1,0,0
-68yqpm,"BigInt: OP_NOT padded zero is truthy (without OP_BIN2NUM) (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
+68yqpm,"BigInt: OP_NOT padded zero is truthy (without OP_BIN2NUM) (P2S)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
 rdmh9y,"BigInt: OP_NOT padded zero is truthy (without OP_BIN2NUM) (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,6,43,0
 cg87jt,"BigInt: OP_NOT padded zero is truthy (without OP_BIN2NUM) (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,6,67,0
-a0ggza,"BigInt: OP_NOT negative zero is truthy (without OP_BIN2NUM) (nonP2SH)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
+a0ggza,"BigInt: OP_NOT negative zero is truthy (without OP_BIN2NUM) (P2S)",213,45,2,1,43,34400,0,1,0,21,0,2,1,0
 s84lxu,"BigInt: OP_NOT negative zero is truthy (without OP_BIN2NUM) (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,6,43,0
 2c63lv,"BigInt: OP_NOT negative zero is truthy (without OP_BIN2NUM) (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,6,67,0
-75galv,"BigInt: OP_NOT padded negative zero is truthy (without OP_BIN2NUM) (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
+75galv,"BigInt: OP_NOT padded negative zero is truthy (without OP_BIN2NUM) (P2S)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
 jazrd3,"BigInt: OP_NOT padded negative zero is truthy (without OP_BIN2NUM) (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,6,44,0
 h3x3rt,"BigInt: OP_NOT padded negative zero is truthy (without OP_BIN2NUM) (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,6,68,0
-aql8au,"BigInt: OP_NOT one is truthy (without OP_BIN2NUM) (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,2,1,0
+aql8au,"BigInt: OP_NOT one is truthy (without OP_BIN2NUM) (P2S)",212,45,2,1,42,33600,0,1,0,21,0,2,1,0
 77gh4n,"BigInt: OP_NOT one is truthy (without OP_BIN2NUM) (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,6,43,0
 lu5fvr,"BigInt: OP_NOT one is truthy (without OP_BIN2NUM) (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,6,67,0
-thrdu2,"BigInt: OP_NOT padded one is truthy (without OP_BIN2NUM) (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
+thrdu2,"BigInt: OP_NOT padded one is truthy (without OP_BIN2NUM) (P2S)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
 pmzh6f,"BigInt: OP_NOT padded one is truthy (without OP_BIN2NUM) (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,6,44,0
 mqvajq,"BigInt: OP_NOT padded one is truthy (without OP_BIN2NUM) (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,6,68,0
-t7wy9c,"BigInt: OP_NOT negative one is truthy (without OP_BIN2NUM) (nonP2SH)",212,45,2,1,42,33600,0,1,0,21,0,2,1,0
+t7wy9c,"BigInt: OP_NOT negative one is truthy (without OP_BIN2NUM) (P2S)",212,45,2,1,42,33600,0,1,0,21,0,2,1,0
 zxvg0r,"BigInt: OP_NOT negative one is truthy (without OP_BIN2NUM) (P2SH20)",214,67,2,1,44,35200,0,1,0,22,2,6,43,0
 culcmm,"BigInt: OP_NOT negative one is truthy (without OP_BIN2NUM) (P2SH32)",214,79,2,1,44,35200,0,1,0,22,2,6,67,0
-shmppr,"BigInt: OP_NOT padded negative one is truthy (without OP_BIN2NUM) (nonP2SH)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
+shmppr,"BigInt: OP_NOT padded negative one is truthy (without OP_BIN2NUM) (P2S)",214,45,2,1,44,35200,0,1,0,22,0,2,2,0
 2dc6zn,"BigInt: OP_NOT padded negative one is truthy (without OP_BIN2NUM) (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,6,44,0
 rs6v89,"BigInt: OP_NOT padded negative one is truthy (without OP_BIN2NUM) (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,6,68,0
-25jzym,"BigInt: OP_NOT padded zero (520 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
+25jzym,"BigInt: OP_NOT padded zero (520 bytes) is truthy (without OP_BIN2NUM) (P2S)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
 ctl69k,"BigInt: OP_NOT padded zero (520 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",738,67,2,1,566,452800,0,13,0,283,2,6,562,0
 nm2c65,"BigInt: OP_NOT padded zero (520 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",738,79,2,1,566,452800,0,13,0,283,2,6,586,0
-35txc7,"BigInt: OP_NOT padded negative zero (520 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
+35txc7,"BigInt: OP_NOT padded negative zero (520 bytes) is truthy (without OP_BIN2NUM) (P2S)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
 t7qfnw,"BigInt: OP_NOT padded negative zero (520 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",738,67,2,1,566,452800,0,13,0,283,2,6,562,0
 4rezt5,"BigInt: OP_NOT padded negative zero (520 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",738,79,2,1,566,452800,0,13,0,283,2,6,586,0
-8nze97,"BigInt: OP_NOT padded zero (521 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+8nze97,"BigInt: OP_NOT padded zero (521 bytes) is truthy (without OP_BIN2NUM) (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 nlg229,"BigInt: OP_NOT padded zero (521 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",739,67,2,1,567,453600,0,13,0,283,0,1,0,0
 5exls7,"BigInt: OP_NOT padded zero (521 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",739,79,2,1,567,453600,0,13,0,283,0,1,0,0
-33jq0k,"BigInt: OP_NOT padded negative zero (521 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+33jq0k,"BigInt: OP_NOT padded negative zero (521 bytes) is truthy (without OP_BIN2NUM) (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 evj6xy,"BigInt: OP_NOT padded negative zero (521 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",739,67,2,1,567,453600,0,13,0,283,0,1,0,0
 z9avqz,"BigInt: OP_NOT padded negative zero (521 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",739,79,2,1,567,453600,0,13,0,283,0,1,0,0
-fmrgmf,"BigInt: OP_NOT padded one (520 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
+fmrgmf,"BigInt: OP_NOT padded one (520 bytes) is truthy (without OP_BIN2NUM) (P2S)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
 0e88p6,"BigInt: OP_NOT padded one (520 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",738,67,2,1,566,452800,0,13,0,283,2,6,562,0
 36vavu,"BigInt: OP_NOT padded one (520 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",738,79,2,1,566,452800,0,13,0,283,2,6,586,0
-3t6r65,"BigInt: OP_NOT padded negative one (520 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
+3t6r65,"BigInt: OP_NOT padded negative one (520 bytes) is truthy (without OP_BIN2NUM) (P2S)",736,45,2,1,564,451200,0,13,0,282,0,2,520,0
 4947cy,"BigInt: OP_NOT padded negative one (520 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",738,67,2,1,566,452800,0,13,0,283,2,6,562,0
 45750r,"BigInt: OP_NOT padded negative one (520 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",738,79,2,1,566,452800,0,13,0,283,2,6,586,0
-svlsjh,"BigInt: OP_NOT padded one (521 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+svlsjh,"BigInt: OP_NOT padded one (521 bytes) is truthy (without OP_BIN2NUM) (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 zf6qpu,"BigInt: OP_NOT padded one (521 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",739,67,2,1,567,453600,0,13,0,283,0,1,0,0
 9tdag5,"BigInt: OP_NOT padded one (521 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",739,79,2,1,567,453600,0,13,0,283,0,1,0,0
-fhqfuv,"BigInt: OP_NOT padded negative one (521 bytes) is truthy (without OP_BIN2NUM) (nonP2SH)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
+fhqfuv,"BigInt: OP_NOT padded negative one (521 bytes) is truthy (without OP_BIN2NUM) (P2S)",737,45,2,1,565,452000,0,13,0,282,0,1,0,0
 5g0vlp,"BigInt: OP_NOT padded negative one (521 bytes) is truthy (without OP_BIN2NUM) (P2SH20)",739,67,2,1,567,453600,0,13,0,283,0,1,0,0
 pn02nk,"BigInt: OP_NOT padded negative one (521 bytes) is truthy (without OP_BIN2NUM) (P2SH32)",739,79,2,1,567,453600,0,13,0,283,0,1,0,0
-5mtrte,"BigInt: OP_NOT OP_BIN2NUM padded zero is truthy (nonP2SH)",213,46,2,1,43,34400,0,1,0,21,0,2,1,0
+5mtrte,"BigInt: OP_NOT OP_BIN2NUM padded zero is truthy (P2S)",213,46,2,1,43,34400,0,1,0,21,0,2,1,0
 76kxgs,"BigInt: OP_NOT OP_BIN2NUM padded zero is truthy (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,6,44,0
 5a2wg8,"BigInt: OP_NOT OP_BIN2NUM padded zero is truthy (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,6,68,0
-fy3vm0,"BigInt: OP_NOT OP_BIN2NUM negative zero is truthy (nonP2SH)",213,46,2,1,43,34400,0,1,0,21,0,2,1,0
+fy3vm0,"BigInt: OP_NOT OP_BIN2NUM negative zero is truthy (P2S)",213,46,2,1,43,34400,0,1,0,21,0,2,1,0
 844mgn,"BigInt: OP_NOT OP_BIN2NUM negative zero is truthy (P2SH20)",216,67,2,1,46,36800,0,1,0,23,2,6,44,0
 4xdntr,"BigInt: OP_NOT OP_BIN2NUM negative zero is truthy (P2SH32)",216,79,2,1,46,36800,0,1,0,23,2,6,68,0
-gq2xqz,"BigInt: OP_NOT OP_BIN2NUM padded negative zero is truthy (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,2,2,0
+gq2xqz,"BigInt: OP_NOT OP_BIN2NUM padded negative zero is truthy (P2S)",214,46,2,1,44,35200,0,1,0,22,0,2,2,0
 w94cv4,"BigInt: OP_NOT OP_BIN2NUM padded negative zero is truthy (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,6,45,0
 a5urxg,"BigInt: OP_NOT OP_BIN2NUM padded negative zero is truthy (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,6,69,0
-svly6r,"BigInt: OP_NOT OP_BIN2NUM one is truthy (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,3,1,0
+svly6r,"BigInt: OP_NOT OP_BIN2NUM one is truthy (P2S)",212,46,2,1,42,33600,0,1,0,21,0,3,1,0
 esudkl,"BigInt: OP_NOT OP_BIN2NUM one is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,7,44,0
 vp063l,"BigInt: OP_NOT OP_BIN2NUM one is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,7,68,0
-vn6h34,"BigInt: OP_NOT OP_BIN2NUM padded one is truthy (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,2,2,0
+vn6h34,"BigInt: OP_NOT OP_BIN2NUM padded one is truthy (P2S)",214,46,2,1,44,35200,0,1,0,22,0,2,2,0
 v3u6jf,"BigInt: OP_NOT OP_BIN2NUM padded one is truthy (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,6,45,0
 4gnt20,"BigInt: OP_NOT OP_BIN2NUM padded one is truthy (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,6,69,0
-6p5nut,"BigInt: OP_NOT OP_BIN2NUM negative one is truthy (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,3,1,0
+6p5nut,"BigInt: OP_NOT OP_BIN2NUM negative one is truthy (P2S)",212,46,2,1,42,33600,0,1,0,21,0,3,1,0
 rmu5wp,"BigInt: OP_NOT OP_BIN2NUM negative one is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,7,44,0
 thuq8t,"BigInt: OP_NOT OP_BIN2NUM negative one is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,7,68,0
-00v7z7,"BigInt: OP_NOT OP_BIN2NUM padded negative one is truthy (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,2,2,0
+00v7z7,"BigInt: OP_NOT OP_BIN2NUM padded negative one is truthy (P2S)",214,46,2,1,44,35200,0,1,0,22,0,2,2,0
 a8xxep,"BigInt: OP_NOT OP_BIN2NUM padded negative one is truthy (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,6,45,0
 5wpesq,"BigInt: OP_NOT OP_BIN2NUM padded negative one is truthy (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,6,69,0
-gw0a4d,"BigInt: OP_NOT OP_BIN2NUM padded zero (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
+gw0a4d,"BigInt: OP_NOT OP_BIN2NUM padded zero (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
 3nv8az,"BigInt: OP_NOT OP_BIN2NUM padded zero (520 bytes) is truthy (P2SH20)",739,67,2,1,567,453600,0,13,0,283,2,6,563,0
 vlljzt,"BigInt: OP_NOT OP_BIN2NUM padded zero (520 bytes) is truthy (P2SH32)",739,79,2,1,567,453600,0,13,0,283,2,6,587,0
-z8v9qg,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
+z8v9qg,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
 vls3ve,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (520 bytes) is truthy (P2SH20)",739,67,2,1,567,453600,0,13,0,283,2,6,563,0
 nwdwjg,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (520 bytes) is truthy (P2SH32)",739,79,2,1,567,453600,0,13,0,283,2,6,587,0
-aa02mw,"BigInt: OP_NOT OP_BIN2NUM padded zero (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+aa02mw,"BigInt: OP_NOT OP_BIN2NUM padded zero (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 ju8cpc,"BigInt: OP_NOT OP_BIN2NUM padded zero (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 v9ethk,"BigInt: OP_NOT OP_BIN2NUM padded zero (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-z9ctvv,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+z9ctvv,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 6uttz9,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 23lv5u,"BigInt: OP_NOT OP_BIN2NUM padded negative zero (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-kc5wj4,"BigInt: OP_NOT OP_BIN2NUM padded one (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
+kc5wj4,"BigInt: OP_NOT OP_BIN2NUM padded one (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
 75jnpq,"BigInt: OP_NOT OP_BIN2NUM padded one (520 bytes) is truthy (P2SH20)",739,67,2,1,567,453600,0,13,0,283,2,6,563,0
 d8tfhr,"BigInt: OP_NOT OP_BIN2NUM padded one (520 bytes) is truthy (P2SH32)",739,79,2,1,567,453600,0,13,0,283,2,6,587,0
-u56uw3,"BigInt: OP_NOT OP_BIN2NUM padded negative one (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
+u56uw3,"BigInt: OP_NOT OP_BIN2NUM padded negative one (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,0,13,0,282,0,2,520,0
 904xhf,"BigInt: OP_NOT OP_BIN2NUM padded negative one (520 bytes) is truthy (P2SH20)",739,67,2,1,567,453600,0,13,0,283,2,6,563,0
 9ge3c9,"BigInt: OP_NOT OP_BIN2NUM padded negative one (520 bytes) is truthy (P2SH32)",739,79,2,1,567,453600,0,13,0,283,2,6,587,0
-t7y356,"BigInt: OP_NOT OP_BIN2NUM padded one (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+t7y356,"BigInt: OP_NOT OP_BIN2NUM padded one (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 fj9haq,"BigInt: OP_NOT OP_BIN2NUM padded one (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 n23d5f,"BigInt: OP_NOT OP_BIN2NUM padded one (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-sztjkq,"BigInt: OP_NOT OP_BIN2NUM padded negative one (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+sztjkq,"BigInt: OP_NOT OP_BIN2NUM padded negative one (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 dzqej8,"BigInt: OP_NOT OP_BIN2NUM padded negative one (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 c95ztg,"BigInt: OP_NOT OP_BIN2NUM padded negative one (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-cslarn,"BigInt: OP_BIN2NUM OP_NOT one is truthy (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,3,2,0
+cslarn,"BigInt: OP_BIN2NUM OP_NOT one is truthy (P2S)",212,46,2,1,42,33600,0,1,0,21,0,3,2,0
 lvndzx,"BigInt: OP_BIN2NUM OP_NOT one is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,7,45,0
 gwe97y,"BigInt: OP_BIN2NUM OP_NOT one is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,7,69,0
-6vgxgf,"BigInt: OP_BIN2NUM OP_NOT padded one is truthy (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,3,3,0
+6vgxgf,"BigInt: OP_BIN2NUM OP_NOT padded one is truthy (P2S)",214,46,2,1,44,35200,0,1,0,22,0,3,3,0
 6kq45j,"BigInt: OP_BIN2NUM OP_NOT padded one is truthy (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,7,46,0
 7h5nht,"BigInt: OP_BIN2NUM OP_NOT padded one is truthy (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,7,70,0
-snrff2,"BigInt: OP_BIN2NUM OP_NOT negative one is truthy (nonP2SH)",212,46,2,1,42,33600,0,1,0,21,0,3,2,0
+snrff2,"BigInt: OP_BIN2NUM OP_NOT negative one is truthy (P2S)",212,46,2,1,42,33600,0,1,0,21,0,3,2,0
 z2u634,"BigInt: OP_BIN2NUM OP_NOT negative one is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,7,45,0
 7pr3jf,"BigInt: OP_BIN2NUM OP_NOT negative one is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,7,69,0
-0ju97t,"BigInt: OP_BIN2NUM OP_NOT padded negative one is truthy (nonP2SH)",214,46,2,1,44,35200,0,1,0,22,0,3,3,0
+0ju97t,"BigInt: OP_BIN2NUM OP_NOT padded negative one is truthy (P2S)",214,46,2,1,44,35200,0,1,0,22,0,3,3,0
 vx04kp,"BigInt: OP_BIN2NUM OP_NOT padded negative one is truthy (P2SH20)",217,67,2,1,47,37600,0,1,0,23,2,7,46,0
 fzas5j,"BigInt: OP_BIN2NUM OP_NOT padded negative one is truthy (P2SH32)",217,79,2,1,47,37600,0,1,0,23,2,7,70,0
-9zz5me,"BigInt: OP_BIN2NUM OP_NOT padded zero (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+9zz5me,"BigInt: OP_BIN2NUM OP_NOT padded zero (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 rr0kdd,"BigInt: OP_BIN2NUM OP_NOT padded zero (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 he02ah,"BigInt: OP_BIN2NUM OP_NOT padded zero (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-lrwyz2,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+lrwyz2,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 lvdq2q,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 pkw4x2,"BigInt: OP_BIN2NUM OP_NOT padded negative zero (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-l80ykn,"BigInt: OP_BIN2NUM OP_NOT padded one (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,0,13,0,282,0,3,521,0
+l80ykn,"BigInt: OP_BIN2NUM OP_NOT padded one (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,0,13,0,282,0,3,521,0
 xku4xx,"BigInt: OP_BIN2NUM OP_NOT padded one (520 bytes) is truthy (P2SH20)",739,67,2,1,567,453600,0,13,0,283,2,7,564,0
 8x92p2,"BigInt: OP_BIN2NUM OP_NOT padded one (520 bytes) is truthy (P2SH32)",739,79,2,1,567,453600,0,13,0,283,2,7,588,0
-y5dcp3,"BigInt: OP_BIN2NUM OP_NOT padded negative one (520 bytes) is truthy (nonP2SH)",736,46,2,1,564,451200,0,13,0,282,0,3,521,0
+y5dcp3,"BigInt: OP_BIN2NUM OP_NOT padded negative one (520 bytes) is truthy (P2S)",736,46,2,1,564,451200,0,13,0,282,0,3,521,0
 jrw4hq,"BigInt: OP_BIN2NUM OP_NOT padded negative one (520 bytes) is truthy (P2SH20)",739,67,2,1,567,453600,0,13,0,283,2,7,564,0
 jt3sxn,"BigInt: OP_BIN2NUM OP_NOT padded negative one (520 bytes) is truthy (P2SH32)",739,79,2,1,567,453600,0,13,0,283,2,7,588,0
-vz89vz,"BigInt: OP_BIN2NUM OP_NOT padded one (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+vz89vz,"BigInt: OP_BIN2NUM OP_NOT padded one (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 qdfc2p,"BigInt: OP_BIN2NUM OP_NOT padded one (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 3067mf,"BigInt: OP_BIN2NUM OP_NOT padded one (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-m8xxc3,"BigInt: OP_BIN2NUM OP_NOT padded negative one (521 bytes) is truthy (nonP2SH)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
+m8xxc3,"BigInt: OP_BIN2NUM OP_NOT padded negative one (521 bytes) is truthy (P2S)",737,46,2,1,565,452000,0,13,0,282,0,1,0,0
 733uws,"BigInt: OP_BIN2NUM OP_NOT padded negative one (521 bytes) is truthy (P2SH20)",740,67,2,1,568,454400,0,13,0,284,0,1,0,0
 22cvtr,"BigInt: OP_BIN2NUM OP_NOT padded negative one (521 bytes) is truthy (P2SH32)",740,79,2,1,568,454400,0,13,0,284,0,1,0,0
-eyuhfr,"BigInt: OP_1ADD genesis block header hash without OP_BIN2NUM (nonP2SH)",293,46,2,1,123,98400,0,3,0,61,3,3,112,0
+eyuhfr,"BigInt: OP_1ADD genesis block header hash without OP_BIN2NUM (P2S)",293,46,2,1,123,98400,0,3,0,61,3,3,112,0
 ydqm9s,"BigInt: OP_1ADD genesis block header hash without OP_BIN2NUM (P2SH20)",296,67,2,1,126,100800,0,3,0,63,5,7,155,0
 sumq96,"BigInt: OP_1ADD genesis block header hash without OP_BIN2NUM (P2SH32)",296,79,2,1,126,100800,0,3,0,63,5,7,179,0
-jnkjst,"BigInt: OP_1ADD genesis block header hash with OP_BIN2NUM (nonP2SH)",293,47,2,1,123,98400,0,3,0,61,3,3,112,0
+jnkjst,"BigInt: OP_1ADD genesis block header hash with OP_BIN2NUM (P2S)",293,47,2,1,123,98400,0,3,0,61,3,3,112,0
 zg8pv5,"BigInt: OP_1ADD genesis block header hash with OP_BIN2NUM (P2SH20)",297,67,2,1,127,101600,0,3,0,63,5,7,156,0
 k3wlw3,"BigInt: OP_1ADD genesis block header hash with OP_BIN2NUM (P2SH32)",297,79,2,1,127,101600,0,3,0,63,5,7,180,0

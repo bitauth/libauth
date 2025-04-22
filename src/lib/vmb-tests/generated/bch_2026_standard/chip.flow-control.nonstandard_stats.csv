@@ -1,0 +1,85 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+e4a5zp,"Flow control: Eval-ed OP_IF (3 == 3) (P2S)",212,51,2,1,42,33600,807,1,0,147,0,8,7,0
+3l9uyr,"Flow control: Eval-ed OP_IF (3 == 3) (P2SH20)",220,67,2,1,50,40000,1383,1,0,175,2,12,55,0
+8ke887,"Flow control: Eval-ed OP_IF (3 == 3) (P2SH32)",220,79,2,1,50,40000,1407,1,0,175,2,12,79,0
+zxnv6l,"Flow control: Eval-ed OP_IF, OP_ELSE (succeed) (P2S)",212,53,2,1,42,33600,1008,1,0,147,0,10,8,0
+3k4ewf,"Flow control: Eval-ed OP_IF, OP_ELSE (succeed) (P2SH20)",222,67,2,1,52,41600,1586,1,0,182,2,14,58,0
+4dfrrs,"Flow control: Eval-ed OP_IF, OP_ELSE (succeed) (P2SH32)",222,79,2,1,52,41600,1610,1,0,182,2,14,82,0
+vszajc,"Flow control: Eval-ed OP_NOTIF (3 == 3) (P2S)",212,51,2,1,42,33600,806,1,0,147,0,8,6,0
+cyr4fm,"Flow control: Eval-ed OP_NOTIF (3 == 3) (P2SH20)",220,67,2,1,50,40000,1382,1,0,175,2,12,54,0
+3xghzp,"Flow control: Eval-ed OP_NOTIF (3 == 3) (P2SH32)",220,79,2,1,50,40000,1406,1,0,175,2,12,78,0
+ygf0mr,"Flow control: Eval-ed OP_NOTIF, OP_ELSE (succeed) (P2S)",212,53,2,1,42,33600,1009,1,0,147,0,10,9,0
+s63y6h,"Flow control: Eval-ed OP_NOTIF, OP_ELSE (succeed) (P2SH20)",222,67,2,1,52,41600,1587,1,0,182,2,14,59,0
+d3zlx2,"Flow control: Eval-ed OP_NOTIF, OP_ELSE (succeed) (P2SH32)",222,79,2,1,52,41600,1611,1,0,182,2,14,83,0
+q540nd,"Flow control: Eval-ed OP_EVAL (3 == 3) (P2S)",215,47,2,1,45,36000,705,1,0,157,0,7,5,0
+ud3sf6,"Flow control: Eval-ed OP_EVAL (3 == 3) (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+pa450e,"Flow control: Eval-ed OP_EVAL (3 == 3) (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0
+snxadr,"Flow control: Eval-ed <1> OP_BEGIN OP_UNTIL (P2S)",213,48,2,1,43,34400,604,1,0,150,0,6,4,0
+wcj4kf,"Flow control: Eval-ed <1> OP_BEGIN OP_UNTIL (P2SH20)",218,67,2,1,48,38400,1177,1,0,168,2,10,49,0
+hjzty5,"Flow control: Eval-ed <1> OP_BEGIN OP_UNTIL (P2SH32)",218,79,2,1,48,38400,1201,1,0,168,2,10,73,0
+fccczv,"Flow control: no matching OP_BEGIN (would otherwise succeed) (P2S)",215,45,2,1,45,36000,503,1,0,157,0,5,3,0
+663t5n,"Flow control: no matching OP_BEGIN (would otherwise succeed) (P2SH20)",217,67,2,1,47,37600,1073,1,0,164,2,9,45,0
+6ekxhq,"Flow control: no matching OP_BEGIN (would otherwise succeed) (P2SH32)",217,79,2,1,47,37600,1097,1,0,164,2,9,69,0
+g9tww6,"Flow control: OP_IF: Nested OP_IF (3 == 3) (P2S)",213,51,2,1,43,34400,905,1,0,150,0,9,5,0
+8fg36x,"Flow control: OP_IF: Nested OP_IF (3 == 3) (P2SH20)",221,67,2,1,51,40800,1481,1,0,178,2,13,53,0
+9ugaf0,"Flow control: OP_IF: Nested OP_IF (3 == 3) (P2SH32)",221,79,2,1,51,40800,1505,1,0,178,2,13,77,0
+zawv6a,"Flow control: OP_IF: Nested OP_NOTIF (3 == 3) (P2S)",213,51,2,1,43,34400,904,1,0,150,0,9,4,0
+gv8u6l,"Flow control: OP_IF: Nested OP_NOTIF (3 == 3) (P2SH20)",221,67,2,1,51,40800,1480,1,0,178,2,13,52,0
+002wse,"Flow control: OP_IF: Nested OP_NOTIF (3 == 3) (P2SH32)",221,79,2,1,51,40800,1504,1,0,178,2,13,76,0
+8a8gcx,"Flow control: OP_IF: Nested OP_EVAL (3 == 3) (P2S)",212,51,2,1,42,33600,805,1,0,147,0,8,5,0
+8eh689,"Flow control: OP_IF: Nested OP_EVAL (3 == 3) (P2SH20)",220,67,2,1,50,40000,1381,1,0,175,2,12,53,0
+lgcdm8,"Flow control: OP_IF: Nested OP_EVAL (3 == 3) (P2SH32)",220,79,2,1,50,40000,1405,1,0,175,2,12,77,0
+tqqc7u,"Flow control: OP_IF: Nested <1> OP_BEGIN OP_UNTIL (P2S)",213,49,2,1,43,34400,703,1,0,150,0,7,3,0
+2td6aq,"Flow control: OP_IF: Nested <1> OP_BEGIN OP_UNTIL (P2SH20)",219,67,2,1,49,39200,1277,1,0,171,2,11,49,0
+s6e3g4,"Flow control: OP_IF: Nested <1> OP_BEGIN OP_UNTIL (P2SH32)",219,79,2,1,49,39200,1301,1,0,171,2,11,73,0
+s2j70e,"Flow control: OP_IF, OP_ELSE: Nested OP_IF (3 == 3) (P2S)",213,52,2,1,43,34400,1004,1,0,150,0,10,4,0
+78ws6v,"Flow control: OP_IF, OP_ELSE: Nested OP_IF (3 == 3) (P2SH20)",222,67,2,1,52,41600,1581,1,0,182,2,14,53,0
+xdscg9,"Flow control: OP_IF, OP_ELSE: Nested OP_IF (3 == 3) (P2SH32)",222,79,2,1,52,41600,1605,1,0,182,2,14,77,0
+fus8f8,"Flow control: OP_IF, OP_ELSE: Nested OP_NOTIF (3 == 3) (P2S)",213,52,2,1,43,34400,1003,1,0,150,0,10,3,0
+2uwmgc,"Flow control: OP_IF, OP_ELSE: Nested OP_NOTIF (3 == 3) (P2SH20)",222,67,2,1,52,41600,1580,1,0,182,2,14,52,0
+cyaxdm,"Flow control: OP_IF, OP_ELSE: Nested OP_NOTIF (3 == 3) (P2SH32)",222,79,2,1,52,41600,1604,1,0,182,2,14,76,0
+kmdyk3,"Flow control: OP_IF, OP_ELSE: Nested OP_EVAL (3 == 3) (P2S)",212,52,2,1,42,33600,904,1,0,147,0,9,4,0
+ylu4yj,"Flow control: OP_IF, OP_ELSE: Nested OP_EVAL (3 == 3) (P2SH20)",221,67,2,1,51,40800,1481,1,0,178,2,13,53,0
+ypl0dc,"Flow control: OP_IF, OP_ELSE: Nested OP_EVAL (3 == 3) (P2SH32)",221,79,2,1,51,40800,1505,1,0,178,2,13,77,0
+y6822m,"Flow control: OP_IF, OP_ELSE (x3): Nested OP_EVAL (3 == 3) (P2S)",212,54,2,1,42,33600,1104,1,0,147,0,11,4,0
+jzurgp,"Flow control: OP_IF, OP_ELSE (x3): Nested OP_EVAL (3 == 3) (P2SH20)",223,67,2,1,53,42400,1683,1,0,185,2,15,55,0
+r8w5mm,"Flow control: OP_IF, OP_ELSE (x3): Nested OP_EVAL (3 == 3) (P2SH32)",223,79,2,1,53,42400,1707,1,0,185,2,15,79,0
+yrv5kg,"Flow control: OP_IF, OP_ELSE: Nested <1> OP_BEGIN OP_UNTIL (P2S)",213,50,2,1,43,34400,802,1,0,150,0,8,2,0
+ewyrd8,"Flow control: OP_IF, OP_ELSE: Nested <1> OP_BEGIN OP_UNTIL (P2SH20)",220,67,2,1,50,40000,1377,1,0,175,2,12,49,0
+6ls5vh,"Flow control: OP_IF, OP_ELSE: Nested <1> OP_BEGIN OP_UNTIL (P2SH32)",220,79,2,1,50,40000,1401,1,0,175,2,12,73,0
+f8ldd4,"Flow control: OP_IF, OP_ELSE (x3): Nested <1> OP_BEGIN OP_UNTIL (P2S)",213,52,2,1,43,34400,1002,1,0,150,0,10,2,0
+vtusz6,"Flow control: OP_IF, OP_ELSE (x3): Nested <1> OP_BEGIN OP_UNTIL (P2SH20)",222,67,2,1,52,41600,1579,1,0,182,2,14,51,0
+986pn3,"Flow control: OP_IF, OP_ELSE (x3): Nested <1> OP_BEGIN OP_UNTIL (P2SH32)",222,79,2,1,52,41600,1603,1,0,182,2,14,75,0
+5q6a2x,"Flow control: OP_NOTIF: Nested OP_IF (3 == 3) (P2S)",213,51,2,1,43,34400,904,1,0,150,0,9,4,0
+p77fy7,"Flow control: OP_NOTIF: Nested OP_IF (3 == 3) (P2SH20)",221,67,2,1,51,40800,1480,1,0,178,2,13,52,0
+zpa9hd,"Flow control: OP_NOTIF: Nested OP_IF (3 == 3) (P2SH32)",221,79,2,1,51,40800,1504,1,0,178,2,13,76,0
+7ay35z,"Flow control: OP_NOTIF: Nested OP_NOTIF (3 == 3) (P2S)",213,51,2,1,43,34400,903,1,0,150,0,9,3,0
+9d36sv,"Flow control: OP_NOTIF: Nested OP_NOTIF (3 == 3) (P2SH20)",221,67,2,1,51,40800,1479,1,0,178,2,13,51,0
+4n0ttt,"Flow control: OP_NOTIF: Nested OP_NOTIF (3 == 3) (P2SH32)",221,79,2,1,51,40800,1503,1,0,178,2,13,75,0
+rrkq7y,"Flow control: OP_NOTIF: Nested OP_EVAL (3 == 3) (P2S)",212,51,2,1,42,33600,804,1,0,147,0,8,4,0
+jerp2a,"Flow control: OP_NOTIF: Nested OP_EVAL (3 == 3) (P2SH20)",220,67,2,1,50,40000,1380,1,0,175,2,12,52,0
+xaftmr,"Flow control: OP_NOTIF: Nested OP_EVAL (3 == 3) (P2SH32)",220,79,2,1,50,40000,1404,1,0,175,2,12,76,0
+umgppv,"Flow control: OP_NOTIF: Nested <1> OP_BEGIN OP_UNTIL (P2S)",213,49,2,1,43,34400,702,1,0,150,0,7,2,0
+w95r53,"Flow control: OP_NOTIF: Nested <1> OP_BEGIN OP_UNTIL (P2SH20)",219,67,2,1,49,39200,1276,1,0,171,2,11,48,0
+xseywy,"Flow control: OP_NOTIF: Nested <1> OP_BEGIN OP_UNTIL (P2SH32)",219,79,2,1,49,39200,1300,1,0,171,2,11,72,0
+5uynp9,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_IF (3 == 3) (P2S)",213,52,2,1,43,34400,1005,1,0,150,0,10,5,0
+c0lwux,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_IF (3 == 3) (P2SH20)",222,67,2,1,52,41600,1582,1,0,182,2,14,54,0
+w773gj,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_IF (3 == 3) (P2SH32)",222,79,2,1,52,41600,1606,1,0,182,2,14,78,0
+m6maef,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_NOTIF (3 == 3) (P2S)",213,52,2,1,43,34400,1004,1,0,150,0,10,4,0
+twn7k8,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_NOTIF (3 == 3) (P2SH20)",222,67,2,1,52,41600,1581,1,0,182,2,14,53,0
+jh5ndh,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_NOTIF (3 == 3) (P2SH32)",222,79,2,1,52,41600,1605,1,0,182,2,14,77,0
+qetqdq,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_EVAL (3 == 3) (P2S)",212,52,2,1,42,33600,905,1,0,147,0,9,5,0
+7qa4w2,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_EVAL (3 == 3) (P2SH20)",221,67,2,1,51,40800,1482,1,0,178,2,13,54,0
+uhxcwc,"Flow control: OP_NOTIF, OP_ELSE: Nested OP_EVAL (3 == 3) (P2SH32)",221,79,2,1,51,40800,1506,1,0,178,2,13,78,0
+z8ug7v,"Flow control: OP_NOTIF, OP_ELSE (x3): Nested OP_EVAL (3 == 3) (P2S)",212,54,2,1,42,33600,1105,1,0,147,0,11,5,0
+ajhjcd,"Flow control: OP_NOTIF, OP_ELSE (x3): Nested OP_EVAL (3 == 3) (P2SH20)",223,67,2,1,53,42400,1684,1,0,185,2,15,56,0
+8vqs27,"Flow control: OP_NOTIF, OP_ELSE (x3): Nested OP_EVAL (3 == 3) (P2SH32)",223,79,2,1,53,42400,1708,1,0,185,2,15,80,0
+s2a64m,"Flow control: OP_NOTIF, OP_ELSE: Nested <1> OP_BEGIN OP_UNTIL (P2S)",213,50,2,1,43,34400,803,1,0,150,0,8,3,0
+33a9nr,"Flow control: OP_NOTIF, OP_ELSE: Nested <1> OP_BEGIN OP_UNTIL (P2SH20)",220,67,2,1,50,40000,1378,1,0,175,2,12,50,0
+5jlz6j,"Flow control: OP_NOTIF, OP_ELSE: Nested <1> OP_BEGIN OP_UNTIL (P2SH32)",220,79,2,1,50,40000,1402,1,0,175,2,12,74,0
+4s9zm8,"Flow control: OP_NOTIF, OP_ELSE (x3): Nested <1> OP_BEGIN OP_UNTIL (P2S)",213,52,2,1,43,34400,1003,1,0,150,0,10,3,0
+azq078,"Flow control: OP_NOTIF, OP_ELSE (x3): Nested <1> OP_BEGIN OP_UNTIL (P2SH20)",222,67,2,1,52,41600,1580,1,0,182,2,14,52,0
+ltr5yx,"Flow control: OP_NOTIF, OP_ELSE (x3): Nested <1> OP_BEGIN OP_UNTIL (P2SH32)",222,79,2,1,52,41600,1604,1,0,182,2,14,76,0
+he9ltd,"Flow control: Deeply nested flow control (P2S)",211,71,2,1,41,32800,2706,1,0,143,0,27,6,0
+30qpjf,"Flow control: Deeply nested flow control (P2SH20)",239,67,2,1,69,55200,3302,2,0,241,2,31,74,0
+yk9g97,"Flow control: Deeply nested flow control (P2SH32)",239,79,2,1,69,55200,3326,2,0,241,2,31,98,0

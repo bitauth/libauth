@@ -1,0 +1,283 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+c643nx,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,57,2,1,42,33600,512,1,0,21,0,5,12,0
+6qdlsa,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+02e88m,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+hgvh4p,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,113,2,1,42,33600,568,1,0,21,0,5,68,0
+t0vl5k,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+29h5gr,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+6vhrsc,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+y585fg,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+2xfamh,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4320,67,2,1,4148,3318400,21816,96,0,2074,66,9,8244,0
+gjljtm,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4320,79,2,1,4148,3318400,21840,96,0,2074,66,9,8268,0
+4j8nxs,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8416,67,2,1,8244,6595200,42296,192,0,4122,130,9,16436,0
+hc3f9x,"BigInt: OP_BOOLOR 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8416,79,2,1,8244,6595200,42320,192,0,4122,130,9,16460,0
+msfmuu,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,57,2,1,42,33600,512,1,0,21,0,5,12,0
+zzs8hu,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+e5g5yq,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+znjrsd,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,64,2,1,42,33600,519,1,0,21,0,5,19,0
+777f06,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+rnj7nu,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+730p9t,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+kp7rr0,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+36mg82,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+7ld7k0,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+pj7pdz,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+fns4d2,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+7eauam,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+3wd30s,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+mvgeku,"BigInt: OP_BOOLOR 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+k0lw7a,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,113,2,1,42,33600,568,1,0,21,0,5,68,0
+2tpfs3,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+y6848d,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+5ajj06,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+ekajsy,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+9jpraa,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+cy7q2v,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,176,2,1,42,33600,631,1,0,21,0,5,131,0
+nx3upj,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+q5ehan,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+44n77c,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+pz7lkt,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+z79l29,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+jtmkmk,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+svpld3,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+8626u2,"BigInt: OP_BOOLOR 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+uwjmut,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+d6v8vg,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+nc9vqu,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+w7u8wn,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+usay3p,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+0ukan7,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+cezazl,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+5zag9u,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0
+vnewhr,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+x0wq3x,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+r5edpx,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+790vzd,"BigInt: OP_BOOLOR 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0
+kk86h7,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",4320,67,2,1,4148,3318400,21816,96,0,2074,66,9,8244,0
+3d3ted,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",4320,79,2,1,4148,3318400,21840,96,0,2074,66,9,8268,0
+2pwxjn,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+yw6s7q,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+6y6syz,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+kcgx77,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+jpttum,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+qhghx8,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+sf43uf,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",8417,67,2,1,8245,6596000,42296,192,0,4122,130,9,16436,0
+mac8zd,"BigInt: OP_BOOLOR 4096-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",8417,79,2,1,8245,6596000,42320,192,0,4122,130,9,16460,0
+t6nn4f,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",8416,67,2,1,8244,6595200,42296,192,0,4122,130,9,16436,0
+sdeamm,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",8416,79,2,1,8244,6595200,42320,192,0,4122,130,9,16460,0
+nfjhdx,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+2auj4h,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+uk597n,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+8ha8rh,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+xc0shj,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+3fzcz4,"BigInt: OP_BOOLOR 8192-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0
+2d5kmc,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,50,2,1,42,33600,505,1,0,21,0,5,5,0
+ef0g7z,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,1336,1,0,24,2,9,52,0
+s6q5ps,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,1360,1,0,24,2,9,76,0
+6qephz,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,57,2,1,42,33600,512,1,0,21,0,5,12,0
+e7lpy9,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+3kfm7z,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+3y5hmp,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,113,2,1,42,33600,568,1,0,21,0,5,68,0
+t8lj8k,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+vayzje,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+wl8y5j,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+hvkgyg,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+8jhcdv,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4320,67,2,1,4148,3318400,21816,96,0,2074,66,9,8244,0
+ac5uzq,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4320,79,2,1,4148,3318400,21840,96,0,2074,66,9,8268,0
+uu8t7n,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,42296,192,0,4122,130,9,16436,0
+e0dya7,"BigInt: OP_BOOLOR 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,42320,192,0,4122,130,9,16460,0
+z9x39m,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,57,2,1,42,33600,512,1,0,21,0,5,12,0
+w50ea4,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,1350,1,0,28,2,9,66,0
+gpk0mt,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,1374,1,0,28,2,9,90,0
+9jx2yn,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,64,2,1,42,33600,519,1,0,21,0,5,19,0
+jnsg3a,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+d04qhw,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+744g30,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+zxg2xf,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+zccync,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+ga7ela,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+8gwkuz,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+te6rrq,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+dufmcu,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+har9ez,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+t7jtf6,"BigInt: OP_BOOLOR 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+vj4l9v,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,113,2,1,42,33600,568,1,0,21,0,5,68,0
+f7huz0,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,1654,3,0,56,3,9,178,0
+vssex8,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,1678,3,0,56,3,9,202,0
+uh67t0,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+urau5e,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+yxfhcv,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+fs37d6,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,176,2,1,42,33600,631,1,0,21,0,5,131,0
+uj4sl0,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+h8ss36,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+lzsgpr,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+sy0wuv,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+yc59wg,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+gtn353,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+0gk2wj,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+wj0ygl,"BigInt: OP_BOOLOR 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+zakx0y,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,3896,13,0,282,10,9,1076,0
+7cpwrw,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,3920,13,0,282,10,9,1100,0
+7uyc06,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+6qw6wn,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+lrnv02,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+ecl4za,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+hned0f,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+5zslc0,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0
+wrxe7y,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+3egtz3,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+l37ug8,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+ugx9qx,"BigInt: OP_BOOLOR 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0
+m84yc4,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",4320,67,2,1,4148,3318400,21816,96,0,2074,66,9,8244,0
+5wzt7k,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",4320,79,2,1,4148,3318400,21840,96,0,2074,66,9,8268,0
+dv2m58,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+29rpuf,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+h2hgdg,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+md907q,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+gtgygy,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+yvfsel,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+ugrymh,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",8417,67,2,1,8245,6596000,42296,192,0,4122,130,9,16436,0
+umfvgz,"BigInt: OP_BOOLOR 4096-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",8417,79,2,1,8245,6596000,42320,192,0,4122,130,9,16460,0
+fru348,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,42296,192,0,4122,130,9,16436,0
+a6x8fq,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,42320,192,0,4122,130,9,16460,0
+ywk3tm,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+3fyyyj,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+hnmpf3,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+hgvp3p,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+a7g70s,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+heyj3p,"BigInt: OP_BOOLOR 8192-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0
+w820mj,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,48,2,1,42,33600,505,1,0,21,0,5,5,0
+uyltmv,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,1334,1,0,23,2,9,50,0
+qvwh35,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,1358,1,0,23,2,9,74,0
+klg5ee,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,56,2,1,42,33600,512,1,0,21,0,5,12,0
+shthyh,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,1349,1,0,27,2,9,65,0
+g2halz,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,1373,1,0,27,2,9,89,0
+napyx8,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,112,2,1,42,33600,568,1,0,21,0,5,68,0
+tecs6s,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,1653,3,0,55,3,9,177,0
+562f3j,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,1677,3,0,55,3,9,201,0
+9mq64m,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,3895,13,0,281,10,9,1075,0
+9t5385,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,3919,13,0,281,10,9,1099,0
+fh32ls,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4319,67,2,1,4147,3317600,21815,96,0,2073,66,9,8243,0
+paksau,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4319,79,2,1,4147,3317600,21839,96,0,2073,66,9,8267,0
+496a3u,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8415,67,2,1,8243,6594400,42295,192,0,4121,130,9,16435,0
+9jn95k,"BigInt: OP_BOOLOR 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8415,79,2,1,8243,6594400,42319,192,0,4121,130,9,16459,0
+vkvemf,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,56,2,1,42,33600,512,1,0,21,0,5,12,0
+s5mwjp,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,1349,1,0,27,2,9,65,0
+azvjas,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,1373,1,0,27,2,9,89,0
+hx4p0x,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,64,2,1,42,33600,519,1,0,21,0,5,19,0
+uuk8sd,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+cfr4ff,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+9tsada,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+a64azc,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+8yuvw0,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+0vyyx8,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+qx680q,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+lctqne,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+s4hg8g,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+9r8s0a,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+fwzv6t,"BigInt: OP_BOOLOR 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+llxgp9,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,112,2,1,42,33600,568,1,0,21,0,5,68,0
+sqvef0,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,1653,3,0,55,3,9,177,0
+arde9t,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,1677,3,0,55,3,9,201,0
+0emh6v,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+gu3yfk,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+08l8q7,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+ttyjr2,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,176,2,1,42,33600,631,1,0,21,0,5,131,0
+g38m6e,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+zf0nu2,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+3wquvs,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+ztwmaz,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+adpfjf,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+k5av47,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+gqqeyy,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+8pl4t5,"BigInt: OP_BOOLOR 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+5gdxyr,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,3895,13,0,281,10,9,1075,0
+qs0u9s,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,3919,13,0,281,10,9,1099,0
+vav2hy,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+e9vtfc,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+82p5ag,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+r43kes,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+ufsuch,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+zge8vp,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0
+ux86hn,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+0cla95,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+ycvw9h,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+77mslp,"BigInt: OP_BOOLOR 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0
+8939cz,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",4319,67,2,1,4147,3317600,21815,96,0,2073,66,9,8243,0
+s9m727,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",4319,79,2,1,4147,3317600,21839,96,0,2073,66,9,8267,0
+eahgyv,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+uamfwx,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+lcw3wg,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+6d425d,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+2x3pqu,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+pqf5gm,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+nqcljs,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",8417,67,2,1,8245,6596000,42296,192,0,4122,130,9,16436,0
+8fyexp,"BigInt: OP_BOOLOR 4096-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",8417,79,2,1,8245,6596000,42320,192,0,4122,130,9,16460,0
+yl0xal,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",8415,67,2,1,8243,6594400,42295,192,0,4121,130,9,16435,0
+wtpunl,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",8415,79,2,1,8243,6594400,42319,192,0,4121,130,9,16459,0
+el7m5e,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+zsplv7,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+y3nm2s,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+qx7rhy,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+hhdhuq,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+wah33r,"BigInt: OP_BOOLOR 8192-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0
+mt9awv,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,56,2,1,42,33600,512,1,0,21,0,5,12,0
+l59lgv,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",225,67,2,1,55,44000,1349,1,0,27,2,9,65,0
+y27gu5,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",225,79,2,1,55,44000,1373,1,0,27,2,9,89,0
+we2y0m,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,64,2,1,42,33600,519,1,0,21,0,5,19,0
+he8e5j,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,1364,1,0,31,2,9,80,0
+l35sgm,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,1388,1,0,31,2,9,104,0
+f2elxs,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+y43qal,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+fpgtqa,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+c9d9gj,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+l3j0ch,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+y8l8y2,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+hc5klf,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+04a59u,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+gth6mr,"BigInt: OP_BOOLOR 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+pcrakm,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",212,112,2,1,42,33600,568,1,0,21,0,5,68,0
+7upxhl,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",281,67,2,1,111,88800,1653,3,0,55,3,9,177,0
+3ppunx,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",281,79,2,1,111,88800,1677,3,0,55,3,9,201,0
+vsx2ll,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,120,2,1,42,33600,575,1,0,21,0,5,75,0
+4ycu27,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,1668,3,0,60,3,9,192,0
+a5c9qa,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,1692,3,0,60,3,9,216,0
+yh67lx,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,176,2,1,42,33600,631,1,0,21,0,5,131,0
+f2llcl,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",346,67,2,1,176,140800,1972,4,0,88,4,9,304,0
+xt4q63,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",346,79,2,1,176,140800,1996,4,0,88,4,9,328,0
+uhja8a,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+jhw063,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+ed2vpm,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+zn8pd0,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+dqcmdk,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+hetn55,"BigInt: OP_BOOLOR 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+an4avj,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",735,67,2,1,563,450400,3895,13,0,281,10,9,1075,0
+xaeltw,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",735,79,2,1,563,450400,3919,13,0,281,10,9,1099,0
+n30hg2,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,3910,13,0,285,10,9,1090,0
+mmqx5v,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,3934,13,0,285,10,9,1114,0
+zn7c0q,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,4214,15,0,313,11,9,1202,0
+03sx3v,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,4238,15,0,313,11,9,1226,0
+g9trf9,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",1249,67,2,1,1077,861600,6456,25,0,538,18,9,2100,0
+9u2wrz,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",1249,79,2,1,1077,861600,6480,25,0,538,18,9,2124,0
+sx8e6g,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+watu9p,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+a0jm3j,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+xhcu5k,"BigInt: OP_BOOLOR 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0
+83yuwa,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",4319,67,2,1,4147,3317600,21815,96,0,2073,66,9,8243,0
+zgvw29,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",4319,79,2,1,4147,3317600,21839,96,0,2073,66,9,8267,0
+anj4u6,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",4327,67,2,1,4155,3324000,21830,97,0,2077,66,9,8258,0
+erq5uf,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",4327,79,2,1,4155,3324000,21854,97,0,2077,66,9,8282,0
+uz8dwt,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",4383,67,2,1,4211,3368800,22134,98,0,2105,67,9,8370,0
+t4qzuc,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",4383,79,2,1,4211,3368800,22158,98,0,2105,67,9,8394,0
+qwuhkj,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",4833,67,2,1,4661,3728800,24376,108,0,2330,74,9,9268,0
+0hl6x3,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",4833,79,2,1,4661,3728800,24400,108,0,2330,74,9,9292,0
+l3yngz,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",8417,67,2,1,8245,6596000,42296,192,0,4122,130,9,16436,0
+0y3m4h,"BigInt: OP_BOOLOR 4096-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",8417,79,2,1,8245,6596000,42320,192,0,4122,130,9,16460,0
+cjeag3,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",8415,67,2,1,8243,6594400,42295,192,0,4121,130,9,16435,0
+p6hhmw,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",8415,79,2,1,8243,6594400,42319,192,0,4121,130,9,16459,0
+nckehf,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",8423,67,2,1,8251,6600800,42310,192,0,4125,130,9,16450,0
+9ckrwc,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",8423,79,2,1,8251,6600800,42334,192,0,4125,130,9,16474,0
+3jf6le,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",8479,67,2,1,8307,6645600,42614,193,0,4153,131,9,16562,0
+0nkvv9,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",8479,79,2,1,8307,6645600,42638,193,0,4153,131,9,16586,0
+wpv9jf,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",8929,67,2,1,8757,7005600,44856,204,0,4378,138,9,17460,0
+jmaua5,"BigInt: OP_BOOLOR 8192-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",8929,79,2,1,8757,7005600,44880,204,0,4378,138,9,17484,0

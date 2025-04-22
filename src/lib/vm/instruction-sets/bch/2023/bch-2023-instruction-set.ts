@@ -65,8 +65,9 @@ import {
   isArbitraryDataOutput,
   isDustOutput,
   isPushOnly,
-  isStandardOutputBytecode,
-  isStandardUtxoBytecode,
+  isSimpleMultisig,
+  isStandardOutputBytecode2023,
+  isStandardUtxoBytecode2023,
   isWitnessProgram,
   mapOverOperations,
   op2Drop,
@@ -912,7 +913,7 @@ export const createInstructionSetBch2023 = <
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of sourceOutputs.entries()) {
           if (consensus.maximumStandardLockingBytecodeLength === -1) {
-            if (!isStandardUtxoBytecode(output.lockingBytecode)) {
+            if (!isStandardUtxoBytecode2023(output.lockingBytecode)) {
               return formatError(
                 AuthenticationErrorCommon.verifyStandardFailedNonstandardSourceOutput,
                 `Source output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
@@ -920,7 +921,8 @@ export const createInstructionSetBch2023 = <
             }
           } else if (
             output.lockingBytecode.length >
-            consensus.maximumStandardLockingBytecodeLength
+              consensus.maximumStandardLockingBytecodeLength &&
+            isSimpleMultisig(output.lockingBytecode) === false
           ) {
             return formatError(
               AuthenticationErrorCommon.verifyStandardFailedNonstandardSourceOutput,
@@ -933,27 +935,33 @@ export const createInstructionSetBch2023 = <
         let totalArbitraryDataBytes = 0;
         // eslint-disable-next-line functional/no-loop-statements
         for (const [index, output] of transaction.outputs.entries()) {
-          if (consensus.maximumStandardLockingBytecodeLength === -1) {
-            if (!isStandardOutputBytecode(output.lockingBytecode)) {
-              return formatError(
-                AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
-                `Transaction output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
-              );
-            }
-          } else if (
-            output.lockingBytecode.length >
-            consensus.maximumStandardLockingBytecodeLength
+          const dataCarrier = isArbitraryDataOutput(output.lockingBytecode);
+          // eslint-disable-next-line functional/no-conditional-statements
+          if (dataCarrier) {
+            // eslint-disable-next-line functional/no-expression-statements
+            totalArbitraryDataBytes += output.lockingBytecode.length + 1;
+          }
+          const p2sIsStandard =
+            consensus.maximumStandardLockingBytecodeLength !== -1;
+          if (
+            !p2sIsStandard &&
+            !isStandardOutputBytecode2023(output.lockingBytecode)
           ) {
-            // eslint-disable-next-line functional/no-conditional-statements
-            if (isArbitraryDataOutput(output.lockingBytecode)) {
-              // eslint-disable-next-line functional/no-expression-statements
-              totalArbitraryDataBytes += output.lockingBytecode.length + 1;
-            } else {
-              return formatError(
-                AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
-                `Transaction output ${index} is non-standard: locking bytecode length of ${output.lockingBytecode.length} exceeds the maximum standard locking bytecode length of ${consensus.maximumStandardLockingBytecodeLength} and does not match the standard arbitrary data pattern (OP_RETURN).`,
-              );
-            }
+            return formatError(
+              AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
+              `Transaction output ${index} is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).`,
+            );
+          }
+          if (
+            p2sIsStandard &&
+            output.lockingBytecode.length >
+              consensus.maximumStandardLockingBytecodeLength &&
+            !dataCarrier
+          ) {
+            return formatError(
+              AuthenticationErrorCommon.verifyStandardFailedNonstandardOutput,
+              `Transaction output ${index} is non-standard: locking bytecode length of ${output.lockingBytecode.length} exceeds the maximum standard locking bytecode length of ${consensus.maximumStandardLockingBytecodeLength} and does not match the standard arbitrary data pattern (OP_RETURN).`,
+            );
           }
           if (isDustOutput(output)) {
             return formatError(

@@ -1,0 +1,4 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+wdl08m,"Conditionals: Maximize control stack depth (OP_IF), 201 operations (P2S)",311,247,2,1,141,112800,30402,3,0,493,0,303,102,0
+xsna0k,"Conditionals: Maximize control stack depth (OP_IF), 202 operations (P2S)",311,249,2,1,141,112800,30603,3,0,493,0,305,103,0
+5rxgac,"Conditionals: OP_IFDUP at maximum control stack depth (OP_IF), 202 operations (P2S)",311,247,2,1,141,112800,30402,3,0,493,0,303,102,0

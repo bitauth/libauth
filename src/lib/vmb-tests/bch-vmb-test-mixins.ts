@@ -142,14 +142,13 @@ const minSats = 10_000;
  * under test
  */
 export const packedTransactionScenario = (
-  // TODO: `nop2sh` -> `p2s`
-  using: 'nop2sh' | 'p2sh20',
+  using: 'p2s' | 'p2sh20',
   repeatCount: number,
 ): WalletTemplateScenario => ({
   sourceOutputs: [
     ...range(repeatCount, 1).map((i) => ({
       lockingBytecode: {
-        script: using === 'nop2sh' ? 'lockStandard' : 'lockP2sh20',
+        script: using === 'p2s' ? 'lockStandard' : 'lockP2sh20',
       },
       valueSatoshis: i + minSats,
     })),
@@ -159,7 +158,7 @@ export const packedTransactionScenario = (
     inputs: [
       ...range(repeatCount, 1).map(() => ({
         unlockingBytecode: {
-          script: using === 'nop2sh' ? 'unlockStandard' : 'unlockP2sh20',
+          script: using === 'p2s' ? 'unlockStandard' : 'unlockP2sh20',
         },
       })),
       { unlockingBytecode: ['slot'] },

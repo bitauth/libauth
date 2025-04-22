@@ -445,5 +445,11 @@
 "pqlkk2":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100.",
 "4updhy":"Unable to verify standard transaction: standard transactions may only spend standard output types. Source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
 "ydt5sv":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100.",
-"6ffhwj":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100."
+"6ffhwj":"Unable to verify transaction: error in evaluating input index 1: Program exceeded the maximum control stack depth. Maximum control stack depth: 100.",
+"7y55wj":"Unable to verify standard transaction: standard transactions may only spend standard output types. Source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"27tjfx":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"kx0rh5":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"ldd4dj":"Unable to verify standard transaction: standard transactions may only spend standard output types. Source output 1 is non-standard: locking bytecode does not match a standard pattern: P2PKH, P2PK, P2SH, P2MS, or arbitrary data (OP_RETURN).",
+"szft5e":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation.",
+"3ek08n":"Unable to verify transaction: error in evaluating input index 1: Program called an unassigned, reserved operation."
 }

@@ -1,9 +1,10 @@
 import {
+  sha1 as internalSha1,
   sha256 as internalSha256,
   sha512 as internalSha512,
 } from '../crypto/default-crypto-instances.js';
 import { flattenBinArray } from '../format/format.js';
-import type { Sha256, Sha512 } from '../lib.js';
+import type { Sha1, Sha256, Sha512 } from '../lib.js';
 
 export type HmacFunction = (
   secret: Uint8Array,
@@ -23,24 +24,46 @@ export const instantiateHmacFunction =
     hashFunction: (input: Uint8Array) => Uint8Array,
     blockByteLength: number,
   ): HmacFunction =>
-  (secret, message) => {
-    const key = new Uint8Array(blockByteLength).fill(0);
-    // eslint-disable-next-line functional/no-expression-statements
-    key.set(secret.length > blockByteLength ? hashFunction(secret) : secret, 0);
+    (secret, message) => {
+      const key = new Uint8Array(blockByteLength).fill(0);
+      // eslint-disable-next-line functional/no-expression-statements
+      key.set(secret.length > blockByteLength ? hashFunction(secret) : secret, 0);
 
-    const innerPaddingFill = 0x36;
-    const innerPadding = new Uint8Array(blockByteLength).fill(innerPaddingFill);
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
-    const innerPrefix = innerPadding.map((pad, index) => pad ^ key[index]!);
-    const innerContent = flattenBinArray([innerPrefix, message]);
-    const innerResult = hashFunction(innerContent);
+      const innerPaddingFill = 0x36;
+      const innerPadding = new Uint8Array(blockByteLength).fill(innerPaddingFill);
+      // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+      const innerPrefix = innerPadding.map((pad, index) => pad ^ key[index]!);
+      const innerContent = flattenBinArray([innerPrefix, message]);
+      const innerResult = hashFunction(innerContent);
 
-    const outerPaddingFill = 0x5c;
-    const outerPadding = new Uint8Array(blockByteLength).fill(outerPaddingFill);
-    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
-    const outerPrefix = outerPadding.map((pad, index) => pad ^ key[index]!);
-    return hashFunction(flattenBinArray([outerPrefix, innerResult]));
-  };
+      const outerPaddingFill = 0x5c;
+      const outerPadding = new Uint8Array(blockByteLength).fill(outerPaddingFill);
+      // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+      const outerPrefix = outerPadding.map((pad, index) => pad ^ key[index]!);
+      return hashFunction(flattenBinArray([outerPrefix, innerResult]));
+    };
+
+const sha1BlockByteLength = 64;
+
+/**
+ * Create a hash-based message authentication code using HMAC-SHA1.
+ * Returns a 32-byte Uint8Array.
+ *
+ * Secrets longer than the block byte-length (64 bytes) are hashed before
+ * use, shortening their length to the minimum recommended length (64 bytes).
+ * See `RFC 2104` for details.
+ *
+ * @param secret - the secret key (recommended length: 64 bytes)
+ * @param message - the message to authenticate
+ * @param sha1 - an implementation of Sha1 (defaults to the
+ * internal WASM implementation)
+ */
+export const hmacSha1 = (
+  secret: Uint8Array,
+  message: Uint8Array,
+  sha1: { hash: Sha1['hash'] } = internalSha1,
+) =>
+  instantiateHmacFunction(sha1.hash, sha1BlockByteLength)(secret, message);
 
 const sha256BlockByteLength = 64;
 

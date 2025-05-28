@@ -12,7 +12,7 @@ export default [
     [
       ...setExpectedResults(
         generateTestCases(
-          ['<$0> <$1.$2_signature.all_outputs>', '<1> <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG', '1-of-3 $2 multisig with $0 ($1)'],
+          ['<$0> <$1.$2_signature.all_outputs>', 'OP_1 <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG', '1-of-3 $2 multisig with $0 ($1)'],
           [
             [
               ['checkBits of zero', '0'],
@@ -57,7 +57,7 @@ export default [
       ),
       ...setExpectedResults(
         generateTestCases(
-          ['<$0> <$1.$2_signature.all_outputs> <$3.$4_signature.all_outputs>', '<2> <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG', '2-of-3 multisig with $0 ($2 $1, $4 $3)'],
+          ['<$0> <$1.$2_signature.all_outputs> <$3.$4_signature.all_outputs>', 'OP_2 <key1.public_key> <key2.public_key> <key3.public_key> OP_3 OP_CHECKMULTISIG', '2-of-3 multisig with $0 ($2 $1, $4 $3)'],
           [
             [
               ['checkBits of zero', '0'],

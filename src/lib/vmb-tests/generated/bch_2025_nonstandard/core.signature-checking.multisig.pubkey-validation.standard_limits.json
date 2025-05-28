@@ -1,0 +1,6 @@
+{
+"scp73w":[114,91200,53772,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: short arbitrary data) (P2S)"],
+"gp53d6":[115,92000,54026,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: excessive length) (P2S)"],
+"3w7qrv":[108,86400,27767,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: short arbitrary data) (P2S)"],
+"sjradc":[108,86400,28020,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: excessive length) (P2S)"]
+}

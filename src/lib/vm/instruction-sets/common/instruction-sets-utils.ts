@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   isPayToPublicKey,
   isPayToPublicKeyHash,
@@ -816,6 +817,8 @@ export const isDustOutput = (
 const enum PublicKey {
   uncompressedByteLength = 65,
   uncompressedHeaderByte = 0x04,
+  uncompressedHeaderByteLegacyEvenY = 0x06,
+  uncompressedHeaderByteLegacyOddY = 0x07,
   compressedByteLength = 33,
   compressedHeaderByteEven = 0x02,
   compressedHeaderByteOdd = 0x03,
@@ -833,6 +836,27 @@ export const isValidCompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
 export const isValidPublicKeyEncoding = (publicKey: Uint8Array) =>
   isValidCompressedPublicKeyEncoding(publicKey) ||
   isValidUncompressedPublicKeyEncoding(publicKey);
+
+// eslint-disable-next-line complexity
+export const isStandardnessPublicKeyEncodingPre2026 = (
+  publicKey: Uint8Array,
+) => {
+  const [header] = publicKey;
+  if (publicKey.length === PublicKey.compressedByteLength) {
+    return (
+      header === PublicKey.compressedHeaderByteEven ||
+      header === PublicKey.compressedHeaderByteOdd
+    );
+  }
+  if (publicKey.length === PublicKey.uncompressedByteLength) {
+    return (
+      header === PublicKey.uncompressedHeaderByte ||
+      header === PublicKey.uncompressedHeaderByteLegacyEvenY ||
+      header === PublicKey.uncompressedHeaderByteLegacyOddY
+    );
+  }
+  return false;
+};
 
 // eslint-disable-next-line complexity
 export const pushNumberOpcodeToNumber = (opcode: number) => {
@@ -905,7 +929,7 @@ export const isSimpleMultisig = (lockingBytecode: Uint8Array) => {
     (instruction) => instruction.data,
   );
 
-  if (publicKeys.some((key) => !isValidPublicKeyEncoding(key))) {
+  if (publicKeys.some((key) => !isStandardnessPublicKeyEncodingPre2026(key))) {
     return false;
   }
 

@@ -1,10 +1,6 @@
 import test from 'ava';
 
-import {
-  stringifyTestVector,
-  supportedTestSetOverridesBch,
-  vmbTestGroupToVmbTests,
-} from '../lib.js';
+import { stringifyTestVector, vmbTestGroupToVmbTests } from '../lib.js';
 
 /* spell-checker: disable */
 test('vmbTestGroupToVmbTests', (t) => {

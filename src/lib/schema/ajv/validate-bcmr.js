@@ -30,7 +30,7 @@ const schema22 = {
         },
         splitId: {
           description:
-            "The split ID of this identity's chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .",
+            'The split ID of this identity\'s chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .\n\nTODO: rename "splitId" to "chainBranchId" (more clearly refers to the immediate descendent of the split block)',
           type: 'string',
         },
         status: {
@@ -123,7 +123,7 @@ const schema22 = {
         },
         splitId: {
           description:
-            "The split ID of this identity's chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .",
+            'The split ID of this identity\'s chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .\n\nTODO: rename "splitId" to "chainBranchId" (more clearly refers to the immediate descendent of the split block)',
           type: 'string',
         },
         status: {
@@ -665,7 +665,7 @@ const schema25 = {
     },
     splitId: {
       description:
-        "The split ID of this identity's chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .",
+        'The split ID of this identity\'s chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .\n\nTODO: rename "splitId" to "chainBranchId" (more clearly refers to the immediate descendent of the split block)',
       type: 'string',
     },
     status: {
@@ -1440,7 +1440,7 @@ const schema30 = {
     },
     splitId: {
       description:
-        "The split ID of this identity's chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .",
+        'The split ID of this identity\'s chain of record.\n\nIf undefined, defaults to  {@link  MetadataRegistry.defaultChain } .\n\nTODO: rename "splitId" to "chainBranchId" (more clearly refers to the immediate descendent of the split block)',
       type: 'string',
     },
     status: {

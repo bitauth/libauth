@@ -1,0 +1,5 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+scp73w,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: short arbitrary data) (P2S)",284,87,2,1,114,91200,53772,3,2,57,5,7,112,0
+gp53d6,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: excessive length) (P2S)",285,148,2,1,115,92000,54026,3,2,57,6,7,174,0
+3w7qrv,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: short arbitrary data) (P2S)",278,87,2,1,108,86400,27767,2,1,54,5,7,107,0
+sjradc,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: excessive length) (P2S)",278,148,2,1,108,86400,28020,2,1,54,6,7,168,0

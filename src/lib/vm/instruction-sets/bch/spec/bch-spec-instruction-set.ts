@@ -21,6 +21,7 @@ import {
 import { createInstructionSetBch2026 } from '../2026/bch-2026-instruction-set.js';
 
 import { ConsensusBchSpec } from './bch-spec-consensus.js';
+import { opEval } from './bch-spec-eval.js';
 import { OpcodesBchSpec } from './bch-spec-opcodes.js';
 import { createOpPow } from './bch-spec-pow.js';
 
@@ -105,6 +106,7 @@ export const createInstructionSetBchSpec = <
     },
     operations: {
       ...instructionSet.operations,
+      [OpcodesBchSpec.OP_EVAL]: opEval,
       [OpcodesBchSpec.OP_POW]: incrementOperationCount(
         conditionallyEvaluate(
           createOpPow<AuthenticationProgramState>(consensus),

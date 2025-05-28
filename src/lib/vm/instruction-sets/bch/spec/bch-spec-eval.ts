@@ -12,8 +12,8 @@ import {
   useOneStackItem,
 } from '../../common/common.js';
 
-import { AuthenticationErrorBch2026 } from './bch-2026-errors.js';
-import { OpcodesBch2026 } from './bch-2026-opcodes.js';
+import { AuthenticationErrorBchSpec } from './bch-spec-errors.js';
+import { OpcodesBchSpec } from './bch-spec-opcodes.js';
 
 export const opEval = <State extends AuthenticationProgramStateBch2026>(
   state: State,
@@ -25,9 +25,9 @@ export const opEval = <State extends AuthenticationProgramStateBch2026>(
       if (authenticationInstructionsAreMalformed(newInstructions)) {
         return applyError(
           nextState,
-          AuthenticationErrorBch2026.malformedEval,
+          AuthenticationErrorBchSpec.malformedEval,
           `Malformed instruction: ${disassembleAuthenticationInstructionMalformed(
-            OpcodesBch2026,
+            OpcodesBchSpec,
             newInstructions[
               newInstructions.length - 1
             ] as AuthenticationInstructionMalformed,

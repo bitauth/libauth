@@ -56,6 +56,14 @@ export type AuthenticationProgramStateAlternateStack<StackType = Uint8Array> = {
   alternateStack: StackType[];
 };
 
+export type AuthenticationProgramStateFunctionTable = {
+  /**
+   * The table of functions (in Forth parlance, "vocabulary of words") defined
+   * over the course of the evaluation.
+   */
+  functionTable: Uint8Array[];
+};
+
 export type AuthenticationProgramStateControlStack<
   ItemType = AuthenticationProgramStackFrame | boolean | number,
 > = {
@@ -174,6 +182,15 @@ export type AuthenticationProgramStateResourceLimits = {
      * executed over the course of verifying the input.
      */
     arithmeticCost: number;
+
+    /**
+     * The count of functions defined over the course of the evaluation. This
+     * count is reset – along with the function table – before evaluating the
+     * locking bytecode. (Note, VMs which disallow non-push unlocking bytecode
+     * may omit the reset behavior and instead rely on OP_DEFINE's invalidity in
+     * unlocking bytecode.)
+     */
+    definedFunctions: number;
     /**
      * An unsigned integer counter use to count the total number of hash
      * digest iterations required to validate the input.
@@ -226,6 +243,7 @@ export type AuthenticationProgramStateCommon =
     AuthenticationProgramStateCodeSeparator &
     AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
+    AuthenticationProgramStateFunctionTable &
     AuthenticationProgramStateMinimum &
     AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateSignatureAnalysis &

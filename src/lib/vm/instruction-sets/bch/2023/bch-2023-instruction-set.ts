@@ -419,10 +419,12 @@ export const createInstructionSetBch2023 = <
       return {
         alternateStack: [],
         controlStack: [],
+        functionTable: [],
         ip: 0,
         lastCodeSeparator: -1,
         metrics: {
           arithmeticCost: 0,
+          definedFunctions: 0,
           densityControlLength,
           evaluatedInstructionCount: 0,
           hashDigestIterations: 0,

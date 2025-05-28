@@ -1,5 +1,19 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.5
+
+### Minor Changes
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`cea3f0f`](https://github.com/bitauth/libauth/commit/cea3f0ff14825d767445b374c9c78d3fe16770f7) Thanks [@bitjson](https://github.com/bitjson)! - Reclassify existing VMB tests for 2026 proposals, add additional tests
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`cea3f0f`](https://github.com/bitauth/libauth/commit/cea3f0ff14825d767445b374c9c78d3fe16770f7) Thanks [@bitjson](https://github.com/bitjson)! - Add `elideWordsAndHexAtLength`
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`cea3f0f`](https://github.com/bitauth/libauth/commit/cea3f0ff14825d767445b374c9c78d3fe16770f7) Thanks [@bitjson](https://github.com/bitjson)! - `yarn gen:vmb-tests` watch mode: rebuild only the modified file
+
+### Patch Changes
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`cea3f0f`](https://github.com/bitauth/libauth/commit/cea3f0ff14825d767445b374c9c78d3fe16770f7) Thanks [@bitjson](https://github.com/bitjson)! - Rename `nonP2SH` to `P2S`
+
 ## 3.1.0-next.4
 
 ### Patch Changes

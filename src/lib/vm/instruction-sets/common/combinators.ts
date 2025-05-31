@@ -199,6 +199,10 @@ export const useOneVmNumber = <
     return operation(nextState, [value]);
   });
 
+/**
+ * Note that returned parameters are in source order,
+ * e.g. `<first> <second> OP_CODE`.
+ */
 export const useTwoVmNumbers = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack,
@@ -237,6 +241,10 @@ export const useTwoVmNumbers = <
     },
   );
 
+/**
+ * Note that returned parameters are in source order,
+ * e.g. `<first> <second> <third> OP_CODE`.
+ */
 export const useThreeVmNumbers = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack,
@@ -352,7 +360,7 @@ export const pushToStackVmNumberChecked = <
   vmNumber: bigint,
   {
     maximumVmNumberByteLength = ConsensusCommon.maximumVmNumberByteLength as number,
-    hasEncodingCost = false,
+    hasEncodingCost = true,
   } = {},
 ) => {
   const encoded = bigIntToVmNumber(vmNumber);

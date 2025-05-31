@@ -18,6 +18,13 @@ import { conditionallyEvaluate } from '../../common/common.js';
 import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js';
 import { opBegin, opUntil } from '../2026/bch-2026-loops.js';
 
+import {
+  createOpLShiftBin,
+  createOpLShiftNum,
+  createOpRShiftBin,
+  createOpRShiftNum,
+  opInvert,
+} from './bch-2026-bitwise.js';
 import { ConsensusBch2026 } from './bch-2026-consensus.js';
 import { createOpDefine, opInvoke } from './bch-2026-functions.js';
 import { OpcodesBch2026 } from './bch-2026-opcodes.js';
@@ -103,10 +110,23 @@ export const createInstructionSetBch2026 = <
       ...instructionSet.operations,
       [OpcodesBch2026.OP_BEGIN]: opBegin,
       [OpcodesBch2026.OP_UNTIL]: opUntil,
+      [OpcodesBch2026.OP_INVERT]: conditionallyEvaluate(opInvert),
       [OpcodesBch2026.OP_DEFINE]: conditionallyEvaluate(
         createOpDefine(consensus),
       ),
       [OpcodesBch2026.OP_INVOKE]: conditionallyEvaluate(opInvoke),
+      [OpcodesBch2026.OP_LSHIFTNUM]: conditionallyEvaluate(
+        createOpLShiftNum(consensus),
+      ),
+      [OpcodesBch2026.OP_RSHIFTNUM]: conditionallyEvaluate(
+        createOpRShiftNum(consensus),
+      ),
+      [OpcodesBch2026.OP_LSHIFTBIN]: conditionallyEvaluate(
+        createOpLShiftBin(consensus),
+      ),
+      [OpcodesBch2026.OP_RSHIFTBIN]: conditionallyEvaluate(
+        createOpRShiftBin(consensus),
+      ),
     },
   };
 };

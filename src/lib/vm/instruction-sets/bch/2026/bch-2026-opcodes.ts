@@ -25,19 +25,19 @@ export enum OpcodesBch2026Additions {
   /**
    * Formerly `OP_2MUL`
    */
-  OP_MULSHIFT = 0x8d,
+  OP_LSHIFTNUM = 0x8d,
   /**
    * Formerly `OP_2DIV`
    */
-  OP_DIVSHIFT = 0x8e,
+  OP_RSHIFTNUM = 0x8e,
   /**
    *Formerly `OP_LSHIFT`
    */
-  OP_PADRIGHT = 0x98,
+  OP_LSHIFTBIN = 0x98,
   /**
    *Formerly `OP_RSHIFT`
    */
-  OP_PADLEFT = 0x99,
+  OP_RSHIFTBIN = 0x99,
 }
 
 /**

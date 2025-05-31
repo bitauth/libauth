@@ -1,0 +1,20 @@
+{
+"e0vk5t":[42,33600,402,"OP_INVERT: <1> OP_INVERT <0> OP_EQUAL (reject) (P2S)"],
+"f983jy":[46,36800,974,"OP_INVERT: <1> OP_INVERT <0> OP_EQUAL (reject) (P2SH20)"],
+"3haqln":[46,36800,998,"OP_INVERT: <1> OP_INVERT <0> OP_EQUAL (reject) (P2SH32)"],
+"ce2vtd":[43,34400,403,"OP_INVERT: <0x00> OP_INVERT <0x00> OP_EQUAL (P2S)"],
+"u7t6zr":[48,38400,976,"OP_INVERT: <0x00> OP_INVERT <0x00> OP_EQUAL (P2SH20)"],
+"hsrcv2":[48,38400,1000,"OP_INVERT: <0x00> OP_INVERT <0x00> OP_EQUAL (P2SH32)"],
+"q6k59u":[43,34400,505,"OP_LSHIFTNUM: 1 << 1 == 1 (reject) (P2S)"],
+"mtz80c":[47,37600,1077,"OP_LSHIFTNUM: 1 << 1 == 1 (reject) (P2SH20)"],
+"z8cqvp":[47,37600,1101,"OP_LSHIFTNUM: 1 << 1 == 1 (reject) (P2SH32)"],
+"68karl":[43,34400,301,"OP_LSHIFTNUM: 0 << -1 == 0 (P2S)"],
+"pse3ew":[47,37600,873,"OP_LSHIFTNUM: 0 << -1 == 0 (P2SH20)"],
+"q54sa4":[47,37600,897,"OP_LSHIFTNUM: 0 << -1 == 0 (P2SH32)"],
+"tc8whr":[43,34400,302,"OP_LSHIFTNUM: 1 << -1 == -1 (P2S)"],
+"qgy6j6":[47,37600,874,"OP_LSHIFTNUM: 1 << -1 == -1 (P2SH20)"],
+"uszsm2":[47,37600,898,"OP_LSHIFTNUM: 1 << -1 == -1 (P2SH32)"],
+"k7wy33":[46,36800,303,"OP_LSHIFTBIN: 0 << 80001 == 0 (reject) (P2S)"],
+"ry8rke":[50,40000,875,"OP_LSHIFTBIN: 0 << 80001 == 0 (reject) (P2SH20)"],
+"klptkc":[50,40000,899,"OP_LSHIFTBIN: 0 << 80001 == 0 (reject) (P2SH32)"]
+}

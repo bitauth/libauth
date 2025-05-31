@@ -30,6 +30,8 @@ const vmVersionsBch = [
   '2026',
   'spec',
   'chip_eval',
+  'chip_bitwise',
+  'chip_functions',
   'chip_loops',
   'chip_p2s',
   'chip_pow',
@@ -154,11 +156,14 @@ const testSetOverrideListBch = [
   ['2023_invalid', 'p2sh_ignore'],
   ['2023_p2sh_invalid'],
   ['2023_p2sh_nonstandard', '2025_p2sh_nonstandard'],
+  ['chip_bitwise'],
+  ['chip_bitwise_invalid'],
   ['chip_eval'],
   ['chip_eval', 'p2s_nonstandard'],
   ['chip_eval', 'p2sh_ignore'],
   ['chip_eval_invalid'],
   ['chip_eval_invalid', 'p2sh_ignore'],
+  ['chip_functions'],
   ['chip_loops_invalid'],
   ['chip_loops_invalid', 'p2sh_ignore'],
   ['chip_loops'],
@@ -349,59 +354,52 @@ export const supportedTestSetOverridesBch: {
    * `chip_*` values exclude the marked test from
    * {@link vmbTestDefinitionDefaultBehaviorBch}.
    */
-  chip_eval: [
+  chip_bitwise: [
     {
       mode: 'P2S',
-      sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
     },
     {
       mode: 'P2SH20',
-      sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
     },
     {
       mode: 'P2SH32',
-      sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
     },
+  ],
+  chip_bitwise_invalid: [
+    {
+      mode: 'P2S',
+      sets: ['chip_bitwise_invalid', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bitwise_invalid', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bitwise_invalid', '2025_invalid', '2026_invalid'],
+    },
+  ],
+  chip_eval: [
+    { mode: 'P2S', sets: ['chip_eval_standard'] },
+    { mode: 'P2SH20', sets: ['chip_eval_standard'] },
+    { mode: 'P2SH32', sets: ['chip_eval_standard'] },
   ],
   'chip_eval,p2s_nonstandard': [
-    {
-      mode: 'P2S',
-      sets: ['chip_eval_nonstandard', '2025_invalid', '2026_nonstandard'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
-    },
+    { mode: 'P2S', sets: ['chip_eval_nonstandard'] },
+    { mode: 'P2SH20', sets: ['chip_eval_standard'] },
+    { mode: 'P2SH32', sets: ['chip_eval_standard'] },
   ],
-  'chip_eval,p2sh_ignore': [
-    {
-      mode: 'P2S',
-      sets: ['chip_eval_standard', '2025_invalid', '2026_standard'],
-    },
-  ],
+  'chip_eval,p2sh_ignore': [{ mode: 'P2S', sets: ['chip_eval_standard'] }],
   chip_eval_invalid: [
-    {
-      mode: 'P2S',
-      sets: ['chip_eval_invalid', '2025_invalid', '2026_invalid'],
-    },
-    {
-      mode: 'P2SH20',
-      sets: ['chip_eval_invalid', '2025_invalid', '2026_invalid'],
-    },
-    {
-      mode: 'P2SH32',
-      sets: ['chip_eval_invalid', '2025_invalid', '2026_invalid'],
-    },
+    { mode: 'P2S', sets: ['chip_eval_invalid'] },
+    { mode: 'P2SH20', sets: ['chip_eval_invalid'] },
+    { mode: 'P2SH32', sets: ['chip_eval_invalid'] },
   ],
   'chip_eval_invalid,p2sh_ignore': [
-    {
-      mode: 'P2S',
-      sets: ['chip_eval_invalid', '2025_invalid', '2026_invalid'],
-    },
+    { mode: 'P2S', sets: ['chip_eval_invalid'] },
   ],
   chip_loops: [
     {

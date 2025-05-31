@@ -8,6 +8,7 @@ export enum AuthenticationErrorBch2026Additions {
   functionIdentifierPreviouslyDefined = 'Program attempted to OP_DEFINE a previously-defined function identifier.',
   functionIdentifierUndefined = 'Program attempted to OP_INVOKE an undefined function identifier.',
   malformedFunction = 'Program attempted to OP_INVOKE malformed bytecode.',
+  invalidShiftBitCount = 'Program attempted a bitwise shift with an invalid bit count.',
 }
 
 /**

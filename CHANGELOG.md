@@ -1,5 +1,11 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.6
+
+### Minor Changes
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`dcd7185`](https://github.com/bitauth/libauth/commit/dcd7185a2377f7a8e5fa54c1db0c2580b6a233ac) Thanks [@bitjson](https://github.com/bitjson)! - Add support for Bitwise CHIP to BCH_2026
+
 ## 3.1.0-next.5
 
 ### Minor Changes

@@ -165,7 +165,10 @@ export const useSixStackItems = <
       ),
   );
 
-const typicalMaximumVmNumberByteLength = 8;
+/**
+ * Zero means any maximum length checks on VM numbers are disabled.
+ */
+const typicalMaximumVmNumberByteLength = 0;
 
 export const useOneVmNumber = <
   State extends AuthenticationProgramStateError &
@@ -364,7 +367,7 @@ export const pushToStackVmNumberChecked = <
   } = {},
 ) => {
   const encoded = bigIntToVmNumber(vmNumber);
-  if (encoded.length > maximumVmNumberByteLength) {
+  if (maximumVmNumberByteLength && encoded.length > maximumVmNumberByteLength) {
     return applyError(
       state,
       AuthenticationErrorCommon.overflowsVmNumberRange,

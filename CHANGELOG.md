@@ -1,5 +1,19 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.7
+
+### Minor Changes
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`a4da66c`](https://github.com/bitauth/libauth/commit/a4da66c10ce69eb5cfe06a86377b1dda76b99065) Thanks [@bitjson](https://github.com/bitjson)! - Add CashAssembly support for stack item labels
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`a4da66c`](https://github.com/bitauth/libauth/commit/a4da66c10ce69eb5cfe06a86377b1dda76b99065) Thanks [@bitjson](https://github.com/bitjson)! - add debug and compileCashAssembly utilities
+
+### Patch Changes
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`a4da66c`](https://github.com/bitauth/libauth/commit/a4da66c10ce69eb5cfe06a86377b1dda76b99065) Thanks [@bitjson](https://github.com/bitjson)! - Improve VM Number encoding/decoding performance
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`a4da66c`](https://github.com/bitauth/libauth/commit/a4da66c10ce69eb5cfe06a86377b1dda76b99065) Thanks [@bitjson](https://github.com/bitjson)! - Update 2026 CHIP implementations
+
 ## 3.1.0-next.6
 
 ### Minor Changes

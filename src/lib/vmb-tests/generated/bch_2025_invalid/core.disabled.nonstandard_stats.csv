@@ -5,12 +5,6 @@ mhfj49,"Disabled operations: OP_RESERVED in locking bytecode (P2SH32)",214,79,2,
 jh8s4g,"Disabled operations: OP_VER in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
 f3ngqw,"Disabled operations: OP_VER in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
 qvk3d2,"Disabled operations: OP_VER in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
-an57gg,"Disabled operations: OP_VERIF in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
-nu26xr,"Disabled operations: OP_VERIF in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
-qm6vef,"Disabled operations: OP_VERIF in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
-7thhun,"Disabled operations: OP_VERNOTIF in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
-qqcvkv,"Disabled operations: OP_VERNOTIF in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
-pp74c8,"Disabled operations: OP_VERNOTIF in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
 g8mmv5,"Disabled operations: OP_RETURN in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
 7hgese,"Disabled operations: OP_RETURN in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
 q99d44,"Disabled operations: OP_RETURN in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
@@ -23,12 +17,6 @@ yd3mvt,"Disabled operations: OP_RESERVED1 in locking bytecode (P2SH20)",214,67,2
 vf0zs3,"Disabled operations: OP_RESERVED2 in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
 xhdq48,"Disabled operations: OP_RESERVED2 in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
 498yw2,"Disabled operations: OP_RESERVED2 in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
-lqjpyv,"Disabled operations: OP_2MUL in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
-8fwwkx,"Disabled operations: OP_2MUL in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
-2nwn7t,"Disabled operations: OP_2MUL in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
-8c0tmn,"Disabled operations: OP_2DIV in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
-hkr2ys,"Disabled operations: OP_2DIV in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
-xu38mc,"Disabled operations: OP_2DIV in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
 y0erme,"Disabled operations: OP_LSHIFT in locking bytecode (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
 uue5kf,"Disabled operations: OP_LSHIFT in locking bytecode (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
 7w5hys,"Disabled operations: OP_LSHIFT in locking bytecode (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0

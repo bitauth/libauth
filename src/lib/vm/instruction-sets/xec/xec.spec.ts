@@ -77,7 +77,7 @@ test('verifyTransaction: incorrect spentOutputs length', (t) => {
   const result = vm.verify({ sourceOutputs, transaction });
   t.deepEqual(
     result,
-    'Unable to verify transaction: a single spent output must be provided for each transaction input.',
+    'Unable to verify transaction: a single spent output must be provided for each transaction input. Transaction input count: 1; source outputs count: 0.',
     stringify(result),
   );
 });
@@ -107,7 +107,7 @@ test('verifyTransaction: invalid input', (t) => {
   const result = vm.verify({ sourceOutputs, transaction });
   t.deepEqual(
     result,
-    'Error in evaluating input index 0: Program failed a signature verification with a non-null signature (violating the "NULLFAIL" rule).',
+    'Unable to verify transaction: error in evaluating input index 0: Program failed a signature verification with a non-null signature (violating the "NULLFAIL" rule).',
     stringify(result),
   );
 });

@@ -255,8 +255,13 @@ export type ScriptReductionTraceNode = {
   errors?: CompilationError[] | undefined;
   range: Range;
 };
-type ScriptReductionTraceErrorNode = ScriptReductionTraceNode & {
+
+export type ScriptReductionTraceErrorNode = ScriptReductionTraceNode & {
   errors: CompilationError[];
+};
+
+export type ScriptReductionTraceCommentNode = ScriptReductionTraceNode & {
+  comment: string;
 };
 
 export type ScriptReductionTraceScriptNode<ProgramState> =
@@ -276,6 +281,7 @@ export type ScriptReductionTraceEvaluationNode<ProgramState> =
   };
 
 export type ScriptReductionTraceChildNode<ProgramState> =
+  | ScriptReductionTraceCommentNode
   | ScriptReductionTraceErrorNode
   | ScriptReductionTraceEvaluationNode<ProgramState>
   | ScriptReductionTraceNode

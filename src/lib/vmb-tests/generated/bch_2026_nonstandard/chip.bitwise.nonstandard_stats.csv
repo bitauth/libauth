@@ -1,0 +1,2 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+3f26q4,"OP_INVERT: 10kb 0x00... -> 10KB 0xff... (excessive hashing) (P2S)",485,84,2,1,313,250400,31084,7,0,1095,157,7,20336,0

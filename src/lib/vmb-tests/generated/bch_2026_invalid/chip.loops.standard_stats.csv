@@ -1,6 +1,6 @@
 Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
 u9n5x2,"Transaction validation benchmarks: infinite loop, packed inputs (P2S)",99980,31697,2438,2437,41,32800,32900,1,0,20,0,329,0,0
-lcavup,"Transaction validation benchmarks: infinite loop of max duplication, packed inputs (P2S)",99980,41449,2438,2437,41,32800,33222,1,0,20,0,93,23922,0
+wyexm5,"Transaction validation benchmarks: infinite loop of max duplication, packed inputs (P2S)",99980,41449,2438,2437,41,32800,40902,1,0,20,0,9,40002,0
 k27gzm,"OP_BEGIN/OP_UNTIL: infinite loop (P2S)",212,47,2,1,42,33600,33700,1,0,21,0,337,0,0
 lyy606,"OP_BEGIN/OP_UNTIL: infinite loop (P2SH20)",216,67,2,1,46,36800,36828,1,0,23,2,364,44,0
 4850dr,"OP_BEGIN/OP_UNTIL: infinite loop (P2SH32)",216,79,2,1,46,36800,36852,1,0,23,2,364,68,0

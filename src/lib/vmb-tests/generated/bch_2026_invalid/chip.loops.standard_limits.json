@@ -1,6 +1,6 @@
 {
 "u9n5x2":[41,32800,32900,"Transaction validation benchmarks: infinite loop, packed inputs (P2S)"],
-"lcavup":[41,32800,33222,"Transaction validation benchmarks: infinite loop of max duplication, packed inputs (P2S)"],
+"wyexm5":[41,32800,40902,"Transaction validation benchmarks: infinite loop of max duplication, packed inputs (P2S)"],
 "k27gzm":[42,33600,33700,"OP_BEGIN/OP_UNTIL: infinite loop (P2S)"],
 "lyy606":[46,36800,36828,"OP_BEGIN/OP_UNTIL: infinite loop (P2SH20)"],
 "4850dr":[46,36800,36852,"OP_BEGIN/OP_UNTIL: infinite loop (P2SH32)"],

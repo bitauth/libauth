@@ -165,8 +165,6 @@ export const useSixStackItems = <
       ),
   );
 
-const typicalMaximumVmNumberByteLength = 8;
-
 export const useOneVmNumber = <
   State extends AuthenticationProgramStateError &
     AuthenticationProgramStateStack,
@@ -174,13 +172,13 @@ export const useOneVmNumber = <
   state: State,
   operation: (nextState: State, [value]: [bigint]) => State,
   {
-    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength = 0,
     requireMinimalEncoding = true,
   }: {
     maximumVmNumberByteLength?: number;
     requireMinimalEncoding?: boolean;
   } = {
-    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength: 0,
     requireMinimalEncoding: true,
   },
 ) =>
@@ -213,13 +211,13 @@ export const useTwoVmNumbers = <
     [firstValue, secondValue]: [bigint, bigint],
   ) => State,
   {
-    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength = 0,
     requireMinimalEncoding = true,
   }: {
     maximumVmNumberByteLength?: number;
     requireMinimalEncoding?: boolean;
   } = {
-    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength: 0,
     requireMinimalEncoding: true,
   },
 ) =>
@@ -255,13 +253,13 @@ export const useThreeVmNumbers = <
     [firstValue, secondValue, thirdValue]: [bigint, bigint, bigint],
   ) => State,
   {
-    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength = 0,
     requireMinimalEncoding = true,
   }: {
     maximumVmNumberByteLength?: number;
     requireMinimalEncoding?: boolean;
   } = {
-    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength: 0,
     requireMinimalEncoding: true,
   },
 ) =>

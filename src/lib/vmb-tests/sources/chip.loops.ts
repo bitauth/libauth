@@ -6,7 +6,7 @@ export default [
     'Transaction validation benchmarks',
     [
       ['', '<0> OP_BEGIN OP_DUP OP_UNTIL', 'infinite loop, packed inputs', ['chip_loops_invalid', 'p2sh_ignore'], packedTransactionScenario('p2s', 2437)],
-      ['', '<0> <520> OP_NUM2BIN OP_BEGIN OP_DUP OP_UNTIL', 'infinite loop of max duplication, packed inputs', ['chip_loops_invalid', 'p2sh_ignore'], packedTransactionScenario('p2s', 2437)],
+      ['', '<0> <10000> OP_NUM2BIN OP_BEGIN OP_DUP OP_UNTIL', 'infinite loop of max duplication, packed inputs', ['chip_loops_invalid', 'p2sh_ignore'], packedTransactionScenario('p2s', 2437)],
     ],
   ],
   [

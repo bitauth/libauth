@@ -12,6 +12,7 @@ import {
   createCompilerCommon,
   createVirtualMachineBch,
   createVirtualMachineBchSpec,
+  evaluateCashAssembly,
   extractBytecodeResolutions,
   extractEvaluationSamples,
   extractEvaluationSamplesRecursive,
@@ -80,6 +81,21 @@ test('containsRange', (t) => {
       false,
     ),
     true,
+  );
+});
+
+test('evaluateCashAssembly', (t) => {
+  const successful = assertSuccess(evaluateCashAssembly('<2> <2> OP_ADD'));
+  t.deepEqual(
+    successful.stack[0],
+    hexToBin('04'),
+    stringifyTestVector(successful),
+  );
+  const failed = evaluateCashAssembly('<bad>');
+  t.deepEqual(
+    failed,
+    'Cannot generate the default scenario: Failed compilation of source output at index 0: Unknown identifier "bad".',
+    stringifyTestVector(failed),
   );
 });
 
@@ -190,6 +206,7 @@ test('extractEvaluationSamples: empty trace', (t) => {
   t.deepEqual(
     result,
     {
+      labeledStackItems: [],
       samples: [],
       unmatchedStates: [],
     },
@@ -259,6 +276,17 @@ OP_BEGIN
   OP_EQUAL
 OP_UNTIL
 OP_NIP`,
+    loopsInternalConditional: `
+<5>
+OP_BEGIN
+OP_1SUB
+OP_SIZE
+OP_IF
+   <0>
+OP_ELSE
+   <1>
+OP_ENDIF
+OP_UNTIL`,
     nested: `OP_0
 
 <
@@ -7654,6 +7682,13 @@ test(extractUnexecutedRangesMacro, 'unexecuted11', [
 
 test(extractUnexecutedRangesMacro, 'unexecutedEmpty', []);
 
+test.todo(
+  'extractUnexecutedRangesMacro: loopsInternalConditional at loop 0 iteration 0',
+);
+test.todo(
+  'extractUnexecutedRangesMacro: loopsInternalConditional at loop 0 iteration 4',
+);
+
 test('summarizeDebugTrace, stringifyDebugTraceSummary', (t) => {
   const { program } = assertSuccess(
     walletTemplateToCompilerBch({
@@ -7765,3 +7800,8 @@ test('summarizeDebugTrace, stringifyDebugTraceSummary (error)', (t) => {
     stringifyTestVector(formatted),
   );
 });
+
+test.todo('extraction of labeledStackItems');
+test.todo(
+  'consider adding support for recursive extraction of labeledStackItems',
+);

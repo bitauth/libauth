@@ -29,6 +29,21 @@ jp4cht,"BigInt unary operation limits: OP_BIN2NUM, 10,000 bytes of 0xff (P2SH32)
 4rsvje,"BigInt unary operation limits: OP_BIN2NUM OP_BIN2NUM, 10,000 bytes of 0xff (P2S)",841,54,2,1,669,535200,49850,16,0,2341,0,11,48750,0
 xlztjq,"BigInt unary operation limits: OP_BIN2NUM OP_BIN2NUM, 10,000 bytes of 0xff (P2SH20)",852,67,2,1,680,544000,50429,16,0,2380,2,15,48801,0
 la93we,"BigInt unary operation limits: OP_BIN2NUM OP_BIN2NUM, 10,000 bytes of 0xff (P2SH32)",852,79,2,1,680,544000,50453,16,0,2380,2,15,48825,0
+xrscdf,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x00 (P2S)",841,53,2,1,669,535200,39750,16,0,2341,0,10,38750,0
+65duje,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x00 (P2SH20)",851,67,2,1,679,543200,40328,16,0,2376,2,14,38800,0
+79zuj2,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x00 (P2SH32)",851,79,2,1,679,543200,40352,16,0,2376,2,14,38824,0
+fs9q4x,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x7f (P2S)",841,53,2,1,669,535200,39750,16,0,2341,0,10,38750,0
+q593nd,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x7f (P2SH20)",851,67,2,1,679,543200,40328,16,0,2376,2,14,38800,0
+5exr4j,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x7f (P2SH32)",851,79,2,1,679,543200,40352,16,0,2376,2,14,38824,0
+jzs5yn,"BigInt unary operation limits: OP_BIN2NUM OP_INVERT, 10,000 bytes of 0x7f (P2S)",841,54,2,1,669,535200,49850,16,0,2341,0,11,48750,0
+nlw2jz,"BigInt unary operation limits: OP_BIN2NUM OP_INVERT, 10,000 bytes of 0x7f (P2SH20)",852,67,2,1,680,544000,50429,16,0,2380,2,15,48801,0
+uru4ul,"BigInt unary operation limits: OP_BIN2NUM OP_INVERT, 10,000 bytes of 0x7f (P2SH32)",852,79,2,1,680,544000,50453,16,0,2380,2,15,48825,0
+hjtpp7,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x80 (P2S)",841,53,2,1,669,535200,39750,16,0,2341,0,10,38750,0
+pdh5dm,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x80 (P2SH20)",851,67,2,1,679,543200,40328,16,0,2376,2,14,38800,0
+3c2szh,"BigInt unary operation limits: OP_INVERT, 10,000 bytes of 0x80 (P2SH32)",851,79,2,1,679,543200,40352,16,0,2376,2,14,38824,0
+9nqs2x,"BigInt unary operation limits: OP_BIN2NUM OP_INVERT, 10,000 bytes of 0x80 (P2S)",841,54,2,1,669,535200,49850,16,0,2341,0,11,48750,0
+nkusca,"BigInt unary operation limits: OP_BIN2NUM OP_INVERT, 10,000 bytes of 0x80 (P2SH20)",852,67,2,1,680,544000,50429,16,0,2380,2,15,48801,0
+nuhmlg,"BigInt unary operation limits: OP_BIN2NUM OP_INVERT, 10,000 bytes of 0x80 (P2SH32)",852,79,2,1,680,544000,50453,16,0,2380,2,15,48825,0
 v3zel9,"BigInt unary operation limits: OP_BIN2NUM OP_1ADD, 10,000 bytes of 0x00 (P2S)",841,54,2,1,669,535200,29852,16,0,2341,0,11,28751,1
 04c72g,"BigInt unary operation limits: OP_BIN2NUM OP_1ADD, 10,000 bytes of 0x00 (P2SH20)",852,67,2,1,680,544000,30431,16,0,2380,2,15,28802,1
 4wuayj,"BigInt unary operation limits: OP_BIN2NUM OP_1ADD, 10,000 bytes of 0x00 (P2SH32)",852,79,2,1,680,544000,30455,16,0,2380,2,15,28826,1

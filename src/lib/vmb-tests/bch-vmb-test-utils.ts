@@ -156,8 +156,13 @@ const testSetOverrideListBch = [
   ['2023_invalid', 'p2sh_ignore'],
   ['2023_p2sh_invalid'],
   ['2023_p2sh_nonstandard', '2025_p2sh_nonstandard'],
+  ['2025_invalid'],
   ['chip_bitwise'],
+  ['chip_bitwise', 'p2s_invalid'],
+  ['chip_bitwise', 'p2s_nonstandard'],
+  ['chip_bitwise', 'p2sh_ignore'],
   ['chip_bitwise_invalid'],
+  ['chip_bitwise_invalid', 'p2sh_ignore'],
   ['chip_eval'],
   ['chip_eval', 'p2s_nonstandard'],
   ['chip_eval', 'p2sh_ignore'],
@@ -350,6 +355,20 @@ export const supportedTestSetOverridesBch: {
       sets: ['2023_nonstandard', '2025_nonstandard', '2026_standard'],
     },
   ],
+  '2025_invalid': [
+    {
+      mode: 'P2S',
+      sets: ['2023_invalid', '2025_invalid', '2026_standard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['2023_invalid', '2025_invalid', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['2023_invalid', '2025_invalid', '2026_standard'],
+    },
+  ],
   /**
    * `chip_*` values exclude the marked test from
    * {@link vmbTestDefinitionDefaultBehaviorBch}.
@@ -368,6 +387,41 @@ export const supportedTestSetOverridesBch: {
       sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
     },
   ],
+
+  'chip_bitwise,p2s_invalid': [
+    {
+      mode: 'P2S',
+      sets: ['chip_bitwise_invalid', '2025_invalid', '2026_invalid'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
+    },
+  ],
+  'chip_bitwise,p2s_nonstandard': [
+    {
+      mode: 'P2S',
+      sets: ['chip_bitwise_nonstandard', '2025_invalid', '2026_nonstandard'],
+    },
+    {
+      mode: 'P2SH20',
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
+    },
+    {
+      mode: 'P2SH32',
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
+    },
+  ],
+  'chip_bitwise,p2sh_ignore': [
+    {
+      mode: 'P2S',
+      sets: ['chip_bitwise_standard', '2025_invalid', '2026_standard'],
+    },
+  ],
   chip_bitwise_invalid: [
     {
       mode: 'P2S',
@@ -379,6 +433,12 @@ export const supportedTestSetOverridesBch: {
     },
     {
       mode: 'P2SH32',
+      sets: ['chip_bitwise_invalid', '2025_invalid', '2026_invalid'],
+    },
+  ],
+  'chip_bitwise_invalid,p2sh_ignore': [
+    {
+      mode: 'P2S',
       sets: ['chip_bitwise_invalid', '2025_invalid', '2026_invalid'],
     },
   ],

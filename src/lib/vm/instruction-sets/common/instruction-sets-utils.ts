@@ -13,7 +13,7 @@ import {
 } from '../../../format/format.js';
 import type {
   assembleBytecode,
-  assembleBytecodeBCH,
+  assembleBytecodeBch,
   assembleBytecodeBtc,
   AuthenticationInstruction,
   AuthenticationInstructionMalformed,
@@ -334,7 +334,7 @@ export const disassembleBytecode = (
  * Note, this method automatically uses the latest BCH instruction set. To
  * manually select an instruction set, use {@link disassembleBytecode}.
  *
- * For the reverse, see {@link assembleBytecodeBCH}.
+ * For the reverse, see {@link assembleBytecodeBch}.
  *
  * @param bytecode - the virtual machine bytecode to disassemble
  */
@@ -487,7 +487,9 @@ export const isVmNumberError = (
 ): value is VmNumberError =>
   value === VmNumberError.outOfRange || value === VmNumberError.requiresMinimal;
 
-const typicalMaximumVmNumberByteLength = 8;
+const enum VmNumber {
+  signByte = 0x80,
+}
 
 /**
  * This method attempts to decode a VM Number, a format in which numeric values
@@ -513,11 +515,12 @@ const typicalMaximumVmNumberByteLength = 8;
 export const vmNumberToBigInt = (
   bytes: Uint8Array,
   {
-    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength = 0,
     requireMinimalEncoding = true,
   }: {
     /**
-     * The maximum valid number of bytes in a VM Number.
+     * The maximum valid number of bytes in a VM Number. Defaults to `0` (which
+     * disables the check).
      */
     maximumVmNumberByteLength?: number;
     /**
@@ -526,14 +529,17 @@ export const vmNumberToBigInt = (
      */
     requireMinimalEncoding?: boolean;
   } = {
-    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength: 0,
     requireMinimalEncoding: true,
   },
 ): VmNumberError | bigint => {
   if (bytes.length === 0) {
     return 0n;
   }
-  if (bytes.length > maximumVmNumberByteLength) {
+  if (
+    maximumVmNumberByteLength !== 0 &&
+    bytes.length > maximumVmNumberByteLength
+  ) {
     return VmNumberError.outOfRange;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -552,26 +558,35 @@ export const vmNumberToBigInt = (
     return VmNumberError.requiresMinimal;
   }
 
-  const bitsPerByte = 8;
-  const signFlippingByte = 0x80;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.length);
   // eslint-disable-next-line functional/no-let
   let result = 0n;
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statements, no-plusplus
-  for (let byte = 0; byte < bytes.length; byte++) {
-    // eslint-disable-next-line functional/no-expression-statements,  no-bitwise, @typescript-eslint/no-non-null-assertion
-    result |= BigInt(bytes[byte]!) << BigInt(byte * bitsPerByte);
+
+  const wordBytes = 8;
+  const wordBits = 64n;
+  // eslint-disable-next-line functional/no-loop-statements, functional/no-let
+  for (let off = bytes.length - wordBytes; off >= 0; off -= wordBytes) {
+    const littleEndianWord = view.getBigUint64(off, true);
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise
+    result = (result << wordBits) | littleEndianWord;
+  }
+  const byteBits = 8n;
+  // eslint-disable-next-line functional/no-loop-statements, functional/no-let, no-plusplus
+  for (let i = (bytes.length % wordBytes) - 1; i >= 0; --i) {
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+    result = (result << byteBits) | BigInt(bytes[i]!);
   }
 
-  /* eslint-disable no-bitwise */
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const isNegative = (bytes[bytes.length - 1]! & signFlippingByte) !== 0;
-  return isNegative
-    ? -(
-        result &
-        ~(BigInt(signFlippingByte) << BigInt(bitsPerByte * (bytes.length - 1)))
-      )
-    : result;
-  /* eslint-enable no-bitwise */
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+  const negative = (bytes[bytes.length - 1]! & VmNumber.signByte) !== 0;
+  if (!negative) return result;
+
+  const bitsPerByte = 8;
+  const signDepth = bitsPerByte * (bytes.length - 1);
+  // eslint-disable-next-line no-bitwise
+  const removeSign = ~(BigInt(VmNumber.signByte) << BigInt(signDepth));
+  // eslint-disable-next-line no-bitwise
+  return -(result & removeSign);
 };
 
 /**

@@ -25,7 +25,7 @@ import type {
   WalletTemplate,
 } from '../lib.js';
 import {
-  encodeDataPush,
+  createVirtualMachineBchSpec,
   generateBytecodeMap,
   Opcodes,
   OpcodesBchSpec,
@@ -125,7 +125,6 @@ export const compilerConfigurationToCompiler =
   compilerConfigurationToCompilerBch;
 
 const nullHashLength = 32;
-const maximumValidOpReturnPushLength = 9996;
 
 /**
  * A common {@link createAuthenticationProgram} implementation for
@@ -165,10 +164,7 @@ export const createAuthenticationProgramEvaluationCommon = (
     locktime: 0,
     outputs: [
       {
-        lockingBytecode: flattenBinArray([
-          Uint8Array.of(Opcodes.OP_RETURN),
-          encodeDataPush(new Uint8Array(maximumValidOpReturnPushLength)),
-        ]),
+        lockingBytecode: flattenBinArray([Uint8Array.of(Opcodes.OP_RETURN)]),
         valueSatoshis: 0n,
       },
     ],
@@ -231,6 +227,122 @@ export const compileCashAssembly = (script: string) => {
       `${all} [${range.startLineNumber}, ${range.startColumn}]: ${error}`,
     '',
   )}`;
+};
+
+const defaultVm = createVirtualMachineBchSpec();
+
+/**
+ * Compile a CashAssembly script with detailed debugging information.
+ *
+ * If no VM override is provided, Libauth's default `BCH_SPEC` VM is used.
+ *
+ * @param script - the CashAssembly script to compile
+ * @param scriptsAndOverrides - a compiler configuration from which properties
+ * will be used to override properties of the default common compiler
+ * configuration
+ */
+export const debugCashAssemblyCompilation = <
+  Configuration extends CompilerConfiguration<CompilationContextBch>,
+  Overrides extends Configuration & {
+    vm?: NonNullable<Configuration['vm']>;
+  },
+>(
+  script: string,
+  scriptsAndOverrides: Overrides = { scripts: {}, vm: defaultVm } as Overrides,
+) => {
+  const merged = {
+    ...scriptsAndOverrides,
+    scripts: {
+      script,
+      ...scriptsAndOverrides.scripts,
+    },
+    ...(scriptsAndOverrides.vm ? scriptsAndOverrides.vm : { vm: defaultVm }),
+  };
+  return createCompilerCommon(merged).generateScenario({
+    debug: true,
+    lockingScriptId: 'script',
+  });
+};
+
+/**
+ * A simple, compile-and-evaluate utility for debugging CashAssembly scripts.
+ * Returns the full compilation results, program trace, and verification result;
+ * to return only the final program state following evaluation,
+ * use {@link evaluateCashAssembly}.
+ *
+ * If no VM override is provided, Libauth's default `BCH_SPEC` VM is used.
+ *
+ * @param script - the CashAssembly script to debug
+ * @param scriptsAndOverrides - a compiler configuration from which properties
+ * will be used to override properties of the default common compiler
+ * configuration
+ */
+export const debugCashAssembly = <
+  Configuration extends CompilerConfiguration<CompilationContextBch>,
+  ProgramState extends AuthenticationProgramStateCommon,
+  Overrides extends Configuration & {
+    vm?: NonNullable<Configuration['vm']>;
+  },
+>(
+  script: string,
+  scriptsAndOverrides: Overrides = { scripts: {}, vm: defaultVm } as Overrides,
+) => {
+  const vm = scriptsAndOverrides.vm ?? defaultVm;
+  const result = debugCashAssemblyCompilation<Configuration, Overrides>(
+    script,
+    { ...scriptsAndOverrides, vm },
+  );
+  if (typeof result === 'string')
+    return {
+      error: result,
+      success: false,
+    } as { error: string; success: false };
+  if (typeof result.scenario === 'string')
+    return {
+      error: result.scenario,
+      result,
+      success: false as const,
+    } as { error: string; result: typeof result; success: false };
+  const trace = vm.debug(result.scenario.program) as ProgramState[];
+  const verify = vm.verify(result.scenario.program);
+  return { compilation: result, success: true, trace, verify } as {
+    compilation: typeof result;
+    success: true;
+    trace: typeof trace;
+    verify: typeof verify;
+  };
+};
+
+/**
+ * A simple, compile-and-evaluate utility for testing CashAssembly scripts.
+ * Returns the final program state following evaluation; for full compilation
+ * debugging and a program trace, use {@link debugCashAssembly}.
+ *
+ * If no VM override is provided, Libauth's default `BCH_SPEC` VM is used.
+ *
+ * @param script - the CashAssembly script to evaluate
+ * @param scriptsAndOverrides - a compiler configuration from which properties
+ * will be used to override properties of the default common compiler
+ * configuration
+ */
+export const evaluateCashAssembly = <
+  Configuration extends CompilerConfiguration<CompilationContextBch>,
+  ProgramState extends AuthenticationProgramStateCommon,
+  Overrides extends Configuration & {
+    vm?: NonNullable<Configuration['vm']>;
+  },
+>(
+  script: string,
+  scriptsAndOverrides: Overrides = { scripts: {}, vm: defaultVm } as Overrides,
+) => {
+  const vm = scriptsAndOverrides.vm ?? defaultVm;
+  const debug = debugCashAssembly<Configuration, ProgramState, Overrides>(
+    script,
+    { ...scriptsAndOverrides, vm },
+  );
+  if (!debug.success) return debug.error;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return debug.trace[debug.trace.length - 1]!;
 };
 
 /**

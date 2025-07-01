@@ -19,11 +19,11 @@ import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js
 import { opBegin, opUntil } from '../2026/bch-2026-loops.js';
 
 import {
-  createOpLShiftBin,
   createOpLShiftNum,
-  createOpRShiftBin,
   createOpRShiftNum,
   opInvert,
+  opLShiftBin,
+  opRShiftBin,
 } from './bch-2026-bitwise.js';
 import { ConsensusBch2026 } from './bch-2026-consensus.js';
 import { createOpDefine, opInvoke } from './bch-2026-functions.js';
@@ -121,12 +121,8 @@ export const createInstructionSetBch2026 = <
       [OpcodesBch2026.OP_RSHIFTNUM]: conditionallyEvaluate(
         createOpRShiftNum(consensus),
       ),
-      [OpcodesBch2026.OP_LSHIFTBIN]: conditionallyEvaluate(
-        createOpLShiftBin(consensus),
-      ),
-      [OpcodesBch2026.OP_RSHIFTBIN]: conditionallyEvaluate(
-        createOpRShiftBin(consensus),
-      ),
+      [OpcodesBch2026.OP_LSHIFTBIN]: conditionallyEvaluate(opLShiftBin),
+      [OpcodesBch2026.OP_RSHIFTBIN]: conditionallyEvaluate(opRShiftBin),
     },
   };
 };

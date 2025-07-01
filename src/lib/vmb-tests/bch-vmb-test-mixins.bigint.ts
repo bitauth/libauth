@@ -48,6 +48,7 @@ export const justZeroAndOne: PossibleTestValue[] = [
 ];
 export const unaryOpcodes: PossibleTestValue[] = [
   'OP_BIN2NUM',
+  'OP_INVERT',
   'OP_1ADD',
   'OP_1SUB',
   'OP_NEGATE',
@@ -57,6 +58,10 @@ export const unaryOpcodes: PossibleTestValue[] = [
 ].map((value) => [value, value]);
 export const binaryOpcodes: PossibleTestValue[] = [
   'OP_NUM2BIN',
+  'OP_LSHIFTNUM',
+  'OP_RSHIFTNUM',
+  'OP_LSHIFTBIN',
+  'OP_RSHIFTBIN',
   'OP_ADD',
   'OP_SUB',
   'OP_BOOLAND',

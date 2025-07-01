@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { binToHex, flattenBinArray } from '../format/format.js';
 import type {
   AuthenticationInstruction,
@@ -287,6 +288,39 @@ export const stringifyErrors = (errors: CompilationError[], separator = '; ') =>
     )
     .join(separator);
 
+/**
+ * Programs may include hints for labeling stack items using comments, e.g.:
+ *
+ * `// any text here [[ 3rd_down_item, 2nd_down_item, top_stack_item ]]`
+ *
+ * Labeling hints may be included in either single-line or multi-line
+ * comments, and only the first labeling hint is matched within a comment.
+ * During sample extraction, any labeling hints are parsed, and the previously
+ * extract sample's stack is used to assign values to each label. Note that
+ * labels are in source order, i.e.:
+ *
+ * `<0xab> <0xcd> <0xef> // we'll call these: [[ ab, cd, ef ]]`
+ */
+export type StackItemLabel = {
+  /**
+   * The index of the sample from which the label's value was extracted
+   */
+  sourceSample: number;
+  /**
+   * The depth of the stack item labeled at `sourceSample`, with the top being
+   * `0`, next down `1`, etc.
+   */
+  itemDepth: number;
+  /**
+   * The extracted label (with whitespace trimmed).
+   */
+  label: string;
+  /**
+   * The hex encoded value of the labeled stack item.
+   */
+  value: string;
+};
+
 export type SampleExtractionResult<ProgramState> = {
   /**
    * The samples successfully extracted from the provided `nodes` and `trace`.
@@ -312,6 +346,10 @@ export type SampleExtractionResult<ProgramState> = {
    * returned in `unmatchedStates`.
    */
   unmatchedStates: ProgramState[];
+  /**
+   * Any {@link StackItemLabel}s extracted during sample extraction.
+   */
+  labeledStackItems: StackItemLabel[];
 };
 
 /**
@@ -428,9 +466,11 @@ export type SampleExtractionResult<ProgramState> = {
  */
 // eslint-disable-next-line complexity
 export const extractEvaluationSamples = <
-  ProgramState extends AuthenticationProgramStateMinimum,
+  ProgramState extends AuthenticationProgramStateMinimum &
+    AuthenticationProgramStateStack,
 >({
   evaluationRange,
+  ipOffset = 0,
   nodes,
   trace,
 }: {
@@ -438,6 +478,11 @@ export const extractEvaluationSamples = <
    * The range of the script node that was evaluated to produce the `trace`
    */
   evaluationRange: Range;
+  /**
+   * The number to subtract from every `ip` in the provided `trace` when mapping
+   * to `nodes`.
+   */
+  ipOffset?: number;
   /**
    * An array of reduced nodes to parse
    */
@@ -447,10 +492,12 @@ export const extractEvaluationSamples = <
    */
   trace: ProgramState[];
 }): SampleExtractionResult<ProgramState> => {
+  const labeledStackItems: StackItemLabel[] = [];
   const traceWithoutFinalState =
     trace.length > 1 ? trace.slice(0, -1) : trace.slice();
   if (traceWithoutFinalState.length === 0) {
     return {
+      labeledStackItems,
       samples: [],
       unmatchedStates: [],
     };
@@ -473,11 +520,12 @@ export const extractEvaluationSamples = <
   const stateByIp: ProgramState[][] = traceWithoutFinalState.reduce<
     ProgramState[][]
   >((byIp, state) => {
-    const atIndex = byIp[state.ip] ?? [];
+    const adjustedIp = state.ip - ipOffset;
+    const atIndex = byIp[adjustedIp] ?? [];
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
     atIndex.push(state);
     // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-    byIp[state.ip] = atIndex;
+    byIp[adjustedIp] = atIndex;
     return byIp;
   }, []);
 
@@ -510,6 +558,38 @@ export const extractEvaluationSamples = <
     const [zeroth] = decoded;
     const hasNonMalformedInstructions =
       zeroth !== undefined && !('malformed' in zeroth);
+
+    if ('comment' in currentNode) {
+      const sourceSample = samples.length - 1;
+      const lastSampleStack = samples[sourceSample]?.state.stack;
+      const match = /\[\[(?<hint>[\s\S]*?)\]\]/u.exec(currentNode.comment);
+      // eslint-disable-next-line functional/no-conditional-statements
+      if (lastSampleStack && match) {
+        const { hint } = match.groups as { hint: string };
+        const labels = hint
+          .split(',')
+          .map((label) => label.trim())
+          .reverse();
+        // eslint-disable-next-line functional/no-expression-statements, functional/no-return-void
+        labels.forEach((label, itemDepth) => {
+          const stackItem =
+            lastSampleStack[lastSampleStack.length - (1 + itemDepth)];
+          /**
+           * Labels for excessive depths are silently ignored. This can happen
+           * frequently when a program is being modified, and the label may
+           * become useful again moments later.
+           */
+          if (stackItem === undefined) return;
+          // eslint-disable-next-line functional/immutable-data, functional/no-expression-statements
+          labeledStackItems.push({
+            itemDepth,
+            label,
+            sourceSample,
+            value: binToHex(stackItem),
+          });
+        });
+      }
+    }
 
     if (hasNonMalformedInstructions) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -632,6 +712,7 @@ export const extractEvaluationSamples = <
     : trace.slice(nextState);
 
   return {
+    labeledStackItems,
     samples,
     unmatchedStates,
   };
@@ -652,7 +733,8 @@ export const extractEvaluationSamples = <
  */
 export const extractEvaluationSamplesRecursive = <
   ProgramState extends AuthenticationProgramStateControlStack &
-    AuthenticationProgramStateMinimum,
+    AuthenticationProgramStateMinimum &
+    AuthenticationProgramStateStack,
 >({
   /**
    * The range of the script node that was evaluated to produce the `trace`
@@ -666,12 +748,19 @@ export const extractEvaluationSamplesRecursive = <
    * The `vm.debug` result to map to these nodes
    */
   trace,
+  /**
+   * The value to subtract from every `ip` when mapping the top-level trace to
+   * nodes. This is useful in cases where sections of a trace must be mapped to
+   * independent scripts, e.g. Bitauth IDE's "tested" + "test-check" scripts.
+   */
+  ipOffset = 0,
 }: {
   evaluationRange: Range;
   nodes: ScriptReductionTraceScriptNode<ProgramState>['script'];
+  ipOffset?: number;
   trace: ProgramState[];
 }): SampleExtractionResult<ProgramState> => {
-  const statesNotProducedByOpEval = (state: ProgramState) =>
+  const statesNotProducedByFunctionInvocation = (state: ProgramState) =>
     !state.controlStack.some((item) => typeof item === 'object');
   const extractEvaluations = (
     node: ScriptReductionTraceChildNode<ProgramState>,
@@ -695,7 +784,7 @@ export const extractEvaluationSamplesRecursive = <
       );
       const traceWithoutUnlockingPhase = node.trace
         .slice(1)
-        .filter(statesNotProducedByOpEval);
+        .filter(statesNotProducedByFunctionInvocation);
       const evaluationBeginToken = '$(';
       const evaluationEndToken = ')';
       const extracted = extractEvaluationSamples<ProgramState>({
@@ -713,11 +802,13 @@ export const extractEvaluationSamplesRecursive = <
     return [];
   };
 
-  const { samples, unmatchedStates } = extractEvaluationSamples<ProgramState>({
-    evaluationRange,
-    nodes,
-    trace: trace.filter(statesNotProducedByOpEval),
-  });
+  const { samples, unmatchedStates, labeledStackItems } =
+    extractEvaluationSamples<ProgramState>({
+      evaluationRange,
+      ipOffset,
+      nodes,
+      trace: trace.filter(statesNotProducedByFunctionInvocation),
+    });
 
   const childSamples = nodes.reduce<EvaluationSample<ProgramState>[]>(
     (all, node) => [...all, ...extractEvaluations(node)],
@@ -732,6 +823,7 @@ export const extractEvaluationSamplesRecursive = <
   });
 
   return {
+    labeledStackItems,
     samples: endingOrderedSamples,
     unmatchedStates,
   };
@@ -770,6 +862,7 @@ export const extractUnexecutedRanges = <
 >(
   samples: EvaluationSample<ProgramState>[],
   evaluationBegins = '1,1',
+  // TODO: support extraction with a loop-viewing map: { evaluationBegins = '1,1', viewingIterations = {} } = {},
 ) => {
   const reduced = samples.reduce<{
     precedingStateSkipsByEvaluation: {

@@ -111,6 +111,7 @@ test('compileScript: empty string', (t) => {
       script: [
         {
           bytecode: Uint8Array.of(),
+          comment: '',
           range: {
             endColumn: 1,
             endLineNumber: 1,
@@ -170,6 +171,7 @@ test('compileScriptContents: empty string', (t) => {
         script: [
           {
             bytecode: Uint8Array.of(),
+            comment: '',
             range: {
               endColumn: 1,
               endLineNumber: 1,
@@ -224,6 +226,7 @@ test('compileScriptContents: empty script (script with space)', (t) => {
       script: [
         {
           bytecode: Uint8Array.of(),
+          comment: '',
           range: {
             endColumn: 5,
             endLineNumber: 1,
@@ -1265,6 +1268,7 @@ test('compileScript: comments', (t) => {
         script: [
           {
             bytecode: Uint8Array.of(),
+            comment: 'single-line',
             range: {
               endColumn: 15,
               endLineNumber: 1,
@@ -1274,6 +1278,7 @@ test('compileScript: comments', (t) => {
           },
           {
             bytecode: Uint8Array.of(),
+            comment: 'multi-\nline',
             range: {
               endColumn: 8,
               endLineNumber: 3,

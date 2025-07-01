@@ -47,6 +47,132 @@ dv5398,"BigInt binary operation limits: OP_BIN2NUM <0> OP_NUM2BIN, 10,000 bytes 
 yhmnmg,"BigInt binary operation limits: OP_BIN2NUM <1> OP_NUM2BIN, 10,000 bytes of 0xff (P2S)",841,55,2,1,669,535200,39951,16,0,2341,0,12,38751,0
 azkraq,"BigInt binary operation limits: OP_BIN2NUM <1> OP_NUM2BIN, 10,000 bytes of 0xff (P2SH20)",853,67,2,1,681,544800,40531,16,0,2383,2,16,38803,0
 0td3wz,"BigInt binary operation limits: OP_BIN2NUM <1> OP_NUM2BIN, 10,000 bytes of 0xff (P2SH32)",853,79,2,1,681,544800,40555,16,0,2383,2,16,38827,0
+s8tszc,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+s0sv7t,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+zsg43h,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+mrcrnw,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+9fz989,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+nljzv5,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+0l8pf3,"BigInt binary operation limits: OP_BIN2NUM <0> OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+taccvz,"BigInt binary operation limits: OP_BIN2NUM <0> OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+vgqcz7,"BigInt binary operation limits: OP_BIN2NUM <0> OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+p4see3,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29951,16,0,2341,0,12,28751,0
+qtn2fv,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30531,16,0,2383,2,16,28803,0
+uuwx8f,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30555,16,0,2383,2,16,28827,0
+47q45h,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+glmzzw,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+pfumt4,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+wdhqxz,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+gq9xpd,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+4sxjwp,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+6f5za0,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2S)",841,55,2,1,669,535200,39951,16,0,2341,0,12,38751,0
+q29ha4,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2SH20)",853,67,2,1,681,544800,40531,16,0,2383,2,16,38803,0
+0dzrtc,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0x7f (P2SH32)",853,79,2,1,681,544800,40555,16,0,2383,2,16,38827,0
+yzal9d,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x80 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+nqjngm,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x80 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+zym2hy,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x80 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+kth6sd,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x80 (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+cupaya,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x80 (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+9zfxyp,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0x80 (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+wzr7dz,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0xff (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+p02rhx,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0xff (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+6dznyp,"BigInt binary operation limits: OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0xff (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+8q54jp,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0xff (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+r2mz9t,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0xff (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+mx5kll,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTNUM, 10,000 bytes of 0xff (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+z756yk,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0xff (P2S)",841,55,2,1,669,535200,39951,16,0,2341,0,12,38751,0
+jh5we0,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0xff (P2SH20)",853,67,2,1,681,544800,40531,16,0,2383,2,16,38803,0
+m58x02,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTNUM, 10,000 bytes of 0xff (P2SH32)",853,79,2,1,681,544800,40555,16,0,2383,2,16,38827,0
+ex4yh7,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+hu3z6f,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+c9vvjk,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+y72j3t,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+uruf39,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+xjg9gz,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+5mrxmp,"BigInt binary operation limits: OP_BIN2NUM <0> OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+r2aqkk,"BigInt binary operation limits: OP_BIN2NUM <0> OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+yfgyl9,"BigInt binary operation limits: OP_BIN2NUM <0> OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+ksedvx,"BigInt binary operation limits: OP_BIN2NUM <1> OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29951,16,0,2341,0,12,28751,0
+y63xtx,"BigInt binary operation limits: OP_BIN2NUM <1> OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30531,16,0,2383,2,16,28803,0
+v28hfj,"BigInt binary operation limits: OP_BIN2NUM <1> OP_RSHIFTNUM, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30555,16,0,2383,2,16,28827,0
+vxsurh,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x7f (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+s0text,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x7f (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+ac4eyl,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x7f (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+mlz2nq,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x7f (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+jsfgcu,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x7f (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+wc5u5w,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x7f (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+897h94,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x80 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+0z3x7p,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x80 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+j07wrs,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x80 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+zr8q6x,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x80 (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+s90v8p,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x80 (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+nkx259,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0x80 (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+de7y93,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0xff (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+ls8thk,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0xff (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+tecmfp,"BigInt binary operation limits: OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0xff (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+y8s06s,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0xff (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+5s5xy0,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0xff (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+d8xmy2,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTNUM, 10,000 bytes of 0xff (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+6q36xk,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+efwd0k,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+uyn422,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+8r7cuj,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+0tussw,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+2lwtpu,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+8ym3xm,"BigInt binary operation limits: OP_BIN2NUM <0> OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+hmk079,"BigInt binary operation limits: OP_BIN2NUM <0> OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+m0fuy2,"BigInt binary operation limits: OP_BIN2NUM <0> OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+p3qgjr,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29951,16,0,2341,0,12,28751,0
+u6c9nu,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30531,16,0,2383,2,16,28803,0
+6vy3v9,"BigInt binary operation limits: OP_BIN2NUM <1> OP_LSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30555,16,0,2383,2,16,28827,0
+sr9znd,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x7f (P2S)",841,54,2,1,669,535200,49850,16,0,2341,0,11,48750,0
+wn8vqa,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x7f (P2SH20)",852,67,2,1,680,544000,50429,16,0,2380,2,15,48801,0
+585pvf,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x7f (P2SH32)",852,79,2,1,680,544000,50453,16,0,2380,2,15,48825,0
+leu26l,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x7f (P2S)",841,55,2,1,669,535200,59950,16,0,2341,0,12,58750,0
+rgj977,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x7f (P2SH20)",853,67,2,1,681,544800,60530,16,0,2383,2,16,58802,0
+x8x2km,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x7f (P2SH32)",853,79,2,1,681,544800,60554,16,0,2383,2,16,58826,0
+syqnwl,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x80 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+2kvhrn,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x80 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+q388cg,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x80 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+k7emgy,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x80 (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+v6e0ws,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x80 (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+mq3tx4,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0x80 (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+3gkujj,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0xff (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+qha47j,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0xff (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+zy3gr3,"BigInt binary operation limits: OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0xff (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+nts3gr,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0xff (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+zug8wj,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0xff (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+s2an8m,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_LSHIFTBIN, 10,000 bytes of 0xff (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+lw3wv2,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+mps2x0,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+8w725n,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+dd69c7,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+m3eg42,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+vu9psy,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+7lm3s9,"BigInt binary operation limits: OP_BIN2NUM <0> OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29950,16,0,2341,0,12,28750,0
+u9ud3e,"BigInt binary operation limits: OP_BIN2NUM <0> OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30530,16,0,2383,2,16,28802,0
+9ftr69,"BigInt binary operation limits: OP_BIN2NUM <0> OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30554,16,0,2383,2,16,28826,0
+x4j79q,"BigInt binary operation limits: OP_BIN2NUM <1> OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2S)",841,55,2,1,669,535200,29951,16,0,2341,0,12,28751,0
+rlmlgt,"BigInt binary operation limits: OP_BIN2NUM <1> OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH20)",853,67,2,1,681,544800,30531,16,0,2383,2,16,28803,0
+utxw0g,"BigInt binary operation limits: OP_BIN2NUM <1> OP_RSHIFTBIN, 10,000 bytes of 0x00 (P2SH32)",853,79,2,1,681,544800,30555,16,0,2383,2,16,28827,0
+k5kl9g,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x7f (P2S)",841,54,2,1,669,535200,49850,16,0,2341,0,11,48750,0
+vn443f,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x7f (P2SH20)",852,67,2,1,680,544000,50429,16,0,2380,2,15,48801,0
+g49fxz,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x7f (P2SH32)",852,79,2,1,680,544000,50453,16,0,2380,2,15,48825,0
+7seu93,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x7f (P2S)",841,55,2,1,669,535200,59950,16,0,2341,0,12,58750,0
+gvpcyc,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x7f (P2SH20)",853,67,2,1,681,544800,60530,16,0,2383,2,16,58802,0
+t4paxu,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x7f (P2SH32)",853,79,2,1,681,544800,60554,16,0,2383,2,16,58826,0
+vt39wp,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x80 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+2ph0nf,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x80 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+39h903,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x80 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+jgjk9p,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x80 (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+3rzauy,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x80 (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+xa665f,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0x80 (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
+9zz9yg,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0xff (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
+cakq4c,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0xff (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
+3tpzqr,"BigInt binary operation limits: OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0xff (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0
+wkxhws,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0xff (P2S)",841,55,2,1,669,535200,49950,16,0,2341,0,12,48750,0
+p3xv33,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0xff (P2SH20)",853,67,2,1,681,544800,50530,16,0,2383,2,16,48802,0
+tx7pap,"BigInt binary operation limits: OP_BIN2NUM OP_DUP OP_RSHIFTBIN, 10,000 bytes of 0xff (P2SH32)",853,79,2,1,681,544800,50554,16,0,2383,2,16,48826,0
 7m5d7j,"BigInt binary operation limits: OP_DUP OP_ADD, 10,000 bytes of 0x00 (P2S)",841,54,2,1,669,535200,39850,16,0,2341,0,11,38750,0
 9qznc5,"BigInt binary operation limits: OP_DUP OP_ADD, 10,000 bytes of 0x00 (P2SH20)",852,67,2,1,680,544000,40429,16,0,2380,2,15,38801,0
 hfn232,"BigInt binary operation limits: OP_DUP OP_ADD, 10,000 bytes of 0x00 (P2SH32)",852,79,2,1,680,544000,40453,16,0,2380,2,15,38825,0

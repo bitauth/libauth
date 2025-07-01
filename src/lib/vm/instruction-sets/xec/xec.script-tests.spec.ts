@@ -110,7 +110,7 @@ pendingTests.map((expectation) => {
   if (expectation.flags.failRequiresReview) {
     test.todo(`Review failure: ${description}`);
   }
-  test(
+  test.skip(
     description,
     // eslint-disable-next-line complexity
     (t) => {

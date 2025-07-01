@@ -6,6 +6,7 @@ import type {
 import {
   applyError,
   pushToStack,
+  pushToStackVmNumber,
   pushToStackVmNumberChecked,
   useOneStackItem,
   useOneVmNumber,
@@ -32,32 +33,59 @@ export const opInvert = <
 
 const useOneShiftBitCount = <
   State extends AuthenticationProgramStateError &
-    AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateStack,
 >(
   state: State,
   shiftOperation: (nextState: State, [bitCount]: [bigint]) => State,
-  { maximumStackItemLength = ConsensusBch2026.maximumStackItemLength } = {},
-) => {
-  const maximumBitCount = maximumStackItemLength * Constants.bitsPerByte;
-
-  return useOneVmNumber(state, (nextState, [bitCount]) => {
-    if (bitCount < 0n || bitCount > maximumBitCount) {
+) =>
+  useOneVmNumber(state, (nextState, [bitCount]) => {
+    if (bitCount < 0n) {
       return applyError(
         nextState,
         AuthenticationErrorBch2026.invalidShiftBitCount,
-        `Bit count (${bitCount}) is outside of the valid range: 0 to ${maximumBitCount} (inclusive).`,
+        `Bit count must be greater than or equal to 0. Provided bit count: ${bitCount}.`,
       );
     }
     return shiftOperation(nextState, [bitCount]);
   });
-};
 
-const createOpShiftNum =
-  (
-    maximumStackItemLength: number,
-    shiftOperation: (numericValue: bigint, bitCount: bigint) => bigint,
-  ) =>
+export const createOpLShiftNum =
+  ({ maximumStackItemLength = ConsensusBch2026.maximumStackItemLength } = {}) =>
+  <
+    State extends AuthenticationProgramStateError &
+      AuthenticationProgramStateResourceLimits &
+      AuthenticationProgramStateStack,
+  >(
+    state: State,
+  ): State => {
+    const fastFailBitCount = maximumStackItemLength * Constants.bitsPerByte;
+    return useOneShiftBitCount(state, (nextState, [bitCount]) =>
+      useOneVmNumber(nextState, (finalState, [numericValue]) => {
+        if (numericValue === 0n) {
+          return pushToStackVmNumber(finalState, 0n);
+        }
+        if (bitCount > fastFailBitCount) {
+          return applyError(
+            nextState,
+            AuthenticationErrorBch2026.invalidShiftBitCount,
+            `Abandoned excessive OP_LSHIFTNUM. Provided bit count: ${bitCount}.`,
+          );
+        }
+        return pushToStackVmNumberChecked(
+          finalState,
+          // eslint-disable-next-line no-bitwise
+          numericValue << bitCount,
+          {
+            hasEncodingCost: true,
+            maximumVmNumberByteLength: maximumStackItemLength,
+          },
+        );
+      }),
+    );
+  };
+
+export const createOpRShiftNum =
+  ({ maximumStackItemLength = ConsensusBch2026.maximumStackItemLength } = {}) =>
   <
     State extends AuthenticationProgramStateError &
       AuthenticationProgramStateResourceLimits &
@@ -65,36 +93,30 @@ const createOpShiftNum =
   >(
     state: State,
   ): State =>
-    useOneShiftBitCount(
-      state,
-      (nextState, [bitCount]) =>
-        useOneVmNumber(nextState, (finalState, [numericValue]) => {
-          const result = shiftOperation(numericValue, bitCount);
-          return pushToStackVmNumberChecked(finalState, result, {
+    useOneShiftBitCount(state, (nextState, [bitCount]) => {
+      const nextStackItemLength =
+        nextState.stack[nextState.stack.length - 1]?.length ?? 0;
+      const numericValueBits = nextStackItemLength * Constants.bitsPerByte;
+      const fastReturnIfValid = bitCount > numericValueBits;
+      return useOneVmNumber(nextState, (finalState, [numericValue]) => {
+        if (numericValue === 0n) {
+          return pushToStackVmNumber(finalState, 0n);
+        }
+        if (fastReturnIfValid) {
+          const isNegative = numericValue < 0;
+          return pushToStackVmNumber(finalState, isNegative ? -1n : 0n);
+        }
+        return pushToStackVmNumberChecked(
+          finalState,
+          // eslint-disable-next-line no-bitwise
+          numericValue >> bitCount,
+          {
             hasEncodingCost: true,
             maximumVmNumberByteLength: maximumStackItemLength,
-          });
-        }),
-      { maximumStackItemLength },
-    );
-
-export const createOpLShiftNum = ({
-  maximumStackItemLength = ConsensusBch2026.maximumStackItemLength,
-} = {}) =>
-  createOpShiftNum(
-    maximumStackItemLength,
-    // eslint-disable-next-line no-bitwise
-    (numericValue, bitCount) => numericValue << bitCount,
-  );
-
-export const createOpRShiftNum = ({
-  maximumStackItemLength = ConsensusBch2026.maximumStackItemLength,
-} = {}) =>
-  createOpShiftNum(
-    maximumStackItemLength,
-    // eslint-disable-next-line no-bitwise
-    (numericValue, bitCount) => numericValue >> bitCount,
-  );
+          },
+        );
+      });
+    });
 
 // eslint-disable-next-line functional/no-return-void
 const copyWholeBytes = (
@@ -184,31 +206,26 @@ export const binaryShiftLeft = (bin: Uint8Array, bitCount: bigint) =>
 export const binaryShiftRight = (bin: Uint8Array, bitCount: bigint) =>
   shiftFixed(bin, bitCount, false);
 
-const createOpShiftBin =
-  (
-    maximumStackItemLength: number,
-    shiftOperation: (bin: Uint8Array, bitCount: bigint) => Uint8Array,
-  ) =>
-  <
-    State extends AuthenticationProgramStateError &
-      AuthenticationProgramStateResourceLimits &
-      AuthenticationProgramStateStack,
-  >(
-    state: State,
-  ): State =>
-    useOneShiftBitCount(
-      state,
-      (nextState, [bitCount]) =>
-        useOneStackItem(nextState, (finalState, [bin]) =>
-          pushToStack(finalState, [shiftOperation(bin, bitCount)]),
-        ),
-      { maximumStackItemLength },
-    );
+export const opLShiftBin = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack,
+>(
+  state: State,
+): State =>
+  useOneShiftBitCount(state, (nextState, [bitCount]) =>
+    useOneStackItem(nextState, (finalState, [bin]) =>
+      pushToStack(finalState, [binaryShiftLeft(bin, bitCount)]),
+    ),
+  );
 
-export const createOpLShiftBin = ({
-  maximumStackItemLength = ConsensusBch2026.maximumStackItemLength,
-} = {}) => createOpShiftBin(maximumStackItemLength, binaryShiftLeft);
-
-export const createOpRShiftBin = ({
-  maximumStackItemLength = ConsensusBch2026.maximumStackItemLength,
-} = {}) => createOpShiftBin(maximumStackItemLength, binaryShiftRight);
+export const opRShiftBin = <
+  State extends AuthenticationProgramStateError &
+    AuthenticationProgramStateStack,
+>(
+  state: State,
+): State =>
+  useOneShiftBitCount(state, (nextState, [bitCount]) =>
+    useOneStackItem(nextState, (finalState, [bin]) =>
+      pushToStack(finalState, [binaryShiftRight(bin, bitCount)]),
+    ),
+  );

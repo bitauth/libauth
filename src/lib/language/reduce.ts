@@ -163,7 +163,10 @@ export const reduceScript = <
         };
       }
       case 'comment':
-        return emptyReductionTraceNode(segment.range);
+        return {
+          ...emptyReductionTraceNode(segment.range),
+          comment: segment.value,
+        };
       case 'error':
         return {
           errors: [

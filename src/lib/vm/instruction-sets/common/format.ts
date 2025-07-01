@@ -64,6 +64,7 @@ export const padMinimallyEncodedVmNumber = (
   vmNumber: Uint8Array,
   length: number,
 ) => {
+  if (vmNumber.length === length) return vmNumber;
   // eslint-disable-next-line functional/no-let
   let signBit = Constants.positiveSign;
   // eslint-disable-next-line functional/no-conditional-statements
@@ -110,14 +111,9 @@ export const createOpNum2Bin =
                     AuthenticationErrorCommon.insufficientLength,
                     `Minimum necessary byte length: ${minimallyEncoded.length}. Requested byte length: ${targetLength}.`,
                   )
-                : minimallyEncoded.length === targetLength
-                  ? pushToStack(finalState, [minimallyEncoded])
-                  : pushToStack(finalState, [
-                      padMinimallyEncodedVmNumber(
-                        minimallyEncoded,
-                        targetLength,
-                      ),
-                    ]);
+                : pushToStack(finalState, [
+                    padMinimallyEncodedVmNumber(minimallyEncoded, targetLength),
+                  ]);
             },
             {
               maximumVmNumberByteLength: maximumStackItemLength,

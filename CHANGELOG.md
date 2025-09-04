@@ -1,5 +1,11 @@
 # `@bitauth/libauth`
 
+## 3.1.0-next.8
+
+### Minor Changes
+
+- [#139](https://github.com/bitauth/libauth/pull/139) [`35c37df`](https://github.com/bitauth/libauth/commit/35c37df03a0437d9669480902e3cc9dfe9e68d39) Thanks [@bitjson](https://github.com/bitjson)! - Update BCH_2026 VM and VMB tests
+
 ## 3.1.0-next.7
 
 ### Minor Changes

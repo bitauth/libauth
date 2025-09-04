@@ -1,4 +1,0 @@
-Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
-g3u8du,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, "OP_1" at 100 (P2S)",211,337,2,1,41,32800,31931,1,0,143,0,251,6831,0
-v2d39t,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_IF at 99 (P2S)",211,338,2,1,41,32800,32080,1,0,143,0,252,6880,0
-hu8gj8,"OP_EVAL: Nesting with OP_IF/OP_ENDIF to depth 100, OP_NOTIF + OP_ELSE at 99 (P2S)",211,340,2,1,41,32800,32377,1,0,143,0,254,6977,0

@@ -10,7 +10,6 @@
 "l89ycg":[41,32800,100,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (1 << max_number) (P2S)"],
 "7fnxag":[41,32800,100,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (max_number << max_number) (P2S)"],
 "2kcvyv":[41,32800,100,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (min_number << max_number) (P2S)"],
-"lvpu4n":[52,41600,10611,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (max_number >> max_number) (P2S)"],
 "4r9wdp":[65,52000,10624,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (min_number >> max_number) (P2S)"],
 "e2knc8":[41,32800,10501,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (0 >> max_number) (P2S)"],
 "d26kac":[41,32800,100,"Transaction validation benchmarks: infinite loop of max OP_RSHIFTNUM (0 >> max_number) (P2S)"],

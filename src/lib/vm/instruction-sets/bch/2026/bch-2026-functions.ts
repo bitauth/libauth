@@ -14,7 +14,6 @@ import {
   disassembleAuthenticationInstructionMalformed,
   pushToControlStack,
   useOneStackItem,
-  useOneVmNumber,
 } from '../../common/common.js';
 
 import { ConsensusBch2026 } from './bch-2026-consensus.js';
@@ -23,8 +22,7 @@ import { OpcodesBch2026 } from './bch-2026-opcodes.js';
 
 export const createOpDefine =
   ({
-    maximumFunctionIdentifier = ConsensusBch2026.maximumFunctionIdentifier,
-    minimumFunctionIdentifier = ConsensusBch2026.minimumFunctionIdentifier,
+    maximumFunctionIdentifierLength = ConsensusBch2026.maximumFunctionIdentifierLength,
   } = {}) =>
   <
     State extends AuthenticationProgramStateError &
@@ -33,30 +31,29 @@ export const createOpDefine =
   >(
     state: State,
   ) =>
-    useOneVmNumber(state, (nextState, [providedInteger]) => {
-      const functionIdentifier = Number(providedInteger);
-      if (
-        functionIdentifier < minimumFunctionIdentifier ||
-        functionIdentifier > maximumFunctionIdentifier
-      ) {
+    useOneStackItem(state, (nextState, [functionIdentifier]) => {
+      const functionTableKey = binToHex(functionIdentifier);
+      if (functionIdentifier.length > maximumFunctionIdentifierLength) {
         return applyError(
           nextState,
-          AuthenticationErrorBch2026.functionIdentifierInvalid,
-          `Function identifier (${functionIdentifier}) is outside of the valid range: ${minimumFunctionIdentifier} to ${maximumFunctionIdentifier} (inclusive).`,
+          AuthenticationErrorBch2026.functionIdentifierExcessiveLength,
+          `Function identifier has excessive length. Maximum length: ${maximumFunctionIdentifierLength}. Provided length: ${functionIdentifier.length}. Provided identifier: 0x${functionTableKey}.`,
         );
       }
-      if (nextState.functionTable[functionIdentifier] !== undefined) {
+      if (nextState.functionTable[functionTableKey] !== undefined) {
         return applyError(
           nextState,
           AuthenticationErrorBch2026.functionIdentifierPreviouslyDefined,
-          `Function identifier: ${functionIdentifier}. Existing contents: ${binToHex(
-            nextState.functionTable[functionIdentifier],
+          `Function identifier: 0x${functionTableKey}. Existing contents: ${binToHex(
+            nextState.functionTable[functionTableKey],
           )}.`,
         );
       }
       return useOneStackItem(nextState, (finalState, [functionBody]) => {
         // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
-        finalState.functionTable[functionIdentifier] = functionBody;
+        finalState.functionTable[functionTableKey] = functionBody;
+        // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
+        finalState.functionCount += 1;
         return finalState;
       });
     });
@@ -70,14 +67,14 @@ export const opInvoke = <
 >(
   state: State,
 ) =>
-  useOneVmNumber(state, (nextState, [providedInteger]) => {
-    const functionTableIndex = Number(providedInteger);
-    const functionBody = nextState.functionTable[functionTableIndex];
+  useOneStackItem(state, (nextState, [functionIdentifier]) => {
+    const functionTableKey = binToHex(functionIdentifier);
+    const functionBody = nextState.functionTable[functionTableKey];
     if (functionBody === undefined) {
       return applyError(
         nextState,
         AuthenticationErrorBch2026.functionIdentifierUndefined,
-        `Function identifier: ${functionTableIndex}.`,
+        `Function identifier: 0x${functionTableKey}.`,
       );
     }
     const newInstructions = decodeAuthenticationInstructions(functionBody);

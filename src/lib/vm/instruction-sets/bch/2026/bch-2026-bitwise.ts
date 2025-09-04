@@ -76,7 +76,7 @@ export const createOpLShiftNum =
           // eslint-disable-next-line no-bitwise
           numericValue << bitCount,
           {
-            hasEncodingCost: true,
+            hasEncodingCost: false,
             maximumVmNumberByteLength: maximumStackItemLength,
           },
         );
@@ -111,7 +111,7 @@ export const createOpRShiftNum =
           // eslint-disable-next-line no-bitwise
           numericValue >> bitCount,
           {
-            hasEncodingCost: true,
+            hasEncodingCost: false,
             maximumVmNumberByteLength: maximumStackItemLength,
           },
         );

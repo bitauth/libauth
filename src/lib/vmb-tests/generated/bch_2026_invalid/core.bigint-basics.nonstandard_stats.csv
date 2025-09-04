@@ -23,6 +23,9 @@ ps23mh,"BigInt: padded negative zero (521 bytes) is truthy (P2SH20)",738,67,2,1,
 7esqyn,"BigInt: OP_BIN2NUM on empty stack (P2S)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
 dq4ajj,"BigInt: OP_BIN2NUM on empty stack (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
 jhmexs,"BigInt: OP_BIN2NUM on empty stack (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
+rym4yy,"BigInt: OP_INVERT on empty stack (P2S)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
+e5j6dt,"BigInt: OP_INVERT on empty stack (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
+9sz6tz,"BigInt: OP_INVERT on empty stack (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
 vqfp03,"BigInt: OP_1ADD on empty stack (P2S)",211,46,2,1,41,32800,100,1,0,143,0,1,0,0
 9yx35y,"BigInt: OP_1ADD on empty stack (P2SH20)",214,67,2,1,44,35200,671,1,0,154,2,5,43,0
 8677zr,"BigInt: OP_1ADD on empty stack (P2SH32)",214,79,2,1,44,35200,695,1,0,154,2,5,67,0
@@ -47,6 +50,9 @@ qvprwf,"BigInt: OP_BIN2NUM OP_NOT on empty stack (P2SH32)",214,79,2,1,44,35200,6
 d80z3m,"BigInt: OP_BIN2NUM on 1-item stack of zero (P2S)",212,46,2,1,42,33600,301,1,0,147,0,3,1,0
 f7qn30,"BigInt: OP_BIN2NUM on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,872,1,0,157,2,7,44,0
 2lkyys,"BigInt: OP_BIN2NUM on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,896,1,0,157,2,7,68,0
+ul3yxq,"BigInt: OP_INVERT on 1-item stack of zero (P2S)",212,46,2,1,42,33600,301,1,0,147,0,3,1,0
+eskuez,"BigInt: OP_INVERT on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,872,1,0,157,2,7,44,0
+9ev52f,"BigInt: OP_INVERT on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,896,1,0,157,2,7,68,0
 gxy5jq,"BigInt: OP_1ADD on 1-item stack of zero (P2S)",212,46,2,1,42,33600,303,1,0,147,0,3,2,1
 lfdqlv,"BigInt: OP_1ADD on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,874,1,0,157,2,7,45,1
 6t7ntm,"BigInt: OP_1ADD on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,898,1,0,157,2,7,69,1
@@ -68,6 +74,18 @@ lr9vtw,"BigInt: OP_0NOTEQUAL on 1-item stack of zero (P2SH32)",215,79,2,1,45,360
 6ta9z4,"BigInt: OP_NUM2BIN on 1-item stack of zero (P2S)",212,46,2,1,42,33600,200,1,0,147,0,2,0,0
 f99h57,"BigInt: OP_NUM2BIN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,771,1,0,157,2,6,43,0
 wc5gqy,"BigInt: OP_NUM2BIN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,795,1,0,157,2,6,67,0
+pmscqe,"BigInt: OP_LSHIFTNUM on 1-item stack of zero (P2S)",212,46,2,1,42,33600,200,1,0,147,0,2,0,0
+496a7l,"BigInt: OP_LSHIFTNUM on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,771,1,0,157,2,6,43,0
+dt5vmx,"BigInt: OP_LSHIFTNUM on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,795,1,0,157,2,6,67,0
+zyrhhp,"BigInt: OP_RSHIFTNUM on 1-item stack of zero (P2S)",212,46,2,1,42,33600,200,1,0,147,0,2,0,0
+5lwhwn,"BigInt: OP_RSHIFTNUM on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,771,1,0,157,2,6,43,0
+y6s03m,"BigInt: OP_RSHIFTNUM on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,795,1,0,157,2,6,67,0
+vgce0g,"BigInt: OP_LSHIFTBIN on 1-item stack of zero (P2S)",212,46,2,1,42,33600,200,1,0,147,0,2,0,0
+ntxugy,"BigInt: OP_LSHIFTBIN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,771,1,0,157,2,6,43,0
+nwm30w,"BigInt: OP_LSHIFTBIN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,795,1,0,157,2,6,67,0
+xmvazl,"BigInt: OP_RSHIFTBIN on 1-item stack of zero (P2S)",212,46,2,1,42,33600,200,1,0,147,0,2,0,0
+ndpaf5,"BigInt: OP_RSHIFTBIN on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,771,1,0,157,2,6,43,0
+u98cjx,"BigInt: OP_RSHIFTBIN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,795,1,0,157,2,6,67,0
 7jvxkq,"BigInt: OP_ADD on 1-item stack of zero (P2S)",212,46,2,1,42,33600,200,1,0,147,0,2,0,0
 98cq70,"BigInt: OP_ADD on 1-item stack of zero (P2SH20)",215,67,2,1,45,36000,771,1,0,157,2,6,43,0
 frx9wl,"BigInt: OP_ADD on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,795,1,0,157,2,6,67,0
@@ -122,6 +140,9 @@ axa7ad,"BigInt: OP_WITHIN on 1-item stack of zero (P2SH32)",215,79,2,1,45,36000,
 79ayc8,"BigInt: OP_BIN2NUM on 1-item stack of one (P2S)",212,46,2,1,42,33600,303,1,0,147,0,3,3,0
 eqm7gu,"BigInt: OP_BIN2NUM on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,874,1,0,157,2,7,46,0
 kw4a7t,"BigInt: OP_BIN2NUM on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,898,1,0,157,2,7,70,0
+tf9xkf,"BigInt: OP_INVERT on 1-item stack of one (P2S)",212,46,2,1,42,33600,303,1,0,147,0,3,3,0
+pvxexr,"BigInt: OP_INVERT on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,874,1,0,157,2,7,46,0
+4z8vhs,"BigInt: OP_INVERT on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,898,1,0,157,2,7,70,0
 z2shq0,"BigInt: OP_1ADD on 1-item stack of one (P2S)",212,46,2,1,42,33600,304,1,0,147,0,3,3,1
 4c26xk,"BigInt: OP_1ADD on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,875,1,0,157,2,7,46,1
 ntl6k9,"BigInt: OP_1ADD on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,899,1,0,157,2,7,70,1
@@ -143,6 +164,18 @@ lr4quz,"BigInt: OP_0NOTEQUAL on 1-item stack of one (P2SH32)",215,79,2,1,45,3600
 5p2n6a,"BigInt: OP_NUM2BIN on 1-item stack of one (P2S)",212,46,2,1,42,33600,201,1,0,147,0,2,1,0
 42u0fn,"BigInt: OP_NUM2BIN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,772,1,0,157,2,6,44,0
 m8crf0,"BigInt: OP_NUM2BIN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,796,1,0,157,2,6,68,0
+5f89k5,"BigInt: OP_LSHIFTNUM on 1-item stack of one (P2S)",212,46,2,1,42,33600,201,1,0,147,0,2,1,0
+uu5hen,"BigInt: OP_LSHIFTNUM on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,772,1,0,157,2,6,44,0
+v89yjt,"BigInt: OP_LSHIFTNUM on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,796,1,0,157,2,6,68,0
+v89dx7,"BigInt: OP_RSHIFTNUM on 1-item stack of one (P2S)",212,46,2,1,42,33600,201,1,0,147,0,2,1,0
+k9t5kp,"BigInt: OP_RSHIFTNUM on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,772,1,0,157,2,6,44,0
+7y9r3l,"BigInt: OP_RSHIFTNUM on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,796,1,0,157,2,6,68,0
+y3d26f,"BigInt: OP_LSHIFTBIN on 1-item stack of one (P2S)",212,46,2,1,42,33600,201,1,0,147,0,2,1,0
+flqhsk,"BigInt: OP_LSHIFTBIN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,772,1,0,157,2,6,44,0
+8rd83p,"BigInt: OP_LSHIFTBIN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,796,1,0,157,2,6,68,0
+rkt9je,"BigInt: OP_RSHIFTBIN on 1-item stack of one (P2S)",212,46,2,1,42,33600,201,1,0,147,0,2,1,0
+m0xjfs,"BigInt: OP_RSHIFTBIN on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,772,1,0,157,2,6,44,0
+7553gp,"BigInt: OP_RSHIFTBIN on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,796,1,0,157,2,6,68,0
 02pxmd,"BigInt: OP_ADD on 1-item stack of one (P2S)",212,46,2,1,42,33600,201,1,0,147,0,2,1,0
 4qfpmp,"BigInt: OP_ADD on 1-item stack of one (P2SH20)",215,67,2,1,45,36000,772,1,0,157,2,6,44,0
 fl352u,"BigInt: OP_ADD on 1-item stack of one (P2SH32)",215,79,2,1,45,36000,796,1,0,157,2,6,68,0

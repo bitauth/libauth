@@ -44,6 +44,8 @@
     "bchn:cmake": "cd wasm/bitcoin-cash-node/build && cmake -GNinja .. -DBUILD_BITCOIN_WALLET=OFF -DBUILD_BITCOIN_QT=OFF -DENABLE_NATPMP=OFF -DENABLE_MAN=OFF -DCMAKE_BUILD_TYPE=Release",
     "bchn:build": "cd wasm/bitcoin-cash-node/build && ninja",
     "bchn:setup": "cd wasm/bitcoin-cash-node && mkdir build && yarn bchn:cmake && yarn bchn:build",
+    "bchn:bench": "cd wasm/bitcoin-cash-node/build && ninja && ninja bench_bitcoin && echo 'Running BCHN benchmarks (fast)...' && ./src/bench/bench_bitcoin -libauth -filter=\"^LibAuth_(2025|2026)_.*\"",
+    "bchn:bench:slow": "cd wasm/bitcoin-cash-node/build && ninja && ninja bench_bitcoin && echo 'Running BCHN benchmarks (slow, ~6-24 hrs)...' && src/bench/bench_bitcoin -libauth=all_slow -filter=\"^LibAuth_(2025|2026)_.*\"",
     "bchn:remove-old-vmb-tests": "rm -r wasm/bitcoin-cash-node/src/test/data/vmb_tests/bch_{2023,2025,2026}_{invalid,nonstandard,standard} && echo 'Removed old VMB tests from: wasm/bitcoin-cash-node/src/test/data/vmb_tests'",
     "bchn:add-new-vmb-tests": "cp -r src/lib/vmb-tests/generated/bch_{2023,2025,2026}_{invalid,nonstandard,standard} wasm/bitcoin-cash-node/src/test/data/vmb_tests && echo 'Added new VMB tests.'",
     "bchn:replace-vmb-tests": "yarn bchn:remove-old-vmb-tests && yarn bchn:add-new-vmb-tests",

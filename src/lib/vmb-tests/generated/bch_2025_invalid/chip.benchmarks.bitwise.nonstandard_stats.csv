@@ -10,7 +10,6 @@ hdckll,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (0 
 l89ycg,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (1 << max_number) (P2S)",211,58,2,1,41,32800,100,1,0,143,0,1,0,0
 7fnxag,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (max_number << max_number) (P2S)",211,59,2,1,41,32800,100,1,0,143,0,1,0,0
 2kcvyv,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (min_number << max_number) (P2S)",211,63,2,1,41,32800,100,1,0,143,0,1,0,0
-lvpu4n,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (max_number >> max_number) (P2S)",222,58,2,1,52,41600,10611,1,0,182,0,6,10011,0
 4r9wdp,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (min_number >> max_number) (P2S)",235,62,2,1,65,52000,10624,1,0,227,0,6,10024,0
 e2knc8,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (0 >> max_number) (P2S)",211,57,2,1,41,32800,10501,1,0,143,0,5,10001,0
 d26kac,"Transaction validation benchmarks: infinite loop of max OP_RSHIFTNUM (0 >> max_number) (P2S)",211,58,2,1,41,32800,100,1,0,143,0,1,0,0

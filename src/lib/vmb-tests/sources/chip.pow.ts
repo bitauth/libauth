@@ -1,5 +1,11 @@
 import type { VmbTestDefinitionGroup } from '../../lib.js';
 
+/**
+ * Note that OP_POW is not from an active CHIP proposed for network activation.
+ * This OP_POW implementation is just a convenience utility for use in
+ * CashAssembly compilations.
+ */
+
 export default [
   [
     'OP_POW',

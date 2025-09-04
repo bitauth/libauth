@@ -1,0 +1,387 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+690lsy,"Transaction validation benchmarks: infinite OP_INVOKE (P2S)",211,51,2,1,41,32800,20604,1,0,20,0,205,104,0
+xzyecr,"Transaction validation benchmarks: infinite OP_INVOKE (P2SH20)",219,67,2,1,49,39200,21436,1,0,24,2,209,152,0
+9rn6lk,"Transaction validation benchmarks: infinite OP_INVOKE (P2SH32)",219,79,2,1,49,39200,21460,1,0,24,2,209,176,0
+xdy86v,"Transaction validation benchmarks: infinite OP_INVOKE, packed inputs (P2S)",99980,39011,2438,2437,41,32800,20604,1,0,20,0,205,104,0
+znldyv,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check equals 3 (P2S)",211,52,2,1,41,32800,802,1,0,20,0,8,2,0
+rvy65n,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check equals 3 (P2SH20)",220,67,2,1,50,40000,1635,1,0,25,2,12,51,0
+xarulm,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check equals 3 (P2SH32)",220,79,2,1,50,40000,1659,1,0,25,2,12,75,0
+ktxukc,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check equals 13 (P2S)",211,52,2,1,41,32800,802,1,0,20,0,8,2,0
+5fy4s6,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check equals 13 (P2SH20)",220,67,2,1,50,40000,1635,1,0,25,2,12,51,0
+jp7t99,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check equals 13 (P2SH32)",220,79,2,1,50,40000,1659,1,0,25,2,12,75,0
+s3xvzl,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check stack has 1 then 0 (P2S)",211,54,2,1,41,32800,802,1,0,20,0,8,2,0
+u3yqxg,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check stack has 1 then 0 (P2SH20)",222,67,2,1,52,41600,1637,1,0,26,2,12,53,0
+ghtvzn,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check stack has 1 then 0 (P2SH32)",222,79,2,1,52,41600,1661,1,0,26,2,12,77,0
+xy6cvn,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check internal invoke produces 2 (P2S)",211,53,2,1,41,32800,1002,1,0,20,0,10,2,0
+hn5yvu,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check internal invoke produces 2 (P2SH20)",221,67,2,1,51,40800,1836,1,0,25,2,14,52,0
+66gydp,"OP_DEFINE/OP_INVOKE: Define empty id to push 0; invoke empty id, check internal invoke produces 2 (P2SH32)",221,79,2,1,51,40800,1860,1,0,25,2,14,76,0
+hx8vg7,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check equals 0 (P2S)",211,52,2,1,41,32800,802,1,0,20,0,8,2,0
+505cmm,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check equals 0 (P2SH20)",220,67,2,1,50,40000,1635,1,0,25,2,12,51,0
+d9c7fw,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check equals 0 (P2SH32)",220,79,2,1,50,40000,1659,1,0,25,2,12,75,0
+c7xxjl,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check equals 13 (P2S)",211,52,2,1,41,32800,803,1,0,20,0,8,3,0
+732khe,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check equals 13 (P2SH20)",220,67,2,1,50,40000,1636,1,0,25,2,12,52,0
+3mtnc7,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check equals 13 (P2SH32)",220,79,2,1,50,40000,1660,1,0,25,2,12,76,0
+5q3sw8,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check stack has 1 then 0 (P2S)",211,54,2,1,41,32800,803,1,0,20,0,8,3,0
+0tz48x,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check stack has 1 then 0 (P2SH20)",222,67,2,1,52,41600,1638,1,0,26,2,12,54,0
+pgw7vd,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check stack has 1 then 0 (P2SH32)",222,79,2,1,52,41600,1662,1,0,26,2,12,78,0
+000vah,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check internal invoke produces 2 (P2S)",211,53,2,1,41,32800,702,1,0,20,0,7,2,0
+ty2l3t,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check internal invoke produces 2 (P2SH20)",221,67,2,1,51,40800,1536,1,0,25,2,11,52,0
+r7l2hc,"OP_DEFINE/OP_INVOKE: Define empty id to push 3; invoke empty id, check internal invoke produces 2 (P2SH32)",221,79,2,1,51,40800,1560,1,0,25,2,11,76,0
+7ne34r,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check equals 0 (P2S)",211,52,2,1,41,32800,802,1,0,20,0,8,2,0
+frv8u2,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check equals 0 (P2SH20)",220,67,2,1,50,40000,1635,1,0,25,2,12,51,0
+7mfzje,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check equals 0 (P2SH32)",220,79,2,1,50,40000,1659,1,0,25,2,12,75,0
+a6x7vr,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check equals 3 (P2S)",211,52,2,1,41,32800,803,1,0,20,0,8,3,0
+02fmfh,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check equals 3 (P2SH20)",220,67,2,1,50,40000,1636,1,0,25,2,12,52,0
+9yv2qn,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check equals 3 (P2SH32)",220,79,2,1,50,40000,1660,1,0,25,2,12,76,0
+pmpa2g,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check stack has 1 then 0 (P2S)",211,54,2,1,41,32800,803,1,0,20,0,8,3,0
+0m6y0q,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check stack has 1 then 0 (P2SH20)",222,67,2,1,52,41600,1638,1,0,26,2,12,54,0
+ee7l66,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check stack has 1 then 0 (P2SH32)",222,79,2,1,52,41600,1662,1,0,26,2,12,78,0
+frdwqa,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check internal invoke produces 2 (P2S)",211,53,2,1,41,32800,702,1,0,20,0,7,2,0
+0yayrw,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check internal invoke produces 2 (P2SH20)",221,67,2,1,51,40800,1536,1,0,25,2,11,52,0
+3kndyz,"OP_DEFINE/OP_INVOKE: Define empty id to push 13; invoke empty id, check internal invoke produces 2 (P2SH32)",221,79,2,1,51,40800,1560,1,0,25,2,11,76,0
+xzszkg,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 0 (P2S)",211,53,2,1,41,32800,903,1,0,20,0,9,3,0
+rppw6c,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 0 (P2SH20)",221,67,2,1,51,40800,1737,1,0,25,2,13,53,0
+tnnssl,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 0 (P2SH32)",221,79,2,1,51,40800,1761,1,0,25,2,13,77,0
+he73ka,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 3 (P2S)",211,53,2,1,41,32800,904,1,0,20,0,9,4,0
+8mrd4p,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 3 (P2SH20)",221,67,2,1,51,40800,1738,1,0,25,2,13,54,0
+3ygm2l,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 3 (P2SH32)",221,79,2,1,51,40800,1762,1,0,25,2,13,78,0
+frq8p3,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 13 (P2S)",211,53,2,1,41,32800,904,1,0,20,0,9,4,0
+vhxykc,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 13 (P2SH20)",221,67,2,1,51,40800,1738,1,0,25,2,13,54,0
+zd6epf,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check equals 13 (P2SH32)",221,79,2,1,51,40800,1762,1,0,25,2,13,78,0
+j3r3d7,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check internal invoke produces 2 (P2S)",211,54,2,1,41,32800,803,1,0,20,0,8,3,0
+n7yd82,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check internal invoke produces 2 (P2SH20)",222,67,2,1,52,41600,1638,1,0,26,2,12,54,0
+durw4y,"OP_DEFINE/OP_INVOKE: Define empty id to push 0, push 1; invoke empty id, check internal invoke produces 2 (P2SH32)",222,79,2,1,52,41600,1662,1,0,26,2,12,78,0
+myg875,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 0 (P2S)",211,56,2,1,41,32800,1108,1,0,20,0,11,8,0
+wyhaxu,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 0 (P2SH20)",224,67,2,1,54,43200,1945,1,0,27,2,15,61,0
+sj6926,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 0 (P2SH32)",224,79,2,1,54,43200,1969,1,0,27,2,15,85,0
+mgl6vx,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 3 (P2S)",211,56,2,1,41,32800,1109,1,0,20,0,11,9,0
+5dfn3r,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 3 (P2SH20)",224,67,2,1,54,43200,1946,1,0,27,2,15,62,0
+0tz9a9,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 3 (P2SH32)",224,79,2,1,54,43200,1970,1,0,27,2,15,86,0
+yfsq5m,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 13 (P2S)",211,56,2,1,41,32800,1109,1,0,20,0,11,9,0
+7qfztq,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 13 (P2SH20)",224,67,2,1,54,43200,1946,1,0,27,2,15,62,0
+y0r00l,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check equals 13 (P2SH32)",224,79,2,1,54,43200,1970,1,0,27,2,15,86,0
+cqtqjn,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check stack has 1 then 0 (P2S)",211,58,2,1,41,32800,1310,1,0,20,0,13,10,0
+jz8tdw,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check stack has 1 then 0 (P2SH20)",226,67,2,1,56,44800,2149,1,0,28,2,17,65,0
+ewmfae,"OP_DEFINE/OP_INVOKE: Define empty id to define 1 as OP_2 then push 1; invoke empty id, check stack has 1 then 0 (P2SH32)",226,79,2,1,56,44800,2173,1,0,28,2,17,89,0
+4jc0fz,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check equals 3 (P2S)",211,56,2,1,41,32800,806,1,0,20,0,8,6,0
+rvw53h,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check equals 3 (P2SH20)",224,67,2,1,54,43200,1643,1,0,27,2,12,59,0
+pds9jn,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check equals 3 (P2SH32)",224,79,2,1,54,43200,1667,1,0,27,2,12,83,0
+flswy2,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check equals 13 (P2S)",211,56,2,1,41,32800,806,1,0,20,0,8,6,0
+0vxums,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check equals 13 (P2SH20)",224,67,2,1,54,43200,1643,1,0,27,2,12,59,0
+2l5362,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check equals 13 (P2SH32)",224,79,2,1,54,43200,1667,1,0,27,2,12,83,0
+sywx6r,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check stack has 1 then 0 (P2S)",211,58,2,1,41,32800,806,1,0,20,0,8,6,0
+3rcegp,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check stack has 1 then 0 (P2SH20)",226,67,2,1,56,44800,1645,1,0,28,2,12,61,0
+464mu7,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check stack has 1 then 0 (P2SH32)",226,79,2,1,56,44800,1669,1,0,28,2,12,85,0
+zqfquw,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check internal invoke produces 2 (P2S)",211,57,2,1,41,32800,705,1,0,20,0,7,5,0
+9e4jrp,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check internal invoke produces 2 (P2SH20)",225,67,2,1,55,44000,1543,1,0,27,2,11,59,0
+fnxek8,"OP_DEFINE/OP_INVOKE: Define id to push 0; invoke id, check internal invoke produces 2 (P2SH32)",225,79,2,1,55,44000,1567,1,0,27,2,11,83,0
+sre9qe,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check equals 0 (P2S)",211,56,2,1,41,32800,806,1,0,20,0,8,6,0
+44ee24,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check equals 0 (P2SH20)",224,67,2,1,54,43200,1643,1,0,27,2,12,59,0
+kjtwa6,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check equals 0 (P2SH32)",224,79,2,1,54,43200,1667,1,0,27,2,12,83,0
+8vjwct,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check equals 13 (P2S)",211,56,2,1,41,32800,807,1,0,20,0,8,7,0
+xpmk2l,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check equals 13 (P2SH20)",224,67,2,1,54,43200,1644,1,0,27,2,12,60,0
+0epjkx,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check equals 13 (P2SH32)",224,79,2,1,54,43200,1668,1,0,27,2,12,84,0
+5rjewl,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check stack has 1 then 0 (P2S)",211,58,2,1,41,32800,807,1,0,20,0,8,7,0
+4uzyx8,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check stack has 1 then 0 (P2SH20)",226,67,2,1,56,44800,1646,1,0,28,2,12,62,0
+cydst2,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check stack has 1 then 0 (P2SH32)",226,79,2,1,56,44800,1670,1,0,28,2,12,86,0
+x59u3w,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check internal invoke produces 2 (P2S)",211,57,2,1,41,32800,706,1,0,20,0,7,6,0
+sp6vf2,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check internal invoke produces 2 (P2SH20)",225,67,2,1,55,44000,1544,1,0,27,2,11,60,0
+0kdssq,"OP_DEFINE/OP_INVOKE: Define id to push 3; invoke id, check internal invoke produces 2 (P2SH32)",225,79,2,1,55,44000,1568,1,0,27,2,11,84,0
+vug57u,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check equals 0 (P2S)",211,56,2,1,41,32800,806,1,0,20,0,8,6,0
+8pske9,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check equals 0 (P2SH20)",224,67,2,1,54,43200,1643,1,0,27,2,12,59,0
+33f9ve,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check equals 0 (P2SH32)",224,79,2,1,54,43200,1667,1,0,27,2,12,83,0
+mcml8e,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check equals 3 (P2S)",211,56,2,1,41,32800,807,1,0,20,0,8,7,0
+egrz9k,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check equals 3 (P2SH20)",224,67,2,1,54,43200,1644,1,0,27,2,12,60,0
+xc8kc6,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check equals 3 (P2SH32)",224,79,2,1,54,43200,1668,1,0,27,2,12,84,0
+jqaz9c,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check stack has 1 then 0 (P2S)",211,58,2,1,41,32800,807,1,0,20,0,8,7,0
+hw59q7,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check stack has 1 then 0 (P2SH20)",226,67,2,1,56,44800,1646,1,0,28,2,12,62,0
+u9lgrd,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check stack has 1 then 0 (P2SH32)",226,79,2,1,56,44800,1670,1,0,28,2,12,86,0
+zjuzf6,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check internal invoke produces 2 (P2S)",211,57,2,1,41,32800,706,1,0,20,0,7,6,0
+xnul30,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check internal invoke produces 2 (P2SH20)",225,67,2,1,55,44000,1544,1,0,27,2,11,60,0
+mdyeqh,"OP_DEFINE/OP_INVOKE: Define id to push 13; invoke id, check internal invoke produces 2 (P2SH32)",225,79,2,1,55,44000,1568,1,0,27,2,11,84,0
+ctea3x,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 0 (P2S)",211,57,2,1,41,32800,907,1,0,20,0,9,7,0
+zc4kfn,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 0 (P2SH20)",225,67,2,1,55,44000,1745,1,0,27,2,13,61,0
+nv7j5m,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 0 (P2SH32)",225,79,2,1,55,44000,1769,1,0,27,2,13,85,0
+8aqkpe,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 3 (P2S)",211,57,2,1,41,32800,908,1,0,20,0,9,8,0
+vsy99h,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 3 (P2SH20)",225,67,2,1,55,44000,1746,1,0,27,2,13,62,0
+w52s8d,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 3 (P2SH32)",225,79,2,1,55,44000,1770,1,0,27,2,13,86,0
+n5z6zv,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 13 (P2S)",211,57,2,1,41,32800,908,1,0,20,0,9,8,0
+7gjyu8,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 13 (P2SH20)",225,67,2,1,55,44000,1746,1,0,27,2,13,62,0
+upe0ka,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check equals 13 (P2SH32)",225,79,2,1,55,44000,1770,1,0,27,2,13,86,0
+qcpnrg,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check internal invoke produces 2 (P2S)",211,58,2,1,41,32800,807,1,0,20,0,8,7,0
+vhdzyh,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check internal invoke produces 2 (P2SH20)",226,67,2,1,56,44800,1646,1,0,28,2,12,62,0
+sgpfmt,"OP_DEFINE/OP_INVOKE: Define id to push 0, push 1; invoke id, check internal invoke produces 2 (P2SH32)",226,79,2,1,56,44800,1670,1,0,28,2,12,86,0
+z8zgmh,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 0 (P2S)",211,60,2,1,41,32800,1112,1,0,20,0,11,12,0
+flanxz,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 0 (P2SH20)",228,67,2,1,58,46400,1953,1,0,29,2,15,69,0
+jjhp4k,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 0 (P2SH32)",228,79,2,1,58,46400,1977,1,0,29,2,15,93,0
+6v7np7,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 3 (P2S)",211,60,2,1,41,32800,1113,1,0,20,0,11,13,0
+hdv5ld,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 3 (P2SH20)",228,67,2,1,58,46400,1954,1,0,29,2,15,70,0
+z49kye,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 3 (P2SH32)",228,79,2,1,58,46400,1978,1,0,29,2,15,94,0
+7pv7mm,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 13 (P2S)",211,60,2,1,41,32800,1113,1,0,20,0,11,13,0
+uyuh39,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 13 (P2SH20)",228,67,2,1,58,46400,1954,1,0,29,2,15,70,0
+5zptsk,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check equals 13 (P2SH32)",228,79,2,1,58,46400,1978,1,0,29,2,15,94,0
+7qn90r,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check stack has 1 then 0 (P2S)",211,62,2,1,41,32800,1314,1,0,20,0,13,14,0
+8lksna,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check stack has 1 then 0 (P2SH20)",230,67,2,1,60,48000,2157,1,0,30,2,17,73,0
+2jd3eg,"OP_DEFINE/OP_INVOKE: Define id to define 1 as OP_2 then push 1; invoke id, check stack has 1 then 0 (P2SH32)",230,79,2,1,60,48000,2181,1,0,30,2,17,97,0
+jad34k,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check equals 3 (P2S)",211,66,2,1,41,32800,816,1,0,20,0,8,16,0
+zwx8sz,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check equals 3 (P2SH20)",234,67,2,1,64,51200,1663,1,0,32,2,12,79,0
+w3wpyc,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check equals 3 (P2SH32)",234,79,2,1,64,51200,1687,1,0,32,2,12,103,0
+eqd29f,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check equals 13 (P2S)",211,66,2,1,41,32800,816,1,0,20,0,8,16,0
+36ggrj,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check equals 13 (P2SH20)",234,67,2,1,64,51200,1663,1,0,32,2,12,79,0
+7vysrh,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check equals 13 (P2SH32)",234,79,2,1,64,51200,1687,1,0,32,2,12,103,0
+jycgt0,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check stack has 1 then 0 (P2S)",211,68,2,1,41,32800,816,1,0,20,0,8,16,0
+jma9kl,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check stack has 1 then 0 (P2SH20)",236,67,2,1,66,52800,1665,1,0,33,2,12,81,0
+chldjx,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check stack has 1 then 0 (P2SH32)",236,79,2,1,66,52800,1689,1,0,33,2,12,105,0
+zy57uw,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check internal invoke produces 2 (P2S)",211,67,2,1,41,32800,715,1,0,20,0,7,15,0
+zaqm5e,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check internal invoke produces 2 (P2SH20)",235,67,2,1,65,52000,1563,1,0,32,2,11,79,0
+mh85u4,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0; invoke max-length id, check internal invoke produces 2 (P2SH32)",235,79,2,1,65,52000,1587,1,0,32,2,11,103,0
+5wl9tg,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check equals 0 (P2S)",211,66,2,1,41,32800,816,1,0,20,0,8,16,0
+n6fy8q,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check equals 0 (P2SH20)",234,67,2,1,64,51200,1663,1,0,32,2,12,79,0
+ewqr32,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check equals 0 (P2SH32)",234,79,2,1,64,51200,1687,1,0,32,2,12,103,0
+ukt332,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check equals 13 (P2S)",211,66,2,1,41,32800,817,1,0,20,0,8,17,0
+t99qt0,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check equals 13 (P2SH20)",234,67,2,1,64,51200,1664,1,0,32,2,12,80,0
+mgh5h6,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check equals 13 (P2SH32)",234,79,2,1,64,51200,1688,1,0,32,2,12,104,0
+mv633y,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check stack has 1 then 0 (P2S)",211,68,2,1,41,32800,817,1,0,20,0,8,17,0
+f4s2ke,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check stack has 1 then 0 (P2SH20)",236,67,2,1,66,52800,1666,1,0,33,2,12,82,0
+h6f9hr,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check stack has 1 then 0 (P2SH32)",236,79,2,1,66,52800,1690,1,0,33,2,12,106,0
+jjptf8,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check internal invoke produces 2 (P2S)",211,67,2,1,41,32800,716,1,0,20,0,7,16,0
+5j5pq9,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check internal invoke produces 2 (P2SH20)",235,67,2,1,65,52000,1564,1,0,32,2,11,80,0
+5asz2j,"OP_DEFINE/OP_INVOKE: Define max-length id to push 3; invoke max-length id, check internal invoke produces 2 (P2SH32)",235,79,2,1,65,52000,1588,1,0,32,2,11,104,0
+76sam0,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check equals 0 (P2S)",211,66,2,1,41,32800,816,1,0,20,0,8,16,0
+4fv5hj,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check equals 0 (P2SH20)",234,67,2,1,64,51200,1663,1,0,32,2,12,79,0
+kejran,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check equals 0 (P2SH32)",234,79,2,1,64,51200,1687,1,0,32,2,12,103,0
+an4vjg,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check equals 3 (P2S)",211,66,2,1,41,32800,817,1,0,20,0,8,17,0
+fwe6nf,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check equals 3 (P2SH20)",234,67,2,1,64,51200,1664,1,0,32,2,12,80,0
+2u3ep5,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check equals 3 (P2SH32)",234,79,2,1,64,51200,1688,1,0,32,2,12,104,0
+7vf8tk,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check stack has 1 then 0 (P2S)",211,68,2,1,41,32800,817,1,0,20,0,8,17,0
+p9efnv,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check stack has 1 then 0 (P2SH20)",236,67,2,1,66,52800,1666,1,0,33,2,12,82,0
+hejc7k,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check stack has 1 then 0 (P2SH32)",236,79,2,1,66,52800,1690,1,0,33,2,12,106,0
+4xussp,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check internal invoke produces 2 (P2S)",211,67,2,1,41,32800,716,1,0,20,0,7,16,0
+ymkj85,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check internal invoke produces 2 (P2SH20)",235,67,2,1,65,52000,1564,1,0,32,2,11,80,0
+khvpu8,"OP_DEFINE/OP_INVOKE: Define max-length id to push 13; invoke max-length id, check internal invoke produces 2 (P2SH32)",235,79,2,1,65,52000,1588,1,0,32,2,11,104,0
+5czpjl,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 0 (P2S)",211,67,2,1,41,32800,917,1,0,20,0,9,17,0
+tn0m4y,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 0 (P2SH20)",235,67,2,1,65,52000,1765,1,0,32,2,13,81,0
+yu4wsk,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 0 (P2SH32)",235,79,2,1,65,52000,1789,1,0,32,2,13,105,0
+ws5dlk,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 3 (P2S)",211,67,2,1,41,32800,918,1,0,20,0,9,18,0
+c39vph,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 3 (P2SH20)",235,67,2,1,65,52000,1766,1,0,32,2,13,82,0
+88gedf,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 3 (P2SH32)",235,79,2,1,65,52000,1790,1,0,32,2,13,106,0
+d0yyqs,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 13 (P2S)",211,67,2,1,41,32800,918,1,0,20,0,9,18,0
+u6alf4,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 13 (P2SH20)",235,67,2,1,65,52000,1766,1,0,32,2,13,82,0
+564m88,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check equals 13 (P2SH32)",235,79,2,1,65,52000,1790,1,0,32,2,13,106,0
+2zvdr3,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check internal invoke produces 2 (P2S)",211,68,2,1,41,32800,817,1,0,20,0,8,17,0
+pqkyz8,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check internal invoke produces 2 (P2SH20)",236,67,2,1,66,52800,1666,1,0,33,2,12,82,0
+vmwm4d,"OP_DEFINE/OP_INVOKE: Define max-length id to push 0, push 1; invoke max-length id, check internal invoke produces 2 (P2SH32)",236,79,2,1,66,52800,1690,1,0,33,2,12,106,0
+qmf9tk,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 0 (P2S)",211,70,2,1,41,32800,1122,1,0,20,0,11,22,0
+feppdf,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 0 (P2SH20)",238,67,2,1,68,54400,1973,2,0,34,2,15,89,0
+4jdhsu,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 0 (P2SH32)",238,79,2,1,68,54400,1997,2,0,34,2,15,113,0
+0n6p7e,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 3 (P2S)",211,70,2,1,41,32800,1123,1,0,20,0,11,23,0
+vf69rg,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 3 (P2SH20)",238,67,2,1,68,54400,1974,2,0,34,2,15,90,0
+t37794,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 3 (P2SH32)",238,79,2,1,68,54400,1998,2,0,34,2,15,114,0
+g7wm7j,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 13 (P2S)",211,70,2,1,41,32800,1123,1,0,20,0,11,23,0
+erg9dc,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 13 (P2SH20)",238,67,2,1,68,54400,1974,2,0,34,2,15,90,0
+8wpujr,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check equals 13 (P2SH32)",238,79,2,1,68,54400,1998,2,0,34,2,15,114,0
+yg8gcy,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check stack has 1 then 0 (P2S)",211,72,2,1,41,32800,1324,1,0,20,0,13,24,0
+9s6scy,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check stack has 1 then 0 (P2SH20)",240,67,2,1,70,56000,2177,2,0,35,2,17,93,0
+qagjuw,"OP_DEFINE/OP_INVOKE: Define max-length id to define 1 as OP_2 then push 1; invoke max-length id, check stack has 1 then 0 (P2SH32)",240,79,2,1,70,56000,2201,2,0,35,2,17,117,0
+jpxm80,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 0 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+d3ggxl,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 0 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+egc2xc,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 0 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+08k35s,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 3 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+ukr9np,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 3 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+npd6nj,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 3 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+h2cgg3,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 13 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+492mny,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 13 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+qlusq3,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check equals 13 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+paxgqe,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check stack has 1 then 0 (P2S)",211,70,2,1,41,32800,309,1,0,20,0,3,9,0
+0w8qsf,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check stack has 1 then 0 (P2SH20)",238,67,2,1,68,54400,1160,2,0,34,2,7,76,0
+tql2fx,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check stack has 1 then 0 (P2SH32)",238,79,2,1,68,54400,1184,2,0,34,2,7,100,0
+skv5lz,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check internal invoke produces 2 (P2S)",211,69,2,1,41,32800,309,1,0,20,0,3,9,0
+s2p6he,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check internal invoke produces 2 (P2SH20)",237,67,2,1,67,53600,1159,2,0,33,2,7,75,0
+nguz2u,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0; invoke excessive-length id, check internal invoke produces 2 (P2SH32)",237,79,2,1,67,53600,1183,2,0,33,2,7,99,0
+egqq56,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 0 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+0y4eed,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 0 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+zawhvc,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 0 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+nnclyf,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 3 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+rn2m49,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 3 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+hg0r0m,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 3 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+2y6555,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 13 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+89d22s,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 13 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+036lvp,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check equals 13 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+m8uem3,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check stack has 1 then 0 (P2S)",211,70,2,1,41,32800,309,1,0,20,0,3,9,0
+30ylyc,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check stack has 1 then 0 (P2SH20)",238,67,2,1,68,54400,1160,2,0,34,2,7,76,0
+cv2skp,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check stack has 1 then 0 (P2SH32)",238,79,2,1,68,54400,1184,2,0,34,2,7,100,0
+4w5d6g,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check internal invoke produces 2 (P2S)",211,69,2,1,41,32800,309,1,0,20,0,3,9,0
+ssemya,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check internal invoke produces 2 (P2SH20)",237,67,2,1,67,53600,1159,2,0,33,2,7,75,0
+4p5uj3,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 3; invoke excessive-length id, check internal invoke produces 2 (P2SH32)",237,79,2,1,67,53600,1183,2,0,33,2,7,99,0
+p5y8w8,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 0 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+a59ffq,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 0 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+w3xq2d,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 0 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+v0sjwn,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 3 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+f09y79,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 3 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+6y3cf8,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 3 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+qycsgh,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 13 (P2S)",211,68,2,1,41,32800,309,1,0,20,0,3,9,0
+y03sgv,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 13 (P2SH20)",236,67,2,1,66,52800,1158,1,0,33,2,7,74,0
+jq3ge9,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check equals 13 (P2SH32)",236,79,2,1,66,52800,1182,1,0,33,2,7,98,0
+n3ysdc,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check stack has 1 then 0 (P2S)",211,70,2,1,41,32800,309,1,0,20,0,3,9,0
+jzupha,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check stack has 1 then 0 (P2SH20)",238,67,2,1,68,54400,1160,2,0,34,2,7,76,0
+cngm75,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check stack has 1 then 0 (P2SH32)",238,79,2,1,68,54400,1184,2,0,34,2,7,100,0
+y4kl9c,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check internal invoke produces 2 (P2S)",211,69,2,1,41,32800,309,1,0,20,0,3,9,0
+8pkj8w,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check internal invoke produces 2 (P2SH20)",237,67,2,1,67,53600,1159,2,0,33,2,7,75,0
+3f84g6,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 13; invoke excessive-length id, check internal invoke produces 2 (P2SH32)",237,79,2,1,67,53600,1183,2,0,33,2,7,99,0
+6y8jcv,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 0 (P2S)",211,69,2,1,41,32800,310,1,0,20,0,3,10,0
+actht2,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 0 (P2SH20)",237,67,2,1,67,53600,1160,2,0,33,2,7,76,0
+a4lm9h,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 0 (P2SH32)",237,79,2,1,67,53600,1184,2,0,33,2,7,100,0
+2wevvn,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 3 (P2S)",211,69,2,1,41,32800,310,1,0,20,0,3,10,0
+6wv2sw,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 3 (P2SH20)",237,67,2,1,67,53600,1160,2,0,33,2,7,76,0
+50znxg,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 3 (P2SH32)",237,79,2,1,67,53600,1184,2,0,33,2,7,100,0
+y2986k,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 13 (P2S)",211,69,2,1,41,32800,310,1,0,20,0,3,10,0
+4kdtjq,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 13 (P2SH20)",237,67,2,1,67,53600,1160,2,0,33,2,7,76,0
+3ecfnj,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check equals 13 (P2SH32)",237,79,2,1,67,53600,1184,2,0,33,2,7,100,0
+36qmgy,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check stack has 1 then 0 (P2S)",211,71,2,1,41,32800,310,1,0,20,0,3,10,0
+ep43ln,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check stack has 1 then 0 (P2SH20)",239,67,2,1,69,55200,1162,2,0,34,2,7,78,0
+esmvyh,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check stack has 1 then 0 (P2SH32)",239,79,2,1,69,55200,1186,2,0,34,2,7,102,0
+m8jmmg,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check internal invoke produces 2 (P2S)",211,70,2,1,41,32800,310,1,0,20,0,3,10,0
+kaqnpk,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check internal invoke produces 2 (P2SH20)",238,67,2,1,68,54400,1161,2,0,34,2,7,77,0
+rzj7uk,"OP_DEFINE/OP_INVOKE: Define excessive-length id to push 0, push 1; invoke excessive-length id, check internal invoke produces 2 (P2SH32)",238,79,2,1,68,54400,1185,2,0,34,2,7,101,0
+nf5vxu,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 0 (P2S)",211,72,2,1,41,32800,313,1,0,20,0,3,13,0
+wqc9wq,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 0 (P2SH20)",240,67,2,1,70,56000,1166,2,0,35,2,7,82,0
+3t5676,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 0 (P2SH32)",240,79,2,1,70,56000,1190,2,0,35,2,7,106,0
+wmq447,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 3 (P2S)",211,72,2,1,41,32800,313,1,0,20,0,3,13,0
+gzf9ex,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 3 (P2SH20)",240,67,2,1,70,56000,1166,2,0,35,2,7,82,0
+8r9tq9,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 3 (P2SH32)",240,79,2,1,70,56000,1190,2,0,35,2,7,106,0
+ef0tzu,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 13 (P2S)",211,72,2,1,41,32800,313,1,0,20,0,3,13,0
+m34p8j,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 13 (P2SH20)",240,67,2,1,70,56000,1166,2,0,35,2,7,82,0
+qzefxu,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check equals 13 (P2SH32)",240,79,2,1,70,56000,1190,2,0,35,2,7,106,0
+u400dz,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check stack has 1 then 0 (P2S)",211,74,2,1,41,32800,313,1,0,20,0,3,13,0
+f3d7sd,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check stack has 1 then 0 (P2SH20)",242,67,2,1,72,57600,1168,2,0,36,2,7,84,0
+tm29zg,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check stack has 1 then 0 (P2SH32)",242,79,2,1,72,57600,1192,2,0,36,2,7,108,0
+8q7ly7,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check internal invoke produces 2 (P2S)",211,73,2,1,41,32800,313,1,0,20,0,3,13,0
+wrhf3e,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check internal invoke produces 2 (P2SH20)",241,67,2,1,71,56800,1167,2,0,35,2,7,83,0
+d4038e,"OP_DEFINE/OP_INVOKE: Define excessive-length id to define 1 as OP_2 then push 1; invoke excessive-length id, check internal invoke produces 2 (P2SH32)",241,79,2,1,71,56800,1191,2,0,35,2,7,107,0
+llaf8a,"OP_DEFINE/OP_INVOKE: Define 0x00010203040506 to do nothing, invoke does not return 3 (P2S)",212,57,2,1,42,33600,715,1,0,21,0,7,15,0
+79qmhf,"OP_DEFINE/OP_INVOKE: Define 0x00010203040506 to do nothing, invoke does not return 3 (P2SH20)",226,67,2,1,56,44800,1553,1,0,28,2,11,69,0
+rupht6,"OP_DEFINE/OP_INVOKE: Define 0x00010203040506 to do nothing, invoke does not return 3 (P2SH32)",226,79,2,1,56,44800,1577,1,0,28,2,11,93,0
+rdrs77,"OP_DEFINE/OP_INVOKE: Error on invocation of undefined function identifier (zero-byte id) (P2S)",211,47,2,1,41,32800,200,1,0,20,0,2,0,0
+4uwegy,"OP_DEFINE/OP_INVOKE: Error on invocation of undefined function identifier (zero-byte id) (P2SH20)",215,67,2,1,45,36000,1028,1,0,22,2,6,44,0
+rryzpv,"OP_DEFINE/OP_INVOKE: Error on invocation of undefined function identifier (zero-byte id) (P2SH32)",215,79,2,1,45,36000,1052,1,0,22,2,6,68,0
+5nuycr,"OP_DEFINE/OP_INVOKE: Error on invocation of undefined function identifier (max-length id) (P2S)",211,54,2,1,41,32800,207,1,0,20,0,2,7,0
+xsgvwr,"OP_DEFINE/OP_INVOKE: Error on invocation of undefined function identifier (max-length id) (P2SH20)",222,67,2,1,52,41600,1042,1,0,26,2,6,58,0
+gpupdl,"OP_DEFINE/OP_INVOKE: Error on invocation of undefined function identifier (max-length id) (P2SH32)",222,79,2,1,52,41600,1066,1,0,26,2,6,82,0
+g4jca4,"OP_DEFINE/OP_INVOKE: Empty definition does nothing, stack preserved (reject) (P2S)",212,61,2,1,42,33600,811,1,0,21,0,8,11,0
+8u6wqz,"OP_DEFINE/OP_INVOKE: Empty definition does nothing, stack preserved (reject) (P2SH20)",230,67,2,1,60,48000,1653,1,0,30,2,12,69,0
+4hkfdp,"OP_DEFINE/OP_INVOKE: Empty definition does nothing, stack preserved (reject) (P2SH32)",230,79,2,1,60,48000,1677,1,0,30,2,12,93,0
+z0vzvt,"OP_DEFINE/OP_INVOKE: Empty definition does nothing, altstack preserved (reject) (P2S)",212,63,2,1,42,33600,1011,1,0,21,0,10,11,0
+kteqag,"OP_DEFINE/OP_INVOKE: Empty definition does nothing, altstack preserved (reject) (P2SH20)",232,67,2,1,62,49600,1855,1,0,31,2,14,71,0
+rdmfx5,"OP_DEFINE/OP_INVOKE: Empty definition does nothing, altstack preserved (reject) (P2SH32)",232,79,2,1,62,49600,1879,1,0,31,2,14,95,0
+rgrng6,"OP_DEFINE/OP_INVOKE: Attempted redefinition of "dup" rejects (P2S)",211,58,2,1,41,32800,608,1,0,20,0,6,8,0
+fk2xwy,"OP_DEFINE/OP_INVOKE: Attempted redefinition of "dup" rejects (P2SH20)",226,67,2,1,56,44800,1447,1,0,28,2,10,63,0
+p6qchy,"OP_DEFINE/OP_INVOKE: Attempted redefinition of "dup" rejects (P2SH32)",226,79,2,1,56,44800,1471,1,0,28,2,10,87,0
+mfk47z,"OP_DEFINE/OP_INVOKE: Shadowed definition rejected (P2S)",212,54,2,1,42,33600,705,1,0,21,0,7,5,0
+36e05s,"OP_DEFINE/OP_INVOKE: Shadowed definition rejected (P2SH20)",223,67,2,1,53,42400,1540,1,0,26,2,11,56,0
+qccwc8,"OP_DEFINE/OP_INVOKE: Shadowed definition rejected (P2SH32)",223,79,2,1,53,42400,1564,1,0,26,2,11,80,0
+ygu02q,"OP_DEFINE/OP_INVOKE: Define "id_if" to push 3 in skipped OP_IF branch, invoke fails (P2S)",212,64,2,1,42,33600,805,1,0,21,0,8,5,0
+2n0d6j,"OP_DEFINE/OP_INVOKE: Define "id_if" to push 3 in skipped OP_IF branch, invoke fails (P2SH20)",233,67,2,1,63,50400,1650,1,0,31,2,12,66,0
+3fjmt6,"OP_DEFINE/OP_INVOKE: Define "id_if" to push 3 in skipped OP_IF branch, invoke fails (P2SH32)",233,79,2,1,63,50400,1674,1,0,31,2,12,90,0
+l0kjxt,"OP_DEFINE/OP_INVOKE: Define "id_if" to push 3 in skipped OP_NOTIF branch, invoke fails (P2S)",212,64,2,1,42,33600,806,1,0,21,0,8,6,0
+s6ej4m,"OP_DEFINE/OP_INVOKE: Define "id_if" to push 3 in skipped OP_NOTIF branch, invoke fails (P2SH20)",233,67,2,1,63,50400,1651,1,0,31,2,12,67,0
+8w6m0w,"OP_DEFINE/OP_INVOKE: Define "id_if" to push 3 in skipped OP_NOTIF branch, invoke fails (P2SH32)",233,79,2,1,63,50400,1675,1,0,31,2,12,91,0
+x573sy,"OP_DEFINE/OP_INVOKE: Define malformed bytecode, attempt invoke (P2S)",213,47,2,1,43,34400,503,1,0,21,0,5,3,0
+c3jpa3,"OP_DEFINE/OP_INVOKE: Define malformed bytecode, attempt invoke (P2SH20)",217,67,2,1,47,37600,1331,1,0,23,2,9,47,0
+zngxtz,"OP_DEFINE/OP_INVOKE: Define malformed bytecode, attempt invoke (P2SH32)",217,79,2,1,47,37600,1355,1,0,23,2,9,71,0
+7cw86u,"OP_DEFINE/OP_INVOKE: Define malformed bytecode, attempt invoke (fails despite next byte completing malformed instruction) (P2S)",214,47,2,1,44,35200,604,1,0,22,0,6,4,0
+hgts95,"OP_DEFINE/OP_INVOKE: Define malformed bytecode, attempt invoke (fails despite next byte completing malformed instruction) (P2SH20)",218,67,2,1,48,38400,1432,1,0,24,2,10,48,0
+ehy2cv,"OP_DEFINE/OP_INVOKE: Define malformed bytecode, attempt invoke (fails despite next byte completing malformed instruction) (P2SH32)",218,79,2,1,48,38400,1456,1,0,24,2,10,72,0
+htszvu,"OP_DEFINE/OP_INVOKE: Future-proofing: unlock defines 0 to push 3, then invokes 0, lock checks 3 (invalid if non-push unlocking bytecode is prohibited) (P2S)",217,46,2,1,47,37600,0,1,0,23,0,0,0,0
+dlyc63,"OP_DEFINE/OP_INVOKE: Future-proofing: unlock defines 0 to push 3, then invokes 0, lock checks 3 (invalid if non-push unlocking bytecode is prohibited) (P2SH20)",220,67,2,1,50,40000,0,1,0,25,0,0,0,0
+0gc5ly,"OP_DEFINE/OP_INVOKE: Future-proofing: unlock defines 0 to push 3, then invokes 0, lock checks 3 (invalid if non-push unlocking bytecode is prohibited) (P2SH32)",220,79,2,1,50,40000,0,1,0,25,0,0,0,0
+25vya0,"OP_DEFINE/OP_INVOKE: Future-proofing: unlock defines 0 to push 3, lock invokes 0, checks 3 (remains invalid due to cross-phase function table reset) (P2S)",215,48,2,1,45,36000,0,1,0,22,0,0,0,0
+pz28z5,"OP_DEFINE/OP_INVOKE: Future-proofing: unlock defines 0 to push 3, lock invokes 0, checks 3 (remains invalid due to cross-phase function table reset) (P2SH20)",220,67,2,1,50,40000,0,1,0,25,0,0,0,0
+9dlpvn,"OP_DEFINE/OP_INVOKE: Future-proofing: unlock defines 0 to push 3, lock invokes 0, checks 3 (remains invalid due to cross-phase function table reset) (P2SH32)",220,79,2,1,50,40000,0,1,0,25,0,0,0,0
+fq9mp9,"OP_DEFINE/OP_INVOKE: OP_DEFINE fails on single stack item (P2S)",212,45,2,1,42,33600,201,1,0,21,0,2,1,0
+yd3mvt,"OP_DEFINE/OP_INVOKE: OP_DEFINE fails on single stack item (P2SH20)",214,67,2,1,44,35200,1027,1,0,22,2,6,43,0
+6aptfn,"OP_DEFINE/OP_INVOKE: OP_DEFINE fails on single stack item (P2SH32)",214,79,2,1,44,35200,1051,1,0,22,2,6,67,0
+mverqz,"OP_DEFINE/OP_INVOKE: OP_DEFINE fails on empty stack (P2S)",211,45,2,1,41,32800,100,1,0,20,0,1,0,0
+5q4j0j,"OP_DEFINE/OP_INVOKE: OP_DEFINE fails on empty stack (P2SH20)",213,67,2,1,43,34400,926,1,0,21,2,5,42,0
+mfjwlv,"OP_DEFINE/OP_INVOKE: OP_DEFINE fails on empty stack (P2SH32)",213,79,2,1,43,34400,950,1,0,21,2,5,66,0
+vf0zs3,"OP_DEFINE/OP_INVOKE: OP_INVOKE fails on single stack item (P2S)",212,45,2,1,42,33600,201,1,0,21,0,2,1,0
+xhdq48,"OP_DEFINE/OP_INVOKE: OP_INVOKE fails on single stack item (P2SH20)",214,67,2,1,44,35200,1027,1,0,22,2,6,43,0
+498yw2,"OP_DEFINE/OP_INVOKE: OP_INVOKE fails on single stack item (P2SH32)",214,79,2,1,44,35200,1051,1,0,22,2,6,67,0
+m3u3qv,"OP_DEFINE/OP_INVOKE: OP_INVOKE fails on empty stack (P2S)",211,45,2,1,41,32800,100,1,0,20,0,1,0,0
+8x7syr,"OP_DEFINE/OP_INVOKE: OP_INVOKE fails on empty stack (P2SH20)",213,67,2,1,43,34400,926,1,0,21,2,5,42,0
+g5mkar,"OP_DEFINE/OP_INVOKE: OP_INVOKE fails on empty stack (P2SH32)",213,79,2,1,43,34400,950,1,0,21,2,5,66,0
+88spz9,"OP_DEFINE/OP_INVOKE: Does not clear altstack, expected OP_ACTIVEBYTECODE (with 2 + 1 = 4) (P2S)",212,62,2,1,42,33600,1519,1,0,21,0,15,18,1
+eak8q2,"OP_DEFINE/OP_INVOKE: Does not clear altstack, expected OP_ACTIVEBYTECODE (with 2 + 1 = 4) (P2SH20)",231,67,2,1,61,48800,2362,1,0,30,2,19,77,1
+mxjsm5,"OP_DEFINE/OP_INVOKE: Does not clear altstack, expected OP_ACTIVEBYTECODE (with 2 + 1 = 4) (P2SH32)",231,79,2,1,61,48800,2386,1,0,30,2,19,101,1
+tkvc3f,"OP_DEFINE/OP_INVOKE: Invoke with OP_RETURN ends evaluation (P2S)",211,61,2,1,41,32800,611,1,0,20,0,6,11,0
+255zsu,"OP_DEFINE/OP_INVOKE: Invoke with OP_RETURN ends evaluation (P2SH20)",229,67,2,1,59,47200,1453,1,0,29,2,10,69,0
+nn9ffv,"OP_DEFINE/OP_INVOKE: Invoke with OP_RETURN ends evaluation (P2SH32)",229,79,2,1,59,47200,1477,1,0,29,2,10,93,0
+t77yzg,"OP_DEFINE/OP_INVOKE: Nested definition, any order (missing definition) (P2S)",211,78,2,1,41,32800,1034,1,0,20,0,10,34,0
+ck3a8t,"OP_DEFINE/OP_INVOKE: Nested definition, any order (missing definition) (P2SH20)",246,67,2,1,76,60800,1893,2,0,38,2,14,109,0
+kajuzv,"OP_DEFINE/OP_INVOKE: Nested definition, any order (missing definition) (P2SH32)",246,79,2,1,76,60800,1917,2,0,38,2,14,133,0
+e5y76k,"OP_DEFINE/OP_INVOKE: Nesting with OP_IF/OP_ENDIF to depth 101, "OP_1 OP_IF OP_1 OP_ENDIF" at 100 (P2S)",223,61,2,1,53,42400,26269,1,0,26,0,261,120,49
+mzlry4,"OP_DEFINE/OP_INVOKE: Nesting with OP_IF/OP_ENDIF to depth 101, "OP_1 OP_IF OP_1 OP_ENDIF" at 100 (P2SH20)",241,67,2,1,71,56800,27111,2,0,35,2,265,178,49
+5e47es,"OP_DEFINE/OP_INVOKE: Nesting with OP_IF/OP_ENDIF to depth 101, "OP_1 OP_IF OP_1 OP_ENDIF" at 100 (P2SH32)",241,79,2,1,71,56800,27135,2,0,35,2,265,202,49
+fvgwer,"OP_DEFINE/OP_INVOKE: ((2 2 +)) 0 = (reject) (P2S)",220,50,2,1,50,40000,1517,1,0,25,0,15,16,1
+9eh6j5,"OP_DEFINE/OP_INVOKE: ((2 2 +)) 0 = (reject) (P2SH20)",227,67,2,1,57,45600,2348,1,0,28,2,19,63,1
+frn3nl,"OP_DEFINE/OP_INVOKE: ((2 2 +)) 0 = (reject) (P2SH32)",227,79,2,1,57,45600,2372,1,0,28,2,19,87,1
+46wrhj,"OP_DEFINE/OP_INVOKE: ((2 2 -)) 4 = (reject) (P2S)",220,50,2,1,50,40000,1516,1,0,25,0,15,16,0
+33nzr7,"OP_DEFINE/OP_INVOKE: ((2 2 -)) 4 = (reject) (P2SH20)",227,67,2,1,57,45600,2347,1,0,28,2,19,63,0
+d0vjn9,"OP_DEFINE/OP_INVOKE: ((2 2 -)) 4 = (reject) (P2SH32)",227,79,2,1,57,45600,2371,1,0,28,2,19,87,0
+0pmxyq,"OP_DEFINE/OP_INVOKE: OP_IF inside invoked definition (reject) (P2S)",212,52,2,1,42,33600,903,1,0,21,0,9,3,0
+zphpf0,"OP_DEFINE/OP_INVOKE: OP_IF inside invoked definition (reject) (P2SH20)",221,67,2,1,51,40800,1736,1,0,25,2,13,52,0
+n8eu93,"OP_DEFINE/OP_INVOKE: OP_IF inside invoked definition (reject) (P2SH32)",221,79,2,1,51,40800,1760,1,0,25,2,13,76,0
+txhr8h,"OP_DEFINE/OP_INVOKE: OP_IF + OP_ELSE inside invoked definition (reject) (P2S)",212,54,2,1,42,33600,1106,1,0,21,0,11,6,0
+wvqx7k,"OP_DEFINE/OP_INVOKE: OP_IF + OP_ELSE inside invoked definition (reject) (P2SH20)",223,67,2,1,53,42400,1941,1,0,26,2,15,57,0
+lyr9ey,"OP_DEFINE/OP_INVOKE: OP_IF + OP_ELSE inside invoked definition (reject) (P2SH32)",223,79,2,1,53,42400,1965,1,0,26,2,15,81,0
+ge6cj5,"OP_DEFINE/OP_INVOKE: OP_NOTIF inside invoked definition (reject) (P2S)",212,52,2,1,42,33600,904,1,0,21,0,9,4,0
+vs6r7h,"OP_DEFINE/OP_INVOKE: OP_NOTIF inside invoked definition (reject) (P2SH20)",221,67,2,1,51,40800,1737,1,0,25,2,13,53,0
+gavztn,"OP_DEFINE/OP_INVOKE: OP_NOTIF inside invoked definition (reject) (P2SH32)",221,79,2,1,51,40800,1761,1,0,25,2,13,77,0
+gs49kd,"OP_DEFINE/OP_INVOKE: OP_NOTIF + OP_ELSE inside invoked definition (reject) (P2S)",212,54,2,1,42,33600,1105,1,0,21,0,11,5,0
+u6u8zg,"OP_DEFINE/OP_INVOKE: OP_NOTIF + OP_ELSE inside invoked definition (reject) (P2SH20)",223,67,2,1,53,42400,1940,1,0,26,2,15,56,0
+y7ms5y,"OP_DEFINE/OP_INVOKE: OP_NOTIF + OP_ELSE inside invoked definition (reject) (P2SH32)",223,79,2,1,53,42400,1964,1,0,26,2,15,80,0
+3qfp7x,"OP_DEFINE/OP_INVOKE: Unclosed OP_IF inside invoked definition (P2S)",212,51,2,1,42,33600,804,1,0,21,0,8,4,0
+963zhh,"OP_DEFINE/OP_INVOKE: Unclosed OP_IF inside invoked definition (P2SH20)",220,67,2,1,50,40000,1636,1,0,25,2,12,52,0
+lm3dx4,"OP_DEFINE/OP_INVOKE: Unclosed OP_IF inside invoked definition (P2SH32)",220,79,2,1,50,40000,1660,1,0,25,2,12,76,0
+zqjugu,"OP_DEFINE/OP_INVOKE: Unclosed OP_IF inside invoked definition, attempt outer close (P2S)",212,52,2,1,42,33600,804,1,0,21,0,8,4,0
+sdg878,"OP_DEFINE/OP_INVOKE: Unclosed OP_IF inside invoked definition, attempt outer close (P2SH20)",221,67,2,1,51,40800,1637,1,0,25,2,12,53,0
+72cr48,"OP_DEFINE/OP_INVOKE: Unclosed OP_IF inside invoked definition, attempt outer close (P2SH32)",221,79,2,1,51,40800,1661,1,0,25,2,12,77,0
+hrjsn6,"OP_DEFINE/OP_INVOKE: Single OP_IF inside invoked definition (P2S)",213,50,2,1,43,34400,803,1,0,21,0,8,3,0
+0lxske,"OP_DEFINE/OP_INVOKE: Single OP_IF inside invoked definition (P2SH20)",220,67,2,1,50,40000,1634,1,0,25,2,12,50,0
+svulh7,"OP_DEFINE/OP_INVOKE: Single OP_IF inside invoked definition (P2SH32)",220,79,2,1,50,40000,1658,1,0,25,2,12,74,0
+v57mwf,"OP_DEFINE/OP_INVOKE: Single OP_IF inside invoked definition, attempt outer close (P2S)",213,51,2,1,43,34400,803,1,0,21,0,8,3,0
+qs65st,"OP_DEFINE/OP_INVOKE: Single OP_IF inside invoked definition, attempt outer close (P2SH20)",221,67,2,1,51,40800,1635,1,0,25,2,12,51,0
+8x0er6,"OP_DEFINE/OP_INVOKE: Single OP_IF inside invoked definition, attempt outer close (P2SH32)",221,79,2,1,51,40800,1659,1,0,25,2,12,75,0
+gntmx3,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_IF (taken, reject) (P2S)",939,51,2,1,767,613600,84334,18,0,383,0,503,34034,0
+cd58dy,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_IF (taken, reject) (P2SH20)",947,67,2,1,775,620000,85166,18,0,387,2,507,34082,0
+xnyage,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_IF (taken, reject) (P2SH32)",947,79,2,1,775,620000,85190,18,0,387,2,507,34106,0
+fmya8t,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_IF (skipped, also reject) (P2S)",939,51,2,1,767,613600,84333,18,0,383,0,503,34033,0
+8v7chy,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_IF (skipped, also reject) (P2SH20)",947,67,2,1,775,620000,85165,18,0,387,2,507,34081,0
+mw59av,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_IF (skipped, also reject) (P2SH32)",947,79,2,1,775,620000,85189,18,0,387,2,507,34105,0
+rcff8t,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_NOTIF (taken, reject) (P2S)",939,51,2,1,767,613600,84333,18,0,383,0,503,34033,0
+s47k0z,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_NOTIF (taken, reject) (P2SH20)",947,67,2,1,775,620000,85165,18,0,387,2,507,34081,0
+qr944s,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_NOTIF (taken, reject) (P2SH32)",947,79,2,1,775,620000,85189,18,0,387,2,507,34105,0
+00d5t7,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_NOTIF (skipped, also reject) (P2S)",939,51,2,1,767,613600,84334,18,0,383,0,503,34034,0
+0h4z78,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_NOTIF (skipped, also reject) (P2SH20)",947,67,2,1,775,620000,85166,18,0,387,2,507,34082,0
+3zkg59,"OP_DEFINE/OP_INVOKE: 99-deep nested invoke, excessively-nested OP_NOTIF (skipped, also reject) (P2SH32)",947,79,2,1,775,620000,85190,18,0,387,2,507,34106,0
+uft0na,"OP_DEFINE/OP_INVOKE: Control stack limited to depth of 100 (P2S)",944,51,2,1,772,617600,84962,18,0,386,0,505,34462,0
+l0r6s5,"OP_DEFINE/OP_INVOKE: Control stack limited to depth of 100 (P2SH20)",952,67,2,1,780,624000,85794,18,0,390,2,509,34510,0
+cfh745,"OP_DEFINE/OP_INVOKE: Control stack limited to depth of 100 (P2SH32)",952,79,2,1,780,624000,85818,18,0,390,2,509,34534,0
+fr8zdg,"OP_DEFINE/OP_INVOKE: Fails on final OP_INVOKE when definition is used (P2S)",938,56,2,1,766,612800,84435,18,0,383,0,505,33935,0
+9r3wfz,"OP_DEFINE/OP_INVOKE: Fails on final OP_INVOKE when definition is used (P2SH20)",951,67,2,1,779,623200,85272,18,0,389,2,509,33988,0
+uv4ph3,"OP_DEFINE/OP_INVOKE: Fails on final OP_INVOKE when definition is used (P2SH32)",951,79,2,1,779,623200,85296,18,0,389,2,509,34012,0
+hgs4zy,"OP_DEFINE/OP_INVOKE: Fails on 100-deep OP_INVOKE, even with empty definition (P2S)",938,54,2,1,766,612800,84434,18,0,383,0,505,33934,0
+ctjfn3,"OP_DEFINE/OP_INVOKE: Fails on 100-deep OP_INVOKE, even with empty definition (P2SH20)",949,67,2,1,777,621600,85269,18,0,388,2,509,33985,0
+rp9fkx,"OP_DEFINE/OP_INVOKE: Fails on 100-deep OP_INVOKE, even with empty definition (P2SH32)",949,79,2,1,777,621600,85293,18,0,388,2,509,34009,0
+8a5lrf,"OP_DEFINE/OP_INVOKE: Fill stack to 999 via unlocking bytecode, push again and attempt define (reject p2sh) (P2SH20)",1218,67,2,1,1046,836800,100630,24,0,523,2,1002,46,0
+r7psy8,"OP_DEFINE/OP_INVOKE: Fill stack to 999 via unlocking bytecode, push again and attempt define (reject p2sh) (P2SH32)",1218,79,2,1,1046,836800,100654,24,0,523,2,1002,70,0
+etlqh3,"OP_DEFINE/OP_INVOKE: Fill stack to 999 via unlocking bytecode, push again and attempt two defines (P2S)",1212,52,2,1,1040,832000,100302,24,0,520,0,1003,2,0
+7jxhmj,"OP_DEFINE/OP_INVOKE: Fill stack to 999 via unlocking bytecode, push again and attempt two defines (P2SH20)",1221,67,2,1,1049,839200,100633,24,0,524,2,1002,49,0
+9mwja2,"OP_DEFINE/OP_INVOKE: Fill stack to 999 via unlocking bytecode, push again and attempt two defines (P2SH32)",1221,79,2,1,1049,839200,100657,24,0,524,2,1002,73,0
+6dsctf,"OP_DEFINE/OP_INVOKE: Fill stack to 1000 via unlocking bytecode, attempt define (P2SH20)",1218,67,2,1,1046,836800,100105,24,0,523,0,1001,5,0
+4weu7d,"OP_DEFINE/OP_INVOKE: Fill stack to 1000 via unlocking bytecode, attempt define (P2SH32)",1218,79,2,1,1046,836800,100105,24,0,523,0,1001,5,0
+tajgdm,"OP_DEFINE/OP_INVOKE: Fill stack to 1001 via unlocking bytecode, attempt define (P2S)",1214,48,2,1,1042,833600,100101,24,0,521,0,1001,1,0
+tghusa,"OP_DEFINE/OP_INVOKE: Fill stack to 1001 via unlocking bytecode, attempt define (P2SH20)",1219,67,2,1,1047,837600,100101,24,0,523,0,1001,1,0
+97lpu5,"OP_DEFINE/OP_INVOKE: Fill stack to 1001 via unlocking bytecode, attempt define (P2SH32)",1219,79,2,1,1047,837600,100101,24,0,523,0,1001,1,0
+kvvfrf,"OP_DEFINE/OP_INVOKE: Fill altstack to 998, attempt two defines (empty definition) (P2S)",1211,55,2,1,1039,831200,400800,24,0,519,0,3998,1000,0
+tsg0cw,"OP_DEFINE/OP_INVOKE: Fill altstack to 998, attempt two defines (empty definition) (P2SH20)",1223,67,2,1,1051,840800,401636,24,0,525,2,4002,1052,0
+mzwujf,"OP_DEFINE/OP_INVOKE: Fill altstack to 998, attempt two defines (empty definition) (P2SH32)",1223,79,2,1,1051,840800,401660,24,0,525,2,4002,1076,0

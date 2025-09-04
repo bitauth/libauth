@@ -298,6 +298,10 @@ export const createInstructionSetBch2023 = <
         },
       } as AuthenticationProgramState);
 
+      if (lockingResult.error !== undefined) {
+        return lockingResult;
+      }
+
       if (lockingResult.controlStack.length !== 0) {
         return applyError(
           lockingResult,
@@ -419,7 +423,8 @@ export const createInstructionSetBch2023 = <
       return {
         alternateStack: [],
         controlStack: [],
-        functionTable: [],
+        functionCount: 0,
+        functionTable: {},
         ip: 0,
         lastCodeSeparator: -1,
         metrics: {

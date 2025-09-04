@@ -23,6 +23,8 @@ export const libauthErrorPrefixToBchnErrorStandard: {
   exceededMaximumBytecodeLengthUnlocking:
     'mandatory-script-verify-flag-failed (Script is too big)',
   exceededMaximumControlStackDepth: '',
+  exceededMaximumMemorySlots:
+    'mandatory-script-verify-flag-failed (Stack size limit exceeded)',
   exceededMaximumOperationCount:
     'mandatory-script-verify-flag-failed (Operation limit exceeded)',
   exceededMaximumSignatureCheckCount:
@@ -41,7 +43,7 @@ export const libauthErrorPrefixToBchnErrorStandard: {
     'mandatory-script-verify-flag-failed (VM cost limit exceeded)',
   failedVerify:
     'mandatory-script-verify-flag-failed (Script failed an OP_EQUALVERIFY operation)',
-  functionIdentifierInvalid: '',
+  functionIdentifierExcessiveLength: '',
   functionIdentifierPreviouslyDefined: '',
   functionIdentifierUndefined: '',
   incompatibleLocktimeType: '',
@@ -152,6 +154,8 @@ export const libauthErrorPrefixToBchnErrorNonstandard: {
   exceededMaximumBytecodeLengthUnlocking:
     'mandatory-script-verify-flag-failed (Script is too big)',
   exceededMaximumControlStackDepth: '',
+  exceededMaximumMemorySlots:
+    'mandatory-script-verify-flag-failed (Stack size limit exceeded)',
   exceededMaximumOperationCount:
     'mandatory-script-verify-flag-failed (Operation limit exceeded)',
   exceededMaximumSignatureCheckCount:
@@ -170,7 +174,7 @@ export const libauthErrorPrefixToBchnErrorNonstandard: {
     'mandatory-script-verify-flag-failed (VM cost limit exceeded)',
   failedVerify:
     'mandatory-script-verify-flag-failed (Script failed an OP_EQUALVERIFY operation)',
-  functionIdentifierInvalid: '',
+  functionIdentifierExcessiveLength: '',
   functionIdentifierPreviouslyDefined: '',
   functionIdentifierUndefined: '',
   incompatibleLocktimeType: '',

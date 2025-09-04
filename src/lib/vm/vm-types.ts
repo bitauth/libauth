@@ -61,7 +61,11 @@ export type AuthenticationProgramStateFunctionTable = {
    * The table of functions (in Forth parlance, "vocabulary of words") defined
    * over the course of the evaluation.
    */
-  functionTable: Uint8Array[];
+  functionTable: { [hex: string]: Uint8Array };
+  /**
+   * The count of defined functions ("words") in the current evaluation.
+   */
+  functionCount: number;
 };
 
 export type AuthenticationProgramStateControlStack<

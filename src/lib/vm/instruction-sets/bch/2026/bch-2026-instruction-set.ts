@@ -14,7 +14,7 @@ import type {
   Sha1,
   Sha256,
 } from '../../../../lib.js';
-import { conditionallyEvaluate } from '../../common/common.js';
+import { applyError, conditionallyEvaluate } from '../../common/common.js';
 import { createInstructionSetBch2025 } from '../2025/bch-2025-instruction-set.js';
 import { opBegin, opUntil } from '../2026/bch-2026-loops.js';
 
@@ -26,6 +26,7 @@ import {
   opRShiftBin,
 } from './bch-2026-bitwise.js';
 import { ConsensusBch2026 } from './bch-2026-consensus.js';
+import { AuthenticationErrorBch2026 } from './bch-2026-errors.js';
 import { createOpDefine, opInvoke } from './bch-2026-functions.js';
 import { OpcodesBch2026 } from './bch-2026-opcodes.js';
 import type { AuthenticationProgramStateBch2026 } from './bch-2026-types.js';
@@ -104,6 +105,23 @@ export const createInstructionSetBch2026 = <
         state.instructions = instructions;
       }
       return state.ip < state.instructions.length;
+    },
+    every: (state) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const nextState = instructionSet.every!(state);
+      if (
+        nextState.stack.length +
+          nextState.alternateStack.length +
+          nextState.functionCount >
+        consensus.maximumMemorySlots
+      ) {
+        return applyError(
+          nextState,
+          AuthenticationErrorBch2026.exceededMaximumMemorySlots,
+          `Maximum memory slots: ${consensus.maximumMemorySlots}.`,
+        );
+      }
+      return nextState;
     },
     /* eslint-enable functional/no-loop-statements, functional/immutable-data, functional/no-expression-statements */
     operations: {

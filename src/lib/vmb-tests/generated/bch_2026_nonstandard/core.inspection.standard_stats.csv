@@ -1,0 +1,21 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+jp0ase,"Transaction inspection: OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit) (P2S)",2094,46,2,1,43,34400,303,1,0,21,0,3,3,0
+4y85zq,"Transaction inspection: OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit) (P2SH20)",2097,67,2,1,46,36800,1130,1,0,23,2,7,46,0
+tag2ez,"Transaction inspection: OP_TXOUTPUTCOUNT (100 outputs; non-standard beyond per-transaction OP_RETURN data limit) (P2SH32)",2097,79,2,1,46,36800,1154,1,0,23,2,7,70,0
+l03ud7,"Transaction inspection: OP_UTXOBYTECODE (maximum size UTXO bytecode) (P2S)",736,566,2,1,564,451200,2155,13,0,282,0,6,1555,0
+w74278,"Transaction inspection: OP_UTXOBYTECODE (ignore result, not excessive size) (P2S)",212,566,2,1,42,33600,1635,1,0,21,0,6,1035,0
+j055a3,"Transaction inspection: OP_UTXOBYTECODE (ignore result, excessive size) (P2S)",212,567,2,1,42,33600,1637,1,0,21,0,6,1037,0
+qpxh9r,"Transaction inspection: OP_INPUTBYTECODE (maximum size) (P2S)",733,573,2,1,561,448800,2159,13,0,280,0,6,1559,0
+kkqs7m,"Transaction inspection: OP_INPUTBYTECODE (excessive size) (P2S)",734,574,2,1,562,449600,2162,13,0,281,0,6,1562,0
+qv9a03,"Transaction inspection: OP_OUTPUTBYTECODE (maximum size) (P2S)",1248,47,2,1,564,451200,1441,13,0,282,0,4,1041,0
+tm0j3u,"Transaction inspection: OP_OUTPUTBYTECODE (maximum size) (P2SH20)",1252,67,2,1,568,454400,2269,13,0,284,2,8,1085,0
+236zhk,"Transaction inspection: OP_OUTPUTBYTECODE (maximum size) (P2SH32)",1252,79,2,1,568,454400,2293,13,0,284,2,8,1109,0
+hdyexe,"Transaction inspection: OP_OUTPUTBYTECODE (excessive size) (P2S)",1250,47,2,1,565,452000,1443,13,0,282,0,4,1043,0
+hlrhs5,"Transaction inspection: OP_OUTPUTBYTECODE (excessive size) (P2SH20)",1254,67,2,1,569,455200,2271,13,0,284,2,8,1087,0
+urx4u0,"Transaction inspection: OP_OUTPUTBYTECODE (excessive size) (P2SH32)",1254,79,2,1,569,455200,2295,13,0,284,2,8,1111,0
+glj96c,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, not 2023 excessive size) (P2S)",724,47,2,1,42,33600,921,1,0,21,0,4,521,0
+7a3f28,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, not 2023 excessive size) (P2SH20)",728,67,2,1,46,36800,1749,1,0,23,2,8,565,0
+8jcu48,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, not 2023 excessive size) (P2SH32)",728,79,2,1,46,36800,1773,1,0,23,2,8,589,0
+qa6uek,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, 2023 excessive size) (P2S)",725,47,2,1,42,33600,922,1,0,21,0,4,522,0
+wrc6v7,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, 2023 excessive size) (P2SH20)",729,67,2,1,46,36800,1750,1,0,23,2,8,566,0
+ql8nql,"Transaction inspection: OP_OUTPUTBYTECODE (ignore result, 2023 excessive size) (P2SH32)",729,79,2,1,46,36800,1774,1,0,23,2,8,590,0

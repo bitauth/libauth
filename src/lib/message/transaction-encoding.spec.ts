@@ -24,9 +24,9 @@ import {
 } from '../lib.js';
 
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import tokenPrefixInvalidJson from './fixtures/token-prefix-invalid.json' assert { type: 'json' };
+import tokenPrefixInvalidJson from './fixtures/token-prefix-invalid.json' with { type: 'json' };
 // eslint-disable-next-line import/no-restricted-paths, import/no-internal-modules
-import tokenPrefixValidJson from './fixtures/token-prefix-valid.json' assert { type: 'json' };
+import tokenPrefixValidJson from './fixtures/token-prefix-valid.json' with { type: 'json' };
 
 test('decodeTransaction', (t) => {
   /**
@@ -385,7 +385,7 @@ test.todo('[fast-check] encodeTokenPrefix <-> readTokenPrefix');
 test.todo('[fast-check] encodeTransactionOutput <-> readTransactionOutput');
 test.todo('[fast-check] encodeTransactionOutputs <-> readTransactionOutputs');
 test.todo(
-  '[fast-check] encodeTransaction <-> decodeTransaction/decodeTransactionUnsafe; encodeTransactionBCH <-> decodeTransactionBCH/decodeTransactionUnsafeBCH, encodeTransactionCommon <-> decodeTransactionCommon/decodeTransactionUnsafeCommon',
+  '[fast-check] encodeTransaction <-> decodeTransaction/decodeTransactionUnsafe; encodeTransactionBch <-> decodeTransactionBch/decodeTransactionUnsafeBch, encodeTransactionCommon <-> decodeTransactionCommon/decodeTransactionUnsafeCommon',
 );
 test.todo('hashTransactionP2pOrder');
 test.todo('hashTransactionUiOrder');

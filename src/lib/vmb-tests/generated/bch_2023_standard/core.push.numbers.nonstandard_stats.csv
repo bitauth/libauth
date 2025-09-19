@@ -1,0 +1,109 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+u0d2rm,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_1NEGATE pushes 0x81 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+nyzdvq,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_1NEGATE pushes 0x81 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+9e97j3,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_0 pushes an empty stack item (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,9,51,0
+l03zf6,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_0 pushes an empty stack item (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,9,75,0
+8357e8,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_1 pushes 1 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+rxvl4h,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_1 pushes 1 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+p63r2v,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_2 pushes 2 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+dgt080,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_2 pushes 2 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+896ttq,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_3 pushes 3 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+csz2hf,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_3 pushes 3 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+dhysy5,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_4 pushes 4 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+x3j8rx,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_4 pushes 4 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+25kw0w,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_5 pushes 5 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+t4q9x9,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_5 pushes 5 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+xlq2td,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_6 pushes 6 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+j2tdd5,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_6 pushes 6 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+lzk6je,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_7 pushes 7 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+8dsk63,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_7 pushes 7 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+828dhk,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_8 pushes 8 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+p0xvpj,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_8 pushes 8 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+cesr0f,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_9 pushes 9 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+4j5jrd,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_9 pushes 9 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+8gctzy,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_10 pushes 10 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+m9ampu,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_10 pushes 10 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+862t6w,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_11 pushes 11 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+33s3sr,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_11 pushes 11 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+jhpm5z,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_12 pushes 12 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+xgtggf,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_12 pushes 12 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+s3svre,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_13 pushes 13 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+x0hk0j,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_13 pushes 13 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+6vlv52,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_14 pushes 14 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+y3p5vw,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_14 pushes 14 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+dgz3lv,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_15 pushes 15 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+mrk239,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_15 pushes 15 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+yd3f4n,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_16 pushes 16 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,55,0
+lx46qx,"Push number operations (OP_1NEGATE-OP_16): Unlocking bytecode OP_16 pushes 16 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,79,0
+z2chfz,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_1NEGATE pushes 0x81 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+rtmkxt,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_1NEGATE pushes 0x81 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+vdetg3,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_0 pushes an empty stack item (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,9,52,0
+d9k5v5,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_0 pushes an empty stack item (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,9,76,0
+xn8ntr,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_1 pushes 1 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+xltnaa,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_1 pushes 1 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+l6cf5v,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_2 pushes 2 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+7wp88s,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_2 pushes 2 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+aw6hfu,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_3 pushes 3 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+n9st94,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_3 pushes 3 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+w0h6he,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_4 pushes 4 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+xs3a5t,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_4 pushes 4 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+2q0xj2,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_5 pushes 5 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+pnne3s,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_5 pushes 5 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+stl02q,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_6 pushes 6 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+0kdupn,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_6 pushes 6 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+zs64ju,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_7 pushes 7 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+erwfmt,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_7 pushes 7 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+24sk7j,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_8 pushes 8 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+3cam9w,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_8 pushes 8 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+wgj6cx,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_9 pushes 9 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+v3avgp,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_9 pushes 9 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+hwqjtk,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_10 pushes 10 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+9ezsrw,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_10 pushes 10 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+eqcscn,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_11 pushes 11 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+wxqq69,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_11 pushes 11 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+2dxgjk,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_12 pushes 12 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+wpn8yp,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_12 pushes 12 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+053qkp,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_13 pushes 13 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+msdngf,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_13 pushes 13 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+t20zl6,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_14 pushes 14 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+f2r4vm,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_14 pushes 14 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+gr3v80,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_15 pushes 15 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+tqklak,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_15 pushes 15 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+zzeqrp,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_16 pushes 16 (P2SH20)",220,67,2,1,50,40000,0,1,0,175,2,10,56,0
+hq8frm,"Push number operations (OP_1NEGATE-OP_16): Locking bytecode OP_16 pushes 16 (P2SH32)",220,79,2,1,50,40000,0,1,0,175,2,10,80,0
+fwqzyk,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1NEGATE OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+ejh8ve,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1NEGATE OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+ytul5l,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1NEGATE OP_ENDIF OP_NOT in locking bytecode (P2SH20)",217,67,2,1,47,37600,0,1,0,164,2,9,48,0
+g7g4ac,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1NEGATE OP_ENDIF OP_NOT in locking bytecode (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,9,72,0
+l3s63r,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+mlnuyl,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_1 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+230f6u,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_2 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+xvt26t,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_2 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+44kjkx,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_3 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+z3q0z9,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_3 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+979l8n,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_4 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+aq4hl5,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_4 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+kfs8gy,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_5 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+dkkq4y,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_5 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+8em5a2,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_6 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+4w4qvs,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_6 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+sjg8vx,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_7 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+d4fck4,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_7 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+4cxm4p,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_8 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+wmqw4n,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_8 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+hvkl38,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_9 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+2u38wx,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_9 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+3nwn24,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_10 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+udqdrn,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_10 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+tdhart,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_11 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+u3k0tx,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_11 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+xgducx,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_12 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+r6qz6n,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_12 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+chcnkd,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_13 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+he67h6,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_13 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+7gxfdr,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_14 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+mtmj40,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_14 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+nkyvds,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_15 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+2fkx45,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_15 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0
+rafe54,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_16 OP_ENDIF in locking bytecode (P2SH20)",216,67,2,1,46,36800,0,1,0,161,2,8,47,0
+fyaylr,"Push number operations (OP_1NEGATE-OP_16): <1> OP_IF OP_16 OP_ENDIF in locking bytecode (P2SH32)",216,79,2,1,46,36800,0,1,0,161,2,8,71,0

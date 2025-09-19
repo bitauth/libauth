@@ -1,0 +1,19 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+pwran7,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2S)",213,48,2,1,43,34400,603,1,0,150,0,6,3,0
+ll48n6,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH20)",218,67,2,1,48,38400,1176,1,0,168,2,10,48,0
+earn55,"OP_BEGIN/OP_UNTIL: loop until the first 0x01 (P2SH32)",218,79,2,1,48,38400,1200,1,0,168,2,10,72,0
+mxmwrr,"OP_BEGIN/OP_UNTIL: sum stack (1 + 2 + 3 + 4 == 10) (P2S)",215,52,2,1,45,36000,2219,1,0,157,0,22,16,3
+3hlq32,"OP_BEGIN/OP_UNTIL: sum stack (1 + 2 + 3 + 4 == 10) (P2SH20)",224,67,2,1,54,43200,2796,1,0,189,2,26,65,3
+vqmyvn,"OP_BEGIN/OP_UNTIL: sum stack (1 + 2 + 3 + 4 == 10) (P2SH32)",224,79,2,1,54,43200,2820,1,0,189,2,26,89,3
+r2usf6,"OP_BEGIN/OP_UNTIL: sum stack (2 + 3 + 5 == 10) (P2S)",214,52,2,1,44,35200,1614,1,0,154,0,16,12,2
+zsscpw,"OP_BEGIN/OP_UNTIL: sum stack (2 + 3 + 5 == 10) (P2SH20)",223,67,2,1,53,42400,2191,1,0,185,2,20,61,2
+p9ncaz,"OP_BEGIN/OP_UNTIL: sum stack (2 + 3 + 5 == 10) (P2SH32)",223,79,2,1,53,42400,2215,1,0,185,2,20,85,2
+89dn79,"OP_BEGIN/OP_UNTIL: sum stack (1 + 9 == 10) (P2S)",213,52,2,1,43,34400,1009,1,0,150,0,10,8,1
+af0enq,"OP_BEGIN/OP_UNTIL: sum stack (1 + 9 == 10) (P2SH20)",222,67,2,1,52,41600,1586,1,0,182,2,14,57,1
+hafrhn,"OP_BEGIN/OP_UNTIL: sum stack (1 + 9 == 10) (P2SH32)",222,79,2,1,52,41600,1610,1,0,182,2,14,81,1
+dvm3p0,"OP_BEGIN/OP_UNTIL: 2**32 == 2**32 (P2S)",214,60,2,1,44,35200,25717,1,0,154,0,253,217,200
+8t65vp,"OP_BEGIN/OP_UNTIL: 2**32 == 2**32 (P2SH20)",231,67,2,1,61,48800,26302,1,0,213,2,257,274,200
+7nsx5a,"OP_BEGIN/OP_UNTIL: 2**32 == 2**32 (P2SH32)",231,79,2,1,61,48800,26326,1,0,213,2,257,298,200
+838k9p,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2S)",212,60,2,1,42,33600,6243,1,0,147,0,62,32,11
+pqydxn,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH20)",229,67,2,1,59,47200,6828,1,0,206,2,66,89,11
+ug0w55,"OP_BEGIN/OP_UNTIL: Fibonacci to 13 (P2SH32)",229,79,2,1,59,47200,6852,1,0,206,2,66,113,11

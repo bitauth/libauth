@@ -1,0 +1,43 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+mfx8fh,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid compressed key2) (P2S)",284,115,2,1,114,91200,53160,3,2,399,5,7,140,0
+345ld3,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid compressed key2) (P2SH20)",356,67,2,1,186,148800,53864,4,2,651,8,11,252,0
+2arnr7,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid compressed key2) (P2SH32)",356,79,2,1,186,148800,53888,4,2,651,8,11,276,0
+scp73w,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: short arbitrary data) (P2S)",284,87,2,1,114,91200,53132,3,2,399,5,7,112,0
+lnc4s6,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: short arbitrary data) (P2SH20)",328,67,2,1,158,126400,53744,4,2,553,7,11,196,0
+s7x7cd,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: short arbitrary data) (P2SH32)",328,79,2,1,158,126400,53768,4,2,553,7,11,220,0
+gp53d6,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: excessive length) (P2S)",285,148,2,1,115,92000,53258,3,2,402,6,7,174,0
+p28txw,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: excessive length) (P2SH20)",391,67,2,1,221,176800,53995,5,2,773,9,11,319,0
+5n96rc,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: excessive length) (P2SH32)",391,79,2,1,221,176800,54019,5,2,773,9,11,343,0
+p5ee3d,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid legacy hybrid format) (P2S)",284,147,2,1,114,91200,53256,3,2,399,6,7,172,0
+yt9qjz,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid legacy hybrid format) (P2SH20)",389,67,2,1,219,175200,53992,5,2,766,9,11,316,0
+egju6t,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid legacy hybrid format) (P2SH32)",389,79,2,1,219,175200,54016,5,2,766,9,11,340,0
+qwx5qr,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid uncompressed key2) (P2S)",284,147,2,1,114,91200,53256,3,2,399,6,7,172,0
+3fpsh5,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid uncompressed key2) (P2SH20)",389,67,2,1,219,175200,53992,5,2,766,9,11,316,0
+t9mcyh,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 1 signature (second public key: valid uncompressed key2) (P2SH32)",389,79,2,1,219,175200,54016,5,2,766,9,11,340,0
+saufrl,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 2 signature (second public key: valid compressed key2) (P2S)",285,115,2,1,115,92000,53481,3,2,402,10,7,141,0
+wtl55k,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 2 signature (second public key: valid compressed key2) (P2SH20)",357,67,2,1,187,149600,54185,4,2,654,13,11,253,0
+fvglsp,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 2 signature (second public key: valid compressed key2) (P2SH32)",357,79,2,1,187,149600,54209,4,2,654,13,11,277,0
+vx0mqm,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 2 signature (second public key: valid uncompressed key2) (P2S)",285,147,2,1,115,92000,53641,3,2,402,12,7,173,0
+k85sg4,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 2 signature (second public key: valid uncompressed key2) (P2SH20)",390,67,2,1,220,176000,54377,5,2,770,15,11,317,0
+jtdxzw,"Signature checking: 1-of-2 ECDSA multisig with checkBits of zero, key 2 signature (second public key: valid uncompressed key2) (P2SH32)",390,79,2,1,220,176000,54401,5,2,770,15,11,341,0
+l7p6xx,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid compressed key2) (P2S)",278,115,2,1,108,86400,27155,2,1,378,5,7,135,0
+cq98tm,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid compressed key2) (P2SH20)",350,67,2,1,180,144000,27859,4,1,630,8,11,247,0
+2fjza8,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid compressed key2) (P2SH32)",350,79,2,1,180,144000,27883,4,1,630,8,11,271,0
+3w7qrv,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: short arbitrary data) (P2S)",278,87,2,1,108,86400,27127,2,1,378,5,7,107,0
+mm3ntt,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: short arbitrary data) (P2SH20)",322,67,2,1,152,121600,27739,3,1,532,7,11,191,0
+w0y48a,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: short arbitrary data) (P2SH32)",322,79,2,1,152,121600,27763,3,1,532,7,11,215,0
+sjradc,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: excessive length) (P2S)",278,148,2,1,108,86400,27252,2,1,378,6,7,168,0
+v0aj7l,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: excessive length) (P2SH20)",384,67,2,1,214,171200,27989,5,1,749,9,11,313,0
+gruym8,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: excessive length) (P2SH32)",384,79,2,1,214,171200,28013,5,1,749,9,11,337,0
+f5vkpt,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid legacy hybrid format) (P2S)",278,147,2,1,108,86400,27251,2,1,378,6,7,167,0
+08t98k,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid legacy hybrid format) (P2SH20)",383,67,2,1,213,170400,27987,5,1,745,9,11,311,0
+v63zja,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid legacy hybrid format) (P2SH32)",383,79,2,1,213,170400,28011,5,1,745,9,11,335,0
+64saej,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid uncompressed key2) (P2S)",278,147,2,1,108,86400,27251,2,1,378,6,7,167,0
+vj0zlz,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid uncompressed key2) (P2SH20)",383,67,2,1,213,170400,27987,5,1,745,9,11,311,0
+q53pu0,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 1, key 1 signature (second public key: valid uncompressed key2) (P2SH32)",383,79,2,1,213,170400,28011,5,1,745,9,11,335,0
+nv3tcs,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 2, key 2 signature (second public key: valid compressed key2) (P2S)",278,115,2,1,108,86400,27155,2,1,378,5,7,135,0
+7rsrg6,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 2, key 2 signature (second public key: valid compressed key2) (P2SH20)",350,67,2,1,180,144000,27859,4,1,630,8,11,247,0
+e2w9ye,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 2, key 2 signature (second public key: valid compressed key2) (P2SH32)",350,79,2,1,180,144000,27883,4,1,630,8,11,271,0
+wm6fvp,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 2, key 2 signature (second public key: valid uncompressed key2) (P2S)",278,147,2,1,108,86400,27251,2,1,378,6,7,167,0
+4d2ll2,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 2, key 2 signature (second public key: valid uncompressed key2) (P2SH20)",383,67,2,1,213,170400,27987,5,1,745,9,11,311,0
+j24ala,"Signature checking: 1-of-2 Schnorr multisig with checkBits of key 2, key 2 signature (second public key: valid uncompressed key2) (P2SH32)",383,79,2,1,213,170400,28011,5,1,745,9,11,335,0

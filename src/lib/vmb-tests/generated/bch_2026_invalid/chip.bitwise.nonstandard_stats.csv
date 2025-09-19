@@ -1,0 +1,126 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+hjkxpl,"OP_INVERT: OP_INVERT fails on empty stack (P2S)",211,45,2,1,41,32800,100,1,0,143,0,1,0,0
+ks9tmt,"OP_INVERT: OP_INVERT fails on empty stack (P2SH20)",213,67,2,1,43,34400,670,1,0,150,2,5,42,0
+q4hspq,"OP_INVERT: OP_INVERT fails on empty stack (P2SH32)",213,79,2,1,43,34400,694,1,0,150,2,5,66,0
+e0vk5t,"OP_INVERT: <1> OP_INVERT <0> OP_EQUAL (reject) (P2S)",212,47,2,1,42,33600,402,1,0,147,0,4,2,0
+f983jy,"OP_INVERT: <1> OP_INVERT <0> OP_EQUAL (reject) (P2SH20)",216,67,2,1,46,36800,974,1,0,161,2,8,46,0
+3haqln,"OP_INVERT: <1> OP_INVERT <0> OP_EQUAL (reject) (P2SH32)",216,79,2,1,46,36800,998,1,0,161,2,8,70,0
+ce2vtd,"OP_INVERT: <0x00> OP_INVERT <0x00> OP_EQUAL (P2S)",213,48,2,1,43,34400,403,1,0,150,0,4,3,0
+u7t6zr,"OP_INVERT: <0x00> OP_INVERT <0x00> OP_EQUAL (P2SH20)",218,67,2,1,48,38400,976,1,0,168,2,8,48,0
+hsrcv2,"OP_INVERT: <0x00> OP_INVERT <0x00> OP_EQUAL (P2SH32)",218,79,2,1,48,38400,1000,1,0,168,2,8,72,0
+lqjpyv,"OP_LSHIFTNUM: fails on single stack item (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
+8fwwkx,"OP_LSHIFTNUM: fails on single stack item (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
+2nwn7t,"OP_LSHIFTNUM: fails on single stack item (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
+glrqs9,"OP_LSHIFTNUM: fails on empty stack (P2S)",211,45,2,1,41,32800,100,1,0,143,0,1,0,0
+fv2an0,"OP_LSHIFTNUM: fails on empty stack (P2SH20)",213,67,2,1,43,34400,670,1,0,150,2,5,42,0
+jdc6cl,"OP_LSHIFTNUM: fails on empty stack (P2SH32)",213,79,2,1,43,34400,694,1,0,150,2,5,66,0
+rt73rw,"OP_LSHIFTNUM: padded 1 << 1 == 2 (reject: non-minimal) (P2S)",215,47,2,1,45,36000,303,1,0,157,0,3,3,0
+czkdl0,"OP_LSHIFTNUM: padded 1 << 1 == 2 (reject: non-minimal) (P2SH20)",219,67,2,1,49,39200,875,1,0,171,2,7,47,0
+5v6cfh,"OP_LSHIFTNUM: padded 1 << 1 == 2 (reject: non-minimal) (P2SH32)",219,79,2,1,49,39200,899,1,0,171,2,7,71,0
+xxkpjc,"OP_LSHIFTNUM: 1 << padded 1 == 2 (reject: non-minimal) (P2S)",215,47,2,1,45,36000,303,1,0,157,0,3,3,0
+p4rm6v,"OP_LSHIFTNUM: 1 << padded 1 == 2 (reject: non-minimal) (P2SH20)",219,67,2,1,49,39200,875,1,0,171,2,7,47,0
+njj9vz,"OP_LSHIFTNUM: 1 << padded 1 == 2 (reject: non-minimal) (P2SH32)",219,79,2,1,49,39200,899,1,0,171,2,7,71,0
+q6k59u,"OP_LSHIFTNUM: 1 << 1 == 1 (reject) (P2S)",213,47,2,1,43,34400,504,1,0,150,0,5,4,0
+mtz80c,"OP_LSHIFTNUM: 1 << 1 == 1 (reject) (P2SH20)",217,67,2,1,47,37600,1076,1,0,164,2,9,48,0
+z8cqvp,"OP_LSHIFTNUM: 1 << 1 == 1 (reject) (P2SH32)",217,79,2,1,47,37600,1100,1,0,164,2,9,72,0
+wsuy93,"OP_LSHIFTNUM: 1 << -0 == 1 (reject: non-minimal) (P2S)",214,47,2,1,44,35200,302,1,0,154,0,3,2,0
+evfq2j,"OP_LSHIFTNUM: 1 << -0 == 1 (reject: non-minimal) (P2SH20)",218,67,2,1,48,38400,874,1,0,168,2,7,46,0
+mj6lg8,"OP_LSHIFTNUM: 1 << -0 == 1 (reject: non-minimal) (P2SH32)",218,79,2,1,48,38400,898,1,0,168,2,7,70,0
+jz5see,"OP_LSHIFTNUM: 1 << padded 0 == 1 (reject: non-minimal) (P2S)",214,45,2,1,44,35200,302,1,0,154,0,3,2,0
+7jlvqs,"OP_LSHIFTNUM: 1 << padded 0 == 1 (reject: non-minimal) (P2SH20)",216,67,2,1,46,36800,872,1,0,161,2,7,44,0
+9q9tfx,"OP_LSHIFTNUM: 1 << padded 0 == 1 (reject: non-minimal) (P2SH32)",216,79,2,1,46,36800,896,1,0,161,2,7,68,0
+68karl,"OP_LSHIFTNUM: 0 << -1 == 0 (P2S)",213,47,2,1,43,34400,301,1,0,150,0,3,1,0
+pse3ew,"OP_LSHIFTNUM: 0 << -1 == 0 (P2SH20)",217,67,2,1,47,37600,873,1,0,164,2,7,45,0
+q54sa4,"OP_LSHIFTNUM: 0 << -1 == 0 (P2SH32)",217,79,2,1,47,37600,897,1,0,164,2,7,69,0
+0xeqp4,"OP_LSHIFTNUM: 0 << -1 (reject) (P2S)",213,45,2,1,43,34400,301,1,0,150,0,3,1,0
+26vu7h,"OP_LSHIFTNUM: 0 << -1 (reject) (P2SH20)",215,67,2,1,45,36000,871,1,0,157,2,7,43,0
+c3yd4d,"OP_LSHIFTNUM: 0 << -1 (reject) (P2SH32)",215,79,2,1,45,36000,895,1,0,157,2,7,67,0
+dujefn,"OP_LSHIFTNUM: -0 << 0 (reject) (P2S)",214,45,2,1,44,35200,301,1,0,154,0,3,1,0
+q2epze,"OP_LSHIFTNUM: -0 << 0 (reject) (P2SH20)",216,67,2,1,46,36800,871,1,0,161,2,7,43,0
+gq42h3,"OP_LSHIFTNUM: -0 << 0 (reject) (P2SH32)",216,79,2,1,46,36800,895,1,0,161,2,7,67,0
+tc8whr,"OP_LSHIFTNUM: 1 << -1 == 0 (P2S)",213,47,2,1,43,34400,302,1,0,150,0,3,2,0
+qgy6j6,"OP_LSHIFTNUM: 1 << -1 == 0 (P2SH20)",217,67,2,1,47,37600,874,1,0,164,2,7,46,0
+uszsm2,"OP_LSHIFTNUM: 1 << -1 == 0 (P2SH32)",217,79,2,1,47,37600,898,1,0,164,2,7,70,0
+p3rzx7,"OP_LSHIFTNUM: 1 << -1 == -1 (P2S)",213,47,2,1,43,34400,302,1,0,150,0,3,2,0
+pjqkuw,"OP_LSHIFTNUM: 1 << -1 == -1 (P2SH20)",217,67,2,1,47,37600,874,1,0,164,2,7,46,0
+ke58a5,"OP_LSHIFTNUM: 1 << -1 == -1 (P2SH32)",217,79,2,1,47,37600,898,1,0,164,2,7,70,0
+s6hq0e,"OP_LSHIFTNUM: -0 << 8 != 128 (P2S)",214,49,2,1,44,35200,302,1,0,154,0,3,2,0
+7579r5,"OP_LSHIFTNUM: -0 << 8 != 128 (P2SH20)",220,67,2,1,50,40000,876,1,0,175,2,7,48,0
+r7f3t4,"OP_LSHIFTNUM: -0 << 8 != 128 (P2SH32)",220,79,2,1,50,40000,900,1,0,175,2,7,72,0
+klmx4e,"OP_LSHIFTNUM: max_number << 0 == max_number (excessive cost) (P2S)",259,66,2,1,89,71200,71649,2,0,311,0,16,70049,0
+e34rvk,"OP_LSHIFTNUM: 1 << 79999 exceeds current limits (10,001 bytes) (P2S)",216,51,2,1,46,36800,304,1,0,161,0,3,4,0
+wda858,"OP_LSHIFTNUM: 1 << 79999 exceeds current limits (10,001 bytes) (P2SH20)",224,67,2,1,54,43200,880,1,0,189,2,7,52,0
+gz3ftm,"OP_LSHIFTNUM: 1 << 79999 exceeds current limits (10,001 bytes) (P2SH32)",224,79,2,1,54,43200,904,1,0,189,2,7,76,0
+l25qjw,"OP_LSHIFTNUM: -1 << 79999 exceeds current limits (10,001 bytes) (P2S)",216,51,2,1,46,36800,304,1,0,161,0,3,4,0
+2h7487,"OP_LSHIFTNUM: -1 << 79999 exceeds current limits (10,001 bytes) (P2SH20)",224,67,2,1,54,43200,880,1,0,189,2,7,52,0
+fe7t0e,"OP_LSHIFTNUM: -1 << 79999 exceeds current limits (10,001 bytes) (P2SH32)",224,79,2,1,54,43200,904,1,0,189,2,7,76,0
+8c0tmn,"OP_RSHIFTNUM: fails on single stack item (P2S)",212,45,2,1,42,33600,201,1,0,147,0,2,1,0
+hkr2ys,"OP_RSHIFTNUM: fails on single stack item (P2SH20)",214,67,2,1,44,35200,771,1,0,154,2,6,43,0
+xu38mc,"OP_RSHIFTNUM: fails on single stack item (P2SH32)",214,79,2,1,44,35200,795,1,0,154,2,6,67,0
+24rc06,"OP_RSHIFTNUM: fails on empty stack (P2S)",211,45,2,1,41,32800,100,1,0,143,0,1,0,0
+qgvanv,"OP_RSHIFTNUM: fails on empty stack (P2SH20)",213,67,2,1,43,34400,670,1,0,150,2,5,42,0
+5c83zu,"OP_RSHIFTNUM: fails on empty stack (P2SH32)",213,79,2,1,43,34400,694,1,0,150,2,5,66,0
+gh2lnf,"OP_RSHIFTNUM: padded 1 >> 1 == 0 (reject: non-minimal) (P2S)",215,47,2,1,45,36000,303,1,0,157,0,3,3,0
+apu3ww,"OP_RSHIFTNUM: padded 1 >> 1 == 0 (reject: non-minimal) (P2SH20)",219,67,2,1,49,39200,875,1,0,171,2,7,47,0
+6vc3zx,"OP_RSHIFTNUM: padded 1 >> 1 == 0 (reject: non-minimal) (P2SH32)",219,79,2,1,49,39200,899,1,0,171,2,7,71,0
+n5nxdk,"OP_RSHIFTNUM: 1 >> padded 1 == 0 (reject: non-minimal) (P2S)",215,47,2,1,45,36000,303,1,0,157,0,3,3,0
+w0gy7y,"OP_RSHIFTNUM: 1 >> padded 1 == 0 (reject: non-minimal) (P2SH20)",219,67,2,1,49,39200,875,1,0,171,2,7,47,0
+8qlxsk,"OP_RSHIFTNUM: 1 >> padded 1 == 0 (reject: non-minimal) (P2SH32)",219,79,2,1,49,39200,899,1,0,171,2,7,71,0
+jr54s6,"OP_RSHIFTNUM: 1 >> 1 == 1 (reject) (P2S)",213,47,2,1,43,34400,503,1,0,150,0,5,3,0
+egagah,"OP_RSHIFTNUM: 1 >> 1 == 1 (reject) (P2SH20)",217,67,2,1,47,37600,1075,1,0,164,2,9,47,0
+sa2l4g,"OP_RSHIFTNUM: 1 >> 1 == 1 (reject) (P2SH32)",217,79,2,1,47,37600,1099,1,0,164,2,9,71,0
+2qz2m0,"OP_RSHIFTNUM: 1 >> 1 == 2 (reject) (P2S)",213,47,2,1,43,34400,503,1,0,150,0,5,3,0
+7zeag5,"OP_RSHIFTNUM: 1 >> 1 == 2 (reject) (P2SH20)",217,67,2,1,47,37600,1075,1,0,164,2,9,47,0
+vaaaja,"OP_RSHIFTNUM: 1 >> 1 == 2 (reject) (P2SH32)",217,79,2,1,47,37600,1099,1,0,164,2,9,71,0
+q5ycen,"OP_RSHIFTNUM: 1 >> -0 == 1 (reject: non-minimal) (P2S)",214,47,2,1,44,35200,302,1,0,154,0,3,2,0
+0xmgg4,"OP_RSHIFTNUM: 1 >> -0 == 1 (reject: non-minimal) (P2SH20)",218,67,2,1,48,38400,874,1,0,168,2,7,46,0
+faqpev,"OP_RSHIFTNUM: 1 >> -0 == 1 (reject: non-minimal) (P2SH32)",218,79,2,1,48,38400,898,1,0,168,2,7,70,0
+7c76j3,"OP_RSHIFTNUM: 1 >> padded 0 == 1 (reject: non-minimal) (P2S)",214,47,2,1,44,35200,302,1,0,154,0,3,2,0
+x0t0zw,"OP_RSHIFTNUM: 1 >> padded 0 == 1 (reject: non-minimal) (P2SH20)",218,67,2,1,48,38400,874,1,0,168,2,7,46,0
+u9rcfs,"OP_RSHIFTNUM: 1 >> padded 0 == 1 (reject: non-minimal) (P2SH32)",218,79,2,1,48,38400,898,1,0,168,2,7,70,0
+50f6xm,"OP_RSHIFTNUM: 0 >> -1 == 1 (P2S)",213,47,2,1,43,34400,301,1,0,150,0,3,1,0
+ywkm9r,"OP_RSHIFTNUM: 0 >> -1 == 1 (P2SH20)",217,67,2,1,47,37600,873,1,0,164,2,7,45,0
+egts4k,"OP_RSHIFTNUM: 0 >> -1 == 1 (P2SH32)",217,79,2,1,47,37600,897,1,0,164,2,7,69,0
+pe9j52,"OP_RSHIFTNUM: 0 >> -1 == -1 (P2S)",213,47,2,1,43,34400,301,1,0,150,0,3,1,0
+q2c2d4,"OP_RSHIFTNUM: 0 >> -1 == -1 (P2SH20)",217,67,2,1,47,37600,873,1,0,164,2,7,45,0
+eve8jr,"OP_RSHIFTNUM: 0 >> -1 == -1 (P2SH32)",217,79,2,1,47,37600,897,1,0,164,2,7,69,0
+m6072q,"OP_RSHIFTNUM: 0 >> -1 (reject) (P2S)",213,47,2,1,43,34400,301,1,0,150,0,3,1,0
+4660hw,"OP_RSHIFTNUM: 0 >> -1 (reject) (P2SH20)",217,67,2,1,47,37600,873,1,0,164,2,7,45,0
+97elzf,"OP_RSHIFTNUM: 0 >> -1 (reject) (P2SH32)",217,79,2,1,47,37600,897,1,0,164,2,7,69,0
+lz8f44,"OP_RSHIFTNUM: -0 >> 0 (reject) (P2S)",214,47,2,1,44,35200,301,1,0,154,0,3,1,0
+7z4xg4,"OP_RSHIFTNUM: -0 >> 0 (reject) (P2SH20)",218,67,2,1,48,38400,873,1,0,168,2,7,45,0
+j5mlfc,"OP_RSHIFTNUM: -0 >> 0 (reject) (P2SH32)",218,79,2,1,48,38400,897,1,0,168,2,7,69,0
+yeft7v,"OP_RSHIFTNUM: 1 >> -1 == 2 (P2S)",213,47,2,1,43,34400,302,1,0,150,0,3,2,0
+r2eymd,"OP_RSHIFTNUM: 1 >> -1 == 2 (P2SH20)",217,67,2,1,47,37600,874,1,0,164,2,7,46,0
+a6jc5v,"OP_RSHIFTNUM: 1 >> -1 == 2 (P2SH32)",217,79,2,1,47,37600,898,1,0,164,2,7,70,0
+t3j6dv,"OP_RSHIFTNUM: 1 >> -1 == -1 (P2S)",213,47,2,1,43,34400,302,1,0,150,0,3,2,0
+t27296,"OP_RSHIFTNUM: 1 >> -1 == -1 (P2SH20)",217,67,2,1,47,37600,874,1,0,164,2,7,46,0
+xmepj5,"OP_RSHIFTNUM: 1 >> -1 == -1 (P2SH32)",217,79,2,1,47,37600,898,1,0,164,2,7,70,0
+wscsrn,"OP_RSHIFTNUM: 128 >> 8 != -0 (P2S)",215,48,2,1,45,36000,504,1,0,157,0,5,4,0
+qznf7y,"OP_RSHIFTNUM: 128 >> 8 != -0 (P2SH20)",220,67,2,1,50,40000,1077,1,0,175,2,9,49,0
+dzhrgp,"OP_RSHIFTNUM: 128 >> 8 != -0 (P2SH32)",220,79,2,1,50,40000,1101,1,0,175,2,9,73,0
+pum9et,"OP_RSHIFTNUM: max_number >> 0 == max_number (excessive cost) (P2S)",259,66,2,1,89,71200,71649,2,0,311,0,16,70049,0
+3gvt8e,"OP_LSHIFTBIN: requires minimal bit count (P2S)",216,48,2,1,46,36800,303,1,0,161,0,3,3,0
+t3plj5,"OP_LSHIFTBIN: requires minimal bit count (P2SH20)",221,67,2,1,51,40800,876,1,0,178,2,7,48,0
+hdzase,"OP_LSHIFTBIN: requires minimal bit count (P2SH32)",221,79,2,1,51,40800,900,1,0,178,2,7,72,0
+l2staq,"OP_LSHIFTBIN: fails on single stack item (P2S)",212,45,2,1,42,33600,200,1,0,147,0,2,0,0
+xp0j4z,"OP_LSHIFTBIN: fails on single stack item (P2SH20)",214,67,2,1,44,35200,770,1,0,154,2,6,42,0
+3x3zup,"OP_LSHIFTBIN: fails on single stack item (P2SH32)",214,79,2,1,44,35200,794,1,0,154,2,6,66,0
+vgq9ua,"OP_LSHIFTBIN: fails on empty stack (P2S)",211,45,2,1,41,32800,100,1,0,143,0,1,0,0
+fux8wx,"OP_LSHIFTBIN: fails on empty stack (P2SH20)",213,67,2,1,43,34400,670,1,0,150,2,5,42,0
+54kc3t,"OP_LSHIFTBIN: fails on empty stack (P2SH32)",213,79,2,1,43,34400,694,1,0,150,2,5,66,0
+9far9c,"OP_LSHIFTBIN: -1 bits (P2S)",213,45,2,1,43,34400,301,1,0,150,0,3,1,0
+8f8uvq,"OP_LSHIFTBIN: -1 bits (P2SH20)",215,67,2,1,45,36000,871,1,0,157,2,7,43,0
+06qp5a,"OP_LSHIFTBIN: -1 bits (P2SH32)",215,79,2,1,45,36000,895,1,0,157,2,7,67,0
+emqnux,"OP_RSHIFTBIN: requires minimal bit count (P2S)",216,48,2,1,46,36800,303,1,0,161,0,3,3,0
+lukf8k,"OP_RSHIFTBIN: requires minimal bit count (P2SH20)",221,67,2,1,51,40800,876,1,0,178,2,7,48,0
+kpe9sg,"OP_RSHIFTBIN: requires minimal bit count (P2SH32)",221,79,2,1,51,40800,900,1,0,178,2,7,72,0
+0hxrxs,"OP_RSHIFTBIN: fails on single stack item (P2S)",212,45,2,1,42,33600,200,1,0,147,0,2,0,0
+3yapau,"OP_RSHIFTBIN: fails on single stack item (P2SH20)",214,67,2,1,44,35200,770,1,0,154,2,6,42,0
+2t4pet,"OP_RSHIFTBIN: fails on single stack item (P2SH32)",214,79,2,1,44,35200,794,1,0,154,2,6,66,0
+jfl3je,"OP_RSHIFTBIN: fails on empty stack (P2S)",211,45,2,1,41,32800,100,1,0,143,0,1,0,0
+56yehv,"OP_RSHIFTBIN: fails on empty stack (P2SH20)",213,67,2,1,43,34400,670,1,0,150,2,5,42,0
+4sjhzg,"OP_RSHIFTBIN: fails on empty stack (P2SH32)",213,79,2,1,43,34400,694,1,0,150,2,5,66,0
+dd6rqa,"OP_RSHIFTBIN: -1 bits (P2S)",213,45,2,1,43,34400,301,1,0,150,0,3,1,0
+lysd5r,"OP_RSHIFTBIN: -1 bits (P2SH20)",215,67,2,1,45,36000,871,1,0,157,2,7,43,0
+t7mryz,"OP_RSHIFTBIN: -1 bits (P2SH32)",215,79,2,1,45,36000,895,1,0,157,2,7,67,0

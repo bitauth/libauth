@@ -9,6 +9,13 @@
         "BCH_2021_05",
         "BCH_2022_05",
         "BCH_2023_05",
+        "BCH_2024_05",
+        "BCH_2025_05",
+        "BCH_2026_05",
+        "BCH_2027_05",
+        "BCH_2028_05",
+        "BCH_2029_05",
+        "BCH_2030_05",
         "BCH_SPEC",
         "BSV_2020_02",
         "BSV_SPEC",
@@ -520,7 +527,7 @@
       "additionalProperties": false,
       "properties": {
         "lockingType": {
-          "description": "Indicates if P2SH20 infrastructure should be used when producing bytecode related to this script. For more information on P2SH20, see BIP16.\n\nWhen compiling locking scripts of type `p2sh20`, the result will be placed in a P2SH20 \"redeem script\" format: `OP_HASH160 <$(<lockingBytecode> OP_HASH160)> OP_EQUAL`\n\nWhen compiling unlocking scripts that unlock locking scripts of type `p2sh20`, the result will be transformed into the P2SH20 unlocking format: `unlockingBytecode <lockingBytecode>` (where `lockingBytecode` is the compiled bytecode of the locking script, without the \"redeem script\" transformation.)\n\nThe presence of the `lockingType` property indicates that this script is a locking script. It must be present on any script referenced by the `unlocks` property of another script.",
+          "description": "Indicates if P2SH20 infrastructure should be used when producing bytecode related to this script. For more information on P2SH20, see BIP16.\n\nWhen compiling locking scripts of type `p2sh20`, the result will be placed in a P2SH20 \"redeem script\" format: `OP_HASH160 <$(<lockingBytecode> OP_HASH160)> OP_EQUAL`\n\nWhen compiling unlocking scripts that unlock locking scripts of type `p2sh20`, the result will be transformed into the P2SH20 unlocking format: `unlockingBytecode <lockingBytecode>` (where `lockingBytecode` is the compiled bytecode of the locking script, without the \"redeem script\" transformation.)\n\nThe presence of the `lockingType` property indicates that this script is a locking script. It must be present on any script referenced by the `unlocks` property of another script.\n\nTODO: migrate `standard` -> `p2s`",
           "enum": ["p2sh20", "p2sh32", "standard"],
           "type": "string"
         },

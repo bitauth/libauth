@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   isPayToPublicKey,
   isPayToPublicKeyHash,
@@ -12,8 +13,8 @@ import {
 } from '../../../format/format.js';
 import type {
   assembleBytecode,
-  assembleBytecodeBCH,
-  assembleBytecodeBTC,
+  assembleBytecodeBch,
+  assembleBytecodeBtc,
   AuthenticationInstruction,
   AuthenticationInstructionMalformed,
   AuthenticationInstructionMaybeMalformed,
@@ -26,8 +27,8 @@ import type {
   ReadPosition,
 } from '../../../lib.js';
 import { encodeTransactionOutput } from '../../../message/message.js';
-import { OpcodesBCH } from '../bch/2023/bch-2023-opcodes.js';
-import { OpcodesBTC } from '../btc/btc-opcodes.js';
+import { OpcodesBchSpec } from '../bch/spec/bch-spec-opcodes.js';
+import { OpcodesBtc } from '../btc/btc-opcodes.js';
 
 /**
  * A type-guard that checks if the provided instruction is malformed.
@@ -77,13 +78,17 @@ export const readLittleEndianNumber = (
   position: ReadPosition,
   length: typeof uint8Bytes | typeof uint16Bytes | typeof uint32Bytes,
 ) => {
-  const view = new DataView(position.bin.buffer, position.index, length);
+  const view = new DataView(
+    position.bin.buffer,
+    position.bin.byteOffset,
+    position.bin.byteLength,
+  );
   const readAsLittleEndian = true;
   return length === uint8Bytes
-    ? view.getUint8(0)
+    ? view.getUint8(position.index)
     : length === uint16Bytes
-      ? view.getUint16(0, readAsLittleEndian)
-      : view.getUint32(0, readAsLittleEndian);
+      ? view.getUint16(position.index, readAsLittleEndian)
+      : view.getUint32(position.index, readAsLittleEndian);
 };
 
 /**
@@ -329,15 +334,19 @@ export const disassembleBytecode = (
  * Note, this method automatically uses the latest BCH instruction set. To
  * manually select an instruction set, use {@link disassembleBytecode}.
  *
- * For the reverse, see {@link assembleBytecodeBCH}.
+ * For the reverse, see {@link assembleBytecodeBch}.
  *
  * @param bytecode - the virtual machine bytecode to disassemble
  */
-export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
+export const disassembleBytecodeBch = (bytecode: Uint8Array) =>
   disassembleAuthenticationInstructionsMaybeMalformed(
-    OpcodesBCH,
+    OpcodesBchSpec,
     decodeAuthenticationInstructions(bytecode),
   );
+/**
+ * @deprecated Alias of `disassembleBytecodeBch` for backwards-compatibility.
+ */
+export const disassembleBytecodeBCH = disassembleBytecodeBch;
 
 /**
  * Disassemble BTC authentication bytecode into its ASM representation.
@@ -345,20 +354,24 @@ export const disassembleBytecodeBCH = (bytecode: Uint8Array) =>
  * Note, this method automatically uses the latest BTC instruction set. To
  * manually select an instruction set, use {@link disassembleBytecode}.
  *
- * For the reverse, see {@link assembleBytecodeBTC}.
+ * For the reverse, see {@link assembleBytecodeBtc}.
  *
  * @param bytecode - the virtual machine bytecode to disassemble
  */
-export const disassembleBytecodeBTC = (bytecode: Uint8Array) =>
+export const disassembleBytecodeBtc = (bytecode: Uint8Array) =>
   disassembleAuthenticationInstructionsMaybeMalformed(
-    OpcodesBTC,
+    OpcodesBtc,
     decodeAuthenticationInstructions(bytecode),
   );
+/**
+ * @deprecated Alias of `disassembleBytecodeBtc` for backwards-compatibility.
+ */
+export const disassembleBytecodeBTC = disassembleBytecodeBtc;
 
 /**
  * Create an object where each key is an opcode identifier and each value is
  * the bytecode value (`Uint8Array`) it represents.
- * @param opcodes - An opcode enum, e.g. {@link OpcodesBCH}
+ * @param opcodes - An opcode enum, e.g. {@link OpcodesBch}
  */
 export const generateBytecodeMap = (opcodes: { [opcode: string]: unknown }) =>
   Object.entries(opcodes)
@@ -474,7 +487,9 @@ export const isVmNumberError = (
 ): value is VmNumberError =>
   value === VmNumberError.outOfRange || value === VmNumberError.requiresMinimal;
 
-const typicalMaximumVmNumberByteLength = 8;
+const enum VmNumber {
+  signByte = 0x80,
+}
 
 /**
  * This method attempts to decode a VM Number, a format in which numeric values
@@ -500,11 +515,12 @@ const typicalMaximumVmNumberByteLength = 8;
 export const vmNumberToBigInt = (
   bytes: Uint8Array,
   {
-    maximumVmNumberByteLength = typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength = 0,
     requireMinimalEncoding = true,
   }: {
     /**
-     * The maximum valid number of bytes in a VM Number.
+     * The maximum valid number of bytes in a VM Number. Defaults to `0` (which
+     * disables the check).
      */
     maximumVmNumberByteLength?: number;
     /**
@@ -513,14 +529,17 @@ export const vmNumberToBigInt = (
      */
     requireMinimalEncoding?: boolean;
   } = {
-    maximumVmNumberByteLength: typicalMaximumVmNumberByteLength,
+    maximumVmNumberByteLength: 0,
     requireMinimalEncoding: true,
   },
 ): VmNumberError | bigint => {
   if (bytes.length === 0) {
     return 0n;
   }
-  if (bytes.length > maximumVmNumberByteLength) {
+  if (
+    maximumVmNumberByteLength !== 0 &&
+    bytes.length > maximumVmNumberByteLength
+  ) {
     return VmNumberError.outOfRange;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -539,26 +558,35 @@ export const vmNumberToBigInt = (
     return VmNumberError.requiresMinimal;
   }
 
-  const bitsPerByte = 8;
-  const signFlippingByte = 0x80;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.length);
   // eslint-disable-next-line functional/no-let
   let result = 0n;
-  // eslint-disable-next-line functional/no-let, functional/no-loop-statements, no-plusplus
-  for (let byte = 0; byte < bytes.length; byte++) {
-    // eslint-disable-next-line functional/no-expression-statements,  no-bitwise, @typescript-eslint/no-non-null-assertion
-    result |= BigInt(bytes[byte]!) << BigInt(byte * bitsPerByte);
+
+  const wordBytes = 8;
+  const wordBits = 64n;
+  // eslint-disable-next-line functional/no-loop-statements, functional/no-let
+  for (let off = bytes.length - wordBytes; off >= 0; off -= wordBytes) {
+    const littleEndianWord = view.getBigUint64(off, true);
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise
+    result = (result << wordBits) | littleEndianWord;
+  }
+  const byteBits = 8n;
+  // eslint-disable-next-line functional/no-loop-statements, functional/no-let, no-plusplus
+  for (let i = (bytes.length % wordBytes) - 1; i >= 0; --i) {
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+    result = (result << byteBits) | BigInt(bytes[i]!);
   }
 
-  /* eslint-disable no-bitwise */
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const isNegative = (bytes[bytes.length - 1]! & signFlippingByte) !== 0;
-  return isNegative
-    ? -(
-        result &
-        ~(BigInt(signFlippingByte) << BigInt(bitsPerByte * (bytes.length - 1)))
-      )
-    : result;
-  /* eslint-enable no-bitwise */
+  // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+  const negative = (bytes[bytes.length - 1]! & VmNumber.signByte) !== 0;
+  if (!negative) return result;
+
+  const bitsPerByte = 8;
+  const signDepth = bitsPerByte * (bytes.length - 1);
+  // eslint-disable-next-line no-bitwise
+  const removeSign = ~(BigInt(VmNumber.signByte) << BigInt(signDepth));
+  // eslint-disable-next-line no-bitwise
+  return -(result & removeSign);
 };
 
 /**
@@ -596,8 +624,8 @@ export const bigIntToVmNumber = (integer: bigint): Uint8Array => {
     bytes.push(isNegative ? signFlippingByte : 0x00);
     // eslint-disable-next-line functional/no-conditional-statements
   } else if (isNegative) {
-    // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data, no-bitwise
-    bytes[bytes.length - 1] |= signFlippingByte;
+    // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+    bytes[bytes.length - 1]! |= signFlippingByte;
   }
   return new Uint8Array(bytes);
 };
@@ -804,6 +832,8 @@ export const isDustOutput = (
 const enum PublicKey {
   uncompressedByteLength = 65,
   uncompressedHeaderByte = 0x04,
+  uncompressedHeaderByteLegacyEvenY = 0x06,
+  uncompressedHeaderByteLegacyOddY = 0x07,
   compressedByteLength = 33,
   compressedHeaderByteEven = 0x02,
   compressedHeaderByteOdd = 0x03,
@@ -821,6 +851,27 @@ export const isValidCompressedPublicKeyEncoding = (publicKey: Uint8Array) =>
 export const isValidPublicKeyEncoding = (publicKey: Uint8Array) =>
   isValidCompressedPublicKeyEncoding(publicKey) ||
   isValidUncompressedPublicKeyEncoding(publicKey);
+
+// eslint-disable-next-line complexity
+export const isStandardnessPublicKeyEncodingPre2026 = (
+  publicKey: Uint8Array,
+) => {
+  const [header] = publicKey;
+  if (publicKey.length === PublicKey.compressedByteLength) {
+    return (
+      header === PublicKey.compressedHeaderByteEven ||
+      header === PublicKey.compressedHeaderByteOdd
+    );
+  }
+  if (publicKey.length === PublicKey.uncompressedByteLength) {
+    return (
+      header === PublicKey.uncompressedHeaderByte ||
+      header === PublicKey.uncompressedHeaderByteLegacyEvenY ||
+      header === PublicKey.uncompressedHeaderByteLegacyOddY
+    );
+  }
+  return false;
+};
 
 // eslint-disable-next-line complexity
 export const pushNumberOpcodeToNumber = (opcode: number) => {
@@ -893,7 +944,7 @@ export const isSimpleMultisig = (lockingBytecode: Uint8Array) => {
     (instruction) => instruction.data,
   );
 
-  if (publicKeys.some((key) => !isValidPublicKeyEncoding(key))) {
+  if (publicKeys.some((key) => !isStandardnessPublicKeyEncodingPre2026(key))) {
     return false;
   }
 
@@ -914,21 +965,37 @@ export const isStandardMultisig = (lockingBytecode: Uint8Array) => {
   return true;
 };
 
-export const isStandardOutputBytecode = (lockingBytecode: Uint8Array) =>
+/**
+ * Test that the provided locking bytecode matches one of the standard output
+ * bytecode patterns prior to the `BCH_2023_05` upgrade (following
+ * P2SH32 activation).
+ * @param lockingBytecode - the locking bytecode to test for standardness
+ */
+export const isStandardOutputBytecodePre2023 = (lockingBytecode: Uint8Array) =>
   isPayToPublicKeyHash(lockingBytecode) ||
   isPayToScriptHash20(lockingBytecode) ||
   isPayToPublicKey(lockingBytecode) ||
   isArbitraryDataOutput(lockingBytecode) ||
   isStandardMultisig(lockingBytecode);
 
-// eslint-disable-next-line complexity
+/**
+ * Test that the provided locking bytecode matches one of the standard output
+ * bytecode patterns as of the `BCH_2023_05` upgrade (following
+ * P2SH32 activation).
+ * @param lockingBytecode - the locking bytecode to test for standardness
+ */
 export const isStandardOutputBytecode2023 = (lockingBytecode: Uint8Array) =>
+  isStandardOutputBytecodePre2023(lockingBytecode) ||
+  isPayToScriptHash32(lockingBytecode);
+
+// eslint-disable-next-line complexity
+export const isStandardUtxoBytecode2023 = (lockingBytecode: Uint8Array) =>
   isPayToPublicKeyHash(lockingBytecode) ||
   isPayToScriptHash20(lockingBytecode) ||
-  isPayToScriptHash32(lockingBytecode) ||
   isPayToPublicKey(lockingBytecode) ||
   isArbitraryDataOutput(lockingBytecode) ||
-  isStandardMultisig(lockingBytecode);
+  isSimpleMultisig(lockingBytecode) !== false ||
+  isPayToScriptHash32(lockingBytecode);
 
 const enum SegWit {
   minimumLength = 4,

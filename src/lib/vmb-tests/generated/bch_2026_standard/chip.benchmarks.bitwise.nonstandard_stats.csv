@@ -1,0 +1,5 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+lx24w3,"Transaction validation benchmarks: max-cost OP_INVERT (P2S)",211,52,2,1,41,32800,32798,1,0,143,0,6,32198,0
+8qnlgt,"Transaction validation benchmarks: max-cost OP_LSHIFTNUM (P2S)",211,57,2,1,41,32800,6753,1,0,143,0,7,6053,0
+4r9wdp,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (min_number >> max_number) (P2S)",235,62,2,1,65,52000,51527,1,0,227,0,15,50027,0
+e2knc8,"Transaction validation benchmarks: max-cost OP_RSHIFTNUM (0 >> max_number) (P2S)",211,57,2,1,41,32800,31002,1,0,143,0,10,30002,0

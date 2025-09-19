@@ -1,0 +1,12 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+rg8apq,"Transaction validation benchmarks: infinite loop of OP_INVERT (P2S)",211,53,2,1,41,32800,41102,1,0,143,0,11,40002,0
+2xv60f,"Transaction validation benchmarks:  invalid OP_LSHIFTNUM (by min_number) (P2S)",211,52,2,1,41,32800,20603,1,0,143,0,6,20003,0
+w6j874,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (1 << 79998) (P2S)",211,53,2,1,41,32800,41916,1,0,143,0,19,40016,0
+uj33cp,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (0 << 18446744073709551615) (P2S)",211,59,2,1,41,32800,32885,1,0,143,0,323,585,0
+2f2c6g,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (1 << 18446744073709551615) (P2S)",211,59,2,1,41,32800,410,1,0,143,0,4,10,0
+hdckll,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (0 << max_number) (P2S)",211,58,2,1,41,32800,41502,1,0,143,0,15,40002,0
+l89ycg,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (1 << max_number) (P2S)",211,58,2,1,41,32800,30902,1,0,143,0,9,30002,0
+7fnxag,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (max_number << max_number) (P2S)",211,59,2,1,41,32800,40901,1,0,143,0,9,40001,0
+2kcvyv,"Transaction validation benchmarks: infinite loop of max OP_LSHIFTNUM (min_number << max_number) (P2S)",211,63,2,1,41,32800,40901,1,0,143,0,9,40001,0
+d26kac,"Transaction validation benchmarks: infinite loop of max OP_RSHIFTNUM (0 >> max_number) (P2S)",211,58,2,1,41,32800,41502,1,0,143,0,15,40002,0
+78fp6t,"Transaction validation benchmarks: infinite loop of max OP_RSHIFTNUM (0 >> minNumber) (P2S)",211,55,2,1,41,32800,20702,1,0,143,0,7,20002,0

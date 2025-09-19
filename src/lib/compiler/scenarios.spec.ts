@@ -20,12 +20,12 @@ import {
   stringifyTestVector,
   walletTemplateP2pkh,
   walletTemplateP2pkhNonHd,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
   walletTemplateToCompilerConfiguration,
 } from '../lib.js';
 import { cashChannelsJson } from '../transaction/transaction-e2e.spec.helper.js';
 
-import { createCompilerBCH } from './compiler.js';
+import { createCompilerBch } from './compiler.js';
 
 test('generateDefaultScenarioDefinition: empty', (t) => {
   const scenario = generateDefaultScenarioDefinition({ scripts: {} });
@@ -470,7 +470,7 @@ export const expectScenarioGenerationResult = test.macro<
       ...templateOverrides,
     } as WalletTemplate);
 
-    const compiler = createCompilerBCH({
+    const compiler = createCompilerBch({
       ...configuration,
       ...(configurationOverrides as Partial<
         ReturnType<typeof walletTemplateToCompilerConfiguration>
@@ -1095,7 +1095,7 @@ test('generateScenario: cash-channels-v1 - after_payment_time', (t) => {
     t.fail(template);
     return;
   }
-  const compiler = walletTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBch(template);
   const scenario = compiler.generateScenario({
     scenarioId: 'after_payment_time',
     unlockingScriptId: 'execute_authorization',

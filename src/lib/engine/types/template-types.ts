@@ -110,6 +110,13 @@ export type AuthenticationVirtualMachineIdentifier =
   | 'BCH_2021_05'
   | 'BCH_2022_05'
   | 'BCH_2023_05'
+  | 'BCH_2024_05'
+  | 'BCH_2025_05'
+  | 'BCH_2026_05'
+  | 'BCH_2027_05'
+  | 'BCH_2028_05'
+  | 'BCH_2029_05'
+  | 'BCH_2030_05'
   | 'BCH_SPEC'
   | 'BSV_2020_02'
   | 'BSV_SPEC'
@@ -834,6 +841,8 @@ export type WalletTemplateScriptLocking = WalletTemplateScript & {
    * The presence of the `lockingType` property indicates that this script is a
    * locking script. It must be present on any script referenced by the
    * `unlocks` property of another script.
+   *
+   * TODO: migrate `standard` -> `p2s`
    */
   lockingType: 'p2sh20' | 'p2sh32' | 'standard';
 };

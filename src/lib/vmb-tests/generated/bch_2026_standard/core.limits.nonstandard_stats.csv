@@ -1,0 +1,18 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+wjydw4,"Transaction structure and limits: Empty unlocking bytecode is supported (P2S)",211,45,2,1,41,32800,101,1,0,143,0,1,1,0
+rk3h8w,"Transaction structure and limits: Empty unlocking bytecode is supported (P2SH20)",213,67,2,1,43,34400,671,1,0,150,2,5,43,0
+p7snyd,"Transaction structure and limits: Empty unlocking bytecode is supported (P2SH32)",213,79,2,1,43,34400,695,1,0,150,2,5,67,0
+2293th,"Transaction structure and limits: Empty locking bytecode is supported (P2S)",212,44,2,1,42,33600,101,1,0,147,0,1,1,0
+aj94zg,"Transaction structure and limits: Empty locking bytecode is supported (P2SH20)",213,67,2,1,43,34400,670,1,0,150,2,5,42,0
+wfp34x,"Transaction structure and limits: Empty locking bytecode is supported (P2SH32)",213,79,2,1,43,34400,694,1,0,150,2,5,66,0
+q03e0h,"Transaction structure and limits: Drop item and succeed (P2S)",212,46,2,1,42,33600,301,1,0,147,0,3,1,0
+dmmcy2,"Transaction structure and limits: Drop item and succeed (P2SH20)",215,67,2,1,45,36000,872,1,0,157,2,7,44,0
+w5vqj2,"Transaction structure and limits: Drop item and succeed (P2SH32)",215,79,2,1,45,36000,896,1,0,157,2,7,68,0
+ymts3m,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH20)",449,67,2,1,279,223200,25514,6,0,976,12,238,829,117
+4aumh2,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations) (P2SH32)",449,79,2,1,279,223200,25538,6,0,976,12,238,853,117
+dm48pk,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations) (P2SH20)",450,67,2,1,280,224000,25616,6,0,980,12,239,831,117
+sxg5nu,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations) (P2SH32)",450,79,2,1,280,224000,25640,6,0,980,12,239,855,117
+86hf4f,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH20)",449,67,2,1,279,223200,25502,6,0,976,12,238,823,111
+wfz3nh,"Transaction structure and limits: Evaluation of 201 operations (non-signature operations, CashToken operations) (P2SH32)",449,79,2,1,279,223200,25526,6,0,976,12,238,847,111
+cgsjja,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations, CashToken operations) (P2SH20)",450,67,2,1,280,224000,25604,6,0,980,12,239,825,111
+t5uu4j,"Transaction structure and limits: Evaluation of 202 operations (non-signature operations, CashToken operations) (P2SH32)",450,79,2,1,280,224000,25628,6,0,980,12,239,849,111

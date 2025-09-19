@@ -8,7 +8,7 @@ import type {
   WalletTemplateHdKey,
 } from '../lib.js';
 
-import { walletTemplateToCompilerBCH } from './compiler-bch/compiler-bch.js';
+import { walletTemplateToCompilerBch } from './compiler-bch/compiler-bch.js';
 import {
   walletTemplateP2pkh,
   walletTemplateP2pkhNonHd,
@@ -50,7 +50,7 @@ export const privateKeyToP2pkhLockingBytecode = <
    */
   throwErrors?: ThrowErrors;
 }): ThrowErrors extends true ? Uint8Array : Uint8Array | string => {
-  const compiler = walletTemplateToCompilerBCH(walletTemplateP2pkhNonHd);
+  const compiler = walletTemplateToCompilerBch(walletTemplateP2pkhNonHd);
   const lockingBytecode = compiler.generateBytecode({
     data: { keys: { privateKeys: { key: privateKey } } },
     scriptId: 'lock',
@@ -93,7 +93,7 @@ export const publicKeyToP2pkhLockingBytecode = <
    */
   throwErrors?: ThrowErrors;
 }): ThrowErrors extends true ? Uint8Array : Uint8Array | string => {
-  const compiler = walletTemplateToCompilerBCH(walletTemplateP2pkhNonHd);
+  const compiler = walletTemplateToCompilerBch(walletTemplateP2pkhNonHd);
   const lockingBytecode = compiler.generateBytecode({
     // eslint-disable-next-line @typescript-eslint/naming-convention
     data: { bytecode: { 'key.public_key': publicKey } },
@@ -182,7 +182,7 @@ export const hdPrivateKeyToP2pkhLockingBytecode = <
   // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data, @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
   (template as any).entities.owner!.variables.key!.privateDerivationPath =
     privateDerivationPath;
-  const compiler = walletTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBch(template);
   const lockingBytecode = compiler.generateBytecode({
     data: { hdKeys: { addressIndex, hdPrivateKeys: { owner: hdPrivateKey } } },
     scriptId: 'lock',
@@ -291,7 +291,7 @@ export const hdPublicKeyToP2pkhLockingBytecode = <
       : `${hdPublicKeyDerivationPath}/${publicDerivationPath}`;
   /* eslint-enable functional/no-expression-statements, functional/immutable-data, @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
 
-  const compiler = walletTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBch(template);
   const lockingBytecode = compiler.generateBytecode({
     data: { hdKeys: { addressIndex, hdPublicKeys: { owner: hdPublicKey } } },
     scriptId: 'lock',

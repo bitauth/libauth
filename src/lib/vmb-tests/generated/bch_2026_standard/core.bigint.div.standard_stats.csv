@@ -1,0 +1,246 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+utql0r,"BigInt: OP_DIV 1-byte number (all bits set) and 1-byte number (all bits set) (P2S)",212,50,2,1,42,33600,507,1,0,21,0,5,5,2
+l2hqhm,"BigInt: OP_DIV 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",219,67,2,1,49,39200,1338,1,0,24,2,9,52,2
+qyd87c,"BigInt: OP_DIV 1-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",219,79,2,1,49,39200,1362,1,0,24,2,9,76,2
+de8kl0,"BigInt: OP_DIV 1-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,57,2,1,42,33600,518,1,0,21,0,5,10,8
+z77x4g,"BigInt: OP_DIV 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",226,67,2,1,56,44800,1356,1,0,28,2,9,64,8
+k9tmal,"BigInt: OP_DIV 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",226,79,2,1,56,44800,1380,1,0,28,2,9,88,8
+xdq0s9,"BigInt: OP_DIV 1-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,113,2,1,42,33600,630,1,0,21,0,5,66,64
+eje39p,"BigInt: OP_DIV 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",282,67,2,1,112,89600,1716,3,0,56,3,9,176,64
+gp36s7,"BigInt: OP_DIV 1-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",282,79,2,1,112,89600,1740,3,0,56,3,9,200,64
+2rnqzu,"BigInt: OP_DIV 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",736,67,2,1,564,451200,4406,13,0,282,10,9,1074,512
+qnx6dz,"BigInt: OP_DIV 1-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",736,79,2,1,564,451200,4430,13,0,282,10,9,1098,512
+fpf78q,"BigInt: OP_DIV 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4320,67,2,1,4148,3318400,25910,96,0,2074,66,9,8242,4096
+38v0zr,"BigInt: OP_DIV 1-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4320,79,2,1,4148,3318400,25934,96,0,2074,66,9,8266,4096
+yhxjht,"BigInt: OP_DIV 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8416,67,2,1,8244,6595200,50486,192,0,4122,130,9,16434,8192
+y0qqdn,"BigInt: OP_DIV 1-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8416,79,2,1,8244,6595200,50510,192,0,4122,130,9,16458,8192
+raxg5x,"BigInt: OP_DIV 8-byte number (all bits set) and 1-byte number (all bits set) (P2S)",220,57,2,1,50,40000,542,1,0,25,0,5,26,16
+guhzvd,"BigInt: OP_DIV 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",234,67,2,1,64,51200,1380,1,0,32,2,9,80,16
+h6waa0,"BigInt: OP_DIV 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",234,79,2,1,64,51200,1404,1,0,32,2,9,104,16
+jcs2qm,"BigInt: OP_DIV 8-byte number (all bits set) and 8-byte number (all bits set) (P2S)",212,64,2,1,42,33600,584,1,0,21,0,5,19,65
+uc4rly,"BigInt: OP_DIV 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,1429,1,0,31,2,9,80,65
+qgwllp,"BigInt: OP_DIV 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,1453,1,0,31,2,9,104,65
+rdkqz5,"BigInt: OP_DIV 8-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,120,2,1,42,33600,1085,1,0,21,0,5,73,512
+9vac3v,"BigInt: OP_DIV 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",290,67,2,1,120,96000,2178,3,0,60,3,9,190,512
+lyx754,"BigInt: OP_DIV 8-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",290,79,2,1,120,96000,2202,3,0,60,3,9,214,512
+h0uqjd,"BigInt: OP_DIV 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",743,67,2,1,571,456800,8004,13,0,285,10,9,1088,4096
+vwk6av,"BigInt: OP_DIV 8-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",743,79,2,1,571,456800,8028,13,0,285,10,9,1112,4096
+nwcjvx,"BigInt: OP_DIV 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4327,67,2,1,4155,3324000,54596,97,0,2077,66,9,8256,32768
+we4qv9,"BigInt: OP_DIV 8-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4327,79,2,1,4155,3324000,54620,97,0,2077,66,9,8280,32768
+3s53z3,"BigInt: OP_DIV 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8423,67,2,1,8251,6600800,107844,192,0,4125,130,9,16448,65536
+qpt03q,"BigInt: OP_DIV 8-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8423,79,2,1,8251,6600800,107868,192,0,4125,130,9,16472,65536
+a6w3wl,"BigInt: OP_DIV 64-byte number (all bits set) and 1-byte number (all bits set) (P2S)",276,113,2,1,106,84800,822,2,0,53,0,5,194,128
+mg5swv,"BigInt: OP_DIV 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",346,67,2,1,176,140800,1908,4,0,88,3,9,304,128
+74fs2r,"BigInt: OP_DIV 64-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",346,79,2,1,176,140800,1932,4,0,88,3,9,328,128
+aa4v0s,"BigInt: OP_DIV 64-byte number (all bits set) and 8-byte number (all bits set) (P2S)",269,120,2,1,99,79200,1256,2,0,49,0,5,187,569
+3ec22q,"BigInt: OP_DIV 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",347,67,2,1,177,141600,2349,4,0,88,3,9,304,569
+629ejj,"BigInt: OP_DIV 64-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",347,79,2,1,177,141600,2373,4,0,88,3,9,328,569
+g42cjq,"BigInt: OP_DIV 64-byte number (all bits set) and 64-byte number (all bits set) (P2S)",212,176,2,1,42,33600,4728,1,0,21,0,5,131,4097
+ln9gws,"BigInt: OP_DIV 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",346,67,2,1,176,140800,6069,4,0,88,4,9,304,4097
+gyhxy8,"BigInt: OP_DIV 64-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",346,79,2,1,176,140800,6093,4,0,88,4,9,328,4097
+rq8qk5,"BigInt: OP_DIV 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",799,67,2,1,627,501600,36980,15,0,313,11,9,1200,32768
+k25tru,"BigInt: OP_DIV 64-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",799,79,2,1,627,501600,37004,15,0,313,11,9,1224,32768
+cxjjcr,"BigInt: OP_DIV 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4383,67,2,1,4211,3368800,284276,98,0,2105,67,9,8368,262144
+0jxj3v,"BigInt: OP_DIV 64-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4383,79,2,1,4211,3368800,284300,98,0,2105,67,9,8392,262144
+5klnu7,"BigInt: OP_DIV 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8479,67,2,1,8307,6645600,566900,193,0,4153,131,9,16560,524288
+wqdtd3,"BigInt: OP_DIV 64-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8479,79,2,1,8307,6645600,566924,193,0,4153,131,9,16584,524288
+lfcfca,"BigInt: OP_DIV 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",1250,67,2,1,1078,862400,5942,25,0,539,10,9,2098,1024
+q6uzq3,"BigInt: OP_DIV 512-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",1250,79,2,1,1078,862400,5966,25,0,539,10,9,2122,1024
+g3e7n9,"BigInt: OP_DIV 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",1250,67,2,1,1078,862400,9519,25,0,539,10,9,2098,4601
+zwvxgv,"BigInt: OP_DIV 512-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",1250,79,2,1,1078,862400,9543,25,0,539,10,9,2122,4601
+vjdfpv,"BigInt: OP_DIV 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",1250,67,2,1,1078,862400,38327,25,0,539,11,9,2098,33217
+56re59,"BigInt: OP_DIV 512-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",1250,79,2,1,1078,862400,38351,25,0,539,11,9,2122,33217
+d7t59n,"BigInt: OP_DIV 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",1249,67,2,1,1077,861600,268601,25,0,538,18,9,2100,262145
+d2n2f8,"BigInt: OP_DIV 512-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",1249,79,2,1,1077,861600,268625,25,0,538,18,9,2124,262145
+7hfmfp,"BigInt: OP_DIV 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH20)",4833,67,2,1,4661,3728800,2121526,108,0,2330,74,9,9266,2097152
+y7xjt4,"BigInt: OP_DIV 512-byte number (all bits set) and 4096-byte number (all bits set) (P2SH32)",4833,79,2,1,4661,3728800,2121550,108,0,2330,74,9,9290,2097152
+f93yfd,"BigInt: OP_DIV 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH20)",8929,67,2,1,8757,7005600,4239158,204,0,4378,138,9,17458,4194304
+3rudt2,"BigInt: OP_DIV 512-byte number (all bits set) and 8192-byte number (all bits set) (P2SH32)",8929,79,2,1,8757,7005600,4239182,204,0,4378,138,9,17482,4194304
+q2t0k6,"BigInt: OP_DIV 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",8418,67,2,1,8246,6596800,38198,192,0,4123,66,9,16434,8192
+5l504q,"BigInt: OP_DIV 4096-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",8418,79,2,1,8246,6596800,38222,192,0,4123,66,9,16458,8192
+r50jve,"BigInt: OP_DIV 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",8418,67,2,1,8246,6596800,66863,192,0,4123,66,9,16434,36857
+vnvvd4,"BigInt: OP_DIV 4096-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",8418,79,2,1,8246,6596800,66887,192,0,4123,66,9,16458,36857
+03jmk6,"BigInt: OP_DIV 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH20)",8418,67,2,1,8246,6596800,296375,192,0,4123,67,9,16434,266177
+um58qd,"BigInt: OP_DIV 4096-byte number (all bits set) and 64-byte number (all bits set) (P2SH32)",8418,79,2,1,8246,6596800,296399,192,0,4123,67,9,16458,266177
+qjdnl7,"BigInt: OP_DIV 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH20)",8420,67,2,1,8248,6598400,2132281,192,0,4124,74,9,16436,2100737
+9xn3fh,"BigInt: OP_DIV 4096-byte number (all bits set) and 512-byte number (all bits set) (P2SH32)",8420,79,2,1,8248,6598400,2132305,192,0,4124,74,9,16460,2100737
+l2ffrj,"BigInt: OP_DIV 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",212,50,2,1,42,33600,507,1,0,21,0,5,5,2
+ez44wf,"BigInt: OP_DIV 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,1338,1,0,24,2,9,52,2
+e7d83l,"BigInt: OP_DIV 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,1362,1,0,24,2,9,76,2
+k4u2jv,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,57,2,1,42,33600,518,1,0,21,0,5,10,8
+8wtql6,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",226,67,2,1,56,44800,1356,1,0,28,2,9,64,8
+wppny3,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",226,79,2,1,56,44800,1380,1,0,28,2,9,88,8
+lunzzx,"BigInt: OP_DIV 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,113,2,1,42,33600,630,1,0,21,0,5,66,64
+v484k8,"BigInt: OP_DIV 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",282,67,2,1,112,89600,1716,3,0,56,3,9,176,64
+4h4hk5,"BigInt: OP_DIV 1-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",282,79,2,1,112,89600,1740,3,0,56,3,9,200,64
+qhhp5t,"BigInt: OP_DIV 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",736,67,2,1,564,451200,4406,13,0,282,10,9,1074,512
+e3p5dc,"BigInt: OP_DIV 1-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",736,79,2,1,564,451200,4430,13,0,282,10,9,1098,512
+u3cgjd,"BigInt: OP_DIV 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4320,67,2,1,4148,3318400,25910,96,0,2074,66,9,8242,4096
+ryuvfg,"BigInt: OP_DIV 1-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4320,79,2,1,4148,3318400,25934,96,0,2074,66,9,8266,4096
+pkc244,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8416,67,2,1,8244,6595200,50486,192,0,4122,130,9,16434,8192
+l5gmkh,"BigInt: OP_DIV 1-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8416,79,2,1,8244,6595200,50510,192,0,4122,130,9,16458,8192
+eu70mw,"BigInt: OP_DIV 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",220,57,2,1,50,40000,542,1,0,25,0,5,26,16
+aknxtk,"BigInt: OP_DIV 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",234,67,2,1,64,51200,1380,1,0,32,2,9,80,16
+y7msk4,"BigInt: OP_DIV 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",234,79,2,1,64,51200,1404,1,0,32,2,9,104,16
+9m442e,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",212,64,2,1,42,33600,584,1,0,21,0,5,19,65
+2mc6j6,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,1429,1,0,31,2,9,80,65
+hkuug8,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,1453,1,0,31,2,9,104,65
+x55tzz,"BigInt: OP_DIV 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,120,2,1,42,33600,1085,1,0,21,0,5,73,512
+gkzx7v,"BigInt: OP_DIV 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",290,67,2,1,120,96000,2178,3,0,60,3,9,190,512
+nz77cw,"BigInt: OP_DIV 8-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",290,79,2,1,120,96000,2202,3,0,60,3,9,214,512
+39zcwy,"BigInt: OP_DIV 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",743,67,2,1,571,456800,8004,13,0,285,10,9,1088,4096
+utjyd2,"BigInt: OP_DIV 8-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",743,79,2,1,571,456800,8028,13,0,285,10,9,1112,4096
+rnelhl,"BigInt: OP_DIV 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4327,67,2,1,4155,3324000,54596,97,0,2077,66,9,8256,32768
+q7q6fj,"BigInt: OP_DIV 8-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4327,79,2,1,4155,3324000,54620,97,0,2077,66,9,8280,32768
+m4cknn,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8423,67,2,1,8251,6600800,107844,192,0,4125,130,9,16448,65536
+9lrvad,"BigInt: OP_DIV 8-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8423,79,2,1,8251,6600800,107868,192,0,4125,130,9,16472,65536
+u8wzqc,"BigInt: OP_DIV 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2S)",276,113,2,1,106,84800,822,2,0,53,0,5,194,128
+ddkvjs,"BigInt: OP_DIV 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",346,67,2,1,176,140800,1908,4,0,88,3,9,304,128
+wf5ch2,"BigInt: OP_DIV 64-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",346,79,2,1,176,140800,1932,4,0,88,3,9,328,128
+u2jatr,"BigInt: OP_DIV 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2S)",269,120,2,1,99,79200,1256,2,0,49,0,5,187,569
+qwq72k,"BigInt: OP_DIV 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",347,67,2,1,177,141600,2349,4,0,88,3,9,304,569
+af5x2d,"BigInt: OP_DIV 64-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",347,79,2,1,177,141600,2373,4,0,88,3,9,328,569
+lqpxsn,"BigInt: OP_DIV 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2S)",212,176,2,1,42,33600,4728,1,0,21,0,5,131,4097
+9lmen9,"BigInt: OP_DIV 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",346,67,2,1,176,140800,6069,4,0,88,4,9,304,4097
+mp2lgz,"BigInt: OP_DIV 64-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",346,79,2,1,176,140800,6093,4,0,88,4,9,328,4097
+enmjge,"BigInt: OP_DIV 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",799,67,2,1,627,501600,36980,15,0,313,11,9,1200,32768
+uwhxtd,"BigInt: OP_DIV 64-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",799,79,2,1,627,501600,37004,15,0,313,11,9,1224,32768
+t905x7,"BigInt: OP_DIV 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4383,67,2,1,4211,3368800,284276,98,0,2105,67,9,8368,262144
+ff0umj,"BigInt: OP_DIV 64-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4383,79,2,1,4211,3368800,284300,98,0,2105,67,9,8392,262144
+vxjtt0,"BigInt: OP_DIV 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8479,67,2,1,8307,6645600,566900,193,0,4153,131,9,16560,524288
+kzk3v5,"BigInt: OP_DIV 64-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8479,79,2,1,8307,6645600,566924,193,0,4153,131,9,16584,524288
+0r6ec0,"BigInt: OP_DIV 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",1250,67,2,1,1078,862400,5942,25,0,539,10,9,2098,1024
+tq375x,"BigInt: OP_DIV 512-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",1250,79,2,1,1078,862400,5966,25,0,539,10,9,2122,1024
+cumktt,"BigInt: OP_DIV 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",1250,67,2,1,1078,862400,9519,25,0,539,10,9,2098,4601
+dyvzsu,"BigInt: OP_DIV 512-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",1250,79,2,1,1078,862400,9543,25,0,539,10,9,2122,4601
+a3j47n,"BigInt: OP_DIV 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",1250,67,2,1,1078,862400,38327,25,0,539,11,9,2098,33217
+0hqz3h,"BigInt: OP_DIV 512-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",1250,79,2,1,1078,862400,38351,25,0,539,11,9,2122,33217
+w4zk80,"BigInt: OP_DIV 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",1249,67,2,1,1077,861600,268601,25,0,538,18,9,2100,262145
+v6lntk,"BigInt: OP_DIV 512-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",1249,79,2,1,1077,861600,268625,25,0,538,18,9,2124,262145
+gvyrdg,"BigInt: OP_DIV 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH20)",4833,67,2,1,4661,3728800,2121526,108,0,2330,74,9,9266,2097152
+txle5x,"BigInt: OP_DIV 512-byte number (alternating bits set) and 4096-byte number (alternating bits set) (P2SH32)",4833,79,2,1,4661,3728800,2121550,108,0,2330,74,9,9290,2097152
+qj4xva,"BigInt: OP_DIV 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH20)",8929,67,2,1,8757,7005600,4239158,204,0,4378,138,9,17458,4194304
+edcma6,"BigInt: OP_DIV 512-byte number (alternating bits set) and 8192-byte number (alternating bits set) (P2SH32)",8929,79,2,1,8757,7005600,4239182,204,0,4378,138,9,17482,4194304
+6003pl,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",8418,67,2,1,8246,6596800,38198,192,0,4123,66,9,16434,8192
+c4dpxp,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",8418,79,2,1,8246,6596800,38222,192,0,4123,66,9,16458,8192
+2kdlzp,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",8418,67,2,1,8246,6596800,66863,192,0,4123,66,9,16434,36857
+hgnq4e,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",8418,79,2,1,8246,6596800,66887,192,0,4123,66,9,16458,36857
+gsxq3u,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH20)",8418,67,2,1,8246,6596800,296375,192,0,4123,67,9,16434,266177
+kem7mp,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 64-byte number (alternating bits set) (P2SH32)",8418,79,2,1,8246,6596800,296399,192,0,4123,67,9,16458,266177
+gay9aw,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH20)",8420,67,2,1,8248,6598400,2132281,192,0,4124,74,9,16436,2100737
+486n95,"BigInt: OP_DIV 4096-byte number (alternating bits set) and 512-byte number (alternating bits set) (P2SH32)",8420,79,2,1,8248,6598400,2132305,192,0,4124,74,9,16460,2100737
+crnnys,"BigInt: OP_DIV 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",212,48,2,1,42,33600,507,1,0,21,0,5,5,2
+4jukzg,"BigInt: OP_DIV 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,1336,1,0,23,2,9,50,2
+6gktkq,"BigInt: OP_DIV 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,1360,1,0,23,2,9,74,2
+efj25q,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,56,2,1,42,33600,518,1,0,21,0,5,10,8
+xa5x45,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",225,67,2,1,55,44000,1355,1,0,27,2,9,63,8
+72rfek,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",225,79,2,1,55,44000,1379,1,0,27,2,9,87,8
+kmrwz9,"BigInt: OP_DIV 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,112,2,1,42,33600,630,1,0,21,0,5,66,64
+nm56sd,"BigInt: OP_DIV 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",281,67,2,1,111,88800,1715,3,0,55,3,9,175,64
+x5qyna,"BigInt: OP_DIV 1-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",281,79,2,1,111,88800,1739,3,0,55,3,9,199,64
+q8h0cg,"BigInt: OP_DIV 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",735,67,2,1,563,450400,4405,13,0,281,10,9,1073,512
+rj9jfs,"BigInt: OP_DIV 1-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",735,79,2,1,563,450400,4429,13,0,281,10,9,1097,512
+gu28xm,"BigInt: OP_DIV 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4319,67,2,1,4147,3317600,25909,96,0,2073,66,9,8241,4096
+3dqmgj,"BigInt: OP_DIV 1-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4319,79,2,1,4147,3317600,25933,96,0,2073,66,9,8265,4096
+xptclf,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8415,67,2,1,8243,6594400,50485,192,0,4121,130,9,16433,8192
+ytg3xy,"BigInt: OP_DIV 1-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8415,79,2,1,8243,6594400,50509,192,0,4121,130,9,16457,8192
+6f4y5j,"BigInt: OP_DIV 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",220,56,2,1,50,40000,542,1,0,25,0,5,26,16
+wxrqe3,"BigInt: OP_DIV 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,1379,1,0,31,2,9,79,16
+064kn0,"BigInt: OP_DIV 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,1403,1,0,31,2,9,103,16
+z2745x,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",212,64,2,1,42,33600,584,1,0,21,0,5,19,65
+3k86py,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,1429,1,0,31,2,9,80,65
+nnmnvv,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,1453,1,0,31,2,9,104,65
+ymsmz3,"BigInt: OP_DIV 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,120,2,1,42,33600,1085,1,0,21,0,5,73,512
+gggwwx,"BigInt: OP_DIV 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",290,67,2,1,120,96000,2178,3,0,60,3,9,190,512
+wscdkj,"BigInt: OP_DIV 8-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",290,79,2,1,120,96000,2202,3,0,60,3,9,214,512
+c7a9ld,"BigInt: OP_DIV 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",743,67,2,1,571,456800,8004,13,0,285,10,9,1088,4096
+ud9xem,"BigInt: OP_DIV 8-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",743,79,2,1,571,456800,8028,13,0,285,10,9,1112,4096
+e2z5ja,"BigInt: OP_DIV 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4327,67,2,1,4155,3324000,54596,97,0,2077,66,9,8256,32768
+ke7c8v,"BigInt: OP_DIV 8-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4327,79,2,1,4155,3324000,54620,97,0,2077,66,9,8280,32768
+yfnemr,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8423,67,2,1,8251,6600800,107844,192,0,4125,130,9,16448,65536
+ccz8kt,"BigInt: OP_DIV 8-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8423,79,2,1,8251,6600800,107868,192,0,4125,130,9,16472,65536
+chgrwc,"BigInt: OP_DIV 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2S)",276,112,2,1,106,84800,822,2,0,53,0,5,194,128
+4canme,"BigInt: OP_DIV 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",345,67,2,1,175,140000,1907,4,0,87,3,9,303,128
+78ujrw,"BigInt: OP_DIV 64-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",345,79,2,1,175,140000,1931,4,0,87,3,9,327,128
+hpcltw,"BigInt: OP_DIV 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2S)",269,120,2,1,99,79200,1256,2,0,49,0,5,187,569
+chslal,"BigInt: OP_DIV 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",347,67,2,1,177,141600,2349,4,0,88,3,9,304,569
+dnw2vw,"BigInt: OP_DIV 64-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",347,79,2,1,177,141600,2373,4,0,88,3,9,328,569
+u3ehjc,"BigInt: OP_DIV 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2S)",212,176,2,1,42,33600,4728,1,0,21,0,5,131,4097
+3x8tzs,"BigInt: OP_DIV 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",346,67,2,1,176,140800,6069,4,0,88,4,9,304,4097
+feq5gr,"BigInt: OP_DIV 64-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",346,79,2,1,176,140800,6093,4,0,88,4,9,328,4097
+3s2me2,"BigInt: OP_DIV 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",799,67,2,1,627,501600,36980,15,0,313,11,9,1200,32768
+j6q89p,"BigInt: OP_DIV 64-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",799,79,2,1,627,501600,37004,15,0,313,11,9,1224,32768
+s8phd5,"BigInt: OP_DIV 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4383,67,2,1,4211,3368800,284276,98,0,2105,67,9,8368,262144
+44uh2e,"BigInt: OP_DIV 64-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4383,79,2,1,4211,3368800,284300,98,0,2105,67,9,8392,262144
+u956lx,"BigInt: OP_DIV 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8479,67,2,1,8307,6645600,566900,193,0,4153,131,9,16560,524288
+pyvmpj,"BigInt: OP_DIV 64-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8479,79,2,1,8307,6645600,566924,193,0,4153,131,9,16584,524288
+dxzfdf,"BigInt: OP_DIV 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",1249,67,2,1,1077,861600,5941,25,0,538,10,9,2097,1024
+kfhvnd,"BigInt: OP_DIV 512-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",1249,79,2,1,1077,861600,5965,25,0,538,10,9,2121,1024
+5j7hjd,"BigInt: OP_DIV 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",1250,67,2,1,1078,862400,9519,25,0,539,10,9,2098,4601
+p8sxjv,"BigInt: OP_DIV 512-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",1250,79,2,1,1078,862400,9543,25,0,539,10,9,2122,4601
+tp87pj,"BigInt: OP_DIV 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",1250,67,2,1,1078,862400,38327,25,0,539,11,9,2098,33217
+cu9504,"BigInt: OP_DIV 512-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",1250,79,2,1,1078,862400,38351,25,0,539,11,9,2122,33217
+x5saza,"BigInt: OP_DIV 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",1249,67,2,1,1077,861600,268601,25,0,538,18,9,2100,262145
+5xk3ea,"BigInt: OP_DIV 512-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",1249,79,2,1,1077,861600,268625,25,0,538,18,9,2124,262145
+rgjry2,"BigInt: OP_DIV 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH20)",4833,67,2,1,4661,3728800,2121526,108,0,2330,74,9,9266,2097152
+0egl35,"BigInt: OP_DIV 512-byte number (highest-bit set) and 4096-byte number (highest-bit set) (P2SH32)",4833,79,2,1,4661,3728800,2121550,108,0,2330,74,9,9290,2097152
+nukm7f,"BigInt: OP_DIV 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH20)",8929,67,2,1,8757,7005600,4239158,204,0,4378,138,9,17458,4194304
+dt7383,"BigInt: OP_DIV 512-byte number (highest-bit set) and 8192-byte number (highest-bit set) (P2SH32)",8929,79,2,1,8757,7005600,4239182,204,0,4378,138,9,17482,4194304
+8kuha8,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",8417,67,2,1,8245,6596000,38197,192,0,4122,66,9,16433,8192
+fv47rm,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",8417,79,2,1,8245,6596000,38221,192,0,4122,66,9,16457,8192
+d6l2dz,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",8418,67,2,1,8246,6596800,66863,192,0,4123,66,9,16434,36857
+tnvpuq,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",8418,79,2,1,8246,6596800,66887,192,0,4123,66,9,16458,36857
+n4q3j5,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH20)",8418,67,2,1,8246,6596800,296375,192,0,4123,67,9,16434,266177
+2srggm,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 64-byte number (highest-bit set) (P2SH32)",8418,79,2,1,8246,6596800,296399,192,0,4123,67,9,16458,266177
+0wess0,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH20)",8420,67,2,1,8248,6598400,2132281,192,0,4124,74,9,16436,2100737
+vcwtz7,"BigInt: OP_DIV 4096-byte number (highest-bit set) and 512-byte number (highest-bit set) (P2SH32)",8420,79,2,1,8248,6598400,2132305,192,0,4124,74,9,16460,2100737
+vrx8u0,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",220,56,2,1,50,40000,542,1,0,25,0,5,26,16
+7scpum,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,1379,1,0,31,2,9,79,16
+cz3e3r,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,1403,1,0,31,2,9,103,16
+nfqlfa,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",212,64,2,1,42,33600,584,1,0,21,0,5,19,65
+he2hm4,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,1429,1,0,31,2,9,80,65
+tsedy3,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,1453,1,0,31,2,9,104,65
+9clpea,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,120,2,1,42,33600,1085,1,0,21,0,5,73,512
+t6g89f,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",290,67,2,1,120,96000,2178,3,0,60,3,9,190,512
+3jl5v0,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",290,79,2,1,120,96000,2202,3,0,60,3,9,214,512
+uttwak,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",743,67,2,1,571,456800,8004,13,0,285,10,9,1088,4096
+ewj84g,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",743,79,2,1,571,456800,8028,13,0,285,10,9,1112,4096
+zge0hl,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4327,67,2,1,4155,3324000,54596,97,0,2077,66,9,8256,32768
+53yp6a,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4327,79,2,1,4155,3324000,54620,97,0,2077,66,9,8280,32768
+n3ayfw,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8423,67,2,1,8251,6600800,107844,192,0,4125,130,9,16448,65536
+ej0xqj,"BigInt: OP_DIV 8-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8423,79,2,1,8251,6600800,107868,192,0,4125,130,9,16472,65536
+zl63h8,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2S)",276,112,2,1,106,84800,822,2,0,53,0,5,194,128
+mkngn4,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",345,67,2,1,175,140000,1907,4,0,87,3,9,303,128
+fwtynj,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",345,79,2,1,175,140000,1931,4,0,87,3,9,327,128
+f5pr2m,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2S)",269,120,2,1,99,79200,1256,2,0,49,0,5,187,569
+as2hr6,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",347,67,2,1,177,141600,2349,4,0,88,3,9,304,569
+8t53ey,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",347,79,2,1,177,141600,2373,4,0,88,3,9,328,569
+00f9we,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2S)",212,176,2,1,42,33600,4728,1,0,21,0,5,131,4097
+5m7lq2,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",346,67,2,1,176,140800,6069,4,0,88,4,9,304,4097
+dnrlay,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",346,79,2,1,176,140800,6093,4,0,88,4,9,328,4097
+sz7ua8,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",799,67,2,1,627,501600,36980,15,0,313,11,9,1200,32768
+8kzzse,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",799,79,2,1,627,501600,37004,15,0,313,11,9,1224,32768
+90symy,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4383,67,2,1,4211,3368800,284276,98,0,2105,67,9,8368,262144
+ykqzqn,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4383,79,2,1,4211,3368800,284300,98,0,2105,67,9,8392,262144
+ux7w53,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8479,67,2,1,8307,6645600,566900,193,0,4153,131,9,16560,524288
+5jwmfj,"BigInt: OP_DIV 64-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8479,79,2,1,8307,6645600,566924,193,0,4153,131,9,16584,524288
+5jp90k,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",1249,67,2,1,1077,861600,5941,25,0,538,10,9,2097,1024
+xlyaml,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",1249,79,2,1,1077,861600,5965,25,0,538,10,9,2121,1024
+744pcn,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",1250,67,2,1,1078,862400,9519,25,0,539,10,9,2098,4601
+y9chc6,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",1250,79,2,1,1078,862400,9543,25,0,539,10,9,2122,4601
+mzmt8a,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",1250,67,2,1,1078,862400,38327,25,0,539,11,9,2098,33217
+a3mehf,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",1250,79,2,1,1078,862400,38351,25,0,539,11,9,2122,33217
+8a6aew,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",1249,67,2,1,1077,861600,268601,25,0,538,18,9,2100,262145
+3l5svw,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",1249,79,2,1,1077,861600,268625,25,0,538,18,9,2124,262145
+dhagv6,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH20)",4833,67,2,1,4661,3728800,2121526,108,0,2330,74,9,9266,2097152
+adjfpw,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 4096-byte number (one bit set per byte) (P2SH32)",4833,79,2,1,4661,3728800,2121550,108,0,2330,74,9,9290,2097152
+zh9uvh,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH20)",8929,67,2,1,8757,7005600,4239158,204,0,4378,138,9,17458,4194304
+8d432l,"BigInt: OP_DIV 512-byte number (one bit set per byte) and 8192-byte number (one bit set per byte) (P2SH32)",8929,79,2,1,8757,7005600,4239182,204,0,4378,138,9,17482,4194304
+j98vlr,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",8417,67,2,1,8245,6596000,38197,192,0,4122,66,9,16433,8192
+t5zfgf,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",8417,79,2,1,8245,6596000,38221,192,0,4122,66,9,16457,8192
+ee9erv,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",8418,67,2,1,8246,6596800,66863,192,0,4123,66,9,16434,36857
+m9erl2,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",8418,79,2,1,8246,6596800,66887,192,0,4123,66,9,16458,36857
+crrxxv,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH20)",8418,67,2,1,8246,6596800,296375,192,0,4123,67,9,16434,266177
+fa6xas,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 64-byte number (one bit set per byte) (P2SH32)",8418,79,2,1,8246,6596800,296399,192,0,4123,67,9,16458,266177
+tlxg48,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH20)",8420,67,2,1,8248,6598400,2132281,192,0,4124,74,9,16436,2100737
+uqajy5,"BigInt: OP_DIV 4096-byte number (one bit set per byte) and 512-byte number (one bit set per byte) (P2SH32)",8420,79,2,1,8248,6598400,2132305,192,0,4124,74,9,16460,2100737

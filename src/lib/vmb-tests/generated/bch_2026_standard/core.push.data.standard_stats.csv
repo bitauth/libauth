@@ -1,0 +1,29 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+xzn37n,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes (P2S)",289,44,2,1,119,95200,176,3,0,59,0,1,76,0
+6n4dvs,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes (P2SH20)",290,67,2,1,120,96000,1001,3,0,60,2,5,117,0
+3uvh50,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes (P2SH32)",290,79,2,1,120,96000,1025,3,0,60,2,5,141,0
+q2r4e2,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes (P2S)",470,44,2,1,298,238400,355,7,0,149,0,1,255,0
+8sccqz,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes (P2SH20)",471,67,2,1,299,239200,1180,7,0,149,2,5,296,0
+wk5052,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes (P2SH32)",471,79,2,1,299,239200,1204,7,0,149,2,5,320,0
+mcdtmc,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes (P2S)",472,44,2,1,300,240000,356,7,0,150,0,1,256,0
+du50tj,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes (P2SH20)",473,67,2,1,301,240800,1181,7,0,150,2,5,297,0
+zsylsl,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes (P2SH32)",473,79,2,1,301,240800,1205,7,0,150,2,5,321,0
+cagp4c,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,579,1,0,20,0,5,79,0
+mxtmsp,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes produces expected stack item (P2SH20)",296,67,2,1,126,100800,1679,3,0,63,3,9,203,0
+tpanx8,"Push data operations: OP_PUSHDATA_1 of 76 non-zero bytes produces expected stack item (P2SH32)",296,79,2,1,126,100800,1703,3,0,63,3,9,227,0
+dscwpd,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes produces expected stack item (P2S)",211,127,2,1,41,32800,579,1,0,20,0,5,79,0
+24244x,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes produces expected stack item (P2SH20)",296,67,2,1,126,100800,1679,3,0,63,3,9,203,0
+klgrc9,"Push data operations: OP_PUSHDATA_1 of 76 zero bytes produces expected stack item (P2SH32)",296,79,2,1,126,100800,1703,3,0,63,3,9,227,0
+nuwv0g,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes produces expected stack item (P2SH20)",479,67,2,1,307,245600,2616,7,0,153,6,9,564,0
+7unhcr,"Push data operations: OP_PUSHDATA_1 of 255 non-zero bytes produces expected stack item (P2SH32)",479,79,2,1,307,245600,2640,7,0,153,6,9,588,0
+pyjzqr,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes produces expected stack item (P2SH20)",479,67,2,1,307,245600,2616,7,0,153,6,9,564,0
+h5agu2,"Push data operations: OP_PUSHDATA_1 of 255 zero bytes produces expected stack item (P2SH32)",479,79,2,1,307,245600,2640,7,0,153,6,9,588,0
+smn4ty,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes produces expected stack item (P2SH20)",481,67,2,1,309,247200,2619,7,0,154,6,9,567,0
+rmym2c,"Push data operations: OP_PUSHDATA_2 of 256 non-zero bytes produces expected stack item (P2SH32)",481,79,2,1,309,247200,2643,7,0,154,6,9,591,0
+nu2xr9,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes produces expected stack item (P2SH20)",481,67,2,1,309,247200,2619,7,0,154,6,9,567,0
+9fffzn,"Push data operations: OP_PUSHDATA_2 of 256 zero bytes produces expected stack item (P2SH32)",481,79,2,1,309,247200,2643,7,0,154,6,9,591,0
+atxaha,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (P2S)",211,130,2,1,41,32800,880,1,0,20,0,8,80,0
+mkmcw0,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (P2SH20)",299,67,2,1,129,103200,1983,3,0,64,3,12,207,0
+38d96d,"Push data operations: <1> OP_IF OP_PUSHDATA_1 ... OP_ENDIF in locking bytecode (P2SH32)",299,79,2,1,129,103200,2007,3,0,64,3,12,231,0
+e7tf9z,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (P2SH20)",484,67,2,1,312,249600,2923,7,0,156,6,12,571,0
+pxd97l,"Push data operations: <1> OP_IF OP_PUSHDATA_2 ... OP_ENDIF in locking bytecode (P2SH32)",484,79,2,1,312,249600,2947,7,0,156,6,12,595,0

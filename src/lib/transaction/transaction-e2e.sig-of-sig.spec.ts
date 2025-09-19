@@ -5,7 +5,7 @@ import test from 'ava';
 import type { CompilationData, TransactionCommon } from '../lib.js';
 import {
   CashAddressNetworkPrefix,
-  createVirtualMachineBCH,
+  createVirtualMachineBch,
   decodeTransactionCommon,
   encodeTransactionCommon,
   extractMissingVariables,
@@ -15,7 +15,7 @@ import {
   importWalletTemplate,
   lockingBytecodeToCashAddress,
   stringify,
-  walletTemplateToCompilerBCH,
+  walletTemplateToCompilerBch,
 } from '../lib.js';
 
 import {
@@ -26,7 +26,7 @@ import {
   sigOfSigJson,
 } from './transaction-e2e.spec.helper.js';
 
-const vm = createVirtualMachineBCH();
+const vm = createVirtualMachineBch();
 
 // eslint-disable-next-line complexity
 test('transaction e2e tests: Sig-of-Sig Example', (t) => {
@@ -49,7 +49,7 @@ test('transaction e2e tests: Sig-of-Sig Example', (t) => {
   };
 
   const lockingScript = 'lock';
-  const compiler = walletTemplateToCompilerBCH(template);
+  const compiler = walletTemplateToCompilerBch(template);
   const lockingBytecode = compiler.generateBytecode({
     data: lockingData,
     scriptId: lockingScript,

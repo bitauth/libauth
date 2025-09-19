@@ -33,6 +33,5 @@
       "unlocks": "lock"
     }
   },
-  "supported": ["BCH_2021_05", "BCH_2022_05"],
-  "version": 0
+  "supported": ["BCH_2021_05", "BCH_2022_05"]
 }

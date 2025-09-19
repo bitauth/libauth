@@ -1,0 +1,3 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+a3h4p9,"Pay to Script: Maximum length BCH_2025_05 standard UTXO and output (3-of-3 bare multisig, uncompressed keys), ECDSA signatures, 41-byte commitment (P2S)",567,298,1,0,260,208000,81141,6,3,910,27,10,413,0
+vjfze6,"Pay to Script: Maximum length BCH_2025_05 standard UTXO and output (3-of-3 bare multisig, uncompressed keys), Schnorr signatures, 41-byte commitment (P2S)",547,298,1,0,240,192000,81122,6,3,840,27,10,394,0

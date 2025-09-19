@@ -90,3 +90,14 @@ export const assertSuccess = <T>(
   if (typeof result === 'string') throw new Error(`${expectation}${result}`);
   return result;
 };
+
+export const assertNonNull = <T>(
+  value: T | null | undefined,
+  expectation = 'Expected a non-null value, but encountered: ',
+) => {
+  if (value === null || value === undefined) {
+    // eslint-disable-next-line functional/no-throw-statements
+    throw new Error(`${expectation}${String(value)}`);
+  }
+  return value;
+};

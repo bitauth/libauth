@@ -7,7 +7,7 @@ import {
 import { resolveScriptIdentifier } from '../language/language.js';
 import type {
   AnyCompilerConfiguration,
-  CompilationContextBCH,
+  CompilationContextBch,
   CompilationData,
   CompilerConfiguration,
   CompilerOperation,
@@ -30,7 +30,7 @@ import { CompilerDefaults } from './compiler-defaults.js';
  * @param finalOperation - a final, un-skippable operation
  */
 export const attemptCompilerOperations =
-  <CompilationContext = CompilationContextBCH>(
+  <CompilationContext = CompilationContextBch>(
     operations: CompilerOperation<CompilationContext, true>[],
     finalOperation: CompilerOperation<CompilationContext>,
   ): CompilerOperation<CompilationContext> =>
@@ -56,7 +56,7 @@ export const compilerOperationRequires =
     CanBeSkipped extends boolean,
     RequiredDataProperties extends keyof CompilationData<unknown>,
     RequiredConfigurationProperties extends keyof CompilerConfiguration,
-    CompilationContext = CompilationContextBCH,
+    CompilationContext = CompilationContextBch,
   >({
     /**
      * If `true`, the accepted operation may return `false`, and any missing

@@ -1,0 +1,27 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+dwg3q4,"BigInt: OP_SUB 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",234,67,2,1,64,51200,0,1,0,224,2,9,80,8
+l42gqw,"BigInt: OP_SUB 1-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",234,79,2,1,64,51200,0,1,0,224,2,9,104,8
+g8cgyd,"BigInt: OP_SUB 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH20)",234,67,2,1,64,51200,0,1,0,224,2,9,80,8
+y06kts,"BigInt: OP_SUB 8-byte number (all bits set) and 1-byte number (all bits set) (P2SH32)",234,79,2,1,64,51200,0,1,0,224,2,9,104,8
+6n0z5k,"BigInt: OP_SUB 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+652654,"BigInt: OP_SUB 8-byte number (all bits set) and 8-byte number (all bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0
+p8ze7d,"BigInt: OP_SUB 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",219,67,2,1,49,39200,0,1,0,171,2,9,50,0
+4ahyuz,"BigInt: OP_SUB 1-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",219,79,2,1,49,39200,0,1,0,171,2,9,74,0
+vhxaty,"BigInt: OP_SUB 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",234,67,2,1,64,51200,0,1,0,224,2,9,80,8
+eqrprn,"BigInt: OP_SUB 1-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",234,79,2,1,64,51200,0,1,0,224,2,9,104,8
+taevf8,"BigInt: OP_SUB 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH20)",234,67,2,1,64,51200,0,1,0,224,2,9,80,8
+lgd402,"BigInt: OP_SUB 8-byte number (alternating bits set) and 1-byte number (alternating bits set) (P2SH32)",234,79,2,1,64,51200,0,1,0,224,2,9,104,8
+v6qk5j,"BigInt: OP_SUB 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+3y7rea,"BigInt: OP_SUB 8-byte number (alternating bits set) and 8-byte number (alternating bits set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0
+k9ry79,"BigInt: OP_SUB 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",217,67,2,1,47,37600,0,1,0,164,2,9,48,0
+0mlxxl,"BigInt: OP_SUB 1-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",217,79,2,1,47,37600,0,1,0,164,2,9,72,0
+x326t8,"BigInt: OP_SUB 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,79,8
+59nazm,"BigInt: OP_SUB 1-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,103,8
+szt4c6,"BigInt: OP_SUB 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,79,8
+hz49xn,"BigInt: OP_SUB 8-byte number (highest-bit set) and 1-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,103,8
+4jq350,"BigInt: OP_SUB 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+qqznj7,"BigInt: OP_SUB 8-byte number (highest-bit set) and 8-byte number (highest-bit set) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0
+eaykxz,"BigInt: OP_SUB 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,79,8
+3degfg,"BigInt: OP_SUB 8-byte number (one bit set per byte) and 1-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,103,8
+76hcc9,"BigInt: OP_SUB 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH20)",233,67,2,1,63,50400,0,1,0,220,2,9,78,0
+u7d9x0,"BigInt: OP_SUB 8-byte number (one bit set per byte) and 8-byte number (one bit set per byte) (P2SH32)",233,79,2,1,63,50400,0,1,0,220,2,9,102,0

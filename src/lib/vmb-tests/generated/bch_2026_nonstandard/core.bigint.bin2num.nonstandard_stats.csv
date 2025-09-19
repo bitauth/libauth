@@ -1,0 +1,9 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+at9727,"BigInt: OP_BIN2NUM padded zero (520 bytes) is zero (P2S)",212,571,2,1,42,33600,921,1,0,147,0,4,521,0
+a45zgl,"BigInt: OP_BIN2NUM padded negative zero (520 bytes) is zero (P2S)",212,571,2,1,42,33600,921,1,0,147,0,4,521,0
+j9n7lt,"BigInt: OP_BIN2NUM padded zero (521 bytes) is zero (P2S)",212,572,2,1,42,33600,922,1,0,147,0,4,522,0
+czzjs0,"BigInt: OP_BIN2NUM padded negative zero (521 bytes) is zero (P2S)",212,572,2,1,42,33600,922,1,0,147,0,4,522,0
+x32a4f,"BigInt: OP_BIN2NUM padded one (520 bytes) is one (P2S)",212,571,2,1,42,33600,923,1,0,147,0,4,523,0
+mv8j35,"BigInt: OP_BIN2NUM padded one (521 bytes) is one (P2S)",212,572,2,1,42,33600,924,1,0,147,0,4,524,0
+w0s6rw,"BigInt: OP_BIN2NUM padded negative one (520 bytes) is negative one (P2S)",212,571,2,1,42,33600,923,1,0,147,0,4,523,0
+4mt2qf,"BigInt: OP_BIN2NUM padded negative one (521 bytes) is negative one (P2S)",212,572,2,1,42,33600,924,1,0,147,0,4,524,0

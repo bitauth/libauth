@@ -1,0 +1,7 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+zjv9dh,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and valid public key 19 (P2SH20)",474,67,2,1,302,241600,0,7,2,151,16,30,960,0
+9gpfva,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and valid public key 19 (P2SH32)",474,79,2,1,302,241600,0,7,2,151,16,30,984,0
+ar3uyn,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and invalid public key 19 (P2SH20)",439,67,2,1,269,215200,0,6,2,134,13,30,333,0
+r7d6t8,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 15 and 20, signatures 15 and 20, and invalid public key 19 (P2SH32)",439,79,2,1,269,215200,0,6,2,134,13,30,357,0
+z4frfp,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 19 and 20, signatures 19 and 20, and valid public key 19 (P2SH20)",474,67,2,1,302,241600,0,7,2,151,16,30,960,0
+aa4an6,"Signature checking: 2-of-20 Schnorr multisig with checkBits of keys 19 and 20, signatures 19 and 20, and valid public key 19 (P2SH32)",474,79,2,1,302,241600,0,7,2,151,16,30,984,0

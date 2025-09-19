@@ -30,7 +30,7 @@ export const instantiatePbkdf2Function =
   (hmacFunction: HmacFunction, hmacByteLength: number) =>
   // eslint-disable-next-line complexity
   (parameters: Pbkdf2Parameters) => {
-    /* eslint-disable functional/immutable-data, functional/no-let, functional/no-loop-statements, functional/no-expression-statements, no-bitwise, no-plusplus */
+    /* eslint-disable functional/no-let, functional/no-loop-statements, functional/no-expression-statements, no-bitwise, no-plusplus */
     const { password, salt, iterations, derivedKeyLength } = parameters;
     if (!Number.isInteger(iterations) || iterations <= 0) {
       return formatError(
@@ -64,7 +64,7 @@ export const instantiatePbkdf2Function =
       for (let j = 1; j < iterations; j++) {
         intermediateMac = hmacFunction(password, intermediateMac);
         for (let k = 0; k < hmacByteLength; k++) {
-          accumulatedMac[k] ^= intermediateMac[k]!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
+          accumulatedMac[k]! ^= intermediateMac[k]!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
         }
       }
       const truncatedResult = accumulatedMac.subarray(0, derivedKeyLength);
@@ -72,7 +72,7 @@ export const instantiatePbkdf2Function =
       writePosition += hmacByteLength;
     }
     return derivedKey;
-    /* eslint-enable functional/immutable-data, functional/no-let, functional/no-loop-statements, functional/no-expression-statements, no-bitwise, no-plusplus */
+    /* eslint-enable functional/no-let, functional/no-loop-statements, functional/no-expression-statements, no-bitwise, no-plusplus */
   };
 
 const hmacSha256ByteLength = 32;

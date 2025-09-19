@@ -11,3 +11,7 @@
 	path = config/eslint-config-bitauth
 	url = https://github.com/bitauth/eslint-config-bitauth/
 	shallow = true
+[submodule "wasm/bitcoin-cash-node"]
+	path = wasm/bitcoin-cash-node
+	url = https://gitlab.com/bitcoin-cash-node/bitcoin-cash-node.git
+	shallow = true

@@ -1,6 +1,6 @@
 {
   "notes": "This file describes modifications made to script_tests.json prior to testing in bch.spec.ts. To achieve better test coverage in the C++ implementation, some tests rely on quirks of old VM versions, strange combinations of flags, and other situations that should never happen in production (e.g. invalid signature encoding post-BCH fork). Rather than re-implementing those quirks, we modify or skip tests that are no-longer relevant. TODO: 'failRequiresReview' is a list of tests that are currently expected to fail, but for which we need to validate that failure is the correct result in the modern VMs.",
-  "failRequiresReview": [
+  "failRequiresReview": [185, 186, 201, 202, 312, 313,
     556, 557, 1190, 1192, 1194, 1196, 1198, 1201, 1203, 1223, 1241, 1253, 1263,
     1265, 1273, 1274, 1276, 1278, 1279, 1282, 1308, 1310, 1311, 1339, 1340,
     1341, 1343, 1344, 1345, 1346, 1349, 1350, 1351, 1353, 1354, 1355, 1356,

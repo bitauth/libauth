@@ -905,8 +905,8 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       // eslint-disable-next-line no-plusplus
       errorVector++
     ) {
-      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
-      polynomial[term] ^= errorVector;
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+      polynomial[term]! ^= errorVector;
 
       const correct = cashAddressPolynomialModulo(polynomial);
       if (correct === 0) {
@@ -919,8 +919,8 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
       const s0 = (BigInt(correct) ^ BigInt(originalChecksum)).toString();
       // eslint-disable-next-line functional/no-expression-statements, functional/immutable-data
       syndromes[s0] = term * Constants.finiteFieldOrder + errorVector;
-      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
-      polynomial[term] ^= errorVector;
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+      polynomial[term]! ^= errorVector;
     }
   }
 
@@ -932,10 +932,10 @@ export const attemptCashAddressFormatErrorCorrection = (address: string) => {
     if (s1 !== undefined) {
       const correctionIndex1 = Math.trunc(pe / Constants.finiteFieldOrder);
       const correctionIndex2 = Math.trunc(s1 / Constants.finiteFieldOrder);
-      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
-      polynomial[correctionIndex1] ^= pe % Constants.finiteFieldOrder;
-      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, functional/immutable-data
-      polynomial[correctionIndex2] ^= s1 % Constants.finiteFieldOrder;
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+      polynomial[correctionIndex1]! ^= pe % Constants.finiteFieldOrder;
+      // eslint-disable-next-line functional/no-expression-statements, no-bitwise, @typescript-eslint/no-non-null-assertion
+      polynomial[correctionIndex2]! ^= s1 % Constants.finiteFieldOrder;
       return {
         address: cashAddressPolynomialToCashAddress(polynomial),
         corrections: [correctionIndex1, correctionIndex2].sort((a, b) => a - b),

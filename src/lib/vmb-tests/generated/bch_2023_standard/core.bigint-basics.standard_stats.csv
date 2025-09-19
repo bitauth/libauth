@@ -1,0 +1,11 @@
+Test ID,Description,Transaction Length,UTXOs Length,UTXO Count,Tested Input Index,Density Control Length,Maximum Operation Cost,Operation Cost,Maximum SigChecks,SigChecks,Maximum Hash Digest Iterations,Hash Digest Iterations,Evaluated Instructions,Stack Pushed Bytes,Arithmetic Cost
+3tf3fs,"BigInt: padded one is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,5,43,0
+g06fs9,"BigInt: padded one is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,5,67,0
+jjecl8,"BigInt: negative one is truthy (P2SH20)",213,67,2,1,43,34400,0,1,0,21,2,5,42,0
+a8n473,"BigInt: negative one is truthy (P2SH32)",213,79,2,1,43,34400,0,1,0,21,2,5,66,0
+utzw6h,"BigInt: padded negative one is truthy (P2SH20)",215,67,2,1,45,36000,0,1,0,22,2,5,43,0
+jdm63f,"BigInt: padded negative one is truthy (P2SH32)",215,79,2,1,45,36000,0,1,0,22,2,5,67,0
+xyusg0,"BigInt: padded one (520 bytes) is truthy (P2SH20)",737,67,2,1,565,452000,0,13,0,282,2,5,561,0
+a37s87,"BigInt: padded one (520 bytes) is truthy (P2SH32)",737,79,2,1,565,452000,0,13,0,282,2,5,585,0
+dd6gyk,"BigInt: padded negative one (520 bytes) is truthy (P2SH20)",737,67,2,1,565,452000,0,13,0,282,2,5,561,0
+mru6n8,"BigInt: padded negative one (520 bytes) is truthy (P2SH32)",737,79,2,1,565,452000,0,13,0,282,2,5,585,0

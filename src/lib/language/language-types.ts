@@ -255,8 +255,13 @@ export type ScriptReductionTraceNode = {
   errors?: CompilationError[] | undefined;
   range: Range;
 };
-type ScriptReductionTraceErrorNode = ScriptReductionTraceNode & {
+
+export type ScriptReductionTraceErrorNode = ScriptReductionTraceNode & {
   errors: CompilationError[];
+};
+
+export type ScriptReductionTraceCommentNode = ScriptReductionTraceNode & {
+  comment: string;
 };
 
 export type ScriptReductionTraceScriptNode<ProgramState> =
@@ -276,6 +281,7 @@ export type ScriptReductionTraceEvaluationNode<ProgramState> =
   };
 
 export type ScriptReductionTraceChildNode<ProgramState> =
+  | ScriptReductionTraceCommentNode
   | ScriptReductionTraceErrorNode
   | ScriptReductionTraceEvaluationNode<ProgramState>
   | ScriptReductionTraceNode
@@ -350,6 +356,13 @@ export type EvaluationSample<ProgramState> = {
     instruction: AuthenticationInstruction;
     state: ProgramState;
   }[];
+  /**
+   * Defined only if an `OP_BEGIN ... OP_UNTIL` loop causes this sample to be
+   * evaluated more than once; each successive iteration of this sample's
+   * `instruction` is appended to the `iterations` array. (Note, this array
+   * excludes the first iteration, which is assigned to the `state` property.)
+   */
+  iterations?: ProgramState[];
   /**
    * The range over which this sample was defined in the source script.
    */

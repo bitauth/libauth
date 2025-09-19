@@ -4,7 +4,7 @@ import type {
   TransactionCommon,
 } from '../lib.js';
 
-export type AuthenticationProgramStateMinimum = {
+export type AuthenticationProgramStackFrame = {
   /**
    * The full list of instructions to be evaluated by the virtual machine.
    */
@@ -17,6 +17,21 @@ export type AuthenticationProgramStateMinimum = {
   ip: number;
 };
 
+export type AuthenticationProgramStateMinimum =
+  AuthenticationProgramStackFrame & {
+    /**
+     * An object containing metrics that persist and accumulate over all phases of
+     * evaluating an input – unlocking, locking and (for P2SH) redeem bytecode.
+     */
+    metrics: {
+      /**
+       * A count of instructions evaluated over the course of verifying
+       * the input, included unexecuted instructions.
+       */
+      evaluatedInstructionCount: number;
+    };
+  };
+
 export type AuthenticationProgramStateStack<StackType = Uint8Array> = {
   /**
    * The stack is the primary workspace of the virtual machine. Most virtual
@@ -24,6 +39,13 @@ export type AuthenticationProgramStateStack<StackType = Uint8Array> = {
    * held on the stack.
    */
   stack: StackType[];
+  metrics: {
+    /**
+     * The cumulative byte count of all items pushed to the stack over the
+     * course of verifying the input.
+     */
+    stackPushedBytes: number;
+  };
 };
 
 export type AuthenticationProgramStateAlternateStack<StackType = Uint8Array> = {
@@ -34,10 +56,25 @@ export type AuthenticationProgramStateAlternateStack<StackType = Uint8Array> = {
   alternateStack: StackType[];
 };
 
-export type AuthenticationProgramStateControlStack<ItemType = boolean> = {
+export type AuthenticationProgramStateFunctionTable = {
   /**
-   * An array of boolean values representing the current execution status of the
-   * program. This allows the state to track nested conditional branches.
+   * The table of functions (in Forth parlance, "vocabulary of words") defined
+   * over the course of the evaluation.
+   */
+  functionTable: { [hex: string]: Uint8Array };
+  /**
+   * The count of defined functions ("words") in the current evaluation.
+   */
+  functionCount: number;
+};
+
+export type AuthenticationProgramStateControlStack<
+  ItemType = AuthenticationProgramStackFrame | boolean | number,
+> = {
+  /**
+   * An array representing the current execution status of the program. This
+   * allows the state to track nested conditional branches, loops, and
+   * evaluation operations (`OP_EVAL`).
    *
    * The `OP_IF` and `OP_NOTIF` operations push a new boolean onto the
    * `controlStack`, `OP_ELSE` flips the top boolean, and `OP_ENDIF` removes
@@ -132,8 +169,73 @@ export type AuthenticationProgramStateSignatureAnalysis = {
 };
 
 export type AuthenticationProgramStateResourceLimits = {
+  /**
+   * A count of non-push operations (and `OP_RESERVED` operations) executed
+   * since the active bytecode began execution, i.e. this count resets to
+   * `0` prior to P2SH redeem bytecode evaluation.
+   *
+   * Prior to BCH_2025_05, operation count (A.K.A. "nOpCount") is limited to 201
+   * operations (A.K.A. "MAX_OPS_PER_SCRIPT"). Following BCH_2025_05, operation
+   * count is replaced by other limits and no longer requires tracking.
+   */
   operationCount: number;
-  signatureOperationsCount: number;
+
+  metrics: {
+    /**
+     * The cumulative operation cost contributed by arithmetic operations
+     * executed over the course of verifying the input.
+     */
+    arithmeticCost: number;
+
+    /**
+     * The count of functions defined over the course of the evaluation. This
+     * count is reset – along with the function table – before evaluating the
+     * locking bytecode. (Note, VMs which disallow non-push unlocking bytecode
+     * may omit the reset behavior and instead rely on OP_DEFINE's invalidity in
+     * unlocking bytecode.)
+     */
+    definedFunctions: number;
+    /**
+     * An unsigned integer counter use to count the total number of hash
+     * digest iterations required to validate the input.
+     */
+    hashDigestIterations: number;
+    /**
+     * The maximum allowable `operationCost` given `densityControlLength`.
+     */
+    maximumOperationCost: number;
+    /**
+     * The maximum allowable `hashDigestIterations`
+     * given `densityControlLength`.
+     */
+    maximumHashDigestIterations: number;
+    /**
+     * The maximum allowable `signatureCheckCount` for this evaluation.
+     */
+    maximumSignatureCheckCount: number;
+    /**
+     * The approximated input length for use in determining limits. Note that
+     * this is not the actual encoded length of the input, but rather, a
+     * fixed formula of `41 + unlockingBytecode.length`.
+     */
+    densityControlLength: number;
+    /**
+     * The cumulative cost of all operations executed over the course of
+     * verifying the input, including `arithmeticCost`, `stackPushedBytes`,
+     * base instruction costs (derived from `executedInstructionCount`), hashing
+     * costs (from `hashDigestIterations`), and signature checking costs
+     * (from `signatureCheckCount`).
+     */
+    operationCost: number;
+    /**
+     * A count of signature checks (A.K.A. "SigChecks") performed over the
+     * course of the entire evaluation as defined by the `BCH_2020_05` upgrade.
+     *
+     * Signature checks replaced the earlier Signature Operations (A.K.A.
+     * "SigOps") system of limits.
+     */
+    signatureCheckCount: number;
+  };
 };
 
 export type AuthenticationProgramStateTransactionContext = {
@@ -145,6 +247,7 @@ export type AuthenticationProgramStateCommon =
     AuthenticationProgramStateCodeSeparator &
     AuthenticationProgramStateControlStack &
     AuthenticationProgramStateError &
+    AuthenticationProgramStateFunctionTable &
     AuthenticationProgramStateMinimum &
     AuthenticationProgramStateResourceLimits &
     AuthenticationProgramStateSignatureAnalysis &
